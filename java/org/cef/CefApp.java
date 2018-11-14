@@ -135,7 +135,12 @@ public class CefApp extends CefAppHandlerAdapter {
         super(args);
         if (settings != null) settings_ = settings.clone();
         if (OS.isWindows()) {
-            System.loadLibrary("jawt");
+            // [tav] "jawt" is loaded by JDK AccessBridgeLoader that leads to UnsatisfiedLinkError
+            try {
+                System.loadLibrary("jawt");
+            } catch (UnsatisfiedLinkError e) {
+                System.err.println("CefApp: " + e.getMessage());
+            }
             System.loadLibrary("chrome_elf");
             System.loadLibrary("libcef");
         } else if (OS.isLinux()) {
