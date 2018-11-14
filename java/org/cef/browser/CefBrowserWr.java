@@ -4,17 +4,7 @@
 
 package org.cef.browser;
 
-import java.awt.BorderLayout;
-import java.awt.Canvas;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.MouseInfo;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.Window;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -181,7 +171,7 @@ class CefBrowserWr extends CefBrowser_N {
             @Override
             public void setBounds(int x, int y, int width, int height) {
                 super.setBounds(x, y, width, height);
-                wasResized(width, height);
+                _wasResized(width, height);
             }
 
             @Override
@@ -192,12 +182,23 @@ class CefBrowserWr extends CefBrowser_N {
             @Override
             public void setSize(int width, int height) {
                 super.setSize(width, height);
-                wasResized(width, height);
+                _wasResized(width, height);
             }
 
             @Override
             public void setSize(Dimension d) {
                 setSize(d.width, d.height);
+            }
+
+            private void _wasResized(int width, int height) {
+                GraphicsConfiguration gc = getGraphicsConfiguration();
+                if (gc != null) {
+                    double scaleX = gc.getDefaultTransform().getScaleX();
+                    double scaleY = gc.getDefaultTransform().getScaleY();
+                    width = (int) Math.round(width * scaleX);
+                    height = (int) Math.round(height * scaleY);
+                }
+                wasResized(width, height);
             }
 
             @Override
@@ -368,14 +369,33 @@ class CefBrowserWr extends CefBrowser_N {
             synchronized (content_rect_) {
                 content_rect_ = new Rectangle(contentPos, clipping.getSize());
                 Rectangle browserRect = new Rectangle(browserPos, component_.getSize());
+                content_rect_ = scaleRect(content_rect_, component_);
+                browserRect = scaleRect(browserRect, component_);
                 updateUI(content_rect_, browserRect);
             }
         } else {
             synchronized (content_rect_) {
-                content_rect_ = component_.getBounds();
+                clipping = scaleRect(clipping, component_);
+                content_rect_ = scaleRect(component_.getBounds(), component_);
                 updateUI(clipping, content_rect_);
             }
         }
+    }
+
+    private static Rectangle scaleRect(Rectangle rect, Component comp) {
+        if (comp != null) {
+            GraphicsConfiguration gc = comp.getGraphicsConfiguration();
+            if (gc != null) {
+                double scaleX = gc.getDefaultTransform().getScaleX();
+                double scaleY = gc.getDefaultTransform().getScaleY();
+                int x = (int) Math.round(rect.x * scaleX);
+                int y = (int) Math.round(rect.y * scaleY);
+                int width = (int) Math.round(rect.width * scaleX);
+                int height = (int) Math.round(rect.height * scaleY);
+                return new Rectangle(x, y, width, height);
+            }
+        }
+        return rect.getBounds();
     }
 
     private boolean createBrowserIfRequired(boolean hasParent) {
