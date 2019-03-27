@@ -49,7 +49,7 @@ public class MainFrame extends JFrame {
      * But to be more verbose, this CTOR keeps an instance of each object on the
      * way to the browser UI.
      */
-    private MainFrame(String startURL, boolean useOSR, boolean isTransparent) {
+    private MainFrame(String[] args, String startURL, boolean useOSR, boolean isTransparent) {
         // (1) The entry point to JCEF is always the class CefApp. There is only one
         //     instance per application and therefore you have to call the method
         //     "getInstance()" instead of a CTOR.
@@ -58,7 +58,7 @@ public class MainFrame extends JFrame {
         //     required native libraries, initializes CEF accordingly, starts a
         //     background task to handle CEF's message loop and takes care of
         //     shutting down CEF after disposing it.
-        CefApp.addAppHandler(new CefAppHandlerAdapter(null) {
+        CefApp.addAppHandler(new CefAppHandlerAdapter(args) {
             @Override
             public void stateHasChanged(org.cef.CefApp.CefAppState state) {
                 // Shutdown the app if the native CEF part is terminated
@@ -148,6 +148,6 @@ public class MainFrame extends JFrame {
         // to Google as the very first loaded page. Windowed rendering mode is used by
         // default. If you want to test OSR mode set |useOsr| to true and recompile.
         boolean useOsr = false;
-        new MainFrame("http://www.google.com", useOsr, false);
+        new MainFrame(args, "http://www.google.com", useOsr, false);
     }
 }

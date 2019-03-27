@@ -97,6 +97,8 @@ public class MainFrame extends BrowserFrame {
             boolean createImmediately, String cookiePath, String[] args) {
         CefApp myApp;
         if (CefApp.getState() != CefApp.CefAppState.INITIALIZED) {
+            CefApp.addAppHandler(new AppHandler(args));
+
             // 1) CefApp is the entry point for JCEF. You can pass
             //    application arguments to it, if you want to handle any
             //    chromium or CEF related switches/attributes in
@@ -114,7 +116,7 @@ public class MainFrame extends BrowserFrame {
             //    add an own schemes (search:// and client://) and its corresponding
             //    protocol handlers. So if you enter "search:something on the web", your
             //    search request "something on the web" is forwarded to www.google.com
-            CefApp.addAppHandler(new AppHandler(args));
+//            CefApp.addAppHandler(new AppHandler(args));
         } else {
             myApp = CefApp.getInstance();
         }
