@@ -8,6 +8,17 @@
 #include "include/wrapper/cef_message_router.h"
 #include "util.h"
 
+#if defined(OS_MACOSX)
+// When generating projects with CMake the CEF_USE_SANDBOX value will be defined
+// automatically. Pass -DUSE_SANDBOX=OFF to the CMake command-line to disable
+// use of the sandbox.
+#if defined(CEF_USE_SANDBOX)
+#include "include/cef_sandbox_mac.h"
+#endif
+
+#include "include/wrapper/cef_library_loader.h"
+#endif  // defined(OS_MACOSX)
+
 #if defined(OS_WIN)
 #include <windows.h>
 #endif
@@ -33,10 +44,7 @@ class CefHelperApp : public CefApp, public CefRenderProcessHandler {
     std::fstream fStream;
     std::string fName = util::GetTempFileName("scheme", true);
     char schemeName[512] = "";
-    char cIsStandard, cIsLocal, cIsDisplayIsolated, cIsSecure, cIsCorsEnabled,
-        cIsCspBypassing;
-    bool isStandard, isLocal, isDisplayIsolated, isSecure, isCorsEnabled,
-        isCspBypassing;
+    int options;
 
     fStream.open(fName.c_str(), std::fstream::in);
     while (fStream.is_open() && !fStream.eof()) {
@@ -44,22 +52,9 @@ class CefHelperApp : public CefApp, public CefRenderProcessHandler {
       if (strlen(schemeName) == 0)
         break;
 
-      fStream.get(cIsStandard)
-          .get(cIsLocal)
-          .get(cIsDisplayIsolated)
-          .get(cIsSecure)
-          .get(cIsCorsEnabled)
-          .get(cIsCspBypassing);
-      isStandard = (cIsStandard == '1');
-      isLocal = (cIsLocal == '1');
-      isDisplayIsolated = (cIsDisplayIsolated == '1');
-      isSecure = (cIsSecure == '1');
-      isCorsEnabled = (cIsCorsEnabled == '1');
-      isCspBypassing = (cIsCspBypassing == '1');
+      fStream >> options;
 
-      registrar->AddCustomScheme(schemeName, isStandard, isLocal,
-                                 isDisplayIsolated, isSecure, isCorsEnabled,
-                                 isCspBypassing);
+      registrar->AddCustomScheme(schemeName, options);
     }
     fStream.close();
   }
@@ -166,10 +161,25 @@ int CALLBACK WinMain(HINSTANCE hInstance,
                      LPSTR lpCmdLine,
                      int nCmdShow) {
   CefMainArgs main_args(hInstance);
-#else
+#else  // !defined(OS_WIN)
 int main(int argc, char* argv[]) {
+#if defined(OS_MACOSX)
+#if defined(CEF_USE_SANDBOX)
+  // Initialize the macOS sandbox for this helper process.
+  CefScopedSandboxContext sandbox_context;
+  if (!sandbox_context.Initialize(argc, argv))
+    return 1;
+#endif  // defined(CEF_USE_SANDBOX)
+
+  // Load the CEF framework library at runtime instead of linking directly
+  // as required by the macOS sandbox implementation.
+  CefScopedLibraryLoader library_loader;
+  if (!library_loader.LoadInHelper())
+    return 1;
+#endif  // defined(OS_MACOSX)
+
   CefMainArgs main_args(argc, argv);
-#endif
+#endif  // !defined(OS_WIN)
 
   CefRefPtr<CefHelperApp> app = new CefHelperApp();
   return CefExecuteProcess(main_args, app.get(), NULL);

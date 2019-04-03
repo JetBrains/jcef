@@ -59,6 +59,7 @@ bool Context::PreInitialize(JNIEnv* env, jobject c) {
   if (!javaClassLoader)
     return false;
   SetJavaClassLoader(env, javaClassLoader);
+  env->DeleteLocalRef(javaClassLoader);
 
   return true;
 }
@@ -180,6 +181,13 @@ void Context::Shutdown() {
 Context::Context() : external_message_pump_(true) {
   DCHECK(!g_context);
   g_context = this;
+
+#if defined(OS_MACOSX)
+  // On macOS we create this object very early to allow LibraryLoader
+  // assignment. However, we still want the PreInitialize() call to determine
+  // thread ownership.
+  thread_checker_.DetachFromThread();
+#endif
 }
 
 Context::~Context() {

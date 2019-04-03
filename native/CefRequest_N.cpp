@@ -160,8 +160,7 @@ Java_org_cef_network_CefRequest_1N_N_1GetReferrerPolicy(JNIEnv* env,
           result);
       JNI_CASE(env, "org/cef/network/CefRequest$ReferrerPolicy",
                REFERRER_POLICY_NO_REFERRER, result);
-      JNI_CASE(env, "org/cef/network/CefRequest$ReferrerPolicy",
-               REFERRER_POLICY_LAST_VALUE, result);
+      // REFERRER_POLICY_LAST_VALUE equals REFERRER_POLICY_NO_REFERRER as of CEF 3683
   }
   return result;
 }
@@ -237,7 +236,9 @@ Java_org_cef_network_CefRequest_1N_N_1GetHeaderMap(JNIEnv* env,
     JNI_CALL_METHOD(env, jheaderMap, "put",
                     "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;",
                     Object, returnIgn, jkey, jvalue);
-    UNUSED(returnIgn);
+    env->DeleteLocalRef(returnIgn);
+    env->DeleteLocalRef(jkey);
+    env->DeleteLocalRef(jvalue);
   }
 }
 
@@ -261,6 +262,7 @@ Java_org_cef_network_CefRequest_1N_N_1SetHeaderMap(JNIEnv* env,
   jobject entrySetValues = NULL;
   JNI_CALL_METHOD(env, entrySet, "toArray", "()[Ljava/lang/Object;", Object,
                   entrySetValues);
+  env->DeleteLocalRef(entrySet);
   if (!entrySetValues)
     return;
 
@@ -279,7 +281,11 @@ Java_org_cef_network_CefRequest_1N_N_1SetHeaderMap(JNIEnv* env,
                     value);
     headerMap.insert(std::make_pair(GetJNIString(env, (jstring)key),
                                     GetJNIString(env, (jstring)value)));
+    env->DeleteLocalRef(key);
+    env->DeleteLocalRef(value);
+    env->DeleteLocalRef(mapEntry);
   }
+  env->DeleteLocalRef(entrySetValues);
   request->SetHeaderMap(headerMap);
 }
 

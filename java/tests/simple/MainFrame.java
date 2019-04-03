@@ -6,8 +6,11 @@ package tests.simple;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -20,7 +23,10 @@ import org.cef.CefClient;
 import org.cef.CefSettings;
 import org.cef.OS;
 import org.cef.browser.CefBrowser;
+import org.cef.browser.CefFrame;
 import org.cef.handler.CefAppHandlerAdapter;
+import org.cef.handler.CefDisplayHandlerAdapter;
+import org.cef.handler.CefFocusHandlerAdapter;
 
 /**
  * This is a simple example application using JCEF.
@@ -41,6 +47,7 @@ public class MainFrame extends JFrame {
     private final CefClient client_;
     private final CefBrowser browser_;
     private final Component browerUI_;
+    private boolean browserFocus_ = true;
 
     /**
      * To display a simple browser window, it suffices completely to create an
@@ -115,6 +122,41 @@ public class MainFrame extends JFrame {
             }
         });
 
+        // Update the address field when the browser URL changes.
+        client_.addDisplayHandler(new CefDisplayHandlerAdapter() {
+            @Override
+            public void onAddressChange(CefBrowser browser, CefFrame frame, String url) {
+                address_.setText(url);
+            }
+        });
+
+        // Clear focus from the browser when the address field gains focus.
+        address_.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (!browserFocus_) return;
+                browserFocus_ = false;
+                KeyboardFocusManager.getCurrentKeyboardFocusManager().clearGlobalFocusOwner();
+                address_.requestFocus();
+            }
+        });
+
+        // Clear focus from the address field when the browser gains focus.
+        client_.addFocusHandler(new CefFocusHandlerAdapter() {
+            @Override
+            public void onGotFocus(CefBrowser browser) {
+                if (browserFocus_) return;
+                browserFocus_ = true;
+                KeyboardFocusManager.getCurrentKeyboardFocusManager().clearGlobalFocusOwner();
+                browser.setFocus(true);
+            }
+
+            @Override
+            public void onTakeFocus(CefBrowser browser, boolean next) {
+                browserFocus_ = false;
+            }
+        });
+
         // (5) All UI components are assigned to the default content pane of this
         //     JFrame and afterwards the frame is made visible to the user.
         getContentPane().add(address_, BorderLayout.NORTH);
@@ -136,12 +178,10 @@ public class MainFrame extends JFrame {
     }
 
     public static void main(String[] args) {
-        if (OS.isLinux()) {
-            // This is crucial to get Linux Windowed Rendering to function correctly!
-            // The initXlibForMultithreading call must be done before ANY other call
-            // to Xlib from this process, including calls from the Java runtime.
-            System.loadLibrary("jcef");
-            CefApp.initXlibForMultithreading();
+        // Perform startup initialization on platforms that require it.
+        if (!CefApp.startup()) {
+            System.out.println("Startup initialization failed!");
+            return;
         }
 
         // The simple example application is created as anonymous class and points

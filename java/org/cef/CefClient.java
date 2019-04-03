@@ -79,6 +79,19 @@ public class CefClient extends CefClientHandler
     private CefRequestHandler requestHandler_ = null;
     private boolean isDisposed_ = false;
     private volatile CefBrowser focusedBrowser_ = null;
+    private final PropertyChangeListener propertyChangeListener = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            if (focusedBrowser_ != null) {
+                Component browserUI = focusedBrowser_.getUIComponent();
+                Object oldUI = evt.getOldValue();
+                if (isPartOf(oldUI, browserUI)) {
+                    focusedBrowser_.setFocus(false);
+                    focusedBrowser_ = null;
+                }
+            }
+        }
+    };
 
     /**
      * The CTOR is only accessible within this package.
@@ -89,20 +102,9 @@ public class CefClient extends CefClientHandler
     CefClient() throws UnsatisfiedLinkError {
         super();
 
-        KeyboardFocusManager km = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-        km.addPropertyChangeListener(new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                if (focusedBrowser_ != null) {
-                    Component browserUI = focusedBrowser_.getUIComponent();
-                    Object oldUI = evt.getOldValue();
-                    if (isPartOf(oldUI, browserUI)) {
-                        focusedBrowser_.setFocus(false);
-                        focusedBrowser_ = null;
-                    }
-                }
-            }
-        });
+        KeyboardFocusManager
+                .getCurrentKeyboardFocusManager()
+                .addPropertyChangeListener(propertyChangeListener);
     }
 
     private boolean isPartOf(Object obj, Component browserUI) {
@@ -517,6 +519,12 @@ public class CefClient extends CefClientHandler
     }
 
     @Override
+    public void onAfterParentChanged(CefBrowser browser) {
+        if (browser == null) return;
+        if (lifeSpanHandler_ != null) lifeSpanHandler_.onAfterParentChanged(browser);
+    }
+
+    @Override
     public boolean doClose(CefBrowser browser) {
         if (browser == null) return false;
         if (lifeSpanHandler_ != null) return lifeSpanHandler_.doClose(browser);
@@ -548,6 +556,9 @@ public class CefClient extends CefClientHandler
             }
 
             if (browser_.isEmpty() && isDisposed_) {
+                KeyboardFocusManager.
+                        getCurrentKeyboardFocusManager()
+                        .removePropertyChangeListener(propertyChangeListener);
                 removeContextMenuHandler(this);
                 removeDialogHandler(this);
                 removeDisplayHandler(this);

@@ -12,6 +12,7 @@
 
 #include <jni.h>
 
+#include "include/base/cef_callback_forward.h"
 #include "include/cef_browser.h"
 #include "include/cef_task.h"
 
@@ -92,7 +93,9 @@ void DestroyCefBrowser(CefRefPtr<CefBrowser> browser);
 
 // Set the parent of |browserHandle|. If the parent is NULL the browser will be
 // parented to the TempWindow.
-void SetParent(CefWindowHandle browserHandle, jlong parentHandle);
+void SetParent(CefWindowHandle browserHandle,
+               jlong parentHandle,
+               const base::Closure& callback);
 
 #else  // !defined(OS_MACOSX)
 
@@ -101,16 +104,15 @@ CefWindowHandle GetWindowHandle(JNIEnv* env, jobject canvas);
 
 // Set the parent of |browserHandle|. If the parent is NULL the browser will be
 // parented to the TempWindow.
-void SetParent(CefWindowHandle browserHandle, CefWindowHandle parentHandle);
+void SetParent(CefWindowHandle browserHandle,
+               CefWindowHandle parentHandle,
+               const base::Closure& callback);
 
 // Set the window bounds for |browserHandle|.
 void SetWindowBounds(CefWindowHandle browserHandle, const CefRect& contentRect);
 
 // Set the window size for |browserHandle|.
 void SetWindowSize(CefWindowHandle browserHandle, int width, int height);
-
-// Set focus to the parent of |browserHandle|.
-void FocusParent(CefWindowHandle browserHandle);
 
 #endif  // !defined(OS_MACOSX)
 

@@ -19,6 +19,7 @@
 #include "temp_window.h"
 #endif
 
+#include "include/base/cef_callback.h"
 #include "include/cef_path_util.h"
 
 #define XBUTTON1_HI (XBUTTON1 << 16)
@@ -268,11 +269,14 @@ CefWindowHandle GetWindowHandle(JNIEnv* env, jobject canvas) {
   return GetHwndOfCanvas(canvas, env);
 }
 
-void SetParent(CefWindowHandle browserHandle, CefWindowHandle parentHandle) {
+void SetParent(CefWindowHandle browserHandle,
+               CefWindowHandle parentHandle,
+               const base::Closure& callback) {
   if (parentHandle == kNullWindowHandle)
     parentHandle = TempWindow::GetWindowHandle();
   if (parentHandle != kNullWindowHandle && browserHandle != kNullWindowHandle)
     ::SetParent(browserHandle, parentHandle);
+  callback.Run();
 }
 
 void SetWindowBounds(CefWindowHandle browserHandle,
@@ -286,12 +290,6 @@ void SetWindowBounds(CefWindowHandle browserHandle,
 void SetWindowSize(CefWindowHandle browserHandle, int width, int height) {
   SetWindowPos(browserHandle, NULL, 0, 0, width, height,
                SWP_NOZORDER | SWP_NOMOVE);
-}
-
-void FocusParent(CefWindowHandle browserHandle) {
-  HWND parent = GetParent(browserHandle);
-  SetActiveWindow(parent);
-  SetFocus(parent);
 }
 
 #endif  // USING_JAVA
