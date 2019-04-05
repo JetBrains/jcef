@@ -55,8 +55,8 @@ public class CefPdfPrintSettings {
     /**
      * Output page size in microns (1 millimeter = 1000 microns). If either of these
      * values is less than or equal to zero then the default paper size will be
-     * used as returned by the print_handler.  A4 is 210 × 297 mm which would
-     * be 210000 x 297000 microns.  US Letter is 215.9 × 279.4 mm which would 
+     * used as returned by the print_handler.  A4 is 210 x 297 mm which would
+     * be 210000 x 297000 microns.  US Letter is 215.9 x 279.4 mm which would 
      * be 215900 x 279400 microns.
      */
     public int page_width;
