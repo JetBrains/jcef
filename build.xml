@@ -2,7 +2,6 @@
 <project name="javaLauncher" default="default" basedir=".">
 
   <property environment="env"/>
-  <property name="jdk7.path"  value="${env.JDK_17}"/>
   <property name="out.path"   value="${env.OUT_PATH}"/>
   <property name="out.name"   value="${env.OUT_NAME}"/>
   <property name="out.id"     value="${env.OUT_ID}"/>
@@ -24,12 +23,13 @@
   <target name="compile">
     <mkdir dir="${out.path}"/>
     <javac encoding="UTF8" nowarn="on" deprecation="off" debug="on" includeantruntime="false" destdir="${out.path}"
-           executable="/usr/bin/javac" fork="true" memoryinitialsize="32m" memorymaximumsize="128m" includeJavaRuntime="yes">
-      <compilerarg value="-XDignore.symbol.file"/>
-      <classpath location="${jdk7.path}/jre/lib/rt.jar" />
+           fork="true" memoryinitialsize="32m" memorymaximumsize="128m" includeJavaRuntime="yes">
+      <compilerarg line="-XDignore.symbol.file --add-exports java.desktop/sun.awt=jcef --add-exports java.desktop/java.awt.peer=jcef --add-exports java.desktop/sun.lwawt.macosx=jcef --add-exports java.desktop/sun.lwawt=jcef"/>
       <classpath refid="class.path"/>
       <src path="java/tests/"/>
       <src path="java/org/cef/"/>
+      <src path="java/"/>
+      <include name="**/*.java"/>
     </javac>
     <copy todir="${out.path}">
       <fileset dir="java" casesensitive="no">
@@ -43,6 +43,7 @@
     <jar destfile="${out.path}/jcef.jar" index="true" update="false">
       <fileset dir="${out.path}">
         <include name="org/cef/**"/>
+        <include name="module-info.class"/>
       </fileset>
     </jar>
     <jar destfile="${out.path}/jcef-tests.jar" index="true" update="false">
@@ -60,6 +61,7 @@
                     identifier="${out.id}"
                  mainclassname="${out.mainclass}"
                           icon="third_party/cef/res/CefIcon.icns">
+      <runtime dir="${env.JAVA_HOME}"/>
       <classpath dir="${out.path}">
         <include name="jcef.jar"/>
         <include name="jcef-tests.jar"/>
