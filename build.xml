@@ -52,8 +52,28 @@
       </fileset>
     </jar>
   </target>
+
+  <target name="modular-sdk" depends="jar">
+    <mkdir dir="${out.path}/modular-sdk"/>
+    <mkdir dir="${out.path}/modular-sdk/make/jcef"/>
+    <copy todir="${out.path}/modular-sdk/make/jcef">
+      <fileset dir="modular-sdk/make/jcef" includes="**"/>
+    </copy>
+    <mkdir dir="${out.path}/modular-sdk/modules/jcef/org"/>
+    <copy todir="${out.path}/modular-sdk/modules/jcef/org">
+      <fileset dir="${out.path}/org" includes="**"/>
+    </copy>
+    <mkdir dir="${out.path}/modular-sdk/modules_libs/jcef"/>
+    <copy todir="${out.path}/modular-sdk/modules_libs/jcef">
+      <file name="${out.path}/libjcef.dylib"/>
+    </copy>
+    <mkdir dir="${out.path}/modular-sdk/modules_src/jcef"/>
+    <copy todir="${out.path}/modular-sdk/modules_src/jcef">
+      <fileset dir="java" includes="module-info.java"/>
+    </copy>
+  </target>
     
-  <target name="bundle" depends="jar">
+  <target name="bundle" depends="jar, modular-sdk">
     <mkdir dir="${out.path}"/>
     <bundleapp outputdirectory="${out.path}"
                           name="${out.name}"
