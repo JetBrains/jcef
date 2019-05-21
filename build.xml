@@ -24,7 +24,7 @@
     <mkdir dir="${out.path}"/>
     <javac encoding="UTF8" nowarn="on" deprecation="off" debug="on" includeantruntime="false" destdir="${out.path}"
            fork="true" memoryinitialsize="32m" memorymaximumsize="128m" includeJavaRuntime="yes">
-      <compilerarg line="-XDignore.symbol.file --add-exports java.desktop/sun.awt=jcef --add-exports java.desktop/java.awt.peer=jcef --add-exports java.desktop/sun.lwawt.macosx=jcef --add-exports java.desktop/sun.lwawt=jcef"/>
+      <compilerarg line="-XDignore.symbol.file --module-path third_party/jogamp/jar/jogl-all.jar:third_party/jogamp/jar/gluegen-rt.jar --add-exports jogl.all/com.jogamp.nativewindow=jcef --add-exports jogl.all/com.jogamp.opengl.awt=jcef --add-exports jogl.all/com.jogamp.opengl=jcef --add-exports java.desktop/sun.awt=jcef --add-exports java.desktop/java.awt.peer=jcef --add-exports java.desktop/sun.lwawt.macosx=jcef --add-exports java.desktop/sun.lwawt=jcef"/>
       <classpath refid="class.path"/>
       <src path="java/tests/"/>
       <src path="java/org/cef/"/>
