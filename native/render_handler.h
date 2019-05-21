@@ -45,6 +45,8 @@ class RenderHandler : public CefRenderHandler {
                              int y) OVERRIDE;
   virtual void UpdateDragCursor(CefRefPtr<CefBrowser> browser,
                                 DragOperation operation) OVERRIDE;
+  virtual bool GetScreenInfo(CefRefPtr<CefBrowser> browser,
+                             CefScreenInfo& screen_info) OVERRIDE;
 
   bool GetViewRect(jobject browser, CefRect& rect);
   bool GetScreenPoint(jobject browser,

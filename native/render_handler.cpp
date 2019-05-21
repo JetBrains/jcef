@@ -272,3 +272,9 @@ bool RenderHandler::GetScreenPoint(jobject browser,
   }
   return false;
 }
+
+bool RenderHandler::GetScreenInfo(CefRefPtr<CefBrowser> browser,
+                                  CefScreenInfo& screen_info) {
+  screen_info.device_scale_factor = 1.0; // [tav] todo: provide actual scale factor
+  return true;
+}
