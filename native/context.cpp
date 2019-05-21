@@ -49,7 +49,7 @@ bool Context::PreInitialize(JNIEnv* env, jobject c) {
   if (rs != JNI_OK)
     return JNI_FALSE;
   SetJVM(jvm);
-
+  /*
   jobject javaClass = env->GetObjectClass(c);
   jobject javaClassLoader = NULL;
   JNI_CALL_METHOD(env, javaClass, "getClassLoader", "()Ljava/lang/ClassLoader;",
@@ -60,7 +60,7 @@ bool Context::PreInitialize(JNIEnv* env, jobject c) {
     return false;
   SetJavaClassLoader(env, javaClassLoader);
   env->DeleteLocalRef(javaClassLoader);
-
+  */
   return true;
 }
 

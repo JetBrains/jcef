@@ -68,6 +68,8 @@ void SetJavaClassLoader(JNIEnv* env, jobject javaClassLoader) {
 }
 
 jclass FindClass(JNIEnv* env, const char* class_name) {
+  return env->FindClass(class_name);
+  /*
   ASSERT(g_javaClassLoader);
 
   std::string classNameSeparatedByDots(class_name);
@@ -85,6 +87,7 @@ jclass FindClass(JNIEnv* env, const char* class_name) {
   env->DeleteLocalRef(classNameJString);
 
   return static_cast<jclass>(result);
+  */
 }
 
 jobject NewJNIObject(JNIEnv* env, jclass cls) {
