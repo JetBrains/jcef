@@ -32,7 +32,7 @@ else
     shift
     shift
 
-    LD_PRELOAD=$LIB_PATH/libcef.so java -cp "$CLS_PATH" -Djava.library.path=$LIB_PATH tests.$RUN_TYPE.MainFrame "$@"
+    LD_PRELOAD=$LIB_PATH/libcef.so $JAVA_HOME/bin/java -cp "$CLS_PATH" -Djava.library.path=$LIB_PATH tests.$RUN_TYPE.MainFrame "$@"
   fi
 fi
 
