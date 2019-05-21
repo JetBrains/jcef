@@ -10,6 +10,9 @@ import java.awt.event.FocusEvent;
 import java.awt.KeyboardFocusManager;
 import java.io.File;
 import java.lang.Thread.UncaughtExceptionHandler;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -24,10 +27,7 @@ import org.cef.browser.CefBrowser;
 import org.cef.browser.CefFrame;
 import org.cef.browser.CefMessageRouter;
 import org.cef.browser.CefRequestContext;
-import org.cef.handler.CefDisplayHandlerAdapter;
-import org.cef.handler.CefFocusHandlerAdapter;
-import org.cef.handler.CefLoadHandlerAdapter;
-import org.cef.handler.CefRequestContextHandlerAdapter;
+import org.cef.handler.*;
 import org.cef.network.CefCookieManager;
 
 import tests.detailed.dialog.DownloadDialog;
@@ -100,7 +100,11 @@ public class MainFrame extends BrowserFrame {
             boolean createImmediately, String cookiePath, String[] args) {
         CefApp myApp;
         if (CefApp.getState() != CefApp.CefAppState.INITIALIZED) {
-            CefApp.addAppHandler(new AppHandler(args));
+            String JCEF_FRAMEWORKS_PATH = System.getProperty("java.home") + "/Frameworks";
+            List<String> list = new ArrayList<>(Arrays.asList(args));
+            list.add("--framework-dir-path=" + JCEF_FRAMEWORKS_PATH + "/Chromium Embedded Framework.framework");
+            list.add("--browser-subprocess-path=" + JCEF_FRAMEWORKS_PATH + "/jcef Helper.app/Contents/MacOS/jcef Helper");
+            args = list.toArray(new String[0]);
 
             // 1) CefApp is the entry point for JCEF. You can pass
             //    application arguments to it, if you want to handle any
@@ -119,7 +123,7 @@ public class MainFrame extends BrowserFrame {
             //    add an own schemes (search:// and client://) and its corresponding
             //    protocol handlers. So if you enter "search:something on the web", your
             //    search request "something on the web" is forwarded to www.google.com
-//            CefApp.addAppHandler(new AppHandler(args));
+            CefApp.addAppHandler(new AppHandler(args));
         } else {
             myApp = CefApp.getInstance();
         }
