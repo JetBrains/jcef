@@ -111,7 +111,8 @@ class CefBrowserOsr extends CefBrowser_N implements CefRenderHandler {
             @Override
             public void reshape(
                     GLAutoDrawable glautodrawable, int x, int y, int width, int height) {
-                browser_rect_.setBounds(x, y, width, height);
+//                browser_rect_.setBounds(x, y, width, height);
+                browser_rect_.setBounds(canvas_.getBounds());
                 screenPoint_ = canvas_.getLocationOnScreen();
                 wasResized(width, height);
             }
