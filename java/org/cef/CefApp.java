@@ -531,6 +531,9 @@ public class CefApp extends CefAppHandlerAdapter {
      * @return The path to the jcef library
      */
     private final String getJcefLibPath() {
+        if (OS.isMacintosh()) {
+            return System.getProperty("java.home") + "/lib";
+        }
         String library_path = System.getProperty("java.library.path");
         String[] paths = library_path.split(System.getProperty("path.separator"));
         for (String path : paths) {
