@@ -6,7 +6,7 @@
 
     <groupId>org.jetbrains.intellij.deps.jcef</groupId>
     <artifactId>jcef</artifactId>
-    <version>3.3683.1920.g9f41a27.2</version>
+    <version>3.3683.1920.g9f41a27-3</version>
 
     <build>
         <plugins>
@@ -74,6 +74,7 @@
                     <groupId>${project.groupId}</groupId>
                     <version>${project.version}</version>
                     <file>out/jcef.jar</file>
+                    <sources>out/jcef-sources.jar</sources>
                 </configuration>
             </plugin>
         </plugins>

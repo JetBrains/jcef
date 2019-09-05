@@ -13,12 +13,6 @@
     <matches pattern="11.*" string="${java.version}"/>
   </condition>
 
-  <condition property="jdk8.exclude.file"
-             value="module-info.java"
-             else="">
-    <matches pattern="11.*" string="${java.version}"/>
-  </condition>
-
   <taskdef name="bundleapp"
       classname="com.oracle.appbundler.AppBundlerTask"   
       classpath="third_party/appbundler/appbundler-1.0.jar" />
@@ -62,6 +56,11 @@
     <jar destfile="${out.path}/jcef-tests.jar" index="true" update="false">
       <fileset dir="${out.path}">
         <include name="tests/**"/>
+      </fileset>
+    </jar>
+    <jar destfile="${out.path}/jcef-sources.jar" index="true" update="false">
+      <fileset dir="java">
+        <include name="org/cef/**"/>
       </fileset>
     </jar>
   </target>
