@@ -6,10 +6,24 @@
 
     <groupId>org.jetbrains.intellij.deps.jcef</groupId>
     <artifactId>jcef</artifactId>
-    <version>3.3683.1920.g9f41a27.1</version>
+    <version>3.3683.1920.g9f41a27.2</version>
 
     <build>
         <plugins>
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>2.4.1</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>${basedir}/out</directory>
+                            <includes>
+                                <include>**/*</include>
+                            </includes>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
             <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <version>1.8</version>
@@ -59,7 +73,7 @@
                     <artifactId>${project.artifactId}</artifactId>
                     <groupId>${project.groupId}</groupId>
                     <version>${project.version}</version>
-                    <file>"${basedir}/out/jcef.jar</file>
+                    <file>out/jcef.jar</file>
                 </configuration>
             </plugin>
         </plugins>
