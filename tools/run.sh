@@ -13,7 +13,7 @@ else
   elif [ -z "$3" ]; then
     echo "ERROR: Please specify a run type: detailed or simple"
   else
-    export OUT_PATH="./out"
+    export OUT_PATH="./out/$1"
 
     export LIB_PATH=$(readlink -f "./jcef_build/native/$2")
     if [ ! -d "$LIB_PATH" ]; then
@@ -21,7 +21,7 @@ else
       exit 1
     fi
 
-    export CLS_PATH="./third_party/jogamp/jar/*:$OUT_PATH/$1"
+    export CLS_PATH="./third_party/jogamp/jar/*:$OUT_PATH"
     export RUN_TYPE="$3"
 
     # Necessary for jcef_helper to find libcef.so.
@@ -37,4 +37,3 @@ else
 fi
 
 cd tools
-
