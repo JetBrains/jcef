@@ -74,7 +74,8 @@ bool Context::Initialize(JNIEnv* env,
 #if defined(OS_WIN)
   CefMainArgs main_args(::GetModuleHandle(NULL));
 #else
-  CefMainArgs main_args(0, NULL);
+  char *argv[] = {(char*)"jcef", (char*)"--disable-in-process-stack-traces"};
+  CefMainArgs main_args(2, argv);
 #endif
 
   const std::string& module_dir = GetJNIString(env, argPathToJavaDLL);
