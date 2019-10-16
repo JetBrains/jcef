@@ -380,7 +380,7 @@ class CefBrowserWr extends CefBrowser_N {
     }
 
     private static Rectangle scaleRect(Rectangle rect, Component comp) {
-        if (comp != null && OS.isWindows()) {
+        if (comp != null && (OS.isWindows() || OS.isLinux())) {
             GraphicsConfiguration gc = comp.getGraphicsConfiguration();
             if (gc != null) {
                 double scaleX = gc.getDefaultTransform().getScaleX();
