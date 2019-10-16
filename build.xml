@@ -2,6 +2,7 @@
 <project name="javaLauncher" default="default" basedir=".">
 
   <property environment="env"/>
+  <property name="out.native.path" value="${env.OUT_NATIVE_PATH}"/>
   <property name="out.path"   value="${env.OUT_PATH}"/>
   <property name="out.name"   value="${env.OUT_NAME}"/>
   <property name="out.id"     value="${env.OUT_ID}"/>
@@ -11,6 +12,18 @@
              value="--module-path third_party/jogamp/jar/jogl-all.jar:third_party/jogamp/jar/gluegen-rt.jar --add-exports jogl.all/com.jogamp.nativewindow=jcef --add-exports jogl.all/com.jogamp.opengl.awt=jcef --add-exports jogl.all/com.jogamp.opengl=jcef --add-exports java.desktop/sun.awt=jcef --add-exports java.desktop/java.awt.peer=jcef --add-exports java.desktop/sun.lwawt.macosx=jcef --add-exports java.desktop/sun.lwawt=jcef"
              else="">
     <matches pattern="11.*" string="${java.version}"/>
+  </condition>
+
+  <condition property="exclude.source.mac"
+             value=""
+             else="org/cef/browser/mac/CefBrowserWindowMac.java">
+    <os family="mac"/>
+  </condition>
+
+  <condition property="jcef.native.lib"
+             value="${out.path}/libjcef.dylib"
+             else="${out.native.path}/libjcef.so">
+    <os family="mac"/>
   </condition>
 
   <taskdef name="bundleapp"
@@ -34,6 +47,7 @@
       <classpath refid="class.path"/>
       <src path="java/"/>
       <include name="**/*.java"/>
+      <exclude name="${exclude.source.mac}"/>
       <exclude name="module-info.java"/>
       <exclude name="tests/junittests/**"/>
     </javac>
@@ -76,7 +90,7 @@
     </copy>
     <mkdir dir="${out.path}/modular-sdk/modules_libs/jcef"/>
     <copy todir="${out.path}/modular-sdk/modules_libs/jcef">
-      <file name="${out.path}/libjcef.dylib"/>
+      <file name="${jcef.native.lib}"/>
     </copy>
     <mkdir dir="${out.path}/modular-sdk/modules_src/jcef"/>
     <copy todir="${out.path}/modular-sdk/modules_src/jcef">

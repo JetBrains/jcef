@@ -24,9 +24,9 @@ else
   fi
 
   # Create the JCEF documentation.
-  cd tools
-  ./make_docs.sh
-  cd ..
+#  cd tools
+#  ./make_docs.sh
+#  cd ..
 
   # Copy documentation to the docs directory.
   cp -rf $OUT_DOCS_PATH $DISTRIB_DOCS_PATH

@@ -98,11 +98,13 @@ public class MainFrame extends BrowserFrame {
             boolean createImmediately, String[] args) {
         CefApp myApp;
         if (CefApp.getState() != CefApp.CefAppState.INITIALIZED) {
-            String JCEF_FRAMEWORKS_PATH = System.getProperty("java.home") + "/Frameworks";
-            List<String> list = new ArrayList<>(Arrays.asList(args));
-            list.add("--framework-dir-path=" + JCEF_FRAMEWORKS_PATH + "/Chromium Embedded Framework.framework");
-            list.add("--browser-subprocess-path=" + JCEF_FRAMEWORKS_PATH + "/jcef Helper.app/Contents/MacOS/jcef Helper");
-            args = list.toArray(new String[0]);
+            if (OS.isMacintosh()) {
+                List<String> list = new ArrayList<>(Arrays.asList(args));
+                String JCEF_FRAMEWORKS_PATH = System.getProperty("java.home") + "/Frameworks";
+                list.add("--framework-dir-path=" + JCEF_FRAMEWORKS_PATH + "/Chromium Embedded Framework.framework");
+                list.add("--browser-subprocess-path=" + JCEF_FRAMEWORKS_PATH + "/jcef Helper.app/Contents/MacOS/jcef Helper");
+                args = list.toArray(new String[0]);
+            }
 
             // 1) CefApp is the entry point for JCEF. You can pass
             //    application arguments to it, if you want to handle any
@@ -112,6 +114,13 @@ public class MainFrame extends BrowserFrame {
             settings.windowless_rendering_enabled = osrEnabled;
             // try to load URL "about:blank" to see the background color
             settings.background_color = settings.new ColorType(100, 255, 242, 211);
+
+            if (OS.isLinux()) {
+                String JCEF_PATH = System.getProperty("java.home") + "/lib";
+                settings.resources_dir_path = JCEF_PATH;
+                settings.locales_dir_path = JCEF_PATH + "/locales";
+                settings.browser_subprocess_path = JCEF_PATH + "/jcef_helper";
+            }
             myApp = CefApp.getInstance(args, settings);
 
             CefVersion version = myApp.getVersion();
