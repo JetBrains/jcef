@@ -271,11 +271,20 @@ CefWindowHandle GetWindowHandle(JNIEnv* env, jobject canvas) {
 
 void SetParent(CefWindowHandle browserHandle,
                CefWindowHandle parentHandle,
+               CriticalWait* waitCond,
                const base::Closure& callback) {
+  if (waitCond) {
+    waitCond->lock()->Lock();
+  }
   if (parentHandle == kNullWindowHandle)
     parentHandle = TempWindow::GetWindowHandle();
   if (parentHandle != kNullWindowHandle && browserHandle != kNullWindowHandle)
     ::SetParent(browserHandle, parentHandle);
+
+  if (waitCond) {
+    waitCond->WakeUp();
+    waitCond->lock()->Unlock();
+  }
   callback.Run();
 }
 

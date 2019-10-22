@@ -15,6 +15,7 @@
 #include "include/base/cef_callback_forward.h"
 #include "include/cef_browser.h"
 #include "include/cef_task.h"
+#include "critical_wait.h"
 
 #endif  // USING_JAVA
 
@@ -106,6 +107,7 @@ CefWindowHandle GetWindowHandle(JNIEnv* env, jobject canvas);
 // parented to the TempWindow.
 void SetParent(CefWindowHandle browserHandle,
                CefWindowHandle parentHandle,
+               CriticalWait* waitCond,
                const base::Closure& callback);
 
 // Set the window bounds for |browserHandle|.
