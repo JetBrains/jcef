@@ -1925,10 +1925,15 @@ Java_org_cef_browser_CefBrowser_1N_N_1SetParent(JNIEnv* env,
   CefWindowHandle parentHandle =
       canvas ? util::GetWindowHandle(env, canvas) : kNullWindowHandle;
   if (CefCurrentlyOn(TID_UI)) {
-    util::SetParent(browserHandle, parentHandle, callback);
+    util::SetParent(browserHandle, parentHandle, NULL, callback);
   } else {
-    CefPostTask(TID_UI, base::Bind(util::SetParent, browserHandle, parentHandle,
+    CriticalLock lock;
+    CriticalWait waitCond(&lock);
+    lock.Lock();
+    CefPostTask(TID_UI, base::Bind(util::SetParent, browserHandle, parentHandle, &waitCond,
                                    callback));
+    waitCond.Wait(1000);
+    lock.Unlock();
   }
 #endif
 }
