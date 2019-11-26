@@ -98,12 +98,14 @@ class CefBrowserWr extends CefBrowser_N {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    // Send mouse event to the root UI component instead to the browser UI.
-                    // Otherwise no mouse-entered and no mouse-exited events would be fired.
                     Component parent = SwingUtilities.getRoot(component_);
                     if (parent == null) {
                         return;
                     }
+                    double scaleX = parent.getGraphicsConfiguration().getDefaultTransform().getScaleX();
+                    double scaleY = parent.getGraphicsConfiguration().getDefaultTransform().getScaleY();
+                    pt.x = (int)Math.round(pt.x / scaleX);
+                    pt.y = (int)Math.round(pt.y / scaleY);
                     SwingUtilities.convertPointFromScreen(pt, parent);
 
                     int clickCnt = 0;
@@ -111,17 +113,17 @@ class CefBrowserWr extends CefBrowser_N {
                     if (finalEvent == MouseEvent.MOUSE_WHEEL) {
                         int scrollType = MouseWheelEvent.WHEEL_UNIT_SCROLL;
                         int rotation = button > 0 ? 1 : -1;
-                        component_.dispatchEvent(new MouseWheelEvent(parent, finalEvent, now,
+                        parent.dispatchEvent(new MouseWheelEvent(parent, finalEvent, now,
                                 modifier, pt.x, pt.y, 0, false, scrollType, 3, rotation));
                     } else {
                         clickCnt = getClickCount(finalEvent, button);
-                        component_.dispatchEvent(new MouseEvent(parent, finalEvent, now, modifier,
+                        parent.dispatchEvent(new MouseEvent(parent, finalEvent, now, modifier,
                                 pt.x, pt.y, screenX, screenY, clickCnt, false, button));
                     }
 
                     // Always fire a mouse-clicked event after a mouse-released event.
                     if (finalEvent == MouseEvent.MOUSE_RELEASED) {
-                        component_.dispatchEvent(
+                        parent.dispatchEvent(
                                 new MouseEvent(parent, MouseEvent.MOUSE_CLICKED, now, modifier,
                                         pt.x, pt.y, screenX, screenY, clickCnt, false, button));
                     }
