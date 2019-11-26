@@ -115,8 +115,8 @@ public class MainFrame extends BrowserFrame {
             // try to load URL "about:blank" to see the background color
             settings.background_color = settings.new ColorType(100, 255, 242, 211);
 
-            if (OS.isLinux()) {
-                String JCEF_PATH = System.getProperty("java.home") + "/lib";
+            if (OS.isLinux() || OS.isWindows()) {
+                String JCEF_PATH = System.getProperty("java.home") + (OS.isLinux() ? "/lib" : "/bin");
                 settings.resources_dir_path = JCEF_PATH;
                 settings.locales_dir_path = JCEF_PATH + "/locales";
                 settings.browser_subprocess_path = JCEF_PATH + "/jcef_helper";
