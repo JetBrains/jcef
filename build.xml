@@ -9,7 +9,7 @@
   <property name="out.mainclass" value="${env.OUT_MAINCLASS}"/>
 
   <condition property="jdk11.jvm.opts"
-             value="--module-path third_party/jogamp/jar/jogl-all.jar:third_party/jogamp/jar/gluegen-rt.jar --add-exports jogl.all/com.jogamp.nativewindow=jcef --add-exports jogl.all/com.jogamp.opengl.awt=jcef --add-exports jogl.all/com.jogamp.opengl=jcef --add-exports java.desktop/sun.awt=jcef --add-exports java.desktop/java.awt.peer=jcef --add-exports java.desktop/sun.lwawt.macosx=jcef --add-exports java.desktop/sun.lwawt=jcef"
+             value="--module-path third_party/jogamp/jar --add-modules jogl.all,gluegen.rt --add-exports jogl.all/com.jogamp.nativewindow=jcef --add-exports jogl.all/com.jogamp.opengl.awt=jcef --add-exports jogl.all/com.jogamp.opengl=jcef --add-exports java.desktop/sun.awt=jcef --add-exports java.desktop/java.awt.peer=jcef --add-exports java.desktop/sun.lwawt.macosx=jcef --add-exports java.desktop/sun.lwawt=jcef"
              else="">
     <matches pattern="11.*" string="${java.version}"/>
   </condition>
@@ -21,9 +21,16 @@
   </condition>
 
   <condition property="jcef.native.lib"
-             value="${out.path}/libjcef.dylib"
-             else="${out.native.path}/libjcef.so">
+             value="${out.path}/libjcef.dylib">
     <os family="mac"/>
+  </condition>
+  <condition property="jcef.native.lib"
+             value="${out.native.path}/libjcef.so">
+    <os family="unix"/>
+  </condition>
+  <condition property="jcef.native.lib"
+             value="${out.native.path}/jcef.dll">
+    <os family="windows"/>
   </condition>
 
   <taskdef name="bundleapp"
@@ -49,7 +56,6 @@
       <src path="java/"/>
       <include name="**/*.java"/>
       <exclude name="${exclude.source.mac}"/>
-      <exclude name="module-info.java"/>
       <exclude name="tests/junittests/**"/>
     </javac>
     <copy todir="${out.path}">

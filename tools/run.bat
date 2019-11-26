@@ -48,7 +48,7 @@ shift
 goto loop1
 :after_loop
 
-java -cp %CLS_PATH% -Djava.library.path=%LIB_PATH% tests.%RUN_TYPE%.MainFrame %RESTVAR%
+%JAVA_HOME%\bin\java -cp %CLS_PATH% -Djava.library.path=%LIB_PATH% tests.%RUN_TYPE%.MainFrame %RESTVAR%
 
 :end
 endlocal & set RC=%ERRORLEVEL%
