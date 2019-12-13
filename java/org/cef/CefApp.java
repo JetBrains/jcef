@@ -526,7 +526,7 @@ public class CefApp extends CefAppHandlerAdapter {
     public static final boolean startup() {
         if (OS.isLinux() || OS.isMacintosh()) {
             System.loadLibrary("jcef");
-            return N_Startup();
+            return N_Startup(System.getProperty("java.home"));
         }
         return true;
     }
@@ -556,7 +556,7 @@ public class CefApp extends CefAppHandlerAdapter {
         return library_path;
     }
 
-    private final static native boolean N_Startup();
+    private final static native boolean N_Startup(String javaHome);
     private final native boolean N_PreInitialize();
     private final native boolean N_Initialize(
             String pathToJavaDLL, CefAppHandler appHandler, CefSettings settings);

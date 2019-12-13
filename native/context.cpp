@@ -195,3 +195,29 @@ Context::~Context() {
   DCHECK(thread_checker_.CalledOnValidThread());
   g_context = NULL;
 }
+
+#if defined(OS_MACOSX)
+/**
+ * [tav] Used instead of CefScopedLibraryLoader::Load to provide alternative framework path
+ */
+bool Context::LoadCefLibrary(bool helper, const char* java_home) {
+    static const char kFrameworkPath[] = "Chromium Embedded Framework.framework/Chromium Embedded Framework";
+    static const char kPathFromHelperExe[] = "../..";
+    static const char kPathFromMainExe[] = "Frameworks";
+
+    const std::string& framework_path =
+        std::string(java_home) + "/" + (helper ? kPathFromHelperExe : kPathFromMainExe) + "/" + kFrameworkPath;
+
+    if (framework_path.empty()) {
+        fprintf(stderr, "App does not have the expected bundle structure.\n");
+        return false;
+    }
+
+    // Load the CEF framework library.
+    if (!cef_load_library(framework_path.c_str())) {
+        fprintf(stderr, "Failed to load the CEF framework.\n");
+        return false;
+    }
+    return true;
+}
+#endif

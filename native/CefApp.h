@@ -12,7 +12,7 @@ extern "C" {
  * Method:    N_Startup
  * Signature: ()Z
  */
-JNIEXPORT jboolean JNICALL Java_org_cef_CefApp_N_1Startup(JNIEnv*, jclass);
+JNIEXPORT jboolean JNICALL Java_org_cef_CefApp_N_1Startup(JNIEnv*, jclass, jstring);
 
 /*
  * Class:     org_cef_CefApp
