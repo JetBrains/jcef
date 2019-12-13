@@ -4,8 +4,12 @@
 
 package org.cef.browser.mac;
 
-import java.awt.Component;
+import java.awt.*;
 import java.awt.peer.ComponentPeer;
+import java.awt.peer.WindowPeer;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import sun.awt.AWTAccessor;
 import sun.lwawt.LWComponentPeer;
 import sun.lwawt.PlatformWindow;
@@ -13,6 +17,8 @@ import sun.lwawt.macosx.CFRetainedResource;
 import sun.lwawt.macosx.CPlatformWindow;
 
 import org.cef.browser.CefBrowserWindow;
+
+import javax.swing.*;
 
 public class CefBrowserWindowMac implements CefBrowserWindow {
     @Override
@@ -22,6 +28,9 @@ public class CefBrowserWindowMac implements CefBrowserWindow {
             if (comp.isLightweight()) {
                 comp = comp.getParent();
                 continue;
+            }
+            if (WindowHandle.isAvailable()) {
+                return WindowHandle.get(comp);
             }
             @SuppressWarnings("deprecation")
             ComponentPeer peer = AWTAccessor.getComponentAccessor().getPeer(comp);
@@ -41,5 +50,39 @@ public class CefBrowserWindowMac implements CefBrowserWindow {
             comp = comp.getParent();
         }
         return result[0];
+    }
+
+    private static class WindowHandle {
+        private static final Method methodGetWindowHandle;
+
+        static {
+            Method m;
+            try {
+                //noinspection JavaReflectionMemberAccess
+                m = WindowPeer.class.getDeclaredMethod("getWindowHandle");
+                m.setAccessible(true);
+            } catch (NoSuchMethodException ignore) {
+                throw new RuntimeException("jcef: failed to retrieve platform window handle");
+            }
+            methodGetWindowHandle = m;
+        }
+
+        static long get(Component comp) {
+            if (comp == null) return 0;
+
+            if (!(comp instanceof Window)) {
+                comp = SwingUtilities.getWindowAncestor(comp);
+            }
+            WindowPeer peer = AWTAccessor.getComponentAccessor().getPeer(comp);
+            try {
+                return (long)methodGetWindowHandle.invoke(peer);
+            } catch (IllegalAccessException | InvocationTargetException ignore) {
+            }
+            return 0;
+        }
+
+        static boolean isAvailable() {
+            return methodGetWindowHandle != null;
+        }
     }
 }
