@@ -4,6 +4,7 @@
 
 package org.cef;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -452,20 +453,23 @@ public class CefApp extends CefAppHandlerAdapter {
      * Shut down the context.
      */
     private final void shutdown() {
+        // [tav] in order to "unwind" invokeLater(()-> CefApp.dispose()) explicitly.
+
         // Execute on the AWT event dispatching thread. Always call asynchronously
         // so the call stack has a chance to unwind.
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                System.out.println("shutdown on " + Thread.currentThread());
+        Runnable _shutdown = () -> {
+            System.out.println("shutdown on " + Thread.currentThread());
 
-                // Shutdown native CEF.
-                N_Shutdown();
+            // Shutdown native CEF.
+            N_Shutdown();
 
-                setState(CefAppState.TERMINATED);
-                CefApp.self = null;
-            }
-        });
+            setState(CefAppState.TERMINATED);
+            CefApp.self = null;
+        };
+        if (EventQueue.isDispatchThread())
+            _shutdown.run();
+        else
+            SwingUtilities.invokeLater(_shutdown);
     }
 
     /**
