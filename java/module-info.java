@@ -9,4 +9,6 @@ module jcef {
     exports org.cef.handler;
     exports org.cef.misc;
     exports org.cef.network;
+
+    opens org.cef; // [tav] todo: provide necessary API instead
 }
