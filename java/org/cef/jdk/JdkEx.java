@@ -1,7 +1,11 @@
 package org.cef.jdk;
 
 import org.cef.OS;
+import sun.awt.AWTAccessor;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.peer.WindowPeer;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.concurrent.Callable;
@@ -41,8 +45,43 @@ public class JdkEx {
         }
 
         public static boolean isEnabled() {
-            // currently the mechanism is actual on macOS only
+            // currently the accessor is actual on macOS only
             return OS.isMacintosh() && mInvoke != null;
+        }
+    }
+
+    public static class WindowHandleAccessor {
+        private static final Method mGetWindowHandle;
+
+        static {
+            Method m;
+            try {
+                //noinspection JavaReflectionMemberAccess
+                m = WindowPeer.class.getDeclaredMethod("getWindowHandle");
+                m.setAccessible(true);
+            } catch (NoSuchMethodException ignore) {
+                throw new RuntimeException("jcef: failed to retrieve platform window handle");
+            }
+            mGetWindowHandle = m;
+        }
+
+        public static long getWindowHandle(Component comp) {
+            if (comp == null) return 0;
+
+            if (!(comp instanceof Window)) {
+                comp = SwingUtilities.getWindowAncestor(comp);
+            }
+            WindowPeer peer = AWTAccessor.getComponentAccessor().getPeer(comp);
+            try {
+                return (long) mGetWindowHandle.invoke(peer);
+            } catch (IllegalAccessException | InvocationTargetException ignore) {
+            }
+            return 0;
+        }
+
+        public static boolean isEnabled() {
+            // currently the accessor is actual on macOS only
+            return OS.isMacintosh() && mGetWindowHandle != null;
         }
     }
 }
