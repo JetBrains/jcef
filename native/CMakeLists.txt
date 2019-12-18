@@ -310,8 +310,9 @@ if(OS_MACOSX)
   add_library(${JCEF_TARGET} SHARED ${JCEF_RESOURCES_SRCS} ${JCEF_SRCS})
   SET_EXECUTABLE_TARGET_PROPERTIES(${JCEF_TARGET})
   add_dependencies(${JCEF_TARGET} libcef_dll_wrapper)
-  target_link_libraries(${JCEF_TARGET} libcef_dll_wrapper ${CEF_STANDARD_LIBS}  ${JNI_LIBRARIES})
-  target_include_directories(${JCEF_TARGET} PUBLIC ${JNI_INCLUDE_DIRS})
+  target_include_directories(${JCEF_TARGET} PUBLIC ${JNI_INCLUDE_DIRS} ${CMAKE_OSX_SYSROOT}/System/Library/Frameworks/JavaVM.framework/Frameworks/JavaNativeFoundation.framework/Headers)
+  target_link_libraries(${JCEF_TARGET} libcef_dll_wrapper ${CEF_STANDARD_LIBS}  ${JNI_LIBRARIES} ${CMAKE_OSX_SYSROOT}/System/Library/Frameworks/JavaVM.framework/Frameworks/JavaNativeFoundation.framework)
+  target_compile_options(${JCEF_TARGET} PRIVATE -Wno-missing-method-return-type)
 
   # Compile flags specific to the JCEF library target.
   # USING_JAVA          = Add the USING_JAVA define.

@@ -33,9 +33,10 @@ Java_org_cef_CefApp_N_1Initialize(JNIEnv* env,
                                   jobject c,
                                   jstring argPathToJavaDLL,
                                   jobject appHandler,
-                                  jobject jsettings) {
+                                  jobject jsettings,
+                                  jboolean checkThread) {
   return Context::GetInstance()->Initialize(env, c, argPathToJavaDLL,
-                                            appHandler, jsettings)
+                                            appHandler, jsettings, checkThread)
              ? JNI_TRUE
              : JNI_FALSE;
 }

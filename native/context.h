@@ -39,7 +39,8 @@ class Context {
                   jobject c,
                   jstring argPathToJavaDLL,
                   jobject appHandler,
-                  jobject jsettings);
+                  jobject jsettings,
+                  jboolean checkThread);
   void OnContextInitialized();
   void DoMessageLoopWork();
   void Shutdown();
