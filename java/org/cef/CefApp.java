@@ -18,6 +18,7 @@ import javax.swing.Timer;
 import org.cef.callback.CefSchemeHandlerFactory;
 import org.cef.handler.CefAppHandler;
 import org.cef.handler.CefAppHandlerAdapter;
+import org.cef.jdk.JdkEx;
 
 /**
  * Exposes static methods for managing the global CEF context.
@@ -418,8 +419,12 @@ public class CefApp extends CefAppHandlerAdapter {
                             settings.locales_dir_path = library_path + "/locales";
                     }
 
-                    if (N_Initialize(library_path, appHandler_, settings))
+                    if (JdkEx.InvokeOnToolkitHelperAccessor.invokeAndBlock(() ->
+                            N_Initialize(library_path, appHandler_, settings, EventQueue.isDispatchThread()),
+                            Boolean.FALSE))
+                    {
                         setState(CefAppState.INITIALIZED);
+                    }
                 }
             };
             if (SwingUtilities.isEventDispatchThread())
@@ -563,7 +568,7 @@ public class CefApp extends CefAppHandlerAdapter {
     private final static native boolean N_Startup(String javaHome);
     private final native boolean N_PreInitialize();
     private final native boolean N_Initialize(
-            String pathToJavaDLL, CefAppHandler appHandler, CefSettings settings);
+            String pathToJavaDLL, CefAppHandler appHandler, CefSettings settings, boolean checkThread);
     private final native void N_Shutdown();
     private final native void N_DoMessageLoopWork();
     private final native CefVersion N_GetVersion();

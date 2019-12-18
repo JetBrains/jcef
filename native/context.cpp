@@ -68,8 +68,9 @@ bool Context::Initialize(JNIEnv* env,
                          jobject c,
                          jstring argPathToJavaDLL,
                          jobject appHandler,
-                         jobject jsettings) {
-  DCHECK(thread_checker_.CalledOnValidThread());
+                         jobject jsettings,
+                         jboolean checkThread) {
+  if (checkThread) DCHECK(thread_checker_.CalledOnValidThread());
 
 #if defined(OS_WIN)
   CefMainArgs main_args(::GetModuleHandle(NULL));
