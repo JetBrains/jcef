@@ -950,10 +950,11 @@ jboolean create(JNIEnv* env,
 
   CefBrowserSettings settings;
 
+  /* [tav] do not override CefSettings.background_color
   if (transparent == JNI_FALSE) {
     // Specify an opaque background color (white) to disable transparency.
     settings.background_color = CefColorSetARGB(255, 255, 255, 255);
-  }
+  }*/
 
   CefRefPtr<CefBrowser> browserObj;
   CefString strUrl = GetJNIString(env, url);
