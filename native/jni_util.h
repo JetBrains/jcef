@@ -49,7 +49,7 @@ jclass FindClass(JNIEnv* env, const char* class_name);
 #define BEGIN_ENV(e)           \
   JNIEnv* e = NULL;            \
   bool __shouldDetach = false; \
-  if (GetJNIEnv(&e, &__shouldDetach) == JNI_OK && e != NULL) {
+  if (GetJNIEnv(&e, &__shouldDetach) == JNI_OK && e != NULL && e->functions != NULL) {
 #define END_ENV(e)                   \
   DetachFromThread(&__shouldDetach); \
   }
