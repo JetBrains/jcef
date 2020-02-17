@@ -100,22 +100,20 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser {
     @Override
     public synchronized boolean doClose() {
         if (closeAllowed_) {
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    // Trigger close of the parent window.
+                    Component parent = SwingUtilities.getRoot(getUIComponent());
+                    if (parent != null) {
+                        parent.dispatchEvent(
+                                new WindowEvent((Window) parent, WindowEvent.WINDOW_CLOSING));
+                    }
+                }
+            });
             // Allow the close to proceed.
             return false;
         }
-
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                // Trigger close of the parent window.
-                Component parent = SwingUtilities.getRoot(getUIComponent());
-                if (parent != null) {
-                    parent.dispatchEvent(
-                            new WindowEvent((Window) parent, WindowEvent.WINDOW_CLOSING));
-                }
-            }
-        });
-
         // Cancel the close.
         return true;
     }
