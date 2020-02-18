@@ -28,7 +28,6 @@ class Context {
     DCHECK(!library_loader_);
     library_loader_.reset(library_loader);
   }
-  static bool LoadCefLibrary(bool, const char*);
 #endif
 
   // Returns the singleton instance of this object.

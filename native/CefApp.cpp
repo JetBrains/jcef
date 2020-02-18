@@ -6,10 +6,10 @@
 
 #include <string>
 
+#include "alt_load_cef_mac.h"
+#include "context.h"
 #include "include/cef_app.h"
 #include "include/cef_version.h"
-
-#include "context.h"
 #include "jcef_version.h"
 #include "jni_util.h"
 #include "scheme_handler_factory.h"
@@ -97,7 +97,8 @@ JNIEXPORT jboolean JNICALL Java_org_cef_CefApp_N_1Startup(JNIEnv* env, jclass, j
   // Load the CEF framework library at runtime instead of linking directly
   // as required by the macOS sandbox implementation.
   const char *java_home = env->GetStringUTFChars(javaHome, nullptr);
-  bool res = Context::LoadCefLibrary(false, java_home);
+  setenv(JBR_HOME, java_home, 1); // jcef_helper process will inherit JBR_HOME
+  bool res = AltLoadCefLibrary();
   env->ReleaseStringUTFChars(javaHome, java_home);
 
 //  scoped_ptr<CefScopedLibraryLoader> library_loader(new CefScopedLibraryLoader);

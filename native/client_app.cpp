@@ -6,6 +6,7 @@
 #include "jni_util.h"
 #include "util.h"
 #if defined(OS_MACOSX)
+#include "alt_load_cef_mac.h"
 #include "util_mac.h"
 #endif
 
@@ -55,9 +56,7 @@ void ClientApp::OnBeforeCommandLineProcessing(
     // Specify a path for the locale.pak file because CEF will fail to locate
     // it based on the app bundle structure.
     const std::string& locale_path = util_mac::GetAbsPath(
-        module_dir_ +
-        "/../Frameworks/Chromium Embedded Framework.framework/"
-        "Resources/en.lproj/locale.pak");
+        std::string(getenv(ALT_CEF_FRAMEWORK_DIR)) + "/Resources/en.lproj/locale.pak");
     command_line->AppendSwitchWithValue("locale_pak", locale_path);
 
     // If windowed rendering is used, we need the browser window as CALayer
