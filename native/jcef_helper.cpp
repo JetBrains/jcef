@@ -16,6 +16,7 @@
 #include "include/cef_sandbox_mac.h"
 #endif
 
+#include "alt_load_cef_mac.h"
 #include "include/wrapper/cef_library_loader.h"
 #endif  // defined(OS_MACOSX)
 
@@ -175,7 +176,7 @@ int main(int argc, char* argv[]) {
   // Load the CEF framework library at runtime instead of linking directly
   // as required by the macOS sandbox implementation.
   CefScopedLibraryLoader library_loader;
-  if (!library_loader.LoadInHelper()) // [tav] replace it with Context::LoadCefLibrary when in use
+  if (!AltLoadCefLibrary())
     return 1;
 #endif  // defined(OS_MACOSX)
 

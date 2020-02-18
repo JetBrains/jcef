@@ -35,6 +35,7 @@ import java.awt.KeyboardFocusManager;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.io.File;
+import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
 
 import javax.swing.JFrame;
@@ -100,9 +101,20 @@ public class MainFrame extends BrowserFrame {
         if (CefApp.getState() != CefApp.CefAppState.INITIALIZED) {
             if (OS.isMacintosh()) {
                 List<String> list = new ArrayList<>(Arrays.asList(args));
-                String JCEF_FRAMEWORKS_PATH = System.getProperty("java.home") + "/Frameworks";
-                list.add("--framework-dir-path=" + JCEF_FRAMEWORKS_PATH + "/Chromium Embedded Framework.framework");
-                list.add("--browser-subprocess-path=" + JCEF_FRAMEWORKS_PATH + "/jcef Helper.app/Contents/MacOS/jcef Helper");
+                String ALT_CEF_FRAMEWORK_DIR = System.getenv("ALT_CEF_FRAMEWORK_DIR");
+                String ALT_CEF_HELPER_DIR = System.getenv("ALT_CEF_HELPER_DIR");
+                if (ALT_CEF_FRAMEWORK_DIR == null || ALT_CEF_HELPER_DIR == null) {
+                    String CONTENTS_PATH = System.getProperty("java.home") + "/..";
+                    if (ALT_CEF_FRAMEWORK_DIR == null) {
+                        ALT_CEF_FRAMEWORK_DIR = CONTENTS_PATH + "/Frameworks/Chromium Embedded Framework.framework";
+                    }
+                    if (ALT_CEF_HELPER_DIR == null) {
+                        ALT_CEF_HELPER_DIR = CONTENTS_PATH + "/Helpers";
+                    }
+                }
+                list.add("--framework-dir-path=" + normalize(ALT_CEF_FRAMEWORK_DIR));
+                list.add("--browser-subprocess-path=" + normalize(ALT_CEF_HELPER_DIR) + "/jcef Helper.app/Contents/MacOS/jcef Helper");
+                list.add("--disable-in-process-stack-traces");
                 args = list.toArray(new String[0]);
             }
 
@@ -283,6 +295,15 @@ public class MainFrame extends BrowserFrame {
                 "javachromiumembedded", "https://bitbucket.org/chromiumembedded/java-cef");
         menuBar.addBookmark("chromiumembedded", "https://bitbucket.org/chromiumembedded/cef");
         setJMenuBar(menuBar);
+    }
+
+    // CEF does not accept ".." in path
+    static String normalize(String path) {
+        try {
+            return new File(path).getCanonicalPath();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private JPanel createContentPanel() {
