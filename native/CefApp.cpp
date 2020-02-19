@@ -6,7 +6,6 @@
 
 #include <string>
 
-#include "alt_load_cef_mac.h"
 #include "context.h"
 #include "include/cef_app.h"
 #include "include/cef_version.h"
@@ -17,6 +16,10 @@
 
 #if defined(OS_LINUX)
 #include <X11/Xlib.h>
+#endif
+
+#if defined(OS_MACOSX)
+#include "alt_load_cef_mac.h"
 #endif
 
 JNIEXPORT jboolean JNICALL Java_org_cef_CefApp_N_1PreInitialize(JNIEnv* env,
