@@ -143,9 +143,7 @@ set(JCEF_SRCS
   window_handler.cpp
   window_handler.h
   write_handler.cpp
-  write_handler.h
-  alt_load_cef_mac.cpp
-  alt_load_cef_mac.h)
+  write_handler.h)
 set(JCEF_SRCS_LINUX
   critical_wait_posix.cpp
   jni_util_linux.cpp
@@ -166,6 +164,7 @@ set(JCEF_SRCS_MACOSX
   util_mac.mm
   util_posix.cpp
   alt_load_cef_mac.cpp
+  alt_load_cef_mac.h
   )
 set(JCEF_SRCS_WINDOWS
   critical_wait_win.cpp
