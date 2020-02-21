@@ -25,6 +25,20 @@ set ERRORLEVEL=1
 goto end
 )
 
+echo TEST_JAVA_HOME=%TEST_JAVA_HOME%
+
+if "%TEST_JAVA_HOME%" == "" (
+echo ERROR: Please set the TEST_JAVA_HOME environment variable
+set ERRORLEVEL=1
+goto end
+)
+
+if not exist %TEST_JAVA_HOME% (
+echo ERROR: TEST_JAVA_HOME path does not exist
+set ERRORLEVEL=1
+goto end
+)
+
 set OUT_PATH=.\out\%~1
 
 set LIB_PATH=.\jcef_build\native\%~2
@@ -48,7 +62,8 @@ shift
 goto loop1
 :after_loop
 
-%JAVA_HOME%\bin\java -cp %CLS_PATH% -Djava.library.path=%LIB_PATH% tests.%RUN_TYPE%.MainFrame %RESTVAR%
+::%JAVA_HOME%\bin\java -cp %CLS_PATH% -Djava.library.path=%LIB_PATH% tests.%RUN_TYPE%.MainFrame %RESTVAR%
+%TEST_JAVA_HOME%\bin\java -cp %OUT_PATH%\jcef-tests.jar tests.%RUN_TYPE%.MainFrame %RESTVAR%
 
 :end
 endlocal & set RC=%ERRORLEVEL%

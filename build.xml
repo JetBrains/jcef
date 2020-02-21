@@ -63,8 +63,21 @@
       </fileset>
     </copy>
   </target>
-    
-  <target name="jar" depends="compile">
+
+  <!-- Workaround for building junit tests without using module-info -->
+  <target name="compile.junit">
+    <mkdir dir="${out.path}/tmp"/>
+    <mkdir dir="${out.path}/tests"/>
+    <!--  Javac will always recompile the tests due to https://ant.apache.org/faq.html#always-recompiles -->
+    <javac encoding="UTF8" nowarn="on" deprecation="off" debug="on" includeantruntime="false" fork="true"
+           srcdir="java/tests/junittests" destdir="${out.path}/tmp"
+           classpath="third_party/junit/junit-platform-console-standalone-1.4.2.jar">
+    </javac>
+    <move file="${out.path}/tmp/tests" tofile="${out.path}/tests"/>
+    <delete dir="${out.path}/tmp"/>
+  </target>
+
+  <target name="jar" depends="compile, compile.junit">
     <mkdir dir="${out.path}"/>
     <jar destfile="${out.path}/jcef.jar" index="true" update="false">
       <fileset dir="${out.path}">

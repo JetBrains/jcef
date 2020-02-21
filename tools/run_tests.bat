@@ -19,8 +19,16 @@ set ERRORLEVEL=1
 goto end
 )
 
-if "%JAVA_HOME%" == "" (
-echo ERROR: Please set the JAVA_HOME environment variable
+echo TEST_JAVA_HOME=%TEST_JAVA_HOME%
+
+if "%TEST_JAVA_HOME%" == "" (
+echo ERROR: Please set the TEST_JAVA_HOME environment variable
+set ERRORLEVEL=1
+goto end
+)
+
+if not exist %TEST_JAVA_HOME% (
+echo ERROR: TEST_JAVA_HOME path does not exist
 set ERRORLEVEL=1
 goto end
 )
@@ -47,9 +55,10 @@ goto loop1
 :after_loop
 
 :: JUnit can fail to load JVM DLLs if you don't explicitly set the PATH.
-set PATH="%JAVA_HOME%\bin"
+::set PATH="%TEST_JAVA_HOME%\bin"
 
-java -Djava.library.path=%LIB_PATH% -jar .\third_party\junit\junit-platform-console-standalone-1.4.2.jar -cp %OUT_PATH% --disable-ansi-colors --select-package tests.junittests %RESTVAR%
+::java -Djava.library.path=%LIB_PATH% -jar .\third_party\junit\junit-platform-console-standalone-1.4.2.jar -cp %OUT_PATH% --disable-ansi-colors --select-package tests.junittests %RESTVAR%
+%TEST_JAVA_HOME%\bin\java -cp .\third_party\junit\junit-platform-console-standalone-1.4.2.jar;%OUT_PATH%\jcef-tests.jar org.junit.platform.console.ConsoleLauncher --disable-ansi-colors --select-package tests.junittests %RESTVAR%
 
 :end
 endlocal & set RC=%ERRORLEVEL%
