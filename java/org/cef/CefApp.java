@@ -4,6 +4,10 @@
 
 package org.cef;
 
+import org.cef.callback.CefSchemeHandlerFactory;
+import org.cef.handler.CefAppHandler;
+import org.cef.handler.CefAppHandlerAdapter;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,6 +16,7 @@ import java.io.FilenameFilter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashSet;
+
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
@@ -53,8 +58,8 @@ public class CefApp extends CefAppHandlerAdapter {
         }
 
         public String getJcefVersion() {
-            return CEF_VERSION_MAJOR + "." + CEF_VERSION_MINOR + "." + CEF_VERSION_PATCH 
-                    + "." + JCEF_COMMIT_NUMBER;
+            return CEF_VERSION_MAJOR + "." + CEF_VERSION_MINOR + "." + CEF_VERSION_PATCH + "."
+                    + JCEF_COMMIT_NUMBER;
         }
 
         public String getCefVersion() {
@@ -319,7 +324,7 @@ public class CefApp extends CefAppHandlerAdapter {
             case NEW:
                 setState(CefAppState.INITIALIZING);
                 initialize();
-            // FALL THRU
+                // FALL THRU
 
             case INITIALIZING:
             case INITIALIZED:
@@ -420,7 +425,7 @@ public class CefApp extends CefAppHandlerAdapter {
                     }
 
                     if (JdkEx.InvokeOnToolkitHelperAccessor.invokeAndBlock(() ->
-                            N_Initialize(library_path, appHandler_, settings, EventQueue.isDispatchThread()),
+                            N_Initialize(appHandler_, settings, EventQueue.isDispatchThread()),
                             Boolean.FALSE))
                     {
                         setState(CefAppState.INITIALIZED);
@@ -531,11 +536,13 @@ public class CefApp extends CefAppHandlerAdapter {
      * This method must be called at the beginning of the main() method to perform platform-
      * specific startup initialization. On Linux this initializes Xlib multithreading and on
      * macOS this dynamically loads the CEF framework.
+     * @param args Command-line arguments massed to main().
+     * @return True on successful startup.
      */
-    public static final boolean startup() {
+    public static final boolean startup(String[] args) {
         if (OS.isLinux() || OS.isMacintosh()) {
             System.loadLibrary("jcef");
-            return N_Startup();
+            return N_Startup(OS.isMacintosh() ? getCefFrameworkPath(args) : null);
         }
         return true;
     }
@@ -544,7 +551,7 @@ public class CefApp extends CefAppHandlerAdapter {
      * Get the path which contains the jcef library
      * @return The path to the jcef library
      */
-    private final String getJcefLibPath() {
+    private static final String getJcefLibPath() {
         if (OS.isMacintosh()) {
             return System.getProperty("java.home") + "/lib";
         }
@@ -565,10 +572,27 @@ public class CefApp extends CefAppHandlerAdapter {
         return library_path;
     }
 
-    private final static native boolean N_Startup();
+    /**
+     * Get the path that contains the CEF Framework on macOS.
+     * @return The path to the CEF Framework.
+     */
+    private static final String getCefFrameworkPath(String[] args) {
+        // Check for the path on the command-line.
+        String switchPrefix = "--framework-dir-path=";
+        for (String arg : args) {
+            if (arg.startsWith(switchPrefix)) {
+                return new File(arg.substring(switchPrefix.length())).getAbsolutePath();
+            }
+        }
+
+        // Determine the path relative to the JCEF lib location in the app bundle.
+        return new File(getJcefLibPath() + "/../Frameworks/Chromium Embedded Framework.framework")
+                .getAbsolutePath();
+    }
+
+    private final static native boolean N_Startup(String pathToCefFramework);
     private final native boolean N_PreInitialize();
-    private final native boolean N_Initialize(
-            String pathToJavaDLL, CefAppHandler appHandler, CefSettings settings, boolean checkThread);
+    private final native boolean N_Initialize(CefAppHandler appHandler, CefSettings settings, boolean checkThread);
     private final native void N_Shutdown();
     private final native void N_DoMessageLoopWork();
     private final native CefVersion N_GetVersion();
