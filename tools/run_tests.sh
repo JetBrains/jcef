@@ -3,10 +3,11 @@
 # reserved. Use of this source code is governed by a BSD-style license
 # that can be found in the LICENSE file.
 
+echo "Usage: "
 cd ..
 
 if [ -z "$1" ]; then
-  echo "ERROR: Please specify a target platform: linux32 | linux64 | macosx"
+  echo "ERROR: Please specify a target platform: linux32 | linux64 | macos"
 else
   if [ -z "$2" ]; then
     echo "ERROR: Please specify a build type: Debug or Release"
@@ -41,7 +42,9 @@ else
       exit 1
     fi
 
-    CMD="$TEST_JAVA_HOME/bin/java -cp ./third_party/junit/junit-platform-console-standalone-1.4.2.jar:$OUT_PATH/jcef-tests.jar org.junit.platform.console.ConsoleLauncher --select-package tests.junittests $@"
+    CMD="$TEST_JAVA_HOME/bin/java -cp ./third_party/junit/junit-platform-console-standalone-1.4.2.jar:$OUT_PATH/jcef-tests.jar \
+          org.junit.platform.console.ConsoleLauncher --select-package tests.junittests \
+            -details=verbose --config=debugPrint=true $@"
     echo $CMD
     $CMD
     exit_status=$?

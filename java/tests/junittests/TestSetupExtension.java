@@ -9,11 +9,15 @@ import static org.junit.jupiter.api.extension.ExtensionContext.Namespace.GLOBAL;
 import org.cef.CefApp;
 import org.cef.CefApp.CefAppState;
 import org.cef.CefSettings;
+import org.cef.OS;
 import org.cef.handler.CefAppHandlerAdapter;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 // All test cases must install this extension for CEF to be properly initialized
 // and shut down.
@@ -29,6 +33,7 @@ import java.util.concurrent.CountDownLatch;
 // This code is based on https://stackoverflow.com/a/51556718.
 public class TestSetupExtension
         implements BeforeAllCallback, ExtensionContext.Store.CloseableResource {
+    private static final int TIMEOUT = 5;
     private static boolean initialized_ = false;
     private static CountDownLatch countdown_ = new CountDownLatch(1);
 
@@ -57,7 +62,38 @@ public class TestSetupExtension
             return;
         }
 
-        CefApp.addAppHandler(new CefAppHandlerAdapter(null) {
+        String[] appArgs = null;
+        if (OS.isMacintosh()) {
+            String ALT_CEF_FRAMEWORK_DIR = System.getenv("ALT_CEF_FRAMEWORK_DIR");
+            String ALT_CEF_BROWSER_SUBPROCESS = System.getenv("ALT_CEF_BROWSER_SUBPROCESS");
+            if (ALT_CEF_FRAMEWORK_DIR == null || ALT_CEF_BROWSER_SUBPROCESS == null) {
+                String CONTENTS_PATH = System.getProperty("java.home") + "/..";
+                if (ALT_CEF_FRAMEWORK_DIR == null) {
+                    ALT_CEF_FRAMEWORK_DIR = CONTENTS_PATH + "/Frameworks/Chromium Embedded Framework.framework";
+                }
+                if (ALT_CEF_BROWSER_SUBPROCESS == null) {
+                    ALT_CEF_BROWSER_SUBPROCESS = CONTENTS_PATH + "/Helpers/jcef Helper.app/Contents/MacOS/jcef Helper";
+                }
+            }
+            appArgs = new String[] {
+                    "--framework-dir-path=" + normalize(ALT_CEF_FRAMEWORK_DIR),
+                    "--browser-subprocess-path=" + normalize(ALT_CEF_BROWSER_SUBPROCESS),
+                    "--disable-in-process-stack-traces"
+            };
+        };
+
+        CefSettings settings = new CefSettings();
+        settings.windowless_rendering_enabled = false;
+        settings.log_severity = CefSettings.LogSeverity.LOGSEVERITY_ERROR;
+
+        if (OS.isLinux() || OS.isWindows()) {
+            String JCEF_PATH = System.getProperty("java.home") + (OS.isLinux() ? "/lib" : "/bin");
+            settings.resources_dir_path = JCEF_PATH;
+            settings.locales_dir_path = JCEF_PATH + "/locales";
+            settings.browser_subprocess_path = JCEF_PATH + "/jcef_helper";
+        }
+
+        CefApp.addAppHandler(new CefAppHandlerAdapter(appArgs) {
             @Override
             public void stateHasChanged(org.cef.CefApp.CefAppState state) {
                 if (state == CefAppState.TERMINATED) {
@@ -68,8 +104,15 @@ public class TestSetupExtension
         });
 
         // Initialize the singleton CefApp instance.
-        CefSettings settings = new CefSettings();
         CefApp.getInstance(settings);
+    }
+
+    private static String normalize(String path) {
+        try {
+            return new File(path).getCanonicalPath();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     // Executed after all tests have completed.
@@ -83,7 +126,9 @@ public class TestSetupExtension
 
         // Wait for CEF shutdown to complete.
         try {
-            countdown_.await();
+            if(!countdown_.await(TIMEOUT, TimeUnit.SECONDS)) {
+                throw new RuntimeException("Timed out after " + TIMEOUT + " seconds");
+            }
         } catch (InterruptedException e) {
         }
     }

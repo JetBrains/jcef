@@ -13,6 +13,11 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
@@ -57,6 +62,25 @@ public class MainFrame extends JFrame {
      * way to the browser UI.
      */
     private MainFrame(String[] args, String startURL, boolean useOSR, boolean isTransparent) {
+        if (OS.isMacintosh()) {
+            List<String> list = new ArrayList<>(Arrays.asList(args));
+            String ALT_CEF_FRAMEWORK_DIR = System.getenv("ALT_CEF_FRAMEWORK_DIR");
+            String ALT_CEF_BROWSER_SUBPROCESS = System.getenv("ALT_CEF_BROWSER_SUBPROCESS");
+            if (ALT_CEF_FRAMEWORK_DIR == null || ALT_CEF_BROWSER_SUBPROCESS == null) {
+                String CONTENTS_PATH = System.getProperty("java.home") + "/..";
+                if (ALT_CEF_FRAMEWORK_DIR == null) {
+                    ALT_CEF_FRAMEWORK_DIR = CONTENTS_PATH + "/Frameworks/Chromium Embedded Framework.framework";
+                }
+                if (ALT_CEF_BROWSER_SUBPROCESS == null) {
+                    ALT_CEF_BROWSER_SUBPROCESS = CONTENTS_PATH + "/Helpers/jcef Helper.app/Contents/MacOS/jcef Helper";
+                }
+            }
+            list.add("--framework-dir-path=" + normalize(ALT_CEF_FRAMEWORK_DIR));
+            list.add("--browser-subprocess-path=" + normalize(ALT_CEF_BROWSER_SUBPROCESS));
+            list.add("--disable-in-process-stack-traces");
+            args = list.toArray(new String[0]);
+        }
+
         // (1) The entry point to JCEF is always the class CefApp. There is only one
         //     instance per application and therefore you have to call the method
         //     "getInstance()" instead of a CTOR.
@@ -74,6 +98,13 @@ public class MainFrame extends JFrame {
         });
         CefSettings settings = new CefSettings();
         settings.windowless_rendering_enabled = useOSR;
+
+        if (OS.isLinux() || OS.isWindows()) {
+            String JCEF_PATH = System.getProperty("java.home") + (OS.isLinux() ? "/lib" : "/bin");
+            settings.resources_dir_path = JCEF_PATH;
+            settings.locales_dir_path = JCEF_PATH + "/locales";
+            settings.browser_subprocess_path = JCEF_PATH + "/jcef_helper";
+        }
         cefApp_ = CefApp.getInstance(settings);
 
         // (2) JCEF can handle one to many browser instances simultaneous. These
@@ -175,6 +206,14 @@ public class MainFrame extends JFrame {
                 dispose();
             }
         });
+    }
+
+    private static String normalize(String path) {
+        try {
+            return new File(path).getCanonicalPath();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static void main(String[] args) {

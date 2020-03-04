@@ -34,6 +34,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.HashMap;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JFrame;
 
@@ -41,6 +42,7 @@ import javax.swing.JFrame;
 class TestFrame extends JFrame implements CefLifeSpanHandler, CefLoadHandler, CefRequestHandler,
                                           CefResourceRequestHandler {
     private static final long serialVersionUID = -5570653778104813836L;
+    private static final int TIMEOUT = 5;
     private boolean isClosed_ = false;
     private CountDownLatch countdown_ = new CountDownLatch(1);
 
@@ -135,8 +137,11 @@ class TestFrame extends JFrame implements CefLifeSpanHandler, CefLoadHandler, Ce
 
     // Block until the test completes.
     public final void awaitCompletion() {
+        if (debugPrint()) System.out.println("awaitCompletion");
         try {
-            countdown_.await();
+            if(!countdown_.await(TIMEOUT, TimeUnit.SECONDS)) {
+                throw new RuntimeException("Timed out after " + TIMEOUT + " seconds");
+            }
         } catch (InterruptedException e) {
         }
         if (debugPrint()) System.out.println("awaitCompletion returned");

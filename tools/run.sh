@@ -6,7 +6,7 @@
 cd ..
 
 if [ -z "$1" ]; then
-  echo "ERROR: Please specify a target platform: linux32 | linux64 | macosx"
+  echo "ERROR: Please specify a target platform: linux32 | linux64 | macos"
 else
   if [ -z "$2" ]; then
     echo "ERROR: Please specify a build type: Debug or Release"
@@ -15,7 +15,7 @@ else
   else
     export OUT_PATH="./out/$1"
 
-    export LIB_PATH=$(readlink -f "./jcef_build/native/$2")
+    #export LIB_PATH=$(readlink -f "./jcef_build/native/$2")
     export LIB_PATH=`pwd`/jcef_build/native/$2
     if [ ! -d "$LIB_PATH" ]; then
       echo "ERROR: Native build output path does not exist"
