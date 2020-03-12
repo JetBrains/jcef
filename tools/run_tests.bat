@@ -60,7 +60,7 @@ goto loop1
 ::java -Djava.library.path=%LIB_PATH% -jar .\third_party\junit\junit-platform-console-standalone-1.4.2.jar -cp %OUT_PATH% --disable-ansi-colors --select-package tests.junittests %RESTVAR%
 %TEST_JAVA_HOME%\bin\java -cp .\third_party\junit\junit-platform-console-standalone-1.4.2.jar;%OUT_PATH%\jcef-tests.jar ^
  org.junit.platform.console.ConsoleLauncher --disable-ansi-colors --select-package tests.junittests ^
-    -details=verbose --config=debugPrint=true %RESTVAR%
+    --details=verbose --config=debugPrint=true %RESTVAR%
 
 :end
 endlocal & set RC=%ERRORLEVEL%

@@ -44,7 +44,7 @@ else
 
     CMD="$TEST_JAVA_HOME/bin/java -cp ./third_party/junit/junit-platform-console-standalone-1.4.2.jar:$OUT_PATH/jcef-tests.jar \
           org.junit.platform.console.ConsoleLauncher --select-package tests.junittests \
-            -details=verbose --config=debugPrint=true $@"
+            --details=verbose --config=debugPrint=true $@"
     echo $CMD
     $CMD
     exit_status=$?
