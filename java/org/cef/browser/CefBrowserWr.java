@@ -155,6 +155,22 @@ class CefBrowserWr extends CefBrowser_N {
         }
     };
 
+    private static final double FORCE_DEVICE_SCALE_FACTOR;
+    private static final double FORCE_DEVICE_SCALE_FACTOR_INV;
+
+    static {
+        double scale = 1.0;
+        if (OS.isLinux()) {
+            try {
+                // [tav] set in IDEA along with the CEF switch "--force-device-scale-factor"
+                scale = Double.parseDouble(System.getProperty("jcef.forceDeviceScaleFactor"));
+            } catch (NumberFormatException ignored) {
+            }
+        }
+        FORCE_DEVICE_SCALE_FACTOR = scale;
+        FORCE_DEVICE_SCALE_FACTOR_INV = 1 / scale;
+    }
+
     CefBrowserWr(CefClient client, String url, CefRequestContext context) {
         this(client, url, context, null, null);
     }
@@ -375,7 +391,14 @@ class CefBrowserWr extends CefBrowser_N {
         } else {
             synchronized (content_rect_) {
                 clipping = scaleRect(clipping, component_);
-                content_rect_ = scaleRect(component_.getBounds(), component_);
+                Rectangle compBounds = OS.isLinux() ?
+                    // [tav] Down-scale component bounds on linux.
+                    scaleRect(component_.getBounds(), FORCE_DEVICE_SCALE_FACTOR_INV, FORCE_DEVICE_SCALE_FACTOR_INV) :
+                    component_.getBounds();
+                content_rect_ = scaleRect(compBounds, component_);
+                // On Linux, content_rect_ resulting scale should be (prior to passing to CEF):
+                // - JRE-managed HiDPI mode: 1.0
+                // - IDE-managed HiDPI mode: 1.0 / FORCE_DEVICE_SCALE_FACTOR
                 updateUI(clipping, content_rect_);
             }
         }
@@ -387,14 +410,16 @@ class CefBrowserWr extends CefBrowser_N {
             if (gc != null) {
                 double scaleX = gc.getDefaultTransform().getScaleX();
                 double scaleY = gc.getDefaultTransform().getScaleY();
-                int x = (int) Math.round(rect.x * scaleX);
-                int y = (int) Math.round(rect.y * scaleY);
-                int width = (int) Math.round(rect.width * scaleX);
-                int height = (int) Math.round(rect.height * scaleY);
-                return new Rectangle(x, y, width, height);
+                return scaleRect(rect, scaleX, scaleY);
             }
         }
         return rect.getBounds();
+    }
+
+    private static Rectangle scaleRect(Rectangle r, double scaleX, double scaleY) {
+        return new Rectangle(
+            (int)Math.round(r.x * scaleX), (int)Math.round(r.y * scaleY),
+            (int)Math.round(r.width * scaleX), (int)Math.round(r.height * scaleY));
     }
 
     private boolean createBrowserIfRequired(boolean hasParent) {
