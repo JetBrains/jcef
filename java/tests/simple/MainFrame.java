@@ -4,6 +4,17 @@
 
 package tests.simple;
 
+import org.cef.CefApp;
+import org.cef.CefApp.CefAppState;
+import org.cef.CefClient;
+import org.cef.CefSettings;
+import org.cef.OS;
+import org.cef.browser.CefBrowser;
+import org.cef.browser.CefFrame;
+import org.cef.handler.CefAppHandlerAdapter;
+import org.cef.handler.CefDisplayHandlerAdapter;
+import org.cef.handler.CefFocusHandlerAdapter;
+
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.KeyboardFocusManager;
@@ -21,17 +32,6 @@ import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
-
-import org.cef.CefApp;
-import org.cef.CefApp.CefAppState;
-import org.cef.CefClient;
-import org.cef.CefSettings;
-import org.cef.OS;
-import org.cef.browser.CefBrowser;
-import org.cef.browser.CefFrame;
-import org.cef.handler.CefAppHandlerAdapter;
-import org.cef.handler.CefDisplayHandlerAdapter;
-import org.cef.handler.CefFocusHandlerAdapter;
 
 /**
  * This is a simple example application using JCEF.
@@ -218,7 +218,7 @@ public class MainFrame extends JFrame {
 
     public static void main(String[] args) {
         // Perform startup initialization on platforms that require it.
-        if (!CefApp.startup()) {
+        if (!CefApp.startup(args)) {
             System.out.println("Startup initialization failed!");
             return;
         }

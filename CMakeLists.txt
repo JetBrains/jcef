@@ -121,7 +121,7 @@ set_property(GLOBAL PROPERTY OS_FOLDERS ON)
 
 # Specify the CEF distribution version.
 if(NOT DEFINED CEF_VERSION)
-  set(CEF_VERSION "75.0.13+g2c92fcd+chromium-75.0.3770.100")
+  set(CEF_VERSION "80.0.4+g74f7b0c+chromium-80.0.3987.122")
 endif()
 
 # Determine the platform.
@@ -176,6 +176,8 @@ if(NOT PYTHON_EXECUTABLE)
                         "specify the Python executable path.")
   endif()
 endif()
+
+message(STATUS "Using Python: ${PYTHON_EXECUTABLE}")
 
 
 #
