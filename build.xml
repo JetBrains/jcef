@@ -71,7 +71,7 @@
     <!--  Javac will always recompile the tests due to https://ant.apache.org/faq.html#always-recompiles -->
     <javac encoding="UTF8" nowarn="on" deprecation="off" debug="on" includeantruntime="false" fork="true"
            srcdir="java/tests/junittests" destdir="${out.path}/tmp"
-           classpath="third_party/junit/junit-platform-console-standalone-1.4.2.jar">
+           classpath="third_party/junit/junit-platform-console-standalone-1.4.2.jar:${out.path}">
     </javac>
     <move file="${out.path}/tmp/tests" tofile="${out.path}/tests"/>
     <delete dir="${out.path}/tmp"/>
