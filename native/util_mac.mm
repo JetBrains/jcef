@@ -32,6 +32,7 @@ static CriticalLock g_browsers_lock_;
 id g_mouse_monitor_ = nil;
 static CefRefPtr<ClientApp> g_client_app_ = NULL;
 bool g_handling_send_event = false;
+bool g_shutdown_called = false;
 
 }  // namespace
 
@@ -206,8 +207,11 @@ bool g_handling_send_event = false;
     continueTerminate = !g_client_app_->HandleTerminate();
   }
 
-  if (continueTerminate)
+  if (continueTerminate && !g_shutdown_called)
     [[CefHandler class] shutdown];
+
+  // [tav] let NSApplication::terminate proceed
+  [self _swizzled_terminate:sender];
 }
 
 @end
@@ -227,6 +231,7 @@ bool g_handling_send_event = false;
     CefDoMessageLoopWork();
 
   CefShutdown();
+  g_shutdown_called = true;
   g_client_app_ = NULL;
 
   [NSEvent removeMonitor:g_mouse_monitor_];
