@@ -31,6 +31,20 @@ import org.cef.handler.CefWindowHandler;
 import org.cef.misc.CefPdfPrintSettings;
 import org.cef.network.CefRequest;
 
+import java.awt.Canvas;
+import java.awt.Component;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Window;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.WindowEvent;
+import java.util.Vector;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import javax.swing.SwingUtilities;
+
 /**
  * This class represents all methods which are connected to the
  * native counterpart CEF.
@@ -47,6 +61,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser {
     private CefBrowser_N devTools_ = null;
     private boolean closeAllowed_ = false;
     private boolean isClosed_ = false;
+    private AtomicBoolean closedWasCalled_ = new AtomicBoolean(false);
 
     protected CefBrowser_N(CefClient client, String url, CefRequestContext context,
             CefBrowser_N parent, Point inspectAt) {
@@ -441,6 +456,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser {
 
     @Override
     public void close(boolean force) {
+        if (closedWasCalled_.getAndSet(true)) return;
         try {
             N_Close(force);
         } catch (UnsatisfiedLinkError ule) {
