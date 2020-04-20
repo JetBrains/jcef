@@ -161,10 +161,14 @@ class CefBrowserWr extends CefBrowser_N {
     static {
         double scale = 1.0;
         if (OS.isLinux()) {
-            try {
-                // [tav] set in IDEA along with the CEF switch "--force-device-scale-factor"
-                scale = Double.parseDouble(System.getProperty("jcef.forceDeviceScaleFactor"));
-            } catch (NumberFormatException ignored) {
+            // [tav] passed from IDEA along with the CEF switch "--force-device-scale-factor"
+            String scaleProp = System.getProperty("jcef.forceDeviceScaleFactor");
+            if (scaleProp != null) {
+                try {
+                    scale = Double.parseDouble(scaleProp);
+                } catch (NumberFormatException e) {
+                    System.err.println("error: \"jcef.forceDeviceScaleFactor\" system property can not be parsed to double");
+                }
             }
         }
         FORCE_DEVICE_SCALE_FACTOR = scale;
