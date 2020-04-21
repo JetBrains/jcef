@@ -1,21 +1,33 @@
 # Copyright 2000-2020 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 
-export JB_TOOLS_LINUX_DIR=jb/tools/linux
-export JCEF_ROOT_DIR=../../..
-
 if [ ! -f "./set_env.sh" ]; then
-    echo "error: not in <$JB_TOOLS_LINUX_DIR> dir"
+    echo "error: not in jb tools linux dir"
     exit 1
 fi
 
-if [ -z "$ALT_JAVA_HOME" ]; then
-    if [ ! -d "$JCEF_ROOT_DIR/jbrsdk" ]; then
-        echo "error: <$JCEF_ROOT_DIR/jbrsdk> dir does not exist and ALT_JAVA_HOME is not set"
+cd ../../..
+
+JCEF_ROOT_DIR=$(pwd)
+export JCEF_ROOT_DIR
+export JB_TOOLS_DIR=$JCEF_ROOT_DIR/jb/tools
+export JB_TOOLS_LINUX_DIR=$JB_TOOLS_DIR/linux
+
+if [ -z "$JDK_11" ]; then
+    echo "error: JDK_11 is not set"
+    exit 1
+fi
+export JAVA_HOME=$JDK_11
+echo "JAVA_HOME=$JAVA_HOME"
+
+# shellcheck disable=SC2230
+if ! which ant
+then
+    if [ -z "$ANT_HOME" ]; then
+        echo "error: ANT_HOME is not set"
         exit 1
     fi
-    export JAVA_HOME=jbrsdk
-else
-    export JAVA_HOME=$ALT_JAVA_HOME
+    export PATH=$ANT_HOME/bin:$PATH
+    echo "ANT_HOME=$ANT_HOME"
 fi
 
-echo "JAVA_HOME=$JAVA_HOME"
+cd "$JB_TOOLS_MAC_DIR" || exit 1

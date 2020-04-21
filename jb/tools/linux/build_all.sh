@@ -1,12 +1,18 @@
 # Copyright 2000-2020 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 
-export PATH=`pwd`:$PATH
+if [ ! -f "./build_all.sh" ]; then
+    echo "error: not in jb tools linux dir"
+    exit 1
+fi
+
+PATH=$(pwd):$PATH
+export PATH
 
 echo -e "\n*** BUILD NATIVE ***\n"
-build_native.sh || exit 1
+bash build_native.sh || exit 1
 
 echo -e "\n*** BUILD JAVA ***\n"
-build_java.sh || exit 1
+bash build_java.sh || exit 1
 
 echo -e "\n*** CREATE BUNDLE ***\n"
-create_bundle.sh || exit 1
+bash create_bundle.sh || exit 1
