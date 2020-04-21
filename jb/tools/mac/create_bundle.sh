@@ -5,6 +5,16 @@ then
     exit 1
 fi
 
+ARTIFACT=jcef_mac
+
+echo "*** delete $ARTIFACT..."
+rm -rf "$ARTIFACT"
+rm -f "$ARTIFACT.*"
+
+if [ "$1" == "clear" ]; then
+    exit 0
+fi
+
 RELEASE_PATH="$JCEF_ROOT_DIR"/jcef_build/native/Release
 
 echo "*** temp exclude jogl..."
@@ -14,14 +24,15 @@ cat "$RELEASE_PATH"/modular-sdk/modules_src/jcef/module-info.java | grep -v jogl
 mv __tmp "$RELEASE_PATH"/modular-sdk/modules_src/jcef/module-info.java
 
 echo "*** copy binaries..."
-mkdir jcef_mac
-cp -R "$RELEASE_PATH"/modular-sdk jcef_mac/
-cp -R "$RELEASE_PATH"/jcef_app.app/Contents/Frameworks jcef_mac/
+mkdir "$ARTIFACT"
+cp -R "$RELEASE_PATH"/modular-sdk "$ARTIFACT"/
+cp -R "$RELEASE_PATH"/jcef_app.app/Contents/Frameworks "$ARTIFACT"/
 
 echo "*** create bundle..."
-rm -f jcef_mac.tar.gz
 # shellcheck disable=SC2046
-tar -cvzf jcef_mac.tar.gz -C jcef_mac $(ls jcef_mac)
-rm -rf jcef_mac
+tar -cvzf "$ARTIFACT.tar.gz" -C "$ARTIFACT" $(ls "$ARTIFACT")
+rm -rf "$ARTIFACT"
+ls -lah "$ARTIFACT.tar.gz"
 
+echo "*** SUCCESSFUL"
 cd "$JB_TOOLS_MAC_DIR" || exit 1

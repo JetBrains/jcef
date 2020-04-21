@@ -12,6 +12,8 @@ export JCEF_ROOT_DIR
 export JB_TOOLS_DIR=$JCEF_ROOT_DIR/jb/tools
 export JB_TOOLS_MAC_DIR=$JB_TOOLS_DIR/mac
 
+cd "$JB_TOOLS_MAC_DIR" || exit 1
+
 if [ -z "$JDK_11" ]; then
     echo "error: JDK_11 is not set"
     exit 1
@@ -29,5 +31,3 @@ then
     export PATH=$ANT_HOME/bin:$PATH
     echo "ANT_HOME=$ANT_HOME"
 fi
-
-cd "$JB_TOOLS_MAC_DIR" || exit 1

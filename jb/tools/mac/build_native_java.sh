@@ -5,15 +5,25 @@ then
     exit 1
 fi
 
+OUT_DIR=$JCEF_ROOT_DIR/jcef_build
+OUT_JAVA_DIR=$JCEF_ROOT_DIR/out
+
+if [ "$1" == "clear" ]; then
+    echo "*** delete $OUT_DIR..."
+    rm -rf "$OUT_DIR"
+    echo "*** delete $OUT_JAVA_DIR..."
+    rm -rf "$OUT_JAVA_DIR"
+    exit 0
+fi
+mkdir -p "$OUT_DIR"
+mkdir -p "$OUT_JAVA_DIR"
+
 echo "*** create modular jogl..."
 cd "$JB_TOOLS_DIR" || exit 1
 bash ./modular-jogl.sh || exit 1
 
 echo "*** run cmake..."
-cd "$JCEF_ROOT_DIR" || exit 1
-mkdir jcef_build
-cd jcef_build || exit 1
-
+cd "$OUT_DIR" || exit 1
 cmake -G "Xcode" -DPROJECT_ARCH="x86_64" ..
 
 echo "*** run xcodebuild..."
