@@ -5,8 +5,17 @@ then
     exit 1
 fi
 
+OUT_DIR=$JCEF_ROOT_DIR/out
+
+if [ "$1" == "clear" ]; then
+    echo "*** delete $OUT_DIR..."
+    rm -rf "$OUT_DIR"
+    exit 0
+fi
+mkdir -p "$OUT_DIR"
+
 echo "*** compile java sources..."
-cd "$JCEF_ROOT_DIT"/tools || exit 1
+cd "$JCEF_ROOT_DIR"/tools || exit 1
 ./compile.sh linux64 Release
 
 cd "$JB_TOOLS_LINUX_DIR" || exit 1

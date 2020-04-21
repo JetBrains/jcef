@@ -4,6 +4,16 @@ if ! source set_env.sh
 then
     exit 1
 fi
+
+OUT_DIR=$JCEF_ROOT_DIR/jcef_build
+
+if [ "$1" == "clear" ]; then
+    echo "*** delete $OUT_DIR..."
+    rm -rf "$OUT_DIR"
+    exit 0
+fi
+mkdir -p "$OUT_DIR"
+
 cd "$JCEF_ROOT_DIR" || exit 1
 
 # workaround python failure in docker
@@ -14,9 +24,7 @@ cd "$JB_TOOLS_DIR" || exit 1
 bash ./modular-jogl.sh || exit 1
 
 echo "*** run cmake..."
-cd "$JCEF_ROOT_DIR" || exit 1
-mkdir jcef_build
-cd jcef_build || exit 1
+cd "$OUT_DIR" || exit 1
 cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release ..
 
 echo "*** run make..."

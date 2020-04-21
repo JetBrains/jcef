@@ -12,9 +12,16 @@ export JCEF_ROOT_DIR
 export JB_TOOLS_DIR=$JCEF_ROOT_DIR/jb/tools
 export JB_TOOLS_LINUX_DIR=$JB_TOOLS_DIR/linux
 
+cd "$JB_TOOLS_MAC_DIR" || exit 1
+
 if [ -z "$JDK_11" ]; then
-    echo "error: JDK_11 is not set"
-    exit 1
+    if [ -d "jdk11" ]; then
+        # set on the TeamCity agent
+        JDK_11="$JCEF_ROOT_DIR"/jdk11
+    else
+        echo "error: JDK_11 is not set"
+        exit 1
+    fi
 fi
 export JAVA_HOME=$JDK_11
 echo "JAVA_HOME=$JAVA_HOME"
@@ -30,4 +37,3 @@ then
     echo "ANT_HOME=$ANT_HOME"
 fi
 
-cd "$JB_TOOLS_MAC_DIR" || exit 1

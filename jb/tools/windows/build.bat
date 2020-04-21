@@ -1,0 +1,51 @@
+echo off
+rem Copyright 2000-2020 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
+
+if "%~1" == "" (
+    call :help
+    exit /b 0
+)
+if "%~1" == "help" (
+    call :help
+    exit /b 0
+)
+
+if "%~1" == "clear" (
+    set CLEAR="clear"
+) else (
+    if not "%~1" == "all" (
+        echo error: wrong option, use 'help'
+        exit /b 1
+    )
+    set CLEAR=
+)
+
+if not exist ..\..\..\jb\tools\windows (
+    echo error: not in 'jb\tools\windows' dir
+    exit /b 1
+)
+
+echo *** && echo *** BUILD NATIVE *** && echo ***
+call build_native.bat %CLEAR% || exit /b 1
+
+echo *** && echo *** BUILD JAVA *** && echo ***
+call build_java.bat %CLEAR% || exit /b 1
+
+echo *** && echo *** CREATE BUNDLE *** && echo ***
+call create_bundle.bat %CLEAR% || exit /b 1
+
+exit /b 0
+
+:help
+echo "build.bat [option]"
+echo "Options:"
+echo "  help            - Print this help."
+echo "  all             - Build all the artifacts."
+echo "  clear           - Clear all the artifacts."
+echo "Environment variables:"
+echo "  JDK_11          - Path to OpenJDK 11 home."
+echo "  ANT_HOME        - Path to 'ant' home, or if not set then 'ant' must be in PATH."
+echo "  CMAKE_37_PATH   - Path to cmake 3.7 home."
+echo "  PYTHON_27_PATH  - Path to python 2.7 exe"
+echo "  VS140COMNTOOLS  - Provided with <VS2012 x64 Cross Tools Command Prompt>."
+exit /b 0
