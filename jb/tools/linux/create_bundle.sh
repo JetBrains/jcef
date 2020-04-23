@@ -35,8 +35,8 @@ if [ -z "$PATCHED_LIBCEF_DIR" ]; then
     PATCHED_LIBCEF_DIR=$(pwd)
 fi
 if [ ! -f "$PATCHED_LIBCEF_DIR/libcef.so" ]; then
-    echo "error: $PATCHED_LIBCEF_DIR/libcef.so does not exist"
-    exit 1
+    echo "warning: $PATCHED_LIBCEF_DIR/libcef.so does not exist. Stock libcef.so will be used"
+    PATCHED_LIBCEF_DIR="$JCEF_ROOT_DIR"/jcef_build/native/Release
 fi
 cp "$PATCHED_LIBCEF_DIR"/libcef.so "$ARTIFACT"/
 
@@ -50,7 +50,7 @@ echo "*** create bundle..."
 # shellcheck disable=SC2046
 tar -cvzf "$ARTIFACT.tar.gz" -C "$ARTIFACT" $(ls "$ARTIFACT")
 rm -rf "$ARTIFACT"
-ls -lah "$ARTIFACT.tar.gz"
+ls -lah "$ARTIFACT.tar.gz" || exit 1
 
 echo "*** SUCCESSFUL"
 cd "$JB_TOOLS_LINUX_DIR" || exit 1

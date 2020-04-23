@@ -45,9 +45,9 @@ if "%PYTHON_27_PATH%" == "" (
 echo PYTHON_27_PATH=%PYTHON_27_PATH%
 set "PATH=%CMAKE_37_PATH%\bin;%PYTHON_27_PATH%;%PATH%"
 set RC=
-cmake -G "Visual Studio 14 Win64" ..
+cmake -G "Visual Studio 14 Win64" .. || exit /b 1
 
 echo *** run MSBuild.exe...
-"c:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe" /t:Rebuild /p:Configuration=Release .\jcef.sln
+"c:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe" /t:Rebuild /p:Configuration=Release .\jcef.sln || exit /b 1
 
 cd "%JB_TOOLS_WIN_DIR%" || exit /b 1

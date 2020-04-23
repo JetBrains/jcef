@@ -24,10 +24,10 @@ bash ./modular-jogl.sh || exit 1
 
 echo "*** run cmake..."
 cd "$OUT_DIR" || exit 1
-cmake -G "Xcode" -DPROJECT_ARCH="x86_64" ..
+cmake -G "Xcode" -DPROJECT_ARCH="x86_64" .. || exit 1
 
 echo "*** run xcodebuild..."
-xcodebuild -configuration Release
+xcodebuild -configuration Release || exit 1
 
 echo "*** change @rpath in libjcef.dylib..."
 cd "$JCEF_ROOT_DIR"/jcef_build/native/Release || exit 1
