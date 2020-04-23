@@ -3,12 +3,13 @@
 if [ -z "$1" ] || [ "$1" == "help" ]; then
     echo "build.sh [option]"
     echo "Options:"
-    echo "  help        - Print this help."
-    echo "  all         - Build all the artifacts."
-    echo "  clear       - Clear all the artifacts."
+    echo "  help                - Print this help."
+    echo "  all                 - Build all the artifacts."
+    echo "  clear               - Clear all the artifacts."
     echo "Environment variables:"
-    echo "  JDK_11      - Path to OpenJDK 11 home."
-    echo "  ANT_HOME    - Path to 'ant' home, or if not set then 'ant' must be in PATH."
+    echo "  JDK_11              - Path to OpenJDK 11 home."
+    echo "  ANT_HOME            - Path to 'ant' home, or if not set then 'ant' must be in PATH."
+    echo "  PATCHED_LIBCEF_DIR  - Path to the patched libcef.so dir, or if not set then the stock libcef.so is used."
     exit 0
 fi
 

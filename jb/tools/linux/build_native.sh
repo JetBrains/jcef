@@ -25,9 +25,9 @@ bash ./modular-jogl.sh || exit 1
 
 echo "*** run cmake..."
 cd "$OUT_DIR" || exit 1
-cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release ..
+cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release .. || exit 1
 
 echo "*** run make..."
-make -j4
+make -j4 || exit 1
 
 cd "$JB_TOOLS_LINUX_DIR" || exit 1

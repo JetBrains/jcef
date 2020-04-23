@@ -32,7 +32,7 @@ echo "*** create bundle..."
 # shellcheck disable=SC2046
 tar -cvzf "$ARTIFACT.tar.gz" -C "$ARTIFACT" $(ls "$ARTIFACT")
 rm -rf "$ARTIFACT"
-ls -lah "$ARTIFACT.tar.gz"
+ls -lah "$ARTIFACT.tar.gz" || exit 1
 
 echo "*** SUCCESSFUL"
 cd "$JB_TOOLS_MAC_DIR" || exit 1
