@@ -46,6 +46,6 @@ echo "Environment variables:"
 echo "  JDK_11          - Path to OpenJDK 11 home."
 echo "  ANT_HOME        - Path to 'ant' home, or if not set then 'ant' must be in PATH."
 echo "  CMAKE_37_PATH   - Path to cmake 3.7 home."
-echo "  PYTHON_27_PATH  - Path to python 2.7 exe"
+echo "  PYTHON_27_PATH  - Path to python 2.7 exe."
 echo "  VS140COMNTOOLS  - Provided with <VS2012 x64 Cross Tools Command Prompt>."
 exit /b 0
