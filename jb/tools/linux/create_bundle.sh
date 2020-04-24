@@ -8,8 +8,8 @@ fi
 ARTIFACT=jcef_linux_x64
 
 echo "*** delete $ARTIFACT..."
-rm -rf "$ARTIFACT"
-rm -f "$ARTIFACT.*"
+rm -rf "${JCEF_ROOT_DIR:?}/$ARTIFACT"
+rm -f "${JCEF_ROOT_DIR:?}/$ARTIFACT.tar.gz"
 
 if [ "$1" == "clean" ]; then
     exit 0
