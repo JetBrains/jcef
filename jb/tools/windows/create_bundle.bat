@@ -9,7 +9,7 @@ echo *** delete "%JCEF_ROOT_DIR%\%ARTIFACT%"...
 rmdir /s /q "%JCEF_ROOT_DIR%\%ARTIFACT%"
 del /f /q "%JCEF_ROOT_DIR%\%ARTIFACT%.tar.gz"
 
-if "%~1" == "clear" (
+if "%~1" == "clean" (
     exit /b 0
 )
 
