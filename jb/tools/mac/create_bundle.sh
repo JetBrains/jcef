@@ -11,7 +11,7 @@ echo "*** delete $ARTIFACT..."
 rm -rf "$ARTIFACT"
 rm -f "$ARTIFACT.*"
 
-if [ "$1" == "clear" ]; then
+if [ "$1" == "clean" ]; then
     exit 0
 fi
 

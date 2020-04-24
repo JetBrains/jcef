@@ -10,14 +10,14 @@ if "%~1" == "help" (
     exit /b 0
 )
 
-if "%~1" == "clear" (
-    set CLEAR="clear"
+if "%~1" == "clean" (
+    set CLEAN="clean"
 ) else (
     if not "%~1" == "all" (
         echo error: wrong option, use 'help'
         exit /b 1
     )
-    set CLEAR=
+    set CLEAN=
 )
 
 if not exist ..\..\..\jb\tools\windows (
@@ -26,13 +26,13 @@ if not exist ..\..\..\jb\tools\windows (
 )
 
 echo *** && echo *** BUILD NATIVE *** && echo ***
-call build_native.bat %CLEAR% || exit /b 1
+call build_native.bat %CLEAN% || exit /b 1
 
 echo *** && echo *** BUILD JAVA *** && echo ***
-call build_java.bat %CLEAR% || exit /b 1
+call build_java.bat %CLEAN% || exit /b 1
 
 echo *** && echo *** CREATE BUNDLE *** && echo ***
-call create_bundle.bat %CLEAR% || exit /b 1
+call create_bundle.bat %CLEAN% || exit /b 1
 
 exit /b 0
 
@@ -41,7 +41,7 @@ echo "build.bat [option]"
 echo "Options:"
 echo "  help            - Print this help."
 echo "  all             - Build all the artifacts."
-echo "  clear           - Clear all the artifacts."
+echo "  clean           - Clean all the artifacts."
 echo "Environment variables:"
 echo "  JDK_11          - Path to OpenJDK 11 home."
 echo "  ANT_HOME        - Path to 'ant' home, or if not set then 'ant' must be in PATH."

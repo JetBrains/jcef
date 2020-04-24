@@ -5,7 +5,7 @@ call set_env.bat || exit /b 1
 
 set OUT_DIR=%JCEF_ROOT_DIR%\jcef_build\native\Release
 
-if "%~1" == "clear" (
+if "%~1" == "clean" (
     echo *** delete "%OUT_DIR%"...
     rmdir /s /q "%OUT_DIR%"
     exit /b 0

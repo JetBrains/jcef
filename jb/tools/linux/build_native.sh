@@ -7,7 +7,7 @@ fi
 
 OUT_DIR=$JCEF_ROOT_DIR/jcef_build
 
-if [ "$1" == "clear" ]; then
+if [ "$1" == "clean" ]; then
     echo "*** delete $OUT_DIR..."
     rm -rf "$OUT_DIR"
     exit 0
