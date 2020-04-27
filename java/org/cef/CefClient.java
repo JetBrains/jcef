@@ -573,7 +573,9 @@ public class CefClient extends CefClientHandler
                 removeWindowHandler(this);
                 super.dispose();
 
-                CefApp.getInstance().clientWasDisposed(this);
+                if (CefApp.getState() != CefApp.CefAppState.TERMINATED) {
+                    CefApp.getInstance().clientWasDisposed(this);
+                }
             }
         }
     }
