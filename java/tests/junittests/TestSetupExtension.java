@@ -57,7 +57,7 @@ public class TestSetupExtension
         context.getRoot().getStore(GLOBAL).put("jcef_test_setup", this);
 
         // Perform startup initialization on platforms that require it.
-        if (!CefApp.startup(null)) {
+        if (!CefApp.startup(new String[]{})) {
             System.out.println("Startup initialization failed!");
             return;
         }
@@ -65,19 +65,20 @@ public class TestSetupExtension
         String[] appArgs = null;
         if (OS.isMacintosh()) {
             String ALT_CEF_FRAMEWORK_DIR = System.getenv("ALT_CEF_FRAMEWORK_DIR");
-            String ALT_CEF_BROWSER_SUBPROCESS = System.getenv("ALT_CEF_BROWSER_SUBPROCESS");
-            if (ALT_CEF_FRAMEWORK_DIR == null || ALT_CEF_BROWSER_SUBPROCESS == null) {
+            String ALT_CEF_HELPER_APP_DIR = System.getenv("ALT_CEF_HELPER_APP_DIR");
+            if (ALT_CEF_FRAMEWORK_DIR == null || ALT_CEF_HELPER_APP_DIR == null) {
                 String CONTENTS_PATH = System.getProperty("java.home") + "/..";
                 if (ALT_CEF_FRAMEWORK_DIR == null) {
                     ALT_CEF_FRAMEWORK_DIR = CONTENTS_PATH + "/Frameworks/Chromium Embedded Framework.framework";
                 }
-                if (ALT_CEF_BROWSER_SUBPROCESS == null) {
-                    ALT_CEF_BROWSER_SUBPROCESS = CONTENTS_PATH + "/Helpers/jcef Helper.app/Contents/MacOS/jcef Helper";
+                if (ALT_CEF_HELPER_APP_DIR == null) {
+                    ALT_CEF_HELPER_APP_DIR = CONTENTS_PATH + "/Frameworks/jcef Helper.app";
                 }
             }
             appArgs = new String[] {
                     "--framework-dir-path=" + normalize(ALT_CEF_FRAMEWORK_DIR),
-                    "--browser-subprocess-path=" + normalize(ALT_CEF_BROWSER_SUBPROCESS),
+                    "--browser-subprocess-path=" + normalize(ALT_CEF_HELPER_APP_DIR + "/Contents/MacOS/jcef Helper"),
+                    "--main-bundle-path=" + normalize(ALT_CEF_HELPER_APP_DIR),
                     "--disable-in-process-stack-traces"
             };
         };
