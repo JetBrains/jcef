@@ -52,12 +52,44 @@ public class TestSetupExtension
         context.getRoot().getStore(GLOBAL).put("jcef_test_setup", this);
 
         // Perform startup initialization on platforms that require it.
-        if (!CefApp.startup()) {
+        if (!CefApp.startup(new String[]{})) {
             System.out.println("Startup initialization failed!");
             return;
         }
 
-        CefApp.addAppHandler(new CefAppHandlerAdapter(null) {
+        String[] appArgs = null;
+        if (OS.isMacintosh()) {
+            String ALT_CEF_FRAMEWORK_DIR = System.getenv("ALT_CEF_FRAMEWORK_DIR");
+            String ALT_CEF_HELPER_APP_DIR = System.getenv("ALT_CEF_HELPER_APP_DIR");
+            if (ALT_CEF_FRAMEWORK_DIR == null || ALT_CEF_HELPER_APP_DIR == null) {
+                String CONTENTS_PATH = System.getProperty("java.home") + "/..";
+                if (ALT_CEF_FRAMEWORK_DIR == null) {
+                    ALT_CEF_FRAMEWORK_DIR = CONTENTS_PATH + "/Frameworks/Chromium Embedded Framework.framework";
+                }
+                if (ALT_CEF_HELPER_APP_DIR == null) {
+                    ALT_CEF_HELPER_APP_DIR = CONTENTS_PATH + "/Frameworks/jcef Helper.app";
+                }
+            }
+            appArgs = new String[] {
+                    "--framework-dir-path=" + normalize(ALT_CEF_FRAMEWORK_DIR),
+                    "--browser-subprocess-path=" + normalize(ALT_CEF_HELPER_APP_DIR + "/Contents/MacOS/jcef Helper"),
+                    "--main-bundle-path=" + normalize(ALT_CEF_HELPER_APP_DIR),
+                    "--disable-in-process-stack-traces"
+            };
+        };
+
+        CefSettings settings = new CefSettings();
+        settings.windowless_rendering_enabled = false;
+        settings.log_severity = CefSettings.LogSeverity.LOGSEVERITY_ERROR;
+
+        if (OS.isLinux() || OS.isWindows()) {
+            String JCEF_PATH = System.getProperty("java.home") + (OS.isLinux() ? "/lib" : "/bin");
+            settings.resources_dir_path = JCEF_PATH;
+            settings.locales_dir_path = JCEF_PATH + "/locales";
+            settings.browser_subprocess_path = JCEF_PATH + "/jcef_helper";
+        }
+
+        CefApp.addAppHandler(new CefAppHandlerAdapter(appArgs) {
             @Override
             public void stateHasChanged(org.cef.CefApp.CefAppState state) {
                 if (state == CefAppState.TERMINATED) {
