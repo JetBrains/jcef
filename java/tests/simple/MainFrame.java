@@ -4,6 +4,17 @@
 
 package tests.simple;
 
+import com.jetbrains.cef.JCefAppConfig;
+import org.cef.CefApp;
+import org.cef.CefApp.CefAppState;
+import org.cef.CefClient;
+import org.cef.CefSettings;
+import org.cef.browser.CefBrowser;
+import org.cef.browser.CefFrame;
+import org.cef.handler.CefAppHandlerAdapter;
+import org.cef.handler.CefDisplayHandlerAdapter;
+import org.cef.handler.CefFocusHandlerAdapter;
+
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.KeyboardFocusManager;
@@ -57,6 +68,11 @@ public class MainFrame extends JFrame {
      * way to the browser UI.
      */
     private MainFrame(String[] args, String startURL, boolean useOSR, boolean isTransparent) {
+        JCefAppConfig config = JCefAppConfig.getInstance();
+        List<String> appArgs = new ArrayList<>(Arrays.asList(args));
+        appArgs.addAll(config.getAppArgsAsList());
+        args = appArgs.toArray(new String[0]);
+
         // (1) The entry point to JCEF is always the class CefApp. There is only one
         //     instance per application and therefore you have to call the method
         //     "getInstance()" instead of a CTOR.
@@ -72,7 +88,7 @@ public class MainFrame extends JFrame {
                 if (state == CefAppState.TERMINATED) System.exit(0);
             }
         });
-        CefSettings settings = new CefSettings();
+        CefSettings settings = config.getCefSettings();
         settings.windowless_rendering_enabled = useOSR;
         cefApp_ = CefApp.getInstance(settings);
 
