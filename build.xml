@@ -103,12 +103,14 @@
     <jar destfile="${out.path}/jcef.jar" index="true" update="false">
       <fileset dir="${out.path}">
         <include name="org/cef/**"/>
+        <include name="com/jetbrains/**"/>
         <include name="${include.module-info.class}"/>
       </fileset>
     </jar>
     <jar destfile="${out.path}/jcef-sources.jar" index="true" update="false">
       <fileset dir="java">
         <include name="org/cef/**"/>
+        <include name="com/jetbrains/**"/>
       </fileset>
     </jar>
   </target>
@@ -131,6 +133,10 @@
     <mkdir dir="${out.path}/modular-sdk/modules/jcef/org"/>
     <copy todir="${out.path}/modular-sdk/modules/jcef/org">
       <fileset dir="${out.path}/org" includes="**"/>
+    </copy>
+    <mkdir dir="${out.path}/modular-sdk/modules/jcef/com"/>
+    <copy todir="${out.path}/modular-sdk/modules/jcef/com">
+      <fileset dir="${out.path}/com" includes="**"/>
     </copy>
     <mkdir dir="${out.path}/modular-sdk/modules_libs/jcef"/>
     <copy todir="${out.path}/modular-sdk/modules_libs/jcef">

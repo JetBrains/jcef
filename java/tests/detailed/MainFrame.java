@@ -9,37 +9,24 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.KeyboardFocusManager;
 import java.io.File;
-import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import com.jetbrains.cef.JCefAppConfig;
 import org.cef.CefApp;
 import org.cef.CefApp.CefVersion;
 import org.cef.CefClient;
 import org.cef.CefSettings;
-import org.cef.CefSettings.ColorType;
-import org.cef.OS;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefFrame;
 import org.cef.browser.CefMessageRouter;
-import org.cef.browser.CefRequestContext;
 import org.cef.handler.*;
 import org.cef.network.CefCookieManager;
 
-import java.awt.BorderLayout;
-import java.awt.KeyboardFocusManager;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.io.File;
 import java.io.IOException;
-import java.lang.Thread.UncaughtExceptionHandler;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import tests.detailed.dialog.DownloadDialog;
 import tests.detailed.handler.AppHandler;
@@ -100,41 +87,19 @@ public class MainFrame extends BrowserFrame {
             boolean createImmediately, String[] args) {
         CefApp myApp;
         if (CefApp.getState() != CefApp.CefAppState.INITIALIZED) {
-            if (OS.isMacintosh()) {
-                List<String> list = new ArrayList<>(Arrays.asList(args));
-                String ALT_CEF_FRAMEWORK_DIR = System.getenv("ALT_CEF_FRAMEWORK_DIR");
-                String ALT_CEF_HELPER_APP_DIR = System.getenv("ALT_CEF_HELPER_APP_DIR");
-                if (ALT_CEF_FRAMEWORK_DIR == null || ALT_CEF_HELPER_APP_DIR == null) {
-                    String CONTENTS_PATH = System.getProperty("java.home") + "/..";
-                    if (ALT_CEF_FRAMEWORK_DIR == null) {
-                        ALT_CEF_FRAMEWORK_DIR = CONTENTS_PATH + "/Frameworks/Chromium Embedded Framework.framework";
-                    }
-                    if (ALT_CEF_HELPER_APP_DIR == null) {
-                        ALT_CEF_HELPER_APP_DIR = CONTENTS_PATH + "/Frameworks/jcef Helper.app";
-                    }
-                }
-                list.add("--framework-dir-path=" + normalize(ALT_CEF_FRAMEWORK_DIR));
-                list.add("--browser-subprocess-path=" + normalize(ALT_CEF_HELPER_APP_DIR + "/Contents/MacOS/jcef Helper"));
-                list.add("--main-bundle-path=" + normalize(ALT_CEF_HELPER_APP_DIR));
-                list.add("--disable-in-process-stack-traces");
-                args = list.toArray(new String[0]);
-            }
+            JCefAppConfig config = JCefAppConfig.getInstance();
+            List<String> appArgs = new ArrayList<>(Arrays.asList(args));
+            appArgs.addAll(config.getAppArgsAsList());
+            args = appArgs.toArray(new String[0]);
 
             // 1) CefApp is the entry point for JCEF. You can pass
             //    application arguments to it, if you want to handle any
             //    chromium or CEF related switches/attributes in
             //    the native world.
-            CefSettings settings = new CefSettings();
+            CefSettings settings = config.getCefSettings();
             settings.windowless_rendering_enabled = osrEnabled;
             // try to load URL "about:blank" to see the background color
             settings.background_color = settings.new ColorType(100, 255, 242, 211);
-
-            if (OS.isLinux() || OS.isWindows()) {
-                String JCEF_PATH = System.getProperty("java.home") + (OS.isLinux() ? "/lib" : "/bin");
-                settings.resources_dir_path = JCEF_PATH;
-                settings.locales_dir_path = JCEF_PATH + "/locales";
-                settings.browser_subprocess_path = JCEF_PATH + "/jcef_helper";
-            }
             myApp = CefApp.getInstance(args, settings);
 
             CefVersion version = myApp.getVersion();

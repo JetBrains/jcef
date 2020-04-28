@@ -10,5 +10,7 @@ module jcef {
     exports org.cef.misc;
     exports org.cef.network;
 
+    exports com.jetbrains.cef;
+
     opens org.cef; // [tav] todo: provide necessary API instead
 }
