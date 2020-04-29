@@ -77,6 +77,7 @@ public abstract class JCefAppConfig {
             appArgs.add("--browser-subprocess-path=" + normalize(ALT_CEF_HELPER_APP_DIR + "/Contents/MacOS/jcef Helper"));
             appArgs.add("--main-bundle-path=" + normalize(ALT_CEF_HELPER_APP_DIR));
             appArgs.add("--disable-in-process-stack-traces");
+            appArgs.add("--use-mock-keychain");
         }
 
         // CEF does not accept ".." in path
