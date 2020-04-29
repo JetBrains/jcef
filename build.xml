@@ -120,6 +120,7 @@
     <jar destfile="${out.path}/jcef-tests.jar" index="true" update="false">
       <fileset dir="${out.path}">
         <include name="tests/**"/>
+        <include name="com/**"/>
       </fileset>
     </jar>
   </target>
