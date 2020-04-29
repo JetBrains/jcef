@@ -50,9 +50,14 @@ public abstract class JCefAppConfig {
         return cefSettings;
     }
 
+    /**
+     * @throws IllegalStateException in case of unsupported platform
+     */
     public static JCefAppConfig getInstance() {
         if (Holder.INSTANCE != null) {
             Holder.INSTANCE.init();
+        } else {
+            throw new IllegalStateException("JCEF is not supported on this platform");
         }
         return Holder.INSTANCE;
     }
