@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="javaLauncher" default="default" basedir=".">
 
+  <property name="jcef.version" value="80.0.4-g74f7b0c-chromium-80.0.3987.122-4"/>
+
   <property environment="env"/>
   <property name="out.native.path" value="${env.OUT_NATIVE_PATH}"/>
   <property name="out.path"   value="${env.OUT_PATH}"/>
@@ -100,6 +102,7 @@
 
   <target name="jar" depends="compile">
     <mkdir dir="${out.path}"/>
+    <echo message="${jcef.version}" file="${out.path}/com/jetbrains/cef/version.info" append="false"/>
     <jar destfile="${out.path}/jcef.jar" index="true" update="false">
       <fileset dir="${out.path}">
         <include name="org/cef/**"/>

@@ -2,12 +2,12 @@
 
 package com.jetbrains.cef;
 
+import org.cef.CefApp;
 import org.cef.CefSettings;
 import org.cef.OS;
 
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +60,19 @@ public abstract class JCefAppConfig {
             throw new IllegalStateException("JCEF is not supported on this platform");
         }
         return Holder.INSTANCE;
+    }
+
+    /**
+     * Returns the full version string before {@link org.cef.CefApp} is created.
+     * Otherwise use {@link CefApp#getVersion()}.
+     */
+    public static String getVersion() {
+        try (InputStream inputStream = JCefAppConfig.class.getResourceAsStream("version.info")) {
+            return new BufferedReader(new InputStreamReader(inputStream)).readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     protected abstract void init();
