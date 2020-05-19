@@ -33,7 +33,19 @@ else
     shift
 
     #LD_PRELOAD=$LIB_PATH/libcef.so $JAVA_HOME/bin/java -cp "$CLS_PATH" -Djava.library.path=$LIB_PATH --add-exports java.desktop/sun.lwawt.macosx=jcef --add-exports java.desktop/sun.lwawt=jcef --add-exports java.desktop/sun.awt=jcef tests.$RUN_TYPE.MainFrame "$@"
-    $JAVA_HOME/bin/java -cp $OUT_PATH --add-exports java.desktop/sun.lwawt.macosx=jcef --add-exports java.desktop/sun.lwawt=jcef --add-exports java.desktop/sun.awt=jcef tests.$RUN_TYPE.MainFrame "$@"
+    #$JAVA_HOME/bin/java -cp $OUT_PATH --add-exports java.desktop/sun.lwawt.macosx=jcef --add-exports java.desktop/sun.lwawt=jcef --add-exports java.desktop/sun.awt=jcef tests.$RUN_TYPE.MainFrame "$@"
+
+    echo "TEST_JAVA_HOME=$TEST_JAVA_HOME"
+    if [ ! -d "$TEST_JAVA_HOME" ]; then
+      echo "ERROR: Please set TEST_JAVA_HOME to existing jbr dir"
+      exit 1
+    fi
+
+    CMD="$TEST_JAVA_HOME/bin/java -cp $OUT_PATH/jcef-tests.jar tests.$RUN_TYPE.MainFrame $@"
+    echo $CMD
+    $CMD
+    exit_status=$?
+    echo "Test run result: $exit_status"
   fi
 fi
 
