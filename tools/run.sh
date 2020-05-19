@@ -46,7 +46,7 @@ else
       exit 1
     fi
 
-    CMD="$JAVA_HOME/bin/java -cp $OUT_PATH/jcef-tests.jar tests.$RUN_TYPE.MainFrame $@"
+    CMD="$TEST_JAVA_HOME/bin/java -cp $OUT_PATH/jcef-tests.jar tests.$RUN_TYPE.MainFrame $@"
     echo $CMD
     $CMD
     exit_status=$?
