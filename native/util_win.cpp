@@ -301,6 +301,25 @@ void SetWindowSize(CefWindowHandle browserHandle, int width, int height) {
                SWP_NOZORDER | SWP_NOMOVE);
 }
 
+void UnfocusCefBrowser(CefRefPtr<CefBrowser> browser,
+                       CriticalWait* waitCond /* = NULL*/)
+{
+  if (waitCond) {
+    waitCond->lock()->Lock();
+  }
+  CefWindowHandle browserHandle = browser->GetHost()->GetWindowHandle();
+  if (browserHandle != kNullWindowHandle) {
+    CefWindowHandle ancestorHandle = ::GetAncestor(browserHandle, GA_ROOT);
+    if (ancestorHandle == ::GetActiveWindow()) {
+      ::SetFocus(ancestorHandle);
+    }
+  }
+  if (waitCond) {
+    waitCond->WakeUp();
+    waitCond->lock()->Unlock();
+  }
+}
+
 #endif  // USING_JAVA
 
 }  // namespace util

@@ -1307,6 +1307,20 @@ Java_org_cef_browser_CefBrowser_1N_N_1SetFocus(JNIEnv* env,
     browser->GetHost()->SendFocusEvent(enable != JNI_FALSE);
   } else {
     browser->GetHost()->SetFocus(enable != JNI_FALSE);
+#if defined(OS_WIN)
+    if (enable == JNI_FALSE) {
+      if (CefCurrentlyOn(TID_UI)) {
+        util::UnfocusCefBrowser(browser);
+      } else {
+        CriticalLock lock;
+        CriticalWait waitCond(&lock);
+        lock.Lock();
+        CefPostTask(TID_UI, base::Bind(&util::UnfocusCefBrowser, browser, &waitCond));
+        waitCond.Wait(1000);
+        lock.Unlock();
+      }
+    }
+#endif
   }
 }
 
