@@ -228,7 +228,7 @@ void AddCefBrowser(CefRefPtr<CefBrowser> browser) {
     return;
 
   WaitForSingleObject(g_browsers_lock_, INFINITE);
-  CefWindowHandle handle = GetParent(browserHandle);
+  CefWindowHandle handle = browserHandle;
   std::pair<CefWindowHandle, CefRefPtr<CefBrowser>> pair =
       std::make_pair(handle, browser);
   g_browsers_.insert(pair);
@@ -251,7 +251,7 @@ void DestroyCefBrowser(CefRefPtr<CefBrowser> browser) {
   if (!browserHandle)
     return;
   WaitForSingleObject(g_browsers_lock_, INFINITE);
-  g_browsers_.erase(GetParent(browserHandle));
+  g_browsers_.erase(browserHandle);
   ReleaseMutex(g_browsers_lock_);
 
   ::DestroyWindow(browserHandle);
