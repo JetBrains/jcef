@@ -365,6 +365,10 @@ public class MenuBar extends JMenuBar {
                 String js = "var x=window.open(); x.document.open(); x.document.write('" + info
                         + "'); x.document.close();";
                 browser_.executeJavaScript(js, "", 0);
+
+                String jsFunc = "cef_query_" + MainFrame.queryCounter;
+                String jsQuery = "window." + jsFunc + "({request: '" + jsFunc + "'});";
+                browser_.executeJavaScript(jsQuery, "", 0);
             }
         });
         testMenu.add(showInfo);

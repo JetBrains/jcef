@@ -13,6 +13,7 @@ public class MessageRouterHandler extends CefMessageRouterHandlerAdapter {
     @Override
     public boolean onQuery(CefBrowser browser, CefFrame frame, long query_id, String request,
             boolean persistent, CefQueryCallback callback) {
+        System.out.println(request);
         if (request.indexOf("BindingTest:") == 0) {
             // Reverse the message and return it to the JavaScript caller.
             String msg = request.substring(12);
