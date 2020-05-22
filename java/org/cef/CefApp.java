@@ -584,9 +584,10 @@ public class CefApp extends CefAppHandlerAdapter {
                 return new File(arg.substring(switchPrefix.length())).getAbsolutePath();
             }
         }
+        String parentPrefix = OS.isMacintosh() ? "/../.." : "/..";
 
         // Determine the path relative to the JCEF lib location in the app bundle.
-        return new File(getJcefLibPath() + "/../Frameworks/Chromium Embedded Framework.framework")
+        return new File(getJcefLibPath() + parentPrefix + "/Frameworks/Chromium Embedded Framework.framework")
                 .getAbsolutePath();
     }
 

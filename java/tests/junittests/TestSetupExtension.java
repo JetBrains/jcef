@@ -14,7 +14,10 @@ import org.cef.handler.CefAppHandlerAdapter;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 // All test cases must install this extension for CEF to be properly initialized
 // and shut down.
@@ -30,6 +33,7 @@ import java.util.concurrent.CountDownLatch;
 // This code is based on https://stackoverflow.com/a/51556718.
 public class TestSetupExtension
         implements BeforeAllCallback, ExtensionContext.Store.CloseableResource {
+    private static final int TIMEOUT = 5;
     private static boolean initialized_ = false;
     private static CountDownLatch countdown_ = new CountDownLatch(1);
 
@@ -76,7 +80,6 @@ public class TestSetupExtension
         });
 
         // Initialize the singleton CefApp instance.
-        CefSettings settings = new CefSettings();
         CefApp.getInstance(settings);
     }
 
@@ -91,7 +94,9 @@ public class TestSetupExtension
 
         // Wait for CEF shutdown to complete.
         try {
-            countdown_.await();
+            if(!countdown_.await(TIMEOUT, TimeUnit.SECONDS)) {
+                throw new RuntimeException("Timed out after " + TIMEOUT + " seconds");
+            }
         } catch (InterruptedException e) {
         }
     }
