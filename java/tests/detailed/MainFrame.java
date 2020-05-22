@@ -77,6 +77,7 @@ public class MainFrame extends BrowserFrame {
         frame.setVisible(true);
     }
 
+    public static int queryCounter;
     private final CefClient client_;
     private String errorMsg_ = "";
     private ControlPanel control_pane_;
@@ -140,7 +141,10 @@ public class MainFrame extends BrowserFrame {
         //    calls (JavaScript binding). We're using the default configuration, so
         //    that the JavaScript binding methods "cefQuery" and "cefQueryCancel"
         //    are used.
-        CefMessageRouter msgRouter = CefMessageRouter.create();
+        CefMessageRouter.CefMessageRouterConfig config = new CefMessageRouter.CefMessageRouterConfig();
+        config.jsQueryFunction = "cef_query_" + (++queryCounter);
+        config.jsCancelFunction = "cef_query_cancel_" + queryCounter;
+        CefMessageRouter msgRouter = CefMessageRouter.create(config);
         msgRouter.addHandler(new MessageRouterHandler(), true);
         msgRouter.addHandler(new MessageRouterHandlerEx(client_), false);
         client_.addMessageRouter(msgRouter);
