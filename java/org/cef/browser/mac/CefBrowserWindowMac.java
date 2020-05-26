@@ -7,12 +7,8 @@ package org.cef.browser.mac;
 import java.awt.*;
 import java.awt.peer.ComponentPeer;
 
-import org.cef.jdk.JdkEx;
+import com.jetbrains.cef.JdkEx;
 import sun.awt.AWTAccessor;
-import sun.lwawt.LWComponentPeer;
-import sun.lwawt.PlatformWindow;
-import sun.lwawt.macosx.CFRetainedResource;
-import sun.lwawt.macosx.CPlatformWindow;
 
 import org.cef.browser.CefBrowserWindow;
 

@@ -1,4 +1,4 @@
-package org.cef.jdk;
+package com.jetbrains.cef;
 
 import org.cef.OS;
 import sun.awt.AWTAccessor;
@@ -84,5 +84,10 @@ public class JdkEx {
             // currently the accessor is actual on macOS only
             return OS.isMacintosh() && mGetWindowHandle != null;
         }
+    }
+
+    public static boolean isJetBrainsJDK() {
+        String vendor = System.getProperty("java.vendor");
+        return vendor != null && vendor.toLowerCase().contains("jetbrains");
     }
 }

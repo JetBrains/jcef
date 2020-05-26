@@ -23,6 +23,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.ToolTipManager;
 
+import com.jetbrains.cef.JdkEx;
 import org.cef.CefClient;
 import org.cef.OS;
 import org.cef.handler.CefWindowHandler;
@@ -104,9 +105,19 @@ class CefBrowserWr extends CefBrowser_N {
                     }
                     double scaleX = parent.getGraphicsConfiguration().getDefaultTransform().getScaleX();
                     double scaleY = parent.getGraphicsConfiguration().getDefaultTransform().getScaleY();
-                    pt.x = (int)Math.round(pt.x / scaleX);
-                    pt.y = (int)Math.round(pt.y / scaleY);
-                    SwingUtilities.convertPointFromScreen(pt, parent);
+                    if (JdkEx.isJetBrainsJDK()) {
+                        // In JBR the toplevel's [x, y] is not scaled in user space.
+                        Point parentPt = parent.getLocationOnScreen();
+                        int inParentX = pt.x - parentPt.x;
+                        int inParentY = pt.y - parentPt.y;
+                        pt.x = (int) Math.round(inParentX / scaleX);
+                        pt.y = (int) Math.round(inParentY / scaleY);
+                    }
+                    else {
+                        pt.x = (int)Math.round(pt.x / scaleX);
+                        pt.y = (int)Math.round(pt.y / scaleY);
+                        SwingUtilities.convertPointFromScreen(pt, parent);
+                    }
 
                     int clickCnt = 0;
                     long now = new Date().getTime();
