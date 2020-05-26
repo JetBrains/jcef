@@ -20,7 +20,7 @@ import java.util.HashSet;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
-import org.cef.jdk.JdkEx;
+import com.jetbrains.cef.JdkEx;
 
 /**
  * Exposes static methods for managing the global CEF context.
