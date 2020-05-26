@@ -395,8 +395,12 @@ public class CefApp extends CefAppHandlerAdapter {
                 @Override
                 public void run() {
                     String library_path = getJcefLibPath();
-                    System.out.println("initialize on " + Thread.currentThread()
-                            + " with library path " + library_path);
+                    if (settings_.log_severity == CefSettings.LogSeverity.LOGSEVERITY_INFO ||
+                        settings_.log_severity == CefSettings.LogSeverity.LOGSEVERITY_VERBOSE)
+                    {
+                        System.out.println("initialize on " + Thread.currentThread()
+                                + " with library path " + library_path);
+                    }
 
                     CefSettings settings = settings_ != null ? settings_ : new CefSettings();
 
