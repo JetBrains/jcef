@@ -4,6 +4,7 @@
 
 package org.cef;
 
+import com.jetbrains.cef.JdkEx;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefBrowserFactory;
 import org.cef.browser.CefFrame;
@@ -405,8 +406,10 @@ public class CefClient extends CefClientHandler
     public boolean onSetFocus(final CefBrowser browser, FocusSource source) {
         if (browser == null) return false;
 
-        boolean alreadyHandled = false;
-        if (focusHandler_ != null) alreadyHandled = focusHandler_.onSetFocus(browser, source);
+        Boolean alreadyHandled = Boolean.FALSE;
+        if (focusHandler_ != null) {
+            alreadyHandled = JdkEx.invokeOnEDTAndWait(() -> focusHandler_.onSetFocus(browser, source), Boolean.TRUE /*ignore focus*/, browser.getUIComponent());
+        }
         return alreadyHandled;
     }
 
@@ -416,7 +419,9 @@ public class CefClient extends CefClientHandler
 
         focusedBrowser_ = browser;
         browser.setFocus(true);
-        if (focusHandler_ != null) focusHandler_.onGotFocus(browser);
+        if (focusHandler_ != null) {
+            JdkEx.invokeOnEDTAndWait(() -> focusHandler_.onGotFocus(browser), browser.getUIComponent());
+        }
     }
 
     // CefJSDialogHandler
