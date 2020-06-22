@@ -28,6 +28,7 @@ import org.cef.CefClient;
 import org.cef.OS;
 import org.cef.handler.CefWindowHandler;
 import org.cef.handler.CefWindowHandlerAdapter;
+import sun.awt.AWTAccessor;
 
 /**
  * This class represents a windowed rendered browser.
@@ -49,9 +50,9 @@ class CefBrowserWr extends CefBrowser_N {
                     if (isClosed())
                         return;
 
-                    boolean hasCreatedUI = createBrowserIfRequired(true);
-
-                    if (hasCreatedUI) {
+                    if (AWTAccessor.getComponentAccessor().getPeer(component_) == null || // not in UI yet
+                        createBrowserIfRequired(true)) // has just cerated UI
+                    {
                         delayedUpdate_.restart();
                     } else {
                         // If on Mac, this is needed due to the quirk described below
