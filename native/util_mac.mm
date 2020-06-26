@@ -27,9 +27,11 @@
 
 namespace {
 
+/*
 static std::set<CefWindowHandle> g_browsers_;
 static CriticalLock g_browsers_lock_;
 id g_mouse_monitor_ = nil;
+*/
 static CefRefPtr<ClientApp> g_client_app_ = NULL;
 bool g_handling_send_event = false;
 bool g_shutdown_called = false;
@@ -85,17 +87,20 @@ bool g_shutdown_called = false;
 
 // This selector is called very early during the application initialization.
 + (void)load {
+  /* [tav] does not seem necessary
   // Swap NSApplication::sendEvent with _swizzled_sendEvent.
   Method original = class_getInstanceMethod(self, @selector(sendEvent));
   Method swizzled =
       class_getInstanceMethod(self, @selector(_swizzled_sendEvent));
   method_exchangeImplementations(original, swizzled);
+  */
 
   Method originalTerm = class_getInstanceMethod(self, @selector(terminate:));
   Method swizzledTerm =
       class_getInstanceMethod(self, @selector(_swizzled_terminate:));
   method_exchangeImplementations(originalTerm, swizzledTerm);
 
+  /* [tav] this forwarding does not seem necessary, and it can crash, see JBR-2425
   g_mouse_monitor_ = [NSEvent
       addLocalMonitorForEventsMatchingMask:(NSLeftMouseDownMask |
                                             NSLeftMouseUpMask |
@@ -181,6 +186,7 @@ bool g_shutdown_called = false;
                                          return evt;
                                      }
                                    }];
+                                   */
 }
 
 - (BOOL)isHandlingSendEvent {
@@ -233,8 +239,9 @@ bool g_shutdown_called = false;
   CefShutdown();
   g_shutdown_called = true;
   g_client_app_ = NULL;
-
+  /*
   [NSEvent removeMonitor:g_mouse_monitor_];
+  */
 }
 
 + (void)doMessageLoopWork {
@@ -509,9 +516,11 @@ void AddCefBrowser(CefRefPtr<CefBrowser> browser) {
   if (!browser.get())
     return;
   CefWindowHandle handle = browser->GetHost()->GetWindowHandle();
+  /*
   g_browsers_lock_.Lock();
   g_browsers_.insert(handle);
   g_browsers_lock_.Unlock();
+  */
   CefBrowserContentView* browserImpl =
       (CefBrowserContentView*)[CAST_CEF_WINDOW_HANDLE_TO_NSVIEW(handle)
           superview];
@@ -523,10 +532,11 @@ void DestroyCefBrowser(CefRefPtr<CefBrowser> browser) {
     return;
   NSView* handle =
       CAST_CEF_WINDOW_HANDLE_TO_NSVIEW(browser->GetHost()->GetWindowHandle());
+  /*
   g_browsers_lock_.Lock();
   g_browsers_.erase(handle);
   g_browsers_lock_.Unlock();
-
+  */
   // There are some cases where the superview of CefBrowser isn't
   // a CefBrowserContentView. For example if another CefBrowser window was
   // created by calling "window.open()" in JavaScript.
