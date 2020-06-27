@@ -95,7 +95,9 @@ bool g_shutdown_called = false;
   Method swizzledTerm =
       class_getInstanceMethod(self, @selector(_swizzled_terminate:));
   method_exchangeImplementations(originalTerm, swizzledTerm);
+}
 
++ (void)setMouseMonitor {
   g_mouse_monitor_ = [NSEvent
       addLocalMonitorForEventsMatchingMask:(NSLeftMouseDownMask |
                                             NSLeftMouseUpMask |
@@ -234,7 +236,7 @@ bool g_shutdown_called = false;
   g_shutdown_called = true;
   g_client_app_ = NULL;
 
-  [NSEvent removeMonitor:g_mouse_monitor_];
+  if (g_mouse_monitor_) [NSEvent removeMonitor:g_mouse_monitor_];
 }
 
 + (void)doMessageLoopWork {
@@ -516,6 +518,9 @@ void AddCefBrowser(CefRefPtr<CefBrowser> browser) {
       (CefBrowserContentView*)[CAST_CEF_WINDOW_HANDLE_TO_NSVIEW(handle)
           superview];
   [browserImpl addCefBrowser:browser];
+  if (!g_mouse_monitor_) {
+      [NSApplication setMouseMonitor];
+  }
 }
 
 void DestroyCefBrowser(CefRefPtr<CefBrowser> browser) {
