@@ -125,17 +125,17 @@ class CefBrowserWr extends CefBrowser_N {
                     if (finalEvent == MouseEvent.MOUSE_WHEEL) {
                         int scrollType = MouseWheelEvent.WHEEL_UNIT_SCROLL;
                         int rotation = button > 0 ? 1 : -1;
-                        parent.dispatchEvent(new MouseWheelEvent(parent, finalEvent, now,
+                        Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(new MouseWheelEvent(parent, finalEvent, now,
                                 modifier, pt.x, pt.y, 0, false, scrollType, 3, rotation));
                     } else {
                         clickCnt = getClickCount(finalEvent, button);
-                        parent.dispatchEvent(new MouseEvent(parent, finalEvent, now, modifier,
+                        Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(new MouseEvent(parent, finalEvent, now, modifier,
                                 pt.x, pt.y, screenX, screenY, clickCnt, false, button));
                     }
 
                     // Always fire a mouse-clicked event after a mouse-released event.
                     if (finalEvent == MouseEvent.MOUSE_RELEASED) {
-                        parent.dispatchEvent(
+                        Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(
                                 new MouseEvent(parent, MouseEvent.MOUSE_CLICKED, now, modifier,
                                         pt.x, pt.y, screenX, screenY, clickCnt, false, button));
                     }
