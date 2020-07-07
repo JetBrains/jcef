@@ -7,35 +7,37 @@
 #include "jni_util.h"
 #include "util.h"
 
-WriteHandler::WriteHandler(JNIEnv* env, jobject jOutputStream) {
-  jOutputStream_ = env->NewGlobalRef(jOutputStream);
-  offset_ = 0;
-}
+WriteHandler::WriteHandler(JNIEnv* env, jobject jOutputStream)
+    : handle_(env, jOutputStream) {}
 
 WriteHandler::~WriteHandler() {
-  BEGIN_ENV(env)
-  if (jOutputStream_) {
-    JNI_CALL_VOID_METHOD(env, jOutputStream_, "close", "()V");
-    env->DeleteGlobalRef(jOutputStream_);
+  ScopedJNIEnv env;
+  if (!env)
+    return;
+
+  if (handle_) {
+    JNI_CALL_VOID_METHOD(env, handle_, "close", "()V");
   }
-  END_ENV(env)
 }
 
 size_t WriteHandler::Write(const void* ptr, size_t size, size_t n) {
   base::AutoLock lock_scope(lock_);
   size_t rv = n;
-  BEGIN_ENV(env)
+
+  ScopedJNIEnv env;
+  if (!env)
+    return rv;
+
   jbyteArray jbyteArray = env->NewByteArray((jsize)(size * n));
   env->SetByteArrayRegion(jbyteArray, 0, (jsize)(size * n), (const jbyte*)ptr);
 
-  JNI_CALL_VOID_METHOD_EX(env, jOutputStream_, "write", "([B)V", jbyteArray);
+  JNI_CALL_VOID_METHOD_EX(env, handle_, "write", "([B)V", jbyteArray);
   if (env->ExceptionOccurred()) {
     env->ExceptionClear();
     rv = 0;
   }
   offset_ += (rv * size);
   env->DeleteLocalRef(jbyteArray);
-  END_ENV(env)
 
   return rv;
 }
@@ -50,9 +52,10 @@ int64 WriteHandler::Tell() {
 }
 
 int WriteHandler::Flush() {
-  BEGIN_ENV(env)
-  JNI_CALL_VOID_METHOD(env, jOutputStream_, "flush", "()V");
-  END_ENV(env)
+  ScopedJNIEnv env;
+  if (env) {
+    JNI_CALL_VOID_METHOD(env, handle_, "flush", "()V");
+  }
   return 0;
 }
 

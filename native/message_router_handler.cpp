@@ -4,6 +4,8 @@
 
 #include "message_router_handler.h"
 
+#include "jni_util.h"
+
 namespace {
 
 using CefQueryCallback = CefMessageRouterBrowserSide::Callback;
@@ -30,7 +32,7 @@ bool MessageRouterHandler::OnQuery(
     const CefString& request,
     bool persistent,
     CefRefPtr<CefMessageRouterBrowserSide::Callback> callback) {
-  JNIEnv* env = GetJNIEnv();
+  ScopedJNIEnv env;
   if (!env)
     return false;
 
@@ -62,7 +64,7 @@ bool MessageRouterHandler::OnQuery(
 void MessageRouterHandler::OnQueryCanceled(CefRefPtr<CefBrowser> browser,
                                            CefRefPtr<CefFrame> frame,
                                            int64 query_id) {
-  JNIEnv* env = GetJNIEnv();
+  ScopedJNIEnv env;
   if (!env)
     return;
 
