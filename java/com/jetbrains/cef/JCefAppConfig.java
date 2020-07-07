@@ -96,6 +96,7 @@ public abstract class JCefAppConfig {
             appArgs.add("--main-bundle-path=" + normalize(ALT_CEF_HELPER_APP_DIR));
             appArgs.add("--disable-in-process-stack-traces");
             appArgs.add("--use-mock-keychain");
+            appArgs.add("--disable-features=SpareRendererForSitePerProcess");
         }
 
         // CEF does not accept ".." in path
@@ -115,6 +116,7 @@ public abstract class JCefAppConfig {
             cefSettings.resources_dir_path = JCEF_PATH;
             cefSettings.locales_dir_path = JCEF_PATH + "/locales";
             cefSettings.browser_subprocess_path = JCEF_PATH + "/jcef_helper";
+            appArgs.add("--disable-features=SpareRendererForSitePerProcess");
         }
     }
 
@@ -128,6 +130,7 @@ public abstract class JCefAppConfig {
             double scale = sysScale();
             System.setProperty("jcef.forceDeviceScaleFactor", Double.toString(scale));
             appArgs.add("--force-device-scale-factor=" + scale);
+            appArgs.add("--disable-features=SpareRendererForSitePerProcess");
         }
     }
 
