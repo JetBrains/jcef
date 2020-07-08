@@ -4,6 +4,8 @@
 
 #include "context_menu_handler.h"
 
+#include "jni_util.h"
+
 namespace {
 
 // JNI CefContextMenuParams object.
@@ -28,7 +30,7 @@ void ContextMenuHandler::OnBeforeContextMenu(
     CefRefPtr<CefFrame> frame,
     CefRefPtr<CefContextMenuParams> params,
     CefRefPtr<CefMenuModel> model) {
-  JNIEnv* env = GetJNIEnv();
+  ScopedJNIEnv env;
   if (!env)
     return;
 
@@ -54,7 +56,7 @@ bool ContextMenuHandler::OnContextMenuCommand(
     CefRefPtr<CefContextMenuParams> params,
     int command_id,
     EventFlags event_flags) {
-  JNIEnv* env = GetJNIEnv();
+  ScopedJNIEnv env;
   if (!env)
     return false;
 
@@ -77,7 +79,7 @@ bool ContextMenuHandler::OnContextMenuCommand(
 
 void ContextMenuHandler::OnContextMenuDismissed(CefRefPtr<CefBrowser> browser,
                                                 CefRefPtr<CefFrame> frame) {
-  JNIEnv* env = GetJNIEnv();
+  ScopedJNIEnv env;
   if (!env)
     return;
 

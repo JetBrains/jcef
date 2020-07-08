@@ -8,13 +8,14 @@
 #include "jni_util.h"
 #include "util.h"
 
-LoadHandler::LoadHandler(JNIEnv* env, jobject handler) : handle_(env, handler) {}
+LoadHandler::LoadHandler(JNIEnv* env, jobject handler)
+    : handle_(env, handler) {}
 
 void LoadHandler::OnLoadingStateChange(CefRefPtr<CefBrowser> browser,
                                        bool isLoading,
                                        bool canGoBack,
                                        bool canGoForward) {
-  JNIEnv* env = GetJNIEnv();
+  ScopedJNIEnv env;
   if (!env)
     return;
 
@@ -31,15 +32,14 @@ void LoadHandler::OnLoadingStateChange(CefRefPtr<CefBrowser> browser,
 void LoadHandler::OnLoadStart(CefRefPtr<CefBrowser> browser,
                               CefRefPtr<CefFrame> frame,
                               TransitionType transition_type) {
-  JNIEnv* env = GetJNIEnv();
+  ScopedJNIEnv env;
   if (!env)
     return;
 
   ScopedJNIBrowser jbrowser(env, browser);
   ScopedJNIFrame jframe(env, frame);
   jframe.SetTemporary();
-  ScopedJNIObjectLocal jtransitionType(
-      env, NewJNITransitionType(env, transition_type));
+  ScopedJNITransitionType jtransitionType(env, transition_type);
 
   JNI_CALL_VOID_METHOD(env, handle_, "onLoadStart",
                        "(Lorg/cef/browser/CefBrowser;Lorg/cef/browser/"
@@ -50,7 +50,7 @@ void LoadHandler::OnLoadStart(CefRefPtr<CefBrowser> browser,
 void LoadHandler::OnLoadEnd(CefRefPtr<CefBrowser> browser,
                             CefRefPtr<CefFrame> frame,
                             int httpStatusCode) {
-  JNIEnv* env = GetJNIEnv();
+  ScopedJNIEnv env;
   if (!env)
     return;
 
@@ -69,7 +69,7 @@ void LoadHandler::OnLoadError(CefRefPtr<CefBrowser> browser,
                               ErrorCode errorCode,
                               const CefString& errorText,
                               const CefString& failedUrl) {
-  JNIEnv* env = GetJNIEnv();
+  ScopedJNIEnv env;
   if (!env)
     return;
 
