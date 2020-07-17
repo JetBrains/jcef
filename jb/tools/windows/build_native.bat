@@ -12,7 +12,7 @@ if "%~1" == "clean" (
 )
 md "%OUT_DIR%"
 
-cd "%JCEF_ROOT_DIR%\jcef_build" || exit /b 1
+cd "%JCEF_ROOT_DIR%\jcef_build" || goto:__exit
 
 echo *** set VS14 env...
 if "%env.VS140COMNTOOLS%" neq "" (
@@ -20,10 +20,10 @@ if "%env.VS140COMNTOOLS%" neq "" (
 )
 if "%VS140COMNTOOLS%" == "" (
     echo error: VS140COMNTOOLS is not set
-    exit /b 1
+    goto:__exit
 )
 echo VS140COMNTOOLS=%VS140COMNTOOLS%
-call "%VS140COMNTOOLS%\..\..\VC\vcvarsall.bat" amd64 || exit /b 1
+call "%VS140COMNTOOLS%\..\..\VC\vcvarsall.bat" amd64 || goto:__exit
 
 echo *** run cmake...
 if "%env.CMAKE_37_PATH%" neq "" (
@@ -31,7 +31,7 @@ if "%env.CMAKE_37_PATH%" neq "" (
 )
 if "%CMAKE_37_PATH%" == "" (
     echo error: CMAKE_37_PATH is not set
-    exit /b 1
+    goto:__exit
 )
 echo CMAKE_37_PATH=%CMAKE_37_PATH%
 
@@ -40,14 +40,15 @@ if "%env.PYTHON_27_PATH%" neq "" (
 )
 if "%PYTHON_27_PATH%" == "" (
     echo error: PYTHON_27_PATH is not set
-    exit /b 1
+    goto:__exit
 )
 echo PYTHON_27_PATH=%PYTHON_27_PATH%
 set "PATH=%CMAKE_37_PATH%\bin;%PYTHON_27_PATH%;%PATH%"
 set RC=
-cmake -G "Visual Studio 14 Win64" .. || exit /b 1
+cmake -G "Visual Studio 14 Win64" .. || goto:__exit
 
 echo *** run MSBuild.exe...
-"c:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe" /t:Rebuild /p:Configuration=Release .\jcef.sln || exit /b 1
+"c:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe" /t:Rebuild /p:Configuration=Release .\jcef.sln || goto:__exit
 
+:__exit
 cd "%JB_TOOLS_WIN_DIR%" || exit /b 1

@@ -13,8 +13,9 @@ if "%~1" == "clean" (
 md "%OUT_DIR%"
 
 echo *** compile java...
-cd "%JCEF_ROOT_DIR%\tools" || exit /b 1
+cd "%JCEF_ROOT_DIR%\tools" || goto:__exit
 echo cd=%cd%
-call compile.bat win64 Release || exit /b 1
+call compile.bat win64 Release || goto:__exit
 
+:__exit
 cd "%JB_TOOLS_WIN_DIR%" || exit /b 1
