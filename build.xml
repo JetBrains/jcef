@@ -93,7 +93,7 @@
     <javac encoding="UTF8" nowarn="on" deprecation="off" debug="on" includeantruntime="false" fork="true"
            destdir="${out.path}/tmp">
       <classpath refid="class.path.tests"/>
-      <src path="java/tests/"/>
+      <src path="java_tests/tests/"/>
       <include name="**/*.java"/>
     </javac>
     <move file="${out.path}/tmp/tests" tofile="${out.path}/tests"/>
