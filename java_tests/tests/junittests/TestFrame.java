@@ -28,15 +28,13 @@ import org.cef.network.CefRequest.TransitionType;
 import org.cef.network.CefResponse;
 import org.cef.network.CefURLRequest;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.HashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-
-import javax.swing.JFrame;
+import javax.swing.*;
 
 // Base class for browsers that run tests.
 class TestFrame extends JFrame implements CefLifeSpanHandler, CefLoadHandler, CefRequestHandler,
@@ -75,7 +73,7 @@ class TestFrame extends JFrame implements CefLifeSpanHandler, CefLoadHandler, Ce
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                boolean isClosed = isClosed_;
+                boolean isClosed = true;//isClosed_; // close immediately due to https://youtrack.jetbrains.com/issue/JBR-2298
 
                 if (isClosed) {
                     // Cause browser.doClose() to return false so that OSR browsers
@@ -131,7 +129,9 @@ class TestFrame extends JFrame implements CefLifeSpanHandler, CefLoadHandler, Ce
     protected final void terminateTest() {
         if (debugPrint()) System.out.println("terminateTest");
         if (!isClosed_) {
-            dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+            if (!EventQueue.isDispatchThread()) {
+                SwingUtilities.invokeLater(() -> dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING)));
+            }
         }
     }
 

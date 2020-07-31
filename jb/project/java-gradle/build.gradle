@@ -38,6 +38,7 @@ test {
     include 'tests/junittests/**'
 
     failFast = true
+    jvmArgs = ['-Djcef.junittests.isGradleLauncher=true']
     executable = test_jvm
 }
 

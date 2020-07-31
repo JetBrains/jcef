@@ -98,14 +98,16 @@ public class TestSetupExtension
             System.out.println("TestSetupExtension.close");
         }
 
-        CefApp.getInstance().dispose();
+        if (!Boolean.getBoolean("jcef.junittests.isGradleLauncher")) { // due to https://issues.gradle.org/browse/GRADLE-1903
+            CefApp.getInstance().dispose();
 
-        // Wait for CEF shutdown to complete.
-        try {
-            if(!countdown_.await(TIMEOUT, TimeUnit.SECONDS)) {
-                throw new RuntimeException("Timed out after " + TIMEOUT + " seconds");
+            // Wait for CEF shutdown to complete.
+            try {
+                if (!countdown_.await(TIMEOUT, TimeUnit.SECONDS)) {
+                    throw new RuntimeException("Timed out after " + TIMEOUT + " seconds");
+                }
+            } catch (InterruptedException e) {
             }
-        } catch (InterruptedException e) {
         }
     }
 }
