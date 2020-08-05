@@ -310,6 +310,9 @@ bool g_shutdown_called = false;
 }
 
 - (void)dealloc {
+  if (cefBrowser) {
+    util::DestroyCefBrowser(cefBrowser); // we're on the main thread
+  }
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   cefBrowser = NULL;
   [super dealloc];
@@ -529,8 +532,9 @@ void DestroyCefBrowser(CefRefPtr<CefBrowser> browser) {
   NSView* handle =
       CAST_CEF_WINDOW_HANDLE_TO_NSVIEW(browser->GetHost()->GetWindowHandle());
   g_browsers_lock_.Lock();
-  g_browsers_.erase(handle);
+  bool browser_exists = g_browsers_.erase(handle) > 0;
   g_browsers_lock_.Unlock();
+  if (!browser_exists) return;
 
   // There are some cases where the superview of CefBrowser isn't
   // a CefBrowserContentView. For example if another CefBrowser window was
@@ -548,7 +552,12 @@ void SetParent(CefWindowHandle handle,
                const base::Closure& callback) {
   base::Closure* pCallback = new base::Closure(callback);
   dispatch_async(dispatch_get_main_queue(), ^{
-    CefBrowserContentView* browser_view =
+    g_browsers_lock_.Lock();
+    bool browser_exists = g_browsers_.count(handle) > 0;
+    g_browsers_lock_.Unlock();
+    if (!browser_exists) return;
+
+      CefBrowserContentView* browser_view =
         (CefBrowserContentView*)[CAST_CEF_WINDOW_HANDLE_TO_NSVIEW(handle)
             superview];
     [browser_view retain];
