@@ -205,9 +205,7 @@ LRESULT CALLBACK MouseProc(int nCode, WPARAM wParam, LPARAM lParam) {
       mouseEvent = getMouseEvent("MOUSE_RELEASED");
       break;
 
-    // Handle horizontal mouse wheel event.
-    // The vertical mouse wheel is already recognized in Java.
-    // case WM_MOUSEWHEEL:
+    case WM_MOUSEWHEEL:
     case WM_MOUSEHWHEEL:
       mouseEvent = getMouseEvent("MOUSE_WHEEL");
       mouseButton =
