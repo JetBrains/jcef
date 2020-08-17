@@ -114,3 +114,45 @@ Java_org_cef_browser_CefFrame_1N_N_1ExecuteJavaScript(JNIEnv* env,
   frame->ExecuteJavaScript(GetJNIString(env, code), GetJNIString(env, url),
                            line);
 }
+
+JNIEXPORT void JNICALL Java_org_cef_browser_CefFrame_1N_N_1Undo(JNIEnv* env,
+                                                                jobject obj,
+                                                                jlong self) {
+  GetSelf(self)->Undo();
+}
+
+JNIEXPORT void JNICALL Java_org_cef_browser_CefFrame_1N_N_1Redo(JNIEnv* env,
+                                                                jobject obj,
+                                                                jlong self) {
+  GetSelf(self)->Redo();
+}
+
+JNIEXPORT void JNICALL Java_org_cef_browser_CefFrame_1N_N_1Cut(JNIEnv* env,
+                                                               jobject obj,
+                                                               jlong self) {
+  GetSelf(self)->Cut();
+}
+
+JNIEXPORT void JNICALL Java_org_cef_browser_CefFrame_1N_N_1Copy(JNIEnv* env,
+                                                                jobject obj,
+                                                                jlong self) {
+  GetSelf(self)->Copy();
+}
+
+JNIEXPORT void JNICALL Java_org_cef_browser_CefFrame_1N_N_1Paste(JNIEnv* env,
+                                                                 jobject obj,
+                                                                 jlong self) {
+  GetSelf(self)->Paste();
+}
+
+JNIEXPORT void JNICALL Java_org_cef_browser_CefFrame_1N_N_1Delete(JNIEnv* env,
+                                                                  jobject obj,
+                                                                  jlong self) {
+  GetSelf(self)->Delete();
+}
+
+JNIEXPORT void JNICALL Java_org_cef_browser_CefFrame_1N_N_1SelectAll(JNIEnv* env,
+                                                                     jobject obj,
+                                                                     jlong self) {
+  GetSelf(self)->SelectAll();
+}
