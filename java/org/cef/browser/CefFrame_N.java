@@ -108,6 +108,69 @@ class CefFrame_N extends CefNativeAdapter implements CefFrame {
         }
     }
 
+    @Override
+    public void undo() {
+        try {
+            N_Undo(getNativeRef(null));
+        } catch (UnsatisfiedLinkError ule) {
+            ule.printStackTrace();
+        }
+    }
+
+    @Override
+    public void redo() {
+        try {
+            N_Redo(getNativeRef(null));
+        } catch (UnsatisfiedLinkError ule) {
+            ule.printStackTrace();
+        }
+    }
+
+    @Override
+    public void cut() {
+        try {
+            N_Cut(getNativeRef(null));
+        } catch (UnsatisfiedLinkError ule) {
+            ule.printStackTrace();
+        }
+    }
+
+    @Override
+    public void copy() {
+        try {
+            N_Copy(getNativeRef(null));
+        } catch (UnsatisfiedLinkError ule) {
+            ule.printStackTrace();
+        }
+    }
+
+    @Override
+    public void paste() {
+        try {
+            N_Paste(getNativeRef(null));
+        } catch (UnsatisfiedLinkError ule) {
+            ule.printStackTrace();
+        }
+    }
+
+    @Override
+    public void delete() {
+        try {
+            N_Delete(getNativeRef(null));
+        } catch (UnsatisfiedLinkError ule) {
+            ule.printStackTrace();
+        }
+    }
+
+    @Override
+    public void selectAll() {
+        try {
+            N_SelectAll(getNativeRef(null));
+        } catch (UnsatisfiedLinkError ule) {
+            ule.printStackTrace();
+        }
+    }
+
     private final native void N_Dispose(long self);
     private final native long N_GetIdentifier(long self);
     private final native String N_GetURL(long self);
@@ -117,4 +180,11 @@ class CefFrame_N extends CefNativeAdapter implements CefFrame {
     private final native boolean N_IsFocused(long self);
     private final native CefFrame N_GetParent(long self);
     private final native void N_ExecuteJavaScript(long self, String code, String url, int line);
+    private final native void N_Undo(long self);
+    private final native void N_Redo(long self);
+    private final native void N_Cut(long self);
+    private final native void N_Copy(long self);
+    private final native void N_Paste(long self);
+    private final native void N_Delete(long self);
+    private final native void N_SelectAll(long self);
 }
