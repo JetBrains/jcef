@@ -76,36 +76,43 @@ public interface CefFrame {
 
     /**
      * Executes undo in this frame.
+     * @since JCEF API 1.1
      */
     void undo();
 
     /**
      * Executes redo in this frame.
+     * @since JCEF API 1.1
      */
     void redo();
 
     /**
      * Executes cut in this frame.
+     * @since JCEF API 1.1
      */
     void cut();
 
     /**
      * Executes copy in this frame.
+     * @since JCEF API 1.1
      */
     void copy();
 
     /**
      * Executes paste in this frame.
+     * @since JCEF API 1.1
      */
     void paste();
 
     /**
      * Executes delete in this frame.
+     * @since JCEF API 1.1
      */
     void delete();
 
     /**
      * Executes select all in this frame.
+     * @since JCEF API 1.1
      */
     void selectAll();
 }

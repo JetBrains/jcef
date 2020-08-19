@@ -15,6 +15,43 @@ import java.util.List;
  * @author Anton Tarasov
  */
 public abstract class JCefAppConfig {
+    /**
+     * Public JCEF API version in form {@code <major>.<minor>};
+     * It may not correlate with {@link #getVersion() JCEF version}
+     * <ul>
+     *     <li>{@link #MINOR Minor version} is incremented when backward compatible API changes are made (API is extended)</li>
+     *     <li>{@link #MAJOR Major version} is incremented when non-backward compatible API changes are made</li>
+     * </ul>
+     * Current API version is {@value #MAJOR}.{@value #MINOR}
+     */
+    public static final class ApiVersion {
+        private static final int MAJOR = 1;
+        private static final int MINOR = 1;
+
+        private static final ApiVersion INSTANCE = new ApiVersion();
+        private ApiVersion() {}
+
+        public int getMajor() {
+            return MAJOR;
+        }
+
+        public int getMinor() {
+            return MINOR;
+        }
+
+        /**
+         * Checks if current JCEF API version is compatible with requested (target) API version
+         */
+        public boolean isCompatible(int targetMajor, int targetMinor) {
+            return getMajor() == targetMajor && getMinor() >= targetMinor;
+        }
+
+        @Override
+        public String toString() {
+            return "JCEF API " + getMajor() + "." + getMinor();
+        }
+    }
+
     protected final CefSettings cefSettings = new CefSettings();
     protected final List<String> appArgs = new ArrayList<>();
 
@@ -73,6 +110,14 @@ public abstract class JCefAppConfig {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * Returns runtime {@link ApiVersion JCEF API version}<br>
+     * Current API version is {@value ApiVersion#MAJOR}.{@value ApiVersion#MINOR}
+     */
+    public static ApiVersion getApiVersion() {
+        return ApiVersion.INSTANCE;
     }
 
     protected abstract void init();
