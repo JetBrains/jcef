@@ -51,7 +51,7 @@ class CefBrowserWr extends CefBrowser_N {
                         return;
 
                     if (AWTAccessor.getComponentAccessor().getPeer(component_) == null || // not in UI yet
-                        createBrowserIfRequired(true)) // has just cerated UI
+                        createBrowserIfRequired(true)) // has just created UI
                     {
                         delayedUpdate_.restart();
                     } else {
