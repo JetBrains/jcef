@@ -63,12 +63,21 @@ public abstract class JCefAppConfig {
     }
 
     /**
+     * Tries to load full JCEF version string from version.info file
+     */
+    private static String getVersionEx() throws IOException {
+        try (InputStream inputStream = JCefAppConfig.class.getResourceAsStream("version.info")) {
+            return new BufferedReader(new InputStreamReader(inputStream)).readLine();
+        }
+    }
+
+    /**
      * Returns the full version string before {@link org.cef.CefApp} is created.
      * Otherwise use {@link CefApp#getVersion()}.
      */
     public static String getVersion() {
-        try (InputStream inputStream = JCefAppConfig.class.getResourceAsStream("version.info")) {
-            return new BufferedReader(new InputStreamReader(inputStream)).readLine();
+        try {
+            return getVersionEx();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -79,8 +88,8 @@ public abstract class JCefAppConfig {
      * Returns runtime {@link JCefVersionDetails JCEF version details}
      */
     public static JCefVersionDetails getVersionDetails() throws JCefVersionDetails.VersionUnavailableException {
-        try (InputStream inputStream = JCefAppConfig.class.getResourceAsStream("version.info")) {
-            return new JCefVersionDetails(new BufferedReader(new InputStreamReader(inputStream)).readLine());
+        try {
+            return new JCefVersionDetails(getVersionEx());
         } catch (IOException e) {
             throw new JCefVersionDetails.VersionUnavailableException("Unable to load version information", e);
         }
