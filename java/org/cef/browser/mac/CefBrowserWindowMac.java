@@ -4,6 +4,8 @@
 
 package org.cef.browser.mac;
 
+import org.cef.browser.CefBrowserWindow;
+
 import java.awt.*;
 import java.awt.peer.ComponentPeer;
 
@@ -13,8 +15,6 @@ import sun.lwawt.LWComponentPeer;
 import sun.lwawt.PlatformWindow;
 import sun.lwawt.macosx.CFRetainedResource;
 import sun.lwawt.macosx.CPlatformWindow;
-
-import org.cef.browser.CefBrowserWindow;
 
 public class CefBrowserWindowMac implements CefBrowserWindow {
     @Override

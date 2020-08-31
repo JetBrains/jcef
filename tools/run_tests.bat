@@ -3,8 +3,9 @@
 :: reserved. Use of this source code is governed by a BSD-style license
 :: that can be found in the LICENSE file.
 
-set RC=
+set RETURNCODE=
 setlocal
+
 cd ..
 
 if "%1" == "" (
@@ -63,11 +64,11 @@ goto loop1
     --details=verbose --config=debugPrint=true %RESTVAR%
 
 :end
-endlocal & set RC=%ERRORLEVEL%
+endlocal & set RETURNCODE=%ERRORLEVEL%
 goto omega
 
 :returncode
-exit /B %RC%
+exit /B %RETURNCODE%
 
 :omega
-call :returncode %RC%
+call :returncode %RETURNCODE%

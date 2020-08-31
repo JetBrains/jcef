@@ -4,6 +4,11 @@
 
 package org.cef.browser;
 
+import org.cef.CefClient;
+import org.cef.OS;
+import org.cef.handler.CefWindowHandler;
+import org.cef.handler.CefWindowHandlerAdapter;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,10 +29,6 @@ import javax.swing.Timer;
 import javax.swing.ToolTipManager;
 
 import com.jetbrains.cef.JdkEx;
-import org.cef.CefClient;
-import org.cef.OS;
-import org.cef.handler.CefWindowHandler;
-import org.cef.handler.CefWindowHandlerAdapter;
 import sun.awt.AWTAccessor;
 
 /**
@@ -41,14 +42,14 @@ class CefBrowserWr extends CefBrowser_N {
     private Rectangle content_rect_ = new Rectangle(0, 0, 0, 0);
     private long window_handle_ = 0;
     private boolean justCreated_ = false;
+    private double scaleFactor_ = 1.0;
     private Timer delayedUpdate_ = new Timer(100, new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    if (isClosed())
-                        return;
+                    if (isClosed()) return;
 
                     if (AWTAccessor.getComponentAccessor().getPeer(component_) == null || // not in UI yet
                         createBrowserIfRequired(true)) // has just created UI
@@ -153,7 +154,7 @@ class CefBrowserWr extends CefBrowser_N {
                     if (currTime > nextClick[idx]) {
                         nextClick[idx] = currTime
                                 + (Integer) Toolkit.getDefaultToolkit().getDesktopProperty(
-                                          "awt.multiClickInterval");
+                                        "awt.multiClickInterval");
                         clickCnt[idx] = 1;
                     } else {
                         clickCnt[idx]++;
@@ -168,7 +169,6 @@ class CefBrowserWr extends CefBrowser_N {
     };
 
     private static final double FORCE_DEVICE_SCALE_FACTOR;
-    private static final double FORCE_DEVICE_SCALE_FACTOR_INV;
 
     static {
         double scale = 1.0;
@@ -184,7 +184,6 @@ class CefBrowserWr extends CefBrowser_N {
             }
         }
         FORCE_DEVICE_SCALE_FACTOR = scale;
-        FORCE_DEVICE_SCALE_FACTOR_INV = 1 / scale;
     }
 
     CefBrowserWr(CefClient client, String url, CefRequestContext context) {
@@ -210,7 +209,7 @@ class CefBrowserWr extends CefBrowser_N {
             @Override
             public void setBounds(int x, int y, int width, int height) {
                 super.setBounds(x, y, width, height);
-                _wasResized(width, height);
+                wasResized((int) (width * scaleFactor_), (int) (height * scaleFactor_));
             }
 
             @Override
@@ -221,23 +220,12 @@ class CefBrowserWr extends CefBrowser_N {
             @Override
             public void setSize(int width, int height) {
                 super.setSize(width, height);
-                _wasResized(width, height);
+                wasResized((int) (width * scaleFactor_), (int) (height * scaleFactor_));
             }
 
             @Override
             public void setSize(Dimension d) {
                 setSize(d.width, d.height);
-            }
-
-            private void _wasResized(int width, int height) {
-                GraphicsConfiguration gc = getGraphicsConfiguration();
-                if (gc != null) {
-                    double scaleX = gc.getDefaultTransform().getScaleX();
-                    double scaleY = gc.getDefaultTransform().getScaleY();
-                    width = (int) Math.round(width * scaleX);
-                    height = (int) Math.round(height * scaleY);
-                }
-                wasResized(width, height);
             }
 
             @Override
@@ -250,6 +238,9 @@ class CefBrowserWr extends CefBrowser_N {
                 // we're setting up a delayedUpdate timer which is reset each time
                 // paint is called. This prevents the us of sending the UI update too
                 // often.
+                if (g instanceof Graphics2D) {
+                    scaleFactor_ = ((Graphics2D) g).getTransform().getScaleX();
+                }
                 doUpdate();
                 delayedUpdate_.restart();
             }
@@ -379,7 +370,10 @@ class CefBrowserWr extends CefBrowser_N {
     private void doUpdate() {
         if (isClosed()) return;
 
-        Rectangle clipping = ((JPanel) component_).getVisibleRect();
+        Rectangle vr = ((JPanel) component_).getVisibleRect();
+        Rectangle clipping = new Rectangle((int) (vr.getX() * scaleFactor_),
+                (int) (vr.getY() * scaleFactor_), (int) (vr.getWidth() * scaleFactor_),
+                (int) (vr.getHeight() * scaleFactor_));
 
         if (OS.isMacintosh()) {
             Container parent = component_.getParent();
@@ -400,42 +394,24 @@ class CefBrowserWr extends CefBrowser_N {
             synchronized (content_rect_) {
                 content_rect_ = new Rectangle(contentPos, clipping.getSize());
                 Rectangle browserRect = new Rectangle(browserPos, component_.getSize());
-                content_rect_ = scaleRect(content_rect_, component_);
-                browserRect = scaleRect(browserRect, component_);
                 updateUI(content_rect_, browserRect);
             }
         } else {
             synchronized (content_rect_) {
-                clipping = scaleRect(clipping, component_);
-                Rectangle compBounds = OS.isLinux() ?
-                    // [tav] Down-scale component bounds on linux.
-                    scaleRect(component_.getBounds(), FORCE_DEVICE_SCALE_FACTOR_INV, FORCE_DEVICE_SCALE_FACTOR_INV) :
-                    component_.getBounds();
-                content_rect_ = scaleRect(compBounds, component_);
+                Rectangle bounds = component_.getBounds();
+                double scale = OS.isLinux() ?
+                    scaleFactor_ / FORCE_DEVICE_SCALE_FACTOR :
+                    scaleFactor_;
+                content_rect_ = new Rectangle((int) (bounds.getX() * scaleFactor_),
+                        (int) (bounds.getY() * scale),
+                        (int) (bounds.getWidth() * scale),
+                        (int) (bounds.getHeight() * scale));
                 // On Linux, content_rect_ resulting scale should be (prior to passing to CEF):
                 // - JRE-managed HiDPI mode: 1.0
                 // - IDE-managed HiDPI mode: 1.0 / FORCE_DEVICE_SCALE_FACTOR
                 updateUI(clipping, content_rect_);
             }
         }
-    }
-
-    private static Rectangle scaleRect(Rectangle rect, Component comp) {
-        if (comp != null && (OS.isWindows() || OS.isLinux())) {
-            GraphicsConfiguration gc = comp.getGraphicsConfiguration();
-            if (gc != null) {
-                double scaleX = gc.getDefaultTransform().getScaleX();
-                double scaleY = gc.getDefaultTransform().getScaleY();
-                return scaleRect(rect, scaleX, scaleY);
-            }
-        }
-        return rect.getBounds();
-    }
-
-    private static Rectangle scaleRect(Rectangle r, double scaleX, double scaleY) {
-        return new Rectangle(
-            (int)Math.round(r.x * scaleX), (int)Math.round(r.y * scaleY),
-            (int)Math.round(r.width * scaleX), (int)Math.round(r.height * scaleY));
     }
 
     private boolean createBrowserIfRequired(boolean hasParent) {

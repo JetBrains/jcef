@@ -157,22 +157,22 @@ LRESULT CALLBACK MouseProc(int nCode, WPARAM wParam, LPARAM lParam) {
 
   MOUSEHOOKSTRUCT* pStruct = (MOUSEHOOKSTRUCT*)lParam;
 
-  // Get corresponding CefWindowHandle of Java-Canvas
-  CefWindowHandle browser = pStruct->hwnd;
+  // Find the CefBrowser associated with the current window hierarchy.
+  CefWindowHandle windowHandle = pStruct->hwnd;
   CefRefPtr<CefBrowser> cefBrowser;
   std::map<CefWindowHandle, CefRefPtr<CefBrowser>>::iterator it;
   WaitForSingleObject(g_browsers_lock_, INFINITE);
-  while (browser != NULL) {
-    it = g_browsers_.find(browser);
+  while (windowHandle != NULL) {
+    it = g_browsers_.find(windowHandle);
     if (it != g_browsers_.end()) {
       cefBrowser = it->second;
       break;
     }
-    browser = GetParent(browser);
+    windowHandle = GetParent(windowHandle);
   }
   ReleaseMutex(g_browsers_lock_);
 
-  if (!browser)
+  if (!cefBrowser)
     return CallNextHookEx(NULL, nCode, wParam, lParam);
 
   int mouseButton = getMouseButton(wParam);
@@ -235,9 +235,8 @@ void AddCefBrowser(CefRefPtr<CefBrowser> browser) {
     return;
 
   WaitForSingleObject(g_browsers_lock_, INFINITE);
-  CefWindowHandle handle = browserHandle;
   std::pair<CefWindowHandle, CefRefPtr<CefBrowser>> pair =
-      std::make_pair(handle, browser);
+      std::make_pair(browserHandle, browser);
   g_browsers_.insert(pair);
   ReleaseMutex(g_browsers_lock_);
 
@@ -257,8 +256,10 @@ void DestroyCefBrowser(CefRefPtr<CefBrowser> browser) {
   CefWindowHandle browserHandle = browser->GetHost()->GetWindowHandle();
   if (!browserHandle)
     return;
+
   WaitForSingleObject(g_browsers_lock_, INFINITE);
-  g_browsers_.erase(browserHandle);
+  size_t erased = g_browsers_.erase(browserHandle);
+  DCHECK_EQ(1U, erased);
   ReleaseMutex(g_browsers_lock_);
 
   ::DestroyWindow(browserHandle);

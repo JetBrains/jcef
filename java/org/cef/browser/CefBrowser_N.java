@@ -46,7 +46,8 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser {
     private volatile Point inspectAt_ = null;
     private volatile CefBrowser_N devTools_ = null;
     private boolean closeAllowed_ = false;
-    private boolean isClosed_ = false;
+    private volatile boolean isClosed_ = false;
+    private volatile boolean isClosing_ = false;
 
     protected CefBrowser_N(CefClient client, String url, CefRequestContext context,
             CefBrowser_N parent, Point inspectAt) {
@@ -439,6 +440,9 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser {
 
     @Override
     public void close(boolean force) {
+        if (isClosing_ || isClosed_) return;
+        if (force) isClosing_ = true;
+
         try {
             N_Close(force);
         } catch (UnsatisfiedLinkError ule) {
@@ -725,6 +729,8 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser {
     }
 
     protected final void setParent(long windowHandle, Component canvas) {
+        if (isClosing_ || isClosed_) return;
+
         try {
             N_SetParent(windowHandle, canvas);
         } catch (UnsatisfiedLinkError ule) {
