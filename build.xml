@@ -69,8 +69,7 @@
   <target name="compile">
     <mkdir dir="${out.path}"/>
     <javac encoding="UTF8" nowarn="on" deprecation="off" debug="on" includeantruntime="false" destdir="${out.path}"
-           fork="true" memoryinitialsize="32m" memorymaximumsize="128m" includeJavaRuntime="yes"
-           target="1.8" source="1.8">
+           fork="true" memoryinitialsize="32m" memorymaximumsize="128m" includeJavaRuntime="yes">
       <compilerarg line="-XDignore.symbol.file ${jdk11.jvm.opts}"/>
       <classpath refid="class.path"/>
       <src path="java/"/>
