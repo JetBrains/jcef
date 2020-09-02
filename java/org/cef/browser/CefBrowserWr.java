@@ -107,13 +107,14 @@ class CefBrowserWr extends CefBrowser_N {
                     }
                     double scaleX = parent.getGraphicsConfiguration().getDefaultTransform().getScaleX();
                     double scaleY = parent.getGraphicsConfiguration().getDefaultTransform().getScaleY();
-                    if (JdkEx.isJetBrainsJDK()) {
-                        // In JBR the toplevel's [x, y] is not scaled in user space.
+                    if (JdkEx.isJetBrainsJDK() && OS.isWindows()) {
                         Point parentPt = parent.getLocationOnScreen();
-                        int inParentX = pt.x - parentPt.x;
-                        int inParentY = pt.y - parentPt.y;
-                        pt.x = (int) Math.round(inParentX / scaleX);
-                        pt.y = (int) Math.round(inParentY / scaleY);
+                        // In JBR/win the device [x, y] is preserved in device space (width/height is scaled).
+                        Rectangle devBounds = parent.getGraphicsConfiguration().getDevice().getDefaultConfiguration().getBounds();
+                        int scaledScreenX = devBounds.x + (int) Math.round((screenX - devBounds.x) / scaleX);
+                        int scaledScreenY = devBounds.y + (int) Math.round((screenY - devBounds.y) / scaleY);
+                        pt.x = scaledScreenX - parentPt.x;
+                        pt.y = scaledScreenY - parentPt.y;
                     }
                     else {
                         pt.x = (int)Math.round(pt.x / scaleX);
