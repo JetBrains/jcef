@@ -255,6 +255,10 @@ void Context::DoMessageLoopWork() {
 void Context::Shutdown() {
   DCHECK(thread_checker_.CalledOnValidThread());
 
+  static bool shutdownWasCalled = false;
+  if (shutdownWasCalled) return;
+  shutdownWasCalled = true;
+
   // Clear scheme handler factories on shutdown to avoid refcount DCHECK.
   CefClearSchemeHandlerFactories();
 
