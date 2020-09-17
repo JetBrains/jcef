@@ -239,7 +239,7 @@ class CefBrowserWr extends CefBrowser_N {
                 // we're setting up a delayedUpdate timer which is reset each time
                 // paint is called. This prevents the us of sending the UI update too
                 // often.
-                if (g instanceof Graphics2D) {
+                if (!OS.isMacintosh() && g instanceof Graphics2D) {
                     scaleFactor_ = ((Graphics2D) g).getTransform().getScaleX();
                 }
                 doUpdate();
