@@ -147,19 +147,21 @@ public abstract class JCefAppConfig {
             cefSettings.resources_dir_path = JCEF_PATH;
             cefSettings.locales_dir_path = JCEF_PATH + "/locales";
             cefSettings.browser_subprocess_path = JCEF_PATH + "/jcef_helper";
-            double scale = sysScale();
-            System.setProperty("jcef.forceDeviceScaleFactor", Double.toString(scale));
+            double scale = getDeviceScaleFactor(null);
             appArgs.add("--force-device-scale-factor=" + scale);
             appArgs.add("--disable-features=SpareRendererForSitePerProcess");
         }
     }
 
-    private static double sysScale() {
+    public static double getDeviceScaleFactor(/*@Nullable*/Component component) {
         GraphicsDevice device = null;
         double scale = 1.0;
         try {
-            device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        } catch (HeadlessException ignore) {
+            device = component != null ?
+                component.getGraphicsConfiguration().getDevice() :
+                GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        } catch (Throwable t) {
+            t.printStackTrace();
         }
         if (device != null) {
             GraphicsConfiguration gc = device.getDefaultConfiguration();

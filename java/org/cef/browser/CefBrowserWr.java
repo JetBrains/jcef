@@ -4,6 +4,7 @@
 
 package org.cef.browser;
 
+import com.jetbrains.cef.JCefAppConfig;
 import org.cef.CefClient;
 import org.cef.OS;
 import org.cef.handler.CefWindowHandler;
@@ -169,23 +170,7 @@ class CefBrowserWr extends CefBrowser_N {
         }
     };
 
-    private static final double FORCE_DEVICE_SCALE_FACTOR;
-
-    static {
-        double scale = 1.0;
-        if (OS.isLinux()) {
-            // [tav] passed from IDEA along with the CEF switch "--force-device-scale-factor"
-            String scaleProp = System.getProperty("jcef.forceDeviceScaleFactor");
-            if (scaleProp != null) {
-                try {
-                    scale = Double.parseDouble(scaleProp);
-                } catch (NumberFormatException e) {
-                    System.err.println("error: \"jcef.forceDeviceScaleFactor\" system property can not be parsed to double");
-                }
-            }
-        }
-        FORCE_DEVICE_SCALE_FACTOR = scale;
-    }
+    private static final double FORCE_DEVICE_SCALE_FACTOR = OS.isLinux() ? JCefAppConfig.getDeviceScaleFactor(null) : 1.0;
 
     CefBrowserWr(CefClient client, String url, CefRequestContext context) {
         this(client, url, context, null, null);
