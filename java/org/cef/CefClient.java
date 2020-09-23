@@ -417,6 +417,7 @@ public class CefClient extends CefClientHandler
     @Override
     public void onGotFocus(CefBrowser browser) {
         if (browser == null) return;
+        if (focusedBrowser_ == browser) return; // prevent recursive call (in OSR)
 
         focusedBrowser_ = browser;
         browser.setFocus(true);
