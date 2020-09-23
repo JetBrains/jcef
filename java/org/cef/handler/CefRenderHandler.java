@@ -31,6 +31,11 @@ public interface CefRenderHandler {
     public Point getScreenPoint(CefBrowser browser, Point viewPoint);
 
     /**
+     * Retrieve the scale factor of the screen the browser is shown at.
+     */
+    public double getDeviceScaleFactor(CefBrowser browser);
+
+    /**
      * Show or hide the popup window.
      * @param browser The browser generating the event.
      * @param show True if the popup window is being shown.

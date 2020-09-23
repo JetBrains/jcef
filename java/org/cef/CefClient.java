@@ -4,6 +4,7 @@
 
 package org.cef;
 
+import com.jetbrains.cef.JCefAppConfig;
 import com.jetbrains.cef.JdkEx;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefBrowserFactory;
@@ -652,6 +653,11 @@ public class CefClient extends CefClientHandler
         CefRenderHandler realHandler = browser.getRenderHandler();
         if (realHandler != null) return realHandler.getScreenPoint(browser, viewPoint);
         return new Point(0, 0);
+    }
+
+    @Override
+    public double getDeviceScaleFactor(CefBrowser browser) {
+        return JCefAppConfig.getDeviceScaleFactor(browser.getUIComponent());
     }
 
     @Override

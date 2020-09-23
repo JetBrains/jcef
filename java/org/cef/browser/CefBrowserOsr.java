@@ -4,6 +4,7 @@
 
 package org.cef.browser;
 
+import com.jetbrains.cef.JCefAppConfig;
 import com.jogamp.nativewindow.NativeSurface;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLCapabilities;
@@ -228,6 +229,11 @@ class CefBrowserOsr extends CefBrowser_N implements CefRenderHandler {
         Point screenPoint = new Point(screenPoint_);
         screenPoint.translate(viewPoint.x, viewPoint.y);
         return screenPoint;
+    }
+
+    @Override
+    public double getDeviceScaleFactor(CefBrowser browser) {
+        return JCefAppConfig.getDeviceScaleFactor(browser.getUIComponent());
     }
 
     @Override

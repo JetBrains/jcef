@@ -307,6 +307,18 @@ bool RenderHandler::GetScreenPoint(jobject browser,
 
 bool RenderHandler::GetScreenInfo(CefRefPtr<CefBrowser> browser,
                                   CefScreenInfo& screen_info) {
-  screen_info.device_scale_factor = 1.0; // [tav] todo: provide actual scale factor
+  ScopedJNIEnv env;
+  if (!env)
+    return false;
+
+  ScopedJNIBrowser jbrowser(env, browser);
+  jdouble jresult = 1.0;
+
+  JNI_CALL_METHOD(
+      env, handle_, "getDeviceScaleFactor",
+      "(Lorg/cef/browser/CefBrowser;)D", Double,
+      jresult, jbrowser.get());
+
+  screen_info.device_scale_factor = jresult;
   return true;
 }
