@@ -14,6 +14,7 @@ import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.awt.GLCanvas;
 
 import org.cef.CefClient;
+import org.cef.OS;
 import org.cef.callback.CefDragData;
 import org.cef.handler.CefRenderHandler;
 
@@ -92,7 +93,7 @@ class CefBrowserOsr extends CefBrowser_N implements CefRenderHandler {
                 surface.lockSurface();
                 window_handle_ = getWindowHandle(surface.getSurfaceHandle());
                 surface.unlockSurface();
-                assert (window_handle_ != 0);
+                if (!OS.isMacintosh()) assert (window_handle_ != 0);
             }
         }
         return window_handle_;
