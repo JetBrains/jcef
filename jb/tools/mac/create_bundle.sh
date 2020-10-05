@@ -23,7 +23,7 @@ cp -R "$RELEASE_PATH"/jcef_app.app/Contents/Frameworks "$ARTIFACT"/
 
 echo "*** create bundle..."
 
-bash "$JB_TOOLS_DIR"/common/bundle_jogl_gluegen.sh
+bash "$JB_TOOLS_DIR"/common/bundle_jogl_gluegen.sh || exit 1
 
 # shellcheck disable=SC2046
 tar -cvzf "$ARTIFACT.tar.gz" -C "$ARTIFACT" $(ls "$ARTIFACT")

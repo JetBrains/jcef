@@ -10,9 +10,12 @@ cd ../../..
 JCEF_ROOT_DIR=$(pwd)
 export JCEF_ROOT_DIR
 export JB_TOOLS_DIR=$JCEF_ROOT_DIR/jb/tools
-export JB_TOOLS_LINUX_DIR=$JB_TOOLS_DIR/linux
+export JB_TOOLS_OS_DIR=$JB_TOOLS_DIR/linux
+export MODULAR_SDK_DIR="$JCEF_ROOT_DIR"/out/linux64/modular-sdk
+export OS=linux
+export ARCH=amd64
 
-cd "$JB_TOOLS_LINUX_DIR" || exit 1
+cd "$JB_TOOLS_OS_DIR" || exit 1
 
 if [ -z "$JDK_11" ]; then
     if [ -d "jdk11" ]; then

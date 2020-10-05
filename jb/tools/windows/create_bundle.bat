@@ -27,7 +27,7 @@ if %ERRORLEVEL% neq 0 (
     set "PATH=c:\cygwin64\bin;%PATH%"
 )
 
-bash "%JB_TOOLS_DIR%"\common\bundle_jogl_gluegen.sh
+bash "%JB_TOOLS_DIR%"\common\bundle_jogl_gluegen.sh || goto:__exit
 
 bash -c "[ -d $ARTIFACT ] || mkdir $ARTIFACT" || goto:__exit
 bash -c "cp -R jcef_build/native/Release/* $ARTIFACT/" || goto:__exit

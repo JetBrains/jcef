@@ -17,13 +17,6 @@ fi
 
 cd "$JCEF_ROOT_DIR" || exit 1
 
-MODULAR_SDK="$JCEF_ROOT_DIR"/out/linux64/modular-sdk
-
-echo "*** temp exclude jogl from modular-info.java..."
-# shellcheck disable=SC2002
-cat "$MODULAR_SDK"/modules_src/jcef/module-info.java | grep -v jogl | grep -v gluegen > __tmp
-mv __tmp "$MODULAR_SDK"/modules_src/jcef/module-info.java
-
 echo "*** copy jcef binaries..."
 mkdir "$ARTIFACT"
 cp -R jcef_build/native/Release/* "$ARTIFACT"/
@@ -47,10 +40,13 @@ strip -x "$ARTIFACT"/chrome-sandbox
 strip -x "$ARTIFACT"/jcef_helper
 
 echo "*** create bundle..."
+
+bash "$JB_TOOLS_DIR"/common/bundle_jogl_gluegen.sh || exit 1
+
 # shellcheck disable=SC2046
 tar -cvzf "$ARTIFACT.tar.gz" -C "$ARTIFACT" $(ls "$ARTIFACT")
 rm -rf "$ARTIFACT"
 ls -lah "$ARTIFACT.tar.gz" || exit 1
 
 echo "*** SUCCESSFUL"
-cd "$JB_TOOLS_LINUX_DIR" || exit 1
+cd "$JB_TOOLS_OS_DIR" || exit 1

@@ -32,26 +32,26 @@ cd "$JCEF_ROOT_DIR" || exit 1
 
 echo "*** bundle jogl and gluegen modules..."
 # shellcheck disable=SC2086
-extract_jar $JOGAMP_DIR/jogl-all.jar $MODULAR_SDK_DIR/modules/jogl.all
+extract_jar $JOGAMP_DIR/jogl-all.jar $MODULAR_SDK_DIR/modules/jogl.all || exit 1
 # shellcheck disable=SC2086
-extract_jar $JOGAMP_DIR/gluegen-rt.jar $MODULAR_SDK_DIR/modules/gluegen.rt
+extract_jar $JOGAMP_DIR/gluegen-rt.jar $MODULAR_SDK_DIR/modules/gluegen.rt || exit 1
 
 echo "*** bundle jogl and gluegen modules_libs..."
 # shellcheck disable=SC2086
-extract_jar $JOGAMP_DIR/jogl-all-natives-${OS}-${ARCH}.jar $MODULAR_SDK_DIR/modules_libs/jogl.all natives/${OS}-${ARCH}
+extract_jar $JOGAMP_DIR/jogl-all-natives-${OS}-${ARCH}.jar $MODULAR_SDK_DIR/modules_libs/jogl.all natives/${OS}-${ARCH} || exit 1
 # shellcheck disable=SC2086
-extract_jar $JOGAMP_DIR/gluegen-rt-natives-${OS}-${ARCH}.jar $MODULAR_SDK_DIR/modules_libs/gluegen.rt natives/${OS}-${ARCH}
+extract_jar $JOGAMP_DIR/gluegen-rt-natives-${OS}-${ARCH}.jar $MODULAR_SDK_DIR/modules_libs/gluegen.rt natives/${OS}-${ARCH} || exit 1
 
 echo "*** bundle jogl and gluegen modules_src..."
 mkdir -p "$MODULAR_SDK_DIR"/modules_src/jogl.all
-cp "${JB_TOOLS_OS_DIR}"/jogl-module-info-java.txt "$MODULAR_SDK_DIR"/modules_src/jogl.all/module-info.java
+cp "${JB_TOOLS_OS_DIR}"/jogl-module-info-java.txt "$MODULAR_SDK_DIR"/modules_src/jogl.all/module-info.java || exit 1
 
 mkdir -p "$MODULAR_SDK_DIR"/modules_src/gluegen.rt
-cp "$JB_TOOLS_DIR"/common/gluegen-module-info-java.txt "$MODULAR_SDK_DIR"/modules_src/gluegen.rt/module-info.java
+cp "$JB_TOOLS_DIR"/common/gluegen-module-info-java.txt "$MODULAR_SDK_DIR"/modules_src/gluegen.rt/module-info.java || exit 1
 
 echo "*** bundle jogl and gluegen make..."
 mkdir -p "$MODULAR_SDK_DIR"/make/jogl.all
-cp "$JB_TOOLS_DIR"/common/modular-sdk-build-properties.txt "$MODULAR_SDK_DIR"/make/jogl.all/build.properties
+cp "$JB_TOOLS_DIR"/common/modular-sdk-build-properties.txt "$MODULAR_SDK_DIR"/make/jogl.all/build.properties || exit 1
 
 mkdir -p "$MODULAR_SDK_DIR"/make/gluegen.rt
-cp "$JB_TOOLS_DIR"/common/modular-sdk-build-properties.txt "$MODULAR_SDK_DIR"/make/gluegen.rt/build.properties
+cp "$JB_TOOLS_DIR"/common/modular-sdk-build-properties.txt "$MODULAR_SDK_DIR"/make/gluegen.rt/build.properties || exit 1
