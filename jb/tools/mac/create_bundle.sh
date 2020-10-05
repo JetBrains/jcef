@@ -16,6 +16,8 @@ if [ "$1" == "clean" ]; then
     exit 0
 fi
 
+cd "$JCEF_ROOT_DIR" || exit 1
+
 echo "*** copy binaries..."
 mkdir "$ARTIFACT"
 cp -R "$MODULAR_SDK_DIR" "$ARTIFACT"/
