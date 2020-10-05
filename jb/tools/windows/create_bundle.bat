@@ -3,11 +3,19 @@ rem Copyright 2000-2020 JetBrains s.r.o. Use of this source code is governed by 
 
 call set_env.bat || exit /b 1
 
+set MODULAR_SDK_DIR=%JCEF_ROOT_DIR%\out\win64\modular-sdk
 set ARTIFACT=jcef_win_x64
+set OS=windows
+set ARCH=amd64
 
-echo *** delete "%JCEF_ROOT_DIR%\%ARTIFACT%"...
-rmdir /s /q "%JCEF_ROOT_DIR%\%ARTIFACT%"
-del /f /q "%JCEF_ROOT_DIR%\%ARTIFACT%.tar.gz"
+if exist "%JCEF_ROOT_DIR%\%ARTIFACT%" (
+    echo *** delete "%JCEF_ROOT_DIR%\%ARTIFACT%"...
+    rmdir /s /q "%JCEF_ROOT_DIR%\%ARTIFACT%"
+)
+if exist "%JCEF_ROOT_DIR%\%ARTIFACT%.tar.gz" (
+    echo *** delete "%JCEF_ROOT_DIR%\%ARTIFACT%.tar.gz"...
+    del /f /q "%JCEF_ROOT_DIR%\%ARTIFACT%.tar.gz"
+)
 
 if "%~1" == "clean" (
     exit /b 0
@@ -22,15 +30,11 @@ if %ERRORLEVEL% neq 0 (
     set "PATH=c:\cygwin64\bin;%PATH%"
 )
 
-set MODULAR_SDK=out/win64/modular-sdk
-
-rem temp exclude jogl
-bash -c "cat $MODULAR_SDK/modules_src/jcef/module-info.java | grep -v jogl | grep -v gluegen > __tmp" || goto:__exit
-bash -c "mv __tmp $MODULAR_SDK/modules_src/jcef/module-info.java" || goto:__exit
+bash "%JB_TOOLS_DIR%"\common\bundle_jogl_gluegen.sh
 
 bash -c "[ -d $ARTIFACT ] || mkdir $ARTIFACT" || goto:__exit
 bash -c "cp -R jcef_build/native/Release/* $ARTIFACT/" || goto:__exit
-bash -c "cp -R $MODULAR_SDK $ARTIFACT/" || goto:__exit
+bash -c "cp -R $MODULAR_SDK_DIR $ARTIFACT/" || goto:__exit
 
 bash -c "tar -cvzf $ARTIFACT.tar.gz -C $ARTIFACT $(ls $ARTIFACT)" || goto:__exit
 bash -c "rm -rf $ARTIFACT" || goto:__exit

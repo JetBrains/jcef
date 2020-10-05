@@ -131,9 +131,7 @@
   <target name="modular-sdk" depends="jar, tests-jar">
     <mkdir dir="${out.path}/modular-sdk"/>
     <mkdir dir="${out.path}/modular-sdk/make/jcef"/>
-    <copy todir="${out.path}/modular-sdk/make/jcef">
-      <fileset dir="modular-sdk/make/jcef" includes="**"/>
-    </copy>
+    <copy file="jb/tools/common/modular-sdk-build-properties.txt" tofile="${out.path}/modular-sdk/make/jcef/build.properties"/>
     <mkdir dir="${out.path}/modular-sdk/modules/jcef/org"/>
     <copy todir="${out.path}/modular-sdk/modules/jcef/org">
       <fileset dir="${out.path}/org" includes="**"/>

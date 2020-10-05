@@ -1,0 +1,22 @@
+module gluegen.rt {
+    requires java.desktop;
+
+    exports com.jogamp.common to jogl.all;
+    exports com.jogamp.common.jvm to jogl.all;
+    exports com.jogamp.common.net to jogl.all;
+    exports com.jogamp.common.net.asset to jogl.all;
+    exports com.jogamp.common.nio to jogl.all;
+    exports com.jogamp.common.os to jogl.all;
+    exports com.jogamp.common.type to jogl.all;
+    exports com.jogamp.common.util to jogl.all;
+    exports com.jogamp.common.util.awt to jogl.all;
+    exports com.jogamp.common.util.cache to jogl.all;
+    exports com.jogamp.common.util.locks to jogl.all;
+    exports com.jogamp.gluegen.runtime to jogl.all;
+    exports jogamp.common to jogl.all;
+    exports jogamp.common.jvm to jogl.all;
+    exports jogamp.common.os to jogl.all;
+    exports jogamp.common.os.elf to jogl.all;
+    exports jogamp.common.util to jogl.all;
+    exports jogamp.common.util.locks to jogl.all;
+}

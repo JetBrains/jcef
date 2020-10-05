@@ -1,7 +1,6 @@
 module jcef {
     requires java.desktop;
     requires jogl.all;
-    requires gluegen.rt;
 
     exports org.cef;
     exports org.cef.browser;

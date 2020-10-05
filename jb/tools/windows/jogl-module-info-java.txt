@@ -1,0 +1,19 @@
+module jogl.all {
+  requires java.desktop;
+  requires gluegen.rt;
+
+  exports com.jogamp.opengl.awt to jcef;
+  exports com.jogamp.nativewindow to jcef;
+  exports com.jogamp.opengl to jcef;
+
+  exports jogamp.opengl.gl4 to gluegen.rt;
+  exports jogamp.opengl.egl to gluegen.rt;
+  exports jogamp.opengl.awt to gluegen.rt;
+  exports jogamp.opengl.windows.wgl to gluegen.rt;
+  exports jogamp.opengl.windows.wgl.awt to gluegen.rt;
+  exports jogamp.nativewindow.windows to gluegen.rt;
+
+  opens com.jogamp.opengl.egl to gluegen.rt;
+  opens jogamp.opengl.gl4 to gluegen.rt;
+  opens jogamp.opengl.windows.wgl to gluegen.rt;
+}
