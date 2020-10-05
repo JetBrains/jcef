@@ -27,6 +27,7 @@ if %ERRORLEVEL% neq 0 (
     set "PATH=c:\cygwin64\bin;%PATH%"
 )
 
+dos2unix "%JB_TOOLS_DIR%"\common\bundle_jogl_gluegen.sh
 bash "%JB_TOOLS_DIR%"\common\bundle_jogl_gluegen.sh || goto:__exit
 
 bash -c "[ -d $ARTIFACT ] || mkdir $ARTIFACT" || goto:__exit
