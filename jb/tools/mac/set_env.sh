@@ -10,9 +10,12 @@ cd ../../..
 JCEF_ROOT_DIR=$(pwd)
 export JCEF_ROOT_DIR
 export JB_TOOLS_DIR=$JCEF_ROOT_DIR/jb/tools
-export JB_TOOLS_MAC_DIR=$JB_TOOLS_DIR/mac
+export JB_TOOLS_OS_DIR=$JB_TOOLS_DIR/mac
+export MODULAR_SDK_DIR="$JCEF_ROOT_DIR"/jcef_build/native/Release/modular-sdk
+export OS=macosx
+export ARCH=universal
 
-cd "$JB_TOOLS_MAC_DIR" || exit 1
+cd "$JB_TOOLS_OS_DIR" || exit 1
 
 if [ -z "$JDK_11" ]; then
     echo "error: JDK_11 is not set"

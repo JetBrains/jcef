@@ -9,45 +9,49 @@ function extract_jar {
 
   [ -d "__tmp" ] && rm -rf __tmp
   mkdir __tmp
-  cp $__jar __tmp || exit 1
-  cd __tmp
+  cp "$__jar" __tmp || exit 1
+  cd __tmp || exit 1
 
-  $JAVA_HOME/bin/jar -xf *.jar || exit 1
+  "$JAVA_HOME"/bin/jar -xf *.jar || exit 1
   rm *.jar
   rm -rf META-INF
 
-  mkdir -p $__dst_dir
+  mkdir -p "$__dst_dir"
   if [ -z "$__content_dir" ]
   then
-        cp -R * $__dst_dir || exit 1
+        cp -R * "$__dst_dir" || exit 1
   else
-        cp -R $__content_dir/* $__dst_dir || exit 1
+        cp -R "$__content_dir"/* "$__dst_dir" || exit 1
   fi
 
   cd ..
   rm -rf __tmp
 }
 
-cd $JCEF_ROOT_DIR
+cd "$JCEF_ROOT_DIR" || exit 1
 
 echo "*** bundle jogl and gluegen modules..."
+# shellcheck disable=SC2086
 extract_jar $JOGAMP_DIR/jogl-all.jar $MODULAR_SDK_DIR/modules/jogl.all
+# shellcheck disable=SC2086
 extract_jar $JOGAMP_DIR/gluegen-rt.jar $MODULAR_SDK_DIR/modules/gluegen.rt
 
 echo "*** bundle jogl and gluegen modules_libs..."
-extract_jar $JOGAMP_DIR/jogl-all-natives-windows-amd64.jar $MODULAR_SDK_DIR/modules_libs/jogl.all natives/${OS}-${ARCH}
-extract_jar $JOGAMP_DIR/gluegen-rt-natives-windows-amd64.jar $MODULAR_SDK_DIR/modules_libs/gluegen.rt natives/${OS}-${ARCH}
+# shellcheck disable=SC2086
+extract_jar $JOGAMP_DIR/jogl-all-natives-${OS}-${ARCH}.jar $MODULAR_SDK_DIR/modules_libs/jogl.all natives/${OS}-${ARCH}
+# shellcheck disable=SC2086
+extract_jar $JOGAMP_DIR/gluegen-rt-natives-${OS}-${ARCH}.jar $MODULAR_SDK_DIR/modules_libs/gluegen.rt natives/${OS}-${ARCH}
 
 echo "*** bundle jogl and gluegen modules_src..."
-mkdir -p $MODULAR_SDK_DIR/modules_src/jogl.all
-cp $JB_TOOLS_DIR/${OS}/jogl-module-info-java.txt $MODULAR_SDK_DIR/modules_src/jogl.all/module-info.java
+mkdir -p "$MODULAR_SDK_DIR"/modules_src/jogl.all
+cp "${JB_TOOLS_OS_DIR}"/jogl-module-info-java.txt "$MODULAR_SDK_DIR"/modules_src/jogl.all/module-info.java
 
-mkdir -p $MODULAR_SDK_DIR/modules_src/gluegen.rt
-cp $JB_TOOLS_DIR/${OS}/gluegen-module-info-java.txt $MODULAR_SDK_DIR/modules_src/gluegen.rt/module-info.java
+mkdir -p "$MODULAR_SDK_DIR"/modules_src/gluegen.rt
+cp "$JB_TOOLS_DIR"/common/gluegen-module-info-java.txt "$MODULAR_SDK_DIR"/modules_src/gluegen.rt/module-info.java
 
 echo "*** bundle jogl and gluegen make..."
-mkdir -p $MODULAR_SDK_DIR/make/jogl.all
-cp $JB_TOOLS_DIR/common/modular-sdk-build-properties.txt $MODULAR_SDK_DIR/make/jogl.all/build.properties
+mkdir -p "$MODULAR_SDK_DIR"/make/jogl.all
+cp "$JB_TOOLS_DIR"/common/modular-sdk-build-properties.txt "$MODULAR_SDK_DIR"/make/jogl.all/build.properties
 
-mkdir -p $MODULAR_SDK_DIR/make/gluegen.rt
-cp $JB_TOOLS_DIR/common/modular-sdk-build-properties.txt $MODULAR_SDK_DIR/make/gluegen.rt/build.properties
+mkdir -p "$MODULAR_SDK_DIR"/make/gluegen.rt
+cp "$JB_TOOLS_DIR"/common/modular-sdk-build-properties.txt "$MODULAR_SDK_DIR"/make/gluegen.rt/build.properties

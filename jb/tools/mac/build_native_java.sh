@@ -37,4 +37,4 @@ install_name_tool -change @rpath/libjawt.dylib @loader_path/libjawt.dylib libjce
 cp libjcef.dylib modular-sdk/modules_libs/jcef/
 cp libjcef.dylib jcef_app.app/Contents/Java/
 
-cd "$JB_TOOLS_MAC_DIR" || exit 1
+cd "$JB_TOOLS_OS_DIR" || exit 1

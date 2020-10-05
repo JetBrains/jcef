@@ -51,4 +51,4 @@ echo *** run MSBuild.exe...
 "c:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe" /t:Rebuild /p:Configuration=Release .\jcef.sln || goto:__exit
 
 :__exit
-cd "%JB_TOOLS_WIN_DIR%" || exit /b 1
+cd "%JB_TOOLS_OS_DIR%" || exit /b 1

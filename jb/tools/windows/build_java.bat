@@ -18,4 +18,4 @@ echo cd=%cd%
 call compile.bat win64 Release || goto:__exit
 
 :__exit
-cd "%JB_TOOLS_WIN_DIR%" || exit /b 1
+cd "%JB_TOOLS_OS_DIR%" || exit /b 1

@@ -3,10 +3,7 @@ rem Copyright 2000-2020 JetBrains s.r.o. Use of this source code is governed by 
 
 call set_env.bat || exit /b 1
 
-set MODULAR_SDK_DIR=%JCEF_ROOT_DIR%\out\win64\modular-sdk
 set ARTIFACT=jcef_win_x64
-set OS=windows
-set ARCH=amd64
 
 if exist "%JCEF_ROOT_DIR%\%ARTIFACT%" (
     echo *** delete "%JCEF_ROOT_DIR%\%ARTIFACT%"...
@@ -42,4 +39,4 @@ bash -c "ls -lah $ARTIFACT.tar.gz" || goto:__exit
 
 echo *** SUCCESSFUL
 :__exit
-cd "%JB_TOOLS_WIN_DIR%" || exit /b 1
+cd "%JB_TOOLS_OS_DIR%" || exit /b 1
