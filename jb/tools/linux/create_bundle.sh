@@ -20,7 +20,7 @@ cd "$JCEF_ROOT_DIR" || exit 1
 echo "*** copy jcef binaries..."
 mkdir "$ARTIFACT"
 cp -R jcef_build/native/Release/* "$ARTIFACT"/
-cp -R "$MODULAR_SDK" "$ARTIFACT"/
+cp -R "$MODULAR_SDK_DIR" "$ARTIFACT"/
 
 echo "*** copy patched libcef.so..."
 if [ -z "$PATCHED_LIBCEF_DIR" ]; then
