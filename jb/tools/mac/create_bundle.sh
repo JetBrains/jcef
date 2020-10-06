@@ -18,15 +18,15 @@ fi
 
 cd "$JCEF_ROOT_DIR" || exit 1
 
+echo "*** bundle jogl and gluegen..."
+bash "$JB_TOOLS_DIR"/common/bundle_jogl_gluegen.sh || exit 1
+
 echo "*** copy binaries..."
 mkdir "$ARTIFACT"
 cp -R "$MODULAR_SDK_DIR" "$ARTIFACT"/
 cp -R "$RELEASE_PATH"/jcef_app.app/Contents/Frameworks "$ARTIFACT"/
 
-echo "*** create bundle..."
-
-bash "$JB_TOOLS_DIR"/common/bundle_jogl_gluegen.sh || exit 1
-
+echo "*** create archive..."
 # shellcheck disable=SC2046
 tar -cvzf "$ARTIFACT.tar.gz" -C "$ARTIFACT" $(ls "$ARTIFACT")
 rm -rf "$ARTIFACT"

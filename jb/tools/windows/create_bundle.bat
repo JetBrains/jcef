@@ -20,20 +20,22 @@ if "%~1" == "clean" (
 
 cd "%JCEF_ROOT_DIR%" || goto:__exit
 
-echo *** create archive...
 where bash
 if %ERRORLEVEL% neq 0 (
     echo *** using c:\cygwin64\bin
     set "PATH=c:\cygwin64\bin;%PATH%"
 )
 
+echo *** bundle jogl and gluegen...
 sed -i 's/\r$//' "%JB_TOOLS_DIR%"\common\bundle_jogl_gluegen.sh
 bash "%JB_TOOLS_DIR%"\common\bundle_jogl_gluegen.sh || goto:__exit
 
+echo *** copy binaries...
 bash -c "[ -d $ARTIFACT ] || mkdir $ARTIFACT" || goto:__exit
 bash -c "cp -R jcef_build/native/Release/* $ARTIFACT/" || goto:__exit
 bash -c "cp -R $MODULAR_SDK_DIR $ARTIFACT/" || goto:__exit
 
+echo *** create archive...
 bash -c "tar -cvzf $ARTIFACT.tar.gz -C $ARTIFACT $(ls $ARTIFACT)" || goto:__exit
 bash -c "rm -rf $ARTIFACT" || goto:__exit
 bash -c "ls -lah $ARTIFACT.tar.gz" || goto:__exit
