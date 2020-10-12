@@ -131,9 +131,11 @@ bool g_shutdown_called = false;
                                                *it);
                                        NSPoint relPos = [wh convertPoint:absPos
                                                                 fromView:nil];
+                                       NSRect frame = [wh frame]; // bounds in superview
+                                       NSRect bounds = NSMakeRect(0, 0, frame.size.width, frame.size.height);
                                        if (evtWin == [wh window] &&
                                            [wh mouse:relPos
-                                               inRect:[wh frame]]) {
+                                               inRect:bounds]) {
                                          browser = wh;
                                          break;
                                        }
