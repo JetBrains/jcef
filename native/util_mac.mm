@@ -78,6 +78,7 @@ bool g_shutdown_called = false;
 - (void)setHandlingSendEvent:(BOOL)handlingSendEvent;
 - (void)_swizzled_sendEvent:(NSEvent*)event;
 - (void)_swizzled_terminate:(id)sender;
+- (BOOL)_swizzled_NSMenuItem_accessibilityIsAttributeSettable:(NSAccessibilityAttributeName)attribute;
 
 @end
 
@@ -95,6 +96,16 @@ bool g_shutdown_called = false;
   Method swizzledTerm =
       class_getInstanceMethod(self, @selector(_swizzled_terminate:));
   method_exchangeImplementations(originalTerm, swizzledTerm);
+
+  if (!class_getInstanceMethod([NSMenuItem class], @selector(accessibilityIsAttributeSettable:))) {
+      Method method_NSMenuItem_accessibilityIsAttributeSettable =
+          class_getInstanceMethod(self, @selector(_swizzled_NSMenuItem_accessibilityIsAttributeSettable:));
+      class_addMethod(
+          [NSMenuItem class],
+          @selector(accessibilityIsAttributeSettable:),
+          method_getImplementation(method_NSMenuItem_accessibilityIsAttributeSettable),
+          method_getTypeEncoding(method_NSMenuItem_accessibilityIsAttributeSettable));
+  }
 }
 
 + (void)setMouseMonitor {
@@ -193,6 +204,10 @@ bool g_shutdown_called = false;
 
 - (void)setHandlingSendEvent:(BOOL)handlingSendEvent {
   g_handling_send_event = handlingSendEvent;
+}
+
+- (BOOL)_swizzled_NSMenuItem_accessibilityIsAttributeSettable:(NSAccessibilityAttributeName)attribute {
+    return NO;
 }
 
 - (void)_swizzled_sendEvent:(NSEvent*)event {
