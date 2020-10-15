@@ -87,9 +87,9 @@ bool g_shutdown_called = false;
 // This selector is called very early during the application initialization.
 + (void)load {
   // Swap NSApplication::sendEvent with _swizzled_sendEvent.
-  Method original = class_getInstanceMethod(self, @selector(sendEvent));
+  Method original = class_getInstanceMethod(self, @selector(sendEvent:));
   Method swizzled =
-      class_getInstanceMethod(self, @selector(_swizzled_sendEvent));
+      class_getInstanceMethod(self, @selector(_swizzled_sendEvent:));
   method_exchangeImplementations(original, swizzled);
 
   Method originalTerm = class_getInstanceMethod(self, @selector(terminate:));
