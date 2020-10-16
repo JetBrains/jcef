@@ -1,7 +1,7 @@
 echo off
 rem Copyright 2000-2020 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 
-call set_env.bat || exit /b 1
+call set_env.bat || goto:__exit
 
 set OUT_DIR=%JCEF_ROOT_DIR%\jcef_build\native\Release
 
@@ -50,5 +50,10 @@ cmake -G "Visual Studio 14 Win64" .. || goto:__exit
 echo *** run MSBuild.exe...
 "c:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe" /t:Rebuild /p:Configuration=Release .\jcef.sln || goto:__exit
 
+cd "%JB_TOOLS_OS_DIR%"
+exit /b 0
+
 :__exit
-cd "%JB_TOOLS_OS_DIR%" || exit /b 1
+cd "%JB_TOOLS_OS_DIR%"
+echo *** BUILD FAILED
+exit /b 1

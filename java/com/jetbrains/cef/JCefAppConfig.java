@@ -132,10 +132,11 @@ public abstract class JCefAppConfig {
     private static class JCefAppConfigWindows extends JCefAppConfig {
         @Override
         protected void init() {
-            String JCEF_PATH = System.getProperty("java.home") + "/bin";
-            cefSettings.resources_dir_path = JCEF_PATH;
-            cefSettings.locales_dir_path = JCEF_PATH + "/locales";
-            cefSettings.browser_subprocess_path = JCEF_PATH + "/jcef_helper";
+            String JCEF_LIB_PATH = System.getProperty("java.home") + "/lib";
+            String JCEF_BIN_PATH = System.getProperty("java.home") + "/bin";
+            cefSettings.resources_dir_path = JCEF_LIB_PATH;
+            cefSettings.locales_dir_path = JCEF_LIB_PATH + "/locales";
+            cefSettings.browser_subprocess_path = JCEF_BIN_PATH + "/jcef_helper";
             appArgs.add("--disable-features=SpareRendererForSitePerProcess");
         }
     }

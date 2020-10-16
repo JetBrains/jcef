@@ -1,5 +1,0 @@
-include_in_jre=true
-include_in_jdk=true
-include_in_jdk_server=false
-include_in_docs=false
-classloader=ext

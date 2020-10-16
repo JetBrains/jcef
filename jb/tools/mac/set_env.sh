@@ -11,7 +11,8 @@ JCEF_ROOT_DIR=$(pwd)
 export JCEF_ROOT_DIR
 export JB_TOOLS_DIR=$JCEF_ROOT_DIR/jb/tools
 export JB_TOOLS_OS_DIR=$JB_TOOLS_DIR/mac
-export MODULAR_SDK_DIR="$JCEF_ROOT_DIR"/jcef_build/native/Release/modular-sdk
+export OUT_CLS_DIR="$JCEF_ROOT_DIR"/jcef_build/native/Release
+export OUT_NATIVE_DIR="$JCEF_ROOT_DIR"/jcef_build/native/Release
 export OS=macosx
 export ARCH=universal
 

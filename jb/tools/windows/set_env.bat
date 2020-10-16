@@ -12,7 +12,8 @@ cd ..\..\..
 set JCEF_ROOT_DIR=%cd%
 set JB_TOOLS_DIR=%JCEF_ROOT_DIR%\jb\tools
 set JB_TOOLS_OS_DIR=%JB_TOOLS_DIR%\windows
-set MODULAR_SDK_DIR=%JCEF_ROOT_DIR%\out\win64\modular-sdk
+set OUT_CLS_DIR=%JCEF_ROOT_DIR%\out\win64
+set OUT_NATIVE_DIR=%JCEF_ROOT_DIR%\jcef_build\native\Release
 set OS=windows
 set ARCH=amd64
 

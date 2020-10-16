@@ -128,29 +128,7 @@
     </jar>
   </target>
 
-  <target name="modular-sdk" depends="jar, tests-jar">
-    <mkdir dir="${out.path}/modular-sdk"/>
-    <mkdir dir="${out.path}/modular-sdk/make/jcef"/>
-    <copy file="jb/tools/common/modular-sdk-build-properties.txt" tofile="${out.path}/modular-sdk/make/jcef/build.properties"/>
-    <mkdir dir="${out.path}/modular-sdk/modules/jcef/org"/>
-    <copy todir="${out.path}/modular-sdk/modules/jcef/org">
-      <fileset dir="${out.path}/org" includes="**"/>
-    </copy>
-    <mkdir dir="${out.path}/modular-sdk/modules/jcef/com"/>
-    <copy todir="${out.path}/modular-sdk/modules/jcef/com">
-      <fileset dir="${out.path}/com" includes="**"/>
-    </copy>
-    <mkdir dir="${out.path}/modular-sdk/modules_libs/jcef"/>
-    <copy todir="${out.path}/modular-sdk/modules_libs/jcef">
-      <file name="${jcef.native.lib}"/>
-    </copy>
-    <mkdir dir="${out.path}/modular-sdk/modules_src/jcef"/>
-    <copy todir="${out.path}/modular-sdk/modules_src/jcef">
-      <fileset dir="java" includes="module-info.java"/>
-    </copy>
-  </target>
-
-  <target name="bundle" depends="jar, modular-sdk">
+  <target name="bundle" depends="jar">
     <mkdir dir="${out.path}"/>
     <bundleapp outputdirectory="${out.path}"
                           name="${out.name}"

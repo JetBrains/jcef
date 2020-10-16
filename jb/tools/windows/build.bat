@@ -22,18 +22,20 @@ if "%~1" == "clean" (
 
 if not exist ..\..\..\jb\tools\windows (
     echo error: not in 'jb\tools\windows' dir
-    exit /b 1
+    goto:__exit
 )
 
-echo *** && echo *** BUILD NATIVE *** && echo ***
-call build_native.bat %CLEAN% || exit /b 1
+echo *** && echo *** BUILD NATIVE && echo ***
+call build_native.bat %CLEAN% || goto:__exit
 
-echo *** && echo *** BUILD JAVA *** && echo ***
-call build_java.bat %CLEAN% || exit /b 1
+echo *** && echo *** BUILD JAVA && echo ***
+call build_java.bat %CLEAN% || goto:__exit
 
-echo *** && echo *** CREATE BUNDLE *** && echo ***
-call create_bundle.bat %CLEAN% || exit /b 1
+echo *** && echo *** CREATE BUNDLE && echo ***
+call create_bundle.bat %CLEAN% || goto:__exit
 
+echo *** BUILD SUCCESSFUL
+cd "%JB_TOOLS_OS_DIR%"
 exit /b 0
 
 :help
@@ -49,3 +51,8 @@ echo "  CMAKE_37_PATH   - Path to cmake 3.7 home."
 echo "  PYTHON_27_PATH  - Path to python 2.7 exe."
 echo "  VS140COMNTOOLS  - Provided with <VS2012 x64 Cross Tools Command Prompt>."
 exit /b 0
+
+:__exit
+cd "%JB_TOOLS_OS_DIR%"
+echo *** BUILD FAILED
+exit /b 1

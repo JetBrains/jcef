@@ -29,8 +29,9 @@ if [ ! -d "../../../jb/tools/linux" ]; then
 fi
 
 PATH=$(pwd):$PATH
+export PATH
 
-export PATHecho -e "\n*** BUILD NATIVE ***\n"
+echo -e "\n*** BUILD NATIVE ***\n"
 bash build_native.sh $CLEAN || exit 1
 
 echo -e "\n*** BUILD JAVA ***\n"
@@ -38,3 +39,6 @@ bash build_java.sh $CLEAN || exit 1
 
 echo -e "\n*** CREATE BUNDLE ***\n"
 bash create_bundle.sh $CLEAN || exit 1
+
+echo "*** BUILD SUCCESSFUL"
+cd "$JB_TOOLS_OS_DIR" || exit 1
