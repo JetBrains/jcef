@@ -31,5 +31,6 @@ echo "*** create archive..."
 tar -cvzf $ARTIFACT.tar.gz -C $ARTIFACT $(ls $ARTIFACT) || do_fail
 rm -rf ./$ARTIFACT
 ls -lah $ARTIFACT.tar.gz || do_fail
+cp $OUT_CLS_DIR/jcef-tests.jar . || do_fail
 
 cd "$JB_TOOLS_OS_DIR" || do_fail

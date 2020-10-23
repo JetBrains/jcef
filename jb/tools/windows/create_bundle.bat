@@ -37,6 +37,7 @@ move jmods "%ARTIFACT_DIR%" || goto:__exit
 bash -c "tar -cvzf $ARTIFACT_DIR.tar.gz -C $ARTIFACT_DIR $(ls $ARTIFACT_DIR)" || goto:__exit
 rmdir /s /q %ARTIFACT_DIR% || goto:__exit
 dir %ARTIFACT_DIR%.tar.gz || goto:__exit
+copy %OUT_CLS_DIR%\jcef-tests.jar . || goto:__exit
 
 cd "%JB_TOOLS_OS_DIR%"
 exit /b 0
