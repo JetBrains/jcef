@@ -128,7 +128,7 @@
     </jar>
   </target>
 
-  <target name="bundle" depends="jar">
+  <target name="bundle" depends="jar,tests-jar">
     <mkdir dir="${out.path}"/>
     <bundleapp outputdirectory="${out.path}"
                           name="${out.name}"
