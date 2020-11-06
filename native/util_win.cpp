@@ -208,7 +208,7 @@ LRESULT CALLBACK MouseProc(int nCode, WPARAM wParam, LPARAM lParam) {
     case WM_MOUSEWHEEL:
     case WM_MOUSEHWHEEL:
       mouseEvent = getMouseEvent("MOUSE_WHEEL");
-      mouseButton =
+      mouseButton = (wParam != WM_MOUSEHWHEEL ? -1 : 1) *
           GET_WHEEL_DELTA_WPARAM(((MOUSEHOOKSTRUCTEX*)pStruct)->mouseData);
       break;
     default:
