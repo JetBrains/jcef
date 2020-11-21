@@ -37,7 +37,7 @@ import javax.swing.SwingUtilities;
  * The visibility of this class is "package". To create a new
  * CefBrowser instance, please use CefBrowserFactory.
  */
-abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser {
+abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowserWithEventsSink {
     private volatile boolean isPending_ = false;
     private final CefClient client_;
     private final String url_;
@@ -105,7 +105,9 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser {
                 @Override
                 public void run() {
                     // Trigger close of the parent window.
-                    Component parent = SwingUtilities.getRoot(getUIComponent());
+                    Component uiComponent = getUIComponent();
+                    if (uiComponent == null) return;
+                    Component parent = SwingUtilities.getRoot(uiComponent);
                     if (parent != null) {
                         parent.dispatchEvent(
                                 new WindowEvent((Window) parent, WindowEvent.WINDOW_CLOSING));
@@ -571,7 +573,8 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser {
      * @param width The new width of the browser
      * @param height The new height of the browser
      */
-    protected final void wasResized(int width, int height) {
+    @Override
+    public final void wasResized(int width, int height) {
         try {
             N_WasResized(width, height);
         } catch (UnsatisfiedLinkError ule) {
@@ -594,7 +597,8 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser {
      * Send a key event.
      * @param e The event to send.
      */
-    protected final void sendKeyEvent(KeyEvent e) {
+    @Override
+    public final void sendKeyEvent(KeyEvent e) {
         try {
             N_SendKeyEvent(e);
         } catch (UnsatisfiedLinkError ule) {
@@ -606,7 +610,8 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser {
      * Send a mouse event.
      * @param e The event to send.
      */
-    protected final void sendMouseEvent(MouseEvent e) {
+    @Override
+    public final void sendMouseEvent(MouseEvent e) {
         try {
             N_SendMouseEvent(e);
         } catch (UnsatisfiedLinkError ule) {
@@ -618,7 +623,8 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser {
      * Send a mouse wheel event.
      * @param e The event to send.
      */
-    protected final void sendMouseWheelEvent(MouseWheelEvent e) {
+    @Override
+    public final void sendMouseWheelEvent(MouseWheelEvent e) {
         try {
             N_SendMouseWheelEvent(e);
         } catch (UnsatisfiedLinkError ule) {

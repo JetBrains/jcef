@@ -11,6 +11,7 @@ import org.cef.browser.CefBrowserFactory;
 import org.cef.browser.CefFrame;
 import org.cef.browser.CefMessageRouter;
 import org.cef.browser.CefRequestContext;
+import org.cef.browser.CefBrowserWithEventsSink;
 import org.cef.callback.CefAuthCallback;
 import org.cef.callback.CefBeforeDownloadCallback;
 import org.cef.callback.CefContextMenuParams;
@@ -87,6 +88,7 @@ public class CefClient extends CefClientHandler
         public void propertyChange(PropertyChangeEvent evt) {
             if (focusedBrowser_ != null) {
                 Component browserUI = focusedBrowser_.getUIComponent();
+                if (browserUI == null) return;
                 Object oldUI = evt.getOldValue();
                 if (isPartOf(oldUI, browserUI)) {
                     focusedBrowser_.setFocus(false);
@@ -133,11 +135,22 @@ public class CefClient extends CefClientHandler
         return createBrowser(url, isOffscreenRendered, isTransparent, null);
     }
 
+    public CefBrowserWithEventsSink createOffScreenWithHandler(String url,
+                                                               CefRenderHandler renderHandler,
+                                                               CefRequestContext context) {
+        assertNotDisposed();
+        return CefBrowserFactory.createOffScreenWithHandler(this, url, renderHandler, context);
+    }
+
     public CefBrowser createBrowser(String url, boolean isOffscreenRendered, boolean isTransparent,
-            CefRequestContext context) {
+                                    CefRequestContext context) {
+        assertNotDisposed();
+        return CefBrowserFactory.create(this, url, isOffscreenRendered, isTransparent, context);
+    }
+
+    private void assertNotDisposed() {
         if (isDisposed_)
             throw new IllegalStateException("Can't create browser. CefClient is disposed");
-        return CefBrowserFactory.create(this, url, isOffscreenRendered, isTransparent, context);
     }
 
     @Override
@@ -380,7 +393,9 @@ public class CefClient extends CefClientHandler
         if (browser == null) return;
 
         browser.setFocus(false);
-        Container parent = browser.getUIComponent().getParent();
+        Component uiComponent = browser.getUIComponent();
+        if (uiComponent == null) return;
+        Container parent = uiComponent.getParent();
         if (parent != null) {
             FocusTraversalPolicy policy = null;
             while (parent != null) {
@@ -390,8 +405,8 @@ public class CefClient extends CefClientHandler
             }
             if (policy != null) {
                 Component nextComp = next
-                        ? policy.getComponentAfter(parent, browser.getUIComponent())
-                        : policy.getComponentBefore(parent, browser.getUIComponent());
+                        ? policy.getComponentAfter(parent, uiComponent)
+                        : policy.getComponentBefore(parent, uiComponent);
                 if (nextComp == null) {
                     policy.getDefaultComponent(parent).requestFocus();
                 } else {
@@ -409,7 +424,9 @@ public class CefClient extends CefClientHandler
 
         Boolean alreadyHandled = Boolean.FALSE;
         if (focusHandler_ != null) {
-            alreadyHandled = JdkEx.invokeOnEDTAndWait(() -> focusHandler_.onSetFocus(browser, source), Boolean.TRUE /*ignore focus*/, browser.getUIComponent());
+            Component uiComponent = browser.getUIComponent();
+            if (uiComponent == null) return true;
+            alreadyHandled = JdkEx.invokeOnEDTAndWait(() -> focusHandler_.onSetFocus(browser, source), Boolean.TRUE /*ignore focus*/, uiComponent);
         }
         return alreadyHandled;
     }
@@ -422,7 +439,9 @@ public class CefClient extends CefClientHandler
         focusedBrowser_ = browser;
         browser.setFocus(true);
         if (focusHandler_ != null) {
-            JdkEx.invokeOnEDTAndWait(() -> focusHandler_.onGotFocus(browser), browser.getUIComponent());
+            Component uiComponent = browser.getUIComponent();
+            if (uiComponent == null ) return;
+            JdkEx.invokeOnEDTAndWait(() -> focusHandler_.onGotFocus(browser), uiComponent);
         }
     }
 
@@ -658,6 +677,10 @@ public class CefClient extends CefClientHandler
 
     @Override
     public double getDeviceScaleFactor(CefBrowser browser) {
+        CefRenderHandler realHandler = browser.getRenderHandler();
+        if (realHandler != null) {
+            return realHandler.getDeviceScaleFactor(browser);
+        }
         return JCefAppConfig.getDeviceScaleFactor(browser.getUIComponent());
     }
 
