@@ -16,6 +16,9 @@ import org.cef.network.CefRequest;
 
 import java.awt.Component;
 import java.awt.Point;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 import java.util.Vector;
 
 /**
@@ -357,4 +360,24 @@ public interface CefBrowser {
      * @param word replace selected word with this word.
      */
     public void replaceMisspelling(String word);
+
+    /**
+     * @since api-1.2
+     */
+    void wasResized(int width, int height);
+
+    /**
+     * @since api-1.2
+     */
+    void sendKeyEvent(KeyEvent e);
+
+    /**
+     * @since api-1.2
+     */
+    void sendMouseEvent(MouseEvent e);
+
+    /**
+     * @since api-1.2
+     */
+    void sendMouseWheelEvent(MouseWheelEvent e);
 }

@@ -10,9 +10,33 @@ import org.cef.CefClient;
  * Creates a new instance of CefBrowser according the passed values
  */
 public class CefBrowserFactory {
+    /**
+     * Cef with it's own component to render either real or offscreen.
+     *
+     * @deprecated use {@link #create(CefClient, String, CefRendering, boolean, CefRequestContext)}
+     */
+    @Deprecated
     public static CefBrowser create(CefClient client, String url, boolean isOffscreenRendered,
-            boolean isTransparent, CefRequestContext context) {
-        if (isOffscreenRendered) return new CefBrowserOsr(client, url, isTransparent, context);
-        return new CefBrowserWr(client, url, context);
+                                    boolean isTransparent, CefRequestContext context) {
+        CefRendering rendering = isOffscreenRendered ? CefRendering.OFFSCREEN : CefRendering.DEFAULT;
+        return create(client, url, rendering, isTransparent, context);
+    }
+
+    /**
+     * Returns {@link CefBrowser} based on {@link CefRendering} passed.
+     *
+     * @since api-1.2
+     */
+    public static CefBrowser create(CefClient client, String url, CefRendering rendering,
+                                    boolean isTransparent, CefRequestContext context) {
+        if (rendering == CefRendering.DEFAULT) {
+            return new CefBrowserWr(client, url, context);
+        } else if (rendering == CefRendering.OFFSCREEN) {
+            return new CefBrowserOsr(client, url, isTransparent, context);
+        } else if (rendering instanceof CefRendering.CefRenderingWithHandler) {
+            CefRendering.CefRenderingWithHandler renderingWithHandler = (CefRendering.CefRenderingWithHandler) rendering;
+            return new CefBrowserOsrWithHandler(client, url, context, renderingWithHandler.getRenderHandler());
+        }
+        throw new IllegalArgumentException(rendering.toString());
     }
 }
