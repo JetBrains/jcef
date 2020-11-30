@@ -210,7 +210,7 @@ class CefBrowserOsr extends CefBrowser_N implements CefRenderHandler {
                     GLAutoDrawable glautodrawable, int x, int y, int width, int height) {
                 browser_rect_.setBounds(canvas_.getBounds()/*x, y, width, height*/); // [tav] todo: revise it
                 screenPoint_ = canvas_.getLocationOnScreen();
-                wasResized(newWidth, newHeight);
+                wasResized(width, height);
             }
 
             @Override

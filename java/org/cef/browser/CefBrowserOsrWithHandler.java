@@ -4,6 +4,8 @@ import org.cef.CefClient;
 import org.cef.handler.CefRenderHandler;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * Cef offscreen browser that forwards all events to {@link CefRenderHandler}
@@ -39,6 +41,10 @@ public final class CefBrowserOsrWithHandler extends CefBrowser_N  {
     @Override
     protected CefBrowser_N createDevToolsBrowser(CefClient client, String url, CefRequestContext context, CefBrowser_N parent, Point inspectAt) {
         return null;
+    }
 
+    @Override
+    public CompletableFuture<BufferedImage> createScreenshot(boolean nativeResolution) {
+        throw new UnsupportedOperationException("createScreenshot is not yet supported in this class");
     }
 }
