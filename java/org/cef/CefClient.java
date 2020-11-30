@@ -37,6 +37,7 @@ import org.cef.handler.CefRenderHandler;
 import org.cef.handler.CefRequestHandler;
 import org.cef.handler.CefResourceHandler;
 import org.cef.handler.CefResourceRequestHandler;
+import org.cef.handler.CefScreenInfo;
 import org.cef.handler.CefWindowHandler;
 import org.cef.misc.BoolRef;
 import org.cef.misc.StringRef;
@@ -763,6 +764,15 @@ public class CefClient extends CefClientHandler
     }
 
     @Override
+    public boolean onOpenURLFromTab(CefBrowser browser, CefFrame frame, String target_url,
+            boolean user_gesture) {
+        if (isDisposed_) return true;
+        if (requestHandler_ != null && browser != null)
+            return requestHandler_.onOpenURLFromTab(browser, frame, target_url, user_gesture);
+        return false;
+    }
+
+    @Override
     public CefResourceRequestHandler getResourceRequestHandler(CefBrowser browser, CefFrame frame,
             CefRequest request, boolean isNavigation, boolean isDownload, String requestInitiator,
             BoolRef disableDefaultHandling) {
@@ -827,5 +837,10 @@ public class CefClient extends CefClientHandler
         CefWindowHandler realHandler = browser.getWindowHandler();
         if (realHandler != null)
             realHandler.onMouseEvent(browser, event, screenX, screenY, modifier, button);
+    }
+
+    @Override
+    public boolean getScreenInfo(CefBrowser arg0, CefScreenInfo arg1) {
+        return false;
     }
 }

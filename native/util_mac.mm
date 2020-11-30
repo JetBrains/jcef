@@ -328,7 +328,7 @@ bool g_shutdown_called = false;
 
 - (void)dealloc {
   if (cefBrowser) {
-    util::DestroyCefBrowser(cefBrowser); // we're on the main thread
+    util::DestroyCefBrowser(cefBrowser);
   }
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   cefBrowser = NULL;

@@ -75,44 +75,44 @@ public interface CefFrame {
     public void executeJavaScript(String code, String url, int line);
 
     /**
-     * Executes undo in this frame.
+     * Execute undo in this frame.
      * @since JCEF API 1.1
      */
-    void undo();
+    public void undo();
 
     /**
-     * Executes redo in this frame.
+     * Execute redo in this frame.
      * @since JCEF API 1.1
      */
-    void redo();
+    public void redo();
 
     /**
-     * Executes cut in this frame.
+     * Execute cut in this frame.
      * @since JCEF API 1.1
      */
-    void cut();
+    public void cut();
 
     /**
-     * Executes copy in this frame.
+     * Execute copy in this frame.
      * @since JCEF API 1.1
      */
-    void copy();
+    public void copy();
 
     /**
-     * Executes paste in this frame.
+     * Execute paste in this frame.
      * @since JCEF API 1.1
      */
-    void paste();
+    public void paste();
 
     /**
      * Executes delete in this frame.
      * @since JCEF API 1.1
      */
-    void delete();
+    public void delete();
 
     /**
      * Executes select all in this frame.
      * @since JCEF API 1.1
      */
-    void selectAll();
+    public void selectAll();
 }
