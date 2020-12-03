@@ -8,7 +8,7 @@
 #include "include/wrapper/cef_message_router.h"
 #include "util.h"
 
-#if defined(OS_MACOSX)
+#if defined(OS_MAC)
 // When generating projects with CMake the CEF_USE_SANDBOX value will be defined
 // automatically. Pass -DUSE_SANDBOX=OFF to the CMake command-line to disable
 // use of the sandbox.
@@ -17,7 +17,7 @@
 #endif
 
 #include "include/wrapper/cef_library_loader.h"
-#endif  // defined(OS_MACOSX)
+#endif  // defined(OS_MAC)
 
 #if defined(OS_WIN)
 #include <windows.h>
@@ -64,7 +64,8 @@ class CefHelperApp : public CefApp, public CefRenderProcessHandler {
     return this;
   }
 
-  virtual void OnRenderThreadCreated(
+// [tav] todo
+/*virtual void OnRenderThreadCreated(
       CefRefPtr<CefListValue> extra_info) OVERRIDE {
     for (size_t idx = 0; idx < extra_info->GetSize(); idx++) {
       CefRefPtr<CefDictionaryValue> dict = extra_info->GetDictionary((int)idx);
@@ -77,7 +78,7 @@ class CefHelperApp : public CefApp, public CefRenderProcessHandler {
           CefMessageRouterRendererSide::Create(config);
       message_router_.insert(std::make_pair(config, router));
     }
-  }
+  }*/
 
   virtual void OnContextCreated(CefRefPtr<CefBrowser> browser,
                                 CefRefPtr<CefFrame> frame,
@@ -164,7 +165,7 @@ int CALLBACK WinMain(HINSTANCE hInstance,
   CefMainArgs main_args(hInstance);
 #else  // !defined(OS_WIN)
 int main(int argc, char* argv[]) {
-#if defined(OS_MACOSX)
+#if defined(OS_MAC)
 #if defined(CEF_USE_SANDBOX)
   // Initialize the macOS sandbox for this helper process.
   CefScopedSandboxContext sandbox_context;
@@ -193,7 +194,7 @@ int main(int argc, char* argv[]) {
   } else if (!library_loader.LoadInHelper()) {
     return 1;
   }
-#endif  // defined(OS_MACOSX)
+#endif  // defined(OS_MAC)
 
   CefMainArgs main_args(argc, argv);
 #endif  // !defined(OS_WIN)
@@ -201,7 +202,7 @@ int main(int argc, char* argv[]) {
   CefRefPtr<CefHelperApp> app = new CefHelperApp();
   const int result = CefExecuteProcess(main_args, app.get(), NULL);
 
-#if defined(OS_MACOSX)
+#if defined(OS_MAC)
   if (!framework_path.empty())
     cef_unload_library();
 #endif

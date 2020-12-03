@@ -23,6 +23,7 @@ compileJava.options.compilerArgs += [
     '--add-modules', 'jogl.all,gluegen.rt',
     '--add-exports', 'jogl.all/com.jogamp.nativewindow=jcef',
     '--add-exports', 'jogl.all/com.jogamp.opengl.awt=jcef',
+    '--add-exports', 'jogl.all/com.jogamp.opengl.util=jcef',
     '--add-exports', 'jogl.all/com.jogamp.opengl=jcef',
     '--add-exports', 'java.desktop/sun.awt=jcef',
     '--add-exports', 'java.desktop/java.awt.peer=jcef',

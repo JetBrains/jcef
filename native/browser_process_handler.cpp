@@ -38,7 +38,8 @@ void BrowserProcessHandler::OnContextInitialized() {
   JNI_CALL_VOID_METHOD(env, handle_, "onContextInitialized", "()V");
 }
 
-void BrowserProcessHandler::OnRenderProcessThreadCreated(
+// [tav] todo
+/*void BrowserProcessHandler::OnRenderProcessThreadCreated(
     CefRefPtr<CefListValue> extra_info) {
   int idx = 0;
   static std::set<CefMessageRouterConfig, cmpCfg>::iterator iter;
@@ -52,7 +53,7 @@ void BrowserProcessHandler::OnRenderProcessThreadCreated(
     extra_info->SetDictionary(idx, dict);
     idx++;
   }
-}
+}*/
 
 CefRefPtr<CefPrintHandler> BrowserProcessHandler::GetPrintHandler() {
   CefRefPtr<CefPrintHandler> result;

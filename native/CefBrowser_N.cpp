@@ -27,7 +27,7 @@
 #include <memory>
 #endif
 
-#if defined(OS_MACOSX)
+#if defined(OS_MAC)
 #include <Carbon/Carbon.h>
 #include "util_mac.h"
 #endif
@@ -729,7 +729,7 @@ int GetControlCharacter(KeyboardCode windows_key_code, bool shift) {
 
 #endif  // defined(OS_LINUX)
 
-#if defined(OS_MACOSX)
+#if defined(OS_MAC)
 // A convenient array for getting symbol characters on the number keys.
 const char kShiftCharsForNumberKeys[] = ")!@#$%^&*(";
 
@@ -887,7 +887,7 @@ int GetMacKeyCodeFromChar(int key_char) {
 
   return -1;
 }
-#endif  // defined(OS_MACOSX)
+#endif  // defined(OS_MAC)
 
 struct JNIObjectsForCreate {
  public:
@@ -951,7 +951,7 @@ void create(std::shared_ptr<JNIObjectsForCreate> objs,
     }
     RECT winRect = {0, 0, rect.width, rect.height};
     windowInfo.SetAsChild(parent, winRect);
-#elif defined(OS_MACOSX)
+#elif defined(OS_MAC)
     NSWindow* parent = nullptr;
     if (windowHandle != 0) {
       parent = (NSWindow*)windowHandle;
@@ -1185,7 +1185,7 @@ Java_org_cef_browser_CefBrowser_1N_N_1GetWindowHandle(JNIEnv* env,
   windowHandle = ::WindowFromDC((HDC)displayHandle);
 #elif defined(OS_LINUX)
   return displayHandle;
-#elif defined(OS_MACOSX)
+#elif defined(OS_MAC)
   ASSERT(util_mac::IsNSView((void*)displayHandle));
 #endif
   return (jlong)windowHandle;
@@ -1445,7 +1445,7 @@ Java_org_cef_browser_CefBrowser_1N_N_1SetWindowVisibility(JNIEnv* env,
                                                           jboolean visible) {
   CefRefPtr<CefBrowser> browser = JNI_GET_BROWSER_OR_RETURN(env, obj);
 
-#if defined(OS_MACOSX)
+#if defined(OS_MAC)
   if (!browser->GetHost()->IsWindowRenderingDisabled()) {
     util_mac::SetVisibility(browser->GetHost()->GetWindowHandle(),
                             visible != JNI_FALSE);
@@ -1639,7 +1639,7 @@ Java_org_cef_browser_CefBrowser_1N_N_1SendKeyEvent(JNIEnv* env,
   BYTE VkCode = LOBYTE(MapVirtualKey(scanCode, MAPVK_VSC_TO_VK));
   cef_event.native_key_code = (scanCode << 16) |  // key scan code
                               1;                  // key repeat count
-#elif defined(OS_LINUX) || defined(OS_MACOSX)
+#elif defined(OS_LINUX) || defined(OS_MAC)
   int key_code;
   if (!CallJNIMethodI_V(env, cls, key_event, "getKeyCode", &key_code)) {
     return;
@@ -1700,7 +1700,7 @@ Java_org_cef_browser_CefBrowser_1N_N_1SendKeyEvent(JNIEnv* env,
   } else {
     cef_event.character = cef_event.unmodified_character;
   }
-#elif defined(OS_MACOSX)
+#elif defined(OS_MAC)
   if (key_code == JNI_STATIC(VK_BACK_SPACE)) {
     cef_event.native_key_code = kVK_Delete;
     cef_event.unmodified_character = kBackspaceCharCode;
@@ -1796,8 +1796,8 @@ Java_org_cef_browser_CefBrowser_1N_N_1SendKeyEvent(JNIEnv* env,
     else if (cef_event.native_key_code == kVK_ANSI_RightBracket)
       cef_event.character = 29;
   }
-#endif  // defined(OS_MACOSX)
-#endif  // defined(OS_LINUX) || defined(OS_MACOSX)
+#endif  // defined(OS_MAC)
+#endif  // defined(OS_LINUX) || defined(OS_MAC)
 
   if (event_type == JNI_STATIC(KEY_PRESSED)) {
 #if defined(OS_WIN)
@@ -2024,7 +2024,7 @@ Java_org_cef_browser_CefBrowser_1N_N_1UpdateUI(JNIEnv* env,
                                                jobject jbrowserRect) {
   CefRefPtr<CefBrowser> browser = JNI_GET_BROWSER_OR_RETURN(env, obj);
   CefRect contentRect = GetJNIRect(env, jcontentRect);
-#if defined(OS_MACOSX)
+#if defined(OS_MAC)
   CefRect browserRect = GetJNIRect(env, jbrowserRect);
   util_mac::UpdateView(browser->GetHost()->GetWindowHandle(), contentRect,
                        browserRect);
@@ -2047,7 +2047,7 @@ Java_org_cef_browser_CefBrowser_1N_N_1SetParent(JNIEnv* env,
   CefRefPtr<CefBrowser> browser = JNI_GET_BROWSER_OR_RETURN(env, obj);
   const base::Closure& callback = base::Bind(OnAfterParentChanged, browser);
 
-#if defined(OS_MACOSX)
+#if defined(OS_MAC)
   util::SetParent(browser->GetHost()->GetWindowHandle(), windowHandle,
                   callback);
 #else

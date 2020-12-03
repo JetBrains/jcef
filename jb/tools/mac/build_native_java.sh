@@ -18,13 +18,22 @@ fi
 mkdir -p "$OUT_DIR"
 mkdir -p "$OUT_JAVA_DIR"
 
+case "$2" in
+    "arm64")
+        export TARGET_ARCH="arm64"
+        ;;
+    "x86_64")
+        export TARGET_ARCH="x86_64"
+        ;;
+esac
+
 echo "*** create modular jogl..."
 cd "$JB_TOOLS_DIR" || exit 1
 bash ./modular-jogl.sh || exit 1
 
-echo "*** run cmake..."
+echo "*** run cmake [TARGET=$TARGET_ARCH]..."
 cd "$OUT_DIR" || exit 1
-cmake -G "Xcode" -DPROJECT_ARCH="x86_64" .. || exit 1
+cmake -G "Xcode" -DPROJECT_ARCH="$TARGET_ARCH" .. || exit 1
 
 echo "*** run xcodebuild..."
 xcodebuild -configuration Release || exit 1

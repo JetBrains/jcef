@@ -4,6 +4,7 @@ module jogl.all {
 
   // to jcef
   exports com.jogamp.opengl.awt;
+  exports com.jogamp.opengl.util;
   exports com.jogamp.nativewindow;
   exports com.jogamp.opengl;
 

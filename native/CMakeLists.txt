@@ -155,7 +155,7 @@ set(JCEF_SRCS_LINUX
   util_linux.cpp
   util_posix.cpp
   )
-set(JCEF_SRCS_MACOSX
+set(JCEF_SRCS_MAC
   critical_wait_posix.cpp
   signal_restore_posix.cpp
   signal_restore_posix.h
@@ -184,7 +184,7 @@ set(JCEF_HELPER_SRCS
 set(JCEF_HELPER_SRCS_LINUX
   util_posix.cpp
   )
-set(JCEF_HELPER_SRCS_MACOSX
+set(JCEF_HELPER_SRCS_MAC
   util_posix.cpp
   )
 set(JCEF_HELPER_SRCS_WINDOWS
@@ -201,7 +201,7 @@ source_group(jcef FILES ${JCEF_HELPER_SRCS})
 
 # Target binary names.
 set(JCEF_TARGET "jcef")
-if(OS_MACOSX)
+if(OS_MAC)
   set(JCEF_APP_NAME "jcef_app")
   set(JCEF_HELPER_TARGET "jcef_Helper")
   set(JCEF_HELPER_OUTPUT_NAME "jcef Helper")
@@ -285,7 +285,7 @@ endif()
 # Mac OS X configuration.
 #
 
-if(OS_MACOSX)
+if(OS_MAC)
   # Avoid CMP0042 policy errors.
   set(CMAKE_MACOSX_RPATH 1)
 
@@ -307,11 +307,21 @@ if(OS_MACOSX)
   endif()
 
   # JCEF library target.
+  if(NOT DEFINED JNF_FRAMEWORK_PATH)
+    if(CMAKE_OSX_SYSROOT MATCHES ".*MacOSX11.*")
+      set(JNF_FRAMEWORK_PATH "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/JavaNativeFoundation.framework")
+    else()
+      set(JNF_FRAMEWORK_PATH "${CMAKE_OSX_SYSROOT}/System/Library/Frameworks/JavaVM.framework/Frameworks/JavaNativeFoundation.framework")
+    endif()
+  endif()
+  if(NOT DEFINED JNF_HEADERS_PATH)
+    set(JNF_HEADERS_PATH "${JNF_FRAMEWORK_PATH}/Headers")
+  endif()
   add_library(${JCEF_TARGET} SHARED ${JCEF_RESOURCES_SRCS} ${JCEF_SRCS})
   SET_EXECUTABLE_TARGET_PROPERTIES(${JCEF_TARGET})
   add_dependencies(${JCEF_TARGET} libcef_dll_wrapper)
-  target_link_libraries(${JCEF_TARGET} libcef_dll_wrapper ${CEF_STANDARD_LIBS}  ${JNI_LIBRARIES} ${CMAKE_OSX_SYSROOT}/System/Library/Frameworks/JavaVM.framework/Frameworks/JavaNativeFoundation.framework)
-  target_include_directories(${JCEF_TARGET} PUBLIC ${JNI_INCLUDE_DIRS} ${CMAKE_OSX_SYSROOT}/System/Library/Frameworks/JavaVM.framework/Frameworks/JavaNativeFoundation.framework/Headers)
+  target_link_libraries(${JCEF_TARGET} libcef_dll_wrapper ${CEF_STANDARD_LIBS}  ${JNI_LIBRARIES} ${JNF_FRAMEWORK_PATH})
+  target_include_directories(${JCEF_TARGET} PUBLIC ${JNI_INCLUDE_DIRS} ${JNF_HEADERS_PATH})
   target_compile_options(${JCEF_TARGET} PRIVATE -Wno-missing-method-return-type)
 
   # Compile flags specific to the JCEF library target.

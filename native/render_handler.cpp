@@ -142,7 +142,8 @@ jobject NewJNIPoint(JNIEnv* env, int x, int y) {
   return NULL;
 }
 
-int GetCursorId(cef_cursor_type_t type) {
+// [tav] todo
+/*int GetCursorId(cef_cursor_type_t type) {
   ScopedJNIEnv env;
   if (!env)
     return 0;
@@ -196,7 +197,7 @@ int GetCursorId(cef_cursor_type_t type) {
     default:
       return JNI_STATIC(DEFAULT_CURSOR);
   }
-}
+}*/
 
 }  // namespace
 
@@ -326,8 +327,9 @@ void RenderHandler::OnPaint(CefRefPtr<CefBrowser> browser,
                        jdirectBuffer.get(), width, height);
 }
 
-// TODO(JCEF): Expose all parameters.
-void RenderHandler::OnCursorChange(CefRefPtr<CefBrowser> browser,
+//// TODO(JCEF): Expose all parameters.
+// [tav] todo
+/*void RenderHandler::OnCursorChange(CefRefPtr<CefBrowser> browser,
                                    CefCursorHandle cursor,
                                    CursorType type,
                                    const CefCursorInfo& custom_cursor_info) {
@@ -340,7 +342,7 @@ void RenderHandler::OnCursorChange(CefRefPtr<CefBrowser> browser,
   JNI_CALL_VOID_METHOD(env, handle_, "onCursorChange",
                        "(Lorg/cef/browser/CefBrowser;I)V", jbrowser.get(),
                        cursorId);
-}
+}*/
 
 bool RenderHandler::StartDragging(CefRefPtr<CefBrowser> browser,
                                   CefRefPtr<CefDragData> drag_data,
