@@ -1926,7 +1926,7 @@ Java_org_cef_browser_CefBrowser_1N_N_1SendMouseWheelEvent(
   if (cef_event.modifiers & EVENTFLAG_SHIFT_DOWN)
     deltaX = delta;
   else
-    deltaY = delta;
+    deltaY = delta * (-1);
 
   browser->GetHost()->SendMouseWheelEvent(cef_event, deltaX, deltaY);
 }
