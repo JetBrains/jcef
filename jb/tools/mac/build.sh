@@ -16,14 +16,15 @@ fi
 
 if [ "$1" == "clean" ]; then
     CLEAN="clean"
-    TARGET_ARCH=
+    export TARGET_ARCH=
 else
     if [ ! "$1" == "all" ]; then
         echo "error: wrong option, use 'help'"
         exit 1
     fi
     CLEAN=
-    TARGET_ARCH=$2
+    export TARGET_ARCH=$2
+    test -z "$TARGET_ARCH" && export TARGET_ARCH="x86_64"
 fi
 
 if [ ! -d "../../../jb/tools/mac" ]; then
@@ -35,7 +36,7 @@ PATH=$(pwd):$PATH
 export PATH
 
 echo -e "\n*** BUILD NATIVE & JAVA ***\n"
-bash build_native_java.sh "$CLEAN" "$TARGET_ARCH" || exit 1
+bash build_native_java.sh "$CLEAN" || exit 1
 
 echo -e "\n*** CREATE BUNDLE ***\n"
 bash create_bundle.sh "$CLEAN" || exit 1
