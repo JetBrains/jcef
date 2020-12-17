@@ -28,19 +28,17 @@ export -f create_fat
 function build_arch {
   __arch=$1
 
-  __dir=jcef_mac_"$__arch"
+  __arch_dir=jcef_mac_"$__arch"
   __cur_dir=$(pwd)
 
   bash build.sh clean || exit 1
   bash build.sh all "$__arch" || exit 1
 
-  rm -rf "${JCEF_ROOT_DIR:?}"/"$__dir" || exit 1
-  mkdir "$JCEF_ROOT_DIR"/"$__dir" || exit 1
-  mv "$JCEF_ROOT_DIR"/jcef_mac.tar.gz "$JCEF_ROOT_DIR"/"$__dir" || exit 1
-
-  cd "$JCEF_ROOT_DIR"/"$__dir" || exit 1
-  tar xzf jcef_mac.tar.gz || exit 1
-  rm jcef_mac.tar.gz || exit 1
+  cd "$JCEF_ROOT_DIR" || exit 1
+  rm -rf "${__arch_dir:?}" || exit 1
+  mkdir "$__arch_dir" || exit 1
+  tar xzf "$__arch_dir".tar.gz -C "$__arch_dir" || exit 1
+  rm "$__arch_dir".tar.gz || exit 1
 
   cd "$__cur_dir" || exit 1
 }
