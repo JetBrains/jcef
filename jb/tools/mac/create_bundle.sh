@@ -11,9 +11,11 @@ function clean {
     else
         __artefact=jcef_mac_$1
     fi
-    echo "*** delete $__artefact..."
-    rm -rf "${JCEF_ROOT_DIR:?}/$__artefact"
-    rm -f "${JCEF_ROOT_DIR:?}/$__artefact.tar.gz"
+    if test -f "$JCEF_ROOT_DIR/$__artefact" || test -f "$JCEF_ROOT_DIR/$__artefact.tar.gz"; then
+        echo "*** delete $__artefact..."
+        rm -rf "${JCEF_ROOT_DIR:?}/$__artefact"
+        rm -f "${JCEF_ROOT_DIR:?}/$__artefact.tar.gz"
+    fi
 }
 export -f clean
 
