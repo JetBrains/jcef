@@ -32,7 +32,8 @@ static CriticalLock g_browsers_lock_;
 id g_mouse_monitor_ = nil;
 static CefRefPtr<ClientApp> g_client_app_ = NULL;
 bool g_handling_send_event = false;
-bool g_shutdown_called = false;
+bool g_before_shutdown = false;
+bool g_after_shutdown = false;
 
 }  // namespace
 
@@ -68,6 +69,27 @@ bool g_shutdown_called = false;
 + (void)setVisibility:(SetVisibilityParams*)params;
 
 @end  // interface CefHandler
+
+@interface NSAutoreleasePool (JCEFAutoreleasePool)
+- (void)_swizzled_drain;
+@end
+
+@implementation NSAutoreleasePool (JCEFAutoreleasePool)
+
++ (void)load {
+    Method originalDrain = class_getInstanceMethod([NSAutoreleasePool class], @selector(drain));
+    Method swizzledDrain = class_getInstanceMethod(self, @selector(_swizzled_drain));
+    method_exchangeImplementations(originalDrain, swizzledDrain);
+}
+
+- (void)_swizzled_drain {
+    // do not up-call during a shutdown when on the main thread to avoid crash
+    if (!g_before_shutdown || g_after_shutdown || ![NSThread isMainThread]) {
+        [self _swizzled_drain];
+    }
+}
+
+@end
 
 // Java provides an NSApplicationAWT implementation that we can't access or
 // override directly. Therefore add the necessary CefAppProtocol
@@ -226,7 +248,7 @@ bool g_shutdown_called = false;
     continueTerminate = !g_client_app_->HandleTerminate();
   }
 
-  if (continueTerminate && !g_shutdown_called)
+  if (continueTerminate && !g_after_shutdown)
     [[CefHandler class] shutdown];
 
   // [tav] let NSApplication::terminate proceed
@@ -249,8 +271,11 @@ bool g_shutdown_called = false;
   for (int i = 0; i < 10; ++i)
     CefDoMessageLoopWork();
 
+  g_before_shutdown = true;
+
   CefShutdown();
-  g_shutdown_called = true;
+
+  g_after_shutdown = true;
   g_client_app_ = NULL;
 
   if (g_mouse_monitor_) [NSEvent removeMonitor:g_mouse_monitor_];
