@@ -42,6 +42,8 @@ class BrowserProcessHandler : public CefBrowserProcessHandler {
   static void AddMessageRouterConfig(const CefMessageRouterConfig& cfg);
   static void RemoveMessageRouterConfig(const CefMessageRouterConfig& cfg);
 
+  static void OnBeforeCreateBrowser(CefRefPtr<CefDictionaryValue> extra_info);
+
  protected:
   ScopedJNIObjectGlobal handle_;
   static std::set<CefMessageRouterConfig, cmpCfg> router_cfg_;

@@ -38,22 +38,22 @@ void BrowserProcessHandler::OnContextInitialized() {
   JNI_CALL_VOID_METHOD(env, handle_, "onContextInitialized", "()V");
 }
 
-// [tav] todo
-/*void BrowserProcessHandler::OnRenderProcessThreadCreated(
-    CefRefPtr<CefListValue> extra_info) {
-  int idx = 0;
-  static std::set<CefMessageRouterConfig, cmpCfg>::iterator iter;
+void BrowserProcessHandler::OnBeforeCreateBrowser(CefRefPtr<CefDictionaryValue> extra_info) {
+    int idx = 0;
+    static std::set<CefMessageRouterConfig, cmpCfg>::iterator iter;
 
-  // Delegate creation of the renderer-side router for query handling.
-  base::AutoLock lock_scope(router_cfg_lock_);
-  for (iter = router_cfg_.begin(); iter != router_cfg_.end(); ++iter) {
-    CefRefPtr<CefDictionaryValue> dict = CefDictionaryValue::Create();
-    dict->SetString("js_query_function", iter->js_query_function);
-    dict->SetString("js_cancel_function", iter->js_cancel_function);
-    extra_info->SetDictionary(idx, dict);
-    idx++;
-  }
-}*/
+    // Delegate creation of the renderer-side router for query handling.
+    base::AutoLock lock_scope(router_cfg_lock_);
+    CefRefPtr<CefListValue> list = CefListValue::Create();
+    for (iter = router_cfg_.begin(); iter != router_cfg_.end(); ++iter) {
+        CefRefPtr<CefDictionaryValue> dict = CefDictionaryValue::Create();
+        dict->SetString("js_query_function", iter->js_query_function);
+        dict->SetString("js_cancel_function", iter->js_cancel_function);
+        list->SetDictionary(idx, dict);
+        idx++;
+    }
+    extra_info->SetList("js_query_list", list);
+}
 
 CefRefPtr<CefPrintHandler> BrowserProcessHandler::GetPrintHandler() {
   CefRefPtr<CefPrintHandler> result;

@@ -1008,8 +1008,10 @@ void create(std::shared_ptr<JNIObjectsForCreate> objs,
     return;
   }
 
+  CefRefPtr<CefDictionaryValue> extra_info = CefDictionaryValue::Create();
+  BrowserProcessHandler::OnBeforeCreateBrowser(extra_info);
   bool result = CefBrowserHost::CreateBrowser(windowInfo, clientHandler.get(),
-                                              strUrl, settings, NULL, context);
+                                              strUrl, settings, extra_info, context);
   if (!result) {
     lifeSpanHandler->unregisterJBrowser(globalRef);
     env->DeleteGlobalRef(globalRef);
