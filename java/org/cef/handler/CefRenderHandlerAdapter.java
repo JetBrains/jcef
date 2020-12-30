@@ -38,6 +38,11 @@ public abstract class CefRenderHandlerAdapter implements CefRenderHandler {
     }
 
     @Override
+    public double getDeviceScaleFactor(CefBrowser browser) {
+        return 1.0;
+    }
+
+    @Override
     public void onPopupShow(CefBrowser browser, boolean show) {}
 
     @Override
