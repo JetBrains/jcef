@@ -155,6 +155,9 @@ public abstract class JCefAppConfig {
     }
 
     public static double getDeviceScaleFactor(/*@Nullable*/Component component) {
+        if (GraphicsEnvironment.isHeadless()) {
+            return 1.0;
+        }
         GraphicsDevice device = null;
         double scale = 1.0;
         try {
