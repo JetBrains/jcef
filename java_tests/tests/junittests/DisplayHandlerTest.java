@@ -31,7 +31,9 @@ class DisplayHandlerTest {
                 client_.addDisplayHandler(new CefDisplayHandlerAdapter() {
                     @Override
                     public void onTitleChange(CefBrowser browser, String title) {
-                        assertFalse(gotCallback_);
+                        // Ignore the 2nd OnTitleChange call which arrives after navigation completion.
+                        // See: cef/tests/ceftests/display_unittest.cc > TitleTestHandler::OnTitleChange
+                        if (gotCallback_) return;
                         gotCallback_ = true;
                         assertEquals("Test Title", title);
                         terminateTest();
