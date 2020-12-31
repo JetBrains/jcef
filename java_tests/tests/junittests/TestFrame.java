@@ -88,11 +88,6 @@ class TestFrame extends JFrame implements CefLifeSpanHandler, CefLoadHandler, Ce
                 if (!isClosed_) {
                     isClosed_ = true;
                 }
-                if (isClosed) {
-                    // Dispose after the 2nd call to this method.
-                    if (debugPrint()) System.out.println("windowClosing Frame.dispose");
-                    dispose();
-                }
             }
         });
 
@@ -121,8 +116,13 @@ class TestFrame extends JFrame implements CefLifeSpanHandler, CefLoadHandler, Ce
     protected void cleanupTest() {
         if (debugPrint()) System.out.println("cleanupTest");
         client_.dispose();
-        // Allow the test to complete.
-        countdown_.countDown();
+
+        EventQueue.invokeLater(() -> {
+            if (debugPrint()) System.out.println("windowClosing Frame.dispose");
+            dispose();
+            // Allow the test to complete.
+            countdown_.countDown();
+        });
     }
 
     // Call this method to terminate the test by dispatching a window close event.
