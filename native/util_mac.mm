@@ -288,6 +288,12 @@ bool g_after_shutdown = false;
 + (void)setVisibility:(SetVisibilityParams*)params {
   if (g_client_app_) {
     NSView* wh = CAST_CEF_WINDOW_HANDLE_TO_NSVIEW(params->handle_);
+
+    g_browsers_lock_.Lock();
+    bool browser_exists = g_browsers_.count(wh) > 0;
+    g_browsers_lock_.Unlock();
+    if (!browser_exists) return;
+
     bool isHidden = [wh isHidden];
     if (isHidden == params->isVisible_) {
       [wh setHidden:!params->isVisible_];
