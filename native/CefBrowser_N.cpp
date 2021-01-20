@@ -1936,9 +1936,9 @@ Java_org_cef_browser_CefBrowser_1N_N_1SendMouseWheelEvent(
     deltaX = delta;
   else
 #if defined(OS_WIN)
-    deltaY = delta * (-1);
+  deltaY = delta * (-1);
 #else
-    deltaY = delta;
+  deltaY = delta;
 #endif
 
   browser->GetHost()->SendMouseWheelEvent(cef_event, deltaX, deltaY);
