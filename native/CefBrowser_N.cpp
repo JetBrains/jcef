@@ -9,6 +9,7 @@
 #include "include/cef_task.h"
 #include "include/wrapper/cef_closure_task.h"
 
+#include "browser_process_handler.h"
 #include "client_handler.h"
 #include "critical_wait.h"
 #include "jni_util.h"
@@ -890,7 +891,7 @@ int GetMacKeyCodeFromChar(int key_char) {
 #endif  // defined(OS_MACOSX)
 
 struct JNIObjectsForCreate {
-  public:
+ public:
   ScopedJNIObjectGlobal jbrowser;
   ScopedJNIObjectGlobal jparentBrowser;
   ScopedJNIObjectGlobal jclientHandler;
@@ -899,28 +900,29 @@ struct JNIObjectsForCreate {
   ScopedJNIObjectGlobal jcontext;
   ScopedJNIObjectGlobal jinspectAt;
 
-  JNIObjectsForCreate(
-    JNIEnv* env,
-    jobject _jbrowser,
-    jobject _jparentBrowser,
-    jobject _jclientHandler,
-    jstring _url,
-    jobject _canvas,
-    jobject _jcontext,
-    jobject _jinspectAt) :
+  JNIObjectsForCreate(JNIEnv* env,
+                      jobject _jbrowser,
+                      jobject _jparentBrowser,
+                      jobject _jclientHandler,
+                      jstring _url,
+                      jobject _canvas,
+                      jobject _jcontext,
+                      jobject _jinspectAt)
+      :
 
-    jbrowser(env, _jbrowser),
-    jparentBrowser(env, _jparentBrowser),
-    jclientHandler(env, _jclientHandler),
-    url(env, _url),
-    canvas(env, _canvas),
-    jcontext(env, _jcontext),
-    jinspectAt(env, _jinspectAt)
-  {}
+        jbrowser(env, _jbrowser),
+        jparentBrowser(env, _jparentBrowser),
+        jclientHandler(env, _jclientHandler),
+        url(env, _url),
+        canvas(env, _canvas),
+        jcontext(env, _jcontext),
+        jinspectAt(env, _jinspectAt) {}
 };
 
-void create(std::shared_ptr<JNIObjectsForCreate> objs, jlong windowHandle, jboolean osr, jboolean transparent)
-{
+void create(std::shared_ptr<JNIObjectsForCreate> objs,
+            jlong windowHandle,
+            jboolean osr,
+            jboolean transparent) {
   ScopedJNIEnv env;
   CefRefPtr<ClientHandler> clientHandler = GetCefFromJNIObject<ClientHandler>(
       env, objs->jclientHandler, "CefClientHandler");
@@ -1007,8 +1009,16 @@ void create(std::shared_ptr<JNIObjectsForCreate> objs, jlong windowHandle, jbool
     return;
   }
 
-  bool result = CefBrowserHost::CreateBrowser(windowInfo, clientHandler.get(),
-                                              strUrl, settings, NULL, context);
+  CefRefPtr<CefDictionaryValue> extra_info;
+  auto router_configs = BrowserProcessHandler::GetMessageRouterConfigs();
+  if (router_configs) {
+    // Send the message router config to CefHelperApp::OnBrowserCreated.
+    extra_info = CefDictionaryValue::Create();
+    extra_info->SetList("router_configs", router_configs);
+  }
+
+  bool result = CefBrowserHost::CreateBrowser(
+      windowInfo, clientHandler.get(), strUrl, settings, extra_info, context);
   if (!result) {
     lifeSpanHandler->unregisterJBrowser(globalRef);
     env->DeleteGlobalRef(globalRef);
@@ -1141,15 +1151,16 @@ Java_org_cef_browser_CefBrowser_1N_N_1CreateBrowser(JNIEnv* env,
                                                     jboolean osr,
                                                     jboolean transparent,
                                                     jobject canvas,
-                                                    jobject jcontext)
-{
-  std::shared_ptr<JNIObjectsForCreate> objs(new JNIObjectsForCreate(env, jbrowser, nullptr, jclientHandler, url, canvas, jcontext, nullptr));
+                                                    jobject jcontext) {
+  std::shared_ptr<JNIObjectsForCreate> objs(new JNIObjectsForCreate(
+      env, jbrowser, nullptr, jclientHandler, url, canvas, jcontext, nullptr));
   if (CefCurrentlyOn(TID_UI)) {
     create(objs, windowHandle, osr, transparent);
   } else {
-    CefPostTask(TID_UI, base::Bind(&create, objs, windowHandle, osr, transparent));
+    CefPostTask(TID_UI,
+                base::Bind(&create, objs, windowHandle, osr, transparent));
   }
-  return JNI_FALSE; // set asynchronously
+  return JNI_FALSE;  // set asynchronously
 }
 
 JNIEXPORT jboolean JNICALL
@@ -1161,15 +1172,17 @@ Java_org_cef_browser_CefBrowser_1N_N_1CreateDevTools(JNIEnv* env,
                                                      jboolean osr,
                                                      jboolean transparent,
                                                      jobject canvas,
-                                                     jobject inspect)
-{
-  std::shared_ptr<JNIObjectsForCreate> objs(new JNIObjectsForCreate(env, jbrowser, jparent, jclientHandler, nullptr, canvas, nullptr, inspect));
+                                                     jobject inspect) {
+  std::shared_ptr<JNIObjectsForCreate> objs(
+      new JNIObjectsForCreate(env, jbrowser, jparent, jclientHandler, nullptr,
+                              canvas, nullptr, inspect));
   if (CefCurrentlyOn(TID_UI)) {
     create(objs, windowHandle, osr, transparent);
   } else {
-    CefPostTask(TID_UI, base::Bind(&create, objs, windowHandle, osr, transparent));
+    CefPostTask(TID_UI,
+                base::Bind(&create, objs, windowHandle, osr, transparent));
   }
-  return JNI_FALSE; // set asynchronously
+  return JNI_FALSE;  // set asynchronously
 }
 
 JNIEXPORT jlong JNICALL

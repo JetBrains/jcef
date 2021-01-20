@@ -83,9 +83,14 @@ public class MainFrame extends BrowserFrame {
     private ControlPanel control_pane_;
     private StatusPanel status_panel_;
     private boolean browserFocus_ = true;
+    private boolean osr_enabled_;
+    private boolean transparent_painting_enabled_;
 
     public MainFrame(boolean osrEnabled, boolean transparentPaintingEnabled,
             boolean createImmediately, String[] args) {
+        this.osr_enabled_ = osrEnabled;
+        this.transparent_painting_enabled_ = transparentPaintingEnabled;
+
         CefApp myApp;
         if (CefApp.getState() != CefApp.CefAppState.INITIALIZED) {
             JCefAppConfig config = JCefAppConfig.getInstance();
@@ -248,7 +253,7 @@ public class MainFrame extends BrowserFrame {
 
         menuBar.addBookmark("Binding Test", "client://tests/binding_test.html");
         menuBar.addBookmark("Binding Test 2", "client://tests/binding_test2.html");
-        menuBar.addBookmark("Download Test", "http://opensource.spotify.com/cefbuilds/index.html");
+        menuBar.addBookmark("Download Test", "https://cef-builds.spotifycdn.com/index.html");
         menuBar.addBookmark("Login Test (username:pumpkin, password:pie)",
                 "http://www.colostate.edu/~ric/protect/your.html");
         menuBar.addBookmark("Certificate-error Test", "https://www.k2go.de");
@@ -284,5 +289,13 @@ public class MainFrame extends BrowserFrame {
         contentPanel.add(control_pane_, BorderLayout.NORTH);
         contentPanel.add(status_panel_, BorderLayout.SOUTH);
         return contentPanel;
+    }
+
+    public boolean isOsrEnabled() {
+        return osr_enabled_;
+    }
+
+    public boolean isTransparentPaintingEnabled() {
+        return transparent_painting_enabled_;
     }
 }

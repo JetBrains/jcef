@@ -4,12 +4,12 @@
 
 package org.cef.handler;
 
+import org.cef.browser.CefBrowser;
+import org.cef.callback.CefDragData;
+
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.nio.ByteBuffer;
-
-import org.cef.browser.CefBrowser;
-import org.cef.callback.CefDragData;
 
 /**
  * Implement this interface to handle events when window rendering is disabled.
@@ -22,6 +22,15 @@ public interface CefRenderHandler {
      * @return The view rectangle.
      */
     public Rectangle getViewRect(CefBrowser browser);
+
+    /**
+     * Retrieve the screen info.
+     * @param browser The browser generating the event.
+     * @param screenInfo The screenInfo
+     * @return True if this callback was handled.  False to fallback to defaults.
+     */
+    public boolean getScreenInfo(CefBrowser browser, CefScreenInfo screenInfo);
+
     /**
      * Retrieve the screen point for the specified view point.
      * @param browser The browser generating the event.
@@ -64,9 +73,10 @@ public interface CefRenderHandler {
     /**
      * Handle cursor changes.
      * @param browser The browser generating the event.
-     * @param cursor The new cursor.
+     * @param cursorType The new cursor type.
+     * @return true if the cursor change was handled.
      */
-    public void onCursorChange(CefBrowser browser, int cursor);
+    public boolean onCursorChange(CefBrowser browser, int cursorType);
 
     /**
      * Called when the user starts dragging content in the web view. Contextual

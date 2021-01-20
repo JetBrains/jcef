@@ -17,6 +17,10 @@
 #include "include/cef_task.h"
 #include "critical_wait.h"
 
+#if defined(OS_LINUX)
+#include "critical_wait.h"
+#endif
+
 #endif  // USING_JAVA
 
 #if defined(OS_WIN)
@@ -109,6 +113,13 @@ void SetParent(CefWindowHandle browserHandle,
                CefWindowHandle parentHandle,
                CriticalWait* waitCond,
                const base::Closure& callback);
+
+#if defined(OS_LINUX)
+void SetParentSync(CefWindowHandle browserHandle,
+                   CefWindowHandle parentHandle,
+                   CriticalWait* waitCond,
+                   const base::Closure& callback);
+#endif
 
 // Set the window bounds for |browserHandle|.
 void SetWindowBounds(CefWindowHandle browserHandle, const CefRect& contentRect);

@@ -3,8 +3,6 @@
 # reserved. Use of this source code is governed by a BSD-style license
 # that can be found in the LICENSE file.
 
-cd ..
-
 if [ -z "$1" ]; then
   echo "ERROR: Please specify a target platform: linux32 | linux64 | macos"
 else
@@ -13,10 +11,10 @@ else
   elif [ -z "$3" ]; then
     echo "ERROR: Please specify a run type: detailed or simple"
   else
-    export OUT_PATH="./out/$1"
+    DIR="$( cd "$( dirname "$0" )" && cd .. && pwd )"
+    OUT_PATH="${DIR}/out/$1"
 
-    #export LIB_PATH=$(readlink -f "./jcef_build/native/$2")
-    export LIB_PATH=`pwd`/jcef_build/native/$2
+    export LIB_PATH="${DIR}/jcef_build/native/$2"
     if [ ! -d "$LIB_PATH" ]; then
       echo "ERROR: Native build output path does not exist"
       exit 1
@@ -26,14 +24,14 @@ else
       export OUT_PATH=$LIB_PATH
     fi
 
-    export CLS_PATH="./third_party/jogamp/jar/*:$OUT_PATH"
+    export CLS_PATH="${DIR}/third_party/jogamp/jar/*:$OUT_PATH"
     export RUN_TYPE="$3"
 
     # Necessary for jcef_helper to find libcef.so.
     if [ -n "$LD_LIBRARY_PATH" ]; then
-      LD_LIBRARY_PATH=$LIB_PATH:${LD_LIBRARY_PATH}
+      LD_LIBRARY_PATH="$LIB_PATH:${LD_LIBRARY_PATH}"
     else
-      LD_LIBRARY_PATH=$LIB_PATH
+      LD_LIBRARY_PATH="$LIB_PATH"
     fi
     export LD_LIBRARY_PATH
 
@@ -59,6 +57,5 @@ else
   fi
 fi
 
-cd tools
 
 exit $exit_status
