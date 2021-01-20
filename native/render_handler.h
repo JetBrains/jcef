@@ -9,6 +9,7 @@
 #include <jni.h>
 
 #include "include/cef_render_handler.h"
+#include "include/cef_display_handler.h"
 
 #include "jni_scoped_helpers.h"
 

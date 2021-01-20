@@ -5,7 +5,7 @@
 #include "client_app.h"
 #include "jni_util.h"
 #include "util.h"
-#if defined(OS_MACOSX)
+#if defined(OS_MAC)
 #include "util_mac.h"
 #endif
 
@@ -49,14 +49,14 @@ void ClientApp::OnBeforeCommandLineProcessing(
   }
 
   if (process_type.empty()) {
-#if defined(OS_MACOSX)
+#if defined(OS_MAC)
     // If windowed rendering is used, we need the browser window as CALayer
     // due Java7 is CALayer based instead of NSLayer based.
     command_line->AppendSwitch("use-core-animation");
 
     // Skip keychain prompt on startup.
     command_line->AppendSwitch("use-mock-keychain");
-#endif  // defined(OS_MACOSX)
+#endif  // defined(OS_MAC)
 
     if (cache_path_.empty() &&
         !command_line->HasSwitch("disable-gpu-shader-disk-cache")) {
@@ -89,7 +89,7 @@ CefRefPtr<CefBrowserProcessHandler> ClientApp::GetBrowserProcessHandler() {
   return process_handler_.get();
 }
 
-#if defined(OS_MACOSX)
+#if defined(OS_MAC)
 bool ClientApp::HandleTerminate() {
   ScopedJNIEnv env;
   if (!env)
@@ -115,7 +115,7 @@ bool ClientApp::HandleTerminate() {
   JNI_CALL_VOID_METHOD(env, jcefApp, "handleBeforeTerminate", "()V");
   return true;
 }
-#endif  // defined(OS_MACOSX)
+#endif  // defined(OS_MAC)
 
 // static
 void ClientApp::registerTempFile(const std::string& tmpFile) {

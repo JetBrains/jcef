@@ -14,7 +14,7 @@
 
 #include "temp_window.h"
 
-#if defined(OS_MACOSX)
+#if defined(OS_MAC)
 #include "include/wrapper/cef_library_loader.h"
 #endif
 
