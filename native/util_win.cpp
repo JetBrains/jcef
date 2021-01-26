@@ -279,20 +279,12 @@ CefWindowHandle GetWindowHandle(JNIEnv* env, jobject canvas) {
 
 void SetParent(CefWindowHandle browserHandle,
                CefWindowHandle parentHandle,
-               CriticalWait* waitCond,
                const base::Closure& callback) {
-  if (waitCond) {
-    waitCond->lock()->Lock();
-  }
   if (parentHandle == kNullWindowHandle)
     parentHandle = TempWindow::GetWindowHandle();
   if (parentHandle != kNullWindowHandle && browserHandle != kNullWindowHandle)
     ::SetParent(browserHandle, parentHandle);
 
-  if (waitCond) {
-    waitCond->WakeUp();
-    waitCond->lock()->Unlock();
-  }
   callback.Run();
 }
 
@@ -309,22 +301,14 @@ void SetWindowSize(CefWindowHandle browserHandle, int width, int height) {
                SWP_NOZORDER | SWP_NOMOVE);
 }
 
-void UnfocusCefBrowser(CefRefPtr<CefBrowser> browser,
-                       CriticalWait* waitCond /* = NULL*/)
+void UnfocusCefBrowser(CefRefPtr<CefBrowser> browser)
 {
-  if (waitCond) {
-    waitCond->lock()->Lock();
-  }
   CefWindowHandle browserHandle = browser->GetHost()->GetWindowHandle();
   if (browserHandle != kNullWindowHandle) {
     CefWindowHandle ancestorHandle = ::GetAncestor(browserHandle, GA_ROOT);
     if (ancestorHandle == ::GetActiveWindow()) {
       ::SetFocus(ancestorHandle);
     }
-  }
-  if (waitCond) {
-    waitCond->WakeUp();
-    waitCond->lock()->Unlock();
   }
 }
 

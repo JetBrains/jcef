@@ -107,7 +107,6 @@ CefWindowHandle GetWindowHandle(JNIEnv* env, jobject canvas);
 // parented to the TempWindow.
 void SetParent(CefWindowHandle browserHandle,
                CefWindowHandle parentHandle,
-               CriticalWait* waitCond,
                const base::Closure& callback);
 
 // Set the window bounds for |browserHandle|.
@@ -119,7 +118,7 @@ void SetWindowSize(CefWindowHandle browserHandle, int width, int height);
 #endif  // !defined(OS_MACOSX)
 
 #if defined(OS_WIN)
-void UnfocusCefBrowser(CefRefPtr<CefBrowser> browser, CriticalWait* waitCond = NULL);
+void UnfocusCefBrowser(CefRefPtr<CefBrowser> browser);
 #endif
 
 #endif  // USING_JAVA
