@@ -1017,10 +1017,8 @@ void create(std::shared_ptr<JNIObjectsForCreate> objs, jlong windowHandle, jbool
   JNI_CALL_VOID_METHOD(env, objs->jbrowser, "notifyBrowserCreated", "()V");
 }
 
-static void getZoomLevel(CefRefPtr<CefBrowserHost> host, double* result) {
-  if (result) {
-    *result = host->GetZoomLevel();
-  }
+static void getZoomLevel(CefRefPtr<CefBrowserHost> host, std::shared_ptr<double> result) {
+  *result = host->GetZoomLevel();
 }
 
 void OnAfterParentChanged(CefRefPtr<CefBrowser> browser) {
@@ -1445,36 +1443,39 @@ Java_org_cef_browser_CefBrowser_1N_N_1SetWindowVisibility(JNIEnv* env,
 #endif
 }
 
-static void _runTaskAndWakeup(
-    std::shared_ptr<CriticalWait> waitCond,
-    const base::Closure & task
-) {
+namespace {
+
+void _runTaskAndWakeup(std::shared_ptr<CriticalWait> waitCond,
+                              const base::Closure& task) {
   waitCond->lock()->Lock();
   task.Run();
   waitCond->WakeUp();
   waitCond->lock()->Unlock();
 }
 
-static void CefPostTaskAndWait(CefThreadId threadId, const base::Closure & task, long waitMillis) {
+void CefPostTaskAndWait(CefThreadId threadId,
+                               const base::Closure& task,
+                               long waitMillis) {
   std::shared_ptr<CriticalLock> lock = std::make_shared<CriticalLock>();
   std::shared_ptr<CriticalWait> waitCond = std::make_shared<CriticalWait>(lock.get());
   lock.get()->Lock();
-  CefPostTask(TID_UI, base::Bind(_runTaskAndWakeup, waitCond, task));
+  CefPostTask(threadId, base::Bind(_runTaskAndWakeup, waitCond, task));
   waitCond.get()->Wait(waitMillis);
   lock.get()->Unlock();
+}
+
 }
 
 JNIEXPORT jdouble JNICALL
 Java_org_cef_browser_CefBrowser_1N_N_1GetZoomLevel(JNIEnv* env, jobject obj) {
   CefRefPtr<CefBrowser> browser = JNI_GET_BROWSER_OR_RETURN(env, obj, 0.0);
   CefRefPtr<CefBrowserHost> host = browser->GetHost();
-  double result = 0.0;
-  if (CefCurrentlyOn(TID_UI))
-    result = host->GetZoomLevel();
-  else {
-    CefPostTaskAndWait(TID_UI, base::Bind(getZoomLevel, host, &result), 1000);
+  if (CefCurrentlyOn(TID_UI)) {
+    return host->GetZoomLevel();
   }
-  return result;
+  std::shared_ptr<double> result = std::make_shared<double>(0.0);
+  CefPostTaskAndWait(TID_UI, base::Bind(getZoomLevel, host, result), 1000);
+  return *result;
 }
 
 JNIEXPORT void JNICALL
