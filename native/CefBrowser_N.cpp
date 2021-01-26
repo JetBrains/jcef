@@ -1402,6 +1402,30 @@ Java_org_cef_browser_CefBrowser_1N_N_1Close(JNIEnv* env,
   }
 }
 
+namespace {
+
+void _runTaskAndWakeup(std::shared_ptr<CriticalWait> waitCond,
+                       const base::Closure& task) {
+  waitCond->lock()->Lock();
+  task.Run();
+  waitCond->WakeUp();
+  waitCond->lock()->Unlock();
+}
+
+void CefPostTaskAndWait(CefThreadId threadId,
+                        const base::Closure& task,
+                        long waitMillis) {
+  std::shared_ptr<CriticalLock> lock = std::make_shared<CriticalLock>();
+  std::shared_ptr<CriticalWait> waitCond = std::make_shared<CriticalWait>(lock.get());
+  lock.get()->Lock();
+  CefPostTask(threadId, base::Bind(_runTaskAndWakeup, waitCond, task));
+  waitCond.get()->Wait(waitMillis);
+  lock.get()->Unlock();
+}
+
+}
+
+
 JNIEXPORT void JNICALL
 Java_org_cef_browser_CefBrowser_1N_N_1SetFocus(JNIEnv* env,
                                                jobject obj,
@@ -1416,13 +1440,7 @@ Java_org_cef_browser_CefBrowser_1N_N_1SetFocus(JNIEnv* env,
       if (CefCurrentlyOn(TID_UI)) {
         util::UnfocusCefBrowser(browser);
       } else {
-        CriticalLock lock;
-        CriticalWait waitCond(&lock);
-        lock.Lock();
-        CefPostTask(TID_UI, base::Bind(&util::UnfocusCefBrowser, browser, &waitCond));
-        // TODO: use CefPostTaskAndWait to avoid possible crash (because of dead stack pointers)
-        waitCond.Wait(1000);
-        lock.Unlock();
+        CefPostTaskAndWait(TID_UI, base::Bind(&util::UnfocusCefBrowser, browser), 1000);
       }
     }
 #endif
@@ -1441,29 +1459,6 @@ Java_org_cef_browser_CefBrowser_1N_N_1SetWindowVisibility(JNIEnv* env,
                             visible != JNI_FALSE);
   }
 #endif
-}
-
-namespace {
-
-void _runTaskAndWakeup(std::shared_ptr<CriticalWait> waitCond,
-                              const base::Closure& task) {
-  waitCond->lock()->Lock();
-  task.Run();
-  waitCond->WakeUp();
-  waitCond->lock()->Unlock();
-}
-
-void CefPostTaskAndWait(CefThreadId threadId,
-                               const base::Closure& task,
-                               long waitMillis) {
-  std::shared_ptr<CriticalLock> lock = std::make_shared<CriticalLock>();
-  std::shared_ptr<CriticalWait> waitCond = std::make_shared<CriticalWait>(lock.get());
-  lock.get()->Lock();
-  CefPostTask(threadId, base::Bind(_runTaskAndWakeup, waitCond, task));
-  waitCond.get()->Wait(waitMillis);
-  lock.get()->Unlock();
-}
-
 }
 
 JNIEXPORT jdouble JNICALL
@@ -2062,16 +2057,10 @@ Java_org_cef_browser_CefBrowser_1N_N_1SetParent(JNIEnv* env,
   CefWindowHandle parentHandle =
       canvas ? util::GetWindowHandle(env, canvas) : kNullWindowHandle;
   if (CefCurrentlyOn(TID_UI)) {
-    util::SetParent(browserHandle, parentHandle, NULL, callback);
+    util::SetParent(browserHandle, parentHandle, callback);
   } else {
-    CriticalLock lock;
-    CriticalWait waitCond(&lock);
-    lock.Lock();
-    CefPostTask(TID_UI, base::Bind(util::SetParent, browserHandle, parentHandle, &waitCond,
+    CefPostTaskAndWait(TID_UI, base::Bind(util::SetParent, browserHandle, parentHandle,
                                    callback));
-    // TODO: use CefPostTaskAndWait to avoid possible crash (because of dead stack pointers)
-    waitCond.Wait(1000);
-    lock.Unlock();
   }
 #endif
 }
