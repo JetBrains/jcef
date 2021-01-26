@@ -2060,7 +2060,7 @@ Java_org_cef_browser_CefBrowser_1N_N_1SetParent(JNIEnv* env,
     util::SetParent(browserHandle, parentHandle, callback);
   } else {
     CefPostTaskAndWait(TID_UI, base::Bind(util::SetParent, browserHandle, parentHandle,
-                                   callback));
+                                   callback), 1000);
   }
 #endif
 }
