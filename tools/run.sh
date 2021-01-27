@@ -11,7 +11,7 @@ else
   elif [ -z "$3" ]; then
     echo "ERROR: Please specify a run type: detailed or simple"
   else
-    DIR="$( cd "$( dirname "$0" )" && cd .. && pwd )"
+    DIR="$( cd "$( dirname "$0" )" && pwd )"
     OUT_PATH="${DIR}/out/$1"
 
     export LIB_PATH="${DIR}/jcef_build/native/$2"

@@ -3,12 +3,14 @@
 # reserved. Use of this source code is governed by a BSD-style license
 # that can be found in the LICENSE file.
 
+cd ..
+
 if [ -z "$1" ]; then
   echo "ERROR: Please specify a target platform: linux32 or linux64"
 elif [ -z "$2" ]; then
   echo "ERROR: Please specify a target configuration: Release or Debug"
 else
-  DIR="$( cd "$( dirname "$0" )" && cd .. && pwd )"
+  DIR="$( cd "$( dirname "$0" )" && pwd )"
   export OUT_PATH="${DIR}/out/$1"
   export OUT_NATIVE_PATH="${DIR}/jcef_build/native/$2"
   JAVA_PATH="${DIR}/java"
@@ -25,4 +27,6 @@ else
   cp -f "${JAVA_PATH}"/tests/detailed/handler/*.html "$OUT_PATH/tests/detailed/handler"
   cp -f "${JAVA_PATH}"/tests/detailed/handler/*.png "$OUT_PATH/tests/detailed/handler"
 fi
+
+cd tools
 
