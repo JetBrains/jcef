@@ -38,9 +38,9 @@ extract_jar $JOGAMP_DIR/gluegen-rt.jar $MODULAR_SDK_DIR/modules/gluegen.rt || ex
 
 echo "*** bundle jogl and gluegen modules_libs..."
 # shellcheck disable=SC2086
-extract_jar $JOGAMP_DIR/jogl-all-natives-${OS}-${ARCH}.jar $MODULAR_SDK_DIR/modules_libs/jogl.all natives/${OS}-${ARCH} || exit 1
+extract_jar $JOGAMP_DIR/jogl-all-natives-${OS}-${DEPS_ARCH}.jar $MODULAR_SDK_DIR/modules_libs/jogl.all natives/${OS}-${DEPS_ARCH} || exit 1
 # shellcheck disable=SC2086
-extract_jar $JOGAMP_DIR/gluegen-rt-natives-${OS}-${ARCH}.jar $MODULAR_SDK_DIR/modules_libs/gluegen.rt natives/${OS}-${ARCH} || exit 1
+extract_jar $JOGAMP_DIR/gluegen-rt-natives-${OS}-${DEPS_ARCH}.jar $MODULAR_SDK_DIR/modules_libs/gluegen.rt natives/${OS}-${DEPS_ARCH} || exit 1
 
 echo "*** bundle jogl and gluegen modules_src..."
 mkdir -p "$MODULAR_SDK_DIR"/modules_src/jogl.all

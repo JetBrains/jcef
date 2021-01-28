@@ -28,7 +28,7 @@ class ClientApp : public CefApp {
       CefRawPtr<CefSchemeRegistrar> registrar) OVERRIDE;
   CefRefPtr<CefBrowserProcessHandler> GetBrowserProcessHandler() OVERRIDE;
 
-#if defined(OS_MACOSX)
+#if defined(OS_MAC)
   // Used to continue termination handling in Java.
   bool HandleTerminate();
 #endif

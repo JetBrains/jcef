@@ -13,7 +13,7 @@ export JB_TOOLS_DIR=$JCEF_ROOT_DIR/jb/tools
 export JB_TOOLS_OS_DIR=$JB_TOOLS_DIR/linux
 export MODULAR_SDK_DIR="$JCEF_ROOT_DIR"/out/linux64/modular-sdk
 export OS=linux
-export ARCH=amd64
+export DEPS_ARCH=amd64
 
 cd "$JB_TOOLS_OS_DIR" || exit 1
 

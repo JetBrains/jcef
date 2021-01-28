@@ -21,7 +21,7 @@
 
 JNIEXPORT jboolean JNICALL Java_org_cef_CefApp_N_1PreInitialize(JNIEnv* env,
                                                                 jobject c) {
-#if !defined(OS_MACOSX)
+#if !defined(OS_MAC)
   // On macOS this is called from Startup().
   Context::Create();
 #endif
@@ -94,7 +94,7 @@ Java_org_cef_CefApp_N_1Startup(JNIEnv* env,
                                jstring pathToCefFramework) {
 #if defined(OS_LINUX)
   XInitThreads();
-#elif defined(OS_MACOSX)
+#elif defined(OS_MAC)
   // Can't use GetJNIString before the CEF library is loaded.
   std::string framework_path;
   if (pathToCefFramework) {
@@ -114,6 +114,6 @@ Java_org_cef_CefApp_N_1Startup(JNIEnv* env,
   // The Context object has members that can't be initialized until after the
   // CEF framework is loaded.
   Context::Create();
-#endif  // defined(OS_MACOSX)
+#endif  // defined(OS_MAC)
   return JNI_TRUE;
 }
