@@ -39,8 +39,10 @@ cd "$JCEF_ROOT_DIR"/jcef_build/native/Release || do_fail
 install_name_tool -change @rpath/libjvm.dylib @loader_path/server/libjvm.dylib libjcef.dylib || do_fail
 install_name_tool -change @rpath/libjawt.dylib @loader_path/libjawt.dylib libjcef.dylib || do_fail
 
-JNF_RPATH=$(otool -L libjcef.dylib | grep JavaNativeFoundation | awk '{print $1}')
-test -z "$JNF_RPATH" || install_name_tool -change "$JNF_RPATH" @loader_path/../../Frameworks/JavaNativeFoundation.framework/JavaNativeFoundation libjcef.dylib || do_fail
+if [ "$TARGET_ARCH" == "arm64" ]; then
+    JNF_RPATH=$(otool -L libjcef.dylib | grep JavaNativeFoundation | awk '{print $1}')
+    test -z "$JNF_RPATH" || install_name_tool -change "$JNF_RPATH" @loader_path/../../Frameworks/JavaNativeFoundation.framework/JavaNativeFoundation libjcef.dylib || do_fail
+fi
 
 cp libjcef.dylib jcef_app.app/Contents/Java || do_fail
 
