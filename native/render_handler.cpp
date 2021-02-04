@@ -194,7 +194,7 @@ bool RenderHandler::GetScreenInfo(CefRefPtr<CefBrowser> browser,
   jboolean jresult = 0;
 
   JNI_CALL_BOOLEAN_METHOD(
-      jresult, env, jbrowser.get(), "getScreenInfo",
+      jresult, env, handle_, "getScreenInfo",
       "(Lorg/cef/browser/CefBrowser;Lorg/cef/handler/CefScreenInfo;)Z",
       jbrowser.get(), jScreenInfo.get());
 
