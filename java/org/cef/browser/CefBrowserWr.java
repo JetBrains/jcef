@@ -237,6 +237,11 @@ class CefBrowserWr extends CefBrowser_N {
             public void addNotify() {
                 super.addNotify();
                 if (removed_) {
+                    if (OS.isWindows() || OS.isLinux()) {
+                        // recreate canvas to prevent its blinking at toplevel's [0,0]
+                        canvas_ = new BrowserCanvas();
+                        ((JPanel) component_).add(canvas_, BorderLayout.CENTER);
+                    }
                     setParent(getWindowHandle(this), canvas_);
                     removed_ = false;
                 }
@@ -249,6 +254,9 @@ class CefBrowserWr extends CefBrowser_N {
                         setParent(0, null);
                     }
                     removed_ = true;
+                    if (OS.isWindows() || OS.isLinux()) {
+                        ((JPanel) component_).remove(canvas_);
+                    }
                 }
                 super.removeNotify();
             }
@@ -258,7 +266,7 @@ class CefBrowserWr extends CefBrowser_N {
         // and we need its native HWND as parent for the browser UI. The same
         // technique is used on Linux as well.
         if (OS.isWindows() || OS.isLinux()) {
-            canvas_ = new Canvas();
+            canvas_ = new BrowserCanvas();
             ((JPanel) component_).add(canvas_, BorderLayout.CENTER);
         }
 
@@ -298,6 +306,14 @@ class CefBrowserWr extends CefBrowser_N {
                 }
             }
         });
+    }
+
+    private class BrowserCanvas extends Canvas {
+        @Override
+        public void paint(Graphics g) {
+            g.setColor(component_.getBackground());
+            g.fillRect(0, 0, getWidth(), getHeight());
+        }
     }
 
     @Override
