@@ -753,6 +753,15 @@ public class CefClient extends CefClientHandler
         if (realHandler != null) realHandler.updateDragCursor(browser, operation);
     }
 
+    @Override
+    public boolean getScreenInfo(CefBrowser browser, CefScreenInfo screenInfo) {
+        if (browser == null) return false;
+
+        CefRenderHandler realHandler = browser.getRenderHandler();
+        if (realHandler != null) return realHandler.getScreenInfo(browser, screenInfo);
+        return false;
+    }
+
     // CefRequestHandler
 
     public CefClient addRequestHandler(CefRequestHandler handler) {
@@ -847,10 +856,5 @@ public class CefClient extends CefClientHandler
         CefWindowHandler realHandler = browser.getWindowHandler();
         if (realHandler != null)
             realHandler.onMouseEvent(browser, event, screenX, screenY, modifier, button);
-    }
-
-    @Override
-    public boolean getScreenInfo(CefBrowser arg0, CefScreenInfo arg1) {
-        return false;
     }
 }
