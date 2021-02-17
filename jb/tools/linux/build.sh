@@ -30,7 +30,7 @@ fi
 
 PATH=$(pwd):$PATH
 
-export PATHecho -e "\n*** BUILD NATIVE ***\n"
+export PATH echo -e "\n*** BUILD NATIVE ***\n"
 bash build_native.sh $CLEAN || exit 1
 
 echo -e "\n*** BUILD JAVA ***\n"
