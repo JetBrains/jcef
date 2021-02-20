@@ -685,11 +685,18 @@ public class CefClient extends CefClientHandler
 
     @Override
     public Rectangle getViewRect(CefBrowser browser) {
-        if (browser == null) return new Rectangle(0, 0, 0, 0);
+        // [tav] resize to 1x1 size to avoid crash in cef
+        if (browser == null) return new Rectangle(0, 0, 1, 1);
 
         CefRenderHandler realHandler = browser.getRenderHandler();
-        if (realHandler != null) return realHandler.getViewRect(browser);
-        return new Rectangle(0, 0, 0, 0);
+        if (realHandler != null) {
+            Rectangle rect = realHandler.getViewRect(browser);
+            if (rect.width <= 0 || rect.height <= 0) {
+                rect = new Rectangle(rect.x, rect.y, 1, 1);
+            }
+            return rect;
+        }
+        return new Rectangle(0, 0, 1, 1);
     }
 
     @Override
