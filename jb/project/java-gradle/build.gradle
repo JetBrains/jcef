@@ -1,5 +1,9 @@
 import org.gradle.internal.os.OperatingSystem
 
+plugins {
+    id "org.jetbrains.gradle.plugin.idea-ext" version "1.0"
+}
+
 apply plugin: 'java'
 
 java {
@@ -17,6 +21,26 @@ if (!OperatingSystem.current().isMacOsX()) {
 }
 
 sourceSets.test.java.srcDirs = ['../../../java_tests']
+
+idea.project.settings {
+    compiler {
+        javac {
+            moduleJavacAdditionalOptions = [
+                    'java-gradle.main' :
+                        "--module-path $projectDir/../../../third_party/jogamp/jar," +
+                        "--add-modules jogl.all,gluegen.rt," +
+                        "--add-exports jogl.all/com.jogamp.nativewindow=jcef," +
+                        "--add-exports jogl.all/com.jogamp.opengl.awt=jcef," +
+                        "--add-exports jogl.all/com.jogamp.opengl=jcef," +
+                        "--add-exports jogl.all/com.jogamp.opengl.util=jcef," +
+                        "--add-exports java.desktop/sun.awt=jcef," +
+                        "--add-exports java.desktop/java.awt.peer=jcef," +
+                        "--add-exports java.desktop/sun.lwawt.macosx=jcef," +
+                        "--add-exports java.desktop/sun.lwawt=jcef"
+            ]
+        }
+    }
+}
 
 compileJava.options.compilerArgs += [
     '--module-path', "$projectDir/../../../third_party/jogamp/jar",
