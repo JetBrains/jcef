@@ -241,7 +241,7 @@ class CefBrowserWr extends CefBrowser_N {
                     if (OS.isWindows() || OS.isLinux()) {
                         // recreate canvas to prevent its blinking at toplevel's [0,0]
                         canvas_ = new BrowserCanvas();
-                        ((JPanel) component_).add(canvas_, BorderLayout.CENTER);
+                        this.add(canvas_, BorderLayout.CENTER);
                     }
                     setParent(getWindowHandle(this), canvas_);
                     removed_ = false;
@@ -256,20 +256,12 @@ class CefBrowserWr extends CefBrowser_N {
                     }
                     removed_ = true;
                     if (OS.isWindows() || OS.isLinux()) {
-                        ((JPanel) component_).remove(canvas_);
+                        this.remove(canvas_);
                     }
                 }
                 super.removeNotify();
             }
         };
-
-        // On windows we have to use a Canvas because its a heavyweight component
-        // and we need its native HWND as parent for the browser UI. The same
-        // technique is used on Linux as well.
-        if (OS.isWindows() || OS.isLinux()) {
-            canvas_ = new BrowserCanvas();
-            ((JPanel) component_).add(canvas_, BorderLayout.CENTER);
-        }
 
         // Initial minimal size of the component. Otherwise the UI won't work
         // accordingly in panes like JSplitPane.
@@ -309,6 +301,9 @@ class CefBrowserWr extends CefBrowser_N {
         });
     }
 
+    // On windows we have to use a Canvas because its a heavyweight component
+    // and we need its native HWND as parent for the browser UI. The same
+    // technique is used on Linux as well.
     private class BrowserCanvas extends Canvas {
         @Override
         public void paint(Graphics g) {
