@@ -8,7 +8,7 @@
 #include "include/wrapper/cef_message_router.h"
 #include "util.h"
 
-#if defined(OS_MACOSX)
+#if defined(OS_MAC)
 // When generating projects with CMake the CEF_USE_SANDBOX value will be defined
 // automatically. Pass -DUSE_SANDBOX=OFF to the CMake command-line to disable
 // use of the sandbox.
@@ -17,7 +17,7 @@
 #endif
 
 #include "include/wrapper/cef_library_loader.h"
-#endif  // defined(OS_MACOSX)
+#endif  // defined(OS_MAC)
 
 #if defined(OS_WIN)
 #include <windows.h>
@@ -39,7 +39,7 @@ class CefHelperApp : public CefApp, public CefRenderProcessHandler {
  public:
   CefHelperApp() {}
 
-  virtual void OnRegisterCustomSchemes(
+  void OnRegisterCustomSchemes(
       CefRawPtr<CefSchemeRegistrar> registrar) OVERRIDE {
     std::fstream fStream;
     std::string fName = util::GetTempFileName("scheme", true);
@@ -64,24 +64,29 @@ class CefHelperApp : public CefApp, public CefRenderProcessHandler {
     return this;
   }
 
-  virtual void OnRenderThreadCreated(
-      CefRefPtr<CefListValue> extra_info) OVERRIDE {
-    for (size_t idx = 0; idx < extra_info->GetSize(); idx++) {
-      CefRefPtr<CefDictionaryValue> dict = extra_info->GetDictionary((int)idx);
-      // Create the renderer-side router for query handling.
-      CefMessageRouterConfig config;
-      config.js_query_function = dict->GetString("js_query_function");
-      config.js_cancel_function = dict->GetString("js_cancel_function");
+  void OnBrowserCreated(CefRefPtr<CefBrowser> browser,
+                        CefRefPtr<CefDictionaryValue> extra_info) OVERRIDE {
+    auto router_configs = extra_info->GetList("router_configs");
+    if (router_configs) {
+      // Configuration from BrowserProcessHandler::GetMessageRouterConfigs.
+      for (size_t idx = 0; idx < router_configs->GetSize(); idx++) {
+        CefRefPtr<CefDictionaryValue> dict =
+            router_configs->GetDictionary((int)idx);
+        // Create the renderer-side router for query handling.
+        CefMessageRouterConfig config;
+        config.js_query_function = dict->GetString("js_query_function");
+        config.js_cancel_function = dict->GetString("js_cancel_function");
 
-      CefRefPtr<CefMessageRouterRendererSide> router =
-          CefMessageRouterRendererSide::Create(config);
-      message_router_.insert(std::make_pair(config, router));
+        CefRefPtr<CefMessageRouterRendererSide> router =
+            CefMessageRouterRendererSide::Create(config);
+        message_router_.insert(std::make_pair(config, router));
+      }
     }
   }
 
-  virtual void OnContextCreated(CefRefPtr<CefBrowser> browser,
-                                CefRefPtr<CefFrame> frame,
-                                CefRefPtr<CefV8Context> context) OVERRIDE {
+  void OnContextCreated(CefRefPtr<CefBrowser> browser,
+                        CefRefPtr<CefFrame> frame,
+                        CefRefPtr<CefV8Context> context) OVERRIDE {
     std::map<CefMessageRouterConfig, CefRefPtr<CefMessageRouterRendererSide>,
              cmpCfg>::iterator iter;
     for (iter = message_router_.begin(); iter != message_router_.end();
@@ -90,9 +95,9 @@ class CefHelperApp : public CefApp, public CefRenderProcessHandler {
     }
   }
 
-  virtual void OnContextReleased(CefRefPtr<CefBrowser> browser,
-                                 CefRefPtr<CefFrame> frame,
-                                 CefRefPtr<CefV8Context> context) OVERRIDE {
+  void OnContextReleased(CefRefPtr<CefBrowser> browser,
+                         CefRefPtr<CefFrame> frame,
+                         CefRefPtr<CefV8Context> context) OVERRIDE {
     std::map<CefMessageRouterConfig, CefRefPtr<CefMessageRouterRendererSide>,
              cmpCfg>::iterator iter;
     for (iter = message_router_.begin(); iter != message_router_.end();
@@ -101,11 +106,10 @@ class CefHelperApp : public CefApp, public CefRenderProcessHandler {
     }
   }
 
-  virtual bool OnProcessMessageReceived(
-      CefRefPtr<CefBrowser> browser,
-      CefRefPtr<CefFrame> frame,
-      CefProcessId source_process,
-      CefRefPtr<CefProcessMessage> message) OVERRIDE {
+  bool OnProcessMessageReceived(CefRefPtr<CefBrowser> browser,
+                                CefRefPtr<CefFrame> frame,
+                                CefProcessId source_process,
+                                CefRefPtr<CefProcessMessage> message) OVERRIDE {
     if (message->GetName() == "AddMessageRouter") {
       CefRefPtr<CefListValue> args = message->GetArgumentList();
       CefMessageRouterConfig config;
@@ -164,7 +168,7 @@ int CALLBACK WinMain(HINSTANCE hInstance,
   CefMainArgs main_args(hInstance);
 #else  // !defined(OS_WIN)
 int main(int argc, char* argv[]) {
-#if defined(OS_MACOSX)
+#if defined(OS_MAC)
 #if defined(CEF_USE_SANDBOX)
   // Initialize the macOS sandbox for this helper process.
   CefScopedSandboxContext sandbox_context;
@@ -193,7 +197,7 @@ int main(int argc, char* argv[]) {
   } else if (!library_loader.LoadInHelper()) {
     return 1;
   }
-#endif  // defined(OS_MACOSX)
+#endif  // defined(OS_MAC)
 
   CefMainArgs main_args(argc, argv);
 #endif  // !defined(OS_WIN)
@@ -201,7 +205,7 @@ int main(int argc, char* argv[]) {
   CefRefPtr<CefHelperApp> app = new CefHelperApp();
   const int result = CefExecuteProcess(main_args, app.get(), NULL);
 
-#if defined(OS_MACOSX)
+#if defined(OS_MAC)
   if (!framework_path.empty())
     cef_unload_library();
 #endif

@@ -29,6 +29,81 @@ jobject NewJNIRect(JNIEnv* env, const CefRect& rect) {
   return NULL;
 }
 
+jobject NewJNIScreenInfo(JNIEnv* env, CefScreenInfo& screenInfo) {
+  ScopedJNIClass cls(env, "org/cef/handler/CefScreenInfo");
+  if (!cls) {
+    return NULL;
+  }
+
+  ScopedJNIObjectLocal obj(env, NewJNIObject(env, cls));
+  if (!obj) {
+    return NULL;
+  }
+
+  if (SetJNIFieldDouble(env, cls, obj, "device_scale_factor",
+                        (double)screenInfo.device_scale_factor) &&
+      SetJNIFieldInt(env, cls, obj, "depth", screenInfo.depth) &&
+      SetJNIFieldInt(env, cls, obj, "depth_per_component",
+                     screenInfo.depth_per_component) &&
+      SetJNIFieldBoolean(env, cls, obj, "is_monochrome",
+                         screenInfo.is_monochrome) &&
+      SetJNIFieldInt(env, cls, obj, "x", screenInfo.rect.x) &&
+      SetJNIFieldInt(env, cls, obj, "y", screenInfo.rect.y) &&
+      SetJNIFieldInt(env, cls, obj, "width", screenInfo.rect.width) &&
+      SetJNIFieldInt(env, cls, obj, "height", screenInfo.rect.height) &&
+      SetJNIFieldInt(env, cls, obj, "available_x",
+                     screenInfo.available_rect.x) &&
+      SetJNIFieldInt(env, cls, obj, "available_y",
+                     screenInfo.available_rect.y) &&
+      SetJNIFieldInt(env, cls, obj, "available_width",
+                     screenInfo.available_rect.width) &&
+      SetJNIFieldInt(env, cls, obj, "available_height",
+                     screenInfo.available_rect.height)) {
+    return obj.Release();
+  }
+
+  return NULL;
+}
+
+bool GetJNIScreenInfo(JNIEnv* env, jobject jScreenInfo, CefScreenInfo& dest) {
+  ScopedJNIClass cls(env, "org/cef/handler/CefScreenInfo");
+  if (!cls) {
+    return false;
+  }
+
+  ScopedJNIObjectLocal obj(env, jScreenInfo);
+  if (!obj) {
+    return false;
+  }
+  double tmp;
+  if (!GetJNIFieldDouble(env, cls, obj, "device_scale_factor", &tmp)) {
+    return false;
+  }
+  dest.device_scale_factor = (float)tmp;
+
+  if (GetJNIFieldInt(env, cls, obj, "depth", &(dest.depth)) &&
+      GetJNIFieldInt(env, cls, obj, "depth_per_component",
+                     &(dest.depth_per_component)) &&
+      GetJNIFieldBoolean(env, cls, obj, "is_monochrome",
+                         &(dest.is_monochrome)) &&
+      GetJNIFieldInt(env, cls, obj, "x", &(dest.rect.x)) &&
+      GetJNIFieldInt(env, cls, obj, "y", &(dest.rect.y)) &&
+      GetJNIFieldInt(env, cls, obj, "width", &(dest.rect.width)) &&
+      GetJNIFieldInt(env, cls, obj, "height", &(dest.rect.height)) &&
+      GetJNIFieldInt(env, cls, obj, "available_x", &(dest.available_rect.x)) &&
+      GetJNIFieldInt(env, cls, obj, "available_y", &(dest.available_rect.y)) &&
+      GetJNIFieldInt(env, cls, obj, "available_width",
+                     &(dest.available_rect.width)) &&
+      GetJNIFieldInt(env, cls, obj, "available_height",
+                     &(dest.available_rect.height))
+
+  ) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 // create a new array of java.awt.Rectangle.
 jobjectArray NewJNIRectArray(JNIEnv* env, const std::vector<CefRect>& vals) {
   if (vals.empty())
@@ -67,62 +142,6 @@ jobject NewJNIPoint(JNIEnv* env, int x, int y) {
   return NULL;
 }
 
-int GetCursorId(cef_cursor_type_t type) {
-  ScopedJNIEnv env;
-  if (!env)
-    return 0;
-
-  ScopedJNIClass cls(env, "java/awt/Cursor");
-  if (!cls)
-    return 0;
-
-  JNI_STATIC_DEFINE_INT_RV(env, cls, CROSSHAIR_CURSOR, 0);
-  JNI_STATIC_DEFINE_INT_RV(env, cls, DEFAULT_CURSOR, 0);
-  JNI_STATIC_DEFINE_INT_RV(env, cls, E_RESIZE_CURSOR, 0);
-  JNI_STATIC_DEFINE_INT_RV(env, cls, HAND_CURSOR, 0);
-  JNI_STATIC_DEFINE_INT_RV(env, cls, MOVE_CURSOR, 0);
-  JNI_STATIC_DEFINE_INT_RV(env, cls, N_RESIZE_CURSOR, 0);
-  JNI_STATIC_DEFINE_INT_RV(env, cls, NE_RESIZE_CURSOR, 0);
-  JNI_STATIC_DEFINE_INT_RV(env, cls, NW_RESIZE_CURSOR, 0);
-  JNI_STATIC_DEFINE_INT_RV(env, cls, S_RESIZE_CURSOR, 0);
-  JNI_STATIC_DEFINE_INT_RV(env, cls, SE_RESIZE_CURSOR, 0);
-  JNI_STATIC_DEFINE_INT_RV(env, cls, SW_RESIZE_CURSOR, 0);
-  JNI_STATIC_DEFINE_INT_RV(env, cls, TEXT_CURSOR, 0);
-  JNI_STATIC_DEFINE_INT_RV(env, cls, W_RESIZE_CURSOR, 0);
-  JNI_STATIC_DEFINE_INT_RV(env, cls, WAIT_CURSOR, 0);
-
-  switch (type) {
-    case CT_CROSS:
-      return JNI_STATIC(CROSSHAIR_CURSOR);
-    case CT_HAND:
-      return JNI_STATIC(HAND_CURSOR);
-    case CT_IBEAM:
-      return JNI_STATIC(TEXT_CURSOR);
-    case CT_WAIT:
-      return JNI_STATIC(WAIT_CURSOR);
-    case CT_EASTRESIZE:
-      return JNI_STATIC(E_RESIZE_CURSOR);
-    case CT_NORTHRESIZE:
-      return JNI_STATIC(N_RESIZE_CURSOR);
-    case CT_NORTHEASTRESIZE:
-      return JNI_STATIC(NE_RESIZE_CURSOR);
-    case CT_NORTHWESTRESIZE:
-      return JNI_STATIC(NW_RESIZE_CURSOR);
-    case CT_SOUTHRESIZE:
-      return JNI_STATIC(S_RESIZE_CURSOR);
-    case CT_SOUTHEASTRESIZE:
-      return JNI_STATIC(SE_RESIZE_CURSOR);
-    case CT_SOUTHWESTRESIZE:
-      return JNI_STATIC(SW_RESIZE_CURSOR);
-    case CT_WESTRESIZE:
-      return JNI_STATIC(W_RESIZE_CURSOR);
-    case CT_MOVE:
-      return JNI_STATIC(MOVE_CURSOR);
-    default:
-      return JNI_STATIC(DEFAULT_CURSOR);
-  }
-}
-
 }  // namespace
 
 RenderHandler::RenderHandler(JNIEnv* env, jobject handler)
@@ -148,6 +167,44 @@ void RenderHandler::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) {
   if (!GetViewRect(jbrowser, rect)) {
     rect = CefRect(0, 0, 1, 1);
   }
+}
+
+///
+// Called to allow the client to fill in the CefScreenInfo object with
+// appropriate values. Return true if the |screen_info| structure has been
+// modified.
+//
+// If the screen info rectangle is left empty the rectangle from GetViewRect
+// will be used. If the rectangle is still empty or invalid popups may not be
+// drawn correctly.
+///
+/*--cef()--*/
+bool RenderHandler::GetScreenInfo(CefRefPtr<CefBrowser> browser,
+                                  CefScreenInfo& screen_info) {
+  ScopedJNIEnv env;
+  if (!env) {
+    return false;
+  }
+
+  ScopedJNIObjectLocal jScreenInfo(env, NewJNIScreenInfo(env, screen_info));
+  if (!jScreenInfo) {
+    return false;
+  }
+  ScopedJNIBrowser jbrowser(env, browser);
+  jboolean jresult = 0;
+
+  JNI_CALL_BOOLEAN_METHOD(
+      jresult, env, jbrowser.get(), "getScreenInfo",
+      "(Lorg/cef/browser/CefBrowser;Lorg/cef/handler/CefScreenInfo;)Z",
+      jbrowser.get(), jScreenInfo.get());
+
+  if (jresult) {
+    if (GetJNIScreenInfo(env, jScreenInfo.get(), screen_info)) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 bool RenderHandler::GetScreenPoint(CefRefPtr<CefBrowser> browser,
@@ -211,22 +268,6 @@ void RenderHandler::OnPaint(CefRefPtr<CefBrowser> browser,
                        "Rectangle;Ljava/nio/ByteBuffer;II)V",
                        jbrowser.get(), jtype, jrectArray.get(),
                        jdirectBuffer.get(), width, height);
-}
-
-// TODO(JCEF): Expose all parameters.
-void RenderHandler::OnCursorChange(CefRefPtr<CefBrowser> browser,
-                                   CefCursorHandle cursor,
-                                   CursorType type,
-                                   const CefCursorInfo& custom_cursor_info) {
-  ScopedJNIEnv env;
-  if (!env)
-    return;
-
-  ScopedJNIBrowser jbrowser(env, browser);
-  const int cursorId = GetCursorId(type);
-  JNI_CALL_VOID_METHOD(env, handle_, "onCursorChange",
-                       "(Lorg/cef/browser/CefBrowser;I)V", jbrowser.get(),
-                       cursorId);
 }
 
 bool RenderHandler::StartDragging(CefRefPtr<CefBrowser> browser,
@@ -303,22 +344,4 @@ bool RenderHandler::GetScreenPoint(jobject browser,
     return true;
   }
   return false;
-}
-
-bool RenderHandler::GetScreenInfo(CefRefPtr<CefBrowser> browser,
-                                  CefScreenInfo& screen_info) {
-  ScopedJNIEnv env;
-  if (!env)
-    return false;
-
-  ScopedJNIBrowser jbrowser(env, browser);
-  jdouble jresult = 1.0;
-
-  JNI_CALL_METHOD(
-      env, handle_, "getDeviceScaleFactor",
-      "(Lorg/cef/browser/CefBrowser;)D", Double,
-      jresult, jbrowser.get());
-
-  screen_info.device_scale_factor = jresult;
-  return true;
 }

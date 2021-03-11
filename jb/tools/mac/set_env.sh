@@ -14,7 +14,7 @@ export JB_TOOLS_OS_DIR=$JB_TOOLS_DIR/mac
 export OUT_CLS_DIR="$JCEF_ROOT_DIR"/jcef_build/native/Release
 export OUT_NATIVE_DIR="$JCEF_ROOT_DIR"/jcef_build/native/Release
 export OS=macosx
-export ARCH=universal
+export DEPS_ARCH=universal
 
 cd "$JB_TOOLS_OS_DIR" || exit 1
 

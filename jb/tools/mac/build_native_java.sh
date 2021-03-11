@@ -18,9 +18,18 @@ fi
 mkdir -p "$OUT_DIR" || do_fail
 mkdir -p "$OUT_JAVA_DIR" || do_fail
 
-echo "*** run cmake..."
+case "$2" in
+    "arm64")
+        export TARGET_ARCH="arm64"
+        ;;
+    "x86_64")
+        export TARGET_ARCH="x86_64"
+        ;;
+esac
+
+echo "*** run cmake [TARGET=$TARGET_ARCH]..."
 cd "$OUT_DIR" || do_fail
-cmake -G "Xcode" -DPROJECT_ARCH="x86_64" .. || do_fail
+cmake -G "Xcode" -DPROJECT_ARCH="$TARGET_ARCH" .. || do_fail
 
 echo "*** run xcodebuild..."
 xcodebuild -configuration Release || do_fail
@@ -29,6 +38,9 @@ echo "*** change @rpath in libjcef.dylib..."
 cd "$JCEF_ROOT_DIR"/jcef_build/native/Release || do_fail
 install_name_tool -change @rpath/libjvm.dylib @loader_path/server/libjvm.dylib libjcef.dylib || do_fail
 install_name_tool -change @rpath/libjawt.dylib @loader_path/libjawt.dylib libjcef.dylib || do_fail
+
+JNF_RPATH=$(otool -L libjcef.dylib | grep JavaNativeFoundation | awk '{print $1}')
+test -z "$JNF_RPATH" || install_name_tool -change "$JNF_RPATH" @loader_path/../../Frameworks/JavaNativeFoundation.framework/JavaNativeFoundation libjcef.dylib || do_fail
 
 cp libjcef.dylib jcef_app.app/Contents/Java || do_fail
 

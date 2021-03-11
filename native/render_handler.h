@@ -9,6 +9,7 @@
 #include <jni.h>
 
 #include "include/cef_render_handler.h"
+#include "include/cef_display_handler.h"
 
 #include "jni_scoped_helpers.h"
 
@@ -22,6 +23,10 @@ class RenderHandler : public CefRenderHandler {
                                  CefRect& rect) OVERRIDE;
   virtual void GetViewRect(CefRefPtr<CefBrowser> browser,
                            CefRect& rect) OVERRIDE;
+
+  virtual bool GetScreenInfo(CefRefPtr<CefBrowser> browser,
+                             CefScreenInfo& screen_info) OVERRIDE;
+
   virtual bool GetScreenPoint(CefRefPtr<CefBrowser> browser,
                               int viewX,
                               int viewY,
@@ -36,10 +41,6 @@ class RenderHandler : public CefRenderHandler {
                        const void* buffer,
                        int width,
                        int height) OVERRIDE;
-  virtual void OnCursorChange(CefRefPtr<CefBrowser> browser,
-                              CefCursorHandle cursor,
-                              CursorType type,
-                              const CefCursorInfo& custom_cursor_info) OVERRIDE;
   virtual bool StartDragging(CefRefPtr<CefBrowser> browser,
                              CefRefPtr<CefDragData> drag_data,
                              DragOperationsMask allowed_ops,
@@ -47,8 +48,6 @@ class RenderHandler : public CefRenderHandler {
                              int y) OVERRIDE;
   virtual void UpdateDragCursor(CefRefPtr<CefBrowser> browser,
                                 DragOperation operation) OVERRIDE;
-  virtual bool GetScreenInfo(CefRefPtr<CefBrowser> browser,
-                             CefScreenInfo& screen_info) OVERRIDE;
 
   bool GetViewRect(jobject browser, CefRect& rect);
   bool GetScreenPoint(jobject browser,

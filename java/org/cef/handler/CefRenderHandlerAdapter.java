@@ -4,12 +4,12 @@
 
 package org.cef.handler;
 
+import org.cef.browser.CefBrowser;
+import org.cef.callback.CefDragData;
+
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.nio.ByteBuffer;
-
-import org.cef.browser.CefBrowser;
-import org.cef.callback.CefDragData;
 
 /**
  * An abstract adapter class for receiving render events.
@@ -18,13 +18,13 @@ import org.cef.callback.CefDragData;
  */
 public abstract class CefRenderHandlerAdapter implements CefRenderHandler {
     @Override
-    public void onCursorChange(CefBrowser browser, int cursorIdentifer) {
-        return;
+    public Rectangle getViewRect(CefBrowser browser) {
+        return new Rectangle(0, 0, 0, 0);
     }
 
     @Override
-    public Rectangle getViewRect(CefBrowser browser) {
-        return new Rectangle(0, 0, 0, 0);
+    public boolean getScreenInfo(CefBrowser browser, CefScreenInfo screenInfo) {
+        return false;
     }
 
     @Override
@@ -46,6 +46,11 @@ public abstract class CefRenderHandlerAdapter implements CefRenderHandler {
     @Override
     public void onPaint(CefBrowser browser, boolean popup, Rectangle[] dirtyRects,
             ByteBuffer buffer, int width, int height) {}
+
+    @Override
+    public boolean onCursorChange(CefBrowser browser, int cursorType) {
+        return false;
+    }
 
     @Override
     public boolean startDragging(CefBrowser browser, CefDragData dragData, int mask, int x, int y) {
