@@ -27,7 +27,7 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.WindowEvent;
 import java.util.Vector;
 
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 /**
  * This class represents all methods which are connected to the
@@ -46,6 +46,8 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser {
     private boolean closeAllowed_ = false;
     private volatile boolean isClosed_ = false;
     private volatile boolean isClosing_ = false;
+    private boolean isCreateStarted_ = false;
+    private int closeTries_ = 0; // simple protection from infinite re-closing
 
     protected CefBrowser_N(CefClient client, String url, CefRequestContext context,
             CefBrowser_N parent, Point inspectAt) {
@@ -151,8 +153,12 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser {
      */
     protected void createBrowser(CefClientHandler clientHandler, long windowHandle, String url,
             boolean osr, boolean transparent, Component canvas, CefRequestContext context) {
+        if (isClosing_ || isClosed_) // probably impossible, just for insurance
+            return;
+
         if (getNativeRef("CefBrowser") == 0 && !isPending_) {
             try {
+                isCreateStarted_ = true;
                 N_CreateBrowser(
                         clientHandler, windowHandle, url, osr, transparent, canvas, context);
             } catch (UnsatisfiedLinkError err) {
@@ -440,6 +446,22 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser {
 
     @Override
     public void close(boolean force) {
+        if (isCreateStarted_ && getNativeRef("CefBrowser") == 0) {
+            int delayMs = -1;
+            switch (++closeTries_) {
+                case 1: delayMs = 100; break;
+                case 2: delayMs = 500; break;
+                case 3: delayMs = 5000; break;
+            }
+
+            if (delayMs >= 0) {
+                Timer t = new Timer(delayMs, e -> close(force));
+                System.out.println("WARNING: native CefBrowser is still constructing, schedule to close '" + this + "' after " + t.getDelay() + " ms");
+                t.setRepeats(false);
+                t.start();
+                return;
+            }
+        }
         if (isClosing_ || isClosed_) return;
         if (force) isClosing_ = true;
 
