@@ -43,7 +43,7 @@ cp "$JB_TOOLS_DIR"/common/gluegen-module-info.java module-info.java || exit 1
 rm module-info.class module-info.java || exit 1
 
 mkdir lib || exit 1
-extract_jar "$JOGAMP_DIR"/gluegen-rt-natives-"$OS"-"$ARCH".jar lib natives/"$OS"-"$ARCH" || exit 1
+extract_jar "$JOGAMP_DIR"/gluegen-rt-natives-"$OS"-"$DEPS_ARCH".jar lib natives/"$OS"-"$DEPS_ARCH" || exit 1
 
 "$JAVA_HOME"/bin/jmod create --class-path gluegen-rt.jar --libs lib gluegen.rt.jmod || exit 1
 rm -rf gluegen-rt.jar lib || exit 1
@@ -58,7 +58,7 @@ cp "$JB_TOOLS_OS_DIR"/jogl-module-info.java module-info.java || exit 1
 rm module-info.class module-info.java || exit 1
 
 mkdir lib || exit 1
-extract_jar "$JOGAMP_DIR"/jogl-all-natives-"$OS"-"$ARCH".jar lib natives/"$OS"-"$ARCH" || exit 1
+extract_jar "$JOGAMP_DIR"/jogl-all-natives-"$OS"-"$DEPS_ARCH".jar lib natives/"$OS"-"$DEPS_ARCH" || exit 1
 
 "$JAVA_HOME"/bin/jmod create --module-path . --class-path jogl-all.jar --libs lib jogl.all.jmod || exit 1
 rm -rf jogl-all.jar lib || exit 1
