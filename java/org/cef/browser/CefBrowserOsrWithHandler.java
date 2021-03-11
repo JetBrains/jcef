@@ -15,13 +15,14 @@ import java.util.concurrent.CompletableFuture;
 public final class CefBrowserOsrWithHandler extends CefBrowser_N  {
     private final CefRenderHandler renderHandler_;
 
+    /**
+     * In order for the browser to start loading call {@link #createImmediately()}.
+     */
     public CefBrowserOsrWithHandler(CefClient client, String url, CefRequestContext context, CefRenderHandler renderHandler) {
         super(client, url, context, null, null);
         assert renderHandler != null : "Handler can't be null";
         this.renderHandler_ = renderHandler;
-        createBrowser(client, 0, url, true, false,null, context);
     }
-
 
     @Override
     public CefRenderHandler getRenderHandler() {
@@ -30,7 +31,7 @@ public final class CefBrowserOsrWithHandler extends CefBrowser_N  {
 
     @Override
     public void createImmediately() {
-        // Created in ctor
+        createBrowser(getClient(), 0, getUrl(), true, false, null, getRequestContext());
     }
 
     @Override
