@@ -4,7 +4,9 @@
 
 package org.cef.browser;
 
+import com.jetbrains.cef.JCefAppConfig;
 import org.cef.CefClient;
+import org.cef.CefSettings;
 import org.cef.callback.CefDragData;
 import org.cef.callback.CefNativeAdapter;
 import org.cef.callback.CefPdfPrintCallback;
@@ -46,7 +48,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser {
     private boolean closeAllowed_ = false;
     private volatile boolean isClosed_ = false;
     private volatile boolean isClosing_ = false;
-    private boolean isCreateStarted_ = false;
+    private volatile boolean isCreateStarted_ = false;
     private int closeTries_ = 0; // simple protection from infinite re-closing
 
     protected CefBrowser_N(CefClient client, String url, CefRequestContext context,
@@ -456,7 +458,10 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser {
 
             if (delayMs >= 0) {
                 Timer t = new Timer(delayMs, e -> close(force));
-                System.out.println("WARNING: native CefBrowser is still constructing, schedule to close '" + this + "' after " + t.getDelay() + " ms");
+                CefSettings settings = JCefAppConfig.getInstance().getCefSettings();
+                if (settings.log_severity == CefSettings.LogSeverity.LOGSEVERITY_VERBOSE) {
+                    System.out.println("DEBUG: native CefBrowser is still constructing, schedule to close '" + this + "' after " + t.getDelay() + " ms");
+                }
                 t.setRepeats(false);
                 t.start();
                 return;
