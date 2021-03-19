@@ -236,7 +236,7 @@ class CefBrowserWr extends CefBrowser_N {
             @Override
             public void addNotify() {
                 super.addNotify();
-                scaleFactor_ = JCefAppConfig.getDeviceScaleFactor(this);
+                if (!OS.isMacintosh()) scaleFactor_ = JCefAppConfig.getDeviceScaleFactor(this);
                 if (removed_) {
                     if (OS.isWindows() || OS.isLinux()) {
                         // recreate canvas to prevent its blinking at toplevel's [0,0]
