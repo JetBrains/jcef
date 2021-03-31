@@ -3,6 +3,7 @@ package org.cef.browser;
 import org.cef.CefClient;
 import org.cef.handler.CefRenderHandler;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.concurrent.CompletableFuture;
@@ -10,18 +11,27 @@ import java.util.concurrent.CompletableFuture;
 /**
  * Cef offscreen browser that forwards all events to {@link CefRenderHandler}
  *
- * @since api-1.2
+ * @since api-1.3
  */
 public final class CefBrowserOsrWithHandler extends CefBrowser_N  {
     private final CefRenderHandler renderHandler_;
+    private final Component component_;
+
+    /**
+     * @see #CefBrowserOsrWithHandler(CefClient, String, CefRequestContext, CefRenderHandler, Component)
+     */
+    public CefBrowserOsrWithHandler(CefClient client, String url, CefRequestContext context, CefRenderHandler renderHandler) {
+        this(client, url, context, renderHandler, null);
+    }
 
     /**
      * In order for the browser to start loading call {@link #createImmediately()}.
      */
-    public CefBrowserOsrWithHandler(CefClient client, String url, CefRequestContext context, CefRenderHandler renderHandler) {
+    public CefBrowserOsrWithHandler(CefClient client, String url, CefRequestContext context, CefRenderHandler renderHandler, Component component) {
         super(client, url, context, null, null);
         assert renderHandler != null : "Handler can't be null";
         this.renderHandler_ = renderHandler;
+        this.component_ = component;
     }
 
     @Override
@@ -36,7 +46,7 @@ public final class CefBrowserOsrWithHandler extends CefBrowser_N  {
 
     @Override
     public Component getUIComponent() {
-        return null;
+        return component_;
     }
 
     @Override
