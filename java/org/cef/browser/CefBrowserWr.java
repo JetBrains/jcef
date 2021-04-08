@@ -194,6 +194,10 @@ class CefBrowserWr extends CefBrowser_N {
         component_ = new JPanel(new BorderLayout()) {
             private boolean removed_ = true;
 
+            {
+                addPropertyChangeListener("graphicsConfiguration", e -> updateScale());
+            }
+
             @Override
             public void setBounds(int x, int y, int width, int height) {
                 super.setBounds(x, y, width, height);
@@ -226,9 +230,6 @@ class CefBrowserWr extends CefBrowser_N {
                 // we're setting up a delayedUpdate timer which is reset each time
                 // paint is called. This prevents the us of sending the UI update too
                 // often.
-                if (!OS.isMacintosh() && g instanceof Graphics2D) {
-                    scaleFactor_ = ((Graphics2D) g).getTransform().getScaleX();
-                }
                 doUpdate();
                 delayedUpdate_.restart();
             }
@@ -236,7 +237,7 @@ class CefBrowserWr extends CefBrowser_N {
             @Override
             public void addNotify() {
                 super.addNotify();
-                if (!OS.isMacintosh()) scaleFactor_ = JCefAppConfig.getDeviceScaleFactor(this);
+                updateScale();
                 if (removed_) {
                     if (OS.isWindows() || OS.isLinux()) {
                         // recreate canvas to prevent its blinking at toplevel's [0,0]
@@ -310,6 +311,10 @@ class CefBrowserWr extends CefBrowser_N {
             g.setColor(component_.getBackground());
             g.fillRect(0, 0, getWidth(), getHeight());
         }
+    }
+
+    private void updateScale() {
+        if (!OS.isMacintosh()) scaleFactor_ = JCefAppConfig.getDeviceScaleFactor(component_);
     }
 
     @Override
