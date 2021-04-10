@@ -2042,13 +2042,16 @@ Java_org_cef_browser_CefBrowser_1N_N_1UpdateUI(JNIEnv* env,
                                                jobject jcontentRect,
                                                jobject jbrowserRect) {
   CefRefPtr<CefBrowser> browser = JNI_GET_BROWSER_OR_RETURN(env, obj);
+  CefWindowHandle windowHandle = browser->GetHost()->GetWindowHandle();
+  if (!windowHandle) // just for insurance
+      return;
+
   CefRect contentRect = GetJNIRect(env, jcontentRect);
 #if defined(OS_MAC)
   CefRect browserRect = GetJNIRect(env, jbrowserRect);
-  util_mac::UpdateView(browser->GetHost()->GetWindowHandle(), contentRect,
+  util_mac::UpdateView(windowHandle, contentRect,
                        browserRect);
 #else
-  CefWindowHandle windowHandle = browser->GetHost()->GetWindowHandle();
   if (CefCurrentlyOn(TID_UI)) {
     util::SetWindowBounds(windowHandle, contentRect);
   } else {
