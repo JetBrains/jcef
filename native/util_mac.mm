@@ -35,6 +35,13 @@ bool g_handling_send_event = false;
 bool g_before_shutdown = false;
 bool g_after_shutdown = false;
 
+bool isBrowserExists(CefWindowHandle handle) {
+    g_browsers_lock_.Lock();
+    const bool result = g_browsers_.count(handle) > 0;
+    g_browsers_lock_.Unlock();
+    return result;
+}
+
 }  // namespace
 
 // Used for passing data to/from ClientHandler initialize:.
@@ -287,12 +294,9 @@ bool g_after_shutdown = false;
 
 + (void)setVisibility:(SetVisibilityParams*)params {
   if (g_client_app_) {
-    NSView* wh = CAST_CEF_WINDOW_HANDLE_TO_NSVIEW(params->handle_);
+    if (!isBrowserExists(params->handle_)) return;
 
-    g_browsers_lock_.Lock();
-    bool browser_exists = g_browsers_.count(wh) > 0;
-    g_browsers_lock_.Unlock();
-    if (!browser_exists) return;
+    NSView* wh = CAST_CEF_WINDOW_HANDLE_TO_NSVIEW(params->handle_);
 
     bool isHidden = [wh isHidden];
     if (isHidden == params->isVisible_) {
@@ -528,6 +532,8 @@ void SetVisibility(CefWindowHandle handle, bool isVisible) {
 void UpdateView(CefWindowHandle handle,
                 CefRect contentRect,
                 CefRect browserRect) {
+  if (!isBrowserExists(handle)) return;
+
   util_mac::TranslateRect(handle, contentRect);
   CefBrowserContentView* browser =
       (CefBrowserContentView*)[CAST_CEF_WINDOW_HANDLE_TO_NSVIEW(handle)
@@ -589,9 +595,7 @@ void DestroyCefBrowser(CefRefPtr<CefBrowser> browser) {
   // created by calling "window.open()" in JavaScript.
   NSView* superView = [handle superview];
   if ([superView isKindOfClass:[CefBrowserContentView class]]) {
-    CefBrowserContentView* browserView =
-        (CefBrowserContentView*)[handle superview];
-    [browserView destroyCefBrowser];
+    [(CefBrowserContentView*)superView destroyCefBrowser];
   }
 }
 
@@ -600,10 +604,7 @@ void SetParent(CefWindowHandle handle,
                const base::Closure& callback) {
   base::Closure* pCallback = new base::Closure(callback);
   dispatch_async(dispatch_get_main_queue(), ^{
-    g_browsers_lock_.Lock();
-    bool browser_exists = g_browsers_.count(handle) > 0;
-    g_browsers_lock_.Unlock();
-    if (!browser_exists) return;
+    if (!isBrowserExists(handle)) return;
 
       CefBrowserContentView* browser_view =
         (CefBrowserContentView*)[CAST_CEF_WINDOW_HANDLE_TO_NSVIEW(handle)

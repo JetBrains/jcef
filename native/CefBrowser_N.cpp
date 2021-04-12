@@ -2052,6 +2052,7 @@ Java_org_cef_browser_CefBrowser_1N_N_1UpdateUI(JNIEnv* env,
   util_mac::UpdateView(windowHandle, contentRect,
                        browserRect);
 #else
+  // TODO: check that browser extists
   if (CefCurrentlyOn(TID_UI)) {
     util::SetWindowBounds(windowHandle, contentRect);
   } else {
