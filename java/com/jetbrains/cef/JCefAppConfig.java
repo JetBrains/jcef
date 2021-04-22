@@ -161,9 +161,12 @@ public abstract class JCefAppConfig {
         GraphicsDevice device = null;
         double scale = 1.0;
         try {
-            device = component != null ?
-                component.getGraphicsConfiguration().getDevice() :
-                GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+            if (component != null && component.getGraphicsConfiguration() != null) {
+                device = component.getGraphicsConfiguration().getDevice();
+            }
+            else {
+                device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+            }
         } catch (Throwable t) {
             t.printStackTrace();
         }
