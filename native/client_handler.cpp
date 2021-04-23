@@ -18,6 +18,7 @@
 #include "download_handler.h"
 #include "drag_handler.h"
 #include "focus_handler.h"
+#include "media_access_handler.h"
 #include "jsdialog_handler.h"
 #include "keyboard_handler.h"
 #include "life_span_handler.h"
@@ -114,6 +115,10 @@ CefRefPtr<CefDragHandler> ClientHandler::GetDragHandler() {
 
 CefRefPtr<CefFocusHandler> ClientHandler::GetFocusHandler() {
   return GetHandler<FocusHandler>("FocusHandler");
+}
+
+CefRefPtr<CefMediaAccessHandler> ClientHandler::GetMediaAccessHandler() {
+  return GetHandler<MediaAccessHandler>("MediaAccessHandler");
 }
 
 CefRefPtr<CefJSDialogHandler> ClientHandler::GetJSDialogHandler() {

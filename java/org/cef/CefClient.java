@@ -12,40 +12,11 @@ import org.cef.browser.CefBrowserFactory;
 import org.cef.browser.CefFrame;
 import org.cef.browser.CefMessageRouter;
 import org.cef.browser.CefRequestContext;
-import org.cef.callback.CefAuthCallback;
-import org.cef.callback.CefBeforeDownloadCallback;
-import org.cef.callback.CefContextMenuParams;
-import org.cef.callback.CefDownloadItem;
-import org.cef.callback.CefDownloadItemCallback;
-import org.cef.callback.CefDragData;
-import org.cef.callback.CefFileDialogCallback;
-import org.cef.callback.CefJSDialogCallback;
-import org.cef.callback.CefMenuModel;
-import org.cef.callback.CefRequestCallback;
-import org.cef.handler.CefClientHandler;
-import org.cef.handler.CefContextMenuHandler;
-import org.cef.handler.CefDialogHandler;
-import org.cef.handler.CefDisplayHandler;
-import org.cef.handler.CefDownloadHandler;
-import org.cef.handler.CefDragHandler;
-import org.cef.handler.CefFocusHandler;
-import org.cef.handler.CefJSDialogHandler;
-import org.cef.handler.CefKeyboardHandler;
-import org.cef.handler.CefLifeSpanHandler;
-import org.cef.handler.CefLoadHandler;
-import org.cef.handler.CefRenderHandler;
-import org.cef.handler.CefRequestHandler;
-import org.cef.handler.CefResourceHandler;
-import org.cef.handler.CefResourceRequestHandler;
-import org.cef.handler.CefScreenInfo;
-import org.cef.handler.CefWindowHandler;
+import org.cef.callback.*;
+import org.cef.handler.*;
 import org.cef.misc.BoolRef;
-import org.cef.misc.StringRef;
 import org.cef.network.CefRequest;
 import org.cef.network.CefRequest.TransitionType;
-import org.cef.network.CefResponse;
-import org.cef.network.CefURLRequest;
-import org.cef.network.CefWebPluginInfo;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -60,14 +31,12 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Vector;
 
-import javax.swing.SwingUtilities;
-
 /**
  * Client that owns a browser and renderer.
  */
 public class CefClient extends CefClientHandler
         implements CefContextMenuHandler, CefDialogHandler, CefDisplayHandler, CefDownloadHandler,
-                   CefDragHandler, CefFocusHandler, CefJSDialogHandler, CefKeyboardHandler,
+                   CefDragHandler, CefFocusHandler, CefMediaAccessHandler, CefJSDialogHandler, CefKeyboardHandler,
                    CefLifeSpanHandler, CefLoadHandler, CefRenderHandler, CefRequestHandler,
                    CefWindowHandler {
     private HashMap<Integer, CefBrowser> browser_ = new HashMap<Integer, CefBrowser>();
@@ -77,6 +46,7 @@ public class CefClient extends CefClientHandler
     private CefDownloadHandler downloadHandler_ = null;
     private CefDragHandler dragHandler_ = null;
     private CefFocusHandler focusHandler_ = null;
+    private CefMediaAccessHandler mediaAccessHandler_ = null;
     private CefJSDialogHandler jsDialogHandler_ = null;
     private CefKeyboardHandler keyboardHandler_ = null;
     private CefLifeSpanHandler lifeSpanHandler_ = null;
@@ -204,6 +174,9 @@ public class CefClient extends CefClientHandler
     protected CefFocusHandler getFocusHandler() {
         return this;
     }
+
+    @Override
+    protected CefMediaAccessHandler getMediaAccessHandler() { return this; }
 
     @Override
     protected CefJSDialogHandler getJSDialogHandler() {
@@ -469,6 +442,30 @@ public class CefClient extends CefClientHandler
             if (uiComponent == null ) return;
             JdkEx.invokeOnEDTAndWait(() -> focusHandler_.onGotFocus(browser), uiComponent);
         }
+    }
+
+    // CefMediaAccessHandler
+
+    public CefClient addMediaAccessHandler(CefMediaAccessHandler handler) {
+        if (mediaAccessHandler_ == null) mediaAccessHandler_ = handler;
+        return this;
+    }
+
+    public void removeMediaAccessHandler() {
+        mediaAccessHandler_ = null;
+    }
+
+    @Override
+    public boolean onRequestMediaAccessPermission(
+            CefBrowser browser,
+            CefFrame frame,
+            String requesting_url,
+            int requested_permissions,
+            CefMediaAccessCallback callback) {
+        if (mediaAccessHandler_ != null && browser != null)
+            return mediaAccessHandler_.onRequestMediaAccessPermission(browser, frame, requesting_url,
+                    requested_permissions, callback);
+        return false;
     }
 
     // CefJSDialogHandler

@@ -110,6 +110,13 @@ public abstract class CefClientHandler implements CefNative {
     abstract protected CefFocusHandler getFocusHandler();
 
     /**
+     * Return the handler for media access requests.
+     * This method is a callback method and is called by
+     * the native code.
+     */
+    abstract protected CefMediaAccessHandler getMediaAccessHandler();
+
+    /**
      * Return the handler for javascript dialog requests.
      * This method is a callback method and is called by
      * the native code.
