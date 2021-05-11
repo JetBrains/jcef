@@ -38,6 +38,7 @@ set(JCEF_SRCS
   CefFrame_N.h
   CefJSDialogCallback_N.h
   CefJSDialogCallback_N.cpp
+  CefMediaAccessCallback_N.cpp
   CefMenuModel_N.cpp
   CefMenuModel_N.h
   CefMessageRouter_N.cpp

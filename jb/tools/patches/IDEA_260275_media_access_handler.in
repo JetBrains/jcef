@@ -1,5 +1,4 @@
 diff --git a/third_party/cef/CEF_BINARY_ROOT/cef_paths.gypi b/third_party/cef/CEF_BINARY_ROOT/cef_paths.gypi
-index a972dea7a..209c73ff1 100644
 --- a/third_party/cef/CEF_BINARY_ROOT/cef_paths.gypi
 +++ b/third_party/cef/CEF_BINARY_ROOT/cef_paths.gypi
 @@ -45,6 +45,7 @@
@@ -41,7 +40,6 @@ index a972dea7a..209c73ff1 100644
        'libcef_dll/cpptoc/media_observer_cpptoc.h',
        'libcef_dll/ctocpp/media_route_ctocpp.cc',
 diff --git a/third_party/cef/CEF_BINARY_ROOT/include/capi/cef_client_capi.h b/third_party/cef/CEF_BINARY_ROOT/include/capi/cef_client_capi.h
-index a7eb509a2..4c6081e6d 100644
 --- a/third_party/cef/CEF_BINARY_ROOT/include/capi/cef_client_capi.h
 +++ b/third_party/cef/CEF_BINARY_ROOT/include/capi/cef_client_capi.h
 @@ -53,6 +53,7 @@
@@ -68,7 +66,6 @@ index a7eb509a2..4c6081e6d 100644
    // default implementation will be used.
 diff --git a/third_party/cef/CEF_BINARY_ROOT/include/capi/cef_media_access_handler_capi.h b/third_party/cef/CEF_BINARY_ROOT/include/capi/cef_media_access_handler_capi.h
 new file mode 100644
-index 000000000..a71337c87
 --- /dev/null
 +++ b/third_party/cef/CEF_BINARY_ROOT/include/capi/cef_media_access_handler_capi.h
 @@ -0,0 +1,108 @@
@@ -180,8 +177,28 @@ index 000000000..a71337c87
 +#endif
 +
 +#endif  // CEF_INCLUDE_CAPI_CEF_MEDIA_ACCESS_HANDLER_CAPI_H_
+diff --git a/third_party/cef/CEF_BINARY_ROOT/include/cef_api_hash.h b/third_party/cef/CEF_BINARY_ROOT/include/cef_api_hash.h
+--- a/third_party/cef/CEF_BINARY_ROOT/include/cef_api_hash.h
++++ b/third_party/cef/CEF_BINARY_ROOT/include/cef_api_hash.h
+@@ -42,13 +42,13 @@
+ // way that may cause binary incompatibility with other builds. The universal
+ // hash value will change if any platform is affected whereas the platform hash
+ // values will change only if that particular platform is affected.
+-#define CEF_API_HASH_UNIVERSAL "89715b43c948313782d2546131f510eab1975844"
++#define CEF_API_HASH_UNIVERSAL "f4229de6197f6bbb3c3903d466c267583a57a64c"
+ #if defined(OS_WIN)
+-#define CEF_API_HASH_PLATFORM "80648a2c5a87db1581fdb994b7154ed77d74a3c5"
++#define CEF_API_HASH_PLATFORM "8326827422b506c6456a47b421e75db242f7ce0a"
+ #elif defined(OS_MAC)
+-#define CEF_API_HASH_PLATFORM "3af393a2bf165edd934c5a59f6e6fce8a4bb579c"
++#define CEF_API_HASH_PLATFORM "37b0a8b16f7fd5fbe4cc6180a32ad840e44b8c79"
+ #elif defined(OS_LINUX)
+-#define CEF_API_HASH_PLATFORM "8049cab9a43c1d554ccdd4dd3d5e38ecebce42af"
++#define CEF_API_HASH_PLATFORM "742ff02479cae480e6688486b46322161b5465bf"
+ #endif
+ 
+ #ifdef __cplusplus
 diff --git a/third_party/cef/CEF_BINARY_ROOT/include/cef_client.h b/third_party/cef/CEF_BINARY_ROOT/include/cef_client.h
-index ada7a6a86..e59c0351f 100644
 --- a/third_party/cef/CEF_BINARY_ROOT/include/cef_client.h
 +++ b/third_party/cef/CEF_BINARY_ROOT/include/cef_client.h
 @@ -51,6 +51,7 @@
@@ -210,7 +227,6 @@ index ada7a6a86..e59c0351f 100644
    // default implementation will be used.
 diff --git a/third_party/cef/CEF_BINARY_ROOT/include/cef_media_access_handler.h b/third_party/cef/CEF_BINARY_ROOT/include/cef_media_access_handler.h
 new file mode 100644
-index 000000000..1c529a659
 --- /dev/null
 +++ b/third_party/cef/CEF_BINARY_ROOT/include/cef_media_access_handler.h
 @@ -0,0 +1,125 @@
@@ -340,7 +356,6 @@ index 000000000..1c529a659
 +
 +#endif  // CEF_INCLUDE_CEF_MEDIA_ACCESS_HANDLER_H_
 diff --git a/third_party/cef/CEF_BINARY_ROOT/libcef_dll/cpptoc/client_cpptoc.cc b/third_party/cef/CEF_BINARY_ROOT/libcef_dll/cpptoc/client_cpptoc.cc
-index 9e54e6aef..8d73fa001 100644
 --- a/third_party/cef/CEF_BINARY_ROOT/libcef_dll/cpptoc/client_cpptoc.cc
 +++ b/third_party/cef/CEF_BINARY_ROOT/libcef_dll/cpptoc/client_cpptoc.cc
 @@ -25,6 +25,7 @@
@@ -384,7 +399,6 @@ index 9e54e6aef..8d73fa001 100644
    GetStruct()->get_life_span_handler = client_get_life_span_handler;
 diff --git a/third_party/cef/CEF_BINARY_ROOT/libcef_dll/cpptoc/media_access_callback_cpptoc.cc b/third_party/cef/CEF_BINARY_ROOT/libcef_dll/cpptoc/media_access_callback_cpptoc.cc
 new file mode 100644
-index 000000000..273acce0b
 --- /dev/null
 +++ b/third_party/cef/CEF_BINARY_ROOT/libcef_dll/cpptoc/media_access_callback_cpptoc.cc
 @@ -0,0 +1,81 @@
@@ -471,7 +485,6 @@ index 000000000..273acce0b
 +    WT_MEDIA_ACCESS_CALLBACK;
 diff --git a/third_party/cef/CEF_BINARY_ROOT/libcef_dll/cpptoc/media_access_callback_cpptoc.h b/third_party/cef/CEF_BINARY_ROOT/libcef_dll/cpptoc/media_access_callback_cpptoc.h
 new file mode 100644
-index 000000000..82f5941fc
 --- /dev/null
 +++ b/third_party/cef/CEF_BINARY_ROOT/libcef_dll/cpptoc/media_access_callback_cpptoc.h
 @@ -0,0 +1,34 @@
@@ -511,7 +524,6 @@ index 000000000..82f5941fc
 +#endif  // CEF_LIBCEF_DLL_CPPTOC_MEDIA_ACCESS_CALLBACK_CPPTOC_H_
 diff --git a/third_party/cef/CEF_BINARY_ROOT/libcef_dll/cpptoc/media_access_handler_cpptoc.cc b/third_party/cef/CEF_BINARY_ROOT/libcef_dll/cpptoc/media_access_handler_cpptoc.cc
 new file mode 100644
-index 000000000..98854c58c
 --- /dev/null
 +++ b/third_party/cef/CEF_BINARY_ROOT/libcef_dll/cpptoc/media_access_handler_cpptoc.cc
 @@ -0,0 +1,96 @@
@@ -613,7 +625,6 @@ index 000000000..98854c58c
 +    WT_MEDIA_ACCESS_HANDLER;
 diff --git a/third_party/cef/CEF_BINARY_ROOT/libcef_dll/cpptoc/media_access_handler_cpptoc.h b/third_party/cef/CEF_BINARY_ROOT/libcef_dll/cpptoc/media_access_handler_cpptoc.h
 new file mode 100644
-index 000000000..da63c35e9
 --- /dev/null
 +++ b/third_party/cef/CEF_BINARY_ROOT/libcef_dll/cpptoc/media_access_handler_cpptoc.h
 @@ -0,0 +1,38 @@
@@ -657,7 +668,6 @@ index 000000000..da63c35e9
 +#endif  // CEF_LIBCEF_DLL_CPPTOC_MEDIA_ACCESS_HANDLER_CPPTOC_H_
 diff --git a/third_party/cef/CEF_BINARY_ROOT/libcef_dll/ctocpp/media_access_callback_ctocpp.cc b/third_party/cef/CEF_BINARY_ROOT/libcef_dll/ctocpp/media_access_callback_ctocpp.cc
 new file mode 100644
-index 000000000..a7c12c0e4
 --- /dev/null
 +++ b/third_party/cef/CEF_BINARY_ROOT/libcef_dll/ctocpp/media_access_callback_ctocpp.cc
 @@ -0,0 +1,71 @@
@@ -734,7 +744,6 @@ index 000000000..a7c12c0e4
 +    WT_MEDIA_ACCESS_CALLBACK;
 diff --git a/third_party/cef/CEF_BINARY_ROOT/libcef_dll/ctocpp/media_access_callback_ctocpp.h b/third_party/cef/CEF_BINARY_ROOT/libcef_dll/ctocpp/media_access_callback_ctocpp.h
 new file mode 100644
-index 000000000..f47e286bb
 --- /dev/null
 +++ b/third_party/cef/CEF_BINARY_ROOT/libcef_dll/ctocpp/media_access_callback_ctocpp.h
 @@ -0,0 +1,42 @@
@@ -782,7 +791,6 @@ index 000000000..f47e286bb
 +#endif  // CEF_LIBCEF_DLL_CTOCPP_MEDIA_ACCESS_CALLBACK_CTOCPP_H_
 diff --git a/third_party/cef/CEF_BINARY_ROOT/libcef_dll/ctocpp/media_access_handler_ctocpp.cc b/third_party/cef/CEF_BINARY_ROOT/libcef_dll/ctocpp/media_access_handler_ctocpp.cc
 new file mode 100644
-index 000000000..b22f68473
 --- /dev/null
 +++ b/third_party/cef/CEF_BINARY_ROOT/libcef_dll/ctocpp/media_access_handler_ctocpp.cc
 @@ -0,0 +1,89 @@
@@ -877,7 +885,6 @@ index 000000000..b22f68473
 +    WT_MEDIA_ACCESS_HANDLER;
 diff --git a/third_party/cef/CEF_BINARY_ROOT/libcef_dll/ctocpp/media_access_handler_ctocpp.h b/third_party/cef/CEF_BINARY_ROOT/libcef_dll/ctocpp/media_access_handler_ctocpp.h
 new file mode 100644
-index 000000000..2d0965eb3
 --- /dev/null
 +++ b/third_party/cef/CEF_BINARY_ROOT/libcef_dll/ctocpp/media_access_handler_ctocpp.h
 @@ -0,0 +1,42 @@
@@ -924,7 +931,6 @@ index 000000000..2d0965eb3
 +
 +#endif  // CEF_LIBCEF_DLL_CTOCPP_MEDIA_ACCESS_HANDLER_CTOCPP_H_
 diff --git a/third_party/cef/CEF_BINARY_ROOT/libcef_dll/wrapper_types.h b/third_party/cef/CEF_BINARY_ROOT/libcef_dll/wrapper_types.h
-index 980b90d44..a2704931f 100644
 --- a/third_party/cef/CEF_BINARY_ROOT/libcef_dll/wrapper_types.h
 +++ b/third_party/cef/CEF_BINARY_ROOT/libcef_dll/wrapper_types.h
 @@ -75,6 +75,8 @@ enum CefWrapperType {

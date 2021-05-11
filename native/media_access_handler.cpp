@@ -44,11 +44,11 @@ bool MediaAccessHandler::OnRequestMediaAccessPermission(
     ScopedJNIMediaAccessCallback jcallback(env, callback);
 
     jboolean jresult = JNI_FALSE;
-    JNI_CALL_METHOD(env, handle_, "OnRequestMediaAccessPermission",
+    JNI_CALL_METHOD(env, handle_, "onRequestMediaAccessPermission",
                          "(Lorg/cef/browser/CefBrowser;"
                          "Lorg/cef/browser/CefFrame;"
                          "Ljava/lang/String;"
-                         "I;"
+                         "I"
                          "Lorg/cef/callback/CefMediaAccessCallback;)Z",
                          Boolean, jresult,
                          jbrowser.get(), jframe.get(),
