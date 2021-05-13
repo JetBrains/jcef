@@ -180,9 +180,7 @@ static int getMouseEvent(WPARAM wParam) {
     case WM_RBUTTONUP:
       return JNI_STATIC(MOUSE_RELEASED);
 
-    // Handle horizontal mouse wheel event.
-    // The vertical mouse wheel is already recognized in Java.
-    // case WM_MOUSEWHEEL:
+    case WM_MOUSEWHEEL:
     case WM_MOUSEHWHEEL:
       return JNI_STATIC(MOUSE_WHEEL);
     default:
