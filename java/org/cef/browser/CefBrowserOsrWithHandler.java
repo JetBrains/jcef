@@ -51,7 +51,7 @@ public final class CefBrowserOsrWithHandler extends CefBrowser_N  {
 
     @Override
     protected CefBrowser_N createDevToolsBrowser(CefClient client, String url, CefRequestContext context, CefBrowser_N parent, Point inspectAt) {
-        return null;
+        return new CefBrowserOsrWithHandler(client, url, context, renderHandler_);
     }
 
     @Override
