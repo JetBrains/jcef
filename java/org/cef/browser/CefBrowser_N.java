@@ -138,13 +138,13 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser {
     @Override
     public synchronized CefBrowser getDevTools(Point inspectAt) {
         if (devTools_ == null) {
-            devTools_ = createDevToolsBrowser(client_, url_, request_context_, this, inspectAt);
+            devTools_ = (CefBrowser_N) createDevToolsBrowser(client_, url_, request_context_, this, inspectAt);
         }
         return devTools_;
     }
 
-    protected abstract CefBrowser_N createDevToolsBrowser(CefClient client, String url,
-            CefRequestContext context, CefBrowser_N parent, Point inspectAt);
+    protected abstract CefBrowser createDevToolsBrowser(CefClient client, String url,
+            CefRequestContext context, CefBrowser parent, Point inspectAt);
 
     /**
      * Create a new browser.
