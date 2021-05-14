@@ -1,6 +1,7 @@
 package org.cef.browser;
 
 import org.cef.CefClient;
+import org.cef.handler.CefClientHandler;
 import org.cef.handler.CefRenderHandler;
 
 import javax.swing.*;
@@ -13,7 +14,7 @@ import java.util.concurrent.CompletableFuture;
  *
  * @since api-1.3
  */
-public final class CefBrowserOsrWithHandler extends CefBrowser_N  {
+public class CefBrowserOsrWithHandler extends CefBrowser_N  {
     private final CefRenderHandler renderHandler_;
     private final Component component_;
 
@@ -28,7 +29,21 @@ public final class CefBrowserOsrWithHandler extends CefBrowser_N  {
      * In order for the browser to start loading call {@link #createImmediately()}.
      */
     public CefBrowserOsrWithHandler(CefClient client, String url, CefRequestContext context, CefRenderHandler renderHandler, Component component) {
-        super(client, url, context, null, null);
+        this(client, url, context, renderHandler, component, null, null);
+    }
+
+    /**
+     * Creates a DevTools browser for the provided parent.
+     */
+    public CefBrowserOsrWithHandler(CefClient client,
+                                    String url,
+                                    CefRequestContext context,
+                                    CefRenderHandler renderHandler,
+                                    Component component,
+                                    CefBrowser parent,
+                                    Point inspectAt)
+    {
+        super(client, url, context, (CefBrowser_N)parent, inspectAt);
         assert renderHandler != null : "Handler can't be null";
         this.renderHandler_ = renderHandler;
         this.component_ = component;
@@ -41,7 +56,11 @@ public final class CefBrowserOsrWithHandler extends CefBrowser_N  {
 
     @Override
     public void createImmediately() {
-        createBrowser(getClient(), 0, getUrl(), true, false, null, getRequestContext());
+        if (getParentBrowser() == null) {
+            createBrowser(getClient(), 0, getUrl(), true, false, null, getRequestContext());
+        } else {
+            createDevTools(getParentBrowser(), getClient(), 0, true, false, null, getInspectAt());
+        }
     }
 
     @Override
@@ -49,9 +68,12 @@ public final class CefBrowserOsrWithHandler extends CefBrowser_N  {
         return component_;
     }
 
+    /**
+     * Override it in subclasses.
+     */
     @Override
-    protected CefBrowser_N createDevToolsBrowser(CefClient client, String url, CefRequestContext context, CefBrowser_N parent, Point inspectAt) {
-        return new CefBrowserOsrWithHandler(client, url, context, renderHandler_);
+    protected CefBrowser createDevToolsBrowser(CefClient client, String url, CefRequestContext context, CefBrowser parent, Point inspectAt) {
+        return null;
     }
 
     @Override
