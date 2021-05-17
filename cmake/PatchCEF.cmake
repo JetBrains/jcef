@@ -1,5 +1,5 @@
 function(PatchCEF platform version)
-  message(STATUS "Apply patches to CEF includes...")
+  message(STATUS "Apply patches to CEF includes and binary...")
 
   set(CEF_DISTRIBUTION "cef_binary_${version}_${platform}")
 
@@ -29,4 +29,23 @@ function(PatchCEF platform version)
   if(NOT git_apply_result STREQUAL "0")
     message(WARNING "Can't apply patches to CEF includes, result: ${git_apply_result}")
   endif()
+
+  # erase original libcef binary
+  file(REMOVE_RECURSE "third_party/cef/${CEF_DISTRIBUTION}/Release/Chromium Embedded Framework.framework")
+
+  # extract patched binary
+  execute_process(
+      COMMAND "tar"
+              "-xzf"
+              "CEF.framework.tgz"
+              "-C"
+              "./third_party/cef/${CEF_DISTRIBUTION}/Release"
+      WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+      RESULT_VARIABLE tar_extract_result
+  )
+
+  if(NOT tar_extract_result STREQUAL "0")
+    message(WARNING "Can't extract patched libcef, result: ${tar_extract_result}")
+  endif()
+
 endfunction()
