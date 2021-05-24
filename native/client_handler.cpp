@@ -18,7 +18,9 @@
 #include "download_handler.h"
 #include "drag_handler.h"
 #include "focus_handler.h"
+#ifdef __APPLE__
 #include "media_access_handler.h"
+#endif // __APPLE__
 #include "jsdialog_handler.h"
 #include "keyboard_handler.h"
 #include "life_span_handler.h"
@@ -116,11 +118,11 @@ CefRefPtr<CefDragHandler> ClientHandler::GetDragHandler() {
 CefRefPtr<CefFocusHandler> ClientHandler::GetFocusHandler() {
   return GetHandler<FocusHandler>("FocusHandler");
 }
-
+#ifdef __APPLE__
 CefRefPtr<CefMediaAccessHandler> ClientHandler::GetMediaAccessHandler() {
   return GetHandler<MediaAccessHandler>("MediaAccessHandler");
 }
-
+#endif // __APPLE__
 CefRefPtr<CefJSDialogHandler> ClientHandler::GetJSDialogHandler() {
   return GetHandler<JSDialogHandler>("JSDialogHandler");
 }
