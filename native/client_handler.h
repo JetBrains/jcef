@@ -30,9 +30,7 @@ class ClientHandler : public CefClient {
   CefRefPtr<CefDownloadHandler> GetDownloadHandler() OVERRIDE;
   CefRefPtr<CefDragHandler> GetDragHandler() OVERRIDE;
   CefRefPtr<CefFocusHandler> GetFocusHandler() OVERRIDE;
-#ifdef __APPLE__
   CefRefPtr<CefMediaAccessHandler> GetMediaAccessHandler() OVERRIDE;
-#endif // __APPLE__
   CefRefPtr<CefJSDialogHandler> GetJSDialogHandler() OVERRIDE;
   CefRefPtr<CefKeyboardHandler> GetKeyboardHandler() OVERRIDE;
   CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() OVERRIDE;

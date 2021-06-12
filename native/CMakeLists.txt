@@ -38,6 +38,7 @@ set(JCEF_SRCS
   CefFrame_N.h
   CefJSDialogCallback_N.h
   CefJSDialogCallback_N.cpp
+  CefMediaAccessCallback_N.cpp
   CefMenuModel_N.cpp
   CefMenuModel_N.h
   CefMessageRouter_N.cpp
@@ -97,6 +98,8 @@ set(JCEF_SRCS
   drag_handler.h
   focus_handler.cpp
   focus_handler.h
+  media_access_handler.cpp
+  media_access_handler.h
   jcef_version.h
   jni_scoped_helpers.h
   jni_scoped_helpers.cpp
@@ -164,9 +167,6 @@ set(JCEF_SRCS_MAC
   util_mac.h
   util_mac.mm
   util_posix.cpp
-  CefMediaAccessCallback_N.cpp
-  media_access_handler.cpp
-  media_access_handler.h
   )
 set(JCEF_SRCS_WINDOWS
   critical_wait_win.cpp
