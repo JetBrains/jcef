@@ -21,6 +21,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 import com.jetbrains.cef.JdkEx;
+import org.cef.misc.CefLog;
 
 /**
  * Exposes static methods for managing the global CEF context.
@@ -441,6 +442,8 @@ public class CefApp extends CefAppHandlerAdapter {
                     {
                         setState(CefAppState.INITIALIZED);
                     }
+
+                    CefLog.initFileLogger(settings);
                 }
             };
             if (SwingUtilities.isEventDispatchThread())
