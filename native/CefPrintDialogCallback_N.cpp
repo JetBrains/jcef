@@ -30,7 +30,7 @@ Java_org_cef_callback_CefPrintDialogCallback_1N_N_1Continue(
   if (!callback)
     return;
 
-  CefRefPtr<CefPrintSettings> settings = GetCefFromJNIObject<CefPrintSettings>(
+  CefRefPtr<CefPrintSettings> settings = GetCefFromJNIObject_safe<CefPrintSettings>(
       env, jprintsettings, "CefPrintSettings");
   if (settings) {
     callback->Continue(settings);

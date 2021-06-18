@@ -447,6 +447,8 @@ template <class T>
 bool SetCefForJNIObject(JNIEnv* env, jobject obj, T* base, const char* varName);
 template <class T>
 T* GetCefFromJNIObject(JNIEnv* env, jobject obj, const char* varName);
+template <class T>
+CefRefPtr<T> GetCefFromJNIObject_safe(JNIEnv* env, jobject obj, const char* varName);
 
 class ScopedJNIEnv {
  public:
@@ -912,13 +914,18 @@ bool SetCefForJNIObject(JNIEnv* env,
   jlong previousValue = 0;
   JNI_CALL_METHOD(env, obj, "getNativeRef", "(Ljava/lang/String;)J", Long,
                   previousValue, identifer.get());
+
+  env->MonitorEnter(obj);
+  JNI_CALL_VOID_METHOD(env, obj, "setNativeRef", "(Ljava/lang/String;J)V",
+                       identifer.get(), (jlong)base);
+  env->MonitorExit(obj);
+
   if (previousValue != 0) {
     // Remove a reference from the previous base object.
+    // NOTE: must do it after setNativeRef_safe (otherwise we can create CefRefPtr with killed ptr)
     SetCefForJNIObjectHelper::Release(reinterpret_cast<T*>(previousValue));
   }
 
-  JNI_CALL_VOID_METHOD(env, obj, "setNativeRef", "(Ljava/lang/String;J)V",
-                       identifer.get(), (jlong)base);
   if (base) {
     // Add a reference to the new base object.
     SetCefForJNIObjectHelper::AddRef(base);
@@ -939,6 +946,22 @@ T* GetCefFromJNIObject(JNIEnv* env, jobject obj, const char* varName) {
   if (previousValue != 0)
     return reinterpret_cast<T*>(previousValue);
   return NULL;
+}
+
+template <class T>
+CefRefPtr<T> GetCefFromJNIObject_safe(JNIEnv* env, jobject obj, const char* varName) {
+  if (!obj)
+    return CefRefPtr<T>();
+
+  ScopedJNIString identifer(env, varName);
+  jlong value = 0;
+  env->MonitorEnter(obj);
+  JNI_CALL_METHOD(env, obj, "getNativeRef", "(Ljava/lang/String;)J", Long,
+                  value, identifer.get());
+
+  CefRefPtr<T> result(reinterpret_cast<T*>(value));
+  env->MonitorExit(obj);
+  return result;
 }
 
 #endif  // JCEF_NATIVE_JNI_SCOPED_HELPERS_H_
