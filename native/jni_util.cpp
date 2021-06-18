@@ -991,7 +991,7 @@ bool GetJNIPoint(JNIEnv* env, jobject obj, int* x, int* y) {
 }
 
 CefRefPtr<CefBrowser> GetJNIBrowser(JNIEnv* env, jobject jbrowser) {
-  return GetCefFromJNIObject<CefBrowser>(env, jbrowser, "CefBrowser");
+  return GetCefFromJNIObject_safe<CefBrowser>(env, jbrowser, "CefBrowser");
 }
 
 jobject GetJNIEnumValue(JNIEnv* env,
