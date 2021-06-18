@@ -1028,3 +1028,32 @@ bool IsJNIEnumValue(JNIEnv* env,
   }
   return false;
 }
+
+std::string GetJavaSystemProperty(std::string key, JNIEnv * env) {
+  jclass systemClass = env->FindClass( "java/lang/System" );
+  jmethodID getPropertyMethod = env->GetStaticMethodID(systemClass, "getProperty", "(Ljava/lang/String;)Ljava/lang/String;");
+  jstring propertyName = env->NewStringUTF(key.c_str());
+  jstring propertyVal = (jstring)env->CallStaticObjectMethod(systemClass, getPropertyMethod, propertyName);
+  if (propertyVal == NULL) {
+    return "";
+  }
+  const char* property = env->GetStringUTFChars(propertyVal, 0);
+  std::string result(property);
+  env->ReleaseStringUTFChars(propertyVal, property);
+  return result;
+}
+
+long GetJavaSystemPropertyLong(std::string key, JNIEnv * env, long defaultVal) {
+  std::string propString = GetJavaSystemProperty(key, env);
+  if (propString.empty())
+    return defaultVal;
+
+  std::size_t pos = 0;
+  long val = std::stol(propString, &pos);
+  if(pos != propString.length()) {
+    LOG(WARNING) << "Can't parse value of '" << key << "' from " << propString;
+    return defaultVal;
+  }
+  return val;
+}
+

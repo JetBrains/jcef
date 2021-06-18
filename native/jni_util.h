@@ -196,6 +196,9 @@ bool IsJNIEnumValue(JNIEnv* env,
                     const char* class_name,
                     const char* enum_valname);
 
+std::string GetJavaSystemProperty(std::string key, JNIEnv * env);
+long GetJavaSystemPropertyLong(std::string key, JNIEnv * env, long defaultVal);
+
 // Helper macro for handling jni enum values in a switch statement
 #define JNI_CASE(env, cls, type, result)       \
   case type:                                   \
