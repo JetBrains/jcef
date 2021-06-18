@@ -6,15 +6,11 @@ package org.cef;
 
 import com.jetbrains.cef.JCefAppConfig;
 import com.jetbrains.cef.JdkEx;
-import org.cef.browser.CefBrowser;
-import org.cef.browser.CefRendering;
-import org.cef.browser.CefBrowserFactory;
-import org.cef.browser.CefFrame;
-import org.cef.browser.CefMessageRouter;
-import org.cef.browser.CefRequestContext;
+import org.cef.browser.*;
 import org.cef.callback.*;
 import org.cef.handler.*;
 import org.cef.misc.BoolRef;
+import org.cef.misc.CefLog;
 import org.cef.network.CefRequest;
 import org.cef.network.CefRequest.TransitionType;
 
@@ -27,9 +23,7 @@ import java.awt.Rectangle;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.nio.ByteBuffer;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Vector;
+import java.util.*;
 
 /**
  * Client that owns a browser and renderer.
@@ -39,6 +33,7 @@ public class CefClient extends CefClientHandler
                    CefDragHandler, CefFocusHandler, CefMediaAccessHandler, CefJSDialogHandler, CefKeyboardHandler,
                    CefLifeSpanHandler, CefLoadHandler, CefRenderHandler, CefRequestHandler,
                    CefWindowHandler {
+    private static final boolean TRACE_LIFESPAN = Boolean.getBoolean("trace.client.lifespan");
     private HashMap<Integer, CefBrowser> browser_ = new HashMap<Integer, CefBrowser>();
     private CefContextMenuHandler contextMenuHandler_ = null;
     private CefDialogHandler dialogHandler_ = null;
@@ -49,7 +44,7 @@ public class CefClient extends CefClientHandler
     private CefMediaAccessHandler mediaAccessHandler_ = null;
     private CefJSDialogHandler jsDialogHandler_ = null;
     private CefKeyboardHandler keyboardHandler_ = null;
-    private CefLifeSpanHandler lifeSpanHandler_ = null;
+    private final List<CefLifeSpanHandler> lifeSpanHandlers_ = new ArrayList<>();
     private CefLoadHandler loadHandler_ = null;
     private CefRequestHandler requestHandler_ = null;
     private boolean isDisposed_ = false;
@@ -538,52 +533,76 @@ public class CefClient extends CefClientHandler
     // CefLifeSpanHandler
 
     public CefClient addLifeSpanHandler(CefLifeSpanHandler handler) {
-        if (lifeSpanHandler_ == null) lifeSpanHandler_ = handler;
+        synchronized (lifeSpanHandlers_) {
+            lifeSpanHandlers_.add(handler);
+        }
         return this;
     }
 
     public void removeLifeSpanHandler() {
-        lifeSpanHandler_ = null;
+        synchronized (lifeSpanHandlers_) {
+            lifeSpanHandlers_.clear();
+        }
     }
 
     @Override
     public boolean onBeforePopup(
             CefBrowser browser, CefFrame frame, String target_url, String target_frame_name) {
         if (isDisposed_) return true;
-        if (lifeSpanHandler_ != null && browser != null)
-            return lifeSpanHandler_.onBeforePopup(browser, frame, target_url, target_frame_name);
-        return false;
+        if (browser == null)
+            return false;
+        synchronized (lifeSpanHandlers_) {
+            boolean result = false;
+            for (CefLifeSpanHandler lsh: lifeSpanHandlers_) {
+                result |= lsh.onBeforePopup(browser, frame, target_url, target_frame_name);
+            }
+            return result;
+        }
     }
 
     @Override
     public void onAfterCreated(CefBrowser browser) {
         if (browser == null) return;
+        if (TRACE_LIFESPAN) CefLog.INSTANCE.debug("CefClient: browser=%s: onAfterCreated", browser);
 
         // keep browser reference
         Integer identifier = browser.getIdentifier();
         synchronized (browser_) {
             browser_.put(identifier, browser);
         }
-        if (lifeSpanHandler_ != null) lifeSpanHandler_.onAfterCreated(browser);
+        synchronized (lifeSpanHandlers_) {
+            for (CefLifeSpanHandler lsh: lifeSpanHandlers_)
+                lsh.onAfterCreated(browser);
+        }
     }
 
     @Override
     public void onAfterParentChanged(CefBrowser browser) {
         if (browser == null) return;
-        if (lifeSpanHandler_ != null) lifeSpanHandler_.onAfterParentChanged(browser);
+        synchronized (lifeSpanHandlers_) {
+            for (CefLifeSpanHandler lsh: lifeSpanHandlers_)
+                lsh.onAfterParentChanged(browser);
+        }
     }
 
     @Override
     public boolean doClose(CefBrowser browser) {
         if (browser == null) return false;
-        if (lifeSpanHandler_ != null) return lifeSpanHandler_.doClose(browser);
+        synchronized (lifeSpanHandlers_) {
+            for (CefLifeSpanHandler lsh: lifeSpanHandlers_)
+                lsh.doClose(browser);
+        }
         return browser.doClose();
     }
 
     @Override
     public void onBeforeClose(CefBrowser browser) {
         if (browser == null) return;
-        if (lifeSpanHandler_ != null) lifeSpanHandler_.onBeforeClose(browser);
+        if (TRACE_LIFESPAN) CefLog.INSTANCE.debug("CefClient: browser=%s: onBeforeClose", browser);
+        synchronized (lifeSpanHandlers_) {
+            for (CefLifeSpanHandler lsh: lifeSpanHandlers_)
+                lsh.onBeforeClose(browser);
+        }
         browser.onBeforeClose();
 
         // remove browser reference
