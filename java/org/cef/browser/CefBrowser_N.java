@@ -4,18 +4,15 @@
 
 package org.cef.browser;
 
-import com.jetbrains.cef.JCefAppConfig;
 import org.cef.CefClient;
-import org.cef.CefSettings;
 import org.cef.callback.CefDragData;
 import org.cef.callback.CefNativeAdapter;
 import org.cef.callback.CefPdfPrintCallback;
 import org.cef.callback.CefRunFileDialogCallback;
 import org.cef.callback.CefStringVisitor;
-import org.cef.handler.CefClientHandler;
+import org.cef.handler.*;
 import org.cef.handler.CefDialogHandler.FileDialogMode;
-import org.cef.handler.CefRenderHandler;
-import org.cef.handler.CefWindowHandler;
+import org.cef.misc.CefLog;
 import org.cef.misc.CefPdfPrintSettings;
 import org.cef.network.CefRequest;
 
@@ -38,6 +35,7 @@ import javax.swing.*;
  * CefBrowser instance, please use CefBrowserFactory.
  */
 abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser {
+    private static final boolean TRACE_LIFESPAN = Boolean.getBoolean("trace.browser.lifespan");
     private volatile boolean isPending_ = false;
     private final CefClient client_;
     private final String url_;
@@ -48,8 +46,6 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser {
     private boolean closeAllowed_ = false;
     private volatile boolean isClosed_ = false;
     private volatile boolean isClosing_ = false;
-    private volatile boolean isCreateStarted_ = false;
-    private int closeTries_ = 0; // simple protection from infinite re-closing
 
     protected CefBrowser_N(CefClient client, String url, CefRequestContext context,
             CefBrowser_N parent, Point inspectAt) {
@@ -125,6 +121,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser {
 
     @Override
     public synchronized void onBeforeClose() {
+        if (TRACE_LIFESPAN) CefLog.INSTANCE.debug("CefBrowser_N: %s: onBeforeClose", this);
         isClosed_ = true;
         if (request_context_ != null) request_context_.dispose();
         if (parent_ != null) {
@@ -160,7 +157,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser {
 
         if (getNativeRef("CefBrowser") == 0 && !isPending_) {
             try {
-                isCreateStarted_ = true;
+                if (TRACE_LIFESPAN) CefLog.INSTANCE.debug("CefBrowser_N: %s: started native creation", this);
                 N_CreateBrowser(
                         clientHandler, windowHandle, url, osr, transparent, canvas, context);
             } catch (UnsatisfiedLinkError err) {
@@ -448,27 +445,24 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser {
 
     @Override
     public void close(boolean force) {
-        if (isCreateStarted_ && getNativeRef("CefBrowser") == 0) {
-            int delayMs = -1;
-            switch (++closeTries_) {
-                case 1: delayMs = 100; break;
-                case 2: delayMs = 500; break;
-                case 3: delayMs = 5000; break;
-            }
-
-            if (delayMs >= 0) {
-                Timer t = new Timer(delayMs, e -> close(force));
-                CefSettings settings = JCefAppConfig.getInstance().getCefSettings();
-                if (settings.log_severity == CefSettings.LogSeverity.LOGSEVERITY_VERBOSE) {
-                    System.out.println("DEBUG: native CefBrowser is still constructing, schedule to close '" + this + "' after " + t.getDelay() + " ms");
-                }
-                t.setRepeats(false);
-                t.start();
-                return;
-            }
-        }
         if (isClosing_ || isClosed_) return;
         if (force) isClosing_ = true;
+
+        if (TRACE_LIFESPAN) CefLog.INSTANCE.debug("CefBrowser_N: %s: close", this);
+
+        if (getNativeRef("CefBrowser") == 0) {
+            CefLog.INSTANCE.debug("CefBrowser_N: %s: native part of browser wasn't created yet, browser will be closed immediately after creation", this);
+            client_.addLifeSpanHandler(new CefLifeSpanHandlerAdapter() {
+                @Override
+                public void onAfterCreated(CefBrowser browser) {
+                if (browser == CefBrowser_N.this) {
+                    CefLog.INSTANCE.debug("CefBrowser_N: %s: close browser (immediately after creation)", browser);
+                    browser.close(force);
+                }
+                }
+            });
+            return;
+        }
 
         try {
             N_Close(force);
