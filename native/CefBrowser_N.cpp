@@ -1017,6 +1017,15 @@ void create(std::shared_ptr<JNIObjectsForCreate> objs,
     extra_info->SetList("router_configs", router_configs);
   }
 
+  static int testDelaySec = -1;
+  if (testDelaySec < 0) {
+    testDelaySec = GetJavaSystemPropertyLong("test.delay.create_browser2.seconds", env, 0);
+    if (testDelaySec > 0) LOG(INFO) << "Use test.delay.create_browser2.seconds=" << testDelaySec;
+  }
+  if (testDelaySec > 0) {
+    sleep(testDelaySec*1000l);
+  }
+
   bool result = CefBrowserHost::CreateBrowser(
       windowInfo, clientHandler.get(), strUrl, settings, extra_info, context);
   if (!result) {
@@ -1147,7 +1156,17 @@ Java_org_cef_browser_CefBrowser_1N_N_1CreateBrowser(JNIEnv* env,
                                                     jobject jcontext) {
   std::shared_ptr<JNIObjectsForCreate> objs(new JNIObjectsForCreate(
       env, jbrowser, nullptr, jclientHandler, url, canvas, jcontext, nullptr));
-  if (CefCurrentlyOn(TID_UI)) {
+
+  static int testDelaySec = -1;
+  if (testDelaySec < 0) {
+    testDelaySec = GetJavaSystemPropertyLong("test.delay.create_browser.seconds", env, 0);
+    if (testDelaySec > 0) LOG(INFO) << "Use test.delay.create_browser.seconds=" << testDelaySec;
+  }
+
+  if (testDelaySec > 0) {
+    CefPostDelayedTask(TID_UI,
+                base::Bind(&create, objs, windowHandle, osr, transparent), testDelaySec*1000l);
+  } else if (CefCurrentlyOn(TID_UI)) {
     create(objs, windowHandle, osr, transparent);
   } else {
     CefPostTask(TID_UI,
