@@ -13,10 +13,11 @@ import java.util.Date;
 // TODO: support log4j or similar
 public class CefLog {
     public static CefLog INSTANCE;
+    private static final SimpleDateFormat ourTimeFormat = new SimpleDateFormat("mm:ss:SSS");
 
     private PrintStream myPrintStream;
     private CefSettings.LogSeverity mySeverity;
-    private final SimpleDateFormat myTimeFormat = new SimpleDateFormat("mmss_SSS");
+
 
     public static void initFileLogger(CefSettings settings) {
         if (settings.log_file == null) {
@@ -79,7 +80,26 @@ public class CefLog {
     public void log(CefSettings.LogSeverity log_severity, String msg, Object... args) {
         if (mySeverity.compareTo(log_severity) < 0)
             return;
-        myPrintStream.printf("JCEF_%s(%s): %s\n", shortSeverity(log_severity), myTimeFormat.format(new Date()),
+        myPrintStream.printf("JCEF_%s(%s): %s\n", shortSeverity(log_severity), ourTimeFormat.format(new Date()),
                 args == null || args.length == 0 ? msg : String.format(msg, args));
+    }
+
+    static public void Debug(String msg, Object... args) { Log(CefSettings.LogSeverity.LOGSEVERITY_VERBOSE, msg, args); }
+    static public void Info(String msg, Object... args) { Log(CefSettings.LogSeverity.LOGSEVERITY_INFO, msg, args); }
+    static public void Warn(String msg, Object... args) { Log(CefSettings.LogSeverity.LOGSEVERITY_WARNING, msg, args); }
+    static public void Error(String msg, Object... args) { Log(CefSettings.LogSeverity.LOGSEVERITY_ERROR, msg, args); }
+
+    static public void Log(CefSettings.LogSeverity log_severity, String msg, Object... args) {
+        if (msg == null)
+            return;
+
+        if (INSTANCE != null)
+            INSTANCE.log(log_severity, msg, args);
+        else {
+            if (!msg.endsWith("\n"))
+                msg += "\n";
+            System.err.printf("JCEF_%s(%s): %s\n", shortSeverity(log_severity), ourTimeFormat.format(new Date()),
+                    args == null || args.length == 0 ? msg : String.format(msg, args));
+        }
     }
 }

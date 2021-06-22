@@ -121,7 +121,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser {
 
     @Override
     public synchronized void onBeforeClose() {
-        if (TRACE_LIFESPAN) CefLog.INSTANCE.debug("CefBrowser_N: %s: onBeforeClose", this);
+        if (TRACE_LIFESPAN) CefLog.Debug("CefBrowser_N: %s: onBeforeClose", this);
         isClosed_ = true;
         if (request_context_ != null) request_context_.dispose();
         if (parent_ != null) {
@@ -157,7 +157,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser {
 
         if (getNativeRef("CefBrowser") == 0 && !isPending_) {
             try {
-                if (TRACE_LIFESPAN) CefLog.INSTANCE.debug("CefBrowser_N: %s: started native creation", this);
+                if (TRACE_LIFESPAN) CefLog.Debug("CefBrowser_N: %s: started native creation", this);
                 N_CreateBrowser(
                         clientHandler, windowHandle, url, osr, transparent, canvas, context);
             } catch (UnsatisfiedLinkError err) {
@@ -448,20 +448,21 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser {
         if (isClosing_ || isClosed_) return;
         if (force) isClosing_ = true;
 
-        if (TRACE_LIFESPAN) CefLog.INSTANCE.debug("CefBrowser_N: %s: close", this);
+        if (TRACE_LIFESPAN) CefLog.Debug("CefBrowser_N: %s: close, force=%d\n", this.toString(), force ? 1 : 0);
 
         if (getNativeRef("CefBrowser") == 0) {
-            CefLog.INSTANCE.debug("CefBrowser_N: %s: native part of browser wasn't created yet, browser will be closed immediately after creation", this);
-            if (client_ != null)
+            CefLog.Debug("CefBrowser_N: %s: native part of browser wasn't created yet, browser will be closed immediately after creation", this);
+            if (client_ != null) {
                 client_.addLifeSpanHandler(new CefLifeSpanHandlerAdapter() {
                     @Override
                     public void onAfterCreated(CefBrowser browser) {
-                    if (browser == CefBrowser_N.this) {
-                        CefLog.INSTANCE.debug("CefBrowser_N: %s: close browser (immediately after creation)", browser);
-                        browser.close(force);
-                    }
+                        if (browser == CefBrowser_N.this) {
+                            CefLog.Debug("CefBrowser_N: %s: close browser (immediately after creation)", browser);
+                            browser.close(force);
+                        }
                     }
                 });
+            }
             return;
         }
 
