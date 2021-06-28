@@ -24,10 +24,11 @@ bool LifeSpanHandler::OnBeforePopup(CefRefPtr<CefBrowser> browser,
                                     CefBrowserSettings& settings,
                                     CefRefPtr<CefDictionaryValue>& extra_info,
                                     bool* no_javascript_access) {
+  /* [tav] CEF does not block it, so there seems to be no reason to be stricter.
   if (browser->GetHost()->IsWindowRenderingDisabled()) {
     // Cancel popups in off-screen rendering mode.
     return true;
-  }
+  }*/
 
   ScopedJNIEnv env;
   if (!env)
