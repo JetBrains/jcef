@@ -50,5 +50,7 @@ cmake -G "Visual Studio 14 Win64" .. || goto:__exit
 echo *** run MSBuild.exe...
 "c:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe" /t:Rebuild /p:Configuration=Release .\jcef.sln || goto:__exit
 
+cd "%JB_TOOLS_OS_DIR%" && exit /b 0
+
 :__exit
-cd "%JB_TOOLS_OS_DIR%" || exit /b 1
+cd "%JB_TOOLS_OS_DIR%" && exit /b 1
