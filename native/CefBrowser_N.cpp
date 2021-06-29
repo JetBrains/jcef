@@ -35,6 +35,7 @@
 
 #if defined(OS_WIN)
 #include <memory>
+#include <synchapi.h>
 #undef MOUSE_MOVED
 #endif
 
@@ -1023,7 +1024,11 @@ void create(std::shared_ptr<JNIObjectsForCreate> objs,
     if (testDelaySec > 0) LOG(INFO) << "Use test.delay.create_browser2.seconds=" << testDelaySec;
   }
   if (testDelaySec > 0) {
+#if defined(OS_WIN)
+    Sleep(testDelaySec * 1000l);
+#elif
     sleep(testDelaySec*1000l);
+#endif
   }
 
   bool result = CefBrowserHost::CreateBrowser(
