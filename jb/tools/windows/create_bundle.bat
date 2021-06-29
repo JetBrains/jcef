@@ -42,6 +42,9 @@ copy %OUT_CLS_DIR%\jcef-tests.jar . || goto:__exit
 cd "%JB_TOOLS_OS_DIR%"
 exit /b 0
 
+echo *** SUCCESSFUL
+cd "%JB_TOOLS_OS_DIR%" && exit /b 0
+
 :__exit
 cd "%JB_TOOLS_OS_DIR%"
 echo *** BUILD FAILED
