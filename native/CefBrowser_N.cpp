@@ -1026,7 +1026,7 @@ void create(std::shared_ptr<JNIObjectsForCreate> objs,
   if (testDelaySec > 0) {
 #if defined(OS_WIN)
     Sleep(testDelaySec * 1000l);
-#elif
+#else
     sleep(testDelaySec*1000l);
 #endif
   }
