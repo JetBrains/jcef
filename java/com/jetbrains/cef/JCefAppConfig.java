@@ -5,6 +5,7 @@ package com.jetbrains.cef;
 import org.cef.CefApp;
 import org.cef.CefSettings;
 import org.cef.OS;
+import org.cef.misc.CefLog;
 
 import java.awt.*;
 import java.io.*;
@@ -156,6 +157,14 @@ public abstract class JCefAppConfig {
     public static double getDeviceScaleFactor(/*@Nullable*/Component component) {
         if (GraphicsEnvironment.isHeadless()) {
             return 1.0;
+        }
+        String prop = System.getProperty("jcef.forceDeviceScaleFactor");
+        if (prop != null) {
+            try {
+                return Double.parseDouble(prop);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
         }
         GraphicsDevice device = null;
         double scale = 1.0;
