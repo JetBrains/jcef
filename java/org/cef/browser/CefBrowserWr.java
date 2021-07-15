@@ -172,8 +172,6 @@ class CefBrowserWr extends CefBrowser_N {
         }
     };
 
-    private static final double FORCE_DEVICE_SCALE_FACTOR = OS.isLinux() ? JCefAppConfig.getDeviceScaleFactor(null) : 1.0;
-
     CefBrowserWr(CefClient client, String url, CefRequestContext context) {
         this(client, url, context, null, null);
     }
@@ -314,7 +312,7 @@ class CefBrowserWr extends CefBrowser_N {
     }
 
     private void updateScale() {
-        if (!OS.isMacintosh()) scaleFactor_ = JCefAppConfig.getDeviceScaleFactor(component_);
+        if (!OS.isMacintosh()) scaleFactor_ = shouldUpscale() ? JCefAppConfig.getDeviceScaleFactor(component_) : 1;
     }
 
     @Override
@@ -404,16 +402,17 @@ class CefBrowserWr extends CefBrowser_N {
         } else {
             synchronized (content_rect_) {
                 Rectangle bounds = component_.getBounds();
+                // On Linux, content_rect_ scaling downgrades, namely:
+                // - should not be scaled in JRE-managed HiDPI mode
+                // - should be downscaled in IDE-managed HiDPI mode
                 double scale = OS.isLinux() ?
-                    scaleFactor_ / FORCE_DEVICE_SCALE_FACTOR :
+                    (shouldUpscale() ? 1 : 1 / JCefAppConfig.getDeviceScaleFactor(component_)) :
                     scaleFactor_;
-                content_rect_ = new Rectangle((int) (bounds.getX() * scaleFactor_),
+                content_rect_ = new Rectangle(
+                        (int) (bounds.getX() * scale),
                         (int) (bounds.getY() * scale),
                         (int) (bounds.getWidth() * scale),
                         (int) (bounds.getHeight() * scale));
-                // On Linux, content_rect_ resulting scale should be (prior to passing to CEF):
-                // - JRE-managed HiDPI mode: 1.0
-                // - IDE-managed HiDPI mode: 1.0 / FORCE_DEVICE_SCALE_FACTOR
                 updateUI(clipping, content_rect_);
             }
         }
@@ -451,5 +450,9 @@ class CefBrowserWr extends CefBrowser_N {
     @Override
     public CompletableFuture<BufferedImage> createScreenshot(boolean nativeResolution) {
         throw new UnsupportedOperationException("Unsupported for windowed rendering");
+    }
+
+    private static boolean shouldUpscale() {
+        return JCefAppConfig.getForceDeviceScaleFactor() == -1;
     }
 }
