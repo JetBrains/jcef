@@ -11,6 +11,7 @@ import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * @author Anton Tarasov
@@ -18,6 +19,8 @@ import java.util.List;
 public abstract class JCefAppConfig {
     protected final CefSettings cefSettings = new CefSettings();
     protected final List<String> appArgs = new ArrayList<>();
+
+    private static final AtomicReference<Double> forceDeviceScaleFactor = new AtomicReference<>(Double.valueOf(0));
 
     private static class Holder {
         static JCefAppConfig INSTANCE;
@@ -159,16 +162,10 @@ public abstract class JCefAppConfig {
         if (GraphicsEnvironment.isHeadless()) {
             return 1.0;
         }
-        String prop = System.getProperty("jcef.forceDeviceScaleFactor");
-        if (prop != null) {
-            try {
-                return Double.parseDouble(prop);
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-            }
-        }
+        double scale = getForceDeviceScaleFactor();
+        if (scale > 0) return scale;
+
         GraphicsDevice device = null;
-        double scale = 1.0;
         try {
             if (component != null && component.getGraphicsConfiguration() != null) {
                 device = component.getGraphicsConfiguration().getDevice();
@@ -186,5 +183,28 @@ public abstract class JCefAppConfig {
             }
         }
         return scale;
+    }
+
+    /**
+     * Defined to support IDE-managed HiDPI mode in IDEA, undefined in JRE-managed HiDPI.
+     */
+    public static double getForceDeviceScaleFactor() {
+        if (forceDeviceScaleFactor.get() == 0) {
+            synchronized (forceDeviceScaleFactor) {
+                String prop = System.getProperty("jcef.forceDeviceScaleFactor");
+                if (prop != null) {
+                    try {
+                        forceDeviceScaleFactor.set(Double.parseDouble(prop));
+                    } catch (NumberFormatException e) {
+                        forceDeviceScaleFactor.set(Double.valueOf(-1));
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    forceDeviceScaleFactor.set(Double.valueOf(-1));
+                }
+            }
+        }
+        return forceDeviceScaleFactor.get();
     }
 }
