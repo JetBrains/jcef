@@ -449,15 +449,16 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser {
 
         if (getNativeRef("CefBrowser") == 0) {
             CefLog.INSTANCE.debug("CefBrowser_N: %s: native part of browser wasn't created yet, browser will be closed immediately after creation", this);
-            client_.addLifeSpanHandler(new CefLifeSpanHandlerAdapter() {
-                @Override
-                public void onAfterCreated(CefBrowser browser) {
-                if (browser == CefBrowser_N.this) {
-                    CefLog.INSTANCE.debug("CefBrowser_N: %s: close browser (immediately after creation)", browser);
-                    browser.close(force);
-                }
-                }
-            });
+            if (client_ != null)
+                client_.addLifeSpanHandler(new CefLifeSpanHandlerAdapter() {
+                    @Override
+                    public void onAfterCreated(CefBrowser browser) {
+                    if (browser == CefBrowser_N.this) {
+                        CefLog.INSTANCE.debug("CefBrowser_N: %s: close browser (immediately after creation)", browser);
+                        browser.close(force);
+                    }
+                    }
+                });
             return;
         }
 
