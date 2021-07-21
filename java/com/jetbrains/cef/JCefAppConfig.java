@@ -5,7 +5,6 @@ package com.jetbrains.cef;
 import org.cef.CefApp;
 import org.cef.CefSettings;
 import org.cef.OS;
-import org.cef.misc.CefLog;
 
 import java.awt.*;
 import java.io.*;
