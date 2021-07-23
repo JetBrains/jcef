@@ -46,6 +46,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser {
     private boolean closeAllowed_ = false;
     private volatile boolean isClosed_ = false;
     private volatile boolean isClosing_ = false;
+    private volatile boolean isCreating_ = false;
 
     protected CefBrowser_N(CefClient client, String url, CefRequestContext context,
             CefBrowser_N parent, Point inspectAt) {
@@ -152,10 +153,11 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser {
      */
     protected void createBrowser(CefClientHandler clientHandler, long windowHandle, String url,
             boolean osr, boolean transparent, Component canvas, CefRequestContext context) {
-        if (isClosing_ || isClosed_) // probably impossible, just for insurance
+        if (isClosing_ || isClosed_ || isCreating_)
             return;
 
         if (getNativeRef("CefBrowser") == 0 && !isPending_) {
+            isCreating_ = true;
             try {
                 if (TRACE_LIFESPAN) CefLog.Debug("CefBrowser_N: %s: started native creation", this);
                 N_CreateBrowser(
