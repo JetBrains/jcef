@@ -22,7 +22,7 @@ URLRequestClient::URLRequestClient(JNIEnv* env,
 CefRefPtr<URLRequestClient> URLRequestClient::Create(JNIEnv* env,
                                                      jobject jURLRequestClient,
                                                      jobject jURLRequest) {
-  CefRefPtr<URLRequestClient> client = GetCefFromJNIObject_safe<URLRequestClient>(
+  CefRefPtr<URLRequestClient> client = GetCefFromJNIObject_sync<URLRequestClient>(
       env, jURLRequestClient, kCefClassName);
   if (!client) {
     client = new URLRequestClient(env, jURLRequestClient, jURLRequest);
