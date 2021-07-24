@@ -925,7 +925,7 @@ void create(std::shared_ptr<JNIObjectsForCreate> objs,
             jboolean osr,
             jboolean transparent) {
   ScopedJNIEnv env;
-  CefRefPtr<ClientHandler> clientHandler = GetCefFromJNIObject_safe<ClientHandler>(
+  CefRefPtr<ClientHandler> clientHandler = GetCefFromJNIObject_sync<ClientHandler>(
       env, objs->jclientHandler, "CefClientHandler");
   if (!clientHandler.get())
     return;
@@ -986,11 +986,11 @@ void create(std::shared_ptr<JNIObjectsForCreate> objs,
   CefRefPtr<CefBrowser> browserObj;
   CefString strUrl = GetJNIString(env, static_cast<jstring>(objs->url.get()));
 
-  CefRefPtr<CefRequestContext> context = GetCefFromJNIObject_safe<CefRequestContext>(
+  CefRefPtr<CefRequestContext> context = GetCefFromJNIObject_sync<CefRequestContext>(
       env, objs->jcontext, "CefRequestContext");
 
   CefRefPtr<CefBrowser> parentBrowser =
-      GetCefFromJNIObject_safe<CefBrowser>(env, objs->jparentBrowser, "CefBrowser");
+      GetCefFromJNIObject_sync<CefBrowser>(env, objs->jparentBrowser, "CefBrowser");
 
   // Add a global ref that will be released in LifeSpanHandler::OnAfterCreated.
   jobject globalRef = env->NewGlobalRef(objs->jbrowser);
@@ -1982,7 +1982,7 @@ Java_org_cef_browser_CefBrowser_1N_N_1DragTargetDragEnter(JNIEnv* env,
                                                           jint jmodifiers,
                                                           jint allowedOps) {
   CefRefPtr<CefDragData> drag_data =
-      GetCefFromJNIObject_safe<CefDragData>(env, jdragData, "CefDragData");
+      GetCefFromJNIObject_sync<CefDragData>(env, jdragData, "CefDragData");
   if (!drag_data.get())
     return;
   ScopedJNIClass cls(env, "java/awt/event/MouseEvent");

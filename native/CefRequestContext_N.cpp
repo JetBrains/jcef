@@ -50,7 +50,7 @@ JNIEXPORT jboolean JNICALL
 Java_org_cef_browser_CefRequestContext_1N_N_1IsGlobal(JNIEnv* env,
                                                       jobject obj) {
   CefRefPtr<CefRequestContext> context =
-      GetCefFromJNIObject_safe<CefRequestContext>(env, obj, "CefRequestContext");
+      GetCefFromJNIObject_sync<CefRequestContext>(env, obj, "CefRequestContext");
   if (!context.get())
     return JNI_FALSE;
   return context->IsGlobal() ? JNI_TRUE : JNI_FALSE;

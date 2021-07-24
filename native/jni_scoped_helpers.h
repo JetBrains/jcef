@@ -448,7 +448,7 @@ bool SetCefForJNIObject(JNIEnv* env, jobject obj, T* base, const char* varName);
 template <class T>
 T* GetCefFromJNIObject(JNIEnv* env, jobject obj, const char* varName);
 template <class T>
-CefRefPtr<T> GetCefFromJNIObject_safe(JNIEnv* env, jobject obj, const char* varName);
+CefRefPtr<T> GetCefFromJNIObject_sync(JNIEnv* env, jobject obj, const char* varName);
 
 class ScopedJNIEnv {
  public:
@@ -949,7 +949,7 @@ T* GetCefFromJNIObject(JNIEnv* env, jobject obj, const char* varName) {
 }
 
 template <class T>
-CefRefPtr<T> GetCefFromJNIObject_safe(JNIEnv* env, jobject obj, const char* varName) {
+CefRefPtr<T> GetCefFromJNIObject_sync(JNIEnv* env, jobject obj, const char* varName) {
   if (!obj)
     return CefRefPtr<T>();
 
