@@ -20,7 +20,7 @@ Java_org_cef_handler_CefClientHandler_N_1addMessageRouter(
     JNIEnv* env,
     jobject clientHandler,
     jobject jmessageRouter) {
-  CefRefPtr<ClientHandler> client = GetCefFromJNIObject_safe<ClientHandler>(
+  CefRefPtr<ClientHandler> client = GetCefFromJNIObject_sync<ClientHandler>(
       env, clientHandler, "CefClientHandler");
   if (!client.get())
     return;
@@ -120,7 +120,7 @@ Java_org_cef_handler_CefClientHandler_N_1removeMessageRouter(
     JNIEnv* env,
     jobject clientHandler,
     jobject jmessageRouter) {
-  CefRefPtr<ClientHandler> client = GetCefFromJNIObject_safe<ClientHandler>(
+  CefRefPtr<ClientHandler> client = GetCefFromJNIObject_sync<ClientHandler>(
       env, clientHandler, "CefClientHandler");
   if (!client.get())
     return;
