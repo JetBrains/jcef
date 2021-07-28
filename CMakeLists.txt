@@ -143,10 +143,28 @@ elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Linux")
     set(CEF_PLATFORM "linux32")
   endif()
 elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
-  if(CMAKE_SIZEOF_VOID_P MATCHES 8)
-    set(CEF_PLATFORM "windows64")
+  if(MSVC)
+    include(CheckSymbolExists)
+
+    # MSVC predefines _M_ARM64 for compilations that target ARM64
+    # and _M_AMD64 for compilations that target x86_64.
+    check_symbol_exists("_M_ARM64" "" CEF_PLATFORM_WINARM64)
+    check_symbol_exists("_M_AMD64" "" CEF_PLATFORM_WIN64)
+
+    # We also should set PROJECT_ARCH explicitly because FindCEF.cmake deduces it incorrectly for
+    # cross-compilation cases.
+    if(CEF_PLATFORM_WINARM64)
+      set(CEF_PLATFORM "windowsarm64")
+      set(PROJECT_ARCH "arm64")
+    elseif(CEF_PLATFORM_WIN64)
+      set(CEF_PLATFORM "windows64")
+      set(PROJECT_ARCH "x86_64")
+    else()
+      set(CEF_PLATFORM "windows32")
+      set(PROJECT_ARCH "x86")
+    endif()
   else()
-    set(CEF_PLATFORM "windows32")
+    message(FATAL_ERROR "Building JCEF for Windows using non-MSVC compiler is not supported.")
   endif()
 endif()
 
