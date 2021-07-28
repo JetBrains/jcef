@@ -443,7 +443,7 @@ public class CefApp extends CefAppHandlerAdapter {
                         setState(CefAppState.INITIALIZED);
                     }
 
-                    CefLog.initFileLogger(settings);
+                    CefLog.init(settings);
                 }
             };
             if (SwingUtilities.isEventDispatchThread())
