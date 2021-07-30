@@ -37,7 +37,7 @@ echo "*** create gluegen.rt module..."
 cp "$JOGAMP_DIR"/gluegen-rt.jar . || exit 1
 cp "$JB_TOOLS_DIR"/common/gluegen-module-info.java module-info.java || exit 1
 
-"$JAVA_HOME"/bin/javac --patch-module gluegen.rt=gluegen-rt.jar module-info.java || exit 1
+"$JAVA_HOME"/bin/javac"$DOT_EXE" --patch-module gluegen.rt=gluegen-rt.jar module-info.java || exit 1
 "$JAVA_HOME"/bin/jar uf gluegen-rt.jar module-info.class || exit 1
 
 rm module-info.class module-info.java || exit 1

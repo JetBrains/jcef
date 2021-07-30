@@ -18,16 +18,10 @@ export DEPS_ARCH=amd64
 
 cd "$JB_TOOLS_OS_DIR" || exit 1
 
-if [ -z "$JDK_11" ]; then
-    if [ -d "jdk11" ]; then
-        # set on the TeamCity agent
-        JDK_11="$JCEF_ROOT_DIR"/jdk11
-    else
-        echo "error: JDK_11 is not set"
-        exit 1
-    fi
+if [ -z "$JAVA_HOME" ]; then
+    echo "error: JAVA_HOME is not set"
+    exit 1
 fi
-export JAVA_HOME=$JDK_11
 echo "JAVA_HOME=$JAVA_HOME"
 
 # shellcheck disable=SC2230

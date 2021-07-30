@@ -32,12 +32,9 @@ if %ERRORLEVEL% neq 0 (
     set "PATH=%ANT_HOME%\bin;%PATH%"
 )
 
-if "%env.JDK_11%" neq "" (
-    set JDK_11=%env.JDK_11%
-)
-if "%JDK_11%" == "" (
-    echo error: JDK_11 is not set
+if "%JAVA_HOME%" == "" (
+    echo error: JAVA_HOME is not set
     exit /b 1
 )
-set JAVA_HOME=%JDK_11%
+set JAVA_HOME=%JAVA_HOME:\=/%
 echo JAVA_HOME=%JAVA_HOME%

@@ -18,11 +18,10 @@ export DEPS_ARCH=universal
 
 cd "$JB_TOOLS_OS_DIR" || exit 1
 
-if [ -z "$JDK_11" ]; then
-    echo "error: JDK_11 is not set"
+if [ -z "$JAVA_HOME" ]; then
+    echo "error: JAVA_HOME is not set"
     exit 1
 fi
-export JAVA_HOME=$JDK_11
 echo "JAVA_HOME=$JAVA_HOME"
 
 # shellcheck disable=SC2230

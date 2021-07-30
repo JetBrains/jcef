@@ -7,7 +7,7 @@ if [ -z "$1" ] || [ "$1" == "help" ]; then
     echo "  all [arch]  - Build all the artifacts. Optional 'arch' defines the target CPU: x86_64 (default) or arm64."
     echo "  clean       - Clean all the artifacts."
     echo "Environment variables:"
-    echo "  JDK_11              - Path to OpenJDK 11 home."
+    echo "  JAVA_HOME           - Path to java home."
     echo "  ANT_HOME            - Path to 'ant' home, or if not set then 'ant' must be in PATH."
     echo "  JNF_FRAMEWORK_PATH  - [optional] When no standard location is suitable."
     echo "  JNF_HEADERS_PATH    - [optional] When no standard location is suitable."

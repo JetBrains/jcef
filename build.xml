@@ -10,16 +10,16 @@
   <property name="out.id"     value="${env.OUT_ID}"/>
   <property name="out.mainclass" value="${env.OUT_MAINCLASS}"/>
 
-  <condition property="jdk11.jvm.opts"
+  <condition property="jvm.opts"
              value="--module-path third_party/jogamp/jar --add-modules jogl.all,gluegen.rt --add-exports jogl.all/com.jogamp.nativewindow=jcef --add-exports jogl.all/com.jogamp.opengl.awt=jcef --add-exports jogl.all/com.jogamp.opengl.util=jcef --add-exports jogl.all/com.jogamp.opengl=jcef --add-exports java.desktop/sun.awt=jcef --add-exports java.desktop/java.awt.peer=jcef --add-exports java.desktop/sun.lwawt.macosx=jcef --add-exports java.desktop/sun.lwawt=jcef"
              else="">
-    <matches pattern="11.*" string="${java.version}"/>
+    <matches pattern="17*.*" string="${java.version}"/>
   </condition>
 
   <condition property="include.module-info.class"
              value="module-info.class"
              else="">
-    <matches pattern="11.*" string="${java.version}"/>
+    <matches pattern="17*.*" string="${java.version}"/>
   </condition>
 
   <condition property="exclude.module-info.java"
@@ -70,7 +70,7 @@
     <mkdir dir="${out.path}"/>
     <javac encoding="UTF8" nowarn="on" deprecation="off" debug="on" includeantruntime="false" destdir="${out.path}"
            fork="true" memoryinitialsize="32m" memorymaximumsize="128m" includeJavaRuntime="yes">
-      <compilerarg line="-XDignore.symbol.file ${jdk11.jvm.opts}"/>
+      <compilerarg line="-XDignore.symbol.file ${jvm.opts}"/>
       <classpath refid="class.path"/>
       <src path="java/"/>
       <include name="**/*.java"/>
