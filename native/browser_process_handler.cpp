@@ -69,6 +69,18 @@ void BrowserProcessHandler::OnScheduleMessagePumpWork(int64 delay_ms) {
                        delay_ms);
 }
 
+void BrowserProcessHandler::OnBeforeChildProcessLaunch(CefRefPtr<CefCommandLine> command_line) {
+  if (!handle_)
+    return;
+
+  ScopedJNIEnv env;
+  if (!env)
+    return;
+
+  ScopedJNIString cmdLine(env, command_line->GetCommandLineString());
+  JNI_CALL_VOID_METHOD(env, handle_, "onBeforeChildProcessLaunch", "(Ljava/lang/String;)V", cmdLine.get());
+}
+
 // static
 CefRefPtr<CefListValue> BrowserProcessHandler::GetMessageRouterConfigs() {
   int idx = 0;

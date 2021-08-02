@@ -80,4 +80,11 @@ public interface CefAppHandler {
      * currently pending scheduled call should be cancelled.
      */
     public void onScheduleMessagePumpWork(long delay_ms);
+
+    /**
+     * Called before a child process is launched. Will be called on the browser
+     * process UI thread when launching a render process and on the browser
+     * process IO thread when launching a GPU or plugin process.
+     */
+    public void onBeforeChildProcessLaunch(String command_line);
 }
