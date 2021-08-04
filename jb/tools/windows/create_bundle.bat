@@ -3,7 +3,11 @@ rem Copyright 2000-2020 JetBrains s.r.o. Use of this source code is governed by 
 
 call set_env.bat || goto:__exit
 
-set ARTIFACT_DIR=jcef_win_x64
+if "%TARGET_ARCH%" == "arm64" (
+    set ARTIFACT=jcef_win_aarch64
+else (
+    set ARTIFACT_DIR=jcef_win_x64
+)
 
 if exist "%JCEF_ROOT_DIR%\%ARTIFACT_DIR%" (
     echo *** delete "%JCEF_ROOT_DIR%\%ARTIFACT_DIR%"...
@@ -26,10 +30,14 @@ if %ERRORLEVEL% neq 0 (
     set "PATH=c:\cygwin64\bin;%PATH%"
 )
 
-echo *** create modules...
-sed -i 's/\r$//' "%JB_TOOLS_DIR%"\common\create_modules.sh || goto:__exit
-sed -i 's/\r$//' "%JB_TOOLS_DIR%"\common\common.sh || goto:__exit
-bash "%JB_TOOLS_DIR%"\common\create_modules.sh || goto:__exit
+if "%TARGET_ARCH%" == "arm64" (
+    echo *** WARN: jogl and gluegen won't be bundled due to they do not have Windows ARM64 builds.
+) else (
+    echo *** create modules...
+    sed -i 's/\r$//' "%JB_TOOLS_DIR%"\common\create_modules.sh || goto:__exit
+    sed -i 's/\r$//' "%JB_TOOLS_DIR%"\common\common.sh || goto:__exit
+    bash "%JB_TOOLS_DIR%"\common\create_modules.sh || goto:__exit
+)
 
 echo *** create bundle...
 mkdir "%ARTIFACT_DIR%" || goto:__exit
