@@ -14,7 +14,11 @@ set JB_TOOLS_DIR=%JCEF_ROOT_DIR%\jb\tools
 set JB_TOOLS_OS_DIR=%JB_TOOLS_DIR%\windows
 set MODULAR_SDK_DIR=%JCEF_ROOT_DIR%\out\win64\modular-sdk
 set OS=windows
-set DEPS_ARCH=amd64
+if "%TARGET_ARCH%" == "arm64" (
+    set DEPS_ARCH=arm64
+) else (
+    set DEPS_ARCH=amd64
+)
 
 cd "%JB_TOOLS_OS_DIR%" || exit /b 1
 
