@@ -565,7 +565,7 @@ void UpdateView(CefWindowHandle handle,
 namespace util {
 
 void AddCefBrowser(CefRefPtr<CefBrowser> browser) {
-  if (!browser.get())
+  if (!browser.get() || browser->GetHost()->IsWindowRenderingDisabled())
     return;
   CefWindowHandle handle = browser->GetHost()->GetWindowHandle();
   g_browsers_lock_.Lock();
@@ -581,7 +581,7 @@ void AddCefBrowser(CefRefPtr<CefBrowser> browser) {
 }
 
 void DestroyCefBrowser(CefRefPtr<CefBrowser> browser) {
-  if (!browser.get())
+  if (!browser.get() || browser->GetHost()->IsWindowRenderingDisabled())
     return;
   NSView* handle =
       CAST_CEF_WINDOW_HANDLE_TO_NSVIEW(browser->GetHost()->GetWindowHandle());

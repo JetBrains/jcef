@@ -351,7 +351,7 @@ class CefBrowserWr extends CefBrowser_N {
         return window_handle_;
     }
 
-    private static long getWindowHandle(Component component) {
+    static long getWindowHandle(Component component) {
         if (OS.isMacintosh()) {
             try {
                 Class<?> cls = Class.forName("org.cef.browser.mac.CefBrowserWindowMac");
