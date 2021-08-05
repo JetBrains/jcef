@@ -56,10 +56,11 @@ public class CefBrowserOsrWithHandler extends CefBrowser_N  {
 
     @Override
     public void createImmediately() {
+        long windowHandle = component_ != null ? CefBrowserWr.getWindowHandle(component_) : 0;
         if (getParentBrowser() == null) {
-            createBrowser(getClient(), 0, getUrl(), true, false, null, getRequestContext());
+            createBrowser(getClient(), windowHandle, getUrl(), true, false, null, getRequestContext());
         } else {
-            createDevTools(getParentBrowser(), getClient(), 0, true, false, null, getInspectAt());
+            createDevTools(getParentBrowser(), getClient(), windowHandle, true, false, null, getInspectAt());
         }
     }
 
