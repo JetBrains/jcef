@@ -47,14 +47,14 @@ if "%TARGET_ARCH%" == "arm64" (
 )
 
 echo *** run cmake...
-if "%env.CMAKE_37_PATH%" neq "" (
-    set CMAKE_37_PATH=%env.CMAKE_37_PATH%
+if "%env.JCEF_CMAKE%" neq "" (
+    set "JCEF_CMAKE=%env.JCEF_CMAKE%"
 )
-if "%CMAKE_37_PATH%" == "" (
-    echo error: CMAKE_37_PATH is not set
+if "%JCEF_CMAKE%" == "" (
+    echo error: JCEF_CMAKE is not set
     goto:__exit
 )
-echo CMAKE_37_PATH=%CMAKE_37_PATH%
+echo JCEF_CMAKE=%JCEF_CMAKE%
 
 if "%env.PYTHON_27_PATH%" neq "" (
     set PYTHON_27_PATH=%env.PYTHON_27_PATH%
@@ -64,7 +64,7 @@ if "%PYTHON_27_PATH%" == "" (
     goto:__exit
 )
 echo PYTHON_27_PATH=%PYTHON_27_PATH%
-set "PATH=%CMAKE_37_PATH%\bin;%PYTHON_27_PATH%;%PATH%"
+set "PATH=%JCEF_CMAKE%\bin;%PYTHON_27_PATH%;%PATH%"
 set RC=
 if "%TARGET_ARCH%" == "arm64" (
     cmake -G "Visual Studio 16 2019" -A ARM64 .. || goto:__exit
