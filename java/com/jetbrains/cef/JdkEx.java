@@ -83,6 +83,8 @@ public class JdkEx {
             if (!(comp instanceof Window)) {
                 comp = SwingUtilities.getWindowAncestor(comp);
             }
+            if (comp == null) return 0;
+
             @SuppressWarnings("RedundantCast") // the cast pleases jdk8 javac
             WindowPeer peer = (WindowPeer)AWTAccessor.getComponentAccessor().getPeer(comp);
             try {
