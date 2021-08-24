@@ -12,18 +12,18 @@ if "%~1" == "help" (
 
 if "%~1" == "clean" (
     set CLEAN="clean"
-    set "TARGET_ARCH="
 ) else (
     if not "%~1" == "all" (
         echo error: wrong option, use 'help'
         exit /b 1
     )
     set CLEAN=
+)
 
+if "%~2" == "" (
+    set "TARGET_ARCH=x86_64"
+) else (
     set "TARGET_ARCH=%~2"
-    if "%TARGET_ARCH%" == "" (
-        set "TARGET_ARCH=x86_64"
-    )
 )
 
 if not exist ..\..\..\jb\tools\windows (
@@ -49,7 +49,7 @@ echo "build.bat [option]"
 echo "Options:"
 echo "  help             - Print this help."
 echo "  all [arch]       - Build all the artifacts. Optional 'arch' defines the target CPU: x86_64 (default) or arm64."
-echo "  clean            - Clean all the artifacts."
+echo "  clean [arch]     - Clean all the artifacts. Optional 'arch' is the same as for the 'all' target (x86_64 is default)."
 echo "Environment variables:"
 echo "  JAVA_HOME        - Path to java home with the same CPU architecture you are building JCEF against (x86_64 or arm64)."
 echo "  ANT_HOME         - Path to 'ant' home, or if not set then 'ant' must be in PATH."

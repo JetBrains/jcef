@@ -5,7 +5,7 @@ call set_env.bat || goto:__exit
 
 if "%TARGET_ARCH%" == "arm64" (
     set ARTIFACT=jcef_win_aarch64
-else (
+) else (
     set ARTIFACT_DIR=jcef_win_x64
 )
 

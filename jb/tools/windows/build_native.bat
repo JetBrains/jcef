@@ -31,7 +31,7 @@ if "%TARGET_ARCH%" == "arm64" (
         echo error: VS160COMNTOOLS is not set
         goto:__exit
     )
-    echo VS160COMNTOOLS=%VS160COMNTOOLS%
+    echo VS160COMNTOOLS="%VS160COMNTOOLS%"
     call "%VS160COMNTOOLS%\..\..\VC\Auxiliary\Build\vcvarsamd64_arm64.bat" || goto:__exit
 ) else (
     echo *** set VS14 env...
@@ -42,7 +42,7 @@ if "%TARGET_ARCH%" == "arm64" (
         echo error: VS140COMNTOOLS is not set
         goto:__exit
     )
-    echo VS140COMNTOOLS=%VS140COMNTOOLS%
+    echo VS140COMNTOOLS="%VS140COMNTOOLS%"
     call "%VS140COMNTOOLS%\..\..\VC\vcvarsall.bat" amd64 || goto:__exit
 )
 
@@ -67,13 +67,13 @@ echo PYTHON_27_PATH=%PYTHON_27_PATH%
 set "PATH=%JCEF_CMAKE%\bin;%PYTHON_27_PATH%;%PATH%"
 set RC=
 if "%TARGET_ARCH%" == "arm64" (
-    cmake -G "Visual Studio 16 2019" -A ARM64 .. || goto:__exit
+    cmake -G "Visual Studio 16 2019" -A ARM64 -D "JAVA_HOME=%JDK_11:\=/%" .. || goto:__exit
 ) else (
-    cmake -G "Visual Studio 14 Win64" .. || goto:__exit
+    cmake -G "Visual Studio 14 Win64" -D "JAVA_HOME=%JDK_11:\=/%" .. || goto:__exit
 )
 
-echo *** run MSBuild.exe...
-"c:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe" /t:Rebuild /p:Configuration=Release .\jcef.sln || goto:__exit
+echo *** run cmake build...
+cmake --build . --config Release -- /t:Rebuild || goto:__exit
 
 cd "%JB_TOOLS_OS_DIR%"
 exit /b 0

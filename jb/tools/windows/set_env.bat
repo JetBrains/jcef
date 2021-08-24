@@ -40,5 +40,9 @@ if "%JAVA_HOME%" == "" (
     echo error: JAVA_HOME is not set
     exit /b 1
 )
-set JAVA_HOME=%JAVA_HOME:\=/%
+if "%JAVA_HOME%" == "" (
+    set "JAVA_HOME=%JAVA_HOME:\=/%"
+)
 echo JAVA_HOME=%JAVA_HOME%
+
+exit /b 0
