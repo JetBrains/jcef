@@ -42,5 +42,9 @@ if "%JDK_11%" == "" (
     echo error: JDK_11 is not set
     exit /b 1
 )
-set JAVA_HOME=%JDK_11%
+if "%JAVA_HOME%" == "" (
+    set "JAVA_HOME=%JDK_11%"
+)
 echo JAVA_HOME=%JAVA_HOME%
+
+exit /b 0
