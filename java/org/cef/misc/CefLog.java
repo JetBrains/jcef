@@ -32,8 +32,10 @@ public class CefLog {
             }
         }
 
-        if (INSTANCE == null)
+        if (INSTANCE == null) {
+            System.out.println("Initialize stderr logger, severity=" + settings.log_severity);
             INSTANCE = new CefLog(System.err, settings.log_severity);
+        }
     }
 
     private CefLog(PrintStream ps, CefSettings.LogSeverity log_severity) {
@@ -72,7 +74,7 @@ public class CefLog {
     public void error(String msg, Object... args) { log(CefSettings.LogSeverity.LOGSEVERITY_ERROR, msg, args); }
 
     public void log(CefSettings.LogSeverity log_severity, String msg) {
-        log(log_severity, msg, null);
+        log(log_severity, msg);
     }
     public void log(CefSettings.LogSeverity log_severity, String msg, Object... args) {
         if (msg == null)
