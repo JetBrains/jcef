@@ -1647,6 +1647,8 @@ Java_org_cef_browser_CefBrowser_1N_N_1Invalidate(JNIEnv* env, jobject obj) {
   browser->GetHost()->Invalidate(PET_VIEW);
 }
 
+extern int JavaKeyCode2X11(JNIEnv* env, ScopedJNIClass * cls/*KeyEvent*/, int keycode);
+
 JNIEXPORT void JNICALL
 Java_org_cef_browser_CefBrowser_1N_N_1SendKeyEvent(JNIEnv* env,
                                                    jobject obj,
@@ -1695,26 +1697,7 @@ Java_org_cef_browser_CefBrowser_1N_N_1SendKeyEvent(JNIEnv* env,
   JNI_STATIC_DEFINE_INT(env, cls, VK_UP);
 
 #if defined(OS_LINUX)
-  if (key_code == JNI_STATIC(VK_BACK_SPACE))
-    cef_event.native_key_code = XK_BackSpace;
-  else if (key_code == JNI_STATIC(VK_DELETE))
-    cef_event.native_key_code = XK_Delete;
-  else if (key_code == JNI_STATIC(VK_DOWN))
-    cef_event.native_key_code = XK_Down;
-  else if (key_code == JNI_STATIC(VK_ENTER))
-    cef_event.native_key_code = XK_Return;
-  else if (key_code == JNI_STATIC(VK_ESCAPE))
-    cef_event.native_key_code = XK_Escape;
-  else if (key_code == JNI_STATIC(VK_LEFT))
-    cef_event.native_key_code = XK_Left;
-  else if (key_code == JNI_STATIC(VK_RIGHT))
-    cef_event.native_key_code = XK_Right;
-  else if (key_code == JNI_STATIC(VK_TAB))
-    cef_event.native_key_code = XK_Tab;
-  else if (key_code == JNI_STATIC(VK_UP))
-    cef_event.native_key_code = XK_Up;
-  else
-    cef_event.native_key_code = key_char;
+  cef_event.native_key_code = JavaKeyCode2X11(env, &cls, key_code);
 
   KeyboardCode windows_key_code =
       KeyboardCodeFromXKeysym(cef_event.native_key_code);
