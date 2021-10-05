@@ -1647,7 +1647,9 @@ Java_org_cef_browser_CefBrowser_1N_N_1Invalidate(JNIEnv* env, jobject obj) {
   browser->GetHost()->Invalidate(PET_VIEW);
 }
 
+#if defined(OS_LINUX)
 extern int JavaKeyCode2X11(JNIEnv* env, ScopedJNIClass * cls/*KeyEvent*/, int keycode);
+#endif //OS_LINUX
 
 JNIEXPORT void JNICALL
 Java_org_cef_browser_CefBrowser_1N_N_1SendKeyEvent(JNIEnv* env,
