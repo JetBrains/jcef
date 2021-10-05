@@ -100,6 +100,7 @@ set(JCEF_SRCS
   focus_handler.h
   media_access_handler.cpp
   media_access_handler.h
+  JavaKeyCode2X11.cpp
   jcef_version.h
   jni_scoped_helpers.h
   jni_scoped_helpers.cpp
