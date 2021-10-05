@@ -100,7 +100,6 @@ set(JCEF_SRCS
   focus_handler.h
   media_access_handler.cpp
   media_access_handler.h
-  JavaKeyCode2X11.cpp
   jcef_version.h
   jni_scoped_helpers.h
   jni_scoped_helpers.cpp
@@ -152,6 +151,7 @@ set(JCEF_SRCS
 set(JCEF_SRCS_LINUX
   critical_wait_posix.cpp
   jni_util_linux.cpp
+  JavaKeyCode2X11.cpp
   signal_restore_posix.cpp
   signal_restore_posix.h
   temp_window_x11.cc
