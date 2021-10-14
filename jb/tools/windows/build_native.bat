@@ -67,9 +67,9 @@ echo PYTHON_27_PATH=%PYTHON_27_PATH%
 set "PATH=%JCEF_CMAKE%\bin;%PYTHON_27_PATH%;%PATH%"
 set RC=
 if "%TARGET_ARCH%" == "arm64" (
-    cmake -G "Visual Studio 16 2019" -A ARM64 .. || goto:__exit
+    cmake -G "Visual Studio 16 2019" -A ARM64 -D "JAVA_HOME=%JDK_11:\=/%" .. || goto:__exit
 ) else (
-    cmake -G "Visual Studio 14 Win64" .. || goto:__exit
+    cmake -G "Visual Studio 14 Win64" -D "JAVA_HOME=%JDK_11:\=/%" .. || goto:__exit
 )
 
 echo *** run cmake build...
