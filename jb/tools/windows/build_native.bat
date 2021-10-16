@@ -66,11 +66,18 @@ if "%PYTHON_27_PATH%" == "" (
 echo PYTHON_27_PATH=%PYTHON_27_PATH%
 set "PATH=%JCEF_CMAKE%\bin;%PYTHON_27_PATH%;%PATH%"
 set RC=
+
+rem Workaround for https://gitlab.kitware.com/cmake/cmake/-/issues/19193
+setlocal
+set "PATH=%JDK_11%\bin;%PATH%"
+
 if "%TARGET_ARCH%" == "arm64" (
     cmake -G "Visual Studio 16 2019" -A ARM64 -D "JAVA_HOME=%JDK_11:\=/%" .. || goto:__exit
 ) else (
     cmake -G "Visual Studio 14 Win64" -D "JAVA_HOME=%JDK_11:\=/%" .. || goto:__exit
 )
+
+endlocal
 
 echo *** run cmake build...
 cmake --build . --config Release -- /t:Rebuild || goto:__exit
