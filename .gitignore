@@ -47,7 +47,6 @@ Thumbs.db
 /jcef_build
 /out
 # JCEF generated files
-/java/module-info.java
 /native/jcef_version.h
 # CEF downloads
 /third_party/cef/cef_binary_*
