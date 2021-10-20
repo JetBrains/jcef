@@ -16,16 +16,6 @@
     <matches pattern="11.*" string="${java.version}"/>
   </condition>
 
-  <condition property="module-info.java.name"
-             value="module-info_winaarch64.java"
-             else="module-info_default.java">
-    <and>
-      <!-- From jb/tools/windows/set_env.bat -->
-      <equals arg1="${env.OS}" arg2="windows"/>
-      <equals arg1="${env.TARGET_ARCH}" arg2="arm64"/>
-    </and>
-  </condition>
-
   <condition property="include.module-info.class"
              value="module-info.class"
              else="">
@@ -77,7 +67,6 @@
   </path>
 
   <target name="compile">
-    <copy file="java/${module-info.java.name}" tofile="java/module-info.java"/>
     <mkdir dir="${out.path}"/>
     <javac encoding="UTF8" nowarn="on" deprecation="off" debug="on" includeantruntime="false" destdir="${out.path}"
            fork="true" memoryinitialsize="32m" memorymaximumsize="128m" includeJavaRuntime="yes">
@@ -88,8 +77,6 @@
       <exclude name="${exclude.source.mac}"/>
       <exclude name="tests/**"/>
       <exclude name="${exclude.module-info.java}"/>
-      <exclude name="module-info_default.java"/>
-      <exclude name="module-info_winaarch64.java"/>
     </javac>
     <copy todir="${out.path}">
       <fileset dir="java" casesensitive="no">
