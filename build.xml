@@ -47,6 +47,16 @@
     <os family="windows"/>
   </condition>
 
+  <condition property="modular-sdk.module-info.java.path"
+             value="jb/tools/windows/winaarch64_jcef-module-info-java.txt"
+             else="java/module-info.java">
+    <and>
+      <!-- From jb/tools/windows/set_env.bat -->
+      <equals arg1="${env.OS}" arg2="windows"/>
+      <equals arg1="${env.TARGET_ARCH}" arg2="arm64"/>
+    </and>
+  </condition>
+
   <taskdef name="bundleapp"
       classname="com.oracle.appbundler.AppBundlerTask"   
       classpath="third_party/appbundler/appbundler-1.0.jar" />
