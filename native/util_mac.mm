@@ -9,7 +9,6 @@
 #import <Foundation/NSLock.h>
 #import <jni.h>
 #include <objc/runtime.h>
-#import <JavaNativeFoundation.h>
 
 #include "include/base/cef_callback.h"
 #include "include/cef_app.h"
@@ -17,6 +16,7 @@
 #include "include/cef_browser.h"
 #include "include/cef_path_util.h"
 
+#include "ThreadUtilities.h"
 #include "client_app.h"
 #include "client_handler.h"
 #include "critical_wait.h"
@@ -500,7 +500,7 @@ bool CefInitializeOnMainThread(const CefMainArgs& args,
   params->result_ = false;
 
   // Block until done.
-  [JNFRunLoop performOnMainThread:@selector(initialize:) on:[CefHandler class] withObject:params waitUntilDone:YES];
+  [ThreadUtilities performOnMainThread:@selector(initialize:) on:[CefHandler class] withObject:params waitUntilDone:YES];
 
   int result = params->result_;
   [params release];
