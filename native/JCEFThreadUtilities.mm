@@ -26,12 +26,12 @@
 #import <AppKit/AppKit.h>
 #import <objc/message.h>
 
-#import "ThreadUtilities.h"
+#import "JCEFThreadUtilities.h"
 
 static NSString* JavaRunLoopMode = @"javaRunLoopMode";
 static NSArray<NSString*> *javaModes = nil;
 
-@implementation ThreadUtilities
+@implementation JCEFThreadUtilities
 
 + (void)initialize {
   /* All the standard modes plus ours */

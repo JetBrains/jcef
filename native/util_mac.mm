@@ -16,7 +16,7 @@
 #include "include/cef_browser.h"
 #include "include/cef_path_util.h"
 
-#include "ThreadUtilities.h"
+#include "JCEFThreadUtilities.h"
 #include "client_app.h"
 #include "client_handler.h"
 #include "critical_wait.h"
@@ -500,7 +500,7 @@ bool CefInitializeOnMainThread(const CefMainArgs& args,
   params->result_ = false;
 
   // Block until done.
-  [ThreadUtilities performOnMainThread:@selector(initialize:) on:[CefHandler class] withObject:params waitUntilDone:YES];
+  [JCEFThreadUtilities performOnMainThread:@selector(initialize:) on:[CefHandler class] withObject:params waitUntilDone:YES];
 
   int result = params->result_;
   [params release];
