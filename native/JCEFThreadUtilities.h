@@ -33,7 +33,7 @@
 #include "jni.h"
 #import <pthread.h>
 
-@interface ThreadUtilities : NSObject { } /* Extend NSObject so can call performSelectorOnMainThread */
+@interface JCEFThreadUtilities : NSObject { } /* Extend NSObject so can call performSelectorOnMainThread */
 
 + (void)performOnMainThreadWaiting:(BOOL)wait block:(void (^)())block;
 + (void)performOnMainThread:(SEL)aSelector on:(id)target withObject:(id)arg waitUntilDone:(BOOL)wait;

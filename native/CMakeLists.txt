@@ -168,8 +168,8 @@ set(JCEF_SRCS_MAC
   util_mac.h
   util_mac.mm
   util_posix.cpp
-  ThreadUtilities.h
-  ThreadUtilities.mm
+  JCEFThreadUtilities.h
+  JCEFThreadUtilities.mm
   )
 set(JCEF_SRCS_WINDOWS
   critical_wait_win.cpp
