@@ -25,49 +25,6 @@ class ScopedJNIWebPluginInfo : public ScopedJNIObject<CefWebPluginInfo> {
 RequestContextHandler::RequestContextHandler(JNIEnv* env, jobject jhandler)
     : handle_(env, jhandler) {}
 
-bool RequestContextHandler::OnBeforePluginLoad(
-    const CefString& mime_type,
-    const CefString& plugin_url,
-    bool is_main_frame,
-    const CefString& top_origin_url,
-    CefRefPtr<CefWebPluginInfo> plugin_info,
-    PluginPolicy* plugin_policy) {
-  ScopedJNIEnv env;
-  if (!env)
-    return false;
-
-  ScopedJNIString jmimeType(env, mime_type);
-  ScopedJNIString jpluginUrl(env, plugin_url);
-  ScopedJNIString jtopOriginUrl(env, top_origin_url);
-  ScopedJNIWebPluginInfo jpluginInfo(env, plugin_info);
-  jboolean jresult = JNI_FALSE;
-
-  JNI_CALL_METHOD(env, handle_, "onBeforePluginLoad",
-                  "Ljava/lang/String;Ljava/lang/String;ZLjava/lang/String;Lorg/"
-                  "cef/network/CefWebPluginInfo;)Z",
-                  Boolean, jresult, jmimeType.get(), jpluginUrl.get(),
-                  is_main_frame ? JNI_TRUE : JNI_FALSE, jtopOriginUrl.get(),
-                  jpluginInfo.get());
-
-  if (jresult == JNI_FALSE) {
-    // Allow the plugin load.
-    if (*plugin_policy != PLUGIN_POLICY_ALLOW &&
-        *plugin_policy != PLUGIN_POLICY_DETECT_IMPORTANT) {
-      *plugin_policy = PLUGIN_POLICY_ALLOW;
-      return true;
-    }
-  } else {
-    // Block the plugin load.
-    if (*plugin_policy != PLUGIN_POLICY_BLOCK &&
-        *plugin_policy != PLUGIN_POLICY_DISABLE) {
-      *plugin_policy = PLUGIN_POLICY_BLOCK;
-      return true;
-    }
-  }
-
-  return false;
-}
-
 CefRefPtr<CefResourceRequestHandler>
 RequestContextHandler::GetResourceRequestHandler(
     CefRefPtr<CefBrowser> browser,
