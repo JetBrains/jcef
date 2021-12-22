@@ -59,7 +59,7 @@ CefWindowHandle GetWindowHandle(JNIEnv* env, jobject canvas) {
 
 void SetParent(CefWindowHandle browserHandle,
                CefWindowHandle parentHandle,
-               const base::Closure& callback) {
+               const base::OnceClosure& callback) {
   if (parentHandle == kNullWindowHandle)
     parentHandle = TempWindow::GetWindowHandle();
   if (parentHandle != kNullWindowHandle && browserHandle != kNullWindowHandle)
@@ -68,7 +68,7 @@ void SetParent(CefWindowHandle browserHandle,
   if (!CefCurrentlyOn(TID_UI)) {
     X_XSync(true);
   }
-  callback.Run();
+  std::move(callback).Run();
 }
 
 void SetWindowBounds(CefWindowHandle browserHandle,

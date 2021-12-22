@@ -22,7 +22,7 @@ public:
             CefRefPtr<CefFrame> frame,
             const CefString& requesting_url,
             int32_t requested_permissions,
-            CefRefPtr<CefMediaAccessCallback> callback) OVERRIDE;
+            CefRefPtr<CefMediaAccessCallback> callback) override;
 
 protected:
     ScopedJNIObjectGlobal handle_;
