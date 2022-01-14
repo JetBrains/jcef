@@ -22,7 +22,7 @@ echo TARGET_ARCH=%TARGET_ARCH%
 
 cd "%JCEF_ROOT_DIR%\jcef_build" || goto:__exit
 
-echo *** set VS16 env targeting ARM64...
+echo *** set VS16 env...
 if "%env.VS160COMNTOOLS%" neq "" (
     set "VS160COMNTOOLS=%env.VS160COMNTOOLS%"
 )
