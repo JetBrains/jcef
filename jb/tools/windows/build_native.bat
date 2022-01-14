@@ -22,28 +22,20 @@ echo TARGET_ARCH=%TARGET_ARCH%
 
 cd "%JCEF_ROOT_DIR%\jcef_build" || goto:__exit
 
+echo *** set VS16 env...
+if "%env.VS160COMNTOOLS%" neq "" (
+    set "VS160COMNTOOLS=%env.VS160COMNTOOLS%"
+)
+if "%VS160COMNTOOLS%" == "" (
+    echo error: VS160COMNTOOLS is not set
+    goto:__exit
+)
+echo VS160COMNTOOLS="%VS160COMNTOOLS%"
+
 if "%TARGET_ARCH%" == "arm64" (
-    echo *** set VS16 env targeting ARM64...
-    if "%env.VS160COMNTOOLS%" neq "" (
-        set "VS160COMNTOOLS=%env.VS160COMNTOOLS%"
-    )
-    if "%VS160COMNTOOLS%" == "" (
-        echo error: VS160COMNTOOLS is not set
-        goto:__exit
-    )
-    echo VS160COMNTOOLS="%VS160COMNTOOLS%"
     call "%VS160COMNTOOLS%\..\..\VC\Auxiliary\Build\vcvarsamd64_arm64.bat" || goto:__exit
 ) else (
-    echo *** set VS14 env...
-    if "%env.VS140COMNTOOLS%" neq "" (
-        set "VS140COMNTOOLS=%env.VS140COMNTOOLS%"
-    )
-    if "%VS140COMNTOOLS%" == "" (
-        echo error: VS140COMNTOOLS is not set
-        goto:__exit
-    )
-    echo VS140COMNTOOLS="%VS140COMNTOOLS%"
-    call "%VS140COMNTOOLS%\..\..\VC\vcvarsall.bat" amd64 || goto:__exit
+    call "%VS160COMNTOOLS%\..\..\VC\Auxiliary\Build\vcvarsall.bat" amd64 || goto:__exit
 )
 
 echo *** run cmake...
@@ -74,7 +66,7 @@ set "PATH=%JDK_11%\bin;%PATH%"
 if "%TARGET_ARCH%" == "arm64" (
     cmake -G "Visual Studio 16 2019" -A ARM64 -D "JAVA_HOME=%JDK_11:\=/%" .. || goto:__exit
 ) else (
-    cmake -G "Visual Studio 14 Win64" -D "JAVA_HOME=%JDK_11:\=/%" .. || goto:__exit
+    cmake -G "Visual Studio 16 2019" -D "JAVA_HOME=%JDK_11:\=/%" .. || goto:__exit
 )
 
 endlocal
