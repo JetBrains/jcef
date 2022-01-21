@@ -67,6 +67,11 @@ public class CefClient extends CefClientHandler
         }
     };
 
+    // workaround for JBR-4176 Some tests fail after JCEF update
+    // Empiric observation: some client handlers may be ignored for CEF version 95 (and later) without adding at least one router
+    // TODO: remove when DisplayHandlerTest (or IDEA259472Test) starts running with empty list of message routers
+    private CefMessageRouter myEmptyRouter;
+
     /**
      * The CTOR is only accessible within this package.
      * Use CefApp.createClient() to create an instance of
@@ -78,6 +83,8 @@ public class CefClient extends CefClientHandler
 
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addPropertyChangeListener(
                 propertyChangeListener);
+
+        addMessageRouter(myEmptyRouter = CefMessageRouter.create());
     }
 
     private boolean isPartOf(Object obj, Component browserUI) {
@@ -95,6 +102,12 @@ public class CefClient extends CefClientHandler
     public void dispose() {
         isDisposed_ = true;
         cleanupBrowser(-1);
+
+        if (myEmptyRouter != null) {
+            removeMessageRouter(myEmptyRouter);
+            myEmptyRouter.dispose();
+            myEmptyRouter = null;
+        }
     }
 
     // CefClientHandler
