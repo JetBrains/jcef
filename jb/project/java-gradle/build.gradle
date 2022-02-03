@@ -22,26 +22,6 @@ if (!OperatingSystem.current().isMacOsX()) {
 
 sourceSets.test.java.srcDirs = ['../../../java_tests']
 
-idea.project.settings {
-    compiler {
-        javac {
-            moduleJavacAdditionalOptions = [
-                    'java-gradle.main' :
-                        "--module-path $projectDir/../../../third_party/jogamp/jar," +
-                        "--add-modules jogl.all,gluegen.rt," +
-                        "--add-exports jogl.all/com.jogamp.nativewindow=jcef," +
-                        "--add-exports jogl.all/com.jogamp.opengl.awt=jcef," +
-                        "--add-exports jogl.all/com.jogamp.opengl=jcef," +
-                        "--add-exports jogl.all/com.jogamp.opengl.util=jcef," +
-                        "--add-exports java.desktop/sun.awt=jcef," +
-                        "--add-exports java.desktop/java.awt.peer=jcef," +
-                        "--add-exports java.desktop/sun.lwawt.macosx=jcef," +
-                        "--add-exports java.desktop/sun.lwawt=jcef"
-            ]
-        }
-    }
-}
-
 compileJava.options.compilerArgs += [
     '--module-path', "$projectDir/../../../third_party/jogamp/jar",
     '--add-modules', 'jogl.all,gluegen.rt',
@@ -68,10 +48,10 @@ test {
 }
 
 dependencies {
-    compile files(
+    implementation files(
         "$projectDir/../../../third_party/jogamp/jar/jogl-all.jar",
         "$projectDir/../../../third_party/jogamp/jar/gluegen-rt.jar")
-    testCompile files(
+    testImplementation files(
         "$projectDir/../../../third_party/junit/junit-platform-console-standalone-1.4.2.jar",
         "$projectDir/../../../third_party/jakarta/jakarta.xml.bind-api-2.3.2.jar")
 }
