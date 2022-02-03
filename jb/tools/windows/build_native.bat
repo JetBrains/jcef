@@ -74,7 +74,7 @@ endlocal
 echo *** run cmake build...
 cmake --build . --config Release -- /t:Rebuild || goto:__exit
 
-cd "%JB_TOOLS_OS_DIR%" && exit /b 0
+set PATH=%ORIGINAL_PATH% && cd "%JB_TOOLS_OS_DIR%" && exit /b 0
 
 :__exit
-cd "%JB_TOOLS_OS_DIR%" && exit /b 1
+set PATH=%ORIGINAL_PATH% && cd "%JB_TOOLS_OS_DIR%" && exit /b 1

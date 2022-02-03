@@ -49,7 +49,7 @@ bash -c "rm -rf $ARTIFACT" || goto:__exit
 bash -c "ls -lah $ARTIFACT.tar.gz" || goto:__exit
 
 echo *** SUCCESSFUL
-cd "%JB_TOOLS_OS_DIR%" && exit /b 0
+set PATH=%ORIGINAL_PATH% && cd "%JB_TOOLS_OS_DIR%" && exit /b 0
 
 :__exit
-cd "%JB_TOOLS_OS_DIR%" && exit /b 1
+set PATH=%ORIGINAL_PATH% && cd "%JB_TOOLS_OS_DIR%" && exit /b 1
