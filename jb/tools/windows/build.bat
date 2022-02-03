@@ -3,6 +3,8 @@ rem Copyright 2000-2022 JetBrains s.r.o. Use of this source code is governed by 
 
 call set_env.bat || exit /b 1
 
+call set_env.bat || exit /b 1
+
 if "%~1" == "" (
     call :help
     exit /b 0
