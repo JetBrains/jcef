@@ -1,5 +1,5 @@
 echo off
-rem Copyright 2000-2020 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
+rem Copyright 2000-2022 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 
 call set_env.bat || goto:__exit
 
@@ -51,9 +51,8 @@ cd "%JB_TOOLS_OS_DIR%"
 exit /b 0
 
 echo *** SUCCESSFUL
-cd "%JB_TOOLS_OS_DIR%" && exit /b 0
+set PATH=%ORIGINAL_PATH% && cd "%JB_TOOLS_OS_DIR%" && exit /b 0
 
 :__exit
-cd "%JB_TOOLS_OS_DIR%"
 echo *** BUILD FAILED
-exit /b 1
+set PATH=%ORIGINAL_PATH% && cd "%JB_TOOLS_OS_DIR%" && exit /b 1

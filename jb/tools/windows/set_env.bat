@@ -1,4 +1,4 @@
-rem Copyright 2000-2020 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
+rem Copyright 2000-2022 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 
 echo off
 
@@ -15,6 +15,7 @@ set JB_TOOLS_OS_DIR=%JB_TOOLS_DIR%\windows
 set OUT_CLS_DIR=%JCEF_ROOT_DIR%\out\win64
 set OUT_NATIVE_DIR=%JCEF_ROOT_DIR%\jcef_build\native\Release
 set OS=windows
+set ORIGINAL_PATH=%PATH%
 if "%TARGET_ARCH%" == "arm64" (
     set DEPS_ARCH=arm64
 ) else (

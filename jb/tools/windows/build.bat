@@ -1,5 +1,7 @@
 echo off
-rem Copyright 2000-2020 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
+rem Copyright 2000-2022 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
+
+call set_env.bat || exit /b 1
 
 if "%~1" == "" (
     call :help
@@ -41,8 +43,7 @@ echo *** && echo *** CREATE BUNDLE && echo ***
 call create_bundle.bat %CLEAN% || goto:__exit
 
 echo *** BUILD SUCCESSFUL
-cd "%JB_TOOLS_OS_DIR%"
-exit /b 0
+set PATH=%ORIGINAL_PATH% && cd "%JB_TOOLS_OS_DIR%" && exit /b 0
 
 :help
 echo "build.bat [option]"
@@ -53,14 +54,11 @@ echo "  clean [arch]     - Clean all the artifacts. Optional 'arch' is the same 
 echo "Environment variables:"
 echo "  JAVA_HOME        - Path to java home with the same CPU architecture you are building JCEF against (x86_64 or arm64)."
 echo "  ANT_HOME         - Path to 'ant' home, or if not set then 'ant' must be in PATH."
-echo "  JCEF_CMAKE       - Path to CMake home. CMake of version 3.7 or above is required (3.14.7 or above if you are building for ARM64)."
+echo "  JCEF_CMAKE       - Path to CMake home, version 3.14.7 or above."
 echo "  PYTHON_27_PATH   - Path to python 2.7 exe."
-echo "  VS140COMNTOOLS   - Provided with <VS2012 x64 Cross Tools Command Prompt>."
-echo "  [VS160COMNTOOLS] - Path to <Visual Studio 2019 installation>\Common7\Tools."
-echo "                     Required if you are building for ARM64 ('build.bat all arm64')."
-exit /b 0
+echo "  VS160COMNTOOLS   - Path to <Visual Studio 2019 installation>\Common7\Tools."
+set PATH=%ORIGINAL_PATH% && cd "%JB_TOOLS_OS_DIR%" && exit /b 0
 
 :__exit
-cd "%JB_TOOLS_OS_DIR%"
 echo *** BUILD FAILED
-exit /b 1
+set PATH=%ORIGINAL_PATH% && cd "%JB_TOOLS_OS_DIR%" && exit /b 1
