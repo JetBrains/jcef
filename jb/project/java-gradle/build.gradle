@@ -34,25 +34,13 @@ compileJava.options.compilerArgs += [
     '--add-exports', 'java.desktop/sun.lwawt.macosx=jcef',
     '--add-exports', 'java.desktop/sun.lwawt=jcef']
 
-var jbr_java = test.executable
-var jbr_javac = ""
+def jbr_java = test.executable
 if (OperatingSystem.current().isWindows() && project.hasProperty('jbr_win')) {
     jbr_java = jbr_win + '/bin/java.exe'
-    jbr_javac = jbr_win + '/bin/javac.exe'
 } else if (OperatingSystem.current().isMacOsX() && project.hasProperty('jbr_mac')) {
     jbr_java = jbr_mac + '/bin/java'
-    jbr_javac = jbr_mac + '/bin/javac'
 } else if (OperatingSystem.current().isLinux() && project.hasProperty('jbr_linux')) {
     jbr_java = jbr_linux + '/bin/java'
-    jbr_javac = jbr_linux + '/bin/javac'
-}
-
-if (jbr_javac != "") {
-    compileJava.options.fork = true
-    compileJava.options.forkOptions.executable = jbr_javac
-
-    compileTestJava.options.fork = true
-    compileTestJava.options.forkOptions.executable = jbr_javac
 }
 
 test {
