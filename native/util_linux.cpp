@@ -59,16 +59,28 @@ CefWindowHandle GetWindowHandle(JNIEnv* env, jobject canvas) {
 
 void SetParent(CefWindowHandle browserHandle,
                CefWindowHandle parentHandle,
-               const base::Closure& callback) {
+               base::OnceClosure callback) {
+  SetParentSync(browserHandle, parentHandle, nullptr, std::move(callback));
+}
+
+void SetParentSync(CefWindowHandle browserHandle,
+                   CefWindowHandle parentHandle,
+                   CriticalWait* waitCond,
+                   base::OnceClosure callback) {
+  if (waitCond) {
+    waitCond->lock()->Lock();
+  }
   if (parentHandle == kNullWindowHandle)
     parentHandle = TempWindow::GetWindowHandle();
   if (parentHandle != kNullWindowHandle && browserHandle != kNullWindowHandle)
     X_XReparentWindow(browserHandle, parentHandle);
 
-  if (!CefCurrentlyOn(TID_UI)) {
-    X_XSync(true);
+  if (waitCond) {
+    X_XSync(false);
+    waitCond->WakeUp();
+    waitCond->lock()->Unlock();
   }
-  callback.Run();
+  std::move(callback).Run();
 }
 
 void SetWindowBounds(CefWindowHandle browserHandle,
