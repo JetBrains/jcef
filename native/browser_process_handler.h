@@ -34,6 +34,7 @@ class BrowserProcessHandler : public CefBrowserProcessHandler {
 
   void OnContextInitialized() override;
   void OnScheduleMessagePumpWork(int64 delay_ms) override;
+  void OnBeforeChildProcessLaunch(CefRefPtr<CefCommandLine> command_line) override;
 
   static CefRefPtr<CefListValue> GetMessageRouterConfigs();
   static void AddMessageRouterConfig(const CefMessageRouterConfig& cfg);

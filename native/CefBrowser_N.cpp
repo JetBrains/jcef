@@ -951,9 +951,8 @@ void create(std::shared_ptr<JNIObjectsForCreate> objs,
       // Do not activate hidden browser windows on creation.
       windowInfo.ex_style |= WS_EX_NOACTIVATE;
     }
-    RECT winRect = {0, 0, rect.width, rect.height};
-    windowInfo.SetAsChild(parent, winRect);
-#elif defined(OS_MACOSX)
+    windowInfo.SetAsChild(parent, rect);
+#elif defined(OS_MAC)
     NSWindow* parent = nullptr;
     if (windowHandle != 0) {
       parent = (NSWindow*)windowHandle;
@@ -1169,7 +1168,7 @@ Java_org_cef_browser_CefBrowser_1N_N_1CreateBrowser(JNIEnv* env,
 
   if (testDelaySec > 0) {
     CefPostDelayedTask(TID_UI,
-                base::Bind(&create, objs, windowHandle, osr, transparent), testDelaySec*1000l);
+                base::BindOnce(&create, objs, windowHandle, osr, transparent), testDelaySec*1000l);
   } else if (CefCurrentlyOn(TID_UI)) {
     create(objs, windowHandle, osr, transparent);
   } else {
@@ -1441,20 +1440,20 @@ Java_org_cef_browser_CefBrowser_1N_N_1Close(JNIEnv* env,
 namespace {
 
 void _runTaskAndWakeup(std::shared_ptr<CriticalWait> waitCond,
-                       const base::Closure& task) {
+                       base::OnceClosure task) {
   waitCond->lock()->Lock();
-  task.Run();
+  std::move(task).Run();
   waitCond->WakeUp();
   waitCond->lock()->Unlock();
 }
 
 void CefPostTaskAndWait(CefThreadId threadId,
-                        const base::Closure& task,
+                        base::OnceClosure task,
                         long waitMillis) {
   std::shared_ptr<CriticalLock> lock = std::make_shared<CriticalLock>();
   std::shared_ptr<CriticalWait> waitCond = std::make_shared<CriticalWait>(lock.get());
   lock.get()->Lock();
-  CefPostTask(threadId, base::Bind(_runTaskAndWakeup, waitCond, task));
+  CefPostTask(threadId, base::BindOnce(_runTaskAndWakeup, waitCond, std::move(task)));
   waitCond.get()->Wait(waitMillis);
   lock.get()->Unlock();
 }
@@ -1467,20 +1466,18 @@ Java_org_cef_browser_CefBrowser_1N_N_1SetFocus(JNIEnv* env,
                                                jobject obj,
                                                jboolean enable) {
   CefRefPtr<CefBrowser> browser = JNI_GET_BROWSER_OR_RETURN(env, obj);
-  if (browser->GetHost()->IsWindowRenderingDisabled()) {
-    browser->GetHost()->SendFocusEvent(enable != JNI_FALSE);
-  } else {
-    browser->GetHost()->SetFocus(enable != JNI_FALSE);
+  browser->GetHost()->SetFocus(enable != JNI_FALSE);
 #if defined(OS_WIN)
+  if (!browser->GetHost()->IsWindowRenderingDisabled()) {
     if (enable == JNI_FALSE) {
       if (CefCurrentlyOn(TID_UI)) {
         util::UnfocusCefBrowser(browser);
       } else {
-        CefPostTaskAndWait(TID_UI, base::Bind(&util::UnfocusCefBrowser, browser), 1000);
+        CefPostTaskAndWait(TID_UI, base::BindOnce(&util::UnfocusCefBrowser, browser), 1000);
       }
     }
-#endif
   }
+#endif
 }
 
 JNIEXPORT void JNICALL
@@ -1505,7 +1502,7 @@ Java_org_cef_browser_CefBrowser_1N_N_1GetZoomLevel(JNIEnv* env, jobject obj) {
     return host->GetZoomLevel();
   }
   std::shared_ptr<double> result = std::make_shared<double>(0.0);
-  CefPostTaskAndWait(TID_UI, base::Bind(getZoomLevel, host, result), 1000);
+  CefPostTaskAndWait(TID_UI, base::BindOnce(getZoomLevel, host, result), 1000);
   return *result;
 }
 
@@ -2088,8 +2085,14 @@ Java_org_cef_browser_CefBrowser_1N_N_1SetParent(JNIEnv* env,
   if (CefCurrentlyOn(TID_UI)) {
     util::SetParent(browserHandle, parentHandle, std::move(callback));
   } else {
-    CefPostTaskAndWait(TID_UI, base::Bind(util::SetParent, browserHandle, parentHandle,
-                                   callback), 1000);
+#if defined(OS_LINUX)
+    CefPostTaskAndWait(TID_UI,
+                base::BindOnce(util::SetParent, browserHandle, parentHandle,
+                                   std::move(callback)), 1000);
+#else
+    CefPostTask(TID_UI, base::BindOnce(util::SetParent, browserHandle,
+                                       parentHandle, std::move(callback)));
+#endif
   }
 #endif
 }
