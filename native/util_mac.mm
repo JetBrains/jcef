@@ -47,7 +47,7 @@ bool isBrowserExists(CefWindowHandle handle) {
 // Used for passing data to/from ClientHandler initialize:.
 @interface InitializeParams : NSObject {
  @public
-  CefMainArgs args_;
+  std::shared_ptr<CefMainArgs> args_;
   CefSettings settings_;
   CefRefPtr<ClientApp> application_;
   bool result_;
@@ -269,7 +269,7 @@ bool isBrowserExists(CefWindowHandle handle) {
 // |params| will be released by the caller.
 + (void)initialize:(InitializeParams*)params {
   g_client_app_ = params->application_;
-  params->result_ = CefInitialize(params->args_, params->settings_,
+  params->result_ = CefInitialize(*params->args_, params->settings_,
                                   g_client_app_.get(), nullptr);
 }
 
@@ -493,7 +493,7 @@ bool CefInitializeOnMainThread(const CefMainArgs& args,
                                const CefSettings& settings,
                                CefRefPtr<ClientApp> application) {
   InitializeParams* params = [[InitializeParams alloc] init];
-  params->args_ = args;
+  params->args_ = std::make_shared<CefMainArgs>(args);
   params->settings_ = settings;
   params->application_ = application;
   params->result_ = false;
