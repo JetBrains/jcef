@@ -16,6 +16,4 @@ fi
 mkdir -p "$OUT_DIR"
 
 echo "*** compile java sources..."
-cd "$JCEF_ROOT_DIR"/tools || exit 1
-./compile.sh linux64 Release
-
+bash "$JCEF_ROOT_DIR"/tools/compile.sh linux64 Release
