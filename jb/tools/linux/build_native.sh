@@ -1,29 +1,28 @@
-# Copyright 2000-2020 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
+#!/bin/bash
+# Copyright 2000-2022 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
+set -euo pipefail
 
-source set_env.sh || exit 1
+script_dir=$(cd -- "$(dirname -- "$0")" &>/dev/null && pwd)
 
-# shellcheck source=../common/common.sh
-source "$JB_TOOLS_DIR"/common/common.sh || exit 1
+source "$script_dir/set_env.sh"
 
-OUT_DIR=$JCEF_ROOT_DIR/jcef_build
+OUT_DIR="$JCEF_ROOT_DIR/jcef_build"
 
-if [ "$1" == "clean" ]; then
-    echo "*** delete $OUT_DIR..."
-    rm -rf "$OUT_DIR"
-    exit 0
+if [ "${1:-}" == "clean" ]; then
+  echo "*** delete $OUT_DIR..."
+  rm -rf "$OUT_DIR"
+  exit 0
 fi
-clean_mkdir "$OUT_DIR" || do_fail
+rm -rf "$OUT_DIR" && mkdir "$OUT_DIR"
 
-cd "$JCEF_ROOT_DIR" || do_fail
+cd "$JCEF_ROOT_DIR" || exit 1
 
 # workaround python failure in docker
-git checkout tools/make_version_header.py || do_fail
+git checkout tools/make_version_header.py
 
-echo "*** run cmake..."
-cd "$OUT_DIR" || do_fail
-cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release .. || do_fail
+echo "*** run cmake [TARGET=$TARGET_ARCH]..."
+cd "$OUT_DIR" || exit 1
+cmake -G "Unix Makefiles" -DPROJECT_ARCH="$TARGET_ARCH" -DCMAKE_BUILD_TYPE=Release ..
 
 echo "*** run make..."
-make -j4 || do_fail
-
-cd "$JB_TOOLS_OS_DIR" || do_fail
+make -j4

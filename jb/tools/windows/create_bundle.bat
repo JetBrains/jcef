@@ -35,7 +35,6 @@ if "%TARGET_ARCH%" == "arm64" (
 ) else (
     echo *** create modules...
     sed -i 's/\r$//' "%JB_TOOLS_DIR%"\common\create_modules.sh || goto:__exit
-    sed -i 's/\r$//' "%JB_TOOLS_DIR%"\common\common.sh || goto:__exit
     bash "%JB_TOOLS_DIR%"\common\create_modules.sh || goto:__exit
 )
 
