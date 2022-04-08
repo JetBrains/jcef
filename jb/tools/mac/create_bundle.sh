@@ -1,21 +1,22 @@
-# Copyright 2000-2020 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
+#!/bin/bash
+# Copyright 2000-2022 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
+set -euo pipefail
 
-if ! source set_env.sh
-then
-    exit 1
-fi
+script_dir=$(cd -- "$(dirname -- "$0")" &>/dev/null && pwd)
+
+source "$script_dir/set_env.sh"
 
 function clean {
-    if [ "$1" == "legacy" ]; then
-        __artefact=jcef_mac
-    else
-        __artefact=jcef_mac_$1
-    fi
-    if test -f "$JCEF_ROOT_DIR/$__artefact" || test -f "$JCEF_ROOT_DIR/$__artefact.tar.gz"; then
-        echo "*** delete $__artefact..."
-        rm -rf "${JCEF_ROOT_DIR:?}/$__artefact"
-        rm -f "${JCEF_ROOT_DIR:?}/$__artefact.tar.gz"
-    fi
+  if [ "$1" == "legacy" ]; then
+    __artefact=jcef_mac
+  else
+    __artefact=jcef_mac_$1
+  fi
+  if test -f "$JCEF_ROOT_DIR/$__artefact" || test -f "$JCEF_ROOT_DIR/$__artefact.tar.gz"; then
+    echo "*** delete $__artefact..."
+    rm -rf "${JCEF_ROOT_DIR:?}/$__artefact"
+    rm -f "${JCEF_ROOT_DIR:?}/$__artefact.tar.gz"
+  fi
 }
 export -f clean
 
@@ -27,16 +28,16 @@ clean x86_64
 clean universal
 clean legacy
 
-if [ "$1" == "clean" ]; then
-    exit 0
+if [ "${1:-}" == "clean" ]; then
+  exit 0
 fi
 
 cd "$JCEF_ROOT_DIR" || exit 1
 
 echo "*** bundle jogl and gluegen..."
-bash "$JB_TOOLS_DIR"/common/bundle_jogl_gluegen.sh || exit 1
+bash "$JB_TOOLS_DIR"/common/bundle_jogl_gluegen.sh
 
-echo "*** copy binaries..."
+echo "*** copy jcef binaries..."
 mkdir "$ARTIFACT"
 cp -R "$MODULAR_SDK_DIR" "$ARTIFACT"/
 cp -R "$RELEASE_PATH"/jcef_app.app/Contents/Frameworks "$ARTIFACT"/
@@ -48,9 +49,8 @@ rm -rf "$ARTIFACT"
 ls -lah "$ARTIFACT.tar.gz" || exit 1
 
 if [ "$TARGET_ARCH" == "x86_64" ]; then
-    # preserve legacy artefact name
-    cp "$ARTIFACT.tar.gz" jcef_mac.tar.gz
+  # preserve legacy artefact name
+  cp "$ARTIFACT.tar.gz" jcef_mac.tar.gz
 fi
 
 echo "*** SUCCESSFUL"
-cd "$JB_TOOLS_OS_DIR" || exit 1
