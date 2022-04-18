@@ -29,7 +29,6 @@ fi
 
 cd "$JCEF_ROOT_DIR" || exit 1
 
-echo "*** create modules..."
 bash "$JB_TOOLS_DIR"/common/create_modules.sh
 
 echo "*** copy jcef binaries..."
