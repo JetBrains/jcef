@@ -29,8 +29,10 @@ fi
 
 cd "$JCEF_ROOT_DIR" || exit 1
 
-echo "*** bundle jogl and gluegen..."
-bash "$JB_TOOLS_DIR"/common/bundle_jogl_gluegen.sh
+if [ "${TARGET_ARCH}" == "x86_64" ]; then
+  echo "*** bundle jogl and gluegen..."
+  bash "$JB_TOOLS_DIR"/common/bundle_jogl_gluegen.sh
+fi
 
 echo "*** copy jcef binaries..."
 mkdir "$ARTIFACT"

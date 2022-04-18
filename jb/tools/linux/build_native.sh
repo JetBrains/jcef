@@ -20,8 +20,10 @@ cd "$JCEF_ROOT_DIR" || exit 1
 # workaround python failure in docker
 git checkout tools/make_version_header.py
 
-echo "*** create modular jogl..."
-bash "$JB_TOOLS_DIR"/modular-jogl.sh
+if [ "${TARGET_ARCH}" == "x86_64" ]; then
+  echo "*** create modular jogl..."
+  bash "$JB_TOOLS_DIR"/modular-jogl.sh
+fi
 
 echo "*** run cmake [TARGET=$TARGET_ARCH]..."
 cd "$OUT_DIR" || exit 1
