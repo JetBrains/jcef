@@ -26,7 +26,11 @@ else
   ant -v jar tests-jar
 
   # Copy MANIFEST.MF
-  rsync -a "${JAVA_PATH}"/manifest/MANIFEST.MF $OUT_PATH/manifest/
+  if which rsync &>/dev/null; then
+    rsync -a "${JAVA_PATH}"/manifest/MANIFEST.MF $OUT_PATH/manifest/
+  else
+    cp "${JAVA_PATH}"/manifest/MANIFEST.MF $OUT_PATH/manifest/
+  fi
 
   # Copy resource files.
   if [ -d "${JAVA_PATH}"/tests/detailed/handler ]; then
