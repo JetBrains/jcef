@@ -1,21 +1,19 @@
-# Copyright 2000-2020 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
+#!/bin/bash
+# Copyright 2000-2022 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
+set -euo pipefail
 
-source set_env.sh || exit 1
+script_dir=$(cd -- "$(dirname -- "$0")" &>/dev/null && pwd)
 
-# shellcheck source=../common/common.sh
-source "$JB_TOOLS_DIR"/common/common.sh || exit 1
+source "$script_dir/set_env.sh"
 
-OUT_DIR=$JCEF_ROOT_DIR/out
+OUT_DIR="$JCEF_ROOT_DIR/out"
 
-if [ "$1" == "clean" ]; then
-    echo "*** delete $OUT_DIR..."
-    rm -rf "$OUT_DIR"
-    exit 0
+if [ "${1:-}" == "clean" ]; then
+  echo "*** delete $OUT_DIR..."
+  rm -rf "$OUT_DIR"
+  exit 0
 fi
-clean_mkdir "$OUT_DIR" || do_fail
+rm -rf "$OUT_DIR" && mkdir "$OUT_DIR"
 
 echo "*** compile java sources..."
-cd "$JCEF_ROOT_DIR"/tools || do_fail
-./compile.sh linux64 Release || do_fail
-
-cd "$JB_TOOLS_OS_DIR" || do_fail
+bash "$JCEF_ROOT_DIR"/tools/compile.sh linux64 Release

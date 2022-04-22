@@ -11,4 +11,4 @@ Select tools extracted from depot_tools.
 
 Local Modifications:
 - Remove dependency on vpython.
-- Update gsutil version to 4.46.
+- Update gsutil version to 4.68.
