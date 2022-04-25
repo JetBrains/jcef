@@ -16,7 +16,19 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 // Test the DisplayHandler implementation.
 @ExtendWith(TestSetupExtension.class)
-class DisplayHandlerTest {
+class DisplayHandlerTestWr extends DisplayHandlerTest {
+}
+
+class TestSetupExtensionOSR extends TestSetupExtension {
+    @Override
+    boolean useOSR() { return true; }
+}
+
+@ExtendWith(TestSetupExtensionOSR.class)
+class DisplayHandlerTestOSR extends DisplayHandlerTest {
+}
+
+abstract class DisplayHandlerTest {
     private final String testUrl_ = "http://test.com/test.html";
     private final String testContent_ =
             "<html><head><title>Test Title</title></head><body>Test!</body></html>";

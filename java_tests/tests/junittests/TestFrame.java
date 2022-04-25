@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import static tests.junittests.TestSetupContext.debugPrint;
 
+import com.jetbrains.cef.JCefAppConfig;
 import org.cef.CefApp;
 import org.cef.CefClient;
 import org.cef.browser.CefBrowser;
@@ -100,7 +101,7 @@ class TestFrame extends JFrame implements CefLifeSpanHandler, CefLoadHandler, Ce
 
     protected void createBrowser(String startURL) {
         assertNull(browser_);
-        browser_ = client_.createBrowser(startURL, false /* useOSR */, false /* isTransparent */);
+        browser_ = client_.createBrowser(startURL, JCefAppConfig.getInstance().getCefSettings().windowless_rendering_enabled, false /* isTransparent */);
         assertNotNull(browser_);
 
         getContentPane().add(browser_.getUIComponent(), BorderLayout.CENTER);

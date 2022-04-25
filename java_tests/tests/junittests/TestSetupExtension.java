@@ -37,6 +37,8 @@ public class TestSetupExtension
     private static boolean initialized_ = false;
     private static CountDownLatch countdown_ = new CountDownLatch(1);
 
+    boolean useOSR() { return false; }
+
     @Override
     public void beforeAll(ExtensionContext context) {
         if (!initialized_) {
@@ -66,7 +68,7 @@ public class TestSetupExtension
         String[] appArgs = config.getAppArgs();
 
         CefSettings settings = config.getCefSettings();
-        settings.windowless_rendering_enabled = false;
+        settings.windowless_rendering_enabled = useOSR();
         settings.log_severity = CefSettings.LogSeverity.LOGSEVERITY_ERROR;
 
         CefApp.addAppHandler(new CefAppHandlerAdapter(appArgs) {
