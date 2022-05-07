@@ -12,7 +12,7 @@ RUN apt-get install -y build-essential zip bzip2 unzip tar wget make autoconf \
 
 RUN add-apt-repository ppa:openjdk-r/ppa && apt-get update && apt-get install -y openjdk-11-jdk
 
-RUN wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - >/usr/share/keyrings/kitware-archive-keyring.gpg && \
-    echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ xenial main' >/etc/apt/sources.list.d/kitware.list && \
-    apt-get update && \
-    apt-get install -y cmake
+RUN wget -nv -O /cmake.tar.gz https://github.com/Kitware/CMake/releases/download/v3.23.1/cmake-3.23.1-linux-$(uname -m).tar.gz && \
+    tar xfz /cmake.tar.gz --strip-components=1 -C /usr/local && \
+    rm /cmake.tar.gz && \
+    cmake --version
