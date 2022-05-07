@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euo pipefail
+set -exuo pipefail
 
 echo "*** download openjdk-11..."
 wget --no-check-certificate -c https://corretto.aws/downloads/latest/amazon-corretto-11-$(uname -m)-linux-jdk.tar.gz -O openjdk.tar.gz > /dev/null 2>&1
