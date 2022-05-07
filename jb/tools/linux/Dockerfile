@@ -10,7 +10,17 @@ RUN apt-get install -y build-essential zip bzip2 unzip tar wget make autoconf \
   libxrender-dev libfontconfig1-dev libgtk2.0-dev libatk-adaptor \
   git ant python3 mesa-common-dev libxkbcommon0 libgbm1
 
-RUN add-apt-repository ppa:openjdk-r/ppa && apt-get update && apt-get install -y openjdk-11-jdk
+RUN wget -nv -O jdk.deb https://cache-redirector.jetbrains.com/corretto.aws/downloads/resources/17.0.3.6.1/java-17-amazon-corretto-jdk_17.0.3.6-1_$(dpkg-architecture -q DEB_BUILD_ARCH).deb && \
+    dpkg -i jdk.deb
+ENV JAVA_HOME=/usr/lib/jvm/java-17-amazon-corretto
+RUN ${JAVA_HOME}/bin/javac -version
+
+ARG ANT_VERSION=1.10.12
+RUN wget -nv -O ant.tgz https://dlcdn.apache.org//ant/binaries/apache-ant-${ANT_VERSION}-bin.tar.gz && \
+    tar xfz ant.tgz -C /opt && \
+    rm ant.tgz
+ENV ANT_HOME=/opt/apache-ant-${ANT_VERSION}
+RUN ${ANT_HOME}/bin/ant -version
 
 RUN wget -nv -O /cmake.tar.gz https://github.com/Kitware/CMake/releases/download/v3.23.1/cmake-3.23.1-linux-$(uname -m).tar.gz && \
     tar xfz /cmake.tar.gz --strip-components=1 -C /usr/local && \
