@@ -197,6 +197,10 @@ set(JCEF_HELPER_SRCS_WINDOWS
   jcef_helper.rc
   util_win.cpp
   )
+set(JCEF_TEST_HELPERS_SRCS
+  test_helpers.cpp
+  )
+
 APPEND_PLATFORM_SOURCES(JCEF_HELPER_SRCS)
 source_group(jcef FILES ${JCEF_HELPER_SRCS})
 
@@ -207,6 +211,7 @@ source_group(jcef FILES ${JCEF_HELPER_SRCS})
 
 # Target binary names.
 set(JCEF_TARGET "jcef")
+set(JCEF_TEST_HELPERS_TARGET "jceftesthelpers")
 if(OS_MAC)
   set(JCEF_APP_NAME "jcef_app")
   set(JCEF_HELPER_TARGET "jcef_Helper")
@@ -435,3 +440,10 @@ if(OS_WINDOWS)
   COPY_FILES("${JCEF_TARGET}" "${CEF_RESOURCE_FILES}" "${CEF_RESOURCE_DIR}" "${CEF_TARGET_OUT_DIR}")
 endif()
 
+#
+# Test helpers
+#
+
+add_library(${JCEF_TEST_HELPERS_TARGET} SHARED ${JCEF_TEST_HELPERS_SRCS})
+SET_LIBRARY_TARGET_PROPERTIES(${JCEF_TEST_HELPERS_TARGET})
+target_link_libraries(${JCEF_TEST_HELPERS_TARGET} ${JCEF_TARGET})
