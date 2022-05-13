@@ -1412,7 +1412,7 @@ Java_org_cef_browser_CefBrowser_1N_N_1ExecuteJavaScript(JNIEnv* env,
 
 JNIEXPORT jstring JNICALL
 Java_org_cef_browser_CefBrowser_1N_N_1GetURL(JNIEnv* env, jobject obj) {
-  jstring tmp = NewJNIString(env, "");
+  jstring tmp = env->NewStringUTF("");
   CefRefPtr<CefBrowser> browser = JNI_GET_BROWSER_OR_RETURN(env, obj, tmp);
   return NewJNIString(env, browser->GetMainFrame()->GetURL());
 }

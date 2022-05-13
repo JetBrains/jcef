@@ -119,19 +119,24 @@ void SetJNIStringRef(JNIEnv* env,
                        NewJNIString(env, stringValue));
 }
 
-jstring NewJNIString(JNIEnv* env, const std::string& str) {
-  return env->NewStringUTF(str.c_str());
+// Export for test_helpers.cpp
+JNIEXPORT jstring NewJNIString(JNIEnv* env, const CefString & str) {
+  auto s16 = str.ToString16();
+  return env->NewString((const jchar*)(s16.c_str()), s16.length());
 }
 
-CefString GetJNIString(JNIEnv* env, jstring jstr) {
+// Export for test_helpers.cpp
+JNIEXPORT CefString GetJNIString(JNIEnv* env, jstring jstr) {
   CefString cef_str;
-  const char* chr = nullptr;
+  const jchar* chr = nullptr;
   if (jstr)
-    chr = env->GetStringUTFChars(jstr, nullptr);
-  if (chr)
-    cef_str = chr;
+    chr = env->GetStringChars(jstr, nullptr);
+  if (chr) {
+    const jsize len = env->GetStringLength(jstr);
+    cef_str.FromString(chr, len, true);
+  }
   if (jstr)
-    env->ReleaseStringUTFChars(jstr, chr);
+    env->ReleaseStringChars(jstr, chr);
   return cef_str;
 }
 
