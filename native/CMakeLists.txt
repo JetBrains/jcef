@@ -230,6 +230,10 @@ SET_CEF_TARGET_OUT_DIR()
 #
 
 if(OS_LINUX)
+  # On Linux make JCEF g++ version independent
+  # e.g. allows JCEF to work on CentOS 7 while being built by a compiler with newer libstdc++
+  add_link_options(-static-libstdc++)
+
   # Find required libraries and update compiler/linker variables.
   FIND_LINUX_LIBRARIES("gmodule-2.0 gtk+-2.0 gthread-2.0")
 
