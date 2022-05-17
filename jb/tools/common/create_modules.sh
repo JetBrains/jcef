@@ -33,39 +33,37 @@ cd "$JCEF_ROOT_DIR" || exit 1
 rm -rf jmods && mkdir jmods
 cd jmods || exit 1
 
+echo "*** create gluegen.rt module..."
+cp "$JOGAMP_DIR"/gluegen-rt.jar .
+cp "$JB_TOOLS_DIR"/common/gluegen-module-info.java module-info.java
+
+"$JAVA_HOME"/bin/javac --patch-module gluegen.rt=gluegen-rt.jar module-info.java
+"$JAVA_HOME"/bin/jar uf gluegen-rt.jar module-info.class
+
+rm module-info.class module-info.java
+
+mkdir lib
 if [ "${OS}" == "macosx" ] || [ "${TARGET_ARCH}" == "x86_64" ]; then
-
-    echo "*** create gluegen.rt module..."
-    cp "$JOGAMP_DIR"/gluegen-rt.jar .
-    cp "$JB_TOOLS_DIR"/common/gluegen-module-info.java module-info.java
-
-    "$JAVA_HOME"/bin/javac --patch-module gluegen.rt=gluegen-rt.jar module-info.java
-    "$JAVA_HOME"/bin/jar uf gluegen-rt.jar module-info.class
-
-    rm module-info.class module-info.java
-
-    mkdir lib
     extract_jar "$JOGAMP_DIR"/gluegen-rt-natives-"$OS"-"$DEPS_ARCH".jar lib natives/"$OS"-"$DEPS_ARCH"
-
-    "$JAVA_HOME"/bin/jmod create --class-path gluegen-rt.jar --libs lib gluegen.rt.jmod
-    rm -rf gluegen-rt.jar lib
-
-    echo "*** create jogl.all module..."
-    cp "$JOGAMP_DIR"/jogl-all.jar .
-    cp "$JB_TOOLS_OS_DIR"/jogl-module-info.java module-info.java
-
-    "$JAVA_HOME"/bin/javac --module-path . --patch-module jogl.all=jogl-all.jar module-info.java
-    "$JAVA_HOME"/bin/jar uf jogl-all.jar module-info.class
-
-    rm module-info.class module-info.java
-
-    mkdir lib
-    extract_jar "$JOGAMP_DIR"/jogl-all-natives-"$OS"-"$DEPS_ARCH".jar lib natives/"$OS"-"$DEPS_ARCH"
-
-    "$JAVA_HOME"/bin/jmod create --module-path . --class-path jogl-all.jar --libs lib jogl.all.jmod
-    rm -rf jogl-all.jar lib
-
 fi
+"$JAVA_HOME"/bin/jmod create --class-path gluegen-rt.jar --libs lib gluegen.rt.jmod
+rm -rf gluegen-rt.jar lib
+
+echo "*** create jogl.all module..."
+cp "$JOGAMP_DIR"/jogl-all.jar .
+cp "$JB_TOOLS_OS_DIR"/jogl-module-info.java module-info.java
+
+"$JAVA_HOME"/bin/javac --module-path . --patch-module jogl.all=jogl-all.jar module-info.java
+"$JAVA_HOME"/bin/jar uf jogl-all.jar module-info.class
+
+rm module-info.class module-info.java
+
+mkdir lib
+if [ "${OS}" == "macosx" ] || [ "${TARGET_ARCH}" == "x86_64" ]; then
+    extract_jar "$JOGAMP_DIR"/jogl-all-natives-"$OS"-"$DEPS_ARCH".jar lib natives/"$OS"-"$DEPS_ARCH"
+fi
+"$JAVA_HOME"/bin/jmod create --module-path . --class-path jogl-all.jar --libs lib jogl.all.jmod
+rm -rf jogl-all.jar lib
 
 echo "*** create jcef module..."
 cp "$OUT_CLS_DIR"/jcef.jar .
