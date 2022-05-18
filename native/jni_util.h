@@ -49,10 +49,10 @@ void SetJNIStringRef(JNIEnv* env,
                      const CefString& initValue);
 
 // Create a new String value.
-jstring NewJNIString(JNIEnv* env, const CefString& str);
+JNIEXPORT jstring JNICALL NewJNIString(JNIEnv* env, const CefString& str);
 
 // Retrieve a String value.
-CefString GetJNIString(JNIEnv* env, jstring jstr);
+JNIEXPORT CefString JNICALL GetJNIString(JNIEnv* env, jstring jstr);
 
 // Create a new array of String values.
 jobjectArray NewJNIStringArray(JNIEnv* env, const std::vector<CefString>& vals);

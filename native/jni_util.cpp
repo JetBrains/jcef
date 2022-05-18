@@ -120,20 +120,20 @@ void SetJNIStringRef(JNIEnv* env,
 }
 
 // Export for test_helpers.cpp
-JNIEXPORT jstring NewJNIString(JNIEnv* env, const CefString & str) {
+JNIEXPORT jstring JNICALL NewJNIString(JNIEnv* env, const CefString & str) {
   auto s16 = str.ToString16();
-  return env->NewString((const jchar*)(s16.c_str()), s16.length());
+  return env->NewString((const jchar*)(s16.c_str()), (jsize)s16.length());
 }
 
 // Export for test_helpers.cpp
-JNIEXPORT CefString GetJNIString(JNIEnv* env, jstring jstr) {
+JNIEXPORT CefString JNICALL GetJNIString(JNIEnv* env, jstring jstr) {
   CefString cef_str;
   const jchar* chr = nullptr;
   if (jstr)
     chr = env->GetStringChars(jstr, nullptr);
   if (chr) {
     const jsize len = env->GetStringLength(jstr);
-    cef_str.FromString(chr, len, true);
+    cef_str.FromString((const char16*)chr, len, true);
   }
   if (jstr)
     env->ReleaseStringChars(jstr, chr);
