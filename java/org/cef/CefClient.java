@@ -65,6 +65,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Vector;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.swing.SwingUtilities;
 
@@ -77,7 +78,7 @@ public class CefClient extends CefClientHandler
                    CefLifeSpanHandler, CefLoadHandler, CefPrintHandler, CefRenderHandler,
                    CefRequestHandler, CefWindowHandler {
     private static final boolean TRACE_LIFESPAN = Boolean.getBoolean("trace.client.lifespan");
-    private HashMap<Integer, CefBrowser> browser_ = new HashMap<Integer, CefBrowser>();
+    private final ConcurrentHashMap<Integer, CefBrowser> browser_ = new ConcurrentHashMap<Integer, CefBrowser>();
     private CefContextMenuHandler contextMenuHandler_ = null;
     private CefDialogHandler dialogHandler_ = null;
     private CefDisplayHandler displayHandler_ = null;
@@ -117,7 +118,8 @@ public class CefClient extends CefClientHandler
      * The CTOR is only accessible within this package.
      * Use CefApp.createClient() to create an instance of
      * this class.
-     * @see org.cef.CefApp.createClient()
+     *
+     * @see org.cef.CefApp#createClient()
      */
     CefClient() throws UnsatisfiedLinkError {
         super();
@@ -185,16 +187,12 @@ public class CefClient extends CefClientHandler
 
     @Override
     protected CefBrowser getBrowser(int identifier) {
-        synchronized (browser_) {
-            return browser_.get(new Integer(identifier));
-        }
+        return browser_.get(identifier);
     }
 
     @Override
     protected Object[] getAllBrowser() {
-        synchronized (browser_) {
-            return browser_.values().toArray();
-        }
+        return browser_.values().toArray();
     }
 
     @Override
@@ -626,15 +624,23 @@ public class CefClient extends CefClientHandler
     public void onAfterCreated(CefBrowser browser) {
         if (browser == null) return;
         if (TRACE_LIFESPAN) CefLog.INSTANCE.debug("CefClient: browser=%s: onAfterCreated", browser);
+        boolean disposed = isDisposed_;
+        if (disposed) {
+            CefLog.INSTANCE.warn("Browser %s was created while CefClient was marked as disposed", browser);
+        }
 
         // keep browser reference
         Integer identifier = browser.getIdentifier();
-        synchronized (browser_) {
+        if (!disposed) {
             browser_.put(identifier, browser);
         }
         synchronized (lifeSpanHandlers_) {
             for (CefLifeSpanHandler lsh: lifeSpanHandlers_)
                 lsh.onAfterCreated(browser);
+        }
+        if (disposed) {
+            // Not sure, but it makes sense to close browser since it's not in browser_
+            browser.close(true);
         }
     }
 
@@ -672,43 +678,44 @@ public class CefClient extends CefClientHandler
     }
 
     private void cleanupBrowser(int identifier) {
-        synchronized (browser_) {
-            if (identifier >= 0) {
-                // Remove the specific browser that closed.
-                browser_.remove(identifier);
-            } else if (!browser_.isEmpty()) {
+        if (identifier >= 0) {
+            // Remove the specific browser that closed.
+            browser_.remove(identifier);
+        } else {
+            assert isDisposed_;
+            Collection<CefBrowser> browserList = new ArrayList<>(browser_.values());
+            if (!browserList.isEmpty()) {
                 // Close all browsers.
-                Collection<CefBrowser> browserList = browser_.values();
+                // Once any of browsers close, it will invoke #onBeforeClose and #cleanupBrowser
                 for (CefBrowser browser : browserList) {
                     browser.close(true);
                 }
                 return;
             }
-
-            if (browser_.isEmpty() && isDisposed_) {
-                KeyboardFocusManager.getCurrentKeyboardFocusManager().removePropertyChangeListener(
-                        propertyChangeListener);
-                removeContextMenuHandler(this);
-                removeDialogHandler(this);
-                removeDisplayHandler(this);
-                removeDownloadHandler(this);
-                removeDragHandler(this);
-                removeFocusHandler(this);
-                removeJSDialogHandler(this);
-                removeKeyboardHandler(this);
-                removeLifeSpanHandler(this);
-                removeLoadHandler(this);
-                removePrintHandler(this);
-                removeRenderHandler(this);
-                removeRequestHandler(this);
-                removeWindowHandler(this);
-                super.dispose();
-
-                if (CefApp.getState() != CefApp.CefAppState.TERMINATED) {
-                    CefApp.getInstance().clientWasDisposed(this);
-                }
-            }
         }
+        if (!isDisposed_) return;
+        if (!browser_.isEmpty()) return;
+
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().removePropertyChangeListener(
+                propertyChangeListener);
+        removeContextMenuHandler(this);
+        removeDialogHandler(this);
+        removeDisplayHandler(this);
+        removeDownloadHandler(this);
+        removeDragHandler(this);
+        removeFocusHandler(this);
+        removeJSDialogHandler(this);
+        removeKeyboardHandler(this);
+        removeLifeSpanHandler(this);
+        removeLoadHandler(this);
+        removePrintHandler(this);
+        removeRenderHandler(this);
+        removeRequestHandler(this);
+        removeWindowHandler(this);
+        super.dispose();
+
+        CefApp app = CefApp.getInstanceIfAny();
+        if (app != null) app.clientWasDisposed(this);
     }
 
     // CefLoadHandler
