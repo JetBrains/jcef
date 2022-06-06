@@ -231,6 +231,10 @@ public class CefApp extends CefAppHandlerAdapter {
         return self;
     }
 
+    public static synchronized CefApp getInstanceIfAny() throws UnsatisfiedLinkError {
+        return self;
+    }
+
     public final void setSettings(CefSettings settings) throws IllegalStateException {
         if (getState().compareTo(CefAppState.NEW) > 0)
             throw new IllegalStateException("Settings can only be passed to CEF"
