@@ -467,8 +467,7 @@ public class CefApp extends CefAppHandlerAdapter {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                CefAppHandler handler =
-                        (CefAppHandler) ((appHandler_ == null) ? this : appHandler_);
+                CefAppHandler handler = appHandler_ == null ? CefApp.this : appHandler_;
                 if (!handler.onBeforeTerminate()) dispose();
             }
         });
