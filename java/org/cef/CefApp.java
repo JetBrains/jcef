@@ -220,13 +220,14 @@ public class CefApp extends CefAppHandlerAdapter {
     public static synchronized CefApp getInstance(String[] args, CefSettings settings)
             throws UnsatisfiedLinkError {
         if (settings != null) {
-            if (getState() != CefAppState.NONE && getState() != CefAppState.NEW)
+            if (getState().compareTo(CefAppState.NEW) > 0)
                 throw new IllegalStateException("Settings can only be passed to CEF"
-                        + " before createClient is called the first time.");
+                        + " before createClient is called the first time. Current state is " + getState());
         }
         if (self == null) {
             if (getState() == CefAppState.TERMINATED)
                 throw new IllegalStateException("CefApp was terminated");
+            assert getState() == CefAppState.NONE;
             self = new CefApp(args, settings);
             setState(CefAppState.NEW);
         }
@@ -234,9 +235,9 @@ public class CefApp extends CefAppHandlerAdapter {
     }
 
     public final void setSettings(CefSettings settings) throws IllegalStateException {
-        if (getState() != CefAppState.NONE && getState() != CefAppState.NEW)
+        if (getState().compareTo(CefAppState.NEW) > 0)
             throw new IllegalStateException("Settings can only be passed to CEF"
-                    + " before createClient is called the first time.");
+                    + " before createClient is called the first time. Current state is " + getState());
         settings_ = settings.clone();
     }
 
@@ -254,15 +255,14 @@ public class CefApp extends CefAppHandlerAdapter {
      * @return current state.
      */
     public final static CefAppState getState() {
-        synchronized (state_) {
-            return state_;
-        }
+        return state_;
     }
 
     private static final void setState(final CefAppState state) {
-        synchronized (state_) {
-            state_ = state;
+        if (state.compareTo(state_) < 0) {
+            throw new IllegalStateException("State cannot go backward. Current state " + state_ + ". Proposed state " + state);
         }
+        state_ = state;
         // Execute on the AWT event dispatching thread.
         SwingUtilities.invokeLater(new Runnable() {
             @Override
@@ -283,6 +283,7 @@ public class CefApp extends CefAppHandlerAdapter {
             case NEW:
                 // Nothing to do inspite of invalidating the state
                 setState(CefAppState.TERMINATED);
+                CefApp.self = null;
                 break;
 
             case INITIALIZING:
@@ -482,13 +483,15 @@ public class CefApp extends CefAppHandlerAdapter {
         // Execute on the AWT event dispatching thread. Always call asynchronously
         // so the call stack has a chance to unwind.
         Runnable _shutdown = () -> {
-            System.out.println("shutdown on " + Thread.currentThread());
+            synchronized (CefApp.this) {
+                System.out.println("shutdown on " + Thread.currentThread());
 
-            // Shutdown native CEF.
-            N_Shutdown();
+                // Shutdown native CEF.
+                N_Shutdown();
 
-            setState(CefAppState.TERMINATED);
-            CefApp.self = null;
+                setState(CefAppState.TERMINATED);
+                CefApp.self = null;
+            }
         };
         if (EventQueue.isDispatchThread())
             _shutdown.run();
