@@ -159,9 +159,6 @@ public class CefApp extends CefAppHandlerAdapter {
         } else if (OS.isLinux()) {
             SystemBootstrap.loadLibrary("cef");
         }
-        if (appHandler_ == null) {
-            appHandler_ = this;
-        }
 
         // Execute on the AWT event dispatching thread.
         try {
@@ -267,7 +264,8 @@ public class CefApp extends CefAppHandlerAdapter {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                if (appHandler_ != null) appHandler_.stateHasChanged(state);
+                CefAppHandler handler = appHandler_ == null ? CefApp.self : appHandler_;
+                if (handler != null) handler.stateHasChanged(state);
             }
         });
     }
@@ -439,7 +437,7 @@ public class CefApp extends CefAppHandlerAdapter {
                     }
 
                     if (JdkEx.InvokeOnToolkitHelperAccessor.invokeAndBlock(() ->
-                            N_Initialize(appHandler_, settings, EventQueue.isDispatchThread()), Boolean.FALSE))
+                            N_Initialize(appHandler_ == null ? CefApp.this : appHandler_, settings, EventQueue.isDispatchThread()), Boolean.FALSE))
                     {
                         setState(CefAppState.INITIALIZED);
                     }
