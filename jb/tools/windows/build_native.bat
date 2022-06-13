@@ -61,12 +61,16 @@ set RC=
 
 rem Workaround for https://gitlab.kitware.com/cmake/cmake/-/issues/19193
 setlocal
-set "PATH=%JDK_11%\bin;%PATH%"
+if "%JCEF_JNI%" == "" (
+    set "JCEF_JNI=%JAVA_HOME%"
+)
+echo JCEF_JNI=%JCEF_JNI%
+set "PATH=%JCEF_JNI%\bin;%PATH%"
 
 if "%TARGET_ARCH%" == "arm64" (
-    cmake -G "Visual Studio 16 2019" -A ARM64 -D "JAVA_HOME=%JDK_11:\=/%" .. || goto:__exit
+    cmake -G "Visual Studio 16 2019" -A ARM64 -D "JAVA_HOME=%JCEF_JNI:\=/%" .. || goto:__exit
 ) else (
-    cmake -G "Visual Studio 16 2019" -D "JAVA_HOME=%JDK_11:\=/%" .. || goto:__exit
+    cmake -G "Visual Studio 16 2019" -D "JAVA_HOME=%JCEF_JNI:\=/%" .. || goto:__exit
 )
 
 endlocal
