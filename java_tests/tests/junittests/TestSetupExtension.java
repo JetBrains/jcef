@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
 // All test cases must install this extension for CEF to be properly initialized
 // and shut down.
@@ -36,6 +37,8 @@ public class TestSetupExtension
     private static final int TIMEOUT = 5;
     private static boolean initialized_ = false;
     private static CountDownLatch countdown_ = new CountDownLatch(1);
+
+    private static Function<CefAppState, Void> ourCefAppStateHandler;
 
     @Override
     public void beforeAll(ExtensionContext context) {
@@ -72,6 +75,9 @@ public class TestSetupExtension
         CefApp.addAppHandler(new CefAppHandlerAdapter(appArgs) {
             @Override
             public void stateHasChanged(org.cef.CefApp.CefAppState state) {
+                final Function<CefAppState, Void> f = ourCefAppStateHandler;
+                if (f != null) f.apply(state);
+
                 if (state == CefAppState.TERMINATED) {
                     // Signal completion of CEF shutdown.
                     countdown_.countDown();
@@ -110,4 +116,9 @@ public class TestSetupExtension
             }
         }
     }
+
+    public static void setCefAppStateHandler(Function<CefApp.CefAppState, Void> stateHandler) {
+        ourCefAppStateHandler = stateHandler;
+    }
+
 }

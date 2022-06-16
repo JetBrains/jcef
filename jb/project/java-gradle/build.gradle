@@ -48,7 +48,12 @@ test {
     include 'tests/junittests/**'
 
     failFast = true
-    jvmArgs = ['-Djcef.junittests.isGradleLauncher=true']
+    jvmArgs = ['-Djcef.junittests.isGradleLauncher=true',
+               '--add-opens=java.desktop/java.awt.peer=ALL-UNNAMED',
+               '--add-exports=java.desktop/java.awt.peer=ALL-UNNAMED',
+               '--add-opens=java.desktop/sun.awt=ALL-UNNAMED',
+               '--add-exports=java.desktop/sun.awt=ALL-UNNAMED'
+    ]
     executable = jbr_java
 }
 
