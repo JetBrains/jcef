@@ -6,20 +6,7 @@ package org.cef.network;
 
 import org.cef.callback.CefNative;
 
-class CefPostDataElement_N extends CefPostDataElement implements CefNative {
-    // Used internally to store a pointer to the CEF object.
-    private long N_CefHandle = 0;
-
-    @Override
-    public void setNativeRef(String identifer, long nativeRef) {
-        N_CefHandle = nativeRef;
-    }
-
-    @Override
-    public long getNativeRef(String identifer) {
-        return N_CefHandle;
-    }
-
+class CefPostDataElement_N extends CefPostDataElement {
     CefPostDataElement_N() {
         super();
     }
@@ -36,7 +23,7 @@ class CefPostDataElement_N extends CefPostDataElement implements CefNative {
     @Override
     public void dispose() {
         try {
-            N_Dispose(N_CefHandle);
+            N_Dispose(getNativeRef());
         } catch (UnsatisfiedLinkError ule) {
             ule.printStackTrace();
         }
@@ -45,7 +32,7 @@ class CefPostDataElement_N extends CefPostDataElement implements CefNative {
     @Override
     public boolean isReadOnly() {
         try {
-            return N_IsReadOnly(N_CefHandle);
+            return N_IsReadOnly(getNativeRef());
         } catch (UnsatisfiedLinkError ule) {
             ule.printStackTrace();
         }
@@ -55,7 +42,7 @@ class CefPostDataElement_N extends CefPostDataElement implements CefNative {
     @Override
     public void setToEmpty() {
         try {
-            N_SetToEmpty(N_CefHandle);
+            N_SetToEmpty(getNativeRef());
         } catch (UnsatisfiedLinkError ule) {
             ule.printStackTrace();
         }
@@ -64,7 +51,7 @@ class CefPostDataElement_N extends CefPostDataElement implements CefNative {
     @Override
     public void setToFile(String fileName) {
         try {
-            N_SetToFile(N_CefHandle, fileName);
+            N_SetToFile(getNativeRef(), fileName);
         } catch (UnsatisfiedLinkError ule) {
             ule.printStackTrace();
         }
@@ -73,7 +60,7 @@ class CefPostDataElement_N extends CefPostDataElement implements CefNative {
     @Override
     public void setToBytes(int size, byte[] bytes) {
         try {
-            N_SetToBytes(N_CefHandle, size, bytes);
+            N_SetToBytes(getNativeRef(), size, bytes);
         } catch (UnsatisfiedLinkError ule) {
             ule.printStackTrace();
         }
@@ -82,7 +69,7 @@ class CefPostDataElement_N extends CefPostDataElement implements CefNative {
     @Override
     public Type getType() {
         try {
-            return N_GetType(N_CefHandle);
+            return N_GetType(getNativeRef());
         } catch (UnsatisfiedLinkError ule) {
             ule.printStackTrace();
         }
@@ -92,7 +79,7 @@ class CefPostDataElement_N extends CefPostDataElement implements CefNative {
     @Override
     public String getFile() {
         try {
-            return N_GetFile(N_CefHandle);
+            return N_GetFile(getNativeRef());
         } catch (UnsatisfiedLinkError ule) {
             ule.printStackTrace();
         }
@@ -102,7 +89,7 @@ class CefPostDataElement_N extends CefPostDataElement implements CefNative {
     @Override
     public int getBytesCount() {
         try {
-            return N_GetBytesCount(N_CefHandle);
+            return N_GetBytesCount(getNativeRef());
         } catch (UnsatisfiedLinkError ule) {
             ule.printStackTrace();
         }
@@ -112,7 +99,7 @@ class CefPostDataElement_N extends CefPostDataElement implements CefNative {
     @Override
     public int getBytes(int size, byte[] bytes) {
         try {
-            return N_GetBytes(N_CefHandle, size, bytes);
+            return N_GetBytes(getNativeRef(), size, bytes);
         } catch (UnsatisfiedLinkError ule) {
             ule.printStackTrace();
         }

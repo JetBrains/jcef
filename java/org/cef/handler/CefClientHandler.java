@@ -7,6 +7,7 @@ package org.cef.handler;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefMessageRouter;
 import org.cef.callback.CefNative;
+import org.cef.callback.CefNativeAdaperMulti;
 
 import java.util.HashMap;
 import java.util.Vector;
@@ -14,25 +15,8 @@ import java.util.Vector;
 /**
  * Implement this interface to provide handler implementations.
  */
-public abstract class CefClientHandler implements CefNative {
-    // Used internally to store a pointer to the CEF object.
-    private HashMap<String, Long> N_CefHandle = new HashMap<String, Long>();
+public abstract class CefClientHandler extends CefNativeAdaperMulti {
     private Vector<CefMessageRouter> msgRouters = new Vector<>();
-
-    @Override
-    public void setNativeRef(String identifer, long nativeRef) {
-        synchronized (N_CefHandle) {
-            N_CefHandle.put(identifer, nativeRef);
-        }
-    }
-
-    @Override
-    public long getNativeRef(String identifer) {
-        synchronized (N_CefHandle) {
-            if (N_CefHandle.containsKey(identifer)) return N_CefHandle.get(identifer);
-        }
-        return 0;
-    }
 
     public CefClientHandler() {
         try {

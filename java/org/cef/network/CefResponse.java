@@ -4,6 +4,7 @@
 
 package org.cef.network;
 
+import org.cef.callback.CefNativeAdapter;
 import org.cef.handler.CefLoadHandler.ErrorCode;
 
 import java.util.HashMap;
@@ -15,7 +16,7 @@ import java.util.Set;
  * Class used to represent a web response. The methods of this class may be
  * called on any thread.
  */
-public abstract class CefResponse {
+public abstract class CefResponse extends CefNativeAdapter {
     // This CTOR can't be called directly. Call method create() instead.
     CefResponse() {}
 

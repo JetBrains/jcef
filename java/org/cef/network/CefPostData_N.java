@@ -11,20 +11,7 @@ import java.util.Vector;
 /**
  *
  */
-class CefPostData_N extends CefPostData implements CefNative {
-    // Used internally to store a pointer to the CEF object.
-    private long N_CefHandle = 0;
-
-    @Override
-    public void setNativeRef(String identifer, long nativeRef) {
-        N_CefHandle = nativeRef;
-    }
-
-    @Override
-    public long getNativeRef(String identifer) {
-        return N_CefHandle;
-    }
-
+class CefPostData_N extends CefPostData {
     CefPostData_N() {
         super();
     }
@@ -41,7 +28,7 @@ class CefPostData_N extends CefPostData implements CefNative {
     @Override
     public void dispose() {
         try {
-            N_Dispose(N_CefHandle);
+            N_Dispose(getNativeRef());
         } catch (UnsatisfiedLinkError ule) {
             ule.printStackTrace();
         }
@@ -50,7 +37,7 @@ class CefPostData_N extends CefPostData implements CefNative {
     @Override
     public boolean isReadOnly() {
         try {
-            return N_IsReadOnly(N_CefHandle);
+            return N_IsReadOnly(getNativeRef());
         } catch (UnsatisfiedLinkError ule) {
             ule.printStackTrace();
         }
@@ -60,7 +47,7 @@ class CefPostData_N extends CefPostData implements CefNative {
     @Override
     public int getElementCount() {
         try {
-            return N_GetElementCount(N_CefHandle);
+            return N_GetElementCount(getNativeRef());
         } catch (UnsatisfiedLinkError ule) {
             ule.printStackTrace();
         }
@@ -70,7 +57,7 @@ class CefPostData_N extends CefPostData implements CefNative {
     @Override
     public void getElements(Vector<CefPostDataElement> elements) {
         try {
-            N_GetElements(N_CefHandle, elements);
+            N_GetElements(getNativeRef(), elements);
         } catch (UnsatisfiedLinkError ule) {
             ule.printStackTrace();
         }
@@ -79,7 +66,7 @@ class CefPostData_N extends CefPostData implements CefNative {
     @Override
     public boolean removeElement(CefPostDataElement element) {
         try {
-            return N_RemoveElement(N_CefHandle, element);
+            return N_RemoveElement(getNativeRef(), element);
         } catch (UnsatisfiedLinkError ule) {
             ule.printStackTrace();
         }
@@ -89,7 +76,7 @@ class CefPostData_N extends CefPostData implements CefNative {
     @Override
     public boolean addElement(CefPostDataElement element) {
         try {
-            return N_AddElement(N_CefHandle, element);
+            return N_AddElement(getNativeRef(), element);
         } catch (UnsatisfiedLinkError ule) {
             ule.printStackTrace();
         }
@@ -99,7 +86,7 @@ class CefPostData_N extends CefPostData implements CefNative {
     @Override
     public void removeElements() {
         try {
-            N_RemoveElements(N_CefHandle);
+            N_RemoveElements(getNativeRef());
         } catch (UnsatisfiedLinkError ule) {
             ule.printStackTrace();
         }

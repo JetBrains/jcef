@@ -10,27 +10,15 @@ import org.cef.callback.CefNative;
 
 import java.util.Vector;
 
-class CefCookieManager_N extends CefCookieManager implements CefNative {
-    // Used internally to store a pointer to the CEF object.
-    private long N_CefHandle = 0;
+class CefCookieManager_N extends CefCookieManager {
     private static CefCookieManager_N globalInstance = null;
-
-    @Override
-    public void setNativeRef(String identifer, long nativeRef) {
-        N_CefHandle = nativeRef;
-    }
-
-    @Override
-    public long getNativeRef(String identifer) {
-        return N_CefHandle;
-    }
 
     CefCookieManager_N() {
         super();
     }
 
     static synchronized final CefCookieManager_N getGlobalManagerNative() {
-        if (globalInstance != null && globalInstance.N_CefHandle != 0) {
+        if (globalInstance != null && globalInstance.getNativeRef() != 0) {
             // The global instance is still valid.
             return globalInstance;
         }
@@ -49,7 +37,7 @@ class CefCookieManager_N extends CefCookieManager implements CefNative {
     @Override
     public void dispose() {
         try {
-            N_Dispose(N_CefHandle);
+            N_Dispose(getNativeRef());
         } catch (UnsatisfiedLinkError ule) {
             ule.printStackTrace();
         }
@@ -58,7 +46,7 @@ class CefCookieManager_N extends CefCookieManager implements CefNative {
     @Override
     public boolean visitAllCookies(CefCookieVisitor visitor) {
         try {
-            return N_VisitAllCookies(N_CefHandle, visitor);
+            return N_VisitAllCookies(getNativeRef(), visitor);
         } catch (UnsatisfiedLinkError ule) {
             ule.printStackTrace();
         }
@@ -68,7 +56,7 @@ class CefCookieManager_N extends CefCookieManager implements CefNative {
     @Override
     public boolean visitUrlCookies(String url, boolean includeHttpOnly, CefCookieVisitor visitor) {
         try {
-            return N_VisitUrlCookies(N_CefHandle, url, includeHttpOnly, visitor);
+            return N_VisitUrlCookies(getNativeRef(), url, includeHttpOnly, visitor);
         } catch (UnsatisfiedLinkError ule) {
             ule.printStackTrace();
         }
@@ -78,7 +66,7 @@ class CefCookieManager_N extends CefCookieManager implements CefNative {
     @Override
     public boolean setCookie(String url, CefCookie cookie) {
         try {
-            return N_SetCookie(N_CefHandle, url, cookie);
+            return N_SetCookie(getNativeRef(), url, cookie);
         } catch (UnsatisfiedLinkError ule) {
             ule.printStackTrace();
         }
@@ -88,7 +76,7 @@ class CefCookieManager_N extends CefCookieManager implements CefNative {
     @Override
     public boolean deleteCookies(String url, String cookieName) {
         try {
-            return N_DeleteCookies(N_CefHandle, url, cookieName);
+            return N_DeleteCookies(getNativeRef(), url, cookieName);
         } catch (UnsatisfiedLinkError ule) {
             ule.printStackTrace();
         }
@@ -98,7 +86,7 @@ class CefCookieManager_N extends CefCookieManager implements CefNative {
     @Override
     public boolean flushStore(CefCompletionCallback handler) {
         try {
-            return N_FlushStore(N_CefHandle, handler);
+            return N_FlushStore(getNativeRef(), handler);
         } catch (UnsatisfiedLinkError ule) {
             ule.printStackTrace();
         }

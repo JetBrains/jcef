@@ -16,7 +16,7 @@ import java.awt.Dimension;
  * Implement this interface to handle printing on Linux. The methods of this class will be called on
  * the browser process UI thread.
  */
-public interface CefPrintHandler extends CefNative {
+public interface CefPrintHandler {
     /**
      * Called when printing has started. This method will be called before the other onPrint*()
      * methods and irrespective of how printing was initiated (e.g. CefBrowser::print(), JavaScript

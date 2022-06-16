@@ -4,11 +4,13 @@
 
 package org.cef.network;
 
+import org.cef.callback.CefNativeAdapter;
+
 /**
  * Class used to represent a single element in the request post data. The
  * methods of this class may be called on any thread.
  */
-public abstract class CefPostDataElement {
+public abstract class CefPostDataElement extends CefNativeAdapter {
     /**
      * Post data elements may represent either bytes or files.
      */

@@ -4,13 +4,15 @@
 
 package org.cef.network;
 
+import org.cef.callback.CefNativeAdapter;
+
 import java.util.Vector;
 
 /**
  * Class used to represent post data for a web request. The methods of this
  * class may be called on any thread.
  */
-public abstract class CefPostData {
+public abstract class CefPostData extends CefNativeAdapter {
     // This CTOR can't be called directly. Call method create() instead.
     CefPostData() {}
 

@@ -4,6 +4,8 @@
 
 package org.cef.network;
 
+import org.cef.callback.CefNativeAdapter;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -13,7 +15,7 @@ import java.util.Set;
  * Class used to represent a web request. The methods of this class may be
  * called on any thread.
  */
-public abstract class CefRequest {
+public abstract class CefRequest extends CefNativeAdapter {
     /**
      * Resource type for a request.
      */

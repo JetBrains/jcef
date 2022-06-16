@@ -921,13 +921,8 @@ bool SetCefForJNIObject(JNIEnv* env,
 
   ScopedJNIString identifer(env, varName);
   jlong previousValue = 0;
-  JNI_CALL_METHOD(env, obj, "getNativeRef", "(Ljava/lang/String;)J", Long,
-                  previousValue, identifer.get());
-
-  env->MonitorEnter(obj);
-  JNI_CALL_VOID_METHOD(env, obj, "setNativeRef", "(Ljava/lang/String;J)V",
-                       identifer.get(), (jlong)base);
-  env->MonitorExit(obj);
+  JNI_CALL_METHOD(env, obj, "setNativeRef", "(Ljava/lang/String;J)J", Long,
+                       previousValue, identifer.get(), (jlong)base);
 
   if (previousValue != 0) {
     // Remove a reference from the previous base object.
@@ -964,12 +959,13 @@ CefRefPtr<T> GetCefFromJNIObject_sync(JNIEnv* env, jobject obj, const char* varN
 
   ScopedJNIString identifer(env, varName);
   jlong value = 0;
-  env->MonitorEnter(obj);
-  JNI_CALL_METHOD(env, obj, "getNativeRef", "(Ljava/lang/String;)J", Long,
+  JNI_CALL_METHOD(env, obj, "lockAndGetNativeRef", "(Ljava/lang/String;)J", Long,
                   value, identifer.get());
 
   CefRefPtr<T> result(reinterpret_cast<T*>(value));
-  env->MonitorExit(obj);
+  // CefRefPtr ctor internally invokes value->AddRef
+  // after that we can safely release lock
+  JNI_CALL_VOID_METHOD(env, obj, "unlock", "(Ljava/lang/String;)V", identifer.get());
   return result;
 }
 

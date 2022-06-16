@@ -11,7 +11,7 @@ import java.util.Vector;
  * Class used to represent drag data. The methods of this class may be called
  * on any thread.
  */
-public abstract class CefDragData {
+public abstract class CefDragData extends CefNativeAdapter {
     /**
      * Supported drag operation bit flags.
      */

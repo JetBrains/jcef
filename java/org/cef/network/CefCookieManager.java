@@ -6,6 +6,7 @@ package org.cef.network;
 
 import org.cef.callback.CefCompletionCallback;
 import org.cef.callback.CefCookieVisitor;
+import org.cef.callback.CefNativeAdapter;
 
 import java.util.Vector;
 
@@ -13,7 +14,7 @@ import java.util.Vector;
  * Class used for managing cookies. The methods of this class may be called on any thread unless
  * otherwise indicated.
  */
-public abstract class CefCookieManager {
+public abstract class CefCookieManager extends CefNativeAdapter {
     // This CTOR can't be called directly. Call method create() instead.
     CefCookieManager() {}
 

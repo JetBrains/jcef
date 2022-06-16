@@ -4,6 +4,7 @@
 
 package org.cef.browser;
 
+import org.cef.callback.CefNativeAdapter;
 import org.cef.handler.CefMessageRouterHandler;
 
 /**
@@ -141,7 +142,7 @@ import org.cef.handler.CefMessageRouterHandler;
  *
  * 6. Notice that the success callback is executed in JavaScript.
  */
-public abstract class CefMessageRouter {
+public abstract class CefMessageRouter extends CefNativeAdapter {
     private CefMessageRouterConfig routerConfig_ = null;
 
     /**

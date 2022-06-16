@@ -18,6 +18,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -32,6 +34,8 @@ import javax.swing.SwingUtilities;
 @SuppressWarnings("serial")
 public class UrlRequestDialogReply extends JDialog implements CefURLRequestClient {
     private long nativeRef_ = 0;
+    private final Lock lock_ = new ReentrantLock();
+
     private final JLabel statusLabel_ = new JLabel("HTTP-Request status: ");
     private final JTextArea sentRequest_ = new JTextArea();
     private final JTextArea repliedResult_ = new JTextArea();
@@ -145,14 +149,25 @@ public class UrlRequestDialogReply extends JDialog implements CefURLRequestClien
     // CefURLRequestClient
 
     @Override
-    public void setNativeRef(String identifer, long nativeRef) {
+    public long setNativeRef(String identifer, long nativeRef) {
+        long prev = nativeRef_;
         nativeRef_ = nativeRef;
+        return prev;
     }
 
     @Override
     public long getNativeRef(String identifer) {
         return nativeRef_;
     }
+
+    @Override
+    public long lockAndGetNativeRef(String identifer) {
+        lock_.lock();
+        return nativeRef_;
+    }
+
+    @Override
+    public void unlock(String identifer) { lock_.unlock(); }
 
     @Override
     public void onRequestComplete(CefURLRequest request) {

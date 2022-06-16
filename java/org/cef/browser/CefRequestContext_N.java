@@ -7,21 +7,10 @@ package org.cef.browser;
 import org.cef.callback.CefNative;
 import org.cef.handler.CefRequestContextHandler;
 
-class CefRequestContext_N extends CefRequestContext implements CefNative {
+class CefRequestContext_N extends CefRequestContext {
     // Used internally to store a pointer to the CEF object.
-    private long N_CefHandle = 0;
     private static CefRequestContext_N globalInstance = null;
     private CefRequestContextHandler handler = null;
-
-    @Override
-    public void setNativeRef(String identifer, long nativeRef) {
-        N_CefHandle = nativeRef;
-    }
-
-    @Override
-    public long getNativeRef(String identifer) {
-        return N_CefHandle;
-    }
 
     CefRequestContext_N() {
         super();
@@ -37,7 +26,7 @@ class CefRequestContext_N extends CefRequestContext implements CefNative {
 
         if (globalInstance == null) {
             globalInstance = result;
-        } else if (globalInstance.N_CefHandle == result.N_CefHandle) {
+        } else if (globalInstance.getNativeRef() == result.getNativeRef()) {
             result.N_CefRequestContext_DTOR();
         }
         return globalInstance;

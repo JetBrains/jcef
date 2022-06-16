@@ -7,20 +7,7 @@ package org.cef.browser;
 import org.cef.callback.CefNative;
 import org.cef.handler.CefMessageRouterHandler;
 
-class CefMessageRouter_N extends CefMessageRouter implements CefNative {
-    // Used internally to store a pointer to the CEF object.
-    private long N_CefHandle = 0;
-
-    @Override
-    public void setNativeRef(String identifer, long nativeRef) {
-        N_CefHandle = nativeRef;
-    }
-
-    @Override
-    public long getNativeRef(String identifer) {
-        return N_CefHandle;
-    }
-
+class CefMessageRouter_N extends CefMessageRouter {
     private CefMessageRouter_N() {
         super();
     }
@@ -37,7 +24,7 @@ class CefMessageRouter_N extends CefMessageRouter implements CefNative {
     @Override
     public void dispose() {
         try {
-            N_Dispose(N_CefHandle);
+            N_Dispose(getNativeRef());
         } catch (UnsatisfiedLinkError ule) {
             ule.printStackTrace();
         }
@@ -46,7 +33,7 @@ class CefMessageRouter_N extends CefMessageRouter implements CefNative {
     @Override
     public boolean addHandler(CefMessageRouterHandler handler, boolean first) {
         try {
-            return N_AddHandler(N_CefHandle, handler, first);
+            return N_AddHandler(getNativeRef(), handler, first);
         } catch (UnsatisfiedLinkError ule) {
             ule.printStackTrace();
             return false;
@@ -56,7 +43,7 @@ class CefMessageRouter_N extends CefMessageRouter implements CefNative {
     @Override
     public boolean removeHandler(CefMessageRouterHandler handler) {
         try {
-            return N_RemoveHandler(N_CefHandle, handler);
+            return N_RemoveHandler(getNativeRef(), handler);
         } catch (UnsatisfiedLinkError ule) {
             ule.printStackTrace();
             return false;
@@ -66,7 +53,7 @@ class CefMessageRouter_N extends CefMessageRouter implements CefNative {
     @Override
     public void cancelPending(CefBrowser browser, CefMessageRouterHandler handler) {
         try {
-            N_CancelPending(N_CefHandle, browser, handler);
+            N_CancelPending(getNativeRef(), browser, handler);
         } catch (UnsatisfiedLinkError ule) {
             ule.printStackTrace();
         }
