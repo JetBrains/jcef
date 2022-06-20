@@ -78,6 +78,7 @@ public class CefClient extends CefClientHandler
                    CefLifeSpanHandler, CefLoadHandler, CefPrintHandler, CefRenderHandler,
                    CefRequestHandler, CefWindowHandler {
     private static final boolean TRACE_LIFESPAN = Boolean.getBoolean("trace.client.lifespan");
+    private static final boolean ADD_EMPTY_ROUTER = !Boolean.getBoolean("jcef.client.dont_add_empty_router"); // workaround for IDEA259472Test
     private final ConcurrentHashMap<Integer, CefBrowser> browser_ = new ConcurrentHashMap<Integer, CefBrowser>();
     private CefContextMenuHandler contextMenuHandler_ = null;
     private CefDialogHandler dialogHandler_ = null;
@@ -127,7 +128,7 @@ public class CefClient extends CefClientHandler
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addPropertyChangeListener(
                 propertyChangeListener);
 
-        addMessageRouter(myEmptyRouter = CefMessageRouter.create());
+        if (ADD_EMPTY_ROUTER) addMessageRouter(myEmptyRouter = CefMessageRouter.create());
     }
 
     private boolean isPartOf(Object obj, Component browserUI) {
