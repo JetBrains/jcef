@@ -1,6 +1,5 @@
 package tests.junittests;// Copyright 2000-2020 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 
-import org.cef.CefApp;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefFrame;
 import org.cef.browser.CefMessageRouter;
@@ -39,34 +38,33 @@ public class HandleJSQueryTest {
             SwingUtilities.invokeLater(secondBrowser::initUI);
             secondLatch.await(10, TimeUnit.SECONDS);
 
-            if (CefBrowserFrame.callbackCounter < 2) {
+            if (CefBrowserFrame.ourCallbackCounter < 2) {
                 throw new RuntimeException("Test FAILED. JS Query was not handled in 2nd opened browser");
             }
             System.out.println("Test PASSED");
         } finally {
-            firstBrowser.getBrowser().dispose();
-            secondBrowser.getBrowser().dispose();
             System.out.println("Close all windows");
             SwingUtilities.invokeLater(() -> firstBrowser.dispatchEvent(new WindowEvent(firstBrowser, WindowEvent.WINDOW_CLOSING)));
-            SwingUtilities.invokeLater(() -> secondBrowser.dispatchEvent(new WindowEvent(firstBrowser, WindowEvent.WINDOW_CLOSING)));
+            SwingUtilities.invokeLater(() -> secondBrowser.dispatchEvent(new WindowEvent(secondBrowser, WindowEvent.WINDOW_CLOSING)));
         }
     }
 
     static class CefBrowserFrame extends JFrame {
 
-        static volatile int callbackCounter;
-        static volatile int browserNumber;
+        static volatile int ourCallbackCounter;
+        static volatile int ourBrowserNumber;
 
         private final JBCefBrowser browser = new JBCefBrowser();
 
         private final CountDownLatch latch;
+        private int browserNumber;
 
         public CefBrowserFrame(final CountDownLatch latch) {
             this.latch = latch;
         }
 
         public void initUI() {
-            browserNumber++;
+            browserNumber = ourBrowserNumber++;
             CefMessageRouter.CefMessageRouterConfig config = new org.cef.browser.CefMessageRouter.CefMessageRouterConfig();
             config.jsQueryFunction = "cef_query_" + browserNumber;
             config.jsCancelFunction = "cef_query_cancel_" + browserNumber;
@@ -77,7 +75,7 @@ public class HandleJSQueryTest {
                 public boolean onQuery(CefBrowser browser, CefFrame frame, long query_id, String request,
                                        boolean persistent, CefQueryCallback callback) {
                     System.out.println("The query with request " + request + " is handled.");
-                    callbackCounter++;
+                    ourCallbackCounter++;
                     latch.countDown();
                     return true;
                 }
@@ -102,7 +100,7 @@ public class HandleJSQueryTest {
 
             getContentPane().add(browser.getCefBrowser().getUIComponent());
             setSize(640, 480);
-            setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+            setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
             addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosed(WindowEvent e) {
