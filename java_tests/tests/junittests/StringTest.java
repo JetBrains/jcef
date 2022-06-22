@@ -10,7 +10,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class StringTest {
     @Test
     void testJava2NativeStringConversion() {
-        System.loadLibrary("jceftesthelpers");
+        try {
+            System.loadLibrary("jceftesthelpers");
+        } catch (Throwable e) {
+            System.out.println("Can't load native library 'jceftesthelpers', " +
+                    "test will be skipped (jvm isn't intended for this test)");
+            return;
+        }
 
         String s = null;
         String s2 = convertString(s);
