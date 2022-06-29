@@ -33,6 +33,12 @@ compileJava.options.compilerArgs += [
     '--add-exports', 'java.desktop/java.awt.peer=jcef',
     '--add-exports', 'java.desktop/sun.lwawt.macosx=jcef',
     '--add-exports', 'java.desktop/sun.lwawt=jcef']
+compileJava.options.encoding = 'UTF-8'
+
+compileTestJava.options.compilerArgs += [
+        '--add-exports', 'java.desktop/sun.awt=ALL-UNNAMED',
+        '--add-exports', 'java.desktop/java.awt.peer=ALL-UNNAMED']
+compileTestJava.options.encoding = 'UTF-8'
 
 def jbr_java = test.executable
 if (OperatingSystem.current().isWindows() && project.hasProperty('jbr_win')) {

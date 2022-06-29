@@ -17,6 +17,13 @@
 #include "signal_restore_posix.h"
 #endif
 
+void * g_sandbox_info = 0;
+extern "C" {
+JNIEXPORT void JNICALL set_jcef_sandbox_info(void* p) {
+  g_sandbox_info = p;
+  fprintf(stderr, "set sandbox info: %p\n", p);
+}
+}
 namespace {
 
 Context* g_context = nullptr;
@@ -230,7 +237,7 @@ bool Context::Initialize(JNIEnv* env,
   res = util_mac::CefInitializeOnMainThread(main_args, settings,
                                             client_app.get());
 #else
-  res = CefInitialize(main_args, settings, client_app.get(), nullptr);
+  res = CefInitialize(main_args, settings, client_app.get(), g_sandbox_info);
 #endif
 
 #if defined(OS_POSIX)

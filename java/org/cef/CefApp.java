@@ -12,7 +12,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
+import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashSet;
@@ -147,6 +149,7 @@ public class CefApp extends CefAppHandlerAdapter {
      */
     private CefApp(String[] args, CefSettings settings) throws UnsatisfiedLinkError {
         super(args);
+        System.err.println("CefApp.ctor START");
         if (settings != null) settings_ = settings.clone();
         if (OS.isWindows()) {
             // [tav] "jawt" is loaded by JDK AccessBridgeLoader that leads to UnsatisfiedLinkError
@@ -155,11 +158,24 @@ public class CefApp extends CefAppHandlerAdapter {
             } catch (UnsatisfiedLinkError e) {
                 CefLog.Error("can't load jawt library: " + e.getMessage());
             }
+            System.err.println("\t load elf");
             SystemBootstrap.loadLibrary("chrome_elf");
+            System.err.println("\t load libcef");
             SystemBootstrap.loadLibrary("libcef");
-
+            System.err.println("\t load jcef");
             // Other platforms load this library in CefApp.startup().
-            SystemBootstrap.loadLibrary("jcef");
+            try {
+                SystemBootstrap.loadLibrary("jcef");
+            } catch (Throwable e) {
+                try (PrintWriter out = new PrintWriter("c:\\Users\\bocha\\logger.txt")) {
+                    out.println(e.getMessage());
+                } catch (FileNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                }
+                System.err.println(e.getMessage());
+                throw e;
+            }
+            System.err.println("\t dll loading finished");
         } else if (OS.isLinux()) {
             SystemBootstrap.loadLibrary("cef");
         }
@@ -170,8 +186,10 @@ public class CefApp extends CefAppHandlerAdapter {
                 @Override
                 public void run() {
                     // Perform native pre-initialization.
+                    System.err.println("CefApp.preInitialize START, thread: " + Thread.currentThread());
                     if (!N_PreInitialize())
                         throw new IllegalStateException("Failed to pre-initialize native code");
+                    System.err.println("CefApp.preInitialize END, thread: " + Thread.currentThread());
                 }
             };
             if (SwingUtilities.isEventDispatchThread())
@@ -181,6 +199,7 @@ public class CefApp extends CefAppHandlerAdapter {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.err.println("CefApp.ctor END");
     }
 
     /**
@@ -220,6 +239,7 @@ public class CefApp extends CefAppHandlerAdapter {
 
     public static synchronized CefApp getInstance(String[] args, CefSettings settings)
             throws UnsatisfiedLinkError {
+        System.err.println("CefApp.getInst");
         if (settings != null) {
             if (getState().compareTo(CefAppState.NEW) > 0)
                 throw new IllegalStateException("Settings can only be passed to CEF"
@@ -401,11 +421,13 @@ public class CefApp extends CefAppHandlerAdapter {
      * @return true on success.
      */
     private final void initialize() {
+        System.err.println("CefApp.initialize START, thread: " + Thread.currentThread());
         // Execute on the AWT event dispatching thread.
         try {
             Runnable r = new Runnable() {
                 @Override
                 public void run() {
+                    System.err.println("\tCefApp.initialize_runnable START, thread: " + Thread.currentThread());
                     String library_path = getJcefLibPath();
                     if (settings_.log_severity == CefSettings.LogSeverity.LOGSEVERITY_INFO ||
                         settings_.log_severity == CefSettings.LogSeverity.LOGSEVERITY_VERBOSE)
@@ -425,11 +447,11 @@ public class CefApp extends CefAppHandlerAdapter {
                                     path.normalize().toAbsolutePath().toString();
                         }
                     } else if (OS.isWindows()) {
-                        if (settings.browser_subprocess_path == null) {
-                            Path path = Paths.get(library_path, "jcef_helper.exe");
-                            settings.browser_subprocess_path =
-                                    path.normalize().toAbsolutePath().toString();
-                        }
+//                         if (settings.browser_subprocess_path == null) {
+//                             Path path = Paths.get(library_path, "jcef_helper.exe");
+//                             settings.browser_subprocess_path =
+//                                     path.normalize().toAbsolutePath().toString();
+//                         }
                     } else if (OS.isLinux()) {
                         if (settings.browser_subprocess_path == null) {
                             Path path = Paths.get(library_path, "jcef_helper");
@@ -466,6 +488,7 @@ public class CefApp extends CefAppHandlerAdapter {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.err.println("CefApp.initialize FINISH, thread: " + Thread.currentThread());
     }
 
     /**
@@ -569,9 +592,12 @@ public class CefApp extends CefAppHandlerAdapter {
      */
     public static final boolean startup(String[] args) {
         if (OS.isLinux() || OS.isMacintosh()) {
+            System.err.println("CefApp.start load jcef library");
             SystemBootstrap.loadLibrary("jcef");
+            System.err.println("CefApp.finished load jcef library");
             return N_Startup(OS.isMacintosh() ? getCefFrameworkPath(args) : null);
         }
+        System.err.println("CefApp.empty starup");
         return true;
     }
 

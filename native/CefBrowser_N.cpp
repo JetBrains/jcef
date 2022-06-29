@@ -937,6 +937,7 @@ void create(std::shared_ptr<JNIObjectsForCreate> objs,
 
   CefWindowInfo windowInfo;
   if (osr == JNI_FALSE) {
+    LOG(ERROR) << "Mustn't be here in OSR";
     CefRect rect;
     CefRefPtr<WindowHandler> windowHandler =
         (WindowHandler*)clientHandler->GetWindowHandler().get();
@@ -946,7 +947,8 @@ void create(std::shared_ptr<JNIObjectsForCreate> objs,
 #if defined(OS_WIN)
     CefWindowHandle parent = TempWindow::GetWindowHandle();
     if (objs->canvas != nullptr) {
-      parent = GetHwndOfCanvas(objs->canvas, env);
+      // parent = GetHwndOfCanvas(objs->canvas, env);
+      parent = 0;
     } else {
       // Do not activate hidden browser windows on creation.
       windowInfo.ex_style |= WS_EX_NOACTIVATE;

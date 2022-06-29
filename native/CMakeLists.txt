@@ -166,7 +166,7 @@ set(JCEF_SRCS_MAC
   )
 set(JCEF_SRCS_WINDOWS
   critical_wait_win.cpp
-  jni_util_win.cpp
+  #jni_util_win.cpp
   jcef_dll.rc
   temp_window_win.cc
   temp_window_win.h
@@ -201,6 +201,7 @@ source_group(jcef FILES ${JCEF_HELPER_SRCS})
 
 # Target binary names.
 set(JCEF_TARGET "jcef")
+set(JCEF_TARGET "jcef" PARENT_SCOPE)
 if(OS_MAC)
   set(JCEF_APP_NAME "jcef_app")
   set(JCEF_HELPER_TARGET "jcef_Helper")

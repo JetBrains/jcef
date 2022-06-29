@@ -312,7 +312,6 @@ endif()
 add_subdirectory(${CEF_LIBCEF_DLL_WRAPPER_PATH} libcef_dll_wrapper)
 add_subdirectory(native)
 
-
 #
 # Display configuration settings.
 #
@@ -324,3 +323,9 @@ message(STATUS "Python executable:            ${PYTHON_EXECUTABLE}")
 message(STATUS "Java directory:               ${JAVA_DIR}")
 message(STATUS "JNI libraries:                ${JNI_LIBRARIES}")
 message(STATUS "JNI include directories:      ${JNI_INCLUDE_DIRS}")
+
+#
+# Include windows launcher subdirectory.
+#
+
+add_subdirectory(launcher)

@@ -20,6 +20,7 @@ import org.cef.security.CefSSLInfo;
 import tests.OsrSupport;
 import tests.detailed.dialog.CertErrorDialog;
 import tests.detailed.util.DataUri;
+import sun.awt.AWTAccessor;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -33,6 +34,10 @@ import java.io.IOException;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.X509Certificate;
 import java.util.*;
+import java.lang.management.ManagementFactory;
+import java.lang.management.RuntimeMXBean;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -89,6 +94,7 @@ public class MainFrame extends JFrame {
             }
         });
         CefSettings settings = config.getCefSettings();
+        settings.no_sandbox = false;
         cefApp_ = CefApp.getInstance(settings);
 
         // (2) JCEF can handle one to many browser instances simultaneous. These
@@ -273,12 +279,21 @@ public class MainFrame extends JFrame {
     }
 
     public static void main(String[] args) {
+        System.err.println("start simple.MainFrame.main");
+        RuntimeMXBean runtimeMxBean = ManagementFactory.getRuntimeMXBean();
+        List<String> arguments = runtimeMxBean.getInputArguments();
+        System.err.println("VM args: " + Arrays.toString(arguments.toArray()));
+
+        if (AWTAccessor.getComponentAccessor().getPeer(new JFrame("tmp_frame")) == null)
+            System.err.println("WTF???");
+
         // Perform startup initialization on platforms that require it.
         if (!CefApp.startup(args)) {
             System.out.println("Startup initialization failed!");
             return;
         }
+        System.out.println("Startup initialization success");
 
-        new MainFrame(args, "http://www.google.com", OsrSupport.isEnabled(), false);
+        new MainFrame(args, "http://www.google.com", true, false);
     }
 }

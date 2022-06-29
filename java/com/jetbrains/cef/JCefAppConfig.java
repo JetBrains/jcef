@@ -136,11 +136,16 @@ public abstract class JCefAppConfig {
     private static class JCefAppConfigWindows extends JCefAppConfig {
         @Override
         protected void init() {
-            String JCEF_LIB_PATH = System.getProperty("java.home") + "/lib";
-            String JCEF_BIN_PATH = System.getProperty("java.home") + "/bin";
+            //String JCEF_LIB_PATH = System.getProperty("java.home") + "/lib";
+            //String JCEF_LIB_PATH = "c:\\Users\\bocha\\projects\\jcef\\cmake-build-debug\\native\\Debug";
+            String JCEF_LIB_PATH = "c:\\Users\\bocha\\projects\\jcef\\cmake-build-release\\native\\Release";
+            //String JCEF_BIN_PATH = System.getProperty("java.home") + "/bin";
             cefSettings.resources_dir_path = JCEF_LIB_PATH;
-            cefSettings.locales_dir_path = JCEF_LIB_PATH + "/locales";
-            cefSettings.browser_subprocess_path = JCEF_BIN_PATH + "/jcef_helper";
+            cefSettings.locales_dir_path = JCEF_LIB_PATH + "\\locales";
+            //cefSettings.browser_subprocess_path = JCEF_BIN_PATH + "/jcef_helper";
+            System.err.println("browser_subprocess_path: " + cefSettings.browser_subprocess_path);
+            System.err.println("resources_dir_path: " + cefSettings.resources_dir_path);
+            System.err.println("locales_dir_path: " + cefSettings.locales_dir_path);
             appArgs.add("--disable-features=SpareRendererForSitePerProcess");
         }
     }

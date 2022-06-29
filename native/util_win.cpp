@@ -305,7 +305,9 @@ void DestroyCefBrowser(CefRefPtr<CefBrowser> browser) {
 }
 
 CefWindowHandle GetWindowHandle(JNIEnv* env, jobject canvas) {
-  return GetHwndOfCanvas(canvas, env);
+  LOG(ERROR) << "Mustn't call this in OSR";
+  // return GetHwndOfCanvas(canvas, env);
+  return 0;
 }
 
 void SetParent(CefWindowHandle browserHandle,
