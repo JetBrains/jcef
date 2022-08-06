@@ -401,7 +401,7 @@ class CefBrowserWr extends CefBrowser_N {
             }
         } else {
             synchronized (content_rect_) {
-                Rectangle bounds = component_.getBounds();
+                Rectangle bounds = null != canvas_ ? canvas_.getBounds() : component_.getBounds();
                 // On Linux, content_rect_ scaling downgrades, namely:
                 // - should not be scaled in JRE-managed HiDPI mode
                 // - should be downscaled in IDE-managed HiDPI mode

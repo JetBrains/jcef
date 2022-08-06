@@ -16,6 +16,7 @@ class RequestContextHandler : public CefRequestContextHandler {
  public:
   RequestContextHandler(JNIEnv* env, jobject jhandler);
 
+  // RequestContextHandler methods
   CefRefPtr<CefResourceRequestHandler> GetResourceRequestHandler(
       CefRefPtr<CefBrowser> browser,
       CefRefPtr<CefFrame> frame,

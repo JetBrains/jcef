@@ -8,20 +8,6 @@
 #include "resource_request_handler.h"
 #include "util.h"
 
-namespace {
-
-// JNI CefWebPluginInfo object.
-class ScopedJNIWebPluginInfo : public ScopedJNIObject<CefWebPluginInfo> {
- public:
-  ScopedJNIWebPluginInfo(JNIEnv* env, CefRefPtr<CefWebPluginInfo> obj)
-      : ScopedJNIObject<CefWebPluginInfo>(env,
-                                          obj,
-                                          "org/cef/network/CefWebPluginInfo_N",
-                                          "CefWebPluginInfo") {}
-};
-
-}  // namespace
-
 RequestContextHandler::RequestContextHandler(JNIEnv* env, jobject jhandler)
     : handle_(env, jhandler) {}
 
