@@ -26,7 +26,6 @@ Java_org_cef_callback_CefFileDialogCallback_1N_N_1Continue(
     JNIEnv* env,
     jobject obj,
     jlong self,
-    jint selectedAcceptFilter,
     jobject jFilePaths) {
   CefRefPtr<CefFileDialogCallback> callback = GetSelf(self);
   if (!callback)
@@ -34,7 +33,7 @@ Java_org_cef_callback_CefFileDialogCallback_1N_N_1Continue(
 
   std::vector<CefString> filePaths;
   GetJNIStringVector(env, jFilePaths, filePaths);
-  callback->Continue(selectedAcceptFilter, filePaths);
+  callback->Continue(filePaths);
 
   ClearSelf(env, obj);
 }

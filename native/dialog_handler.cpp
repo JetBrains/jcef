@@ -32,7 +32,6 @@ bool DialogHandler::OnFileDialog(CefRefPtr<CefBrowser> browser,
                                  const CefString& title,
                                  const CefString& default_file_path,
                                  const std::vector<CefString>& accept_filters,
-                                 int selected_accept_filter,
                                  CefRefPtr<CefFileDialogCallback> callback) {
   ScopedJNIEnv env;
   if (!env)
@@ -62,9 +61,9 @@ bool DialogHandler::OnFileDialog(CefRefPtr<CefBrowser> browser,
       env, handle_, "onFileDialog",
       "(Lorg/cef/browser/CefBrowser;Lorg/cef/handler/"
       "CefDialogHandler$FileDialogMode;Ljava/lang/String;Ljava/lang/"
-      "String;Ljava/util/Vector;ILorg/cef/callback/CefFileDialogCallback;)Z",
+      "String;Ljava/util/Vector;Lorg/cef/callback/CefFileDialogCallback;)Z",
       Boolean, jreturn, jbrowser.get(), jmode.get(), jtitle.get(),
-      jdefaultFilePath.get(), jacceptFilters.get(), selected_accept_filter,
+      jdefaultFilePath.get(), jacceptFilters.get(),
       jcallback.get());
 
   if (jreturn == JNI_FALSE) {

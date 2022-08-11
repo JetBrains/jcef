@@ -18,9 +18,7 @@ public interface CefRunFileDialogCallback {
      * depending on the dialog mode. If the selection was cancelled filePaths
      * will be empty.
      *
-     * @param selectedAcceptFilter 0-based index of the value selected from
-     * the accept filters array passed to CefBrowserHost::RunFileDialog.
      * @param filePaths list of file paths or empty list.
      */
-    void onFileDialogDismissed(int selectedAcceptFilter, Vector<String> filePaths);
+    void onFileDialogDismissed(Vector<String> filePaths);
 }

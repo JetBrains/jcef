@@ -514,11 +514,10 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser {
 
     @Override
     public void runFileDialog(FileDialogMode mode, String title, String defaultFilePath,
-            Vector<String> acceptFilters, int selectedAcceptFilter,
-            CefRunFileDialogCallback callback) {
+            Vector<String> acceptFilters, CefRunFileDialogCallback callback) {
         try {
             N_RunFileDialog(
-                    mode, title, defaultFilePath, acceptFilters, selectedAcceptFilter, callback);
+                    mode, title, defaultFilePath, acceptFilters, callback);
         } catch (UnsatisfiedLinkError ule) {
             ule.printStackTrace();
         }
@@ -815,8 +814,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser {
     private final native double N_GetZoomLevel();
     private final native void N_SetZoomLevel(double zoomLevel);
     private final native void N_RunFileDialog(FileDialogMode mode, String title,
-            String defaultFilePath, Vector<String> acceptFilters, int selectedAcceptFilter,
-            CefRunFileDialogCallback callback);
+            String defaultFilePath, Vector<String> acceptFilters, CefRunFileDialogCallback callback);
     private final native void N_StartDownload(String url);
     private final native void N_Print();
     private final native void N_PrintToPDF(

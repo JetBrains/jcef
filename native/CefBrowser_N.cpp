@@ -1521,7 +1521,6 @@ Java_org_cef_browser_CefBrowser_1N_N_1RunFileDialog(JNIEnv* env,
                                                     jstring jtitle,
                                                     jstring jdefaultFilePath,
                                                     jobject jacceptFilters,
-                                                    jint selectedAcceptFilter,
                                                     jobject jcallback) {
   CefRefPtr<CefBrowser> browser = JNI_GET_BROWSER_OR_RETURN(env, obj);
 
@@ -1547,8 +1546,7 @@ Java_org_cef_browser_CefBrowser_1N_N_1RunFileDialog(JNIEnv* env,
 
   browser->GetHost()->RunFileDialog(mode, GetJNIString(env, jtitle),
                                     GetJNIString(env, jdefaultFilePath),
-                                    accept_types, selectedAcceptFilter,
-                                    new RunFileDialogCallback(env, jcallback));
+                                    accept_types, new RunFileDialogCallback(env, jcallback));
 }
 
 JNIEXPORT void JNICALL

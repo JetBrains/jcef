@@ -304,7 +304,7 @@ Java_org_cef_browser_CefBrowser_1N_N_1SetZoomLevel(JNIEnv*, jobject, jdouble);
  * Class:     org_cef_browser_CefBrowser_N
  * Method:    N_RunFileDialog
  * Signature:
- * (Lorg/cef/handler/CefDialogHandler/FileDialogMode;Ljava/lang/String;Ljava/lang/String;Ljava/util/Vector;ILorg/cef/callback/CefRunFileDialogCallback;)V
+ * (Lorg/cef/handler/CefDialogHandler/FileDialogMode;Ljava/lang/String;Ljava/lang/String;Ljava/util/Vector;Lorg/cef/callback/CefRunFileDialogCallback;)V
  */
 JNIEXPORT void JNICALL
 Java_org_cef_browser_CefBrowser_1N_N_1RunFileDialog(JNIEnv*,
@@ -313,7 +313,6 @@ Java_org_cef_browser_CefBrowser_1N_N_1RunFileDialog(JNIEnv*,
                                                     jstring,
                                                     jstring,
                                                     jobject,
-                                                    jint,
                                                     jobject);
 
 /*
