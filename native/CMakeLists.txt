@@ -94,8 +94,8 @@ set(JCEF_SRCS
   drag_handler.h
   focus_handler.cpp
   focus_handler.h
-  media_access_handler.cpp
-  media_access_handler.h
+  permission_handler.cpp
+  permission_handler.h
   jcef_version.h
   jni_scoped_helpers.h
   jni_scoped_helpers.cpp

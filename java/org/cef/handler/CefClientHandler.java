@@ -98,7 +98,7 @@ public abstract class CefClientHandler extends CefNativeAdaperMulti {
      * This method is a callback method and is called by
      * the native code.
      */
-    abstract protected CefMediaAccessHandler getMediaAccessHandler();
+    abstract protected CefPermissionHandler getPermissionHandler();
 
     /**
      * Return the handler for javascript dialog requests.

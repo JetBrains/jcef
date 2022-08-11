@@ -40,11 +40,10 @@ import org.cef.handler.CefLoadHandler;
 import org.cef.handler.CefPrintHandler;
 import org.cef.handler.CefRenderHandler;
 import org.cef.handler.CefRequestHandler;
-import org.cef.handler.CefResourceHandler;
 import org.cef.handler.CefResourceRequestHandler;
 import org.cef.handler.CefScreenInfo;
 import org.cef.handler.CefWindowHandler;
-import org.cef.handler.CefMediaAccessHandler;
+import org.cef.handler.CefPermissionHandler;
 import org.cef.misc.BoolRef;
 import org.cef.misc.CefPrintSettings;
 import org.cef.misc.CefLog;
@@ -62,19 +61,16 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.nio.ByteBuffer;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Vector;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-
-import javax.swing.SwingUtilities;
 
 /**
  * Client that owns a browser and renderer.
  */
 public class CefClient extends CefClientHandler
         implements CefContextMenuHandler, CefDialogHandler, CefDisplayHandler, CefDownloadHandler,
-                   CefDragHandler, CefFocusHandler, CefMediaAccessHandler, CefJSDialogHandler, CefKeyboardHandler,
+                   CefDragHandler, CefFocusHandler, CefPermissionHandler, CefJSDialogHandler, CefKeyboardHandler,
                    CefLifeSpanHandler, CefLoadHandler, CefPrintHandler, CefRenderHandler,
                    CefRequestHandler, CefWindowHandler {
     private static final boolean TRACE_LIFESPAN = Boolean.getBoolean("trace.client.lifespan");
@@ -86,7 +82,7 @@ public class CefClient extends CefClientHandler
     private CefDownloadHandler downloadHandler_ = null;
     private CefDragHandler dragHandler_ = null;
     private CefFocusHandler focusHandler_ = null;
-    private CefMediaAccessHandler mediaAccessHandler_ = null;
+    private CefPermissionHandler permissionHandler_ = null;
     private CefJSDialogHandler jsDialogHandler_ = null;
     private CefKeyboardHandler keyboardHandler_ = null;
     private final List<CefLifeSpanHandler> lifeSpanHandlers_ = new ArrayList<>();
@@ -227,7 +223,7 @@ public class CefClient extends CefClientHandler
     }
 
     @Override
-    protected CefMediaAccessHandler getMediaAccessHandler() { return this; }
+    protected CefPermissionHandler getPermissionHandler() { return this; }
 
     @Override
     protected CefJSDialogHandler getJSDialogHandler() {
@@ -498,15 +494,15 @@ public class CefClient extends CefClientHandler
         }
     }
 
-    // CefMediaAccessHandler
+    // CefPermissionHandler
 
-    public CefClient addMediaAccessHandler(CefMediaAccessHandler handler) {
-        if (mediaAccessHandler_ == null) mediaAccessHandler_ = handler;
+    public CefClient addPermissionHandler(CefPermissionHandler handler) {
+        if (permissionHandler_ == null) permissionHandler_ = handler;
         return this;
     }
 
-    public void removeMediaAccessHandler() {
-        mediaAccessHandler_ = null;
+    public void removePermissionHandler() {
+        permissionHandler_ = null;
     }
 
     @Override
@@ -516,8 +512,8 @@ public class CefClient extends CefClientHandler
             String requesting_url,
             int requested_permissions,
             CefMediaAccessCallback callback) {
-        if (mediaAccessHandler_ != null && browser != null)
-            return mediaAccessHandler_.onRequestMediaAccessPermission(browser, frame, requesting_url,
+        if (permissionHandler_ != null && browser != null)
+            return permissionHandler_.onRequestMediaAccessPermission(browser, frame, requesting_url,
                     requested_permissions, callback);
         return false;
     }

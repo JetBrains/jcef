@@ -2,7 +2,7 @@
 // reserved. Use of this source code is governed by a BSD-style license that
 // can be found in the LICENSE file.
 
-#include "media_access_handler.h"
+#include "permission_handler.h"
 
 #include "include/base/cef_bind.h"
 #include "include/wrapper/cef_closure_task.h"
@@ -25,14 +25,14 @@ class ScopedJNIMediaAccessCallback : public ScopedJNIObject<CefMediaAccessCallba
 
 }  // namespace
 
-MediaAccessHandler::MediaAccessHandler(JNIEnv* env, jobject handler)
+PermissionHandler::PermissionHandler(JNIEnv* env, jobject handler)
         : handle_(env, handler) {}
 
-bool MediaAccessHandler::OnRequestMediaAccessPermission(
+bool PermissionHandler::OnRequestMediaAccessPermission(
         CefRefPtr<CefBrowser> browser,
         CefRefPtr<CefFrame> frame,
         const CefString& requesting_url,
-        int32_t requested_permissions,
+        uint32 requested_permissions,
         CefRefPtr<CefMediaAccessCallback> callback) {
     ScopedJNIEnv env;
     if (!env)

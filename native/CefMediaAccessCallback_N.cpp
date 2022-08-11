@@ -3,7 +3,7 @@
 // can be found in the LICENSE file.
 
 #include "CefMediaAccessCallback_N.h"
-#include "include/cef_media_access_handler.h"
+#include "include/cef_permission_handler.h"
 #include "jni_scoped_helpers.h"
 
 namespace {

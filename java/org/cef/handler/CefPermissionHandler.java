@@ -12,7 +12,7 @@ import org.cef.callback.CefMediaAccessCallback;
  * Implement this interface to handle events related to media access permission
  * requests. The methods of this class will be called on the UI thread.
  */
-public interface CefMediaAccessHandler {
+public interface CefPermissionHandler {
     /**
      * Called when a page requests permission to access media.
      * Return true and call CefMediaAccessCallback::Continue() either in this method or at a later
