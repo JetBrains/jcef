@@ -6,7 +6,7 @@
 
     <groupId>org.jetbrains.intellij.deps.jcef</groupId>
     <artifactId>jcef</artifactId>
-    <version>98.3.42-gf00e174-chromium-98.0.4758.102-api-1.7</version>
+    <version>104.21.59-g53d71b6-chromium-104.0.5112.81-api-1.7</version>
 
     <build>
         <plugins>
