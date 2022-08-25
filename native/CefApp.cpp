@@ -52,7 +52,9 @@ JNIEXPORT void JNICALL Java_org_cef_CefApp_N_1DoMessageLoopWork(JNIEnv* env,
 JNIEXPORT jobject JNICALL Java_org_cef_CefApp_N_1GetVersion(JNIEnv* env,
                                                             jobject obj) {
   return NewJNIObject(env, "org/cef/CefApp$CefVersion",
-                      "(Lorg/cef/CefApp;IIIIIIIII)V", obj, JCEF_COMMIT_NUMBER,
+                      "(Lorg/cef/CefApp;ILjava/lang/String;IIIIIIII)V", obj,
+                      JCEF_COMMIT_NUMBER,
+                      env->NewStringUTF(JCEF_COMMIT_HASH),
                       cef_version_info(0),   // CEF_VERSION_MAJOR
                       cef_version_info(1),   // CEF_VERSION_MINOR
                       cef_version_info(2),   // CEF_VERSION_PATCH
