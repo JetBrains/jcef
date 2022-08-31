@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- debug="true" -->
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" >
+
+  <appender name="ConsoleAppender" class="org.apache.log4j.ConsoleAppender">
+    <param name="Target" value="System.out"/>
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%d{ABSOLUTE} %level: %m%n"/>
+    </layout>
+  </appender>
+
+
+  <appender name="RollingFileAppender" class="org.apache.log4j.rolling.RollingFileAppender">
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%d{ABSOLUTE} %level: %m%n"/>
+    </layout>
+
+    <param name="Encoding" value="UTF-16" />
+    <param name="file" value="logfile.log"/>
+    <param name="DatePattern" value="'.'yyyy-MM-dd" />
+    <param name="append" value="true"/>
+  </appender>
+
+  <root>
+    <priority value="all" />
+    <appender-ref ref="RollingFileAppender"/>
+    <appender-ref ref="ConsoleAppender"/>
+  </root>
+
+</log4j:configuration>

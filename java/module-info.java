@@ -1,6 +1,8 @@
 module jcef {
     requires java.desktop;
     requires jogl.all;
+    requires org.apache.thrift;
+    requires org.slf4j;
 
     exports org.cef;
     exports org.cef.browser;
