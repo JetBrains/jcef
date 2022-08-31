@@ -122,6 +122,8 @@ CefSettings GetJNISettings(JNIEnv* env, jobject obj) {
   }
   GetJNIFieldBoolean(env, cls, obj, "cookieable_schemes_exclude_defaults",
                      &settings.cookieable_schemes_exclude_defaults);
+  GetJNIFieldBoolean(env, cls, obj, "no_sandbox",
+                     &settings.no_sandbox);
 
   return settings;
 }
@@ -182,12 +184,6 @@ bool Context::Initialize(JNIEnv* env,
 #endif
 
   CefSettings settings = GetJNISettings(env, jsettings);
-
-  // Sandbox is not supported because:
-  // - Use of a separate sub-process executable on Windows.
-  // - Use of a temporary file to communicate custom schemes to the
-  //   renderer process.
-  settings.no_sandbox = true;
 
 #if defined(OS_WIN) || defined(OS_LINUX)
   // Use external message pump with OSR.

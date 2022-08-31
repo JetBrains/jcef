@@ -229,6 +229,7 @@ public class CefSettings {
     ///
     public String cookieable_schemes_list = null;
     public boolean cookieable_schemes_exclude_defaults = false;
+    public boolean no_sandbox = !Boolean.getBoolean("jcef.use_sandbox");
 
     public CefSettings() {}
 
@@ -254,6 +255,7 @@ public class CefSettings {
         if (background_color != null) tmp.background_color = background_color.clone();
         tmp.cookieable_schemes_list = cookieable_schemes_list;
         tmp.cookieable_schemes_exclude_defaults = cookieable_schemes_exclude_defaults;
+        tmp.no_sandbox = no_sandbox;
         return tmp;
     }
 }
