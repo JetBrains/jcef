@@ -23,8 +23,10 @@ if (!OperatingSystem.current().isMacOsX()) {
 sourceSets.test.java.srcDirs = ['../../../java_tests']
 
 compileJava.options.compilerArgs += [
-    '--module-path', "$projectDir/../../../third_party/jogamp/jar",
-    '--add-modules', 'jogl.all,gluegen.rt',
+    '--class-path', "$projectDir/../../../libthrift-0.16.0.jar:$projectDir/../../../slf4j-api-2.0.0.jar",
+    '--module-path', "$projectDir/../../../third_party/jogamp/jar:$projectDir/../../../libthrift-0.16.0.jar:$projectDir/../../../slf4j-api-2.0.0.jar",
+    '--add-modules', 'jogl.all,gluegen.rt,org.apache.thrift,org.slf4j',
+    '--add-reads', 'jcef=ALL-UNNAMED',
     '--add-exports', 'jogl.all/com.jogamp.nativewindow=jcef',
     '--add-exports', 'jogl.all/com.jogamp.opengl.awt=jcef',
     '--add-exports', 'jogl.all/com.jogamp.opengl=jcef',
@@ -33,6 +35,10 @@ compileJava.options.compilerArgs += [
     '--add-exports', 'java.desktop/java.awt.peer=jcef',
     '--add-exports', 'java.desktop/sun.lwawt.macosx=jcef',
     '--add-exports', 'java.desktop/sun.lwawt=jcef']
+
+compileTestJava.options.compilerArgs += [
+    '--class-path', "$projectDir/../../../libthrift-0.16.0.jar:$projectDir/../../../jb/project/java-gradle/build/classes/java/main:/Users/bocha/projects/jcef/third_party/junit/junit-platform-console-standalone-1.4.2.jar"
+]
 
 def jbr_java = test.executable
 if (OperatingSystem.current().isWindows() && project.hasProperty('jbr_win')) {
@@ -61,8 +67,12 @@ test {
 dependencies {
     implementation files(
         "$projectDir/../../../third_party/jogamp/jar/jogl-all.jar",
-        "$projectDir/../../../third_party/jogamp/jar/gluegen-rt.jar")
+        "$projectDir/../../../third_party/jogamp/jar/gluegen-rt.jar",
+        "$projectDir/../../../libthrift-0.16.0.jar")
+    implementation 'javax.annotation:javax.annotation-api:1.3.2'
+    implementation 'org.slf4j:slf4j-api:2.0.0'
     testImplementation files(
         "$projectDir/../../../third_party/junit/junit-platform-console-standalone-1.4.2.jar",
+        "$projectDir/../../../libthrift-0.16.0.jar",
         "$projectDir/../../../third_party/jakarta/jakarta.xml.bind-api-2.3.2.jar")
 }

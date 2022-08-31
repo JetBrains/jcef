@@ -325,6 +325,7 @@ endif()
 
 add_subdirectory(${CEF_LIBCEF_DLL_WRAPPER_PATH} libcef_dll_wrapper)
 add_subdirectory(native)
+add_subdirectory(remote)
 
 
 #
