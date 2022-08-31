@@ -1,6 +1,10 @@
 #!/bin/bash
 set -exuo pipefail
 
+# to avoid error:
+# fatal: detected dubious ownership in repository at '/mnt/agent/work/4257c71f6987934f'
+git config --global --add safe.directory "$(pwd)"
+
 # CD to script's directory
 cd "$(dirname "$0")"
 

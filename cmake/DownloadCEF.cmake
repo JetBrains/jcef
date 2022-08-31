@@ -63,5 +63,12 @@ function(DownloadCEF platform version download_dir)
       COMMAND ${CMAKE_COMMAND} -E tar xzf "${CEF_DOWNLOAD_PATH}"
       WORKING_DIRECTORY ${CEF_DOWNLOAD_DIR}
       )
+    if("${CMAKE_SYSTEM_NAME}" STREQUAL "Linux")
+      message(STATUS "Strip debugging symbols...")
+      execute_process(
+        COMMAND "strip" "-s" "${CEF_DOWNLOAD_DIR}/${CEF_DISTRIBUTION}/Release/libcef.so"
+        WORKING_DIRECTORY ${CEF_DOWNLOAD_DIR}
+      )
+    endif()
   endif()
 endfunction()
