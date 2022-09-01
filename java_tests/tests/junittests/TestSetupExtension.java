@@ -16,6 +16,9 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
@@ -34,6 +37,7 @@ import java.util.function.Function;
 // This code is based on https://stackoverflow.com/a/51556718.
 public class TestSetupExtension
         implements BeforeAllCallback, ExtensionContext.Store.CloseableResource {
+    private static final boolean DISABLE_GPU = Boolean.getBoolean("jcef.tests.disable_gpu");
     private static final int TIMEOUT = 5;
     private static boolean initialized_ = false;
     private static CountDownLatch countdown_ = new CountDownLatch(1);
@@ -67,12 +71,19 @@ public class TestSetupExtension
 
         JCefAppConfig config = JCefAppConfig.getInstance();
         String[] appArgs = config.getAppArgs();
+        List<String> args = new ArrayList<>();
+        args.addAll(Arrays.asList(appArgs));
+        if (DISABLE_GPU) {
+            args.add("--disable-gpu");
+            args.add("--disable-gpu-compositing");
+        }
 
         CefSettings settings = config.getCefSettings();
         settings.windowless_rendering_enabled = false;
         settings.log_severity = CefSettings.LogSeverity.LOGSEVERITY_ERROR;
+        settings.no_sandbox = true;
 
-        CefApp.addAppHandler(new CefAppHandlerAdapter(appArgs) {
+        CefApp.addAppHandler(new CefAppHandlerAdapter(args.toArray(new String[0])) {
             @Override
             public void stateHasChanged(org.cef.CefApp.CefAppState state) {
                 final Function<CefAppState, Void> f = ourCefAppStateHandler;
