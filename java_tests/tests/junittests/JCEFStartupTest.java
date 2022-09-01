@@ -3,12 +3,15 @@ package tests.junittests;// Copyright 2000-2020 JetBrains s.r.o. Use of this sou
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefFrame;
 import org.cef.handler.CefLoadHandlerAdapter;
+import org.cef.misc.CefLog;
 import org.cef.network.CefRequest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import javax.swing.*;
 import java.awt.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -21,38 +24,55 @@ import java.util.concurrent.TimeUnit;
  */
 @ExtendWith(TestSetupExtension.class)
 public class JCEFStartupTest {
-    static final CountDownLatch LATCH = new CountDownLatch(1);
-    static volatile boolean PASSED;
+    private static class TestFrame {
+        final CountDownLatch myLatch = new CountDownLatch(1);
+        volatile boolean isPassed;
+        volatile JBCefBrowser myBrowser;
+        private JFrame myFrame;
 
-    static volatile JBCefBrowser ourBrowser;
+        TestFrame() {
+            myBrowser = new JBCefBrowser(new CefLoadHandlerAdapter() {
+                @Override
+                public void onLoadingStateChange(CefBrowser browser, boolean isLoading, boolean canGoBack, boolean canGoForward) {
+                    CefLog.Info("onLoadingStateChange:" + browser);
+                }
 
-    private final JFrame myFrame;
+                @Override
+                public void onLoadStart(CefBrowser cefBrowser, CefFrame cefFrame, CefRequest.TransitionType transitionType) {
+                    CefLog.Info("onLoadStart:" + cefBrowser);
+                }
 
-    JCEFStartupTest() {
-        myFrame = new JFrame("JCEF");
+                @Override
+                public void onLoadEnd(CefBrowser cefBrowser, CefFrame cefFrame, int i) {
+                    CefLog.Info("onLoadEnd:" + cefBrowser);
+                    isPassed = true;
+                    myLatch.countDown();
+                }
 
-        ourBrowser = new JBCefBrowser(new CefLoadHandlerAdapter() {
-            @Override
-            public void onLoadStart(CefBrowser cefBrowser, CefFrame cefFrame, CefRequest.TransitionType transitionType) {
-                System.out.println("onLoadStart");
+                @Override
+                public void onLoadError(CefBrowser cefBrowser, CefFrame cefFrame, ErrorCode errorCode, String s, String s1) {
+                    CefLog.Info("onLoadError:" + cefBrowser);
+                }
+            });
+            CefLog.Info("created browser:" + myBrowser.getCefBrowser());
+        }
+
+        public void initUI() {
+            myFrame = new JFrame("JCEF");
+            myFrame.add(myBrowser.getComponent());
+
+            myFrame.setSize(640, 480);
+            myFrame.setLocationRelativeTo(null);
+            myFrame.setVisible(true);
+        }
+
+        public void dispose(boolean disposeBrowser) {
+            if (disposeBrowser) myBrowser.dispose();
+            if (myFrame != null) {
+                myFrame.dispose();
+                myFrame = null;
             }
-            @Override
-            public void onLoadEnd(CefBrowser cefBrowser, CefFrame cefFrame, int i) {
-                System.out.println("onLoadEnd");
-                PASSED = true;
-                LATCH.countDown();
-            }
-            @Override
-            public void onLoadError(CefBrowser cefBrowser, CefFrame cefFrame, ErrorCode errorCode, String s, String s1) {
-                System.out.println("onLoadError");
-            }
-        });
-
-        myFrame.add(ourBrowser.getComponent());
-
-        myFrame.setSize(640, 480);
-        myFrame.setLocationRelativeTo(null);
-        myFrame.setVisible(true);
+        }
     }
 
     @Test
@@ -63,23 +83,45 @@ public class JCEFStartupTest {
     public void testJBR2222() {
         _test(false);
     }
+
+    @Test
+    public void testCreation10Times() throws InterruptedException {
+        // Test CefLoadHandlerAdapter callbacks invocation
+        final long count = 10;
+        CefLog.Info("Start testCreation10Times");
+        for (long c = 0; c < count; ++c) {
+            TestFrame frame = new TestFrame();
+            EventQueue.invokeLater(() -> frame.initUI());
+
+            try {
+                frame.myLatch.await(50, TimeUnit.SECONDS);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            frame.dispose(true);
+
+            if (!frame.isPassed) {
+                throw new RuntimeException("FAILED testCreation10Times: CefLoadHandler.onLoadEnd wasn't invoked, iteration " + c);
+            }
+        }
+        CefLog.Info("Test PASSED");
+    }
     private void _test(boolean disposeBrowser) {
-        EventQueue.invokeLater(JCEFStartupTest::new);
+        TestFrame frame = new TestFrame();
+        EventQueue.invokeLater(() -> frame.initUI());
 
         try {
-            LATCH.await(5, TimeUnit.SECONDS);
+            frame.myLatch.await(50, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        if (disposeBrowser) {
-            ourBrowser.dispose();
-        }
-        myFrame.dispose();
+        frame.dispose(disposeBrowser);
 
-        if (!PASSED) {
+        if (!frame.isPassed) {
             throw new RuntimeException("Test FAILED!");
         }
-        System.out.println("Test PASSED");
+        CefLog.Info("Test PASSED");
     }
 }
