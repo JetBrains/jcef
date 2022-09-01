@@ -6,6 +6,7 @@ import org.cef.browser.CefMessageRouter;
 import org.cef.handler.CefLoadHandlerAdapter;
 import org.cef.callback.CefQueryCallback;
 import org.cef.handler.CefMessageRouterHandlerAdapter;
+import org.cef.misc.CefLog;
 import org.cef.network.CefRequest.TransitionType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,7 +32,7 @@ import java.util.concurrent.TimeUnit;
 @ExtendWith(TestSetupExtension.class)
 public class HandleJSQueryTest {
     @Test
-    public void testJsRequest10Times() throws InvocationTargetException, InterruptedException {
+    public void testJsRequest10Times() throws InterruptedException {
         final long count = 10;
         for (long c = 0; c < count; ++c) {
             final CountDownLatch l = new CountDownLatch(1);
@@ -48,11 +49,11 @@ public class HandleJSQueryTest {
                 SwingUtilities.invokeLater(() -> browserFrame.dispatchEvent(new WindowEvent(browserFrame, WindowEvent.WINDOW_CLOSING)));
             }
         }
-        System.out.println(time() + "test PASSED");
+        CefLog.Info("test PASSED");
     }
 
     @Test
-    public void testJsRequestInOneBrowser10Times() throws InvocationTargetException, InterruptedException {
+    public void testJsRequestInOneBrowser10Times() throws InterruptedException {
         final int count = 10;
         final CountDownLatch l = new CountDownLatch(count);
         CefBrowserFrame browserFrame = new CefBrowserFrame(l);
@@ -62,7 +63,7 @@ public class HandleJSQueryTest {
 
             if (browserFrame.callbackCounter != count)
                 throw new RuntimeException(time() + "test FAILED. JS Query was not handled: callbackCounter=" + browserFrame.callbackCounter);
-            System.out.println(time() + "test PASSED");
+            CefLog.Info("test PASSED");
         } finally {
             SwingUtilities.invokeLater(() -> browserFrame.dispatchEvent(new WindowEvent(browserFrame, WindowEvent.WINDOW_CLOSING)));
         }
@@ -73,7 +74,7 @@ public class HandleJSQueryTest {
     }
 
     @Test
-    public void testDoubleRequest() throws InvocationTargetException, InterruptedException {
+    public void testDoubleRequest() throws InterruptedException {
         final int count = 1;
         final CountDownLatch firstLatch = new CountDownLatch(count);
         final CountDownLatch secondLatch = new CountDownLatch(count);
@@ -84,13 +85,13 @@ public class HandleJSQueryTest {
             SwingUtilities.invokeLater(()->firstBrowser.initUI());
             firstLatch.await(10, TimeUnit.SECONDS);
             if (firstBrowser.callbackCounter == 0)
-                throw new RuntimeException(time() + "test FAILED. JS Query was not handled in 1 opened browser");
+                throw new RuntimeException("test FAILED. JS Query was not handled in 1 opened browser");
 
             SwingUtilities.invokeLater(()->secondBrowser.initUI());
             secondLatch.await(10, TimeUnit.SECONDS);
             if (secondBrowser.callbackCounter == 0)
-                throw new RuntimeException(time() + "test FAILED. JS Query was not handled in 2 opened browser");
-            System.out.println(time() + "test PASSED");
+                throw new RuntimeException("test FAILED. JS Query was not handled in 2 opened browser");
+            CefLog.Info("test PASSED");
         } finally {
             SwingUtilities.invokeLater(() -> firstBrowser.dispatchEvent(new WindowEvent(firstBrowser, WindowEvent.WINDOW_CLOSING)));
             SwingUtilities.invokeLater(() -> secondBrowser.dispatchEvent(new WindowEvent(secondBrowser, WindowEvent.WINDOW_CLOSING)));
@@ -100,7 +101,7 @@ public class HandleJSQueryTest {
     static class CefBrowserFrame extends JFrame {
         static volatile int ourBrowserNumber;
 
-        private final JBCefBrowser browser = new JBCefBrowser();
+        private final JBCefBrowser browser;
         private final List<JSRequest> requests = new ArrayList<>();
 
         private final CountDownLatch latch;
@@ -108,28 +109,33 @@ public class HandleJSQueryTest {
         private int callbackCounter;
 
         public CefBrowserFrame(final CountDownLatch latch) {
+            this.browserNumber = ourBrowserNumber++;
             this.latch = latch;
-        }
 
-        public void initUI() {
-            browserNumber = ourBrowserNumber++;
-
-            final long requestCount = latch.getCount();
-            createRequests(requestCount);
-
-            browser.getCefClient().addLoadHandler(new CefLoadHandlerAdapter() {
+            browser = new JBCefBrowser(new CefLoadHandlerAdapter() {
                 @Override
                 public void onLoadStart(CefBrowser browser, CefFrame frame, TransitionType transitionType) {
-                    System.out.println(time() + "onLoadStart: browser " + browserNumber);
+                    CefLog.Info("onLoadStart: browser " + browserNumber);
                 }
 
                 @Override
                 public void onLoadEnd(CefBrowser browser, CefFrame frame, int httpStatusCode) {
-                    System.out.println(time() + "onLoadEnd: browser " + browserNumber);
+                    CefLog.Info("onLoadEnd: browser " + browserNumber);
                     executeRequests();
+                }
+
+                @Override
+                public void onLoadingStateChange(CefBrowser browser, boolean isLoading, boolean canGoBack, boolean canGoForward) {
+                    CefLog.Info("onLoadingStateChange: browser " + browserNumber);
+                    super.onLoadingStateChange(browser, isLoading, canGoBack, canGoForward);
                 }
             });
 
+            final long requestCount = latch.getCount();
+            createRequests(requestCount);
+        }
+
+        public void initUI() {
             getContentPane().add(browser.getCefBrowser().getUIComponent());
             setSize(640, 480);
             setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -139,15 +145,21 @@ public class HandleJSQueryTest {
                     for (JSRequest r: requests)
                         browser.getCefClient().removeMessageRouter(r.msgRouter);
                     browser.dispose();
-                    System.out.println(time() + "disposed browser " + browserNumber);
+                    CefLog.Info("disposed browser " + browserNumber);
                 }
             });
             setVisible(true);
+
+            reload();
+        }
+
+        public void reload() {
+            browser.loadURL("about:blank");
         }
 
         private void createRequests(long requestCount) {
             // create JS-requests
-            System.out.println(time() + "create JS of browser " + browserNumber + ", count " + requestCount);
+            CefLog.Info("create JS of browser " + browserNumber + ", count " + requestCount);
             for (long c = 0; c < requestCount; ++c) {
                 JSRequest r = new JSRequest("" + browserNumber + "_" + c);
                 requests.add(r);
@@ -156,7 +168,7 @@ public class HandleJSQueryTest {
         }
 
         private void executeRequests() {
-            System.out.println(time() + "post " + requests.size() + " JS requests of browser " + browserNumber);
+            CefLog.Info("post " + requests.size() + " JS requests of browser " + browserNumber);
             for (JSRequest r: requests) {
                 browser.getCefBrowser().executeJavaScript(r.jsQuery, "", 0);
             }
@@ -181,7 +193,7 @@ public class HandleJSQueryTest {
                     @Override
                     public boolean onQuery(CefBrowser browser, CefFrame frame, long query_id, String request,
                                            boolean persistent, CefQueryCallback callback) {
-                        System.out.println(time() + "the query with request " + request + " is handled.");
+                        CefLog.Info("the query with request " + request + " is handled.");
                         callbackCounter++;
                         latch.countDown();
                         return true;

@@ -31,8 +31,7 @@ public class JCEFStartupTest {
     JCEFStartupTest() {
         myFrame = new JFrame("JCEF");
 
-        ourBrowser = new JBCefBrowser();
-        ourBrowser.getCefClient().addLoadHandler(new CefLoadHandlerAdapter() {
+        ourBrowser = new JBCefBrowser(new CefLoadHandlerAdapter() {
             @Override
             public void onLoadStart(CefBrowser cefBrowser, CefFrame cefFrame, CefRequest.TransitionType transitionType) {
                 System.out.println("onLoadStart");

@@ -4,6 +4,7 @@ import org.cef.CefApp;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefFrame;
 import org.cef.handler.CefLoadHandlerAdapter;
+import org.cef.misc.CefLog;
 import org.cef.network.CefRequest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,41 +36,44 @@ public class LoadPageWithoutUI {
     private static final String BLANK = "about:blank";
 
     private CountDownLatch latch;
-    private JBCefBrowser browser = new JBCefBrowser();
+    private JBCefBrowser browser;
     private JFrame frame = new JFrame("JCEF");
 
     private volatile boolean loadHandlerUsed;
 
-    public void initUI() {
-        browser.getCefClient().addLoadHandler(new CefLoadHandlerAdapter() {
+    LoadPageWithoutUI() {
+        browser = new JBCefBrowser(new CefLoadHandlerAdapter() {
             @Override
             public void onLoadingStateChange(CefBrowser browser, boolean isLoading, boolean canGoBack, boolean canGoForward) {
-                System.out.println("onLoadingStateChange " + browser.getURL());
+                CefLog.Info("onLoadingStateChange " + browser.getURL());
                 loadHandlerUsed = true;
             }
 
             @Override
             public void onLoadStart(CefBrowser browser, CefFrame frame, CefRequest.TransitionType transitionType) {
-                System.out.println("onLoadStart " + browser.getURL());
+                CefLog.Info("onLoadStart " + browser.getURL());
                 loadHandlerUsed = true;
             }
 
             @Override
             public void onLoadEnd(CefBrowser browser, CefFrame frame, int httpStatusCode) {
-                System.out.println("onLoadEnd " + browser.getURL());
+                CefLog.Info("onLoadEnd " + browser.getURL());
                 loadHandlerUsed = true;
                 latch.countDown();
             }
 
             @Override
             public void onLoadError(CefBrowser browser, CefFrame frame, ErrorCode errorCode, String errorText, String failedUrl) {
-                System.out.println("onLoadError " + browser.getURL());
+                CefLog.Info("onLoadError " + browser.getURL());
                 loadHandlerUsed = true;
             }
         });
+    }
+
+    public void initUI() {
         frame.getContentPane().add(browser.getComponent());
         frame.setSize(640, 480);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
@@ -88,7 +92,7 @@ public class LoadPageWithoutUI {
 
             test.browser.getCefBrowser().createImmediately();
 
-            System.out.println("Loading URL " + BLANK + " before enabling browser UI...");
+            CefLog.Info("Loading URL " + BLANK + " before enabling browser UI...");
             test.latch = new CountDownLatch(1);
             test.browser.loadURL(BLANK);
             test.latch.await(5, TimeUnit.SECONDS);
@@ -96,9 +100,9 @@ public class LoadPageWithoutUI {
                 throw new RuntimeException(BLANK + " is not loaded without browser UI");
             }
             test.loadHandlerUsed = false;
-            System.out.println(BLANK + " is loaded");
+            CefLog.Info(BLANK + " is loaded");
 
-            System.out.println("Loading URL " + DUMMY + " after enabling browser UI...");
+            CefLog.Info("Loading URL " + DUMMY + " after enabling browser UI...");
             SwingUtilities.invokeAndWait(() -> test.frame.setVisible(true));
             test.latch = new CountDownLatch(1);
             test.browser.loadURL(DUMMY);
@@ -107,9 +111,9 @@ public class LoadPageWithoutUI {
                 throw new RuntimeException(DUMMY + " is not loaded with browser UI");
             }
             test.loadHandlerUsed = false;
-            System.out.println(DUMMY + " is loaded");
+            CefLog.Info(DUMMY + " is loaded");
 
-            System.out.println("Loading URL " + BLANK + " after disabling browser UI...");
+            CefLog.Info("Loading URL " + BLANK + " after disabling browser UI...");
             SwingUtilities.invokeAndWait(() -> test.frame.setVisible(false));
             test.latch = new CountDownLatch(1);
             test.browser.loadURL(BLANK);
@@ -118,7 +122,7 @@ public class LoadPageWithoutUI {
                 throw new RuntimeException(DUMMY + " is not loaded after disabling browser UI");
             }
             test.loadHandlerUsed = false;
-            System.out.println(BLANK + " is loaded");
+            CefLog.Info(BLANK + " is loaded");
 
         } finally {
             test.browser.dispose();

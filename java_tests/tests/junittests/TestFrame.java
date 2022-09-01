@@ -22,6 +22,7 @@ import org.cef.handler.CefRequestHandler;
 import org.cef.handler.CefResourceHandler;
 import org.cef.handler.CefResourceRequestHandler;
 import org.cef.misc.BoolRef;
+import org.cef.misc.CefLog;
 import org.cef.misc.StringRef;
 import org.cef.network.CefRequest;
 import org.cef.network.CefRequest.TransitionType;
@@ -83,7 +84,7 @@ class TestFrame extends JFrame implements CefLifeSpanHandler, CefLoadHandler, Ce
 
                 // Results in another call to this method.
                 if (debugPrint())
-                    System.out.println("windowClosing CefBrowser.close(" + isClosed + ")");
+                    CefLog.Info("windowClosing CefBrowser.close(" + isClosed + ")");
                 browser_.close(isClosed);
                 if (!isClosed_) {
                     isClosed_ = true;
@@ -103,10 +104,12 @@ class TestFrame extends JFrame implements CefLifeSpanHandler, CefLoadHandler, Ce
         browser_ = client_.createBrowser(startURL, false /* useOSR */, false /* isTransparent */);
         assertNotNull(browser_);
 
-        getContentPane().add(browser_.getUIComponent(), BorderLayout.CENTER);
-        pack();
-        setSize(800, 600);
-        setVisible(true);
+        SwingUtilities.invokeLater(()->{
+            getContentPane().add(browser_.getUIComponent(), BorderLayout.CENTER);
+            pack(); // NOTE: if remove pack() then multipleBrowserCreation runs correctly
+            setSize(800, 600);
+            setVisible(true);
+        });
     }
 
     // Override this method to perform test setup.
@@ -114,11 +117,11 @@ class TestFrame extends JFrame implements CefLifeSpanHandler, CefLoadHandler, Ce
 
     // Override this method to perform test cleanup.
     protected void cleanupTest() {
-        if (debugPrint()) System.out.println("cleanupTest");
+        if (debugPrint()) CefLog.Info("cleanupTest");
         client_.dispose();
 
         EventQueue.invokeLater(() -> {
-            if (debugPrint()) System.out.println("windowClosing Frame.dispose");
+            if (debugPrint()) CefLog.Info("windowClosing Frame.dispose");
             dispose();
             // Allow the test to complete.
             countdown_.countDown();
@@ -127,24 +130,26 @@ class TestFrame extends JFrame implements CefLifeSpanHandler, CefLoadHandler, Ce
 
     // Call this method to terminate the test by dispatching a window close event.
     protected final void terminateTest() {
-        if (debugPrint()) System.out.println("terminateTest");
+        if (debugPrint()) CefLog.Info("terminateTest");
         if (!isClosed_) {
             if (!EventQueue.isDispatchThread()) {
                 SwingUtilities.invokeLater(() -> dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING)));
+            } else {
+                dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
             }
         }
     }
 
     // Block until the test completes.
     public final void awaitCompletion() {
-        if (debugPrint()) System.out.println("awaitCompletion");
+        if (debugPrint()) CefLog.Info("awaitCompletion");
         try {
             if(!countdown_.await(TIMEOUT, TimeUnit.SECONDS)) {
                 throw new RuntimeException("Timed out after " + TIMEOUT + " seconds");
             }
         } catch (InterruptedException e) {
         }
-        if (debugPrint()) System.out.println("awaitCompletion returned");
+        if (debugPrint()) CefLog.Info("awaitCompletion returned");
     }
 
     protected void addResource(String url, String content, String mimeType) {
@@ -170,7 +175,7 @@ class TestFrame extends JFrame implements CefLifeSpanHandler, CefLoadHandler, Ce
 
     @Override
     public void onAfterCreated(CefBrowser browser) {
-        if (debugPrint()) System.out.println("onAfterCreated id=" + browser.getIdentifier());
+        if (debugPrint()) CefLog.Info("onAfterCreated id=" + browser.getIdentifier());
     }
 
     @Override
@@ -186,7 +191,7 @@ class TestFrame extends JFrame implements CefLifeSpanHandler, CefLoadHandler, Ce
     public boolean doClose(CefBrowser browser) {
         boolean result = browser.doClose();
         if (debugPrint()) {
-            System.out.println(
+            CefLog.Info(
                     "doClose id=" + browser.getIdentifier() + " CefBrowser.doClose=" + result);
         }
         return result;
@@ -194,7 +199,7 @@ class TestFrame extends JFrame implements CefLifeSpanHandler, CefLoadHandler, Ce
 
     @Override
     public void onBeforeClose(CefBrowser browser) {
-        if (debugPrint()) System.out.println("onBeforeClose id=" + browser.getIdentifier());
+        if (debugPrint()) CefLog.Info("onBeforeClose id=" + browser.getIdentifier());
         cleanupTest();
     }
 
@@ -281,7 +286,7 @@ class TestFrame extends JFrame implements CefLifeSpanHandler, CefLoadHandler, Ce
 
             ResourceContent rc = resourceMap_.get(url);
             if (rc != null) {
-                if (debugPrint()) System.out.println("Found resource for: " + url);
+                if (debugPrint()) CefLog.Info("Found resource for: " + url);
                 return new TestResourceHandler(rc.content, rc.mimeType, rc.headerMap);
             }
         }

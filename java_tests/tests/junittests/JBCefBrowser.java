@@ -4,9 +4,13 @@ import org.cef.CefApp;
 import org.cef.CefClient;
 import org.cef.browser.CefBrowser;
 import org.cef.handler.CefLifeSpanHandlerAdapter;
+import org.cef.handler.CefLoadHandler;
+import org.cef.misc.CefLog;
 
 import javax.swing.*;
 import java.awt.Component;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @author tav
@@ -44,13 +48,13 @@ public class JBCefBrowser {
         }
     }
 
-    public JBCefBrowser() {
+    public JBCefBrowser(CefLoadHandler loadHandler) {
         myCefClient = CefApp.getInstance().createClient();
-        myCefBrowser = myCefClient.createBrowser("about:blank", false, false);
 
         myCefClient.addLifeSpanHandler(new CefLifeSpanHandlerAdapter() {
             @Override
             public void onAfterCreated(CefBrowser browser) {
+                CefLog.Info("CefLifeSpanHandler.onAfterCreated, browser " + browser);
                 myIsCefBrowserCreated = true;
                 LoadDeferrer loader = myLoadDeferrer;
                 if (loader != null) {
@@ -59,7 +63,10 @@ public class JBCefBrowser {
                 }
             }
         });
+        if (loadHandler != null)
+            myCefClient.addLoadHandler(loadHandler);
 
+        myCefBrowser = myCefClient.createBrowser("about:blank", false, false);
     }
 
     public Component getComponent() {
@@ -85,7 +92,7 @@ public class JBCefBrowser {
     }
 
     private static void loadString(CefBrowser cefBrowser, String html, String url) {
-        System.out.println("jcef: loadString: " + html);
+        CefLog.Error("jcef: loadString: " + html);
         throw new UnsupportedOperationException("not yet supported in tests");
     }
 
