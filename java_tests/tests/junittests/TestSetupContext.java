@@ -10,7 +10,7 @@ import java.util.Optional;
 
 // Stores global test setup state for access from package classes.
 class TestSetupContext {
-    private static boolean debugPrint_ = false;
+    private static boolean debugPrint_ = Boolean.getBoolean("jcef.tests.verbose");
 
     // Debug print statements may be enabled via `--config debugPrint=true`.
     static boolean debugPrint() {

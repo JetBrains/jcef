@@ -11,6 +11,7 @@ import org.cef.CefApp;
 import org.cef.CefApp.CefAppState;
 import org.cef.CefSettings;
 import org.cef.handler.CefAppHandlerAdapter;
+import org.cef.misc.CefLog;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 
@@ -54,6 +55,12 @@ public class TestSetupExtension
 
     // Executed before any tests are run.
     private void initialize(ExtensionContext context) {
+        // Enable debug logging for junit tests by default
+        System.setProperty("jcef.tests.verbose", "true");
+        System.setProperty("jcef.trace.cefbrowser_n.lifespan", "true");
+        System.setProperty("jcef.trace.cefclient.lifespan", "true");
+        System.setProperty("jcef.trace.cefbrowserwr.addnotify", "true");
+
         TestSetupContext.initialize(context);
 
         if (TestSetupContext.debugPrint()) {
@@ -80,10 +87,11 @@ public class TestSetupExtension
 
         CefSettings settings = config.getCefSettings();
         settings.windowless_rendering_enabled = false;
-        settings.log_severity = CefSettings.LogSeverity.LOGSEVERITY_ERROR;
+        settings.log_severity = CefSettings.LogSeverity.LOGSEVERITY_VERBOSE;
         settings.no_sandbox = true;
 
-        CefApp.addAppHandler(new CefAppHandlerAdapter(args.toArray(new String[0])) {
+        String argsArr[] = args.toArray(new String[0]);
+        CefApp.addAppHandler(new CefAppHandlerAdapter(argsArr) {
             @Override
             public void stateHasChanged(org.cef.CefApp.CefAppState state) {
                 final Function<CefAppState, Void> f = ourCefAppStateHandler;
@@ -95,6 +103,10 @@ public class TestSetupExtension
                 }
             }
         });
+
+        CefLog.init(settings); // preinit CefLog for tests (otherwise it can be initialized in EDT later that first test output)
+        CefLog.Info("settings: %s", settings.getDescription());
+        CefLog.Info("args: %s", Arrays.toString(argsArr));
 
         // Initialize the singleton CefApp instance.
         CefApp.getInstance(settings);
