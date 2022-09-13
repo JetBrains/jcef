@@ -245,6 +245,7 @@ class CefBrowserWr extends CefBrowser_N {
                     setParent(getWindowHandle(this), canvas_);
                     removed_ = false;
                 }
+                delayedUpdate_.restart();
             }
 
             @Override
