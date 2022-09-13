@@ -12,19 +12,24 @@ import java.util.Date;
 // so use this separate primitive logger
 // TODO: support log4j or similar
 public class CefLog {
-    public static CefLog INSTANCE;
+    private static CefLog INSTANCE;
     private static final SimpleDateFormat ourTimeFormat = new SimpleDateFormat("mm:ss:SSS");
 
     private PrintStream myPrintStream;
     private CefSettings.LogSeverity mySeverity;
 
     public static void init(CefSettings settings) {
+        if (INSTANCE != null) {
+            INSTANCE.warn("Try to reinitialize logger (new settings will be ignored), stacktrace:\n");
+            new Throwable().printStackTrace(INSTANCE.myPrintStream);
+            return;
+        }
         if (settings.log_file != null
             && settings.log_severity != CefSettings.LogSeverity.LOGSEVERITY_DISABLE
             && settings.log_severity != CefSettings.LogSeverity.LOGSEVERITY_DEFAULT
         ) {
             try {
-                System.out.println("Initialize file logger, severity=" + settings.log_severity + ", path='" + settings.log_file + "'");
+                System.out.printf("JCEF(%s): initialized file logger, severity=%s, path='%s'\n", ourTimeFormat.format(new Date()), settings.log_severity, settings.log_file);
                 PrintStream ps = new PrintStream(new FileOutputStream(settings.log_file, true), true);
                 INSTANCE = new CefLog(ps, settings.log_severity);
             } catch (FileNotFoundException e) {
@@ -33,7 +38,7 @@ public class CefLog {
         }
 
         if (INSTANCE == null) {
-            System.out.println("Initialize stderr logger, severity=" + settings.log_severity);
+            System.out.printf("JCEF(%s): initialized stderr logger, severity=%s\n", ourTimeFormat.format(new Date()), settings.log_severity);
             INSTANCE = new CefLog(System.err, settings.log_severity);
         }
     }
@@ -74,7 +79,7 @@ public class CefLog {
     public void error(String msg, Object... args) { log(CefSettings.LogSeverity.LOGSEVERITY_ERROR, msg, args); }
 
     public void log(CefSettings.LogSeverity log_severity, String msg) {
-        log(log_severity, msg);
+        log(log_severity, msg, null);
     }
     public void log(CefSettings.LogSeverity log_severity, String msg, Object... args) {
         if (msg == null)

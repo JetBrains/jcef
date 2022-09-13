@@ -450,6 +450,8 @@ public class CefApp extends CefAppHandlerAdapter {
                     }
 
                     CefLog.init(settings);
+                    CefLog.Info("version: %s | settings: %s", getVersion(), settings.getDescription());
+
                 }
             };
             if (SwingUtilities.isEventDispatchThread())

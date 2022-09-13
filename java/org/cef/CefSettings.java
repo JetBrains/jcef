@@ -258,4 +258,29 @@ public class CefSettings {
         tmp.no_sandbox = no_sandbox;
         return tmp;
     }
+    
+    public String getDescription() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("browser_subprocess_path=" + browser_subprocess_path + ", ");
+        sb.append("windowless_rendering_enabled=" + windowless_rendering_enabled + ", ");
+        sb.append("command_line_args_disabled=" + command_line_args_disabled + ", ");
+        sb.append("cache_path=" + cache_path + ", ");
+        sb.append("persist_session_cookies=" + persist_session_cookies + ", ");
+        sb.append("user_agent=" + user_agent + ", ");
+        sb.append("user_agent_product=" + user_agent_product + ", ");
+        sb.append("locale=" + locale + ", ");
+        sb.append("log_file=" + log_file + ", ");
+        sb.append("log_severity=" + log_severity + ", ");
+        sb.append("javascript_flags=" + javascript_flags + ", ");
+        sb.append("resources_dir_path=" + resources_dir_path + ", ");
+        sb.append("locales_dir_path=" + locales_dir_path + ", ");
+        sb.append("pack_loading_disabled=" + pack_loading_disabled + ", ");
+        sb.append("remote_debugging_port=" + remote_debugging_port + ", ");
+        sb.append("uncaught_exception_stack_size=" + uncaught_exception_stack_size + ", ");
+        if (background_color != null) sb.append("background_color=" + background_color.clone() + ", ");
+        sb.append("cookieable_schemes_list=" + cookieable_schemes_list + ", ");
+        sb.append("cookieable_schemes_exclude_defaults=" + cookieable_schemes_exclude_defaults + ", ");
+        sb.append("no_sandbox=" + no_sandbox);
+        return sb.toString();
+    }
 }

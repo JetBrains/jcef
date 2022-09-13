@@ -73,8 +73,8 @@ public class CefClient extends CefClientHandler
                    CefDragHandler, CefFocusHandler, CefPermissionHandler, CefJSDialogHandler, CefKeyboardHandler,
                    CefLifeSpanHandler, CefLoadHandler, CefPrintHandler, CefRenderHandler,
                    CefRequestHandler, CefWindowHandler {
-    private static final boolean TRACE_LIFESPAN = Boolean.getBoolean("trace.client.lifespan");
-    private static final boolean ADD_EMPTY_ROUTER = !Boolean.getBoolean("jcef.client.dont_add_empty_router"); // workaround for IDEA259472Test
+    private static final boolean TRACE_LIFESPAN = Boolean.getBoolean("jcef.trace.cefclient.lifespan");
+    private static final boolean ADD_EMPTY_ROUTER = !Boolean.getBoolean("jcef.cefclient.dont_add_empty_router"); // workaround for IDEA259472Test
     private final ConcurrentHashMap<Integer, CefBrowser> browser_ = new ConcurrentHashMap<Integer, CefBrowser>();
     private CefContextMenuHandler contextMenuHandler_ = null;
     private CefDialogHandler dialogHandler_ = null;
@@ -618,11 +618,10 @@ public class CefClient extends CefClientHandler
     @Override
     public void onAfterCreated(CefBrowser browser) {
         if (browser == null) return;
-        if (TRACE_LIFESPAN) CefLog.INSTANCE.debug("CefClient: browser=%s: onAfterCreated", browser);
+        if (TRACE_LIFESPAN) CefLog.Debug("CefClient: browser=%s: onAfterCreated", browser);
         boolean disposed = isDisposed_;
-        if (disposed) {
-            CefLog.INSTANCE.warn("Browser %s was created while CefClient was marked as disposed", browser);
-        }
+
+        if (disposed) CefLog.Info("Browser %s was created while CefClient was marked as disposed", browser);
 
         // keep browser reference
         Integer identifier = browser.getIdentifier();
@@ -661,7 +660,7 @@ public class CefClient extends CefClientHandler
     @Override
     public void onBeforeClose(CefBrowser browser) {
         if (browser == null) return;
-        if (TRACE_LIFESPAN) CefLog.INSTANCE.debug("CefClient: browser=%s: onBeforeClose", browser);
+        if (TRACE_LIFESPAN) CefLog.Debug("CefClient: browser=%s: onBeforeClose", browser);
         synchronized (lifeSpanHandlers_) {
             for (CefLifeSpanHandler lsh: lifeSpanHandlers_)
                 lsh.onBeforeClose(browser);

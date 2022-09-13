@@ -35,7 +35,7 @@ import javax.swing.SwingUtilities;
  * CefBrowser instance, please use CefBrowserFactory.
  */
 abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser {
-    private static final boolean TRACE_LIFESPAN = Boolean.getBoolean("trace.browser.lifespan");
+    private static final boolean TRACE_LIFESPAN = Boolean.getBoolean("jcef.trace.cefbrowser_n.lifespan");
     private volatile boolean isPending_ = false;
     private final CefClient client_;
     private final String url_;
