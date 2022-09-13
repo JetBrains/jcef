@@ -1,6 +1,7 @@
 package tests.junittests;// Copyright 2000-2020 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 
 import org.cef.misc.CefLog;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -17,6 +18,7 @@ import java.util.concurrent.TimeUnit;
  */
 @ExtendWith(TestSetupExtension.class)
 public class MouseEventTest {
+    @Disabled("Disabled until SwingComponentsTest.testMouseListener fix")
     @Test
     public void test() throws InvocationTargetException, InterruptedException {
         MouseEventScenario scenario = new MouseEventScenario();
@@ -34,6 +36,7 @@ public class MouseEventTest {
         }
     }
 
+    @Disabled("Disabled until SwingComponentsTest.testMouseListener fix")
     @Test
     public void hideAndShowBrowserTest() throws InvocationTargetException, InterruptedException {
         MouseEventScenario scenario = new MouseEventScenario();
