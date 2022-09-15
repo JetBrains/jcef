@@ -35,7 +35,7 @@ public class CefBrowserFactory {
             return new CefBrowserOsr(client, url, isTransparent, context);
         } else if (rendering instanceof CefRendering.CefRenderingWithHandler) {
             CefRendering.CefRenderingWithHandler renderingWithHandler = (CefRendering.CefRenderingWithHandler) rendering;
-            return new CefBrowserOsrWithHandler(client, url, context, renderingWithHandler.getRenderHandler());
+            return new CefBrowserOsrWithHandler(client, url, context, renderingWithHandler.getRenderHandler(), renderingWithHandler.getComponent());
         }
         throw new IllegalArgumentException(rendering.toString());
     }

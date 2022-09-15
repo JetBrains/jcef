@@ -2,6 +2,8 @@ package org.cef.browser;
 
 import org.cef.handler.CefRenderHandler;
 
+import java.awt.*;
+
 /**
  * Enum-like class: how to render CEF
  *
@@ -27,13 +29,19 @@ public abstract class CefRendering {
      */
     public static final class CefRenderingWithHandler extends CefRendering {
         private final CefRenderHandler renderHandler_;
+        private final Component osrComponent_;
 
-        public CefRenderingWithHandler(CefRenderHandler renderHandler) {
+        public CefRenderingWithHandler(CefRenderHandler renderHandler, Component osrComponent) {
             this.renderHandler_ = renderHandler;
+            osrComponent_ = osrComponent;
         }
 
         CefRenderHandler getRenderHandler() {
             return renderHandler_;
+        }
+
+        public Component getComponent() {
+            return osrComponent_;
         }
     }
 }

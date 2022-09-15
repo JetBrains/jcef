@@ -14,6 +14,7 @@ import org.cef.handler.CefAppHandlerAdapter;
 import org.cef.misc.CefLog;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
+import tests.OsrSupport;
 
 import java.io.File;
 import java.io.IOException;
@@ -86,7 +87,7 @@ public class TestSetupExtension
         }
 
         CefSettings settings = config.getCefSettings();
-        settings.windowless_rendering_enabled = false;
+        settings.windowless_rendering_enabled = OsrSupport.isEnabled();
         settings.log_severity = CefSettings.LogSeverity.LOGSEVERITY_VERBOSE;
         settings.no_sandbox = true;
 

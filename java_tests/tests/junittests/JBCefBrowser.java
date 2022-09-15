@@ -3,14 +3,16 @@ package tests.junittests;
 import org.cef.CefApp;
 import org.cef.CefClient;
 import org.cef.browser.CefBrowser;
+import org.cef.browser.CefRendering;
 import org.cef.handler.CefLifeSpanHandlerAdapter;
 import org.cef.handler.CefLoadHandler;
 import org.cef.misc.CefLog;
+import tests.JBCefOsrComponent;
+import tests.JBCefOsrHandler;
+import tests.OsrSupport;
 
 import javax.swing.*;
 import java.awt.Component;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * @author tav
@@ -66,7 +68,12 @@ public class JBCefBrowser {
         if (loadHandler != null)
             myCefClient.addLoadHandler(loadHandler);
 
-        myCefBrowser = myCefClient.createBrowser("about:blank", false, false);
+        if (OsrSupport.isEnabled()) {
+            myCefBrowser = OsrSupport.createBrowser(myCefClient, "about:blank");
+        } else {
+            myCefBrowser = myCefClient.createBrowser("about:blank", false, false);
+        }
+
     }
 
     public Component getComponent() {

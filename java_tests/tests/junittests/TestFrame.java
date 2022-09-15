@@ -13,6 +13,7 @@ import org.cef.CefApp;
 import org.cef.CefClient;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefFrame;
+import org.cef.browser.CefRendering;
 import org.cef.callback.CefAuthCallback;
 import org.cef.callback.CefCallback;
 import org.cef.handler.CefCookieAccessFilter;
@@ -28,6 +29,9 @@ import org.cef.network.CefRequest;
 import org.cef.network.CefRequest.TransitionType;
 import org.cef.network.CefResponse;
 import org.cef.network.CefURLRequest;
+import tests.JBCefOsrComponent;
+import tests.JBCefOsrHandler;
+import tests.OsrSupport;
 
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -101,7 +105,13 @@ class TestFrame extends JFrame implements CefLifeSpanHandler, CefLoadHandler, Ce
 
     protected void createBrowser(String startURL) {
         assertNull(browser_);
-        browser_ = client_.createBrowser(startURL, false /* useOSR */, false /* isTransparent */);
+
+        if (OsrSupport.isEnabled()) {
+            browser_ = OsrSupport.createBrowser(client_, startURL);
+        } else {
+            browser_ = client_.createBrowser(startURL, false /* useOSR */, false /* isTransparent */);
+        }
+
         assertNotNull(browser_);
 
         SwingUtilities.invokeLater(()->{

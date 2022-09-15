@@ -9,15 +9,15 @@ import org.cef.CefApp;
 import org.cef.CefApp.CefAppState;
 import org.cef.CefClient;
 import org.cef.CefSettings;
-import org.cef.browser.CefBrowser;
-import org.cef.browser.CefFrame;
+import org.cef.browser.*;
 import org.cef.handler.CefAppHandlerAdapter;
 import org.cef.handler.CefDisplayHandlerAdapter;
 import org.cef.handler.CefFocusHandlerAdapter;
+import tests.JBCefOsrComponent;
+import tests.JBCefOsrHandler;
+import tests.OsrSupport;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.KeyboardFocusManager;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
@@ -30,8 +30,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.swing.JFrame;
-import javax.swing.JTextField;
+import javax.swing.*;
+
 
 /**
  * This is a simple example application using JCEF.
@@ -114,7 +114,12 @@ public class MainFrame extends JFrame {
         //     by calling the method "getUIComponent()" on the instance of CefBrowser.
         //     The UI component is inherited from a java.awt.Component and therefore
         //     it can be embedded into any AWT UI.
-        browser_ = client_.createBrowser(startURL, useOSR, isTransparent);
+        if (useOSR) {
+            browser_ = OsrSupport.createBrowser(client_, startURL);
+        } else {
+            browser_ = client_.createBrowser(startURL, useOSR, isTransparent);
+        }
+
         browerUI_ = browser_.getUIComponent();
 
         // (4) For this minimal browser, we need only a text field to enter an URL
@@ -202,10 +207,6 @@ public class MainFrame extends JFrame {
             return;
         }
 
-        // The simple example application is created as anonymous class and points
-        // to Google as the very first loaded page. Windowed rendering mode is used by
-        // default. If you want to test OSR mode set |useOsr| to true and recompile.
-        boolean useOsr = false;
-        new MainFrame(args, "http://www.google.com", useOsr, false);
+        new MainFrame(args, "http://www.google.com", OsrSupport.isEnabled(), false);
     }
 }
