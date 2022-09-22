@@ -14,7 +14,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -107,10 +106,12 @@ public class HandleJSQueryTest {
         private final CountDownLatch latch;
         private int browserNumber;
         private int callbackCounter;
+        boolean isJSRequestsPosted = false;
 
         public CefBrowserFrame(final CountDownLatch latch) {
             this.browserNumber = ourBrowserNumber++;
             this.latch = latch;
+
 
             browser = new JBCefBrowser(new CefLoadHandlerAdapter() {
                 @Override
@@ -121,7 +122,7 @@ public class HandleJSQueryTest {
                 @Override
                 public void onLoadEnd(CefBrowser browser, CefFrame frame, int httpStatusCode) {
                     CefLog.Info("onLoadEnd: browser " + browserNumber);
-                    executeRequests();
+                    postJSRequests();
                 }
 
                 @Override
@@ -167,11 +168,15 @@ public class HandleJSQueryTest {
             }
         }
 
-        private void executeRequests() {
+        private void postJSRequests() {
+            if (isJSRequestsPosted)
+                return;
+
             CefLog.Info("post " + requests.size() + " JS requests of browser " + browserNumber);
             for (JSRequest r: requests) {
                 browser.getCefBrowser().executeJavaScript(r.jsQuery, "", 0);
             }
+            isJSRequestsPosted = true;
         }
 
         public JBCefBrowser getBrowser() {
