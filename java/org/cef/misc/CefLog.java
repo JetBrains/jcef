@@ -20,8 +20,7 @@ public class CefLog {
 
     public static void init(CefSettings settings) {
         if (INSTANCE != null) {
-            INSTANCE.warn("Try to reinitialize logger (new settings will be ignored), stacktrace:\n");
-            new Throwable().printStackTrace(INSTANCE.myPrintStream);
+            INSTANCE.info("Try to reinitialize logger (new settings will be ignored)\n");
             return;
         }
         if (settings.log_file != null

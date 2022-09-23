@@ -450,7 +450,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser {
         if (isClosing_ || isClosed_) return;
         if (force) isClosing_ = true;
 
-        if (TRACE_LIFESPAN) CefLog.Debug("CefBrowser_N: %s: close, force=%d\n", this.toString(), force ? 1 : 0);
+        if (TRACE_LIFESPAN) CefLog.Debug("CefBrowser_N: %s: close, force=%d", this.toString(), force ? 1 : 0);
 
         if (getNativeRef("CefBrowser") == 0) {
             CefLog.Debug("CefBrowser_N: %s: native part of browser wasn't created yet, browser will be closed immediately after creation", this);
