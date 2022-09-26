@@ -145,14 +145,14 @@ Java_org_cef_network_CefURLRequest_1N_N_1Create(JNIEnv* env,
   CefRefPtr<URLRequest> urlRequest = new URLRequest(TID_UI, request, client);
   if (!urlRequest->Create())
     return;
-  SetCefForJNIObject(env, obj, urlRequest.get(), kCefClassName);
+  SetCefForJNIObject_sync(env, obj, urlRequest.get(), kCefClassName);
 }
 
 JNIEXPORT void JNICALL
 Java_org_cef_network_CefURLRequest_1N_N_1Dispose(JNIEnv* env,
                                                  jobject obj,
                                                  jlong self) {
-  SetCefForJNIObject<URLRequest>(env, obj, nullptr, kCefClassName);
+  SetCefForJNIObject_sync<URLRequest>(env, obj, nullptr, kCefClassName);
 }
 
 JNIEXPORT jobject JNICALL

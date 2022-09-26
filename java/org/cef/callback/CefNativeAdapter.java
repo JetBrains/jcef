@@ -17,25 +17,29 @@ public class CefNativeAdapter implements CefNative {
     }
 
     @Override
-    public long setNativeRef(String identifer, long nativeRef) {
-        lock.lock();
-        try {
-            long prev = N_CefHandle;
-            N_CefHandle = nativeRef;
-            return prev;
-        } finally {
-            lock.unlock();
-        }
+    public void setNativeRef(String identifer, long nativeRef) {
+        N_CefHandle = nativeRef;
     }
 
-    @Override
-    public long lockAndGetNativeRef(String identifer) {
+    /**
+     * Method is called by the native code. It locks the mutex (associated with native reference) and then
+     * returns pointer. In native code user must create CefRefPtr (internally invokes pointer->AddRef) and then
+     * release mutex (via setNativeRefUnlocking or unlock).
+     *
+     * @param identifer The name of the interface class (e.g. CefFocusHandler).
+     * @return The stored reference value of the native code.
+     */
+    long lockAndGetNativeRef(String identifer) {
         lock.lock();
         return N_CefHandle;
     }
 
-    @Override
-    public void unlock(String identifer) {
+    /**
+     * Method is called by the native code to unlock the mutex (associated with native reference).
+     *
+     * @param identifer The name of the interface class (e.g. CefFocusHandler).
+     */
+    void unlock(String identifer) {
         lock.unlock();
     }
 }

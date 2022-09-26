@@ -16,7 +16,7 @@ CefRefPtr<CefFrame> GetSelf(jlong self) {
 }
 
 void ClearSelf(JNIEnv* env, jobject obj) {
-  SetCefForJNIObject<CefFrame>(env, obj, nullptr, "CefFrame");
+  SetCefForJNIObject_sync<CefFrame>(env, obj, nullptr, "CefFrame");
 }
 
 }  // namespace

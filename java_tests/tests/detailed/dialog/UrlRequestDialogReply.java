@@ -149,25 +149,14 @@ public class UrlRequestDialogReply extends JDialog implements CefURLRequestClien
     // CefURLRequestClient
 
     @Override
-    public long setNativeRef(String identifer, long nativeRef) {
-        long prev = nativeRef_;
+    public void setNativeRef(String identifer, long nativeRef) {
         nativeRef_ = nativeRef;
-        return prev;
     }
 
     @Override
     public long getNativeRef(String identifer) {
         return nativeRef_;
     }
-
-    @Override
-    public long lockAndGetNativeRef(String identifer) {
-        lock_.lock();
-        return nativeRef_;
-    }
-
-    @Override
-    public void unlock(String identifer) { lock_.unlock(); }
 
     @Override
     public void onRequestComplete(CefURLRequest request) {

@@ -444,6 +444,8 @@ struct SetCefForJNIObjectHelper {
 // Forward declarations required by the below template types.
 jobject NewJNIObject(JNIEnv* env, const char* class_name);
 template <class T>
+bool SetCefForJNIObject_sync(JNIEnv* env, jobject obj, T* base, const char* varName);
+template <class T>
 bool SetCefForJNIObject(JNIEnv* env, jobject obj, T* base, const char* varName);
 template <class T>
 T* GetCefFromJNIObject(JNIEnv* env, jobject obj, const char* varName);
@@ -912,6 +914,39 @@ class ScopedJNIStringRef : public ScopedJNIBase<jobject> {
 // added to the base object. If a previous base object existed a reference
 // will be removed from that object.
 template <class T>
+bool SetCefForJNIObject_sync(JNIEnv* env,
+                        jobject obj,
+                        T* base,
+                        const char* varName) {
+  if (!obj)
+    return false;
+
+  ScopedJNIString identifer(env, varName);
+  jlong previousValue = 0;
+  JNI_CALL_METHOD(env, obj, "lockAndGetNativeRef", "(Ljava/lang/String;)J", Long,
+                 previousValue, identifer.get());
+  JNI_CALL_VOID_METHOD(env, obj, "setNativeRef", "(Ljava/lang/String;J)V",
+                      identifer.get(), (jlong)base);
+
+  if (base) {
+    // Add a reference to the new base object.
+    SetCefForJNIObjectHelper::AddRef(base);
+  }
+  if (previousValue != 0) {
+    // Remove a reference from the previous base object.
+    // NOTE: must do it after setNativeRef_safe (otherwise we can create CefRefPtr with killed ptr)
+    SetCefForJNIObjectHelper::Release(reinterpret_cast<T*>(previousValue));
+  }
+
+  JNI_CALL_VOID_METHOD(env, obj, "unlock", "(Ljava/lang/String;)V", identifer.get());
+
+  return true;
+}
+
+// Set the CEF base object for an existing JNI object. A reference will be
+// added to the base object. If a previous base object existed a reference
+// will be removed from that object.
+template <class T>
 bool SetCefForJNIObject(JNIEnv* env,
                         jobject obj,
                         T* base,
@@ -921,19 +956,21 @@ bool SetCefForJNIObject(JNIEnv* env,
 
   ScopedJNIString identifer(env, varName);
   jlong previousValue = 0;
-  JNI_CALL_METHOD(env, obj, "setNativeRef", "(Ljava/lang/String;J)J", Long,
-                       previousValue, identifer.get(), (jlong)base);
+  JNI_CALL_METHOD(env, obj, "getNativeRef", "(Ljava/lang/String;)J", Long,
+                  previousValue, identifer.get());
+  JNI_CALL_VOID_METHOD(env, obj, "setNativeRef", "(Ljava/lang/String;J)V",
+                       identifer.get(), (jlong)base);
 
+  if (base) {
+    // Add a reference to the new base object.
+    SetCefForJNIObjectHelper::AddRef(base);
+  }
   if (previousValue != 0) {
     // Remove a reference from the previous base object.
     // NOTE: must do it after setNativeRef_safe (otherwise we can create CefRefPtr with killed ptr)
     SetCefForJNIObjectHelper::Release(reinterpret_cast<T*>(previousValue));
   }
 
-  if (base) {
-    // Add a reference to the new base object.
-    SetCefForJNIObjectHelper::AddRef(base);
-  }
   return true;
 }
 

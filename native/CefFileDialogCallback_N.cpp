@@ -15,7 +15,7 @@ CefRefPtr<CefFileDialogCallback> GetSelf(jlong self) {
 
 void ClearSelf(JNIEnv* env, jobject obj) {
   // Clear the reference added in DialogHandler::OnFileDialog.
-  SetCefForJNIObject<CefFileDialogCallback>(env, obj, nullptr,
+  SetCefForJNIObject_sync<CefFileDialogCallback>(env, obj, nullptr,
                                             "CefFileDialogCallback");
 }
 

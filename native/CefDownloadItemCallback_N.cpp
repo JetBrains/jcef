@@ -14,7 +14,7 @@ CefRefPtr<CefDownloadItemCallback> GetSelf(jlong self) {
 
 void ClearSelf(JNIEnv* env, jobject obj) {
   // Clear the reference added in DownloadHandler::OnDownloadUpdated.
-  SetCefForJNIObject<CefDownloadItemCallback>(env, obj, nullptr,
+  SetCefForJNIObject_sync<CefDownloadItemCallback>(env, obj, nullptr,
                                               "CefDownloadItemCallback");
 }
 

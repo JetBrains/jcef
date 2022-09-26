@@ -18,7 +18,7 @@ Java_org_cef_browser_CefRequestContext_1N_N_1GetGlobalContext(JNIEnv* env,
   if (!jContext)
     return nullptr;
 
-  SetCefForJNIObject(env, jContext, context.get(), "CefRequestContext");
+  SetCefForJNIObject_sync(env, jContext, context.get(), "CefRequestContext");
   return jContext.Release();
 }
 
@@ -42,7 +42,7 @@ Java_org_cef_browser_CefRequestContext_1N_N_1CreateContext(JNIEnv* env,
   if (!jContext)
     return nullptr;
 
-  SetCefForJNIObject(env, jContext, context.get(), "CefRequestContext");
+  SetCefForJNIObject_sync(env, jContext, context.get(), "CefRequestContext");
   return jContext.Release();
 }
 
@@ -60,5 +60,5 @@ JNIEXPORT void JNICALL
 Java_org_cef_browser_CefRequestContext_1N_N_1CefRequestContext_1DTOR(
     JNIEnv* env,
     jobject obj) {
-  SetCefForJNIObject<CefRequestContext>(env, obj, nullptr, "CefRequestContext");
+  SetCefForJNIObject_sync<CefRequestContext>(env, obj, nullptr, "CefRequestContext");
 }

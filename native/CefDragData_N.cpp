@@ -44,7 +44,7 @@ JNIEXPORT void JNICALL
 Java_org_cef_callback_CefDragData_1N_N_1Dispose(JNIEnv* env,
                                                 jobject obj,
                                                 jlong self) {
-  SetCefForJNIObject<CefDragData>(env, obj, nullptr, kCefClassName);
+  SetCefForJNIObject_sync<CefDragData>(env, obj, nullptr, kCefClassName);
 }
 
 JNIEXPORT jboolean JNICALL

@@ -69,7 +69,7 @@ Java_org_cef_network_CefCookieManager_1N_N_1GetGlobalManager(JNIEnv* env,
   if (!jManager)
     return nullptr;
 
-  SetCefForJNIObject(env, jManager, manager.get(), kCefClassName);
+  SetCefForJNIObject_sync(env, jManager, manager.get(), kCefClassName);
   return jManager.Release();
 }
 
@@ -77,7 +77,7 @@ JNIEXPORT void JNICALL
 Java_org_cef_network_CefCookieManager_1N_N_1Dispose(JNIEnv* env,
                                                     jobject obj,
                                                     jlong self) {
-  SetCefForJNIObject<CefCookieManager>(env, obj, nullptr, kCefClassName);
+  SetCefForJNIObject_sync<CefCookieManager>(env, obj, nullptr, kCefClassName);
 }
 
 JNIEXPORT jboolean JNICALL
