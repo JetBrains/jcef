@@ -47,6 +47,7 @@ public class HandleJSQueryTest {
             } finally {
                 SwingUtilities.invokeLater(() -> browserFrame.dispatchEvent(new WindowEvent(browserFrame, WindowEvent.WINDOW_CLOSING)));
             }
+            browserFrame.awaitClientDisposed();
         }
         CefLog.Info("test PASSED");
     }
@@ -66,6 +67,7 @@ public class HandleJSQueryTest {
         } finally {
             SwingUtilities.invokeLater(() -> browserFrame.dispatchEvent(new WindowEvent(browserFrame, WindowEvent.WINDOW_CLOSING)));
         }
+        browserFrame.awaitClientDisposed();
     }
 
     private static String time() {
@@ -95,6 +97,8 @@ public class HandleJSQueryTest {
             SwingUtilities.invokeLater(() -> firstBrowser.dispatchEvent(new WindowEvent(firstBrowser, WindowEvent.WINDOW_CLOSING)));
             SwingUtilities.invokeLater(() -> secondBrowser.dispatchEvent(new WindowEvent(secondBrowser, WindowEvent.WINDOW_CLOSING)));
         }
+        firstBrowser.awaitClientDisposed();
+        secondBrowser.awaitClientDisposed();
     }
 
     static class CefBrowserFrame extends JFrame {
@@ -111,7 +115,6 @@ public class HandleJSQueryTest {
         public CefBrowserFrame(final CountDownLatch latch) {
             this.browserNumber = ourBrowserNumber++;
             this.latch = latch;
-
 
             browser = new JBCefBrowser(new CefLoadHandlerAdapter() {
                 @Override
@@ -152,6 +155,10 @@ public class HandleJSQueryTest {
             setVisible(true);
 
             reload();
+        }
+
+        public void awaitClientDisposed() {
+            browser.awaitClientDisposed();
         }
 
         public void reload() {

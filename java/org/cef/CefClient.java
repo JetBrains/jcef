@@ -90,6 +90,7 @@ public class CefClient extends CefClientHandler
     private CefPrintHandler printHandler_ = null;
     private CefRequestHandler requestHandler_ = null;
     private boolean isDisposed_ = false;
+    private Runnable onDisposed_ = null; // just for convenience (for tests debugging)
     private volatile CefBrowser focusedBrowser_ = null;
     private final PropertyChangeListener propertyChangeListener = new PropertyChangeListener() {
         @Override
@@ -152,6 +153,9 @@ public class CefClient extends CefClientHandler
         }
     }
 
+    public void setOnDisposeCallback(Runnable onDisposed) {
+        this.onDisposed_ = onDisposed;
+    }
     // CefClientHandler
 
     /**
@@ -714,6 +718,7 @@ public class CefClient extends CefClientHandler
 
         CefApp app = CefApp.getInstanceIfAny();
         if (app != null) app.clientWasDisposed(this);
+        if (onDisposed_ != null) onDisposed_.run();
     }
 
     // CefLoadHandler
@@ -993,5 +998,19 @@ public class CefClient extends CefClientHandler
         CefWindowHandler realHandler = browser.getWindowHandler();
         if (realHandler != null)
             realHandler.onMouseEvent(browser, event, screenX, screenY, modifier, button);
+    }
+
+    public String getInfo() {
+        StringBuilder sb = new StringBuilder(toString());
+        if (browser_.isEmpty())
+            sb.append(" [0 active browsers]");
+        else {
+            sb.append(" | ");
+            for (CefBrowser b: browser_.values()) {
+                sb.append(b);
+                sb.append(", ");
+            }
+        }
+        return sb.toString();
     }
 }

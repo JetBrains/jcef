@@ -59,10 +59,15 @@ class TestFrame extends JFrame implements CefLifeSpanHandler, CefLoadHandler, Ce
 
     protected final CefClient client_;
     protected CefBrowser browser_ = null;
+    private CountDownLatch disposeLatch_;
 
     TestFrame() {
+        disposeLatch_ = new CountDownLatch(1);
         client_ = CefApp.getInstance().createClient();
         assertNotNull(client_);
+        client_.setOnDisposeCallback(()->{
+            disposeLatch_.countDown();
+        });
 
         // Browser window closing works as follows:
         //   1. Sending WindowEvent.WINDOW_CLOSING calls WindowAdapter.windowClosing.
@@ -160,6 +165,13 @@ class TestFrame extends JFrame implements CefLifeSpanHandler, CefLoadHandler, Ce
         } catch (InterruptedException e) {
         }
         if (debugPrint()) CefLog.Info("awaitCompletion returned");
+
+        try {
+            if(!disposeLatch_.await(TIMEOUT, TimeUnit.SECONDS)) {
+                throw new RuntimeException("CefClient wasn't completely disposed: " + client_.getInfo());
+            }
+        } catch (InterruptedException e) {
+        }
     }
 
     protected void addResource(String url, String content, String mimeType) {

@@ -128,5 +128,6 @@ public class LoadPageWithoutUI {
             test.browser.dispose();
             SwingUtilities.invokeAndWait(() -> test.frame.dispose());
         }
+        test.browser.awaitClientDisposed();
     }
 }

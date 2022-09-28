@@ -10,6 +10,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.CountDownLatch;
@@ -72,6 +74,7 @@ public class JCEFStartupTest {
                 myFrame.dispose();
                 myFrame = null;
             }
+            if (disposeBrowser) myBrowser.awaitClientDisposed();
         }
     }
 

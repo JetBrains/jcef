@@ -3,16 +3,17 @@ package tests.junittests;
 import org.cef.CefApp;
 import org.cef.CefClient;
 import org.cef.browser.CefBrowser;
-import org.cef.browser.CefRendering;
 import org.cef.handler.CefLifeSpanHandlerAdapter;
 import org.cef.handler.CefLoadHandler;
 import org.cef.misc.CefLog;
-import tests.JBCefOsrComponent;
-import tests.JBCefOsrHandler;
 import tests.OsrSupport;
 
 import javax.swing.*;
 import java.awt.Component;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * @author tav
@@ -20,6 +21,7 @@ import java.awt.Component;
 public class JBCefBrowser {
     private final CefBrowser myCefBrowser;
     private final CefClient myCefClient;
+    private final CountDownLatch myClientDisposeLatch;
 
     private volatile boolean myIsCefBrowserCreated;
     private volatile LoadDeferrer myLoadDeferrer;
@@ -53,6 +55,11 @@ public class JBCefBrowser {
     public JBCefBrowser(CefLoadHandler loadHandler) {
         myCefClient = CefApp.getInstance().createClient();
 
+        myClientDisposeLatch = new CountDownLatch(1);
+        myCefClient.setOnDisposeCallback(()->{
+            myClientDisposeLatch.countDown();
+        });
+
         myCefClient.addLifeSpanHandler(new CefLifeSpanHandlerAdapter() {
             @Override
             public void onAfterCreated(CefBrowser browser) {
@@ -73,7 +80,15 @@ public class JBCefBrowser {
         } else {
             myCefBrowser = myCefClient.createBrowser("about:blank", false, false);
         }
+    }
 
+    public final void awaitClientDisposed() {
+        try {
+            if (!myClientDisposeLatch.await(5, TimeUnit.SECONDS)) {
+                throw new RuntimeException("CefClient wasn't completely disposed: " + myCefClient.getInfo());
+            }
+        } catch (InterruptedException e) {
+        }
     }
 
     public Component getComponent() {
