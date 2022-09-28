@@ -125,6 +125,7 @@ public class CefClient extends CefClientHandler
                 propertyChangeListener);
 
         if (ADD_EMPTY_ROUTER) addMessageRouter(myEmptyRouter = CefMessageRouter.create());
+        if (TRACE_LIFESPAN) CefLog.Debug("CefClient: created client %s", this);
     }
 
     private boolean isPartOf(Object obj, Component browserUI) {
@@ -140,6 +141,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public void dispose() {
+        if (TRACE_LIFESPAN) CefLog.Debug("CefClient: dispose client %s", this);
         isDisposed_ = true;
         cleanupBrowser(-1);
 
@@ -679,9 +681,11 @@ public class CefClient extends CefClientHandler
             assert isDisposed_;
             Collection<CefBrowser> browserList = new ArrayList<>(browser_.values());
             if (!browserList.isEmpty()) {
+                if (TRACE_LIFESPAN) CefLog.Debug("CefClient: cleanup %d browsers", browserList.size());
                 // Close all browsers.
                 // Once any of browsers close, it will invoke #onBeforeClose and #cleanupBrowser
                 for (CefBrowser browser : browserList) {
+                    if (TRACE_LIFESPAN) CefLog.Debug("CefClient: close %s", browser);
                     browser.close(true);
                 }
                 return;

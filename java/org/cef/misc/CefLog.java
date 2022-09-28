@@ -12,6 +12,7 @@ import java.util.Date;
 // so use this separate primitive logger
 // TODO: support log4j or similar
 public class CefLog {
+    private static final boolean TRACE_THREAD = Boolean.getBoolean("jcef.log.trace_thread");
     private static CefLog INSTANCE;
     private static final SimpleDateFormat ourTimeFormat = new SimpleDateFormat("mm:ss:SSS");
 
@@ -84,7 +85,8 @@ public class CefLog {
         if (msg == null)
             return;
         if (mySeverity.compareTo(log_severity) <= 0) {
-            myPrintStream.printf("JCEF_%s(%s): %s\n", shortSeverity(log_severity), ourTimeFormat.format(new Date()),
+            myPrintStream.printf("JCEF_%s(%s%s): %s\n", shortSeverity(log_severity), ourTimeFormat.format(new Date()),
+                    TRACE_THREAD ? " | " + Thread.currentThread().getName() : "",
                     args == null || args.length == 0 ? msg : String.format(msg, args));
         }
     }

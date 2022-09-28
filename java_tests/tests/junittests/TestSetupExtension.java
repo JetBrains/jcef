@@ -60,12 +60,14 @@ public class TestSetupExtension
         System.setProperty("jcef.tests.verbose", "true");
         System.setProperty("jcef.trace.cefbrowser_n.lifespan", "true");
         System.setProperty("jcef.trace.cefclient.lifespan", "true");
+        System.setProperty("jcef.trace.cefapp.lifespan", "true");
         System.setProperty("jcef.trace.cefbrowserwr.addnotify", "true");
+        System.setProperty("jcef.log.trace_thread", "true");
 
         TestSetupContext.initialize(context);
 
         if (TestSetupContext.debugPrint()) {
-            System.out.println("TestSetupExtension.initialize");
+            CefLog.Info("TestSetupExtension.initialize");
         }
 
         // Register a callback hook for when the root test context is shut down.
@@ -73,7 +75,7 @@ public class TestSetupExtension
 
         // Perform startup initialization on platforms that require it.
         if (!CefApp.startup(new String[]{})) {
-            System.out.println("Startup initialization failed!");
+            CefLog.Error("Startup initialization failed!");
             return;
         }
 
@@ -125,7 +127,7 @@ public class TestSetupExtension
     @Override
     public void close() {
         if (TestSetupContext.debugPrint()) {
-            System.out.println("TestSetupExtension.close");
+            CefLog.Info("TestSetupExtension.close");
         }
 
         if (!Boolean.getBoolean("jcef.junittests.isGradleLauncher")) { // due to https://issues.gradle.org/browse/GRADLE-1903

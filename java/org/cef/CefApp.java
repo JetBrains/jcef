@@ -27,6 +27,7 @@ import org.cef.misc.CefLog;
  * Exposes static methods for managing the global CEF context.
  */
 public class CefApp extends CefAppHandlerAdapter {
+    private static final boolean TRACE_LIFESPAN = Boolean.getBoolean("jcef.trace.cefapp.lifespan");
     public final class CefVersion {
         public final int JCEF_COMMIT_NUMBER;
 
@@ -152,7 +153,7 @@ public class CefApp extends CefAppHandlerAdapter {
             try {
                 SystemBootstrap.loadLibrary("jawt");
             } catch (UnsatisfiedLinkError e) {
-                System.err.println("CefApp: " + e.getMessage());
+                CefLog.Error("can't load jawt library: " + e.getMessage());
             }
             SystemBootstrap.loadLibrary("chrome_elf");
             SystemBootstrap.loadLibrary("libcef");
@@ -266,6 +267,7 @@ public class CefApp extends CefAppHandlerAdapter {
         if (state.compareTo(state_) < 0) {
             throw new IllegalStateException("State cannot go backward. Current state " + state_ + ". Proposed state " + state);
         }
+        if (TRACE_LIFESPAN) CefLog.Debug("CefApp: set state %s", state);
         state_ = state;
         // Execute on the AWT event dispatching thread.
         SwingUtilities.invokeLater(new Runnable() {
@@ -301,8 +303,10 @@ public class CefApp extends CefAppHandlerAdapter {
                     // shutdown() will be called from clientWasDisposed() when the last
                     // client is gone.
                     // Use a copy of the HashSet to avoid iterating during modification.
+                    if (TRACE_LIFESPAN) CefLog.Debug("CefApp: dispose clients before shutting down");
                     HashSet<CefClient> clients = new HashSet<CefClient>(clients_);
                     for (CefClient c : clients) {
+                        if (TRACE_LIFESPAN) CefLog.Debug("CefApp: dispose %s", c);
                         c.dispose();
                     }
                 }
@@ -385,6 +389,7 @@ public class CefApp extends CefAppHandlerAdapter {
      */
     protected final synchronized void clientWasDisposed(CefClient client) {
         clients_.remove(client);
+        if (TRACE_LIFESPAN) CefLog.Debug("CefApp: client was disposed: %s [clients count %d]", client, clients_.size());
         if (clients_.isEmpty() && getState().compareTo(CefAppState.SHUTTING_DOWN) >= 0) {
             // Shutdown native system.
             shutdown();
@@ -405,7 +410,7 @@ public class CefApp extends CefAppHandlerAdapter {
                     if (settings_.log_severity == CefSettings.LogSeverity.LOGSEVERITY_INFO ||
                         settings_.log_severity == CefSettings.LogSeverity.LOGSEVERITY_VERBOSE)
                     {
-                        System.out.println("initialize on " + Thread.currentThread()
+                        CefLog.Info("initialize on " + Thread.currentThread()
                                 + " with library path " + library_path);
                     }
 
@@ -468,7 +473,7 @@ public class CefApp extends CefAppHandlerAdapter {
      * of a termination event (e.g. someone pressed CMD+Q).
      */
     protected final void handleBeforeTerminate() {
-        System.out.println("Cmd+Q termination request.");
+        CefLog.Info("Cmd+Q termination request.");
         // Execute on the AWT event dispatching thread. Always call asynchronously
         // so the call stack has a chance to unwind.
         SwingUtilities.invokeLater(new Runnable() {
@@ -490,7 +495,7 @@ public class CefApp extends CefAppHandlerAdapter {
         // so the call stack has a chance to unwind.
         Runnable _shutdown = () -> {
             synchronized (CefApp.this) {
-                System.out.println("shutdown on " + Thread.currentThread());
+                CefLog.Info("shutdown on " + Thread.currentThread());
 
                 // Shutdown native CEF.
                 N_Shutdown();
