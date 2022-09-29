@@ -68,23 +68,33 @@ public class JCEFStartupTest {
             myFrame.setVisible(true);
         }
 
-        public void dispose(boolean disposeBrowser) {
-            if (disposeBrowser) myBrowser.dispose();
+        public void dispose() {
+            myBrowser.dispose();
             if (myFrame != null) {
                 myFrame.dispose();
                 myFrame = null;
             }
-            if (disposeBrowser) myBrowser.awaitClientDisposed();
+            myBrowser.awaitClientDisposed();
         }
     }
 
     @Test
     public void test() {
-        _test(true);
-    }
-    @Test
-    public void testJBR2222() {
-        _test(false);
+        TestFrame frame = new TestFrame();
+        EventQueue.invokeLater(() -> frame.initUI());
+
+        try {
+            frame.myLatch.await(50, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        frame.dispose();
+
+        if (!frame.isPassed) {
+            throw new RuntimeException("Test FAILED!");
+        }
+        CefLog.Info("Test PASSED");
     }
 
     @Test
@@ -102,28 +112,11 @@ public class JCEFStartupTest {
                 e.printStackTrace();
             }
 
-            frame.dispose(true);
+            frame.dispose();
 
             if (!frame.isPassed) {
                 throw new RuntimeException("FAILED testCreation10Times: CefLoadHandler.onLoadEnd wasn't invoked, iteration " + c);
             }
-        }
-        CefLog.Info("Test PASSED");
-    }
-    private void _test(boolean disposeBrowser) {
-        TestFrame frame = new TestFrame();
-        EventQueue.invokeLater(() -> frame.initUI());
-
-        try {
-            frame.myLatch.await(50, TimeUnit.SECONDS);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        frame.dispose(disposeBrowser);
-
-        if (!frame.isPassed) {
-            throw new RuntimeException("Test FAILED!");
         }
         CefLog.Info("Test PASSED");
     }
