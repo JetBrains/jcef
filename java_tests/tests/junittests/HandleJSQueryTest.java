@@ -32,6 +32,7 @@ import java.util.concurrent.TimeUnit;
 public class HandleJSQueryTest {
     @Test
     public void testJsRequest10Times() throws InterruptedException {
+        CefLog.Info("Start testJsRequest10Times");
         final long count = 10;
         for (long c = 0; c < count; ++c) {
             final CountDownLatch l = new CountDownLatch(1);
@@ -42,6 +43,7 @@ public class HandleJSQueryTest {
                 l.await(10, TimeUnit.SECONDS);
 
                 if (browserFrame.callbackCounter == 0) {
+                    CefLog.Error("JS Query %d was not handled in browser: %d [%s]", c, browserFrame.browserNumber, browserFrame.browser.getCefBrowser());
                     throw new RuntimeException(time() + "test FAILED. JS Query was not handled in opened browser: " + browserFrame.browserNumber);
                 }
             } finally {
@@ -54,6 +56,7 @@ public class HandleJSQueryTest {
 
     @Test
     public void testJsRequestInOneBrowser10Times() throws InterruptedException {
+        CefLog.Info("Start testJsRequestInOneBrowser10Times");
         final int count = 10;
         final CountDownLatch l = new CountDownLatch(count);
         CefBrowserFrame browserFrame = new CefBrowserFrame(l);
@@ -61,13 +64,15 @@ public class HandleJSQueryTest {
             SwingUtilities.invokeLater(()->browserFrame.initUI());
             l.await(count*5, TimeUnit.SECONDS);
 
-            if (browserFrame.callbackCounter != count)
+            if (browserFrame.callbackCounter != count) {
+                CefLog.Error("Some JS Query was not handled in browser %s, callbackCounter=%d", browserFrame.browser.getCefBrowser(), browserFrame.callbackCounter);
                 throw new RuntimeException(time() + "test FAILED. JS Query was not handled: callbackCounter=" + browserFrame.callbackCounter);
-            CefLog.Info("test PASSED");
+            }
         } finally {
             SwingUtilities.invokeLater(() -> browserFrame.dispatchEvent(new WindowEvent(browserFrame, WindowEvent.WINDOW_CLOSING)));
         }
         browserFrame.awaitClientDisposed();
+        CefLog.Info("test PASSED");
     }
 
     private static String time() {
@@ -76,6 +81,7 @@ public class HandleJSQueryTest {
 
     @Test
     public void testDoubleRequest() throws InterruptedException {
+        CefLog.Info("Start testDoubleRequest");
         final int count = 1;
         final CountDownLatch firstLatch = new CountDownLatch(count);
         final CountDownLatch secondLatch = new CountDownLatch(count);
@@ -85,20 +91,24 @@ public class HandleJSQueryTest {
         try {
             SwingUtilities.invokeLater(()->firstBrowser.initUI());
             firstLatch.await(10, TimeUnit.SECONDS);
-            if (firstBrowser.callbackCounter == 0)
+            if (firstBrowser.callbackCounter == 0) {
+                CefLog.Error("JS Query was not handled in 1 browser %s", firstBrowser.browser.getCefBrowser());
                 throw new RuntimeException("test FAILED. JS Query was not handled in 1 opened browser");
+            }
 
             SwingUtilities.invokeLater(()->secondBrowser.initUI());
             secondLatch.await(10, TimeUnit.SECONDS);
-            if (secondBrowser.callbackCounter == 0)
+            if (secondBrowser.callbackCounter == 0) {
+                CefLog.Error("JS Query was not handled in 2 browser %s", secondBrowser.browser.getCefBrowser());
                 throw new RuntimeException("test FAILED. JS Query was not handled in 2 opened browser");
-            CefLog.Info("test PASSED");
+            }
         } finally {
             SwingUtilities.invokeLater(() -> firstBrowser.dispatchEvent(new WindowEvent(firstBrowser, WindowEvent.WINDOW_CLOSING)));
             SwingUtilities.invokeLater(() -> secondBrowser.dispatchEvent(new WindowEvent(secondBrowser, WindowEvent.WINDOW_CLOSING)));
         }
         firstBrowser.awaitClientDisposed();
         secondBrowser.awaitClientDisposed();
+        CefLog.Info("test PASSED");
     }
 
     static class CefBrowserFrame extends JFrame {
@@ -145,7 +155,7 @@ public class HandleJSQueryTest {
             setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
             addWindowListener(new WindowAdapter() {
                 @Override
-                public void windowClosed(WindowEvent e) {
+                public void windowClosing(WindowEvent e) {
                     for (JSRequest r: requests)
                         browser.getCefClient().removeMessageRouter(r.msgRouter);
                     browser.dispose();
