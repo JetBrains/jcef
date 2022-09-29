@@ -131,6 +131,7 @@ public class JBCefBrowser {
     }
 
     public void dispose() {
+        myCefBrowser.setCloseAllowed(); // Cause browser.doClose() to return false so that OSR browser can close.
         myCefBrowser.close(true);
         myCefClient.dispose();
     }
