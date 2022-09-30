@@ -47,9 +47,8 @@ public class HandleJSQueryTest {
                     throw new RuntimeException(time() + "test FAILED. JS Query was not handled in opened browser: " + browserFrame.browserNumber);
                 }
             } finally {
-                SwingUtilities.invokeLater(() -> browserFrame.dispatchEvent(new WindowEvent(browserFrame, WindowEvent.WINDOW_CLOSING)));
+                browserFrame.dispose();
             }
-            browserFrame.awaitClientDisposed();
         }
         CefLog.Info("test PASSED");
     }
@@ -69,9 +68,8 @@ public class HandleJSQueryTest {
                 throw new RuntimeException(time() + "test FAILED. JS Query was not handled: callbackCounter=" + browserFrame.callbackCounter);
             }
         } finally {
-            SwingUtilities.invokeLater(() -> browserFrame.dispatchEvent(new WindowEvent(browserFrame, WindowEvent.WINDOW_CLOSING)));
+            browserFrame.dispose();
         }
-        browserFrame.awaitClientDisposed();
         CefLog.Info("test PASSED");
     }
 
@@ -103,11 +101,9 @@ public class HandleJSQueryTest {
                 throw new RuntimeException("test FAILED. JS Query was not handled in 2 opened browser");
             }
         } finally {
-            SwingUtilities.invokeLater(() -> firstBrowser.dispatchEvent(new WindowEvent(firstBrowser, WindowEvent.WINDOW_CLOSING)));
-            SwingUtilities.invokeLater(() -> secondBrowser.dispatchEvent(new WindowEvent(secondBrowser, WindowEvent.WINDOW_CLOSING)));
+            firstBrowser.dispose();
+            secondBrowser.dispose();
         }
-        firstBrowser.awaitClientDisposed();
-        secondBrowser.awaitClientDisposed();
         CefLog.Info("test PASSED");
     }
 
@@ -153,22 +149,17 @@ public class HandleJSQueryTest {
             getContentPane().add(browser.getComponent());
             setSize(640, 480);
             setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-            addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowClosing(WindowEvent e) {
-                    for (JSRequest r: requests)
-                        browser.getCefClient().removeMessageRouter(r.msgRouter);
-                    browser.dispose();
-                    CefLog.Info("disposed browser " + browserNumber);
-                }
-            });
             setVisible(true);
 
             reload();
         }
 
-        public void awaitClientDisposed() {
+        public void dispose() {
+            for (JSRequest r: requests)
+                browser.getCefClient().removeMessageRouter(r.msgRouter);
+            browser.dispose();
             browser.awaitClientDisposed();
+            SwingUtilities.invokeLater(() -> dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING)));
         }
 
         public void reload() {

@@ -67,11 +67,11 @@ public class JCEFStartupTest {
 
         public void dispose() {
             myBrowser.dispose();
+            myBrowser.awaitClientDisposed();
             if (myFrame != null) {
                 myFrame.dispose();
                 myFrame = null;
             }
-            myBrowser.awaitClientDisposed();
         }
     }
 
