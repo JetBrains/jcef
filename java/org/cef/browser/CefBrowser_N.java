@@ -73,8 +73,14 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser {
         return inspectAt_;
     }
 
-    protected boolean isClosed() {
+    @Override
+    public boolean isClosed() {
         return isClosed_;
+    }
+
+    @Override
+    public boolean isClosing() {
+        return isClosing_;
     }
 
     @Override

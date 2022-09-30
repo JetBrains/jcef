@@ -249,6 +249,9 @@ public interface CefBrowser {
      */
     public void onBeforeClose();
 
+    public boolean isClosing();
+    public boolean isClosed();
+
     /**
      * Set or remove keyboard focus to/from the browser window.
      * @param enable set to true to give the focus to the browser

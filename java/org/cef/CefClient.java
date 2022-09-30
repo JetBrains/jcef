@@ -7,12 +7,7 @@ package org.cef;
 import com.jetbrains.cef.JCefAppConfig;
 import com.jetbrains.cef.JdkEx;
 
-import org.cef.browser.CefBrowser;
-import org.cef.browser.CefBrowserFactory;
-import org.cef.browser.CefFrame;
-import org.cef.browser.CefMessageRouter;
-import org.cef.browser.CefRequestContext;
-import org.cef.browser.CefRendering;
+import org.cef.browser.*;
 import org.cef.callback.CefAuthCallback;
 import org.cef.callback.CefBeforeDownloadCallback;
 import org.cef.callback.CefCallback;
@@ -195,7 +190,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     protected Object[] getAllBrowser() {
-        return browser_.values().toArray();
+        return browser_.values().stream().filter(browser -> !browser.isClosing()).toArray();
     }
 
     @Override
