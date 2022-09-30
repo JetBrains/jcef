@@ -5,15 +5,12 @@ import org.cef.browser.CefFrame;
 import org.cef.handler.CefLoadHandlerAdapter;
 import org.cef.misc.CefLog;
 import org.cef.network.CefRequest;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -80,44 +77,63 @@ public class JCEFStartupTest {
 
     @Test
     public void test() {
+        testCreation(1);
+    }
+
+    @Test
+    public void testCreation100Times() throws InterruptedException {
+        testCreation(100);
+    }
+
+    @Test
+    // Reproducer for JBR-4872 (use with long timeout > 4 hours)
+    public void testCreationWithTimeout() throws InterruptedException {
+        String stime = System.getenv().get("JCEF_JUNIT_STARTUP_TIMEOUT_MIN");
+        if (stime == null || stime.isEmpty()) return;
+        long durationMin;
+        try {
+            durationMin = Integer.parseInt(stime);
+        } catch (NumberFormatException e) {
+            CefLog.Warn("skip testCreationWithTimeout, exception during parse env variable", e.getMessage());
+            return;
+        }
+
+        final long startMs = System.currentTimeMillis();
+        CefLog.Info("Start testCreation, timeout=%d min", durationMin);
+        int c = 0;
+        while (System.currentTimeMillis() - startMs < durationMin*60*1000){
+            CefLog.Info("=== iteraion %d ===", c++);
+            testCreation();
+        }
+        CefLog.Info("Test PASSED");
+    }
+
+    private void testCreation(int count) {
+        CefLog.Info("Start testCreation, count=%d", count);
+        for (long c = 0; c < count; ++c) {
+            CefLog.Info("=== iteraion %d ===", c);
+            testCreation();
+        }
+        CefLog.Info("Test PASSED");
+    }
+
+    private void testCreation() {
+        // Test CefLoadHandlerAdapter callbacks invocation and cefclient disposing
         TestFrame frame = new TestFrame();
         EventQueue.invokeLater(() -> frame.initUI());
 
         try {
-            frame.myLatch.await(50, TimeUnit.SECONDS);
+            frame.myLatch.await(10, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
+            CefLog.Error(e.getMessage());
             e.printStackTrace();
         }
 
         frame.dispose();
 
         if (!frame.isPassed) {
-            throw new RuntimeException("Test FAILED!");
+            CefLog.Error("CefLoadHandler.onLoadEnd wasn't invoked");
+            throw new RuntimeException("CefLoadHandler.onLoadEnd wasn't invoked");
         }
-        CefLog.Info("Test PASSED");
-    }
-
-    @Test
-    public void testCreation10Times() throws InterruptedException {
-        // Test CefLoadHandlerAdapter callbacks invocation
-        final long count = 10;
-        CefLog.Info("Start testCreation10Times");
-        for (long c = 0; c < count; ++c) {
-            TestFrame frame = new TestFrame();
-            EventQueue.invokeLater(() -> frame.initUI());
-
-            try {
-                frame.myLatch.await(50, TimeUnit.SECONDS);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            frame.dispose();
-
-            if (!frame.isPassed) {
-                throw new RuntimeException("FAILED testCreation10Times: CefLoadHandler.onLoadEnd wasn't invoked, iteration " + c);
-            }
-        }
-        CefLog.Info("Test PASSED");
     }
 }
