@@ -69,7 +69,6 @@ public class CefClient extends CefClientHandler
                    CefLifeSpanHandler, CefLoadHandler, CefPrintHandler, CefRenderHandler,
                    CefRequestHandler, CefWindowHandler {
     private static final boolean TRACE_LIFESPAN = Boolean.getBoolean("jcef.trace.cefclient.lifespan");
-    private static final boolean ADD_EMPTY_ROUTER = !Boolean.getBoolean("jcef.cefclient.dont_add_empty_router"); // workaround for IDEA259472Test
     private final ConcurrentHashMap<Integer, CefBrowser> browser_ = new ConcurrentHashMap<Integer, CefBrowser>();
     private CefContextMenuHandler contextMenuHandler_ = null;
     private CefDialogHandler dialogHandler_ = null;
@@ -102,11 +101,6 @@ public class CefClient extends CefClientHandler
         }
     };
 
-    // workaround for JBR-4176 Some tests fail after JCEF update
-    // Empiric observation: some client handlers may be ignored for CEF version 95 (and later) without adding at least one router
-    // TODO: remove when DisplayHandlerTest (or IDEA259472Test) starts running with empty list of message routers
-    private CefMessageRouter myEmptyRouter;
-
     /**
      * The CTOR is only accessible within this package.
      * Use CefApp.createClient() to create an instance of
@@ -120,7 +114,6 @@ public class CefClient extends CefClientHandler
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addPropertyChangeListener(
                 propertyChangeListener);
 
-        if (ADD_EMPTY_ROUTER) addMessageRouter(myEmptyRouter = CefMessageRouter.create());
         if (TRACE_LIFESPAN) CefLog.Debug("CefClient: created client %s", this);
     }
 
@@ -140,12 +133,6 @@ public class CefClient extends CefClientHandler
         if (TRACE_LIFESPAN) CefLog.Debug("CefClient: dispose client %s", this);
         isDisposed_ = true;
         cleanupBrowser(-1);
-
-        if (myEmptyRouter != null) {
-            removeMessageRouter(myEmptyRouter);
-            myEmptyRouter.dispose();
-            myEmptyRouter = null;
-        }
     }
 
     public void setOnDisposeCallback(Runnable onDisposed) {
