@@ -104,6 +104,7 @@ public class SwingComponentsTest {
     }
 
     @Test
+    @Disabled("Reproducer for JBR-4833")
     public void testPaintOccured() {
         for (int c = 0; c < 10; ++c) {
             try {
