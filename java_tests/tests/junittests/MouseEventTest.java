@@ -18,7 +18,6 @@ import java.util.concurrent.TimeUnit;
  */
 @ExtendWith(TestSetupExtension.class)
 public class MouseEventTest {
-    @Disabled("Disabled until SwingComponentsTest.testMouseListener fix")
     @Test
     public void test() throws InvocationTargetException, InterruptedException {
         MouseEventScenario scenario = new MouseEventScenario();
@@ -36,7 +35,6 @@ public class MouseEventTest {
         }
     }
 
-    @Disabled("Disabled until SwingComponentsTest.testMouseListener fix")
     @Test
     public void hideAndShowBrowserTest() throws InvocationTargetException, InterruptedException {
         MouseEventScenario scenario = new MouseEventScenario();

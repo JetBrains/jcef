@@ -21,9 +21,9 @@ public class SwingComponentsTest {
     private Robot robot;
     private TestFrame testFrame;
 
-    @Disabled("Disabled until MouseListenerTest fix")
     @Test
     public void testMouseListener() throws InvocationTargetException, InterruptedException {
+        // reproducer for JBR-4884
         try {
             initUI();
             doMouseActions();
@@ -128,10 +128,6 @@ public class SwingComponentsTest {
         private Canvas canvas_ = null;
         private final CountDownLatch paintLatch;
 
-        public TestComponent() {
-            this(null);
-        }
-
         public TestComponent(CountDownLatch paintLatch) {
             super(new BorderLayout());
             this.paintLatch = paintLatch;
@@ -141,6 +137,7 @@ public class SwingComponentsTest {
         public void addNotify() {
             super.addNotify();
             canvas_ = new Canvas();
+            this.add(canvas_, BorderLayout.CENTER);
         }
 
         @Override
