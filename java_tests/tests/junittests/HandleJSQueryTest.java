@@ -159,7 +159,6 @@ public class HandleJSQueryTest {
                 browser.getCefClient().removeMessageRouter(r.msgRouter);
             browser.dispose();
             browser.awaitClientDisposed();
-            SwingUtilities.invokeLater(() -> dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING)));
         }
 
         public void reload() {
