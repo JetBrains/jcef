@@ -149,23 +149,91 @@ public class SwingComponentsTest {
         private Canvas canvas_ = null;
         private final CountDownLatch paintLatch;
 
+        private MouseListener mouseListener;
+        private MouseWheelListener mouseWheelListener;
+        private MouseMotionListener mouseMotionListener;
+
+        @Override
+        public void addMouseListener(MouseListener l) {
+            mouseListener = l;
+            if (canvas_ != null)
+                canvas_.addMouseListener(l);
+            // NOTE: should also add listener into parent JPanel
+            // otherwise testMouseListenerWithHideAndShow starts fail
+            super.addMouseListener(l);
+        }
+        @Override
+        public void addMouseWheelListener(MouseWheelListener l) {
+            mouseWheelListener = l;
+            if (canvas_ != null)
+                canvas_.addMouseWheelListener(l);
+            super.addMouseWheelListener(l);
+        }
+        @Override
+        public void addMouseMotionListener(MouseMotionListener l) {
+            mouseMotionListener = l;
+            if (canvas_ != null)
+                canvas_.addMouseMotionListener(l);
+            super.addMouseMotionListener(l);
+        }
+
+        @Override
+        public void removeMouseListener(MouseListener l) {
+            mouseListener = null;
+            if (canvas_ != null)
+                canvas_.removeMouseListener(l);
+            super.removeMouseListener(l);
+        }
+
+        @Override
+        public void removeMouseMotionListener(MouseMotionListener l) {
+            mouseMotionListener = null;
+            if (canvas_ != null)
+                canvas_.removeMouseMotionListener(l);
+            super.removeMouseMotionListener(l);
+        }
+
+        @Override
+        public void removeMouseWheelListener(MouseWheelListener l) {
+            mouseWheelListener = null;
+            if (canvas_ != null)
+                canvas_.removeMouseWheelListener(l);
+            super.removeMouseWheelListener(l);
+        }
+
         public TestComponent(CountDownLatch paintLatch) {
             super(new BorderLayout());
             this.paintLatch = paintLatch;
         }
 
+        private void addCanvas() {
+            canvas_ = new Canvas();
+            if (mouseListener != null) canvas_.addMouseListener(mouseListener);
+            if (mouseWheelListener != null) canvas_.addMouseWheelListener(mouseWheelListener);
+            if (mouseMotionListener != null) canvas_.addMouseMotionListener(mouseMotionListener);
+            this.add(canvas_, BorderLayout.CENTER);
+        }
+        private void removeCanvas() {
+            if (canvas_ == null) return;
+            if (mouseListener != null) canvas_.removeMouseListener(mouseListener);
+            if (mouseWheelListener != null) canvas_.removeMouseWheelListener(mouseWheelListener);
+            if (mouseMotionListener != null) canvas_.removeMouseMotionListener(mouseMotionListener);
+            this.remove(canvas_);
+            canvas_ = null;
+        }
         @Override
         public void addNotify() {
-            canvas_ = new Canvas();
-            this.add(canvas_, BorderLayout.CENTER);
+            // NOTE: generally it's a bad idea to add components inside addNotify
+            // It'd be better to add component before super.addNotify (because it perfroms some processing with
+            // all children - send notifications, set listeners etc)
+            addCanvas();
             super.addNotify();
-
         }
 
         @Override
         public void removeNotify() {
-            this.remove(canvas_);
             super.removeNotify();
+            removeCanvas();
         }
 
         @Override
