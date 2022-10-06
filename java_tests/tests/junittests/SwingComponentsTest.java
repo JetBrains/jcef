@@ -25,7 +25,11 @@ public class SwingComponentsTest {
     public void testMouseListener() throws InvocationTargetException, InterruptedException {
         // reproducer for JBR-4884
         try {
-            initUI();
+            robot = new Robot();
+            SwingUtilities.invokeAndWait(()->{
+                testFrame = new TestFrame(WIDTH, HEIGHT);
+            });
+            robot.waitForIdle();
             doMouseActions();
             System.err.println("Test PASSED");
         } catch (AWTException e) {
@@ -35,14 +39,29 @@ public class SwingComponentsTest {
         }
     }
 
-    public void initUI() throws AWTException, InvocationTargetException, InterruptedException {
-        robot = new Robot();
-        testFrame = new TestFrame(WIDTH, HEIGHT);
-        SwingUtilities.invokeAndWait(testFrame::initUI);
-        robot.waitForIdle();
+    @Test
+    public void testMouseListenerWithHideAndShow() throws InvocationTargetException, InterruptedException {
+        // reproducer for JBR-4884
+        try {
+            robot = new Robot();
+            SwingUtilities.invokeAndWait(()->{
+                testFrame = new TestFrame(WIDTH, HEIGHT);
+            });
+            SwingUtilities.invokeLater(()-> {
+                testFrame.addremove();
+            });
+            robot.waitForIdle();
+            doMouseActions();
+            System.err.println("Test PASSED");
+        } catch (AWTException e) {
+            e.printStackTrace();
+        } finally {
+            SwingUtilities.invokeAndWait(testFrame::dispose);
+        }
     }
 
-    public void doMouseActions() throws InterruptedException {
+
+    private void doMouseActions() throws InterruptedException {
         Point frameCenter = new Point(testFrame.getLocationOnScreen().x + testFrame.getWidth() / 2,
                 testFrame.getLocationOnScreen().y + testFrame.getHeight() / 2);
         robot.mouseMove(frameCenter.x, frameCenter.y);
@@ -109,8 +128,9 @@ public class SwingComponentsTest {
         for (int c = 0; c < 10; ++c) {
             try {
                 CountDownLatch paintLatch = new CountDownLatch(1);
-                testFrame = new TestFrame(WIDTH, HEIGHT, paintLatch);
-                SwingUtilities.invokeAndWait(testFrame::initUI);
+                SwingUtilities.invokeAndWait(()->{
+                    testFrame = new TestFrame(WIDTH, HEIGHT, paintLatch);
+                });
                 if(!paintLatch.await(5, TimeUnit.SECONDS)) {
                     throw new RuntimeException("Paint wasn't occured in 5 seconds");
                 }
@@ -136,9 +156,10 @@ public class SwingComponentsTest {
 
         @Override
         public void addNotify() {
-            super.addNotify();
             canvas_ = new Canvas();
             this.add(canvas_, BorderLayout.CENTER);
+            super.addNotify();
+
         }
 
         @Override
@@ -161,7 +182,6 @@ public class SwingComponentsTest {
 
     static class TestFrame extends JFrame {
         private final Component testComponent;
-        private final int width, height;
 
         private MouseAdapter mouseAdapter = new MouseAdapter() {
             @Override
@@ -176,7 +196,6 @@ public class SwingComponentsTest {
             public void mouseMoved(MouseEvent e) {
                 System.err.println("mouseMoved: " + e);
                 if (testStage == TestStage.MOUSE_MOVED) {
-                    
                     latch.countDown();
                 }
             }
@@ -185,7 +204,6 @@ public class SwingComponentsTest {
             public void mouseWheelMoved(MouseWheelEvent e) {
                 System.err.println("mouseWheelMoved: " + e);
                 if (testStage == TestStage.MOUSE_WHEEL_MOVED) {
-                    
                     latch.countDown();
                 }
             }
@@ -194,7 +212,6 @@ public class SwingComponentsTest {
             public void mouseClicked(MouseEvent e) {
                 System.err.println("mouseClicked: " + e);
                 if (testStage == TestStage.MOUSE_CLICKED) {
-                    
                     latch.countDown();
                 }
             }
@@ -203,7 +220,6 @@ public class SwingComponentsTest {
             public void mousePressed(MouseEvent e) {
                 System.err.println("mousePressed: " + e);
                 if (testStage == TestStage.MOUSE_PRESSED) {
-                    
                     latch.countDown();
                 }
             }
@@ -212,7 +228,6 @@ public class SwingComponentsTest {
             public void mouseReleased(MouseEvent e) {
                 System.err.println("mouseReleased: " + e);
                 if (testStage == TestStage.MOUSE_RELEASED) {
-                    
                     latch.countDown();
                 }
             }
@@ -221,7 +236,6 @@ public class SwingComponentsTest {
             public void mouseEntered(MouseEvent e) {
                 if (testStage == TestStage.MOUSE_ENTERED) {
                     System.err.println("mouseEntered");
-                    
                     latch.countDown();
                 }
             }
@@ -230,30 +244,23 @@ public class SwingComponentsTest {
             public void mouseExited(MouseEvent e) {
                 if (testStage == TestStage.MOUSE_EXITED) {
                     System.err.println("mouseExited");
-                    
                     latch.countDown();
                 }
             }
         };
 
-        public TestFrame(int width, int height) {
+        TestFrame(int width, int height) {
             this(width, height, null);
         }
-        public TestFrame(int width, int height, CountDownLatch latch) {
-            this.width = width;
-            this.height = height;
+        TestFrame(int width, int height, CountDownLatch latch) {
+            super("TestFrame");
 
+            // Init UI
             testComponent = new TestComponent(latch);
             testComponent.addMouseMotionListener(mouseAdapter);
             testComponent.addMouseListener(mouseAdapter);
             testComponent.addMouseWheelListener(mouseAdapter);
-        }
 
-        public void closeLater() {
-            SwingUtilities.invokeLater(()->dispose());
-        }
-
-        public void initUI() {
             setResizable(false);
             getContentPane().add(testComponent);
             pack();
@@ -262,12 +269,10 @@ public class SwingComponentsTest {
             setVisible(true);
         }
 
-        public void addremove() {
-            SwingUtilities.invokeLater(() -> {
-                Container parent = testComponent.getParent();
-                parent.remove(testComponent);
-                parent.add(testComponent);
-            });
+        void addremove() {
+            Container parent = testComponent.getParent();
+            parent.remove(testComponent);
+            parent.add(testComponent);
         }
     }
 }
