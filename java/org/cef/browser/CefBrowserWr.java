@@ -11,15 +11,7 @@ import org.cef.handler.CefWindowHandler;
 import org.cef.handler.CefWindowHandlerAdapter;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.HierarchyBoundsListener;
-import java.awt.event.HierarchyEvent;
-import java.awt.event.HierarchyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.Date;
 import java.util.concurrent.CompletableFuture;
@@ -40,6 +32,7 @@ import sun.awt.AWTAccessor;
  * CefBrowser instance, please use CefBrowserFactory.
  */
 class CefBrowserWr extends CefBrowser_N {
+    private static final boolean USE_CANVAS = OS.isWindows() || OS.isLinux();
     private Canvas canvas_ = null;
     private Component component_ = null;
     private Rectangle content_rect_ = new Rectangle(0, 0, 0, 0);
@@ -190,10 +183,75 @@ class CefBrowserWr extends CefBrowser_N {
         // We're using a JComponent instead of a Canvas now because the
         // JComponent has clipping informations, which aren't accessible for Canvas.
         component_ = new JPanel(new BorderLayout()) {
+            private MouseListener mouseListener;
+            private MouseWheelListener mouseWheelListener;
+            private MouseMotionListener mouseMotionListener;
             private boolean removed_ = true;
 
             {
                 addPropertyChangeListener("graphicsConfiguration", e -> updateScale());
+            }
+
+            @Override
+            public void addMouseListener(MouseListener l) {
+                mouseListener = l;
+                if (canvas_ != null)
+                    canvas_.addMouseListener(l);
+                super.addMouseListener(l);
+            }
+            @Override
+            public void addMouseWheelListener(MouseWheelListener l) {
+                mouseWheelListener = l;
+                if (canvas_ != null)
+                    canvas_.addMouseWheelListener(l);
+                super.addMouseWheelListener(l);
+            }
+            @Override
+            public void addMouseMotionListener(MouseMotionListener l) {
+                mouseMotionListener = l;
+                if (canvas_ != null)
+                    canvas_.addMouseMotionListener(l);
+                super.addMouseMotionListener(l);
+            }
+
+            @Override
+            public void removeMouseListener(MouseListener l) {
+                mouseListener = null;
+                if (canvas_ != null)
+                    canvas_.removeMouseListener(l);
+                super.removeMouseListener(l);
+            }
+
+            @Override
+            public void removeMouseMotionListener(MouseMotionListener l) {
+                mouseMotionListener = null;
+                if (canvas_ != null)
+                    canvas_.removeMouseMotionListener(l);
+                super.removeMouseMotionListener(l);
+            }
+
+            @Override
+            public void removeMouseWheelListener(MouseWheelListener l) {
+                mouseWheelListener = null;
+                if (canvas_ != null)
+                    canvas_.removeMouseWheelListener(l);
+                super.removeMouseWheelListener(l);
+            }
+
+            private void addCanvas() {
+                canvas_ = new BrowserCanvas();
+                if (mouseListener != null) canvas_.addMouseListener(mouseListener);
+                if (mouseWheelListener != null) canvas_.addMouseWheelListener(mouseWheelListener);
+                if (mouseMotionListener != null) canvas_.addMouseMotionListener(mouseMotionListener);
+                this.add(canvas_, BorderLayout.CENTER);
+            }
+            private void removeCanvas() {
+                if (canvas_ == null) return;
+                if (mouseListener != null) canvas_.removeMouseListener(mouseListener);
+                if (mouseWheelListener != null) canvas_.removeMouseWheelListener(mouseWheelListener);
+                if (mouseMotionListener != null) canvas_.removeMouseMotionListener(mouseMotionListener);
+                this.remove(canvas_);
+                canvas_ = null;
             }
 
             @Override
@@ -237,10 +295,12 @@ class CefBrowserWr extends CefBrowser_N {
                 super.addNotify();
                 updateScale();
                 if (removed_) {
-                    if (OS.isWindows() || OS.isLinux()) {
-                        // recreate canvas to prevent its blinking at toplevel's [0,0]
-                        canvas_ = new BrowserCanvas();
-                        this.add(canvas_, BorderLayout.CENTER);
+                    if (USE_CANVAS) {
+                        // Recreate canvas to prevent its blinking at toplevel's [0,0].
+                        // NOTE: generally it's a bad idea to add components inside addNotify
+                        // Also it'd be better to add component before super.addNotify (because it perfroms some processing with
+                        // all children - send notifications, set listeners etc)
+                        addCanvas();
                     }
                     setParent(getWindowHandle(this), canvas_);
                     removed_ = false;
@@ -255,8 +315,8 @@ class CefBrowserWr extends CefBrowser_N {
                         setParent(0, null);
                     }
                     removed_ = true;
-                    if (OS.isWindows() || OS.isLinux()) {
-                        this.remove(canvas_);
+                    if (USE_CANVAS) {
+                        removeCanvas();
                     }
                 }
                 super.removeNotify();
