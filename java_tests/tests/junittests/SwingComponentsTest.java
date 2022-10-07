@@ -1,8 +1,10 @@
 package tests.junittests;
 
+import org.cef.misc.CefLog;
 import org.junit.Assert;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import tests.OsrSupport;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,10 +26,12 @@ public class SwingComponentsTest {
     @Test
     public void testMouseListener() throws InvocationTargetException, InterruptedException {
         // reproducer for JBR-4884
+        CefLog.Info("Start SwingComponentsTest.testMouseListener, mode = %s", OsrSupport.isEnabled() ? "OSR" : "Window");
+        System.setProperty("jcef.trace.swingcomponentstest.all_awt_mouse_events", "true");
         try {
             robot = new Robot();
             SwingUtilities.invokeAndWait(()->{
-                testFrame = new TestFrame(WIDTH, HEIGHT);
+                testFrame = new TestFrame(WIDTH, HEIGHT, null, OsrSupport.isEnabled());
             });
             robot.waitForIdle();
             doMouseActions();
@@ -36,16 +40,19 @@ public class SwingComponentsTest {
             e.printStackTrace();
         } finally {
             SwingUtilities.invokeAndWait(testFrame::dispose);
+            System.clearProperty("jcef.trace.swingcomponentstest.all_awt_mouse_events");
         }
     }
 
     @Test
     public void testMouseListenerWithHideAndShow() throws InvocationTargetException, InterruptedException {
         // reproducer for JBR-4884
+        CefLog.Info("Start SwingComponentsTest.testMouseListenerWithHideAndShow, mode = %s", OsrSupport.isEnabled() ? "OSR" : "Window");
+        System.setProperty("jcef.trace.swingcomponentstest.all_awt_mouse_events", "true");
         try {
             robot = new Robot();
             SwingUtilities.invokeAndWait(()->{
-                testFrame = new TestFrame(WIDTH, HEIGHT);
+                testFrame = new TestFrame(WIDTH, HEIGHT, null, OsrSupport.isEnabled());
             });
             SwingUtilities.invokeLater(()-> {
                 testFrame.addremove();
@@ -57,6 +64,7 @@ public class SwingComponentsTest {
             e.printStackTrace();
         } finally {
             SwingUtilities.invokeAndWait(testFrame::dispose);
+            System.clearProperty("jcef.trace.swingcomponentstest.all_awt_mouse_events");
         }
     }
 
@@ -129,7 +137,7 @@ public class SwingComponentsTest {
             try {
                 CountDownLatch paintLatch = new CountDownLatch(1);
                 SwingUtilities.invokeAndWait(()->{
-                    testFrame = new TestFrame(WIDTH, HEIGHT, paintLatch);
+                    testFrame = new TestFrame(WIDTH, HEIGHT, paintLatch, false);
                 });
                 if(!paintLatch.await(5, TimeUnit.SECONDS)) {
                     throw new RuntimeException("Paint wasn't occured in 5 seconds");
@@ -145,7 +153,8 @@ public class SwingComponentsTest {
         }
     }
 
-    static class TestComponent extends JPanel {
+    // Test component with the same hierarchy structure as CefBrowserWr
+    static class TestComponentWr extends JPanel {
         private Canvas canvas_ = null;
         private final CountDownLatch paintLatch;
 
@@ -201,7 +210,7 @@ public class SwingComponentsTest {
             super.removeMouseWheelListener(l);
         }
 
-        public TestComponent(CountDownLatch paintLatch) {
+        public TestComponentWr(CountDownLatch paintLatch) {
             super(new BorderLayout());
             this.paintLatch = paintLatch;
         }
@@ -248,8 +257,65 @@ public class SwingComponentsTest {
         }
     }
 
+    // Test component with the same hierarchy structure as CefBrowserOsrWithHandler
+    static class TestComponentOsr extends JPanel {
+            public TestComponentOsr() {
+                setPreferredSize(new Dimension(800, 600));
+                setBackground(Color.CYAN);
+
+                enableEvents(AWTEvent.KEY_EVENT_MASK |
+                        AWTEvent.MOUSE_EVENT_MASK |
+                        AWTEvent.MOUSE_WHEEL_EVENT_MASK |
+                        AWTEvent.MOUSE_MOTION_EVENT_MASK);
+
+                setFocusable(true);
+                setRequestFocusEnabled(true);
+                setFocusTraversalKeysEnabled(false);
+            }
+
+            @SuppressWarnings("deprecation")
+            @Override
+            public void reshape(int x, int y, int w, int h) {
+                super.reshape(x, y, w, h);
+            }
+
+            @SuppressWarnings("DuplicatedCode")
+            @Override
+            protected void processMouseEvent(MouseEvent e) {
+                super.processMouseEvent(e);
+                System.err.println("processMouseEvent: " + e);
+                //latch.countDown();
+                if (e.getID() == MouseEvent.MOUSE_PRESSED) {
+                    requestFocusInWindow();
+                }
+            }
+
+            @Override
+            protected void processMouseWheelEvent(MouseWheelEvent e) {
+                System.err.println("processMouseWheelEvent: " + e);
+                //latch.countDown();
+                super.processMouseWheelEvent(e);
+            }
+
+            @SuppressWarnings("DuplicatedCode")
+            @Override
+            protected void processMouseMotionEvent(MouseEvent e) {
+                System.err.println("processMouseMotionEvent: " + e);
+                //latch.countDown();
+                super.processMouseMotionEvent(e);
+            }
+
+            @Override
+            protected void processKeyEvent(KeyEvent e) {
+                System.err.println("processKeyEvent: " + e);
+                //latch.countDown();
+                super.processKeyEvent(e);
+            }
+    }
+
     static class TestFrame extends JFrame {
         private final Component testComponent;
+        private AWTEventListener awtListener;
 
         private MouseAdapter mouseAdapter = new MouseAdapter() {
             @Override
@@ -317,14 +383,11 @@ public class SwingComponentsTest {
             }
         };
 
-        TestFrame(int width, int height) {
-            this(width, height, null);
-        }
-        TestFrame(int width, int height, CountDownLatch latch) {
+        TestFrame(int width, int height, CountDownLatch paintLatch/* Wr mode only*/, boolean isOsr) {
             super("TestFrame");
 
             // Init UI
-            testComponent = new TestComponent(latch);
+            testComponent = isOsr ? new TestComponentOsr() : new TestComponentWr(paintLatch);
             testComponent.addMouseMotionListener(mouseAdapter);
             testComponent.addMouseListener(mouseAdapter);
             testComponent.addMouseWheelListener(mouseAdapter);
@@ -335,6 +398,24 @@ public class SwingComponentsTest {
             setSize(width, height);
             setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
             setVisible(true);
+
+            if (Boolean.getBoolean("jcef.trace.swingcomponentstest.all_awt_mouse_events")) {
+                awtListener = new AWTEventListener() {
+                    @Override
+                    public void eventDispatched(AWTEvent event) {
+                        CefLog.Debug("awt event: %s", event);
+                    }
+                };
+                Toolkit.getDefaultToolkit().addAWTEventListener(awtListener, AWTEvent.MOUSE_EVENT_MASK | AWTEvent.MOUSE_MOTION_EVENT_MASK | AWTEvent.MOUSE_WHEEL_EVENT_MASK);
+            }
+        }
+
+        @Override
+        public void dispose() {
+            if (awtListener != null) {
+                Toolkit.getDefaultToolkit().removeAWTEventListener(awtListener);
+            }
+            super.dispose();
         }
 
         void addremove() {
