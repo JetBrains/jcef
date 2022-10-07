@@ -54,15 +54,19 @@ public class TestSetupExtension
         }
     }
 
-    // Executed before any tests are run.
-    private void initialize(ExtensionContext context) {
-        // Enable debug logging for junit tests by default
+    public static void enableVerboseLogging() {
         System.setProperty("jcef.tests.verbose", "true");
         System.setProperty("jcef.trace.cefbrowser_n.lifespan", "true");
         System.setProperty("jcef.trace.cefclient.lifespan", "true");
         System.setProperty("jcef.trace.cefapp.lifespan", "true");
         System.setProperty("jcef.trace.cefbrowserwr.addnotify", "true");
         System.setProperty("jcef.log.trace_thread", "true");
+    }
+
+    // Executed before any tests are run.
+    private void initialize(ExtensionContext context) {
+        // Enable debug logging for junit tests by default
+        enableVerboseLogging();
 
         TestSetupContext.initialize(context);
 
