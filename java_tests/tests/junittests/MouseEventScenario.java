@@ -138,6 +138,7 @@ public class MouseEventScenario {
     static class CefBrowserFrame extends JFrame {
         private final JBCefBrowser browser;
         private volatile boolean mouseActionPerformed = false;
+        private AWTEventListener awtListener;
 
         private MouseAdapter mouseAdapter = new MouseAdapter() {
             @Override
@@ -218,6 +219,15 @@ public class MouseEventScenario {
             browser.getComponent().addMouseMotionListener(mouseAdapter);
             browser.getComponent().addMouseListener(mouseAdapter);
             browser.getComponent().addMouseWheelListener(mouseAdapter);
+            if (Boolean.getBoolean("jcef.trace.mouseeventscenario.all_awt_mouse_events")) {
+                awtListener = new AWTEventListener() {
+                    @Override
+                    public void eventDispatched(AWTEvent event) {
+                        CefLog.Debug("awt event: %s", event);
+                    }
+                };
+                Toolkit.getDefaultToolkit().addAWTEventListener(awtListener, AWTEvent.MOUSE_EVENT_MASK | AWTEvent.MOUSE_MOTION_EVENT_MASK | AWTEvent.MOUSE_WHEEL_EVENT_MASK);
+            }
 
             setResizable(false);
             getContentPane().add(browser.getComponent());
@@ -227,6 +237,9 @@ public class MouseEventScenario {
                 @Override
                 public void windowClosed(WindowEvent e) {
                     browser.dispose();
+                    if (awtListener != null) {
+                        Toolkit.getDefaultToolkit().removeAWTEventListener(awtListener);
+                    }
                 }
             });
             setVisible(true);
