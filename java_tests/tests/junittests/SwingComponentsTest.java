@@ -48,6 +48,8 @@ public class SwingComponentsTest {
 
             Robot r = new Robot();
             r.waitForIdle();
+            final long delayMs = 500;
+            Thread.sleep(delayMs);
 
             PointerInfo pi0 = MouseInfo.getPointerInfo();
             CefLog.Debug("p0: %s", pi0.getLocation());
@@ -56,6 +58,7 @@ public class SwingComponentsTest {
                     testFrame.getLocationOnScreen().y + testFrame.getHeight() / 2);
             r.mouseMove(frameCenter.x, frameCenter.y);
             r.waitForIdle();
+            Thread.sleep(delayMs);
 
             PointerInfo pi1 = MouseInfo.getPointerInfo();
             CefLog.Debug("p1: %s", pi1.getLocation());
@@ -63,6 +66,7 @@ public class SwingComponentsTest {
             int delte = 10;
             r.mouseMove(frameCenter.x + delte, frameCenter.y + delte);
             r.waitForIdle();
+            Thread.sleep(delayMs);
 
             PointerInfo pi2 = MouseInfo.getPointerInfo();
             CefLog.Debug("p2: %s", pi2.getLocation());
