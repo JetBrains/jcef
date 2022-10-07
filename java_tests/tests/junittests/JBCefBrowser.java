@@ -22,8 +22,8 @@ public class JBCefBrowser {
     private final CefBrowser myCefBrowser;
     private final CefClient myCefClient;
     private final CountDownLatch myClientDisposeLatch;
+    private final CountDownLatch myBrowserCreatedLatch;
 
-    private volatile boolean myIsCefBrowserCreated;
     private volatile LoadDeferrer myLoadDeferrer;
 
     private static class LoadDeferrer {
@@ -60,11 +60,13 @@ public class JBCefBrowser {
             myClientDisposeLatch.countDown();
         });
 
+        myBrowserCreatedLatch = new CountDownLatch(1);
+
         myCefClient.addLifeSpanHandler(new CefLifeSpanHandlerAdapter() {
             @Override
             public void onAfterCreated(CefBrowser browser) {
                 CefLog.Info("CefLifeSpanHandler.onAfterCreated, browser " + browser);
-                myIsCefBrowserCreated = true;
+                myBrowserCreatedLatch.countDown();
                 LoadDeferrer loader = myLoadDeferrer;
                 if (loader != null) {
                     loader.load(browser);
@@ -95,8 +97,20 @@ public class JBCefBrowser {
         return myCefBrowser.getUIComponent();
     }
 
+    public final void awaitBrowserCreated() {
+        try {
+            if (!myBrowserCreatedLatch.await(5, TimeUnit.SECONDS)) {
+                CefLog.Error("native part of CefBrowser %s wasn't created", myCefBrowser);
+                throw new RuntimeException(String.format("native part of CefBrowser %s wasn't created", myCefBrowser));
+            }
+        } catch (InterruptedException e) {
+        }
+    }
+
+    private boolean isBrowserCreated() { return myBrowserCreatedLatch.getCount() <= 0; }
+
     public void loadURL(String url) {
-        if (myIsCefBrowserCreated) {
+        if (isBrowserCreated()) {
             myCefBrowser.loadURL(url);
         }
         else {
@@ -105,7 +119,7 @@ public class JBCefBrowser {
     }
 
     public void loadHTML(String html, String url) {
-        if (myIsCefBrowserCreated) {
+        if (isBrowserCreated()) {
             loadString(myCefBrowser, html, url);
         }
         else {
