@@ -24,6 +24,7 @@ import javax.swing.Timer;
 import javax.swing.ToolTipManager;
 
 import com.jetbrains.cef.JdkEx;
+import org.cef.misc.CefLog;
 import sun.awt.AWTAccessor;
 
 /**
@@ -39,6 +40,7 @@ class CefBrowserWr extends CefBrowser_N {
     private long window_handle_ = 0;
     private boolean justCreated_ = false;
     private double scaleFactor_ = 1.0;
+    private long delayCreationUntilMs_ = 0; // used only for testing
     private Timer delayedUpdate_ = new Timer(100, new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -47,6 +49,14 @@ class CefBrowserWr extends CefBrowser_N {
                 public void run() {
                     if (isClosed()) return;
 
+                    if (delayCreationUntilMs_ > 0 &&
+                        System.currentTimeMillis() < delayCreationUntilMs_ &&
+                        getNativeRef("CefBrowser") == 0
+                    ) {
+                        CefLog.Debug("delay native browser creation (need wait %d ms)", delayCreationUntilMs_ - System.currentTimeMillis());
+                        delayedUpdate_.restart();
+                        return;
+                    }
                     if (AWTAccessor.getComponentAccessor().getPeer(component_) == null || // not in UI yet
                         createBrowserIfRequired(true)) // has just created UI
                     {
@@ -174,6 +184,8 @@ class CefBrowserWr extends CefBrowser_N {
             CefBrowserWr parent, Point inspectAt) {
         super(client, url, context, parent, inspectAt);
         delayedUpdate_.setRepeats(false);
+        delayCreationUntilMs_ = Long.getLong("jcef.debug.cefbrowserwr.delay_creation", 0);
+        if (delayCreationUntilMs_ > 0) delayCreationUntilMs_ += System.currentTimeMillis();
 
         // Disabling lightweight of popup menu is required because
         // otherwise it will be displayed behind the content of component_

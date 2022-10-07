@@ -29,6 +29,28 @@ public class MouseEventTest {
     }
 
     @Test
+    public void testWithAwaitBrowserCreation() throws InvocationTargetException, InterruptedException {
+        // debug helper for JBR-4649
+        CefLog.Info("Start basic mouse events test");
+        doTest(scenario -> {
+            scenario.getBrowserFrame().getBrowser().awaitBrowserCreated();
+            scenario.doMouseActions();
+        });
+    }
+
+    @Test
+    public void testWithDelayedCreation() throws InvocationTargetException, InterruptedException {
+        // debug helper for JBR-4649
+        CefLog.Info("Start testWithDelayedCreation");
+        System.setProperty("jcef.debug.cefbrowserwr.delay_creation", "3000"); // 3 sec delay
+        doTest(scenario -> {
+            scenario.doMouseActions();
+        });
+        System.clearProperty("jcef.debug.cefbrowserwr.delay_creation");
+    }
+
+
+    @Test
     public void hideAndShowBrowserTest() throws InvocationTargetException, InterruptedException {
         CefLog.Info("Start hideAndShowBrowserTest");
         doTest(scenario -> {
