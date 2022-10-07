@@ -21,13 +21,75 @@ public class SwingComponentsTest {
     private static final int WIDTH = 800;
     private static final int HEIGHT = 600;
     private Robot robot;
-    private TestFrame testFrame;
+    private JFrame testFrame;
+
+    @Test
+    public void testRobot() throws InvocationTargetException, InterruptedException {
+        // debug helper for JBR-4649
+        CefLog.Info("Start SwingComponentsTest.testRobot");
+        try {
+            TestFrame.addGlobalMouseListener();
+            SwingUtilities.invokeAndWait(()->{
+                testFrame = new JFrame("TestRobot");
+                CefLog.Info("Created test frame: %s", testFrame);
+                testFrame.setResizable(false);
+                testFrame.setSize(400, 300);
+                testFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+                testFrame.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+                        latch.countDown();
+                        super.mousePressed(e);
+                    }
+                });
+
+                testFrame.setVisible(true);
+            });
+
+            Robot r = new Robot();
+            r.waitForIdle();
+
+            PointerInfo pi0 = MouseInfo.getPointerInfo();
+            CefLog.Debug("p0: %s", pi0.getLocation());
+
+            Point frameCenter = new Point(testFrame.getLocationOnScreen().x + testFrame.getWidth() / 2,
+                    testFrame.getLocationOnScreen().y + testFrame.getHeight() / 2);
+            r.mouseMove(frameCenter.x, frameCenter.y);
+            r.waitForIdle();
+
+            PointerInfo pi1 = MouseInfo.getPointerInfo();
+            CefLog.Debug("p1: %s", pi1.getLocation());
+
+            int delte = 10;
+            r.mouseMove(frameCenter.x + delte, frameCenter.y + delte);
+            r.waitForIdle();
+
+            PointerInfo pi2 = MouseInfo.getPointerInfo();
+            CefLog.Debug("p2: %s", pi2.getLocation());
+
+            Assert.assertEquals(pi2.getLocation().x - pi1.getLocation().x, delte);
+            Assert.assertEquals(pi2.getLocation().y - pi1.getLocation().y, delte);
+
+            CefLog.Debug("Moving mouse works correctly, now test listener for mouse_pressed event");
+
+            latch = new CountDownLatch(1);
+            r.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+            latch.await(2, TimeUnit.SECONDS);
+            Assert.assertEquals(0, latch.getCount());
+
+            CefLog.Info("Test PASSED");
+        } catch (AWTException e) {
+            e.printStackTrace();
+        } finally {
+            SwingUtilities.invokeAndWait(testFrame::dispose);
+            TestFrame.removeGlobalMouseListener();
+        }
+    }
 
     @Test
     public void testMouseListener() throws InvocationTargetException, InterruptedException {
         // reproducer for JBR-4884
         CefLog.Info("Start SwingComponentsTest.testMouseListener, mode = %s", OsrSupport.isEnabled() ? "OSR" : "Window");
-        System.setProperty("jcef.trace.swingcomponentstest.all_awt_mouse_events", "true");
         try {
             robot = new Robot();
             SwingUtilities.invokeAndWait(()->{
@@ -40,7 +102,6 @@ public class SwingComponentsTest {
             e.printStackTrace();
         } finally {
             SwingUtilities.invokeAndWait(testFrame::dispose);
-            System.clearProperty("jcef.trace.swingcomponentstest.all_awt_mouse_events");
         }
     }
 
@@ -48,14 +109,13 @@ public class SwingComponentsTest {
     public void testMouseListenerWithHideAndShow() throws InvocationTargetException, InterruptedException {
         // reproducer for JBR-4884
         CefLog.Info("Start SwingComponentsTest.testMouseListenerWithHideAndShow, mode = %s", OsrSupport.isEnabled() ? "OSR" : "Window");
-        System.setProperty("jcef.trace.swingcomponentstest.all_awt_mouse_events", "true");
         try {
             robot = new Robot();
             SwingUtilities.invokeAndWait(()->{
                 testFrame = new TestFrame(WIDTH, HEIGHT, null, OsrSupport.isEnabled());
             });
             SwingUtilities.invokeLater(()-> {
-                testFrame.addremove();
+                ((TestFrame)testFrame).addremove();
             });
             robot.waitForIdle();
             doMouseActions();
@@ -64,10 +124,8 @@ public class SwingComponentsTest {
             e.printStackTrace();
         } finally {
             SwingUtilities.invokeAndWait(testFrame::dispose);
-            System.clearProperty("jcef.trace.swingcomponentstest.all_awt_mouse_events");
         }
     }
-
 
     private void doMouseActions() throws InterruptedException {
         Point frameCenter = new Point(testFrame.getLocationOnScreen().x + testFrame.getWidth() / 2,
@@ -161,6 +219,13 @@ public class SwingComponentsTest {
         private MouseListener mouseListener;
         private MouseWheelListener mouseWheelListener;
         private MouseMotionListener mouseMotionListener;
+
+        @SuppressWarnings("DuplicatedCode")
+        @Override
+        protected void processMouseEvent(MouseEvent e) {
+            System.err.println("processMouseEvent: " + e);
+            super.processMouseEvent(e);
+        }
 
         @Override
         public void addMouseListener(MouseListener l) {
@@ -315,7 +380,24 @@ public class SwingComponentsTest {
 
     static class TestFrame extends JFrame {
         private final Component testComponent;
-        private AWTEventListener awtListener;
+        private static AWTEventListener awtListener;
+
+        public static void addGlobalMouseListener() {
+            CefLog.Debug("Add global AWT mouse event listener");
+            awtListener = new AWTEventListener() {
+                @Override
+                public void eventDispatched(AWTEvent event) {
+                    CefLog.Debug("awt event: %s, src: %s", event, event.getSource());
+                }
+            };
+            Toolkit.getDefaultToolkit().addAWTEventListener(awtListener, AWTEvent.MOUSE_EVENT_MASK | AWTEvent.MOUSE_MOTION_EVENT_MASK | AWTEvent.MOUSE_WHEEL_EVENT_MASK);
+        }
+
+        public static void removeGlobalMouseListener() {
+            if (awtListener != null) {
+                Toolkit.getDefaultToolkit().removeAWTEventListener(awtListener);
+            }
+        }
 
         private MouseAdapter mouseAdapter = new MouseAdapter() {
             @Override
@@ -399,22 +481,12 @@ public class SwingComponentsTest {
             setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
             setVisible(true);
 
-            if (Boolean.getBoolean("jcef.trace.swingcomponentstest.all_awt_mouse_events")) {
-                awtListener = new AWTEventListener() {
-                    @Override
-                    public void eventDispatched(AWTEvent event) {
-                        CefLog.Debug("awt event: %s", event);
-                    }
-                };
-                Toolkit.getDefaultToolkit().addAWTEventListener(awtListener, AWTEvent.MOUSE_EVENT_MASK | AWTEvent.MOUSE_MOTION_EVENT_MASK | AWTEvent.MOUSE_WHEEL_EVENT_MASK);
-            }
+            addGlobalMouseListener();
         }
 
         @Override
         public void dispose() {
-            if (awtListener != null) {
-                Toolkit.getDefaultToolkit().removeAWTEventListener(awtListener);
-            }
+            removeGlobalMouseListener();
             super.dispose();
         }
 
