@@ -81,8 +81,8 @@ public class JCEFStartupTest {
     }
 
     @Test
-    public void testCreation100Times() throws InterruptedException {
-        testCreation(100);
+    public void testCreation20Times() throws InterruptedException {
+        testCreation(20);
     }
 
     @Test
