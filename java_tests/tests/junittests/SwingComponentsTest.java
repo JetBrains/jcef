@@ -78,6 +78,7 @@ public class SwingComponentsTest {
 
             latch = new CountDownLatch(1);
             r.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+            r.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
             latch.await(2, TimeUnit.SECONDS);
             Assert.assertEquals(0, latch.getCount());
 
