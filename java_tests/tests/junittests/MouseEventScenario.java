@@ -1,6 +1,10 @@
 package tests.junittests;// Copyright 2000-2020 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 
 import org.cef.CefApp;
+import org.cef.browser.CefBrowser;
+import org.cef.browser.CefFrame;
+import org.cef.handler.CefLifeSpanHandler;
+import org.cef.handler.CefLifeSpanHandlerAdapter;
 import org.cef.misc.CefLog;
 
 import javax.swing.*;
@@ -19,15 +23,26 @@ public class MouseEventScenario {
     private static final int WIDTH = 400;
     private static final int HEIGHT = 400;
     private Robot robot;
-    private CefBrowserFrame browserFrame = new CefBrowserFrame(WIDTH, HEIGHT);
+    private CefBrowserFrame browserFrame;
 
     public void initUI() throws AWTException, InvocationTargetException, InterruptedException {
         robot = new Robot();
-        SwingUtilities.invokeAndWait(browserFrame::initUI);
+        SwingUtilities.invokeAndWait(()->{
+            browserFrame = new CefBrowserFrame(WIDTH, HEIGHT);
+        });
         robot.waitForIdle();
     }
 
-    public void doMouseActions() throws InterruptedException {
+    public void doMouseActions() {
+        try {
+            _doMouseActions();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    private void _doMouseActions() throws InterruptedException {
+
+
         Point frameCenter = browserFrame.getFrameCenter();
 
         mouseMove(frameCenter);
@@ -80,11 +95,15 @@ public class MouseEventScenario {
 
     }
 
-    public void mouseMove(Point p) throws InterruptedException {
+    public void mouseMove(Point p) {
         testStage = TestStage.MOUSE_MOVED;
         latch = new CountDownLatch(1);
         robot.mouseMove(p.x, p.y);
-        latch.await(2, TimeUnit.SECONDS);
+        try {
+            latch.await(2, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         browserFrame.resetMouseActionPerformedFlag();
     }
 
@@ -118,14 +137,13 @@ public class MouseEventScenario {
 
     static class CefBrowserFrame extends JFrame {
         private final JBCefBrowser browser;
-        private final int width, height;
         private volatile boolean mouseActionPerformed = false;
 
         private MouseAdapter mouseAdapter = new MouseAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
                 if (MouseEventScenario.testStage == TestStage.MOUSE_DRAGGED) {
-                    CefLog.Info("mouseDragged");
+                    CefLog.Info("mouseDragged, " + e);
                     mouseActionPerformed = true;
                     MouseEventScenario.latch.countDown();
                 }
@@ -134,7 +152,7 @@ public class MouseEventScenario {
             @Override
             public void mouseMoved(MouseEvent e) {
                 if (MouseEventScenario.testStage == TestStage.MOUSE_MOVED) {
-                    CefLog.Info("mouseMoved");
+                    CefLog.Info("mouseMoved, " + e);
                     mouseActionPerformed = true;
                     MouseEventScenario.latch.countDown();
                 }
@@ -143,7 +161,7 @@ public class MouseEventScenario {
             @Override
             public void mouseWheelMoved(MouseWheelEvent e) {
                 if (MouseEventScenario.testStage == TestStage.MOUSE_WHEEL_MOVED) {
-                    CefLog.Info("mouseWheelMoved");
+                    CefLog.Info("mouseWheelMoved, " + e);
                     mouseActionPerformed = true;
                     MouseEventScenario.latch.countDown();
                 }
@@ -152,7 +170,7 @@ public class MouseEventScenario {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (MouseEventScenario.testStage == TestStage.MOUSE_CLICKED) {
-                    CefLog.Info("mouseClicked");
+                    CefLog.Info("mouseClicked, " + e);
                     mouseActionPerformed = true;
                     MouseEventScenario.latch.countDown();
                 }
@@ -161,7 +179,7 @@ public class MouseEventScenario {
             @Override
             public void mousePressed(MouseEvent e) {
                 if (MouseEventScenario.testStage == TestStage.MOUSE_PRESSED) {
-                    CefLog.Info("mousePressed");
+                    CefLog.Info("mousePressed, " + e);
                     mouseActionPerformed = true;
                     MouseEventScenario.latch.countDown();
                 }
@@ -170,7 +188,7 @@ public class MouseEventScenario {
             @Override
             public void mouseReleased(MouseEvent e) {
                 if (MouseEventScenario.testStage == TestStage.MOUSE_RELEASED) {
-                    CefLog.Info("mouseReleased");
+                    CefLog.Info("mouseReleased, " + e);
                     mouseActionPerformed = true;
                     MouseEventScenario.latch.countDown();
                 }
@@ -179,7 +197,7 @@ public class MouseEventScenario {
             @Override
             public void mouseEntered(MouseEvent e) {
                 if (MouseEventScenario.testStage == TestStage.MOUSE_ENTERED) {
-                    CefLog.Info("mouseEntered");
+                    CefLog.Info("mouseEntered, " + e);
                     mouseActionPerformed = true;
                     MouseEventScenario.latch.countDown();
                 }
@@ -188,7 +206,7 @@ public class MouseEventScenario {
             @Override
             public void mouseExited(MouseEvent e) {
                 if (MouseEventScenario.testStage == TestStage.MOUSE_EXITED) {
-                    CefLog.Info("mouseExited");
+                    CefLog.Info("mouseExited, " + e);
                     mouseActionPerformed = true;
                     MouseEventScenario.latch.countDown();
                 }
@@ -196,16 +214,11 @@ public class MouseEventScenario {
         };
 
         public CefBrowserFrame(int width, int height) {
-            this.width = width;
-            this.height = height;
-
             browser = new JBCefBrowser(null);
             browser.getComponent().addMouseMotionListener(mouseAdapter);
             browser.getComponent().addMouseListener(mouseAdapter);
             browser.getComponent().addMouseWheelListener(mouseAdapter);
-        }
 
-        public void initUI() {
             setResizable(false);
             getContentPane().add(browser.getComponent());
             setSize(width, height);
@@ -220,12 +233,18 @@ public class MouseEventScenario {
         }
 
         public void hideAndShowBrowser() {
+            latch = new CountDownLatch(0);
             SwingUtilities.invokeLater(() -> {
                 Container parent = browser.getComponent().getParent();
                 parent.remove(browser.getComponent());
                 parent.add(browser.getComponent());
-                MouseEventScenario.latch.countDown();
+                latch.countDown();
             });
+            try {
+                latch.await(2, TimeUnit.SECONDS);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
         public JBCefBrowser getBrowser() {

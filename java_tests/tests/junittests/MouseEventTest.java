@@ -9,6 +9,8 @@ import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * @test
@@ -20,36 +22,27 @@ import java.util.concurrent.TimeUnit;
 public class MouseEventTest {
     @Test
     public void test() throws InvocationTargetException, InterruptedException {
-        MouseEventScenario scenario = new MouseEventScenario();
-        try {
-            scenario.initUI();
-
-            //mouseEntered and mouseExited events work unstable. These actions are not tested.
+        CefLog.Info("Start basic mouse events test");
+        doTest(scenario -> {
             scenario.doMouseActions();
-
-            CefLog.Info("Test PASSED");
-        } catch (AWTException e) {
-            e.printStackTrace();
-        } finally {
-            scenario.disposeBrowserFrame();
-        }
+        });
     }
 
     @Test
     public void hideAndShowBrowserTest() throws InvocationTargetException, InterruptedException {
+        CefLog.Info("Start hideAndShowBrowserTest");
+        doTest(scenario -> {
+            scenario.mouseMove(scenario.getBrowserFrame().getFrameCenter());
+            scenario.getBrowserFrame().hideAndShowBrowser();
+            scenario.doMouseActions();
+        });
+    }
+
+    private void doTest(Consumer<MouseEventScenario> testTask) throws InterruptedException, InvocationTargetException {
         MouseEventScenario scenario = new MouseEventScenario();
         try {
-
             scenario.initUI();
-            scenario.mouseMove(scenario.getBrowserFrame().getFrameCenter());
-
-            MouseEventScenario.latch = new CountDownLatch(1);
-            scenario.getBrowserFrame().hideAndShowBrowser();
-            MouseEventScenario.latch.await(2, TimeUnit.SECONDS);
-
-            //mouseEntered and mouseExited events work unstable. These actions are not tested.
-            scenario.doMouseActions();
-
+            testTask.accept(scenario);
             CefLog.Info("Test PASSED");
         } catch (AWTException e) {
             e.printStackTrace();
