@@ -24,7 +24,7 @@ public class CefLog {
             INSTANCE.info("Try to reinitialize logger (new settings will be ignored)\n");
             return;
         }
-        if (settings.log_file != null
+        if (settings != null && settings.log_file != null
             && settings.log_severity != CefSettings.LogSeverity.LOGSEVERITY_DISABLE
             && settings.log_severity != CefSettings.LogSeverity.LOGSEVERITY_DEFAULT
         ) {
@@ -38,8 +38,9 @@ public class CefLog {
         }
 
         if (INSTANCE == null) {
-            System.out.printf("JCEF(%s): initialized stderr logger, severity=%s\n", ourTimeFormat.format(new Date()), settings.log_severity);
-            INSTANCE = new CefLog(System.err, settings.log_severity);
+            CefSettings.LogSeverity severity = settings == null ? CefSettings.LogSeverity.LOGSEVERITY_VERBOSE : settings.log_severity;
+            System.out.printf("JCEF(%s): initialized stderr logger, severity=%s\n", ourTimeFormat.format(new Date()), severity);
+            INSTANCE = new CefLog(System.err, severity);
         }
     }
 
