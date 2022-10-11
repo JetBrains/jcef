@@ -155,10 +155,12 @@ public class SwingComponentsTest {
             SwingUtilities.invokeAndWait(()->{
                 testFrame = new TestFrame(WIDTH, HEIGHT, null, OsrSupport.isEnabled());
             });
+            robot.delay(200);
             SwingUtilities.invokeLater(()-> {
                 ((TestFrame)testFrame).addremove();
             });
             robot.waitForIdle();
+            robot.delay(200);
             doMouseActions();
             System.err.println("Test PASSED");
         } catch (AWTException e) {
