@@ -93,7 +93,29 @@ public class SwingComponentsTest {
             // In failed iteration in logs we can see double MOUSE_DRAGGED instead of MOUSE_MOVED in prev iterations
             robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
             latch.await(2, TimeUnit.SECONDS);
-            Assert.assertEquals(0, latch.getCount());
+            if (latch.getCount() > 0) {
+                CefLog.Error("It seems that mouse_press event wasn't delivered (or wasn't emitted from robot).");
+                // For debug diagnostic:
+                // 1. Check behaviour with several mouse_press repeats
+                for (int c = 0; c < 5; ++c) {
+                    latch = new CountDownLatch(1);
+                    robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+                    Thread.sleep(50);
+                    robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+                    latch.await(1, TimeUnit.SECONDS);
+                    if (latch.getCount() == 0) {
+                        CefLog.Debug("received mouse_press event on iteration %d", c);
+                        break;
+                    }
+                }
+
+                // 2. Performs another events (just for logging of awt events)
+                robot.mouseMove(frameCenter.x - testFrame.getWidth() / 4, frameCenter.y);
+                robot.mouseWheel(1);
+                robot.delay(100);
+
+                Assert.fail("mouse_press event wasn't received by frame (probably it wasn't emitted from robot)");
+            }
 
             CefLog.Info("Test PASSED");
         } catch (AWTException e) {
