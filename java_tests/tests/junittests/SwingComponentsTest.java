@@ -23,10 +23,21 @@ public class SwingComponentsTest {
     private Robot robot;
     private JFrame testFrame;
 
+    static {
+        CefLog.init(null);
+        TestSetupExtension.enableVerboseLogging();
+    }
+
     @Test
     public void testRobot() throws InvocationTargetException, InterruptedException {
         // debug helper for JBR-4649
         CefLog.Info("Start SwingComponentsTest.testRobot");
+        for (int c = 0; c < 3; ++c) {
+            CefLog.Info("=== iteration %d ===", c);
+            testRobotImpl();
+        }
+    }
+    private void testRobotImpl() throws InvocationTargetException, InterruptedException {
         try {
             TestFrame.addGlobalMouseListener();
             SwingUtilities.invokeAndWait(()->{
@@ -46,39 +57,41 @@ public class SwingComponentsTest {
                 testFrame.setVisible(true);
             });
 
-            Robot r = new Robot();
-            r.waitForIdle();
-            final long delayMs = 500;
-            Thread.sleep(delayMs);
+            robot = new Robot();
+            robot.setAutoDelay(100);
+            robot.waitForIdle();
+            Thread.sleep(500); // just for stability
 
             PointerInfo pi0 = MouseInfo.getPointerInfo();
             CefLog.Debug("p0: %s", pi0.getLocation());
 
             Point frameCenter = new Point(testFrame.getLocationOnScreen().x + testFrame.getWidth() / 2,
                     testFrame.getLocationOnScreen().y + testFrame.getHeight() / 2);
-            r.mouseMove(frameCenter.x, frameCenter.y);
-            r.waitForIdle();
-            Thread.sleep(delayMs);
+            robot.mouseMove(frameCenter.x, frameCenter.y);
 
             PointerInfo pi1 = MouseInfo.getPointerInfo();
             CefLog.Debug("p1: %s", pi1.getLocation());
 
-            int delte = 10;
-            r.mouseMove(frameCenter.x + delte, frameCenter.y + delte);
-            r.waitForIdle();
-            Thread.sleep(delayMs);
+            int delta = 13;
+            robot.mouseMove(frameCenter.x + delta, frameCenter.y + delta);
 
             PointerInfo pi2 = MouseInfo.getPointerInfo();
             CefLog.Debug("p2: %s", pi2.getLocation());
 
-            Assert.assertEquals(pi2.getLocation().x - pi1.getLocation().x, delte);
-            Assert.assertEquals(pi2.getLocation().y - pi1.getLocation().y, delte);
+            Assert.assertEquals(delta, pi2.getLocation().x - pi1.getLocation().x);
+            Assert.assertEquals(delta, pi2.getLocation().y - pi1.getLocation().y);
 
             CefLog.Debug("Moving mouse works correctly, now test listener for mouse_pressed event");
 
             latch = new CountDownLatch(1);
-            r.mousePress(InputEvent.BUTTON1_DOWN_MASK);
-            r.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+            robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+            Thread.sleep(50);
+            // Empiric observation: must call release after press.
+            // Otherwise mouse_pressed events sometimes aren't generated, in current or next
+            // tests with robot, event with new instances of Robot.
+            // Observed on Ubuntu20.04 (intermittently)
+            // In failed iteration in logs we can see double MOUSE_DRAGGED instead of MOUSE_MOVED in prev iterations
+            robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
             latch.await(2, TimeUnit.SECONDS);
             Assert.assertEquals(0, latch.getCount());
 
@@ -97,6 +110,7 @@ public class SwingComponentsTest {
         CefLog.Info("Start SwingComponentsTest.testMouseListener, mode = %s", OsrSupport.isEnabled() ? "OSR" : "Window");
         try {
             robot = new Robot();
+            robot.setAutoDelay(100);
             SwingUtilities.invokeAndWait(()->{
                 testFrame = new TestFrame(WIDTH, HEIGHT, null, OsrSupport.isEnabled());
             });
@@ -141,21 +155,14 @@ public class SwingComponentsTest {
         System.err.println("Stage: " + testStage.name());
         latch = new CountDownLatch(1);
         robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
-        latch.await(2, TimeUnit.SECONDS);
-        if (latch.getCount() > 0) throw new RuntimeException("ERROR: " + testStage.name() + " action was not handled.");
-
-        testStage = TestStage.MOUSE_DRAGGED;
-        System.err.println("Stage: " + testStage.name());
-        latch = new CountDownLatch(1);
-        // Empiric observation: robot.mouseMove with small shifts (1-3 pixels) doesn't produce real moves
-        // So we must use quite large shifts
-        robot.mouseMove(frameCenter.x + testFrame.getWidth() / 4, frameCenter.y);
+        robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
         latch.await(2, TimeUnit.SECONDS);
         if (latch.getCount() > 0) throw new RuntimeException("ERROR: " + testStage.name() + " action was not handled.");
 
         testStage = TestStage.MOUSE_RELEASED;
         System.err.println("Stage: " + testStage.name());
         latch = new CountDownLatch(1);
+        robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
         robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
         latch.await(2, TimeUnit.SECONDS);
         if (latch.getCount() > 0) throw new RuntimeException("ERROR: " + testStage.name() + " action was not handled.");
@@ -171,7 +178,7 @@ public class SwingComponentsTest {
         testStage = TestStage.MOUSE_MOVED;
         System.err.println("Stage: " + testStage.name());
         latch = new CountDownLatch(1);
-        robot.mouseMove(frameCenter.x + 2, frameCenter.y);
+        robot.mouseMove(frameCenter.x + testFrame.getWidth() / 4, frameCenter.y);
         latch.await(2, TimeUnit.SECONDS);
         if (latch.getCount() > 0) throw new RuntimeException("ERROR: " + testStage.name() + " action was not handled.");
 
@@ -182,11 +189,11 @@ public class SwingComponentsTest {
         if (latch.getCount() > 0) throw new RuntimeException("ERROR: " + testStage.name() + " action was not handled.");
     }
 
+    // NOTE: skip testing MOUSE_DRAGGED event because it can't be emulated with robot under Ubuntu20.04
     enum TestStage {
         MOUSE_ENTERED,
         MOUSE_EXITED,
         MOUSE_MOVED,
-        MOUSE_DRAGGED,
         MOUSE_CLICKED,
         MOUSE_PRESSED,
         MOUSE_RELEASED,
@@ -405,14 +412,6 @@ public class SwingComponentsTest {
         }
 
         private MouseAdapter mouseAdapter = new MouseAdapter() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                System.err.println("mouseDragged: " + e);
-                if (testStage == TestStage.MOUSE_DRAGGED) {
-                    latch.countDown();
-                }
-            }
-
             @Override
             public void mouseMoved(MouseEvent e) {
                 System.err.println("mouseMoved: " + e);

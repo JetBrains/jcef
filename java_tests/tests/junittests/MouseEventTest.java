@@ -33,26 +33,31 @@ public class MouseEventTest {
         // debug helper for JBR-4649
         CefLog.Info("Start basic mouse events test");
         System.setProperty("jcef.trace.mouseeventscenario.all_awt_mouse_events", "true");
-        doTest(scenario -> {
-            scenario.getBrowserFrame().getBrowser().awaitBrowserCreated();
-            scenario.doMouseActions();
-        });
-        System.clearProperty("jcef.trace.mouseeventscenario.all_awt_mouse_events");
+        try {
+            doTest(scenario -> {
+                scenario.getBrowserFrame().getBrowser().awaitBrowserCreated();
+                scenario.doMouseActions();
+            });
+        } finally {
+            System.clearProperty("jcef.trace.mouseeventscenario.all_awt_mouse_events");
+        }
     }
 
     @Test
     public void testWithDelayedCreation() throws InvocationTargetException, InterruptedException {
         // debug helper for JBR-4649
         CefLog.Info("Start testWithDelayedCreation");
-        System.setProperty("jcef.debug.cefbrowserwr.delay_creation", "3000"); // 3 sec delay
-        System.setProperty("jcef.trace.mouseeventscenario.all_awt_mouse_events", "true");
-        doTest(scenario -> {
-            scenario.doMouseActions();
-        });
-        System.clearProperty("jcef.debug.cefbrowserwr.delay_creation");
-        System.clearProperty("jcef.trace.mouseeventscenario.all_awt_mouse_events");
+        try {
+            System.setProperty("jcef.debug.cefbrowserwr.delay_creation", "3000"); // 3 sec delay
+            System.setProperty("jcef.trace.mouseeventscenario.all_awt_mouse_events", "true");
+            doTest(scenario -> {
+                scenario.doMouseActions();
+            });
+        } finally {
+            System.clearProperty("jcef.debug.cefbrowserwr.delay_creation");
+            System.clearProperty("jcef.trace.mouseeventscenario.all_awt_mouse_events");
+        }
     }
-
 
     @Test
     public void hideAndShowBrowserTest() throws InvocationTargetException, InterruptedException {

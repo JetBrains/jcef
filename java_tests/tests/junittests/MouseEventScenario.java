@@ -27,6 +27,7 @@ public class MouseEventScenario {
 
     public void initUI() throws AWTException, InvocationTargetException, InterruptedException {
         robot = new Robot();
+        robot.setAutoDelay(100);
         SwingUtilities.invokeAndWait(()->{
             browserFrame = new CefBrowserFrame(WIDTH, HEIGHT);
         });
@@ -53,24 +54,19 @@ public class MouseEventScenario {
         CefLog.Info("Stage: " + testStage.name());
         latch = new CountDownLatch(1);
         robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+        robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
         latch.await(2, TimeUnit.SECONDS);
         checkActionHandler();
-
-        testStage = TestStage.MOUSE_DRAGGED;
-        CefLog.Info("Stage: " + testStage.name());
-        latch = new CountDownLatch(1);
-        // Empiric observation: robot.mouseMove with small shifts (1-3 pixels) doesn't produce real moves
-        // So we must use quite large shifts
-        robot.mouseMove(frameCenter.x + browserFrame.getWidth() / 4, frameCenter.y);
-        latch.await(2, TimeUnit.SECONDS);
-        checkActionHandler();
+        robot.delay(150);
 
         testStage = TestStage.MOUSE_RELEASED;
         CefLog.Info("Stage: " + testStage.name());
         latch = new CountDownLatch(1);
+        robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
         robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
         latch.await(2, TimeUnit.SECONDS);
         checkActionHandler();
+        robot.delay(150);
 
         testStage = TestStage.MOUSE_CLICKED;
         CefLog.Info("Stage: " + testStage.name());
@@ -79,20 +75,21 @@ public class MouseEventScenario {
         robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
         latch.await(2, TimeUnit.SECONDS);
         checkActionHandler();
+        robot.delay(150);
 
         testStage = TestStage.MOUSE_MOVED;
         CefLog.Info("Stage: " + testStage.name());
         latch = new CountDownLatch(1);
-        robot.mouseMove(frameCenter.x + 2, frameCenter.y);
+        robot.mouseMove(frameCenter.x + browserFrame.getWidth() / 4, frameCenter.y);
         latch.await(2, TimeUnit.SECONDS);
         checkActionHandler();
+        robot.delay(150);
 
         testStage = TestStage.MOUSE_WHEEL_MOVED;
         latch = new CountDownLatch(1);
         robot.mouseWheel(1);
         latch.await(2, TimeUnit.SECONDS);
         checkActionHandler();
-
     }
 
     public void mouseMove(Point p) {
@@ -104,7 +101,6 @@ public class MouseEventScenario {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        browserFrame.resetMouseActionPerformedFlag();
     }
 
     public void disposeBrowserFrame() throws InvocationTargetException, InterruptedException {
@@ -114,21 +110,21 @@ public class MouseEventScenario {
     }
 
     private void checkActionHandler() {
-        if (!browserFrame.isMouseActionPerformed()) {
+        if (latch.getCount() > 0) {
+            CefLog.Error("ERROR: " + testStage.name() + " action was not handled.");
             throw new RuntimeException("ERROR: " + testStage.name() + " action was not handled.");
         }
-        browserFrame.resetMouseActionPerformedFlag();
     }
 
     public CefBrowserFrame getBrowserFrame() {
         return browserFrame;
     }
 
+    // NOTE: skip testing MOUSE_DRAGGED event because it can't be emulated with robot under Ubuntu20.04
     enum TestStage {
         MOUSE_ENTERED,
         MOUSE_EXITED,
         MOUSE_MOVED,
-        MOUSE_DRAGGED,
         MOUSE_CLICKED,
         MOUSE_PRESSED,
         MOUSE_RELEASED,
@@ -137,79 +133,62 @@ public class MouseEventScenario {
 
     static class CefBrowserFrame extends JFrame {
         private final JBCefBrowser browser;
-        private volatile boolean mouseActionPerformed = false;
         private AWTEventListener awtListener;
 
         private MouseAdapter mouseAdapter = new MouseAdapter() {
             @Override
-            public void mouseDragged(MouseEvent e) {
-                if (MouseEventScenario.testStage == TestStage.MOUSE_DRAGGED) {
-                    CefLog.Info("mouseDragged, " + e);
-                    mouseActionPerformed = true;
-                    MouseEventScenario.latch.countDown();
-                }
-            }
-
-            @Override
             public void mouseMoved(MouseEvent e) {
-                if (MouseEventScenario.testStage == TestStage.MOUSE_MOVED) {
+                if (testStage == TestStage.MOUSE_MOVED) {
                     CefLog.Info("mouseMoved, " + e);
-                    mouseActionPerformed = true;
-                    MouseEventScenario.latch.countDown();
+                    latch.countDown();
                 }
             }
 
             @Override
             public void mouseWheelMoved(MouseWheelEvent e) {
-                if (MouseEventScenario.testStage == TestStage.MOUSE_WHEEL_MOVED) {
+                if (testStage == TestStage.MOUSE_WHEEL_MOVED) {
                     CefLog.Info("mouseWheelMoved, " + e);
-                    mouseActionPerformed = true;
-                    MouseEventScenario.latch.countDown();
+                    latch.countDown();
                 }
             }
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (MouseEventScenario.testStage == TestStage.MOUSE_CLICKED) {
+                if (testStage == TestStage.MOUSE_CLICKED) {
                     CefLog.Info("mouseClicked, " + e);
-                    mouseActionPerformed = true;
-                    MouseEventScenario.latch.countDown();
+                    latch.countDown();
                 }
             }
 
             @Override
             public void mousePressed(MouseEvent e) {
-                if (MouseEventScenario.testStage == TestStage.MOUSE_PRESSED) {
+                if (testStage == TestStage.MOUSE_PRESSED) {
                     CefLog.Info("mousePressed, " + e);
-                    mouseActionPerformed = true;
-                    MouseEventScenario.latch.countDown();
+                    latch.countDown();
                 }
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                if (MouseEventScenario.testStage == TestStage.MOUSE_RELEASED) {
+                if (testStage == TestStage.MOUSE_RELEASED) {
                     CefLog.Info("mouseReleased, " + e);
-                    mouseActionPerformed = true;
-                    MouseEventScenario.latch.countDown();
+                    latch.countDown();
                 }
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                if (MouseEventScenario.testStage == TestStage.MOUSE_ENTERED) {
+                if (testStage == TestStage.MOUSE_ENTERED) {
                     CefLog.Info("mouseEntered, " + e);
-                    mouseActionPerformed = true;
-                    MouseEventScenario.latch.countDown();
+                    latch.countDown();
                 }
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                if (MouseEventScenario.testStage == TestStage.MOUSE_EXITED) {
+                if (testStage == TestStage.MOUSE_EXITED) {
                     CefLog.Info("mouseExited, " + e);
-                    mouseActionPerformed = true;
-                    MouseEventScenario.latch.countDown();
+                    latch.countDown();
                 }
             }
         };
@@ -262,14 +241,6 @@ public class MouseEventScenario {
 
         public JBCefBrowser getBrowser() {
             return browser;
-        }
-
-        public void resetMouseActionPerformedFlag() {
-            mouseActionPerformed = false;
-        }
-
-        public boolean isMouseActionPerformed() {
-            return mouseActionPerformed;
         }
 
         public Point getFrameCenter() {
