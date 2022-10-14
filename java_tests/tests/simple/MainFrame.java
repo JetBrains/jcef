@@ -13,9 +13,13 @@ import org.cef.browser.*;
 import org.cef.handler.CefAppHandlerAdapter;
 import org.cef.handler.CefDisplayHandlerAdapter;
 import org.cef.handler.CefFocusHandlerAdapter;
-import tests.JBCefOsrComponent;
-import tests.JBCefOsrHandler;
+import org.cef.security.CefCertStatus;
+import org.cef.callback.CefCallback;
+import org.cef.handler.*;
+import org.cef.security.CefSSLInfo;
 import tests.OsrSupport;
+import tests.detailed.dialog.CertErrorDialog;
+import tests.detailed.util.DataUri;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -26,9 +30,11 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.security.cert.CertificateEncodingException;
+import java.security.cert.X509Certificate;
+import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.*;
 
@@ -83,7 +89,6 @@ public class MainFrame extends JFrame {
             }
         });
         CefSettings settings = config.getCefSettings();
-        settings.windowless_rendering_enabled = useOSR;
         cefApp_ = CefApp.getInstance(settings);
 
         // (2) JCEF can handle one to many browser instances simultaneous. These
@@ -145,6 +150,27 @@ public class MainFrame extends JFrame {
             }
         });
 
+        client_.addRequestHandler(new CefRequestHandlerAdapter() {
+            @Override
+            public boolean onCertificateError(CefBrowser browser, CefLoadHandler.ErrorCode cert_error,
+                                              String request_url, CefSSLInfo sslInfo, CefCallback callback) {
+                CertErrorDialog dialog = new CertErrorDialog(MainFrame.this, cert_error, request_url, new CefCallback() {
+                    @Override
+                    public void Continue() {
+                        callback.Continue();
+                    }
+
+                    @Override
+                    public void cancel() {
+                        callback.cancel();
+                        browser_.loadURL(DataUri.create("text/html", MakeErrorPage(request_url, cert_error, sslInfo)));
+                    }
+                });
+                SwingUtilities.invokeLater(dialog);
+                return true;
+            }
+        });
+
         // Clear focus from the browser when the address field gains focus.
         address_.addFocusListener(new FocusAdapter() {
             @Override
@@ -198,6 +224,52 @@ public class MainFrame extends JFrame {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static String DumpCertData(X509Certificate certificate) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("<b>Subject: </b>");
+        builder.append(certificate.getSubjectX500Principal());
+        builder.append("<br/><b>Issuer: </b>");
+        builder.append(certificate.getIssuerX500Principal());
+        builder.append("<br/><b>Validity: </b>");
+        builder.append(certificate.getNotBefore());
+        builder.append(" - ");
+        builder.append(certificate.getNotAfter());
+        builder.append("<br/><b>DER Encoded: </b>");
+        try {
+            builder.append(Base64.getEncoder().encodeToString(certificate.getEncoded()));
+        } catch (CertificateEncodingException e) {
+            e.printStackTrace();
+        }
+        return builder.toString();
+    }
+
+    private static String MakeErrorPage(String request_url, CefLoadHandler.ErrorCode cert_error, CefSSLInfo info) {
+        StringBuilder page = new StringBuilder();
+        page.append("<html><head><title>Page failed to load</title></head><body bgcolor=\"white\">");
+        page.append("<h3>Page failed to load.</h3>URL: <a href=\"");
+        page.append(request_url);
+        page.append("\">");
+        page.append(request_url);
+        page.append("</a><br/>Error: ");
+        page.append(cert_error);
+        page.append("(");
+        page.append(cert_error.getCode());
+        page.append(")<br/><h3>X.509 Certificate Information:</h3>Certificate status: ");
+        page.append(Arrays.stream(CefCertStatus.values())
+                .skip(1) // skip CERT_STATUS_NONE
+                .filter(status -> status.hasStatus(info.statusBiset))
+                .map(Enum::toString)
+                .collect(Collectors.joining(", ")));
+        page.append("<h4>Certificated chain(from subject to issuers):</h4>");
+        page.append("<table border=1 width=\"100%\">");
+        page.append("<tr><td style=\"max-width:500px;overflow:scroll;word-wrap:break-word;\">");
+        page.append(Arrays.stream(info.certificate.getCertificatesChain())
+                .map(MainFrame::DumpCertData)
+                .collect(Collectors.joining("</td></tr><tr><td style=\"max-width:500px;overflow:scroll;word-wrap:break-word;\">")));
+        page.append("</td></tr></table></body></html>");
+        return page.toString();
     }
 
     public static void main(String[] args) {

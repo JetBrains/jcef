@@ -12,6 +12,7 @@ import org.cef.handler.CefLoadHandler.ErrorCode;
 import org.cef.misc.BoolRef;
 import org.cef.network.CefRequest;
 import org.cef.network.CefURLRequest;
+import org.cef.security.CefSSLInfo;
 
 /**
  * An abstract adapter class for receiving browser request events.
@@ -52,7 +53,8 @@ public abstract class CefRequestHandlerAdapter implements CefRequestHandler {
 
     @Override
     public boolean onCertificateError(
-            CefBrowser browser, ErrorCode cert_error, String request_url, CefCallback callback) {
+            CefBrowser browser, ErrorCode cert_error, String request_url, CefSSLInfo sslInfo,
+            CefCallback callback) {
         return false;
     }
 

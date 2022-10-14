@@ -10,6 +10,58 @@
 #include "resource_request_handler.h"
 #include "util.h"
 
+#include "include/base/cef_logging.h"
+
+namespace {
+
+jobject NewCefX509Certificate(JNIEnv_* env,
+                              CefRefPtr<CefX509Certificate> ssl_info) {
+  ScopedJNIClass byteArrayCls(env, env->FindClass("[B"));
+  if (!byteArrayCls) {
+    if (env->ExceptionOccurred()) {
+        env->ExceptionDescribe();
+        env->ExceptionClear();
+      }
+      return nullptr;
+  }
+
+  CefX509Certificate::IssuerChainBinaryList der_chain;
+  ssl_info->GetDEREncodedIssuerChain(der_chain);
+  der_chain.insert(der_chain.begin(), ssl_info->GetDEREncoded());
+
+  ScopedJNIObjectLocal certificatesChain(
+      env, env->NewObjectArray(static_cast<int>(der_chain.size()),
+                               byteArrayCls, nullptr));
+
+  for (size_t i = 0; i < der_chain.size(); ++i) {
+    const auto& der_cert = der_chain[i];
+    ScopedJNIObjectLocal derArray(
+        env, env->NewByteArray((jsize)der_cert->GetSize()));
+    {
+      void* buf = env->GetPrimitiveArrayCritical((jarray)derArray.get(), 0);
+      der_cert->GetData(buf, der_cert->GetSize(), 0);
+      env->ReleasePrimitiveArrayCritical((jarray)derArray.get(), buf, 0);
+    }
+
+    env->SetObjectArrayElement((jobjectArray)certificatesChain.get(), (jsize)i,
+                               derArray);
+  }
+
+  return NewJNIObject(env, "org/cef/security/CefX509Certificate", "([[B)V",
+                      certificatesChain.get());
+}
+
+jobject NewCefSSLInfo(JNIEnv_* env, CefRefPtr<CefSSLInfo> ssl_info) {
+  ScopedJNIObjectLocal certificate(
+      env, NewCefX509Certificate(env, ssl_info->GetX509Certificate()));
+
+  return NewJNIObject(env, "org/cef/security/CefSSLInfo",
+                      "(ILorg/cef/security/CefX509Certificate;)V",
+                      ssl_info.get()->GetCertStatus(), certificate.get());
+}
+
+}  // namespace
+
 RequestHandler::RequestHandler(JNIEnv* env, jobject handler)
     : handle_(env, handler) {}
 
@@ -183,15 +235,17 @@ bool RequestHandler::OnCertificateError(CefRefPtr<CefBrowser> browser,
   ScopedJNIBrowser jbrowser(env, browser);
   ScopedJNIObjectLocal jcertError(env, NewJNIErrorCode(env, cert_error));
   ScopedJNIString jrequestUrl(env, request_url);
+  ScopedJNIObjectLocal jSSLInfo(env, NewCefSSLInfo(env, ssl_info));
   ScopedJNICallback jcallback(env, callback);
   jboolean jresult = JNI_FALSE;
 
   JNI_CALL_METHOD(
       env, handle_, "onCertificateError",
       "(Lorg/cef/browser/CefBrowser;Lorg/cef/handler/CefLoadHandler$ErrorCode;"
-      "Ljava/lang/String;Lorg/cef/callback/CefCallback;)Z",
+      "Ljava/lang/String;Lorg/cef/security/CefSSLInfo;Lorg/cef/callback/"
+      "CefCallback;)Z",
       Boolean, jresult, jbrowser.get(), jcertError.get(), jrequestUrl.get(),
-      jcallback.get());
+      jSSLInfo.get(), jcallback.get());
 
   if (jresult == JNI_FALSE) {
     // If the Java method returns "false" the callback won't be used and
