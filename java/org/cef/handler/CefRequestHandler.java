@@ -11,6 +11,7 @@ import org.cef.callback.CefCallback;
 import org.cef.misc.BoolRef;
 import org.cef.network.CefRequest;
 import org.cef.network.CefURLRequest;
+import org.cef.security.CefSSLInfo;
 
 /**
  * Implement this interface to handle events related to browser requests. The methods of this class
@@ -125,13 +126,15 @@ public interface CefRequestHandler {
      * @param browser The corresponding browser.
      * @param cert_error Error code describing the error.
      * @param request_url The requesting URL.
+     * @param sslInfo The certificate with the status
      * @param callback Call CefCallback.Continue() either in this method or at a later time
      *         to continue or cancel the request. If null the error cannot be recovered from and the
      *         request will be canceled automatically.
-     * @return True to handle the request (callback must be executed) or false to reject it.
+     * @return True to handle the request later(callback must be executed) or false to reject it immediately.
      */
-    boolean onCertificateError(CefBrowser browser, CefLoadHandler.ErrorCode cert_error,
-            String request_url, CefCallback callback);
+    boolean onCertificateError(
+            CefBrowser browser, CefLoadHandler.ErrorCode cert_error, String request_url, CefSSLInfo sslInfo,
+            CefCallback callback);
 
     /**
      * Called on the browser process UI thread when the render process terminates unexpectedly.

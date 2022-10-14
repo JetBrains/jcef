@@ -31,6 +31,7 @@ import org.cef.network.CefResponse;
 import org.cef.network.CefURLRequest;
 import tests.JBCefOsrComponent;
 import tests.JBCefOsrHandler;
+import org.cef.security.CefSSLInfo;
 import tests.OsrSupport;
 
 import java.awt.*;
@@ -275,8 +276,8 @@ class TestFrame extends JFrame implements CefLifeSpanHandler, CefLoadHandler, Ce
     }
 
     @Override
-    public boolean onCertificateError(CefBrowser browser, CefLoadHandler.ErrorCode cert_error,
-            String request_url, CefCallback callback) {
+    public boolean onCertificateError(CefBrowser browser, CefLoadHandler.ErrorCode cert_error, String request_url,
+            CefSSLInfo sslInfo, CefCallback callback) {
         return false;
     }
 

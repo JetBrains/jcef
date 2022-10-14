@@ -25,6 +25,7 @@ import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
+import org.cef.security.CefSSLInfo;
 import tests.detailed.dialog.CertErrorDialog;
 import tests.detailed.dialog.PasswordDialog;
 
@@ -161,7 +162,8 @@ public class RequestHandler extends CefResourceRequestHandlerAdapter implements 
 
     @Override
     public boolean onCertificateError(
-            CefBrowser browser, ErrorCode cert_error, String request_url, CefCallback callback) {
+            CefBrowser browser, ErrorCode cert_error, String request_url, CefSSLInfo sslInfo,
+            CefCallback callback) {
         SwingUtilities.invokeLater(new CertErrorDialog(owner_, cert_error, request_url, callback));
         return true;
     }

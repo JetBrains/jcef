@@ -44,6 +44,7 @@ import org.cef.misc.CefPrintSettings;
 import org.cef.misc.CefLog;
 import org.cef.network.CefRequest;
 import org.cef.network.CefRequest.TransitionType;
+import org.cef.security.CefSSLInfo;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -950,9 +951,9 @@ public class CefClient extends CefClientHandler
 
     @Override
     public boolean onCertificateError(
-            CefBrowser browser, ErrorCode cert_error, String request_url, CefCallback callback) {
+            CefBrowser browser, ErrorCode cert_error, String request_url, CefSSLInfo sslInfo, CefCallback callback) {
         if (requestHandler_ != null)
-            return requestHandler_.onCertificateError(browser, cert_error, request_url, callback);
+            return requestHandler_.onCertificateError(browser, cert_error, request_url, sslInfo, callback);
         return false;
     }
 
