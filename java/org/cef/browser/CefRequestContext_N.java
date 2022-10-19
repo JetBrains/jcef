@@ -4,6 +4,7 @@
 
 package org.cef.browser;
 
+import org.cef.callback.CefCompletionCallback;
 import org.cef.callback.CefNative;
 import org.cef.handler.CefRequestContextHandler;
 
@@ -67,9 +68,21 @@ class CefRequestContext_N extends CefRequestContext {
         return handler;
     }
 
+    @Override
+    public void ClearCertificateExceptions(CefCompletionCallback callback) {
+        N_ClearCertificateExceptions(getNativeRef(), callback);
+    }
+
+    @Override
+    public void CloseAllConnections(CefCompletionCallback callback) {
+        N_CloseAllConnections(getNativeRef(), callback);
+    }
+
     private final static native CefRequestContext_N N_GetGlobalContext();
     private final static native CefRequestContext_N N_CreateContext(
             CefRequestContextHandler handler);
     private final native boolean N_IsGlobal();
     private final native void N_CefRequestContext_DTOR();
+    private final native void N_ClearCertificateExceptions(long self, CefCompletionCallback callback);
+    private final native void N_CloseAllConnections(long self, CefCompletionCallback callback);
 }

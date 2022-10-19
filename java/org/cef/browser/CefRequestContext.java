@@ -4,8 +4,12 @@
 
 package org.cef.browser;
 
+import org.cef.callback.CefCallback;
+import org.cef.callback.CefCompletionCallback;
 import org.cef.callback.CefNativeAdapter;
+import org.cef.handler.CefLoadHandler;
 import org.cef.handler.CefRequestContextHandler;
+import org.cef.security.CefSSLInfo;
 
 /**
  * A request context provides request handling for a set of related browser
@@ -51,4 +55,25 @@ public abstract class CefRequestContext extends CefNativeAdapter {
      * Returns the handler for this context if any.
      */
     public abstract CefRequestContextHandler getHandler();
+
+    /**
+     * Clears all certificate exceptions that were added as part of handling
+     * {@link org.cef.handler.CefRequestHandler#onCertificateError(
+     * CefBrowser, CefLoadHandler.ErrorCode, String, CefSSLInfo, CefCallback)}.
+     * If you call this it is recommended that you also call CloseAllConnections()
+     * or you risk not being prompted again for server certificates if you reconnect
+     * quickly. If {@code callback} is non-null it will be executed on the UI thread
+     * after completion.
+     *
+     * @param callback optional completion callback
+     */
+    public abstract void ClearCertificateExceptions(CefCompletionCallback callback);
+
+    /**
+     * Clears all active and idle connections that Chromium currently has.
+     * If {@code callback} is non-null it will be executed on the UI thread after completion.
+     *
+     * @param callback optional completion callback
+     */
+    public abstract void CloseAllConnections(CefCompletionCallback callback);
 }

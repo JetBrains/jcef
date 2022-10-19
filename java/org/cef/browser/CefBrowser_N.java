@@ -52,17 +52,13 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser {
             CefBrowser_N parent, Point inspectAt) {
         client_ = client;
         url_ = url;
-        request_context_ = context;
+        request_context_ = context != null ? context : CefRequestContext.getGlobalContext();
         parent_ = parent;
         inspectAt_ = inspectAt;
     }
 
     protected String getUrl() {
         return url_;
-    }
-
-    protected CefRequestContext getRequestContext() {
-        return request_context_;
     }
 
     protected CefBrowser_N getParentBrowser() {
@@ -87,6 +83,12 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser {
     public CefClient getClient() {
         return client_;
     }
+
+    @Override
+    public CefRequestContext getRequestContext() {
+        return request_context_;
+    }
+
 
     @Override
     public CefRenderHandler getRenderHandler() {

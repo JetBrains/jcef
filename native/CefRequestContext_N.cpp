@@ -3,9 +3,19 @@
 // can be found in the LICENSE file.
 
 #include "CefRequestContext_N.h"
+#include "completion_callback.h"
+#include "include/base/cef_callback.h"
 #include "include/cef_request_context.h"
 #include "jni_util.h"
 #include "request_context_handler.h"
+
+namespace {
+
+CefRefPtr<CefRequestContext> GetSelf(jlong self) {
+  return reinterpret_cast<CefRequestContext*>(self);
+}
+
+}  // namespace
 
 JNIEXPORT jobject JNICALL
 Java_org_cef_browser_CefRequestContext_1N_N_1GetGlobalContext(JNIEnv* env,
@@ -61,4 +71,28 @@ Java_org_cef_browser_CefRequestContext_1N_N_1CefRequestContext_1DTOR(
     JNIEnv* env,
     jobject obj) {
   SetCefForJNIObject_sync<CefRequestContext>(env, obj, nullptr, "CefRequestContext");
+}
+
+JNIEXPORT void JNICALL
+Java_org_cef_browser_CefRequestContext_1N_N_1ClearCertificateExceptions(
+    JNIEnv* env,
+    jobject,
+    jlong self,
+    jobject jcallback) {
+  CefRefPtr<CefRequestContext> request_context = GetSelf(self);
+  CefRefPtr<CefCompletionCallback> callback =
+      new CompletionCallback(env, jcallback);
+  request_context->ClearCertificateExceptions(callback);
+}
+
+JNIEXPORT void JNICALL
+Java_org_cef_browser_CefRequestContext_1N_N_1CloseAllConnections(
+    JNIEnv* env,
+    jobject,
+    jlong self,
+    jobject jcallback) {
+  CefRefPtr<CefRequestContext> request_context = GetSelf(self);
+  CefRefPtr<CefCompletionCallback> callback =
+      new CompletionCallback(env, jcallback);
+  request_context->CloseAllConnections(callback);
 }

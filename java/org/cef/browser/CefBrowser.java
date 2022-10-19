@@ -47,6 +47,12 @@ public interface CefBrowser {
     public CefClient getClient();
 
     /**
+     * Returns the request context for this browser.
+     * @return The browser request context.
+     */
+    public CefRequestContext getRequestContext();
+
+    /**
      * Get an implementation of CefRenderHandler if any.
      * @return An instance of CefRenderHandler or null.
      */
