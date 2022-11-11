@@ -374,6 +374,17 @@ public interface CefBrowser {
     void wasResized(int width, int height);
 
     /**
+     * Send a notification to the browser that the screen info has changed. The
+     * browser will then call CefRenderHandler#GetScreenInfo to update the
+     * screen information with the new values. This simulates moving the webview
+     * window from one display to another, or changing the properties of the
+     * current display. This method is only used when window rendering is
+     * disabled.
+     * @since api-1.10
+     */
+    void notifyScreenInfoChanged();
+
+    /**
      * @since api-1.2
      */
     void sendKeyEvent(KeyEvent e);

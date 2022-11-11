@@ -611,6 +611,15 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser {
         }
     }
 
+    @Override
+    public void notifyScreenInfoChanged() {
+        try {
+            N_NotifyScreenInfoChanged();
+        } catch (UnsatisfiedLinkError ule) {
+            ule.printStackTrace();
+        }
+    }
+
     /**
      * Invalidate the UI.
      */
@@ -834,6 +843,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser {
     private final native void N_ReplaceMisspelling(String word);
     private final native void N_WasResized(int width, int height);
     private final native void N_Invalidate();
+    private final native void N_NotifyScreenInfoChanged();
     private final native void N_SendKeyEvent(KeyEvent e);
     private final native void N_SendMouseEvent(MouseEvent e);
     private final native void N_SendMouseWheelEvent(MouseWheelEvent e);
