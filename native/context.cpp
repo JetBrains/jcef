@@ -230,7 +230,37 @@ bool Context::Initialize(JNIEnv* env,
   res = util_mac::CefInitializeOnMainThread(main_args, settings,
                                             client_app.get());
 #else
-  res = CefInitialize(main_args, settings, client_app.get(), nullptr);
+
+void * p_sandbox_info = 0;
+#if defined(OS_WIN)
+  jclass jc_System = env->FindClass("java/lang/System");
+  jmethodID jm_getProperty = env->GetStaticMethodID(jc_System, "getProperty", "(Ljava/lang/String;)Ljava/lang/String;");
+
+  const char propName[] = "jcef.sandbox.ptr";
+  jstring jKey = env->NewStringUTF(propName);
+  jstring jValue = (jstring)env->CallStaticObjectMethod(jc_System, jm_getProperty, jKey);
+  env->DeleteLocalRef(jKey);
+
+  std::string propVal = "";
+  if (jValue) {
+    const char* chars = env->GetStringUTFChars(jValue, NULL);
+    if (chars != NULL) {
+      propVal.assign(chars);
+      env->ReleaseStringUTFChars(jValue, chars);
+    }
+  }
+
+  env->DeleteLocalRef(jValue);
+
+  if (propVal.empty())
+    fprintf(stdout, "Initialize JCEF context without sandbox\n");
+  else
+    fprintf(stdout, "Initialize JCEF context with sandbox=%s\n", propVal.c_str());
+
+  sscanf(propVal.c_str(), "%p", &p_sandbox_info);
+#endif // Windows
+
+  res = CefInitialize(main_args, settings, client_app.get(), p_sandbox_info);
 #endif
 
 #if defined(OS_POSIX)

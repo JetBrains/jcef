@@ -164,6 +164,20 @@ class CefHelperApp : public CefApp, public CefRenderProcessHandler {
 }  // namespace
 
 #if defined(OS_WIN)
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+__declspec(dllexport) int __stdcall execute_subprocess(HINSTANCE hInstance,
+                                                       void* sandbox_info) {
+  CefMainArgs main_args(hInstance);
+  CefRefPtr<CefHelperApp> app = new CefHelperApp();
+  return CefExecuteProcess(main_args, app.get(), sandbox_info);
+}
+#ifdef __cplusplus
+} // extern C
+#endif
+
 int CALLBACK WinMain(HINSTANCE hInstance,
                      HINSTANCE hPrevInstance,
                      LPSTR lpCmdLine,

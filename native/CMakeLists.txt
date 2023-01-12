@@ -413,6 +413,16 @@ if(OS_WINDOWS)
   add_dependencies(${JCEF_HELPER_TARGET} libcef_dll_wrapper)
   target_link_libraries(${JCEF_HELPER_TARGET} libcef_lib libcef_dll_wrapper ${CEF_STANDARD_LIBS})
 
+  add_library("${JCEF_HELPER_TARGET}_lib" SHARED ${JCEF_HELPER_SRCS})
+  SET_LIBRARY_TARGET_PROPERTIES("${JCEF_HELPER_TARGET}_lib")
+
+  set_target_properties("${JCEF_HELPER_TARGET}_lib" PROPERTIES PREFIX "")
+  set_target_properties("${JCEF_HELPER_TARGET}_lib" PROPERTIES OUTPUT_NAME "jcef_helper")
+  set_target_properties("${JCEF_HELPER_TARGET}_lib" PROPERTIES SUFFIX ".dll")
+
+  add_dependencies(${JCEF_HELPER_TARGET} "${JCEF_HELPER_TARGET}_lib")
+  target_link_libraries("${JCEF_HELPER_TARGET}_lib" libcef_lib libcef_dll_wrapper ${CEF_STANDARD_LIBS})
+
   # JCEF library target.
   add_library(${JCEF_TARGET} SHARED ${JCEF_SRCS})
   SET_LIBRARY_TARGET_PROPERTIES(${JCEF_TARGET})
