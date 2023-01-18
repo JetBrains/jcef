@@ -43,8 +43,6 @@ public class TestSetupExtension
     private static boolean initialized_ = false;
     private static CountDownLatch countdown_ = new CountDownLatch(1);
 
-    private static Function<CefAppState, Void> ourCefAppStateHandler;
-
     @Override
     public void beforeAll(ExtensionContext context) {
         if (!initialized_) {
@@ -105,9 +103,6 @@ public class TestSetupExtension
         CefApp.addAppHandler(new CefAppHandlerAdapter(argsArr) {
             @Override
             public void stateHasChanged(org.cef.CefApp.CefAppState state) {
-                final Function<CefAppState, Void> f = ourCefAppStateHandler;
-                if (f != null) f.apply(state);
-
                 if (state == CefAppState.TERMINATED) {
                     // Signal completion of CEF shutdown.
                     countdown_.countDown();
@@ -122,15 +117,6 @@ public class TestSetupExtension
         // Initialize the singleton CefApp instance.
         CefApp.getInstance(settings);
     }
-
-    private static String normalize(String path) {
-        try {
-            return new File(path).getCanonicalPath();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     // Executed after all tests have completed.
     @Override
     public void close() {
@@ -150,9 +136,4 @@ public class TestSetupExtension
             }
         }
     }
-
-    public static void setCefAppStateHandler(Function<CefApp.CefAppState, Void> stateHandler) {
-        ourCefAppStateHandler = stateHandler;
-    }
-
 }
