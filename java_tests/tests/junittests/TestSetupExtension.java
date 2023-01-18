@@ -39,7 +39,6 @@ import java.util.function.Function;
 // This code is based on https://stackoverflow.com/a/51556718.
 public class TestSetupExtension
         implements BeforeAllCallback, ExtensionContext.Store.CloseableResource {
-    private static final boolean DISABLE_GPU = Boolean.getBoolean("jcef.tests.disable_gpu");
     private static final int TIMEOUT = 5;
     private static boolean initialized_ = false;
     private static CountDownLatch countdown_ = new CountDownLatch(1);
@@ -87,9 +86,14 @@ public class TestSetupExtension
         String[] appArgs = config.getAppArgs();
         List<String> args = new ArrayList<>();
         args.addAll(Arrays.asList(appArgs));
-        if (DISABLE_GPU) {
-            args.add("--disable-gpu");
-            args.add("--disable-gpu-compositing");
+
+        String extraArgsProp = System.getProperty("jcef.tests.extra_args", "");
+        if (!extraArgsProp.isEmpty()) {
+            String[] extraArgs = extraArgsProp.split(",");
+            if (extraArgs.length > 0) {
+                CefLog.Info("Use extra CEF args: [" + Arrays.toString(extraArgs) + "]");
+                args.addAll(Arrays.asList(extraArgs));
+            }
         }
 
         CefSettings settings = config.getCefSettings();
