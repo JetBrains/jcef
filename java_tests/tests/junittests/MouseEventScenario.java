@@ -104,9 +104,10 @@ public class MouseEventScenario {
     }
 
     public void disposeBrowserFrame() throws InvocationTargetException, InterruptedException {
-        getBrowserFrame().getBrowser().dispose();
-        SwingUtilities.invokeAndWait(getBrowserFrame()::dispose);
+        browserFrame.browser.dispose();
         browserFrame.browser.awaitClientDisposed();
+        // don't dispose directly because of window-event listeners
+        SwingUtilities.invokeLater(()->browserFrame.dispatchEvent(new WindowEvent(browserFrame, WindowEvent.WINDOW_CLOSING)));
     }
 
     private void checkActionHandler() {

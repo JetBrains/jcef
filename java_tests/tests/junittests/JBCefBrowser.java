@@ -2,6 +2,7 @@ package tests.junittests;
 
 import org.cef.CefApp;
 import org.cef.CefClient;
+import org.cef.CefSettings;
 import org.cef.browser.CefBrowser;
 import org.cef.handler.CefLifeSpanHandlerAdapter;
 import org.cef.handler.CefLoadHandler;
@@ -62,10 +63,10 @@ public class JBCefBrowser {
 
         myBrowserCreatedLatch = new CountDownLatch(1);
 
-        myCefClient.addLifeSpanHandler(new CefLifeSpanHandlerAdapter() {
+        myCefClient.addLifeSpanHandler(new LoggingLifeSpanHandler(CefSettings.LogSeverity.LOGSEVERITY_INFO) {
             @Override
             public void onAfterCreated(CefBrowser browser) {
-                CefLog.Info("CefLifeSpanHandler.onAfterCreated, browser " + browser);
+                super.onAfterCreated(browser);
                 myBrowserCreatedLatch.countDown();
                 LoadDeferrer loader = myLoadDeferrer;
                 if (loader != null) {

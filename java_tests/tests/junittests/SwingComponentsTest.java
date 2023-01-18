@@ -352,7 +352,7 @@ public class SwingComponentsTest {
                 paintLatch.countDown();
                 Window frame = SwingUtilities.getWindowAncestor(this);
                 if (frame != null)
-                    SwingUtilities.invokeLater(()->frame.dispose());
+                    frame.dispose();
             }
             super.paint(g);
         }

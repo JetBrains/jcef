@@ -1,10 +1,9 @@
 package tests.junittests;// Copyright 2000-2020 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 
+import org.cef.CefSettings;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefFrame;
-import org.cef.handler.CefLoadHandlerAdapter;
 import org.cef.misc.CefLog;
-import org.cef.network.CefRequest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -18,33 +17,18 @@ import java.util.concurrent.TimeUnit;
  * (checks that CefLoadHandler.onLoadEnd invocation and cefclient disposing)
  */
 @ExtendWith(TestSetupExtension.class)
-public class MultipleBrowserCreation {
+public class MultipleBrowserCreationTest {
     private static class TestFrame {
         final CountDownLatch myOnLoadEndLatch = new CountDownLatch(1);
         volatile JBCefBrowser myBrowser;
         private JFrame myFrame;
 
         TestFrame() {
-            myBrowser = new JBCefBrowser(new CefLoadHandlerAdapter() {
+            myBrowser = new JBCefBrowser(new LoggingLoadHandler(CefSettings.LogSeverity.LOGSEVERITY_INFO) {
                 @Override
-                public void onLoadingStateChange(CefBrowser browser, boolean isLoading, boolean canGoBack, boolean canGoForward) {
-                    CefLog.Info("onLoadingStateChange:" + browser);
-                }
-
-                @Override
-                public void onLoadStart(CefBrowser cefBrowser, CefFrame cefFrame, CefRequest.TransitionType transitionType) {
-                    CefLog.Info("onLoadStart:" + cefBrowser);
-                }
-
-                @Override
-                public void onLoadEnd(CefBrowser cefBrowser, CefFrame cefFrame, int i) {
-                    CefLog.Info("onLoadEnd:" + cefBrowser);
+                public void onLoadEnd(CefBrowser browser, CefFrame cefFrame, int i) {
+                    super.onLoadEnd(browser, cefFrame, i);
                     myOnLoadEndLatch.countDown();
-                }
-
-                @Override
-                public void onLoadError(CefBrowser cefBrowser, CefFrame cefFrame, ErrorCode errorCode, String s, String s1) {
-                    CefLog.Info("onLoadError:" + cefBrowser);
                 }
             });
             CefLog.Info("created browser:" + myBrowser.getCefBrowser());
@@ -104,6 +88,7 @@ public class MultipleBrowserCreation {
     private void _test() {
         TestFrame frame = new TestFrame();
         EventQueue.invokeLater(() -> frame.initUI());
+        frame.myBrowser.awaitBrowserCreated();
 
         try {
             frame.myOnLoadEndLatch.await(10, TimeUnit.SECONDS);

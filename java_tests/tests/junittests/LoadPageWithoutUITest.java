@@ -1,6 +1,5 @@
 package tests.junittests;// Copyright 2000-2020 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 
-import org.cef.CefApp;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefFrame;
 import org.cef.handler.CefLoadHandlerAdapter;
@@ -31,17 +30,17 @@ import java.util.concurrent.TimeUnit;
  * 3. After disable showing UI (after frame.setVisible(false) was called)
  */
 @ExtendWith(TestSetupExtension.class)
-public class LoadPageWithoutUI {
+public class LoadPageWithoutUITest {
     private static final String DUMMY = "file://" + System.getProperty("test.src") + "/dummy.html";
     private static final String BLANK = "about:blank";
 
     private CountDownLatch latch;
     private JBCefBrowser browser;
-    private JFrame frame = new JFrame("JCEF");
+    private JFrame frame = new JFrame("JCEF LoadPageWithoutUITest");
 
     private volatile boolean loadHandlerUsed;
 
-    LoadPageWithoutUI() {
+    LoadPageWithoutUITest() {
         browser = new JBCefBrowser(new CefLoadHandlerAdapter() {
             @Override
             public void onLoadingStateChange(CefBrowser browser, boolean isLoading, boolean canGoBack, boolean canGoForward) {
@@ -74,22 +73,13 @@ public class LoadPageWithoutUI {
         frame.getContentPane().add(browser.getComponent());
         frame.setSize(640, 480);
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        frame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosed(WindowEvent e) {
-                browser.dispose();
-            }
-        });
     }
 
     @Test
     public void test() throws InvocationTargetException, InterruptedException {
-        LoadPageWithoutUI test = new LoadPageWithoutUI();
+        LoadPageWithoutUITest test = new LoadPageWithoutUITest();
         try {
-            test.latch = new CountDownLatch(1);
-            SwingUtilities.invokeLater(test::initUI);
-            test.latch.await(5, TimeUnit.SECONDS);
-
+            SwingUtilities.invokeAndWait(test::initUI);
             test.browser.getCefBrowser().createImmediately();
 
             CefLog.Info("Loading URL " + BLANK + " before enabling browser UI...");
@@ -123,11 +113,10 @@ public class LoadPageWithoutUI {
             }
             test.loadHandlerUsed = false;
             CefLog.Info(BLANK + " is loaded");
-
         } finally {
             test.browser.dispose();
-            SwingUtilities.invokeAndWait(() -> test.frame.dispose());
+            test.browser.awaitClientDisposed();
+            test.frame.dispose();
         }
-        test.browser.awaitClientDisposed();
     }
 }
