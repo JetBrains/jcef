@@ -63,34 +63,4 @@ class TestFrameTest {
         assertTrue(gotLoadingStateChange_);
         assertTrue(gotCleanupTest_);
     }
-
-    @Test
-    void multipleBrowserCreation() {
-        // reproduced in ubuntu 20.04 (on 10-20 iteration)
-        for (int c = 0; c < 15; ++c) {
-            CefLog.Info("*** Start test-iteration " + c + " ***");
-            boolean browserCreated[] = new boolean[]{false};
-            TestFrame frame = new TestFrame() {
-                @Override
-                protected void setupTest() {
-                    client_.addLifeSpanHandler(new CefLifeSpanHandlerAdapter() {
-                        @Override
-                        public void onAfterCreated(CefBrowser browser) {
-                            CefLog.Info("Created browser " + browser);
-                            browserCreated[0] = true;
-                            terminateTest();
-                        }
-                    });
-
-                    createBrowser("about:blank");
-                    super.setupTest();
-                }
-            };
-
-            frame.awaitCompletion();
-
-            assertTrue(browserCreated[0]);
-            CefLog.Info("+++ Finished test-iteration " + c + " +++");
-        }
-    }
 }

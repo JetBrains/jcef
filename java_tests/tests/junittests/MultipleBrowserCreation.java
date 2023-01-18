@@ -5,7 +5,6 @@ import org.cef.browser.CefFrame;
 import org.cef.handler.CefLoadHandlerAdapter;
 import org.cef.misc.CefLog;
 import org.cef.network.CefRequest;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -15,17 +14,13 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @test
- * @key headful
- * @requires (os.arch == "amd64" | os.arch == "x86_64" | (os.arch == "aarch64" & os.family == "mac"))
- * @summary Tests that JCEF starts and loads empty page with no crash
- * @author Anton Tarasov
+ * Tests that JCEF correctly loads empty page several times
+ * (checks that CefLoadHandler.onLoadEnd invocation and cefclient disposing)
  */
 @ExtendWith(TestSetupExtension.class)
-public class JCEFStartupTest {
+public class MultipleBrowserCreation {
     private static class TestFrame {
-        final CountDownLatch myLatch = new CountDownLatch(1);
-        volatile boolean isPassed;
+        final CountDownLatch myOnLoadEndLatch = new CountDownLatch(1);
         volatile JBCefBrowser myBrowser;
         private JFrame myFrame;
 
@@ -44,8 +39,7 @@ public class JCEFStartupTest {
                 @Override
                 public void onLoadEnd(CefBrowser cefBrowser, CefFrame cefFrame, int i) {
                     CefLog.Info("onLoadEnd:" + cefBrowser);
-                    isPassed = true;
-                    myLatch.countDown();
+                    myOnLoadEndLatch.countDown();
                 }
 
                 @Override
@@ -59,7 +53,6 @@ public class JCEFStartupTest {
         public void initUI() {
             myFrame = new JFrame("JCEF");
             myFrame.add(myBrowser.getComponent());
-
             myFrame.setSize(640, 480);
             myFrame.setLocationRelativeTo(null);
             myFrame.setVisible(true);
@@ -76,18 +69,18 @@ public class JCEFStartupTest {
     }
 
     @Test
-    public void test() {
-        testCreation(1);
-    }
-
-    @Test
-    public void testCreation20Times() throws InterruptedException {
-        testCreation(20);
+    public void testCreation20Times() {
+        CefLog.Info("Start MultipleBrowserCreation with 20 iterations");
+        for (long c = 0; c < 20; ++c) {
+            CefLog.Info("=== iteraion %d ===", c);
+            _test();
+        }
+        CefLog.Info("Test PASSED");
     }
 
     @Test
     // Reproducer for JBR-4872 (use with long timeout > 4 hours)
-    public void testCreationWithTimeout() throws InterruptedException {
+    public void testWithTimeout() {
         String stime = System.getenv().get("JCEF_JUNIT_STARTUP_TIMEOUT_MIN");
         if (stime == null || stime.isEmpty()) return;
         long durationMin;
@@ -99,31 +92,21 @@ public class JCEFStartupTest {
         }
 
         final long startMs = System.currentTimeMillis();
-        CefLog.Info("Start testCreation, timeout=%d min", durationMin);
+        CefLog.Info("Start MultipleBrowserCreation with timeout=%d min", durationMin);
         int c = 0;
         while (System.currentTimeMillis() - startMs < durationMin*60*1000){
             CefLog.Info("=== iteraion %d ===", c++);
-            testCreation();
+            _test();
         }
         CefLog.Info("Test PASSED");
     }
 
-    private void testCreation(int count) {
-        CefLog.Info("Start testCreation, count=%d", count);
-        for (long c = 0; c < count; ++c) {
-            CefLog.Info("=== iteraion %d ===", c);
-            testCreation();
-        }
-        CefLog.Info("Test PASSED");
-    }
-
-    private void testCreation() {
-        // Test CefLoadHandlerAdapter callbacks invocation and cefclient disposing
+    private void _test() {
         TestFrame frame = new TestFrame();
         EventQueue.invokeLater(() -> frame.initUI());
 
         try {
-            frame.myLatch.await(10, TimeUnit.SECONDS);
+            frame.myOnLoadEndLatch.await(10, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             CefLog.Error(e.getMessage());
             e.printStackTrace();
@@ -131,7 +114,7 @@ public class JCEFStartupTest {
 
         frame.dispose();
 
-        if (!frame.isPassed) {
+        if (frame.myOnLoadEndLatch.getCount() > 0) {
             CefLog.Error("CefLoadHandler.onLoadEnd wasn't invoked");
             throw new RuntimeException("CefLoadHandler.onLoadEnd wasn't invoked");
         }
