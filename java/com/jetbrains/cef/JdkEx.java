@@ -87,6 +87,7 @@ public class JdkEx {
 
             @SuppressWarnings("RedundantCast") // the cast pleases jdk8 javac
             WindowPeer peer = (WindowPeer)AWTAccessor.getComponentAccessor().getPeer(comp);
+            if (peer == null) return 0;
             try {
                 return (long) mGetWindowHandle.invoke(peer);
             } catch (IllegalAccessException | InvocationTargetException ignore) {
