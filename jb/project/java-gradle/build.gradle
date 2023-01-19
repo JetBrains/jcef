@@ -52,7 +52,8 @@ test {
                '--add-opens=java.desktop/java.awt.peer=ALL-UNNAMED',
                '--add-exports=java.desktop/java.awt.peer=ALL-UNNAMED',
                '--add-opens=java.desktop/sun.awt=ALL-UNNAMED',
-               '--add-exports=java.desktop/sun.awt=ALL-UNNAMED'
+               '--add-exports=java.desktop/sun.awt=ALL-UNNAMED',
+               '-Djcef.tests.osr=true'
     ]
     executable = jbr_java
 }
