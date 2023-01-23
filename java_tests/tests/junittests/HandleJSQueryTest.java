@@ -147,7 +147,6 @@ public class HandleJSQueryTest {
         public void initUI() {
             getContentPane().add(browser.getComponent());
             setSize(640, 480);
-            setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
             setVisible(true);
 
             reload();

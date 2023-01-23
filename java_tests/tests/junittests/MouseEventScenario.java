@@ -103,13 +103,6 @@ public class MouseEventScenario {
         }
     }
 
-    public void disposeBrowserFrame() throws InvocationTargetException, InterruptedException {
-        browserFrame.browser.dispose();
-        browserFrame.browser.awaitClientDisposed();
-        // don't dispose directly because of window-event listeners
-        SwingUtilities.invokeLater(()->browserFrame.dispatchEvent(new WindowEvent(browserFrame, WindowEvent.WINDOW_CLOSING)));
-    }
-
     private void checkActionHandler() {
         if (latch.getCount() > 0) {
             CefLog.Error("ERROR: " + testStage.name() + " action was not handled.");
@@ -212,17 +205,16 @@ public class MouseEventScenario {
             setResizable(false);
             getContentPane().add(browser.getComponent());
             setSize(width, height);
-            setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-            addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowClosed(WindowEvent e) {
-                    browser.dispose();
-                    if (awtListener != null) {
-                        Toolkit.getDefaultToolkit().removeAWTEventListener(awtListener);
-                    }
-                }
-            });
             setVisible(true);
+        }
+
+        public void closeWindow() {
+            browser.dispose();
+            browser.awaitClientDisposed();
+            if (awtListener != null) {
+                Toolkit.getDefaultToolkit().removeAWTEventListener(awtListener);
+            }
+            super.dispose();
         }
 
         public void hideAndShowBrowser() {

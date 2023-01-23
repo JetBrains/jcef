@@ -78,7 +78,7 @@ public class MouseEventTest {
         } catch (AWTException e) {
             e.printStackTrace();
         } finally {
-            scenario.disposeBrowserFrame();
+            scenario.getBrowserFrame().closeWindow();
         }
     }
 }

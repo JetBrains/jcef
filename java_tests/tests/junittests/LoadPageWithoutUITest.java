@@ -72,7 +72,6 @@ public class LoadPageWithoutUITest {
     public void initUI() {
         frame.getContentPane().add(browser.getComponent());
         frame.setSize(640, 480);
-        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
     @Test
