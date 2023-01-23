@@ -7,6 +7,7 @@ import org.cef.misc.CefLog;
 import org.cef.network.CefRequest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import tests.OsrSupport;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -76,6 +77,15 @@ public class LoadPageWithoutUITest {
 
     @Test
     public void test() throws InvocationTargetException, InterruptedException {
+        if ("linux".equalsIgnoreCase(System.getProperty("os.name"))
+            && !OsrSupport.isEnabled()
+        ) {
+            // Disable test because it can cause unstable jcef behaviour.
+            // Details in: https://youtrack.jetbrains.com/issue/JBR-5200/Intermittent-LoadPageWithoutUITest-failures#focus=Comments-27-6798853.0-0
+            CefLog.Info("Skip LoadPageWithoutUITest because of JBR-5200");
+            return;
+        }
+
         LoadPageWithoutUITest test = new LoadPageWithoutUITest();
         try {
             SwingUtilities.invokeAndWait(test::initUI);
