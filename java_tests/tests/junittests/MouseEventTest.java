@@ -44,22 +44,6 @@ public class MouseEventTest {
     }
 
     @Test
-    public void testWithDelayedCreation() throws InvocationTargetException, InterruptedException {
-        // debug helper for JBR-4649
-        CefLog.Info("Start testWithDelayedCreation");
-        try {
-            System.setProperty("jcef.debug.cefbrowserwr.delay_creation", "3000"); // 3 sec delay
-            System.setProperty("jcef.trace.mouseeventscenario.all_awt_mouse_events", "true");
-            doTest(scenario -> {
-                scenario.doMouseActions();
-            });
-        } finally {
-            System.clearProperty("jcef.debug.cefbrowserwr.delay_creation");
-            System.clearProperty("jcef.trace.mouseeventscenario.all_awt_mouse_events");
-        }
-    }
-
-    @Test
     public void hideAndShowBrowserTest() throws InvocationTargetException, InterruptedException {
         CefLog.Info("Start hideAndShowBrowserTest");
         doTest(scenario -> {
