@@ -12,8 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import javax.swing.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -47,7 +45,7 @@ public class HandleJSQueryTest {
                     throw new RuntimeException(time() + "test FAILED. JS Query was not handled in opened browser: " + browserFrame.browserNumber);
                 }
             } finally {
-                browserFrame.dispose();
+                browserFrame.closeWindow();
             }
         }
         CefLog.Info("test PASSED");
@@ -68,7 +66,7 @@ public class HandleJSQueryTest {
                 throw new RuntimeException(time() + "test FAILED. JS Query was not handled: callbackCounter=" + browserFrame.callbackCounter);
             }
         } finally {
-            browserFrame.dispose();
+            browserFrame.closeWindow();
         }
         CefLog.Info("test PASSED");
     }
@@ -101,8 +99,8 @@ public class HandleJSQueryTest {
                 throw new RuntimeException("test FAILED. JS Query was not handled in 2 opened browser");
             }
         } finally {
-            firstBrowser.dispose();
-            secondBrowser.dispose();
+            firstBrowser.closeWindow();
+            secondBrowser.closeWindow();
         }
         CefLog.Info("test PASSED");
     }
@@ -119,6 +117,7 @@ public class HandleJSQueryTest {
         boolean isJSRequestsPosted = false;
 
         public CefBrowserFrame(final CountDownLatch latch) {
+            super("JCEF HandleJSQueryTest");
             this.browserNumber = ourBrowserNumber++;
             this.latch = latch;
 
@@ -154,11 +153,12 @@ public class HandleJSQueryTest {
             reload();
         }
 
-        public void dispose() {
+        public void closeWindow() {
             for (JSRequest r: requests)
                 browser.getCefClient().removeMessageRouter(r.msgRouter);
             browser.dispose();
             browser.awaitClientDisposed();
+            super.dispose();
         }
 
         public void reload() {
