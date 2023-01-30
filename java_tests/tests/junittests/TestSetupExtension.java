@@ -109,7 +109,10 @@ public class TestSetupExtension
         CefSettings settings = config.getCefSettings();
         settings.windowless_rendering_enabled = OsrSupport.isEnabled();
         settings.log_severity = CefSettings.LogSeverity.LOGSEVERITY_VERBOSE;
-        settings.no_sandbox = true;
+        settings.log_file = System.getenv("JCEF_TESTS_LOG_FILE");
+        String envSandboxed = System.getenv("JCEF_TESTS_SANDBOX_ENABLED");
+        settings.no_sandbox = envSandboxed == null || !envSandboxed.trim().equalsIgnoreCase("true");
+
 
         String argsArr[] = args.toArray(new String[0]);
         CefApp.addAppHandler(new CefAppHandlerAdapter(argsArr) {
