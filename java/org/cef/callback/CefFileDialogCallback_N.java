@@ -33,7 +33,6 @@ class CefFileDialogCallback_N extends CefNativeAdapter implements CefFileDialogC
         }
     }
 
-    private final native void N_Continue(
-            long self, Vector<String> filePaths);
+    private final native void N_Continue(long self, Vector<String> filePaths);
     private final native void N_Cancel(long self);
 }

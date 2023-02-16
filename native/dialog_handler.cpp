@@ -63,8 +63,7 @@ bool DialogHandler::OnFileDialog(CefRefPtr<CefBrowser> browser,
       "CefDialogHandler$FileDialogMode;Ljava/lang/String;Ljava/lang/"
       "String;Ljava/util/Vector;Lorg/cef/callback/CefFileDialogCallback;)Z",
       Boolean, jreturn, jbrowser.get(), jmode.get(), jtitle.get(),
-      jdefaultFilePath.get(), jacceptFilters.get(),
-      jcallback.get());
+      jdefaultFilePath.get(), jacceptFilters.get(), jcallback.get());
 
   if (jreturn == JNI_FALSE) {
     // If the Java method returns "false" the callback won't be used and
