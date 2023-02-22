@@ -740,6 +740,8 @@ int GetMacKeyCodeFromChar(int key_char) {
   switch (key_char) {
     case ' ':
       return kVK_Space;
+    case '\n':
+      return kVK_Return;
 
     case '0':
     case ')':
@@ -1750,7 +1752,11 @@ Java_org_cef_browser_CefBrowser_1N_N_1SendKeyEvent(JNIEnv* env,
     if (cef_event.native_key_code == -1)
       cef_event.native_key_code = 0;
 
-    cef_event.unmodified_character = key_char;
+    if (cef_event.native_key_code == kVK_Return) {
+      cef_event.unmodified_character = kReturnCharCode;
+    } else {
+      cef_event.unmodified_character = key_char;
+    }
   }
 
   cef_event.character = cef_event.unmodified_character;
