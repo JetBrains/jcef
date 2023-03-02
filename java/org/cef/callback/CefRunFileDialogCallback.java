@@ -4,9 +4,8 @@
 
 package org.cef.callback;
 
-import org.cef.browser.CefBrowser;
-
 import java.util.Vector;
+import org.cef.browser.CefBrowser;
 
 /**
  * Callback interface for CefBrowserHost::RunFileDialog. The methods of this

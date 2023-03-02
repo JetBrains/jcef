@@ -302,8 +302,7 @@ public class CefClient extends CefClientHandler
     public boolean onFileDialog(CefBrowser browser, FileDialogMode mode, String title,
             String defaultFilePath, Vector<String> acceptFilters, CefFileDialogCallback callback) {
         if (dialogHandler_ != null && browser != null) {
-            return dialogHandler_.onFileDialog(
-                    browser, mode, title, defaultFilePath, acceptFilters, callback);
+            return dialogHandler_.onFileDialog(browser, mode, title, defaultFilePath, acceptFilters, callback);
         }
         return false;
     }

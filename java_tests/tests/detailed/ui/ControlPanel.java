@@ -4,9 +4,6 @@
 
 package tests.detailed.ui;
 
-import org.cef.OS;
-import org.cef.browser.CefBrowser;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -20,6 +17,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import org.cef.OS;
+import org.cef.browser.CefBrowser;
 
 @SuppressWarnings("serial")
 public class ControlPanel extends JPanel {

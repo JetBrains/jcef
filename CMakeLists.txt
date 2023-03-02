@@ -130,20 +130,14 @@ set_property(GLOBAL PROPERTY OS_FOLDERS ON)
 
 # Specify the CEF distribution version.
 if(NOT DEFINED CEF_VERSION)
-  set(CEF_VERSION "108.4.13+ga98cd4c+chromium-108.0.5359.125")
+  set(CEF_VERSION "104.4.26+g4180781+chromium-104.0.5112.102")
 endif()
 
 # Determine the platform.
 if("${CMAKE_SYSTEM_NAME}" STREQUAL "Darwin")
   if("${PROJECT_ARCH}" STREQUAL "arm64")
     set(CEF_PLATFORM "macosarm64")
-  elseif("${PROJECT_ARCH}" STREQUAL "x86_64")
-    set(CEF_PLATFORM "macosx64")
-  elseif("${CMAKE_HOST_SYSTEM_PROCESSOR}" STREQUAL "arm64")
-    set(PROJECT_ARCH "arm64")
-    set(CEF_PLATFORM "macosarm64")
   else()
-    set(PROJECT_ARCH "x86_64")
     set(CEF_PLATFORM "macosx64")
   endif()
 elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Linux")
@@ -286,19 +280,12 @@ file(COPY "${CEF_ROOT}/README.txt" DESTINATION "${CMAKE_BINARY_DIR}")
 if(OS_WINDOWS)
   set(GS_PLATFORM "win32")
   set(GS_HASHPATH "win/clang-format.exe.sha1")
-  set(GS_OUTPATH "win/clang-format.exe")
 elseif(OS_MACOSX)
   set(GS_PLATFORM "darwin")
-  if("${CMAKE_HOST_SYSTEM_PROCESSOR}" STREQUAL "arm64")
-    set(GS_HASHPATH "mac/clang-format.arm64.sha1")
-  else()
-    set(GS_HASHPATH "mac/clang-format.x64.sha1")
-  endif()
-  set(GS_OUTPATH "mac/clang-format")
+  set(GS_HASHPATH "mac/clang-format.sha1")
 elseif(OS_LINUX)
   set(GS_PLATFORM "linux*")
   set(GS_HASHPATH "linux64/clang-format.sha1")
-  set(GS_OUTPATH "linux64/clang-format")
 endif()
 
 message(STATUS "Downloading clang-format from Google Storage...")
@@ -310,7 +297,6 @@ execute_process(
           "--no_auth"
           "--bucket" "chromium-clang-format"
           "-s" "tools/buildtools/${GS_HASHPATH}"
-          "-o" "tools/buildtools/${GS_OUTPATH}"
   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
   RESULT_VARIABLE EXECUTE_RV
   )

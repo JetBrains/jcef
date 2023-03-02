@@ -4,8 +4,6 @@
 
 package tests.detailed.dialog;
 
-import org.cef.callback.CefAuthCallback;
-
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -16,6 +14,8 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+import org.cef.callback.CefAuthCallback;
 
 @SuppressWarnings("serial")
 public class PasswordDialog extends JDialog implements Runnable {

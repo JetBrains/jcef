@@ -120,13 +120,11 @@ jobject NewJNIStringRef(JNIEnv* env, const CefString& initValue) {
   return jstringRef.Release();
 }
 
-jobject NewJNIDate(JNIEnv* env, const CefBaseTime& time) {
+jobject NewJNIDate(JNIEnv* env, const CefTime& time) {
   ScopedJNIObjectLocal jdate(env, "java/util/Date");
   if (!jdate)
     return nullptr;
-  CefTime cef_time;
-  cef_time_from_basetime(time, &cef_time);
-  double timestamp = cef_time.GetDoubleT() * 1000;
+  double timestamp = time.GetDoubleT() * 1000;
   JNI_CALL_VOID_METHOD(env, jdate, "setTime", "(J)V", (jlong)timestamp);
   return jdate.Release();
 }
@@ -296,7 +294,7 @@ ScopedJNIString::ScopedJNIString(JNIEnv* env, const CefString& str)
   DCHECK(jhandle_);
 }
 
-ScopedJNIDate::ScopedJNIDate(JNIEnv* env, const CefBaseTime& time)
+ScopedJNIDate::ScopedJNIDate(JNIEnv* env, const CefTime& time)
     : ScopedJNIBase<jobject>(env) {
   jhandle_ = NewJNIDate(env, time);
   DCHECK(jhandle_);

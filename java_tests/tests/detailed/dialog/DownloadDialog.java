@@ -4,12 +4,6 @@
 
 package tests.detailed.dialog;
 
-import org.cef.browser.CefBrowser;
-import org.cef.callback.CefBeforeDownloadCallback;
-import org.cef.callback.CefDownloadItem;
-import org.cef.callback.CefDownloadItemCallback;
-import org.cef.handler.CefDownloadHandler;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -24,6 +18,12 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import org.cef.browser.CefBrowser;
+import org.cef.callback.CefBeforeDownloadCallback;
+import org.cef.callback.CefDownloadItem;
+import org.cef.callback.CefDownloadItemCallback;
+import org.cef.handler.CefDownloadHandler;
 
 @SuppressWarnings("serial")
 public class DownloadDialog extends JDialog implements CefDownloadHandler {

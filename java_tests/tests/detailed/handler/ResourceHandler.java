@@ -1,5 +1,7 @@
 package tests.detailed.handler;
 
+import java.nio.ByteBuffer;
+
 import org.cef.callback.CefCallback;
 import org.cef.handler.CefLoadHandler;
 import org.cef.handler.CefResourceHandlerAdapter;
@@ -7,8 +9,6 @@ import org.cef.misc.IntRef;
 import org.cef.misc.StringRef;
 import org.cef.network.CefRequest;
 import org.cef.network.CefResponse;
-
-import java.nio.ByteBuffer;
 
 public class ResourceHandler extends CefResourceHandlerAdapter {
     private int startPos = 0;

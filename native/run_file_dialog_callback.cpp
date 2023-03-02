@@ -19,5 +19,6 @@ void RunFileDialogCallback::OnFileDialogDismissed(
 
   ScopedJNIObjectLocal jfilePaths(env, NewJNIStringVector(env, file_paths));
   JNI_CALL_VOID_METHOD(env, handle_, "onFileDialogDismissed",
-                       "(Ljava/util/Vector;)V", jfilePaths.get());
+                       "(Ljava/util/Vector;)V",
+                       jfilePaths.get());
 }

@@ -9,6 +9,7 @@ package org.cef.callback;
  * will be called on the browser process UI thread.
  */
 public interface CefPdfPrintCallback {
+    
     /**
      * Method that will be executed when the PDF printing has completed. |path|
      * is the output path. |ok| will be true if the printing completed
@@ -17,4 +18,5 @@ public interface CefPdfPrintCallback {
      * @param ok True if printing completed or false otherwise.
      */
     public abstract void onPdfPrintFinished(String path, boolean ok);
+    
 }

@@ -4,8 +4,6 @@
 
 package tests.detailed.dialog;
 
-import org.cef.browser.CefBrowser;
-
 import java.awt.BorderLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
@@ -19,6 +17,8 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import org.cef.browser.CefBrowser;
 
 @SuppressWarnings("serial")
 public class SearchDialog extends JDialog {
