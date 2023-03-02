@@ -1837,7 +1837,7 @@ Java_org_cef_browser_CefBrowser_1N_N_1SendKeyEvent(JNIEnv* env,
     cef_event.type = KEYEVENT_KEYUP;
   } else if (event_type == JNI_STATIC(KEY_TYPED)) {
 #if defined(OS_WIN)
-    cef_event.windows_key_code = key_char;
+    cef_event.windows_key_code = key_char == '\n' ? '\r' : key_char;
 #endif
     cef_event.type = KEYEVENT_CHAR;
   } else {
