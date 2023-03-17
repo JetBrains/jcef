@@ -5,9 +5,12 @@
 
 #include "./gen-cpp/ClientHandlers.h"
 
+#include <boost/interprocess/managed_shared_memory.hpp>
+
 class RemoteRenderHandler : public CefRenderHandler {
 public:
  explicit RemoteRenderHandler(const std::shared_ptr<remote::ClientHandlersClient>& client, int bid);
+ ~RemoteRenderHandler() override;
 
  virtual bool GetRootScreenRect(CefRefPtr<CefBrowser> browser,
                                    CefRect &rect) override;
@@ -48,6 +51,15 @@ public:
 protected:
   std::shared_ptr<remote::ClientHandlersClient> myClient;
   const int myBid;
+  char mySharedMemName[64];
+
+  boost::interprocess::managed_shared_memory::handle_t mySharedMemHandle;
+  boost::interprocess::managed_shared_memory * mySharedSegment = nullptr;
+  void * mySharedMem = nullptr;
+  int myLen = 0;
+
+  bool _ensureSharedCapacity(int len);
+  void _releaseSharedMem();
 
   IMPLEMENT_REFCOUNTING(RemoteRenderHandler);
 };

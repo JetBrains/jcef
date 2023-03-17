@@ -2,15 +2,21 @@ package tests;
 // Copyright 2000-2021 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 
 import com.jetbrains.cef.JCefAppConfig;
+import com.jetbrains.cef.remote.SharedMemory;
 import org.cef.browser.CefBrowser;
 import org.cef.callback.CefDragData;
-import org.cef.handler.CefRenderHandler;
+import org.cef.handler.CefNativeRenderHandler;
 import org.cef.handler.CefScreenInfo;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
+import java.awt.image.VolatileImage;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.IntBuffer;
@@ -25,7 +31,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * @see JBCefOsrComponent
  * @author tav
  */
-public class JBCefOsrHandler implements CefRenderHandler {
+public class JBCefOsrHandler implements CefNativeRenderHandler {
     interface ScreenBoundsProvider {
         Rectangle fun(JComponent param);
     }
@@ -61,6 +67,8 @@ public class JBCefOsrHandler implements CefRenderHandler {
     private Rectangle myPopupBounds = ZERO_RECT;
     private boolean myPopupShown;
 
+    private SharedMemory mySharedMem;
+
     public JBCefOsrHandler(JBCefOsrComponent component, ScreenBoundsProvider screenBoundsProvider) {
         myComponent = component;
         component.setRenderHandler(this);
@@ -79,6 +87,10 @@ public class JBCefOsrHandler implements CefRenderHandler {
                 updateLocation();
             }
         });
+    }
+
+    public void dispose() {
+        if (mySharedMem != null) mySharedMem.close();
     }
 
     @Override
@@ -119,7 +131,42 @@ public class JBCefOsrHandler implements CefRenderHandler {
     }
 
     @Override
+    public void onPaintWithSharedMem(CefBrowser browser, boolean popup, int dirtyRectsCount, String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height) {
+        long startMs = System.currentTimeMillis();
+        if (recreateHandle || mySharedMem == null || !mySharedMem.mname.equals(sharedMemName) || sharedMemHandle != mySharedMem.boostHandle) {
+            if (mySharedMem != null) mySharedMem.close();
+            mySharedMem = new SharedMemory(sharedMemName, sharedMemHandle);
+        }
+
+        VolatileImage volatileImage = myVolatileImage;
+        final double jreScale = myScale.getJreBiased();
+        final int scaledW = (int)(width / jreScale);
+        final int scaledH = (int)(height / jreScale);
+        if (volatileImage == null || volatileImage.getWidth() != scaledW || volatileImage.getHeight() != scaledH) {
+            try {
+                volatileImage = myComponent.getGraphicsConfiguration().createCompatibleVolatileImage(scaledW, scaledH, null, Transparency.TRANSLUCENT);
+            } catch (AWTException e) {
+                throw new RuntimeException(e);
+            }
+            dirtyRectsCount = 0; // will cause full raster loading
+        }
+        long midMs = System.currentTimeMillis();
+        volatileImage.loadNativeRasterWithRects(mySharedMem.getPtr(), width, height, mySharedMem.getPtr() + width*height*4, dirtyRectsCount);
+
+        myVolatileImage = volatileImage;
+
+        // TODO: calculate outerRect
+        //Rectangle outerRect = findOuterRect(dirtyRects);
+        //SwingUtilities.invokeLater(() -> myComponent.repaint(scaleDown(outerRect)));
+        SwingUtilities.invokeLater(() -> myComponent.repaint());
+
+        long endMs = System.currentTimeMillis();
+        System.err.println("onPaintWithSharedMem spent " + (endMs - startMs) + " ms, load spent " + (endMs - midMs));
+    }
+
+    @Override
     public void onPaint(CefBrowser browser, boolean popup, Rectangle[] dirtyRects, ByteBuffer buffer, int width, int height) {
+        long startMs = System.currentTimeMillis();
         BufferedImage image = myImage;
         VolatileImage volatileImage = myVolatileImage;
 
@@ -188,6 +235,8 @@ public class JBCefOsrHandler implements CefRenderHandler {
             }
         }
 
+        long midMs = System.currentTimeMillis();
+
         //
         // Draw the BufferedImage into the VolatileImage
         //
@@ -212,6 +261,9 @@ public class JBCefOsrHandler implements CefRenderHandler {
         myImage = image;
         myVolatileImage = volatileImage;
         SwingUtilities.invokeLater(() -> myComponent.repaint(popup ? scaleDown(new Rectangle(0, 0, imageWidth, imageHeight)) : scaleDown(outerRect)));
+
+        long endMs = System.currentTimeMillis();
+        System.err.println("onPaint spent " + (endMs - startMs) + " ms, draw buffered spent " + (endMs - midMs));
     }
 
     @Override

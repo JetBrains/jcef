@@ -24,5 +24,5 @@ service ClientHandlers {
    // CefRenderHandler
    //
    binary getInfo(1:i32 bid, 2:string request, 3:binary buffer),
-   oneway void onPaint(1:i32 bid, 2:bool popup, 3:binary dirtyRects, 4:binary buffer, 5:i32 width, 6:i32 height)
+   void onPaint(1:i32 bid, 2:bool popup, 3:i32 dirtyRectsCount, 4:string sharedMemName, 5:i64 sharedMemHandle, 6:bool recreateHandle, 7:i32 width, 8:i32 height)
 }

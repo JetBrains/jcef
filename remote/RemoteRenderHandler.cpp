@@ -8,9 +8,53 @@
 
 using namespace std::chrono;
 using namespace remote;
+using namespace boost::interprocess;
 
 RemoteRenderHandler::RemoteRenderHandler(const std::shared_ptr<ClientHandlersClient>& client, int bid)
-    : myClient(client), myBid(bid) {}
+    : myClient(client), myBid(bid) {
+    std::sprintf(mySharedMemName, "CefSharedRaster%d", myBid);
+}
+
+RemoteRenderHandler::~RemoteRenderHandler() {
+  _releaseSharedMem();
+}
+
+void RemoteRenderHandler::_releaseSharedMem() {
+  if (mySharedSegment != nullptr) {
+    mySharedSegment->deallocate(mySharedMem);
+    delete mySharedSegment;
+
+    mySharedSegment = nullptr;
+    mySharedMem = nullptr;
+    myLen = 0;
+  }
+  shared_memory_object::remove(mySharedMemName);
+}
+
+bool RemoteRenderHandler::_ensureSharedCapacity(int len) {
+  if (myLen >= len)
+    return false;
+
+  Log::trace("RemoteRenderHandler: allocate shared buffer '%s' | %d bytes", mySharedMemName, len);
+
+  _releaseSharedMem();
+
+  const int additionalBytes = 1024;
+  mySharedSegment = new managed_shared_memory(create_only, mySharedMemName, len + additionalBytes);
+  managed_shared_memory::size_type free_memory = mySharedSegment->get_free_memory();
+  mySharedMem = mySharedSegment->allocate(len);
+  myLen = len;
+
+  // Check invariant
+  if(free_memory <= mySharedSegment->get_free_memory()) {
+    Log::error("free_memory %d <= mySharedSegment->get_free_memory() %d", free_memory, mySharedSegment->get_free_memory());
+    _releaseSharedMem();
+    return false;
+  }
+
+  mySharedMemHandle = mySharedSegment->get_handle_from_address(mySharedMem);
+  return true;
+}
 
 bool RemoteRenderHandler::GetRootScreenRect(CefRefPtr<CefBrowser> browser,
                                       CefRect& rect) {
@@ -26,7 +70,7 @@ void fillDummy(CefRect& rect) {
 }
 
 void RemoteRenderHandler::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) {
-    Measurer measurer("RemoteRenderHandler::GetViewRect");
+    //Measurer measurer("RemoteRenderHandler::GetViewRect");
 
     std::string result;
     myClient->getInfo(result, myBid, "viewRect", "");
@@ -48,7 +92,7 @@ void RemoteRenderHandler::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& re
         return;
     }
 
-    measurer.append(" rc=" + toString(rect));
+    //measurer.append(" rc=" + toString(rect));
 }
 
 void fillDummy(CefScreenInfo& screen_info) {
@@ -79,7 +123,7 @@ void fillDummy(CefScreenInfo& screen_info) {
 /*--cef()--*/
 bool RemoteRenderHandler::GetScreenInfo(CefRefPtr<CefBrowser> browser,
                                   CefScreenInfo& screen_info) {
-    Measurer measurer("RemoteRenderHandler::GetScreenInfo");
+    //Measurer measurer("RemoteRenderHandler::GetScreenInfo");
 
     std::string result;
     myClient->getInfo(result, myBid, "screenInfo", "");
@@ -106,7 +150,7 @@ bool RemoteRenderHandler::GetScreenInfo(CefRefPtr<CefBrowser> browser,
     screen_info.available_rect.width = *(p++);
     screen_info.available_rect.height = *(p++);
 
-    measurer.append(" rc=" + toString(screen_info.rect) + "; arc=" + toString(screen_info.available_rect));
+    //measurer.append(" rc=" + toString(screen_info.rect) + "; arc=" + toString(screen_info.available_rect));
     return true;
 }
 
@@ -115,7 +159,7 @@ bool RemoteRenderHandler::GetScreenPoint(CefRefPtr<CefBrowser> browser,
                                    int viewY,
                                    int& screenX,
                                    int& screenY) {
-    Measurer measurer(string_format("RemoteRenderHandler::GetScreenPoint(%d,%d)", viewX, viewY));
+    //Measurer measurer(string_format("RemoteRenderHandler::GetScreenPoint(%d,%d)", viewX, viewY));
 
     int32_t argsarr[2] = {viewX, viewY};
     std::string args((const char *)argsarr, sizeof(argsarr));
@@ -125,7 +169,7 @@ bool RemoteRenderHandler::GetScreenPoint(CefRefPtr<CefBrowser> browser,
     screenX = *p;
     screenY = *(p + 1);
 
-    measurer.append(string_format(" pt=", screenX, screenY));
+    //measurer.append(string_format(" pt=", screenX, screenY));
     return true;
 }
 
@@ -138,28 +182,89 @@ void RemoteRenderHandler::OnPopupSize(CefRefPtr<CefBrowser> browser,
 
 }
 
+//
+// Debug methods
+// TODO: remove
+//
+#define DRAW_DEBUG 0
+
+inline void copyRasterLineFlip(void * dst, const void * src, int height, int stride, int y, int x, int dx) {
+    // copy with flipping
+    const int xOffset = x*4;
+    ::memcpy(((char*)dst) + y*stride + xOffset, ((char*)src) + (height - y - 1)*stride + xOffset, dx*4);
+}
+
+inline void fillRect(unsigned char * dst, int stride, int y, int x, int dx, int dy, int r, int g, int b, int a) {
+    for (int yy = y, yEnd = y + dy; yy < yEnd; ++yy) {
+        const int offset = yy*stride;
+        for (int xx = x, xEnd = x + dx; xx < xEnd; ++xx) {
+            dst[offset + xx*4] = a; // alpha
+            dst[offset + xx*4 + 1] = r; // red
+            dst[offset + xx*4 + 2] = g; // green
+            dst[offset + xx*4 + 3] = b; // blue
+        }
+    }
+}
+
 void RemoteRenderHandler::OnPaint(CefRefPtr<CefBrowser> browser,
                             PaintElementType type,
                             const RectList& dirtyRects,
                             const void* buffer,
                             int width,
                             int height) {
-    Measurer measurer(string_format("RemoteRenderHandler::OnPaint(%d,%d)", width, height));
+    Measurer measurer(string_format("\ttotal OnPaint(%d,%d), rc=%d", width, height, dirtyRects.size()));
 
-    std::vector<int32_t> rects;
-    for (const CefRect & r: dirtyRects) {
-        rects.push_back(r.x);
-        rects.push_back(r.y);
-        rects.push_back(r.width);
-        rects.push_back(r.height);
+    const int rasterPixCount = width*height;
+    const int extendedRectsCount = dirtyRects.size() < 10 ? 10 : dirtyRects.size();
+    const bool reallocated = _ensureSharedCapacity(rasterPixCount*4 + 4*4*extendedRectsCount);
+    if (mySharedMem == nullptr) return;
+
+    // write rects and flipped raster
+    int rectsCount = dirtyRects.size();
+    const int stride = width*4;
+    int32_t * sharedRects = (int32_t *)mySharedMem + rasterPixCount;
+    if (dirtyRects.empty() || reallocated) {
+        measurer.append(": full copy");
+        rectsCount = 0;
+        for (int y = 0; y < height; ++y)
+          ::memcpy(((char*)mySharedMem) + (height - y - 1)*stride, ((char*)buffer) + y*stride, stride);
+    } else {
+        measurer.append(": ");
+
+        // NOTE: single memcpy takes the same time as line-by-line copy (tested on macbook pro m1)
+        // TODO: premultiply alpha in this loop
+        for (const CefRect& r : dirtyRects) {
+          for (int y = r.y, yEnd = r.y + r.height; y < yEnd; ++y)
+            ::memcpy(((char*)mySharedMem) + (height - y - 1)*stride + r.x*4, ((char*)buffer) + y*stride + r.x*4, r.width*4);
+
+          char str[128];
+          ::sprintf(str, "[%d,%d,%d,%d], ", r.x, r.y, r.width, r.height);
+
+          *(sharedRects++) = r.x;
+          *(sharedRects++) = height - (r.y + r.height);
+          *(sharedRects++) = r.width;
+          *(sharedRects++) = r.height;
+
+          measurer.append(str);
+        }
     }
-    std::string srects((const char *)rects.data(), rects.size()*sizeof(int32_t));
 
-    std::stringstream buf;
-    const int size = width*height*4;
-    buf.write(static_cast<const char *>(buffer), size);
-
-    myClient->onPaint(myBid, type == PET_VIEW ? false : true, srects, buf.str(), width, height);
+#ifdef DRAW_DEBUG
+    fillRect((unsigned char *)mySharedMem, stride, 0, 0, 10, 10, 255, 0, 0, 255);
+    fillRect((unsigned char *)mySharedMem, stride, 0, width - 10, 10, 10, 0, 255, 0, 255);
+    fillRect((unsigned char *)mySharedMem, stride, height - 10, width - 10, 10, 10, 0, 0, 255, 255);
+    fillRect((unsigned char *)mySharedMem, stride, height - 10, 0, 10, 10, 255, 0, 255, 255);
+#endif //DRAW_DEBUG
+    {
+        Measurer measurer2(string_format("RemoteRenderHandler::OnPaint, remote-client "));
+        try {
+          myClient->onPaint(myBid, type == PET_VIEW ? false : true, rectsCount,
+                            mySharedMemName, mySharedMemHandle, reallocated,
+                            width, height);
+        } catch (apache::thrift::TException& tx) {
+          Log::error(tx.what());
+        }
+    }
 }
 
 bool RemoteRenderHandler::StartDragging(CefRefPtr<CefBrowser> browser,

@@ -10,6 +10,7 @@ import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TServerTransport;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
+import org.cef.handler.CefNativeRenderHandler;
 import org.cef.handler.CefRenderHandler;
 import org.cef.handler.CefScreenInfo;
 import org.cef.misc.CefLog;
@@ -32,9 +33,9 @@ public class CefServer {
     // Java client for CefServer
     private Server.Client myClient;
 
-    private final Map<Integer, CefRenderHandler> myBid2RenderHandle = new HashMap<>();
+    private final Map<Integer, CefNativeRenderHandler> myBid2RenderHandle = new HashMap<>();
 
-    public int createBrowser(CefRenderHandler renderHandle) {
+    public int createBrowser(CefNativeRenderHandler renderHandle) {
         int result;
         try {
             result = myClient.createBrowser();
@@ -119,29 +120,14 @@ public class CefServer {
         }
 
         @Override
-        public void onPaint(int bid, boolean popup, ByteBuffer dirtyRects, ByteBuffer buffer, int width, int height) throws TException {
-            if (dirtyRects == null) {
-                CefLog.Error("onPaint, dirtyRects == null");
-                return;
-            }
-
-            CefRenderHandler rh = myBid2RenderHandle.get(bid);
+        public void onPaint(int bid, boolean popup, int dirtyRectsCount, String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height) throws TException {
+            CefNativeRenderHandler rh = myBid2RenderHandle.get(bid);
             if (rh == null) {
                 CefLog.Error("onPaint, rh == null");
                 return;
             }
 
-            ArrayList<Rectangle> rects = new ArrayList<>();
-            while (dirtyRects.hasRemaining()) {
-                try {
-                    Rectangle r = new Rectangle(dirtyRects.getInt(), dirtyRects.getInt(), dirtyRects.getInt(), dirtyRects.getInt());
-                    rects.add(r);
-                } catch (BufferUnderflowException e) {
-                    break;
-                }
-            }
-
-            rh.onPaint(null, popup, rects.toArray(new Rectangle[0]), buffer, width, height);
+            rh.onPaintWithSharedMem(null, popup, dirtyRectsCount, sharedMemName, sharedMemHandle, recreateHandle, width, height);
         }
     }
 

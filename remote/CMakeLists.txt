@@ -25,6 +25,12 @@ set(Boost_USE_STATIC_LIBS OFF)
 set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
 
+find_package(Boost REQUIRED)
+
+if(Boost_FOUND)
+    include_directories(${Boost_INCLUDE_DIRS})
+endif()
+
 macro(REQUIRE_BOOST_HEADERS)
     find_package(Boost ${BOOST_MINREV} QUIET REQUIRED)
     if (NOT Boost_FOUND)
@@ -40,7 +46,7 @@ REQUIRE_BOOST_HEADERS()
 find_package(log4cxx 1.0)
 
 #
-# Define library from codegen
+# Define helper libraries
 #
 set(thrift_codegen_SOURCES
     gen-cpp/Server.cpp
@@ -50,6 +56,12 @@ add_library(thrift_codegen STATIC ${thrift_codegen_SOURCES})
 link_directories(thrift_codegen /opt/homebrew/Cellar/thrift/0.16.0/lib)
 target_include_directories(thrift_codegen PRIVATE /opt/homebrew/Cellar/thrift/0.16.0/include)
 target_link_libraries(thrift_codegen thrift)
+
+set(shared_mem_helper_SOURCES
+    CefServerHelper.cpp
+)
+add_library(shared_mem_helper SHARED ${shared_mem_helper_SOURCES})
+target_include_directories(shared_mem_helper PUBLIC ${JNI_INCLUDE_DIRS})
 
 #
 # Sources

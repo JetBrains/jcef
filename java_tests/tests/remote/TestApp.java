@@ -37,6 +37,7 @@ public class TestApp extends JFrame {
             public void windowClosing(WindowEvent e) {
                 // TODO: disconnect from CefServer
                 frame.dispose();
+                osrHandler.dispose();
             }
         });
     }

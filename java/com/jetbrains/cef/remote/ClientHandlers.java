@@ -10,7 +10,7 @@ public class ClientHandlers {
 
     public java.nio.ByteBuffer getInfo(int bid, java.lang.String request, java.nio.ByteBuffer buffer) throws org.apache.thrift.TException;
 
-    public void onPaint(int bid, boolean popup, java.nio.ByteBuffer dirtyRects, java.nio.ByteBuffer buffer, int width, int height) throws org.apache.thrift.TException;
+    public void onPaint(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height) throws org.apache.thrift.TException;
 
   }
 
@@ -22,7 +22,7 @@ public class ClientHandlers {
 
     public void getInfo(int bid, java.lang.String request, java.nio.ByteBuffer buffer, org.apache.thrift.async.AsyncMethodCallback<java.nio.ByteBuffer> resultHandler) throws org.apache.thrift.TException;
 
-    public void onPaint(int bid, boolean popup, java.nio.ByteBuffer dirtyRects, java.nio.ByteBuffer buffer, int width, int height, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void onPaint(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
   }
 
@@ -105,21 +105,31 @@ public class ClientHandlers {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getInfo failed: unknown result");
     }
 
-    public void onPaint(int bid, boolean popup, java.nio.ByteBuffer dirtyRects, java.nio.ByteBuffer buffer, int width, int height) throws org.apache.thrift.TException
+    public void onPaint(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height) throws org.apache.thrift.TException
     {
-      send_onPaint(bid, popup, dirtyRects, buffer, width, height);
+      send_onPaint(bid, popup, dirtyRectsCount, sharedMemName, sharedMemHandle, recreateHandle, width, height);
+      recv_onPaint();
     }
 
-    public void send_onPaint(int bid, boolean popup, java.nio.ByteBuffer dirtyRects, java.nio.ByteBuffer buffer, int width, int height) throws org.apache.thrift.TException
+    public void send_onPaint(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height) throws org.apache.thrift.TException
     {
       onPaint_args args = new onPaint_args();
       args.setBid(bid);
       args.setPopup(popup);
-      args.setDirtyRects(dirtyRects);
-      args.setBuffer(buffer);
+      args.setDirtyRectsCount(dirtyRectsCount);
+      args.setSharedMemName(sharedMemName);
+      args.setSharedMemHandle(sharedMemHandle);
+      args.setRecreateHandle(recreateHandle);
       args.setWidth(width);
       args.setHeight(height);
-      sendBaseOneway("onPaint", args);
+      sendBase("onPaint", args);
+    }
+
+    public void recv_onPaint() throws org.apache.thrift.TException
+    {
+      onPaint_result result = new onPaint_result();
+      receiveBase(result, "onPaint");
+      return;
     }
 
   }
@@ -239,9 +249,9 @@ public class ClientHandlers {
       }
     }
 
-    public void onPaint(int bid, boolean popup, java.nio.ByteBuffer dirtyRects, java.nio.ByteBuffer buffer, int width, int height, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void onPaint(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      onPaint_call method_call = new onPaint_call(bid, popup, dirtyRects, buffer, width, height, resultHandler, this, ___protocolFactory, ___transport);
+      onPaint_call method_call = new onPaint_call(bid, popup, dirtyRectsCount, sharedMemName, sharedMemHandle, recreateHandle, width, height, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
@@ -249,27 +259,33 @@ public class ClientHandlers {
     public static class onPaint_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
       private int bid;
       private boolean popup;
-      private java.nio.ByteBuffer dirtyRects;
-      private java.nio.ByteBuffer buffer;
+      private int dirtyRectsCount;
+      private java.lang.String sharedMemName;
+      private long sharedMemHandle;
+      private boolean recreateHandle;
       private int width;
       private int height;
-      public onPaint_call(int bid, boolean popup, java.nio.ByteBuffer dirtyRects, java.nio.ByteBuffer buffer, int width, int height, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
-        super(client, protocolFactory, transport, resultHandler, true);
+      public onPaint_call(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
         this.bid = bid;
         this.popup = popup;
-        this.dirtyRects = dirtyRects;
-        this.buffer = buffer;
+        this.dirtyRectsCount = dirtyRectsCount;
+        this.sharedMemName = sharedMemName;
+        this.sharedMemHandle = sharedMemHandle;
+        this.recreateHandle = recreateHandle;
         this.width = width;
         this.height = height;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("onPaint", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("onPaint", org.apache.thrift.protocol.TMessageType.CALL, 0));
         onPaint_args args = new onPaint_args();
         args.setBid(bid);
         args.setPopup(popup);
-        args.setDirtyRects(dirtyRects);
-        args.setBuffer(buffer);
+        args.setDirtyRectsCount(dirtyRectsCount);
+        args.setSharedMemName(sharedMemName);
+        args.setSharedMemHandle(sharedMemHandle);
+        args.setRecreateHandle(recreateHandle);
         args.setWidth(width);
         args.setHeight(height);
         args.write(prot);
@@ -391,7 +407,7 @@ public class ClientHandlers {
       }
 
       protected boolean isOneway() {
-        return true;
+        return false;
       }
 
       @Override
@@ -399,9 +415,10 @@ public class ClientHandlers {
         return false;
       }
 
-      public org.apache.thrift.TBase getResult(I iface, onPaint_args args) throws org.apache.thrift.TException {
-        iface.onPaint(args.bid, args.popup, args.dirtyRects, args.buffer, args.width, args.height);
-        return null;
+      public onPaint_result getResult(I iface, onPaint_args args) throws org.apache.thrift.TException {
+        onPaint_result result = new onPaint_result();
+        iface.onPaint(args.bid, args.popup, args.dirtyRectsCount, args.sharedMemName, args.sharedMemHandle, args.recreateHandle, args.width, args.height);
+        return result;
       }
     }
 
@@ -595,24 +612,50 @@ public class ClientHandlers {
         final org.apache.thrift.AsyncProcessFunction fcall = this;
         return new org.apache.thrift.async.AsyncMethodCallback<Void>() { 
           public void onComplete(Void o) {
+            onPaint_result result = new onPaint_result();
+            try {
+              fcall.sendResponse(fb, result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (org.apache.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
           }
           public void onError(java.lang.Exception e) {
+            byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
+            org.apache.thrift.TSerializable msg;
+            onPaint_result result = new onPaint_result();
             if (e instanceof org.apache.thrift.transport.TTransportException) {
               _LOGGER.error("TTransportException inside handler", e);
               fb.close();
+              return;
+            } else if (e instanceof org.apache.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (org.apache.thrift.TApplicationException)e;
             } else {
-              _LOGGER.error("Exception inside oneway handler", e);
+              _LOGGER.error("Exception inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
             }
           }
         };
       }
 
       protected boolean isOneway() {
-        return true;
+        return false;
       }
 
       public void start(I iface, onPaint_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
-        iface.onPaint(args.bid, args.popup, args.dirtyRects, args.buffer, args.width, args.height,resultHandler);
+        iface.onPaint(args.bid, args.popup, args.dirtyRectsCount, args.sharedMemName, args.sharedMemHandle, args.recreateHandle, args.width, args.height,resultHandler);
       }
     }
 
@@ -2563,18 +2606,22 @@ public class ClientHandlers {
 
     private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
     private static final org.apache.thrift.protocol.TField POPUP_FIELD_DESC = new org.apache.thrift.protocol.TField("popup", org.apache.thrift.protocol.TType.BOOL, (short)2);
-    private static final org.apache.thrift.protocol.TField DIRTY_RECTS_FIELD_DESC = new org.apache.thrift.protocol.TField("dirtyRects", org.apache.thrift.protocol.TType.STRING, (short)3);
-    private static final org.apache.thrift.protocol.TField BUFFER_FIELD_DESC = new org.apache.thrift.protocol.TField("buffer", org.apache.thrift.protocol.TType.STRING, (short)4);
-    private static final org.apache.thrift.protocol.TField WIDTH_FIELD_DESC = new org.apache.thrift.protocol.TField("width", org.apache.thrift.protocol.TType.I32, (short)5);
-    private static final org.apache.thrift.protocol.TField HEIGHT_FIELD_DESC = new org.apache.thrift.protocol.TField("height", org.apache.thrift.protocol.TType.I32, (short)6);
+    private static final org.apache.thrift.protocol.TField DIRTY_RECTS_COUNT_FIELD_DESC = new org.apache.thrift.protocol.TField("dirtyRectsCount", org.apache.thrift.protocol.TType.I32, (short)3);
+    private static final org.apache.thrift.protocol.TField SHARED_MEM_NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("sharedMemName", org.apache.thrift.protocol.TType.STRING, (short)4);
+    private static final org.apache.thrift.protocol.TField SHARED_MEM_HANDLE_FIELD_DESC = new org.apache.thrift.protocol.TField("sharedMemHandle", org.apache.thrift.protocol.TType.I64, (short)5);
+    private static final org.apache.thrift.protocol.TField RECREATE_HANDLE_FIELD_DESC = new org.apache.thrift.protocol.TField("recreateHandle", org.apache.thrift.protocol.TType.BOOL, (short)6);
+    private static final org.apache.thrift.protocol.TField WIDTH_FIELD_DESC = new org.apache.thrift.protocol.TField("width", org.apache.thrift.protocol.TType.I32, (short)7);
+    private static final org.apache.thrift.protocol.TField HEIGHT_FIELD_DESC = new org.apache.thrift.protocol.TField("height", org.apache.thrift.protocol.TType.I32, (short)8);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new onPaint_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new onPaint_argsTupleSchemeFactory();
 
     public int bid; // required
     public boolean popup; // required
-    public @org.apache.thrift.annotation.Nullable java.nio.ByteBuffer dirtyRects; // required
-    public @org.apache.thrift.annotation.Nullable java.nio.ByteBuffer buffer; // required
+    public int dirtyRectsCount; // required
+    public @org.apache.thrift.annotation.Nullable java.lang.String sharedMemName; // required
+    public long sharedMemHandle; // required
+    public boolean recreateHandle; // required
     public int width; // required
     public int height; // required
 
@@ -2582,10 +2629,12 @@ public class ClientHandlers {
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       BID((short)1, "bid"),
       POPUP((short)2, "popup"),
-      DIRTY_RECTS((short)3, "dirtyRects"),
-      BUFFER((short)4, "buffer"),
-      WIDTH((short)5, "width"),
-      HEIGHT((short)6, "height");
+      DIRTY_RECTS_COUNT((short)3, "dirtyRectsCount"),
+      SHARED_MEM_NAME((short)4, "sharedMemName"),
+      SHARED_MEM_HANDLE((short)5, "sharedMemHandle"),
+      RECREATE_HANDLE((short)6, "recreateHandle"),
+      WIDTH((short)7, "width"),
+      HEIGHT((short)8, "height");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -2605,13 +2654,17 @@ public class ClientHandlers {
             return BID;
           case 2: // POPUP
             return POPUP;
-          case 3: // DIRTY_RECTS
-            return DIRTY_RECTS;
-          case 4: // BUFFER
-            return BUFFER;
-          case 5: // WIDTH
+          case 3: // DIRTY_RECTS_COUNT
+            return DIRTY_RECTS_COUNT;
+          case 4: // SHARED_MEM_NAME
+            return SHARED_MEM_NAME;
+          case 5: // SHARED_MEM_HANDLE
+            return SHARED_MEM_HANDLE;
+          case 6: // RECREATE_HANDLE
+            return RECREATE_HANDLE;
+          case 7: // WIDTH
             return WIDTH;
-          case 6: // HEIGHT
+          case 8: // HEIGHT
             return HEIGHT;
           default:
             return null;
@@ -2656,8 +2709,11 @@ public class ClientHandlers {
     // isset id assignments
     private static final int __BID_ISSET_ID = 0;
     private static final int __POPUP_ISSET_ID = 1;
-    private static final int __WIDTH_ISSET_ID = 2;
-    private static final int __HEIGHT_ISSET_ID = 3;
+    private static final int __DIRTYRECTSCOUNT_ISSET_ID = 2;
+    private static final int __SHAREDMEMHANDLE_ISSET_ID = 3;
+    private static final int __RECREATEHANDLE_ISSET_ID = 4;
+    private static final int __WIDTH_ISSET_ID = 5;
+    private static final int __HEIGHT_ISSET_ID = 6;
     private byte __isset_bitfield = 0;
     public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
@@ -2666,10 +2722,14 @@ public class ClientHandlers {
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.POPUP, new org.apache.thrift.meta_data.FieldMetaData("popup", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
-      tmpMap.put(_Fields.DIRTY_RECTS, new org.apache.thrift.meta_data.FieldMetaData("dirtyRects", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING          , true)));
-      tmpMap.put(_Fields.BUFFER, new org.apache.thrift.meta_data.FieldMetaData("buffer", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING          , true)));
+      tmpMap.put(_Fields.DIRTY_RECTS_COUNT, new org.apache.thrift.meta_data.FieldMetaData("dirtyRectsCount", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.SHARED_MEM_NAME, new org.apache.thrift.meta_data.FieldMetaData("sharedMemName", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.SHARED_MEM_HANDLE, new org.apache.thrift.meta_data.FieldMetaData("sharedMemHandle", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
+      tmpMap.put(_Fields.RECREATE_HANDLE, new org.apache.thrift.meta_data.FieldMetaData("recreateHandle", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
       tmpMap.put(_Fields.WIDTH, new org.apache.thrift.meta_data.FieldMetaData("width", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.HEIGHT, new org.apache.thrift.meta_data.FieldMetaData("height", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -2684,8 +2744,10 @@ public class ClientHandlers {
     public onPaint_args(
       int bid,
       boolean popup,
-      java.nio.ByteBuffer dirtyRects,
-      java.nio.ByteBuffer buffer,
+      int dirtyRectsCount,
+      java.lang.String sharedMemName,
+      long sharedMemHandle,
+      boolean recreateHandle,
       int width,
       int height)
     {
@@ -2694,8 +2756,13 @@ public class ClientHandlers {
       setBidIsSet(true);
       this.popup = popup;
       setPopupIsSet(true);
-      this.dirtyRects = org.apache.thrift.TBaseHelper.copyBinary(dirtyRects);
-      this.buffer = org.apache.thrift.TBaseHelper.copyBinary(buffer);
+      this.dirtyRectsCount = dirtyRectsCount;
+      setDirtyRectsCountIsSet(true);
+      this.sharedMemName = sharedMemName;
+      this.sharedMemHandle = sharedMemHandle;
+      setSharedMemHandleIsSet(true);
+      this.recreateHandle = recreateHandle;
+      setRecreateHandleIsSet(true);
       this.width = width;
       setWidthIsSet(true);
       this.height = height;
@@ -2709,12 +2776,12 @@ public class ClientHandlers {
       __isset_bitfield = other.__isset_bitfield;
       this.bid = other.bid;
       this.popup = other.popup;
-      if (other.isSetDirtyRects()) {
-        this.dirtyRects = org.apache.thrift.TBaseHelper.copyBinary(other.dirtyRects);
+      this.dirtyRectsCount = other.dirtyRectsCount;
+      if (other.isSetSharedMemName()) {
+        this.sharedMemName = other.sharedMemName;
       }
-      if (other.isSetBuffer()) {
-        this.buffer = org.apache.thrift.TBaseHelper.copyBinary(other.buffer);
-      }
+      this.sharedMemHandle = other.sharedMemHandle;
+      this.recreateHandle = other.recreateHandle;
       this.width = other.width;
       this.height = other.height;
     }
@@ -2729,8 +2796,13 @@ public class ClientHandlers {
       this.bid = 0;
       setPopupIsSet(false);
       this.popup = false;
-      this.dirtyRects = null;
-      this.buffer = null;
+      setDirtyRectsCountIsSet(false);
+      this.dirtyRectsCount = 0;
+      this.sharedMemName = null;
+      setSharedMemHandleIsSet(false);
+      this.sharedMemHandle = 0;
+      setRecreateHandleIsSet(false);
+      this.recreateHandle = false;
       setWidthIsSet(false);
       this.width = 0;
       setHeightIsSet(false);
@@ -2783,72 +2855,98 @@ public class ClientHandlers {
       __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __POPUP_ISSET_ID, value);
     }
 
-    public byte[] getDirtyRects() {
-      setDirtyRects(org.apache.thrift.TBaseHelper.rightSize(dirtyRects));
-      return dirtyRects == null ? null : dirtyRects.array();
+    public int getDirtyRectsCount() {
+      return this.dirtyRectsCount;
     }
 
-    public java.nio.ByteBuffer bufferForDirtyRects() {
-      return org.apache.thrift.TBaseHelper.copyBinary(dirtyRects);
-    }
-
-    public onPaint_args setDirtyRects(byte[] dirtyRects) {
-      this.dirtyRects = dirtyRects == null ? (java.nio.ByteBuffer)null     : java.nio.ByteBuffer.wrap(dirtyRects.clone());
+    public onPaint_args setDirtyRectsCount(int dirtyRectsCount) {
+      this.dirtyRectsCount = dirtyRectsCount;
+      setDirtyRectsCountIsSet(true);
       return this;
     }
 
-    public onPaint_args setDirtyRects(@org.apache.thrift.annotation.Nullable java.nio.ByteBuffer dirtyRects) {
-      this.dirtyRects = org.apache.thrift.TBaseHelper.copyBinary(dirtyRects);
+    public void unsetDirtyRectsCount() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __DIRTYRECTSCOUNT_ISSET_ID);
+    }
+
+    /** Returns true if field dirtyRectsCount is set (has been assigned a value) and false otherwise */
+    public boolean isSetDirtyRectsCount() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __DIRTYRECTSCOUNT_ISSET_ID);
+    }
+
+    public void setDirtyRectsCountIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __DIRTYRECTSCOUNT_ISSET_ID, value);
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.String getSharedMemName() {
+      return this.sharedMemName;
+    }
+
+    public onPaint_args setSharedMemName(@org.apache.thrift.annotation.Nullable java.lang.String sharedMemName) {
+      this.sharedMemName = sharedMemName;
       return this;
     }
 
-    public void unsetDirtyRects() {
-      this.dirtyRects = null;
+    public void unsetSharedMemName() {
+      this.sharedMemName = null;
     }
 
-    /** Returns true if field dirtyRects is set (has been assigned a value) and false otherwise */
-    public boolean isSetDirtyRects() {
-      return this.dirtyRects != null;
+    /** Returns true if field sharedMemName is set (has been assigned a value) and false otherwise */
+    public boolean isSetSharedMemName() {
+      return this.sharedMemName != null;
     }
 
-    public void setDirtyRectsIsSet(boolean value) {
+    public void setSharedMemNameIsSet(boolean value) {
       if (!value) {
-        this.dirtyRects = null;
+        this.sharedMemName = null;
       }
     }
 
-    public byte[] getBuffer() {
-      setBuffer(org.apache.thrift.TBaseHelper.rightSize(buffer));
-      return buffer == null ? null : buffer.array();
+    public long getSharedMemHandle() {
+      return this.sharedMemHandle;
     }
 
-    public java.nio.ByteBuffer bufferForBuffer() {
-      return org.apache.thrift.TBaseHelper.copyBinary(buffer);
-    }
-
-    public onPaint_args setBuffer(byte[] buffer) {
-      this.buffer = buffer == null ? (java.nio.ByteBuffer)null     : java.nio.ByteBuffer.wrap(buffer.clone());
+    public onPaint_args setSharedMemHandle(long sharedMemHandle) {
+      this.sharedMemHandle = sharedMemHandle;
+      setSharedMemHandleIsSet(true);
       return this;
     }
 
-    public onPaint_args setBuffer(@org.apache.thrift.annotation.Nullable java.nio.ByteBuffer buffer) {
-      this.buffer = org.apache.thrift.TBaseHelper.copyBinary(buffer);
+    public void unsetSharedMemHandle() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __SHAREDMEMHANDLE_ISSET_ID);
+    }
+
+    /** Returns true if field sharedMemHandle is set (has been assigned a value) and false otherwise */
+    public boolean isSetSharedMemHandle() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __SHAREDMEMHANDLE_ISSET_ID);
+    }
+
+    public void setSharedMemHandleIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __SHAREDMEMHANDLE_ISSET_ID, value);
+    }
+
+    public boolean isRecreateHandle() {
+      return this.recreateHandle;
+    }
+
+    public onPaint_args setRecreateHandle(boolean recreateHandle) {
+      this.recreateHandle = recreateHandle;
+      setRecreateHandleIsSet(true);
       return this;
     }
 
-    public void unsetBuffer() {
-      this.buffer = null;
+    public void unsetRecreateHandle() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __RECREATEHANDLE_ISSET_ID);
     }
 
-    /** Returns true if field buffer is set (has been assigned a value) and false otherwise */
-    public boolean isSetBuffer() {
-      return this.buffer != null;
+    /** Returns true if field recreateHandle is set (has been assigned a value) and false otherwise */
+    public boolean isSetRecreateHandle() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __RECREATEHANDLE_ISSET_ID);
     }
 
-    public void setBufferIsSet(boolean value) {
-      if (!value) {
-        this.buffer = null;
-      }
+    public void setRecreateHandleIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __RECREATEHANDLE_ISSET_ID, value);
     }
 
     public int getWidth() {
@@ -2915,27 +3013,35 @@ public class ClientHandlers {
         }
         break;
 
-      case DIRTY_RECTS:
+      case DIRTY_RECTS_COUNT:
         if (value == null) {
-          unsetDirtyRects();
+          unsetDirtyRectsCount();
         } else {
-          if (value instanceof byte[]) {
-            setDirtyRects((byte[])value);
-          } else {
-            setDirtyRects((java.nio.ByteBuffer)value);
-          }
+          setDirtyRectsCount((java.lang.Integer)value);
         }
         break;
 
-      case BUFFER:
+      case SHARED_MEM_NAME:
         if (value == null) {
-          unsetBuffer();
+          unsetSharedMemName();
         } else {
-          if (value instanceof byte[]) {
-            setBuffer((byte[])value);
-          } else {
-            setBuffer((java.nio.ByteBuffer)value);
-          }
+          setSharedMemName((java.lang.String)value);
+        }
+        break;
+
+      case SHARED_MEM_HANDLE:
+        if (value == null) {
+          unsetSharedMemHandle();
+        } else {
+          setSharedMemHandle((java.lang.Long)value);
+        }
+        break;
+
+      case RECREATE_HANDLE:
+        if (value == null) {
+          unsetRecreateHandle();
+        } else {
+          setRecreateHandle((java.lang.Boolean)value);
         }
         break;
 
@@ -2967,11 +3073,17 @@ public class ClientHandlers {
       case POPUP:
         return isPopup();
 
-      case DIRTY_RECTS:
-        return getDirtyRects();
+      case DIRTY_RECTS_COUNT:
+        return getDirtyRectsCount();
 
-      case BUFFER:
-        return getBuffer();
+      case SHARED_MEM_NAME:
+        return getSharedMemName();
+
+      case SHARED_MEM_HANDLE:
+        return getSharedMemHandle();
+
+      case RECREATE_HANDLE:
+        return isRecreateHandle();
 
       case WIDTH:
         return getWidth();
@@ -2994,10 +3106,14 @@ public class ClientHandlers {
         return isSetBid();
       case POPUP:
         return isSetPopup();
-      case DIRTY_RECTS:
-        return isSetDirtyRects();
-      case BUFFER:
-        return isSetBuffer();
+      case DIRTY_RECTS_COUNT:
+        return isSetDirtyRectsCount();
+      case SHARED_MEM_NAME:
+        return isSetSharedMemName();
+      case SHARED_MEM_HANDLE:
+        return isSetSharedMemHandle();
+      case RECREATE_HANDLE:
+        return isSetRecreateHandle();
       case WIDTH:
         return isSetWidth();
       case HEIGHT:
@@ -3037,21 +3153,39 @@ public class ClientHandlers {
           return false;
       }
 
-      boolean this_present_dirtyRects = true && this.isSetDirtyRects();
-      boolean that_present_dirtyRects = true && that.isSetDirtyRects();
-      if (this_present_dirtyRects || that_present_dirtyRects) {
-        if (!(this_present_dirtyRects && that_present_dirtyRects))
+      boolean this_present_dirtyRectsCount = true;
+      boolean that_present_dirtyRectsCount = true;
+      if (this_present_dirtyRectsCount || that_present_dirtyRectsCount) {
+        if (!(this_present_dirtyRectsCount && that_present_dirtyRectsCount))
           return false;
-        if (!this.dirtyRects.equals(that.dirtyRects))
+        if (this.dirtyRectsCount != that.dirtyRectsCount)
           return false;
       }
 
-      boolean this_present_buffer = true && this.isSetBuffer();
-      boolean that_present_buffer = true && that.isSetBuffer();
-      if (this_present_buffer || that_present_buffer) {
-        if (!(this_present_buffer && that_present_buffer))
+      boolean this_present_sharedMemName = true && this.isSetSharedMemName();
+      boolean that_present_sharedMemName = true && that.isSetSharedMemName();
+      if (this_present_sharedMemName || that_present_sharedMemName) {
+        if (!(this_present_sharedMemName && that_present_sharedMemName))
           return false;
-        if (!this.buffer.equals(that.buffer))
+        if (!this.sharedMemName.equals(that.sharedMemName))
+          return false;
+      }
+
+      boolean this_present_sharedMemHandle = true;
+      boolean that_present_sharedMemHandle = true;
+      if (this_present_sharedMemHandle || that_present_sharedMemHandle) {
+        if (!(this_present_sharedMemHandle && that_present_sharedMemHandle))
+          return false;
+        if (this.sharedMemHandle != that.sharedMemHandle)
+          return false;
+      }
+
+      boolean this_present_recreateHandle = true;
+      boolean that_present_recreateHandle = true;
+      if (this_present_recreateHandle || that_present_recreateHandle) {
+        if (!(this_present_recreateHandle && that_present_recreateHandle))
+          return false;
+        if (this.recreateHandle != that.recreateHandle)
           return false;
       }
 
@@ -3084,13 +3218,15 @@ public class ClientHandlers {
 
       hashCode = hashCode * 8191 + ((popup) ? 131071 : 524287);
 
-      hashCode = hashCode * 8191 + ((isSetDirtyRects()) ? 131071 : 524287);
-      if (isSetDirtyRects())
-        hashCode = hashCode * 8191 + dirtyRects.hashCode();
+      hashCode = hashCode * 8191 + dirtyRectsCount;
 
-      hashCode = hashCode * 8191 + ((isSetBuffer()) ? 131071 : 524287);
-      if (isSetBuffer())
-        hashCode = hashCode * 8191 + buffer.hashCode();
+      hashCode = hashCode * 8191 + ((isSetSharedMemName()) ? 131071 : 524287);
+      if (isSetSharedMemName())
+        hashCode = hashCode * 8191 + sharedMemName.hashCode();
+
+      hashCode = hashCode * 8191 + org.apache.thrift.TBaseHelper.hashCode(sharedMemHandle);
+
+      hashCode = hashCode * 8191 + ((recreateHandle) ? 131071 : 524287);
 
       hashCode = hashCode * 8191 + width;
 
@@ -3127,22 +3263,42 @@ public class ClientHandlers {
           return lastComparison;
         }
       }
-      lastComparison = java.lang.Boolean.compare(isSetDirtyRects(), other.isSetDirtyRects());
+      lastComparison = java.lang.Boolean.compare(isSetDirtyRectsCount(), other.isSetDirtyRectsCount());
       if (lastComparison != 0) {
         return lastComparison;
       }
-      if (isSetDirtyRects()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.dirtyRects, other.dirtyRects);
+      if (isSetDirtyRectsCount()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.dirtyRectsCount, other.dirtyRectsCount);
         if (lastComparison != 0) {
           return lastComparison;
         }
       }
-      lastComparison = java.lang.Boolean.compare(isSetBuffer(), other.isSetBuffer());
+      lastComparison = java.lang.Boolean.compare(isSetSharedMemName(), other.isSetSharedMemName());
       if (lastComparison != 0) {
         return lastComparison;
       }
-      if (isSetBuffer()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.buffer, other.buffer);
+      if (isSetSharedMemName()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.sharedMemName, other.sharedMemName);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetSharedMemHandle(), other.isSetSharedMemHandle());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSharedMemHandle()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.sharedMemHandle, other.sharedMemHandle);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetRecreateHandle(), other.isSetRecreateHandle());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetRecreateHandle()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.recreateHandle, other.recreateHandle);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -3196,20 +3352,24 @@ public class ClientHandlers {
       sb.append(this.popup);
       first = false;
       if (!first) sb.append(", ");
-      sb.append("dirtyRects:");
-      if (this.dirtyRects == null) {
+      sb.append("dirtyRectsCount:");
+      sb.append(this.dirtyRectsCount);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("sharedMemName:");
+      if (this.sharedMemName == null) {
         sb.append("null");
       } else {
-        org.apache.thrift.TBaseHelper.toString(this.dirtyRects, sb);
+        sb.append(this.sharedMemName);
       }
       first = false;
       if (!first) sb.append(", ");
-      sb.append("buffer:");
-      if (this.buffer == null) {
-        sb.append("null");
-      } else {
-        org.apache.thrift.TBaseHelper.toString(this.buffer, sb);
-      }
+      sb.append("sharedMemHandle:");
+      sb.append(this.sharedMemHandle);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("recreateHandle:");
+      sb.append(this.recreateHandle);
       first = false;
       if (!first) sb.append(", ");
       sb.append("width:");
@@ -3280,23 +3440,39 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 3: // DIRTY_RECTS
-              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
-                struct.dirtyRects = iprot.readBinary();
-                struct.setDirtyRectsIsSet(true);
+            case 3: // DIRTY_RECTS_COUNT
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.dirtyRectsCount = iprot.readI32();
+                struct.setDirtyRectsCountIsSet(true);
               } else { 
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 4: // BUFFER
+            case 4: // SHARED_MEM_NAME
               if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
-                struct.buffer = iprot.readBinary();
-                struct.setBufferIsSet(true);
+                struct.sharedMemName = iprot.readString();
+                struct.setSharedMemNameIsSet(true);
               } else { 
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 5: // WIDTH
+            case 5: // SHARED_MEM_HANDLE
+              if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+                struct.sharedMemHandle = iprot.readI64();
+                struct.setSharedMemHandleIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 6: // RECREATE_HANDLE
+              if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
+                struct.recreateHandle = iprot.readBool();
+                struct.setRecreateHandleIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 7: // WIDTH
               if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
                 struct.width = iprot.readI32();
                 struct.setWidthIsSet(true);
@@ -3304,7 +3480,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 6: // HEIGHT
+            case 8: // HEIGHT
               if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
                 struct.height = iprot.readI32();
                 struct.setHeightIsSet(true);
@@ -3333,16 +3509,20 @@ public class ClientHandlers {
         oprot.writeFieldBegin(POPUP_FIELD_DESC);
         oprot.writeBool(struct.popup);
         oprot.writeFieldEnd();
-        if (struct.dirtyRects != null) {
-          oprot.writeFieldBegin(DIRTY_RECTS_FIELD_DESC);
-          oprot.writeBinary(struct.dirtyRects);
+        oprot.writeFieldBegin(DIRTY_RECTS_COUNT_FIELD_DESC);
+        oprot.writeI32(struct.dirtyRectsCount);
+        oprot.writeFieldEnd();
+        if (struct.sharedMemName != null) {
+          oprot.writeFieldBegin(SHARED_MEM_NAME_FIELD_DESC);
+          oprot.writeString(struct.sharedMemName);
           oprot.writeFieldEnd();
         }
-        if (struct.buffer != null) {
-          oprot.writeFieldBegin(BUFFER_FIELD_DESC);
-          oprot.writeBinary(struct.buffer);
-          oprot.writeFieldEnd();
-        }
+        oprot.writeFieldBegin(SHARED_MEM_HANDLE_FIELD_DESC);
+        oprot.writeI64(struct.sharedMemHandle);
+        oprot.writeFieldEnd();
+        oprot.writeFieldBegin(RECREATE_HANDLE_FIELD_DESC);
+        oprot.writeBool(struct.recreateHandle);
+        oprot.writeFieldEnd();
         oprot.writeFieldBegin(WIDTH_FIELD_DESC);
         oprot.writeI32(struct.width);
         oprot.writeFieldEnd();
@@ -3373,30 +3553,42 @@ public class ClientHandlers {
         if (struct.isSetPopup()) {
           optionals.set(1);
         }
-        if (struct.isSetDirtyRects()) {
+        if (struct.isSetDirtyRectsCount()) {
           optionals.set(2);
         }
-        if (struct.isSetBuffer()) {
+        if (struct.isSetSharedMemName()) {
           optionals.set(3);
         }
-        if (struct.isSetWidth()) {
+        if (struct.isSetSharedMemHandle()) {
           optionals.set(4);
         }
-        if (struct.isSetHeight()) {
+        if (struct.isSetRecreateHandle()) {
           optionals.set(5);
         }
-        oprot.writeBitSet(optionals, 6);
+        if (struct.isSetWidth()) {
+          optionals.set(6);
+        }
+        if (struct.isSetHeight()) {
+          optionals.set(7);
+        }
+        oprot.writeBitSet(optionals, 8);
         if (struct.isSetBid()) {
           oprot.writeI32(struct.bid);
         }
         if (struct.isSetPopup()) {
           oprot.writeBool(struct.popup);
         }
-        if (struct.isSetDirtyRects()) {
-          oprot.writeBinary(struct.dirtyRects);
+        if (struct.isSetDirtyRectsCount()) {
+          oprot.writeI32(struct.dirtyRectsCount);
         }
-        if (struct.isSetBuffer()) {
-          oprot.writeBinary(struct.buffer);
+        if (struct.isSetSharedMemName()) {
+          oprot.writeString(struct.sharedMemName);
+        }
+        if (struct.isSetSharedMemHandle()) {
+          oprot.writeI64(struct.sharedMemHandle);
+        }
+        if (struct.isSetRecreateHandle()) {
+          oprot.writeBool(struct.recreateHandle);
         }
         if (struct.isSetWidth()) {
           oprot.writeI32(struct.width);
@@ -3409,7 +3601,7 @@ public class ClientHandlers {
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, onPaint_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(6);
+        java.util.BitSet incoming = iprot.readBitSet(8);
         if (incoming.get(0)) {
           struct.bid = iprot.readI32();
           struct.setBidIsSet(true);
@@ -3419,21 +3611,281 @@ public class ClientHandlers {
           struct.setPopupIsSet(true);
         }
         if (incoming.get(2)) {
-          struct.dirtyRects = iprot.readBinary();
-          struct.setDirtyRectsIsSet(true);
+          struct.dirtyRectsCount = iprot.readI32();
+          struct.setDirtyRectsCountIsSet(true);
         }
         if (incoming.get(3)) {
-          struct.buffer = iprot.readBinary();
-          struct.setBufferIsSet(true);
+          struct.sharedMemName = iprot.readString();
+          struct.setSharedMemNameIsSet(true);
         }
         if (incoming.get(4)) {
+          struct.sharedMemHandle = iprot.readI64();
+          struct.setSharedMemHandleIsSet(true);
+        }
+        if (incoming.get(5)) {
+          struct.recreateHandle = iprot.readBool();
+          struct.setRecreateHandleIsSet(true);
+        }
+        if (incoming.get(6)) {
           struct.width = iprot.readI32();
           struct.setWidthIsSet(true);
         }
-        if (incoming.get(5)) {
+        if (incoming.get(7)) {
           struct.height = iprot.readI32();
           struct.setHeightIsSet(true);
         }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  public static class onPaint_result implements org.apache.thrift.TBase<onPaint_result, onPaint_result._Fields>, java.io.Serializable, Cloneable, Comparable<onPaint_result>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("onPaint_result");
+
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new onPaint_resultStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new onPaint_resultTupleSchemeFactory();
+
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+;
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(onPaint_result.class, metaDataMap);
+    }
+
+    public onPaint_result() {
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public onPaint_result(onPaint_result other) {
+    }
+
+    public onPaint_result deepCopy() {
+      return new onPaint_result(this);
+    }
+
+    @Override
+    public void clear() {
+    }
+
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof onPaint_result)
+        return this.equals((onPaint_result)that);
+      return false;
+    }
+
+    public boolean equals(onPaint_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(onPaint_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("onPaint_result(");
+      boolean first = true;
+
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class onPaint_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public onPaint_resultStandardScheme getScheme() {
+        return new onPaint_resultStandardScheme();
+      }
+    }
+
+    private static class onPaint_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<onPaint_result> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, onPaint_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, onPaint_result struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class onPaint_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public onPaint_resultTupleScheme getScheme() {
+        return new onPaint_resultTupleScheme();
+      }
+    }
+
+    private static class onPaint_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<onPaint_result> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, onPaint_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, onPaint_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
       }
     }
 
