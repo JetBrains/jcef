@@ -972,7 +972,8 @@ void create(std::shared_ptr<JNIObjectsForCreate> objs,
     windowInfo.SetAsChild(parent, rect);
 #endif
   } else {
-    windowInfo.SetAsWindowless((CefWindowHandle)windowHandle);
+    windowInfo.SetAsWindowless(
+        (CefWindowHandle)util_mac::GetNSView((void*)windowHandle));
   }
 
   CefBrowserSettings settings;
