@@ -457,6 +457,16 @@ bool IsNSView(void* ptr) {
   return result;
 }
 
+void* GetNSView(void* nsWindow) {
+  if (![(id)nsWindow isKindOfClass:[NSWindow class]]) {
+    NSLog(@"Expected NSWindow, found %@",
+          NSStringFromClass([(id)nsWindow class]));
+    return nullptr;
+  }
+
+  return [(NSWindow*)nsWindow contentView];
+}
+
 CefWindowHandle CreateBrowserContentView(NSWindow* window, CefRect& orig) {
   NSView* mainView = CAST_CEF_WINDOW_HANDLE_TO_NSVIEW([window contentView]);
   TranslateRect(mainView, orig);
