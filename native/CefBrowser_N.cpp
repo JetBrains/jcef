@@ -1715,7 +1715,7 @@ Java_org_cef_browser_CefBrowser_1N_N_1SendKeyEvent(JNIEnv* env,
     // is apparently just how webkit handles it and what it expects.
     cef_event.unmodified_character = '\r';
   } else {
-    cef_event.unmodified_character = key_char;
+    cef_event.unmodified_character = key_char != '\n' ? key_char : '\r';
   }
 
   // If ctrl key is pressed down, then control character shall be input.
