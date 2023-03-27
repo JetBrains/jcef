@@ -37,6 +37,12 @@ bash "%JB_TOOLS_DIR%"\common\create_modules.sh || goto:__exit
 echo *** create bundle...
 mkdir "%ARTIFACT_DIR%" || goto:__exit
 move jmods "%ARTIFACT_DIR%" || goto:__exit
+
+rem create jcef.version file
+echo *** create jcef.version...
+grep "#define JCEF_VERSION" "%JCEF_ROOT_DIR%"\native\jcef_version.h > "%JCEF_ROOT_DIR%"\jcef.version
+sed 's/#define //g' "%JCEF_ROOT_DIR%"\jcef.version > "%ARTIFACT_DIR%"\jcef.version
+
 bash -c "tar -cvzf $ARTIFACT_DIR.tar.gz -C $ARTIFACT_DIR $(ls $ARTIFACT_DIR)" || goto:__exit
 rmdir /s /q %ARTIFACT_DIR% || goto:__exit
 dir %ARTIFACT_DIR%.tar.gz || goto:__exit

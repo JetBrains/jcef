@@ -35,6 +35,9 @@ echo "*** copy jcef binaries..."
 rm -rf "$ARTIFACT" && mkdir "$ARTIFACT"
 mv jmods "$ARTIFACT"/
 
+# create jcef.version file
+bash "$JB_TOOLS_DIR"/common/create_version_file.sh $ARTIFACT
+
 echo "*** create archive..."
 # shellcheck disable=SC2046
 tar -cvzf "$ARTIFACT.tar.gz" -C "$ARTIFACT" $(ls "$ARTIFACT")
