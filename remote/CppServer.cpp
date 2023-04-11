@@ -73,7 +73,7 @@ class ServerHandler : public ServerIf {
     windowInfo.SetAsWindowless(0);
 
     CefBrowserSettings settings;
-    CefString strUrl("www.google.com");
+    CefString strUrl("file:///Users/bocha/projects/jcef/animated.svg");
 
     bool result = CefBrowserHost::CreateBrowser(windowInfo, clienthandler, strUrl,
                                                 settings, nullptr, nullptr);

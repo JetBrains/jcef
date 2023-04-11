@@ -203,7 +203,7 @@ public class MainFrame extends JFrame {
         getContentPane().add(address_, BorderLayout.NORTH);
         getContentPane().add(browerUI_, BorderLayout.CENTER);
         pack();
-        setSize(800, 600);
+        setSize(2000, 1400);
         setVisible(true);
 
         // (6) To take care of shutting down CEF accordingly, it's important to call
@@ -279,6 +279,6 @@ public class MainFrame extends JFrame {
             return;
         }
 
-        new MainFrame(args, "http://www.google.com", OsrSupport.isEnabled(), false);
+        new MainFrame(args, "file:///Users/bocha/projects/jcef/animated.svg", OsrSupport.isEnabled(), false);
     }
 }
