@@ -69,6 +69,8 @@ public class JBCefOsrHandler implements CefNativeRenderHandler {
 
     private SharedMemory mySharedMem;
 
+    private JBCefFpsMeter myFpsMeter;
+
     public JBCefOsrHandler(JBCefOsrComponent component, ScreenBoundsProvider screenBoundsProvider) {
         myComponent = component;
         component.setRenderHandler(this);
@@ -87,6 +89,10 @@ public class JBCefOsrHandler implements CefNativeRenderHandler {
                 updateLocation();
             }
         });
+
+        myFpsMeter = JBCefFpsMeter.register(this.toString());
+        myFpsMeter.registerComponent(myComponent);
+        myFpsMeter.setActive(true);
     }
 
     public void dispose() {
@@ -292,6 +298,8 @@ public class JBCefOsrHandler implements CefNativeRenderHandler {
             g.drawImage(image, 0, 0, null );
             //UIUtil.drawImage(g, image, 0, 0, null);
         }
+
+        myFpsMeter.paintFrameFinished(g);
     }
 
     private static Rectangle findOuterRect(Rectangle[] rects) {
