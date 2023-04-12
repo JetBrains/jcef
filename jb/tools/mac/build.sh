@@ -13,6 +13,7 @@ function print_usage() {
   echo "  ANT_HOME            - Path to 'ant' home, or if not set then 'ant' must be in PATH."
   echo "  JNF_FRAMEWORK_PATH  - [optional] When no standard location is suitable."
   echo "  JNF_HEADERS_PATH    - [optional] When no standard location is suitable."
+  echo "  CEF_BUILD_TYPE      - [optional] Build type(Debug or Release)"
   exit "$1"
 }
 
@@ -34,6 +35,9 @@ all)
 help) print_usage 0 ;;
 *) print_usage 1 ;;
 esac
+
+CEF_BUILD_TYPE=${CEF_BUILD_TYPE:-Release}
+export CEF_BUILD_TYPE
 
 script_dir=$(cd -- "$(dirname -- "$0")" &>/dev/null && pwd)
 
