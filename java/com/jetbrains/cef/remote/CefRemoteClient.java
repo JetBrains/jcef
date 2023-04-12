@@ -4,7 +4,6 @@ import org.cef.browser.CefBrowser;
 import org.cef.handler.*;
 import org.cef.misc.CefLog;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -127,6 +126,10 @@ public class CefRemoteClient extends CefClientHandlerBase {
 
     public void setLifeSpanHandler(CefLifeSpanHandler lifeSpanHandler) {
         this.lifeSpanHandler_ = lifeSpanHandler;
+    }
+
+    public void setLoadHandler(CefLoadHandler loadHandler) {
+        this.loadHandler_ = loadHandler;
     }
 
     public void setRenderHandler(CefNativeRenderHandler renderHandler) {

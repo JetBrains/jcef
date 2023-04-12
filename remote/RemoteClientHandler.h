@@ -40,6 +40,7 @@ protected:
 
  const CefRefPtr<CefRenderHandler> myRemoteRenderHandler;
  const CefRefPtr<CefLifeSpanHandler> myRemoteLisfespanHandler;
+ const CefRefPtr<CefLoadHandler> myRemoteLoadHandler;
 };
 
 #endif  // JCEF_NATIVE_CLIENT_HANDLER_H_

@@ -2,11 +2,9 @@ package com.jetbrains.cef.remote;
 
 import com.jetbrains.cef.remote.thrift_codegen.ClientHandlers;
 import org.apache.thrift.TException;
-import org.cef.handler.CefLifeSpanHandler;
-import org.cef.handler.CefNativeRenderHandler;
-import org.cef.handler.CefRenderHandler;
-import org.cef.handler.CefScreenInfo;
+import org.cef.handler.*;
 import org.cef.misc.CefLog;
+import org.cef.network.CefRequest;
 
 import java.awt.*;
 import java.nio.ByteBuffer;
@@ -173,5 +171,61 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
 
         CefRemoteBrowser browser = r.rc.getBrowserByBid(bid);
         r.lsh.onBeforeClose(browser);
+    }
+
+    private static class LoadHandlerWr {
+        CefRemoteClient rc;
+        CefLoadHandler lh;
+    };
+    private LoadHandlerWr _getCefLoadHandler(int cid) {
+        LoadHandlerWr r = new LoadHandlerWr();
+        r.rc = myCid2RemoteClient.get(cid);
+        if (r.rc == null) {
+            CefLog.Error("_getCefLoadHandler, rc == null");
+            return null;
+        }
+        r.lh = r.rc.getLoadHandler();
+        if (r.lh == null) {
+            CefLog.Error("_getCefLoadHandler, lh == null");
+            return null;
+        }
+        return r;
+    }
+
+    @Override
+    public void onLoadingStateChange(int cid, int bid, boolean isLoading, boolean canGoBack, boolean canGoForward) throws TException {
+        LoadHandlerWr r = _getCefLoadHandler(cid);
+        if (r == null) return;
+
+        CefRemoteBrowser browser = r.rc.getBrowserByBid(bid);
+        r.lh.onLoadingStateChange(browser, isLoading, canGoBack, canGoForward);
+    }
+
+    @Override
+    public void onLoadStart(int cid, int bid, int transition_type) throws TException {
+        LoadHandlerWr r = _getCefLoadHandler(cid);
+        if (r == null) return;
+
+        CefRemoteBrowser browser = r.rc.getBrowserByBid(bid);
+        // TODO: use correct transition_type instead of TT_LINK
+        r.lh.onLoadStart(browser, null, CefRequest.TransitionType.TT_LINK);
+    }
+
+    @Override
+    public void onLoadEnd(int cid, int bid, int httpStatusCode) throws TException {
+        LoadHandlerWr r = _getCefLoadHandler(cid);
+        if (r == null) return;
+
+        CefRemoteBrowser browser = r.rc.getBrowserByBid(bid);
+        r.lh.onLoadEnd(browser, null, httpStatusCode);
+    }
+
+    @Override
+    public void onLoadError(int cid, int bid, int errorCode, String errorText, String failedUrl) throws TException {
+        LoadHandlerWr r = _getCefLoadHandler(cid);
+        if (r == null) return;
+
+        CefRemoteBrowser browser = r.rc.getBrowserByBid(bid);
+        r.lh.onLoadError(browser, null, CefLoadHandler.ErrorCode.findByCode(errorCode), errorText, failedUrl);
     }
 }

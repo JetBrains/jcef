@@ -27,6 +27,14 @@ public class ClientHandlers {
 
     public void onBeforeClose(int cid, int bid) throws org.apache.thrift.TException;
 
+    public void onLoadingStateChange(int cid, int bid, boolean isLoading, boolean canGoBack, boolean canGoForward) throws org.apache.thrift.TException;
+
+    public void onLoadStart(int cid, int bid, int transition_type) throws org.apache.thrift.TException;
+
+    public void onLoadEnd(int cid, int bid, int httpStatusCode) throws org.apache.thrift.TException;
+
+    public void onLoadError(int cid, int bid, int errorCode, java.lang.String errorText, java.lang.String failedUrl) throws org.apache.thrift.TException;
+
   }
 
   public interface AsyncIface {
@@ -46,6 +54,14 @@ public class ClientHandlers {
     public void doClose(int cid, int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
     public void onBeforeClose(int cid, int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+
+    public void onLoadingStateChange(int cid, int bid, boolean isLoading, boolean canGoBack, boolean canGoForward, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+
+    public void onLoadStart(int cid, int bid, int transition_type, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+
+    public void onLoadEnd(int cid, int bid, int httpStatusCode, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+
+    public void onLoadError(int cid, int bid, int errorCode, java.lang.String errorText, java.lang.String failedUrl, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
   }
 
@@ -209,6 +225,66 @@ public class ClientHandlers {
       args.setCid(cid);
       args.setBid(bid);
       sendBaseOneway("onBeforeClose", args);
+    }
+
+    public void onLoadingStateChange(int cid, int bid, boolean isLoading, boolean canGoBack, boolean canGoForward) throws org.apache.thrift.TException
+    {
+      send_onLoadingStateChange(cid, bid, isLoading, canGoBack, canGoForward);
+    }
+
+    public void send_onLoadingStateChange(int cid, int bid, boolean isLoading, boolean canGoBack, boolean canGoForward) throws org.apache.thrift.TException
+    {
+      onLoadingStateChange_args args = new onLoadingStateChange_args();
+      args.setCid(cid);
+      args.setBid(bid);
+      args.setIsLoading(isLoading);
+      args.setCanGoBack(canGoBack);
+      args.setCanGoForward(canGoForward);
+      sendBaseOneway("onLoadingStateChange", args);
+    }
+
+    public void onLoadStart(int cid, int bid, int transition_type) throws org.apache.thrift.TException
+    {
+      send_onLoadStart(cid, bid, transition_type);
+    }
+
+    public void send_onLoadStart(int cid, int bid, int transition_type) throws org.apache.thrift.TException
+    {
+      onLoadStart_args args = new onLoadStart_args();
+      args.setCid(cid);
+      args.setBid(bid);
+      args.setTransition_type(transition_type);
+      sendBaseOneway("onLoadStart", args);
+    }
+
+    public void onLoadEnd(int cid, int bid, int httpStatusCode) throws org.apache.thrift.TException
+    {
+      send_onLoadEnd(cid, bid, httpStatusCode);
+    }
+
+    public void send_onLoadEnd(int cid, int bid, int httpStatusCode) throws org.apache.thrift.TException
+    {
+      onLoadEnd_args args = new onLoadEnd_args();
+      args.setCid(cid);
+      args.setBid(bid);
+      args.setHttpStatusCode(httpStatusCode);
+      sendBaseOneway("onLoadEnd", args);
+    }
+
+    public void onLoadError(int cid, int bid, int errorCode, java.lang.String errorText, java.lang.String failedUrl) throws org.apache.thrift.TException
+    {
+      send_onLoadError(cid, bid, errorCode, errorText, failedUrl);
+    }
+
+    public void send_onLoadError(int cid, int bid, int errorCode, java.lang.String errorText, java.lang.String failedUrl) throws org.apache.thrift.TException
+    {
+      onLoadError_args args = new onLoadError_args();
+      args.setCid(cid);
+      args.setBid(bid);
+      args.setErrorCode(errorCode);
+      args.setErrorText(errorText);
+      args.setFailedUrl(failedUrl);
+      sendBaseOneway("onLoadError", args);
     }
 
   }
@@ -533,6 +609,170 @@ public class ClientHandlers {
       }
     }
 
+    public void onLoadingStateChange(int cid, int bid, boolean isLoading, boolean canGoBack, boolean canGoForward, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      onLoadingStateChange_call method_call = new onLoadingStateChange_call(cid, bid, isLoading, canGoBack, canGoForward, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class onLoadingStateChange_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
+      private int cid;
+      private int bid;
+      private boolean isLoading;
+      private boolean canGoBack;
+      private boolean canGoForward;
+      public onLoadingStateChange_call(int cid, int bid, boolean isLoading, boolean canGoBack, boolean canGoForward, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, true);
+        this.cid = cid;
+        this.bid = bid;
+        this.isLoading = isLoading;
+        this.canGoBack = canGoBack;
+        this.canGoForward = canGoForward;
+      }
+
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("onLoadingStateChange", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
+        onLoadingStateChange_args args = new onLoadingStateChange_args();
+        args.setCid(cid);
+        args.setBid(bid);
+        args.setIsLoading(isLoading);
+        args.setCanGoBack(canGoBack);
+        args.setCanGoForward(canGoForward);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      public Void getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return null;
+      }
+    }
+
+    public void onLoadStart(int cid, int bid, int transition_type, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      onLoadStart_call method_call = new onLoadStart_call(cid, bid, transition_type, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class onLoadStart_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
+      private int cid;
+      private int bid;
+      private int transition_type;
+      public onLoadStart_call(int cid, int bid, int transition_type, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, true);
+        this.cid = cid;
+        this.bid = bid;
+        this.transition_type = transition_type;
+      }
+
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("onLoadStart", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
+        onLoadStart_args args = new onLoadStart_args();
+        args.setCid(cid);
+        args.setBid(bid);
+        args.setTransition_type(transition_type);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      public Void getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return null;
+      }
+    }
+
+    public void onLoadEnd(int cid, int bid, int httpStatusCode, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      onLoadEnd_call method_call = new onLoadEnd_call(cid, bid, httpStatusCode, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class onLoadEnd_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
+      private int cid;
+      private int bid;
+      private int httpStatusCode;
+      public onLoadEnd_call(int cid, int bid, int httpStatusCode, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, true);
+        this.cid = cid;
+        this.bid = bid;
+        this.httpStatusCode = httpStatusCode;
+      }
+
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("onLoadEnd", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
+        onLoadEnd_args args = new onLoadEnd_args();
+        args.setCid(cid);
+        args.setBid(bid);
+        args.setHttpStatusCode(httpStatusCode);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      public Void getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return null;
+      }
+    }
+
+    public void onLoadError(int cid, int bid, int errorCode, java.lang.String errorText, java.lang.String failedUrl, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      onLoadError_call method_call = new onLoadError_call(cid, bid, errorCode, errorText, failedUrl, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class onLoadError_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
+      private int cid;
+      private int bid;
+      private int errorCode;
+      private java.lang.String errorText;
+      private java.lang.String failedUrl;
+      public onLoadError_call(int cid, int bid, int errorCode, java.lang.String errorText, java.lang.String failedUrl, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, true);
+        this.cid = cid;
+        this.bid = bid;
+        this.errorCode = errorCode;
+        this.errorText = errorText;
+        this.failedUrl = failedUrl;
+      }
+
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("onLoadError", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
+        onLoadError_args args = new onLoadError_args();
+        args.setCid(cid);
+        args.setBid(bid);
+        args.setErrorCode(errorCode);
+        args.setErrorText(errorText);
+        args.setFailedUrl(failedUrl);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      public Void getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return null;
+      }
+    }
+
   }
 
   public static class Processor<I extends Iface> extends org.apache.thrift.TBaseProcessor<I> implements org.apache.thrift.TProcessor {
@@ -558,7 +798,6 @@ public class ClientHandlers {
       processMap.put("onLoadStart", new onLoadStart());
       processMap.put("onLoadEnd", new onLoadEnd());
       processMap.put("onLoadError", new onLoadError());
-      processMap.put("onLifeSpanEvent", new onLifeSpanEvent());
       return processMap;
     }
 
@@ -758,6 +997,102 @@ public class ClientHandlers {
       }
     }
 
+    public static class onLoadingStateChange<I extends Iface> extends org.apache.thrift.ProcessFunction<I, onLoadingStateChange_args> {
+      public onLoadingStateChange() {
+        super("onLoadingStateChange");
+      }
+
+      public onLoadingStateChange_args getEmptyArgsInstance() {
+        return new onLoadingStateChange_args();
+      }
+
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      public org.apache.thrift.TBase getResult(I iface, onLoadingStateChange_args args) throws org.apache.thrift.TException {
+        iface.onLoadingStateChange(args.cid, args.bid, args.isLoading, args.canGoBack, args.canGoForward);
+        return null;
+      }
+    }
+
+    public static class onLoadStart<I extends Iface> extends org.apache.thrift.ProcessFunction<I, onLoadStart_args> {
+      public onLoadStart() {
+        super("onLoadStart");
+      }
+
+      public onLoadStart_args getEmptyArgsInstance() {
+        return new onLoadStart_args();
+      }
+
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      public org.apache.thrift.TBase getResult(I iface, onLoadStart_args args) throws org.apache.thrift.TException {
+        iface.onLoadStart(args.cid, args.bid, args.transition_type);
+        return null;
+      }
+    }
+
+    public static class onLoadEnd<I extends Iface> extends org.apache.thrift.ProcessFunction<I, onLoadEnd_args> {
+      public onLoadEnd() {
+        super("onLoadEnd");
+      }
+
+      public onLoadEnd_args getEmptyArgsInstance() {
+        return new onLoadEnd_args();
+      }
+
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      public org.apache.thrift.TBase getResult(I iface, onLoadEnd_args args) throws org.apache.thrift.TException {
+        iface.onLoadEnd(args.cid, args.bid, args.httpStatusCode);
+        return null;
+      }
+    }
+
+    public static class onLoadError<I extends Iface> extends org.apache.thrift.ProcessFunction<I, onLoadError_args> {
+      public onLoadError() {
+        super("onLoadError");
+      }
+
+      public onLoadError_args getEmptyArgsInstance() {
+        return new onLoadError_args();
+      }
+
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      public org.apache.thrift.TBase getResult(I iface, onLoadError_args args) throws org.apache.thrift.TException {
+        iface.onLoadError(args.cid, args.bid, args.errorCode, args.errorText, args.failedUrl);
+        return null;
+      }
+    }
+
   }
 
   public static class AsyncProcessor<I extends AsyncIface> extends org.apache.thrift.TBaseAsyncProcessor<I> {
@@ -783,7 +1118,6 @@ public class ClientHandlers {
       processMap.put("onLoadStart", new onLoadStart());
       processMap.put("onLoadEnd", new onLoadEnd());
       processMap.put("onLoadError", new onLoadError());
-      processMap.put("onLifeSpanEvent", new onLifeSpanEvent());
       return processMap;
     }
 
@@ -1049,7 +1383,7 @@ public class ClientHandlers {
 
       public org.apache.thrift.async.AsyncMethodCallback<Void> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
         final org.apache.thrift.AsyncProcessFunction fcall = this;
-        return new org.apache.thrift.async.AsyncMethodCallback<Void>() {
+        return new org.apache.thrift.async.AsyncMethodCallback<Void>() { 
           public void onComplete(Void o) {
           }
           public void onError(java.lang.Exception e) {
@@ -1083,7 +1417,7 @@ public class ClientHandlers {
 
       public org.apache.thrift.async.AsyncMethodCallback<Void> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
         final org.apache.thrift.AsyncProcessFunction fcall = this;
-        return new org.apache.thrift.async.AsyncMethodCallback<Void>() {
+        return new org.apache.thrift.async.AsyncMethodCallback<Void>() { 
           public void onComplete(Void o) {
           }
           public void onError(java.lang.Exception e) {
@@ -1137,6 +1471,142 @@ public class ClientHandlers {
 
       public void start(I iface, onBeforeClose_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
         iface.onBeforeClose(args.cid, args.bid,resultHandler);
+      }
+    }
+
+    public static class onLoadingStateChange<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, onLoadingStateChange_args, Void> {
+      public onLoadingStateChange() {
+        super("onLoadingStateChange");
+      }
+
+      public onLoadingStateChange_args getEmptyArgsInstance() {
+        return new onLoadingStateChange_args();
+      }
+
+      public org.apache.thrift.async.AsyncMethodCallback<Void> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final org.apache.thrift.AsyncProcessFunction fcall = this;
+        return new org.apache.thrift.async.AsyncMethodCallback<Void>() { 
+          public void onComplete(Void o) {
+          }
+          public void onError(java.lang.Exception e) {
+            if (e instanceof org.apache.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+            } else {
+              _LOGGER.error("Exception inside oneway handler", e);
+            }
+          }
+        };
+      }
+
+      protected boolean isOneway() {
+        return true;
+      }
+
+      public void start(I iface, onLoadingStateChange_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+        iface.onLoadingStateChange(args.cid, args.bid, args.isLoading, args.canGoBack, args.canGoForward,resultHandler);
+      }
+    }
+
+    public static class onLoadStart<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, onLoadStart_args, Void> {
+      public onLoadStart() {
+        super("onLoadStart");
+      }
+
+      public onLoadStart_args getEmptyArgsInstance() {
+        return new onLoadStart_args();
+      }
+
+      public org.apache.thrift.async.AsyncMethodCallback<Void> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final org.apache.thrift.AsyncProcessFunction fcall = this;
+        return new org.apache.thrift.async.AsyncMethodCallback<Void>() { 
+          public void onComplete(Void o) {
+          }
+          public void onError(java.lang.Exception e) {
+            if (e instanceof org.apache.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+            } else {
+              _LOGGER.error("Exception inside oneway handler", e);
+            }
+          }
+        };
+      }
+
+      protected boolean isOneway() {
+        return true;
+      }
+
+      public void start(I iface, onLoadStart_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+        iface.onLoadStart(args.cid, args.bid, args.transition_type,resultHandler);
+      }
+    }
+
+    public static class onLoadEnd<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, onLoadEnd_args, Void> {
+      public onLoadEnd() {
+        super("onLoadEnd");
+      }
+
+      public onLoadEnd_args getEmptyArgsInstance() {
+        return new onLoadEnd_args();
+      }
+
+      public org.apache.thrift.async.AsyncMethodCallback<Void> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final org.apache.thrift.AsyncProcessFunction fcall = this;
+        return new org.apache.thrift.async.AsyncMethodCallback<Void>() { 
+          public void onComplete(Void o) {
+          }
+          public void onError(java.lang.Exception e) {
+            if (e instanceof org.apache.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+            } else {
+              _LOGGER.error("Exception inside oneway handler", e);
+            }
+          }
+        };
+      }
+
+      protected boolean isOneway() {
+        return true;
+      }
+
+      public void start(I iface, onLoadEnd_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+        iface.onLoadEnd(args.cid, args.bid, args.httpStatusCode,resultHandler);
+      }
+    }
+
+    public static class onLoadError<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, onLoadError_args, Void> {
+      public onLoadError() {
+        super("onLoadError");
+      }
+
+      public onLoadError_args getEmptyArgsInstance() {
+        return new onLoadError_args();
+      }
+
+      public org.apache.thrift.async.AsyncMethodCallback<Void> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final org.apache.thrift.AsyncProcessFunction fcall = this;
+        return new org.apache.thrift.async.AsyncMethodCallback<Void>() { 
+          public void onComplete(Void o) {
+          }
+          public void onError(java.lang.Exception e) {
+            if (e instanceof org.apache.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+            } else {
+              _LOGGER.error("Exception inside oneway handler", e);
+            }
+          }
+        };
+      }
+
+      protected boolean isOneway() {
+        return true;
+      }
+
+      public void start(I iface, onLoadError_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+        iface.onLoadError(args.cid, args.bid, args.errorCode, args.errorText, args.failedUrl,resultHandler);
       }
     }
 
@@ -5586,7 +6056,7 @@ public class ClientHandlers {
         while (true)
         {
           schemeField = iprot.readFieldBegin();
-          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) {
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
             break;
           }
           switch (schemeField.id) {
@@ -5594,7 +6064,7 @@ public class ClientHandlers {
               if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
                 struct.cid = iprot.readI32();
                 struct.setCidIsSet(true);
-              } else {
+              } else { 
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
@@ -5602,7 +6072,7 @@ public class ClientHandlers {
               if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
                 struct.bid = iprot.readI32();
                 struct.setBidIsSet(true);
-              } else {
+              } else { 
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
@@ -5762,9 +6232,9 @@ public class ClientHandlers {
     public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CID, new org.apache.thrift.meta_data.FieldMetaData("cid", org.apache.thrift.TFieldRequirementType.DEFAULT,
+      tmpMap.put(_Fields.CID, new org.apache.thrift.meta_data.FieldMetaData("cid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
-      tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT,
+      tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(doClose_args.class, metaDataMap);
@@ -6218,9 +6688,9 @@ public class ClientHandlers {
     public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CID, new org.apache.thrift.meta_data.FieldMetaData("cid", org.apache.thrift.TFieldRequirementType.DEFAULT,
+      tmpMap.put(_Fields.CID, new org.apache.thrift.meta_data.FieldMetaData("cid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
-      tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT,
+      tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(onBeforeClose_args.class, metaDataMap);
@@ -6498,7 +6968,7 @@ public class ClientHandlers {
         while (true)
         {
           schemeField = iprot.readFieldBegin();
-          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) {
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
             break;
           }
           switch (schemeField.id) {
@@ -6506,7 +6976,7 @@ public class ClientHandlers {
               if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
                 struct.cid = iprot.readI32();
                 struct.setCidIsSet(true);
-              } else {
+              } else { 
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
@@ -6583,6 +7053,2616 @@ public class ClientHandlers {
         if (incoming.get(1)) {
           struct.bid = iprot.readI32();
           struct.setBidIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  public static class onLoadingStateChange_args implements org.apache.thrift.TBase<onLoadingStateChange_args, onLoadingStateChange_args._Fields>, java.io.Serializable, Cloneable, Comparable<onLoadingStateChange_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("onLoadingStateChange_args");
+
+    private static final org.apache.thrift.protocol.TField CID_FIELD_DESC = new org.apache.thrift.protocol.TField("cid", org.apache.thrift.protocol.TType.I32, (short)1);
+    private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)2);
+    private static final org.apache.thrift.protocol.TField IS_LOADING_FIELD_DESC = new org.apache.thrift.protocol.TField("isLoading", org.apache.thrift.protocol.TType.BOOL, (short)3);
+    private static final org.apache.thrift.protocol.TField CAN_GO_BACK_FIELD_DESC = new org.apache.thrift.protocol.TField("canGoBack", org.apache.thrift.protocol.TType.BOOL, (short)4);
+    private static final org.apache.thrift.protocol.TField CAN_GO_FORWARD_FIELD_DESC = new org.apache.thrift.protocol.TField("canGoForward", org.apache.thrift.protocol.TType.BOOL, (short)5);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new onLoadingStateChange_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new onLoadingStateChange_argsTupleSchemeFactory();
+
+    public int cid; // required
+    public int bid; // required
+    public boolean isLoading; // required
+    public boolean canGoBack; // required
+    public boolean canGoForward; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      CID((short)1, "cid"),
+      BID((short)2, "bid"),
+      IS_LOADING((short)3, "isLoading"),
+      CAN_GO_BACK((short)4, "canGoBack"),
+      CAN_GO_FORWARD((short)5, "canGoForward");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // CID
+            return CID;
+          case 2: // BID
+            return BID;
+          case 3: // IS_LOADING
+            return IS_LOADING;
+          case 4: // CAN_GO_BACK
+            return CAN_GO_BACK;
+          case 5: // CAN_GO_FORWARD
+            return CAN_GO_FORWARD;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __CID_ISSET_ID = 0;
+    private static final int __BID_ISSET_ID = 1;
+    private static final int __ISLOADING_ISSET_ID = 2;
+    private static final int __CANGOBACK_ISSET_ID = 3;
+    private static final int __CANGOFORWARD_ISSET_ID = 4;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CID, new org.apache.thrift.meta_data.FieldMetaData("cid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.IS_LOADING, new org.apache.thrift.meta_data.FieldMetaData("isLoading", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
+      tmpMap.put(_Fields.CAN_GO_BACK, new org.apache.thrift.meta_data.FieldMetaData("canGoBack", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
+      tmpMap.put(_Fields.CAN_GO_FORWARD, new org.apache.thrift.meta_data.FieldMetaData("canGoForward", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(onLoadingStateChange_args.class, metaDataMap);
+    }
+
+    public onLoadingStateChange_args() {
+    }
+
+    public onLoadingStateChange_args(
+      int cid,
+      int bid,
+      boolean isLoading,
+      boolean canGoBack,
+      boolean canGoForward)
+    {
+      this();
+      this.cid = cid;
+      setCidIsSet(true);
+      this.bid = bid;
+      setBidIsSet(true);
+      this.isLoading = isLoading;
+      setIsLoadingIsSet(true);
+      this.canGoBack = canGoBack;
+      setCanGoBackIsSet(true);
+      this.canGoForward = canGoForward;
+      setCanGoForwardIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public onLoadingStateChange_args(onLoadingStateChange_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.cid = other.cid;
+      this.bid = other.bid;
+      this.isLoading = other.isLoading;
+      this.canGoBack = other.canGoBack;
+      this.canGoForward = other.canGoForward;
+    }
+
+    public onLoadingStateChange_args deepCopy() {
+      return new onLoadingStateChange_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setCidIsSet(false);
+      this.cid = 0;
+      setBidIsSet(false);
+      this.bid = 0;
+      setIsLoadingIsSet(false);
+      this.isLoading = false;
+      setCanGoBackIsSet(false);
+      this.canGoBack = false;
+      setCanGoForwardIsSet(false);
+      this.canGoForward = false;
+    }
+
+    public int getCid() {
+      return this.cid;
+    }
+
+    public onLoadingStateChange_args setCid(int cid) {
+      this.cid = cid;
+      setCidIsSet(true);
+      return this;
+    }
+
+    public void unsetCid() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __CID_ISSET_ID);
+    }
+
+    /** Returns true if field cid is set (has been assigned a value) and false otherwise */
+    public boolean isSetCid() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __CID_ISSET_ID);
+    }
+
+    public void setCidIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __CID_ISSET_ID, value);
+    }
+
+    public int getBid() {
+      return this.bid;
+    }
+
+    public onLoadingStateChange_args setBid(int bid) {
+      this.bid = bid;
+      setBidIsSet(true);
+      return this;
+    }
+
+    public void unsetBid() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    /** Returns true if field bid is set (has been assigned a value) and false otherwise */
+    public boolean isSetBid() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    public void setBidIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    public boolean isIsLoading() {
+      return this.isLoading;
+    }
+
+    public onLoadingStateChange_args setIsLoading(boolean isLoading) {
+      this.isLoading = isLoading;
+      setIsLoadingIsSet(true);
+      return this;
+    }
+
+    public void unsetIsLoading() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __ISLOADING_ISSET_ID);
+    }
+
+    /** Returns true if field isLoading is set (has been assigned a value) and false otherwise */
+    public boolean isSetIsLoading() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __ISLOADING_ISSET_ID);
+    }
+
+    public void setIsLoadingIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __ISLOADING_ISSET_ID, value);
+    }
+
+    public boolean isCanGoBack() {
+      return this.canGoBack;
+    }
+
+    public onLoadingStateChange_args setCanGoBack(boolean canGoBack) {
+      this.canGoBack = canGoBack;
+      setCanGoBackIsSet(true);
+      return this;
+    }
+
+    public void unsetCanGoBack() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __CANGOBACK_ISSET_ID);
+    }
+
+    /** Returns true if field canGoBack is set (has been assigned a value) and false otherwise */
+    public boolean isSetCanGoBack() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __CANGOBACK_ISSET_ID);
+    }
+
+    public void setCanGoBackIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __CANGOBACK_ISSET_ID, value);
+    }
+
+    public boolean isCanGoForward() {
+      return this.canGoForward;
+    }
+
+    public onLoadingStateChange_args setCanGoForward(boolean canGoForward) {
+      this.canGoForward = canGoForward;
+      setCanGoForwardIsSet(true);
+      return this;
+    }
+
+    public void unsetCanGoForward() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __CANGOFORWARD_ISSET_ID);
+    }
+
+    /** Returns true if field canGoForward is set (has been assigned a value) and false otherwise */
+    public boolean isSetCanGoForward() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __CANGOFORWARD_ISSET_ID);
+    }
+
+    public void setCanGoForwardIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __CANGOFORWARD_ISSET_ID, value);
+    }
+
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case CID:
+        if (value == null) {
+          unsetCid();
+        } else {
+          setCid((java.lang.Integer)value);
+        }
+        break;
+
+      case BID:
+        if (value == null) {
+          unsetBid();
+        } else {
+          setBid((java.lang.Integer)value);
+        }
+        break;
+
+      case IS_LOADING:
+        if (value == null) {
+          unsetIsLoading();
+        } else {
+          setIsLoading((java.lang.Boolean)value);
+        }
+        break;
+
+      case CAN_GO_BACK:
+        if (value == null) {
+          unsetCanGoBack();
+        } else {
+          setCanGoBack((java.lang.Boolean)value);
+        }
+        break;
+
+      case CAN_GO_FORWARD:
+        if (value == null) {
+          unsetCanGoForward();
+        } else {
+          setCanGoForward((java.lang.Boolean)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case CID:
+        return getCid();
+
+      case BID:
+        return getBid();
+
+      case IS_LOADING:
+        return isIsLoading();
+
+      case CAN_GO_BACK:
+        return isCanGoBack();
+
+      case CAN_GO_FORWARD:
+        return isCanGoForward();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case CID:
+        return isSetCid();
+      case BID:
+        return isSetBid();
+      case IS_LOADING:
+        return isSetIsLoading();
+      case CAN_GO_BACK:
+        return isSetCanGoBack();
+      case CAN_GO_FORWARD:
+        return isSetCanGoForward();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof onLoadingStateChange_args)
+        return this.equals((onLoadingStateChange_args)that);
+      return false;
+    }
+
+    public boolean equals(onLoadingStateChange_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_cid = true;
+      boolean that_present_cid = true;
+      if (this_present_cid || that_present_cid) {
+        if (!(this_present_cid && that_present_cid))
+          return false;
+        if (this.cid != that.cid)
+          return false;
+      }
+
+      boolean this_present_bid = true;
+      boolean that_present_bid = true;
+      if (this_present_bid || that_present_bid) {
+        if (!(this_present_bid && that_present_bid))
+          return false;
+        if (this.bid != that.bid)
+          return false;
+      }
+
+      boolean this_present_isLoading = true;
+      boolean that_present_isLoading = true;
+      if (this_present_isLoading || that_present_isLoading) {
+        if (!(this_present_isLoading && that_present_isLoading))
+          return false;
+        if (this.isLoading != that.isLoading)
+          return false;
+      }
+
+      boolean this_present_canGoBack = true;
+      boolean that_present_canGoBack = true;
+      if (this_present_canGoBack || that_present_canGoBack) {
+        if (!(this_present_canGoBack && that_present_canGoBack))
+          return false;
+        if (this.canGoBack != that.canGoBack)
+          return false;
+      }
+
+      boolean this_present_canGoForward = true;
+      boolean that_present_canGoForward = true;
+      if (this_present_canGoForward || that_present_canGoForward) {
+        if (!(this_present_canGoForward && that_present_canGoForward))
+          return false;
+        if (this.canGoForward != that.canGoForward)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + cid;
+
+      hashCode = hashCode * 8191 + bid;
+
+      hashCode = hashCode * 8191 + ((isLoading) ? 131071 : 524287);
+
+      hashCode = hashCode * 8191 + ((canGoBack) ? 131071 : 524287);
+
+      hashCode = hashCode * 8191 + ((canGoForward) ? 131071 : 524287);
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(onLoadingStateChange_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetCid(), other.isSetCid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetCid()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.cid, other.cid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetBid()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetIsLoading(), other.isSetIsLoading());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetIsLoading()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.isLoading, other.isLoading);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetCanGoBack(), other.isSetCanGoBack());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetCanGoBack()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.canGoBack, other.canGoBack);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetCanGoForward(), other.isSetCanGoForward());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetCanGoForward()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.canGoForward, other.canGoForward);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("onLoadingStateChange_args(");
+      boolean first = true;
+
+      sb.append("cid:");
+      sb.append(this.cid);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("bid:");
+      sb.append(this.bid);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("isLoading:");
+      sb.append(this.isLoading);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("canGoBack:");
+      sb.append(this.canGoBack);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("canGoForward:");
+      sb.append(this.canGoForward);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class onLoadingStateChange_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public onLoadingStateChange_argsStandardScheme getScheme() {
+        return new onLoadingStateChange_argsStandardScheme();
+      }
+    }
+
+    private static class onLoadingStateChange_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<onLoadingStateChange_args> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, onLoadingStateChange_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // CID
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.cid = iprot.readI32();
+                struct.setCidIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // BID
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.bid = iprot.readI32();
+                struct.setBidIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 3: // IS_LOADING
+              if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
+                struct.isLoading = iprot.readBool();
+                struct.setIsLoadingIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 4: // CAN_GO_BACK
+              if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
+                struct.canGoBack = iprot.readBool();
+                struct.setCanGoBackIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 5: // CAN_GO_FORWARD
+              if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
+                struct.canGoForward = iprot.readBool();
+                struct.setCanGoForwardIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, onLoadingStateChange_args struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(CID_FIELD_DESC);
+        oprot.writeI32(struct.cid);
+        oprot.writeFieldEnd();
+        oprot.writeFieldBegin(BID_FIELD_DESC);
+        oprot.writeI32(struct.bid);
+        oprot.writeFieldEnd();
+        oprot.writeFieldBegin(IS_LOADING_FIELD_DESC);
+        oprot.writeBool(struct.isLoading);
+        oprot.writeFieldEnd();
+        oprot.writeFieldBegin(CAN_GO_BACK_FIELD_DESC);
+        oprot.writeBool(struct.canGoBack);
+        oprot.writeFieldEnd();
+        oprot.writeFieldBegin(CAN_GO_FORWARD_FIELD_DESC);
+        oprot.writeBool(struct.canGoForward);
+        oprot.writeFieldEnd();
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class onLoadingStateChange_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public onLoadingStateChange_argsTupleScheme getScheme() {
+        return new onLoadingStateChange_argsTupleScheme();
+      }
+    }
+
+    private static class onLoadingStateChange_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<onLoadingStateChange_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, onLoadingStateChange_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetCid()) {
+          optionals.set(0);
+        }
+        if (struct.isSetBid()) {
+          optionals.set(1);
+        }
+        if (struct.isSetIsLoading()) {
+          optionals.set(2);
+        }
+        if (struct.isSetCanGoBack()) {
+          optionals.set(3);
+        }
+        if (struct.isSetCanGoForward()) {
+          optionals.set(4);
+        }
+        oprot.writeBitSet(optionals, 5);
+        if (struct.isSetCid()) {
+          oprot.writeI32(struct.cid);
+        }
+        if (struct.isSetBid()) {
+          oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetIsLoading()) {
+          oprot.writeBool(struct.isLoading);
+        }
+        if (struct.isSetCanGoBack()) {
+          oprot.writeBool(struct.canGoBack);
+        }
+        if (struct.isSetCanGoForward()) {
+          oprot.writeBool(struct.canGoForward);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, onLoadingStateChange_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(5);
+        if (incoming.get(0)) {
+          struct.cid = iprot.readI32();
+          struct.setCidIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.bid = iprot.readI32();
+          struct.setBidIsSet(true);
+        }
+        if (incoming.get(2)) {
+          struct.isLoading = iprot.readBool();
+          struct.setIsLoadingIsSet(true);
+        }
+        if (incoming.get(3)) {
+          struct.canGoBack = iprot.readBool();
+          struct.setCanGoBackIsSet(true);
+        }
+        if (incoming.get(4)) {
+          struct.canGoForward = iprot.readBool();
+          struct.setCanGoForwardIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  public static class onLoadStart_args implements org.apache.thrift.TBase<onLoadStart_args, onLoadStart_args._Fields>, java.io.Serializable, Cloneable, Comparable<onLoadStart_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("onLoadStart_args");
+
+    private static final org.apache.thrift.protocol.TField CID_FIELD_DESC = new org.apache.thrift.protocol.TField("cid", org.apache.thrift.protocol.TType.I32, (short)1);
+    private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)2);
+    private static final org.apache.thrift.protocol.TField TRANSITION_TYPE_FIELD_DESC = new org.apache.thrift.protocol.TField("transition_type", org.apache.thrift.protocol.TType.I32, (short)3);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new onLoadStart_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new onLoadStart_argsTupleSchemeFactory();
+
+    public int cid; // required
+    public int bid; // required
+    public int transition_type; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      CID((short)1, "cid"),
+      BID((short)2, "bid"),
+      TRANSITION_TYPE((short)3, "transition_type");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // CID
+            return CID;
+          case 2: // BID
+            return BID;
+          case 3: // TRANSITION_TYPE
+            return TRANSITION_TYPE;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __CID_ISSET_ID = 0;
+    private static final int __BID_ISSET_ID = 1;
+    private static final int __TRANSITION_TYPE_ISSET_ID = 2;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CID, new org.apache.thrift.meta_data.FieldMetaData("cid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.TRANSITION_TYPE, new org.apache.thrift.meta_data.FieldMetaData("transition_type", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(onLoadStart_args.class, metaDataMap);
+    }
+
+    public onLoadStart_args() {
+    }
+
+    public onLoadStart_args(
+      int cid,
+      int bid,
+      int transition_type)
+    {
+      this();
+      this.cid = cid;
+      setCidIsSet(true);
+      this.bid = bid;
+      setBidIsSet(true);
+      this.transition_type = transition_type;
+      setTransition_typeIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public onLoadStart_args(onLoadStart_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.cid = other.cid;
+      this.bid = other.bid;
+      this.transition_type = other.transition_type;
+    }
+
+    public onLoadStart_args deepCopy() {
+      return new onLoadStart_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setCidIsSet(false);
+      this.cid = 0;
+      setBidIsSet(false);
+      this.bid = 0;
+      setTransition_typeIsSet(false);
+      this.transition_type = 0;
+    }
+
+    public int getCid() {
+      return this.cid;
+    }
+
+    public onLoadStart_args setCid(int cid) {
+      this.cid = cid;
+      setCidIsSet(true);
+      return this;
+    }
+
+    public void unsetCid() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __CID_ISSET_ID);
+    }
+
+    /** Returns true if field cid is set (has been assigned a value) and false otherwise */
+    public boolean isSetCid() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __CID_ISSET_ID);
+    }
+
+    public void setCidIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __CID_ISSET_ID, value);
+    }
+
+    public int getBid() {
+      return this.bid;
+    }
+
+    public onLoadStart_args setBid(int bid) {
+      this.bid = bid;
+      setBidIsSet(true);
+      return this;
+    }
+
+    public void unsetBid() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    /** Returns true if field bid is set (has been assigned a value) and false otherwise */
+    public boolean isSetBid() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    public void setBidIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    public int getTransition_type() {
+      return this.transition_type;
+    }
+
+    public onLoadStart_args setTransition_type(int transition_type) {
+      this.transition_type = transition_type;
+      setTransition_typeIsSet(true);
+      return this;
+    }
+
+    public void unsetTransition_type() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __TRANSITION_TYPE_ISSET_ID);
+    }
+
+    /** Returns true if field transition_type is set (has been assigned a value) and false otherwise */
+    public boolean isSetTransition_type() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __TRANSITION_TYPE_ISSET_ID);
+    }
+
+    public void setTransition_typeIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __TRANSITION_TYPE_ISSET_ID, value);
+    }
+
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case CID:
+        if (value == null) {
+          unsetCid();
+        } else {
+          setCid((java.lang.Integer)value);
+        }
+        break;
+
+      case BID:
+        if (value == null) {
+          unsetBid();
+        } else {
+          setBid((java.lang.Integer)value);
+        }
+        break;
+
+      case TRANSITION_TYPE:
+        if (value == null) {
+          unsetTransition_type();
+        } else {
+          setTransition_type((java.lang.Integer)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case CID:
+        return getCid();
+
+      case BID:
+        return getBid();
+
+      case TRANSITION_TYPE:
+        return getTransition_type();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case CID:
+        return isSetCid();
+      case BID:
+        return isSetBid();
+      case TRANSITION_TYPE:
+        return isSetTransition_type();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof onLoadStart_args)
+        return this.equals((onLoadStart_args)that);
+      return false;
+    }
+
+    public boolean equals(onLoadStart_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_cid = true;
+      boolean that_present_cid = true;
+      if (this_present_cid || that_present_cid) {
+        if (!(this_present_cid && that_present_cid))
+          return false;
+        if (this.cid != that.cid)
+          return false;
+      }
+
+      boolean this_present_bid = true;
+      boolean that_present_bid = true;
+      if (this_present_bid || that_present_bid) {
+        if (!(this_present_bid && that_present_bid))
+          return false;
+        if (this.bid != that.bid)
+          return false;
+      }
+
+      boolean this_present_transition_type = true;
+      boolean that_present_transition_type = true;
+      if (this_present_transition_type || that_present_transition_type) {
+        if (!(this_present_transition_type && that_present_transition_type))
+          return false;
+        if (this.transition_type != that.transition_type)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + cid;
+
+      hashCode = hashCode * 8191 + bid;
+
+      hashCode = hashCode * 8191 + transition_type;
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(onLoadStart_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetCid(), other.isSetCid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetCid()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.cid, other.cid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetBid()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetTransition_type(), other.isSetTransition_type());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetTransition_type()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.transition_type, other.transition_type);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("onLoadStart_args(");
+      boolean first = true;
+
+      sb.append("cid:");
+      sb.append(this.cid);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("bid:");
+      sb.append(this.bid);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("transition_type:");
+      sb.append(this.transition_type);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class onLoadStart_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public onLoadStart_argsStandardScheme getScheme() {
+        return new onLoadStart_argsStandardScheme();
+      }
+    }
+
+    private static class onLoadStart_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<onLoadStart_args> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, onLoadStart_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // CID
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.cid = iprot.readI32();
+                struct.setCidIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // BID
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.bid = iprot.readI32();
+                struct.setBidIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 3: // TRANSITION_TYPE
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.transition_type = iprot.readI32();
+                struct.setTransition_typeIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, onLoadStart_args struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(CID_FIELD_DESC);
+        oprot.writeI32(struct.cid);
+        oprot.writeFieldEnd();
+        oprot.writeFieldBegin(BID_FIELD_DESC);
+        oprot.writeI32(struct.bid);
+        oprot.writeFieldEnd();
+        oprot.writeFieldBegin(TRANSITION_TYPE_FIELD_DESC);
+        oprot.writeI32(struct.transition_type);
+        oprot.writeFieldEnd();
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class onLoadStart_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public onLoadStart_argsTupleScheme getScheme() {
+        return new onLoadStart_argsTupleScheme();
+      }
+    }
+
+    private static class onLoadStart_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<onLoadStart_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, onLoadStart_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetCid()) {
+          optionals.set(0);
+        }
+        if (struct.isSetBid()) {
+          optionals.set(1);
+        }
+        if (struct.isSetTransition_type()) {
+          optionals.set(2);
+        }
+        oprot.writeBitSet(optionals, 3);
+        if (struct.isSetCid()) {
+          oprot.writeI32(struct.cid);
+        }
+        if (struct.isSetBid()) {
+          oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetTransition_type()) {
+          oprot.writeI32(struct.transition_type);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, onLoadStart_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(3);
+        if (incoming.get(0)) {
+          struct.cid = iprot.readI32();
+          struct.setCidIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.bid = iprot.readI32();
+          struct.setBidIsSet(true);
+        }
+        if (incoming.get(2)) {
+          struct.transition_type = iprot.readI32();
+          struct.setTransition_typeIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  public static class onLoadEnd_args implements org.apache.thrift.TBase<onLoadEnd_args, onLoadEnd_args._Fields>, java.io.Serializable, Cloneable, Comparable<onLoadEnd_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("onLoadEnd_args");
+
+    private static final org.apache.thrift.protocol.TField CID_FIELD_DESC = new org.apache.thrift.protocol.TField("cid", org.apache.thrift.protocol.TType.I32, (short)1);
+    private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)2);
+    private static final org.apache.thrift.protocol.TField HTTP_STATUS_CODE_FIELD_DESC = new org.apache.thrift.protocol.TField("httpStatusCode", org.apache.thrift.protocol.TType.I32, (short)3);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new onLoadEnd_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new onLoadEnd_argsTupleSchemeFactory();
+
+    public int cid; // required
+    public int bid; // required
+    public int httpStatusCode; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      CID((short)1, "cid"),
+      BID((short)2, "bid"),
+      HTTP_STATUS_CODE((short)3, "httpStatusCode");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // CID
+            return CID;
+          case 2: // BID
+            return BID;
+          case 3: // HTTP_STATUS_CODE
+            return HTTP_STATUS_CODE;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __CID_ISSET_ID = 0;
+    private static final int __BID_ISSET_ID = 1;
+    private static final int __HTTPSTATUSCODE_ISSET_ID = 2;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CID, new org.apache.thrift.meta_data.FieldMetaData("cid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.HTTP_STATUS_CODE, new org.apache.thrift.meta_data.FieldMetaData("httpStatusCode", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(onLoadEnd_args.class, metaDataMap);
+    }
+
+    public onLoadEnd_args() {
+    }
+
+    public onLoadEnd_args(
+      int cid,
+      int bid,
+      int httpStatusCode)
+    {
+      this();
+      this.cid = cid;
+      setCidIsSet(true);
+      this.bid = bid;
+      setBidIsSet(true);
+      this.httpStatusCode = httpStatusCode;
+      setHttpStatusCodeIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public onLoadEnd_args(onLoadEnd_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.cid = other.cid;
+      this.bid = other.bid;
+      this.httpStatusCode = other.httpStatusCode;
+    }
+
+    public onLoadEnd_args deepCopy() {
+      return new onLoadEnd_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setCidIsSet(false);
+      this.cid = 0;
+      setBidIsSet(false);
+      this.bid = 0;
+      setHttpStatusCodeIsSet(false);
+      this.httpStatusCode = 0;
+    }
+
+    public int getCid() {
+      return this.cid;
+    }
+
+    public onLoadEnd_args setCid(int cid) {
+      this.cid = cid;
+      setCidIsSet(true);
+      return this;
+    }
+
+    public void unsetCid() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __CID_ISSET_ID);
+    }
+
+    /** Returns true if field cid is set (has been assigned a value) and false otherwise */
+    public boolean isSetCid() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __CID_ISSET_ID);
+    }
+
+    public void setCidIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __CID_ISSET_ID, value);
+    }
+
+    public int getBid() {
+      return this.bid;
+    }
+
+    public onLoadEnd_args setBid(int bid) {
+      this.bid = bid;
+      setBidIsSet(true);
+      return this;
+    }
+
+    public void unsetBid() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    /** Returns true if field bid is set (has been assigned a value) and false otherwise */
+    public boolean isSetBid() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    public void setBidIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    public int getHttpStatusCode() {
+      return this.httpStatusCode;
+    }
+
+    public onLoadEnd_args setHttpStatusCode(int httpStatusCode) {
+      this.httpStatusCode = httpStatusCode;
+      setHttpStatusCodeIsSet(true);
+      return this;
+    }
+
+    public void unsetHttpStatusCode() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __HTTPSTATUSCODE_ISSET_ID);
+    }
+
+    /** Returns true if field httpStatusCode is set (has been assigned a value) and false otherwise */
+    public boolean isSetHttpStatusCode() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __HTTPSTATUSCODE_ISSET_ID);
+    }
+
+    public void setHttpStatusCodeIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __HTTPSTATUSCODE_ISSET_ID, value);
+    }
+
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case CID:
+        if (value == null) {
+          unsetCid();
+        } else {
+          setCid((java.lang.Integer)value);
+        }
+        break;
+
+      case BID:
+        if (value == null) {
+          unsetBid();
+        } else {
+          setBid((java.lang.Integer)value);
+        }
+        break;
+
+      case HTTP_STATUS_CODE:
+        if (value == null) {
+          unsetHttpStatusCode();
+        } else {
+          setHttpStatusCode((java.lang.Integer)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case CID:
+        return getCid();
+
+      case BID:
+        return getBid();
+
+      case HTTP_STATUS_CODE:
+        return getHttpStatusCode();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case CID:
+        return isSetCid();
+      case BID:
+        return isSetBid();
+      case HTTP_STATUS_CODE:
+        return isSetHttpStatusCode();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof onLoadEnd_args)
+        return this.equals((onLoadEnd_args)that);
+      return false;
+    }
+
+    public boolean equals(onLoadEnd_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_cid = true;
+      boolean that_present_cid = true;
+      if (this_present_cid || that_present_cid) {
+        if (!(this_present_cid && that_present_cid))
+          return false;
+        if (this.cid != that.cid)
+          return false;
+      }
+
+      boolean this_present_bid = true;
+      boolean that_present_bid = true;
+      if (this_present_bid || that_present_bid) {
+        if (!(this_present_bid && that_present_bid))
+          return false;
+        if (this.bid != that.bid)
+          return false;
+      }
+
+      boolean this_present_httpStatusCode = true;
+      boolean that_present_httpStatusCode = true;
+      if (this_present_httpStatusCode || that_present_httpStatusCode) {
+        if (!(this_present_httpStatusCode && that_present_httpStatusCode))
+          return false;
+        if (this.httpStatusCode != that.httpStatusCode)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + cid;
+
+      hashCode = hashCode * 8191 + bid;
+
+      hashCode = hashCode * 8191 + httpStatusCode;
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(onLoadEnd_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetCid(), other.isSetCid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetCid()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.cid, other.cid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetBid()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetHttpStatusCode(), other.isSetHttpStatusCode());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetHttpStatusCode()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.httpStatusCode, other.httpStatusCode);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("onLoadEnd_args(");
+      boolean first = true;
+
+      sb.append("cid:");
+      sb.append(this.cid);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("bid:");
+      sb.append(this.bid);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("httpStatusCode:");
+      sb.append(this.httpStatusCode);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class onLoadEnd_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public onLoadEnd_argsStandardScheme getScheme() {
+        return new onLoadEnd_argsStandardScheme();
+      }
+    }
+
+    private static class onLoadEnd_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<onLoadEnd_args> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, onLoadEnd_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // CID
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.cid = iprot.readI32();
+                struct.setCidIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // BID
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.bid = iprot.readI32();
+                struct.setBidIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 3: // HTTP_STATUS_CODE
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.httpStatusCode = iprot.readI32();
+                struct.setHttpStatusCodeIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, onLoadEnd_args struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(CID_FIELD_DESC);
+        oprot.writeI32(struct.cid);
+        oprot.writeFieldEnd();
+        oprot.writeFieldBegin(BID_FIELD_DESC);
+        oprot.writeI32(struct.bid);
+        oprot.writeFieldEnd();
+        oprot.writeFieldBegin(HTTP_STATUS_CODE_FIELD_DESC);
+        oprot.writeI32(struct.httpStatusCode);
+        oprot.writeFieldEnd();
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class onLoadEnd_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public onLoadEnd_argsTupleScheme getScheme() {
+        return new onLoadEnd_argsTupleScheme();
+      }
+    }
+
+    private static class onLoadEnd_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<onLoadEnd_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, onLoadEnd_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetCid()) {
+          optionals.set(0);
+        }
+        if (struct.isSetBid()) {
+          optionals.set(1);
+        }
+        if (struct.isSetHttpStatusCode()) {
+          optionals.set(2);
+        }
+        oprot.writeBitSet(optionals, 3);
+        if (struct.isSetCid()) {
+          oprot.writeI32(struct.cid);
+        }
+        if (struct.isSetBid()) {
+          oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetHttpStatusCode()) {
+          oprot.writeI32(struct.httpStatusCode);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, onLoadEnd_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(3);
+        if (incoming.get(0)) {
+          struct.cid = iprot.readI32();
+          struct.setCidIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.bid = iprot.readI32();
+          struct.setBidIsSet(true);
+        }
+        if (incoming.get(2)) {
+          struct.httpStatusCode = iprot.readI32();
+          struct.setHttpStatusCodeIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  public static class onLoadError_args implements org.apache.thrift.TBase<onLoadError_args, onLoadError_args._Fields>, java.io.Serializable, Cloneable, Comparable<onLoadError_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("onLoadError_args");
+
+    private static final org.apache.thrift.protocol.TField CID_FIELD_DESC = new org.apache.thrift.protocol.TField("cid", org.apache.thrift.protocol.TType.I32, (short)1);
+    private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)2);
+    private static final org.apache.thrift.protocol.TField ERROR_CODE_FIELD_DESC = new org.apache.thrift.protocol.TField("errorCode", org.apache.thrift.protocol.TType.I32, (short)3);
+    private static final org.apache.thrift.protocol.TField ERROR_TEXT_FIELD_DESC = new org.apache.thrift.protocol.TField("errorText", org.apache.thrift.protocol.TType.STRING, (short)4);
+    private static final org.apache.thrift.protocol.TField FAILED_URL_FIELD_DESC = new org.apache.thrift.protocol.TField("failedUrl", org.apache.thrift.protocol.TType.STRING, (short)5);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new onLoadError_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new onLoadError_argsTupleSchemeFactory();
+
+    public int cid; // required
+    public int bid; // required
+    public int errorCode; // required
+    public @org.apache.thrift.annotation.Nullable java.lang.String errorText; // required
+    public @org.apache.thrift.annotation.Nullable java.lang.String failedUrl; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      CID((short)1, "cid"),
+      BID((short)2, "bid"),
+      ERROR_CODE((short)3, "errorCode"),
+      ERROR_TEXT((short)4, "errorText"),
+      FAILED_URL((short)5, "failedUrl");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // CID
+            return CID;
+          case 2: // BID
+            return BID;
+          case 3: // ERROR_CODE
+            return ERROR_CODE;
+          case 4: // ERROR_TEXT
+            return ERROR_TEXT;
+          case 5: // FAILED_URL
+            return FAILED_URL;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __CID_ISSET_ID = 0;
+    private static final int __BID_ISSET_ID = 1;
+    private static final int __ERRORCODE_ISSET_ID = 2;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CID, new org.apache.thrift.meta_data.FieldMetaData("cid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.ERROR_CODE, new org.apache.thrift.meta_data.FieldMetaData("errorCode", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.ERROR_TEXT, new org.apache.thrift.meta_data.FieldMetaData("errorText", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.FAILED_URL, new org.apache.thrift.meta_data.FieldMetaData("failedUrl", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(onLoadError_args.class, metaDataMap);
+    }
+
+    public onLoadError_args() {
+    }
+
+    public onLoadError_args(
+      int cid,
+      int bid,
+      int errorCode,
+      java.lang.String errorText,
+      java.lang.String failedUrl)
+    {
+      this();
+      this.cid = cid;
+      setCidIsSet(true);
+      this.bid = bid;
+      setBidIsSet(true);
+      this.errorCode = errorCode;
+      setErrorCodeIsSet(true);
+      this.errorText = errorText;
+      this.failedUrl = failedUrl;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public onLoadError_args(onLoadError_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.cid = other.cid;
+      this.bid = other.bid;
+      this.errorCode = other.errorCode;
+      if (other.isSetErrorText()) {
+        this.errorText = other.errorText;
+      }
+      if (other.isSetFailedUrl()) {
+        this.failedUrl = other.failedUrl;
+      }
+    }
+
+    public onLoadError_args deepCopy() {
+      return new onLoadError_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setCidIsSet(false);
+      this.cid = 0;
+      setBidIsSet(false);
+      this.bid = 0;
+      setErrorCodeIsSet(false);
+      this.errorCode = 0;
+      this.errorText = null;
+      this.failedUrl = null;
+    }
+
+    public int getCid() {
+      return this.cid;
+    }
+
+    public onLoadError_args setCid(int cid) {
+      this.cid = cid;
+      setCidIsSet(true);
+      return this;
+    }
+
+    public void unsetCid() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __CID_ISSET_ID);
+    }
+
+    /** Returns true if field cid is set (has been assigned a value) and false otherwise */
+    public boolean isSetCid() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __CID_ISSET_ID);
+    }
+
+    public void setCidIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __CID_ISSET_ID, value);
+    }
+
+    public int getBid() {
+      return this.bid;
+    }
+
+    public onLoadError_args setBid(int bid) {
+      this.bid = bid;
+      setBidIsSet(true);
+      return this;
+    }
+
+    public void unsetBid() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    /** Returns true if field bid is set (has been assigned a value) and false otherwise */
+    public boolean isSetBid() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    public void setBidIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    public int getErrorCode() {
+      return this.errorCode;
+    }
+
+    public onLoadError_args setErrorCode(int errorCode) {
+      this.errorCode = errorCode;
+      setErrorCodeIsSet(true);
+      return this;
+    }
+
+    public void unsetErrorCode() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __ERRORCODE_ISSET_ID);
+    }
+
+    /** Returns true if field errorCode is set (has been assigned a value) and false otherwise */
+    public boolean isSetErrorCode() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __ERRORCODE_ISSET_ID);
+    }
+
+    public void setErrorCodeIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __ERRORCODE_ISSET_ID, value);
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.String getErrorText() {
+      return this.errorText;
+    }
+
+    public onLoadError_args setErrorText(@org.apache.thrift.annotation.Nullable java.lang.String errorText) {
+      this.errorText = errorText;
+      return this;
+    }
+
+    public void unsetErrorText() {
+      this.errorText = null;
+    }
+
+    /** Returns true if field errorText is set (has been assigned a value) and false otherwise */
+    public boolean isSetErrorText() {
+      return this.errorText != null;
+    }
+
+    public void setErrorTextIsSet(boolean value) {
+      if (!value) {
+        this.errorText = null;
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.String getFailedUrl() {
+      return this.failedUrl;
+    }
+
+    public onLoadError_args setFailedUrl(@org.apache.thrift.annotation.Nullable java.lang.String failedUrl) {
+      this.failedUrl = failedUrl;
+      return this;
+    }
+
+    public void unsetFailedUrl() {
+      this.failedUrl = null;
+    }
+
+    /** Returns true if field failedUrl is set (has been assigned a value) and false otherwise */
+    public boolean isSetFailedUrl() {
+      return this.failedUrl != null;
+    }
+
+    public void setFailedUrlIsSet(boolean value) {
+      if (!value) {
+        this.failedUrl = null;
+      }
+    }
+
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case CID:
+        if (value == null) {
+          unsetCid();
+        } else {
+          setCid((java.lang.Integer)value);
+        }
+        break;
+
+      case BID:
+        if (value == null) {
+          unsetBid();
+        } else {
+          setBid((java.lang.Integer)value);
+        }
+        break;
+
+      case ERROR_CODE:
+        if (value == null) {
+          unsetErrorCode();
+        } else {
+          setErrorCode((java.lang.Integer)value);
+        }
+        break;
+
+      case ERROR_TEXT:
+        if (value == null) {
+          unsetErrorText();
+        } else {
+          setErrorText((java.lang.String)value);
+        }
+        break;
+
+      case FAILED_URL:
+        if (value == null) {
+          unsetFailedUrl();
+        } else {
+          setFailedUrl((java.lang.String)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case CID:
+        return getCid();
+
+      case BID:
+        return getBid();
+
+      case ERROR_CODE:
+        return getErrorCode();
+
+      case ERROR_TEXT:
+        return getErrorText();
+
+      case FAILED_URL:
+        return getFailedUrl();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case CID:
+        return isSetCid();
+      case BID:
+        return isSetBid();
+      case ERROR_CODE:
+        return isSetErrorCode();
+      case ERROR_TEXT:
+        return isSetErrorText();
+      case FAILED_URL:
+        return isSetFailedUrl();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof onLoadError_args)
+        return this.equals((onLoadError_args)that);
+      return false;
+    }
+
+    public boolean equals(onLoadError_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_cid = true;
+      boolean that_present_cid = true;
+      if (this_present_cid || that_present_cid) {
+        if (!(this_present_cid && that_present_cid))
+          return false;
+        if (this.cid != that.cid)
+          return false;
+      }
+
+      boolean this_present_bid = true;
+      boolean that_present_bid = true;
+      if (this_present_bid || that_present_bid) {
+        if (!(this_present_bid && that_present_bid))
+          return false;
+        if (this.bid != that.bid)
+          return false;
+      }
+
+      boolean this_present_errorCode = true;
+      boolean that_present_errorCode = true;
+      if (this_present_errorCode || that_present_errorCode) {
+        if (!(this_present_errorCode && that_present_errorCode))
+          return false;
+        if (this.errorCode != that.errorCode)
+          return false;
+      }
+
+      boolean this_present_errorText = true && this.isSetErrorText();
+      boolean that_present_errorText = true && that.isSetErrorText();
+      if (this_present_errorText || that_present_errorText) {
+        if (!(this_present_errorText && that_present_errorText))
+          return false;
+        if (!this.errorText.equals(that.errorText))
+          return false;
+      }
+
+      boolean this_present_failedUrl = true && this.isSetFailedUrl();
+      boolean that_present_failedUrl = true && that.isSetFailedUrl();
+      if (this_present_failedUrl || that_present_failedUrl) {
+        if (!(this_present_failedUrl && that_present_failedUrl))
+          return false;
+        if (!this.failedUrl.equals(that.failedUrl))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + cid;
+
+      hashCode = hashCode * 8191 + bid;
+
+      hashCode = hashCode * 8191 + errorCode;
+
+      hashCode = hashCode * 8191 + ((isSetErrorText()) ? 131071 : 524287);
+      if (isSetErrorText())
+        hashCode = hashCode * 8191 + errorText.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetFailedUrl()) ? 131071 : 524287);
+      if (isSetFailedUrl())
+        hashCode = hashCode * 8191 + failedUrl.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(onLoadError_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetCid(), other.isSetCid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetCid()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.cid, other.cid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetBid()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetErrorCode(), other.isSetErrorCode());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetErrorCode()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.errorCode, other.errorCode);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetErrorText(), other.isSetErrorText());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetErrorText()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.errorText, other.errorText);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetFailedUrl(), other.isSetFailedUrl());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetFailedUrl()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.failedUrl, other.failedUrl);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("onLoadError_args(");
+      boolean first = true;
+
+      sb.append("cid:");
+      sb.append(this.cid);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("bid:");
+      sb.append(this.bid);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("errorCode:");
+      sb.append(this.errorCode);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("errorText:");
+      if (this.errorText == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.errorText);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("failedUrl:");
+      if (this.failedUrl == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.failedUrl);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class onLoadError_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public onLoadError_argsStandardScheme getScheme() {
+        return new onLoadError_argsStandardScheme();
+      }
+    }
+
+    private static class onLoadError_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<onLoadError_args> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, onLoadError_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // CID
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.cid = iprot.readI32();
+                struct.setCidIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // BID
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.bid = iprot.readI32();
+                struct.setBidIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 3: // ERROR_CODE
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.errorCode = iprot.readI32();
+                struct.setErrorCodeIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 4: // ERROR_TEXT
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.errorText = iprot.readString();
+                struct.setErrorTextIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 5: // FAILED_URL
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.failedUrl = iprot.readString();
+                struct.setFailedUrlIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, onLoadError_args struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(CID_FIELD_DESC);
+        oprot.writeI32(struct.cid);
+        oprot.writeFieldEnd();
+        oprot.writeFieldBegin(BID_FIELD_DESC);
+        oprot.writeI32(struct.bid);
+        oprot.writeFieldEnd();
+        oprot.writeFieldBegin(ERROR_CODE_FIELD_DESC);
+        oprot.writeI32(struct.errorCode);
+        oprot.writeFieldEnd();
+        if (struct.errorText != null) {
+          oprot.writeFieldBegin(ERROR_TEXT_FIELD_DESC);
+          oprot.writeString(struct.errorText);
+          oprot.writeFieldEnd();
+        }
+        if (struct.failedUrl != null) {
+          oprot.writeFieldBegin(FAILED_URL_FIELD_DESC);
+          oprot.writeString(struct.failedUrl);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class onLoadError_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public onLoadError_argsTupleScheme getScheme() {
+        return new onLoadError_argsTupleScheme();
+      }
+    }
+
+    private static class onLoadError_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<onLoadError_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, onLoadError_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetCid()) {
+          optionals.set(0);
+        }
+        if (struct.isSetBid()) {
+          optionals.set(1);
+        }
+        if (struct.isSetErrorCode()) {
+          optionals.set(2);
+        }
+        if (struct.isSetErrorText()) {
+          optionals.set(3);
+        }
+        if (struct.isSetFailedUrl()) {
+          optionals.set(4);
+        }
+        oprot.writeBitSet(optionals, 5);
+        if (struct.isSetCid()) {
+          oprot.writeI32(struct.cid);
+        }
+        if (struct.isSetBid()) {
+          oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetErrorCode()) {
+          oprot.writeI32(struct.errorCode);
+        }
+        if (struct.isSetErrorText()) {
+          oprot.writeString(struct.errorText);
+        }
+        if (struct.isSetFailedUrl()) {
+          oprot.writeString(struct.failedUrl);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, onLoadError_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(5);
+        if (incoming.get(0)) {
+          struct.cid = iprot.readI32();
+          struct.setCidIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.bid = iprot.readI32();
+          struct.setBidIsSet(true);
+        }
+        if (incoming.get(2)) {
+          struct.errorCode = iprot.readI32();
+          struct.setErrorCodeIsSet(true);
+        }
+        if (incoming.get(3)) {
+          struct.errorText = iprot.readString();
+          struct.setErrorTextIsSet(true);
+        }
+        if (incoming.get(4)) {
+          struct.failedUrl = iprot.readString();
+          struct.setFailedUrlIsSet(true);
         }
       }
     }

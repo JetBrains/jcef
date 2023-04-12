@@ -33,4 +33,12 @@ service ClientHandlers {
    oneway void onAfterCreated(1:i32 cid, 2:i32 bid)
    oneway void doClose(1:i32 cid, 2:i32 bid)
    oneway void onBeforeClose(1:i32 cid, 2:i32 bid)
+
+   //
+   // CefLoadHandler
+   //
+   oneway void onLoadingStateChange(1:i32 cid, 2:i32 bid, 3:bool isLoading, 4:bool canGoBack, 5:bool canGoForward)
+   oneway void onLoadStart(1:i32 cid, 2:i32 bid, 3:i32 transition_type)
+   oneway void onLoadEnd(1:i32 cid, 2:i32 bid, 3:i32 httpStatusCode)
+   oneway void onLoadError(1:i32 cid, 2:i32 bid, 3:i32 errorCode, 4:string errorText, 5:string failedUrl)
 }

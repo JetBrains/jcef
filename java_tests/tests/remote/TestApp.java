@@ -9,8 +9,11 @@ import com.jetbrains.cef.remote.CefRemoteClient;
 import com.jetbrains.cef.remote.CefServer;
 import org.cef.CefSettings;
 import org.cef.browser.CefBrowser;
+import org.cef.browser.CefFrame;
 import org.cef.handler.CefLifeSpanHandlerAdapter;
+import org.cef.handler.CefLoadHandler;
 import org.cef.misc.CefLog;
+import org.cef.network.CefRequest;
 import tests.JBCefOsrComponent;
 import tests.JBCefOsrHandler;
 
@@ -47,6 +50,27 @@ public class TestApp extends JFrame {
             @Override
             public void onBeforeClose(CefBrowser browser) {
                 CefLog.Info("onBeforeClose " + browser);
+            }
+        });
+        client.setLoadHandler(new CefLoadHandler() {
+            @Override
+            public void onLoadingStateChange(CefBrowser browser, boolean isLoading, boolean canGoBack, boolean canGoForward) {
+                CefLog.Info("onLoadingStateChange " + browser + " " + isLoading + ", " + canGoBack + ", " + canGoForward);
+            }
+
+            @Override
+            public void onLoadStart(CefBrowser browser, CefFrame frame, CefRequest.TransitionType transitionType) {
+                CefLog.Info("onLoadStart " + browser + ", " + transitionType);
+            }
+
+            @Override
+            public void onLoadEnd(CefBrowser browser, CefFrame frame, int httpStatusCode) {
+                CefLog.Info("onLoadEnd " + browser + ", " + httpStatusCode);
+            }
+
+            @Override
+            public void onLoadError(CefBrowser browser, CefFrame frame, ErrorCode errorCode, String errorText, String failedUrl) {
+                CefLog.Info("onLoadError " + browser + ", " + errorCode + ", " + errorText);
             }
         });
         CefRemoteBrowser browser = ourServer.createBrowser(client);
