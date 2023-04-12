@@ -20,7 +20,7 @@ function clean {
 }
 export -f clean
 
-RELEASE_PATH="$JCEF_ROOT_DIR"/jcef_build/native/Release
+RELEASE_PATH="$JCEF_ROOT_DIR"/jcef_build/native/${CEF_BUILD_TYPE}
 ARTIFACT=jcef_mac_${TARGET_ARCH}
 
 clean arm64

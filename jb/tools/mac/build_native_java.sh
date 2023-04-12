@@ -24,10 +24,10 @@ cd "$OUT_DIR" || exit 1
 cmake -G "Xcode" -DPROJECT_ARCH="$TARGET_ARCH" ..
 
 echo "*** run xcodebuild..."
-xcodebuild -configuration Release
+xcodebuild -configuration ${CEF_BUILD_TYPE}
 
 echo "*** change @rpath in libjcef.dylib..."
-cd "$OUT_DIR"/native/Release || exit 1
+cd "$OUT_DIR"/native/${CEF_BUILD_TYPE} || exit 1
 install_name_tool -change @rpath/libjvm.dylib @loader_path/server/libjvm.dylib libjcef.dylib
 install_name_tool -change @rpath/libjawt.dylib @loader_path/libjawt.dylib libjcef.dylib
 
