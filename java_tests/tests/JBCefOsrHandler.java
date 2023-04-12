@@ -16,6 +16,8 @@ import java.nio.ByteOrder;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 
@@ -60,6 +62,7 @@ public class JBCefOsrHandler implements CefRenderHandler {
     // jcef thread only
     private Rectangle myPopupBounds = ZERO_RECT;
     private boolean myPopupShown;
+    private final CountDownLatch initLatch = new CountDownLatch(1);
 
     public JBCefOsrHandler(JBCefOsrComponent component, ScreenBoundsProvider screenBoundsProvider) {
         myComponent = component;
@@ -120,6 +123,7 @@ public class JBCefOsrHandler implements CefRenderHandler {
 
     @Override
     public void onPaint(CefBrowser browser, boolean popup, Rectangle[] dirtyRects, ByteBuffer buffer, int width, int height) {
+        initLatch.countDown();
         BufferedImage image = myImage;
         VolatileImage volatileImage = myVolatileImage;
 
@@ -295,5 +299,9 @@ public class JBCefOsrHandler implements CefRenderHandler {
     private Point scaleUp(Point pt) {
         double scale = myScale.getJreBiased();
         return new Point((int)Math.round(pt.x * scale), (int)Math.round(pt.y * scale));
+    }
+
+    public boolean awaitInit() throws InterruptedException {
+        return initLatch.await(5, TimeUnit.SECONDS);
     }
 }

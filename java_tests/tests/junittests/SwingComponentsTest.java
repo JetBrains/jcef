@@ -1,7 +1,7 @@
 package tests.junittests;
 
 import org.cef.misc.CefLog;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import tests.OsrSupport;
@@ -78,8 +78,8 @@ public class SwingComponentsTest {
             PointerInfo pi2 = MouseInfo.getPointerInfo();
             CefLog.Debug("p2: %s", pi2.getLocation());
 
-            Assert.assertEquals(delta, pi2.getLocation().x - pi1.getLocation().x);
-            Assert.assertEquals(delta, pi2.getLocation().y - pi1.getLocation().y);
+            Assertions.assertEquals(delta, pi2.getLocation().x - pi1.getLocation().x);
+            Assertions.assertEquals(delta, pi2.getLocation().y - pi1.getLocation().y);
 
             CefLog.Debug("Moving mouse works correctly, now test listener for mouse_pressed event");
 
@@ -114,7 +114,7 @@ public class SwingComponentsTest {
                 robot.mouseWheel(1);
                 robot.delay(100);
 
-                Assert.fail("mouse_press event wasn't received by frame (probably it wasn't emitted from robot)");
+                Assertions.fail("mouse_press event wasn't received by frame (probably it wasn't emitted from robot)");
             }
 
             CefLog.Info("Test PASSED");
@@ -236,7 +236,7 @@ public class SwingComponentsTest {
                 if(!paintLatch.await(5, TimeUnit.SECONDS)) {
                     throw new RuntimeException("Paint wasn't occured in 5 seconds");
                 }
-                Assert.assertTrue(paintLatch.getCount() < 1);
+                Assertions.assertTrue(paintLatch.getCount() < 1);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             } catch (InvocationTargetException e) {

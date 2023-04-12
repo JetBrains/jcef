@@ -13,6 +13,7 @@ import org.cef.callback.CefRunFileDialogCallback;
 import org.cef.callback.CefStringVisitor;
 import org.cef.handler.*;
 import org.cef.handler.CefDialogHandler.FileDialogMode;
+import org.cef.input.CefTouchEvent;
 import org.cef.misc.CefLog;
 import org.cef.misc.CefPdfPrintSettings;
 import org.cef.network.CefRequest;
@@ -815,6 +816,15 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
         }
     }
 
+    @Override
+    public void sendTouchEvent(CefTouchEvent e) {
+        try {
+            N_SendTouchEvent(e);
+        } catch (UnsatisfiedLinkError ule) {
+            ule.printStackTrace();
+        }
+    }
+
     /**
      * Call this method when the user drags the mouse into the web view (before
      * calling DragTargetDragOver/DragTargetLeave/DragTargetDrop).
@@ -1008,6 +1018,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     private final native void N_Invalidate();
     private final native void N_NotifyScreenInfoChanged();
     private final native void N_SendKeyEvent(KeyEvent e);
+    private final native void N_SendTouchEvent(CefTouchEvent e);
     private final native void N_SendMouseEvent(MouseEvent e);
     private final native void N_SendMouseWheelEvent(MouseWheelEvent e);
     private final native void N_DragTargetDragEnter(

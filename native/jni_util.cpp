@@ -963,6 +963,43 @@ bool CallJNIMethodC_V(JNIEnv* env,
   return false;
 }
 
+bool CallJNIMethodF_V(JNIEnv* env,
+                      jclass cls,
+                      jobject obj,
+                      const char* method_name,
+                      float* value) {
+  jmethodID methodID = env->GetMethodID(cls, method_name, "()F");
+  if (methodID) {
+    *value = env->CallFloatMethod(obj, methodID);
+    return true;
+  }
+  env->ExceptionClear();
+  return false;
+}
+
+bool CallJNIMethodObject_V(JNIEnv* env,
+                           jclass cls,
+                           jobject obj,
+                           const char* method_name,
+                           const char* signature,
+                           ScopedJNIObjectResult* value) {
+  jmethodID methodID = env->GetMethodID(cls, method_name, signature);
+
+  bool success = false;
+  if (methodID) {
+    *value = env->CallObjectMethod(obj, methodID);
+    success = true;
+  }
+
+  if (env->ExceptionOccurred()) {
+    env->ExceptionDescribe();
+    env->ExceptionClear();
+    success = false;
+  }
+
+  return success;
+}
+
 CefSize GetJNISize(JNIEnv* env, jobject obj) {
   CefSize size;
 
@@ -1076,4 +1113,3 @@ long GetJavaSystemPropertyLong(std::string key, JNIEnv * env, long defaultVal) {
   }
   return val;
 }
-

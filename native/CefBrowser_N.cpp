@@ -1852,6 +1852,75 @@ Java_org_cef_browser_CefBrowser_1N_N_1SendKeyEvent(JNIEnv* env,
   browser->GetHost()->SendKeyEvent(cef_event);
 }
 
+namespace {
+
+cef_touch_event_type_t GetTouchEventType(JNIEnv* env,
+                                         const ScopedJNIObjectResult& jValue) {
+  const char* CLASS_NAME = "org/cef/input/CefTouchEvent$EventType";
+  if (IsJNIEnumValue(env, jValue, CLASS_NAME, "RELEASED")) {
+    return CEF_TET_RELEASED;
+  } else if (IsJNIEnumValue(env, jValue, CLASS_NAME, "PRESSED")) {
+    return CEF_TET_PRESSED;
+  } else if (IsJNIEnumValue(env, jValue, CLASS_NAME, "MOVED")) {
+    return CEF_TET_MOVED;
+  }
+
+  return CEF_TET_CANCELLED;
+}
+
+cef_pointer_type_t GetPointerType(JNIEnv* env,
+                                  const ScopedJNIObjectResult& jValue) {
+  const char* CLASS_NAME = "org/cef/input/CefTouchEvent$PointerType";
+  if (IsJNIEnumValue(env, jValue, CLASS_NAME, "TOUCH")) {
+    return CEF_POINTER_TYPE_TOUCH;
+  } else if (IsJNIEnumValue(env, jValue, CLASS_NAME, "MOUSE")) {
+    return CEF_POINTER_TYPE_MOUSE;
+  } else if (IsJNIEnumValue(env, jValue, CLASS_NAME, "PEN")) {
+    return CEF_POINTER_TYPE_PEN;
+  } else if (IsJNIEnumValue(env, jValue, CLASS_NAME, "ERASER")) {
+    return CEF_POINTER_TYPE_ERASER;
+  }
+
+  return CEF_POINTER_TYPE_UNKNOWN;
+}
+
+}  // namespace
+
+void Java_org_cef_browser_CefBrowser_1N_N_1SendTouchEvent(JNIEnv* env,
+                                                          jobject obj,
+                                                          jobject jEvent) {
+  CefRefPtr<CefBrowser> browser = JNI_GET_BROWSER_OR_RETURN(env, obj);
+  ScopedJNIClass cls(env, env->GetObjectClass(jEvent));
+  if (!cls)
+    return;
+
+  ScopedJNIObjectResult jEventType(env);
+  int modifiers;
+  ScopedJNIObjectResult jPointerType(env);
+
+  cef_touch_event_t event = {};
+  if (!CallJNIMethodI_V(env, cls, jEvent, "getId", &event.id) ||
+      !CallJNIMethodF_V(env, cls, jEvent, "getX", &event.x) ||
+      !CallJNIMethodF_V(env, cls, jEvent, "getY", &event.y) ||
+      !CallJNIMethodF_V(env, cls, jEvent, "getRadiusX", &event.radius_x) ||
+      !CallJNIMethodF_V(env, cls, jEvent, "getRadiusY", &event.radius_y) ||
+      !CallJNIMethodF_V(env, cls, jEvent, "getRotationAngle", &event.rotation_angle) ||
+      !CallJNIMethodObject_V(env, cls, jEvent, "getType", "()Lorg/cef/input/CefTouchEvent$EventType;", &jEventType) ||
+      !CallJNIMethodF_V(env, cls, jEvent, "getPressure", &event.pressure) ||
+      !CallJNIMethodI_V(env, cls, jEvent, "getModifiersEx", &modifiers) ||
+      !CallJNIMethodObject_V(env, cls, jEvent, "getPointerType", "()Lorg/cef/input/CefTouchEvent$PointerType;", &jPointerType)
+      ) {
+    LOG(ERROR) << "SendTouchEvent: Failed to access touch event data";
+    return;
+  }
+
+  event.type = GetTouchEventType(env, jEventType);
+  event.modifiers = GetCefModifiers(env, cls, modifiers);
+  event.pointer_type = GetPointerType(env, jPointerType);
+
+  browser->GetHost()->SendTouchEvent(event);
+}
+
 JNIEXPORT void JNICALL
 Java_org_cef_browser_CefBrowser_1N_N_1SendMouseEvent(JNIEnv* env,
                                                      jobject obj,
