@@ -11,7 +11,6 @@ import org.apache.thrift.server.TSimpleServer;
 import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
-import org.cef.handler.CefNativeRenderHandler;
 import org.cef.misc.CefLog;
 
 import java.io.PrintWriter;
@@ -32,29 +31,21 @@ public class CefServer {
     private TProtocol myProtocol;
     private Server.Client myCefServerClient;
 
-    public CefRemoteBrowser createBrowser(CefNativeRenderHandler renderHandle) {
-        int bid = createRemoteBrowser(renderHandle);
-        if (bid < 0)
-            return null;
-
-        return new CefRemoteBrowser(this, bid);
-    }
-
-    // returns remote browser id (or negative value when error occured)
-    private int createRemoteBrowser(CefNativeRenderHandler renderHandle) {
-        int result;
+    public CefRemoteBrowser createBrowser(CefRemoteClient remoteClient) {
+        int newBid;
         try {
-            result = myCefServerClient.createBrowser();
+            newBid = myCefServerClient.createBrowser(remoteClient.getCid());
         } catch (TException e) {
             onThriftException(e);
-            return -1;
+            return null;
         }
-        myClientHandlersImpl.registerRenderHandler(result, renderHandle);
+        CefRemoteBrowser result = new CefRemoteBrowser(this, newBid, remoteClient);
+        myClientHandlersImpl.registerRemoteClient(remoteClient);
         return result;
     }
 
     // closes remote browser
-    public void closeBrowser(int bid) {
+    public void closeBrowser(int cid, int bid) {
         try {
             // TODO: support force flag
             String err = myCefServerClient.closeBrowser(bid);
@@ -64,7 +55,7 @@ public class CefServer {
             onThriftException(e);
         }
 
-        myClientHandlersImpl.unregister(bid);
+        myClientHandlersImpl.unregisterBrowser(cid, bid);
     }
 
     // invokes method of remote browser

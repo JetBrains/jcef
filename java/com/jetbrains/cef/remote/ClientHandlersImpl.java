@@ -2,6 +2,7 @@ package com.jetbrains.cef.remote;
 
 import com.jetbrains.cef.remote.thrift_codegen.ClientHandlers;
 import org.apache.thrift.TException;
+import org.cef.handler.CefLifeSpanHandler;
 import org.cef.handler.CefNativeRenderHandler;
 import org.cef.handler.CefRenderHandler;
 import org.cef.handler.CefScreenInfo;
@@ -10,24 +11,30 @@ import org.cef.misc.CefLog;
 import java.awt.*;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ClientHandlersImpl implements ClientHandlers.Iface {
-    private final Map<Integer, CefNativeRenderHandler> myBid2RenderHandler = new HashMap<>();
+    private final Map<Integer, CefRemoteClient> myCid2RemoteClient = new ConcurrentHashMap<>();
 
-    void registerRenderHandler(int bid, CefNativeRenderHandler handler) {
-        if (handler == null) {
-            CefLog.Error("tried to register null render handler, bid=%d", bid);
+    void registerRemoteClient(CefRemoteClient remoteClient) {
+        if (remoteClient == null) {
+            CefLog.Error("tried to register null remoteClient");
             return;
         }
-        myBid2RenderHandler.put(bid, handler);
+        myCid2RemoteClient.put(remoteClient.getCid(), remoteClient);
     }
 
-    public void unregister(int bid) {
-        CefNativeRenderHandler rh = myBid2RenderHandler.remove(bid);
-        if (rh != null)
-            rh.disposeNativeResources();
+    public void unregisterClient(int cid) {
+        CefRemoteClient client = myCid2RemoteClient.remove(cid);
+        if (client != null)
+            client.disposeClient();
+    }
+
+    public void unregisterBrowser(int cid, int bid) {
+        CefRemoteClient client = myCid2RemoteClient.get(cid);
+        if (client != null)
+            client.unregister(bid);
     }
 
     @Override
@@ -41,23 +48,25 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     }
 
     @Override
-    public ByteBuffer getInfo(int bid, String request, ByteBuffer buffer) throws TException {
-        CefRenderHandler rh = myBid2RenderHandler.get(bid);
+    public ByteBuffer getInfo(int cid, int bid, String request, ByteBuffer buffer) throws TException {
+        CefRemoteClient rc = myCid2RemoteClient.get(cid);
+        CefRenderHandler rh = rc != null ? rc.getRenderHandler() : null;
         if (rh == null) {
             CefLog.Error("getInfo, rh == null");
             ByteBuffer result = ByteBuffer.allocate(4);
             result.putInt(0);
             return result;
         }
+        CefRemoteBrowser browser = rc.getBrowserByBid(bid);
 
         request = request == null ? "" : request.toLowerCase();
         int[] data = new int[0];
         if ("viewrect".equals(request)) {
-            Rectangle rect = rh.getViewRect(null);
+            Rectangle rect = rh.getViewRect(browser);
             data = new int[]{rect.x, rect.y, rect.width, rect.height};
         } else if ("screeninfo".equals(request)) {
             CefScreenInfo csi = new CefScreenInfo();
-            boolean success = rh.getScreenInfo(null, csi);
+            boolean success = rh.getScreenInfo(browser, csi);
             if (success) {
                 data = new int[]{
                         (int) csi.device_scale_factor,
@@ -78,7 +87,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
             }
         } else if ("screenpoint".equals(request)) {
             Point pt = new Point(buffer.getInt(), buffer.getInt());
-            Point res = rh.getScreenPoint(null, pt);
+            Point res = rh.getScreenPoint(browser, pt);
             data = new int[]{res.x, res.y};
         } else {
             CefLog.Error("getInfo, unknown request: " + request);
@@ -94,13 +103,75 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     }
 
     @Override
-    public void onPaint(int bid, boolean popup, int dirtyRectsCount, String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height) throws TException {
-        CefNativeRenderHandler rh = myBid2RenderHandler.get(bid);
+    public void onPaint(int cid, int bid, boolean popup, int dirtyRectsCount, String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height) throws TException {
+        CefRemoteClient rc = myCid2RemoteClient.get(cid);
+        if (rc == null) {
+            CefLog.Error("onPaint, rc == null");
+            return;
+        }
+
+        CefNativeRenderHandler rh = (CefNativeRenderHandler)rc.getRenderHandler();
         if (rh == null) {
             CefLog.Error("onPaint, rh == null");
             return;
         }
 
-        rh.onPaintWithSharedMem(null, popup, dirtyRectsCount, sharedMemName, sharedMemHandle, recreateHandle, width, height);
+        CefRemoteBrowser browser = rc.getBrowserByBid(bid);
+        rh.onPaintWithSharedMem(browser, popup, dirtyRectsCount, sharedMemName, sharedMemHandle, recreateHandle, width, height);
+    }
+
+    private static class LifeSpanHandlerWr {
+        CefRemoteClient rc;
+        CefLifeSpanHandler lsh;
+    };
+    private LifeSpanHandlerWr _getCefLifeSpanHandler(int cid) {
+        LifeSpanHandlerWr r = new LifeSpanHandlerWr();
+        r.rc = myCid2RemoteClient.get(cid);
+        if (r.rc == null) {
+            CefLog.Error("_getCefLifeSpanHandler, rc == null");
+            return null;
+        }
+        r.lsh = r.rc.getLifeSpanHandler();
+        if (r.lsh == null) {
+            CefLog.Error("_getCefLifeSpanHandler, lsh == null");
+            return null;
+        }
+        return r;
+    }
+
+    @Override
+    public void onBeforePopup(int cid, int bid, String url, boolean gesture) throws TException {
+        LifeSpanHandlerWr r = _getCefLifeSpanHandler(cid);
+        if (r == null) return;
+
+        CefRemoteBrowser browser = r.rc.getBrowserByBid(bid);
+        r.lsh.onBeforePopup(browser, null, url, "");
+    }
+
+    @Override
+    public void onAfterCreated(int cid, int bid) throws TException {
+        LifeSpanHandlerWr r = _getCefLifeSpanHandler(cid);
+        if (r == null) return;
+
+        CefRemoteBrowser browser = r.rc.getBrowserByBid(bid);
+        r.lsh.onAfterCreated(browser);
+    }
+
+    @Override
+    public void doClose(int cid, int bid) throws TException {
+        LifeSpanHandlerWr r = _getCefLifeSpanHandler(cid);
+        if (r == null) return;
+
+        CefRemoteBrowser browser = r.rc.getBrowserByBid(bid);
+        r.lsh.doClose(browser);
+    }
+
+    @Override
+    public void onBeforeClose(int cid, int bid) throws TException {
+        LifeSpanHandlerWr r = _getCefLifeSpanHandler(cid);
+        if (r == null) return;
+
+        CefRemoteBrowser browser = r.rc.getBrowserByBid(bid);
+        r.lsh.onBeforeClose(browser);
     }
 }

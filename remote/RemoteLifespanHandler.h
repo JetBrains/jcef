@@ -1,11 +1,13 @@
 #ifndef JCEF_REMOTELIFESPANHANDLER_H
 #define JCEF_REMOTELIFESPANHANDLER_H
 
+#include <thrift/Thrift.h>
 #include "include/cef_life_span_handler.h"
 
+class RemoteClientHandler;
 class RemoteLifespanHandler : public CefLifeSpanHandler {
  public:
-  RemoteLifespanHandler();
+  RemoteLifespanHandler(RemoteClientHandler & owner);
   CefRefPtr<CefBrowser> getBrowser();
   bool OnBeforePopup(CefRefPtr<CefBrowser> browser,
                      CefRefPtr<CefFrame> frame,
@@ -23,7 +25,10 @@ class RemoteLifespanHandler : public CefLifeSpanHandler {
   bool DoClose(CefRefPtr<CefBrowser> browser) override;
   void OnBeforeClose(CefRefPtr<CefBrowser> browser) override;
  protected:
+  RemoteClientHandler & myOwner;
   CefRefPtr<CefBrowser> myBrowser = nullptr;
+
+  void _onThriftException(apache::thrift::TException e);
 
   IMPLEMENT_REFCOUNTING(RemoteLifespanHandler);
 };

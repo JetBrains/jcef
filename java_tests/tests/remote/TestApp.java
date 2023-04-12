@@ -5,7 +5,11 @@
 package tests.remote;
 
 import com.jetbrains.cef.remote.CefRemoteBrowser;
+import com.jetbrains.cef.remote.CefRemoteClient;
 import com.jetbrains.cef.remote.CefServer;
+import org.cef.CefSettings;
+import org.cef.browser.CefBrowser;
+import org.cef.handler.CefLifeSpanHandlerAdapter;
 import org.cef.misc.CefLog;
 import tests.JBCefOsrComponent;
 import tests.JBCefOsrHandler;
@@ -19,6 +23,7 @@ public class TestApp extends JFrame {
     static CefServer ourServer;
 
     public static void main(String[] args) {
+        CefLog.init(null, CefSettings.LogSeverity.LOGSEVERITY_VERBOSE);
         ourServer = new CefServer();
         if (!ourServer.start()) {
             CefLog.Error("can't connect to CefServer");
@@ -27,7 +32,24 @@ public class TestApp extends JFrame {
 
         JBCefOsrComponent osrComponent = new JBCefOsrComponent();
         JBCefOsrHandler osrHandler = new JBCefOsrHandler(osrComponent, null);
-        CefRemoteBrowser browser = ourServer.createBrowser(osrHandler);
+        CefRemoteClient client = new CefRemoteClient();
+        client.setRenderHandler(osrHandler);
+        client.setLifeSpanHandler(new CefLifeSpanHandlerAdapter() {
+            @Override
+            public void onAfterCreated(CefBrowser browser) {
+                CefLog.Info("onAfterCreated " + browser);
+            }
+            @Override
+            public boolean doClose(CefBrowser browser) {
+                CefLog.Info("doClose " + browser);
+                return false;
+            }
+            @Override
+            public void onBeforeClose(CefBrowser browser) {
+                CefLog.Info("onBeforeClose " + browser);
+            }
+        });
+        CefRemoteBrowser browser = ourServer.createBrowser(client);
         if (browser == null) {
             CefLog.Error("can't create remote browser");
             return;

@@ -1,11 +1,14 @@
 #include "RemoteClientHandler.h"
 #include "RemoteLifespanHandler.h"
-
+#include "RemoteRenderHandler.h"
 #include "log/Log.h"
 
-RemoteClientHandler::RemoteClientHandler(CefRefPtr<CefRenderHandler> remoteRenderHandler)
-    : myRemoteRenderHandler(remoteRenderHandler), myRemoteLisfespanHandler(new RemoteLifespanHandler())
-{}
+RemoteClientHandler::RemoteClientHandler(std::shared_ptr<BackwardConnection> connection, int cid, int bid)
+    : myBackwardConnection(connection),
+      myCid(cid),
+      myBid(bid),
+      myRemoteRenderHandler(new RemoteRenderHandler(*this)),
+      myRemoteLisfespanHandler(new RemoteLifespanHandler(*this)) {}
 
 CefRefPtr<CefContextMenuHandler> RemoteClientHandler::GetContextMenuHandler() {
     Log::error("UNIMPLEMENTED: RemoteClientHandler::GetContextMenuHandler");
@@ -81,5 +84,9 @@ bool RemoteClientHandler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser
                                              CefRefPtr<CefProcessMessage> message) {
     Log::error("UNIMPLEMENTED: RemoteClientHandler::OnProcessMessageReceived");
     return false;
+}
+
+std::shared_ptr<BackwardConnection> RemoteClientHandler::getBackwardConnection() {
+    return myBackwardConnection;
 }
 

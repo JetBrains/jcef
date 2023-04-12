@@ -13,7 +13,7 @@ public class Server {
 
     public int connect() throws org.apache.thrift.TException;
 
-    public int createBrowser() throws org.apache.thrift.TException;
+    public int createBrowser(int cid) throws org.apache.thrift.TException;
 
     public java.lang.String closeBrowser(int bid) throws org.apache.thrift.TException;
 
@@ -27,7 +27,7 @@ public class Server {
 
     public void connect(org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException;
 
-    public void createBrowser(org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException;
+    public void createBrowser(int cid, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException;
 
     public void closeBrowser(int bid, org.apache.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws org.apache.thrift.TException;
 
@@ -79,15 +79,16 @@ public class Server {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "connect failed: unknown result");
     }
 
-    public int createBrowser() throws org.apache.thrift.TException
+    public int createBrowser(int cid) throws org.apache.thrift.TException
     {
-      send_createBrowser();
+      send_createBrowser(cid);
       return recv_createBrowser();
     }
 
-    public void send_createBrowser() throws org.apache.thrift.TException
+    public void send_createBrowser(int cid) throws org.apache.thrift.TException
     {
       createBrowser_args args = new createBrowser_args();
+      args.setCid(cid);
       sendBase("createBrowser", args);
     }
 
@@ -197,21 +198,24 @@ public class Server {
       }
     }
 
-    public void createBrowser(org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException {
+    public void createBrowser(int cid, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      createBrowser_call method_call = new createBrowser_call(resultHandler, this, ___protocolFactory, ___transport);
+      createBrowser_call method_call = new createBrowser_call(cid, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
     public static class createBrowser_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.Integer> {
-      public createBrowser_call(org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private int cid;
+      public createBrowser_call(int cid, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
+        this.cid = cid;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("createBrowser", org.apache.thrift.protocol.TMessageType.CALL, 0));
         createBrowser_args args = new createBrowser_args();
+        args.setCid(cid);
         args.write(prot);
         prot.writeMessageEnd();
       }
@@ -395,7 +399,7 @@ public class Server {
 
       public createBrowser_result getResult(I iface, createBrowser_args args) throws org.apache.thrift.TException {
         createBrowser_result result = new createBrowser_result();
-        result.success = iface.createBrowser();
+        result.success = iface.createBrowser(args.cid);
         result.setSuccessIsSet(true);
         return result;
       }
@@ -615,7 +619,7 @@ public class Server {
       }
 
       public void start(I iface, createBrowser_args args, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException {
-        iface.createBrowser(resultHandler);
+        iface.createBrowser(args.cid,resultHandler);
       }
     }
 
@@ -1367,14 +1371,16 @@ public class Server {
   public static class createBrowser_args implements org.apache.thrift.TBase<createBrowser_args, createBrowser_args._Fields>, java.io.Serializable, Cloneable, Comparable<createBrowser_args>   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("createBrowser_args");
 
+    private static final org.apache.thrift.protocol.TField CID_FIELD_DESC = new org.apache.thrift.protocol.TField("cid", org.apache.thrift.protocol.TType.I32, (short)-1);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new createBrowser_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new createBrowser_argsTupleSchemeFactory();
 
+    public int cid; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-;
+      CID((short)-1, "cid");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -1390,6 +1396,8 @@ public class Server {
       @org.apache.thrift.annotation.Nullable
       public static _Fields findByThriftId(int fieldId) {
         switch(fieldId) {
+          case -1: // CID
+            return CID;
           default:
             return null;
         }
@@ -1429,9 +1437,15 @@ public class Server {
         return _fieldName;
       }
     }
+
+    // isset id assignments
+    private static final int __CID_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
     public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CID, new org.apache.thrift.meta_data.FieldMetaData("cid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(createBrowser_args.class, metaDataMap);
     }
@@ -1439,10 +1453,20 @@ public class Server {
     public createBrowser_args() {
     }
 
+    public createBrowser_args(
+      int cid)
+    {
+      this();
+      this.cid = cid;
+      setCidIsSet(true);
+    }
+
     /**
      * Performs a deep copy on <i>other</i>.
      */
     public createBrowser_args(createBrowser_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.cid = other.cid;
     }
 
     public createBrowser_args deepCopy() {
@@ -1451,16 +1475,52 @@ public class Server {
 
     @Override
     public void clear() {
+      setCidIsSet(false);
+      this.cid = 0;
+    }
+
+    public int getCid() {
+      return this.cid;
+    }
+
+    public createBrowser_args setCid(int cid) {
+      this.cid = cid;
+      setCidIsSet(true);
+      return this;
+    }
+
+    public void unsetCid() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __CID_ISSET_ID);
+    }
+
+    /** Returns true if field cid is set (has been assigned a value) and false otherwise */
+    public boolean isSetCid() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __CID_ISSET_ID);
+    }
+
+    public void setCidIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __CID_ISSET_ID, value);
     }
 
     public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
       switch (field) {
+      case CID:
+        if (value == null) {
+          unsetCid();
+        } else {
+          setCid((java.lang.Integer)value);
+        }
+        break;
+
       }
     }
 
     @org.apache.thrift.annotation.Nullable
     public java.lang.Object getFieldValue(_Fields field) {
       switch (field) {
+      case CID:
+        return getCid();
+
       }
       throw new java.lang.IllegalStateException();
     }
@@ -1472,6 +1532,8 @@ public class Server {
       }
 
       switch (field) {
+      case CID:
+        return isSetCid();
       }
       throw new java.lang.IllegalStateException();
     }
@@ -1489,12 +1551,23 @@ public class Server {
       if (this == that)
         return true;
 
+      boolean this_present_cid = true;
+      boolean that_present_cid = true;
+      if (this_present_cid || that_present_cid) {
+        if (!(this_present_cid && that_present_cid))
+          return false;
+        if (this.cid != that.cid)
+          return false;
+      }
+
       return true;
     }
 
     @Override
     public int hashCode() {
       int hashCode = 1;
+
+      hashCode = hashCode * 8191 + cid;
 
       return hashCode;
     }
@@ -1507,6 +1580,16 @@ public class Server {
 
       int lastComparison = 0;
 
+      lastComparison = java.lang.Boolean.compare(isSetCid(), other.isSetCid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetCid()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.cid, other.cid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
       return 0;
     }
 
@@ -1528,6 +1611,9 @@ public class Server {
       java.lang.StringBuilder sb = new java.lang.StringBuilder("createBrowser_args(");
       boolean first = true;
 
+      sb.append("cid:");
+      sb.append(this.cid);
+      first = false;
       sb.append(")");
       return sb.toString();
     }
@@ -1547,6 +1633,8 @@ public class Server {
 
     private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
       try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
       } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
@@ -1571,6 +1659,14 @@ public class Server {
             break;
           }
           switch (schemeField.id) {
+            case -1: // CID
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.cid = iprot.readI32();
+                struct.setCidIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
             default:
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
           }
@@ -1586,6 +1682,9 @@ public class Server {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(CID_FIELD_DESC);
+        oprot.writeI32(struct.cid);
+        oprot.writeFieldEnd();
         oprot.writeFieldStop();
         oprot.writeStructEnd();
       }
@@ -1603,11 +1702,24 @@ public class Server {
       @Override
       public void write(org.apache.thrift.protocol.TProtocol prot, createBrowser_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetCid()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetCid()) {
+          oprot.writeI32(struct.cid);
+        }
       }
 
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, createBrowser_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.cid = iprot.readI32();
+          struct.setCidIsSet(true);
+        }
       }
     }
 

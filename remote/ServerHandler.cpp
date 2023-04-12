@@ -1,29 +1,10 @@
 #include "ServerHandler.h"
 
 #include <thrift/transport/TSocket.h>
-#include <thrift/protocol/TBinaryProtocol.h>
-#include <thrift/transport/TTransportUtils.h>
 
-#include "RemoteRenderHandler.h"
 #include "RemoteLifespanHandler.h"
 
-BackwardConnection::BackwardConnection() {
-  myTransport = std::make_shared<TBufferedTransport>(std::make_shared<TSocket>("localhost", 9091));
-  myClientHandlers = std::make_shared<ClientHandlersClient>(std::make_shared<TBinaryProtocol>(myTransport));
-
-  myTransport->open();
-  const int32_t backwardCid = myClientHandlers->connect();
-  Log::debug("backward connection to client established, backwardCid=%d", backwardCid);
-}
-
-void BackwardConnection::close() {
-  if (myClientHandlers != nullptr) {
-    myClientHandlers = nullptr;
-
-    myTransport->close();
-    myTransport = nullptr;
-  }
-}
+using namespace apache::thrift;
 
 ServerHandler::~ServerHandler() {
   try {
@@ -55,7 +36,7 @@ int32_t ServerHandler::connect() {
   return cid++;
 }
 
-int32_t ServerHandler::createBrowser() {
+int32_t ServerHandler::createBrowser(int cid) {
   int bid = myRemoteBrowsers.size();
   for (int c = 0, cEnd = myRemoteBrowsers.size(); c < cEnd; ++c)
     if (myRemoteBrowsers[c] != nullptr) {
@@ -63,7 +44,7 @@ int32_t ServerHandler::createBrowser() {
       break;
     }
 
-  CefRefPtr<RemoteClientHandler> clienthandler = new RemoteClientHandler(new RemoteRenderHandler(myBackwardConnection, bid));
+  CefRefPtr<RemoteClientHandler> clienthandler = new RemoteClientHandler(myBackwardConnection, cid, bid);
 
   CefWindowInfo windowInfo;
   windowInfo.SetAsWindowless(0);
@@ -74,10 +55,10 @@ int32_t ServerHandler::createBrowser() {
   bool result = CefBrowserHost::CreateBrowser(windowInfo, clienthandler, strUrl,
                                               settings, nullptr, nullptr);
   if (!result) {
-    Log::error( "failed to create browser with bid=%d", bid);
+    Log::error( "failed to create browser with cid=%d, bid=%d", cid, bid);
     return -1;
   }
-  Log::debug("browser successfully created, bid=%d", bid);
+  Log::debug("browser successfully created, cid=%d, bid=%d", cid, bid);
 
   if (bid >= 0 && bid < myRemoteBrowsers.size())
     myRemoteBrowsers[bid] = clienthandler;

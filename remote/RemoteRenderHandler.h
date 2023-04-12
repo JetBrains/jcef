@@ -1,17 +1,16 @@
 #ifndef IPC_JAVARENDERHANDLER_H
 #define IPC_JAVARENDERHANDLER_H
 
-#include "include/cef_render_handler.h"
-
-#include "./gen-cpp/ClientHandlers.h"
-
 #include <boost/interprocess/managed_shared_memory.hpp>
 
-#include "ServerHandler.h"
+#include "./gen-cpp/ClientHandlers.h"
+#include "Utils.h"
+#include "include/cef_render_handler.h"
 
+class RemoteClientHandler;
 class RemoteRenderHandler : public CefRenderHandler {
 public:
- explicit RemoteRenderHandler(std::shared_ptr<BackwardConnection> connection, int bid);
+ explicit RemoteRenderHandler(RemoteClientHandler & owner);
  ~RemoteRenderHandler() override;
 
  virtual bool GetRootScreenRect(CefRefPtr<CefBrowser> browser,
@@ -51,9 +50,8 @@ public:
                                 DragOperation operation) override;
 
 protected:
-  std::shared_ptr<BackwardConnection> myBackwardConnection;
+  RemoteClientHandler & myOwner;
 
-  const int myBid;
   char mySharedMemName[64];
 
   boost::interprocess::managed_shared_memory::handle_t mySharedMemHandle;

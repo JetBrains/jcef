@@ -18,6 +18,8 @@ using namespace apache::thrift::protocol;
 using namespace apache::thrift::transport;
 using namespace apache::thrift::server;
 
+using namespace thrift_codegen;
+
 /*
   ServerIfFactory is code generated.
   ServerCloneFactory is useful for getting access to the server side of the

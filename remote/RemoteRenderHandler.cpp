@@ -1,4 +1,5 @@
 #include "RemoteRenderHandler.h"
+#include "RemoteClientHandler.h"
 
 #include <iostream>
 #include <chrono>
@@ -10,9 +11,8 @@ using namespace std::chrono;
 using namespace thrift_codegen;
 using namespace boost::interprocess;
 
-RemoteRenderHandler::RemoteRenderHandler(std::shared_ptr<BackwardConnection> connection, int bid)
-    : myBackwardConnection(connection), myBid(bid) {
-    std::sprintf(mySharedMemName, "CefSharedRaster%d", myBid);
+RemoteRenderHandler::RemoteRenderHandler(RemoteClientHandler & owner) : myOwner(owner) {
+    std::sprintf(mySharedMemName, "CefSharedRasterC%dB%d", myOwner.getCid(), myOwner.getBid());
 }
 
 RemoteRenderHandler::~RemoteRenderHandler() {
@@ -73,7 +73,7 @@ void RemoteRenderHandler::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& re
     //Measurer measurer("RemoteRenderHandler::GetViewRect");
     fillDummy(rect);
 
-    auto remoteService = myBackwardConnection->getHandlersService();
+    auto remoteService = myOwner.getBackwardConnection()->getHandlersService();
     if (remoteService == nullptr) {
       Log::debug("GetViewRect, null remote service");
       return;
@@ -81,7 +81,7 @@ void RemoteRenderHandler::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& re
 
     std::string result;
     try {
-      remoteService->getInfo(result, myBid, "viewRect", "");
+      remoteService->getInfo(result, myOwner.getCid(), myOwner.getBid(), "viewRect", "");
     } catch (apache::thrift::TException& tx) {
       _onThriftException(tx);
       return;
@@ -138,7 +138,7 @@ bool RemoteRenderHandler::GetScreenInfo(CefRefPtr<CefBrowser> browser,
     //Measurer measurer("RemoteRenderHandler::GetScreenInfo");
     fillDummy(screen_info);
 
-    auto remoteService = myBackwardConnection->getHandlersService();
+    auto remoteService = myOwner.getBackwardConnection()->getHandlersService();
     if (remoteService == nullptr) {
         Log::debug("GetScreenInfo, null remote service");
         return false;
@@ -146,7 +146,7 @@ bool RemoteRenderHandler::GetScreenInfo(CefRefPtr<CefBrowser> browser,
 
     std::string result;
     try {
-        remoteService->getInfo(result, myBid, "screenInfo", "");
+        remoteService->getInfo(result, myOwner.getCid(), myOwner.getBid(), "screenInfo", "");
     } catch (apache::thrift::TException& tx) {
         _onThriftException(tx);
         return false;
@@ -183,7 +183,7 @@ bool RemoteRenderHandler::GetScreenPoint(CefRefPtr<CefBrowser> browser,
                                    int& screenX,
                                    int& screenY) {
     //Measurer measurer(string_format("RemoteRenderHandler::GetScreenPoint(%d,%d)", viewX, viewY));
-    auto remoteService = myBackwardConnection->getHandlersService();
+    auto remoteService = myOwner.getBackwardConnection()->getHandlersService();
     if (remoteService == nullptr) {
         Log::debug("GetScreenPoint, null remote service");
         return false;
@@ -193,7 +193,7 @@ bool RemoteRenderHandler::GetScreenPoint(CefRefPtr<CefBrowser> browser,
     std::string args((const char *)argsarr, sizeof(argsarr));
     std::string result;
     try {
-        remoteService->getInfo(result, myBid, "screenPoint", args);
+        remoteService->getInfo(result, myOwner.getCid(), myOwner.getBid(), "screenPoint", args);
     } catch (apache::thrift::TException& tx) {
         _onThriftException(tx);
         return false;
@@ -289,7 +289,7 @@ void RemoteRenderHandler::OnPaint(CefRefPtr<CefBrowser> browser,
     fillRect((unsigned char *)mySharedMem, stride, height - 10, 0, 10, 10, 255, 0, 255, 255);
 #endif //DRAW_DEBUG
 
-    auto remoteService = myBackwardConnection->getHandlersService();
+    auto remoteService = myOwner.getBackwardConnection()->getHandlersService();
     if (remoteService == nullptr) {
         Log::debug("onPaint, null remote service");
         return;
@@ -298,7 +298,7 @@ void RemoteRenderHandler::OnPaint(CefRefPtr<CefBrowser> browser,
     {
         Measurer measurer2(string_format("RemoteRenderHandler::OnPaint, remote-client "));
         try {
-          remoteService->onPaint(myBid, type == PET_VIEW ? false : true, rectsCount,
+          remoteService->onPaint(myOwner.getCid(), myOwner.getBid(), type == PET_VIEW ? false : true, rectsCount,
                             mySharedMemName, mySharedMemHandle, reallocated,
                             width, height);
         } catch (apache::thrift::TException& tx) {
@@ -321,5 +321,5 @@ void RemoteRenderHandler::UpdateDragCursor(CefRefPtr<CefBrowser> browser,
 }
 
 void RemoteRenderHandler::_onThriftException(apache::thrift::TException e) {
-    Log::debug("browser [%d], thrift exception occured: %s", myBid, e.what());
+    Log::debug("browser [%d], thrift exception occured: %s", myOwner.getBid(), e.what());
 }

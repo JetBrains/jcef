@@ -36,13 +36,17 @@ public class CefRemoteBrowser implements CefBrowser {
 
     private final CefServer myServer;
     private final int myBid;
+    private final CefRemoteClient myOwner;
 
-    public CefRemoteBrowser(CefServer owner, int bid) {
-        this.myServer = owner;
+    public CefRemoteBrowser(CefServer server, int bid, CefRemoteClient owner) {
+        this.myServer = server;
         this.myBid = bid;
+        myOwner = owner;
+        myOwner.registerBrowser(bid, this);
     }
 
     public int getBid() { return myBid; }
+    public int getCid() { return myOwner.getCid(); }
 
     @Override
     public void createImmediately() {
@@ -209,7 +213,7 @@ public class CefRemoteBrowser implements CefBrowser {
 
     @Override
     public void close(boolean force) {
-        myServer.closeBrowser(myBid);
+        myServer.closeBrowser(myOwner.getCid(), myBid);
     }
 
     @Override
@@ -366,5 +370,10 @@ public class CefRemoteBrowser implements CefBrowser {
     @Override
     public CompletableFuture<BufferedImage> createScreenshot(boolean nativeResolution) {
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return "CefRemoteBrowser_" + myBid;
     }
 }
