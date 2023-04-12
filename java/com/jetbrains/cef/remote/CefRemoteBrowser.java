@@ -10,6 +10,7 @@ import org.cef.callback.CefStringVisitor;
 import org.cef.handler.CefDialogHandler;
 import org.cef.handler.CefRenderHandler;
 import org.cef.handler.CefWindowHandler;
+import org.cef.misc.CefLog;
 import org.cef.misc.CefPdfPrintSettings;
 import org.cef.network.CefRequest;
 
@@ -20,10 +21,19 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.CharBuffer;
+import java.nio.charset.CharacterCodingException;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
+import java.nio.charset.CharsetEncoder;
 import java.util.Vector;
 import java.util.concurrent.CompletableFuture;
 
 public class CefRemoteBrowser implements CefBrowser {
+    private static final Charset ourCharset = Charset.forName("UTF-8");
+    private static final CharsetEncoder ourEncoder = ourCharset.newEncoder();
+    private static final CharsetDecoder ourDecoder = ourCharset.newDecoder();
+
     private final CefServer myServer;
     private final int myBid;
 
@@ -176,7 +186,15 @@ public class CefRemoteBrowser implements CefBrowser {
 
     @Override
     public void loadURL(String url) {
+        if (myServer == null)
+            return;
 
+        try {
+            ByteBuffer params = ourEncoder.encode(CharBuffer.wrap(url));
+            myServer.invoke(myBid, "loadurl", params);
+        } catch (CharacterCodingException e) {
+            CefLog.Error("loadURL can't encode string '%s', CharacterCodingException: %s", url, e.getMessage());
+        }
     }
 
     @Override

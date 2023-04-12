@@ -146,6 +146,10 @@ void ServerHandler::invoke(const int32_t bid, const std::string& method, const s
     CefKeyEvent cef_event;
     // TODO: read modifiers and other params
     browser->GetHost()->SendKeyEvent(cef_event);
+  } else if (method.compare("loadurl") == 0) {
+    const char * surl = (const char *)buffer.c_str();
+    Log::debug("loadUrl [%d]: %s", bid, surl);
+    browser->GetMainFrame()->LoadURL(surl);
   }
 }
 

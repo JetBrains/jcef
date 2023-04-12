@@ -37,6 +37,7 @@ public class TestApp extends JFrame {
 
         JFrame frame = new JFrame("Test out of process CEF");
         JTextField address_ = new JTextField("www.google.com", 100);
+        address_.addActionListener(event -> browser.loadURL(address_.getText()));
         frame.getContentPane().add(address_, BorderLayout.NORTH);
         frame.getContentPane().add(osrComponent, BorderLayout.CENTER);
         frame.pack();

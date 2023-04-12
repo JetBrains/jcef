@@ -59,7 +59,8 @@ class JBCefOsrComponent extends JPanel {
     @Override
     public void addNotify() {
         super.addNotify();
-        if (myBrowser != null && ((CefNativeAdapter)myBrowser).getNativeRef("CefBrowser") == 0) {
+        if (myBrowser instanceof CefNativeAdapter
+                && ((CefNativeAdapter)myBrowser).getNativeRef("CefBrowser") == 0) {
             myBrowser.createImmediately();
         }
     }
