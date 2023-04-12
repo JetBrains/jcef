@@ -13,6 +13,8 @@
 #include "include/wrapper/cef_message_router.h"
 #include "util.h"
 
+class ScopedJNIObjectResult;
+
 // Set the global JVM reference.
 void SetJVM(JavaVM* jvm);
 JavaVM* GetJVM();
@@ -174,6 +176,20 @@ bool CallJNIMethodC_V(JNIEnv* env,
                       jobject obj,
                       const char* method_name,
                       char16* value);
+
+// Call a JNI method that returns a float and accepts no arguments.
+bool CallJNIMethodF_V(JNIEnv* env,
+                      jclass cls,
+                      jobject obj,
+                      const char* method_name,
+                      float* value);
+
+bool CallJNIMethodObject_V(JNIEnv* env,
+                           jclass cls,
+                           jobject obj,
+                           const char* method_name,
+                           const char* signature,
+                           ScopedJNIObjectResult* value);
 
 // Rertieve the CefSize equivalent of a java.awt.Dimension.
 CefSize GetJNISize(JNIEnv* env, jobject obj);

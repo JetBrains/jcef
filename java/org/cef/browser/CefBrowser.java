@@ -11,6 +11,7 @@ import org.cef.callback.CefStringVisitor;
 import org.cef.handler.CefDialogHandler.FileDialogMode;
 import org.cef.handler.CefRenderHandler;
 import org.cef.handler.CefWindowHandler;
+import org.cef.input.CefTouchEvent;
 import org.cef.misc.CefPdfPrintSettings;
 import org.cef.network.CefRequest;
 
@@ -398,6 +399,8 @@ public interface CefBrowser {
      * @since api-1.2
      */
     void sendMouseWheelEvent(MouseWheelEvent e);
+
+    void sendTouchEvent(CefTouchEvent e);
 
     /**
      * Captures a screenshot-like image of the currently displayed content and returns it.
