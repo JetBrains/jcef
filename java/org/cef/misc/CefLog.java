@@ -20,25 +20,32 @@ public class CefLog {
     private CefSettings.LogSeverity mySeverity;
 
     public static void init(CefSettings settings) {
+        if (settings != null)
+            init(settings.log_file, settings.log_severity);
+        else
+            init(null, null);
+    }
+
+    public static void init(String log_file, CefSettings.LogSeverity log_severity) {
         if (INSTANCE != null) {
             INSTANCE.info("Try to reinitialize logger (new settings will be ignored)\n");
             return;
         }
-        if (settings != null && settings.log_file != null
-            && settings.log_severity != CefSettings.LogSeverity.LOGSEVERITY_DISABLE
-            && settings.log_severity != CefSettings.LogSeverity.LOGSEVERITY_DEFAULT
+        if (log_file != null
+            && log_severity != CefSettings.LogSeverity.LOGSEVERITY_DISABLE
+            && log_severity != CefSettings.LogSeverity.LOGSEVERITY_DEFAULT
         ) {
             try {
-                System.out.printf("JCEF(%s): initialized file logger, severity=%s, path='%s'\n", ourTimeFormat.format(new Date()), settings.log_severity, settings.log_file);
-                PrintStream ps = new PrintStream(new FileOutputStream(settings.log_file, true), true);
-                INSTANCE = new CefLog(ps, settings.log_severity);
+                System.out.printf("JCEF(%s): initialized file logger, severity=%s, path='%s'\n", ourTimeFormat.format(new Date()), log_severity, log_file);
+                PrintStream ps = new PrintStream(new FileOutputStream(log_file, true), true);
+                INSTANCE = new CefLog(ps, log_severity);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
         }
 
         if (INSTANCE == null) {
-            CefSettings.LogSeverity severity = settings == null ? CefSettings.LogSeverity.LOGSEVERITY_VERBOSE : settings.log_severity;
+            CefSettings.LogSeverity severity = log_severity == null ? CefSettings.LogSeverity.LOGSEVERITY_INFO : log_severity;
             System.out.printf("JCEF(%s): initialized stderr logger, severity=%s\n", ourTimeFormat.format(new Date()), severity);
             INSTANCE = new CefLog(System.err, severity);
         }
