@@ -4,6 +4,7 @@
 
 package tests.remote;
 
+import com.jetbrains.cef.remote.CefRemoteBrowser;
 import com.jetbrains.cef.remote.CefServer;
 import org.cef.misc.CefLog;
 import tests.JBCefOsrComponent;
@@ -26,13 +27,13 @@ public class TestApp extends JFrame {
 
         JBCefOsrComponent osrComponent = new JBCefOsrComponent();
         JBCefOsrHandler osrHandler = new JBCefOsrHandler(osrComponent, null);
-        int bid = ourServer.createBrowser(osrHandler);
-        if (bid < 0) {
-            CefLog.Error("can't create remote browser, error=%d", bid);
+        CefRemoteBrowser browser = ourServer.createBrowser(osrHandler);
+        if (browser == null) {
+            CefLog.Error("can't create remote browser");
             return;
         }
 
-        osrComponent.setRemoteBid(ourServer, bid);
+        osrComponent.setBrowser(browser);
 
         JFrame frame = new JFrame("Test out of process CEF");
         JTextField address_ = new JTextField("www.google.com", 100);
@@ -45,7 +46,7 @@ public class TestApp extends JFrame {
             @Override
             public void windowClosing(WindowEvent e) {
                 frame.dispose();
-                ourServer.closeBrowser(bid);
+                browser.close(true);
                 ourServer.stop();
             }
         });

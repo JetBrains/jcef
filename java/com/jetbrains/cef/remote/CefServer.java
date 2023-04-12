@@ -32,8 +32,16 @@ public class CefServer {
     private TProtocol myProtocol;
     private Server.Client myCefServerClient;
 
+    public CefRemoteBrowser createBrowser(CefNativeRenderHandler renderHandle) {
+        int bid = createRemoteBrowser(renderHandle);
+        if (bid < 0)
+            return null;
+
+        return new CefRemoteBrowser(this, bid);
+    }
+
     // returns remote browser id (or negative value when error occured)
-    public int createBrowser(CefNativeRenderHandler renderHandle) {
+    private int createRemoteBrowser(CefNativeRenderHandler renderHandle) {
         int result;
         try {
             result = myCefServerClient.createBrowser();
@@ -48,6 +56,7 @@ public class CefServer {
     // closes remote browser
     public void closeBrowser(int bid) {
         try {
+            // TODO: support force flag
             String err = myCefServerClient.closeBrowser(bid);
             if (err != null && !err.isEmpty())
                 CefLog.Error("tried to close remote browser %d, error '%s'", bid, err);
