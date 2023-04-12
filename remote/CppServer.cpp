@@ -6,137 +6,17 @@
 #include <thrift/transport/TTransportUtils.h>
 
 #include <iostream>
-#include <stdexcept>
-
-#include "./gen-cpp/ClientHandlers.h"
-#include "./gen-cpp/Server.h"
 
 #include "CefUtils.h"
-#include "RemoteClientHandler.h"
-#include "RemoteRenderHandler.h"
-#include "RemoteLifespanHandler.h"
+#include "ServerHandler.h"
 #include "log/Log.h"
 
 #include "include/cef_app.h"
 
-using namespace std;
 using namespace apache::thrift;
-using namespace apache::thrift::concurrency;
 using namespace apache::thrift::protocol;
 using namespace apache::thrift::transport;
 using namespace apache::thrift::server;
-
-using namespace remote;
-
-
-class ServerHandler : public ServerIf {
- private:
-  std::shared_ptr<ClientHandlersClient> myClient = nullptr;
-  std::shared_ptr<TTransport> mySocket;
-  std::shared_ptr<TTransport> myTransport;
-  std::shared_ptr<TProtocol> myProtocol;
-
-  std::vector<CefRefPtr<RemoteClientHandler>> myRemoteHandlers;
-
- public:
-  ServerHandler() {}
-
-  int32_t connect() override {
-    static int cid = 0;
-    Log::debug("connected new client with cid=%d", cid);
-
-    // Connect to client's side (for cef-callbacks execution on java side)
-    if (myClient == nullptr) {
-      mySocket = std::make_shared<TSocket>("localhost", 9091);
-      myTransport = std::make_shared<TBufferedTransport>(mySocket);
-      myProtocol = std::make_shared<TBinaryProtocol>(myTransport);
-      myClient = std::make_shared<ClientHandlersClient>(myProtocol);
-
-      try {
-        myTransport->open();
-        const int32_t backwardCid = myClient->connect();
-        Log::debug("\tbackward connection to client established [%d]", backwardCid);
-      } catch (TException& tx) {
-        Log::error(tx.what());
-      }
-    }
-
-    return cid++;
-  }
-
-  int32_t createBrowser() override {
-    const int bid = myRemoteHandlers.size();
-    CefRefPtr<RemoteRenderHandler> renderHandler = new RemoteRenderHandler(myClient, bid);
-    CefRefPtr<RemoteClientHandler> clienthandler = new RemoteClientHandler(renderHandler);
-
-    CefWindowInfo windowInfo;
-    windowInfo.SetAsWindowless(0);
-
-    CefBrowserSettings settings;
-    CefString strUrl("file:///Users/bocha/projects/jcef/animated.svg");
-
-    bool result = CefBrowserHost::CreateBrowser(windowInfo, clienthandler, strUrl,
-                                                settings, nullptr, nullptr);
-    if (!result) {
-      Log::error( "failed to create browser with bid=%d", bid);
-      return -1;
-    }
-    Log::debug("browser successfully created, bid=%d", bid);
-
-    myRemoteHandlers.push_back(clienthandler);
-    return bid;
-  }
-
-  void invoke(const int32_t bid, const std::string& method, const std::string& buffer) override {
-    if (bid >= myRemoteHandlers.size()) {
-      Log::error("bid %d > myRemoteHandlers.size() %d", bid, myRemoteHandlers.size());
-      return;
-    }
-
-    auto ch = myRemoteHandlers[bid];
-    RemoteLifespanHandler * rsh = (RemoteLifespanHandler *)(ch->GetLifeSpanHandler()).get();
-    auto browser = rsh->getBrowser();
-
-    if (browser == nullptr) {
-      Log::error("null browser, bid=%d", bid);
-      return;
-    }
-
-    if (method.compare("wasresized") == 0) {
-      browser->GetHost()->WasResized();
-    } else if (method.compare("sendmouseevent") == 0) {
-      const int len = buffer.size();
-      if (len < 4) {
-        Log::error("sendmouseevent, len %d < 4", len);
-        return;
-      }
-
-      const int32_t * p = (const int32_t *)buffer.c_str();
-      int event_type = *(p++);
-      int modifiers = *(p++);
-
-      CefMouseEvent cef_event;
-      cef_event.x = *(p++);
-      cef_event.y = *(p++);
-
-      // TODO: read modifiers and other params
-      CefBrowserHost::MouseButtonType cef_mbt = MBT_LEFT;
-      browser->GetHost()->SendMouseClickEvent(cef_event, cef_mbt, event_type == 0, 1);
-    } else if (method.compare("sendkeyevent") == 0) {
-      CefKeyEvent cef_event;
-      // TODO: read modifiers and other params
-      browser->GetHost()->SendKeyEvent(cef_event);
-    }
-  }
-
-  void log(const std::string& msg) override {
-    Log::info("received message from client: %s", msg.c_str());
-  }
-
-  void close() { myTransport->close(); }
-
- protected:
-};
 
 /*
   ServerIfFactory is code generated.

@@ -95,7 +95,8 @@ public class JBCefOsrHandler implements CefNativeRenderHandler {
         myFpsMeter.setActive(true);
     }
 
-    public void dispose() {
+    @Override
+    public void disposeNativeResources() {
         if (mySharedMem != null) mySharedMem.close();
     }
 

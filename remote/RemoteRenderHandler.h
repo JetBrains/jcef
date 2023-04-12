@@ -7,9 +7,11 @@
 
 #include <boost/interprocess/managed_shared_memory.hpp>
 
+#include "ServerHandler.h"
+
 class RemoteRenderHandler : public CefRenderHandler {
 public:
- explicit RemoteRenderHandler(const std::shared_ptr<remote::ClientHandlersClient>& client, int bid);
+ explicit RemoteRenderHandler(std::shared_ptr<BackwardConnection> connection, int bid);
  ~RemoteRenderHandler() override;
 
  virtual bool GetRootScreenRect(CefRefPtr<CefBrowser> browser,
@@ -49,7 +51,8 @@ public:
                                 DragOperation operation) override;
 
 protected:
-  std::shared_ptr<remote::ClientHandlersClient> myClient;
+  std::shared_ptr<BackwardConnection> myBackwardConnection;
+
   const int myBid;
   char mySharedMemName[64];
 
@@ -60,6 +63,8 @@ protected:
 
   bool _ensureSharedCapacity(int len);
   void _releaseSharedMem();
+
+  void _onThriftException(apache::thrift::TException e);
 
   IMPLEMENT_REFCOUNTING(RemoteRenderHandler);
 };

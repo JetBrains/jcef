@@ -1,168 +1,105 @@
 package com.jetbrains.cef.remote;
 
 
+import com.jetbrains.cef.remote.thrift_codegen.ClientHandlers;
+import com.jetbrains.cef.remote.thrift_codegen.Server;
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.server.TServer;
 import org.apache.thrift.server.TSimpleServer;
 import org.apache.thrift.transport.TServerSocket;
-import org.apache.thrift.transport.TServerTransport;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
 import org.cef.handler.CefNativeRenderHandler;
-import org.cef.handler.CefRenderHandler;
-import org.cef.handler.CefScreenInfo;
 import org.cef.misc.CefLog;
 
-import java.awt.*;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.util.HashMap;
-import java.util.Map;
 
 public class CefServer {
     private static int PORT = Integer.getInteger("jcef.remote.port", 9090);
 
     // Fields for cef-handlers execution on java side
-    private TTransport myTransport;
-    private TProtocol myProtocol;
-    private Thread myThread;
-    private TServer myJavaCallbackServer;
+    private Thread myClientHandlersThread;
+    private TServer myClientHandlersServer;
+    private TServerSocket myClientHandlersTransport;
+    private ClientHandlersImpl myClientHandlersImpl;
 
     // Java client for CefServer
-    private Server.Client myClient;
+    private TTransport myTransport;
+    private TProtocol myProtocol;
+    private Server.Client myCefServerClient;
 
-    private final Map<Integer, CefNativeRenderHandler> myBid2RenderHandle = new HashMap<>();
-
+    // returns remote browser id (or negative value when error occured)
     public int createBrowser(CefNativeRenderHandler renderHandle) {
         int result;
         try {
-            result = myClient.createBrowser();
+            result = myCefServerClient.createBrowser();
         } catch (TException e) {
-            e.printStackTrace();
+            onThriftException(e);
             return -1;
         }
-        myBid2RenderHandle.put(result, renderHandle);
+        myClientHandlersImpl.registerRenderHandler(result, renderHandle);
         return result;
     }
 
+    // closes remote browser
+    public void closeBrowser(int bid) {
+        try {
+            String err = myCefServerClient.closeBrowser(bid);
+            if (err != null && !err.isEmpty())
+                CefLog.Error("tried to close remote browser %d, error '%s'", bid, err);
+        } catch (TException e) {
+            onThriftException(e);
+        }
+
+        myClientHandlersImpl.unregister(bid);
+    }
+
+    // invokes method of remote browser
     public void invoke(int bid, String method, ByteBuffer params) {
         try {
-            myClient.invoke(bid, method, params);
+            myCefServerClient.invoke(bid, method, params);
         } catch (TException e) {
-            e.printStackTrace();
+            onThriftException(e);
         }
     }
 
-    public class RenderHandler implements ClientHandlers.Iface {
-        @Override
-        public int connect() throws TException {
-            return 0;
-        }
-
-        @Override
-        public void log(String msg) throws TException {
-            CefLog.Debug("received message from CefServer: " + msg);
-        }
-
-        @Override
-        public ByteBuffer getInfo(int bid, String request, ByteBuffer buffer) throws TException {
-            CefRenderHandler rh = myBid2RenderHandle.get(bid);
-            if (rh == null) {
-                CefLog.Error("getInfo, rh == null");
-                ByteBuffer result = ByteBuffer.allocate(4);
-                result.putInt(0);
-                return result;
-            }
-
-            request = request == null ? "" : request.toLowerCase();
-            int[] data = new int[0];
-            if ("viewrect".equals(request)) {
-                Rectangle rect = rh.getViewRect(null);
-                data = new int[]{rect.x, rect.y, rect.width, rect.height};
-            } else if ("screeninfo".equals(request)) {
-                CefScreenInfo csi = new CefScreenInfo();
-                boolean success = rh.getScreenInfo(null, csi);
-                if (success) {
-                    data = new int[]{
-                            (int) csi.device_scale_factor,
-                            csi.depth,
-                            csi.depth_per_component,
-                            csi.is_monochrome ? 1 : 0,
-                            csi.x,
-                            csi.y,
-                            csi.width,
-                            csi.height,
-                            csi.available_x,
-                            csi.available_y,
-                            csi.available_width,
-                            csi.available_height
-                    };
-                } else {
-                    data = new int[]{0};
-                }
-            } else if ("screenpoint".equals(request)) {
-                Point pt = new Point(buffer.getInt(), buffer.getInt());
-                Point res = rh.getScreenPoint(null, pt);
-                data = new int[]{res.x, res.y};
-            } else {
-                CefLog.Error("getInfo, unknown request: " + request);
-                ByteBuffer result = ByteBuffer.allocate(4);
-                result.putInt(0);
-                return result;
-            }
-
-            ByteBuffer result = ByteBuffer.allocate(data.length*4);
-            result.order(ByteOrder.nativeOrder());
-            result.asIntBuffer().put(data);
-            return result;
-        }
-
-        @Override
-        public void onPaint(int bid, boolean popup, int dirtyRectsCount, String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height) throws TException {
-            CefNativeRenderHandler rh = myBid2RenderHandle.get(bid);
-            if (rh == null) {
-                CefLog.Error("onPaint, rh == null");
-                return;
-            }
-
-            rh.onPaintWithSharedMem(null, popup, dirtyRectsCount, sharedMemName, sharedMemHandle, recreateHandle, width, height);
-        }
-    }
-
-    public void start() {
+    // connect to CefServer and start cef-handlers service
+    public boolean start() {
         try {
             // 1. Start server for cef-handlers execution
-            ClientHandlers.Processor processor = new ClientHandlers.Processor(new RenderHandler());
-            try {
-                TServerTransport serverTransport = new TServerSocket(PORT + 1);
-                myJavaCallbackServer = new TSimpleServer(new TServer.Args(serverTransport).processor(processor));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            myClientHandlersImpl = new ClientHandlersImpl();
+            ClientHandlers.Processor processor = new ClientHandlers.Processor(myClientHandlersImpl);
+            myClientHandlersTransport = new TServerSocket(PORT + 1);
+            myClientHandlersServer = new TSimpleServer(new TServer.Args(myClientHandlersTransport).processor(processor));
 
-            myThread = new Thread(()->{
+            CefLog.Debug("Starting cef-handlers server.");
+            myClientHandlersThread = new Thread(()->{
                 // Use this for a multithreaded server
                 // TServer server = new TThreadPoolServer(new TThreadPoolServer.Args(serverTransport).processor(processor));
-                myJavaCallbackServer.serve();
+                myClientHandlersServer.serve();
             });
-            myThread.setName("CefHandlers-thread");
-            CefLog.Debug("Starting cef-handlers server.");
-            myThread.start();
+            myClientHandlersThread.setName("CefHandlers-thread");
+            myClientHandlersThread.start();
 
             // 2. Create client and connect to CefServer
             myTransport = new TSocket("localhost", PORT);
             myTransport.open();
 
             myProtocol = new TBinaryProtocol(myTransport);
-            myClient = new Server.Client(myProtocol);
+            myCefServerClient = new Server.Client(myProtocol);
 
-            int cid = myClient.connect();
+            int cid = myCefServerClient.connect();
             CefLog.Debug("Connected to CefSever, cid=" + cid);
         } catch (TException x) {
-            x.printStackTrace();
+            CefLog.Error("exception in CefServer.start: %s", x.getMessage());
+            return false;
         }
+
+        return true;
     }
 
     public void stop() {
@@ -170,5 +107,23 @@ public class CefServer {
             myTransport.close();
             myTransport = null;
         }
+        if (myClientHandlersTransport != null) {
+            myClientHandlersTransport.close();
+            myClientHandlersTransport = null;
+        }
+
+        if (myClientHandlersServer != null) {
+            myClientHandlersServer.stop();
+            myClientHandlersServer = null;
+        }
+    }
+
+    private void onThriftException(TException e) {
+        CefLog.Error("thrift exception '%s'", e.getMessage());
+        StringWriter sw = new StringWriter();
+        e.printStackTrace(new PrintWriter(sw));
+        CefLog.Error(sw.getBuffer().toString());
+
+        // TODO: check whether socket is still open and reconnect if necessary
     }
 }

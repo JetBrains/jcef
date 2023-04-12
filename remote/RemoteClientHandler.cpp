@@ -4,9 +4,8 @@
 #include "log/Log.h"
 
 RemoteClientHandler::RemoteClientHandler(CefRefPtr<CefRenderHandler> remoteRenderHandler)
-    : myRemoteRenderHandler(remoteRenderHandler) {
-  myRemoteLisfespanHandler = new RemoteLifespanHandler();
-}
+    : myRemoteRenderHandler(remoteRenderHandler), myRemoteLisfespanHandler(new RemoteLifespanHandler())
+{}
 
 CefRefPtr<CefContextMenuHandler> RemoteClientHandler::GetContextMenuHandler() {
     Log::error("UNIMPLEMENTED: RemoteClientHandler::GetContextMenuHandler");

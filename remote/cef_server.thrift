@@ -13,12 +13,14 @@
  *  set<t1>     Set of unique elements of one type
  */
 
-namespace cpp remote
-namespace java remote
+namespace cpp thrift_codegen
+namespace java thrift_codegen
 
 service Server {
    i32 connect(),
    i32 createBrowser(),
+   string closeBrowser(1:i32 bid),
+
    oneway void invoke(1:i32 bid, 2:string method, 3:binary buffer)
    oneway void log(1:string msg),
 }

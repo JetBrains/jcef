@@ -11,11 +11,11 @@ execute_process(
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 execute_process(
-        COMMAND thrift --gen java -out ${CMAKE_SOURCE_DIR}/java/com/jetbrains/cef ${CMAKE_CURRENT_SOURCE_DIR}/cef_server.thrift
+        COMMAND thrift --gen java -out ${CMAKE_SOURCE_DIR}/java/com/jetbrains/cef/remote ${CMAKE_CURRENT_SOURCE_DIR}/cef_server.thrift
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/java
 )
 execute_process(
-        COMMAND thrift --gen java -out ${CMAKE_SOURCE_DIR}/java/com/jetbrains/cef ${CMAKE_CURRENT_SOURCE_DIR}/cef_client.thrift
+        COMMAND thrift --gen java -out ${CMAKE_SOURCE_DIR}/java/com/jetbrains/cef/remote ${CMAKE_CURRENT_SOURCE_DIR}/cef_client.thrift
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/java
         RESULT_VARIABLE thrift_result)
 message(STATUS "... result: ${thrift_result}")
@@ -93,7 +93,7 @@ set(CEFSIMPLE_RESOURCES_SRCS
 #
 set(EXECUTABLE_NAME "CefServer")
 set(PRODUCT_NAME "CefServer")
-add_executable(${EXECUTABLE_NAME} MACOSX_BUNDLE ${CEFSIMPLE_RESOURCES_SRCS} CppServer.cpp CefUtils.cpp CefUtils.h RemoteClientHandler.cpp RemoteClientHandler.h RemoteRenderHandler.cpp RemoteRenderHandler.h RemoteLifespanHandler.cpp RemoteLifespanHandler.h log/Log.cpp log/Log.h)
+add_executable(${EXECUTABLE_NAME} MACOSX_BUNDLE ${CEFSIMPLE_RESOURCES_SRCS} CppServer.cpp CefUtils.cpp CefUtils.h RemoteClientHandler.cpp RemoteClientHandler.h RemoteRenderHandler.cpp RemoteRenderHandler.h RemoteLifespanHandler.cpp RemoteLifespanHandler.h ServerHandler.cpp log/Log.cpp log/Log.h)
 add_dependencies(${EXECUTABLE_NAME} libcef_dll_wrapper)
 target_include_directories(${EXECUTABLE_NAME} PRIVATE /opt/homebrew/Cellar/thrift/0.16.0/include)
 target_include_directories(${EXECUTABLE_NAME} PRIVATE ${CEF_INCLUDE_PATH})

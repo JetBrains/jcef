@@ -29,8 +29,8 @@ public:
 
   IMPLEMENT_REFCOUNTING(RemoteClientHandler);
 protected:
- CefRefPtr<CefRenderHandler> myRemoteRenderHandler;
- CefRefPtr<CefLifeSpanHandler> myRemoteLisfespanHandler;
+ const CefRefPtr<CefRenderHandler> myRemoteRenderHandler;
+ const CefRefPtr<CefLifeSpanHandler> myRemoteLisfespanHandler;
 };
 
 #endif  // JCEF_NATIVE_CLIENT_HANDLER_H_

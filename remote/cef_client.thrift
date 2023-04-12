@@ -13,8 +13,8 @@
  *  set<t1>     Set of unique elements of one type
  */
 
-namespace cpp remote
-namespace java remote
+namespace cpp thrift_codegen
+namespace java thrift_codegen
 
 service ClientHandlers {
    i32 connect(),
