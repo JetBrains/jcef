@@ -3,6 +3,7 @@
 #include <thrift/transport/TSocket.h>
 
 #include "RemoteLifespanHandler.h"
+#include "CefBrowserAdapter.h"
 
 using namespace apache::thrift;
 
@@ -103,35 +104,9 @@ void ServerHandler::invoke(const int32_t bid, const std::string& method, const s
     return;
   }
 
-  if (method.compare("wasresized") == 0) {
-    browser->GetHost()->WasResized();
-  } else if (method.compare("sendmouseevent") == 0) {
-    const int len = buffer.size();
-    if (len < 4) {
-      Log::error("sendmouseevent, len %d < 4", len);
-      return;
-    }
-
-    const int32_t * p = (const int32_t *)buffer.c_str();
-    int event_type = *(p++);
-    int modifiers = *(p++);
-
-    CefMouseEvent cef_event;
-    cef_event.x = *(p++);
-    cef_event.y = *(p++);
-
-    // TODO: read modifiers and other params
-    CefBrowserHost::MouseButtonType cef_mbt = MBT_LEFT;
-    browser->GetHost()->SendMouseClickEvent(cef_event, cef_mbt, event_type == 0, 1);
-  } else if (method.compare("sendkeyevent") == 0) {
-    CefKeyEvent cef_event;
-    // TODO: read modifiers and other params
-    browser->GetHost()->SendKeyEvent(cef_event);
-  } else if (method.compare("loadurl") == 0) {
-    const char * surl = (const char *)buffer.c_str();
-    Log::debug("loadUrl [%d]: %s", bid, surl);
-    browser->GetMainFrame()->LoadURL(surl);
-  }
+  CefBrowserAdapter adapter(browser);
+  adapter.setBid(bid); // for logging only
+  adapter.invoke(method, buffer);
 }
 
 CefRefPtr<CefBrowser> ServerHandler::getBrowser(int bid) {

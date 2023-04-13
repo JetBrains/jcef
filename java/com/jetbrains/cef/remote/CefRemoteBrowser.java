@@ -329,11 +329,13 @@ public class CefRemoteBrowser implements CefBrowser {
             return;
 
         int[] data = new int[]{
-                e.getID() == KeyEvent.KEY_RELEASED ? 0 : 1,
-                e.getKeyChar(),
-                e.getKeyCode(),
-                e.getModifiersEx()
+            e.getID(),
+            e.getModifiersEx(),
+            e.getKeyChar(),
+            0, // TODO: get e.scancode via reflection (windows only)
+            e.getKeyCode()
         };
+
         ByteBuffer params = ByteBuffer.allocate(data.length*4);
         params.order(ByteOrder.nativeOrder());
         params.asIntBuffer().put(data);
