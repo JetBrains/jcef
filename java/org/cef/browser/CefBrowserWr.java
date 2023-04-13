@@ -507,8 +507,7 @@ class CefBrowserWr extends CefBrowser_N {
                         getInspectAt());
                 return true;
             } else {
-                createBrowser(getClient(), windowHandle, getUrl(), false, false, canvas,
-                        getRequestContext());
+                createBrowser(getClient(), windowHandle, getUrl(), false, false, canvas);
                 return true;
             }
         } else if (hasParent && justCreated_) {
