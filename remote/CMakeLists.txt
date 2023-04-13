@@ -93,7 +93,7 @@ set(CEFSIMPLE_RESOURCES_SRCS
 #
 set(EXECUTABLE_NAME "CefServer")
 set(PRODUCT_NAME "CefServer")
-add_executable(${EXECUTABLE_NAME} MACOSX_BUNDLE ${CEFSIMPLE_RESOURCES_SRCS} CppServer.cpp CefUtils.cpp CefUtils.h RemoteClientHandler.cpp RemoteClientHandler.h RemoteRenderHandler.cpp RemoteRenderHandler.h RemoteLifespanHandler.cpp RemoteLifespanHandler.h ServerHandler.cpp log/Log.cpp log/Log.h Utils.cpp Utils.h RemoteLoadHandler.cpp RemoteLoadHandler.h KeyEventProcessing.cpp CefBrowserAdapter.cpp CefBrowserAdapter.h)
+add_executable(${EXECUTABLE_NAME} MACOSX_BUNDLE ${CEFSIMPLE_RESOURCES_SRCS} CppServer.cpp CefUtils.cpp CefUtils.h RemoteClientHandler.cpp RemoteClientHandler.h RemoteRenderHandler.cpp RemoteRenderHandler.h RemoteLifespanHandler.cpp RemoteLifespanHandler.h ServerHandler.cpp log/Log.cpp log/Log.h Utils.cpp Utils.h RemoteLoadHandler.cpp RemoteLoadHandler.h KeyEventProcessing.cpp CefBrowserAdapter.cpp CefBrowserAdapter.h MouseEventProcessing.cpp)
 add_dependencies(${EXECUTABLE_NAME} libcef_dll_wrapper)
 target_include_directories(${EXECUTABLE_NAME} PRIVATE /opt/homebrew/Cellar/thrift/0.16.0/include)
 target_include_directories(${EXECUTABLE_NAME} PRIVATE ${CEF_INCLUDE_PATH})

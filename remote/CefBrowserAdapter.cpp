@@ -12,6 +12,26 @@ extern void processKeyEvent(
     int key_code   // event.getKeyCode()
 );
 
+extern void processMouseEvent(
+    CefRefPtr<CefBrowser> browser,
+    int event_type, // getID
+    int x, // getX
+    int y, // getY
+    int modifiers, // getModifiersEx
+    int click_count, // getClickCount
+    int button // getButton
+);
+
+extern void processMouseWheelEvent(
+    CefRefPtr<CefBrowser> browser,
+    int scroll_type, // getScrollType
+    int x, // getX
+    int y, // getY
+    int modifiers, // getModifiersEx
+    int delta, // getWheelRotation
+    int units_to_scroll // getUnitsToScroll
+);
+
 void CefBrowserAdapter::invoke(const std::string& method, const std::string& buffer) {
   if (method.compare("wasresized") == 0) {
     myBrowser->GetHost()->WasResized();
@@ -24,16 +44,22 @@ void CefBrowserAdapter::invoke(const std::string& method, const std::string& buf
     }
 
     const int32_t * p = (const int32_t *)buffer.c_str();
-    int event_type = *(p++);
-    int modifiers = *(p++);
+    int event_type = *(p++); // event.getID()
+    int x = *(p++);
+    int y = *(p++);
+    int modifiers = *(p++); // event.getModifiersEx()
+    int click_count = *(p++); // getClickCount
+    int button = *(p++); // getButton
 
-    CefMouseEvent cef_event;
-    cef_event.x = *(p++);
-    cef_event.y = *(p++);
-
-    // TODO: read modifiers and other params
-    CefBrowserHost::MouseButtonType cef_mbt = MBT_LEFT;
-    myBrowser->GetHost()->SendMouseClickEvent(cef_event, cef_mbt, event_type == 0, 1);
+    processMouseEvent(
+        myBrowser,
+        event_type,
+        x,
+        y,
+        modifiers,
+        click_count,
+        button
+    );
   }
   else if (method.compare("sendmousewheelevent") == 0) {
     const int len = buffer.size();
@@ -43,14 +69,22 @@ void CefBrowserAdapter::invoke(const std::string& method, const std::string& buf
     }
 
     const int32_t * p = (const int32_t *)buffer.c_str();
-    int scrollAmount = *(p++);
+    int scroll_type = *(p++);
+    int x = *(p++);
+    int y = *(p++);
+    int modifiers = *(p++);
+    int delta = *(p++);
+    int units_to_scroll = *(p++);
 
-    CefMouseEvent cef_event;
-    cef_event.x = 1;
-    cef_event.y = 1;
-
-    // TODO: process other params
-    myBrowser->GetHost()->SendMouseWheelEvent(cef_event, scrollAmount, scrollAmount);
+    processMouseWheelEvent(
+        myBrowser,
+        scroll_type,
+        x,
+        y,
+        modifiers,
+        delta,
+        units_to_scroll
+    );
   }
   else if (method.compare("sendkeyevent") == 0) {
     const int32_t * p = (const int32_t *)buffer.c_str();

@@ -348,14 +348,11 @@ public class CefRemoteBrowser implements CefBrowser {
             return;
 
         int[] data = new int[]{
-                e.getID() == MouseEvent.MOUSE_RELEASED ? 0 : 1,
-                e.getModifiersEx(),
+                e.getID(),
                 e.getX(),
                 e.getY(),
-                e.getXOnScreen(),
-                e.getYOnScreen(),
+                e.getModifiersEx(),
                 e.getClickCount(),
-                e.isPopupTrigger() ? 1 : 0,
                 e.getButton()
         };
         ByteBuffer params = ByteBuffer.allocate(data.length*4);
@@ -366,7 +363,21 @@ public class CefRemoteBrowser implements CefBrowser {
 
     @Override
     public void sendMouseWheelEvent(MouseWheelEvent e) {
+        if (myServer == null)
+            return;
 
+        int[] data = new int[]{
+            e.getScrollType(),
+            e.getX(),
+            e.getY(),
+            e.getModifiersEx(),
+            e.getWheelRotation(),
+            e.getUnitsToScroll(),
+        };
+        ByteBuffer params = ByteBuffer.allocate(data.length*4);
+        params.order(ByteOrder.nativeOrder());
+        params.asIntBuffer().put(data);
+        myServer.invoke(myBid, "sendmousewheelevent", params);
     }
 
     @Override

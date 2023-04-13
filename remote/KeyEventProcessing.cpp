@@ -205,7 +205,6 @@ const int VK_COMPOSE = 0xFF20;
 const int VK_ALT_GRAPH = 0xFF7E;
 const int VK_BEGIN = 0xFF58;
 const int VK_UNDEFINED = 0x0;
-const char CHAR_UNDEFINED = 0xFFFF;
 const int KEY_LOCATION_UNKNOWN = 0;
 const int KEY_LOCATION_STANDARD = 1;
 const int KEY_LOCATION_LEFT = 2;
@@ -391,6 +390,8 @@ int GetMacKeyCodeFromChar(int key_char) {
 }
 #endif  // defined(OS_MAC)
 
+} // anon namespace
+
 int GetCefModifiers(int modifiers) {
   int cef_modifiers = 0;
   if (modifiers & (ALT_DOWN_MASK))
@@ -410,8 +411,6 @@ int GetCefModifiers(int modifiers) {
 
   return cef_modifiers;
 }
-
-} // anon namespace
 
 void processKeyEvent(
     CefKeyEvent & cef_event,
