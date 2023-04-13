@@ -4,10 +4,14 @@
 
 package org.cef;
 
+import com.jetbrains.cef.JdkEx;
 import org.cef.callback.CefSchemeHandlerFactory;
 import org.cef.handler.CefAppHandler;
 import org.cef.handler.CefAppHandlerAdapter;
+import org.cef.handler.CefAppStateHandler;
+import org.cef.misc.CefLog;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,19 +19,17 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
-
-import javax.swing.SwingUtilities;
-import javax.swing.Timer;
-
-import com.jetbrains.cef.JdkEx;
-import org.cef.misc.CefLog;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * Exposes static methods for managing the global CEF context.
  */
 public class CefApp extends CefAppHandlerAdapter {
-    private static final boolean TRACE_LIFESPAN = Boolean.getBoolean("jcef.trace.cefapp.lifespan");
     public final class CefVersion {
         public final int JCEF_COMMIT_NUMBER;
 
@@ -136,6 +138,12 @@ public class CefApp extends CefAppHandlerAdapter {
     private HashSet<CefClient> clients_ = new HashSet<CefClient>();
     private CefSettings settings_ = null;
 
+    //
+    // Background initialization support
+    //
+    private volatile boolean isInitialized_ = false;
+    private final Collection<CefAppStateHandler> initializationListeners_ = new ArrayList<>();
+
     /**
      * To get an instance of this class, use the method
      * getInstance() instead of this CTOR.
@@ -164,22 +172,34 @@ public class CefApp extends CefAppHandlerAdapter {
             SystemBootstrap.loadLibrary("cef");
         }
 
+        setState(CefAppState.NEW);
+
         // Execute on the AWT event dispatching thread.
         try {
-            Runnable r = new Runnable() {
-                @Override
-                public void run() {
-                    // Perform native pre-initialization.
-                    if (!N_PreInitialize())
-                        throw new IllegalStateException("Failed to pre-initialize native code");
+            Runnable r = () -> {
+                // Perform native pre-initialization.
+                if (!N_PreInitialize()) {
+                    CefLog.Error("Failed to pre-initialize native code");
+                    throw new IllegalStateException("Failed to pre-initialize native code");
                 }
+
+                setState(CefAppState.INITIALIZING);
+                initialize();
             };
-            if (SwingUtilities.isEventDispatchThread())
-                r.run();
-            else
-                SwingUtilities.invokeAndWait(r);
+            SwingUtilities.invokeLater(r);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    // Notifies (in initialization thread) listener that native context has been initialized.
+    // When context is already initialized then listener executes immediately.
+    public void onInitialization(CefAppStateHandler initListener) {
+        synchronized (initializationListeners_) {
+            if (isInitialized_)
+                initListener.stateHasChanged(CefAppState.INITIALIZED);
+            else
+                initializationListeners_.add(initListener);
         }
     }
 
@@ -230,7 +250,6 @@ public class CefApp extends CefAppHandlerAdapter {
                 throw new IllegalStateException("CefApp was terminated");
             assert getState() == CefAppState.NONE;
             self = new CefApp(args, settings);
-            setState(CefAppState.NEW);
         }
         return self;
     }
@@ -265,9 +284,11 @@ public class CefApp extends CefAppHandlerAdapter {
 
     private static final void setState(final CefAppState state) {
         if (state.compareTo(state_) < 0) {
-            throw new IllegalStateException("State cannot go backward. Current state " + state_ + ". Proposed state " + state);
+            String errMsg = "CefApp: state cannot go backward. Current state " + state_ + ". Proposed state " + state;
+            CefLog.Error(errMsg);
+            throw new IllegalStateException(errMsg);
         }
-        if (TRACE_LIFESPAN) CefLog.Debug("CefApp: set state %s", state);
+        CefLog.Info("CefApp: set state %s", state);
         state_ = state;
         // Execute on the AWT event dispatching thread.
         SwingUtilities.invokeLater(new Runnable() {
@@ -303,10 +324,10 @@ public class CefApp extends CefAppHandlerAdapter {
                     // shutdown() will be called from clientWasDisposed() when the last
                     // client is gone.
                     // Use a copy of the HashSet to avoid iterating during modification.
-                    if (TRACE_LIFESPAN) CefLog.Debug("CefApp: dispose clients before shutting down");
+                    CefLog.Debug("CefApp: dispose clients before shutting down");
                     HashSet<CefClient> clients = new HashSet<CefClient>(clients_);
                     for (CefClient c : clients) {
-                        if (TRACE_LIFESPAN) CefLog.Debug("CefApp: dispose %s", c);
+                        CefLog.Debug("CefApp: dispose %s", c);
                         c.dispose();
                     }
                 }
@@ -328,21 +349,16 @@ public class CefApp extends CefAppHandlerAdapter {
      * @return a new client instance
      */
     public synchronized CefClient createClient() {
-        switch (getState()) {
-            case NEW:
-                setState(CefAppState.INITIALIZING);
-                initialize();
-                // FALL THRU
-
-            case INITIALIZING:
-            case INITIALIZED:
-                CefClient client = new CefClient();
-                clients_.add(client);
-                return client;
-
-            default:
-                throw new IllegalStateException("Can't crate client in state " + state_);
+        if (state_.compareTo(CefAppState.SHUTTING_DOWN) >= 0) {
+            String errMsg = "Can't create client in state " + state_;
+            CefLog.Error(errMsg);
+            throw new IllegalStateException(errMsg);
         }
+
+        CefClient client = new CefClient();
+        onInitialization(client);
+        clients_.add(client);
+        return client;
     }
 
     /**
@@ -389,7 +405,7 @@ public class CefApp extends CefAppHandlerAdapter {
      */
     protected final synchronized void clientWasDisposed(CefClient client) {
         clients_.remove(client);
-        if (TRACE_LIFESPAN) CefLog.Debug("CefApp: client was disposed: %s [clients count %d]", client, clients_.size());
+        CefLog.Debug("CefApp: client was disposed: %s [clients count %d]", client, clients_.size());
         if (clients_.isEmpty() && getState().compareTo(CefAppState.SHUTTING_DOWN) >= 0) {
             // Shutdown native system.
             shutdown();
@@ -454,15 +470,17 @@ public class CefApp extends CefAppHandlerAdapter {
                         setState(CefAppState.INITIALIZED);
                     }
 
+                    synchronized (initializationListeners_) {
+                        isInitialized_ = true;
+                        initializationListeners_.forEach(l -> l.stateHasChanged(CefAppState.INITIALIZED));
+                        initializationListeners_.clear();
+                    }
+
                     CefLog.init(settings);
                     CefLog.Info("version: %s | settings: %s", getVersion(), settings.getDescription());
-
                 }
             };
-            if (SwingUtilities.isEventDispatchThread())
-                r.run();
-            else
-                SwingUtilities.invokeAndWait(r);
+            SwingUtilities.invokeLater(r);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -92,10 +92,14 @@ public class CefLog {
         }
     }
 
+    public boolean isDebugEnabled() { return mySeverity.compareTo(CefSettings.LogSeverity.LOGSEVERITY_VERBOSE) <= 0; }
+
     static public void Debug(String msg, Object... args) { Log(CefSettings.LogSeverity.LOGSEVERITY_VERBOSE, msg, args); }
     static public void Info(String msg, Object... args) { Log(CefSettings.LogSeverity.LOGSEVERITY_INFO, msg, args); }
     static public void Warn(String msg, Object... args) { Log(CefSettings.LogSeverity.LOGSEVERITY_WARNING, msg, args); }
     static public void Error(String msg, Object... args) { Log(CefSettings.LogSeverity.LOGSEVERITY_ERROR, msg, args); }
+
+    static public boolean IsDebugEnabled() { return INSTANCE != null ? INSTANCE.isDebugEnabled() : false; }
 
     static public void Log(CefSettings.LogSeverity log_severity, String msg, Object... args) {
         if (msg == null || INSTANCE == null)

@@ -12,7 +12,7 @@ import org.cef.callback.CefSchemeRegistrar;
  * Implement this interface to provide handler implementations. Methods will be
  * called by the process and/or thread indicated.
  */
-public interface CefAppHandler {
+public interface CefAppHandler extends CefAppStateHandler {
     /**
      * Provides an opportunity to view and/or modify command-line arguments before
      * processing by CEF and Chromium. The |process_type| value will be empty for
@@ -35,17 +35,6 @@ public interface CefAppHandler {
      * terminate.
      */
     public boolean onBeforeTerminate();
-
-    /**
-     * Implement this method to get state changes of the CefApp.
-     * See {@link CefAppState} for a complete list of possible states.
-     *
-     * For example, this method can be used e.g. to get informed if CefApp has
-     * completed its initialization or its shutdown process.
-     *
-     * @param state The current state of CefApp.
-     */
-    public void stateHasChanged(CefAppState state);
 
     /**
      * Provides an opportunity to register custom schemes. Do not keep a reference
