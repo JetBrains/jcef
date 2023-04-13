@@ -87,10 +87,7 @@ public class TestSetupExtension
         context.getRoot().getStore(GLOBAL).put("jcef_test_setup", this);
 
         // Perform startup initialization on platforms that require it.
-        if (!CefApp.startup(new String[]{})) {
-            CefLog.Error("Startup initialization failed!");
-            return;
-        }
+        CefApp.startup(new String[]{});
 
         JCefAppConfig config = JCefAppConfig.getInstance();
         String[] appArgs = config.getAppArgs();
@@ -170,8 +167,7 @@ public class TestSetupExtension
         //
         CefClient client = CefApp.getInstance().createClient();
         final long time1 = System.currentTimeMillis();
-        CefLog.Info("CefApp initialization spent %d ms", time1 - time0);
-        CefLog.Info("Created test client, cinfo: " + client.getInfo());
+        CefLog.Info("CefApp.getInstance().createClient() spent %d ms, created test client: %s", time1 - time0, client.getInfo());
 
         // Check correct disposing
         CountDownLatch clientDispose_ = new CountDownLatch(1);

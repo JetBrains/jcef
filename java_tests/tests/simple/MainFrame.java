@@ -274,10 +274,7 @@ public class MainFrame extends JFrame {
 
     public static void main(String[] args) {
         // Perform startup initialization on platforms that require it.
-        if (!CefApp.startup(args)) {
-            System.out.println("Startup initialization failed!");
-            return;
-        }
+        CefApp.startup(args);
 
         new MainFrame(args, "http://www.google.com", OsrSupport.isEnabled(), false);
     }
