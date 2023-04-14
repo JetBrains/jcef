@@ -105,6 +105,11 @@ public class TestSetupExtension
 
         CefSettings settings = config.getCefSettings();
         settings.windowless_rendering_enabled = OsrSupport.isEnabled();
+        String debugPort = System.getenv("JCEF_DEVTOOL_DEBUG_PORT");
+        if (debugPort != null) {
+            settings.remote_debugging_port = Integer.parseInt(debugPort);
+            args.add("--remote-allow-origins=*");
+        }
         settings.log_severity = CefSettings.LogSeverity.LOGSEVERITY_VERBOSE;
         settings.log_file = System.getenv("JCEF_TESTS_LOG_FILE");
         String envSandboxed = System.getenv("JCEF_TESTS_SANDBOX_ENABLED");
