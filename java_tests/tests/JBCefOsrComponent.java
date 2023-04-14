@@ -86,6 +86,7 @@ class JBCefOsrComponent extends JPanel {
         myTimer = new Timer(100, e -> {
             myBrowser.wasResized((int) Math.ceil(w * scale), (int) Math.ceil(h * scale));
         });
+        myTimer.start();
     }
 
     @SuppressWarnings("DuplicatedCode")
