@@ -55,7 +55,7 @@ public class CefTouchEvent {
     }
 
     public CefTouchEvent(int id, float x, float y, EventType type) {
-        this(id, x, y, 0, 0, 0, 0, type, 0, PointerType.TOUCH);
+        this(id, x, y, 0, 0, 0, 0, type, 0, PointerType.UNKNOWN);
     }
 
     public int getId() {

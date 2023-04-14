@@ -1870,8 +1870,8 @@ cef_touch_event_type_t GetTouchEventType(JNIEnv* env,
 
 cef_pointer_type_t GetPointerType(JNIEnv* env,
                                   const ScopedJNIObjectResult& jValue) {
-  const char* CLASS_NAME = "org.cef.input.CefTouchEvent$PointerType";
-  if (IsJNIEnumValue(env, jValue, CLASS_NAME, "CEF_POINTER_TYPE_TOUCH")) {
+  const char* CLASS_NAME = "org/cef/input/CefTouchEvent$PointerType";
+  if (IsJNIEnumValue(env, jValue, CLASS_NAME, "TOUCH")) {
     return CEF_POINTER_TYPE_TOUCH;
   } else if (IsJNIEnumValue(env, jValue, CLASS_NAME, "MOUSE")) {
     return CEF_POINTER_TYPE_MOUSE;
@@ -1905,10 +1905,10 @@ void Java_org_cef_browser_CefBrowser_1N_N_1SendTouchEvent(JNIEnv* env,
       !CallJNIMethodF_V(env, cls, jEvent, "getRadiusX", &event.radius_x) ||
       !CallJNIMethodF_V(env, cls, jEvent, "getRadiusY", &event.radius_y) ||
       !CallJNIMethodF_V(env, cls, jEvent, "getRotationAngle", &event.rotation_angle) ||
-      !CallJNIMethodObject_V(env, cls, jEvent, "getType", "()Lorg/cef/input/CefTouchEvent$EventType", &jEventType) ||
+      !CallJNIMethodObject_V(env, cls, jEvent, "getType", "()Lorg/cef/input/CefTouchEvent$EventType;", &jEventType) ||
       !CallJNIMethodF_V(env, cls, jEvent, "getPressure", &event.pressure) ||
       !CallJNIMethodI_V(env, cls, jEvent, "getModifiers", &modifiers) ||
-      !CallJNIMethodObject_V(env, cls, jEvent, "getPointerType", "()Lorg/cef/input/CefTouchEvent$PointerType", &jPointerType)
+      !CallJNIMethodObject_V(env, cls, jEvent, "getPointerType", "()Lorg/cef/input/CefTouchEvent$PointerType;", &jPointerType)
       ) {
     LOG(ERROR) << "SendTouchEvent: Failed to access touch event data";
     return;
