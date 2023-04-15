@@ -1907,7 +1907,7 @@ void Java_org_cef_browser_CefBrowser_1N_N_1SendTouchEvent(JNIEnv* env,
       !CallJNIMethodF_V(env, cls, jEvent, "getRotationAngle", &event.rotation_angle) ||
       !CallJNIMethodObject_V(env, cls, jEvent, "getType", "()Lorg/cef/input/CefTouchEvent$EventType;", &jEventType) ||
       !CallJNIMethodF_V(env, cls, jEvent, "getPressure", &event.pressure) ||
-      !CallJNIMethodI_V(env, cls, jEvent, "getModifiers", &modifiers) ||
+      !CallJNIMethodI_V(env, cls, jEvent, "getModifiersEx", &modifiers) ||
       !CallJNIMethodObject_V(env, cls, jEvent, "getPointerType", "()Lorg/cef/input/CefTouchEvent$PointerType;", &jPointerType)
       ) {
     LOG(ERROR) << "SendTouchEvent: Failed to access touch event data";
@@ -1915,8 +1915,7 @@ void Java_org_cef_browser_CefBrowser_1N_N_1SendTouchEvent(JNIEnv* env,
   }
 
   event.type = GetTouchEventType(env, jEventType);
-  // TODO: convert modifiers
-  event.modifiers = modifiers;
+  event.modifiers = GetCefModifiers(env, cls, modifiers);
   event.pointer_type = GetPointerType(env, jPointerType);
 
   browser->GetHost()->SendTouchEvent(event);

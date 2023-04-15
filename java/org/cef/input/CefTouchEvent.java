@@ -41,7 +41,7 @@ public class CefTouchEvent {
     }
 
     public CefTouchEvent(int id, float x, float y, float radiusX, float radiusY, float rotationAngle,
-                         float pressure, EventType type, int modifiers, PointerType pointerType) {
+                         float pressure, EventType type, int modifiersEx, PointerType pointerType) {
         this.id = id;
         this.x = x;
         this.y = y;
@@ -50,12 +50,8 @@ public class CefTouchEvent {
         this.rotationAngle = rotationAngle;
         this.pressure = pressure;
         this.type = type;
-        this.modifiers = modifiers;
+        this.modifiersEx = modifiersEx;
         this.pointerType = pointerType;
-    }
-
-    public CefTouchEvent(int id, float x, float y, EventType type) {
-        this(id, x, y, 0, 0, 0, 0, type, 0, PointerType.UNKNOWN);
     }
 
     public int getId() {
@@ -91,8 +87,8 @@ public class CefTouchEvent {
         return type;
     }
 
-    public int getModifiers() {
-        return modifiers;
+    public int getModifiersEx() {
+        return modifiersEx;
     }
 
     public PointerType getPointerType() {
@@ -145,7 +141,7 @@ public class CefTouchEvent {
     /**
      * Bit flags describing any pressed modifier keys. See cef_event_flags_t for values.
      */
-    final private int modifiers;
+    final private int modifiersEx;
 
     /**
      * The device type that caused the event.
