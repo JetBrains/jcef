@@ -18,7 +18,7 @@ namespace java thrift_codegen
 
 service Server {
    i32 connect(),
-   i32 createBrowser(i32 cid),
+   i32 createBrowser(1:i32 cid),
    string closeBrowser(1:i32 bid),
 
    oneway void invoke(1:i32 bid, 2:string method, 3:binary buffer)

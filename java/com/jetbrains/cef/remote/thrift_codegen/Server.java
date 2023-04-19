@@ -1371,7 +1371,7 @@ public class Server {
   public static class createBrowser_args implements org.apache.thrift.TBase<createBrowser_args, createBrowser_args._Fields>, java.io.Serializable, Cloneable, Comparable<createBrowser_args>   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("createBrowser_args");
 
-    private static final org.apache.thrift.protocol.TField CID_FIELD_DESC = new org.apache.thrift.protocol.TField("cid", org.apache.thrift.protocol.TType.I32, (short)-1);
+    private static final org.apache.thrift.protocol.TField CID_FIELD_DESC = new org.apache.thrift.protocol.TField("cid", org.apache.thrift.protocol.TType.I32, (short)1);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new createBrowser_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new createBrowser_argsTupleSchemeFactory();
@@ -1380,7 +1380,7 @@ public class Server {
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      CID((short)-1, "cid");
+      CID((short)1, "cid");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -1396,7 +1396,7 @@ public class Server {
       @org.apache.thrift.annotation.Nullable
       public static _Fields findByThriftId(int fieldId) {
         switch(fieldId) {
-          case -1: // CID
+          case 1: // CID
             return CID;
           default:
             return null;
@@ -1659,7 +1659,7 @@ public class Server {
             break;
           }
           switch (schemeField.id) {
-            case -1: // CID
+            case 1: // CID
               if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
                 struct.cid = iprot.readI32();
                 struct.setCidIsSet(true);
