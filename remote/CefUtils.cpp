@@ -1,6 +1,7 @@
 #include "CefUtils.h"
 
 #include <thread>
+#include <boost/filesystem.hpp>
 
 #include "include/cef_command_line.h"
 #include "include/wrapper/cef_library_loader.h"
@@ -14,14 +15,17 @@ static bool g_isInitialized = false;
 
 bool doLoadCefLibrary() {
     // Load the CEF framework library at runtime instead of linking directly
-    // NOTE: can't load directly by custom path, getting strange errors:
+    // NOTE: can't load directly by custom libPath, getting strange errors:
     //[0314/193420.234812:ERROR:icu_util.cc(178)] icudtl.dat not found in bundle
     //[0314/193420.235447:ERROR:icu_util.cc(240)] Invalid file descriptor to ICU data received.
-    std::string basePath("/Users/bocha/projects/jcef/cmake-build-debug/remote/CefServer.app/Contents/Frameworks/");
-    std::string subDir = basePath + "Chromium Embedded Framework.framework/";
-    std::string framework_path = subDir + "Chromium Embedded Framework";
-    if (!cef_load_library(framework_path.c_str())) {
-        Log::debug("Failed to load the CEF framework by path %s", framework_path.c_str());
+    // Need to put CEF into CefServer.app/Contents/Frameworks
+    // TODO: fixme
+
+    boost::filesystem::path full_path( boost::filesystem::current_path() );
+    boost::filesystem::path frameworkPath = full_path.parent_path().append("Frameworks");
+    boost::filesystem::path libPath = frameworkPath.append("Chromium Embedded Framework.framework").append("Chromium Embedded Framework");
+    if (!cef_load_library(libPath.c_str())) {
+        Log::debug("Failed to load the CEF framework by libPath %s", libPath.c_str());
         return false;
     }
     Log::debug("Loaded cef native library");

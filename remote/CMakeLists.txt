@@ -43,6 +43,7 @@ macro(REQUIRE_BOOST_HEADERS)
 endmacro()
 REQUIRE_BOOST_HEADERS()
 
+find_package(Boost COMPONENTS filesystem REQUIRED)
 find_package(log4cxx 1.0)
 
 #
@@ -102,7 +103,7 @@ target_include_directories(${EXECUTABLE_NAME} PRIVATE $<TARGET_PROPERTY:log4cxx,
 target_link_libraries(${EXECUTABLE_NAME} log4cxx)
 target_link_libraries(${EXECUTABLE_NAME} libcef_dll_wrapper ${CEF_STANDARD_LIBS})
 target_link_libraries(${EXECUTABLE_NAME} thrift_codegen)
-target_link_libraries(${EXECUTABLE_NAME} thrift)
+target_link_libraries(${EXECUTABLE_NAME} thrift ${Boost_FILESYSTEM_LIBRARY})
 if (ZLIB_FOUND)
     target_link_libraries(${EXECUTABLE_NAME} ${ZLIB_LIBRARIES})
 endif ()
