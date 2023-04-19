@@ -51,6 +51,7 @@ find_package(log4cxx 1.0)
 set(thrift_codegen_SOURCES
     gen-cpp/Server.cpp
     gen-cpp/ClientHandlers.cpp
+    gen-cpp/cef_client_types.cpp
 )
 add_library(thrift_codegen STATIC ${thrift_codegen_SOURCES})
 link_directories(thrift_codegen /opt/homebrew/Cellar/thrift/0.16.0/lib)
@@ -93,7 +94,7 @@ set(CEFSIMPLE_RESOURCES_SRCS
 #
 set(EXECUTABLE_NAME "CefServer")
 set(PRODUCT_NAME "CefServer")
-add_executable(${EXECUTABLE_NAME} MACOSX_BUNDLE ${CEFSIMPLE_RESOURCES_SRCS} CppServer.cpp CefUtils.cpp CefUtils.h RemoteClientHandler.cpp RemoteClientHandler.h RemoteRenderHandler.cpp RemoteRenderHandler.h RemoteLifespanHandler.cpp RemoteLifespanHandler.h ServerHandler.cpp log/Log.cpp log/Log.h Utils.cpp Utils.h RemoteLoadHandler.cpp RemoteLoadHandler.h KeyEventProcessing.cpp CefBrowserAdapter.cpp CefBrowserAdapter.h MouseEventProcessing.cpp)
+add_executable(${EXECUTABLE_NAME} MACOSX_BUNDLE ${CEFSIMPLE_RESOURCES_SRCS} CppServer.cpp CefUtils.cpp CefUtils.h RemoteClientHandler.cpp RemoteClientHandler.h RemoteRenderHandler.cpp RemoteRenderHandler.h RemoteLifespanHandler.cpp RemoteLifespanHandler.h ServerHandler.cpp log/Log.cpp log/Log.h Utils.cpp Utils.h RemoteLoadHandler.cpp RemoteLoadHandler.h KeyEventProcessing.cpp CefBrowserAdapter.cpp CefBrowserAdapter.h MouseEventProcessing.cpp RemoteAppHandler.cpp RemoteAppHandler.h)
 add_dependencies(${EXECUTABLE_NAME} libcef_dll_wrapper)
 target_include_directories(${EXECUTABLE_NAME} PRIVATE /opt/homebrew/Cellar/thrift/0.16.0/include)
 target_include_directories(${EXECUTABLE_NAME} PRIVATE ${CEF_INCLUDE_PATH})

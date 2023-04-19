@@ -1,11 +1,19 @@
 #include "ServerHandler.h"
 
-#include <thrift/transport/TSocket.h>
+#include <thread>
 
 #include "RemoteLifespanHandler.h"
+#include "RemoteAppHandler.h"
 #include "CefBrowserAdapter.h"
 
+#include "CefUtils.h"
+
 using namespace apache::thrift;
+
+namespace {
+  RemoteAppHandler * g_remoteAppHandler = nullptr;
+  std::thread * g_mainCefThread = nullptr;
+}
 
 ServerHandler::~ServerHandler() {
   try {
@@ -15,6 +23,7 @@ ServerHandler::~ServerHandler() {
       myBackwardConnection->close();
       myBackwardConnection = nullptr;
     }
+    // TODO: probably we should shutdown cef (so AppHandler will update on next intialization)
   } catch (TException e) {
     Log::error("thrift exception in ~ServerHandler: %s", e.what());
   }
@@ -28,6 +37,15 @@ int32_t ServerHandler::connect() {
   if (myBackwardConnection == nullptr) {
     try {
       myBackwardConnection = std::make_shared<BackwardConnection>();
+      if (g_remoteAppHandler == nullptr) {
+        Log::debug("Start cef initialization");
+        g_remoteAppHandler = new RemoteAppHandler(myBackwardConnection);
+        g_mainCefThread = new std::thread([=]() {
+          doCefInitializeAndRun(g_remoteAppHandler);
+        });
+      } else {
+        Log::error("Cef has been initialized and CefApp handler from new client connection will be ignored");
+      }
     } catch (TException& tx) {
       Log::error(tx.what());
       return -1;
@@ -38,6 +56,12 @@ int32_t ServerHandler::connect() {
 }
 
 int32_t ServerHandler::createBrowser(int cid) {
+  if (!isCefInitialized()) {
+    Log::error( "Can't create browser with cid=%d, need wait for cef initialization", cid);
+    // TODO: return wrapper and schedule browser creation after initialization
+    return -2;
+  }
+
   int bid = myRemoteBrowsers.size();
   for (int c = 0, cEnd = myRemoteBrowsers.size(); c < cEnd; ++c)
     if (myRemoteBrowsers[c] != nullptr) {

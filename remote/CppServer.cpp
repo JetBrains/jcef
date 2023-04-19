@@ -1,4 +1,3 @@
-#include <thrift/concurrency/ThreadFactory.h>
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/server/TThreadedServer.h>
 #include <thrift/transport/TServerSocket.h>
@@ -47,57 +46,17 @@ class ServerCloneFactory : virtual public ServerIfFactory {
 
 int main(int argc, char* argv[]) {
   Log::init();
-  preinitCef(argc, argv);
+  if (!doLoadCefLibrary())
+    return -1;
 
-  std::thread serverThread([=]() {
-    TThreadedServer server(std::make_shared<ServerProcessorFactory>(
-                               std::make_shared<ServerCloneFactory>()),
-                           std::make_shared<TServerSocket>(9090),  // port
-                           std::make_shared<TBufferedTransportFactory>(),
-                           std::make_shared<TBinaryProtocolFactory>());
+  TThreadedServer server(std::make_shared<ServerProcessorFactory>(
+                             std::make_shared<ServerCloneFactory>()),
+                         std::make_shared<TServerSocket>(9090),  // port
+                         std::make_shared<TBufferedTransportFactory>(),
+                         std::make_shared<TBinaryProtocolFactory>());
 
-    /*
-    // if you don't need per-connection state, do the following instead
-    TThreadedServer server(
-      std::make_shared<ServerProcessor>(std::make_shared<ServerHandler>()),
-      std::make_shared<TServerSocket>(9090), //port
-      std::make_shared<TBufferedTransportFactory>(),
-      std::make_shared<TBinaryProtocolFactory>());
-    */
-
-    /**
-     * Here are some alternate server types...
-
-    // This server only allows one connection at a time, but spawns no threads
-    TSimpleServer server(
-      std::make_shared<ServerProcessor>(std::make_shared<ServerHandler>()),
-      std::make_shared<TServerSocket>(9090),
-      std::make_shared<TBufferedTransportFactory>(),
-      std::make_shared<TBinaryProtocolFactory>());
-
-    const int workerCount = 4;
-
-    std::shared_ptr<ThreadManager> threadManager =
-      ThreadManager::newSimpleThreadManager(workerCount);
-    threadManager->threadFactory(
-      std::make_shared<ThreadFactory>());
-    threadManager->start();
-
-    // This server allows "workerCount" connection at a time, and reuses threads
-    TThreadPoolServer server(
-      std::make_shared<ServerProcessorFactory>(std::make_shared<ServerCloneFactory>()),
-      std::make_shared<TServerSocket>(9090),
-      std::make_shared<TBufferedTransportFactory>(),
-      std::make_shared<TBinaryProtocolFactory>(),
-      threadManager);
-    */
-    Log::debug("starting the server...");
-    server.serve();
-    Log::debug("done, server stopped.");
-  });
-
-  CefRunMessageLoop();
-  CefShutdown();
-
+  Log::debug("Starting the server...");
+  server.serve();
+  Log::debug("Done, server stopped.");
   return 0;
 }

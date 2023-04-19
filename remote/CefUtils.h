@@ -7,7 +7,12 @@
 
 #include "include/cef_base.h"
 
-void preinitCef(int argc, char* argv[]);
+class RemoteAppHandler;
+
+bool doLoadCefLibrary();
+void doCefInitializeAndRun(RemoteAppHandler * appHandler);
+
+bool isCefInitialized();
 
 template<typename ... Args>
 std::string string_format( const std::string& format, Args ... args )

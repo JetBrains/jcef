@@ -1,6 +1,7 @@
 package com.jetbrains.cef.remote;
 
 import com.jetbrains.cef.remote.thrift_codegen.ClientHandlers;
+import com.jetbrains.cef.remote.thrift_codegen.CustomScheme;
 import org.apache.thrift.TException;
 import org.cef.handler.*;
 import org.cef.misc.CefLog;
@@ -9,10 +10,17 @@ import org.cef.network.CefRequest;
 import java.awt.*;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ClientHandlersImpl implements ClientHandlers.Iface {
+    static private final String prefixArgument = "Argument_";
+    static private final String prefixSwitch = "Switch_";
+    static private final String prefixSwitchWithValue = "SwitchWithValue_";
+
     private final Map<Integer, CefRemoteClient> myCid2RemoteClient = new ConcurrentHashMap<>();
 
     void registerRemoteClient(CefRemoteClient remoteClient) {
@@ -43,6 +51,25 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     @Override
     public void log(String msg) throws TException {
         CefLog.Debug("received message from CefServer: " + msg);
+    }
+
+    @Override
+    public List<String> onBeforeCommandLineProcessing(String process_type, List<String> command_line) throws TException {
+        CefLog.Debug("onBeforeCommandLineProcessing: proc_type=%s, cmd: %s", process_type, Arrays.toString(command_line.toArray()));
+        List<String> result = new ArrayList<>();
+        // TODO: delegate calculations to real java CefAppHandler
+        // NOTE: use hardcoded prefixes
+        CefLog.Error("Unimplemented onBeforeCommandLineProcessing");
+        return result;
+    }
+
+    @Override
+    public List<CustomScheme> onRegisterCustomSchemes() throws TException {
+        CefLog.Debug("onRegisterCustomSchemes: ");
+        // TODO: delegate calculations to real java CefAppHandler
+        CefLog.Error("Unimplemented onRegisterCustomSchemes");
+        List<CustomScheme> result = new ArrayList<>();
+        return result;
     }
 
     @Override

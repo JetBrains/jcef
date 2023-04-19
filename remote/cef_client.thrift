@@ -16,9 +16,20 @@
 namespace cpp thrift_codegen
 namespace java thrift_codegen
 
+struct CustomScheme {
+1: required string schemeName;
+2: required i32 options;
+}
+
 service ClientHandlers {
    i32 connect(),
    oneway void log(1:string msg),
+
+   //
+   // CefAppHandler
+   //
+   list<string> onBeforeCommandLineProcessing(1:string process_type, 2:list<string> command_line)
+   list<CustomScheme> onRegisterCustomSchemes()
 
    //
    // CefRenderHandler
