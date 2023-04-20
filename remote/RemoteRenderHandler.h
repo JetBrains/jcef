@@ -62,8 +62,7 @@ protected:
   bool _ensureSharedCapacity(int len);
   void _releaseSharedMem();
 
-  void _onThriftException(apache::thrift::TException e);
-
+private:
   IMPLEMENT_REFCOUNTING(RemoteRenderHandler);
 };
 

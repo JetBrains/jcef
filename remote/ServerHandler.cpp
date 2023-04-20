@@ -20,13 +20,13 @@ ServerHandler::~ServerHandler() {
   try {
     closeAllBrowsers();
     if (myBackwardConnection != nullptr) {
-      Log::debug("close backward connection");
+      Log::debug("Close backward connection");
       myBackwardConnection->close();
       myBackwardConnection = nullptr;
     }
     // TODO: probably we should shutdown cef (so AppHandler will update on next intialization)
   } catch (TException e) {
-    Log::error("thrift exception in ~ServerHandler: %s", e.what());
+    Log::error("Thrift exception in ~ServerHandler: %s", e.what());
   }
 }
 
@@ -36,7 +36,7 @@ int32_t ServerHandler::connect() {
   char buf[64];
   std::sprintf(buf, "Client_%d", cid);
   MDC::put("thread.name", buf);
-  Log::debug("connected new client with cid=%d", cid);
+  Log::debug("Connected new client with cid=%d", cid);
 
   // Connect to client's side (for cef-callbacks execution on java side)
   if (myBackwardConnection == nullptr) {
@@ -63,7 +63,7 @@ int32_t ServerHandler::connect() {
 
 int32_t ServerHandler::createBrowser(int cid) {
   if (!isCefInitialized()) {
-    Log::error( "Can't create browser with cid=%d, need wait for cef initialization", cid);
+    Log::warn( "Can't create browser with cid=%d, need wait for cef initialization", cid);
     // TODO: return wrapper and schedule browser creation after initialization
     return -2;
   }
@@ -86,10 +86,10 @@ int32_t ServerHandler::createBrowser(int cid) {
   bool result = CefBrowserHost::CreateBrowser(windowInfo, clienthandler, strUrl,
                                               settings, nullptr, nullptr);
   if (!result) {
-    Log::error( "failed to create browser with cid=%d, bid=%d", cid, bid);
+    Log::error( "Failed to create browser with cid=%d, bid=%d", cid, bid);
     return -1;
   }
-  Log::debug("browser successfully created, cid=%d, bid=%d", cid, bid);
+  Log::debug("Browser successfully created, cid=%d, bid=%d", cid, bid);
 
   if (bid >= 0 && bid < myRemoteBrowsers.size())
     myRemoteBrowsers[bid] = clienthandler;
@@ -100,16 +100,16 @@ int32_t ServerHandler::createBrowser(int cid) {
 }
 
 void ServerHandler::closeBrowser(std::string& _return, const int32_t bid) {
-  Log::debug("close browser %d", bid);
+  Log::debug("Close browser %d", bid);
 
   if (bid >= myRemoteBrowsers.size()) {
-    Log::debug("closeBrowser: bid %d > myRemoteBrowsers.size() %d", bid,
+    Log::error("closeBrowser: bid %d > myRemoteBrowsers.size() %d", bid,
                myRemoteBrowsers.size());
     _return.assign("invalid bid");
     return;
   }
   if (myRemoteBrowsers[bid] == nullptr) {
-    Log::debug("closeBrowser: null browser at bid %d", bid);
+    Log::error("closeBrowser: null browser at bid %d", bid);
     _return.assign("null browser");
     return;
   }
@@ -123,14 +123,14 @@ void ServerHandler::closeBrowser(std::string& _return, const int32_t bid) {
 
 void ServerHandler::invoke(const int32_t bid, const std::string& method, const std::string& buffer) {
   if (bid >= myRemoteBrowsers.size()) {
-    Log::debug("invoke: bid %d > myRemoteBrowsers.size() %d", bid,
+    Log::error("invoke: bid %d > myRemoteBrowsers.size() %d", bid,
                myRemoteBrowsers.size());
     return;
   }
 
   auto browser = getBrowser(bid);
   if (browser == nullptr) {
-    Log::debug("invoke: null browser, bid=%d", bid);
+    Log::error("invoke: null browser, bid=%d", bid);
     return;
   }
 

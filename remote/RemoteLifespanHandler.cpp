@@ -19,18 +19,16 @@ bool RemoteLifespanHandler::OnBeforePopup(
     CefRefPtr<CefDictionaryValue>& extra_info,
     bool* no_javascript_access)
 {
-  auto remoteService = myOwner.getBackwardConnection()->getHandlersService();
-  if (remoteService == nullptr) {
-    Log::debug("OnBeforePopup, null remote service");
-    return false;
-  }
+  LogNdc ndc("RemoteLifespanHandler::OnBeforePopup");
+  auto remoteService = myOwner.getService();
+  if (remoteService == nullptr) return false;
 
   try {
     // TODO: support other params
-    Log::error("unimplemented RemoteLifespanHandler::OnBeforePopup");
+    Log::error("unimplemented");
     remoteService->onBeforePopup(myOwner.getCid(), myOwner.getBid(), "", false);
   } catch (apache::thrift::TException& tx) {
-    _onThriftException(tx);
+    myOwner.onThriftException(tx);
   }
   return false;
 }
@@ -38,55 +36,44 @@ bool RemoteLifespanHandler::OnBeforePopup(
 void RemoteLifespanHandler::OnAfterCreated(CefRefPtr<CefBrowser> browser) {
   myBrowser = browser;
 
-  auto remoteService = myOwner.getBackwardConnection()->getHandlersService();
-  if (remoteService == nullptr) {
-    Log::debug("OnAfterCreated, null remote service");
-    return;
-  }
+  LogNdc ndc("RemoteLifespanHandler::OnAfterCreated");
+  auto remoteService = myOwner.getService();
+  if (remoteService == nullptr) return;
 
   try {
     remoteService->onAfterCreated(myOwner.getCid(), myOwner.getBid());
   } catch (apache::thrift::TException& tx) {
-    _onThriftException(tx);
+    myOwner.onThriftException(tx);
   }
 }
 
 bool RemoteLifespanHandler::DoClose(CefRefPtr<CefBrowser> browser) {
   myBrowser = nullptr;
 
-  auto remoteService = myOwner.getBackwardConnection()->getHandlersService();
-  if (remoteService == nullptr) {
-    Log::debug("DoClose, null remote service");
-    return false;
-  }
+  LogNdc ndc("RemoteLifespanHandler::DoClose");
+  auto remoteService = myOwner.getService();
+  if (remoteService == nullptr) return false;
 
   try {
     remoteService->doClose(myOwner.getCid(), myOwner.getBid());
   } catch (apache::thrift::TException& tx) {
-    _onThriftException(tx);
-    return false;
+    myOwner.onThriftException(tx);
   }
   return false;
 }
 
 void RemoteLifespanHandler::OnBeforeClose(CefRefPtr<CefBrowser> browser) {
-  auto remoteService = myOwner.getBackwardConnection()->getHandlersService();
-  if (remoteService == nullptr) {
-    Log::debug("OnBeforeClose, null remote service");
-    return;
-  }
+  LogNdc ndc("RemoteLifespanHandler::OnBeforeClose");
+  auto remoteService = myOwner.getService();
+  if (remoteService == nullptr) return;
 
   try {
     remoteService->onBeforeClose(myOwner.getCid(), myOwner.getBid());
   } catch (apache::thrift::TException& tx) {
-    _onThriftException(tx);
+    myOwner.onThriftException(tx);
   }
 }
 
 CefRefPtr<CefBrowser> RemoteLifespanHandler::getBrowser() {
   return myBrowser;
-}
-
-void RemoteLifespanHandler::_onThriftException(apache::thrift::TException e) {
-  Log::debug("browser [%d], thrift exception occured: %s", myOwner.getBid(), e.what());
 }

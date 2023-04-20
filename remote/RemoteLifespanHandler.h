@@ -28,8 +28,7 @@ class RemoteLifespanHandler : public CefLifeSpanHandler {
   RemoteClientHandler & myOwner;
   CefRefPtr<CefBrowser> myBrowser = nullptr;
 
-  void _onThriftException(apache::thrift::TException e);
-
+ private:
   IMPLEMENT_REFCOUNTING(RemoteLifespanHandler);
 };
 

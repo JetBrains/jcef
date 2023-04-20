@@ -6,7 +6,7 @@
 #include "log/Log.h"
 
 RemoteClientHandler::RemoteClientHandler(std::shared_ptr<BackwardConnection> connection, int cid, int bid)
-    : myBackwardConnection(connection),
+    : ConnectionUser(connection),
       myCid(cid),
       myBid(bid),
       myRemoteRenderHandler(new RemoteRenderHandler(*this)),
@@ -87,9 +87,5 @@ bool RemoteClientHandler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser
                                              CefRefPtr<CefProcessMessage> message) {
     Log::error("UNIMPLEMENTED: RemoteClientHandler::OnProcessMessageReceived");
     return false;
-}
-
-std::shared_ptr<BackwardConnection> RemoteClientHandler::getBackwardConnection() {
-    return myBackwardConnection;
 }
 

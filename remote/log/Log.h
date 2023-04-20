@@ -41,6 +41,7 @@ public:
 class Measurer {
 public:
   Measurer(const std::string & msg);
+  Measurer() : Measurer("") {}
   virtual ~Measurer();
 
   void append(const std::string & msg);

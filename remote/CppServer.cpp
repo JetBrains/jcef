@@ -5,7 +5,6 @@
 #include <thrift/transport/TTransportUtils.h>
 
 #include <log4cxx/mdc.h>
-#include <iostream>
 
 #include "CefUtils.h"
 #include "ServerHandler.h"

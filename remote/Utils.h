@@ -19,7 +19,6 @@ class ConnectionUser {
   explicit ConnectionUser(std::shared_ptr<BackwardConnection> backwardConnection):
         myBackwardConnection(backwardConnection) {}
 
- protected:
   std::shared_ptr<thrift_codegen::ClientHandlersClient> getService(); // logs error when null
   void onThriftException(apache::thrift::TException e);
 

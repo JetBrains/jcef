@@ -31,8 +31,7 @@ class RemoteLoadHandler : public CefLoadHandler {
  protected:
   RemoteClientHandler & myOwner;
 
-  void _onThriftException(apache::thrift::TException e);
-
+ private:
   IMPLEMENT_REFCOUNTING(RemoteLoadHandler);
 };
 
