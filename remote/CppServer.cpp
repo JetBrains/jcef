@@ -4,6 +4,7 @@
 #include <thrift/transport/TSocket.h>
 #include <thrift/transport/TTransportUtils.h>
 
+#include <log4cxx/mdc.h>
 #include <iostream>
 
 #include "CefUtils.h"
@@ -46,6 +47,8 @@ class ServerCloneFactory : virtual public ServerIfFactory {
 
 int main(int argc, char* argv[]) {
   Log::init();
+  MDC::put("thread.name", "main");
+
   if (!doLoadCefLibrary())
     return -1;
 

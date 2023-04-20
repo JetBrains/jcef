@@ -1,10 +1,11 @@
 #include "ServerHandler.h"
 
+#include <log4cxx/mdc.h>
 #include <thread>
 
-#include "RemoteLifespanHandler.h"
-#include "RemoteAppHandler.h"
 #include "CefBrowserAdapter.h"
+#include "RemoteAppHandler.h"
+#include "RemoteLifespanHandler.h"
 
 #include "CefUtils.h"
 
@@ -30,8 +31,12 @@ ServerHandler::~ServerHandler() {
 }
 
 int32_t ServerHandler::connect() {
-  static int cid = 0;
-  Log::debug("connected new client with cid=%d", cid++);
+  static int s_counter = 0;
+  const int cid = s_counter++;
+  char buf[64];
+  std::sprintf(buf, "Client_%d", cid);
+  MDC::put("thread.name", buf);
+  Log::debug("connected new client with cid=%d", cid);
 
   // Connect to client's side (for cef-callbacks execution on java side)
   if (myBackwardConnection == nullptr) {
@@ -41,6 +46,7 @@ int32_t ServerHandler::connect() {
         Log::debug("Start cef initialization");
         g_remoteAppHandler = new RemoteAppHandler(myBackwardConnection);
         g_mainCefThread = new std::thread([=]() {
+          MDC::put("thread.name", "CefMain");
           doCefInitializeAndRun(g_remoteAppHandler);
         });
       } else {
@@ -52,7 +58,7 @@ int32_t ServerHandler::connect() {
     }
   }
 
-  return cid++;
+  return cid;
 }
 
 int32_t ServerHandler::createBrowser(int cid) {

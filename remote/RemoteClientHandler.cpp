@@ -1,7 +1,8 @@
 #include "RemoteClientHandler.h"
+#include <log4cxx/mdc.h>
 #include "RemoteLifespanHandler.h"
-#include "RemoteRenderHandler.h"
 #include "RemoteLoadHandler.h"
+#include "RemoteRenderHandler.h"
 #include "log/Log.h"
 
 RemoteClientHandler::RemoteClientHandler(std::shared_ptr<BackwardConnection> connection, int cid, int bid)
