@@ -14,4 +14,18 @@ class BackwardConnection {
   std::shared_ptr<thrift_codegen::ClientHandlersClient> getHandlersService() { return myClientHandlers; }
 };
 
+class ConnectionUser {
+ public:
+  explicit ConnectionUser(std::shared_ptr<BackwardConnection> backwardConnection):
+        myBackwardConnection(backwardConnection) {}
+
+ protected:
+  std::shared_ptr<thrift_codegen::ClientHandlersClient> getService(); // logs error when null
+  void onThriftException(apache::thrift::TException e);
+
+ private:
+  std::shared_ptr<BackwardConnection> myBackwardConnection;
+};
+
+
 #endif  // JCEF_UTILS_H

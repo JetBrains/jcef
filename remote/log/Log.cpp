@@ -1,8 +1,10 @@
 #include "Log.h"
+#include <log4cxx/ndc.h>
 
 #include <cstdarg>
 #include <stdexcept>
 #include <vector>
+#include <thread>
 
 #include <log4cxx/logger.h>
 #include <log4cxx/logmanager.h>
@@ -20,6 +22,17 @@ void Log::log(const LevelPtr & level, const char *const format, ...) {
   log4cxx::LoggerPtr logger = log4cxx::Logger::getRootLogger();
   if (!level->isGreaterOrEqual(logger->getLevel()))
     return;
+
+  if (NDC::empty())
+    NDC::push(""); // for pretty logging
+  if (MDC::get("thread.name").empty()) {
+    // TODO: pass thread name
+    // size_t tidHash = std::hash<std::thread::id>()(std::this_thread::get_id());
+    static int tidLocal = 0;
+    char buf[64];
+    std::sprintf(buf, "th%d", tidLocal++);
+    MDC::put("thread.name", buf);
+  }
 
   auto temp = std::vector<char>{};
   auto length = std::size_t {63};
@@ -50,4 +63,12 @@ void Measurer::append(const std::string & msg) {
 Measurer::~Measurer() {
   std::chrono::microseconds endMs = duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now().time_since_epoch());
   Log::trace("%s | spent %d mcs", myMsg.c_str(), endMs.count() - myStartTime.count());
+}
+
+LogNdc::LogNdc(std::string msg) {
+  NDC::push(msg);
+}
+
+LogNdc::~LogNdc() {
+  NDC::pop();
 }

@@ -50,4 +50,10 @@ private:
   std::string myMsg;
 };
 
+class LogNdc {
+ public:
+  LogNdc(std::string msg);
+  virtual ~LogNdc();
+};
+
 #endif  // JCEF_LOG_H

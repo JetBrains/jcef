@@ -1,6 +1,5 @@
 #include "RemoteAppHandler.h"
 #include "Log/Log.h"
-
 #include "gen-cpp/cef_client_types.h"
 
 using namespace thrift_codegen;
@@ -12,16 +11,14 @@ namespace {
 }
 
 RemoteAppHandler::RemoteAppHandler(std::shared_ptr<BackwardConnection> backwardConnection)
-    : myBackwardConnection(backwardConnection) {}
+    : ConnectionUser(backwardConnection) {}
 
 void RemoteAppHandler::OnBeforeCommandLineProcessing(
     const CefString& process_type,
     CefRefPtr<CefCommandLine> command_line) {
-  auto remoteService = myBackwardConnection->getHandlersService();
-  if (remoteService == nullptr) {
-    Log::debug("OnBeforeCommandLineProcessing, null remote service");
-    return;
-  }
+  LogNdc ndc("RemoteAppHandler::OnBeforeCommandLineProcessing");
+  auto remoteService = getService();
+  if (remoteService == nullptr) return;
 
   std::vector<std::string> result;
   std::vector<std::string> cmdline;
@@ -35,11 +32,11 @@ void RemoteAppHandler::OnBeforeCommandLineProcessing(
   try {
     remoteService->onBeforeCommandLineProcessing(result, process_type.ToString(), cmdline);
   } catch (apache::thrift::TException& tx) {
-    _onThriftException(tx);
+    onThriftException(tx);
     return;
   }
 
-  Log::debug("OnBeforeCommandLineProcessing:\noriginal command line:\n%s", command_line->GetCommandLineString().ToString().c_str());
+  Log::debug("Original command line:\n%s", command_line->GetCommandLineString().ToString().c_str());
 
   std::string additionalItems = "";
   for (auto s: result) {
@@ -70,21 +67,19 @@ void RemoteAppHandler::OnBeforeCommandLineProcessing(
 
 void RemoteAppHandler::OnRegisterCustomSchemes(
     CefRawPtr<CefSchemeRegistrar> registrar) {
-  auto remoteService = myBackwardConnection->getHandlersService();
-  if (remoteService == nullptr) {
-    Log::debug("OnRegisterCustomSchemes, null remote service");
-    return;
-  }
+  LogNdc ndc("RemoteAppHandler::OnRegisterCustomSchemes");
+  auto remoteService = getService();
+  if (remoteService == nullptr) return;
 
   std::vector<CustomScheme> result;
   try {
     remoteService->onRegisterCustomSchemes(result);
   } catch (apache::thrift::TException& tx) {
-    _onThriftException(tx);
+    onThriftException(tx);
     return;
   }
 
-  Log::debug("OnRegisterCustomSchemes: additional schemes:");
+  Log::debug("Additional schemes:");
   for (auto cs: result) {
     registrar->AddCustomScheme(cs.schemeName, cs.options);
     Log::debug("%s [%d]", cs.schemeName.c_str(), cs.options);
@@ -95,8 +90,3 @@ CefRefPtr<CefBrowserProcessHandler> RemoteAppHandler::GetBrowserProcessHandler()
   Log::error("RemoteAppHandler::GetBrowserProcessHandler: unimplemented");
   return nullptr;
 }
-
-void RemoteAppHandler::_onThriftException(apache::thrift::TException e) {
-  Log::debug("RemoteAppHandler: thrift exception occured: %s", e.what());
-}
-

@@ -5,7 +5,7 @@
   <appender name="ConsoleAppender" class="org.apache.log4j.ConsoleAppender">
     <param name="Target" value="System.out"/>
     <layout class="org.apache.log4j.PatternLayout">
-      <param name="ConversionPattern" value="%d{ABSOLUTE} %level [%X{thread.name}]: %m%n"/>
+      <param name="ConversionPattern" value="%d{ABSOLUTE} %level [%X{thread.name} %x]: %m%n"/>
     </layout>
   </appender>
 

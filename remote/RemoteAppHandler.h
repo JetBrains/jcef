@@ -3,7 +3,7 @@
 #include "include/cef_app.h"
 #include "Utils.h"
 
-class RemoteAppHandler : public CefApp {
+class RemoteAppHandler : public CefApp, ConnectionUser {
  public:
   explicit RemoteAppHandler(std::shared_ptr<BackwardConnection> backwardConnection);
 
@@ -14,11 +14,7 @@ class RemoteAppHandler : public CefApp {
       CefRawPtr<CefSchemeRegistrar> registrar) override;
   CefRefPtr<CefBrowserProcessHandler> GetBrowserProcessHandler() override;
 
- protected:
-  std::shared_ptr<BackwardConnection> myBackwardConnection;
-
-  void _onThriftException(apache::thrift::TException e);
-
+ private:
   IMPLEMENT_REFCOUNTING(RemoteAppHandler);
 };
 

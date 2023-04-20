@@ -29,3 +29,16 @@ void BackwardConnection::close() {
     myTransport = nullptr;
   }
 }
+
+std::shared_ptr<thrift_codegen::ClientHandlersClient> ConnectionUser::getService() {
+  auto remoteService = myBackwardConnection->getHandlersService();
+  if (remoteService == nullptr) {
+    Log::error("null remote service");
+    return nullptr;
+  }
+  return remoteService;
+}
+
+void ConnectionUser::onThriftException(apache::thrift::TException e) {
+    Log::debug("thrift exception occured: %s", e.what());
+}
