@@ -22,8 +22,8 @@ struct CustomScheme {
 }
 
 service ClientHandlers {
-   i32 connect(),
-   oneway void log(1:string msg),
+   i32 connect()
+   oneway void log(1:string msg)
 
    //
    // CefAppHandler
@@ -34,7 +34,7 @@ service ClientHandlers {
    //
    // CefRenderHandler
    //
-   binary getInfo(1:i32 cid, 2:i32 bid, 3:string request, 4:binary buffer),
+   binary getInfo(1:i32 cid, 2:i32 bid, 3:string request, 4:binary buffer)
    void onPaint(1:i32 cid, 2:i32 bid, 3:bool popup, 4:i32 dirtyRectsCount, 5:string sharedMemName, 6:i64 sharedMemHandle, 7:bool recreateHandle, 8:i32 width, 9:i32 height)
 
    //
