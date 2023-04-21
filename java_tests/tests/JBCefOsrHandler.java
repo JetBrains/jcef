@@ -7,6 +7,7 @@ import org.cef.browser.CefBrowser;
 import org.cef.callback.CefDragData;
 import org.cef.handler.CefNativeRenderHandler;
 import org.cef.handler.CefScreenInfo;
+import org.cef.misc.CefLog;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,6 +18,8 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.awt.image.VolatileImage;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.IntBuffer;
@@ -139,12 +142,14 @@ public class JBCefOsrHandler implements CefNativeRenderHandler {
 
     @Override
     public void onPaintWithSharedMem(CefBrowser browser, boolean popup, int dirtyRectsCount, String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height) {
+        // TODO: support popups
         long startMs = System.currentTimeMillis();
         if (recreateHandle || mySharedMem == null || !mySharedMem.mname.equals(sharedMemName) || sharedMemHandle != mySharedMem.boostHandle) {
             if (mySharedMem != null) mySharedMem.close();
             mySharedMem = new SharedMemory(sharedMemName, sharedMemHandle);
         }
 
+        BufferedImage bufImage = myImage;
         VolatileImage volatileImage = myVolatileImage;
         final double jreScale = myScale.getJreBiased();
         final int scaledW = (int)(width / jreScale);
@@ -152,15 +157,38 @@ public class JBCefOsrHandler implements CefNativeRenderHandler {
         if (volatileImage == null || volatileImage.getWidth() != scaledW || volatileImage.getHeight() != scaledH) {
             try {
                 volatileImage = myComponent.getGraphicsConfiguration().createCompatibleVolatileImage(scaledW, scaledH, null, Transparency.TRANSLUCENT);
+                if (!RasterProcessor.isFastLoadingAvailable())
+                    bufImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB_PRE);
             } catch (AWTException e) {
                 throw new RuntimeException(e);
             }
             dirtyRectsCount = 0; // will cause full raster loading
         }
         long midMs = System.currentTimeMillis();
-        volatileImage.loadNativeRasterWithRects(mySharedMem.getPtr(), width, height, mySharedMem.getPtr() + width*height*4, dirtyRectsCount);
 
+        if (RasterProcessor.isFastLoadingAvailable()) {
+            RasterProcessor.loadFast(volatileImage, mySharedMem.getPtr(), width, height, mySharedMem.getPtr() + width*height*4, dirtyRectsCount);
+        } else {
+            // load buffered
+            RasterProcessor.loadBuffered(bufImage, mySharedMem.getPtr(), width, height, mySharedMem.getPtr() + width*height*4, dirtyRectsCount);
+
+            // draw buffered onto volatile
+            Graphics2D viGr = (Graphics2D)volatileImage.getGraphics().create();
+            try {
+                double sx = viGr.getTransform().getScaleX();
+                double sy = viGr.getTransform().getScaleY();
+                viGr.scale(1 / sx, 1 / sy);
+                viGr.drawImage(bufImage,
+                        0, 0, width, height,
+                        0, 0, width, height,
+                        null);
+            }
+            finally {
+                viGr.dispose();
+            }
+        }
         myVolatileImage = volatileImage;
+        myImage = bufImage;
 
         // TODO: calculate outerRect
         //Rectangle outerRect = findOuterRect(dirtyRects);
@@ -356,5 +384,80 @@ public class JBCefOsrHandler implements CefNativeRenderHandler {
     private Point scaleUp(Point pt) {
         double scale = myScale.getJreBiased();
         return new Point((int)Math.round(pt.x * scale), (int)Math.round(pt.y * scale));
+    }
+
+    public static class RasterProcessor {
+        private static Method mLoadMethodHandle;
+
+        static {
+            try {
+                //noinspection JavaReflectionMemberAccess
+                mLoadMethodHandle = Image.class.getDeclaredMethod("loadNativeRasterWithRects", long.class, int.class, int.class, long.class, int.class);
+            } catch (NoSuchMethodException ignore) {
+                mLoadMethodHandle = null;
+                CefLog.Info("Java runtime doesn't support fast volatile image loading.");
+            }
+        }
+
+        public static void loadFast(VolatileImage volatileImage, long pRaster, int width, int height, long pRects, int rectsCount) {
+            if (!isFastLoadingAvailable())
+                return;
+
+            try {
+                // TODO: use jbr API
+                mLoadMethodHandle.invoke(volatileImage, pRaster, width, height, pRects, rectsCount);
+            } catch (IllegalAccessException | InvocationTargetException ignore) {
+            }
+        }
+
+        public static void loadBuffered(BufferedImage bufImage, long pRaster, int width, int height, long pRects, int rectsCount) {
+            ByteBuffer buffer = SharedMemory.wrapNativeMem(pRaster, width*height*4);
+            int[] dst = ((DataBufferInt)bufImage.getRaster().getDataBuffer()).getData();
+            IntBuffer src = buffer.order(ByteOrder.LITTLE_ENDIAN).asIntBuffer();
+
+            Rectangle[] dirtyRects = new Rectangle[]{new Rectangle(0, 0, width, height)};
+            if (rectsCount > 0) {
+                ByteBuffer rectsMem = SharedMemory.wrapNativeMem(pRaster + width*height*4, rectsCount*4*4);
+                IntBuffer rects = rectsMem.order(ByteOrder.LITTLE_ENDIAN).asIntBuffer();
+                for (int c = 0; c < rectsCount; ++c) {
+                    int pos = c*4;
+                    Rectangle r = new Rectangle();
+                    r.x = rects.get(pos++);
+                    r.y = rects.get(pos++);
+                    r.width = rects.get(pos++);
+                    r.height = rects.get(pos++);
+                    r.y = height - (r.y + r.height); // flip
+                    dirtyRects[c] = r;
+                }
+            }
+
+            // flip image here
+            // TODO: consider to optimize
+            for (Rectangle rect : dirtyRects) {
+                if (rect.width < width) {
+                    for (int line = rect.y; line < rect.y + rect.height; line++) {
+                        int srcOffset = line*width + rect.x;
+                        int dstOffset = (height - line - 1)*width + rect.x;
+                        src.position(srcOffset).get(dst, dstOffset, rect.width);
+                    }
+                }
+                else { // optimized for a buffer wide dirty rect
+                    for (int y = rect.y; y < rect.y + rect.height; ++y)
+                        src.position(y*width).get(dst, (height - y - 1)*width, width);
+                }
+            }
+
+            // draw debug
+//            Graphics2D g = bufImage.createGraphics();
+//            g.setColor(Color.RED);
+//            for (Rectangle r : dirtyRects)
+//                g.drawRect(r.x, r.y, r.width, r.height);
+//            g.dispose();
+        }
+
+        public static boolean isFastLoadingAvailable() {
+            // TODO: use jbr API
+            return mLoadMethodHandle != null;
+        }
     }
 }

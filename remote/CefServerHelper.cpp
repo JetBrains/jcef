@@ -10,7 +10,7 @@ extern "C" {
 
 JNIEXPORT jlong JNICALL
 Java_com_jetbrains_cef_remote_SharedMemory_openSharedSegment(JNIEnv* env,
-                                               jclass obj,
+                                               jclass clazz,
                                                jstring sid) {
   if (!sid)
     return 0;
@@ -28,7 +28,7 @@ Java_com_jetbrains_cef_remote_SharedMemory_openSharedSegment(JNIEnv* env,
 
 JNIEXPORT jlong JNICALL
 Java_com_jetbrains_cef_remote_SharedMemory_getPointer(JNIEnv* env,
-                                                            jclass obj,
+                                                            jclass clazz,
                                                             jlong segment,
                                                             jlong handle) {
   managed_shared_memory * segm = (managed_shared_memory*)segment;
@@ -37,12 +37,21 @@ Java_com_jetbrains_cef_remote_SharedMemory_getPointer(JNIEnv* env,
 
 JNIEXPORT void JNICALL
 Java_com_jetbrains_cef_remote_SharedMemory_closeSharedSegment(JNIEnv* env,
-                                                            jclass obj,
+                                                            jclass clazz,
                                                             jlong segment) {
   managed_shared_memory * segm = (managed_shared_memory*)segment;
   //fprintf(stderr, "close segment %p\n", segm);
   delete segm;
 }
+
+JNIEXPORT jobject JNICALL
+Java_com_jetbrains_cef_remote_SharedMemory_wrapNativeMem(JNIEnv* env,
+                                                              jclass clazz,
+                                                              jlong pdata,
+                                                              jint length) {
+  return env->NewDirectByteBuffer((void*)pdata, length);
+}
+
 #ifdef __cplusplus
 }
 #endif

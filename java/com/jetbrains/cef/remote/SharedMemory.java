@@ -1,5 +1,7 @@
 package com.jetbrains.cef.remote;
 
+import java.nio.ByteBuffer;
+
 public class SharedMemory {
     public final String mname;
     public final long boostHandle;
@@ -26,7 +28,13 @@ public class SharedMemory {
         closeSharedSegment(mySegment);
     }
 
-    private native long openSharedSegment(String sid);
-    private native long getPointer(long segment, long handle);
-    private native void closeSharedSegment(long segment);
+    // Helper method (for creating BufferedImage from native raster)
+    public static native ByteBuffer wrapNativeMem(long pdata, int length);
+
+    //
+    // Private native API
+    //
+    private static native long openSharedSegment(String sid);
+    private static native long getPointer(long segment, long handle);
+    private static native void closeSharedSegment(long segment);
 }
