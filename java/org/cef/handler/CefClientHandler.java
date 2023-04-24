@@ -42,7 +42,7 @@ public abstract class CefClientHandler extends CefNativeAdaperMulti implements C
             }
             msgRouters.clear();
             
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized)
                 N_CefClientHandler_DTOR();
         } catch (UnsatisfiedLinkError err) {
@@ -50,10 +50,10 @@ public abstract class CefClientHandler extends CefNativeAdaperMulti implements C
         }
     }
 
-    private void ensureNativeCtxInitialized() {
-        if (!isNativeCtxInitialized && CefLog.IsDebugEnabled()) {
+    private void checkNativeCtxInitialized() {
+        if (!isNativeCtxInitialized) {
             String m1 = new Throwable().getStackTrace()[1].getMethodName();
-            CefLog.Debug("CefClientHandler: can't invoke native method '%s' before native context initialized", m1);
+            CefLog.Error("CefClientHandler: can't invoke native method '%s' before native context initialized", m1);
         }
     }
 
@@ -177,7 +177,7 @@ public abstract class CefClientHandler extends CefNativeAdaperMulti implements C
     protected synchronized void addMessageRouter(CefMessageRouter h) {
         try {
             msgRouters.add(h);
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized)
                 N_addMessageRouter(h);
         } catch (UnsatisfiedLinkError err) {
@@ -187,7 +187,7 @@ public abstract class CefClientHandler extends CefNativeAdaperMulti implements C
 
     protected void removeContextMenuHandler(CefContextMenuHandler h) {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized)
                 N_removeContextMenuHandler(h);
         } catch (UnsatisfiedLinkError err) {
@@ -197,7 +197,7 @@ public abstract class CefClientHandler extends CefNativeAdaperMulti implements C
 
     protected void removeDialogHandler(CefDialogHandler h) {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized)
                 N_removeDialogHandler(h);
         } catch (UnsatisfiedLinkError err) {
@@ -207,7 +207,7 @@ public abstract class CefClientHandler extends CefNativeAdaperMulti implements C
 
     protected void removeDisplayHandler(CefDisplayHandler h) {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized)
                 N_removeDisplayHandler(h);
         } catch (UnsatisfiedLinkError err) {
@@ -217,7 +217,7 @@ public abstract class CefClientHandler extends CefNativeAdaperMulti implements C
 
     protected void removeDownloadHandler(CefDisplayHandler h) {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized)
                 N_removeDownloadHandler(h);
         } catch (UnsatisfiedLinkError err) {
@@ -227,7 +227,7 @@ public abstract class CefClientHandler extends CefNativeAdaperMulti implements C
 
     protected void removeDragHandler(CefDragHandler h) {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized)
                 N_removeDragHandler(h);
         } catch (UnsatisfiedLinkError err) {
@@ -237,7 +237,7 @@ public abstract class CefClientHandler extends CefNativeAdaperMulti implements C
 
     protected void removeFocusHandler(CefFocusHandler h) {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized)
                 N_removeFocusHandler(h);
         } catch (UnsatisfiedLinkError err) {
@@ -247,7 +247,7 @@ public abstract class CefClientHandler extends CefNativeAdaperMulti implements C
 
     protected void removeJSDialogHandler(CefJSDialogHandler h) {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized)
                 N_removeJSDialogHandler(h);
         } catch (UnsatisfiedLinkError err) {
@@ -257,7 +257,7 @@ public abstract class CefClientHandler extends CefNativeAdaperMulti implements C
 
     protected void removeKeyboardHandler(CefKeyboardHandler h) {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized)
                 N_removeKeyboardHandler(h);
         } catch (UnsatisfiedLinkError err) {
@@ -267,7 +267,7 @@ public abstract class CefClientHandler extends CefNativeAdaperMulti implements C
 
     protected void removeLifeSpanHandler(CefLifeSpanHandler h) {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized)
                 N_removeLifeSpanHandler(h);
         } catch (UnsatisfiedLinkError err) {
@@ -277,7 +277,7 @@ public abstract class CefClientHandler extends CefNativeAdaperMulti implements C
 
     protected void removeLoadHandler(CefLoadHandler h) {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized)
                 N_removeLoadHandler(h);
         } catch (UnsatisfiedLinkError err) {
@@ -287,7 +287,7 @@ public abstract class CefClientHandler extends CefNativeAdaperMulti implements C
 
     protected void removePrintHandler(CefPrintHandler h) {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized)
                 N_removePrintHandler(h);
         } catch (UnsatisfiedLinkError err) {
@@ -298,7 +298,7 @@ public abstract class CefClientHandler extends CefNativeAdaperMulti implements C
     protected synchronized void removeMessageRouter(CefMessageRouter h) {
         try {
             msgRouters.remove(h);
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized)
                 N_removeMessageRouter(h);
         } catch (UnsatisfiedLinkError err) {
@@ -308,7 +308,7 @@ public abstract class CefClientHandler extends CefNativeAdaperMulti implements C
 
     protected void removeRenderHandler(CefRenderHandler h) {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized)
                 N_removeRenderHandler(h);
         } catch (UnsatisfiedLinkError err) {
@@ -318,7 +318,7 @@ public abstract class CefClientHandler extends CefNativeAdaperMulti implements C
 
     protected void removeRequestHandler(CefRequestHandler h) {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized)
                 N_removeRequestHandler(h);
         } catch (UnsatisfiedLinkError err) {
@@ -328,7 +328,7 @@ public abstract class CefClientHandler extends CefNativeAdaperMulti implements C
 
     protected void removeWindowHandler(CefWindowHandler h) {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized)
                 N_removeWindowHandler(h);
         } catch (UnsatisfiedLinkError err) {

@@ -182,7 +182,7 @@ public class CefApp extends CefAppHandlerAdapter {
         setState(CefAppState.NEW);
 
         CompletableFuture<Boolean> futurePreinit = new CompletableFuture<>();
-        Runnable nativePerInitialize = () -> {
+        Runnable nativePreInitialize = () -> {
             testSleep(PREINIT_TEST_DELAY_MS);
 
             // Perform native pre-initialization.
@@ -203,15 +203,15 @@ public class CefApp extends CefAppHandlerAdapter {
                     return;
                 }
                 if (PREINIT_ON_ANY_THREAD)
-                    new Thread(nativePerInitialize, "CefPreinit-thread").start();
+                    new Thread(nativePreInitialize, "CefPreinit-thread").start();
                 else
-                    SwingUtilities.invokeLater(nativePerInitialize);
+                    SwingUtilities.invokeLater(nativePreInitialize);
             });
         } else {
             if (PREINIT_ON_ANY_THREAD)
-                new Thread(nativePerInitialize, "CefPreinit-thread").start();
+                new Thread(nativePreInitialize, "CefPreinit-thread").start();
             else
-                SwingUtilities.invokeLater(nativePerInitialize);
+                SwingUtilities.invokeLater(nativePreInitialize);
         }
 
         futurePreinit.thenAccept(preinitRes -> {

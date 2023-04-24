@@ -192,10 +192,10 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
         }
     }
 
-    private void ensureNativeCtxInitialized() {
-        if (!isNativeCtxInitialized_ && CefLog.IsDebugEnabled()) {
+    private void checkNativeCtxInitialized() {
+        if (!isNativeCtxInitialized_) {
             String m1 = new Throwable().getStackTrace()[1].getMethodName();
-            CefLog.Debug("CefBrowser_N: %s: can't invoke native method '%s' before native context initialized", this, m1);
+            CefLog.Error("CefBrowser_N: %s: can't invoke native method '%s' before native context initialized", this, m1);
         }
     }
 
@@ -251,7 +251,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     protected final long getWindowHandle(long surfaceHandle) {
         try {
             // NOTE: doesn't use cef ctx
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 return N_GetWindowHandle(surfaceHandle);
         } catch (UnsatisfiedLinkError err) {
@@ -274,7 +274,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     @Override
     public boolean canGoBack() {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 return N_CanGoBack();
         } catch (UnsatisfiedLinkError ule) {
@@ -286,7 +286,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     @Override
     public void goBack() {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_GoBack();
         } catch (UnsatisfiedLinkError ule) {
@@ -297,7 +297,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     @Override
     public boolean canGoForward() {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 return N_CanGoForward();
         } catch (UnsatisfiedLinkError ule) {
@@ -309,7 +309,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     @Override
     public void goForward() {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_GoForward();
         } catch (UnsatisfiedLinkError ule) {
@@ -320,7 +320,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     @Override
     public boolean isLoading() {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 return N_IsLoading();
         } catch (UnsatisfiedLinkError ule) {
@@ -332,7 +332,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     @Override
     public void reload() {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_Reload();
         } catch (UnsatisfiedLinkError ule) {
@@ -343,7 +343,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     @Override
     public void reloadIgnoreCache() {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_ReloadIgnoreCache();
         } catch (UnsatisfiedLinkError ule) {
@@ -354,7 +354,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     @Override
     public void stopLoad() {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_StopLoad();
         } catch (UnsatisfiedLinkError ule) {
@@ -365,7 +365,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     @Override
     public int getIdentifier() {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 return N_GetIdentifier();
         } catch (UnsatisfiedLinkError ule) {
@@ -377,7 +377,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     @Override
     public CefFrame getMainFrame() {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 return N_GetMainFrame();
         } catch (UnsatisfiedLinkError ule) {
@@ -389,7 +389,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     @Override
     public CefFrame getFocusedFrame() {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 return N_GetFocusedFrame();
         } catch (UnsatisfiedLinkError ule) {
@@ -401,7 +401,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     @Override
     public CefFrame getFrame(long identifier) {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 return N_GetFrame(identifier);
         } catch (UnsatisfiedLinkError ule) {
@@ -413,7 +413,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     @Override
     public CefFrame getFrame(String name) {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 return N_GetFrame2(name);
         } catch (UnsatisfiedLinkError ule) {
@@ -425,7 +425,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     @Override
     public Vector<Long> getFrameIdentifiers() {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 return N_GetFrameIdentifiers();
         } catch (UnsatisfiedLinkError ule) {
@@ -437,7 +437,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     @Override
     public Vector<String> getFrameNames() {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 return N_GetFrameNames();
         } catch (UnsatisfiedLinkError ule) {
@@ -449,7 +449,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     @Override
     public int getFrameCount() {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 return N_GetFrameCount();
         } catch (UnsatisfiedLinkError ule) {
@@ -461,7 +461,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     @Override
     public boolean isPopup() {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 return N_IsPopup();
         } catch (UnsatisfiedLinkError ule) {
@@ -473,7 +473,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     @Override
     public boolean hasDocument() {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 return N_HasDocument();
         } catch (UnsatisfiedLinkError ule) {
@@ -484,7 +484,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
 
     public void viewSource() {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_ViewSource();
         } catch (UnsatisfiedLinkError ule) {
@@ -494,7 +494,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
 
     public void getSource(CefStringVisitor visitor) {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_GetSource(visitor);
         } catch (UnsatisfiedLinkError ule) {
@@ -504,7 +504,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
 
     public void getText(CefStringVisitor visitor) {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_GetText(visitor);
         } catch (UnsatisfiedLinkError ule) {
@@ -515,7 +515,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     @Override
     public void loadRequest(CefRequest request) {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_LoadRequest(request);
         } catch (UnsatisfiedLinkError ule) {
@@ -526,7 +526,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     @Override
     public void loadURL(String url) {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_LoadURL(url);
         } catch (UnsatisfiedLinkError ule) {
@@ -537,7 +537,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     @Override
     public void executeJavaScript(String code, String url, int line) {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_ExecuteJavaScript(code, url, line);
         } catch (UnsatisfiedLinkError ule) {
@@ -548,7 +548,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     @Override
     public String getURL() {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 return N_GetURL();
         } catch (UnsatisfiedLinkError ule) {
@@ -585,7 +585,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
         }
 
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_Close(force);
         } catch (UnsatisfiedLinkError ule) {
@@ -596,7 +596,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     @Override
     public void setFocus(boolean enable) {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_SetFocus(enable);
         } catch (UnsatisfiedLinkError ule) {
@@ -607,7 +607,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     @Override
     public void setWindowVisibility(boolean visible) {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_SetWindowVisibility(visible);
         } catch (UnsatisfiedLinkError ule) {
@@ -618,7 +618,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     @Override
     public double getZoomLevel() {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 return N_GetZoomLevel();
         } catch (UnsatisfiedLinkError ule) {
@@ -630,7 +630,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     @Override
     public void setZoomLevel(double zoomLevel) {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_SetZoomLevel(zoomLevel);
         } catch (UnsatisfiedLinkError ule) {
@@ -642,7 +642,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     public void runFileDialog(FileDialogMode mode, String title, String defaultFilePath,
             Vector<String> acceptFilters, CefRunFileDialogCallback callback) {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_RunFileDialog(
                     mode, title, defaultFilePath, acceptFilters, callback);
@@ -654,7 +654,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     @Override
     public void startDownload(String url) {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_StartDownload(url);
         } catch (UnsatisfiedLinkError ule) {
@@ -665,7 +665,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     @Override
     public void print() {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_Print();
         } catch (UnsatisfiedLinkError ule) {
@@ -680,7 +680,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
             throw new IllegalArgumentException("path was null or empty");
         }
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_PrintToPDF(path, settings, callback);
         } catch (UnsatisfiedLinkError ule) {
@@ -691,7 +691,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     @Override
     public void find(String searchText, boolean forward, boolean matchCase, boolean findNext) {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_Find(searchText, forward, matchCase, findNext);
         } catch (UnsatisfiedLinkError ule) {
@@ -702,7 +702,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     @Override
     public void stopFinding(boolean clearSelection) {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_StopFinding(clearSelection);
         } catch (UnsatisfiedLinkError ule) {
@@ -712,7 +712,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
 
     protected final void closeDevTools() {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_CloseDevTools();
         } catch (UnsatisfiedLinkError ule) {
@@ -723,7 +723,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     @Override
     public void replaceMisspelling(String word) {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_ReplaceMisspelling(word);
         } catch (UnsatisfiedLinkError ule) {
@@ -739,7 +739,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     @Override
     public final void wasResized(int width, int height) {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_WasResized(width, height);
         } catch (UnsatisfiedLinkError ule) {
@@ -750,7 +750,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     @Override
     public void notifyScreenInfoChanged() {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_NotifyScreenInfoChanged();
         } catch (UnsatisfiedLinkError ule) {
@@ -763,7 +763,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
      */
     protected final void invalidate() {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_Invalidate();
         } catch (UnsatisfiedLinkError ule) {
@@ -778,7 +778,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     @Override
     public final void sendKeyEvent(KeyEvent e) {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_SendKeyEvent(e);
         } catch (UnsatisfiedLinkError ule) {
@@ -793,7 +793,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     @Override
     public final void sendMouseEvent(MouseEvent e) {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_SendMouseEvent(e);
         } catch (UnsatisfiedLinkError ule) {
@@ -808,7 +808,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     @Override
     public final void sendMouseWheelEvent(MouseWheelEvent e) {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_SendMouseWheelEvent(e);
         } catch (UnsatisfiedLinkError ule) {
@@ -837,7 +837,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     protected final void dragTargetDragEnter(
             CefDragData dragData, Point pos, int modifiers, int allowedOps) {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_DragTargetDragEnter(dragData, pos, modifiers, allowedOps);
         } catch (UnsatisfiedLinkError ule) {
@@ -853,7 +853,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
      */
     protected final void dragTargetDragOver(Point pos, int modifiers, int allowedOps) {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_DragTargetDragOver(pos, modifiers, allowedOps);
         } catch (UnsatisfiedLinkError ule) {
@@ -868,7 +868,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
      */
     protected final void dragTargetDragLeave() {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_DragTargetDragLeave();
         } catch (UnsatisfiedLinkError ule) {
@@ -885,7 +885,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
      */
     protected final void dragTargetDrop(Point pos, int modifiers) {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_DragTargetDrop(pos, modifiers);
         } catch (UnsatisfiedLinkError ule) {
@@ -904,7 +904,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
      */
     protected final void dragSourceEndedAt(Point pos, int operation) {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_DragSourceEndedAt(pos, operation);
         } catch (UnsatisfiedLinkError ule) {
@@ -923,7 +923,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
      */
     protected final void dragSourceSystemDragEnded() {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_DragSourceSystemDragEnded();
         } catch (UnsatisfiedLinkError ule) {
@@ -933,7 +933,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
 
     protected final void updateUI(Rectangle contentRect, Rectangle browserRect) {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_UpdateUI(contentRect, browserRect);
         } catch (UnsatisfiedLinkError ule) {
@@ -945,7 +945,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
         if (isClosing_ || isClosed_) return;
 
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_SetParent(windowHandle, canvas);
         } catch (UnsatisfiedLinkError ule) {
@@ -959,7 +959,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
      */
     protected final void notifyMoveOrResizeStarted() {
         try {
-            ensureNativeCtxInitialized();
+            checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_NotifyMoveOrResizeStarted();
         } catch (UnsatisfiedLinkError ule) {
