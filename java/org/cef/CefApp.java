@@ -143,7 +143,7 @@ public class CefApp extends CefAppHandlerAdapter {
     private final Collection<CefAppStateHandler> initializationListeners_ = new ArrayList<>();
     private static CompletableFuture<Boolean> futureStartup_ = null;
 
-    // TODO: remove next constants after testing JBR-5530
+    // Constants for testing JBR-5530
     private static final boolean STARTUP_ON_EDT_THREAD = Utils.getBoolean("jcef_app_startup_edt");
     private static final int STARTUP_TEST_DELAY_MS = Utils.getInteger("jcef_app_startup_test_delay_ms", 0);
     private static final boolean PREINIT_ON_ANY_THREAD = Utils.getBoolean("jcef_app_preinit_any");
@@ -186,13 +186,13 @@ public class CefApp extends CefAppHandlerAdapter {
             testSleep(PREINIT_TEST_DELAY_MS);
 
             // Perform native pre-initialization.
-            // Execute on the AWT event dispatching thread (to store correct jni context)
+            // This code will save global pointer to JVM instance.
+            // Execute on the AWT event dispatching thread to store JNI context from EDT
+            // NOTE: in practice it seems that this method can be called from any thread (at tests execute successfully)
+            // TODO: ensure and make all initialization steps in single bg thread.
             boolean success = N_PreInitialize();
-            if (!success) {
-                // theoretically can be called on any thread
-                // but possibly that must save context of AppKit
+            if (!success)
                 CefLog.Error("Failed to pre-initialize native code");
-            }
             futurePreinit.complete(success);
         };
 
@@ -624,7 +624,7 @@ public class CefApp extends CefAppHandlerAdapter {
      * macOS this dynamically loads the CEF framework. Can be executed in any thread.
      * @param args Command-line arguments massed to main().
      */
-    public static final void startup(String[] args) {
+    public static final boolean startup(String[] args) {
         if (OS.isLinux() || OS.isMacintosh()) {
             futureStartup_ = new CompletableFuture<>();
             Runnable r = () -> {
@@ -645,6 +645,7 @@ public class CefApp extends CefAppHandlerAdapter {
             else
                 new Thread(r, "CefStartup-thread").start();
         }
+        return true;
     }
 
     /**
