@@ -147,8 +147,14 @@ public class TestSetupExtension
         // Initialize the singleton CefApp instance.
         CefApp.getInstance(settings);
 
-        if (!SKIP_BASIC_CHECK)
-            performBasicJcefTesting();
+        if (!SKIP_BASIC_CHECK) {
+            try {
+                performBasicJcefTesting();
+            } catch (RuntimeException e) {
+                CefLog.Error("Exception in basic jcef checks, tests can't be continued, system will be shutdown, error: " + e.getMessage());
+                System.exit(11);
+            }
+        }
     }
 
     private static void _wait(CountDownLatch latch, int timeoutSec, String errorDesc) {
