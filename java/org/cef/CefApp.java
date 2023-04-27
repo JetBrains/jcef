@@ -162,6 +162,7 @@ public class CefApp extends CefAppHandlerAdapter {
     private CefApp(String[] args, CefSettings settings) throws UnsatisfiedLinkError {
         super(args);
         if (settings != null) settings_ = settings.clone();
+        CefLog.init(settings);
         if (OS.isWindows()) {
             // [tav] "jawt" is loaded by JDK AccessBridgeLoader that leads to UnsatisfiedLinkError
             try {
@@ -513,19 +514,15 @@ public class CefApp extends CefAppHandlerAdapter {
 
         boolean success = N_Initialize(appHandler_ == null ? CefApp.this : appHandler_, settings, false);
         if (success) {
+            CefLog.Debug("CefApp: native initialization is finished.");
             setState(CefAppState.INITIALIZED);
-
             synchronized (initializationListeners_) {
                 isInitialized_ = true;
                 initializationListeners_.forEach(l -> l.stateHasChanged(CefAppState.INITIALIZED));
                 initializationListeners_.clear();
             }
-        }
-
-        CefLog.init(settings);
-        CefLog.Info("version: %s | settings: %s", getVersion(), settings.getDescription());
-
-        if (!success)
+            CefLog.Info("version: %s | settings: %s", getVersion(), settings.getDescription());
+        } else
             CefLog.Error("CefApp: N_Initialize failed.");
     }
 
