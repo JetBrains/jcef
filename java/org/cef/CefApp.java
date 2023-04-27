@@ -22,6 +22,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -140,15 +141,13 @@ public class CefApp extends CefAppHandlerAdapter {
     // Background initialization support
     //
     private volatile boolean isInitialized_ = false;
-    private final Collection<CefAppStateHandler> initializationListeners_ = new ArrayList<>();
+    private final LinkedList<CefAppStateHandler> initializationListeners_ = new LinkedList<>();
     private static CompletableFuture<Boolean> futureStartup_ = null;
 
     // Constants for testing JBR-5530
-    private static final boolean STARTUP_ON_EDT_THREAD = Utils.getBoolean("jcef_app_startup_edt");
-    private static final int STARTUP_TEST_DELAY_MS = Utils.getInteger("jcef_app_startup_test_delay_ms", 0);
     private static final boolean PREINIT_ON_ANY_THREAD = Utils.getBoolean("jcef_app_preinit_any");
+    private static final int STARTUP_TEST_DELAY_MS = Utils.getInteger("jcef_app_startup_test_delay_ms", 0);
     private static final int PREINIT_TEST_DELAY_MS = Utils.getInteger("jcef_app_preinit_test_delay_ms", 0);
-    private static final boolean INIT_ON_EDT_THREAD = Utils.getBoolean("jcef_app_init_edt");
     private static final int INIT_TEST_DELAY_MS = Utils.getInteger("jcef_app_init_test_delay_ms", 0);
 
     /**
@@ -217,21 +216,25 @@ public class CefApp extends CefAppHandlerAdapter {
         futurePreinit.thenAccept(preinitRes -> {
             if (!preinitRes)
                 return;
-            if (INIT_ON_EDT_THREAD)
-                SwingUtilities.invokeLater(() -> initialize());
-            else
-                new Thread(()-> initialize(), "CefInitialize-thread").start();
+            new Thread(()-> initialize(), "CefInitialize-thread").start();
         });
     }
 
     // Notifies (in initialization thread) listener that native context has been initialized.
     // When context is already initialized then listener executes immediately.
     public void onInitialization(CefAppStateHandler initListener) {
+        onInitialization(initListener, false);
+    }
+    public void onInitialization(CefAppStateHandler initListener, boolean first) {
         synchronized (initializationListeners_) {
             if (isInitialized_)
                 initListener.stateHasChanged(CefAppState.INITIALIZED);
-            else
-                initializationListeners_.add(initListener);
+            else {
+                if (first)
+                    initializationListeners_.addFirst(initListener);
+                else
+                    initializationListeners_.addLast(initListener);
+            }
         }
     }
 
@@ -388,7 +391,7 @@ public class CefApp extends CefAppHandlerAdapter {
         }
 
         CefClient client = new CefClient();
-        onInitialization(client);
+        onInitialization(client, true);
         clients_.add(client);
         return client;
     }
@@ -640,10 +643,7 @@ public class CefApp extends CefAppHandlerAdapter {
                     futureStartup_.completeExceptionally(e);
                 }
             };
-            if (STARTUP_ON_EDT_THREAD)
-                SwingUtilities.invokeLater(r);
-            else
-                new Thread(r, "CefStartup-thread").start();
+            new Thread(r, "CefStartup-thread").start();
         }
         return true;
     }

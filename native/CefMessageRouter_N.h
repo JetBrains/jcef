@@ -9,12 +9,14 @@ extern "C" {
 #endif
 /*
  * Class:     org_cef_browser_CefMessageRouter_N
- * Method:    N_Create
+ * Method:    N_Initialize
  * Signature:
- * (Lorg/cef/browser/CefMessageRouter/CefMessageRouterConfig;)Lorg/cef/browser/CefMessageRouter_N;
+ * (Lorg/cef/browser/CefMessageRouter/CefMessageRouterConfig;)V;
  */
-JNIEXPORT jobject JNICALL
-Java_org_cef_browser_CefMessageRouter_1N_N_1Create(JNIEnv*, jclass, jobject);
+JNIEXPORT void JNICALL
+Java_org_cef_browser_CefMessageRouter_1N_N_1Initialize(JNIEnv*,
+                                                       jobject,
+                                                       jobject);
 
 /*
  * Class:     org_cef_browser_CefMessageRouter_N
