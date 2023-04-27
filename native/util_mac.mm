@@ -521,7 +521,7 @@ void CefShutdownOnMainThread() {
   // Block until done.
   [[CefHandler class] performSelectorOnMainThread:@selector(shutdown)
                                        withObject:nil
-                                    waitUntilDone:YES];
+                                    waitUntilDone:NO];
 }
 
 void CefDoMessageLoopWorkOnMainThread() {

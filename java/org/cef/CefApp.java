@@ -354,7 +354,7 @@ public class CefApp extends CefAppHandlerAdapter {
                 // (3) Shutdown sequence. Close all clients and continue.
                 setState(CefAppState.SHUTTING_DOWN);
                 if (clients_.isEmpty()) {
-                    shutdown();
+                    scheduleNativeShutdown();
                 } else {
                     // shutdown() will be called from clientWasDisposed() when the last
                     // client is gone.
@@ -446,7 +446,7 @@ public class CefApp extends CefAppHandlerAdapter {
         CefLog.Debug("CefApp: client was disposed: %s [clients count %d]", client, clients_.size());
         if (clients_.isEmpty() && getState().compareTo(CefAppState.SHUTTING_DOWN) >= 0) {
             // Shutdown native system.
-            shutdown();
+            scheduleNativeShutdown();
         }
     }
 
@@ -549,26 +549,19 @@ public class CefApp extends CefAppHandlerAdapter {
     /**
      * Shut down the context.
      */
-    private final void shutdown() {
-        // [tav] in order to "unwind" invokeLater(()-> CefApp.dispose()) explicitly.
+    private void scheduleNativeShutdown() {
+        new Thread(()-> {
+            // Can execute on any thread
+            CefLog.Info("shutdown CEF on " + Thread.currentThread());
 
-        // Execute on the AWT event dispatching thread. Always call asynchronously
-        // so the call stack has a chance to unwind.
-        Runnable _shutdown = () -> {
-            synchronized (CefApp.this) {
-                CefLog.Info("shutdown on " + Thread.currentThread());
+            // Shutdown native CEF.
+            N_Shutdown();
 
-                // Shutdown native CEF.
-                N_Shutdown();
-
+            synchronized (this) {
                 setState(CefAppState.TERMINATED);
                 CefApp.self = null;
             }
-        };
-        if (EventQueue.isDispatchThread())
-            _shutdown.run();
-        else
-            SwingUtilities.invokeLater(_shutdown);
+        }, "CEF-shutdown-thread").start();
     }
 
     /**
