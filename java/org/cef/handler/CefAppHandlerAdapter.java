@@ -8,6 +8,7 @@ import org.cef.CefApp;
 import org.cef.CefApp.CefAppState;
 import org.cef.callback.CefCommandLine;
 import org.cef.callback.CefSchemeRegistrar;
+import org.cef.misc.CefLog;
 
 /**
  * An abstract adapter class for managing app handler events.
@@ -86,6 +87,10 @@ public abstract class CefAppHandlerAdapter implements CefAppHandler {
 
     @Override
     public void onScheduleMessagePumpWork(long delay_ms) {
+        if (CefApp.getState() == CefAppState.TERMINATED) {
+            CefLog.Debug("CefApp is terminated, skip doMessageLoopWork");
+            return;
+        }
         CefApp.getInstance().doMessageLoopWork(delay_ms);
     }
 

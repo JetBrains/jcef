@@ -20,7 +20,6 @@ class CefMessageRouter_N extends CefMessageRouter implements CefAppStateHandler 
     CefMessageRouter_N(CefMessageRouterConfig config) {
         super();
         setMessageRouterConfig(config);
-        executeNative(() -> N_Initialize(config), "N_Initialize");
         // NOTE: message router must be registered before browser created, so use flag 'first' here
         CefApp.getInstance().onInitialization(this, true);
     }
@@ -28,6 +27,7 @@ class CefMessageRouter_N extends CefMessageRouter implements CefAppStateHandler 
     @Override
     public void stateHasChanged(CefApp.CefAppState state) {
         if (CefApp.CefAppState.INITIALIZED == state) {
+            N_Initialize(getMessageRouterConfig());
             synchronized (delayedActions_) {
                 isNativeCtxInitialized_ = true;
                 delayedActions_.forEach(r -> r.run());
