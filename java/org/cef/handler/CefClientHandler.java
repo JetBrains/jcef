@@ -177,7 +177,7 @@ public abstract class CefClientHandler extends CefNativeAdaperMulti implements C
     protected synchronized void addMessageRouter(CefMessageRouter h) {
         try {
             msgRouters.add(h);
-            checkNativeCtxInitialized();
+            // don't use checkNativeCtxInitialized (routers will be added on initialization)
             if (isNativeCtxInitialized)
                 N_addMessageRouter(h);
         } catch (UnsatisfiedLinkError err) {
