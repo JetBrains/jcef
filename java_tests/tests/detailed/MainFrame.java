@@ -46,10 +46,7 @@ public class MainFrame extends BrowserFrame {
     private static final long serialVersionUID = -2295538706810864538L;
     public static void main(String[] args) {
         // Perform startup initialization on platforms that require it.
-        if (!CefApp.startup(args)) {
-            System.out.println("Startup initialization failed!");
-            return;
-        }
+        CefApp.startup(args);
 
         // OSR mode is enabled by default on Linux.
         // and disabled by default on Windows and Mac OS X.

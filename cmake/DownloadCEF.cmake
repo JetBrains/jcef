@@ -10,7 +10,12 @@
 
 function(DownloadCEF platform version download_dir)
   # Specify the binary distribution type and download directory.
-  set(CEF_DISTRIBUTION "cef_binary_${version}_${platform}_minimal")
+  if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    set(CEF_DISTRIBUTION "cef_binary_${version}_${platform}")
+  else ()
+    set(CEF_DISTRIBUTION "cef_binary_${version}_${platform}_minimal")
+  endif ()
+
   set(CEF_DOWNLOAD_DIR "${download_dir}")
 
   # The location where we expect the extracted binary distribution.

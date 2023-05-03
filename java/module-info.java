@@ -8,6 +8,7 @@ module jcef {
     exports org.cef.browser;
     exports org.cef.callback;
     exports org.cef.handler;
+    exports org.cef.input;
     exports org.cef.misc;
     exports org.cef.network;
     exports org.cef.security;

@@ -209,8 +209,8 @@ public abstract class CefMessageRouter extends CefNativeAdapter {
      */
     public static final CefMessageRouter create(
             CefMessageRouterConfig config, CefMessageRouterHandler handler) {
-        CefMessageRouter router = CefMessageRouter_N.createNative(config);
-        if (router != null && handler != null) router.addHandler(handler, true);
+        CefMessageRouter_N router = new CefMessageRouter_N(config);
+        if (handler != null) router.addHandler(handler, true);
         return router;
     }
 

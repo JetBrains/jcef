@@ -32,21 +32,14 @@ CefRefPtr<MessageRouterHandler> GetHandler(JNIEnv* env,
 
 }  // namespace
 
-JNIEXPORT jobject JNICALL
-Java_org_cef_browser_CefMessageRouter_1N_N_1Create(JNIEnv* env,
-                                                   jclass cls,
-                                                   jobject jrouterConfig) {
+JNIEXPORT void JNICALL
+Java_org_cef_browser_CefMessageRouter_1N_N_1Initialize(JNIEnv* env,
+                                                       jobject jrouter,
+                                                       jobject jrouterConfig) {
   CefMessageRouterConfig config = GetJNIMessageRouterConfig(env, jrouterConfig);
-  CefRefPtr<CefMessageRouterBrowserSide> msgRouter =
-      CefMessageRouterBrowserSide::Create(config);
-  ScopedJNIMessageRouter jmsgRouter(env, msgRouter);
+  CefRefPtr<CefMessageRouterBrowserSide> msgRouter = CefMessageRouterBrowserSide::Create(config);
 
-  JNI_CALL_VOID_METHOD(
-      env, jmsgRouter, "setMessageRouterConfig",
-      "(Lorg/cef/browser/CefMessageRouter$CefMessageRouterConfig;)V",
-      jrouterConfig);
-
-  return jmsgRouter.Release();
+  SetCefForJNIObject(env, jrouter, msgRouter.get(),"CefMessageRouter");
 }
 
 JNIEXPORT void JNICALL

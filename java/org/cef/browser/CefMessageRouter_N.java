@@ -4,27 +4,57 @@
 
 package org.cef.browser;
 
+import org.cef.CefApp;
 import org.cef.callback.CefNative;
+import org.cef.handler.CefAppStateHandler;
 import org.cef.handler.CefMessageRouterHandler;
+import org.cef.misc.CefLog;
 
-class CefMessageRouter_N extends CefMessageRouter {
-    private CefMessageRouter_N() {
+import java.util.ArrayList;
+import java.util.List;
+
+class CefMessageRouter_N extends CefMessageRouter implements CefAppStateHandler {
+    private boolean isNativeCtxInitialized_ = false;
+    private final List<Runnable> delayedActions_ = new ArrayList<>();
+
+    CefMessageRouter_N(CefMessageRouterConfig config) {
         super();
+        setMessageRouterConfig(config);
+        // NOTE: message router must be registered before browser created, so use flag 'first' here
+        CefApp.getInstance().onInitialization(this, true);
     }
 
-    public static final CefMessageRouter createNative(CefMessageRouterConfig config) {
-        try {
-            return CefMessageRouter_N.N_Create(config);
-        } catch (UnsatisfiedLinkError ule) {
-            ule.printStackTrace();
-            return null;
+    @Override
+    public void stateHasChanged(CefApp.CefAppState state) {
+        if (CefApp.CefAppState.INITIALIZED == state) {
+            N_Initialize(getMessageRouterConfig());
+            synchronized (delayedActions_) {
+                isNativeCtxInitialized_ = true;
+                delayedActions_.forEach(r -> r.run());
+                delayedActions_.clear();
+            }
+        }
+    }
+
+    private void executeNative(Runnable nativeRunnable, String name) {
+        synchronized (delayedActions_) {
+            if (isNativeCtxInitialized_)
+                nativeRunnable.run();
+            else {
+                CefLog.Debug("CefMessageRouter_N: %s: add delayed action %s", this, name);
+                delayedActions_.add(nativeRunnable);
+            }
         }
     }
 
     @Override
     public void dispose() {
         try {
-            N_Dispose(getNativeRef());
+            synchronized (delayedActions_) {
+                delayedActions_.clear();
+                if (isNativeCtxInitialized_)
+                    N_Dispose(getNativeRef());
+            }
         } catch (UnsatisfiedLinkError ule) {
             ule.printStackTrace();
         }
@@ -32,34 +62,22 @@ class CefMessageRouter_N extends CefMessageRouter {
 
     @Override
     public boolean addHandler(CefMessageRouterHandler handler, boolean first) {
-        try {
-            return N_AddHandler(getNativeRef(), handler, first);
-        } catch (UnsatisfiedLinkError ule) {
-            ule.printStackTrace();
-            return false;
-        }
+        executeNative(() -> N_AddHandler(getNativeRef(), handler, first), "addHandler");
+        return true;
     }
 
     @Override
     public boolean removeHandler(CefMessageRouterHandler handler) {
-        try {
-            return N_RemoveHandler(getNativeRef(), handler);
-        } catch (UnsatisfiedLinkError ule) {
-            ule.printStackTrace();
-            return false;
-        }
+        executeNative(() -> N_RemoveHandler(getNativeRef(), handler), "removeHandler");
+        return true;
     }
 
     @Override
     public void cancelPending(CefBrowser browser, CefMessageRouterHandler handler) {
-        try {
-            N_CancelPending(getNativeRef(), browser, handler);
-        } catch (UnsatisfiedLinkError ule) {
-            ule.printStackTrace();
-        }
+        executeNative(() -> N_CancelPending(getNativeRef(), browser, handler), "cancelPending");
     }
 
-    private final native static CefMessageRouter_N N_Create(CefMessageRouterConfig config);
+    private final native void N_Initialize(CefMessageRouterConfig config);
     private final native void N_Dispose(long self);
     private final native boolean N_AddHandler(
             long self, CefMessageRouterHandler handler, boolean first);

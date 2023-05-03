@@ -10,6 +10,7 @@ import org.cef.callback.CefStringVisitor;
 import org.cef.handler.CefDialogHandler;
 import org.cef.handler.CefRenderHandler;
 import org.cef.handler.CefWindowHandler;
+import org.cef.input.CefTouchEvent;
 import org.cef.misc.CefLog;
 import org.cef.misc.CefPdfPrintSettings;
 import org.cef.network.CefRequest;
@@ -378,6 +379,11 @@ public class CefRemoteBrowser implements CefBrowser {
         params.order(ByteOrder.nativeOrder());
         params.asIntBuffer().put(data);
         myServer.invoke(myBid, "sendmousewheelevent", params);
+    }
+
+    @Override
+    public void sendTouchEvent(CefTouchEvent e) {
+        CefLog.Error("UNIMPLEMENTED: sendTouchEvent");
     }
 
     @Override

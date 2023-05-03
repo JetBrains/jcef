@@ -87,10 +87,7 @@ public class TestSetupExtension
         context.getRoot().getStore(GLOBAL).put("jcef_test_setup", this);
 
         // Perform startup initialization on platforms that require it.
-        if (!CefApp.startup(new String[]{})) {
-            CefLog.Error("Startup initialization failed!");
-            return;
-        }
+        CefApp.startup(new String[]{});
 
         JCefAppConfig config = JCefAppConfig.getInstance();
         String[] appArgs = config.getAppArgs();
@@ -108,6 +105,11 @@ public class TestSetupExtension
 
         CefSettings settings = config.getCefSettings();
         settings.windowless_rendering_enabled = OsrSupport.isEnabled();
+        String debugPort = System.getenv("JCEF_DEVTOOL_DEBUG_PORT");
+        if (debugPort != null) {
+            settings.remote_debugging_port = Integer.parseInt(debugPort);
+            args.add("--remote-allow-origins=*");
+        }
         settings.log_severity = CefSettings.LogSeverity.LOGSEVERITY_VERBOSE;
         settings.log_file = System.getenv("JCEF_TESTS_LOG_FILE");
         String envSandboxed = System.getenv("JCEF_TESTS_SANDBOX_ENABLED");
@@ -145,8 +147,14 @@ public class TestSetupExtension
         // Initialize the singleton CefApp instance.
         CefApp.getInstance(settings);
 
-        if (!SKIP_BASIC_CHECK)
-            performBasicJcefTesting();
+        if (!SKIP_BASIC_CHECK) {
+            try {
+                performBasicJcefTesting();
+            } catch (RuntimeException e) {
+                CefLog.Error("Exception in basic jcef checks, tests can't be continued, system will be shutdown, error: " + e.getMessage());
+                System.exit(11);
+            }
+        }
     }
 
     private static void _wait(CountDownLatch latch, int timeoutSec, String errorDesc) {
@@ -170,8 +178,7 @@ public class TestSetupExtension
         //
         CefClient client = CefApp.getInstance().createClient();
         final long time1 = System.currentTimeMillis();
-        CefLog.Info("CefApp initialization spent %d ms", time1 - time0);
-        CefLog.Info("Created test client, cinfo: " + client.getInfo());
+        CefLog.Info("CefApp.getInstance().createClient() spent %d ms, created test client: %s", time1 - time0, client.getInfo());
 
         // Check correct disposing
         CountDownLatch clientDispose_ = new CountDownLatch(1);

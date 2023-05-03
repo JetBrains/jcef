@@ -13,7 +13,8 @@ import java.util.Date;
 // TODO: support log4j or similar
 public class CefLog {
     private static final boolean TRACE_THREAD = Boolean.getBoolean("jcef.log.trace_thread");
-    private static CefLog INSTANCE;
+    private static CefLog INSTANCE = new CefLog(System.err, CefSettings.LogSeverity.LOGSEVERITY_VERBOSE);
+    private static volatile boolean isInitialized = false;
     private static final SimpleDateFormat ourTimeFormat = new SimpleDateFormat("mm:ss:SSS");
 
     private PrintStream myPrintStream;
@@ -27,28 +28,32 @@ public class CefLog {
     }
 
     public static void init(String log_file, CefSettings.LogSeverity log_severity) {
-        if (INSTANCE != null) {
-            INSTANCE.info("Try to reinitialize logger (new settings will be ignored)\n");
+        if (isInitialized) {
+            System.out.println("Try to reinitialize logger (new settings will be ignored)\n");
             return;
         }
-        if (log_file != null
-            && log_severity != CefSettings.LogSeverity.LOGSEVERITY_DISABLE
-            && log_severity != CefSettings.LogSeverity.LOGSEVERITY_DEFAULT
-        ) {
-            try {
-                System.out.printf("JCEF(%s): initialized file logger, severity=%s, path='%s'\n", ourTimeFormat.format(new Date()), log_severity, log_file);
-                PrintStream ps = new PrintStream(new FileOutputStream(log_file, true), true);
-                INSTANCE = new CefLog(ps, log_severity);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
+        INSTANCE = null;
+        isInitialized = true;
+
+        if (log_severity == CefSettings.LogSeverity.LOGSEVERITY_DISABLE)
+            return;
+
+        if (log_file != null && !log_file.trim().isEmpty()) {
+            if (log_severity != CefSettings.LogSeverity.LOGSEVERITY_DEFAULT) {
+                try {
+                    System.out.printf("JCEF(%s): initialized file logger, severity=%s, path='%s'\n", ourTimeFormat.format(new Date()), log_severity, log_file);
+                    PrintStream ps = new PrintStream(new FileOutputStream(log_file, true), true);
+                    INSTANCE = new CefLog(ps, log_severity);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
             }
+            return;
         }
 
-        if (INSTANCE == null) {
-            CefSettings.LogSeverity severity = log_severity == null ? CefSettings.LogSeverity.LOGSEVERITY_INFO : log_severity;
-            System.out.printf("JCEF(%s): initialized stderr logger, severity=%s\n", ourTimeFormat.format(new Date()), severity);
-            INSTANCE = new CefLog(System.err, severity);
-        }
+        CefSettings.LogSeverity severity = log_severity == null ? CefSettings.LogSeverity.LOGSEVERITY_INFO : log_severity;
+        System.out.printf("JCEF(%s): initialized stderr logger, severity=%s\n", ourTimeFormat.format(new Date()), severity);
+        INSTANCE = new CefLog(System.err, severity);
     }
 
     private CefLog(PrintStream ps, CefSettings.LogSeverity log_severity) {
@@ -99,10 +104,14 @@ public class CefLog {
         }
     }
 
+    public boolean isDebugEnabled() { return mySeverity.compareTo(CefSettings.LogSeverity.LOGSEVERITY_VERBOSE) <= 0; }
+
     static public void Debug(String msg, Object... args) { Log(CefSettings.LogSeverity.LOGSEVERITY_VERBOSE, msg, args); }
     static public void Info(String msg, Object... args) { Log(CefSettings.LogSeverity.LOGSEVERITY_INFO, msg, args); }
     static public void Warn(String msg, Object... args) { Log(CefSettings.LogSeverity.LOGSEVERITY_WARNING, msg, args); }
     static public void Error(String msg, Object... args) { Log(CefSettings.LogSeverity.LOGSEVERITY_ERROR, msg, args); }
+
+    static public boolean IsDebugEnabled() { return INSTANCE != null ? INSTANCE.isDebugEnabled() : false; }
 
     static public void Log(CefSettings.LogSeverity log_severity, String msg, Object... args) {
         if (msg == null || INSTANCE == null)

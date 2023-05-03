@@ -286,8 +286,6 @@ void Context::DoMessageLoopWork() {
 }
 
 void Context::Shutdown() {
-  DCHECK(thread_checker_.CalledOnValidThread());
-
   static bool shutdownWasCalled = false;
   if (shutdownWasCalled) return;
   shutdownWasCalled = true;
@@ -299,12 +297,9 @@ void Context::Shutdown() {
 #if defined(OS_MAC)
   util_mac::CefShutdownOnMainThread();
 #else
-  // Pump CefDoMessageLoopWork a few times before shutting down.
-  if (external_message_pump_) {
-    for (int i = 0; i < 10; ++i)
-      CefDoMessageLoopWork();
-  }
 
+  // NOTE: external_message_pump_ == false in Windows and Linux (see Context::Initialize)
+  // So don't pump CefDoMessageLoopWork (a few times before shutting down) here.
   temp_window_.reset(nullptr);
 
   CefShutdown();
