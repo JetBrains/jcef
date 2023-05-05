@@ -43,11 +43,11 @@ public class CefRemoteBrowser implements CefBrowser {
         this.myServer = server;
         this.myBid = bid;
         myOwner = owner;
-        myOwner.registerBrowser(bid, this);
     }
 
     public int getBid() { return myBid; }
     public int getCid() { return myOwner.getCid(); }
+    public CefRemoteClient getOwner() { return myOwner; }
 
     @Override
     public void createImmediately() {
@@ -214,7 +214,7 @@ public class CefRemoteBrowser implements CefBrowser {
 
     @Override
     public void close(boolean force) {
-        myServer.closeBrowser(myOwner.getCid(), myBid);
+        myServer.closeBrowser(myBid);
     }
 
     @Override

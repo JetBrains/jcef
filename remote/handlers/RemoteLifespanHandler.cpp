@@ -25,8 +25,8 @@ bool RemoteLifespanHandler::OnBeforePopup(
 
   try {
     // TODO: support other params
-    Log::error("unimplemented");
-    remoteService->onBeforePopup(myOwner.getCid(), myOwner.getBid(), "", false);
+    Log::error("Unimplemented some params transferring");
+    remoteService->onBeforePopup(myOwner.getBid(), target_url.ToString(), target_frame_name.ToString(), user_gesture);
   } catch (apache::thrift::TException& tx) {
     myOwner.onThriftException(tx);
   }
@@ -41,7 +41,7 @@ void RemoteLifespanHandler::OnAfterCreated(CefRefPtr<CefBrowser> browser) {
   if (remoteService == nullptr) return;
 
   try {
-    remoteService->onAfterCreated(myOwner.getCid(), myOwner.getBid());
+    remoteService->onAfterCreated(myOwner.getBid());
   } catch (apache::thrift::TException& tx) {
     myOwner.onThriftException(tx);
   }
@@ -55,7 +55,7 @@ bool RemoteLifespanHandler::DoClose(CefRefPtr<CefBrowser> browser) {
   if (remoteService == nullptr) return false;
 
   try {
-    remoteService->doClose(myOwner.getCid(), myOwner.getBid());
+    remoteService->doClose(myOwner.getBid());
   } catch (apache::thrift::TException& tx) {
     myOwner.onThriftException(tx);
   }
@@ -68,7 +68,7 @@ void RemoteLifespanHandler::OnBeforeClose(CefRefPtr<CefBrowser> browser) {
   if (remoteService == nullptr) return;
 
   try {
-    remoteService->onBeforeClose(myOwner.getCid(), myOwner.getBid());
+    remoteService->onBeforeClose(myOwner.getBid());
   } catch (apache::thrift::TException& tx) {
     myOwner.onThriftException(tx);
   }

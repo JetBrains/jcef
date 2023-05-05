@@ -21,6 +21,10 @@ public class Server {
 
     public void invoke(int bid, java.lang.String method, java.nio.ByteBuffer buffer) throws org.apache.thrift.TException;
 
+    public void CefRequest_update(int rrid, java.util.Map<java.lang.String,java.lang.String> requestInfo) throws org.apache.thrift.TException;
+
+    public void CefRequest_dispose(int rrid) throws org.apache.thrift.TException;
+
   }
 
   public interface AsyncIface {
@@ -34,6 +38,10 @@ public class Server {
     public void closeBrowser(int bid, org.apache.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws org.apache.thrift.TException;
 
     public void invoke(int bid, java.lang.String method, java.nio.ByteBuffer buffer, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+
+    public void CefRequest_update(int rrid, java.util.Map<java.lang.String,java.lang.String> requestInfo, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+
+    public void CefRequest_dispose(int rrid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
   }
 
@@ -152,6 +160,31 @@ public class Server {
       args.setMethod(method);
       args.setBuffer(buffer);
       sendBaseOneway("invoke", args);
+    }
+
+    public void CefRequest_update(int rrid, java.util.Map<java.lang.String,java.lang.String> requestInfo) throws org.apache.thrift.TException
+    {
+      send_CefRequest_update(rrid, requestInfo);
+    }
+
+    public void send_CefRequest_update(int rrid, java.util.Map<java.lang.String,java.lang.String> requestInfo) throws org.apache.thrift.TException
+    {
+      CefRequest_update_args args = new CefRequest_update_args();
+      args.setRrid(rrid);
+      args.setRequestInfo(requestInfo);
+      sendBaseOneway("CefRequest_update", args);
+    }
+
+    public void CefRequest_dispose(int rrid) throws org.apache.thrift.TException
+    {
+      send_CefRequest_dispose(rrid);
+    }
+
+    public void send_CefRequest_dispose(int rrid) throws org.apache.thrift.TException
+    {
+      CefRequest_dispose_args args = new CefRequest_dispose_args();
+      args.setRrid(rrid);
+      sendBaseOneway("CefRequest_dispose", args);
     }
 
   }
@@ -344,6 +377,73 @@ public class Server {
       }
     }
 
+    public void CefRequest_update(int rrid, java.util.Map<java.lang.String,java.lang.String> requestInfo, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      CefRequest_update_call method_call = new CefRequest_update_call(rrid, requestInfo, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class CefRequest_update_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
+      private int rrid;
+      private java.util.Map<java.lang.String,java.lang.String> requestInfo;
+      public CefRequest_update_call(int rrid, java.util.Map<java.lang.String,java.lang.String> requestInfo, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, true);
+        this.rrid = rrid;
+        this.requestInfo = requestInfo;
+      }
+
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("CefRequest_update", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
+        CefRequest_update_args args = new CefRequest_update_args();
+        args.setRrid(rrid);
+        args.setRequestInfo(requestInfo);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      public Void getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return null;
+      }
+    }
+
+    public void CefRequest_dispose(int rrid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      CefRequest_dispose_call method_call = new CefRequest_dispose_call(rrid, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class CefRequest_dispose_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
+      private int rrid;
+      public CefRequest_dispose_call(int rrid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, true);
+        this.rrid = rrid;
+      }
+
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("CefRequest_dispose", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
+        CefRequest_dispose_args args = new CefRequest_dispose_args();
+        args.setRrid(rrid);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      public Void getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return null;
+      }
+    }
+
   }
 
   public static class Processor<I extends Iface> extends org.apache.thrift.TBaseProcessor<I> implements org.apache.thrift.TProcessor {
@@ -362,6 +462,8 @@ public class Server {
       processMap.put("createBrowser", new createBrowser());
       processMap.put("closeBrowser", new closeBrowser());
       processMap.put("invoke", new invoke());
+      processMap.put("CefRequest_update", new CefRequest_update());
+      processMap.put("CefRequest_dispose", new CefRequest_dispose());
       return processMap;
     }
 
@@ -490,6 +592,54 @@ public class Server {
       }
     }
 
+    public static class CefRequest_update<I extends Iface> extends org.apache.thrift.ProcessFunction<I, CefRequest_update_args> {
+      public CefRequest_update() {
+        super("CefRequest_update");
+      }
+
+      public CefRequest_update_args getEmptyArgsInstance() {
+        return new CefRequest_update_args();
+      }
+
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      public org.apache.thrift.TBase getResult(I iface, CefRequest_update_args args) throws org.apache.thrift.TException {
+        iface.CefRequest_update(args.rrid, args.requestInfo);
+        return null;
+      }
+    }
+
+    public static class CefRequest_dispose<I extends Iface> extends org.apache.thrift.ProcessFunction<I, CefRequest_dispose_args> {
+      public CefRequest_dispose() {
+        super("CefRequest_dispose");
+      }
+
+      public CefRequest_dispose_args getEmptyArgsInstance() {
+        return new CefRequest_dispose_args();
+      }
+
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      public org.apache.thrift.TBase getResult(I iface, CefRequest_dispose_args args) throws org.apache.thrift.TException {
+        iface.CefRequest_dispose(args.rrid);
+        return null;
+      }
+    }
+
   }
 
   public static class AsyncProcessor<I extends AsyncIface> extends org.apache.thrift.TBaseAsyncProcessor<I> {
@@ -508,6 +658,8 @@ public class Server {
       processMap.put("createBrowser", new createBrowser());
       processMap.put("closeBrowser", new closeBrowser());
       processMap.put("invoke", new invoke());
+      processMap.put("CefRequest_update", new CefRequest_update());
+      processMap.put("CefRequest_dispose", new CefRequest_dispose());
       return processMap;
     }
 
@@ -761,6 +913,74 @@ public class Server {
 
       public void start(I iface, invoke_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
         iface.invoke(args.bid, args.method, args.buffer,resultHandler);
+      }
+    }
+
+    public static class CefRequest_update<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, CefRequest_update_args, Void> {
+      public CefRequest_update() {
+        super("CefRequest_update");
+      }
+
+      public CefRequest_update_args getEmptyArgsInstance() {
+        return new CefRequest_update_args();
+      }
+
+      public org.apache.thrift.async.AsyncMethodCallback<Void> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final org.apache.thrift.AsyncProcessFunction fcall = this;
+        return new org.apache.thrift.async.AsyncMethodCallback<Void>() { 
+          public void onComplete(Void o) {
+          }
+          public void onError(java.lang.Exception e) {
+            if (e instanceof org.apache.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+            } else {
+              _LOGGER.error("Exception inside oneway handler", e);
+            }
+          }
+        };
+      }
+
+      protected boolean isOneway() {
+        return true;
+      }
+
+      public void start(I iface, CefRequest_update_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+        iface.CefRequest_update(args.rrid, args.requestInfo,resultHandler);
+      }
+    }
+
+    public static class CefRequest_dispose<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, CefRequest_dispose_args, Void> {
+      public CefRequest_dispose() {
+        super("CefRequest_dispose");
+      }
+
+      public CefRequest_dispose_args getEmptyArgsInstance() {
+        return new CefRequest_dispose_args();
+      }
+
+      public org.apache.thrift.async.AsyncMethodCallback<Void> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final org.apache.thrift.AsyncProcessFunction fcall = this;
+        return new org.apache.thrift.async.AsyncMethodCallback<Void>() { 
+          public void onComplete(Void o) {
+          }
+          public void onError(java.lang.Exception e) {
+            if (e instanceof org.apache.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+            } else {
+              _LOGGER.error("Exception inside oneway handler", e);
+            }
+          }
+        };
+      }
+
+      protected boolean isOneway() {
+        return true;
+      }
+
+      public void start(I iface, CefRequest_dispose_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+        iface.CefRequest_dispose(args.rrid,resultHandler);
       }
     }
 
@@ -4186,6 +4406,883 @@ public class Server {
         if (incoming.get(2)) {
           struct.buffer = iprot.readBinary();
           struct.setBufferIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  public static class CefRequest_update_args implements org.apache.thrift.TBase<CefRequest_update_args, CefRequest_update_args._Fields>, java.io.Serializable, Cloneable, Comparable<CefRequest_update_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("CefRequest_update_args");
+
+    private static final org.apache.thrift.protocol.TField RRID_FIELD_DESC = new org.apache.thrift.protocol.TField("rrid", org.apache.thrift.protocol.TType.I32, (short)1);
+    private static final org.apache.thrift.protocol.TField REQUEST_INFO_FIELD_DESC = new org.apache.thrift.protocol.TField("requestInfo", org.apache.thrift.protocol.TType.MAP, (short)3);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new CefRequest_update_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new CefRequest_update_argsTupleSchemeFactory();
+
+    public int rrid; // required
+    public @org.apache.thrift.annotation.Nullable java.util.Map<java.lang.String,java.lang.String> requestInfo; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      RRID((short)1, "rrid"),
+      REQUEST_INFO((short)3, "requestInfo");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // RRID
+            return RRID;
+          case 3: // REQUEST_INFO
+            return REQUEST_INFO;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __RRID_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.RRID, new org.apache.thrift.meta_data.FieldMetaData("rrid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.REQUEST_INFO, new org.apache.thrift.meta_data.FieldMetaData("requestInfo", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.MapMetaData(org.apache.thrift.protocol.TType.MAP, 
+              new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING), 
+              new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING))));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(CefRequest_update_args.class, metaDataMap);
+    }
+
+    public CefRequest_update_args() {
+    }
+
+    public CefRequest_update_args(
+      int rrid,
+      java.util.Map<java.lang.String,java.lang.String> requestInfo)
+    {
+      this();
+      this.rrid = rrid;
+      setRridIsSet(true);
+      this.requestInfo = requestInfo;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public CefRequest_update_args(CefRequest_update_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.rrid = other.rrid;
+      if (other.isSetRequestInfo()) {
+        java.util.Map<java.lang.String,java.lang.String> __this__requestInfo = new java.util.HashMap<java.lang.String,java.lang.String>(other.requestInfo);
+        this.requestInfo = __this__requestInfo;
+      }
+    }
+
+    public CefRequest_update_args deepCopy() {
+      return new CefRequest_update_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setRridIsSet(false);
+      this.rrid = 0;
+      this.requestInfo = null;
+    }
+
+    public int getRrid() {
+      return this.rrid;
+    }
+
+    public CefRequest_update_args setRrid(int rrid) {
+      this.rrid = rrid;
+      setRridIsSet(true);
+      return this;
+    }
+
+    public void unsetRrid() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __RRID_ISSET_ID);
+    }
+
+    /** Returns true if field rrid is set (has been assigned a value) and false otherwise */
+    public boolean isSetRrid() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __RRID_ISSET_ID);
+    }
+
+    public void setRridIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __RRID_ISSET_ID, value);
+    }
+
+    public int getRequestInfoSize() {
+      return (this.requestInfo == null) ? 0 : this.requestInfo.size();
+    }
+
+    public void putToRequestInfo(java.lang.String key, java.lang.String val) {
+      if (this.requestInfo == null) {
+        this.requestInfo = new java.util.HashMap<java.lang.String,java.lang.String>();
+      }
+      this.requestInfo.put(key, val);
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.util.Map<java.lang.String,java.lang.String> getRequestInfo() {
+      return this.requestInfo;
+    }
+
+    public CefRequest_update_args setRequestInfo(@org.apache.thrift.annotation.Nullable java.util.Map<java.lang.String,java.lang.String> requestInfo) {
+      this.requestInfo = requestInfo;
+      return this;
+    }
+
+    public void unsetRequestInfo() {
+      this.requestInfo = null;
+    }
+
+    /** Returns true if field requestInfo is set (has been assigned a value) and false otherwise */
+    public boolean isSetRequestInfo() {
+      return this.requestInfo != null;
+    }
+
+    public void setRequestInfoIsSet(boolean value) {
+      if (!value) {
+        this.requestInfo = null;
+      }
+    }
+
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case RRID:
+        if (value == null) {
+          unsetRrid();
+        } else {
+          setRrid((java.lang.Integer)value);
+        }
+        break;
+
+      case REQUEST_INFO:
+        if (value == null) {
+          unsetRequestInfo();
+        } else {
+          setRequestInfo((java.util.Map<java.lang.String,java.lang.String>)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case RRID:
+        return getRrid();
+
+      case REQUEST_INFO:
+        return getRequestInfo();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case RRID:
+        return isSetRrid();
+      case REQUEST_INFO:
+        return isSetRequestInfo();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof CefRequest_update_args)
+        return this.equals((CefRequest_update_args)that);
+      return false;
+    }
+
+    public boolean equals(CefRequest_update_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_rrid = true;
+      boolean that_present_rrid = true;
+      if (this_present_rrid || that_present_rrid) {
+        if (!(this_present_rrid && that_present_rrid))
+          return false;
+        if (this.rrid != that.rrid)
+          return false;
+      }
+
+      boolean this_present_requestInfo = true && this.isSetRequestInfo();
+      boolean that_present_requestInfo = true && that.isSetRequestInfo();
+      if (this_present_requestInfo || that_present_requestInfo) {
+        if (!(this_present_requestInfo && that_present_requestInfo))
+          return false;
+        if (!this.requestInfo.equals(that.requestInfo))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + rrid;
+
+      hashCode = hashCode * 8191 + ((isSetRequestInfo()) ? 131071 : 524287);
+      if (isSetRequestInfo())
+        hashCode = hashCode * 8191 + requestInfo.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(CefRequest_update_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetRrid(), other.isSetRrid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetRrid()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.rrid, other.rrid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetRequestInfo(), other.isSetRequestInfo());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetRequestInfo()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.requestInfo, other.requestInfo);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("CefRequest_update_args(");
+      boolean first = true;
+
+      sb.append("rrid:");
+      sb.append(this.rrid);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("requestInfo:");
+      if (this.requestInfo == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.requestInfo);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class CefRequest_update_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public CefRequest_update_argsStandardScheme getScheme() {
+        return new CefRequest_update_argsStandardScheme();
+      }
+    }
+
+    private static class CefRequest_update_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<CefRequest_update_args> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, CefRequest_update_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // RRID
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.rrid = iprot.readI32();
+                struct.setRridIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 3: // REQUEST_INFO
+              if (schemeField.type == org.apache.thrift.protocol.TType.MAP) {
+                {
+                  org.apache.thrift.protocol.TMap _map18 = iprot.readMapBegin();
+                  struct.requestInfo = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map18.size);
+                  @org.apache.thrift.annotation.Nullable java.lang.String _key19;
+                  @org.apache.thrift.annotation.Nullable java.lang.String _val20;
+                  for (int _i21 = 0; _i21 < _map18.size; ++_i21)
+                  {
+                    _key19 = iprot.readString();
+                    _val20 = iprot.readString();
+                    struct.requestInfo.put(_key19, _val20);
+                  }
+                  iprot.readMapEnd();
+                }
+                struct.setRequestInfoIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, CefRequest_update_args struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(RRID_FIELD_DESC);
+        oprot.writeI32(struct.rrid);
+        oprot.writeFieldEnd();
+        if (struct.requestInfo != null) {
+          oprot.writeFieldBegin(REQUEST_INFO_FIELD_DESC);
+          {
+            oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING, struct.requestInfo.size()));
+            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter22 : struct.requestInfo.entrySet())
+            {
+              oprot.writeString(_iter22.getKey());
+              oprot.writeString(_iter22.getValue());
+            }
+            oprot.writeMapEnd();
+          }
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class CefRequest_update_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public CefRequest_update_argsTupleScheme getScheme() {
+        return new CefRequest_update_argsTupleScheme();
+      }
+    }
+
+    private static class CefRequest_update_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<CefRequest_update_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, CefRequest_update_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetRrid()) {
+          optionals.set(0);
+        }
+        if (struct.isSetRequestInfo()) {
+          optionals.set(1);
+        }
+        oprot.writeBitSet(optionals, 2);
+        if (struct.isSetRrid()) {
+          oprot.writeI32(struct.rrid);
+        }
+        if (struct.isSetRequestInfo()) {
+          {
+            oprot.writeI32(struct.requestInfo.size());
+            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter23 : struct.requestInfo.entrySet())
+            {
+              oprot.writeString(_iter23.getKey());
+              oprot.writeString(_iter23.getValue());
+            }
+          }
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, CefRequest_update_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(2);
+        if (incoming.get(0)) {
+          struct.rrid = iprot.readI32();
+          struct.setRridIsSet(true);
+        }
+        if (incoming.get(1)) {
+          {
+            org.apache.thrift.protocol.TMap _map24 = iprot.readMapBegin(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING); 
+            struct.requestInfo = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map24.size);
+            @org.apache.thrift.annotation.Nullable java.lang.String _key25;
+            @org.apache.thrift.annotation.Nullable java.lang.String _val26;
+            for (int _i27 = 0; _i27 < _map24.size; ++_i27)
+            {
+              _key25 = iprot.readString();
+              _val26 = iprot.readString();
+              struct.requestInfo.put(_key25, _val26);
+            }
+          }
+          struct.setRequestInfoIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  public static class CefRequest_dispose_args implements org.apache.thrift.TBase<CefRequest_dispose_args, CefRequest_dispose_args._Fields>, java.io.Serializable, Cloneable, Comparable<CefRequest_dispose_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("CefRequest_dispose_args");
+
+    private static final org.apache.thrift.protocol.TField RRID_FIELD_DESC = new org.apache.thrift.protocol.TField("rrid", org.apache.thrift.protocol.TType.I32, (short)1);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new CefRequest_dispose_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new CefRequest_dispose_argsTupleSchemeFactory();
+
+    public int rrid; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      RRID((short)1, "rrid");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // RRID
+            return RRID;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __RRID_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.RRID, new org.apache.thrift.meta_data.FieldMetaData("rrid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(CefRequest_dispose_args.class, metaDataMap);
+    }
+
+    public CefRequest_dispose_args() {
+    }
+
+    public CefRequest_dispose_args(
+      int rrid)
+    {
+      this();
+      this.rrid = rrid;
+      setRridIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public CefRequest_dispose_args(CefRequest_dispose_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.rrid = other.rrid;
+    }
+
+    public CefRequest_dispose_args deepCopy() {
+      return new CefRequest_dispose_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setRridIsSet(false);
+      this.rrid = 0;
+    }
+
+    public int getRrid() {
+      return this.rrid;
+    }
+
+    public CefRequest_dispose_args setRrid(int rrid) {
+      this.rrid = rrid;
+      setRridIsSet(true);
+      return this;
+    }
+
+    public void unsetRrid() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __RRID_ISSET_ID);
+    }
+
+    /** Returns true if field rrid is set (has been assigned a value) and false otherwise */
+    public boolean isSetRrid() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __RRID_ISSET_ID);
+    }
+
+    public void setRridIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __RRID_ISSET_ID, value);
+    }
+
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case RRID:
+        if (value == null) {
+          unsetRrid();
+        } else {
+          setRrid((java.lang.Integer)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case RRID:
+        return getRrid();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case RRID:
+        return isSetRrid();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof CefRequest_dispose_args)
+        return this.equals((CefRequest_dispose_args)that);
+      return false;
+    }
+
+    public boolean equals(CefRequest_dispose_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_rrid = true;
+      boolean that_present_rrid = true;
+      if (this_present_rrid || that_present_rrid) {
+        if (!(this_present_rrid && that_present_rrid))
+          return false;
+        if (this.rrid != that.rrid)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + rrid;
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(CefRequest_dispose_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetRrid(), other.isSetRrid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetRrid()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.rrid, other.rrid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("CefRequest_dispose_args(");
+      boolean first = true;
+
+      sb.append("rrid:");
+      sb.append(this.rrid);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class CefRequest_dispose_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public CefRequest_dispose_argsStandardScheme getScheme() {
+        return new CefRequest_dispose_argsStandardScheme();
+      }
+    }
+
+    private static class CefRequest_dispose_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<CefRequest_dispose_args> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, CefRequest_dispose_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // RRID
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.rrid = iprot.readI32();
+                struct.setRridIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, CefRequest_dispose_args struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(RRID_FIELD_DESC);
+        oprot.writeI32(struct.rrid);
+        oprot.writeFieldEnd();
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class CefRequest_dispose_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public CefRequest_dispose_argsTupleScheme getScheme() {
+        return new CefRequest_dispose_argsTupleScheme();
+      }
+    }
+
+    private static class CefRequest_dispose_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<CefRequest_dispose_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, CefRequest_dispose_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetRrid()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetRrid()) {
+          oprot.writeI32(struct.rrid);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, CefRequest_dispose_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.rrid = iprot.readI32();
+          struct.setRridIsSet(true);
         }
       }
     }

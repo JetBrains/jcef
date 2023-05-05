@@ -43,14 +43,14 @@ public class CefServer {
             return null;
         }
         CefRemoteBrowser result = new CefRemoteBrowser(this, newBid, remoteClient);
-        myClientHandlersImpl.registerRemoteClient(remoteClient);
+        myClientHandlersImpl.registerBrowser(result);
         return result;
     }
 
     // closes remote browser
-    public void closeBrowser(int cid, int bid) {
+    public void closeBrowser(int bid) {
         try {
-            // TODO: support force flag
+            // TODO: should we support force flag ? does it affect smth in OSR ?
             String err = myCefServerClient.closeBrowser(bid);
             if (err != null && !err.isEmpty())
                 CefLog.Error("tried to close remote browser %d, error '%s'", bid, err);
@@ -58,7 +58,7 @@ public class CefServer {
             onThriftException(e);
         }
 
-        myClientHandlersImpl.unregisterBrowser(cid, bid);
+        myClientHandlersImpl.unregisterBrowser(bid);
     }
 
     // invokes method of remote browser
@@ -85,12 +85,19 @@ public class CefServer {
                     CefLog.Info("onContextInitialized: ");
                 }
             };
-            myClientHandlersImpl = new ClientHandlersImpl(cefRemoteApp);
+
+            // 1. Create client and open socket
+            myTransport = new TSocket("localhost", PORT);
+            myTransport.open();
+            myProtocol = new TBinaryProtocol(myTransport);
+            myCefServerClient = new Server.Client(myProtocol);
+
+            // 2. Start service for backward rpc calls (from native to java)
+            myClientHandlersImpl = new ClientHandlersImpl(myCefServerClient, cefRemoteApp);
             ClientHandlers.Processor processor = new ClientHandlers.Processor(myClientHandlersImpl);
             int backwardConnectionPort = PORT + 1;
             myClientHandlersTransport = new TServerSocket(backwardConnectionPort);
             myClientHandlersServer = new TSimpleServer(new TServer.Args(myClientHandlersTransport).processor(processor));
-
             CefLog.Debug("Starting cef-handlers server.");
             myClientHandlersThread = new Thread(()->{
                 // Use this for a multithreaded server
@@ -100,14 +107,9 @@ public class CefServer {
             myClientHandlersThread.setName("CefHandlers-thread");
             myClientHandlersThread.start();
 
-            // 2. Create client and connect to CefServer
-            myTransport = new TSocket("localhost", PORT);
-            myTransport.open();
-
-            myProtocol = new TBinaryProtocol(myTransport);
-            myCefServerClient = new Server.Client(myProtocol);
-
+            // 3. Connect to CefServer
             int cid = myCefServerClient.connect(backwardConnectionPort, args, settings.toMap());
+
             CefLog.Debug("Connected to CefSever, cid=" + cid);
         } catch (TException x) {
             CefLog.Error("exception in CefServer.start: %s", x.getMessage());

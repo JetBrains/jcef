@@ -2,7 +2,6 @@
 #include "RemoteClientHandler.h"
 
 #include <iostream>
-#include <chrono>
 
 #include "../CefUtils.h"
 #include "../log/Log.h"
@@ -79,7 +78,7 @@ void RemoteRenderHandler::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& re
 
     std::string result;
     try {
-      remoteService->getInfo(result, myOwner.getCid(), myOwner.getBid(), "viewRect", "");
+      remoteService->getInfo(result, myOwner.getBid(), "viewRect", "");
     } catch (apache::thrift::TException& tx) {
       myOwner.onThriftException(tx);
       return;
@@ -142,7 +141,7 @@ bool RemoteRenderHandler::GetScreenInfo(CefRefPtr<CefBrowser> browser,
 
     std::string result;
     try {
-        remoteService->getInfo(result, myOwner.getCid(), myOwner.getBid(), "screenInfo", "");
+        remoteService->getInfo(result, myOwner.getBid(), "screenInfo", "");
     } catch (apache::thrift::TException& tx) {
         myOwner.onThriftException(tx);
         return false;
@@ -187,7 +186,7 @@ bool RemoteRenderHandler::GetScreenPoint(CefRefPtr<CefBrowser> browser,
     std::string args((const char *)argsarr, sizeof(argsarr));
     std::string result;
     try {
-        remoteService->getInfo(result, myOwner.getCid(), myOwner.getBid(), "screenPoint", args);
+        remoteService->getInfo(result, myOwner.getBid(), "screenPoint", args);
     } catch (apache::thrift::TException& tx) {
         myOwner.onThriftException(tx);
         return false;
@@ -211,15 +210,8 @@ void RemoteRenderHandler::OnPopupSize(CefRefPtr<CefBrowser> browser,
 
 //
 // Debug methods
-// TODO: remove
 //
 #define DRAW_DEBUG 0
-
-inline void copyRasterLineFlip(void * dst, const void * src, int height, int stride, int y, int x, int dx) {
-    // copy with flipping
-    const int xOffset = x*4;
-    ::memcpy(((char*)dst) + y*stride + xOffset, ((char*)src) + (height - y - 1)*stride + xOffset, dx*4);
-}
 
 inline void fillRect(unsigned char * dst, int stride, int y, int x, int dx, int dy, int r, int g, int b, int a) {
     for (int yy = y, yEnd = y + dy; yy < yEnd; ++yy) {
@@ -289,7 +281,7 @@ void RemoteRenderHandler::OnPaint(CefRefPtr<CefBrowser> browser,
     {
         Measurer measurer2(string_format("remote-client"));
         try {
-          remoteService->onPaint(myOwner.getCid(), myOwner.getBid(), type == PET_VIEW ? false : true, rectsCount,
+          remoteService->onPaint(myOwner.getBid(), type == PET_VIEW ? false : true, rectsCount,
                             mySharedMemName, mySharedMemHandle, reallocated,
                             width, height);
         } catch (apache::thrift::TException& tx) {

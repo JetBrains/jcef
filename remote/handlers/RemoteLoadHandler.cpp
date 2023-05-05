@@ -14,7 +14,7 @@ void RemoteLoadHandler::OnLoadingStateChange(CefRefPtr<CefBrowser> browser,
 
   try {
     remoteService->onLoadingStateChange(
-        myOwner.getCid(), myOwner.getBid(),
+        myOwner.getBid(),
         isLoading, canGoBack, canGoForward
     );
   } catch (apache::thrift::TException& tx) {
@@ -30,7 +30,7 @@ void RemoteLoadHandler::OnLoadStart(CefRefPtr<CefBrowser> browser,
   if (remoteService == nullptr) return;
 
   try {
-    remoteService->onLoadStart(myOwner.getCid(), myOwner.getBid(), transition_type);
+    remoteService->onLoadStart(myOwner.getBid(), transition_type);
   } catch (apache::thrift::TException& tx) {
     myOwner.onThriftException(tx);
   }
@@ -44,7 +44,7 @@ void RemoteLoadHandler::OnLoadEnd(CefRefPtr<CefBrowser> browser,
   if (remoteService == nullptr) return;
 
   try {
-    remoteService->onLoadEnd(myOwner.getCid(), myOwner.getBid(), httpStatusCode);
+    remoteService->onLoadEnd(myOwner.getBid(), httpStatusCode);
   } catch (apache::thrift::TException& tx) {
     myOwner.onThriftException(tx);
   }
@@ -60,7 +60,7 @@ void RemoteLoadHandler::OnLoadError(CefRefPtr<CefBrowser> browser,
   if (remoteService == nullptr) return;
 
   try {
-    remoteService->onLoadError(myOwner.getCid(), myOwner.getBid(), errorCode, errorText.ToString(), failedUrl.ToString());
+    remoteService->onLoadError(myOwner.getBid(), errorCode, errorText.ToString(), failedUrl.ToString());
   } catch (apache::thrift::TException& tx) {
     myOwner.onThriftException(tx);
   }

@@ -12,7 +12,8 @@ public class CefRemoteClient extends CefClientHandlerBase {
     private static AtomicInteger ourCounter = new AtomicInteger(0);
 
     private final int myCid;
-    private final Map<Integer, CefRemoteBrowser> myBid2RemoteBrowser = new ConcurrentHashMap<>();
+    private final CefServer myServer;
+    private CefRemoteBrowser myRemoteBrowser;
 
     private CefContextMenuHandler contextMenuHandler_ = null;
     private CefDialogHandler dialogHandler_ = null;
@@ -30,7 +31,19 @@ public class CefRemoteClient extends CefClientHandlerBase {
     private CefNativeRenderHandler renderHandler_ = null;
     private CefWindowHandler windowHandler_ = null;
 
-    public CefRemoteClient() { myCid = ourCounter.getAndIncrement(); }
+    public CefRemoteClient(CefServer server) {
+        myCid = ourCounter.getAndIncrement();
+        myServer = server;
+    }
+
+    public CefRemoteBrowser createBrowser() {
+        if (myRemoteBrowser == null) {
+            myRemoteBrowser = myServer.createBrowser(this);
+            if (myRemoteBrowser == null)
+                CefLog.Error("Can't create remote browser");
+        }
+        return myRemoteBrowser;
+    }
 
     @Override
     protected CefBrowser getBrowser(int identifier) {
@@ -136,29 +149,23 @@ public class CefRemoteClient extends CefClientHandlerBase {
         this.renderHandler_ = renderHandler;
     }
 
-    public void disposeClient() {
-        if (renderHandler_ != null) renderHandler_.disposeNativeResources();
+    public void setDisplayHandler(CefDisplayHandler displayHandler) {
+        this.displayHandler_ = displayHandler;
     }
 
-    public void registerBrowser(int bid, CefRemoteBrowser remoteBrowser) {
-        if (remoteBrowser == null) {
-            CefLog.Error("tried to register null remoteClient, bid=%d", bid);
-            return;
-        }
-        myBid2RemoteBrowser.put(bid, remoteBrowser);
-    }
-
-    public void unregister(int bid) {
-        CefLog.Debug("CefRemoteClient: unregister browser, bid=%d", bid);
-        myBid2RemoteBrowser.remove(bid);
-    }
-
-    public CefRemoteBrowser getBrowserByBid(int bid) {
-        return myBid2RemoteBrowser.get(bid);
+    public void setRequestHandler(CefRequestHandler requestHandler) {
+        this.requestHandler_ = requestHandler;
     }
 
     @Override
     public String toString() {
         return "CefRemoteClient_" + myCid;
+    }
+
+    void disposeClient() {
+        CefLog.Debug("CefRemoteClient: dispose cid=%d", myCid);
+        if (renderHandler_ != null)
+            renderHandler_.disposeNativeResources();
+        myRemoteBrowser = null;
     }
 }

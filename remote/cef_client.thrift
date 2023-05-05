@@ -34,22 +34,23 @@ service ClientHandlers {
    //
    // CefRenderHandler
    //
-   binary getInfo(1:i32 cid, 2:i32 bid, 3:string request, 4:binary buffer)
-   void onPaint(1:i32 cid, 2:i32 bid, 3:bool popup, 4:i32 dirtyRectsCount, 5:string sharedMemName, 6:i64 sharedMemHandle, 7:bool recreateHandle, 8:i32 width, 9:i32 height)
+   // TODO: implement: OnPopupShow, OnPopupSize, StartDragging, UpdateDragCursor
+   binary getInfo(1:i32 bid, 2:string request, 3:binary buffer)
+   void onPaint(1:i32 bid, 2:bool popup, 3:i32 dirtyRectsCount, 4:string sharedMemName, 5:i64 sharedMemHandle, 6:bool recreateHandle, 7:i32 width, 8:i32 height)
 
    //
    // CefLifeSpanHandler
    //
-   oneway void onBeforePopup(1:i32 cid, 2:i32 bid, 3:string url, 4:bool gesture) // TODO: add other params
-   oneway void onAfterCreated(1:i32 cid, 2:i32 bid)
-   oneway void doClose(1:i32 cid, 2:i32 bid)
-   oneway void onBeforeClose(1:i32 cid, 2:i32 bid)
+   oneway void onBeforePopup(1:i32 bid, 2:string url, 3:string frameName, 4:bool gesture) // TODO: add other params
+   oneway void onAfterCreated(1:i32 bid)
+   oneway void doClose(1:i32 bid)
+   oneway void onBeforeClose(1:i32 bid)
 
    //
    // CefLoadHandler
    //
-   oneway void onLoadingStateChange(1:i32 cid, 2:i32 bid, 3:bool isLoading, 4:bool canGoBack, 5:bool canGoForward)
-   oneway void onLoadStart(1:i32 cid, 2:i32 bid, 3:i32 transition_type)
-   oneway void onLoadEnd(1:i32 cid, 2:i32 bid, 3:i32 httpStatusCode)
-   oneway void onLoadError(1:i32 cid, 2:i32 bid, 3:i32 errorCode, 4:string errorText, 5:string failedUrl)
+   oneway void onLoadingStateChange(1:i32 bid, 2:bool isLoading, 3:bool canGoBack, 4:bool canGoForward)
+   oneway void onLoadStart(1:i32 bid, 2:i32 transition_type)
+   oneway void onLoadEnd(1:i32 bid, 2:i32 httpStatusCode)
+   oneway void onLoadError(1:i32 bid, 2:i32 errorCode, 3:string errorText, 4:string failedUrl)
 }

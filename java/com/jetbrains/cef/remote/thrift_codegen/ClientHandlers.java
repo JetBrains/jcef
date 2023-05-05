@@ -19,25 +19,25 @@ public class ClientHandlers {
 
     public void onContextInitialized() throws org.apache.thrift.TException;
 
-    public java.nio.ByteBuffer getInfo(int cid, int bid, java.lang.String request, java.nio.ByteBuffer buffer) throws org.apache.thrift.TException;
+    public java.nio.ByteBuffer getInfo(int bid, java.lang.String request, java.nio.ByteBuffer buffer) throws org.apache.thrift.TException;
 
-    public void onPaint(int cid, int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height) throws org.apache.thrift.TException;
+    public void onPaint(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height) throws org.apache.thrift.TException;
 
-    public void onBeforePopup(int cid, int bid, java.lang.String url, boolean gesture) throws org.apache.thrift.TException;
+    public void onBeforePopup(int bid, java.lang.String url, java.lang.String frameName, boolean gesture) throws org.apache.thrift.TException;
 
-    public void onAfterCreated(int cid, int bid) throws org.apache.thrift.TException;
+    public void onAfterCreated(int bid) throws org.apache.thrift.TException;
 
-    public void doClose(int cid, int bid) throws org.apache.thrift.TException;
+    public void doClose(int bid) throws org.apache.thrift.TException;
 
-    public void onBeforeClose(int cid, int bid) throws org.apache.thrift.TException;
+    public void onBeforeClose(int bid) throws org.apache.thrift.TException;
 
-    public void onLoadingStateChange(int cid, int bid, boolean isLoading, boolean canGoBack, boolean canGoForward) throws org.apache.thrift.TException;
+    public void onLoadingStateChange(int bid, boolean isLoading, boolean canGoBack, boolean canGoForward) throws org.apache.thrift.TException;
 
-    public void onLoadStart(int cid, int bid, int transition_type) throws org.apache.thrift.TException;
+    public void onLoadStart(int bid, int transition_type) throws org.apache.thrift.TException;
 
-    public void onLoadEnd(int cid, int bid, int httpStatusCode) throws org.apache.thrift.TException;
+    public void onLoadEnd(int bid, int httpStatusCode) throws org.apache.thrift.TException;
 
-    public void onLoadError(int cid, int bid, int errorCode, java.lang.String errorText, java.lang.String failedUrl) throws org.apache.thrift.TException;
+    public void onLoadError(int bid, int errorCode, java.lang.String errorText, java.lang.String failedUrl) throws org.apache.thrift.TException;
 
   }
 
@@ -51,25 +51,25 @@ public class ClientHandlers {
 
     public void onContextInitialized(org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void getInfo(int cid, int bid, java.lang.String request, java.nio.ByteBuffer buffer, org.apache.thrift.async.AsyncMethodCallback<java.nio.ByteBuffer> resultHandler) throws org.apache.thrift.TException;
+    public void getInfo(int bid, java.lang.String request, java.nio.ByteBuffer buffer, org.apache.thrift.async.AsyncMethodCallback<java.nio.ByteBuffer> resultHandler) throws org.apache.thrift.TException;
 
-    public void onPaint(int cid, int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void onPaint(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void onBeforePopup(int cid, int bid, java.lang.String url, boolean gesture, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void onBeforePopup(int bid, java.lang.String url, java.lang.String frameName, boolean gesture, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void onAfterCreated(int cid, int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void onAfterCreated(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void doClose(int cid, int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void doClose(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void onBeforeClose(int cid, int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void onBeforeClose(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void onLoadingStateChange(int cid, int bid, boolean isLoading, boolean canGoBack, boolean canGoForward, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void onLoadingStateChange(int bid, boolean isLoading, boolean canGoBack, boolean canGoForward, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void onLoadStart(int cid, int bid, int transition_type, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void onLoadStart(int bid, int transition_type, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void onLoadEnd(int cid, int bid, int httpStatusCode, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void onLoadEnd(int bid, int httpStatusCode, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void onLoadError(int cid, int bid, int errorCode, java.lang.String errorText, java.lang.String failedUrl, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void onLoadError(int bid, int errorCode, java.lang.String errorText, java.lang.String failedUrl, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
   }
 
@@ -168,16 +168,15 @@ public class ClientHandlers {
       return;
     }
 
-    public java.nio.ByteBuffer getInfo(int cid, int bid, java.lang.String request, java.nio.ByteBuffer buffer) throws org.apache.thrift.TException
+    public java.nio.ByteBuffer getInfo(int bid, java.lang.String request, java.nio.ByteBuffer buffer) throws org.apache.thrift.TException
     {
-      send_getInfo(cid, bid, request, buffer);
+      send_getInfo(bid, request, buffer);
       return recv_getInfo();
     }
 
-    public void send_getInfo(int cid, int bid, java.lang.String request, java.nio.ByteBuffer buffer) throws org.apache.thrift.TException
+    public void send_getInfo(int bid, java.lang.String request, java.nio.ByteBuffer buffer) throws org.apache.thrift.TException
     {
       getInfo_args args = new getInfo_args();
-      args.setCid(cid);
       args.setBid(bid);
       args.setRequest(request);
       args.setBuffer(buffer);
@@ -194,16 +193,15 @@ public class ClientHandlers {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getInfo failed: unknown result");
     }
 
-    public void onPaint(int cid, int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height) throws org.apache.thrift.TException
+    public void onPaint(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height) throws org.apache.thrift.TException
     {
-      send_onPaint(cid, bid, popup, dirtyRectsCount, sharedMemName, sharedMemHandle, recreateHandle, width, height);
+      send_onPaint(bid, popup, dirtyRectsCount, sharedMemName, sharedMemHandle, recreateHandle, width, height);
       recv_onPaint();
     }
 
-    public void send_onPaint(int cid, int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height) throws org.apache.thrift.TException
+    public void send_onPaint(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height) throws org.apache.thrift.TException
     {
       onPaint_args args = new onPaint_args();
-      args.setCid(cid);
       args.setBid(bid);
       args.setPopup(popup);
       args.setDirtyRectsCount(dirtyRectsCount);
@@ -222,69 +220,65 @@ public class ClientHandlers {
       return;
     }
 
-    public void onBeforePopup(int cid, int bid, java.lang.String url, boolean gesture) throws org.apache.thrift.TException
+    public void onBeforePopup(int bid, java.lang.String url, java.lang.String frameName, boolean gesture) throws org.apache.thrift.TException
     {
-      send_onBeforePopup(cid, bid, url, gesture);
+      send_onBeforePopup(bid, url, frameName, gesture);
     }
 
-    public void send_onBeforePopup(int cid, int bid, java.lang.String url, boolean gesture) throws org.apache.thrift.TException
+    public void send_onBeforePopup(int bid, java.lang.String url, java.lang.String frameName, boolean gesture) throws org.apache.thrift.TException
     {
       onBeforePopup_args args = new onBeforePopup_args();
-      args.setCid(cid);
       args.setBid(bid);
       args.setUrl(url);
+      args.setFrameName(frameName);
       args.setGesture(gesture);
       sendBaseOneway("onBeforePopup", args);
     }
 
-    public void onAfterCreated(int cid, int bid) throws org.apache.thrift.TException
+    public void onAfterCreated(int bid) throws org.apache.thrift.TException
     {
-      send_onAfterCreated(cid, bid);
+      send_onAfterCreated(bid);
     }
 
-    public void send_onAfterCreated(int cid, int bid) throws org.apache.thrift.TException
+    public void send_onAfterCreated(int bid) throws org.apache.thrift.TException
     {
       onAfterCreated_args args = new onAfterCreated_args();
-      args.setCid(cid);
       args.setBid(bid);
       sendBaseOneway("onAfterCreated", args);
     }
 
-    public void doClose(int cid, int bid) throws org.apache.thrift.TException
+    public void doClose(int bid) throws org.apache.thrift.TException
     {
-      send_doClose(cid, bid);
+      send_doClose(bid);
     }
 
-    public void send_doClose(int cid, int bid) throws org.apache.thrift.TException
+    public void send_doClose(int bid) throws org.apache.thrift.TException
     {
       doClose_args args = new doClose_args();
-      args.setCid(cid);
       args.setBid(bid);
       sendBaseOneway("doClose", args);
     }
 
-    public void onBeforeClose(int cid, int bid) throws org.apache.thrift.TException
+    public void onBeforeClose(int bid) throws org.apache.thrift.TException
     {
-      send_onBeforeClose(cid, bid);
+      send_onBeforeClose(bid);
     }
 
-    public void send_onBeforeClose(int cid, int bid) throws org.apache.thrift.TException
+    public void send_onBeforeClose(int bid) throws org.apache.thrift.TException
     {
       onBeforeClose_args args = new onBeforeClose_args();
-      args.setCid(cid);
       args.setBid(bid);
       sendBaseOneway("onBeforeClose", args);
     }
 
-    public void onLoadingStateChange(int cid, int bid, boolean isLoading, boolean canGoBack, boolean canGoForward) throws org.apache.thrift.TException
+    public void onLoadingStateChange(int bid, boolean isLoading, boolean canGoBack, boolean canGoForward) throws org.apache.thrift.TException
     {
-      send_onLoadingStateChange(cid, bid, isLoading, canGoBack, canGoForward);
+      send_onLoadingStateChange(bid, isLoading, canGoBack, canGoForward);
     }
 
-    public void send_onLoadingStateChange(int cid, int bid, boolean isLoading, boolean canGoBack, boolean canGoForward) throws org.apache.thrift.TException
+    public void send_onLoadingStateChange(int bid, boolean isLoading, boolean canGoBack, boolean canGoForward) throws org.apache.thrift.TException
     {
       onLoadingStateChange_args args = new onLoadingStateChange_args();
-      args.setCid(cid);
       args.setBid(bid);
       args.setIsLoading(isLoading);
       args.setCanGoBack(canGoBack);
@@ -292,43 +286,40 @@ public class ClientHandlers {
       sendBaseOneway("onLoadingStateChange", args);
     }
 
-    public void onLoadStart(int cid, int bid, int transition_type) throws org.apache.thrift.TException
+    public void onLoadStart(int bid, int transition_type) throws org.apache.thrift.TException
     {
-      send_onLoadStart(cid, bid, transition_type);
+      send_onLoadStart(bid, transition_type);
     }
 
-    public void send_onLoadStart(int cid, int bid, int transition_type) throws org.apache.thrift.TException
+    public void send_onLoadStart(int bid, int transition_type) throws org.apache.thrift.TException
     {
       onLoadStart_args args = new onLoadStart_args();
-      args.setCid(cid);
       args.setBid(bid);
       args.setTransition_type(transition_type);
       sendBaseOneway("onLoadStart", args);
     }
 
-    public void onLoadEnd(int cid, int bid, int httpStatusCode) throws org.apache.thrift.TException
+    public void onLoadEnd(int bid, int httpStatusCode) throws org.apache.thrift.TException
     {
-      send_onLoadEnd(cid, bid, httpStatusCode);
+      send_onLoadEnd(bid, httpStatusCode);
     }
 
-    public void send_onLoadEnd(int cid, int bid, int httpStatusCode) throws org.apache.thrift.TException
+    public void send_onLoadEnd(int bid, int httpStatusCode) throws org.apache.thrift.TException
     {
       onLoadEnd_args args = new onLoadEnd_args();
-      args.setCid(cid);
       args.setBid(bid);
       args.setHttpStatusCode(httpStatusCode);
       sendBaseOneway("onLoadEnd", args);
     }
 
-    public void onLoadError(int cid, int bid, int errorCode, java.lang.String errorText, java.lang.String failedUrl) throws org.apache.thrift.TException
+    public void onLoadError(int bid, int errorCode, java.lang.String errorText, java.lang.String failedUrl) throws org.apache.thrift.TException
     {
-      send_onLoadError(cid, bid, errorCode, errorText, failedUrl);
+      send_onLoadError(bid, errorCode, errorText, failedUrl);
     }
 
-    public void send_onLoadError(int cid, int bid, int errorCode, java.lang.String errorText, java.lang.String failedUrl) throws org.apache.thrift.TException
+    public void send_onLoadError(int bid, int errorCode, java.lang.String errorText, java.lang.String failedUrl) throws org.apache.thrift.TException
     {
       onLoadError_args args = new onLoadError_args();
-      args.setCid(cid);
       args.setBid(bid);
       args.setErrorCode(errorCode);
       args.setErrorText(errorText);
@@ -473,21 +464,19 @@ public class ClientHandlers {
       }
     }
 
-    public void getInfo(int cid, int bid, java.lang.String request, java.nio.ByteBuffer buffer, org.apache.thrift.async.AsyncMethodCallback<java.nio.ByteBuffer> resultHandler) throws org.apache.thrift.TException {
+    public void getInfo(int bid, java.lang.String request, java.nio.ByteBuffer buffer, org.apache.thrift.async.AsyncMethodCallback<java.nio.ByteBuffer> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      getInfo_call method_call = new getInfo_call(cid, bid, request, buffer, resultHandler, this, ___protocolFactory, ___transport);
+      getInfo_call method_call = new getInfo_call(bid, request, buffer, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
     public static class getInfo_call extends org.apache.thrift.async.TAsyncMethodCall<java.nio.ByteBuffer> {
-      private int cid;
       private int bid;
       private java.lang.String request;
       private java.nio.ByteBuffer buffer;
-      public getInfo_call(int cid, int bid, java.lang.String request, java.nio.ByteBuffer buffer, org.apache.thrift.async.AsyncMethodCallback<java.nio.ByteBuffer> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public getInfo_call(int bid, java.lang.String request, java.nio.ByteBuffer buffer, org.apache.thrift.async.AsyncMethodCallback<java.nio.ByteBuffer> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
-        this.cid = cid;
         this.bid = bid;
         this.request = request;
         this.buffer = buffer;
@@ -496,7 +485,6 @@ public class ClientHandlers {
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getInfo", org.apache.thrift.protocol.TMessageType.CALL, 0));
         getInfo_args args = new getInfo_args();
-        args.setCid(cid);
         args.setBid(bid);
         args.setRequest(request);
         args.setBuffer(buffer);
@@ -514,15 +502,14 @@ public class ClientHandlers {
       }
     }
 
-    public void onPaint(int cid, int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void onPaint(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      onPaint_call method_call = new onPaint_call(cid, bid, popup, dirtyRectsCount, sharedMemName, sharedMemHandle, recreateHandle, width, height, resultHandler, this, ___protocolFactory, ___transport);
+      onPaint_call method_call = new onPaint_call(bid, popup, dirtyRectsCount, sharedMemName, sharedMemHandle, recreateHandle, width, height, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
     public static class onPaint_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
-      private int cid;
       private int bid;
       private boolean popup;
       private int dirtyRectsCount;
@@ -531,9 +518,8 @@ public class ClientHandlers {
       private boolean recreateHandle;
       private int width;
       private int height;
-      public onPaint_call(int cid, int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public onPaint_call(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
-        this.cid = cid;
         this.bid = bid;
         this.popup = popup;
         this.dirtyRectsCount = dirtyRectsCount;
@@ -547,7 +533,6 @@ public class ClientHandlers {
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("onPaint", org.apache.thrift.protocol.TMessageType.CALL, 0));
         onPaint_args args = new onPaint_args();
-        args.setCid(cid);
         args.setBid(bid);
         args.setPopup(popup);
         args.setDirtyRectsCount(dirtyRectsCount);
@@ -570,32 +555,32 @@ public class ClientHandlers {
       }
     }
 
-    public void onBeforePopup(int cid, int bid, java.lang.String url, boolean gesture, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void onBeforePopup(int bid, java.lang.String url, java.lang.String frameName, boolean gesture, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      onBeforePopup_call method_call = new onBeforePopup_call(cid, bid, url, gesture, resultHandler, this, ___protocolFactory, ___transport);
+      onBeforePopup_call method_call = new onBeforePopup_call(bid, url, frameName, gesture, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
     public static class onBeforePopup_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
-      private int cid;
       private int bid;
       private java.lang.String url;
+      private java.lang.String frameName;
       private boolean gesture;
-      public onBeforePopup_call(int cid, int bid, java.lang.String url, boolean gesture, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public onBeforePopup_call(int bid, java.lang.String url, java.lang.String frameName, boolean gesture, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
-        this.cid = cid;
         this.bid = bid;
         this.url = url;
+        this.frameName = frameName;
         this.gesture = gesture;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("onBeforePopup", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
         onBeforePopup_args args = new onBeforePopup_args();
-        args.setCid(cid);
         args.setBid(bid);
         args.setUrl(url);
+        args.setFrameName(frameName);
         args.setGesture(gesture);
         args.write(prot);
         prot.writeMessageEnd();
@@ -611,26 +596,23 @@ public class ClientHandlers {
       }
     }
 
-    public void onAfterCreated(int cid, int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void onAfterCreated(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      onAfterCreated_call method_call = new onAfterCreated_call(cid, bid, resultHandler, this, ___protocolFactory, ___transport);
+      onAfterCreated_call method_call = new onAfterCreated_call(bid, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
     public static class onAfterCreated_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
-      private int cid;
       private int bid;
-      public onAfterCreated_call(int cid, int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public onAfterCreated_call(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
-        this.cid = cid;
         this.bid = bid;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("onAfterCreated", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
         onAfterCreated_args args = new onAfterCreated_args();
-        args.setCid(cid);
         args.setBid(bid);
         args.write(prot);
         prot.writeMessageEnd();
@@ -646,26 +628,23 @@ public class ClientHandlers {
       }
     }
 
-    public void doClose(int cid, int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void doClose(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      doClose_call method_call = new doClose_call(cid, bid, resultHandler, this, ___protocolFactory, ___transport);
+      doClose_call method_call = new doClose_call(bid, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
     public static class doClose_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
-      private int cid;
       private int bid;
-      public doClose_call(int cid, int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public doClose_call(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
-        this.cid = cid;
         this.bid = bid;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("doClose", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
         doClose_args args = new doClose_args();
-        args.setCid(cid);
         args.setBid(bid);
         args.write(prot);
         prot.writeMessageEnd();
@@ -681,26 +660,23 @@ public class ClientHandlers {
       }
     }
 
-    public void onBeforeClose(int cid, int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void onBeforeClose(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      onBeforeClose_call method_call = new onBeforeClose_call(cid, bid, resultHandler, this, ___protocolFactory, ___transport);
+      onBeforeClose_call method_call = new onBeforeClose_call(bid, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
     public static class onBeforeClose_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
-      private int cid;
       private int bid;
-      public onBeforeClose_call(int cid, int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public onBeforeClose_call(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
-        this.cid = cid;
         this.bid = bid;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("onBeforeClose", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
         onBeforeClose_args args = new onBeforeClose_args();
-        args.setCid(cid);
         args.setBid(bid);
         args.write(prot);
         prot.writeMessageEnd();
@@ -716,22 +692,20 @@ public class ClientHandlers {
       }
     }
 
-    public void onLoadingStateChange(int cid, int bid, boolean isLoading, boolean canGoBack, boolean canGoForward, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void onLoadingStateChange(int bid, boolean isLoading, boolean canGoBack, boolean canGoForward, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      onLoadingStateChange_call method_call = new onLoadingStateChange_call(cid, bid, isLoading, canGoBack, canGoForward, resultHandler, this, ___protocolFactory, ___transport);
+      onLoadingStateChange_call method_call = new onLoadingStateChange_call(bid, isLoading, canGoBack, canGoForward, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
     public static class onLoadingStateChange_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
-      private int cid;
       private int bid;
       private boolean isLoading;
       private boolean canGoBack;
       private boolean canGoForward;
-      public onLoadingStateChange_call(int cid, int bid, boolean isLoading, boolean canGoBack, boolean canGoForward, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public onLoadingStateChange_call(int bid, boolean isLoading, boolean canGoBack, boolean canGoForward, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
-        this.cid = cid;
         this.bid = bid;
         this.isLoading = isLoading;
         this.canGoBack = canGoBack;
@@ -741,7 +715,6 @@ public class ClientHandlers {
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("onLoadingStateChange", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
         onLoadingStateChange_args args = new onLoadingStateChange_args();
-        args.setCid(cid);
         args.setBid(bid);
         args.setIsLoading(isLoading);
         args.setCanGoBack(canGoBack);
@@ -760,20 +733,18 @@ public class ClientHandlers {
       }
     }
 
-    public void onLoadStart(int cid, int bid, int transition_type, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void onLoadStart(int bid, int transition_type, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      onLoadStart_call method_call = new onLoadStart_call(cid, bid, transition_type, resultHandler, this, ___protocolFactory, ___transport);
+      onLoadStart_call method_call = new onLoadStart_call(bid, transition_type, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
     public static class onLoadStart_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
-      private int cid;
       private int bid;
       private int transition_type;
-      public onLoadStart_call(int cid, int bid, int transition_type, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public onLoadStart_call(int bid, int transition_type, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
-        this.cid = cid;
         this.bid = bid;
         this.transition_type = transition_type;
       }
@@ -781,7 +752,6 @@ public class ClientHandlers {
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("onLoadStart", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
         onLoadStart_args args = new onLoadStart_args();
-        args.setCid(cid);
         args.setBid(bid);
         args.setTransition_type(transition_type);
         args.write(prot);
@@ -798,20 +768,18 @@ public class ClientHandlers {
       }
     }
 
-    public void onLoadEnd(int cid, int bid, int httpStatusCode, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void onLoadEnd(int bid, int httpStatusCode, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      onLoadEnd_call method_call = new onLoadEnd_call(cid, bid, httpStatusCode, resultHandler, this, ___protocolFactory, ___transport);
+      onLoadEnd_call method_call = new onLoadEnd_call(bid, httpStatusCode, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
     public static class onLoadEnd_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
-      private int cid;
       private int bid;
       private int httpStatusCode;
-      public onLoadEnd_call(int cid, int bid, int httpStatusCode, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public onLoadEnd_call(int bid, int httpStatusCode, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
-        this.cid = cid;
         this.bid = bid;
         this.httpStatusCode = httpStatusCode;
       }
@@ -819,7 +787,6 @@ public class ClientHandlers {
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("onLoadEnd", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
         onLoadEnd_args args = new onLoadEnd_args();
-        args.setCid(cid);
         args.setBid(bid);
         args.setHttpStatusCode(httpStatusCode);
         args.write(prot);
@@ -836,22 +803,20 @@ public class ClientHandlers {
       }
     }
 
-    public void onLoadError(int cid, int bid, int errorCode, java.lang.String errorText, java.lang.String failedUrl, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void onLoadError(int bid, int errorCode, java.lang.String errorText, java.lang.String failedUrl, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      onLoadError_call method_call = new onLoadError_call(cid, bid, errorCode, errorText, failedUrl, resultHandler, this, ___protocolFactory, ___transport);
+      onLoadError_call method_call = new onLoadError_call(bid, errorCode, errorText, failedUrl, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
     public static class onLoadError_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
-      private int cid;
       private int bid;
       private int errorCode;
       private java.lang.String errorText;
       private java.lang.String failedUrl;
-      public onLoadError_call(int cid, int bid, int errorCode, java.lang.String errorText, java.lang.String failedUrl, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public onLoadError_call(int bid, int errorCode, java.lang.String errorText, java.lang.String failedUrl, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
-        this.cid = cid;
         this.bid = bid;
         this.errorCode = errorCode;
         this.errorText = errorText;
@@ -861,7 +826,6 @@ public class ClientHandlers {
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("onLoadError", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
         onLoadError_args args = new onLoadError_args();
-        args.setCid(cid);
         args.setBid(bid);
         args.setErrorCode(errorCode);
         args.setErrorText(errorText);
@@ -1030,7 +994,7 @@ public class ClientHandlers {
 
       public getInfo_result getResult(I iface, getInfo_args args) throws org.apache.thrift.TException {
         getInfo_result result = new getInfo_result();
-        result.success = iface.getInfo(args.cid, args.bid, args.request, args.buffer);
+        result.success = iface.getInfo(args.bid, args.request, args.buffer);
         return result;
       }
     }
@@ -1055,7 +1019,7 @@ public class ClientHandlers {
 
       public onPaint_result getResult(I iface, onPaint_args args) throws org.apache.thrift.TException {
         onPaint_result result = new onPaint_result();
-        iface.onPaint(args.cid, args.bid, args.popup, args.dirtyRectsCount, args.sharedMemName, args.sharedMemHandle, args.recreateHandle, args.width, args.height);
+        iface.onPaint(args.bid, args.popup, args.dirtyRectsCount, args.sharedMemName, args.sharedMemHandle, args.recreateHandle, args.width, args.height);
         return result;
       }
     }
@@ -1079,7 +1043,7 @@ public class ClientHandlers {
       }
 
       public org.apache.thrift.TBase getResult(I iface, onBeforePopup_args args) throws org.apache.thrift.TException {
-        iface.onBeforePopup(args.cid, args.bid, args.url, args.gesture);
+        iface.onBeforePopup(args.bid, args.url, args.frameName, args.gesture);
         return null;
       }
     }
@@ -1103,7 +1067,7 @@ public class ClientHandlers {
       }
 
       public org.apache.thrift.TBase getResult(I iface, onAfterCreated_args args) throws org.apache.thrift.TException {
-        iface.onAfterCreated(args.cid, args.bid);
+        iface.onAfterCreated(args.bid);
         return null;
       }
     }
@@ -1127,7 +1091,7 @@ public class ClientHandlers {
       }
 
       public org.apache.thrift.TBase getResult(I iface, doClose_args args) throws org.apache.thrift.TException {
-        iface.doClose(args.cid, args.bid);
+        iface.doClose(args.bid);
         return null;
       }
     }
@@ -1151,7 +1115,7 @@ public class ClientHandlers {
       }
 
       public org.apache.thrift.TBase getResult(I iface, onBeforeClose_args args) throws org.apache.thrift.TException {
-        iface.onBeforeClose(args.cid, args.bid);
+        iface.onBeforeClose(args.bid);
         return null;
       }
     }
@@ -1175,7 +1139,7 @@ public class ClientHandlers {
       }
 
       public org.apache.thrift.TBase getResult(I iface, onLoadingStateChange_args args) throws org.apache.thrift.TException {
-        iface.onLoadingStateChange(args.cid, args.bid, args.isLoading, args.canGoBack, args.canGoForward);
+        iface.onLoadingStateChange(args.bid, args.isLoading, args.canGoBack, args.canGoForward);
         return null;
       }
     }
@@ -1199,7 +1163,7 @@ public class ClientHandlers {
       }
 
       public org.apache.thrift.TBase getResult(I iface, onLoadStart_args args) throws org.apache.thrift.TException {
-        iface.onLoadStart(args.cid, args.bid, args.transition_type);
+        iface.onLoadStart(args.bid, args.transition_type);
         return null;
       }
     }
@@ -1223,7 +1187,7 @@ public class ClientHandlers {
       }
 
       public org.apache.thrift.TBase getResult(I iface, onLoadEnd_args args) throws org.apache.thrift.TException {
-        iface.onLoadEnd(args.cid, args.bid, args.httpStatusCode);
+        iface.onLoadEnd(args.bid, args.httpStatusCode);
         return null;
       }
     }
@@ -1247,7 +1211,7 @@ public class ClientHandlers {
       }
 
       public org.apache.thrift.TBase getResult(I iface, onLoadError_args args) throws org.apache.thrift.TException {
-        iface.onLoadError(args.cid, args.bid, args.errorCode, args.errorText, args.failedUrl);
+        iface.onLoadError(args.bid, args.errorCode, args.errorText, args.failedUrl);
         return null;
       }
     }
@@ -1556,7 +1520,7 @@ public class ClientHandlers {
       }
 
       public void start(I iface, getInfo_args args, org.apache.thrift.async.AsyncMethodCallback<java.nio.ByteBuffer> resultHandler) throws org.apache.thrift.TException {
-        iface.getInfo(args.cid, args.bid, args.request, args.buffer,resultHandler);
+        iface.getInfo(args.bid, args.request, args.buffer,resultHandler);
       }
     }
 
@@ -1616,7 +1580,7 @@ public class ClientHandlers {
       }
 
       public void start(I iface, onPaint_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
-        iface.onPaint(args.cid, args.bid, args.popup, args.dirtyRectsCount, args.sharedMemName, args.sharedMemHandle, args.recreateHandle, args.width, args.height,resultHandler);
+        iface.onPaint(args.bid, args.popup, args.dirtyRectsCount, args.sharedMemName, args.sharedMemHandle, args.recreateHandle, args.width, args.height,resultHandler);
       }
     }
 
@@ -1650,7 +1614,7 @@ public class ClientHandlers {
       }
 
       public void start(I iface, onBeforePopup_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
-        iface.onBeforePopup(args.cid, args.bid, args.url, args.gesture,resultHandler);
+        iface.onBeforePopup(args.bid, args.url, args.frameName, args.gesture,resultHandler);
       }
     }
 
@@ -1684,7 +1648,7 @@ public class ClientHandlers {
       }
 
       public void start(I iface, onAfterCreated_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
-        iface.onAfterCreated(args.cid, args.bid,resultHandler);
+        iface.onAfterCreated(args.bid,resultHandler);
       }
     }
 
@@ -1718,7 +1682,7 @@ public class ClientHandlers {
       }
 
       public void start(I iface, doClose_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
-        iface.doClose(args.cid, args.bid,resultHandler);
+        iface.doClose(args.bid,resultHandler);
       }
     }
 
@@ -1752,7 +1716,7 @@ public class ClientHandlers {
       }
 
       public void start(I iface, onBeforeClose_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
-        iface.onBeforeClose(args.cid, args.bid,resultHandler);
+        iface.onBeforeClose(args.bid,resultHandler);
       }
     }
 
@@ -1786,7 +1750,7 @@ public class ClientHandlers {
       }
 
       public void start(I iface, onLoadingStateChange_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
-        iface.onLoadingStateChange(args.cid, args.bid, args.isLoading, args.canGoBack, args.canGoForward,resultHandler);
+        iface.onLoadingStateChange(args.bid, args.isLoading, args.canGoBack, args.canGoForward,resultHandler);
       }
     }
 
@@ -1820,7 +1784,7 @@ public class ClientHandlers {
       }
 
       public void start(I iface, onLoadStart_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
-        iface.onLoadStart(args.cid, args.bid, args.transition_type,resultHandler);
+        iface.onLoadStart(args.bid, args.transition_type,resultHandler);
       }
     }
 
@@ -1854,7 +1818,7 @@ public class ClientHandlers {
       }
 
       public void start(I iface, onLoadEnd_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
-        iface.onLoadEnd(args.cid, args.bid, args.httpStatusCode,resultHandler);
+        iface.onLoadEnd(args.bid, args.httpStatusCode,resultHandler);
       }
     }
 
@@ -1888,7 +1852,7 @@ public class ClientHandlers {
       }
 
       public void start(I iface, onLoadError_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
-        iface.onLoadError(args.cid, args.bid, args.errorCode, args.errorText, args.failedUrl,resultHandler);
+        iface.onLoadError(args.bid, args.errorCode, args.errorText, args.failedUrl,resultHandler);
       }
     }
 
@@ -4052,25 +4016,22 @@ public class ClientHandlers {
   public static class getInfo_args implements org.apache.thrift.TBase<getInfo_args, getInfo_args._Fields>, java.io.Serializable, Cloneable, Comparable<getInfo_args>   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getInfo_args");
 
-    private static final org.apache.thrift.protocol.TField CID_FIELD_DESC = new org.apache.thrift.protocol.TField("cid", org.apache.thrift.protocol.TType.I32, (short)1);
-    private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)2);
-    private static final org.apache.thrift.protocol.TField REQUEST_FIELD_DESC = new org.apache.thrift.protocol.TField("request", org.apache.thrift.protocol.TType.STRING, (short)3);
-    private static final org.apache.thrift.protocol.TField BUFFER_FIELD_DESC = new org.apache.thrift.protocol.TField("buffer", org.apache.thrift.protocol.TType.STRING, (short)4);
+    private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
+    private static final org.apache.thrift.protocol.TField REQUEST_FIELD_DESC = new org.apache.thrift.protocol.TField("request", org.apache.thrift.protocol.TType.STRING, (short)2);
+    private static final org.apache.thrift.protocol.TField BUFFER_FIELD_DESC = new org.apache.thrift.protocol.TField("buffer", org.apache.thrift.protocol.TType.STRING, (short)3);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new getInfo_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new getInfo_argsTupleSchemeFactory();
 
-    public int cid; // required
     public int bid; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String request; // required
     public @org.apache.thrift.annotation.Nullable java.nio.ByteBuffer buffer; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      CID((short)1, "cid"),
-      BID((short)2, "bid"),
-      REQUEST((short)3, "request"),
-      BUFFER((short)4, "buffer");
+      BID((short)1, "bid"),
+      REQUEST((short)2, "request"),
+      BUFFER((short)3, "buffer");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -4086,13 +4047,11 @@ public class ClientHandlers {
       @org.apache.thrift.annotation.Nullable
       public static _Fields findByThriftId(int fieldId) {
         switch(fieldId) {
-          case 1: // CID
-            return CID;
-          case 2: // BID
+          case 1: // BID
             return BID;
-          case 3: // REQUEST
+          case 2: // REQUEST
             return REQUEST;
-          case 4: // BUFFER
+          case 3: // BUFFER
             return BUFFER;
           default:
             return null;
@@ -4135,14 +4094,11 @@ public class ClientHandlers {
     }
 
     // isset id assignments
-    private static final int __CID_ISSET_ID = 0;
-    private static final int __BID_ISSET_ID = 1;
+    private static final int __BID_ISSET_ID = 0;
     private byte __isset_bitfield = 0;
     public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CID, new org.apache.thrift.meta_data.FieldMetaData("cid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.REQUEST, new org.apache.thrift.meta_data.FieldMetaData("request", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -4157,14 +4113,11 @@ public class ClientHandlers {
     }
 
     public getInfo_args(
-      int cid,
       int bid,
       java.lang.String request,
       java.nio.ByteBuffer buffer)
     {
       this();
-      this.cid = cid;
-      setCidIsSet(true);
       this.bid = bid;
       setBidIsSet(true);
       this.request = request;
@@ -4176,7 +4129,6 @@ public class ClientHandlers {
      */
     public getInfo_args(getInfo_args other) {
       __isset_bitfield = other.__isset_bitfield;
-      this.cid = other.cid;
       this.bid = other.bid;
       if (other.isSetRequest()) {
         this.request = other.request;
@@ -4192,35 +4144,10 @@ public class ClientHandlers {
 
     @Override
     public void clear() {
-      setCidIsSet(false);
-      this.cid = 0;
       setBidIsSet(false);
       this.bid = 0;
       this.request = null;
       this.buffer = null;
-    }
-
-    public int getCid() {
-      return this.cid;
-    }
-
-    public getInfo_args setCid(int cid) {
-      this.cid = cid;
-      setCidIsSet(true);
-      return this;
-    }
-
-    public void unsetCid() {
-      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __CID_ISSET_ID);
-    }
-
-    /** Returns true if field cid is set (has been assigned a value) and false otherwise */
-    public boolean isSetCid() {
-      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __CID_ISSET_ID);
-    }
-
-    public void setCidIsSet(boolean value) {
-      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __CID_ISSET_ID, value);
     }
 
     public int getBid() {
@@ -4307,14 +4234,6 @@ public class ClientHandlers {
 
     public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
       switch (field) {
-      case CID:
-        if (value == null) {
-          unsetCid();
-        } else {
-          setCid((java.lang.Integer)value);
-        }
-        break;
-
       case BID:
         if (value == null) {
           unsetBid();
@@ -4349,9 +4268,6 @@ public class ClientHandlers {
     @org.apache.thrift.annotation.Nullable
     public java.lang.Object getFieldValue(_Fields field) {
       switch (field) {
-      case CID:
-        return getCid();
-
       case BID:
         return getBid();
 
@@ -4372,8 +4288,6 @@ public class ClientHandlers {
       }
 
       switch (field) {
-      case CID:
-        return isSetCid();
       case BID:
         return isSetBid();
       case REQUEST:
@@ -4396,15 +4310,6 @@ public class ClientHandlers {
         return false;
       if (this == that)
         return true;
-
-      boolean this_present_cid = true;
-      boolean that_present_cid = true;
-      if (this_present_cid || that_present_cid) {
-        if (!(this_present_cid && that_present_cid))
-          return false;
-        if (this.cid != that.cid)
-          return false;
-      }
 
       boolean this_present_bid = true;
       boolean that_present_bid = true;
@@ -4440,8 +4345,6 @@ public class ClientHandlers {
     public int hashCode() {
       int hashCode = 1;
 
-      hashCode = hashCode * 8191 + cid;
-
       hashCode = hashCode * 8191 + bid;
 
       hashCode = hashCode * 8191 + ((isSetRequest()) ? 131071 : 524287);
@@ -4463,16 +4366,6 @@ public class ClientHandlers {
 
       int lastComparison = 0;
 
-      lastComparison = java.lang.Boolean.compare(isSetCid(), other.isSetCid());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetCid()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.cid, other.cid);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
       lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
       if (lastComparison != 0) {
         return lastComparison;
@@ -4524,10 +4417,6 @@ public class ClientHandlers {
       java.lang.StringBuilder sb = new java.lang.StringBuilder("getInfo_args(");
       boolean first = true;
 
-      sb.append("cid:");
-      sb.append(this.cid);
-      first = false;
-      if (!first) sb.append(", ");
       sb.append("bid:");
       sb.append(this.bid);
       first = false;
@@ -4592,15 +4481,7 @@ public class ClientHandlers {
             break;
           }
           switch (schemeField.id) {
-            case 1: // CID
-              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-                struct.cid = iprot.readI32();
-                struct.setCidIsSet(true);
-              } else { 
-                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
-            case 2: // BID
+            case 1: // BID
               if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
                 struct.bid = iprot.readI32();
                 struct.setBidIsSet(true);
@@ -4608,7 +4489,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 3: // REQUEST
+            case 2: // REQUEST
               if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
                 struct.request = iprot.readString();
                 struct.setRequestIsSet(true);
@@ -4616,7 +4497,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 4: // BUFFER
+            case 3: // BUFFER
               if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
                 struct.buffer = iprot.readBinary();
                 struct.setBufferIsSet(true);
@@ -4639,9 +4520,6 @@ public class ClientHandlers {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
-        oprot.writeFieldBegin(CID_FIELD_DESC);
-        oprot.writeI32(struct.cid);
-        oprot.writeFieldEnd();
         oprot.writeFieldBegin(BID_FIELD_DESC);
         oprot.writeI32(struct.bid);
         oprot.writeFieldEnd();
@@ -4673,22 +4551,16 @@ public class ClientHandlers {
       public void write(org.apache.thrift.protocol.TProtocol prot, getInfo_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet optionals = new java.util.BitSet();
-        if (struct.isSetCid()) {
+        if (struct.isSetBid()) {
           optionals.set(0);
         }
-        if (struct.isSetBid()) {
+        if (struct.isSetRequest()) {
           optionals.set(1);
         }
-        if (struct.isSetRequest()) {
+        if (struct.isSetBuffer()) {
           optionals.set(2);
         }
-        if (struct.isSetBuffer()) {
-          optionals.set(3);
-        }
-        oprot.writeBitSet(optionals, 4);
-        if (struct.isSetCid()) {
-          oprot.writeI32(struct.cid);
-        }
+        oprot.writeBitSet(optionals, 3);
         if (struct.isSetBid()) {
           oprot.writeI32(struct.bid);
         }
@@ -4703,20 +4575,16 @@ public class ClientHandlers {
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, getInfo_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(4);
+        java.util.BitSet incoming = iprot.readBitSet(3);
         if (incoming.get(0)) {
-          struct.cid = iprot.readI32();
-          struct.setCidIsSet(true);
-        }
-        if (incoming.get(1)) {
           struct.bid = iprot.readI32();
           struct.setBidIsSet(true);
         }
-        if (incoming.get(2)) {
+        if (incoming.get(1)) {
           struct.request = iprot.readString();
           struct.setRequestIsSet(true);
         }
-        if (incoming.get(3)) {
+        if (incoming.get(2)) {
           struct.buffer = iprot.readBinary();
           struct.setBufferIsSet(true);
         }
@@ -5109,20 +4977,18 @@ public class ClientHandlers {
   public static class onPaint_args implements org.apache.thrift.TBase<onPaint_args, onPaint_args._Fields>, java.io.Serializable, Cloneable, Comparable<onPaint_args>   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("onPaint_args");
 
-    private static final org.apache.thrift.protocol.TField CID_FIELD_DESC = new org.apache.thrift.protocol.TField("cid", org.apache.thrift.protocol.TType.I32, (short)1);
-    private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)2);
-    private static final org.apache.thrift.protocol.TField POPUP_FIELD_DESC = new org.apache.thrift.protocol.TField("popup", org.apache.thrift.protocol.TType.BOOL, (short)3);
-    private static final org.apache.thrift.protocol.TField DIRTY_RECTS_COUNT_FIELD_DESC = new org.apache.thrift.protocol.TField("dirtyRectsCount", org.apache.thrift.protocol.TType.I32, (short)4);
-    private static final org.apache.thrift.protocol.TField SHARED_MEM_NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("sharedMemName", org.apache.thrift.protocol.TType.STRING, (short)5);
-    private static final org.apache.thrift.protocol.TField SHARED_MEM_HANDLE_FIELD_DESC = new org.apache.thrift.protocol.TField("sharedMemHandle", org.apache.thrift.protocol.TType.I64, (short)6);
-    private static final org.apache.thrift.protocol.TField RECREATE_HANDLE_FIELD_DESC = new org.apache.thrift.protocol.TField("recreateHandle", org.apache.thrift.protocol.TType.BOOL, (short)7);
-    private static final org.apache.thrift.protocol.TField WIDTH_FIELD_DESC = new org.apache.thrift.protocol.TField("width", org.apache.thrift.protocol.TType.I32, (short)8);
-    private static final org.apache.thrift.protocol.TField HEIGHT_FIELD_DESC = new org.apache.thrift.protocol.TField("height", org.apache.thrift.protocol.TType.I32, (short)9);
+    private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
+    private static final org.apache.thrift.protocol.TField POPUP_FIELD_DESC = new org.apache.thrift.protocol.TField("popup", org.apache.thrift.protocol.TType.BOOL, (short)2);
+    private static final org.apache.thrift.protocol.TField DIRTY_RECTS_COUNT_FIELD_DESC = new org.apache.thrift.protocol.TField("dirtyRectsCount", org.apache.thrift.protocol.TType.I32, (short)3);
+    private static final org.apache.thrift.protocol.TField SHARED_MEM_NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("sharedMemName", org.apache.thrift.protocol.TType.STRING, (short)4);
+    private static final org.apache.thrift.protocol.TField SHARED_MEM_HANDLE_FIELD_DESC = new org.apache.thrift.protocol.TField("sharedMemHandle", org.apache.thrift.protocol.TType.I64, (short)5);
+    private static final org.apache.thrift.protocol.TField RECREATE_HANDLE_FIELD_DESC = new org.apache.thrift.protocol.TField("recreateHandle", org.apache.thrift.protocol.TType.BOOL, (short)6);
+    private static final org.apache.thrift.protocol.TField WIDTH_FIELD_DESC = new org.apache.thrift.protocol.TField("width", org.apache.thrift.protocol.TType.I32, (short)7);
+    private static final org.apache.thrift.protocol.TField HEIGHT_FIELD_DESC = new org.apache.thrift.protocol.TField("height", org.apache.thrift.protocol.TType.I32, (short)8);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new onPaint_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new onPaint_argsTupleSchemeFactory();
 
-    public int cid; // required
     public int bid; // required
     public boolean popup; // required
     public int dirtyRectsCount; // required
@@ -5134,15 +5000,14 @@ public class ClientHandlers {
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      CID((short)1, "cid"),
-      BID((short)2, "bid"),
-      POPUP((short)3, "popup"),
-      DIRTY_RECTS_COUNT((short)4, "dirtyRectsCount"),
-      SHARED_MEM_NAME((short)5, "sharedMemName"),
-      SHARED_MEM_HANDLE((short)6, "sharedMemHandle"),
-      RECREATE_HANDLE((short)7, "recreateHandle"),
-      WIDTH((short)8, "width"),
-      HEIGHT((short)9, "height");
+      BID((short)1, "bid"),
+      POPUP((short)2, "popup"),
+      DIRTY_RECTS_COUNT((short)3, "dirtyRectsCount"),
+      SHARED_MEM_NAME((short)4, "sharedMemName"),
+      SHARED_MEM_HANDLE((short)5, "sharedMemHandle"),
+      RECREATE_HANDLE((short)6, "recreateHandle"),
+      WIDTH((short)7, "width"),
+      HEIGHT((short)8, "height");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -5158,23 +5023,21 @@ public class ClientHandlers {
       @org.apache.thrift.annotation.Nullable
       public static _Fields findByThriftId(int fieldId) {
         switch(fieldId) {
-          case 1: // CID
-            return CID;
-          case 2: // BID
+          case 1: // BID
             return BID;
-          case 3: // POPUP
+          case 2: // POPUP
             return POPUP;
-          case 4: // DIRTY_RECTS_COUNT
+          case 3: // DIRTY_RECTS_COUNT
             return DIRTY_RECTS_COUNT;
-          case 5: // SHARED_MEM_NAME
+          case 4: // SHARED_MEM_NAME
             return SHARED_MEM_NAME;
-          case 6: // SHARED_MEM_HANDLE
+          case 5: // SHARED_MEM_HANDLE
             return SHARED_MEM_HANDLE;
-          case 7: // RECREATE_HANDLE
+          case 6: // RECREATE_HANDLE
             return RECREATE_HANDLE;
-          case 8: // WIDTH
+          case 7: // WIDTH
             return WIDTH;
-          case 9: // HEIGHT
+          case 8: // HEIGHT
             return HEIGHT;
           default:
             return null;
@@ -5217,20 +5080,17 @@ public class ClientHandlers {
     }
 
     // isset id assignments
-    private static final int __CID_ISSET_ID = 0;
-    private static final int __BID_ISSET_ID = 1;
-    private static final int __POPUP_ISSET_ID = 2;
-    private static final int __DIRTYRECTSCOUNT_ISSET_ID = 3;
-    private static final int __SHAREDMEMHANDLE_ISSET_ID = 4;
-    private static final int __RECREATEHANDLE_ISSET_ID = 5;
-    private static final int __WIDTH_ISSET_ID = 6;
-    private static final int __HEIGHT_ISSET_ID = 7;
+    private static final int __BID_ISSET_ID = 0;
+    private static final int __POPUP_ISSET_ID = 1;
+    private static final int __DIRTYRECTSCOUNT_ISSET_ID = 2;
+    private static final int __SHAREDMEMHANDLE_ISSET_ID = 3;
+    private static final int __RECREATEHANDLE_ISSET_ID = 4;
+    private static final int __WIDTH_ISSET_ID = 5;
+    private static final int __HEIGHT_ISSET_ID = 6;
     private byte __isset_bitfield = 0;
     public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CID, new org.apache.thrift.meta_data.FieldMetaData("cid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.POPUP, new org.apache.thrift.meta_data.FieldMetaData("popup", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -5255,7 +5115,6 @@ public class ClientHandlers {
     }
 
     public onPaint_args(
-      int cid,
       int bid,
       boolean popup,
       int dirtyRectsCount,
@@ -5266,8 +5125,6 @@ public class ClientHandlers {
       int height)
     {
       this();
-      this.cid = cid;
-      setCidIsSet(true);
       this.bid = bid;
       setBidIsSet(true);
       this.popup = popup;
@@ -5290,7 +5147,6 @@ public class ClientHandlers {
      */
     public onPaint_args(onPaint_args other) {
       __isset_bitfield = other.__isset_bitfield;
-      this.cid = other.cid;
       this.bid = other.bid;
       this.popup = other.popup;
       this.dirtyRectsCount = other.dirtyRectsCount;
@@ -5309,8 +5165,6 @@ public class ClientHandlers {
 
     @Override
     public void clear() {
-      setCidIsSet(false);
-      this.cid = 0;
       setBidIsSet(false);
       this.bid = 0;
       setPopupIsSet(false);
@@ -5326,29 +5180,6 @@ public class ClientHandlers {
       this.width = 0;
       setHeightIsSet(false);
       this.height = 0;
-    }
-
-    public int getCid() {
-      return this.cid;
-    }
-
-    public onPaint_args setCid(int cid) {
-      this.cid = cid;
-      setCidIsSet(true);
-      return this;
-    }
-
-    public void unsetCid() {
-      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __CID_ISSET_ID);
-    }
-
-    /** Returns true if field cid is set (has been assigned a value) and false otherwise */
-    public boolean isSetCid() {
-      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __CID_ISSET_ID);
-    }
-
-    public void setCidIsSet(boolean value) {
-      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __CID_ISSET_ID, value);
     }
 
     public int getBid() {
@@ -5539,14 +5370,6 @@ public class ClientHandlers {
 
     public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
       switch (field) {
-      case CID:
-        if (value == null) {
-          unsetCid();
-        } else {
-          setCid((java.lang.Integer)value);
-        }
-        break;
-
       case BID:
         if (value == null) {
           unsetBid();
@@ -5617,9 +5440,6 @@ public class ClientHandlers {
     @org.apache.thrift.annotation.Nullable
     public java.lang.Object getFieldValue(_Fields field) {
       switch (field) {
-      case CID:
-        return getCid();
-
       case BID:
         return getBid();
 
@@ -5655,8 +5475,6 @@ public class ClientHandlers {
       }
 
       switch (field) {
-      case CID:
-        return isSetCid();
       case BID:
         return isSetBid();
       case POPUP:
@@ -5689,15 +5507,6 @@ public class ClientHandlers {
         return false;
       if (this == that)
         return true;
-
-      boolean this_present_cid = true;
-      boolean that_present_cid = true;
-      if (this_present_cid || that_present_cid) {
-        if (!(this_present_cid && that_present_cid))
-          return false;
-        if (this.cid != that.cid)
-          return false;
-      }
 
       boolean this_present_bid = true;
       boolean that_present_bid = true;
@@ -5778,8 +5587,6 @@ public class ClientHandlers {
     public int hashCode() {
       int hashCode = 1;
 
-      hashCode = hashCode * 8191 + cid;
-
       hashCode = hashCode * 8191 + bid;
 
       hashCode = hashCode * 8191 + ((popup) ? 131071 : 524287);
@@ -5809,16 +5616,6 @@ public class ClientHandlers {
 
       int lastComparison = 0;
 
-      lastComparison = java.lang.Boolean.compare(isSetCid(), other.isSetCid());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetCid()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.cid, other.cid);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
       lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
       if (lastComparison != 0) {
         return lastComparison;
@@ -5920,10 +5717,6 @@ public class ClientHandlers {
       java.lang.StringBuilder sb = new java.lang.StringBuilder("onPaint_args(");
       boolean first = true;
 
-      sb.append("cid:");
-      sb.append(this.cid);
-      first = false;
-      if (!first) sb.append(", ");
       sb.append("bid:");
       sb.append(this.bid);
       first = false;
@@ -6004,15 +5797,7 @@ public class ClientHandlers {
             break;
           }
           switch (schemeField.id) {
-            case 1: // CID
-              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-                struct.cid = iprot.readI32();
-                struct.setCidIsSet(true);
-              } else { 
-                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
-            case 2: // BID
+            case 1: // BID
               if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
                 struct.bid = iprot.readI32();
                 struct.setBidIsSet(true);
@@ -6020,7 +5805,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 3: // POPUP
+            case 2: // POPUP
               if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
                 struct.popup = iprot.readBool();
                 struct.setPopupIsSet(true);
@@ -6028,7 +5813,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 4: // DIRTY_RECTS_COUNT
+            case 3: // DIRTY_RECTS_COUNT
               if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
                 struct.dirtyRectsCount = iprot.readI32();
                 struct.setDirtyRectsCountIsSet(true);
@@ -6036,7 +5821,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 5: // SHARED_MEM_NAME
+            case 4: // SHARED_MEM_NAME
               if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
                 struct.sharedMemName = iprot.readString();
                 struct.setSharedMemNameIsSet(true);
@@ -6044,7 +5829,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 6: // SHARED_MEM_HANDLE
+            case 5: // SHARED_MEM_HANDLE
               if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
                 struct.sharedMemHandle = iprot.readI64();
                 struct.setSharedMemHandleIsSet(true);
@@ -6052,7 +5837,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 7: // RECREATE_HANDLE
+            case 6: // RECREATE_HANDLE
               if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
                 struct.recreateHandle = iprot.readBool();
                 struct.setRecreateHandleIsSet(true);
@@ -6060,7 +5845,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 8: // WIDTH
+            case 7: // WIDTH
               if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
                 struct.width = iprot.readI32();
                 struct.setWidthIsSet(true);
@@ -6068,7 +5853,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 9: // HEIGHT
+            case 8: // HEIGHT
               if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
                 struct.height = iprot.readI32();
                 struct.setHeightIsSet(true);
@@ -6091,9 +5876,6 @@ public class ClientHandlers {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
-        oprot.writeFieldBegin(CID_FIELD_DESC);
-        oprot.writeI32(struct.cid);
-        oprot.writeFieldEnd();
         oprot.writeFieldBegin(BID_FIELD_DESC);
         oprot.writeI32(struct.bid);
         oprot.writeFieldEnd();
@@ -6138,37 +5920,31 @@ public class ClientHandlers {
       public void write(org.apache.thrift.protocol.TProtocol prot, onPaint_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet optionals = new java.util.BitSet();
-        if (struct.isSetCid()) {
+        if (struct.isSetBid()) {
           optionals.set(0);
         }
-        if (struct.isSetBid()) {
+        if (struct.isSetPopup()) {
           optionals.set(1);
         }
-        if (struct.isSetPopup()) {
+        if (struct.isSetDirtyRectsCount()) {
           optionals.set(2);
         }
-        if (struct.isSetDirtyRectsCount()) {
+        if (struct.isSetSharedMemName()) {
           optionals.set(3);
         }
-        if (struct.isSetSharedMemName()) {
+        if (struct.isSetSharedMemHandle()) {
           optionals.set(4);
         }
-        if (struct.isSetSharedMemHandle()) {
+        if (struct.isSetRecreateHandle()) {
           optionals.set(5);
         }
-        if (struct.isSetRecreateHandle()) {
+        if (struct.isSetWidth()) {
           optionals.set(6);
         }
-        if (struct.isSetWidth()) {
+        if (struct.isSetHeight()) {
           optionals.set(7);
         }
-        if (struct.isSetHeight()) {
-          optionals.set(8);
-        }
-        oprot.writeBitSet(optionals, 9);
-        if (struct.isSetCid()) {
-          oprot.writeI32(struct.cid);
-        }
+        oprot.writeBitSet(optionals, 8);
         if (struct.isSetBid()) {
           oprot.writeI32(struct.bid);
         }
@@ -6198,40 +5974,36 @@ public class ClientHandlers {
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, onPaint_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(9);
+        java.util.BitSet incoming = iprot.readBitSet(8);
         if (incoming.get(0)) {
-          struct.cid = iprot.readI32();
-          struct.setCidIsSet(true);
-        }
-        if (incoming.get(1)) {
           struct.bid = iprot.readI32();
           struct.setBidIsSet(true);
         }
-        if (incoming.get(2)) {
+        if (incoming.get(1)) {
           struct.popup = iprot.readBool();
           struct.setPopupIsSet(true);
         }
-        if (incoming.get(3)) {
+        if (incoming.get(2)) {
           struct.dirtyRectsCount = iprot.readI32();
           struct.setDirtyRectsCountIsSet(true);
         }
-        if (incoming.get(4)) {
+        if (incoming.get(3)) {
           struct.sharedMemName = iprot.readString();
           struct.setSharedMemNameIsSet(true);
         }
-        if (incoming.get(5)) {
+        if (incoming.get(4)) {
           struct.sharedMemHandle = iprot.readI64();
           struct.setSharedMemHandleIsSet(true);
         }
-        if (incoming.get(6)) {
+        if (incoming.get(5)) {
           struct.recreateHandle = iprot.readBool();
           struct.setRecreateHandleIsSet(true);
         }
-        if (incoming.get(7)) {
+        if (incoming.get(6)) {
           struct.width = iprot.readI32();
           struct.setWidthIsSet(true);
         }
-        if (incoming.get(8)) {
+        if (incoming.get(7)) {
           struct.height = iprot.readI32();
           struct.setHeightIsSet(true);
         }
@@ -6498,24 +6270,24 @@ public class ClientHandlers {
   public static class onBeforePopup_args implements org.apache.thrift.TBase<onBeforePopup_args, onBeforePopup_args._Fields>, java.io.Serializable, Cloneable, Comparable<onBeforePopup_args>   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("onBeforePopup_args");
 
-    private static final org.apache.thrift.protocol.TField CID_FIELD_DESC = new org.apache.thrift.protocol.TField("cid", org.apache.thrift.protocol.TType.I32, (short)1);
-    private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)2);
-    private static final org.apache.thrift.protocol.TField URL_FIELD_DESC = new org.apache.thrift.protocol.TField("url", org.apache.thrift.protocol.TType.STRING, (short)3);
+    private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
+    private static final org.apache.thrift.protocol.TField URL_FIELD_DESC = new org.apache.thrift.protocol.TField("url", org.apache.thrift.protocol.TType.STRING, (short)2);
+    private static final org.apache.thrift.protocol.TField FRAME_NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("frameName", org.apache.thrift.protocol.TType.STRING, (short)3);
     private static final org.apache.thrift.protocol.TField GESTURE_FIELD_DESC = new org.apache.thrift.protocol.TField("gesture", org.apache.thrift.protocol.TType.BOOL, (short)4);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new onBeforePopup_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new onBeforePopup_argsTupleSchemeFactory();
 
-    public int cid; // required
     public int bid; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String url; // required
+    public @org.apache.thrift.annotation.Nullable java.lang.String frameName; // required
     public boolean gesture; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      CID((short)1, "cid"),
-      BID((short)2, "bid"),
-      URL((short)3, "url"),
+      BID((short)1, "bid"),
+      URL((short)2, "url"),
+      FRAME_NAME((short)3, "frameName"),
       GESTURE((short)4, "gesture");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
@@ -6532,12 +6304,12 @@ public class ClientHandlers {
       @org.apache.thrift.annotation.Nullable
       public static _Fields findByThriftId(int fieldId) {
         switch(fieldId) {
-          case 1: // CID
-            return CID;
-          case 2: // BID
+          case 1: // BID
             return BID;
-          case 3: // URL
+          case 2: // URL
             return URL;
+          case 3: // FRAME_NAME
+            return FRAME_NAME;
           case 4: // GESTURE
             return GESTURE;
           default:
@@ -6581,18 +6353,17 @@ public class ClientHandlers {
     }
 
     // isset id assignments
-    private static final int __CID_ISSET_ID = 0;
-    private static final int __BID_ISSET_ID = 1;
-    private static final int __GESTURE_ISSET_ID = 2;
+    private static final int __BID_ISSET_ID = 0;
+    private static final int __GESTURE_ISSET_ID = 1;
     private byte __isset_bitfield = 0;
     public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CID, new org.apache.thrift.meta_data.FieldMetaData("cid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.URL, new org.apache.thrift.meta_data.FieldMetaData("url", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.FRAME_NAME, new org.apache.thrift.meta_data.FieldMetaData("frameName", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       tmpMap.put(_Fields.GESTURE, new org.apache.thrift.meta_data.FieldMetaData("gesture", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
@@ -6604,17 +6375,16 @@ public class ClientHandlers {
     }
 
     public onBeforePopup_args(
-      int cid,
       int bid,
       java.lang.String url,
+      java.lang.String frameName,
       boolean gesture)
     {
       this();
-      this.cid = cid;
-      setCidIsSet(true);
       this.bid = bid;
       setBidIsSet(true);
       this.url = url;
+      this.frameName = frameName;
       this.gesture = gesture;
       setGestureIsSet(true);
     }
@@ -6624,10 +6394,12 @@ public class ClientHandlers {
      */
     public onBeforePopup_args(onBeforePopup_args other) {
       __isset_bitfield = other.__isset_bitfield;
-      this.cid = other.cid;
       this.bid = other.bid;
       if (other.isSetUrl()) {
         this.url = other.url;
+      }
+      if (other.isSetFrameName()) {
+        this.frameName = other.frameName;
       }
       this.gesture = other.gesture;
     }
@@ -6638,36 +6410,12 @@ public class ClientHandlers {
 
     @Override
     public void clear() {
-      setCidIsSet(false);
-      this.cid = 0;
       setBidIsSet(false);
       this.bid = 0;
       this.url = null;
+      this.frameName = null;
       setGestureIsSet(false);
       this.gesture = false;
-    }
-
-    public int getCid() {
-      return this.cid;
-    }
-
-    public onBeforePopup_args setCid(int cid) {
-      this.cid = cid;
-      setCidIsSet(true);
-      return this;
-    }
-
-    public void unsetCid() {
-      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __CID_ISSET_ID);
-    }
-
-    /** Returns true if field cid is set (has been assigned a value) and false otherwise */
-    public boolean isSetCid() {
-      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __CID_ISSET_ID);
-    }
-
-    public void setCidIsSet(boolean value) {
-      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __CID_ISSET_ID, value);
     }
 
     public int getBid() {
@@ -6718,6 +6466,31 @@ public class ClientHandlers {
       }
     }
 
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.String getFrameName() {
+      return this.frameName;
+    }
+
+    public onBeforePopup_args setFrameName(@org.apache.thrift.annotation.Nullable java.lang.String frameName) {
+      this.frameName = frameName;
+      return this;
+    }
+
+    public void unsetFrameName() {
+      this.frameName = null;
+    }
+
+    /** Returns true if field frameName is set (has been assigned a value) and false otherwise */
+    public boolean isSetFrameName() {
+      return this.frameName != null;
+    }
+
+    public void setFrameNameIsSet(boolean value) {
+      if (!value) {
+        this.frameName = null;
+      }
+    }
+
     public boolean isGesture() {
       return this.gesture;
     }
@@ -6743,14 +6516,6 @@ public class ClientHandlers {
 
     public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
       switch (field) {
-      case CID:
-        if (value == null) {
-          unsetCid();
-        } else {
-          setCid((java.lang.Integer)value);
-        }
-        break;
-
       case BID:
         if (value == null) {
           unsetBid();
@@ -6764,6 +6529,14 @@ public class ClientHandlers {
           unsetUrl();
         } else {
           setUrl((java.lang.String)value);
+        }
+        break;
+
+      case FRAME_NAME:
+        if (value == null) {
+          unsetFrameName();
+        } else {
+          setFrameName((java.lang.String)value);
         }
         break;
 
@@ -6781,14 +6554,14 @@ public class ClientHandlers {
     @org.apache.thrift.annotation.Nullable
     public java.lang.Object getFieldValue(_Fields field) {
       switch (field) {
-      case CID:
-        return getCid();
-
       case BID:
         return getBid();
 
       case URL:
         return getUrl();
+
+      case FRAME_NAME:
+        return getFrameName();
 
       case GESTURE:
         return isGesture();
@@ -6804,12 +6577,12 @@ public class ClientHandlers {
       }
 
       switch (field) {
-      case CID:
-        return isSetCid();
       case BID:
         return isSetBid();
       case URL:
         return isSetUrl();
+      case FRAME_NAME:
+        return isSetFrameName();
       case GESTURE:
         return isSetGesture();
       }
@@ -6829,15 +6602,6 @@ public class ClientHandlers {
       if (this == that)
         return true;
 
-      boolean this_present_cid = true;
-      boolean that_present_cid = true;
-      if (this_present_cid || that_present_cid) {
-        if (!(this_present_cid && that_present_cid))
-          return false;
-        if (this.cid != that.cid)
-          return false;
-      }
-
       boolean this_present_bid = true;
       boolean that_present_bid = true;
       if (this_present_bid || that_present_bid) {
@@ -6853,6 +6617,15 @@ public class ClientHandlers {
         if (!(this_present_url && that_present_url))
           return false;
         if (!this.url.equals(that.url))
+          return false;
+      }
+
+      boolean this_present_frameName = true && this.isSetFrameName();
+      boolean that_present_frameName = true && that.isSetFrameName();
+      if (this_present_frameName || that_present_frameName) {
+        if (!(this_present_frameName && that_present_frameName))
+          return false;
+        if (!this.frameName.equals(that.frameName))
           return false;
       }
 
@@ -6872,13 +6645,15 @@ public class ClientHandlers {
     public int hashCode() {
       int hashCode = 1;
 
-      hashCode = hashCode * 8191 + cid;
-
       hashCode = hashCode * 8191 + bid;
 
       hashCode = hashCode * 8191 + ((isSetUrl()) ? 131071 : 524287);
       if (isSetUrl())
         hashCode = hashCode * 8191 + url.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetFrameName()) ? 131071 : 524287);
+      if (isSetFrameName())
+        hashCode = hashCode * 8191 + frameName.hashCode();
 
       hashCode = hashCode * 8191 + ((gesture) ? 131071 : 524287);
 
@@ -6893,16 +6668,6 @@ public class ClientHandlers {
 
       int lastComparison = 0;
 
-      lastComparison = java.lang.Boolean.compare(isSetCid(), other.isSetCid());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetCid()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.cid, other.cid);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
       lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
       if (lastComparison != 0) {
         return lastComparison;
@@ -6919,6 +6684,16 @@ public class ClientHandlers {
       }
       if (isSetUrl()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.url, other.url);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetFrameName(), other.isSetFrameName());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetFrameName()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.frameName, other.frameName);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -6954,10 +6729,6 @@ public class ClientHandlers {
       java.lang.StringBuilder sb = new java.lang.StringBuilder("onBeforePopup_args(");
       boolean first = true;
 
-      sb.append("cid:");
-      sb.append(this.cid);
-      first = false;
-      if (!first) sb.append(", ");
       sb.append("bid:");
       sb.append(this.bid);
       first = false;
@@ -6967,6 +6738,14 @@ public class ClientHandlers {
         sb.append("null");
       } else {
         sb.append(this.url);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("frameName:");
+      if (this.frameName == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.frameName);
       }
       first = false;
       if (!first) sb.append(", ");
@@ -7018,15 +6797,7 @@ public class ClientHandlers {
             break;
           }
           switch (schemeField.id) {
-            case 1: // CID
-              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-                struct.cid = iprot.readI32();
-                struct.setCidIsSet(true);
-              } else { 
-                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
-            case 2: // BID
+            case 1: // BID
               if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
                 struct.bid = iprot.readI32();
                 struct.setBidIsSet(true);
@@ -7034,10 +6805,18 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 3: // URL
+            case 2: // URL
               if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
                 struct.url = iprot.readString();
                 struct.setUrlIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 3: // FRAME_NAME
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.frameName = iprot.readString();
+                struct.setFrameNameIsSet(true);
               } else { 
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
@@ -7065,15 +6844,17 @@ public class ClientHandlers {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
-        oprot.writeFieldBegin(CID_FIELD_DESC);
-        oprot.writeI32(struct.cid);
-        oprot.writeFieldEnd();
         oprot.writeFieldBegin(BID_FIELD_DESC);
         oprot.writeI32(struct.bid);
         oprot.writeFieldEnd();
         if (struct.url != null) {
           oprot.writeFieldBegin(URL_FIELD_DESC);
           oprot.writeString(struct.url);
+          oprot.writeFieldEnd();
+        }
+        if (struct.frameName != null) {
+          oprot.writeFieldBegin(FRAME_NAME_FIELD_DESC);
+          oprot.writeString(struct.frameName);
           oprot.writeFieldEnd();
         }
         oprot.writeFieldBegin(GESTURE_FIELD_DESC);
@@ -7097,27 +6878,27 @@ public class ClientHandlers {
       public void write(org.apache.thrift.protocol.TProtocol prot, onBeforePopup_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet optionals = new java.util.BitSet();
-        if (struct.isSetCid()) {
+        if (struct.isSetBid()) {
           optionals.set(0);
         }
-        if (struct.isSetBid()) {
+        if (struct.isSetUrl()) {
           optionals.set(1);
         }
-        if (struct.isSetUrl()) {
+        if (struct.isSetFrameName()) {
           optionals.set(2);
         }
         if (struct.isSetGesture()) {
           optionals.set(3);
         }
         oprot.writeBitSet(optionals, 4);
-        if (struct.isSetCid()) {
-          oprot.writeI32(struct.cid);
-        }
         if (struct.isSetBid()) {
           oprot.writeI32(struct.bid);
         }
         if (struct.isSetUrl()) {
           oprot.writeString(struct.url);
+        }
+        if (struct.isSetFrameName()) {
+          oprot.writeString(struct.frameName);
         }
         if (struct.isSetGesture()) {
           oprot.writeBool(struct.gesture);
@@ -7129,16 +6910,16 @@ public class ClientHandlers {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(4);
         if (incoming.get(0)) {
-          struct.cid = iprot.readI32();
-          struct.setCidIsSet(true);
-        }
-        if (incoming.get(1)) {
           struct.bid = iprot.readI32();
           struct.setBidIsSet(true);
         }
-        if (incoming.get(2)) {
+        if (incoming.get(1)) {
           struct.url = iprot.readString();
           struct.setUrlIsSet(true);
+        }
+        if (incoming.get(2)) {
+          struct.frameName = iprot.readString();
+          struct.setFrameNameIsSet(true);
         }
         if (incoming.get(3)) {
           struct.gesture = iprot.readBool();
@@ -7155,19 +6936,16 @@ public class ClientHandlers {
   public static class onAfterCreated_args implements org.apache.thrift.TBase<onAfterCreated_args, onAfterCreated_args._Fields>, java.io.Serializable, Cloneable, Comparable<onAfterCreated_args>   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("onAfterCreated_args");
 
-    private static final org.apache.thrift.protocol.TField CID_FIELD_DESC = new org.apache.thrift.protocol.TField("cid", org.apache.thrift.protocol.TType.I32, (short)1);
-    private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)2);
+    private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new onAfterCreated_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new onAfterCreated_argsTupleSchemeFactory();
 
-    public int cid; // required
     public int bid; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      CID((short)1, "cid"),
-      BID((short)2, "bid");
+      BID((short)1, "bid");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -7183,9 +6961,7 @@ public class ClientHandlers {
       @org.apache.thrift.annotation.Nullable
       public static _Fields findByThriftId(int fieldId) {
         switch(fieldId) {
-          case 1: // CID
-            return CID;
-          case 2: // BID
+          case 1: // BID
             return BID;
           default:
             return null;
@@ -7228,14 +7004,11 @@ public class ClientHandlers {
     }
 
     // isset id assignments
-    private static final int __CID_ISSET_ID = 0;
-    private static final int __BID_ISSET_ID = 1;
+    private static final int __BID_ISSET_ID = 0;
     private byte __isset_bitfield = 0;
     public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CID, new org.apache.thrift.meta_data.FieldMetaData("cid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
@@ -7246,12 +7019,9 @@ public class ClientHandlers {
     }
 
     public onAfterCreated_args(
-      int cid,
       int bid)
     {
       this();
-      this.cid = cid;
-      setCidIsSet(true);
       this.bid = bid;
       setBidIsSet(true);
     }
@@ -7261,7 +7031,6 @@ public class ClientHandlers {
      */
     public onAfterCreated_args(onAfterCreated_args other) {
       __isset_bitfield = other.__isset_bitfield;
-      this.cid = other.cid;
       this.bid = other.bid;
     }
 
@@ -7271,33 +7040,8 @@ public class ClientHandlers {
 
     @Override
     public void clear() {
-      setCidIsSet(false);
-      this.cid = 0;
       setBidIsSet(false);
       this.bid = 0;
-    }
-
-    public int getCid() {
-      return this.cid;
-    }
-
-    public onAfterCreated_args setCid(int cid) {
-      this.cid = cid;
-      setCidIsSet(true);
-      return this;
-    }
-
-    public void unsetCid() {
-      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __CID_ISSET_ID);
-    }
-
-    /** Returns true if field cid is set (has been assigned a value) and false otherwise */
-    public boolean isSetCid() {
-      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __CID_ISSET_ID);
-    }
-
-    public void setCidIsSet(boolean value) {
-      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __CID_ISSET_ID, value);
     }
 
     public int getBid() {
@@ -7325,14 +7069,6 @@ public class ClientHandlers {
 
     public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
       switch (field) {
-      case CID:
-        if (value == null) {
-          unsetCid();
-        } else {
-          setCid((java.lang.Integer)value);
-        }
-        break;
-
       case BID:
         if (value == null) {
           unsetBid();
@@ -7347,9 +7083,6 @@ public class ClientHandlers {
     @org.apache.thrift.annotation.Nullable
     public java.lang.Object getFieldValue(_Fields field) {
       switch (field) {
-      case CID:
-        return getCid();
-
       case BID:
         return getBid();
 
@@ -7364,8 +7097,6 @@ public class ClientHandlers {
       }
 
       switch (field) {
-      case CID:
-        return isSetCid();
       case BID:
         return isSetBid();
       }
@@ -7385,15 +7116,6 @@ public class ClientHandlers {
       if (this == that)
         return true;
 
-      boolean this_present_cid = true;
-      boolean that_present_cid = true;
-      if (this_present_cid || that_present_cid) {
-        if (!(this_present_cid && that_present_cid))
-          return false;
-        if (this.cid != that.cid)
-          return false;
-      }
-
       boolean this_present_bid = true;
       boolean that_present_bid = true;
       if (this_present_bid || that_present_bid) {
@@ -7410,8 +7132,6 @@ public class ClientHandlers {
     public int hashCode() {
       int hashCode = 1;
 
-      hashCode = hashCode * 8191 + cid;
-
       hashCode = hashCode * 8191 + bid;
 
       return hashCode;
@@ -7425,16 +7145,6 @@ public class ClientHandlers {
 
       int lastComparison = 0;
 
-      lastComparison = java.lang.Boolean.compare(isSetCid(), other.isSetCid());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetCid()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.cid, other.cid);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
       lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
       if (lastComparison != 0) {
         return lastComparison;
@@ -7466,10 +7176,6 @@ public class ClientHandlers {
       java.lang.StringBuilder sb = new java.lang.StringBuilder("onAfterCreated_args(");
       boolean first = true;
 
-      sb.append("cid:");
-      sb.append(this.cid);
-      first = false;
-      if (!first) sb.append(", ");
       sb.append("bid:");
       sb.append(this.bid);
       first = false;
@@ -7518,15 +7224,7 @@ public class ClientHandlers {
             break;
           }
           switch (schemeField.id) {
-            case 1: // CID
-              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-                struct.cid = iprot.readI32();
-                struct.setCidIsSet(true);
-              } else { 
-                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
-            case 2: // BID
+            case 1: // BID
               if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
                 struct.bid = iprot.readI32();
                 struct.setBidIsSet(true);
@@ -7549,9 +7247,6 @@ public class ClientHandlers {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
-        oprot.writeFieldBegin(CID_FIELD_DESC);
-        oprot.writeI32(struct.cid);
-        oprot.writeFieldEnd();
         oprot.writeFieldBegin(BID_FIELD_DESC);
         oprot.writeI32(struct.bid);
         oprot.writeFieldEnd();
@@ -7573,16 +7268,10 @@ public class ClientHandlers {
       public void write(org.apache.thrift.protocol.TProtocol prot, onAfterCreated_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet optionals = new java.util.BitSet();
-        if (struct.isSetCid()) {
+        if (struct.isSetBid()) {
           optionals.set(0);
         }
-        if (struct.isSetBid()) {
-          optionals.set(1);
-        }
-        oprot.writeBitSet(optionals, 2);
-        if (struct.isSetCid()) {
-          oprot.writeI32(struct.cid);
-        }
+        oprot.writeBitSet(optionals, 1);
         if (struct.isSetBid()) {
           oprot.writeI32(struct.bid);
         }
@@ -7591,12 +7280,8 @@ public class ClientHandlers {
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, onAfterCreated_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(2);
+        java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
-          struct.cid = iprot.readI32();
-          struct.setCidIsSet(true);
-        }
-        if (incoming.get(1)) {
           struct.bid = iprot.readI32();
           struct.setBidIsSet(true);
         }
@@ -7611,19 +7296,16 @@ public class ClientHandlers {
   public static class doClose_args implements org.apache.thrift.TBase<doClose_args, doClose_args._Fields>, java.io.Serializable, Cloneable, Comparable<doClose_args>   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("doClose_args");
 
-    private static final org.apache.thrift.protocol.TField CID_FIELD_DESC = new org.apache.thrift.protocol.TField("cid", org.apache.thrift.protocol.TType.I32, (short)1);
-    private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)2);
+    private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new doClose_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new doClose_argsTupleSchemeFactory();
 
-    public int cid; // required
     public int bid; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      CID((short)1, "cid"),
-      BID((short)2, "bid");
+      BID((short)1, "bid");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -7639,9 +7321,7 @@ public class ClientHandlers {
       @org.apache.thrift.annotation.Nullable
       public static _Fields findByThriftId(int fieldId) {
         switch(fieldId) {
-          case 1: // CID
-            return CID;
-          case 2: // BID
+          case 1: // BID
             return BID;
           default:
             return null;
@@ -7684,14 +7364,11 @@ public class ClientHandlers {
     }
 
     // isset id assignments
-    private static final int __CID_ISSET_ID = 0;
-    private static final int __BID_ISSET_ID = 1;
+    private static final int __BID_ISSET_ID = 0;
     private byte __isset_bitfield = 0;
     public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CID, new org.apache.thrift.meta_data.FieldMetaData("cid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
@@ -7702,12 +7379,9 @@ public class ClientHandlers {
     }
 
     public doClose_args(
-      int cid,
       int bid)
     {
       this();
-      this.cid = cid;
-      setCidIsSet(true);
       this.bid = bid;
       setBidIsSet(true);
     }
@@ -7717,7 +7391,6 @@ public class ClientHandlers {
      */
     public doClose_args(doClose_args other) {
       __isset_bitfield = other.__isset_bitfield;
-      this.cid = other.cid;
       this.bid = other.bid;
     }
 
@@ -7727,33 +7400,8 @@ public class ClientHandlers {
 
     @Override
     public void clear() {
-      setCidIsSet(false);
-      this.cid = 0;
       setBidIsSet(false);
       this.bid = 0;
-    }
-
-    public int getCid() {
-      return this.cid;
-    }
-
-    public doClose_args setCid(int cid) {
-      this.cid = cid;
-      setCidIsSet(true);
-      return this;
-    }
-
-    public void unsetCid() {
-      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __CID_ISSET_ID);
-    }
-
-    /** Returns true if field cid is set (has been assigned a value) and false otherwise */
-    public boolean isSetCid() {
-      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __CID_ISSET_ID);
-    }
-
-    public void setCidIsSet(boolean value) {
-      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __CID_ISSET_ID, value);
     }
 
     public int getBid() {
@@ -7781,14 +7429,6 @@ public class ClientHandlers {
 
     public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
       switch (field) {
-      case CID:
-        if (value == null) {
-          unsetCid();
-        } else {
-          setCid((java.lang.Integer)value);
-        }
-        break;
-
       case BID:
         if (value == null) {
           unsetBid();
@@ -7803,9 +7443,6 @@ public class ClientHandlers {
     @org.apache.thrift.annotation.Nullable
     public java.lang.Object getFieldValue(_Fields field) {
       switch (field) {
-      case CID:
-        return getCid();
-
       case BID:
         return getBid();
 
@@ -7820,8 +7457,6 @@ public class ClientHandlers {
       }
 
       switch (field) {
-      case CID:
-        return isSetCid();
       case BID:
         return isSetBid();
       }
@@ -7841,15 +7476,6 @@ public class ClientHandlers {
       if (this == that)
         return true;
 
-      boolean this_present_cid = true;
-      boolean that_present_cid = true;
-      if (this_present_cid || that_present_cid) {
-        if (!(this_present_cid && that_present_cid))
-          return false;
-        if (this.cid != that.cid)
-          return false;
-      }
-
       boolean this_present_bid = true;
       boolean that_present_bid = true;
       if (this_present_bid || that_present_bid) {
@@ -7866,8 +7492,6 @@ public class ClientHandlers {
     public int hashCode() {
       int hashCode = 1;
 
-      hashCode = hashCode * 8191 + cid;
-
       hashCode = hashCode * 8191 + bid;
 
       return hashCode;
@@ -7881,16 +7505,6 @@ public class ClientHandlers {
 
       int lastComparison = 0;
 
-      lastComparison = java.lang.Boolean.compare(isSetCid(), other.isSetCid());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetCid()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.cid, other.cid);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
       lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
       if (lastComparison != 0) {
         return lastComparison;
@@ -7922,10 +7536,6 @@ public class ClientHandlers {
       java.lang.StringBuilder sb = new java.lang.StringBuilder("doClose_args(");
       boolean first = true;
 
-      sb.append("cid:");
-      sb.append(this.cid);
-      first = false;
-      if (!first) sb.append(", ");
       sb.append("bid:");
       sb.append(this.bid);
       first = false;
@@ -7974,15 +7584,7 @@ public class ClientHandlers {
             break;
           }
           switch (schemeField.id) {
-            case 1: // CID
-              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-                struct.cid = iprot.readI32();
-                struct.setCidIsSet(true);
-              } else { 
-                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
-            case 2: // BID
+            case 1: // BID
               if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
                 struct.bid = iprot.readI32();
                 struct.setBidIsSet(true);
@@ -8005,9 +7607,6 @@ public class ClientHandlers {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
-        oprot.writeFieldBegin(CID_FIELD_DESC);
-        oprot.writeI32(struct.cid);
-        oprot.writeFieldEnd();
         oprot.writeFieldBegin(BID_FIELD_DESC);
         oprot.writeI32(struct.bid);
         oprot.writeFieldEnd();
@@ -8029,16 +7628,10 @@ public class ClientHandlers {
       public void write(org.apache.thrift.protocol.TProtocol prot, doClose_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet optionals = new java.util.BitSet();
-        if (struct.isSetCid()) {
+        if (struct.isSetBid()) {
           optionals.set(0);
         }
-        if (struct.isSetBid()) {
-          optionals.set(1);
-        }
-        oprot.writeBitSet(optionals, 2);
-        if (struct.isSetCid()) {
-          oprot.writeI32(struct.cid);
-        }
+        oprot.writeBitSet(optionals, 1);
         if (struct.isSetBid()) {
           oprot.writeI32(struct.bid);
         }
@@ -8047,12 +7640,8 @@ public class ClientHandlers {
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, doClose_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(2);
+        java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
-          struct.cid = iprot.readI32();
-          struct.setCidIsSet(true);
-        }
-        if (incoming.get(1)) {
           struct.bid = iprot.readI32();
           struct.setBidIsSet(true);
         }
@@ -8067,19 +7656,16 @@ public class ClientHandlers {
   public static class onBeforeClose_args implements org.apache.thrift.TBase<onBeforeClose_args, onBeforeClose_args._Fields>, java.io.Serializable, Cloneable, Comparable<onBeforeClose_args>   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("onBeforeClose_args");
 
-    private static final org.apache.thrift.protocol.TField CID_FIELD_DESC = new org.apache.thrift.protocol.TField("cid", org.apache.thrift.protocol.TType.I32, (short)1);
-    private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)2);
+    private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new onBeforeClose_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new onBeforeClose_argsTupleSchemeFactory();
 
-    public int cid; // required
     public int bid; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      CID((short)1, "cid"),
-      BID((short)2, "bid");
+      BID((short)1, "bid");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -8095,9 +7681,7 @@ public class ClientHandlers {
       @org.apache.thrift.annotation.Nullable
       public static _Fields findByThriftId(int fieldId) {
         switch(fieldId) {
-          case 1: // CID
-            return CID;
-          case 2: // BID
+          case 1: // BID
             return BID;
           default:
             return null;
@@ -8140,14 +7724,11 @@ public class ClientHandlers {
     }
 
     // isset id assignments
-    private static final int __CID_ISSET_ID = 0;
-    private static final int __BID_ISSET_ID = 1;
+    private static final int __BID_ISSET_ID = 0;
     private byte __isset_bitfield = 0;
     public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CID, new org.apache.thrift.meta_data.FieldMetaData("cid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
@@ -8158,12 +7739,9 @@ public class ClientHandlers {
     }
 
     public onBeforeClose_args(
-      int cid,
       int bid)
     {
       this();
-      this.cid = cid;
-      setCidIsSet(true);
       this.bid = bid;
       setBidIsSet(true);
     }
@@ -8173,7 +7751,6 @@ public class ClientHandlers {
      */
     public onBeforeClose_args(onBeforeClose_args other) {
       __isset_bitfield = other.__isset_bitfield;
-      this.cid = other.cid;
       this.bid = other.bid;
     }
 
@@ -8183,33 +7760,8 @@ public class ClientHandlers {
 
     @Override
     public void clear() {
-      setCidIsSet(false);
-      this.cid = 0;
       setBidIsSet(false);
       this.bid = 0;
-    }
-
-    public int getCid() {
-      return this.cid;
-    }
-
-    public onBeforeClose_args setCid(int cid) {
-      this.cid = cid;
-      setCidIsSet(true);
-      return this;
-    }
-
-    public void unsetCid() {
-      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __CID_ISSET_ID);
-    }
-
-    /** Returns true if field cid is set (has been assigned a value) and false otherwise */
-    public boolean isSetCid() {
-      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __CID_ISSET_ID);
-    }
-
-    public void setCidIsSet(boolean value) {
-      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __CID_ISSET_ID, value);
     }
 
     public int getBid() {
@@ -8237,14 +7789,6 @@ public class ClientHandlers {
 
     public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
       switch (field) {
-      case CID:
-        if (value == null) {
-          unsetCid();
-        } else {
-          setCid((java.lang.Integer)value);
-        }
-        break;
-
       case BID:
         if (value == null) {
           unsetBid();
@@ -8259,9 +7803,6 @@ public class ClientHandlers {
     @org.apache.thrift.annotation.Nullable
     public java.lang.Object getFieldValue(_Fields field) {
       switch (field) {
-      case CID:
-        return getCid();
-
       case BID:
         return getBid();
 
@@ -8276,8 +7817,6 @@ public class ClientHandlers {
       }
 
       switch (field) {
-      case CID:
-        return isSetCid();
       case BID:
         return isSetBid();
       }
@@ -8297,15 +7836,6 @@ public class ClientHandlers {
       if (this == that)
         return true;
 
-      boolean this_present_cid = true;
-      boolean that_present_cid = true;
-      if (this_present_cid || that_present_cid) {
-        if (!(this_present_cid && that_present_cid))
-          return false;
-        if (this.cid != that.cid)
-          return false;
-      }
-
       boolean this_present_bid = true;
       boolean that_present_bid = true;
       if (this_present_bid || that_present_bid) {
@@ -8322,8 +7852,6 @@ public class ClientHandlers {
     public int hashCode() {
       int hashCode = 1;
 
-      hashCode = hashCode * 8191 + cid;
-
       hashCode = hashCode * 8191 + bid;
 
       return hashCode;
@@ -8337,16 +7865,6 @@ public class ClientHandlers {
 
       int lastComparison = 0;
 
-      lastComparison = java.lang.Boolean.compare(isSetCid(), other.isSetCid());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetCid()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.cid, other.cid);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
       lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
       if (lastComparison != 0) {
         return lastComparison;
@@ -8378,10 +7896,6 @@ public class ClientHandlers {
       java.lang.StringBuilder sb = new java.lang.StringBuilder("onBeforeClose_args(");
       boolean first = true;
 
-      sb.append("cid:");
-      sb.append(this.cid);
-      first = false;
-      if (!first) sb.append(", ");
       sb.append("bid:");
       sb.append(this.bid);
       first = false;
@@ -8430,15 +7944,7 @@ public class ClientHandlers {
             break;
           }
           switch (schemeField.id) {
-            case 1: // CID
-              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-                struct.cid = iprot.readI32();
-                struct.setCidIsSet(true);
-              } else { 
-                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
-            case 2: // BID
+            case 1: // BID
               if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
                 struct.bid = iprot.readI32();
                 struct.setBidIsSet(true);
@@ -8461,9 +7967,6 @@ public class ClientHandlers {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
-        oprot.writeFieldBegin(CID_FIELD_DESC);
-        oprot.writeI32(struct.cid);
-        oprot.writeFieldEnd();
         oprot.writeFieldBegin(BID_FIELD_DESC);
         oprot.writeI32(struct.bid);
         oprot.writeFieldEnd();
@@ -8485,16 +7988,10 @@ public class ClientHandlers {
       public void write(org.apache.thrift.protocol.TProtocol prot, onBeforeClose_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet optionals = new java.util.BitSet();
-        if (struct.isSetCid()) {
+        if (struct.isSetBid()) {
           optionals.set(0);
         }
-        if (struct.isSetBid()) {
-          optionals.set(1);
-        }
-        oprot.writeBitSet(optionals, 2);
-        if (struct.isSetCid()) {
-          oprot.writeI32(struct.cid);
-        }
+        oprot.writeBitSet(optionals, 1);
         if (struct.isSetBid()) {
           oprot.writeI32(struct.bid);
         }
@@ -8503,12 +8000,8 @@ public class ClientHandlers {
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, onBeforeClose_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(2);
+        java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
-          struct.cid = iprot.readI32();
-          struct.setCidIsSet(true);
-        }
-        if (incoming.get(1)) {
           struct.bid = iprot.readI32();
           struct.setBidIsSet(true);
         }
@@ -8523,16 +8016,14 @@ public class ClientHandlers {
   public static class onLoadingStateChange_args implements org.apache.thrift.TBase<onLoadingStateChange_args, onLoadingStateChange_args._Fields>, java.io.Serializable, Cloneable, Comparable<onLoadingStateChange_args>   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("onLoadingStateChange_args");
 
-    private static final org.apache.thrift.protocol.TField CID_FIELD_DESC = new org.apache.thrift.protocol.TField("cid", org.apache.thrift.protocol.TType.I32, (short)1);
-    private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)2);
-    private static final org.apache.thrift.protocol.TField IS_LOADING_FIELD_DESC = new org.apache.thrift.protocol.TField("isLoading", org.apache.thrift.protocol.TType.BOOL, (short)3);
-    private static final org.apache.thrift.protocol.TField CAN_GO_BACK_FIELD_DESC = new org.apache.thrift.protocol.TField("canGoBack", org.apache.thrift.protocol.TType.BOOL, (short)4);
-    private static final org.apache.thrift.protocol.TField CAN_GO_FORWARD_FIELD_DESC = new org.apache.thrift.protocol.TField("canGoForward", org.apache.thrift.protocol.TType.BOOL, (short)5);
+    private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
+    private static final org.apache.thrift.protocol.TField IS_LOADING_FIELD_DESC = new org.apache.thrift.protocol.TField("isLoading", org.apache.thrift.protocol.TType.BOOL, (short)2);
+    private static final org.apache.thrift.protocol.TField CAN_GO_BACK_FIELD_DESC = new org.apache.thrift.protocol.TField("canGoBack", org.apache.thrift.protocol.TType.BOOL, (short)3);
+    private static final org.apache.thrift.protocol.TField CAN_GO_FORWARD_FIELD_DESC = new org.apache.thrift.protocol.TField("canGoForward", org.apache.thrift.protocol.TType.BOOL, (short)4);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new onLoadingStateChange_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new onLoadingStateChange_argsTupleSchemeFactory();
 
-    public int cid; // required
     public int bid; // required
     public boolean isLoading; // required
     public boolean canGoBack; // required
@@ -8540,11 +8031,10 @@ public class ClientHandlers {
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      CID((short)1, "cid"),
-      BID((short)2, "bid"),
-      IS_LOADING((short)3, "isLoading"),
-      CAN_GO_BACK((short)4, "canGoBack"),
-      CAN_GO_FORWARD((short)5, "canGoForward");
+      BID((short)1, "bid"),
+      IS_LOADING((short)2, "isLoading"),
+      CAN_GO_BACK((short)3, "canGoBack"),
+      CAN_GO_FORWARD((short)4, "canGoForward");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -8560,15 +8050,13 @@ public class ClientHandlers {
       @org.apache.thrift.annotation.Nullable
       public static _Fields findByThriftId(int fieldId) {
         switch(fieldId) {
-          case 1: // CID
-            return CID;
-          case 2: // BID
+          case 1: // BID
             return BID;
-          case 3: // IS_LOADING
+          case 2: // IS_LOADING
             return IS_LOADING;
-          case 4: // CAN_GO_BACK
+          case 3: // CAN_GO_BACK
             return CAN_GO_BACK;
-          case 5: // CAN_GO_FORWARD
+          case 4: // CAN_GO_FORWARD
             return CAN_GO_FORWARD;
           default:
             return null;
@@ -8611,17 +8099,14 @@ public class ClientHandlers {
     }
 
     // isset id assignments
-    private static final int __CID_ISSET_ID = 0;
-    private static final int __BID_ISSET_ID = 1;
-    private static final int __ISLOADING_ISSET_ID = 2;
-    private static final int __CANGOBACK_ISSET_ID = 3;
-    private static final int __CANGOFORWARD_ISSET_ID = 4;
+    private static final int __BID_ISSET_ID = 0;
+    private static final int __ISLOADING_ISSET_ID = 1;
+    private static final int __CANGOBACK_ISSET_ID = 2;
+    private static final int __CANGOFORWARD_ISSET_ID = 3;
     private byte __isset_bitfield = 0;
     public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CID, new org.apache.thrift.meta_data.FieldMetaData("cid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.IS_LOADING, new org.apache.thrift.meta_data.FieldMetaData("isLoading", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -8638,15 +8123,12 @@ public class ClientHandlers {
     }
 
     public onLoadingStateChange_args(
-      int cid,
       int bid,
       boolean isLoading,
       boolean canGoBack,
       boolean canGoForward)
     {
       this();
-      this.cid = cid;
-      setCidIsSet(true);
       this.bid = bid;
       setBidIsSet(true);
       this.isLoading = isLoading;
@@ -8662,7 +8144,6 @@ public class ClientHandlers {
      */
     public onLoadingStateChange_args(onLoadingStateChange_args other) {
       __isset_bitfield = other.__isset_bitfield;
-      this.cid = other.cid;
       this.bid = other.bid;
       this.isLoading = other.isLoading;
       this.canGoBack = other.canGoBack;
@@ -8675,8 +8156,6 @@ public class ClientHandlers {
 
     @Override
     public void clear() {
-      setCidIsSet(false);
-      this.cid = 0;
       setBidIsSet(false);
       this.bid = 0;
       setIsLoadingIsSet(false);
@@ -8685,29 +8164,6 @@ public class ClientHandlers {
       this.canGoBack = false;
       setCanGoForwardIsSet(false);
       this.canGoForward = false;
-    }
-
-    public int getCid() {
-      return this.cid;
-    }
-
-    public onLoadingStateChange_args setCid(int cid) {
-      this.cid = cid;
-      setCidIsSet(true);
-      return this;
-    }
-
-    public void unsetCid() {
-      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __CID_ISSET_ID);
-    }
-
-    /** Returns true if field cid is set (has been assigned a value) and false otherwise */
-    public boolean isSetCid() {
-      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __CID_ISSET_ID);
-    }
-
-    public void setCidIsSet(boolean value) {
-      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __CID_ISSET_ID, value);
     }
 
     public int getBid() {
@@ -8804,14 +8260,6 @@ public class ClientHandlers {
 
     public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
       switch (field) {
-      case CID:
-        if (value == null) {
-          unsetCid();
-        } else {
-          setCid((java.lang.Integer)value);
-        }
-        break;
-
       case BID:
         if (value == null) {
           unsetBid();
@@ -8850,9 +8298,6 @@ public class ClientHandlers {
     @org.apache.thrift.annotation.Nullable
     public java.lang.Object getFieldValue(_Fields field) {
       switch (field) {
-      case CID:
-        return getCid();
-
       case BID:
         return getBid();
 
@@ -8876,8 +8321,6 @@ public class ClientHandlers {
       }
 
       switch (field) {
-      case CID:
-        return isSetCid();
       case BID:
         return isSetBid();
       case IS_LOADING:
@@ -8902,15 +8345,6 @@ public class ClientHandlers {
         return false;
       if (this == that)
         return true;
-
-      boolean this_present_cid = true;
-      boolean that_present_cid = true;
-      if (this_present_cid || that_present_cid) {
-        if (!(this_present_cid && that_present_cid))
-          return false;
-        if (this.cid != that.cid)
-          return false;
-      }
 
       boolean this_present_bid = true;
       boolean that_present_bid = true;
@@ -8955,8 +8389,6 @@ public class ClientHandlers {
     public int hashCode() {
       int hashCode = 1;
 
-      hashCode = hashCode * 8191 + cid;
-
       hashCode = hashCode * 8191 + bid;
 
       hashCode = hashCode * 8191 + ((isLoading) ? 131071 : 524287);
@@ -8976,16 +8408,6 @@ public class ClientHandlers {
 
       int lastComparison = 0;
 
-      lastComparison = java.lang.Boolean.compare(isSetCid(), other.isSetCid());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetCid()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.cid, other.cid);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
       lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
       if (lastComparison != 0) {
         return lastComparison;
@@ -9047,10 +8469,6 @@ public class ClientHandlers {
       java.lang.StringBuilder sb = new java.lang.StringBuilder("onLoadingStateChange_args(");
       boolean first = true;
 
-      sb.append("cid:");
-      sb.append(this.cid);
-      first = false;
-      if (!first) sb.append(", ");
       sb.append("bid:");
       sb.append(this.bid);
       first = false;
@@ -9111,15 +8529,7 @@ public class ClientHandlers {
             break;
           }
           switch (schemeField.id) {
-            case 1: // CID
-              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-                struct.cid = iprot.readI32();
-                struct.setCidIsSet(true);
-              } else { 
-                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
-            case 2: // BID
+            case 1: // BID
               if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
                 struct.bid = iprot.readI32();
                 struct.setBidIsSet(true);
@@ -9127,7 +8537,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 3: // IS_LOADING
+            case 2: // IS_LOADING
               if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
                 struct.isLoading = iprot.readBool();
                 struct.setIsLoadingIsSet(true);
@@ -9135,7 +8545,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 4: // CAN_GO_BACK
+            case 3: // CAN_GO_BACK
               if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
                 struct.canGoBack = iprot.readBool();
                 struct.setCanGoBackIsSet(true);
@@ -9143,7 +8553,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 5: // CAN_GO_FORWARD
+            case 4: // CAN_GO_FORWARD
               if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
                 struct.canGoForward = iprot.readBool();
                 struct.setCanGoForwardIsSet(true);
@@ -9166,9 +8576,6 @@ public class ClientHandlers {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
-        oprot.writeFieldBegin(CID_FIELD_DESC);
-        oprot.writeI32(struct.cid);
-        oprot.writeFieldEnd();
         oprot.writeFieldBegin(BID_FIELD_DESC);
         oprot.writeI32(struct.bid);
         oprot.writeFieldEnd();
@@ -9199,25 +8606,19 @@ public class ClientHandlers {
       public void write(org.apache.thrift.protocol.TProtocol prot, onLoadingStateChange_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet optionals = new java.util.BitSet();
-        if (struct.isSetCid()) {
+        if (struct.isSetBid()) {
           optionals.set(0);
         }
-        if (struct.isSetBid()) {
+        if (struct.isSetIsLoading()) {
           optionals.set(1);
         }
-        if (struct.isSetIsLoading()) {
+        if (struct.isSetCanGoBack()) {
           optionals.set(2);
         }
-        if (struct.isSetCanGoBack()) {
+        if (struct.isSetCanGoForward()) {
           optionals.set(3);
         }
-        if (struct.isSetCanGoForward()) {
-          optionals.set(4);
-        }
-        oprot.writeBitSet(optionals, 5);
-        if (struct.isSetCid()) {
-          oprot.writeI32(struct.cid);
-        }
+        oprot.writeBitSet(optionals, 4);
         if (struct.isSetBid()) {
           oprot.writeI32(struct.bid);
         }
@@ -9235,24 +8636,20 @@ public class ClientHandlers {
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, onLoadingStateChange_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(5);
+        java.util.BitSet incoming = iprot.readBitSet(4);
         if (incoming.get(0)) {
-          struct.cid = iprot.readI32();
-          struct.setCidIsSet(true);
-        }
-        if (incoming.get(1)) {
           struct.bid = iprot.readI32();
           struct.setBidIsSet(true);
         }
-        if (incoming.get(2)) {
+        if (incoming.get(1)) {
           struct.isLoading = iprot.readBool();
           struct.setIsLoadingIsSet(true);
         }
-        if (incoming.get(3)) {
+        if (incoming.get(2)) {
           struct.canGoBack = iprot.readBool();
           struct.setCanGoBackIsSet(true);
         }
-        if (incoming.get(4)) {
+        if (incoming.get(3)) {
           struct.canGoForward = iprot.readBool();
           struct.setCanGoForwardIsSet(true);
         }
@@ -9267,22 +8664,19 @@ public class ClientHandlers {
   public static class onLoadStart_args implements org.apache.thrift.TBase<onLoadStart_args, onLoadStart_args._Fields>, java.io.Serializable, Cloneable, Comparable<onLoadStart_args>   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("onLoadStart_args");
 
-    private static final org.apache.thrift.protocol.TField CID_FIELD_DESC = new org.apache.thrift.protocol.TField("cid", org.apache.thrift.protocol.TType.I32, (short)1);
-    private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)2);
-    private static final org.apache.thrift.protocol.TField TRANSITION_TYPE_FIELD_DESC = new org.apache.thrift.protocol.TField("transition_type", org.apache.thrift.protocol.TType.I32, (short)3);
+    private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
+    private static final org.apache.thrift.protocol.TField TRANSITION_TYPE_FIELD_DESC = new org.apache.thrift.protocol.TField("transition_type", org.apache.thrift.protocol.TType.I32, (short)2);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new onLoadStart_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new onLoadStart_argsTupleSchemeFactory();
 
-    public int cid; // required
     public int bid; // required
     public int transition_type; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      CID((short)1, "cid"),
-      BID((short)2, "bid"),
-      TRANSITION_TYPE((short)3, "transition_type");
+      BID((short)1, "bid"),
+      TRANSITION_TYPE((short)2, "transition_type");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -9298,11 +8692,9 @@ public class ClientHandlers {
       @org.apache.thrift.annotation.Nullable
       public static _Fields findByThriftId(int fieldId) {
         switch(fieldId) {
-          case 1: // CID
-            return CID;
-          case 2: // BID
+          case 1: // BID
             return BID;
-          case 3: // TRANSITION_TYPE
+          case 2: // TRANSITION_TYPE
             return TRANSITION_TYPE;
           default:
             return null;
@@ -9345,15 +8737,12 @@ public class ClientHandlers {
     }
 
     // isset id assignments
-    private static final int __CID_ISSET_ID = 0;
-    private static final int __BID_ISSET_ID = 1;
-    private static final int __TRANSITION_TYPE_ISSET_ID = 2;
+    private static final int __BID_ISSET_ID = 0;
+    private static final int __TRANSITION_TYPE_ISSET_ID = 1;
     private byte __isset_bitfield = 0;
     public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CID, new org.apache.thrift.meta_data.FieldMetaData("cid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.TRANSITION_TYPE, new org.apache.thrift.meta_data.FieldMetaData("transition_type", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -9366,13 +8755,10 @@ public class ClientHandlers {
     }
 
     public onLoadStart_args(
-      int cid,
       int bid,
       int transition_type)
     {
       this();
-      this.cid = cid;
-      setCidIsSet(true);
       this.bid = bid;
       setBidIsSet(true);
       this.transition_type = transition_type;
@@ -9384,7 +8770,6 @@ public class ClientHandlers {
      */
     public onLoadStart_args(onLoadStart_args other) {
       __isset_bitfield = other.__isset_bitfield;
-      this.cid = other.cid;
       this.bid = other.bid;
       this.transition_type = other.transition_type;
     }
@@ -9395,35 +8780,10 @@ public class ClientHandlers {
 
     @Override
     public void clear() {
-      setCidIsSet(false);
-      this.cid = 0;
       setBidIsSet(false);
       this.bid = 0;
       setTransition_typeIsSet(false);
       this.transition_type = 0;
-    }
-
-    public int getCid() {
-      return this.cid;
-    }
-
-    public onLoadStart_args setCid(int cid) {
-      this.cid = cid;
-      setCidIsSet(true);
-      return this;
-    }
-
-    public void unsetCid() {
-      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __CID_ISSET_ID);
-    }
-
-    /** Returns true if field cid is set (has been assigned a value) and false otherwise */
-    public boolean isSetCid() {
-      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __CID_ISSET_ID);
-    }
-
-    public void setCidIsSet(boolean value) {
-      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __CID_ISSET_ID, value);
     }
 
     public int getBid() {
@@ -9474,14 +8834,6 @@ public class ClientHandlers {
 
     public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
       switch (field) {
-      case CID:
-        if (value == null) {
-          unsetCid();
-        } else {
-          setCid((java.lang.Integer)value);
-        }
-        break;
-
       case BID:
         if (value == null) {
           unsetBid();
@@ -9504,9 +8856,6 @@ public class ClientHandlers {
     @org.apache.thrift.annotation.Nullable
     public java.lang.Object getFieldValue(_Fields field) {
       switch (field) {
-      case CID:
-        return getCid();
-
       case BID:
         return getBid();
 
@@ -9524,8 +8873,6 @@ public class ClientHandlers {
       }
 
       switch (field) {
-      case CID:
-        return isSetCid();
       case BID:
         return isSetBid();
       case TRANSITION_TYPE:
@@ -9546,15 +8893,6 @@ public class ClientHandlers {
         return false;
       if (this == that)
         return true;
-
-      boolean this_present_cid = true;
-      boolean that_present_cid = true;
-      if (this_present_cid || that_present_cid) {
-        if (!(this_present_cid && that_present_cid))
-          return false;
-        if (this.cid != that.cid)
-          return false;
-      }
 
       boolean this_present_bid = true;
       boolean that_present_bid = true;
@@ -9581,8 +8919,6 @@ public class ClientHandlers {
     public int hashCode() {
       int hashCode = 1;
 
-      hashCode = hashCode * 8191 + cid;
-
       hashCode = hashCode * 8191 + bid;
 
       hashCode = hashCode * 8191 + transition_type;
@@ -9598,16 +8934,6 @@ public class ClientHandlers {
 
       int lastComparison = 0;
 
-      lastComparison = java.lang.Boolean.compare(isSetCid(), other.isSetCid());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetCid()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.cid, other.cid);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
       lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
       if (lastComparison != 0) {
         return lastComparison;
@@ -9649,10 +8975,6 @@ public class ClientHandlers {
       java.lang.StringBuilder sb = new java.lang.StringBuilder("onLoadStart_args(");
       boolean first = true;
 
-      sb.append("cid:");
-      sb.append(this.cid);
-      first = false;
-      if (!first) sb.append(", ");
       sb.append("bid:");
       sb.append(this.bid);
       first = false;
@@ -9705,15 +9027,7 @@ public class ClientHandlers {
             break;
           }
           switch (schemeField.id) {
-            case 1: // CID
-              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-                struct.cid = iprot.readI32();
-                struct.setCidIsSet(true);
-              } else { 
-                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
-            case 2: // BID
+            case 1: // BID
               if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
                 struct.bid = iprot.readI32();
                 struct.setBidIsSet(true);
@@ -9721,7 +9035,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 3: // TRANSITION_TYPE
+            case 2: // TRANSITION_TYPE
               if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
                 struct.transition_type = iprot.readI32();
                 struct.setTransition_typeIsSet(true);
@@ -9744,9 +9058,6 @@ public class ClientHandlers {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
-        oprot.writeFieldBegin(CID_FIELD_DESC);
-        oprot.writeI32(struct.cid);
-        oprot.writeFieldEnd();
         oprot.writeFieldBegin(BID_FIELD_DESC);
         oprot.writeI32(struct.bid);
         oprot.writeFieldEnd();
@@ -9771,19 +9082,13 @@ public class ClientHandlers {
       public void write(org.apache.thrift.protocol.TProtocol prot, onLoadStart_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet optionals = new java.util.BitSet();
-        if (struct.isSetCid()) {
+        if (struct.isSetBid()) {
           optionals.set(0);
         }
-        if (struct.isSetBid()) {
+        if (struct.isSetTransition_type()) {
           optionals.set(1);
         }
-        if (struct.isSetTransition_type()) {
-          optionals.set(2);
-        }
-        oprot.writeBitSet(optionals, 3);
-        if (struct.isSetCid()) {
-          oprot.writeI32(struct.cid);
-        }
+        oprot.writeBitSet(optionals, 2);
         if (struct.isSetBid()) {
           oprot.writeI32(struct.bid);
         }
@@ -9795,16 +9100,12 @@ public class ClientHandlers {
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, onLoadStart_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(3);
+        java.util.BitSet incoming = iprot.readBitSet(2);
         if (incoming.get(0)) {
-          struct.cid = iprot.readI32();
-          struct.setCidIsSet(true);
-        }
-        if (incoming.get(1)) {
           struct.bid = iprot.readI32();
           struct.setBidIsSet(true);
         }
-        if (incoming.get(2)) {
+        if (incoming.get(1)) {
           struct.transition_type = iprot.readI32();
           struct.setTransition_typeIsSet(true);
         }
@@ -9819,22 +9120,19 @@ public class ClientHandlers {
   public static class onLoadEnd_args implements org.apache.thrift.TBase<onLoadEnd_args, onLoadEnd_args._Fields>, java.io.Serializable, Cloneable, Comparable<onLoadEnd_args>   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("onLoadEnd_args");
 
-    private static final org.apache.thrift.protocol.TField CID_FIELD_DESC = new org.apache.thrift.protocol.TField("cid", org.apache.thrift.protocol.TType.I32, (short)1);
-    private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)2);
-    private static final org.apache.thrift.protocol.TField HTTP_STATUS_CODE_FIELD_DESC = new org.apache.thrift.protocol.TField("httpStatusCode", org.apache.thrift.protocol.TType.I32, (short)3);
+    private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
+    private static final org.apache.thrift.protocol.TField HTTP_STATUS_CODE_FIELD_DESC = new org.apache.thrift.protocol.TField("httpStatusCode", org.apache.thrift.protocol.TType.I32, (short)2);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new onLoadEnd_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new onLoadEnd_argsTupleSchemeFactory();
 
-    public int cid; // required
     public int bid; // required
     public int httpStatusCode; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      CID((short)1, "cid"),
-      BID((short)2, "bid"),
-      HTTP_STATUS_CODE((short)3, "httpStatusCode");
+      BID((short)1, "bid"),
+      HTTP_STATUS_CODE((short)2, "httpStatusCode");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -9850,11 +9148,9 @@ public class ClientHandlers {
       @org.apache.thrift.annotation.Nullable
       public static _Fields findByThriftId(int fieldId) {
         switch(fieldId) {
-          case 1: // CID
-            return CID;
-          case 2: // BID
+          case 1: // BID
             return BID;
-          case 3: // HTTP_STATUS_CODE
+          case 2: // HTTP_STATUS_CODE
             return HTTP_STATUS_CODE;
           default:
             return null;
@@ -9897,15 +9193,12 @@ public class ClientHandlers {
     }
 
     // isset id assignments
-    private static final int __CID_ISSET_ID = 0;
-    private static final int __BID_ISSET_ID = 1;
-    private static final int __HTTPSTATUSCODE_ISSET_ID = 2;
+    private static final int __BID_ISSET_ID = 0;
+    private static final int __HTTPSTATUSCODE_ISSET_ID = 1;
     private byte __isset_bitfield = 0;
     public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CID, new org.apache.thrift.meta_data.FieldMetaData("cid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.HTTP_STATUS_CODE, new org.apache.thrift.meta_data.FieldMetaData("httpStatusCode", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -9918,13 +9211,10 @@ public class ClientHandlers {
     }
 
     public onLoadEnd_args(
-      int cid,
       int bid,
       int httpStatusCode)
     {
       this();
-      this.cid = cid;
-      setCidIsSet(true);
       this.bid = bid;
       setBidIsSet(true);
       this.httpStatusCode = httpStatusCode;
@@ -9936,7 +9226,6 @@ public class ClientHandlers {
      */
     public onLoadEnd_args(onLoadEnd_args other) {
       __isset_bitfield = other.__isset_bitfield;
-      this.cid = other.cid;
       this.bid = other.bid;
       this.httpStatusCode = other.httpStatusCode;
     }
@@ -9947,35 +9236,10 @@ public class ClientHandlers {
 
     @Override
     public void clear() {
-      setCidIsSet(false);
-      this.cid = 0;
       setBidIsSet(false);
       this.bid = 0;
       setHttpStatusCodeIsSet(false);
       this.httpStatusCode = 0;
-    }
-
-    public int getCid() {
-      return this.cid;
-    }
-
-    public onLoadEnd_args setCid(int cid) {
-      this.cid = cid;
-      setCidIsSet(true);
-      return this;
-    }
-
-    public void unsetCid() {
-      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __CID_ISSET_ID);
-    }
-
-    /** Returns true if field cid is set (has been assigned a value) and false otherwise */
-    public boolean isSetCid() {
-      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __CID_ISSET_ID);
-    }
-
-    public void setCidIsSet(boolean value) {
-      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __CID_ISSET_ID, value);
     }
 
     public int getBid() {
@@ -10026,14 +9290,6 @@ public class ClientHandlers {
 
     public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
       switch (field) {
-      case CID:
-        if (value == null) {
-          unsetCid();
-        } else {
-          setCid((java.lang.Integer)value);
-        }
-        break;
-
       case BID:
         if (value == null) {
           unsetBid();
@@ -10056,9 +9312,6 @@ public class ClientHandlers {
     @org.apache.thrift.annotation.Nullable
     public java.lang.Object getFieldValue(_Fields field) {
       switch (field) {
-      case CID:
-        return getCid();
-
       case BID:
         return getBid();
 
@@ -10076,8 +9329,6 @@ public class ClientHandlers {
       }
 
       switch (field) {
-      case CID:
-        return isSetCid();
       case BID:
         return isSetBid();
       case HTTP_STATUS_CODE:
@@ -10098,15 +9349,6 @@ public class ClientHandlers {
         return false;
       if (this == that)
         return true;
-
-      boolean this_present_cid = true;
-      boolean that_present_cid = true;
-      if (this_present_cid || that_present_cid) {
-        if (!(this_present_cid && that_present_cid))
-          return false;
-        if (this.cid != that.cid)
-          return false;
-      }
 
       boolean this_present_bid = true;
       boolean that_present_bid = true;
@@ -10133,8 +9375,6 @@ public class ClientHandlers {
     public int hashCode() {
       int hashCode = 1;
 
-      hashCode = hashCode * 8191 + cid;
-
       hashCode = hashCode * 8191 + bid;
 
       hashCode = hashCode * 8191 + httpStatusCode;
@@ -10150,16 +9390,6 @@ public class ClientHandlers {
 
       int lastComparison = 0;
 
-      lastComparison = java.lang.Boolean.compare(isSetCid(), other.isSetCid());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetCid()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.cid, other.cid);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
       lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
       if (lastComparison != 0) {
         return lastComparison;
@@ -10201,10 +9431,6 @@ public class ClientHandlers {
       java.lang.StringBuilder sb = new java.lang.StringBuilder("onLoadEnd_args(");
       boolean first = true;
 
-      sb.append("cid:");
-      sb.append(this.cid);
-      first = false;
-      if (!first) sb.append(", ");
       sb.append("bid:");
       sb.append(this.bid);
       first = false;
@@ -10257,15 +9483,7 @@ public class ClientHandlers {
             break;
           }
           switch (schemeField.id) {
-            case 1: // CID
-              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-                struct.cid = iprot.readI32();
-                struct.setCidIsSet(true);
-              } else { 
-                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
-            case 2: // BID
+            case 1: // BID
               if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
                 struct.bid = iprot.readI32();
                 struct.setBidIsSet(true);
@@ -10273,7 +9491,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 3: // HTTP_STATUS_CODE
+            case 2: // HTTP_STATUS_CODE
               if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
                 struct.httpStatusCode = iprot.readI32();
                 struct.setHttpStatusCodeIsSet(true);
@@ -10296,9 +9514,6 @@ public class ClientHandlers {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
-        oprot.writeFieldBegin(CID_FIELD_DESC);
-        oprot.writeI32(struct.cid);
-        oprot.writeFieldEnd();
         oprot.writeFieldBegin(BID_FIELD_DESC);
         oprot.writeI32(struct.bid);
         oprot.writeFieldEnd();
@@ -10323,19 +9538,13 @@ public class ClientHandlers {
       public void write(org.apache.thrift.protocol.TProtocol prot, onLoadEnd_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet optionals = new java.util.BitSet();
-        if (struct.isSetCid()) {
+        if (struct.isSetBid()) {
           optionals.set(0);
         }
-        if (struct.isSetBid()) {
+        if (struct.isSetHttpStatusCode()) {
           optionals.set(1);
         }
-        if (struct.isSetHttpStatusCode()) {
-          optionals.set(2);
-        }
-        oprot.writeBitSet(optionals, 3);
-        if (struct.isSetCid()) {
-          oprot.writeI32(struct.cid);
-        }
+        oprot.writeBitSet(optionals, 2);
         if (struct.isSetBid()) {
           oprot.writeI32(struct.bid);
         }
@@ -10347,16 +9556,12 @@ public class ClientHandlers {
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, onLoadEnd_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(3);
+        java.util.BitSet incoming = iprot.readBitSet(2);
         if (incoming.get(0)) {
-          struct.cid = iprot.readI32();
-          struct.setCidIsSet(true);
-        }
-        if (incoming.get(1)) {
           struct.bid = iprot.readI32();
           struct.setBidIsSet(true);
         }
-        if (incoming.get(2)) {
+        if (incoming.get(1)) {
           struct.httpStatusCode = iprot.readI32();
           struct.setHttpStatusCodeIsSet(true);
         }
@@ -10371,16 +9576,14 @@ public class ClientHandlers {
   public static class onLoadError_args implements org.apache.thrift.TBase<onLoadError_args, onLoadError_args._Fields>, java.io.Serializable, Cloneable, Comparable<onLoadError_args>   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("onLoadError_args");
 
-    private static final org.apache.thrift.protocol.TField CID_FIELD_DESC = new org.apache.thrift.protocol.TField("cid", org.apache.thrift.protocol.TType.I32, (short)1);
-    private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)2);
-    private static final org.apache.thrift.protocol.TField ERROR_CODE_FIELD_DESC = new org.apache.thrift.protocol.TField("errorCode", org.apache.thrift.protocol.TType.I32, (short)3);
-    private static final org.apache.thrift.protocol.TField ERROR_TEXT_FIELD_DESC = new org.apache.thrift.protocol.TField("errorText", org.apache.thrift.protocol.TType.STRING, (short)4);
-    private static final org.apache.thrift.protocol.TField FAILED_URL_FIELD_DESC = new org.apache.thrift.protocol.TField("failedUrl", org.apache.thrift.protocol.TType.STRING, (short)5);
+    private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
+    private static final org.apache.thrift.protocol.TField ERROR_CODE_FIELD_DESC = new org.apache.thrift.protocol.TField("errorCode", org.apache.thrift.protocol.TType.I32, (short)2);
+    private static final org.apache.thrift.protocol.TField ERROR_TEXT_FIELD_DESC = new org.apache.thrift.protocol.TField("errorText", org.apache.thrift.protocol.TType.STRING, (short)3);
+    private static final org.apache.thrift.protocol.TField FAILED_URL_FIELD_DESC = new org.apache.thrift.protocol.TField("failedUrl", org.apache.thrift.protocol.TType.STRING, (short)4);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new onLoadError_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new onLoadError_argsTupleSchemeFactory();
 
-    public int cid; // required
     public int bid; // required
     public int errorCode; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String errorText; // required
@@ -10388,11 +9591,10 @@ public class ClientHandlers {
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      CID((short)1, "cid"),
-      BID((short)2, "bid"),
-      ERROR_CODE((short)3, "errorCode"),
-      ERROR_TEXT((short)4, "errorText"),
-      FAILED_URL((short)5, "failedUrl");
+      BID((short)1, "bid"),
+      ERROR_CODE((short)2, "errorCode"),
+      ERROR_TEXT((short)3, "errorText"),
+      FAILED_URL((short)4, "failedUrl");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -10408,15 +9610,13 @@ public class ClientHandlers {
       @org.apache.thrift.annotation.Nullable
       public static _Fields findByThriftId(int fieldId) {
         switch(fieldId) {
-          case 1: // CID
-            return CID;
-          case 2: // BID
+          case 1: // BID
             return BID;
-          case 3: // ERROR_CODE
+          case 2: // ERROR_CODE
             return ERROR_CODE;
-          case 4: // ERROR_TEXT
+          case 3: // ERROR_TEXT
             return ERROR_TEXT;
-          case 5: // FAILED_URL
+          case 4: // FAILED_URL
             return FAILED_URL;
           default:
             return null;
@@ -10459,15 +9659,12 @@ public class ClientHandlers {
     }
 
     // isset id assignments
-    private static final int __CID_ISSET_ID = 0;
-    private static final int __BID_ISSET_ID = 1;
-    private static final int __ERRORCODE_ISSET_ID = 2;
+    private static final int __BID_ISSET_ID = 0;
+    private static final int __ERRORCODE_ISSET_ID = 1;
     private byte __isset_bitfield = 0;
     public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CID, new org.apache.thrift.meta_data.FieldMetaData("cid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.ERROR_CODE, new org.apache.thrift.meta_data.FieldMetaData("errorCode", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -10484,15 +9681,12 @@ public class ClientHandlers {
     }
 
     public onLoadError_args(
-      int cid,
       int bid,
       int errorCode,
       java.lang.String errorText,
       java.lang.String failedUrl)
     {
       this();
-      this.cid = cid;
-      setCidIsSet(true);
       this.bid = bid;
       setBidIsSet(true);
       this.errorCode = errorCode;
@@ -10506,7 +9700,6 @@ public class ClientHandlers {
      */
     public onLoadError_args(onLoadError_args other) {
       __isset_bitfield = other.__isset_bitfield;
-      this.cid = other.cid;
       this.bid = other.bid;
       this.errorCode = other.errorCode;
       if (other.isSetErrorText()) {
@@ -10523,37 +9716,12 @@ public class ClientHandlers {
 
     @Override
     public void clear() {
-      setCidIsSet(false);
-      this.cid = 0;
       setBidIsSet(false);
       this.bid = 0;
       setErrorCodeIsSet(false);
       this.errorCode = 0;
       this.errorText = null;
       this.failedUrl = null;
-    }
-
-    public int getCid() {
-      return this.cid;
-    }
-
-    public onLoadError_args setCid(int cid) {
-      this.cid = cid;
-      setCidIsSet(true);
-      return this;
-    }
-
-    public void unsetCid() {
-      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __CID_ISSET_ID);
-    }
-
-    /** Returns true if field cid is set (has been assigned a value) and false otherwise */
-    public boolean isSetCid() {
-      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __CID_ISSET_ID);
-    }
-
-    public void setCidIsSet(boolean value) {
-      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __CID_ISSET_ID, value);
     }
 
     public int getBid() {
@@ -10654,14 +9822,6 @@ public class ClientHandlers {
 
     public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
       switch (field) {
-      case CID:
-        if (value == null) {
-          unsetCid();
-        } else {
-          setCid((java.lang.Integer)value);
-        }
-        break;
-
       case BID:
         if (value == null) {
           unsetBid();
@@ -10700,9 +9860,6 @@ public class ClientHandlers {
     @org.apache.thrift.annotation.Nullable
     public java.lang.Object getFieldValue(_Fields field) {
       switch (field) {
-      case CID:
-        return getCid();
-
       case BID:
         return getBid();
 
@@ -10726,8 +9883,6 @@ public class ClientHandlers {
       }
 
       switch (field) {
-      case CID:
-        return isSetCid();
       case BID:
         return isSetBid();
       case ERROR_CODE:
@@ -10752,15 +9907,6 @@ public class ClientHandlers {
         return false;
       if (this == that)
         return true;
-
-      boolean this_present_cid = true;
-      boolean that_present_cid = true;
-      if (this_present_cid || that_present_cid) {
-        if (!(this_present_cid && that_present_cid))
-          return false;
-        if (this.cid != that.cid)
-          return false;
-      }
 
       boolean this_present_bid = true;
       boolean that_present_bid = true;
@@ -10805,8 +9951,6 @@ public class ClientHandlers {
     public int hashCode() {
       int hashCode = 1;
 
-      hashCode = hashCode * 8191 + cid;
-
       hashCode = hashCode * 8191 + bid;
 
       hashCode = hashCode * 8191 + errorCode;
@@ -10830,16 +9974,6 @@ public class ClientHandlers {
 
       int lastComparison = 0;
 
-      lastComparison = java.lang.Boolean.compare(isSetCid(), other.isSetCid());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetCid()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.cid, other.cid);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
       lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
       if (lastComparison != 0) {
         return lastComparison;
@@ -10901,10 +10035,6 @@ public class ClientHandlers {
       java.lang.StringBuilder sb = new java.lang.StringBuilder("onLoadError_args(");
       boolean first = true;
 
-      sb.append("cid:");
-      sb.append(this.cid);
-      first = false;
-      if (!first) sb.append(", ");
       sb.append("bid:");
       sb.append(this.bid);
       first = false;
@@ -10973,15 +10103,7 @@ public class ClientHandlers {
             break;
           }
           switch (schemeField.id) {
-            case 1: // CID
-              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-                struct.cid = iprot.readI32();
-                struct.setCidIsSet(true);
-              } else { 
-                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
-            case 2: // BID
+            case 1: // BID
               if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
                 struct.bid = iprot.readI32();
                 struct.setBidIsSet(true);
@@ -10989,7 +10111,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 3: // ERROR_CODE
+            case 2: // ERROR_CODE
               if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
                 struct.errorCode = iprot.readI32();
                 struct.setErrorCodeIsSet(true);
@@ -10997,7 +10119,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 4: // ERROR_TEXT
+            case 3: // ERROR_TEXT
               if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
                 struct.errorText = iprot.readString();
                 struct.setErrorTextIsSet(true);
@@ -11005,7 +10127,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 5: // FAILED_URL
+            case 4: // FAILED_URL
               if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
                 struct.failedUrl = iprot.readString();
                 struct.setFailedUrlIsSet(true);
@@ -11028,9 +10150,6 @@ public class ClientHandlers {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
-        oprot.writeFieldBegin(CID_FIELD_DESC);
-        oprot.writeI32(struct.cid);
-        oprot.writeFieldEnd();
         oprot.writeFieldBegin(BID_FIELD_DESC);
         oprot.writeI32(struct.bid);
         oprot.writeFieldEnd();
@@ -11065,25 +10184,19 @@ public class ClientHandlers {
       public void write(org.apache.thrift.protocol.TProtocol prot, onLoadError_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet optionals = new java.util.BitSet();
-        if (struct.isSetCid()) {
+        if (struct.isSetBid()) {
           optionals.set(0);
         }
-        if (struct.isSetBid()) {
+        if (struct.isSetErrorCode()) {
           optionals.set(1);
         }
-        if (struct.isSetErrorCode()) {
+        if (struct.isSetErrorText()) {
           optionals.set(2);
         }
-        if (struct.isSetErrorText()) {
+        if (struct.isSetFailedUrl()) {
           optionals.set(3);
         }
-        if (struct.isSetFailedUrl()) {
-          optionals.set(4);
-        }
-        oprot.writeBitSet(optionals, 5);
-        if (struct.isSetCid()) {
-          oprot.writeI32(struct.cid);
-        }
+        oprot.writeBitSet(optionals, 4);
         if (struct.isSetBid()) {
           oprot.writeI32(struct.bid);
         }
@@ -11101,24 +10214,20 @@ public class ClientHandlers {
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, onLoadError_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(5);
+        java.util.BitSet incoming = iprot.readBitSet(4);
         if (incoming.get(0)) {
-          struct.cid = iprot.readI32();
-          struct.setCidIsSet(true);
-        }
-        if (incoming.get(1)) {
           struct.bid = iprot.readI32();
           struct.setBidIsSet(true);
         }
-        if (incoming.get(2)) {
+        if (incoming.get(1)) {
           struct.errorCode = iprot.readI32();
           struct.setErrorCodeIsSet(true);
         }
-        if (incoming.get(3)) {
+        if (incoming.get(2)) {
           struct.errorText = iprot.readString();
           struct.setErrorTextIsSet(true);
         }
-        if (incoming.get(4)) {
+        if (incoming.get(3)) {
           struct.failedUrl = iprot.readString();
           struct.setFailedUrlIsSet(true);
         }

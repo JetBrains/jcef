@@ -39,7 +39,7 @@ public class TestApp extends JFrame {
 
         JBCefOsrComponent osrComponent = new JBCefOsrComponent();
         JBCefOsrHandler osrHandler = new JBCefOsrHandler(osrComponent, null);
-        CefRemoteClient client = new CefRemoteClient();
+        CefRemoteClient client = new CefRemoteClient(ourServer);
         client.setRenderHandler(osrHandler);
         client.setLifeSpanHandler(new CefLifeSpanHandlerAdapter() {
             @Override
