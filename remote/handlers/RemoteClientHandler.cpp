@@ -4,6 +4,7 @@
 #include "RemoteLifespanHandler.h"
 #include "RemoteLoadHandler.h"
 #include "RemoteRenderHandler.h"
+#include "RemoteDisplayHandler.h"
 
 RemoteClientHandler::RemoteClientHandler(std::shared_ptr<BackwardConnection> connection, int cid, int bid)
     : ConnectionUser(connection),
@@ -11,7 +12,8 @@ RemoteClientHandler::RemoteClientHandler(std::shared_ptr<BackwardConnection> con
       myBid(bid),
       myRemoteRenderHandler(new RemoteRenderHandler(*this)),
       myRemoteLisfespanHandler(new RemoteLifespanHandler(*this)),
-      myRemoteLoadHandler(new RemoteLoadHandler(*this))
+      myRemoteLoadHandler(new RemoteLoadHandler(*this)),
+      myRemoteDisplayHandler(new RemoteDisplayHandler(*this))
 {}
 
 CefRefPtr<CefContextMenuHandler> RemoteClientHandler::GetContextMenuHandler() {
@@ -25,8 +27,7 @@ CefRefPtr<CefDialogHandler> RemoteClientHandler::GetDialogHandler() {
 }
 
 CefRefPtr<CefDisplayHandler> RemoteClientHandler::GetDisplayHandler() {
-    Log::error("UNIMPLEMENTED: RemoteClientHandler::GetDisplayHandler");
-    return nullptr;
+    return myRemoteDisplayHandler;
 }
 
 CefRefPtr<CefDownloadHandler> RemoteClientHandler::GetDownloadHandler() {

@@ -38,6 +38,7 @@ protected:
  const CefRefPtr<CefRenderHandler> myRemoteRenderHandler;
  const CefRefPtr<CefLifeSpanHandler> myRemoteLisfespanHandler;
  const CefRefPtr<CefLoadHandler> myRemoteLoadHandler;
+ const CefRefPtr<CefDisplayHandler> myRemoteDisplayHandler;
 
 private:
  IMPLEMENT_REFCOUNTING(RemoteClientHandler);

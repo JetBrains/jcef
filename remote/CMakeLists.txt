@@ -129,7 +129,7 @@ add_executable(${EXECUTABLE_NAME} MACOSX_BUNDLE ${CEFSIMPLE_RESOURCES_SRCS}
         handlers/RemoteAppHandler.cpp
         handlers/RemoteAppHandler.h
         handlers/RemoteBrowserProcessHandler.cpp
-        handlers/RemoteBrowserProcessHandler.h)
+        handlers/RemoteBrowserProcessHandler.h handlers/RemoteDisplayHandler.cpp handlers/RemoteDisplayHandler.h)
 add_dependencies(${EXECUTABLE_NAME} libcef_dll_wrapper)
 target_include_directories(${EXECUTABLE_NAME} PRIVATE /opt/homebrew/Cellar/thrift/0.16.0/include)
 target_include_directories(${EXECUTABLE_NAME} PRIVATE ${CEF_INCLUDE_PATH})

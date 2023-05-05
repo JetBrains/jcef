@@ -3,6 +3,7 @@ package com.jetbrains.cef.remote;
 import com.jetbrains.cef.remote.thrift_codegen.ClientHandlers;
 import com.jetbrains.cef.remote.thrift_codegen.CustomScheme;
 import org.apache.thrift.TException;
+import org.cef.CefSettings;
 import org.cef.handler.*;
 import org.cef.misc.CefLog;
 import org.cef.network.CefRequest;
@@ -239,5 +240,66 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         if (lh == null) return;
 
         lh.onLoadError(browser, null, CefLoadHandler.ErrorCode.findByCode(errorCode), errorText, failedUrl);
+    }
+
+    //
+    // CefDisplayHandler
+    //
+
+    @Override
+    public void onAddressChange(int bid, String url) {
+        CefRemoteBrowser browser = getRemoteBrowser(bid);
+        if (browser == null) return;
+
+        CefDisplayHandler dh = browser.getOwner().getDisplayHandler();
+        if (dh == null) return;
+
+        dh.onAddressChange(browser, null, url);
+    }
+
+    @Override
+    public void onTitleChange(int bid, String title) {
+        CefRemoteBrowser browser = getRemoteBrowser(bid);
+        if (browser == null) return;
+
+        CefDisplayHandler dh = browser.getOwner().getDisplayHandler();
+        if (dh == null) return;
+
+        dh.onTitleChange(browser, title);
+    }
+
+    @Override
+    public boolean onTooltip(int bid, String text) {
+        CefRemoteBrowser browser = getRemoteBrowser(bid);
+        if (browser == null) return false;
+
+        CefDisplayHandler dh = browser.getOwner().getDisplayHandler();
+        if (dh == null) return false;
+
+        return dh.onTooltip(browser, text);
+    }
+
+    @Override
+    public void onStatusMessage(int bid, String value) {
+        CefRemoteBrowser browser = getRemoteBrowser(bid);
+        if (browser == null) return;
+
+        CefDisplayHandler dh = browser.getOwner().getDisplayHandler();
+        if (dh == null) return;
+
+        dh.onStatusMessage(browser, value);
+    }
+
+    @Override
+    public boolean onConsoleMessage(int bid, int level, String message, String source, int line) {
+        CefRemoteBrowser browser = getRemoteBrowser(bid);
+        if (browser == null) return false;
+
+        CefDisplayHandler dh = browser.getOwner().getDisplayHandler();
+        if (dh == null) return false;
+
+        // TODO: fix log level
+        CefLog.Error("onConsoleMessage: used incorrect log level");
+        return dh.onConsoleMessage(browser, CefSettings.LogSeverity.LOGSEVERITY_DEFAULT, message, source, line);
     }
 }

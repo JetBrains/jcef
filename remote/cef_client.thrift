@@ -53,4 +53,13 @@ service ClientHandlers {
    oneway void onLoadStart(1:i32 bid, 2:i32 transition_type)
    oneway void onLoadEnd(1:i32 bid, 2:i32 httpStatusCode)
    oneway void onLoadError(1:i32 bid, 2:i32 errorCode, 3:string errorText, 4:string failedUrl)
+
+   //
+   // CefDisplayHandler
+   //
+   oneway void onAddressChange(1:i32 bid, 2:string url) // TODO: support frame
+   oneway void onTitleChange(1:i32 bid, 2:string title)
+   bool onTooltip(1:i32 bid, 2:string text)
+   oneway void onStatusMessage(1:i32 bid, 2:string value)
+   bool onConsoleMessage(1:i32 bid, 2:i32 level, 3:string message, 4:string source, 5:i32 line)
 }
