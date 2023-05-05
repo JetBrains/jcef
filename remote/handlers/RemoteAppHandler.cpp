@@ -1,6 +1,6 @@
 #include "RemoteAppHandler.h"
-#include "Log/Log.h"
-#include "gen-cpp/cef_client_types.h"
+#include "../gen-cpp/cef_client_types.h"
+#include "../log/Log.h"
 
 using namespace thrift_codegen;
 

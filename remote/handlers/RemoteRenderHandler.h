@@ -3,8 +3,8 @@
 
 #include <boost/interprocess/managed_shared_memory.hpp>
 
-#include "./gen-cpp/ClientHandlers.h"
-#include "Utils.h"
+#include "../Utils.h"
+#include "../gen-cpp/ClientHandlers.h"
 #include "include/cef_render_handler.h"
 
 class RemoteClientHandler;

@@ -1,8 +1,8 @@
 #ifndef JCEF_NATIVE_CLIENT_HANDLER_H_
 #define JCEF_NATIVE_CLIENT_HANDLER_H_
 
+#include "../Utils.h"
 #include "include/cef_client.h"
-#include "Utils.h"
 
 class RemoteClientHandler : public CefClient, public ConnectionUser {
 public:

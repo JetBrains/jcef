@@ -4,8 +4,8 @@
 #include <iostream>
 #include <chrono>
 
-#include "log/Log.h"
-#include "CefUtils.h"
+#include "../CefUtils.h"
+#include "../log/Log.h"
 
 using namespace std::chrono;
 using namespace thrift_codegen;

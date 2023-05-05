@@ -4,8 +4,8 @@
 #include <thread>
 
 #include "CefBrowserAdapter.h"
-#include "RemoteAppHandler.h"
-#include "RemoteLifespanHandler.h"
+#include "handlers/RemoteAppHandler.h"
+#include "handlers/RemoteLifespanHandler.h"
 
 #include "CefUtils.h"
 

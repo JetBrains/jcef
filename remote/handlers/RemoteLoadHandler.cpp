@@ -1,6 +1,6 @@
 #include "RemoteLoadHandler.h"
+#include "../log/Log.h"
 #include "RemoteClientHandler.h"
-#include "log/Log.h"
 
 RemoteLoadHandler::RemoteLoadHandler(RemoteClientHandler & owner) : myOwner(owner) {}
 

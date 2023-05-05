@@ -3,9 +3,9 @@
 
 #include "./gen-cpp/Server.h"
 
-#include "log/Log.h"
-#include "RemoteClientHandler.h"
 #include "Utils.h"
+#include "handlers/RemoteClientHandler.h"
+#include "log/Log.h"
 
 // TODO: make thread-safe
 

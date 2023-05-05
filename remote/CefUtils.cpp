@@ -9,7 +9,7 @@
 
 #include "log/Log.h"
 
-#include "RemoteAppHandler.h"
+#include "handlers/RemoteAppHandler.h"
 
 static bool g_isInitialized = false;
 

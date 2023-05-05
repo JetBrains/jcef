@@ -1,7 +1,7 @@
 #include "RemoteLifespanHandler.h"
 #include "RemoteClientHandler.h"
 
-#include "log/Log.h"
+#include "../log/Log.h"
 
 RemoteLifespanHandler::RemoteLifespanHandler(RemoteClientHandler & owner) : myOwner(owner) {}
 

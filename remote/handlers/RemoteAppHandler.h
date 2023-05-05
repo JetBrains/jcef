@@ -1,7 +1,7 @@
 #ifndef JCEF_REMOTEAPPHANDLER_H
 #define JCEF_REMOTEAPPHANDLER_H
+#include "../Utils.h"
 #include "include/cef_app.h"
-#include "Utils.h"
 
 class RemoteAppHandler : public CefApp, ConnectionUser {
  public:
