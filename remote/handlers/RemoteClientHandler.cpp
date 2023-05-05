@@ -1,10 +1,11 @@
 #include "RemoteClientHandler.h"
 #include <log4cxx/mdc.h>
 #include "../log/Log.h"
+#include "RemoteDisplayHandler.h"
 #include "RemoteLifespanHandler.h"
 #include "RemoteLoadHandler.h"
 #include "RemoteRenderHandler.h"
-#include "RemoteDisplayHandler.h"
+#include "request/RemoteRequestHandler.h"
 
 RemoteClientHandler::RemoteClientHandler(std::shared_ptr<BackwardConnection> connection, int cid, int bid)
     : ConnectionUser(connection),
@@ -13,7 +14,8 @@ RemoteClientHandler::RemoteClientHandler(std::shared_ptr<BackwardConnection> con
       myRemoteRenderHandler(new RemoteRenderHandler(*this)),
       myRemoteLisfespanHandler(new RemoteLifespanHandler(*this)),
       myRemoteLoadHandler(new RemoteLoadHandler(*this)),
-      myRemoteDisplayHandler(new RemoteDisplayHandler(*this))
+      myRemoteDisplayHandler(new RemoteDisplayHandler(*this)),
+      myRemoteRequestHandler(new RemoteRequestHandler(*this))
 {}
 
 CefRefPtr<CefContextMenuHandler> RemoteClientHandler::GetContextMenuHandler() {
@@ -78,8 +80,7 @@ CefRefPtr<CefRenderHandler> RemoteClientHandler::GetRenderHandler() {
 }
 
 CefRefPtr<CefRequestHandler> RemoteClientHandler::GetRequestHandler() {
-    Log::error("UNIMPLEMENTED: RemoteClientHandler::GetRequestHandler");
-    return nullptr;
+    return myRemoteRequestHandler;
 }
 
 bool RemoteClientHandler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser,

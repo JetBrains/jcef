@@ -8,6 +8,7 @@ import org.cef.browser.CefBrowser;
 import org.cef.callback.CefCallback;
 import org.cef.handler.CefResourceHandlerAdapter;
 import org.cef.network.CefRequest;
+import org.cef.network.CefRequestBase;
 
 /**
  * In this case we create a new CefRequest object with
@@ -36,7 +37,7 @@ public class SearchSchemeHandler extends CefResourceHandlerAdapter {
         }
         newUrl = "http://www.google.com/#q=" + newUrl;
 
-        CefRequest newRequest = CefRequest.create();
+        CefRequest newRequest = CefRequestBase.create();
         if (newRequest != null) {
             newRequest.setMethod("GET");
             newRequest.setURL(newUrl);

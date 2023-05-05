@@ -9,7 +9,7 @@ import org.cef.handler.CefLoadHandler.ErrorCode;
 
 import java.util.Map;
 
-class CefResponse_N extends CefResponse {
+class CefResponse_N extends CefResponseBase {
     CefResponse_N() {
         super();
     }

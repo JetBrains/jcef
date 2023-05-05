@@ -52,6 +52,7 @@ import javax.swing.JPanel;
 import javax.swing.JRootPane;
 import javax.swing.SwingUtilities;
 
+import org.cef.network.CefRequestBase;
 import tests.detailed.BrowserFrame;
 import tests.detailed.MainFrame;
 import tests.detailed.dialog.CookieManagerDialog;
@@ -334,7 +335,7 @@ public class MenuBar extends JMenuBar {
             public void actionPerformed(ActionEvent e) {
                 String searchFor = JOptionPane.showInputDialog(owner_, "Search on google:");
                 if (searchFor != null && !searchFor.isEmpty()) {
-                    CefRequest myRequest = CefRequest.create();
+                    CefRequest myRequest = CefRequestBase.create();
                     myRequest.setMethod("GET");
                     myRequest.setURL("http://www.google.com/#q=" + searchFor);
                     myRequest.setFirstPartyForCookies("http://www.google.com/#q=" + searchFor);

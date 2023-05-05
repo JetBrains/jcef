@@ -13,6 +13,8 @@
  *  set<t1>     Set of unique elements of one type
  */
 
+include "shared.thrift"
+
 namespace cpp thrift_codegen
 namespace java thrift_codegen
 
@@ -20,11 +22,45 @@ service Server {
    i32 connect(1:i32 backwardConnectionPort, 2:list<string> cmdLineArgs, 3:map<string,string> settings)
    oneway void log(1:string msg)
 
+   //
+   // CefBrowser
+   //
    i32 createBrowser(1:i32 cid)
    string closeBrowser(1:i32 bid)
+   oneway void invoke(1:i32 bid, 2:string method, 3:binary buffer)
 
    //
-   // CefBrowser methods
+   // CefRequest
    //
-   oneway void invoke(1:i32 bid, 2:string method, 3:binary buffer)
+   void Request_Update(1:shared.RObject request)
+   shared.PostData Request_GetPostData(1:shared.RObject request)
+   void Request_SetPostData(1:shared.RObject request, 2:shared.PostData postData)
+   string Request_GetHeaderByName(1:shared.RObject request, 2:string name)
+   void Request_SetHeaderByName(1:shared.RObject request, 2:string name, 3:string value, 4:bool overwrite)
+   map<string, string> Request_GetHeaderMap(1:shared.RObject request) // TODO: support multimaps
+   void Request_SetHeaderMap(1:shared.RObject request, 2:map<string, string> headerMap)
+   void Request_Set(1:shared.RObject request, 2:string url, 3:string method, 4:shared.PostData postData, 5:map<string, string> headerMap)
+
+   //
+   // CefResponse
+   //
+   void Response_Update(1:shared.RObject response)
+   string Response_GetHeaderByName(1:shared.RObject response, 2:string name)
+   void Response_SetHeaderByName(1:shared.RObject response, 2:string name, 3:string value, 4:bool overwrite)
+   map<string, string> Response_GetHeaderMap(1:shared.RObject response) // TODO: support multimaps
+   void Response_SetHeaderMap(1:shared.RObject response, 2:map<string, string> headerMap)
+
+   //
+   // Callback
+   //
+   oneway void Callback_Dispose(1:shared.RObject callback)
+   oneway void Callback_Continue(1:shared.RObject callback)
+   oneway void Callback_Cancel(1:shared.RObject callback)
+
+   //
+   // CefAuthCallback
+   //
+   oneway void AuthCallback_Dispose(1:shared.RObject authCallback)
+   oneway void AuthCallback_Continue(1:shared.RObject authCallback, 2:string username, 3:string password)
+   oneway void AuthCallback_Cancel(1:shared.RObject authCallback)
 }

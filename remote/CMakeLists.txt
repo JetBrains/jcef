@@ -5,29 +5,55 @@ message(STATUS "Generate thrift codegen...")
 execute_process(
         COMMAND thrift --gen cpp -r ${CMAKE_CURRENT_SOURCE_DIR}/cef_server.thrift
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        RESULT_VARIABLE thrift_result
 )
 execute_process(
         COMMAND thrift --gen cpp -r ${CMAKE_CURRENT_SOURCE_DIR}/cef_client.thrift
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        RESULT_VARIABLE thrift_result
+)
+execute_process(
+        COMMAND thrift --gen cpp -r ${CMAKE_CURRENT_SOURCE_DIR}/shared.thrift
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        RESULT_VARIABLE thrift_result
 )
 execute_process(
         COMMAND thrift --gen java -out ${CMAKE_SOURCE_DIR}/java/com/jetbrains/cef/remote ${CMAKE_CURRENT_SOURCE_DIR}/cef_server.thrift
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/java
+        RESULT_VARIABLE thrift_result
+)
+execute_process(
+        COMMAND thrift --gen java -out ${CMAKE_SOURCE_DIR}/java/com/jetbrains/cef/remote ${CMAKE_CURRENT_SOURCE_DIR}/shared.thrift
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/java
+        RESULT_VARIABLE thrift_result
 )
 execute_process(
         COMMAND thrift --gen java -out ${CMAKE_SOURCE_DIR}/java/com/jetbrains/cef/remote ${CMAKE_CURRENT_SOURCE_DIR}/cef_client.thrift
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/java
-        RESULT_VARIABLE thrift_result)
+        RESULT_VARIABLE thrift_result
+)
 message(STATUS "... result: ${thrift_result}")
 
 message(STATUS "Cleanup java thrift codegen...")
 execute_process(
-        COMMAND find . -type f -name "*.java" -exec sed -i.backup "s/package thrift_codegen/package com.jetbrains.cef.remote.thrift_codegen/" {} \;
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/java/com/jetbrains/cef/remote/thrift_codegen
-)
-execute_process(
         COMMAND find . -type f -name "*.java" -exec sed -i.backup "/^@javax.annotation.Generated/d" {} \;
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/java/com/jetbrains/cef/remote/thrift_codegen
+        RESULT_VARIABLE thrift_result
+)
+execute_process(
+        COMMAND find . -type f -name "*.java" -exec sed -i.backup "s/thrift_codegen.//g" {} \;
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/java/com/jetbrains/cef/remote/thrift_codegen
+        RESULT_VARIABLE thrift_result
+)
+execute_process(
+        COMMAND find . -type f -name "*.java" -exec sed -i.backup "s/package .*$/package com.jetbrains.cef.remote.thrift_codegen;/" {} \;
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/java/com/jetbrains/cef/remote/thrift_codegen
+        RESULT_VARIABLE thrift_result
+)
+execute_process(
+        COMMAND find . -type f -name "*.backup" -delete
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/java/com/jetbrains/cef/remote/thrift_codegen
+        RESULT_VARIABLE thrift_result
 )
 
 set(CMAKE_CXX_STANDARD 14)
@@ -63,6 +89,7 @@ set(thrift_codegen_SOURCES
     gen-cpp/Server.cpp
     gen-cpp/ClientHandlers.cpp
     gen-cpp/cef_client_types.cpp
+    gen-cpp/shared_types.cpp
 )
 add_library(thrift_codegen STATIC ${thrift_codegen_SOURCES})
 link_directories(thrift_codegen /opt/homebrew/Cellar/thrift/0.16.0/lib)
@@ -129,7 +156,18 @@ add_executable(${EXECUTABLE_NAME} MACOSX_BUNDLE ${CEFSIMPLE_RESOURCES_SRCS}
         handlers/RemoteAppHandler.cpp
         handlers/RemoteAppHandler.h
         handlers/RemoteBrowserProcessHandler.cpp
-        handlers/RemoteBrowserProcessHandler.h handlers/RemoteDisplayHandler.cpp handlers/RemoteDisplayHandler.h)
+        handlers/RemoteBrowserProcessHandler.h
+        handlers/RemoteDisplayHandler.cpp
+        handlers/RemoteDisplayHandler.h
+        handlers/RemoteObjectFactory.h
+        handlers/request/RemoteRequestHandler.cpp
+        handlers/request/RemoteRequestHandler.h
+        handlers/request/RemoteRequest.cpp
+        handlers/request/RemoteRequest.h
+        handlers/request/RemoteResourceRequestHandler.cpp
+        handlers/request/RemoteResourceRequestHandler.h
+        handlers/request/RemoteCookieAccessFilter.cpp
+        handlers/request/RemoteCookieAccessFilter.h handlers/request/RemoteResourceHandler.cpp handlers/request/RemoteResourceHandler.h handlers/request/RemoteResponse.cpp handlers/request/RemoteResponse.h handlers/request/RemotePostData.cpp handlers/request/RemotePostData.h handlers/request/RemotePostDataElement.cpp handlers/request/RemotePostDataElement.h handlers/request/RemoteCallback.cpp handlers/request/RemoteCallback.h handlers/request/RemoteAuthCallback.cpp handlers/request/RemoteAuthCallback.h)
 add_dependencies(${EXECUTABLE_NAME} libcef_dll_wrapper)
 target_include_directories(${EXECUTABLE_NAME} PRIVATE /opt/homebrew/Cellar/thrift/0.16.0/include)
 target_include_directories(${EXECUTABLE_NAME} PRIVATE ${CEF_INCLUDE_PATH})

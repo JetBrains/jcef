@@ -4,14 +4,12 @@
 
 package org.cef.network;
 
-import org.cef.callback.CefNative;
-
-class CefPostDataElement_N extends CefPostDataElement {
+class CefPostDataElement_N extends CefPostDataElementBase {
     CefPostDataElement_N() {
         super();
     }
 
-    public static CefPostDataElement createNative() {
+    public static CefPostDataElementBase createNative() {
         try {
             return CefPostDataElement_N.N_Create();
         } catch (UnsatisfiedLinkError ule) {

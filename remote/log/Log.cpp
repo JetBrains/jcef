@@ -69,6 +69,11 @@ LogNdc::LogNdc(std::string msg) {
   NDC::push(msg);
 }
 
+LogNdc::LogNdc(std::string msg, std::string threadName) {
+  NDC::push(msg);
+  MDC::put("thread.name", threadName);
+}
+
 LogNdc::~LogNdc() {
   NDC::pop();
 }

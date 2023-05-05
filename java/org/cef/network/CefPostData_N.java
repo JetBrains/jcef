@@ -4,19 +4,17 @@
 
 package org.cef.network;
 
-import org.cef.callback.CefNative;
-
 import java.util.Vector;
 
 /**
  *
  */
-class CefPostData_N extends CefPostData {
+class CefPostData_N extends CefPostDataBase {
     CefPostData_N() {
         super();
     }
 
-    public static CefPostData createNative() {
+    public static CefPostDataBase createNative() {
         try {
             return CefPostData_N.N_Create();
         } catch (UnsatisfiedLinkError ule) {

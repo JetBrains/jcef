@@ -112,6 +112,8 @@ public class TestApp extends JFrame {
                 return false;
             }
         });
+
+        client.setRequestHandler(new TestRequestHandler());
         CefRemoteBrowser browser = ourServer.createBrowser(client);
         if (browser == null) {
             CefLog.Error("can't create remote browser");

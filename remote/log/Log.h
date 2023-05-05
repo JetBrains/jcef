@@ -54,6 +54,7 @@ private:
 class LogNdc {
  public:
   LogNdc(std::string msg);
+  LogNdc(std::string msg, std::string threadName);
   virtual ~LogNdc();
 };
 

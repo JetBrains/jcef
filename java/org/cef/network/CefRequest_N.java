@@ -8,7 +8,7 @@ import org.cef.callback.CefNative;
 
 import java.util.Map;
 
-class CefRequest_N extends CefRequest{
+class CefRequest_N extends CefRequestBase {
     CefRequest_N() {
         super();
     }

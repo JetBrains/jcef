@@ -2,6 +2,7 @@
 #define JCEF_UTILS_H
 
 #include "./gen-cpp/ClientHandlers.h"
+#include <mutex>
 
 class BackwardConnection {
   std::shared_ptr<thrift_codegen::ClientHandlersClient> myClientHandlers = nullptr;
@@ -26,5 +27,6 @@ class ConnectionUser {
   std::shared_ptr<BackwardConnection> myBackwardConnection;
 };
 
+typedef std::unique_lock<std::recursive_mutex> Lock;
 
 #endif  // JCEF_UTILS_H
