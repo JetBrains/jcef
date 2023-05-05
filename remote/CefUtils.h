@@ -3,15 +3,12 @@
 
 #include <string>
 #include <memory>
+#include <map>
 #include <stdexcept>
 
 #include "include/cef_base.h"
 
-class RemoteAppHandler;
-
 bool doLoadCefLibrary();
-void doCefInitializeAndRun(RemoteAppHandler * appHandler);
-
 bool isCefInitialized();
 
 template<typename ... Args>
@@ -27,5 +24,8 @@ std::string string_format( const std::string& format, Args ... args )
 
 std::string toString(cef_rect_t& rect);
 std::string toString(cef_point_t& pt);
+
+void fillSettings(CefSettings & out, const std::map<std::string, std::string>& settings);
+
 
 #endif //IPC_CEFUTILS_H

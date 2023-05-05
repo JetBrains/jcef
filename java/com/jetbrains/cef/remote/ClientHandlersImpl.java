@@ -10,18 +10,17 @@ import org.cef.network.CefRequest;
 import java.awt.*;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ClientHandlersImpl implements ClientHandlers.Iface {
-    static private final String prefixArgument = "Argument_";
-    static private final String prefixSwitch = "Switch_";
-    static private final String prefixSwitchWithValue = "SwitchWithValue_";
-
     private final Map<Integer, CefRemoteClient> myCid2RemoteClient = new ConcurrentHashMap<>();
+    private final CefRemoteApp myRemoteApp;
+
+    public ClientHandlersImpl(CefRemoteApp remoteApp) {
+        myRemoteApp = remoteApp;
+    }
 
     void registerRemoteClient(CefRemoteClient remoteClient) {
         if (remoteClient == null) {
@@ -54,22 +53,15 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     }
 
     @Override
-    public List<String> onBeforeCommandLineProcessing(String process_type, List<String> command_line) throws TException {
-        CefLog.Debug("onBeforeCommandLineProcessing: proc_type=%s, cmd: %s", process_type, Arrays.toString(command_line.toArray()));
-        List<String> result = new ArrayList<>();
-        // TODO: delegate calculations to real java CefAppHandler
-        // NOTE: use hardcoded prefixes
-        CefLog.Error("Unimplemented onBeforeCommandLineProcessing");
-        return result;
+    public void onContextInitialized() {
+        CefLog.Debug("onContextInitialized: ");
+        myRemoteApp.onContextInitialized();
     }
 
     @Override
-    public List<CustomScheme> onRegisterCustomSchemes() throws TException {
+    public List<CustomScheme> getRegisteredCustomSchemes() {
         CefLog.Debug("onRegisterCustomSchemes: ");
-        // TODO: delegate calculations to real java CefAppHandler
-        CefLog.Error("Unimplemented onRegisterCustomSchemes");
-        List<CustomScheme> result = new ArrayList<>();
-        return result;
+        return myRemoteApp.getAllRegisteredCustomSchemes();
     }
 
     @Override

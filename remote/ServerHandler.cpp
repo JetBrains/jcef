@@ -14,7 +14,10 @@ using namespace apache::thrift;
 namespace {
   RemoteAppHandler * g_remoteAppHandler = nullptr;
   std::thread * g_mainCefThread = nullptr;
+  bool g_isInitialized = false;
 }
+
+bool isCefInitialized() { return g_isInitialized; }
 
 ServerHandler::~ServerHandler() {
   try {
@@ -30,7 +33,11 @@ ServerHandler::~ServerHandler() {
   }
 }
 
-int32_t ServerHandler::connect() {
+int32_t ServerHandler::connect(
+    const int32_t backwardConnectionPort,
+    const std::vector<std::string>& cmdLineArgs,
+    const std::map<std::string, std::string>& settings
+) {
   static int s_counter = 0;
   const int cid = s_counter++;
   char buf[64];
@@ -44,10 +51,24 @@ int32_t ServerHandler::connect() {
       myBackwardConnection = std::make_shared<BackwardConnection>();
       if (g_remoteAppHandler == nullptr) {
         Log::debug("Start cef initialization");
-        g_remoteAppHandler = new RemoteAppHandler(myBackwardConnection);
+        g_remoteAppHandler = new RemoteAppHandler(myBackwardConnection, cmdLineArgs, settings);
         g_mainCefThread = new std::thread([=]() {
           MDC::put("thread.name", "CefMain");
-          doCefInitializeAndRun(g_remoteAppHandler);
+          CefMainArgs main_args;
+          CefSettings cefSettings;
+          fillSettings(cefSettings, settings);
+
+          Log::debug("Start CefInitialize");
+          const bool success = CefInitialize(main_args, cefSettings, g_remoteAppHandler, nullptr);
+          if (!success) {
+            Log::error("Cef initialization failed");
+            return;
+          }
+          g_isInitialized = true;
+          CefRunMessageLoop();
+          Log::debug("Cef shutdowns");
+          CefShutdown();
+          Log::debug("Shutdown finished");
         });
       } else {
         Log::error("Cef has been initialized and CefApp handler from new client connection will be ignored");

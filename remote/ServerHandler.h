@@ -17,7 +17,9 @@ class ServerHandler : public thrift_codegen::ServerIf {
   //
   // ServerIf
   //
-  int32_t connect() override;
+  int32_t connect(const int32_t backwardConnectionPort,
+                  const std::vector<std::string>& cmdLineArgs,
+                  const std::map<std::string, std::string>& settings) override;
   int32_t createBrowser(int cid) override;
   void closeBrowser(std::string& _return, const int32_t bid) override;
   void invoke(const int32_t bid, const std::string& method, const std::string& buffer) override;

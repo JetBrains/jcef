@@ -17,7 +17,7 @@ namespace cpp thrift_codegen
 namespace java thrift_codegen
 
 service Server {
-   i32 connect()
+   i32 connect(1:i32 backwardConnectionPort, 2:list<string> cmdLineArgs, 3:map<string,string> settings)
    oneway void log(1:string msg)
 
    i32 createBrowser(1:i32 cid)

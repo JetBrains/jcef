@@ -11,7 +11,9 @@ public class Server {
 
   public interface Iface {
 
-    public int connect() throws org.apache.thrift.TException;
+    public int connect(int backwardConnectionPort, java.util.List<java.lang.String> cmdLineArgs, java.util.Map<java.lang.String,java.lang.String> settings) throws org.apache.thrift.TException;
+
+    public void log(java.lang.String msg) throws org.apache.thrift.TException;
 
     public int createBrowser(int cid) throws org.apache.thrift.TException;
 
@@ -19,21 +21,19 @@ public class Server {
 
     public void invoke(int bid, java.lang.String method, java.nio.ByteBuffer buffer) throws org.apache.thrift.TException;
 
-    public void log(java.lang.String msg) throws org.apache.thrift.TException;
-
   }
 
   public interface AsyncIface {
 
-    public void connect(org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException;
+    public void connect(int backwardConnectionPort, java.util.List<java.lang.String> cmdLineArgs, java.util.Map<java.lang.String,java.lang.String> settings, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException;
+
+    public void log(java.lang.String msg, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
     public void createBrowser(int cid, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException;
 
     public void closeBrowser(int bid, org.apache.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws org.apache.thrift.TException;
 
     public void invoke(int bid, java.lang.String method, java.nio.ByteBuffer buffer, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
-
-    public void log(java.lang.String msg, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
   }
 
@@ -57,15 +57,18 @@ public class Server {
       super(iprot, oprot);
     }
 
-    public int connect() throws org.apache.thrift.TException
+    public int connect(int backwardConnectionPort, java.util.List<java.lang.String> cmdLineArgs, java.util.Map<java.lang.String,java.lang.String> settings) throws org.apache.thrift.TException
     {
-      send_connect();
+      send_connect(backwardConnectionPort, cmdLineArgs, settings);
       return recv_connect();
     }
 
-    public void send_connect() throws org.apache.thrift.TException
+    public void send_connect(int backwardConnectionPort, java.util.List<java.lang.String> cmdLineArgs, java.util.Map<java.lang.String,java.lang.String> settings) throws org.apache.thrift.TException
     {
       connect_args args = new connect_args();
+      args.setBackwardConnectionPort(backwardConnectionPort);
+      args.setCmdLineArgs(cmdLineArgs);
+      args.setSettings(settings);
       sendBase("connect", args);
     }
 
@@ -77,6 +80,18 @@ public class Server {
         return result.success;
       }
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "connect failed: unknown result");
+    }
+
+    public void log(java.lang.String msg) throws org.apache.thrift.TException
+    {
+      send_log(msg);
+    }
+
+    public void send_log(java.lang.String msg) throws org.apache.thrift.TException
+    {
+      log_args args = new log_args();
+      args.setMsg(msg);
+      sendBaseOneway("log", args);
     }
 
     public int createBrowser(int cid) throws org.apache.thrift.TException
@@ -139,18 +154,6 @@ public class Server {
       sendBaseOneway("invoke", args);
     }
 
-    public void log(java.lang.String msg) throws org.apache.thrift.TException
-    {
-      send_log(msg);
-    }
-
-    public void send_log(java.lang.String msg) throws org.apache.thrift.TException
-    {
-      log_args args = new log_args();
-      args.setMsg(msg);
-      sendBaseOneway("log", args);
-    }
-
   }
   public static class AsyncClient extends org.apache.thrift.async.TAsyncClient implements AsyncIface {
     public static class Factory implements org.apache.thrift.async.TAsyncClientFactory<AsyncClient> {
@@ -169,21 +172,30 @@ public class Server {
       super(protocolFactory, clientManager, transport);
     }
 
-    public void connect(org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException {
+    public void connect(int backwardConnectionPort, java.util.List<java.lang.String> cmdLineArgs, java.util.Map<java.lang.String,java.lang.String> settings, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      connect_call method_call = new connect_call(resultHandler, this, ___protocolFactory, ___transport);
+      connect_call method_call = new connect_call(backwardConnectionPort, cmdLineArgs, settings, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
     public static class connect_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.Integer> {
-      public connect_call(org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private int backwardConnectionPort;
+      private java.util.List<java.lang.String> cmdLineArgs;
+      private java.util.Map<java.lang.String,java.lang.String> settings;
+      public connect_call(int backwardConnectionPort, java.util.List<java.lang.String> cmdLineArgs, java.util.Map<java.lang.String,java.lang.String> settings, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
+        this.backwardConnectionPort = backwardConnectionPort;
+        this.cmdLineArgs = cmdLineArgs;
+        this.settings = settings;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("connect", org.apache.thrift.protocol.TMessageType.CALL, 0));
         connect_args args = new connect_args();
+        args.setBackwardConnectionPort(backwardConnectionPort);
+        args.setCmdLineArgs(cmdLineArgs);
+        args.setSettings(settings);
         args.write(prot);
         prot.writeMessageEnd();
       }
@@ -195,6 +207,38 @@ public class Server {
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
         org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_connect();
+      }
+    }
+
+    public void log(java.lang.String msg, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      log_call method_call = new log_call(msg, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class log_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
+      private java.lang.String msg;
+      public log_call(java.lang.String msg, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, true);
+        this.msg = msg;
+      }
+
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("log", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
+        log_args args = new log_args();
+        args.setMsg(msg);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      public Void getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return null;
       }
     }
 
@@ -300,38 +344,6 @@ public class Server {
       }
     }
 
-    public void log(java.lang.String msg, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
-      checkReady();
-      log_call method_call = new log_call(msg, resultHandler, this, ___protocolFactory, ___transport);
-      this.___currentMethod = method_call;
-      ___manager.call(method_call);
-    }
-
-    public static class log_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
-      private java.lang.String msg;
-      public log_call(java.lang.String msg, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
-        super(client, protocolFactory, transport, resultHandler, true);
-        this.msg = msg;
-      }
-
-      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("log", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
-        log_args args = new log_args();
-        args.setMsg(msg);
-        args.write(prot);
-        prot.writeMessageEnd();
-      }
-
-      public Void getResult() throws org.apache.thrift.TException {
-        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
-          throw new java.lang.IllegalStateException("Method call not finished!");
-        }
-        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
-        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
-        return null;
-      }
-    }
-
   }
 
   public static class Processor<I extends Iface> extends org.apache.thrift.TBaseProcessor<I> implements org.apache.thrift.TProcessor {
@@ -346,10 +358,10 @@ public class Server {
 
     private static <I extends Iface> java.util.Map<java.lang.String,  org.apache.thrift.ProcessFunction<I, ? extends org.apache.thrift.TBase>> getProcessMap(java.util.Map<java.lang.String, org.apache.thrift.ProcessFunction<I, ? extends  org.apache.thrift.TBase>> processMap) {
       processMap.put("connect", new connect());
+      processMap.put("log", new log());
       processMap.put("createBrowser", new createBrowser());
       processMap.put("closeBrowser", new closeBrowser());
       processMap.put("invoke", new invoke());
-      processMap.put("log", new log());
       return processMap;
     }
 
@@ -373,9 +385,33 @@ public class Server {
 
       public connect_result getResult(I iface, connect_args args) throws org.apache.thrift.TException {
         connect_result result = new connect_result();
-        result.success = iface.connect();
+        result.success = iface.connect(args.backwardConnectionPort, args.cmdLineArgs, args.settings);
         result.setSuccessIsSet(true);
         return result;
+      }
+    }
+
+    public static class log<I extends Iface> extends org.apache.thrift.ProcessFunction<I, log_args> {
+      public log() {
+        super("log");
+      }
+
+      public log_args getEmptyArgsInstance() {
+        return new log_args();
+      }
+
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      public org.apache.thrift.TBase getResult(I iface, log_args args) throws org.apache.thrift.TException {
+        iface.log(args.msg);
+        return null;
       }
     }
 
@@ -454,30 +490,6 @@ public class Server {
       }
     }
 
-    public static class log<I extends Iface> extends org.apache.thrift.ProcessFunction<I, log_args> {
-      public log() {
-        super("log");
-      }
-
-      public log_args getEmptyArgsInstance() {
-        return new log_args();
-      }
-
-      protected boolean isOneway() {
-        return true;
-      }
-
-      @Override
-      protected boolean rethrowUnhandledExceptions() {
-        return false;
-      }
-
-      public org.apache.thrift.TBase getResult(I iface, log_args args) throws org.apache.thrift.TException {
-        iface.log(args.msg);
-        return null;
-      }
-    }
-
   }
 
   public static class AsyncProcessor<I extends AsyncIface> extends org.apache.thrift.TBaseAsyncProcessor<I> {
@@ -492,10 +504,10 @@ public class Server {
 
     private static <I extends AsyncIface> java.util.Map<java.lang.String,  org.apache.thrift.AsyncProcessFunction<I, ? extends  org.apache.thrift.TBase,?>> getProcessMap(java.util.Map<java.lang.String,  org.apache.thrift.AsyncProcessFunction<I, ? extends  org.apache.thrift.TBase, ?>> processMap) {
       processMap.put("connect", new connect());
+      processMap.put("log", new log());
       processMap.put("createBrowser", new createBrowser());
       processMap.put("closeBrowser", new closeBrowser());
       processMap.put("invoke", new invoke());
-      processMap.put("log", new log());
       return processMap;
     }
 
@@ -557,7 +569,41 @@ public class Server {
       }
 
       public void start(I iface, connect_args args, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException {
-        iface.connect(resultHandler);
+        iface.connect(args.backwardConnectionPort, args.cmdLineArgs, args.settings,resultHandler);
+      }
+    }
+
+    public static class log<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, log_args, Void> {
+      public log() {
+        super("log");
+      }
+
+      public log_args getEmptyArgsInstance() {
+        return new log_args();
+      }
+
+      public org.apache.thrift.async.AsyncMethodCallback<Void> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final org.apache.thrift.AsyncProcessFunction fcall = this;
+        return new org.apache.thrift.async.AsyncMethodCallback<Void>() { 
+          public void onComplete(Void o) {
+          }
+          public void onError(java.lang.Exception e) {
+            if (e instanceof org.apache.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+            } else {
+              _LOGGER.error("Exception inside oneway handler", e);
+            }
+          }
+        };
+      }
+
+      protected boolean isOneway() {
+        return true;
+      }
+
+      public void start(I iface, log_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+        iface.log(args.msg,resultHandler);
       }
     }
 
@@ -718,53 +764,27 @@ public class Server {
       }
     }
 
-    public static class log<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, log_args, Void> {
-      public log() {
-        super("log");
-      }
-
-      public log_args getEmptyArgsInstance() {
-        return new log_args();
-      }
-
-      public org.apache.thrift.async.AsyncMethodCallback<Void> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
-        final org.apache.thrift.AsyncProcessFunction fcall = this;
-        return new org.apache.thrift.async.AsyncMethodCallback<Void>() { 
-          public void onComplete(Void o) {
-          }
-          public void onError(java.lang.Exception e) {
-            if (e instanceof org.apache.thrift.transport.TTransportException) {
-              _LOGGER.error("TTransportException inside handler", e);
-              fb.close();
-            } else {
-              _LOGGER.error("Exception inside oneway handler", e);
-            }
-          }
-        };
-      }
-
-      protected boolean isOneway() {
-        return true;
-      }
-
-      public void start(I iface, log_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
-        iface.log(args.msg,resultHandler);
-      }
-    }
-
   }
 
   public static class connect_args implements org.apache.thrift.TBase<connect_args, connect_args._Fields>, java.io.Serializable, Cloneable, Comparable<connect_args>   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("connect_args");
 
+    private static final org.apache.thrift.protocol.TField BACKWARD_CONNECTION_PORT_FIELD_DESC = new org.apache.thrift.protocol.TField("backwardConnectionPort", org.apache.thrift.protocol.TType.I32, (short)1);
+    private static final org.apache.thrift.protocol.TField CMD_LINE_ARGS_FIELD_DESC = new org.apache.thrift.protocol.TField("cmdLineArgs", org.apache.thrift.protocol.TType.LIST, (short)2);
+    private static final org.apache.thrift.protocol.TField SETTINGS_FIELD_DESC = new org.apache.thrift.protocol.TField("settings", org.apache.thrift.protocol.TType.MAP, (short)3);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new connect_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new connect_argsTupleSchemeFactory();
 
+    public int backwardConnectionPort; // required
+    public @org.apache.thrift.annotation.Nullable java.util.List<java.lang.String> cmdLineArgs; // required
+    public @org.apache.thrift.annotation.Nullable java.util.Map<java.lang.String,java.lang.String> settings; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-;
+      BACKWARD_CONNECTION_PORT((short)1, "backwardConnectionPort"),
+      CMD_LINE_ARGS((short)2, "cmdLineArgs"),
+      SETTINGS((short)3, "settings");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -780,6 +800,12 @@ public class Server {
       @org.apache.thrift.annotation.Nullable
       public static _Fields findByThriftId(int fieldId) {
         switch(fieldId) {
+          case 1: // BACKWARD_CONNECTION_PORT
+            return BACKWARD_CONNECTION_PORT;
+          case 2: // CMD_LINE_ARGS
+            return CMD_LINE_ARGS;
+          case 3: // SETTINGS
+            return SETTINGS;
           default:
             return null;
         }
@@ -819,9 +845,22 @@ public class Server {
         return _fieldName;
       }
     }
+
+    // isset id assignments
+    private static final int __BACKWARDCONNECTIONPORT_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
     public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.BACKWARD_CONNECTION_PORT, new org.apache.thrift.meta_data.FieldMetaData("backwardConnectionPort", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.CMD_LINE_ARGS, new org.apache.thrift.meta_data.FieldMetaData("cmdLineArgs", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+              new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING))));
+      tmpMap.put(_Fields.SETTINGS, new org.apache.thrift.meta_data.FieldMetaData("settings", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.MapMetaData(org.apache.thrift.protocol.TType.MAP, 
+              new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING), 
+              new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING))));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(connect_args.class, metaDataMap);
     }
@@ -829,10 +868,32 @@ public class Server {
     public connect_args() {
     }
 
+    public connect_args(
+      int backwardConnectionPort,
+      java.util.List<java.lang.String> cmdLineArgs,
+      java.util.Map<java.lang.String,java.lang.String> settings)
+    {
+      this();
+      this.backwardConnectionPort = backwardConnectionPort;
+      setBackwardConnectionPortIsSet(true);
+      this.cmdLineArgs = cmdLineArgs;
+      this.settings = settings;
+    }
+
     /**
      * Performs a deep copy on <i>other</i>.
      */
     public connect_args(connect_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.backwardConnectionPort = other.backwardConnectionPort;
+      if (other.isSetCmdLineArgs()) {
+        java.util.List<java.lang.String> __this__cmdLineArgs = new java.util.ArrayList<java.lang.String>(other.cmdLineArgs);
+        this.cmdLineArgs = __this__cmdLineArgs;
+      }
+      if (other.isSetSettings()) {
+        java.util.Map<java.lang.String,java.lang.String> __this__settings = new java.util.HashMap<java.lang.String,java.lang.String>(other.settings);
+        this.settings = __this__settings;
+      }
     }
 
     public connect_args deepCopy() {
@@ -841,16 +902,153 @@ public class Server {
 
     @Override
     public void clear() {
+      setBackwardConnectionPortIsSet(false);
+      this.backwardConnectionPort = 0;
+      this.cmdLineArgs = null;
+      this.settings = null;
+    }
+
+    public int getBackwardConnectionPort() {
+      return this.backwardConnectionPort;
+    }
+
+    public connect_args setBackwardConnectionPort(int backwardConnectionPort) {
+      this.backwardConnectionPort = backwardConnectionPort;
+      setBackwardConnectionPortIsSet(true);
+      return this;
+    }
+
+    public void unsetBackwardConnectionPort() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __BACKWARDCONNECTIONPORT_ISSET_ID);
+    }
+
+    /** Returns true if field backwardConnectionPort is set (has been assigned a value) and false otherwise */
+    public boolean isSetBackwardConnectionPort() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __BACKWARDCONNECTIONPORT_ISSET_ID);
+    }
+
+    public void setBackwardConnectionPortIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __BACKWARDCONNECTIONPORT_ISSET_ID, value);
+    }
+
+    public int getCmdLineArgsSize() {
+      return (this.cmdLineArgs == null) ? 0 : this.cmdLineArgs.size();
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.util.Iterator<java.lang.String> getCmdLineArgsIterator() {
+      return (this.cmdLineArgs == null) ? null : this.cmdLineArgs.iterator();
+    }
+
+    public void addToCmdLineArgs(java.lang.String elem) {
+      if (this.cmdLineArgs == null) {
+        this.cmdLineArgs = new java.util.ArrayList<java.lang.String>();
+      }
+      this.cmdLineArgs.add(elem);
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.util.List<java.lang.String> getCmdLineArgs() {
+      return this.cmdLineArgs;
+    }
+
+    public connect_args setCmdLineArgs(@org.apache.thrift.annotation.Nullable java.util.List<java.lang.String> cmdLineArgs) {
+      this.cmdLineArgs = cmdLineArgs;
+      return this;
+    }
+
+    public void unsetCmdLineArgs() {
+      this.cmdLineArgs = null;
+    }
+
+    /** Returns true if field cmdLineArgs is set (has been assigned a value) and false otherwise */
+    public boolean isSetCmdLineArgs() {
+      return this.cmdLineArgs != null;
+    }
+
+    public void setCmdLineArgsIsSet(boolean value) {
+      if (!value) {
+        this.cmdLineArgs = null;
+      }
+    }
+
+    public int getSettingsSize() {
+      return (this.settings == null) ? 0 : this.settings.size();
+    }
+
+    public void putToSettings(java.lang.String key, java.lang.String val) {
+      if (this.settings == null) {
+        this.settings = new java.util.HashMap<java.lang.String,java.lang.String>();
+      }
+      this.settings.put(key, val);
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.util.Map<java.lang.String,java.lang.String> getSettings() {
+      return this.settings;
+    }
+
+    public connect_args setSettings(@org.apache.thrift.annotation.Nullable java.util.Map<java.lang.String,java.lang.String> settings) {
+      this.settings = settings;
+      return this;
+    }
+
+    public void unsetSettings() {
+      this.settings = null;
+    }
+
+    /** Returns true if field settings is set (has been assigned a value) and false otherwise */
+    public boolean isSetSettings() {
+      return this.settings != null;
+    }
+
+    public void setSettingsIsSet(boolean value) {
+      if (!value) {
+        this.settings = null;
+      }
     }
 
     public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
       switch (field) {
+      case BACKWARD_CONNECTION_PORT:
+        if (value == null) {
+          unsetBackwardConnectionPort();
+        } else {
+          setBackwardConnectionPort((java.lang.Integer)value);
+        }
+        break;
+
+      case CMD_LINE_ARGS:
+        if (value == null) {
+          unsetCmdLineArgs();
+        } else {
+          setCmdLineArgs((java.util.List<java.lang.String>)value);
+        }
+        break;
+
+      case SETTINGS:
+        if (value == null) {
+          unsetSettings();
+        } else {
+          setSettings((java.util.Map<java.lang.String,java.lang.String>)value);
+        }
+        break;
+
       }
     }
 
     @org.apache.thrift.annotation.Nullable
     public java.lang.Object getFieldValue(_Fields field) {
       switch (field) {
+      case BACKWARD_CONNECTION_PORT:
+        return getBackwardConnectionPort();
+
+      case CMD_LINE_ARGS:
+        return getCmdLineArgs();
+
+      case SETTINGS:
+        return getSettings();
+
       }
       throw new java.lang.IllegalStateException();
     }
@@ -862,6 +1060,12 @@ public class Server {
       }
 
       switch (field) {
+      case BACKWARD_CONNECTION_PORT:
+        return isSetBackwardConnectionPort();
+      case CMD_LINE_ARGS:
+        return isSetCmdLineArgs();
+      case SETTINGS:
+        return isSetSettings();
       }
       throw new java.lang.IllegalStateException();
     }
@@ -879,12 +1083,49 @@ public class Server {
       if (this == that)
         return true;
 
+      boolean this_present_backwardConnectionPort = true;
+      boolean that_present_backwardConnectionPort = true;
+      if (this_present_backwardConnectionPort || that_present_backwardConnectionPort) {
+        if (!(this_present_backwardConnectionPort && that_present_backwardConnectionPort))
+          return false;
+        if (this.backwardConnectionPort != that.backwardConnectionPort)
+          return false;
+      }
+
+      boolean this_present_cmdLineArgs = true && this.isSetCmdLineArgs();
+      boolean that_present_cmdLineArgs = true && that.isSetCmdLineArgs();
+      if (this_present_cmdLineArgs || that_present_cmdLineArgs) {
+        if (!(this_present_cmdLineArgs && that_present_cmdLineArgs))
+          return false;
+        if (!this.cmdLineArgs.equals(that.cmdLineArgs))
+          return false;
+      }
+
+      boolean this_present_settings = true && this.isSetSettings();
+      boolean that_present_settings = true && that.isSetSettings();
+      if (this_present_settings || that_present_settings) {
+        if (!(this_present_settings && that_present_settings))
+          return false;
+        if (!this.settings.equals(that.settings))
+          return false;
+      }
+
       return true;
     }
 
     @Override
     public int hashCode() {
       int hashCode = 1;
+
+      hashCode = hashCode * 8191 + backwardConnectionPort;
+
+      hashCode = hashCode * 8191 + ((isSetCmdLineArgs()) ? 131071 : 524287);
+      if (isSetCmdLineArgs())
+        hashCode = hashCode * 8191 + cmdLineArgs.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetSettings()) ? 131071 : 524287);
+      if (isSetSettings())
+        hashCode = hashCode * 8191 + settings.hashCode();
 
       return hashCode;
     }
@@ -897,6 +1138,36 @@ public class Server {
 
       int lastComparison = 0;
 
+      lastComparison = java.lang.Boolean.compare(isSetBackwardConnectionPort(), other.isSetBackwardConnectionPort());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetBackwardConnectionPort()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.backwardConnectionPort, other.backwardConnectionPort);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetCmdLineArgs(), other.isSetCmdLineArgs());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetCmdLineArgs()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.cmdLineArgs, other.cmdLineArgs);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetSettings(), other.isSetSettings());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSettings()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.settings, other.settings);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
       return 0;
     }
 
@@ -918,6 +1189,25 @@ public class Server {
       java.lang.StringBuilder sb = new java.lang.StringBuilder("connect_args(");
       boolean first = true;
 
+      sb.append("backwardConnectionPort:");
+      sb.append(this.backwardConnectionPort);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("cmdLineArgs:");
+      if (this.cmdLineArgs == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.cmdLineArgs);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("settings:");
+      if (this.settings == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.settings);
+      }
+      first = false;
       sb.append(")");
       return sb.toString();
     }
@@ -937,6 +1227,8 @@ public class Server {
 
     private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
       try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
       } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
@@ -961,6 +1253,52 @@ public class Server {
             break;
           }
           switch (schemeField.id) {
+            case 1: // BACKWARD_CONNECTION_PORT
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.backwardConnectionPort = iprot.readI32();
+                struct.setBackwardConnectionPortIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // CMD_LINE_ARGS
+              if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
+                {
+                  org.apache.thrift.protocol.TList _list0 = iprot.readListBegin();
+                  struct.cmdLineArgs = new java.util.ArrayList<java.lang.String>(_list0.size);
+                  @org.apache.thrift.annotation.Nullable java.lang.String _elem1;
+                  for (int _i2 = 0; _i2 < _list0.size; ++_i2)
+                  {
+                    _elem1 = iprot.readString();
+                    struct.cmdLineArgs.add(_elem1);
+                  }
+                  iprot.readListEnd();
+                }
+                struct.setCmdLineArgsIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 3: // SETTINGS
+              if (schemeField.type == org.apache.thrift.protocol.TType.MAP) {
+                {
+                  org.apache.thrift.protocol.TMap _map3 = iprot.readMapBegin();
+                  struct.settings = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map3.size);
+                  @org.apache.thrift.annotation.Nullable java.lang.String _key4;
+                  @org.apache.thrift.annotation.Nullable java.lang.String _val5;
+                  for (int _i6 = 0; _i6 < _map3.size; ++_i6)
+                  {
+                    _key4 = iprot.readString();
+                    _val5 = iprot.readString();
+                    struct.settings.put(_key4, _val5);
+                  }
+                  iprot.readMapEnd();
+                }
+                struct.setSettingsIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
             default:
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
           }
@@ -976,6 +1314,34 @@ public class Server {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(BACKWARD_CONNECTION_PORT_FIELD_DESC);
+        oprot.writeI32(struct.backwardConnectionPort);
+        oprot.writeFieldEnd();
+        if (struct.cmdLineArgs != null) {
+          oprot.writeFieldBegin(CMD_LINE_ARGS_FIELD_DESC);
+          {
+            oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, struct.cmdLineArgs.size()));
+            for (java.lang.String _iter7 : struct.cmdLineArgs)
+            {
+              oprot.writeString(_iter7);
+            }
+            oprot.writeListEnd();
+          }
+          oprot.writeFieldEnd();
+        }
+        if (struct.settings != null) {
+          oprot.writeFieldBegin(SETTINGS_FIELD_DESC);
+          {
+            oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING, struct.settings.size()));
+            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter8 : struct.settings.entrySet())
+            {
+              oprot.writeString(_iter8.getKey());
+              oprot.writeString(_iter8.getValue());
+            }
+            oprot.writeMapEnd();
+          }
+          oprot.writeFieldEnd();
+        }
         oprot.writeFieldStop();
         oprot.writeStructEnd();
       }
@@ -993,11 +1359,77 @@ public class Server {
       @Override
       public void write(org.apache.thrift.protocol.TProtocol prot, connect_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetBackwardConnectionPort()) {
+          optionals.set(0);
+        }
+        if (struct.isSetCmdLineArgs()) {
+          optionals.set(1);
+        }
+        if (struct.isSetSettings()) {
+          optionals.set(2);
+        }
+        oprot.writeBitSet(optionals, 3);
+        if (struct.isSetBackwardConnectionPort()) {
+          oprot.writeI32(struct.backwardConnectionPort);
+        }
+        if (struct.isSetCmdLineArgs()) {
+          {
+            oprot.writeI32(struct.cmdLineArgs.size());
+            for (java.lang.String _iter9 : struct.cmdLineArgs)
+            {
+              oprot.writeString(_iter9);
+            }
+          }
+        }
+        if (struct.isSetSettings()) {
+          {
+            oprot.writeI32(struct.settings.size());
+            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter10 : struct.settings.entrySet())
+            {
+              oprot.writeString(_iter10.getKey());
+              oprot.writeString(_iter10.getValue());
+            }
+          }
+        }
       }
 
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, connect_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(3);
+        if (incoming.get(0)) {
+          struct.backwardConnectionPort = iprot.readI32();
+          struct.setBackwardConnectionPortIsSet(true);
+        }
+        if (incoming.get(1)) {
+          {
+            org.apache.thrift.protocol.TList _list11 = iprot.readListBegin(org.apache.thrift.protocol.TType.STRING);
+            struct.cmdLineArgs = new java.util.ArrayList<java.lang.String>(_list11.size);
+            @org.apache.thrift.annotation.Nullable java.lang.String _elem12;
+            for (int _i13 = 0; _i13 < _list11.size; ++_i13)
+            {
+              _elem12 = iprot.readString();
+              struct.cmdLineArgs.add(_elem12);
+            }
+          }
+          struct.setCmdLineArgsIsSet(true);
+        }
+        if (incoming.get(2)) {
+          {
+            org.apache.thrift.protocol.TMap _map14 = iprot.readMapBegin(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING); 
+            struct.settings = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map14.size);
+            @org.apache.thrift.annotation.Nullable java.lang.String _key15;
+            @org.apache.thrift.annotation.Nullable java.lang.String _val16;
+            for (int _i17 = 0; _i17 < _map14.size; ++_i17)
+            {
+              _key15 = iprot.readString();
+              _val16 = iprot.readString();
+              struct.settings.put(_key15, _val16);
+            }
+          }
+          struct.setSettingsIsSet(true);
+        }
       }
     }
 
@@ -1359,6 +1791,371 @@ public class Server {
         if (incoming.get(0)) {
           struct.success = iprot.readI32();
           struct.setSuccessIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  public static class log_args implements org.apache.thrift.TBase<log_args, log_args._Fields>, java.io.Serializable, Cloneable, Comparable<log_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("log_args");
+
+    private static final org.apache.thrift.protocol.TField MSG_FIELD_DESC = new org.apache.thrift.protocol.TField("msg", org.apache.thrift.protocol.TType.STRING, (short)1);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new log_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new log_argsTupleSchemeFactory();
+
+    public @org.apache.thrift.annotation.Nullable java.lang.String msg; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      MSG((short)1, "msg");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // MSG
+            return MSG;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.MSG, new org.apache.thrift.meta_data.FieldMetaData("msg", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(log_args.class, metaDataMap);
+    }
+
+    public log_args() {
+    }
+
+    public log_args(
+      java.lang.String msg)
+    {
+      this();
+      this.msg = msg;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public log_args(log_args other) {
+      if (other.isSetMsg()) {
+        this.msg = other.msg;
+      }
+    }
+
+    public log_args deepCopy() {
+      return new log_args(this);
+    }
+
+    @Override
+    public void clear() {
+      this.msg = null;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.String getMsg() {
+      return this.msg;
+    }
+
+    public log_args setMsg(@org.apache.thrift.annotation.Nullable java.lang.String msg) {
+      this.msg = msg;
+      return this;
+    }
+
+    public void unsetMsg() {
+      this.msg = null;
+    }
+
+    /** Returns true if field msg is set (has been assigned a value) and false otherwise */
+    public boolean isSetMsg() {
+      return this.msg != null;
+    }
+
+    public void setMsgIsSet(boolean value) {
+      if (!value) {
+        this.msg = null;
+      }
+    }
+
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case MSG:
+        if (value == null) {
+          unsetMsg();
+        } else {
+          setMsg((java.lang.String)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case MSG:
+        return getMsg();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case MSG:
+        return isSetMsg();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof log_args)
+        return this.equals((log_args)that);
+      return false;
+    }
+
+    public boolean equals(log_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_msg = true && this.isSetMsg();
+      boolean that_present_msg = true && that.isSetMsg();
+      if (this_present_msg || that_present_msg) {
+        if (!(this_present_msg && that_present_msg))
+          return false;
+        if (!this.msg.equals(that.msg))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((isSetMsg()) ? 131071 : 524287);
+      if (isSetMsg())
+        hashCode = hashCode * 8191 + msg.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(log_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetMsg(), other.isSetMsg());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetMsg()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.msg, other.msg);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("log_args(");
+      boolean first = true;
+
+      sb.append("msg:");
+      if (this.msg == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.msg);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class log_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public log_argsStandardScheme getScheme() {
+        return new log_argsStandardScheme();
+      }
+    }
+
+    private static class log_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<log_args> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, log_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // MSG
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.msg = iprot.readString();
+                struct.setMsgIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, log_args struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.msg != null) {
+          oprot.writeFieldBegin(MSG_FIELD_DESC);
+          oprot.writeString(struct.msg);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class log_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public log_argsTupleScheme getScheme() {
+        return new log_argsTupleScheme();
+      }
+    }
+
+    private static class log_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<log_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, log_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetMsg()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetMsg()) {
+          oprot.writeString(struct.msg);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, log_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.msg = iprot.readString();
+          struct.setMsgIsSet(true);
         }
       }
     }
@@ -3389,371 +4186,6 @@ public class Server {
         if (incoming.get(2)) {
           struct.buffer = iprot.readBinary();
           struct.setBufferIsSet(true);
-        }
-      }
-    }
-
-    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
-      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
-    }
-  }
-
-  public static class log_args implements org.apache.thrift.TBase<log_args, log_args._Fields>, java.io.Serializable, Cloneable, Comparable<log_args>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("log_args");
-
-    private static final org.apache.thrift.protocol.TField MSG_FIELD_DESC = new org.apache.thrift.protocol.TField("msg", org.apache.thrift.protocol.TType.STRING, (short)1);
-
-    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new log_argsStandardSchemeFactory();
-    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new log_argsTupleSchemeFactory();
-
-    public @org.apache.thrift.annotation.Nullable java.lang.String msg; // required
-
-    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      MSG((short)1, "msg");
-
-      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
-
-      static {
-        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
-          byName.put(field.getFieldName(), field);
-        }
-      }
-
-      /**
-       * Find the _Fields constant that matches fieldId, or null if its not found.
-       */
-      @org.apache.thrift.annotation.Nullable
-      public static _Fields findByThriftId(int fieldId) {
-        switch(fieldId) {
-          case 1: // MSG
-            return MSG;
-          default:
-            return null;
-        }
-      }
-
-      /**
-       * Find the _Fields constant that matches fieldId, throwing an exception
-       * if it is not found.
-       */
-      public static _Fields findByThriftIdOrThrow(int fieldId) {
-        _Fields fields = findByThriftId(fieldId);
-        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
-        return fields;
-      }
-
-      /**
-       * Find the _Fields constant that matches name, or null if its not found.
-       */
-      @org.apache.thrift.annotation.Nullable
-      public static _Fields findByName(java.lang.String name) {
-        return byName.get(name);
-      }
-
-      private final short _thriftId;
-      private final java.lang.String _fieldName;
-
-      _Fields(short thriftId, java.lang.String fieldName) {
-        _thriftId = thriftId;
-        _fieldName = fieldName;
-      }
-
-      public short getThriftFieldId() {
-        return _thriftId;
-      }
-
-      public java.lang.String getFieldName() {
-        return _fieldName;
-      }
-    }
-
-    // isset id assignments
-    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
-    static {
-      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.MSG, new org.apache.thrift.meta_data.FieldMetaData("msg", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(log_args.class, metaDataMap);
-    }
-
-    public log_args() {
-    }
-
-    public log_args(
-      java.lang.String msg)
-    {
-      this();
-      this.msg = msg;
-    }
-
-    /**
-     * Performs a deep copy on <i>other</i>.
-     */
-    public log_args(log_args other) {
-      if (other.isSetMsg()) {
-        this.msg = other.msg;
-      }
-    }
-
-    public log_args deepCopy() {
-      return new log_args(this);
-    }
-
-    @Override
-    public void clear() {
-      this.msg = null;
-    }
-
-    @org.apache.thrift.annotation.Nullable
-    public java.lang.String getMsg() {
-      return this.msg;
-    }
-
-    public log_args setMsg(@org.apache.thrift.annotation.Nullable java.lang.String msg) {
-      this.msg = msg;
-      return this;
-    }
-
-    public void unsetMsg() {
-      this.msg = null;
-    }
-
-    /** Returns true if field msg is set (has been assigned a value) and false otherwise */
-    public boolean isSetMsg() {
-      return this.msg != null;
-    }
-
-    public void setMsgIsSet(boolean value) {
-      if (!value) {
-        this.msg = null;
-      }
-    }
-
-    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
-      switch (field) {
-      case MSG:
-        if (value == null) {
-          unsetMsg();
-        } else {
-          setMsg((java.lang.String)value);
-        }
-        break;
-
-      }
-    }
-
-    @org.apache.thrift.annotation.Nullable
-    public java.lang.Object getFieldValue(_Fields field) {
-      switch (field) {
-      case MSG:
-        return getMsg();
-
-      }
-      throw new java.lang.IllegalStateException();
-    }
-
-    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
-    public boolean isSet(_Fields field) {
-      if (field == null) {
-        throw new java.lang.IllegalArgumentException();
-      }
-
-      switch (field) {
-      case MSG:
-        return isSetMsg();
-      }
-      throw new java.lang.IllegalStateException();
-    }
-
-    @Override
-    public boolean equals(java.lang.Object that) {
-      if (that instanceof log_args)
-        return this.equals((log_args)that);
-      return false;
-    }
-
-    public boolean equals(log_args that) {
-      if (that == null)
-        return false;
-      if (this == that)
-        return true;
-
-      boolean this_present_msg = true && this.isSetMsg();
-      boolean that_present_msg = true && that.isSetMsg();
-      if (this_present_msg || that_present_msg) {
-        if (!(this_present_msg && that_present_msg))
-          return false;
-        if (!this.msg.equals(that.msg))
-          return false;
-      }
-
-      return true;
-    }
-
-    @Override
-    public int hashCode() {
-      int hashCode = 1;
-
-      hashCode = hashCode * 8191 + ((isSetMsg()) ? 131071 : 524287);
-      if (isSetMsg())
-        hashCode = hashCode * 8191 + msg.hashCode();
-
-      return hashCode;
-    }
-
-    @Override
-    public int compareTo(log_args other) {
-      if (!getClass().equals(other.getClass())) {
-        return getClass().getName().compareTo(other.getClass().getName());
-      }
-
-      int lastComparison = 0;
-
-      lastComparison = java.lang.Boolean.compare(isSetMsg(), other.isSetMsg());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetMsg()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.msg, other.msg);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
-      return 0;
-    }
-
-    @org.apache.thrift.annotation.Nullable
-    public _Fields fieldForId(int fieldId) {
-      return _Fields.findByThriftId(fieldId);
-    }
-
-    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-      scheme(iprot).read(iprot, this);
-    }
-
-    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-      scheme(oprot).write(oprot, this);
-    }
-
-    @Override
-    public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("log_args(");
-      boolean first = true;
-
-      sb.append("msg:");
-      if (this.msg == null) {
-        sb.append("null");
-      } else {
-        sb.append(this.msg);
-      }
-      first = false;
-      sb.append(")");
-      return sb.toString();
-    }
-
-    public void validate() throws org.apache.thrift.TException {
-      // check for required fields
-      // check for sub-struct validity
-    }
-
-    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
-      try {
-        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-      } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te);
-      }
-    }
-
-    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
-      try {
-        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-      } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te);
-      }
-    }
-
-    private static class log_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public log_argsStandardScheme getScheme() {
-        return new log_argsStandardScheme();
-      }
-    }
-
-    private static class log_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<log_args> {
-
-      public void read(org.apache.thrift.protocol.TProtocol iprot, log_args struct) throws org.apache.thrift.TException {
-        org.apache.thrift.protocol.TField schemeField;
-        iprot.readStructBegin();
-        while (true)
-        {
-          schemeField = iprot.readFieldBegin();
-          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
-            break;
-          }
-          switch (schemeField.id) {
-            case 1: // MSG
-              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
-                struct.msg = iprot.readString();
-                struct.setMsgIsSet(true);
-              } else { 
-                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
-            default:
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-          }
-          iprot.readFieldEnd();
-        }
-        iprot.readStructEnd();
-
-        // check for required fields of primitive type, which can't be checked in the validate method
-        struct.validate();
-      }
-
-      public void write(org.apache.thrift.protocol.TProtocol oprot, log_args struct) throws org.apache.thrift.TException {
-        struct.validate();
-
-        oprot.writeStructBegin(STRUCT_DESC);
-        if (struct.msg != null) {
-          oprot.writeFieldBegin(MSG_FIELD_DESC);
-          oprot.writeString(struct.msg);
-          oprot.writeFieldEnd();
-        }
-        oprot.writeFieldStop();
-        oprot.writeStructEnd();
-      }
-
-    }
-
-    private static class log_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public log_argsTupleScheme getScheme() {
-        return new log_argsTupleScheme();
-      }
-    }
-
-    private static class log_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<log_args> {
-
-      @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, log_args struct) throws org.apache.thrift.TException {
-        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet optionals = new java.util.BitSet();
-        if (struct.isSetMsg()) {
-          optionals.set(0);
-        }
-        oprot.writeBitSet(optionals, 1);
-        if (struct.isSetMsg()) {
-          oprot.writeString(struct.msg);
-        }
-      }
-
-      @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, log_args struct) throws org.apache.thrift.TException {
-        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(1);
-        if (incoming.get(0)) {
-          struct.msg = iprot.readString();
-          struct.setMsgIsSet(true);
         }
       }
     }

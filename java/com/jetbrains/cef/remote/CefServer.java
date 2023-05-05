@@ -11,14 +11,17 @@ import org.apache.thrift.server.TSimpleServer;
 import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
+import org.cef.CefSettings;
+import org.cef.callback.CefSchemeRegistrar;
 import org.cef.misc.CefLog;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.ByteBuffer;
+import java.util.List;
 
 public class CefServer {
-    private static int PORT = Integer.getInteger("jcef.remote.port", 9090);
+    private static final int PORT = Integer.getInteger("jcef.remote.port", 9090);
 
     // Fields for cef-handlers execution on java side
     private Thread myClientHandlersThread;
@@ -68,12 +71,24 @@ public class CefServer {
     }
 
     // connect to CefServer and start cef-handlers service
-    public boolean start() {
+    public boolean start(List<String> args, CefSettings settings) {
         try {
             // 1. Start server for cef-handlers execution
-            myClientHandlersImpl = new ClientHandlersImpl();
+            CefRemoteApp cefRemoteApp = new CefRemoteApp() {
+                @Override
+                public void onRegisterCustomSchemes(CefSchemeRegistrar registrar) {
+                    CefLog.Info("onRegisterCustomSchemes: " + registrar);
+                }
+
+                @Override
+                public void onContextInitialized() {
+                    CefLog.Info("onContextInitialized: ");
+                }
+            };
+            myClientHandlersImpl = new ClientHandlersImpl(cefRemoteApp);
             ClientHandlers.Processor processor = new ClientHandlers.Processor(myClientHandlersImpl);
-            myClientHandlersTransport = new TServerSocket(PORT + 1);
+            int backwardConnectionPort = PORT + 1;
+            myClientHandlersTransport = new TServerSocket(backwardConnectionPort);
             myClientHandlersServer = new TSimpleServer(new TServer.Args(myClientHandlersTransport).processor(processor));
 
             CefLog.Debug("Starting cef-handlers server.");
@@ -92,7 +107,7 @@ public class CefServer {
             myProtocol = new TBinaryProtocol(myTransport);
             myCefServerClient = new Server.Client(myProtocol);
 
-            int cid = myCefServerClient.connect();
+            int cid = myCefServerClient.connect(backwardConnectionPort, args, settings.toMap());
             CefLog.Debug("Connected to CefSever, cid=" + cid);
         } catch (TException x) {
             CefLog.Error("exception in CefServer.start: %s", x.getMessage());

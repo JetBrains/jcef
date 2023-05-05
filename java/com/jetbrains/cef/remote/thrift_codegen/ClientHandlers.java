@@ -15,9 +15,9 @@ public class ClientHandlers {
 
     public void log(java.lang.String msg) throws org.apache.thrift.TException;
 
-    public java.util.List<java.lang.String> onBeforeCommandLineProcessing(java.lang.String process_type, java.util.List<java.lang.String> command_line) throws org.apache.thrift.TException;
+    public java.util.List<CustomScheme> getRegisteredCustomSchemes() throws org.apache.thrift.TException;
 
-    public java.util.List<CustomScheme> onRegisterCustomSchemes() throws org.apache.thrift.TException;
+    public void onContextInitialized() throws org.apache.thrift.TException;
 
     public java.nio.ByteBuffer getInfo(int cid, int bid, java.lang.String request, java.nio.ByteBuffer buffer) throws org.apache.thrift.TException;
 
@@ -47,9 +47,9 @@ public class ClientHandlers {
 
     public void log(java.lang.String msg, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void onBeforeCommandLineProcessing(java.lang.String process_type, java.util.List<java.lang.String> command_line, org.apache.thrift.async.AsyncMethodCallback<java.util.List<java.lang.String>> resultHandler) throws org.apache.thrift.TException;
+    public void getRegisteredCustomSchemes(org.apache.thrift.async.AsyncMethodCallback<java.util.List<CustomScheme>> resultHandler) throws org.apache.thrift.TException;
 
-    public void onRegisterCustomSchemes(org.apache.thrift.async.AsyncMethodCallback<java.util.List<CustomScheme>> resultHandler) throws org.apache.thrift.TException;
+    public void onContextInitialized(org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
     public void getInfo(int cid, int bid, java.lang.String request, java.nio.ByteBuffer buffer, org.apache.thrift.async.AsyncMethodCallback<java.nio.ByteBuffer> resultHandler) throws org.apache.thrift.TException;
 
@@ -127,50 +127,45 @@ public class ClientHandlers {
       sendBaseOneway("log", args);
     }
 
-    public java.util.List<java.lang.String> onBeforeCommandLineProcessing(java.lang.String process_type, java.util.List<java.lang.String> command_line) throws org.apache.thrift.TException
+    public java.util.List<CustomScheme> getRegisteredCustomSchemes() throws org.apache.thrift.TException
     {
-      send_onBeforeCommandLineProcessing(process_type, command_line);
-      return recv_onBeforeCommandLineProcessing();
+      send_getRegisteredCustomSchemes();
+      return recv_getRegisteredCustomSchemes();
     }
 
-    public void send_onBeforeCommandLineProcessing(java.lang.String process_type, java.util.List<java.lang.String> command_line) throws org.apache.thrift.TException
+    public void send_getRegisteredCustomSchemes() throws org.apache.thrift.TException
     {
-      onBeforeCommandLineProcessing_args args = new onBeforeCommandLineProcessing_args();
-      args.setProcess_type(process_type);
-      args.setCommand_line(command_line);
-      sendBase("onBeforeCommandLineProcessing", args);
+      getRegisteredCustomSchemes_args args = new getRegisteredCustomSchemes_args();
+      sendBase("getRegisteredCustomSchemes", args);
     }
 
-    public java.util.List<java.lang.String> recv_onBeforeCommandLineProcessing() throws org.apache.thrift.TException
+    public java.util.List<CustomScheme> recv_getRegisteredCustomSchemes() throws org.apache.thrift.TException
     {
-      onBeforeCommandLineProcessing_result result = new onBeforeCommandLineProcessing_result();
-      receiveBase(result, "onBeforeCommandLineProcessing");
+      getRegisteredCustomSchemes_result result = new getRegisteredCustomSchemes_result();
+      receiveBase(result, "getRegisteredCustomSchemes");
       if (result.isSetSuccess()) {
         return result.success;
       }
-      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "onBeforeCommandLineProcessing failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getRegisteredCustomSchemes failed: unknown result");
     }
 
-    public java.util.List<CustomScheme> onRegisterCustomSchemes() throws org.apache.thrift.TException
+    public void onContextInitialized() throws org.apache.thrift.TException
     {
-      send_onRegisterCustomSchemes();
-      return recv_onRegisterCustomSchemes();
+      send_onContextInitialized();
+      recv_onContextInitialized();
     }
 
-    public void send_onRegisterCustomSchemes() throws org.apache.thrift.TException
+    public void send_onContextInitialized() throws org.apache.thrift.TException
     {
-      onRegisterCustomSchemes_args args = new onRegisterCustomSchemes_args();
-      sendBase("onRegisterCustomSchemes", args);
+      onContextInitialized_args args = new onContextInitialized_args();
+      sendBase("onContextInitialized", args);
     }
 
-    public java.util.List<CustomScheme> recv_onRegisterCustomSchemes() throws org.apache.thrift.TException
+    public void recv_onContextInitialized() throws org.apache.thrift.TException
     {
-      onRegisterCustomSchemes_result result = new onRegisterCustomSchemes_result();
-      receiveBase(result, "onRegisterCustomSchemes");
-      if (result.isSetSuccess()) {
-        return result.success;
-      }
-      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "onRegisterCustomSchemes failed: unknown result");
+      onContextInitialized_result result = new onContextInitialized_result();
+      receiveBase(result, "onContextInitialized");
+      return;
     }
 
     public java.nio.ByteBuffer getInfo(int cid, int bid, java.lang.String request, java.nio.ByteBuffer buffer) throws org.apache.thrift.TException
@@ -420,56 +415,21 @@ public class ClientHandlers {
       }
     }
 
-    public void onBeforeCommandLineProcessing(java.lang.String process_type, java.util.List<java.lang.String> command_line, org.apache.thrift.async.AsyncMethodCallback<java.util.List<java.lang.String>> resultHandler) throws org.apache.thrift.TException {
+    public void getRegisteredCustomSchemes(org.apache.thrift.async.AsyncMethodCallback<java.util.List<CustomScheme>> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      onBeforeCommandLineProcessing_call method_call = new onBeforeCommandLineProcessing_call(process_type, command_line, resultHandler, this, ___protocolFactory, ___transport);
+      getRegisteredCustomSchemes_call method_call = new getRegisteredCustomSchemes_call(resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class onBeforeCommandLineProcessing_call extends org.apache.thrift.async.TAsyncMethodCall<java.util.List<java.lang.String>> {
-      private java.lang.String process_type;
-      private java.util.List<java.lang.String> command_line;
-      public onBeforeCommandLineProcessing_call(java.lang.String process_type, java.util.List<java.lang.String> command_line, org.apache.thrift.async.AsyncMethodCallback<java.util.List<java.lang.String>> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
-        super(client, protocolFactory, transport, resultHandler, false);
-        this.process_type = process_type;
-        this.command_line = command_line;
-      }
-
-      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("onBeforeCommandLineProcessing", org.apache.thrift.protocol.TMessageType.CALL, 0));
-        onBeforeCommandLineProcessing_args args = new onBeforeCommandLineProcessing_args();
-        args.setProcess_type(process_type);
-        args.setCommand_line(command_line);
-        args.write(prot);
-        prot.writeMessageEnd();
-      }
-
-      public java.util.List<java.lang.String> getResult() throws org.apache.thrift.TException {
-        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
-          throw new java.lang.IllegalStateException("Method call not finished!");
-        }
-        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
-        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
-        return (new Client(prot)).recv_onBeforeCommandLineProcessing();
-      }
-    }
-
-    public void onRegisterCustomSchemes(org.apache.thrift.async.AsyncMethodCallback<java.util.List<CustomScheme>> resultHandler) throws org.apache.thrift.TException {
-      checkReady();
-      onRegisterCustomSchemes_call method_call = new onRegisterCustomSchemes_call(resultHandler, this, ___protocolFactory, ___transport);
-      this.___currentMethod = method_call;
-      ___manager.call(method_call);
-    }
-
-    public static class onRegisterCustomSchemes_call extends org.apache.thrift.async.TAsyncMethodCall<java.util.List<CustomScheme>> {
-      public onRegisterCustomSchemes_call(org.apache.thrift.async.AsyncMethodCallback<java.util.List<CustomScheme>> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+    public static class getRegisteredCustomSchemes_call extends org.apache.thrift.async.TAsyncMethodCall<java.util.List<CustomScheme>> {
+      public getRegisteredCustomSchemes_call(org.apache.thrift.async.AsyncMethodCallback<java.util.List<CustomScheme>> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("onRegisterCustomSchemes", org.apache.thrift.protocol.TMessageType.CALL, 0));
-        onRegisterCustomSchemes_args args = new onRegisterCustomSchemes_args();
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getRegisteredCustomSchemes", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        getRegisteredCustomSchemes_args args = new getRegisteredCustomSchemes_args();
         args.write(prot);
         prot.writeMessageEnd();
       }
@@ -480,7 +440,36 @@ public class ClientHandlers {
         }
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
         org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
-        return (new Client(prot)).recv_onRegisterCustomSchemes();
+        return (new Client(prot)).recv_getRegisteredCustomSchemes();
+      }
+    }
+
+    public void onContextInitialized(org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      onContextInitialized_call method_call = new onContextInitialized_call(resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class onContextInitialized_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
+      public onContextInitialized_call(org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+      }
+
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("onContextInitialized", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        onContextInitialized_args args = new onContextInitialized_args();
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      public Void getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return null;
       }
     }
 
@@ -906,8 +895,8 @@ public class ClientHandlers {
     private static <I extends Iface> java.util.Map<java.lang.String,  org.apache.thrift.ProcessFunction<I, ? extends org.apache.thrift.TBase>> getProcessMap(java.util.Map<java.lang.String, org.apache.thrift.ProcessFunction<I, ? extends  org.apache.thrift.TBase>> processMap) {
       processMap.put("connect", new connect());
       processMap.put("log", new log());
-      processMap.put("onBeforeCommandLineProcessing", new onBeforeCommandLineProcessing());
-      processMap.put("onRegisterCustomSchemes", new onRegisterCustomSchemes());
+      processMap.put("getRegisteredCustomSchemes", new getRegisteredCustomSchemes());
+      processMap.put("onContextInitialized", new onContextInitialized());
       processMap.put("getInfo", new getInfo());
       processMap.put("onPaint", new onPaint());
       processMap.put("onBeforePopup", new onBeforePopup());
@@ -971,13 +960,13 @@ public class ClientHandlers {
       }
     }
 
-    public static class onBeforeCommandLineProcessing<I extends Iface> extends org.apache.thrift.ProcessFunction<I, onBeforeCommandLineProcessing_args> {
-      public onBeforeCommandLineProcessing() {
-        super("onBeforeCommandLineProcessing");
+    public static class getRegisteredCustomSchemes<I extends Iface> extends org.apache.thrift.ProcessFunction<I, getRegisteredCustomSchemes_args> {
+      public getRegisteredCustomSchemes() {
+        super("getRegisteredCustomSchemes");
       }
 
-      public onBeforeCommandLineProcessing_args getEmptyArgsInstance() {
-        return new onBeforeCommandLineProcessing_args();
+      public getRegisteredCustomSchemes_args getEmptyArgsInstance() {
+        return new getRegisteredCustomSchemes_args();
       }
 
       protected boolean isOneway() {
@@ -989,20 +978,20 @@ public class ClientHandlers {
         return false;
       }
 
-      public onBeforeCommandLineProcessing_result getResult(I iface, onBeforeCommandLineProcessing_args args) throws org.apache.thrift.TException {
-        onBeforeCommandLineProcessing_result result = new onBeforeCommandLineProcessing_result();
-        result.success = iface.onBeforeCommandLineProcessing(args.process_type, args.command_line);
+      public getRegisteredCustomSchemes_result getResult(I iface, getRegisteredCustomSchemes_args args) throws org.apache.thrift.TException {
+        getRegisteredCustomSchemes_result result = new getRegisteredCustomSchemes_result();
+        result.success = iface.getRegisteredCustomSchemes();
         return result;
       }
     }
 
-    public static class onRegisterCustomSchemes<I extends Iface> extends org.apache.thrift.ProcessFunction<I, onRegisterCustomSchemes_args> {
-      public onRegisterCustomSchemes() {
-        super("onRegisterCustomSchemes");
+    public static class onContextInitialized<I extends Iface> extends org.apache.thrift.ProcessFunction<I, onContextInitialized_args> {
+      public onContextInitialized() {
+        super("onContextInitialized");
       }
 
-      public onRegisterCustomSchemes_args getEmptyArgsInstance() {
-        return new onRegisterCustomSchemes_args();
+      public onContextInitialized_args getEmptyArgsInstance() {
+        return new onContextInitialized_args();
       }
 
       protected boolean isOneway() {
@@ -1014,9 +1003,9 @@ public class ClientHandlers {
         return false;
       }
 
-      public onRegisterCustomSchemes_result getResult(I iface, onRegisterCustomSchemes_args args) throws org.apache.thrift.TException {
-        onRegisterCustomSchemes_result result = new onRegisterCustomSchemes_result();
-        result.success = iface.onRegisterCustomSchemes();
+      public onContextInitialized_result getResult(I iface, onContextInitialized_args args) throws org.apache.thrift.TException {
+        onContextInitialized_result result = new onContextInitialized_result();
+        iface.onContextInitialized();
         return result;
       }
     }
@@ -1278,8 +1267,8 @@ public class ClientHandlers {
     private static <I extends AsyncIface> java.util.Map<java.lang.String,  org.apache.thrift.AsyncProcessFunction<I, ? extends  org.apache.thrift.TBase,?>> getProcessMap(java.util.Map<java.lang.String,  org.apache.thrift.AsyncProcessFunction<I, ? extends  org.apache.thrift.TBase, ?>> processMap) {
       processMap.put("connect", new connect());
       processMap.put("log", new log());
-      processMap.put("onBeforeCommandLineProcessing", new onBeforeCommandLineProcessing());
-      processMap.put("onRegisterCustomSchemes", new onRegisterCustomSchemes());
+      processMap.put("getRegisteredCustomSchemes", new getRegisteredCustomSchemes());
+      processMap.put("onContextInitialized", new onContextInitialized());
       processMap.put("getInfo", new getInfo());
       processMap.put("onPaint", new onPaint());
       processMap.put("onBeforePopup", new onBeforePopup());
@@ -1389,81 +1378,20 @@ public class ClientHandlers {
       }
     }
 
-    public static class onBeforeCommandLineProcessing<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, onBeforeCommandLineProcessing_args, java.util.List<java.lang.String>> {
-      public onBeforeCommandLineProcessing() {
-        super("onBeforeCommandLineProcessing");
+    public static class getRegisteredCustomSchemes<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, getRegisteredCustomSchemes_args, java.util.List<CustomScheme>> {
+      public getRegisteredCustomSchemes() {
+        super("getRegisteredCustomSchemes");
       }
 
-      public onBeforeCommandLineProcessing_args getEmptyArgsInstance() {
-        return new onBeforeCommandLineProcessing_args();
-      }
-
-      public org.apache.thrift.async.AsyncMethodCallback<java.util.List<java.lang.String>> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
-        final org.apache.thrift.AsyncProcessFunction fcall = this;
-        return new org.apache.thrift.async.AsyncMethodCallback<java.util.List<java.lang.String>>() { 
-          public void onComplete(java.util.List<java.lang.String> o) {
-            onBeforeCommandLineProcessing_result result = new onBeforeCommandLineProcessing_result();
-            result.success = o;
-            try {
-              fcall.sendResponse(fb, result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
-            } catch (org.apache.thrift.transport.TTransportException e) {
-              _LOGGER.error("TTransportException writing to internal frame buffer", e);
-              fb.close();
-            } catch (java.lang.Exception e) {
-              _LOGGER.error("Exception writing to internal frame buffer", e);
-              onError(e);
-            }
-          }
-          public void onError(java.lang.Exception e) {
-            byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
-            org.apache.thrift.TSerializable msg;
-            onBeforeCommandLineProcessing_result result = new onBeforeCommandLineProcessing_result();
-            if (e instanceof org.apache.thrift.transport.TTransportException) {
-              _LOGGER.error("TTransportException inside handler", e);
-              fb.close();
-              return;
-            } else if (e instanceof org.apache.thrift.TApplicationException) {
-              _LOGGER.error("TApplicationException inside handler", e);
-              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
-              msg = (org.apache.thrift.TApplicationException)e;
-            } else {
-              _LOGGER.error("Exception inside handler", e);
-              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
-              msg = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
-            }
-            try {
-              fcall.sendResponse(fb,msg,msgType,seqid);
-            } catch (java.lang.Exception ex) {
-              _LOGGER.error("Exception writing to internal frame buffer", ex);
-              fb.close();
-            }
-          }
-        };
-      }
-
-      protected boolean isOneway() {
-        return false;
-      }
-
-      public void start(I iface, onBeforeCommandLineProcessing_args args, org.apache.thrift.async.AsyncMethodCallback<java.util.List<java.lang.String>> resultHandler) throws org.apache.thrift.TException {
-        iface.onBeforeCommandLineProcessing(args.process_type, args.command_line,resultHandler);
-      }
-    }
-
-    public static class onRegisterCustomSchemes<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, onRegisterCustomSchemes_args, java.util.List<CustomScheme>> {
-      public onRegisterCustomSchemes() {
-        super("onRegisterCustomSchemes");
-      }
-
-      public onRegisterCustomSchemes_args getEmptyArgsInstance() {
-        return new onRegisterCustomSchemes_args();
+      public getRegisteredCustomSchemes_args getEmptyArgsInstance() {
+        return new getRegisteredCustomSchemes_args();
       }
 
       public org.apache.thrift.async.AsyncMethodCallback<java.util.List<CustomScheme>> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
         final org.apache.thrift.AsyncProcessFunction fcall = this;
         return new org.apache.thrift.async.AsyncMethodCallback<java.util.List<CustomScheme>>() { 
           public void onComplete(java.util.List<CustomScheme> o) {
-            onRegisterCustomSchemes_result result = new onRegisterCustomSchemes_result();
+            getRegisteredCustomSchemes_result result = new getRegisteredCustomSchemes_result();
             result.success = o;
             try {
               fcall.sendResponse(fb, result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
@@ -1478,7 +1406,7 @@ public class ClientHandlers {
           public void onError(java.lang.Exception e) {
             byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
             org.apache.thrift.TSerializable msg;
-            onRegisterCustomSchemes_result result = new onRegisterCustomSchemes_result();
+            getRegisteredCustomSchemes_result result = new getRegisteredCustomSchemes_result();
             if (e instanceof org.apache.thrift.transport.TTransportException) {
               _LOGGER.error("TTransportException inside handler", e);
               fb.close();
@@ -1506,8 +1434,68 @@ public class ClientHandlers {
         return false;
       }
 
-      public void start(I iface, onRegisterCustomSchemes_args args, org.apache.thrift.async.AsyncMethodCallback<java.util.List<CustomScheme>> resultHandler) throws org.apache.thrift.TException {
-        iface.onRegisterCustomSchemes(resultHandler);
+      public void start(I iface, getRegisteredCustomSchemes_args args, org.apache.thrift.async.AsyncMethodCallback<java.util.List<CustomScheme>> resultHandler) throws org.apache.thrift.TException {
+        iface.getRegisteredCustomSchemes(resultHandler);
+      }
+    }
+
+    public static class onContextInitialized<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, onContextInitialized_args, Void> {
+      public onContextInitialized() {
+        super("onContextInitialized");
+      }
+
+      public onContextInitialized_args getEmptyArgsInstance() {
+        return new onContextInitialized_args();
+      }
+
+      public org.apache.thrift.async.AsyncMethodCallback<Void> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final org.apache.thrift.AsyncProcessFunction fcall = this;
+        return new org.apache.thrift.async.AsyncMethodCallback<Void>() { 
+          public void onComplete(Void o) {
+            onContextInitialized_result result = new onContextInitialized_result();
+            try {
+              fcall.sendResponse(fb, result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (org.apache.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
+          }
+          public void onError(java.lang.Exception e) {
+            byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
+            org.apache.thrift.TSerializable msg;
+            onContextInitialized_result result = new onContextInitialized_result();
+            if (e instanceof org.apache.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+              return;
+            } else if (e instanceof org.apache.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (org.apache.thrift.TApplicationException)e;
+            } else {
+              _LOGGER.error("Exception inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
+            }
+          }
+        };
+      }
+
+      protected boolean isOneway() {
+        return false;
+      }
+
+      public void start(I iface, onContextInitialized_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+        iface.onContextInitialized(resultHandler);
       }
     }
 
@@ -2885,947 +2873,12 @@ public class ClientHandlers {
     }
   }
 
-  public static class onBeforeCommandLineProcessing_args implements org.apache.thrift.TBase<onBeforeCommandLineProcessing_args, onBeforeCommandLineProcessing_args._Fields>, java.io.Serializable, Cloneable, Comparable<onBeforeCommandLineProcessing_args>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("onBeforeCommandLineProcessing_args");
+  public static class getRegisteredCustomSchemes_args implements org.apache.thrift.TBase<getRegisteredCustomSchemes_args, getRegisteredCustomSchemes_args._Fields>, java.io.Serializable, Cloneable, Comparable<getRegisteredCustomSchemes_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getRegisteredCustomSchemes_args");
 
-    private static final org.apache.thrift.protocol.TField PROCESS_TYPE_FIELD_DESC = new org.apache.thrift.protocol.TField("process_type", org.apache.thrift.protocol.TType.STRING, (short)1);
-    private static final org.apache.thrift.protocol.TField COMMAND_LINE_FIELD_DESC = new org.apache.thrift.protocol.TField("command_line", org.apache.thrift.protocol.TType.LIST, (short)2);
 
-    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new onBeforeCommandLineProcessing_argsStandardSchemeFactory();
-    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new onBeforeCommandLineProcessing_argsTupleSchemeFactory();
-
-    public @org.apache.thrift.annotation.Nullable java.lang.String process_type; // required
-    public @org.apache.thrift.annotation.Nullable java.util.List<java.lang.String> command_line; // required
-
-    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      PROCESS_TYPE((short)1, "process_type"),
-      COMMAND_LINE((short)2, "command_line");
-
-      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
-
-      static {
-        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
-          byName.put(field.getFieldName(), field);
-        }
-      }
-
-      /**
-       * Find the _Fields constant that matches fieldId, or null if its not found.
-       */
-      @org.apache.thrift.annotation.Nullable
-      public static _Fields findByThriftId(int fieldId) {
-        switch(fieldId) {
-          case 1: // PROCESS_TYPE
-            return PROCESS_TYPE;
-          case 2: // COMMAND_LINE
-            return COMMAND_LINE;
-          default:
-            return null;
-        }
-      }
-
-      /**
-       * Find the _Fields constant that matches fieldId, throwing an exception
-       * if it is not found.
-       */
-      public static _Fields findByThriftIdOrThrow(int fieldId) {
-        _Fields fields = findByThriftId(fieldId);
-        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
-        return fields;
-      }
-
-      /**
-       * Find the _Fields constant that matches name, or null if its not found.
-       */
-      @org.apache.thrift.annotation.Nullable
-      public static _Fields findByName(java.lang.String name) {
-        return byName.get(name);
-      }
-
-      private final short _thriftId;
-      private final java.lang.String _fieldName;
-
-      _Fields(short thriftId, java.lang.String fieldName) {
-        _thriftId = thriftId;
-        _fieldName = fieldName;
-      }
-
-      public short getThriftFieldId() {
-        return _thriftId;
-      }
-
-      public java.lang.String getFieldName() {
-        return _fieldName;
-      }
-    }
-
-    // isset id assignments
-    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
-    static {
-      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.PROCESS_TYPE, new org.apache.thrift.meta_data.FieldMetaData("process_type", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-      tmpMap.put(_Fields.COMMAND_LINE, new org.apache.thrift.meta_data.FieldMetaData("command_line", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
-              new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING))));
-      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(onBeforeCommandLineProcessing_args.class, metaDataMap);
-    }
-
-    public onBeforeCommandLineProcessing_args() {
-    }
-
-    public onBeforeCommandLineProcessing_args(
-      java.lang.String process_type,
-      java.util.List<java.lang.String> command_line)
-    {
-      this();
-      this.process_type = process_type;
-      this.command_line = command_line;
-    }
-
-    /**
-     * Performs a deep copy on <i>other</i>.
-     */
-    public onBeforeCommandLineProcessing_args(onBeforeCommandLineProcessing_args other) {
-      if (other.isSetProcess_type()) {
-        this.process_type = other.process_type;
-      }
-      if (other.isSetCommand_line()) {
-        java.util.List<java.lang.String> __this__command_line = new java.util.ArrayList<java.lang.String>(other.command_line);
-        this.command_line = __this__command_line;
-      }
-    }
-
-    public onBeforeCommandLineProcessing_args deepCopy() {
-      return new onBeforeCommandLineProcessing_args(this);
-    }
-
-    @Override
-    public void clear() {
-      this.process_type = null;
-      this.command_line = null;
-    }
-
-    @org.apache.thrift.annotation.Nullable
-    public java.lang.String getProcess_type() {
-      return this.process_type;
-    }
-
-    public onBeforeCommandLineProcessing_args setProcess_type(@org.apache.thrift.annotation.Nullable java.lang.String process_type) {
-      this.process_type = process_type;
-      return this;
-    }
-
-    public void unsetProcess_type() {
-      this.process_type = null;
-    }
-
-    /** Returns true if field process_type is set (has been assigned a value) and false otherwise */
-    public boolean isSetProcess_type() {
-      return this.process_type != null;
-    }
-
-    public void setProcess_typeIsSet(boolean value) {
-      if (!value) {
-        this.process_type = null;
-      }
-    }
-
-    public int getCommand_lineSize() {
-      return (this.command_line == null) ? 0 : this.command_line.size();
-    }
-
-    @org.apache.thrift.annotation.Nullable
-    public java.util.Iterator<java.lang.String> getCommand_lineIterator() {
-      return (this.command_line == null) ? null : this.command_line.iterator();
-    }
-
-    public void addToCommand_line(java.lang.String elem) {
-      if (this.command_line == null) {
-        this.command_line = new java.util.ArrayList<java.lang.String>();
-      }
-      this.command_line.add(elem);
-    }
-
-    @org.apache.thrift.annotation.Nullable
-    public java.util.List<java.lang.String> getCommand_line() {
-      return this.command_line;
-    }
-
-    public onBeforeCommandLineProcessing_args setCommand_line(@org.apache.thrift.annotation.Nullable java.util.List<java.lang.String> command_line) {
-      this.command_line = command_line;
-      return this;
-    }
-
-    public void unsetCommand_line() {
-      this.command_line = null;
-    }
-
-    /** Returns true if field command_line is set (has been assigned a value) and false otherwise */
-    public boolean isSetCommand_line() {
-      return this.command_line != null;
-    }
-
-    public void setCommand_lineIsSet(boolean value) {
-      if (!value) {
-        this.command_line = null;
-      }
-    }
-
-    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
-      switch (field) {
-      case PROCESS_TYPE:
-        if (value == null) {
-          unsetProcess_type();
-        } else {
-          setProcess_type((java.lang.String)value);
-        }
-        break;
-
-      case COMMAND_LINE:
-        if (value == null) {
-          unsetCommand_line();
-        } else {
-          setCommand_line((java.util.List<java.lang.String>)value);
-        }
-        break;
-
-      }
-    }
-
-    @org.apache.thrift.annotation.Nullable
-    public java.lang.Object getFieldValue(_Fields field) {
-      switch (field) {
-      case PROCESS_TYPE:
-        return getProcess_type();
-
-      case COMMAND_LINE:
-        return getCommand_line();
-
-      }
-      throw new java.lang.IllegalStateException();
-    }
-
-    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
-    public boolean isSet(_Fields field) {
-      if (field == null) {
-        throw new java.lang.IllegalArgumentException();
-      }
-
-      switch (field) {
-      case PROCESS_TYPE:
-        return isSetProcess_type();
-      case COMMAND_LINE:
-        return isSetCommand_line();
-      }
-      throw new java.lang.IllegalStateException();
-    }
-
-    @Override
-    public boolean equals(java.lang.Object that) {
-      if (that instanceof onBeforeCommandLineProcessing_args)
-        return this.equals((onBeforeCommandLineProcessing_args)that);
-      return false;
-    }
-
-    public boolean equals(onBeforeCommandLineProcessing_args that) {
-      if (that == null)
-        return false;
-      if (this == that)
-        return true;
-
-      boolean this_present_process_type = true && this.isSetProcess_type();
-      boolean that_present_process_type = true && that.isSetProcess_type();
-      if (this_present_process_type || that_present_process_type) {
-        if (!(this_present_process_type && that_present_process_type))
-          return false;
-        if (!this.process_type.equals(that.process_type))
-          return false;
-      }
-
-      boolean this_present_command_line = true && this.isSetCommand_line();
-      boolean that_present_command_line = true && that.isSetCommand_line();
-      if (this_present_command_line || that_present_command_line) {
-        if (!(this_present_command_line && that_present_command_line))
-          return false;
-        if (!this.command_line.equals(that.command_line))
-          return false;
-      }
-
-      return true;
-    }
-
-    @Override
-    public int hashCode() {
-      int hashCode = 1;
-
-      hashCode = hashCode * 8191 + ((isSetProcess_type()) ? 131071 : 524287);
-      if (isSetProcess_type())
-        hashCode = hashCode * 8191 + process_type.hashCode();
-
-      hashCode = hashCode * 8191 + ((isSetCommand_line()) ? 131071 : 524287);
-      if (isSetCommand_line())
-        hashCode = hashCode * 8191 + command_line.hashCode();
-
-      return hashCode;
-    }
-
-    @Override
-    public int compareTo(onBeforeCommandLineProcessing_args other) {
-      if (!getClass().equals(other.getClass())) {
-        return getClass().getName().compareTo(other.getClass().getName());
-      }
-
-      int lastComparison = 0;
-
-      lastComparison = java.lang.Boolean.compare(isSetProcess_type(), other.isSetProcess_type());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetProcess_type()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.process_type, other.process_type);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
-      lastComparison = java.lang.Boolean.compare(isSetCommand_line(), other.isSetCommand_line());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetCommand_line()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.command_line, other.command_line);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
-      return 0;
-    }
-
-    @org.apache.thrift.annotation.Nullable
-    public _Fields fieldForId(int fieldId) {
-      return _Fields.findByThriftId(fieldId);
-    }
-
-    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-      scheme(iprot).read(iprot, this);
-    }
-
-    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-      scheme(oprot).write(oprot, this);
-    }
-
-    @Override
-    public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("onBeforeCommandLineProcessing_args(");
-      boolean first = true;
-
-      sb.append("process_type:");
-      if (this.process_type == null) {
-        sb.append("null");
-      } else {
-        sb.append(this.process_type);
-      }
-      first = false;
-      if (!first) sb.append(", ");
-      sb.append("command_line:");
-      if (this.command_line == null) {
-        sb.append("null");
-      } else {
-        sb.append(this.command_line);
-      }
-      first = false;
-      sb.append(")");
-      return sb.toString();
-    }
-
-    public void validate() throws org.apache.thrift.TException {
-      // check for required fields
-      // check for sub-struct validity
-    }
-
-    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
-      try {
-        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-      } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te);
-      }
-    }
-
-    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
-      try {
-        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-      } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te);
-      }
-    }
-
-    private static class onBeforeCommandLineProcessing_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onBeforeCommandLineProcessing_argsStandardScheme getScheme() {
-        return new onBeforeCommandLineProcessing_argsStandardScheme();
-      }
-    }
-
-    private static class onBeforeCommandLineProcessing_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<onBeforeCommandLineProcessing_args> {
-
-      public void read(org.apache.thrift.protocol.TProtocol iprot, onBeforeCommandLineProcessing_args struct) throws org.apache.thrift.TException {
-        org.apache.thrift.protocol.TField schemeField;
-        iprot.readStructBegin();
-        while (true)
-        {
-          schemeField = iprot.readFieldBegin();
-          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
-            break;
-          }
-          switch (schemeField.id) {
-            case 1: // PROCESS_TYPE
-              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
-                struct.process_type = iprot.readString();
-                struct.setProcess_typeIsSet(true);
-              } else { 
-                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
-            case 2: // COMMAND_LINE
-              if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
-                {
-                  org.apache.thrift.protocol.TList _list0 = iprot.readListBegin();
-                  struct.command_line = new java.util.ArrayList<java.lang.String>(_list0.size);
-                  @org.apache.thrift.annotation.Nullable java.lang.String _elem1;
-                  for (int _i2 = 0; _i2 < _list0.size; ++_i2)
-                  {
-                    _elem1 = iprot.readString();
-                    struct.command_line.add(_elem1);
-                  }
-                  iprot.readListEnd();
-                }
-                struct.setCommand_lineIsSet(true);
-              } else { 
-                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
-            default:
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-          }
-          iprot.readFieldEnd();
-        }
-        iprot.readStructEnd();
-
-        // check for required fields of primitive type, which can't be checked in the validate method
-        struct.validate();
-      }
-
-      public void write(org.apache.thrift.protocol.TProtocol oprot, onBeforeCommandLineProcessing_args struct) throws org.apache.thrift.TException {
-        struct.validate();
-
-        oprot.writeStructBegin(STRUCT_DESC);
-        if (struct.process_type != null) {
-          oprot.writeFieldBegin(PROCESS_TYPE_FIELD_DESC);
-          oprot.writeString(struct.process_type);
-          oprot.writeFieldEnd();
-        }
-        if (struct.command_line != null) {
-          oprot.writeFieldBegin(COMMAND_LINE_FIELD_DESC);
-          {
-            oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, struct.command_line.size()));
-            for (java.lang.String _iter3 : struct.command_line)
-            {
-              oprot.writeString(_iter3);
-            }
-            oprot.writeListEnd();
-          }
-          oprot.writeFieldEnd();
-        }
-        oprot.writeFieldStop();
-        oprot.writeStructEnd();
-      }
-
-    }
-
-    private static class onBeforeCommandLineProcessing_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onBeforeCommandLineProcessing_argsTupleScheme getScheme() {
-        return new onBeforeCommandLineProcessing_argsTupleScheme();
-      }
-    }
-
-    private static class onBeforeCommandLineProcessing_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<onBeforeCommandLineProcessing_args> {
-
-      @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, onBeforeCommandLineProcessing_args struct) throws org.apache.thrift.TException {
-        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet optionals = new java.util.BitSet();
-        if (struct.isSetProcess_type()) {
-          optionals.set(0);
-        }
-        if (struct.isSetCommand_line()) {
-          optionals.set(1);
-        }
-        oprot.writeBitSet(optionals, 2);
-        if (struct.isSetProcess_type()) {
-          oprot.writeString(struct.process_type);
-        }
-        if (struct.isSetCommand_line()) {
-          {
-            oprot.writeI32(struct.command_line.size());
-            for (java.lang.String _iter4 : struct.command_line)
-            {
-              oprot.writeString(_iter4);
-            }
-          }
-        }
-      }
-
-      @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, onBeforeCommandLineProcessing_args struct) throws org.apache.thrift.TException {
-        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(2);
-        if (incoming.get(0)) {
-          struct.process_type = iprot.readString();
-          struct.setProcess_typeIsSet(true);
-        }
-        if (incoming.get(1)) {
-          {
-            org.apache.thrift.protocol.TList _list5 = iprot.readListBegin(org.apache.thrift.protocol.TType.STRING);
-            struct.command_line = new java.util.ArrayList<java.lang.String>(_list5.size);
-            @org.apache.thrift.annotation.Nullable java.lang.String _elem6;
-            for (int _i7 = 0; _i7 < _list5.size; ++_i7)
-            {
-              _elem6 = iprot.readString();
-              struct.command_line.add(_elem6);
-            }
-          }
-          struct.setCommand_lineIsSet(true);
-        }
-      }
-    }
-
-    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
-      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
-    }
-  }
-
-  public static class onBeforeCommandLineProcessing_result implements org.apache.thrift.TBase<onBeforeCommandLineProcessing_result, onBeforeCommandLineProcessing_result._Fields>, java.io.Serializable, Cloneable, Comparable<onBeforeCommandLineProcessing_result>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("onBeforeCommandLineProcessing_result");
-
-    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.LIST, (short)0);
-
-    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new onBeforeCommandLineProcessing_resultStandardSchemeFactory();
-    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new onBeforeCommandLineProcessing_resultTupleSchemeFactory();
-
-    public @org.apache.thrift.annotation.Nullable java.util.List<java.lang.String> success; // required
-
-    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      SUCCESS((short)0, "success");
-
-      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
-
-      static {
-        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
-          byName.put(field.getFieldName(), field);
-        }
-      }
-
-      /**
-       * Find the _Fields constant that matches fieldId, or null if its not found.
-       */
-      @org.apache.thrift.annotation.Nullable
-      public static _Fields findByThriftId(int fieldId) {
-        switch(fieldId) {
-          case 0: // SUCCESS
-            return SUCCESS;
-          default:
-            return null;
-        }
-      }
-
-      /**
-       * Find the _Fields constant that matches fieldId, throwing an exception
-       * if it is not found.
-       */
-      public static _Fields findByThriftIdOrThrow(int fieldId) {
-        _Fields fields = findByThriftId(fieldId);
-        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
-        return fields;
-      }
-
-      /**
-       * Find the _Fields constant that matches name, or null if its not found.
-       */
-      @org.apache.thrift.annotation.Nullable
-      public static _Fields findByName(java.lang.String name) {
-        return byName.get(name);
-      }
-
-      private final short _thriftId;
-      private final java.lang.String _fieldName;
-
-      _Fields(short thriftId, java.lang.String fieldName) {
-        _thriftId = thriftId;
-        _fieldName = fieldName;
-      }
-
-      public short getThriftFieldId() {
-        return _thriftId;
-      }
-
-      public java.lang.String getFieldName() {
-        return _fieldName;
-      }
-    }
-
-    // isset id assignments
-    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
-    static {
-      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
-              new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING))));
-      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(onBeforeCommandLineProcessing_result.class, metaDataMap);
-    }
-
-    public onBeforeCommandLineProcessing_result() {
-    }
-
-    public onBeforeCommandLineProcessing_result(
-      java.util.List<java.lang.String> success)
-    {
-      this();
-      this.success = success;
-    }
-
-    /**
-     * Performs a deep copy on <i>other</i>.
-     */
-    public onBeforeCommandLineProcessing_result(onBeforeCommandLineProcessing_result other) {
-      if (other.isSetSuccess()) {
-        java.util.List<java.lang.String> __this__success = new java.util.ArrayList<java.lang.String>(other.success);
-        this.success = __this__success;
-      }
-    }
-
-    public onBeforeCommandLineProcessing_result deepCopy() {
-      return new onBeforeCommandLineProcessing_result(this);
-    }
-
-    @Override
-    public void clear() {
-      this.success = null;
-    }
-
-    public int getSuccessSize() {
-      return (this.success == null) ? 0 : this.success.size();
-    }
-
-    @org.apache.thrift.annotation.Nullable
-    public java.util.Iterator<java.lang.String> getSuccessIterator() {
-      return (this.success == null) ? null : this.success.iterator();
-    }
-
-    public void addToSuccess(java.lang.String elem) {
-      if (this.success == null) {
-        this.success = new java.util.ArrayList<java.lang.String>();
-      }
-      this.success.add(elem);
-    }
-
-    @org.apache.thrift.annotation.Nullable
-    public java.util.List<java.lang.String> getSuccess() {
-      return this.success;
-    }
-
-    public onBeforeCommandLineProcessing_result setSuccess(@org.apache.thrift.annotation.Nullable java.util.List<java.lang.String> success) {
-      this.success = success;
-      return this;
-    }
-
-    public void unsetSuccess() {
-      this.success = null;
-    }
-
-    /** Returns true if field success is set (has been assigned a value) and false otherwise */
-    public boolean isSetSuccess() {
-      return this.success != null;
-    }
-
-    public void setSuccessIsSet(boolean value) {
-      if (!value) {
-        this.success = null;
-      }
-    }
-
-    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
-      switch (field) {
-      case SUCCESS:
-        if (value == null) {
-          unsetSuccess();
-        } else {
-          setSuccess((java.util.List<java.lang.String>)value);
-        }
-        break;
-
-      }
-    }
-
-    @org.apache.thrift.annotation.Nullable
-    public java.lang.Object getFieldValue(_Fields field) {
-      switch (field) {
-      case SUCCESS:
-        return getSuccess();
-
-      }
-      throw new java.lang.IllegalStateException();
-    }
-
-    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
-    public boolean isSet(_Fields field) {
-      if (field == null) {
-        throw new java.lang.IllegalArgumentException();
-      }
-
-      switch (field) {
-      case SUCCESS:
-        return isSetSuccess();
-      }
-      throw new java.lang.IllegalStateException();
-    }
-
-    @Override
-    public boolean equals(java.lang.Object that) {
-      if (that instanceof onBeforeCommandLineProcessing_result)
-        return this.equals((onBeforeCommandLineProcessing_result)that);
-      return false;
-    }
-
-    public boolean equals(onBeforeCommandLineProcessing_result that) {
-      if (that == null)
-        return false;
-      if (this == that)
-        return true;
-
-      boolean this_present_success = true && this.isSetSuccess();
-      boolean that_present_success = true && that.isSetSuccess();
-      if (this_present_success || that_present_success) {
-        if (!(this_present_success && that_present_success))
-          return false;
-        if (!this.success.equals(that.success))
-          return false;
-      }
-
-      return true;
-    }
-
-    @Override
-    public int hashCode() {
-      int hashCode = 1;
-
-      hashCode = hashCode * 8191 + ((isSetSuccess()) ? 131071 : 524287);
-      if (isSetSuccess())
-        hashCode = hashCode * 8191 + success.hashCode();
-
-      return hashCode;
-    }
-
-    @Override
-    public int compareTo(onBeforeCommandLineProcessing_result other) {
-      if (!getClass().equals(other.getClass())) {
-        return getClass().getName().compareTo(other.getClass().getName());
-      }
-
-      int lastComparison = 0;
-
-      lastComparison = java.lang.Boolean.compare(isSetSuccess(), other.isSetSuccess());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetSuccess()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, other.success);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
-      return 0;
-    }
-
-    @org.apache.thrift.annotation.Nullable
-    public _Fields fieldForId(int fieldId) {
-      return _Fields.findByThriftId(fieldId);
-    }
-
-    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-      scheme(iprot).read(iprot, this);
-    }
-
-    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-      scheme(oprot).write(oprot, this);
-      }
-
-    @Override
-    public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("onBeforeCommandLineProcessing_result(");
-      boolean first = true;
-
-      sb.append("success:");
-      if (this.success == null) {
-        sb.append("null");
-      } else {
-        sb.append(this.success);
-      }
-      first = false;
-      sb.append(")");
-      return sb.toString();
-    }
-
-    public void validate() throws org.apache.thrift.TException {
-      // check for required fields
-      // check for sub-struct validity
-    }
-
-    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
-      try {
-        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-      } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te);
-      }
-    }
-
-    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
-      try {
-        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-      } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te);
-      }
-    }
-
-    private static class onBeforeCommandLineProcessing_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onBeforeCommandLineProcessing_resultStandardScheme getScheme() {
-        return new onBeforeCommandLineProcessing_resultStandardScheme();
-      }
-    }
-
-    private static class onBeforeCommandLineProcessing_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<onBeforeCommandLineProcessing_result> {
-
-      public void read(org.apache.thrift.protocol.TProtocol iprot, onBeforeCommandLineProcessing_result struct) throws org.apache.thrift.TException {
-        org.apache.thrift.protocol.TField schemeField;
-        iprot.readStructBegin();
-        while (true)
-        {
-          schemeField = iprot.readFieldBegin();
-          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
-            break;
-          }
-          switch (schemeField.id) {
-            case 0: // SUCCESS
-              if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
-                {
-                  org.apache.thrift.protocol.TList _list8 = iprot.readListBegin();
-                  struct.success = new java.util.ArrayList<java.lang.String>(_list8.size);
-                  @org.apache.thrift.annotation.Nullable java.lang.String _elem9;
-                  for (int _i10 = 0; _i10 < _list8.size; ++_i10)
-                  {
-                    _elem9 = iprot.readString();
-                    struct.success.add(_elem9);
-                  }
-                  iprot.readListEnd();
-                }
-                struct.setSuccessIsSet(true);
-              } else { 
-                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
-            default:
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-          }
-          iprot.readFieldEnd();
-        }
-        iprot.readStructEnd();
-
-        // check for required fields of primitive type, which can't be checked in the validate method
-        struct.validate();
-      }
-
-      public void write(org.apache.thrift.protocol.TProtocol oprot, onBeforeCommandLineProcessing_result struct) throws org.apache.thrift.TException {
-        struct.validate();
-
-        oprot.writeStructBegin(STRUCT_DESC);
-        if (struct.success != null) {
-          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
-          {
-            oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, struct.success.size()));
-            for (java.lang.String _iter11 : struct.success)
-            {
-              oprot.writeString(_iter11);
-            }
-            oprot.writeListEnd();
-          }
-          oprot.writeFieldEnd();
-        }
-        oprot.writeFieldStop();
-        oprot.writeStructEnd();
-      }
-
-    }
-
-    private static class onBeforeCommandLineProcessing_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onBeforeCommandLineProcessing_resultTupleScheme getScheme() {
-        return new onBeforeCommandLineProcessing_resultTupleScheme();
-      }
-    }
-
-    private static class onBeforeCommandLineProcessing_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<onBeforeCommandLineProcessing_result> {
-
-      @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, onBeforeCommandLineProcessing_result struct) throws org.apache.thrift.TException {
-        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet optionals = new java.util.BitSet();
-        if (struct.isSetSuccess()) {
-          optionals.set(0);
-        }
-        oprot.writeBitSet(optionals, 1);
-        if (struct.isSetSuccess()) {
-          {
-            oprot.writeI32(struct.success.size());
-            for (java.lang.String _iter12 : struct.success)
-            {
-              oprot.writeString(_iter12);
-            }
-          }
-        }
-      }
-
-      @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, onBeforeCommandLineProcessing_result struct) throws org.apache.thrift.TException {
-        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(1);
-        if (incoming.get(0)) {
-          {
-            org.apache.thrift.protocol.TList _list13 = iprot.readListBegin(org.apache.thrift.protocol.TType.STRING);
-            struct.success = new java.util.ArrayList<java.lang.String>(_list13.size);
-            @org.apache.thrift.annotation.Nullable java.lang.String _elem14;
-            for (int _i15 = 0; _i15 < _list13.size; ++_i15)
-            {
-              _elem14 = iprot.readString();
-              struct.success.add(_elem14);
-            }
-          }
-          struct.setSuccessIsSet(true);
-        }
-      }
-    }
-
-    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
-      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
-    }
-  }
-
-  public static class onRegisterCustomSchemes_args implements org.apache.thrift.TBase<onRegisterCustomSchemes_args, onRegisterCustomSchemes_args._Fields>, java.io.Serializable, Cloneable, Comparable<onRegisterCustomSchemes_args>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("onRegisterCustomSchemes_args");
-
-
-    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new onRegisterCustomSchemes_argsStandardSchemeFactory();
-    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new onRegisterCustomSchemes_argsTupleSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new getRegisteredCustomSchemes_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new getRegisteredCustomSchemes_argsTupleSchemeFactory();
 
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -3889,20 +2942,20 @@ public class ClientHandlers {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(onRegisterCustomSchemes_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getRegisteredCustomSchemes_args.class, metaDataMap);
     }
 
-    public onRegisterCustomSchemes_args() {
+    public getRegisteredCustomSchemes_args() {
     }
 
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public onRegisterCustomSchemes_args(onRegisterCustomSchemes_args other) {
+    public getRegisteredCustomSchemes_args(getRegisteredCustomSchemes_args other) {
     }
 
-    public onRegisterCustomSchemes_args deepCopy() {
-      return new onRegisterCustomSchemes_args(this);
+    public getRegisteredCustomSchemes_args deepCopy() {
+      return new getRegisteredCustomSchemes_args(this);
     }
 
     @Override
@@ -3934,12 +2987,12 @@ public class ClientHandlers {
 
     @Override
     public boolean equals(java.lang.Object that) {
-      if (that instanceof onRegisterCustomSchemes_args)
-        return this.equals((onRegisterCustomSchemes_args)that);
+      if (that instanceof getRegisteredCustomSchemes_args)
+        return this.equals((getRegisteredCustomSchemes_args)that);
       return false;
     }
 
-    public boolean equals(onRegisterCustomSchemes_args that) {
+    public boolean equals(getRegisteredCustomSchemes_args that) {
       if (that == null)
         return false;
       if (this == that)
@@ -3956,7 +3009,7 @@ public class ClientHandlers {
     }
 
     @Override
-    public int compareTo(onRegisterCustomSchemes_args other) {
+    public int compareTo(getRegisteredCustomSchemes_args other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
@@ -3981,7 +3034,7 @@ public class ClientHandlers {
 
     @Override
     public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("onRegisterCustomSchemes_args(");
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("getRegisteredCustomSchemes_args(");
       boolean first = true;
 
       sb.append(")");
@@ -4009,15 +3062,15 @@ public class ClientHandlers {
       }
     }
 
-    private static class onRegisterCustomSchemes_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onRegisterCustomSchemes_argsStandardScheme getScheme() {
-        return new onRegisterCustomSchemes_argsStandardScheme();
+    private static class getRegisteredCustomSchemes_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public getRegisteredCustomSchemes_argsStandardScheme getScheme() {
+        return new getRegisteredCustomSchemes_argsStandardScheme();
       }
     }
 
-    private static class onRegisterCustomSchemes_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<onRegisterCustomSchemes_args> {
+    private static class getRegisteredCustomSchemes_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<getRegisteredCustomSchemes_args> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, onRegisterCustomSchemes_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, getRegisteredCustomSchemes_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -4038,7 +3091,7 @@ public class ClientHandlers {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, onRegisterCustomSchemes_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, getRegisteredCustomSchemes_args struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -4048,21 +3101,21 @@ public class ClientHandlers {
 
     }
 
-    private static class onRegisterCustomSchemes_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onRegisterCustomSchemes_argsTupleScheme getScheme() {
-        return new onRegisterCustomSchemes_argsTupleScheme();
+    private static class getRegisteredCustomSchemes_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public getRegisteredCustomSchemes_argsTupleScheme getScheme() {
+        return new getRegisteredCustomSchemes_argsTupleScheme();
       }
     }
 
-    private static class onRegisterCustomSchemes_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<onRegisterCustomSchemes_args> {
+    private static class getRegisteredCustomSchemes_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<getRegisteredCustomSchemes_args> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, onRegisterCustomSchemes_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, getRegisteredCustomSchemes_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, onRegisterCustomSchemes_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, getRegisteredCustomSchemes_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
       }
     }
@@ -4072,13 +3125,13 @@ public class ClientHandlers {
     }
   }
 
-  public static class onRegisterCustomSchemes_result implements org.apache.thrift.TBase<onRegisterCustomSchemes_result, onRegisterCustomSchemes_result._Fields>, java.io.Serializable, Cloneable, Comparable<onRegisterCustomSchemes_result>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("onRegisterCustomSchemes_result");
+  public static class getRegisteredCustomSchemes_result implements org.apache.thrift.TBase<getRegisteredCustomSchemes_result, getRegisteredCustomSchemes_result._Fields>, java.io.Serializable, Cloneable, Comparable<getRegisteredCustomSchemes_result>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getRegisteredCustomSchemes_result");
 
     private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.LIST, (short)0);
 
-    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new onRegisterCustomSchemes_resultStandardSchemeFactory();
-    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new onRegisterCustomSchemes_resultTupleSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new getRegisteredCustomSchemes_resultStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new getRegisteredCustomSchemes_resultTupleSchemeFactory();
 
     public @org.apache.thrift.annotation.Nullable java.util.List<CustomScheme> success; // required
 
@@ -4150,13 +3203,13 @@ public class ClientHandlers {
           new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
               new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, CustomScheme.class))));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(onRegisterCustomSchemes_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getRegisteredCustomSchemes_result.class, metaDataMap);
     }
 
-    public onRegisterCustomSchemes_result() {
+    public getRegisteredCustomSchemes_result() {
     }
 
-    public onRegisterCustomSchemes_result(
+    public getRegisteredCustomSchemes_result(
       java.util.List<CustomScheme> success)
     {
       this();
@@ -4166,7 +3219,7 @@ public class ClientHandlers {
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public onRegisterCustomSchemes_result(onRegisterCustomSchemes_result other) {
+    public getRegisteredCustomSchemes_result(getRegisteredCustomSchemes_result other) {
       if (other.isSetSuccess()) {
         java.util.List<CustomScheme> __this__success = new java.util.ArrayList<CustomScheme>(other.success.size());
         for (CustomScheme other_element : other.success) {
@@ -4176,8 +3229,8 @@ public class ClientHandlers {
       }
     }
 
-    public onRegisterCustomSchemes_result deepCopy() {
-      return new onRegisterCustomSchemes_result(this);
+    public getRegisteredCustomSchemes_result deepCopy() {
+      return new getRegisteredCustomSchemes_result(this);
     }
 
     @Override
@@ -4206,7 +3259,7 @@ public class ClientHandlers {
       return this.success;
     }
 
-    public onRegisterCustomSchemes_result setSuccess(@org.apache.thrift.annotation.Nullable java.util.List<CustomScheme> success) {
+    public getRegisteredCustomSchemes_result setSuccess(@org.apache.thrift.annotation.Nullable java.util.List<CustomScheme> success) {
       this.success = success;
       return this;
     }
@@ -4264,12 +3317,12 @@ public class ClientHandlers {
 
     @Override
     public boolean equals(java.lang.Object that) {
-      if (that instanceof onRegisterCustomSchemes_result)
-        return this.equals((onRegisterCustomSchemes_result)that);
+      if (that instanceof getRegisteredCustomSchemes_result)
+        return this.equals((getRegisteredCustomSchemes_result)that);
       return false;
     }
 
-    public boolean equals(onRegisterCustomSchemes_result that) {
+    public boolean equals(getRegisteredCustomSchemes_result that) {
       if (that == null)
         return false;
       if (this == that)
@@ -4299,7 +3352,7 @@ public class ClientHandlers {
     }
 
     @Override
-    public int compareTo(onRegisterCustomSchemes_result other) {
+    public int compareTo(getRegisteredCustomSchemes_result other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
@@ -4334,7 +3387,7 @@ public class ClientHandlers {
 
     @Override
     public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("onRegisterCustomSchemes_result(");
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("getRegisteredCustomSchemes_result(");
       boolean first = true;
 
       sb.append("success:");
@@ -4369,15 +3422,15 @@ public class ClientHandlers {
       }
     }
 
-    private static class onRegisterCustomSchemes_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onRegisterCustomSchemes_resultStandardScheme getScheme() {
-        return new onRegisterCustomSchemes_resultStandardScheme();
+    private static class getRegisteredCustomSchemes_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public getRegisteredCustomSchemes_resultStandardScheme getScheme() {
+        return new getRegisteredCustomSchemes_resultStandardScheme();
       }
     }
 
-    private static class onRegisterCustomSchemes_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<onRegisterCustomSchemes_result> {
+    private static class getRegisteredCustomSchemes_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<getRegisteredCustomSchemes_result> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, onRegisterCustomSchemes_result struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, getRegisteredCustomSchemes_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -4390,14 +3443,14 @@ public class ClientHandlers {
             case 0: // SUCCESS
               if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
                 {
-                  org.apache.thrift.protocol.TList _list16 = iprot.readListBegin();
-                  struct.success = new java.util.ArrayList<CustomScheme>(_list16.size);
-                  @org.apache.thrift.annotation.Nullable CustomScheme _elem17;
-                  for (int _i18 = 0; _i18 < _list16.size; ++_i18)
+                  org.apache.thrift.protocol.TList _list0 = iprot.readListBegin();
+                  struct.success = new java.util.ArrayList<CustomScheme>(_list0.size);
+                  @org.apache.thrift.annotation.Nullable CustomScheme _elem1;
+                  for (int _i2 = 0; _i2 < _list0.size; ++_i2)
                   {
-                    _elem17 = new CustomScheme();
-                    _elem17.read(iprot);
-                    struct.success.add(_elem17);
+                    _elem1 = new CustomScheme();
+                    _elem1.read(iprot);
+                    struct.success.add(_elem1);
                   }
                   iprot.readListEnd();
                 }
@@ -4417,7 +3470,7 @@ public class ClientHandlers {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, onRegisterCustomSchemes_result struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, getRegisteredCustomSchemes_result struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -4425,9 +3478,9 @@ public class ClientHandlers {
           oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
           {
             oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.success.size()));
-            for (CustomScheme _iter19 : struct.success)
+            for (CustomScheme _iter3 : struct.success)
             {
-              _iter19.write(oprot);
+              _iter3.write(oprot);
             }
             oprot.writeListEnd();
           }
@@ -4439,16 +3492,16 @@ public class ClientHandlers {
 
     }
 
-    private static class onRegisterCustomSchemes_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onRegisterCustomSchemes_resultTupleScheme getScheme() {
-        return new onRegisterCustomSchemes_resultTupleScheme();
+    private static class getRegisteredCustomSchemes_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public getRegisteredCustomSchemes_resultTupleScheme getScheme() {
+        return new getRegisteredCustomSchemes_resultTupleScheme();
       }
     }
 
-    private static class onRegisterCustomSchemes_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<onRegisterCustomSchemes_result> {
+    private static class getRegisteredCustomSchemes_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<getRegisteredCustomSchemes_result> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, onRegisterCustomSchemes_result struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, getRegisteredCustomSchemes_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet optionals = new java.util.BitSet();
         if (struct.isSetSuccess()) {
@@ -4458,32 +3511,536 @@ public class ClientHandlers {
         if (struct.isSetSuccess()) {
           {
             oprot.writeI32(struct.success.size());
-            for (CustomScheme _iter20 : struct.success)
+            for (CustomScheme _iter4 : struct.success)
             {
-              _iter20.write(oprot);
+              _iter4.write(oprot);
             }
           }
         }
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, onRegisterCustomSchemes_result struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, getRegisteredCustomSchemes_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
           {
-            org.apache.thrift.protocol.TList _list21 = iprot.readListBegin(org.apache.thrift.protocol.TType.STRUCT);
-            struct.success = new java.util.ArrayList<CustomScheme>(_list21.size);
-            @org.apache.thrift.annotation.Nullable CustomScheme _elem22;
-            for (int _i23 = 0; _i23 < _list21.size; ++_i23)
+            org.apache.thrift.protocol.TList _list5 = iprot.readListBegin(org.apache.thrift.protocol.TType.STRUCT);
+            struct.success = new java.util.ArrayList<CustomScheme>(_list5.size);
+            @org.apache.thrift.annotation.Nullable CustomScheme _elem6;
+            for (int _i7 = 0; _i7 < _list5.size; ++_i7)
             {
-              _elem22 = new CustomScheme();
-              _elem22.read(iprot);
-              struct.success.add(_elem22);
+              _elem6 = new CustomScheme();
+              _elem6.read(iprot);
+              struct.success.add(_elem6);
             }
           }
           struct.setSuccessIsSet(true);
         }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  public static class onContextInitialized_args implements org.apache.thrift.TBase<onContextInitialized_args, onContextInitialized_args._Fields>, java.io.Serializable, Cloneable, Comparable<onContextInitialized_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("onContextInitialized_args");
+
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new onContextInitialized_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new onContextInitialized_argsTupleSchemeFactory();
+
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+;
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(onContextInitialized_args.class, metaDataMap);
+    }
+
+    public onContextInitialized_args() {
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public onContextInitialized_args(onContextInitialized_args other) {
+    }
+
+    public onContextInitialized_args deepCopy() {
+      return new onContextInitialized_args(this);
+    }
+
+    @Override
+    public void clear() {
+    }
+
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof onContextInitialized_args)
+        return this.equals((onContextInitialized_args)that);
+      return false;
+    }
+
+    public boolean equals(onContextInitialized_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(onContextInitialized_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("onContextInitialized_args(");
+      boolean first = true;
+
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class onContextInitialized_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public onContextInitialized_argsStandardScheme getScheme() {
+        return new onContextInitialized_argsStandardScheme();
+      }
+    }
+
+    private static class onContextInitialized_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<onContextInitialized_args> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, onContextInitialized_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, onContextInitialized_args struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class onContextInitialized_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public onContextInitialized_argsTupleScheme getScheme() {
+        return new onContextInitialized_argsTupleScheme();
+      }
+    }
+
+    private static class onContextInitialized_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<onContextInitialized_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, onContextInitialized_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, onContextInitialized_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  public static class onContextInitialized_result implements org.apache.thrift.TBase<onContextInitialized_result, onContextInitialized_result._Fields>, java.io.Serializable, Cloneable, Comparable<onContextInitialized_result>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("onContextInitialized_result");
+
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new onContextInitialized_resultStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new onContextInitialized_resultTupleSchemeFactory();
+
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+;
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(onContextInitialized_result.class, metaDataMap);
+    }
+
+    public onContextInitialized_result() {
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public onContextInitialized_result(onContextInitialized_result other) {
+    }
+
+    public onContextInitialized_result deepCopy() {
+      return new onContextInitialized_result(this);
+    }
+
+    @Override
+    public void clear() {
+    }
+
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof onContextInitialized_result)
+        return this.equals((onContextInitialized_result)that);
+      return false;
+    }
+
+    public boolean equals(onContextInitialized_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(onContextInitialized_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("onContextInitialized_result(");
+      boolean first = true;
+
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class onContextInitialized_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public onContextInitialized_resultStandardScheme getScheme() {
+        return new onContextInitialized_resultStandardScheme();
+      }
+    }
+
+    private static class onContextInitialized_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<onContextInitialized_result> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, onContextInitialized_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, onContextInitialized_result struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class onContextInitialized_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public onContextInitialized_resultTupleScheme getScheme() {
+        return new onContextInitialized_resultTupleScheme();
+      }
+    }
+
+    private static class onContextInitialized_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<onContextInitialized_result> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, onContextInitialized_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, onContextInitialized_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
       }
     }
 

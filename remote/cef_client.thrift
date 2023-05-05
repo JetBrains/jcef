@@ -28,8 +28,8 @@ service ClientHandlers {
    //
    // CefAppHandler
    //
-   list<string> onBeforeCommandLineProcessing(1:string process_type, 2:list<string> command_line)
-   list<CustomScheme> onRegisterCustomSchemes()
+   list<CustomScheme> getRegisteredCustomSchemes()
+   void onContextInitialized()
 
    //
    // CefRenderHandler

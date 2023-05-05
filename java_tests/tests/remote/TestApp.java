@@ -21,6 +21,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Collections;
+import java.util.List;
 
 public class TestApp extends JFrame {
     static CefServer ourServer;
@@ -28,7 +30,9 @@ public class TestApp extends JFrame {
     public static void main(String[] args) {
         CefLog.init(null, CefSettings.LogSeverity.LOGSEVERITY_VERBOSE);
         ourServer = new CefServer();
-        if (!ourServer.start()) {
+        List<String> cefArgs = Collections.emptyList();
+        CefSettings settings = new CefSettings();
+        if (!ourServer.start(cefArgs, settings)) {
             CefLog.Error("can't connect to CefServer");
             return;
         }
