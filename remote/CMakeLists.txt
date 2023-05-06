@@ -1,7 +1,7 @@
 #
 # Generate client-server pairs
 #
-message(STATUS "Generate cpp thrift codegen...")
+message(STATUS "Generate thrift codegen...")
 execute_process(
         COMMAND thrift --gen cpp -r ${CMAKE_CURRENT_SOURCE_DIR}/cef_server.thrift
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
@@ -19,6 +19,16 @@ execute_process(
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/java
         RESULT_VARIABLE thrift_result)
 message(STATUS "... result: ${thrift_result}")
+
+message(STATUS "Cleanup java thrift codegen...")
+execute_process(
+        COMMAND find . -type f -name "*.java" -exec sed -i.backup "s/package thrift_codegen/package com.jetbrains.cef.remote.thrift_codegen/" {} \;
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/java/com/jetbrains/cef/remote/thrift_codegen
+)
+execute_process(
+        COMMAND find . -type f -name "*.java" -exec sed -i.backup "/^@javax.annotation.Generated/d" {} \;
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/java/com/jetbrains/cef/remote/thrift_codegen
+)
 
 set(CMAKE_CXX_STANDARD 14)
 set(Boost_USE_STATIC_LIBS OFF)
