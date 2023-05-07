@@ -6,6 +6,7 @@ package org.cef.handler;
 
 import org.cef.browser.CefBrowser;
 import org.cef.callback.CefDragData;
+import org.cef.misc.CefRange;
 
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -108,4 +109,26 @@ public interface CefRenderHandler {
      * @param operation Describes the allowed operation (none, move, copy, link).
      */
     public void updateDragCursor(CefBrowser browser, int operation);
+
+    /**
+     * Called when the IME composition range has changed.
+     *
+     * @param browser the browser for that the composition has been changed
+     * @param selectionRange the range of characters that have been selected
+     * @param characterBounds the bounds of each character in view coordinates
+     */
+    public default void OnImeCompositionRangeChanged(CefBrowser browser, CefRange selectionRange, Rectangle[] characterBounds) {
+        // To be removed
+    }
+
+    /**
+     * Called when text selection has changed
+     *
+     * @param browser the browser for that the selection has been changed
+     * @param selectedText the currently selected text
+     * @param selectionRange the character range
+     */
+    public default void OnTextSelectionChanged(CefBrowser browser, String selectedText, CefRange selectionRange) {
+        // To be removed
+    }
 }

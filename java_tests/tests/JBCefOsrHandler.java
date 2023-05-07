@@ -6,6 +6,7 @@ import org.cef.browser.CefBrowser;
 import org.cef.callback.CefDragData;
 import org.cef.handler.CefRenderHandler;
 import org.cef.handler.CefScreenInfo;
+import org.cef.misc.CefRange;
 
 import javax.swing.*;
 import java.awt.*;
@@ -48,7 +49,7 @@ public class JBCefOsrHandler implements CefRenderHandler {
         }
     };
 
-    private final JComponent myComponent;
+    private final JBCefOsrComponent myComponent;
     private final ScreenBoundsProvider myScreenBoundsProvider;
     private final AtomicReference<Point> myLocationOnScreenRef = new AtomicReference<>(new Point());
     private final JBCefOsrComponent.MyScale myScale = new JBCefOsrComponent.MyScale();
@@ -231,6 +232,16 @@ public class JBCefOsrHandler implements CefRenderHandler {
 
     @Override
     public void updateDragCursor(CefBrowser browser, int operation) {
+    }
+
+    @Override
+    public void OnImeCompositionRangeChanged(CefBrowser browser, CefRange selectionRange, Rectangle[] characterBounds) {
+        myComponent.getCefInputMethodAdapter().OnImeCompositionRangeChanged(selectionRange, characterBounds);
+    }
+
+    @Override
+    public void OnTextSelectionChanged(CefBrowser browser, String selectedText, CefRange selectionRange) {
+        myComponent.getCefInputMethodAdapter().OnTextSelectionChanged(selectedText, selectionRange);
     }
 
     public void paint(Graphics2D g) {

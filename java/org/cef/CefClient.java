@@ -42,6 +42,7 @@ import org.cef.handler.CefPermissionHandler;
 import org.cef.misc.BoolRef;
 import org.cef.misc.CefPrintSettings;
 import org.cef.misc.CefLog;
+import org.cef.misc.CefRange;
 import org.cef.network.CefRequest;
 import org.cef.network.CefRequest.TransitionType;
 import org.cef.security.CefSSLInfo;
@@ -882,6 +883,20 @@ public class CefClient extends CefClientHandler
 
         CefRenderHandler realHandler = browser.getRenderHandler();
         if (realHandler != null) realHandler.updateDragCursor(browser, operation);
+    }
+
+    @Override
+    public void OnImeCompositionRangeChanged(CefBrowser browser, CefRange selectionRange, Rectangle[] characterBounds) {
+        if (browser == null) return;
+        CefRenderHandler realHandler = browser.getRenderHandler();
+        if (realHandler != null) realHandler.OnImeCompositionRangeChanged(browser, selectionRange, characterBounds);
+    }
+
+    @Override
+    public void OnTextSelectionChanged(CefBrowser browser, String selectedText, CefRange selectionRange) {
+        if (browser == null) return;
+        CefRenderHandler realHandler = browser.getRenderHandler();
+        if (realHandler != null) realHandler.OnTextSelectionChanged(browser, selectedText, selectionRange);
     }
 
     @Override

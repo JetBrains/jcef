@@ -3,12 +3,11 @@ package tests;
 
 import org.cef.browser.CefBrowser;
 import org.cef.callback.CefNativeAdapter;
-import tests.JBCefOsrHandler;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-
+import java.awt.im.InputMethodRequests;
 
 
 @SuppressWarnings("NotNullFieldNotInitialized")
@@ -19,17 +18,24 @@ class JBCefOsrComponent extends JPanel {
     private final MyScale myScale = new MyScale();
     
     private Timer myTimer;
+
+    private final CefInputMethodAdapter myCefInputMethodAdapter;
     
     public JBCefOsrComponent() {
         setPreferredSize(new Dimension(800, 600));
         setBackground(Color.CYAN);
         addPropertyChangeListener("graphicsConfiguration",
-                e -> myRenderHandler.updateScale(myScale.update(myRenderHandler.getDeviceScaleFactor(myBrowser))));
+                e -> {
+                    myRenderHandler.updateScale(myScale.update(myRenderHandler.getDeviceScaleFactor(myBrowser)));
+                    myBrowser.notifyScreenInfoChanged();
+                });
 
         enableEvents(AWTEvent.KEY_EVENT_MASK |
                 AWTEvent.MOUSE_EVENT_MASK |
                 AWTEvent.MOUSE_WHEEL_EVENT_MASK |
-                AWTEvent.MOUSE_MOTION_EVENT_MASK);
+                AWTEvent.MOUSE_MOTION_EVENT_MASK |
+                AWTEvent.INPUT_METHOD_EVENT_MASK);
+        enableInputMethods(true);
 
         setFocusable(true);
         setRequestFocusEnabled(true);
@@ -45,10 +51,15 @@ class JBCefOsrComponent extends JPanel {
                 myBrowser.setFocus(false);
             }
         });
+
+        enableInputMethods(true);
+        myCefInputMethodAdapter = new CefInputMethodAdapter(myBrowser, this);
+        addInputMethodListener(myCefInputMethodAdapter);
     }
 
     public void setBrowser(CefBrowser browser) {
         myBrowser = browser;
+        myCefInputMethodAdapter.setBrowser(browser);
     }
 
     public void setRenderHandler(JBCefOsrHandler renderHandler) {
@@ -87,6 +98,15 @@ class JBCefOsrComponent extends JPanel {
             myBrowser.wasResized((int) Math.ceil(w * scale), (int) Math.ceil(h * scale));
         });
         myTimer.start();
+    }
+
+    @Override
+    public InputMethodRequests getInputMethodRequests() {
+        return myCefInputMethodAdapter;
+    }
+
+    public CefInputMethodAdapter getCefInputMethodAdapter() {
+        return myCefInputMethodAdapter;
     }
 
     @SuppressWarnings("DuplicatedCode")

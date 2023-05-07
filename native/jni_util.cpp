@@ -1086,6 +1086,42 @@ bool IsJNIEnumValue(JNIEnv* env,
   return false;
 }
 
+bool GetJNIListItems(JNIEnv* env,
+                     jobject jList,
+                     std::vector<ScopedJNIObjectResult>* list) {
+  ScopedJNIClass cls(env, "java/util/List");
+  int size;
+  if (!CallJNIMethodI_V(env, cls, jList, "size", &size)) {
+    LOG(ERROR) << "Failed to call java.util.List#size()";
+    return false;
+  }
+
+  jmethodID methodID = env->GetMethodID(cls, "get", "(I)Ljava/lang/Object;");
+  if (!methodID) {
+      LOG(ERROR) << "Failed to find java.util.List#get()";
+      return false;
+  }
+
+  bool success = true;
+  std::vector<ScopedJNIObjectResult> result;
+  for (int i = 0; i < size; ++i) {
+      jobject item = env->CallObjectMethod(jList, methodID, i);
+
+      if (env->ExceptionOccurred()) {
+          env->ExceptionDescribe();
+          env->ExceptionClear();
+          success = false;
+          break;
+      }
+
+      result.emplace_back(env);
+      result.back() = item;
+  }
+
+  *list = std::move(result);
+  return success;
+}
+
 std::string GetJavaSystemProperty(std::string key, JNIEnv * env) {
   jclass systemClass = env->FindClass( "java/lang/System" );
   jmethodID getPropertyMethod = env->GetStaticMethodID(systemClass, "getProperty", "(Ljava/lang/String;)Ljava/lang/String;");

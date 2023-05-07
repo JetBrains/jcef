@@ -463,6 +463,38 @@ JNIEXPORT void JNICALL Java_org_cef_browser_CefBrowser_1N_N_1SetParent
 JNIEXPORT void JNICALL Java_org_cef_browser_CefBrowser_1N_N_1NotifyMoveOrResizeStarted
   (JNIEnv *, jobject);
 
+/*
+ * Class:     org_cef_browser_CefBrowser_N
+ * Method:    N_ImeSetComposition
+ * Signature: (Ljava/lang/String;Ljava/util/List;Lorg/cef/misc/CefRange;Lorg/cef/misc/CefRange;)V
+ */
+JNIEXPORT void JNICALL Java_org_cef_browser_CefBrowser_1N_N_1ImeSetComposition
+  (JNIEnv *, jobject, jstring, jobject, jobject, jobject);
+
+/*
+ * Class:     org_cef_browser_CefBrowser_N
+ * Method:    N_ImeCommitText
+ * Signature: (Ljava/lang/String;Lorg/cef/misc/CefRange;I)V
+ */
+JNIEXPORT void JNICALL Java_org_cef_browser_CefBrowser_1N_N_1ImeCommitText
+  (JNIEnv *, jobject, jstring, jobject, jint);
+
+/*
+ * Class:     org_cef_browser_CefBrowser_N
+ * Method:    N_ImeFinishComposingText
+ * Signature: (Z)V
+ */
+JNIEXPORT void JNICALL Java_org_cef_browser_CefBrowser_1N_N_1ImeFinishComposingText
+  (JNIEnv *, jobject, jboolean);
+
+/*
+ * Class:     org_cef_browser_CefBrowser_N
+ * Method:    N_ImeCancelComposing
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_org_cef_browser_CefBrowser_1N_N_1ImeCancelComposing
+  (JNIEnv *, jobject);
+
 #ifdef __cplusplus
 }
 #endif

@@ -21,7 +21,7 @@ CefRefPtr<CefPrintSettings> GetSelf(jlong self) {
 CefRange GetJNIPageRange(JNIEnv* env, jobject obj) {
   CefRange range;
 
-  ScopedJNIClass cls(env, "org/cef/misc/CefPageRange");
+  ScopedJNIClass cls(env, "org/cef/misc/CefRange");
   if (!cls)
     return range;
 

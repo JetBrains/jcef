@@ -11,8 +11,10 @@ import org.cef.callback.CefStringVisitor;
 import org.cef.handler.CefDialogHandler.FileDialogMode;
 import org.cef.handler.CefRenderHandler;
 import org.cef.handler.CefWindowHandler;
+import org.cef.input.CefCompositionUnderline;
 import org.cef.input.CefTouchEvent;
 import org.cef.misc.CefPdfPrintSettings;
+import org.cef.misc.CefRange;
 import org.cef.network.CefRequest;
 
 import java.awt.Component;
@@ -21,6 +23,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferedImage;
+import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.CompletableFuture;
 
@@ -427,4 +430,65 @@ public interface CefBrowser {
      * @throws UnsupportedOperationException if not supported
      */
     public CompletableFuture<BufferedImage> createScreenshot(boolean nativeResolution);
+
+
+    /**
+     *  Begins a new composition or updates the existing composition.
+     * <p>
+     *  Blink has a special node (a composition node) that allows the input method to change
+     *  text without affecting other DOM nodes.
+     * <p>
+     *  This method may be called multiple times as the composition changes. When the client
+     *  is done making changes the composition should either be canceled or completed. To
+     *  cancel the composition call ImeCancelComposition. To complete the composition call
+     *  either ImeCommitText or ImeFinishComposingText. Completion is usually signaled when:
+     *  1. The client receives a WM_IME_COMPOSITION message with a GCS_RESULTSTR flag (on Windows);
+     *  2. The client receives a "commit" signal of GtkIMContext (on Linux);
+     *  3. insertText of NSTextInput is called (on Mac).
+     * <p>
+     * This method is only used when window rendering is disabled.
+     *
+     * @param text an optional set of ranges that will be underlined in the resulting text
+     * @param underlines an optional set of ranges that will be underlined in the resulting text
+     * @param replacementRange an optional range of the existing text that will be replaced(the
+     *                         value is only used on OS X)
+     * @param selectionRange an optional range of the resulting text that will be selected after
+     *                       insertion or replacement
+     */
+
+    public void ImeSetComposition(String text, List<CefCompositionUnderline> underlines,
+                                        CefRange replacementRange, CefRange selectionRange);
+
+    /**
+     * Completes the existing composition by optionally inserting the specified |text| into the
+     * composition node.
+     * <p>
+     * See comments on ImeSetComposition for usage.
+     * <p>
+     * This method is only used when window rendering is disabled.
+     *
+     * @param text text to be committed
+     * @param replacementRange an optional range of the existing text that will be replaced(the
+     *                         value is only used on OS X)
+     * @param relativeCursorPos where the cursor will be positioned relative to the current
+     *                          cursor position(the value is only used on OS X)
+     */
+    public void ImeCommitText(String text, CefRange replacementRange, int relativeCursorPos);
+
+    /**
+     * Completes the existing composition by applying the current composition node contents.
+     * If |keep_selection| is false the current selection, if any will be discarded. See
+     * comments on ImeSetComposition for usage. This method is only used when window rendering is disabled.
+     *
+     * @param keepSelection whether to save selection
+     */
+    public void ImeFinishComposingText(boolean keepSelection);
+
+    /**
+     * Cancels the existing composition and discards the composition node contents without applying them.
+     * <p>
+     * See comments on ImeSetComposition for usage.
+     * This method is only used when window rendering is disabled.
+     */
+    public void ImeCancelComposing();
 }

@@ -142,6 +142,16 @@ jobject NewJNIPoint(JNIEnv* env, int x, int y) {
   return nullptr;
 }
 
+jobject NewJNIRange(JNIEnv* env, int from, int to) {
+  ScopedJNIClass cls(env, "org/cef/misc/CefRange");
+  if (!cls) {
+    LOG(ERROR) << "Failed to find org.cef.misc.Range";
+    return nullptr;
+  }
+
+  return NewJNIObject(env, "org/cef/misc/CefRange", "(II)V", from, to);
+}
+
 }  // namespace
 
 RenderHandler::RenderHandler(JNIEnv* env, jobject handler)
@@ -344,4 +354,65 @@ bool RenderHandler::GetScreenPoint(jobject browser,
     return true;
   }
   return false;
+}
+
+void RenderHandler::OnImeCompositionRangeChanged(
+    CefRefPtr<CefBrowser> browser,
+    const CefRange& selected_range,
+    const CefRenderHandler::RectList& character_bounds) {
+  ScopedJNIEnv env;
+  if (!env) {
+    return;
+  }
+
+  ScopedJNIBrowser jBrowser(env, browser);
+  ScopedJNIObjectLocal jSelectionRange(
+      env, NewJNIRange(env, selected_range.from, selected_range.to));
+  ScopedJNIObjectLocal jCharBounds(env, NewJNIRectArray(env, character_bounds));
+
+  if (env && handle_) {
+    ScopedJNIClass _cls(env, env->GetObjectClass(handle_));
+    jmethodID _methodId =
+        env->GetMethodID(_cls, "OnImeCompositionRangeChanged",
+                         "(Lorg/cef/browser/CefBrowser;Lorg/cef/misc/"
+                         "CefRange;[Ljava/awt/Rectangle;)V");
+    if (_methodId != nullptr) {
+      env->CallVoidMethod(handle_, _methodId, jBrowser.get(),
+                          jSelectionRange.get(), jCharBounds.get());
+    }
+    if (env->ExceptionOccurred()) {
+      env->ExceptionDescribe();
+      env->ExceptionClear();
+    }
+  }
+}
+
+void RenderHandler::OnTextSelectionChanged(CefRefPtr<CefBrowser> browser,
+                                           const CefString& selected_text,
+                                           const CefRange& selected_range) {
+  ScopedJNIEnv env;
+  if (!env) {
+    return;
+  }
+
+  ScopedJNIBrowser jBrowser(env, browser);
+  ScopedJNIObjectLocal jSelectedText(env, NewJNIString(env, selected_text));
+  ScopedJNIObjectLocal jSelectionRange(
+      env, NewJNIRange(env, selected_range.from, selected_range.to));
+
+  if (env && handle_) {
+    ScopedJNIClass _cls(env, env->GetObjectClass(handle_));
+    jmethodID _methodId =
+        env->GetMethodID(_cls, "OnTextSelectionChanged",
+                         "(Lorg/cef/browser/CefBrowser;Ljava/lang/String;Lorg/"
+                         "cef/misc/CefRange;)V");
+    if (_methodId != nullptr) {
+      env->CallVoidMethod(handle_, _methodId, jBrowser.get(),
+                          jSelectedText.get(), jSelectionRange.get());
+    }
+    if (env->ExceptionOccurred()) {
+      env->ExceptionDescribe();
+      env->ExceptionClear();
+    }
+  }
 }

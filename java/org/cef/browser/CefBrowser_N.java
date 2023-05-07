@@ -13,9 +13,11 @@ import org.cef.callback.CefRunFileDialogCallback;
 import org.cef.callback.CefStringVisitor;
 import org.cef.handler.*;
 import org.cef.handler.CefDialogHandler.FileDialogMode;
+import org.cef.input.CefCompositionUnderline;
 import org.cef.input.CefTouchEvent;
 import org.cef.misc.CefLog;
 import org.cef.misc.CefPdfPrintSettings;
+import org.cef.misc.CefRange;
 import org.cef.network.CefRequest;
 
 import java.awt.Component;
@@ -967,6 +969,51 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
         }
     }
 
+   @Override
+   public final void ImeSetComposition(String text, List<CefCompositionUnderline> underlines,
+                                       CefRange replacementRange, CefRange selectionRange) {
+       try {
+           checkNativeCtxInitialized();
+           if (isNativeCtxInitialized_)
+               N_ImeSetComposition(text, underlines, replacementRange, selectionRange);
+       } catch (UnsatisfiedLinkError ule) {
+           ule.printStackTrace();
+       }
+   }
+
+    @Override
+   public final void ImeCommitText(String text, CefRange replacementRange, int relativeCursorPos) {
+       try {
+           checkNativeCtxInitialized();
+           if (isNativeCtxInitialized_)
+               N_ImeCommitText(text, replacementRange, relativeCursorPos);
+       } catch (UnsatisfiedLinkError ule) {
+           ule.printStackTrace();
+       }
+   }
+
+    @Override
+   public final void ImeFinishComposingText(boolean keepSelection) {
+       try {
+           checkNativeCtxInitialized();
+           if (isNativeCtxInitialized_)
+               N_ImeFinishComposingText(keepSelection);
+       } catch (UnsatisfiedLinkError ule) {
+           ule.printStackTrace();
+       }
+   }
+
+    @Override
+   public final void ImeCancelComposing() {
+       try {
+           checkNativeCtxInitialized();
+           if (isNativeCtxInitialized_)
+               N_ImeCancelComposing();
+       } catch (UnsatisfiedLinkError ule) {
+           ule.printStackTrace();
+       }
+   }
+
     private final native boolean N_CreateBrowser(CefClientHandler clientHandler, long windowHandle,
             String url, boolean osr, boolean transparent, Component canvas,
             CefRequestContext context);
@@ -1031,4 +1078,9 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     private final native void N_UpdateUI(Rectangle contentRect, Rectangle browserRect);
     private final native void N_SetParent(long windowHandle, Component canvas);
     private final native void N_NotifyMoveOrResizeStarted();
+    private final native void N_ImeSetComposition(String text, List<CefCompositionUnderline> underlines,
+                                                  CefRange replacementRange, CefRange selectionRange);
+    private final native void N_ImeCommitText(String text, CefRange replacementRange, int relativeCursorPos);
+    private final native void N_ImeFinishComposingText(boolean keepSelection);
+    private final native void N_ImeCancelComposing();
 }

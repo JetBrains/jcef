@@ -2191,3 +2191,214 @@ void Java_org_cef_browser_CefBrowser_1N_N_1NotifyScreenInfoChanged(JNIEnv* env,
   CefRefPtr<CefBrowser> browser = JNI_GET_BROWSER_OR_RETURN(env, obj);
   browser->GetHost()->NotifyScreenInfoChanged();
 }
+
+namespace {
+
+bool GetJNIRange(JNIEnv* env, jobject obj, CefRange& range) {
+  ScopedJNIClass cls(env, "org/cef/misc/CefRange");
+  if (!cls) {
+    LOG(ERROR) << "Failed to find org.cef.misc.CefRange";
+    return false;
+  }
+
+  int from, to;
+  if (!GetJNIFieldInt(env, cls, obj, "from", &from)) {
+    LOG(ERROR) << "Failed to get org.cef.misc.CefRange#from";
+    return false;
+  }
+
+  if (!GetJNIFieldInt(env, cls, obj, "to", &to)) {
+    LOG(ERROR) << "Failed to get org.cef.misc.CefRange#to";
+    return false;
+  }
+
+  range.Set(from, to);
+
+  return true;
+}
+
+bool GetJNIColor(JNIEnv *env, jobject jColor, cef_color_t& color) {
+  ScopedJNIClass cls(env, env->GetObjectClass(jColor));
+  if (!cls) {
+    LOG(ERROR) << "Failed to find java.awt.Color";
+    return false;
+  }
+
+  int a, r, g, b;
+  if (!CallJNIMethodI_V(env, cls, jColor, "getAlpha", &a)) {
+    LOG(ERROR) << "Failed to call java.awt.Color#getAlpa";
+    return false;
+  }
+
+  if (!CallJNIMethodI_V(env, cls, jColor, "getRed", &r)) {
+    LOG(ERROR) << "Failed to call java.awt.Color#getRed";
+    return false;
+  }
+
+  if (!CallJNIMethodI_V(env, cls, jColor, "getGreen", &g)) {
+    LOG(ERROR) << "Failed to call java.awt.Color#getGreen";
+    return false;
+  }
+
+  if (!CallJNIMethodI_V(env, cls, jColor, "getBlue", &b)) {
+    LOG(ERROR) << "Failed to call java.awt.Color#getBlue";
+    return false;
+  }
+
+  color = CefColorSetARGB(a, r, g, b);
+  return true;
+}
+
+bool GetJNIUnderlineStyle(JNIEnv *env, jobject jStyle, cef_composition_underline_style_t& style) {
+  if (IsJNIEnumValue(env, jStyle, "org/cef/input/CefCompositionUnderline$Style", "SOLID")) {
+    style = CEF_CUS_SOLID;
+  } else if (IsJNIEnumValue(env, jStyle, "org/cef/input/CefCompositionUnderline$Style", "DOT")) {
+    style = CEF_CUS_DOT;
+  } else if (IsJNIEnumValue(env, jStyle, "org/cef/input/CefCompositionUnderline$Style", "DASH")) {
+    style = CEF_CUS_DASH;
+  } else if (IsJNIEnumValue(env, jStyle, "org/cef/input/CefCompositionUnderline$Style", "NONE")) {
+    style = CEF_CUS_NONE;
+  } else {
+    return false;
+  }
+
+  return true;
+}
+
+bool GetJNIUnderline(JNIEnv *env, jobject jUnderline, CefCompositionUnderline& underline) {
+  ScopedJNIClass cls(env, env->GetObjectClass(jUnderline));
+  if (!cls) {
+    LOG(ERROR) << "Failed to find org.cef.input.CefCompositionUnderline";
+    return false;
+  }
+
+  ScopedJNIObjectResult jRange(env);
+  if (!CallJNIMethodObject_V(env, cls, jUnderline, "getRange", "()Lorg/cef/misc/CefRange;", &jRange)) {
+    LOG(ERROR) << "Failed to call CefCompositionUnderline#getRange();";
+    return false;
+  }
+
+  ScopedJNIObjectResult jColor(env);
+  if (!CallJNIMethodObject_V(env, cls, jUnderline, "getColor", "()Ljava/awt/Color;", &jColor)) {
+    LOG(ERROR) << "Failed to call CefCompositionUnderline#getColor();";
+    return false;
+  }
+
+  ScopedJNIObjectResult jBackgroundColor(env);
+  if (!CallJNIMethodObject_V(env, cls, jUnderline, "getBackgroundColor", "()Ljava/awt/Color;", &jBackgroundColor)) {
+    LOG(ERROR) << "Failed to call CefCompositionUnderline#getBackgroundColor();";
+    return false;
+  }
+
+  int thick;
+  if (!CallJNIMethodI_V(env, cls, jUnderline, "getThick", &thick)) {
+    LOG(ERROR) << "Failed to call CefCompositionUnderline#getThick();";
+    return false;
+  }
+
+  ScopedJNIObjectResult jStyle(env);
+  if (!CallJNIMethodObject_V(env, cls, jUnderline, "getStyle", "()Lorg/cef/input/CefCompositionUnderline$Style;", &jStyle)) {
+    LOG(ERROR) << "Failed to call CefCompositionUnderline#getStyle();";
+    return false;
+  }
+
+  CefRange range;
+  if (!GetJNIRange(env, jRange, range)) {
+    LOG(ERROR) << "Failed to convert org.cef.misc.CefRange";
+    return false;
+  }
+  underline.range = range;
+
+  if (!GetJNIColor(env, jColor, underline.color)) {
+    LOG(ERROR) << "Failed to convert CefCompositionUnderline#getColor()";
+    return false;
+  }
+
+  if (!GetJNIColor(env, jBackgroundColor, underline.background_color)) {
+    LOG(ERROR) << "Failed to convert CefCompositionUnderline#getBackgroundColor()";
+    return false;
+  }
+
+  underline.thick = thick;
+
+  if (!GetJNIUnderlineStyle(env, jStyle, underline.style)) {
+    LOG(ERROR) << "Failed to convert CefCompositionUnderline#getStyle()";
+    return false;
+  }
+
+  return true;
+}
+
+bool GetJNIUnderlinesList(JNIEnv* env,
+                          jobject jList,
+                          std::vector<CefCompositionUnderline>& list) {
+  std::vector<ScopedJNIObjectResult> jItems;
+  if (!GetJNIListItems(env, jList, &jItems)) {
+    LOG(ERROR) << "Failed to retrieve CefCompositionUnderline list";
+    return false;
+  }
+
+  std::vector<CefCompositionUnderline> result;
+  for (const auto& jItem: jItems) {
+    result.emplace_back();
+    if (!GetJNIUnderline(env, jItem, result.back())) {
+      LOG(ERROR) << "Failed to convert CefCompositionUnderline list";
+      return false;
+    }
+  }
+
+  list = std::move(result);
+  return true;
+}
+
+}  // namespace
+
+void Java_org_cef_browser_CefBrowser_1N_N_1ImeSetComposition(
+    JNIEnv* env,
+    jobject obj,
+    jstring jText,
+    jobject jUnderlines,
+    jobject jReplacementRange,
+    jobject jSelectionRange) {
+  CefRefPtr<CefBrowser> browser = JNI_GET_BROWSER_OR_RETURN(env, obj);
+  CefString text = GetJNIString(env, jText);
+
+  std::vector<CefCompositionUnderline> underlines;
+  GetJNIUnderlinesList(env, jUnderlines, underlines);
+
+  CefRange replacement_range{};
+  GetJNIRange(env, jReplacementRange, replacement_range);
+
+  CefRange selection_range{};
+  GetJNIRange(env, jSelectionRange, selection_range);
+
+  browser->GetHost()->ImeSetComposition(text, underlines, replacement_range, selection_range);
+}
+
+void Java_org_cef_browser_CefBrowser_1N_N_1ImeCommitText(
+    JNIEnv* env,
+    jobject obj,
+    jstring jText,
+    jobject jReplacementRange,
+    jint jRelativePos) {
+  CefRefPtr<CefBrowser> browser = JNI_GET_BROWSER_OR_RETURN(env, obj);
+  CefString text = GetJNIString(env, jText);
+  CefRange replacement_range;
+  GetJNIRange(env, jReplacementRange, replacement_range);
+
+  browser->GetHost()->ImeCommitText(text, replacement_range, jRelativePos);
+}
+
+void Java_org_cef_browser_CefBrowser_1N_N_1ImeFinishComposingText(
+    JNIEnv* env,
+    jobject obj,
+    jboolean jKeepSelection) {
+  CefRefPtr<CefBrowser> browser = JNI_GET_BROWSER_OR_RETURN(env, obj);
+  browser->GetHost()->ImeFinishComposingText(jKeepSelection);
+}
+
+void Java_org_cef_browser_CefBrowser_1N_N_1ImeCancelComposing(JNIEnv* env,
+                                                              jobject obj) {
+  CefRefPtr<CefBrowser> browser = JNI_GET_BROWSER_OR_RETURN(env, obj);
+  browser->GetHost()->ImeCancelComposition();
+}

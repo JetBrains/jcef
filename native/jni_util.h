@@ -212,6 +212,10 @@ bool IsJNIEnumValue(JNIEnv* env,
                     const char* class_name,
                     const char* enum_valname);
 
+bool GetJNIListItems(JNIEnv* env,
+                     jobject jList,
+                     std::vector<ScopedJNIObjectResult>* list);
+
 std::string GetJavaSystemProperty(std::string key, JNIEnv * env);
 long GetJavaSystemPropertyLong(std::string key, JNIEnv * env, long defaultVal);
 

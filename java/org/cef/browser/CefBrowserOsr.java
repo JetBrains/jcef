@@ -21,6 +21,7 @@ import org.cef.OS;
 import org.cef.callback.CefDragData;
 import org.cef.handler.CefRenderHandler;
 import org.cef.handler.CefScreenInfo;
+import org.cef.misc.CefRange;
 
 import java.awt.Component;
 import java.awt.Cursor;
