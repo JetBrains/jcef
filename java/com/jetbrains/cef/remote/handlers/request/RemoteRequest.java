@@ -1,28 +1,25 @@
 package com.jetbrains.cef.remote.handlers.request;
 
+import com.jetbrains.cef.remote.RpcExecutor;
 import com.jetbrains.cef.remote.handlers.RemoteServerObjectLocal;
 import com.jetbrains.cef.remote.thrift_codegen.PostData;
 import com.jetbrains.cef.remote.thrift_codegen.RObject;
-import com.jetbrains.cef.remote.thrift_codegen.Server;
 import org.apache.thrift.TException;
 import org.cef.misc.CefLog;
 import org.cef.network.CefPostData;
 import org.cef.network.CefRequest;
-import org.cef.network.CefRequestBase;
 
 import java.util.Map;
 
 public class RemoteRequest extends RemoteServerObjectLocal implements CefRequest {
-    public RemoteRequest(Server.Client server, RObject request) {
+    public RemoteRequest(RpcExecutor server, RObject request) {
         super(server, request);
     }
 
     public void flush() {
-        try {
-            myServer.Request_Update(thriftIdWithCache());
-        } catch (TException e) {
-            onThriftException(e);
-        }
+        myServer.exec((s)->{
+            s.Request_Update(thriftIdWithCache());
+        });
     }
 
     @Override
@@ -67,72 +64,50 @@ public class RemoteRequest extends RemoteServerObjectLocal implements CefRequest
 
     @Override
     public CefPostData getPostData() {
-        try {
-            PostData postData = myServer.Request_GetPostData(thriftId());
-            return new RemotePostData(postData);
-        } catch (TException e) {
-            onThriftException(e);
-        }
-        return null;
+        PostData pd = myServer.execObj((s)-> s.Request_GetPostData(thriftId()));
+        return pd == null ? null : new RemotePostData(pd);
     }
 
     @Override
     public void setPostData(CefPostData postData) {
-        try {
-            myServer.Request_SetPostData(thriftId(), RemotePostData.toThriftWithMap(postData));
-        } catch (TException e) {
-            onThriftException(e);
-        }
+        myServer.exec((s)->{
+            s.Request_SetPostData(thriftId(), RemotePostData.toThriftWithMap(postData));
+        });
     }
 
     @Override
     public void set(String url, String method, CefPostData postData, Map<String, String> headerMap) {
-        try {
-            myServer.Request_Set(thriftId(), url, method, RemotePostData.toThriftWithMap(postData), headerMap);
-        } catch (TException e) {
-            onThriftException(e);
-        }
+        myServer.exec((s)->{
+            s.Request_Set(thriftId(), url, method, RemotePostData.toThriftWithMap(postData), headerMap);
+        });
     }
 
     @Override
     public String getHeaderByName(String name) {
-        try {
-            return myServer.Request_GetHeaderByName(thriftId(), name);
-        } catch (TException e) {
-            onThriftException(e);
-        }
-        return null;
+        return myServer.execObj((s)->s.Request_GetHeaderByName(thriftId(), name));
     }
 
     @Override
     public void setHeaderByName(String name, String value, boolean overwrite) {
-        try {
-            myServer.Request_SetHeaderByName(thriftId(), name, value, overwrite);
-        } catch (TException e) {
-            onThriftException(e);
-        }
+        myServer.exec((s)->{
+            s.Request_SetHeaderByName(thriftId(), name, value, overwrite);
+        });
     }
 
     @Override
     public void getHeaderMap(Map<String, String> headerMap) {
         if (headerMap == null)
             return;
-        try {
-            Map<String, String> result = myServer.Request_GetHeaderMap(thriftId());
-            if (result != null)
-                headerMap.putAll(result);
-        } catch (TException e) {
-            onThriftException(e);
-        }
+        Map<String, String> result = myServer.execObj((s)-> s.Request_GetHeaderMap(thriftId()));
+        if (result != null)
+            headerMap.putAll(result);
     }
 
     @Override
     public void setHeaderMap(Map<String, String> headerMap) {
-        try {
-            myServer.Request_SetHeaderMap(thriftId(), headerMap);
-        } catch (TException e) {
-            onThriftException(e);
-        }
+        myServer.exec((s)->{
+            s.Request_SetHeaderMap(thriftId(), headerMap);
+        });
     }
 
     @Override

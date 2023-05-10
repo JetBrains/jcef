@@ -118,24 +118,25 @@ class RemoteServerObject : public RemoteServerObjectBase<T> {
 template <class T>
 class RemoteObject : public RemoteServerObjectBase<T> {
   typedef RemoteServerObjectBase<T> base;
-  typedef std::function<void(std::shared_ptr<thrift_codegen::ClientHandlersClient>)> dtype;
  public:
-  explicit RemoteObject(RemoteClientHandler& owner, int id, int peerId, dtype disposer) : RemoteServerObjectBase<T>(owner, id), myPeerId(peerId), myDisposer(disposer) {}
-  
+  explicit RemoteObject(RemoteClientHandler& owner,
+                        int id,
+                        int peerId,
+                        std::function<void(RpcExecutor::Service)> disposer)
+      : RemoteServerObjectBase<T>(owner, id),
+        myPeerId(peerId),
+        myDisposer(disposer) {}
+
   virtual ~RemoteObject() {
-      auto remoteService = base::myOwner.getService();
-      if (remoteService == nullptr) return;
-      try {
-        myDisposer(remoteService);
-      } catch (apache::thrift::TException& tx) {
-        base::myOwner.onThriftException(tx);
-      }
-      base::FACTORY.dispose(base::myId, false);
+    base::myOwner.exec([&](RpcExecutor::Service s){
+      myDisposer(s);
+    });
+    base::FACTORY.dispose(base::myId, false);
   }
 
  protected:
   const int myPeerId; // java-peer (delegate)
-  dtype myDisposer;
+  std::function<void(RpcExecutor::Service)> myDisposer;
 };
 
 template <class T>

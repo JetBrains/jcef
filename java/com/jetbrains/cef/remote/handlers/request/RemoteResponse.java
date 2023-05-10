@@ -1,5 +1,6 @@
 package com.jetbrains.cef.remote.handlers.request;
 
+import com.jetbrains.cef.remote.RpcExecutor;
 import com.jetbrains.cef.remote.handlers.RemoteServerObjectLocal;
 import com.jetbrains.cef.remote.thrift_codegen.RObject;
 import com.jetbrains.cef.remote.thrift_codegen.Server;
@@ -12,16 +13,14 @@ import org.cef.network.CefResponseBase;
 import java.util.Map;
 
 public class RemoteResponse extends RemoteServerObjectLocal implements CefResponse {
-    public RemoteResponse(Server.Client server, RObject resp) {
+    public RemoteResponse(RpcExecutor server, RObject resp) {
         super(server, resp);
     }
 
     public void flush() {
-        try {
-            myServer.Response_Update(thriftIdWithCache());
-        } catch (TException e) {
-            onThriftException(e);
-        }
+        myServer.exec((s)->{
+            s.Response_Update(thriftIdWithCache());
+        });
     }
 
     @Override
@@ -65,43 +64,26 @@ public class RemoteResponse extends RemoteServerObjectLocal implements CefRespon
 
     @Override
     public String getHeaderByName(String name) {
-        try {
-            return myServer.Response_GetHeaderByName(thriftId(), name);
-        } catch (TException e) {
-            onThriftException(e);
-        }
-        return null;
+        return myServer.execObj((s)-> s.Response_GetHeaderByName(thriftId(), name));
     }
 
     @Override
     public void setHeaderByName(String name, String value, boolean overwrite) {
-        try {
-            myServer.Response_SetHeaderByName(thriftId(), name, value, overwrite);
-        } catch (TException e) {
-            onThriftException(e);
-        }
+        myServer.exec((s)-> s.Response_SetHeaderByName(thriftId(), name, value, overwrite));
     }
 
     @Override
     public void getHeaderMap(Map<String, String> headerMap) {
         if (headerMap == null)
             return;
-        try {
-            Map<String, String> result = myServer.Response_GetHeaderMap(thriftId());
-            if (result != null)
-                headerMap.putAll(result);
-        } catch (TException e) {
-            onThriftException(e);
-        }
+        Map<String, String> result = myServer.execObj((s)-> s.Response_GetHeaderMap(thriftId()));
+        if (result != null)
+            headerMap.putAll(result);
     }
 
     @Override
     public void setHeaderMap(Map<String, String> headerMap) {
-        try {
-            myServer.Response_SetHeaderMap(thriftId(), headerMap);
-        } catch (TException e) {
-            onThriftException(e);
-        }
+        myServer.exec((s)-> s.Response_SetHeaderMap(thriftId(), headerMap));
     }
 
     @Override

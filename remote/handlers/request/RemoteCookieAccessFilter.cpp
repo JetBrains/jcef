@@ -12,50 +12,38 @@ RemoteCookieAccessFilter::RemoteCookieAccessFilter(RemoteClientHandler& owner, i
     : RemoteObject<RemoteCookieAccessFilter>(owner, id, peerId,
     [=](std::shared_ptr<thrift_codegen::ClientHandlersClient> service) { service->CookieAccessFilter_Dispose(peerId); }) {}
 
-// TODO: use RObject everywhere in such create methods
-CefRefPtr<RemoteCookieAccessFilter> RemoteCookieAccessFilter::create(RemoteClientHandler& owner, int peerId) {
-  return FACTORY.create([&](int id) -> RemoteCookieAccessFilter* {return new RemoteCookieAccessFilter(owner, id, peerId);});
+CefRefPtr<RemoteCookieAccessFilter> RemoteCookieAccessFilter::create(RemoteClientHandler& owner, thrift_codegen::RObject peer) {
+  return FACTORY.create([&](int id) -> RemoteCookieAccessFilter* {return new RemoteCookieAccessFilter(owner, id, peer.objId);});
 }
 
 bool RemoteCookieAccessFilter::CanSendCookie(CefRefPtr<CefBrowser> browser,
                                              CefRefPtr<CefFrame> frame,
                                              CefRefPtr<CefRequest> request,
-                                             const CefCookie& cookie) {
+                                             const CefCookie& cookie
+) {
   LogNdc ndc("RemoteCookieAccessFilter::CanSendCookie");
-  auto remoteService = myOwner.getService();
-  if (remoteService == nullptr) return false;
-
   RemoteRequest * rr = RemoteRequest::create(myOwner, request);
   Holder<RemoteRequest> holder(*rr);
-  try {
-    return remoteService->CookieAccessFilter_CanSendCookie(myPeerId, myOwner.getBid(), rr->toThriftWithMap(), cookie2list(cookie));
-  } catch (apache::thrift::TException& tx) {
-    myOwner.onThriftException(tx);
-  }
-  return true;
+  return myOwner.exec<bool>([&](RpcExecutor::Service s){
+    return s->CookieAccessFilter_CanSendCookie(myPeerId, myOwner.getBid(), rr->toThriftWithMap(), cookie2list(cookie));
+  }, true);
 }
 
 bool RemoteCookieAccessFilter::CanSaveCookie(CefRefPtr<CefBrowser> browser,
                                              CefRefPtr<CefFrame> frame,
                                              CefRefPtr<CefRequest> request,
                                              CefRefPtr<CefResponse> response,
-                                             const CefCookie& cookie) {
+                                             const CefCookie& cookie
+) {
   LogNdc ndc("RemoteCookieAccessFilter::CanSaveCookie");
-  auto remoteService = myOwner.getService();
-  if (remoteService == nullptr) return false;
-
   RemoteRequest * rreq = RemoteRequest::create(myOwner, request);
   Holder<RemoteRequest> holderReq(*rreq);
-
   RemoteResponse * rresp = RemoteResponse::create(myOwner, response);
   Holder<RemoteResponse> holderResp(*rresp);
-  try {
-    return remoteService->CookieAccessFilter_CanSaveCookie(myPeerId, myOwner.getBid(), rreq->toThriftWithMap(),
-        rresp->toThriftWithMap(), cookie2list(cookie));
-  } catch (apache::thrift::TException& tx) {
-    myOwner.onThriftException(tx);
-  }
-  return true;
+  return myOwner.exec<bool>([&](RpcExecutor::Service s){
+    return s->CookieAccessFilter_CanSaveCookie(myPeerId, myOwner.getBid(), rreq->toThriftWithMap(),
+                                                 rresp->toThriftWithMap(), cookie2list(cookie));
+  }, true);
 }
 
 namespace {

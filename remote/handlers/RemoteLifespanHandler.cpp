@@ -20,58 +20,36 @@ bool RemoteLifespanHandler::OnBeforePopup(
     bool* no_javascript_access)
 {
   LogNdc ndc("RemoteLifespanHandler::OnBeforePopup");
-  auto remoteService = myOwner.getService();
-  if (remoteService == nullptr) return false;
-
-  try {
-    // TODO: support other params
+  myOwner.exec([&](RpcExecutor::Service s){
+    // TODO: support other params and return values
     Log::error("Unimplemented some params transferring");
-    remoteService->onBeforePopup(myOwner.getBid(), target_url.ToString(), target_frame_name.ToString(), user_gesture);
-  } catch (apache::thrift::TException& tx) {
-    myOwner.onThriftException(tx);
-  }
+    s->onBeforePopup(myOwner.getBid(), target_url.ToString(), target_frame_name.ToString(), user_gesture);
+  });
   return false;
 }
 
 void RemoteLifespanHandler::OnAfterCreated(CefRefPtr<CefBrowser> browser) {
-  myBrowser = browser;
-
   LogNdc ndc("RemoteLifespanHandler::OnAfterCreated");
-  auto remoteService = myOwner.getService();
-  if (remoteService == nullptr) return;
-
-  try {
-    remoteService->onAfterCreated(myOwner.getBid());
-  } catch (apache::thrift::TException& tx) {
-    myOwner.onThriftException(tx);
-  }
+  myBrowser = browser;
+  myOwner.exec([&](RpcExecutor::Service s){
+    s->onAfterCreated(myOwner.getBid());
+  });
 }
 
 bool RemoteLifespanHandler::DoClose(CefRefPtr<CefBrowser> browser) {
-  myBrowser = nullptr;
-
   LogNdc ndc("RemoteLifespanHandler::DoClose");
-  auto remoteService = myOwner.getService();
-  if (remoteService == nullptr) return false;
-
-  try {
-    remoteService->doClose(myOwner.getBid());
-  } catch (apache::thrift::TException& tx) {
-    myOwner.onThriftException(tx);
-  }
+  myBrowser = nullptr;
+  myOwner.exec([&](RpcExecutor::Service s){
+    s->doClose(myOwner.getBid());
+  });
   return false;
 }
 
 void RemoteLifespanHandler::OnBeforeClose(CefRefPtr<CefBrowser> browser) {
   LogNdc ndc("RemoteLifespanHandler::OnBeforeClose");
-  auto remoteService = myOwner.getService();
-  if (remoteService == nullptr) return;
-
-  try {
-    remoteService->onBeforeClose(myOwner.getBid());
-  } catch (apache::thrift::TException& tx) {
-    myOwner.onThriftException(tx);
-  }
+  myOwner.exec([&](RpcExecutor::Service s){
+    s->onBeforeClose(myOwner.getBid());
+  });
 }
 
 CefRefPtr<CefBrowser> RemoteLifespanHandler::getBrowser() {

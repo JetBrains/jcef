@@ -21,17 +21,11 @@ bool RemoteRequestHandler::OnBeforeBrowse(CefRefPtr<CefBrowser> browser,
                     bool is_redirect
 ) {
   LogNdc ndc("RemoteRequestHandler::OnBeforeBrowse");
-  auto remoteService = myOwner.getService();
-  if (remoteService == nullptr) return false;
-
   RemoteRequest * rr = RemoteRequest::create(myOwner, request);
   Holder<RemoteRequest> holder(*rr);
-  try {
-    return remoteService->RequestHandler_OnBeforeBrowse(myOwner.getBid(), rr->toThriftWithMap(), user_gesture, is_redirect);
-  } catch (apache::thrift::TException& tx) {
-    myOwner.onThriftException(tx);
-  }
-  return false;
+  return myOwner.exec<bool>([&](RpcExecutor::Service s){
+    return s->RequestHandler_OnBeforeBrowse(myOwner.getBid(), rr->toThriftWithMap(), user_gesture, is_redirect);
+  }, false);
 }
 
 bool RemoteRequestHandler::OnOpenURLFromTab(CefRefPtr<CefBrowser> browser,
@@ -41,15 +35,9 @@ bool RemoteRequestHandler::OnOpenURLFromTab(CefRefPtr<CefBrowser> browser,
                       bool user_gesture
 ) {
   LogNdc ndc("RemoteRequestHandler::OnOpenURLFromTab");
-  auto remoteService = myOwner.getService();
-  if (remoteService == nullptr) return false;
-
-  try {
-    return remoteService->RequestHandler_OnOpenURLFromTab(myOwner.getBid(), target_url.ToString(), user_gesture);
-  } catch (apache::thrift::TException& tx) {
-    myOwner.onThriftException(tx);
-  }
-  return false;
+  return myOwner.exec<bool>([&](RpcExecutor::Service s){
+    return s->RequestHandler_OnOpenURLFromTab(myOwner.getBid(), target_url.ToString(), user_gesture);
+  }, false);
 }
 
 CefRefPtr<CefResourceRequestHandler> RemoteRequestHandler::GetResourceRequestHandler(
@@ -63,24 +51,22 @@ CefRefPtr<CefResourceRequestHandler> RemoteRequestHandler::GetResourceRequestHan
 ) {
   // Called on the browser process IO thread before a resource request is initiated.
   LogNdc ndc("RemoteRequestHandler::GetResourceRequestHandler", "ChromeIO");
-  auto remoteService = myOwner.getService();
-  if (remoteService == nullptr) return nullptr;
-
   if (!myResourceRequestHandlerReceived) {
     RemoteRequest * rr = RemoteRequest::create(myOwner, request);
     Holder<RemoteRequest> holder(*rr);
-    thrift_codegen::RObject remoteHandler;
-    try {
-      remoteService->RequestHandler_GetResourceRequestHandler(remoteHandler, myOwner.getBid(), rr->toThriftWithMap(), is_navigation, is_download, request_initiator.ToString());
-      myResourceRequestHandlerReceived = true;
-      if (!remoteHandler.__isset.isPersistent || !remoteHandler.isPersistent)
-        Log::error("Non-persistent ResourceRequestHandler can cause unstable behaviour and won't be used.");
-      else if (remoteHandler.objId != -1) {
-        myResourceRequestHandler = RemoteResourceRequestHandler::create(myOwner, remoteHandler.objId); // returns ref-ptr wrapper over remote object (disposes java-object in dtor)
-        myDisableDefaultHandling = remoteHandler.__isset.isDisableDefaultHandling && remoteHandler.isDisableDefaultHandling;
-      }
-    } catch (apache::thrift::TException& tx) {
-      myOwner.onThriftException(tx);
+    thrift_codegen::RObject peer;
+    peer.__set_objId(-1);
+    myOwner.exec([&](RpcExecutor::Service s){
+      s->RequestHandler_GetResourceRequestHandler(
+          peer, myOwner.getBid(), rr->toThriftWithMap(), is_navigation, is_download, request_initiator.ToString());
+    });
+    myResourceRequestHandlerReceived = true;
+    if (!peer.__isset.isPersistent || !peer.isPersistent)
+      Log::error("Non-persistent ResourceRequestHandler can cause unstable behaviour and won't be used.");
+    else if (peer.objId != -1) {
+      myResourceRequestHandler = RemoteResourceRequestHandler::create(myOwner, peer); // returns ref-ptr wrapper over remote object (disposes java-object in dtor)
+      myDisableDefaultHandling = peer.__isset.isDisableDefaultHandling &&
+                                 peer.isDisableDefaultHandling;
     }
   }
 
@@ -98,16 +84,10 @@ bool RemoteRequestHandler::GetAuthCredentials(CefRefPtr<CefBrowser> browser,
                         CefRefPtr<CefAuthCallback> callback
 ) {
   LogNdc ndc("RemoteRequestHandler::GetAuthCredentials");
-  auto remoteService = myOwner.getService();
-  if (remoteService == nullptr) return false;
-
   RemoteAuthCallback * rc = RemoteAuthCallback::create(myOwner, callback);
-  try {
-    return remoteService->RequestHandler_GetAuthCredentials(myOwner.getBid(), origin_url.ToString(), isProxy, host.ToString(), port, realm.ToString(), scheme.ToString(), rc->toThrift());
-  } catch (apache::thrift::TException& tx) {
-    myOwner.onThriftException(tx);
-  }
-  return false;
+    return myOwner.exec<bool>([&](RpcExecutor::Service s){
+      return s->RequestHandler_GetAuthCredentials(myOwner.getBid(), origin_url.ToString(), isProxy, host.ToString(), port, realm.ToString(), scheme.ToString(), rc->toThrift());
+  }, false);
 }
 
 bool RemoteRequestHandler::OnCertificateError(CefRefPtr<CefBrowser> browser,
@@ -117,31 +97,19 @@ bool RemoteRequestHandler::OnCertificateError(CefRefPtr<CefBrowser> browser,
                         CefRefPtr<CefCallback> callback
 ) {
   LogNdc ndc("RemoteRequestHandler::OnCertificateError");
-  auto remoteService = myOwner.getService();
-  if (remoteService == nullptr) return false;
-
   RemoteCallback * rc = RemoteCallback::create(myOwner, callback);
   thrift_codegen::RObject sslInfo;
-  sslInfo.objId = -1;
-  try {
-    return remoteService->RequestHandler_OnCertificateError(myOwner.getBid(), err2str(cert_error), request_url, sslInfo,
-        rc->toThriftWithMap());
-  } catch (apache::thrift::TException& tx) {
-    myOwner.onThriftException(tx);
-  }
-  return false;
+  sslInfo.__set_objId(-1); // TODO: implement ssl_info
+  return myOwner.exec<bool>([&](RpcExecutor::Service s){
+      return s->RequestHandler_OnCertificateError(myOwner.getBid(), err2str(cert_error), request_url, sslInfo, rc->toThriftWithMap());
+  }, false);
 }
 
 void RemoteRequestHandler::OnRenderProcessTerminated(CefRefPtr<CefBrowser> browser, TerminationStatus status) {
   LogNdc ndc("RemoteRequestHandler::OnRenderProcessTerminated");
-  auto remoteService = myOwner.getService();
-  if (remoteService == nullptr) return;
-
-  try {
-    return remoteService->RequestHandler_OnRenderProcessTerminated(myOwner.getBid(), tstatus2str(status));
-  } catch (apache::thrift::TException& tx) {
-    myOwner.onThriftException(tx);
-  }
+  myOwner.exec([&](RpcExecutor::Service s){
+    s->RequestHandler_OnRenderProcessTerminated(myOwner.getBid(), tstatus2str(status));
+  });
 }
 
 namespace {

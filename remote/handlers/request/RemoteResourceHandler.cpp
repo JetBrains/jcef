@@ -7,8 +7,8 @@ RemoteResourceHandler::RemoteResourceHandler(RemoteClientHandler& owner, int id,
     : RemoteObject(owner, id, peerId,
         [=](std::shared_ptr<thrift_codegen::ClientHandlersClient> service) { service->ResourceHandler_Dispose(peerId); }) {}
 
-CefRefPtr<RemoteResourceHandler> RemoteResourceHandler::create(RemoteClientHandler& owner, int peerId) {
-  return FACTORY.create([&](int id) -> RemoteResourceHandler* {return new RemoteResourceHandler(owner, id, peerId);});
+CefRefPtr<RemoteResourceHandler> RemoteResourceHandler::create(RemoteClientHandler& owner, thrift_codegen::RObject peer) {
+  return FACTORY.create([&](int id) -> RemoteResourceHandler* {return new RemoteResourceHandler(owner, id, peer.objId);});
 }
 
 bool RemoteResourceHandler::Open(CefRefPtr<CefRequest> request,

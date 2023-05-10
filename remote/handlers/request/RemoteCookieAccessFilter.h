@@ -6,7 +6,7 @@
 
 class RemoteCookieAccessFilter : public CefCookieAccessFilter, public RemoteObject<RemoteCookieAccessFilter> {
  public:
-  static CefRefPtr<RemoteCookieAccessFilter> create(RemoteClientHandler& owner, int peerId);
+  static CefRefPtr<RemoteCookieAccessFilter> create(RemoteClientHandler& owner, thrift_codegen::RObject peer);
 
   bool CanSendCookie(CefRefPtr<CefBrowser> browser,
                      CefRefPtr<CefFrame> frame,

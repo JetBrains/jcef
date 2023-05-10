@@ -4,7 +4,7 @@
 #include "RemoteBrowserProcessHandler.h"
 #include "include/cef_app.h"
 
-class RemoteAppHandler : public CefApp, ConnectionUser {
+class RemoteAppHandler : public CefApp, RpcExecutor {
  public:
   explicit RemoteAppHandler(
       std::shared_ptr<BackwardConnection> backwardConnection,

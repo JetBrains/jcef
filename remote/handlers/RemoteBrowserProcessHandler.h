@@ -4,7 +4,7 @@
 #include "../Utils.h"
 #include "include/cef_browser_process_handler.h"
 
-class RemoteBrowserProcessHandler : public CefBrowserProcessHandler, ConnectionUser {
+class RemoteBrowserProcessHandler : public CefBrowserProcessHandler, RpcExecutor {
  public:
   explicit RemoteBrowserProcessHandler(std::shared_ptr<BackwardConnection> backwardConnection);
   virtual ~RemoteBrowserProcessHandler();

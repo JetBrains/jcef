@@ -7,7 +7,7 @@
 
 class RemoteResourceRequestHandler : public CefResourceRequestHandler, public RemoteObject<RemoteResourceRequestHandler> {
  public:
-  static CefRefPtr<RemoteResourceRequestHandler> create(RemoteClientHandler & owner, int peerId);
+  static CefRefPtr<RemoteResourceRequestHandler> create(RemoteClientHandler & owner, thrift_codegen::RObject peer);
 
   CefRefPtr<CefCookieAccessFilter> GetCookieAccessFilter(
       CefRefPtr<CefBrowser> browser,

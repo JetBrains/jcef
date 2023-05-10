@@ -1,27 +1,56 @@
 #ifndef JCEF_UTILS_H
 #define JCEF_UTILS_H
 
-#include "./gen-cpp/ClientHandlers.h"
 #include <mutex>
+#include "./gen-cpp/ClientHandlers.h"
+#include "log/Log.h"
 
 class BackwardConnection {
-  std::shared_ptr<thrift_codegen::ClientHandlersClient> myClientHandlers = nullptr;
-  std::shared_ptr<apache::thrift::transport::TTransport> myTransport;
-
  public:
+  typedef std::shared_ptr<thrift_codegen::ClientHandlersClient> Service;
   BackwardConnection();
 
   void close();
-  std::shared_ptr<thrift_codegen::ClientHandlersClient> getHandlersService() { return myClientHandlers; }
+
+  // Performs thread-safe RPC execution.
+  template<typename T>
+  T exec(std::function<T(Service)> rpc, T defVal) {
+    std::unique_lock<std::recursive_mutex> lock(myMutex);
+    if (myService == nullptr) {
+      Log::error("null remote service");
+      return defVal;
+    }
+    try {
+      return rpc(myService);
+    } catch (apache::thrift::TException& tx) {
+      Log::debug("thrift exception occured: %s", tx.what());
+      // TODO: should we call close now ?
+    }
+    return defVal;
+  }
+
+  void exec(std::function<void(Service)> rpc);
+
+ private:
+  std::shared_ptr<thrift_codegen::ClientHandlersClient> myService = nullptr;
+  std::shared_ptr<apache::thrift::transport::TTransport> myTransport;
+  std::recursive_mutex myMutex;
 };
 
-class ConnectionUser {
+class RpcExecutor {
  public:
-  explicit ConnectionUser(std::shared_ptr<BackwardConnection> backwardConnection):
+  typedef std::shared_ptr<thrift_codegen::ClientHandlersClient> Service;
+
+  explicit RpcExecutor(std::shared_ptr<BackwardConnection> backwardConnection):
         myBackwardConnection(backwardConnection) {}
 
-  std::shared_ptr<thrift_codegen::ClientHandlersClient> getService(); // logs error when null
-  void onThriftException(apache::thrift::TException e);
+  // Thread-safe RPC execution.
+  template<typename T>
+  T exec(std::function<T(Service)> rpc, T defVal) {
+    return myBackwardConnection->exec(rpc, defVal);
+  }
+
+  void exec(std::function<void(Service)> rpc);
 
  private:
   std::shared_ptr<BackwardConnection> myBackwardConnection;

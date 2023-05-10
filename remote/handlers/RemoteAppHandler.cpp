@@ -7,7 +7,7 @@ RemoteAppHandler::RemoteAppHandler(
     std::shared_ptr<BackwardConnection> backwardConnection,
     const std::vector<std::string> & args,
     const std::map<std::string, std::string>& settings
-) : ConnectionUser(backwardConnection),
+) : RpcExecutor(backwardConnection),
     myArgs(args),
     mySettings(settings),
     myBrowserProcessHandler(new RemoteBrowserProcessHandler(backwardConnection)) {}
@@ -92,16 +92,10 @@ void RemoteAppHandler::OnBeforeCommandLineProcessing(
 void RemoteAppHandler::OnRegisterCustomSchemes(
     CefRawPtr<CefSchemeRegistrar> registrar) {
   LogNdc ndc("RemoteAppHandler::OnRegisterCustomSchemes");
-  auto remoteService = getService();
-  if (remoteService == nullptr) return;
-
   std::vector<CustomScheme> result;
-  try {
-    remoteService->getRegisteredCustomSchemes(result);
-  } catch (apache::thrift::TException& tx) {
-    onThriftException(tx);
-    return;
-  }
+  exec([&](RpcExecutor::Service s){
+    s->getRegisteredCustomSchemes(result);
+  });
 
   Log::debug("Additional schemes:");
   for (auto cs: result) {

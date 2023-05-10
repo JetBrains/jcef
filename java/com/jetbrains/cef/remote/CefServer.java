@@ -11,6 +11,7 @@ import org.apache.thrift.server.TSimpleServer;
 import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
+import org.apache.thrift.transport.TTransportException;
 import org.cef.CefSettings;
 import org.cef.callback.CefSchemeRegistrar;
 import org.cef.misc.CefLog;
@@ -29,45 +30,38 @@ public class CefServer {
     private TServerSocket myClientHandlersTransport;
     private ClientHandlersImpl myClientHandlersImpl;
 
-    // Java client for CefServer
-    private TTransport myTransport;
-    private TProtocol myProtocol;
-    private Server.Client myCefServerClient;
+    // Java client for native CefServer
+    private final RpcExecutor myService = new RpcExecutor();
 
+    synchronized
     public CefRemoteBrowser createBrowser(CefRemoteClient remoteClient) {
-        int newBid;
-        try {
-            newBid = myCefServerClient.createBrowser(remoteClient.getCid());
-        } catch (TException e) {
-            onThriftException(e);
-            return null;
-        }
-        CefRemoteBrowser result = new CefRemoteBrowser(this, newBid, remoteClient);
+        int[] newBid = new int[]{-1};
+        myService.exec((s)->{
+            newBid[0] = s.createBrowser(remoteClient.getCid());
+        });
+        CefRemoteBrowser result = new CefRemoteBrowser(this, newBid[0], remoteClient);
         myClientHandlersImpl.registerBrowser(result);
         return result;
     }
 
     // closes remote browser
+    synchronized
     public void closeBrowser(int bid) {
-        try {
+        myService.exec((s)->{
             // TODO: should we support force flag ? does it affect smth in OSR ?
-            String err = myCefServerClient.closeBrowser(bid);
+            String err = s.closeBrowser(bid);
             if (err != null && !err.isEmpty())
                 CefLog.Error("tried to close remote browser %d, error '%s'", bid, err);
-        } catch (TException e) {
-            onThriftException(e);
-        }
-
+        });
         myClientHandlersImpl.unregisterBrowser(bid);
     }
 
     // invokes method of remote browser
+    synchronized
     public void invoke(int bid, String method, ByteBuffer params) {
-        try {
-            myCefServerClient.invoke(bid, method, params);
-        } catch (TException e) {
-            onThriftException(e);
-        }
+        myService.exec((s)->{
+            s.invoke(bid, method, params);
+        });
     }
 
     // connect to CefServer and start cef-handlers service
@@ -87,13 +81,10 @@ public class CefServer {
             };
 
             // 1. Create client and open socket
-            myTransport = new TSocket("localhost", PORT);
-            myTransport.open();
-            myProtocol = new TBinaryProtocol(myTransport);
-            myCefServerClient = new Server.Client(myProtocol);
+            myService.init(PORT);
 
             // 2. Start service for backward rpc calls (from native to java)
-            myClientHandlersImpl = new ClientHandlersImpl(myCefServerClient, cefRemoteApp);
+            myClientHandlersImpl = new ClientHandlersImpl(myService, cefRemoteApp);
             ClientHandlers.Processor processor = new ClientHandlers.Processor(myClientHandlersImpl);
             int backwardConnectionPort = PORT + 1;
             myClientHandlersTransport = new TServerSocket(backwardConnectionPort);
@@ -108,9 +99,12 @@ public class CefServer {
             myClientHandlersThread.start();
 
             // 3. Connect to CefServer
-            int cid = myCefServerClient.connect(backwardConnectionPort, args, settings.toMap());
+            int[] cid = new int[]{-1};
+            myService.exec((s)->{
+                cid[0] = s.connect(backwardConnectionPort, args, settings.toMap());
+            });
 
-            CefLog.Debug("Connected to CefSever, cid=" + cid);
+            CefLog.Debug("Connected to CefSever, cid=" + cid[0]);
         } catch (TException x) {
             CefLog.Error("exception in CefServer.start: %s", x.getMessage());
             return false;
@@ -120,27 +114,14 @@ public class CefServer {
     }
 
     public void stop() {
-        if (myTransport != null) {
-            myTransport.close();
-            myTransport = null;
-        }
+        myService.closeSocket();
         if (myClientHandlersTransport != null) {
             myClientHandlersTransport.close();
             myClientHandlersTransport = null;
         }
-
         if (myClientHandlersServer != null) {
             myClientHandlersServer.stop();
             myClientHandlersServer = null;
         }
-    }
-
-    private void onThriftException(TException e) {
-        CefLog.Error("thrift exception '%s'", e.getMessage());
-        StringWriter sw = new StringWriter();
-        e.printStackTrace(new PrintWriter(sw));
-        CefLog.Error(sw.getBuffer().toString());
-
-        // TODO: check whether socket is still open and reconnect if necessary
     }
 }

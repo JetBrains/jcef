@@ -7,9 +7,8 @@
 #include "handlers/RemoteClientHandler.h"
 #include "log/Log.h"
 
-// TODO: make thread-safe
-
 // Used per connection (destroyed when connection closed)
+// All methods are invoked in socket-listening thread ("Client_N")
 class ServerHandler : public thrift_codegen::ServerIf {
  public:
   ~ServerHandler();
@@ -90,12 +89,6 @@ class ServerHandler : public thrift_codegen::ServerIf {
   void Callback_Dispose(const thrift_codegen::RObject& callback) override;
   void Callback_Continue(const thrift_codegen::RObject& callback) override;
   void Callback_Cancel(const thrift_codegen::RObject& callback) override;
-
-  
-  //
-  // Public API
-  //
-  std::shared_ptr<BackwardConnection> getBackwardConnection() { return myBackwardConnection; }
 
  private:
   CefRefPtr<CefBrowser> getBrowser(int bid);

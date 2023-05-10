@@ -1,7 +1,7 @@
 package com.jetbrains.cef.remote.handlers;
 
+import com.jetbrains.cef.remote.RpcExecutor;
 import com.jetbrains.cef.remote.thrift_codegen.RObject;
-import com.jetbrains.cef.remote.thrift_codegen.Server;
 import org.apache.thrift.TException;
 import org.cef.misc.CefLog;
 
@@ -15,10 +15,10 @@ import java.util.Map;
 //
 public abstract class RemoteServerObjectLocal {
     protected final int myId;
-    protected final Server.Client myServer;
+    protected final RpcExecutor myServer;
     protected final Map<String, String> myCache = new HashMap<>();
 
-    public RemoteServerObjectLocal(Server.Client server, RObject robj) {
+    public RemoteServerObjectLocal(RpcExecutor server, RObject robj) {
         myId = robj.objId;
         myServer = server;
         if (robj.objInfo != null)

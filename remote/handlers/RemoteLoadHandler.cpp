@@ -9,45 +9,30 @@ void RemoteLoadHandler::OnLoadingStateChange(CefRefPtr<CefBrowser> browser,
                           bool canGoBack,
                           bool canGoForward) {
   LogNdc ndc("RemoteLoadHandler::OnLoadingStateChange");
-  auto remoteService = myOwner.getService();
-  if (remoteService == nullptr) return;
-
-  try {
-    remoteService->onLoadingStateChange(
+  myOwner.exec([&](RpcExecutor::Service s){
+    s->onLoadingStateChange(
         myOwner.getBid(),
         isLoading, canGoBack, canGoForward
     );
-  } catch (apache::thrift::TException& tx) {
-    myOwner.onThriftException(tx);
-  }
+  });
 }
 
 void RemoteLoadHandler::OnLoadStart(CefRefPtr<CefBrowser> browser,
                  CefRefPtr<CefFrame> frame,
                  CefLoadHandler::TransitionType transition_type) {
   LogNdc ndc("RemoteLoadHandler::OnLoadStart");
-  auto remoteService = myOwner.getService();
-  if (remoteService == nullptr) return;
-
-  try {
-    remoteService->onLoadStart(myOwner.getBid(), transition_type);
-  } catch (apache::thrift::TException& tx) {
-    myOwner.onThriftException(tx);
-  }
+  myOwner.exec([&](RpcExecutor::Service s){
+    s->onLoadStart(myOwner.getBid(), transition_type);
+  });
 }
 
 void RemoteLoadHandler::OnLoadEnd(CefRefPtr<CefBrowser> browser,
                CefRefPtr<CefFrame> frame,
                int httpStatusCode) {
   LogNdc ndc("RemoteLoadHandler::OnLoadEnd");
-  auto remoteService = myOwner.getService();
-  if (remoteService == nullptr) return;
-
-  try {
-    remoteService->onLoadEnd(myOwner.getBid(), httpStatusCode);
-  } catch (apache::thrift::TException& tx) {
-    myOwner.onThriftException(tx);
-  }
+  myOwner.exec([&](RpcExecutor::Service s){
+    s->onLoadEnd(myOwner.getBid(), httpStatusCode);
+  });
 }
 
 void RemoteLoadHandler::OnLoadError(CefRefPtr<CefBrowser> browser,
@@ -56,13 +41,7 @@ void RemoteLoadHandler::OnLoadError(CefRefPtr<CefBrowser> browser,
                  const CefString& errorText,
                  const CefString& failedUrl) {
   LogNdc ndc("RemoteLoadHandler::OnLoadError");
-  auto remoteService = myOwner.getService();
-  if (remoteService == nullptr) return;
-
-  try {
-    remoteService->onLoadError(myOwner.getBid(), errorCode, errorText.ToString(), failedUrl.ToString());
-  } catch (apache::thrift::TException& tx) {
-    myOwner.onThriftException(tx);
-  }
+  myOwner.exec([&](RpcExecutor::Service s){
+    s->onLoadError(myOwner.getBid(), errorCode, errorText.ToString(), failedUrl.ToString());
+  });
 }
-

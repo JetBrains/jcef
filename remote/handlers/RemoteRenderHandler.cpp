@@ -69,20 +69,13 @@ void fillDummy(CefRect& rect) {
 }
 
 void RemoteRenderHandler::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) {
-    fillDummy(rect);
-
-    //Measurer measurer();
     LogNdc ndc("RemoteRenderHandler::GetViewRect");
-    auto remoteService = myOwner.getService();
-    if (remoteService == nullptr) return;
-
+    fillDummy(rect);
     std::string result;
-    try {
-      remoteService->getInfo(result, myOwner.getBid(), "viewRect", "");
-    } catch (apache::thrift::TException& tx) {
-      myOwner.onThriftException(tx);
-      return;
-    }
+    myOwner.exec([&](RpcExecutor::Service s){
+      s->getInfo(result, myOwner.getBid(), "viewRect", "");
+    });
+    if (result.empty()) return;
 
     const int len = result.size();
     if (len < 4) {
@@ -95,13 +88,11 @@ void RemoteRenderHandler::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& re
     rect.y = *(p++);
     rect.width = *(p++);
     rect.height = *(p++);
+
     if (rect.width < 1 || rect.height < 1) {
         Log::error("small size %d %d", rect.width, rect.height);
         fillDummy(rect);
-        return;
     }
-
-    //measurer.append(" rc=" + toString(rect));
 }
 
 void fillDummy(CefScreenInfo& screen_info) {
@@ -132,20 +123,13 @@ void fillDummy(CefScreenInfo& screen_info) {
 /*--cef()--*/
 bool RemoteRenderHandler::GetScreenInfo(CefRefPtr<CefBrowser> browser,
                                   CefScreenInfo& screen_info) {
-    fillDummy(screen_info);
-
-    //Measurer measurer();
     LogNdc ndc("RemoteRenderHandler::GetScreenInfo");
-    auto remoteService = myOwner.getService();
-    if (remoteService == nullptr) return false;
-
+    fillDummy(screen_info);
     std::string result;
-    try {
-        remoteService->getInfo(result, myOwner.getBid(), "screenInfo", "");
-    } catch (apache::thrift::TException& tx) {
-        myOwner.onThriftException(tx);
-        return false;
-    }
+    myOwner.exec([&](RpcExecutor::Service s){
+      s->getInfo(result, myOwner.getBid(), "screenInfo", "");
+    });
+    if (result.empty()) return false;
 
     const int len = result.size();
     if (len <= 1) {
@@ -167,8 +151,6 @@ bool RemoteRenderHandler::GetScreenInfo(CefRefPtr<CefBrowser> browser,
     screen_info.available_rect.y = *(p++);
     screen_info.available_rect.width = *(p++);
     screen_info.available_rect.height = *(p++);
-
-    //measurer.append(" rc=" + toString(screen_info.rect) + "; arc=" + toString(screen_info.available_rect));
     return true;
 }
 
@@ -177,25 +159,18 @@ bool RemoteRenderHandler::GetScreenPoint(CefRefPtr<CefBrowser> browser,
                                    int viewY,
                                    int& screenX,
                                    int& screenY) {
-    //Measurer measurer();
     LogNdc ndc(string_format("RemoteRenderHandler::GetScreenPoint(%d,%d)", viewX, viewY));
-    auto remoteService = myOwner.getService();
-    if (remoteService == nullptr) return false;
-
     int32_t argsarr[2] = {viewX, viewY};
     std::string args((const char *)argsarr, sizeof(argsarr));
     std::string result;
-    try {
-        remoteService->getInfo(result, myOwner.getBid(), "screenPoint", args);
-    } catch (apache::thrift::TException& tx) {
-        myOwner.onThriftException(tx);
-        return false;
-    }
+    myOwner.exec([&](RpcExecutor::Service s){
+      s->getInfo(result, myOwner.getBid(), "screenPoint", args);
+    });
+    if (result.empty()) return false;
+
     const int32_t * p = (const int32_t *)result.c_str();
     screenX = *p;
     screenY = *(p + 1);
-
-    //measurer.append(string_format(" pt=", screenX, screenY));
     return true;
 }
 
@@ -233,9 +208,6 @@ void RemoteRenderHandler::OnPaint(CefRefPtr<CefBrowser> browser,
                             int height) {
     Measurer measurer;
     LogNdc ndc(string_format("RemoteRenderHandler::OnPaint(%d,%d), rc=%d", width, height, dirtyRects.size()));
-    auto remoteService = myOwner.getService();
-    if (remoteService == nullptr) return;
-
     const int rasterPixCount = width*height;
     const int extendedRectsCount = dirtyRects.size() < 10 ? 10 : dirtyRects.size();
     const bool reallocated = _ensureSharedCapacity(rasterPixCount*4 + 4*4*extendedRectsCount);
@@ -280,13 +252,11 @@ void RemoteRenderHandler::OnPaint(CefRefPtr<CefBrowser> browser,
 
     {
         Measurer measurer2(string_format("remote-client"));
-        try {
-          remoteService->onPaint(myOwner.getBid(), type == PET_VIEW ? false : true, rectsCount,
-                            mySharedMemName, mySharedMemHandle, reallocated,
-                            width, height);
-        } catch (apache::thrift::TException& tx) {
-          myOwner.onThriftException(tx);
-        }
+        myOwner.exec([&](RpcExecutor::Service s){
+          s->onPaint(myOwner.getBid(), type == PET_VIEW ? false : true, rectsCount,
+                     mySharedMemName, mySharedMemHandle, reallocated,
+                     width, height);
+        });
     }
 }
 

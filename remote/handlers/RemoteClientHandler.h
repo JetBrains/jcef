@@ -4,7 +4,7 @@
 #include "../Utils.h"
 #include "include/cef_client.h"
 
-class RemoteClientHandler : public CefClient, public ConnectionUser {
+class RemoteClientHandler : public CefClient, public RpcExecutor {
 public:
   explicit RemoteClientHandler(std::shared_ptr<BackwardConnection> connection, int cid, int bid);
 

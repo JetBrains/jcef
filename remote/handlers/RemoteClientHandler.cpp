@@ -8,7 +8,7 @@
 #include "request/RemoteRequestHandler.h"
 
 RemoteClientHandler::RemoteClientHandler(std::shared_ptr<BackwardConnection> connection, int cid, int bid)
-    : ConnectionUser(connection),
+    : RpcExecutor(connection),
       myCid(cid),
       myBid(bid),
       myRemoteRenderHandler(new RemoteRenderHandler(*this)),

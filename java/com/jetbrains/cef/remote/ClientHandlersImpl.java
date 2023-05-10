@@ -1,7 +1,9 @@
 package com.jetbrains.cef.remote;
 
 import com.jetbrains.cef.remote.handlers.request.*;
-import com.jetbrains.cef.remote.thrift_codegen.*;
+import com.jetbrains.cef.remote.thrift_codegen.ClientHandlers;
+import com.jetbrains.cef.remote.thrift_codegen.CustomScheme;
+import com.jetbrains.cef.remote.thrift_codegen.RObject;
 import org.apache.thrift.TException;
 import org.cef.CefSettings;
 import org.cef.callback.CefAuthCallback;
@@ -18,8 +20,10 @@ import org.cef.security.CefSSLInfo;
 import java.awt.*;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 //
@@ -28,9 +32,9 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ClientHandlersImpl implements ClientHandlers.Iface {
     private final Map<Integer, CefRemoteBrowser> myBid2RemoteBrowser = new ConcurrentHashMap<>();
     private final CefRemoteApp myRemoteApp;
-    private final Server.Client myServer;
+    private final RpcExecutor myServer;
 
-    public ClientHandlersImpl(Server.Client server, CefRemoteApp remoteApp) {
+    public ClientHandlersImpl(RpcExecutor server, CefRemoteApp remoteApp) {
         myRemoteApp = remoteApp;
         myServer = server;
     }

@@ -1,5 +1,6 @@
 package com.jetbrains.cef.remote.handlers;
 
+import com.jetbrains.cef.remote.RpcExecutor;
 import com.jetbrains.cef.remote.thrift_codegen.RObject;
 import com.jetbrains.cef.remote.thrift_codegen.Server;
 
@@ -12,7 +13,7 @@ public abstract class RemoteServerObject extends RemoteServerObjectLocal {
     private Object myDisposeMutex = new Object();
     private boolean myIsDisposed = false;
 
-    public RemoteServerObject(Server.Client server, RObject robj) {
+    public RemoteServerObject(RpcExecutor server, RObject robj) {
         super(server, robj);
     }
 

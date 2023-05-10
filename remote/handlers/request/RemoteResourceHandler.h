@@ -6,7 +6,7 @@
 
 class RemoteResourceHandler : public CefResourceHandler, public RemoteObject<RemoteResourceHandler> {
  public:
-  static CefRefPtr<RemoteResourceHandler> create(RemoteClientHandler & owner, int peerId);
+  static CefRefPtr<RemoteResourceHandler> create(RemoteClientHandler & owner, thrift_codegen::RObject peer);
 
   bool Open(CefRefPtr<CefRequest> request,
             bool& handle_request,
