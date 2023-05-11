@@ -8,6 +8,9 @@ namespace {
   std::vector<std::string> cookie2list(const CefCookie& cookie);
 }
 
+// Disable logging until optimized
+#define LNDCT()
+
 RemoteCookieAccessFilter::RemoteCookieAccessFilter(RemoteClientHandler& owner, int id, int peerId)
     : RemoteObject<RemoteCookieAccessFilter>(owner, id, peerId,
     [=](std::shared_ptr<thrift_codegen::ClientHandlersClient> service) { service->CookieAccessFilter_Dispose(peerId); }) {}
@@ -21,7 +24,7 @@ bool RemoteCookieAccessFilter::CanSendCookie(CefRefPtr<CefBrowser> browser,
                                              CefRefPtr<CefRequest> request,
                                              const CefCookie& cookie
 ) {
-  LogNdc ndc("RemoteCookieAccessFilter::CanSendCookie");
+  LNDCT();
   RemoteRequest * rr = RemoteRequest::create(myOwner, request);
   Holder<RemoteRequest> holder(*rr);
   return myOwner.exec<bool>([&](RpcExecutor::Service s){
@@ -35,7 +38,7 @@ bool RemoteCookieAccessFilter::CanSaveCookie(CefRefPtr<CefBrowser> browser,
                                              CefRefPtr<CefResponse> response,
                                              const CefCookie& cookie
 ) {
-  LogNdc ndc("RemoteCookieAccessFilter::CanSaveCookie");
+  LNDCT();
   RemoteRequest * rreq = RemoteRequest::create(myOwner, request);
   Holder<RemoteRequest> holderReq(*rreq);
   RemoteResponse * rresp = RemoteResponse::create(myOwner, response);

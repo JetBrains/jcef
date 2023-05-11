@@ -11,6 +11,9 @@ namespace {
   std::string status2str(cef_urlrequest_status_t type);
 }
 
+// Disable logging until optimized
+#define LNDCT()
+
 RemoteResourceRequestHandler::RemoteResourceRequestHandler(RemoteClientHandler& owner, int id, int peerId)
     : RemoteObject(owner, id, peerId, [=](std::shared_ptr<thrift_codegen::ClientHandlersClient> service) { service->ResourceRequestHandler_Dispose(peerId); }) {}
 
@@ -24,7 +27,7 @@ RemoteResourceRequestHandler::GetCookieAccessFilter(
     CefRefPtr<CefFrame> frame,
     CefRefPtr<CefRequest> request
 ) {
-  LogNdc ndc("RemoteResourceRequestHandler::GetCookieAccessFilter");
+  LNDCT();
   if (myCookieAccessFilterReceived)
     return myCookieAccessFilter;
 
@@ -51,7 +54,7 @@ RemoteResourceRequestHandler::OnBeforeResourceLoad(
     CefRefPtr<CefRequest> request,
     CefRefPtr<CefCallback> callback
 ) {
-  LogNdc ndc("RemoteResourceRequestHandler::OnBeforeResourceLoad");
+  LNDCT();
   RemoteRequest * rr = RemoteRequest::create(myOwner, request);
   Holder<RemoteRequest> holder(*rr);
   CefResourceRequestHandler::ReturnValue result = RV_CONTINUE;
@@ -67,7 +70,7 @@ CefRefPtr<CefResourceHandler> RemoteResourceRequestHandler::GetResourceHandler(
     CefRefPtr<CefFrame> frame,
     CefRefPtr<CefRequest> request
 ) {
-  LogNdc ndc("RemoteResourceRequestHandler::GetResourceHandler");
+  LNDCT();
   if (myResourceHandlerReceived)
     return myResourceHandler;
 
@@ -93,7 +96,7 @@ void RemoteResourceRequestHandler::OnResourceRedirect(
     CefRefPtr<CefResponse> response,
     CefString& new_url
 ) {
-  LogNdc ndc("RemoteResourceRequestHandler::OnResourceRedirect");
+  LNDCT();
   RemoteRequest * rr = RemoteRequest::create(myOwner, request);
   Holder<RemoteRequest> holder(*rr);
   RemoteResponse * rresp = RemoteResponse::create(myOwner, response);
@@ -113,7 +116,7 @@ bool RemoteResourceRequestHandler::OnResourceResponse(
     CefRefPtr<CefRequest> request,
     CefRefPtr<CefResponse> response
 ) {
-  LogNdc ndc("RemoteResourceRequestHandler::OnResourceResponse");
+  LNDCT();
   RemoteRequest * rr = RemoteRequest::create(myOwner, request);
   Holder<RemoteRequest> holder(*rr);
   RemoteResponse * rresp = RemoteResponse::create(myOwner, response);
@@ -132,7 +135,7 @@ void RemoteResourceRequestHandler::OnResourceLoadComplete(
     CefResourceRequestHandler::URLRequestStatus status,
     int64 received_content_length
 ) {
-  LogNdc ndc("RemoteResourceRequestHandler::OnResourceLoadComplete");
+  LNDCT();
   RemoteRequest * rr = RemoteRequest::create(myOwner, request);
   Holder<RemoteRequest> holder(*rr);
   RemoteResponse * rresp = RemoteResponse::create(myOwner, response);
@@ -148,7 +151,7 @@ void RemoteResourceRequestHandler::OnProtocolExecution(
     CefRefPtr<CefFrame> frame,
     CefRefPtr<CefRequest> request,
     bool& allow_os_execution) {
-  LogNdc ndc("RemoteResourceRequestHandler::OnProtocolExecution");
+  LNDCT();
   RemoteRequest * rr = RemoteRequest::create(myOwner, request);
   Holder<RemoteRequest> holder(*rr);
   myOwner.exec([&](RpcExecutor::Service s){

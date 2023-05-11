@@ -1,16 +1,19 @@
 #include "RemoteRequestHandler.h"
 #include "../../CefUtils.h"
-#include "../../log/Log.h"
 #include "../RemoteClientHandler.h"
 #include "RemoteAuthCallback.h"
 #include "RemoteCallback.h"
 #include "RemoteRequest.h"
 #include "RemoteResourceRequestHandler.h"
 
+
 std::string err2str(cef_errorcode_t errorcode);
 namespace {
   std::string tstatus2str(cef_termination_status_t status);
 }
+
+// Disable logging until optimized
+#define LNDCT()
 
 RemoteRequestHandler::RemoteRequestHandler(RemoteClientHandler & owner) : myOwner(owner) {}
 
@@ -20,7 +23,7 @@ bool RemoteRequestHandler::OnBeforeBrowse(CefRefPtr<CefBrowser> browser,
                     bool user_gesture,
                     bool is_redirect
 ) {
-  LogNdc ndc("RemoteRequestHandler::OnBeforeBrowse");
+  LNDCT();
   RemoteRequest * rr = RemoteRequest::create(myOwner, request);
   Holder<RemoteRequest> holder(*rr);
   return myOwner.exec<bool>([&](RpcExecutor::Service s){
@@ -34,7 +37,7 @@ bool RemoteRequestHandler::OnOpenURLFromTab(CefRefPtr<CefBrowser> browser,
                       WindowOpenDisposition target_disposition,
                       bool user_gesture
 ) {
-  LogNdc ndc("RemoteRequestHandler::OnOpenURLFromTab");
+  LNDCT();
   return myOwner.exec<bool>([&](RpcExecutor::Service s){
     return s->RequestHandler_OnOpenURLFromTab(myOwner.getBid(), target_url.ToString(), user_gesture);
   }, false);
@@ -50,7 +53,8 @@ CefRefPtr<CefResourceRequestHandler> RemoteRequestHandler::GetResourceRequestHan
     bool& disable_default_handling
 ) {
   // Called on the browser process IO thread before a resource request is initiated.
-  LogNdc ndc("RemoteRequestHandler::GetResourceRequestHandler", "ChromeIO");
+  LogNdc ndc(__FILE_NAME__, __FUNCTION__, 500, false, false, "ChromeIO");
+
   if (!myResourceRequestHandlerReceived) {
     RemoteRequest * rr = RemoteRequest::create(myOwner, request);
     Holder<RemoteRequest> holder(*rr);
@@ -83,7 +87,7 @@ bool RemoteRequestHandler::GetAuthCredentials(CefRefPtr<CefBrowser> browser,
                         const CefString& scheme,
                         CefRefPtr<CefAuthCallback> callback
 ) {
-  LogNdc ndc("RemoteRequestHandler::GetAuthCredentials");
+  LNDCT();
   RemoteAuthCallback * rc = RemoteAuthCallback::create(myOwner, callback);
     return myOwner.exec<bool>([&](RpcExecutor::Service s){
       return s->RequestHandler_GetAuthCredentials(myOwner.getBid(), origin_url.ToString(), isProxy, host.ToString(), port, realm.ToString(), scheme.ToString(), rc->toThrift());
@@ -96,7 +100,7 @@ bool RemoteRequestHandler::OnCertificateError(CefRefPtr<CefBrowser> browser,
                         CefRefPtr<CefSSLInfo> ssl_info,
                         CefRefPtr<CefCallback> callback
 ) {
-  LogNdc ndc("RemoteRequestHandler::OnCertificateError");
+  LNDCT();
   RemoteCallback * rc = RemoteCallback::create(myOwner, callback);
   thrift_codegen::RObject sslInfo;
   sslInfo.__set_objId(-1); // TODO: implement ssl_info
@@ -106,7 +110,7 @@ bool RemoteRequestHandler::OnCertificateError(CefRefPtr<CefBrowser> browser,
 }
 
 void RemoteRequestHandler::OnRenderProcessTerminated(CefRefPtr<CefBrowser> browser, TerminationStatus status) {
-  LogNdc ndc("RemoteRequestHandler::OnRenderProcessTerminated");
+  LNDCT();
   myOwner.exec([&](RpcExecutor::Service s){
     s->RequestHandler_OnRenderProcessTerminated(myOwner.getBid(), tstatus2str(status));
   });

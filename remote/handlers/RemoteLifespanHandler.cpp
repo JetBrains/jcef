@@ -19,7 +19,7 @@ bool RemoteLifespanHandler::OnBeforePopup(
     CefRefPtr<CefDictionaryValue>& extra_info,
     bool* no_javascript_access)
 {
-  LogNdc ndc("RemoteLifespanHandler::OnBeforePopup");
+  LNDCT();
   myOwner.exec([&](RpcExecutor::Service s){
     // TODO: support other params and return values
     Log::error("Unimplemented some params transferring");
@@ -29,7 +29,7 @@ bool RemoteLifespanHandler::OnBeforePopup(
 }
 
 void RemoteLifespanHandler::OnAfterCreated(CefRefPtr<CefBrowser> browser) {
-  LogNdc ndc("RemoteLifespanHandler::OnAfterCreated");
+  LNDCT();
   myBrowser = browser;
   myOwner.exec([&](RpcExecutor::Service s){
     s->onAfterCreated(myOwner.getBid());
@@ -37,7 +37,7 @@ void RemoteLifespanHandler::OnAfterCreated(CefRefPtr<CefBrowser> browser) {
 }
 
 bool RemoteLifespanHandler::DoClose(CefRefPtr<CefBrowser> browser) {
-  LogNdc ndc("RemoteLifespanHandler::DoClose");
+  LNDCT();
   myBrowser = nullptr;
   myOwner.exec([&](RpcExecutor::Service s){
     s->doClose(myOwner.getBid());
@@ -46,7 +46,7 @@ bool RemoteLifespanHandler::DoClose(CefRefPtr<CefBrowser> browser) {
 }
 
 void RemoteLifespanHandler::OnBeforeClose(CefRefPtr<CefBrowser> browser) {
-  LogNdc ndc("RemoteLifespanHandler::OnBeforeClose");
+  LNDCT();
   myOwner.exec([&](RpcExecutor::Service s){
     s->onBeforeClose(myOwner.getBid());
   });

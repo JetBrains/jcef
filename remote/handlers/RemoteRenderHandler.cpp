@@ -10,6 +10,12 @@ using namespace std::chrono;
 using namespace thrift_codegen;
 using namespace boost::interprocess;
 
+// TODO: Optimize RemoteRenderHandler.
+// Need to perform all calculations on server. Client should regularly update data on server.
+
+// Disable logging until optimized
+#define LNDCT()
+
 RemoteRenderHandler::RemoteRenderHandler(RemoteClientHandler & owner) : myOwner(owner) {
     std::sprintf(mySharedMemName, "CefSharedRasterC%dB%d", myOwner.getCid(), myOwner.getBid());
 }
@@ -69,7 +75,7 @@ void fillDummy(CefRect& rect) {
 }
 
 void RemoteRenderHandler::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) {
-    LogNdc ndc("RemoteRenderHandler::GetViewRect");
+    LNDCT();
     fillDummy(rect);
     std::string result;
     myOwner.exec([&](RpcExecutor::Service s){
@@ -123,7 +129,7 @@ void fillDummy(CefScreenInfo& screen_info) {
 /*--cef()--*/
 bool RemoteRenderHandler::GetScreenInfo(CefRefPtr<CefBrowser> browser,
                                   CefScreenInfo& screen_info) {
-    LogNdc ndc("RemoteRenderHandler::GetScreenInfo");
+    LNDCT();
     fillDummy(screen_info);
     std::string result;
     myOwner.exec([&](RpcExecutor::Service s){
@@ -159,7 +165,7 @@ bool RemoteRenderHandler::GetScreenPoint(CefRefPtr<CefBrowser> browser,
                                    int viewY,
                                    int& screenX,
                                    int& screenY) {
-    LogNdc ndc(string_format("RemoteRenderHandler::GetScreenPoint(%d,%d)", viewX, viewY));
+    LNDCT();
     int32_t argsarr[2] = {viewX, viewY};
     std::string args((const char *)argsarr, sizeof(argsarr));
     std::string result;
@@ -175,12 +181,14 @@ bool RemoteRenderHandler::GetScreenPoint(CefRefPtr<CefBrowser> browser,
 }
 
 void RemoteRenderHandler::OnPopupShow(CefRefPtr<CefBrowser> browser, bool show) {
-    Log::error("RemoteRenderHandler::OnPopupShow: unimplemented");
+    LNDCT();
+    Log::error("Unimplemented.");
 }
 
 void RemoteRenderHandler::OnPopupSize(CefRefPtr<CefBrowser> browser,
                                 const CefRect& rect) {
-    Log::error("RemoteRenderHandler::OnPopupSize: unimplemented");
+    LNDCT();
+    Log::error("Unimplemented.");
 }
 
 //
@@ -206,8 +214,10 @@ void RemoteRenderHandler::OnPaint(CefRefPtr<CefBrowser> browser,
                             const void* buffer,
                             int width,
                             int height) {
+#ifdef LOG_PAINT
     Measurer measurer;
-    LogNdc ndc(string_format("RemoteRenderHandler::OnPaint(%d,%d), rc=%d", width, height, dirtyRects.size()));
+    LogNdc ndc("RemoteRenderHandler", string_format("OnPaint(w=%d,h=%d), rects=%d", width, height, dirtyRects.size()));
+#endif
     const int rasterPixCount = width*height;
     const int extendedRectsCount = dirtyRects.size() < 10 ? 10 : dirtyRects.size();
     const bool reallocated = _ensureSharedCapacity(rasterPixCount*4 + 4*4*extendedRectsCount);
@@ -218,12 +228,16 @@ void RemoteRenderHandler::OnPaint(CefRefPtr<CefBrowser> browser,
     const int stride = width*4;
     int32_t * sharedRects = (int32_t *)mySharedMem + rasterPixCount;
     if (dirtyRects.empty() || reallocated) {
+#ifdef LOG_PAINT
         measurer.append(": full copy");
+#endif
         rectsCount = 0;
         for (int y = 0; y < height; ++y)
           ::memcpy(((char*)mySharedMem) + (height - y - 1)*stride, ((char*)buffer) + y*stride, stride);
     } else {
+#ifdef LOG_PAINT
         measurer.append(": ");
+#endif
 
         // NOTE: single memcpy takes the same time as line-by-line copy (tested on macbook pro m1)
         // TODO: premultiply alpha in this loop
@@ -239,7 +253,9 @@ void RemoteRenderHandler::OnPaint(CefRefPtr<CefBrowser> browser,
           *(sharedRects++) = r.width;
           *(sharedRects++) = r.height;
 
+#ifdef LOG_PAINT
           measurer.append(str);
+#endif
         }
     }
 
@@ -251,7 +267,9 @@ void RemoteRenderHandler::OnPaint(CefRefPtr<CefBrowser> browser,
 #endif //DRAW_DEBUG
 
     {
-        Measurer measurer2(string_format("remote-client"));
+#ifdef LOG_PAINT
+        Measurer measurer2("RPC");
+#endif
         myOwner.exec([&](RpcExecutor::Service s){
           s->onPaint(myOwner.getBid(), type == PET_VIEW ? false : true, rectsCount,
                      mySharedMemName, mySharedMemHandle, reallocated,
@@ -265,11 +283,13 @@ bool RemoteRenderHandler::StartDragging(CefRefPtr<CefBrowser> browser,
                                   DragOperationsMask allowed_ops,
                                   int x,
                                   int y) {
-    Log::error("RemoteRenderHandler::StartDragging: unimplemented");
+    LNDCT();
+    Log::error("Unimplemented.");
     return true;
 }
 
 void RemoteRenderHandler::UpdateDragCursor(CefRefPtr<CefBrowser> browser,
                                      DragOperation operation) {
-    Log::error("RemoteRenderHandler::UpdateDragCursor: unimplemented");
+    LNDCT();
+    Log::error("Unimplemented.");
 }

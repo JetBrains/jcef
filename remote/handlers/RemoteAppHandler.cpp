@@ -15,7 +15,7 @@ RemoteAppHandler::RemoteAppHandler(
 void RemoteAppHandler::OnBeforeCommandLineProcessing(
     const CefString& process_type,
     CefRefPtr<CefCommandLine> command_line) {
-  LogNdc ndc("RemoteAppHandler::OnBeforeCommandLineProcessing");
+  LNDCT();
   if (!process_type.empty())
     return;
 
@@ -91,7 +91,7 @@ void RemoteAppHandler::OnBeforeCommandLineProcessing(
 
 void RemoteAppHandler::OnRegisterCustomSchemes(
     CefRawPtr<CefSchemeRegistrar> registrar) {
-  LogNdc ndc("RemoteAppHandler::OnRegisterCustomSchemes");
+  LNDCT();
   std::vector<CustomScheme> result;
   exec([&](RpcExecutor::Service s){
     s->getRegisteredCustomSchemes(result);

@@ -8,7 +8,7 @@ RemoteBrowserProcessHandler::RemoteBrowserProcessHandler(std::shared_ptr<Backwar
 RemoteBrowserProcessHandler::~RemoteBrowserProcessHandler() {}
 
 void RemoteBrowserProcessHandler::OnContextInitialized() {
-  LogNdc ndc("RemoteBrowserProcessHandler::OnContextInitialized");
+  LNDCT();
   exec([&](RpcExecutor::Service s){
     s->onContextInitialized();
   });

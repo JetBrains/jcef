@@ -38,6 +38,9 @@ public:
   static void log(const LevelPtr & level, const char *const format, ...);
 };
 
+typedef std::chrono::high_resolution_clock Clock;
+typedef std::chrono::duration<float, std::micro> Duration;
+
 class Measurer {
 public:
   Measurer(const std::string & msg);
@@ -47,15 +50,32 @@ public:
   void append(const std::string & msg);
 
 private:
-  const std::chrono::microseconds myStartTime;
+  const Clock::time_point myStartTime;
   std::string myMsg;
 };
 
 class LogNdc {
  public:
-  LogNdc(std::string msg);
-  LogNdc(std::string msg, std::string threadName);
+  LogNdc(std::string file, std::string func, std::string threadName);
+  LogNdc(std::string file,
+         std::string func = "",
+         int thresholdMcs = -1,
+         bool logStart = false,
+         bool logFinish = false,
+         std::string threadName = "");
   virtual ~LogNdc();
+
+ private:
+  const Clock::time_point startTime;
+  int thresholdMcs = -1;
+  bool logStart = false;
+  bool logFinish = false;
 };
+
+#define LNDC() LogNdc ndc(__FILE_NAME__, __FUNCTION__)
+
+#define LNDCT() LogNdc ndc(__FILE_NAME__, __FUNCTION__, 1000)
+#define LNDCTT(thresholdMcs) LogNdc ndc(__FILE_NAME__, __FUNCTION__, thresholdMcs)
+#define LNDCTTS(thresholdMcs) LogNdc ndc(__FILE_NAME__, __FUNCTION__, thresholdMcs, true)
 
 #endif  // JCEF_LOG_H

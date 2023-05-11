@@ -53,7 +53,7 @@ void Log::log(const LevelPtr & level, const char *const format, ...) {
 }
 
 Measurer::Measurer(const std::string & msg):
-      myStartTime(duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now().time_since_epoch())),
+      myStartTime(Clock::now()),
       myMsg(msg) {}
 
 void Measurer::append(const std::string & msg) {
@@ -61,19 +61,52 @@ void Measurer::append(const std::string & msg) {
 }
 
 Measurer::~Measurer() {
-  std::chrono::microseconds endMs = duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now().time_since_epoch());
-  Log::trace("%s | spent %d mcs", myMsg.c_str(), endMs.count() - myStartTime.count());
+  Duration elapsed = Clock::now() - myStartTime;
+  Log::trace("%s | spent %d mcs", myMsg.c_str(), (int)elapsed.count());
 }
 
-LogNdc::LogNdc(std::string msg) {
-  NDC::push(msg);
+LogNdc::LogNdc(std::string file, std::string func, std::string threadName) :
+      startTime(Clock::now())
+{
+  std::string msg(file);
+  if (!func.empty()) {
+    msg.append(":");
+    msg.append(func);
+  }
+  if (!threadName.empty())
+    MDC::put("thread.name", threadName);
 }
 
-LogNdc::LogNdc(std::string msg, std::string threadName) {
+LogNdc::LogNdc(std::string file, std::string func, int thresholdMcs, bool logStart, bool logFinish, std::string threadName) :
+      startTime(Clock::now())
+{
+  std::string msg(file);
+  if (!func.empty()) {
+    msg.append(":");
+    msg.append(func);
+  }
   NDC::push(msg);
-  MDC::put("thread.name", threadName);
+  if (!threadName.empty())
+    MDC::put("thread.name", threadName);
+  this->thresholdMcs = thresholdMcs;
+  this->logStart = logStart;
+  this->logFinish = logFinish;
+
+  if (logStart)
+    Log::debug("Start.");
 }
 
 LogNdc::~LogNdc() {
+  bool logged = false;
+  if (thresholdMcs >= 0) {
+    Duration elapsed = Clock::now() - startTime;
+    const long spentMcs = (long)elapsed.count();
+    if (spentMcs >= thresholdMcs) {
+      Log::debug("Finished, spent %d msc.", spentMcs);
+      logged = true;
+    }
+  }
+  if (!logged && logFinish)
+    Log::debug("Finished.");
   NDC::pop();
 }
