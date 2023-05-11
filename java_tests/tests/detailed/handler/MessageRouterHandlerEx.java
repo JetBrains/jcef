@@ -7,8 +7,8 @@ package tests.detailed.handler;
 import org.cef.CefClient;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefFrame;
-import org.cef.browser.CefMessageRouter;
-import org.cef.browser.CefMessageRouter.CefMessageRouterConfig;
+import org.cef.browser.CefMessageRouterBase;
+import org.cef.browser.CefMessageRouterBase.CefMessageRouterConfig;
 import org.cef.callback.CefQueryCallback;
 import org.cef.handler.CefMessageRouterHandlerAdapter;
 
@@ -16,7 +16,7 @@ public class MessageRouterHandlerEx extends CefMessageRouterHandlerAdapter {
     private final CefClient client_;
     private final CefMessageRouterConfig config_ =
             new CefMessageRouterConfig("myQuery", "myQueryAbort");
-    private CefMessageRouter router_ = null;
+    private CefMessageRouterBase router_ = null;
 
     public MessageRouterHandlerEx(final CefClient client) {
         client_ = client;
@@ -34,7 +34,7 @@ public class MessageRouterHandlerEx extends CefMessageRouterHandlerAdapter {
             if (router_ != null) {
                 callback.failure(-1, "Already enabled");
             } else {
-                router_ = CefMessageRouter.create(config_, new JavaVersionMessageRouter());
+                router_ = CefMessageRouterBase.create(config_, new JavaVersionMessageRouter());
                 client_.addMessageRouter(router_);
                 callback.success("");
             }

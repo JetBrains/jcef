@@ -7,6 +7,7 @@ package org.cef.handler;
 import org.cef.CefApp;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefMessageRouter;
+import org.cef.browser.CefMessageRouterBase;
 import org.cef.misc.CefLog;
 
 import java.util.Vector;
@@ -37,7 +38,8 @@ public abstract class CefClientHandler extends CefClientHandlerBase implements C
         try {
             // Call native DTOR if handler will be destroyed
             for (int i = 0; i < msgRouters.size(); i++) {
-                msgRouters.get(i).dispose();
+                if (msgRouters.get(i) instanceof CefMessageRouterBase)
+                    ((CefMessageRouterBase)msgRouters.get(i)).dispose();
             }
             msgRouters.clear();
 

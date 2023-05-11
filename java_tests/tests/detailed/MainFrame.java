@@ -22,7 +22,7 @@ import org.cef.CefClient;
 import org.cef.CefSettings;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefFrame;
-import org.cef.browser.CefMessageRouter;
+import org.cef.browser.CefMessageRouterBase;
 import org.cef.handler.*;
 import org.cef.network.CefCookieManager;
 
@@ -143,10 +143,10 @@ public class MainFrame extends BrowserFrame {
         //    calls (JavaScript binding). We're using the default configuration, so
         //    that the JavaScript binding methods "cefQuery" and "cefQueryCancel"
         //    are used.
-        CefMessageRouter.CefMessageRouterConfig config = new CefMessageRouter.CefMessageRouterConfig();
+        CefMessageRouterBase.CefMessageRouterConfig config = new CefMessageRouterBase.CefMessageRouterConfig();
         config.jsQueryFunction = "cef_query_" + (++queryCounter);
         config.jsCancelFunction = "cef_query_cancel_" + queryCounter;
-        CefMessageRouter msgRouter = CefMessageRouter.create(config);
+        CefMessageRouterBase msgRouter = CefMessageRouterBase.create(config);
         msgRouter.addHandler(new MessageRouterHandler(), true);
         msgRouter.addHandler(new MessageRouterHandlerEx(client_), false);
         client_.addMessageRouter(msgRouter);

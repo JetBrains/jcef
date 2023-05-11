@@ -2,7 +2,7 @@ package tests.junittests;// Copyright 2000-2020 JetBrains s.r.o. Use of this sou
 
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefFrame;
-import org.cef.browser.CefMessageRouter;
+import org.cef.browser.CefMessageRouterBase;
 import org.cef.handler.CefLoadHandlerAdapter;
 import org.cef.callback.CefQueryCallback;
 import org.cef.handler.CefMessageRouterHandlerAdapter;
@@ -190,15 +190,15 @@ public class HandleJSQueryTest {
         }
 
         class JSRequest {
-            final CefMessageRouter.CefMessageRouterConfig config;
-            final CefMessageRouter msgRouter;
+            final CefMessageRouterBase.CefMessageRouterConfig config;
+            final CefMessageRouterBase msgRouter;
             final String jsQuery;
 
             public JSRequest(String uid) {
-                config = new org.cef.browser.CefMessageRouter.CefMessageRouterConfig();
+                config = new CefMessageRouterBase.CefMessageRouterConfig();
                 config.jsQueryFunction = "cef_query_" + uid;
                 config.jsCancelFunction = "cef_query_cancel_" + uid;
-                msgRouter = CefMessageRouter.create(config);
+                msgRouter = CefMessageRouterBase.create(config);
 
                 msgRouter.addHandler(new CefMessageRouterHandlerAdapter() {
                     @Override

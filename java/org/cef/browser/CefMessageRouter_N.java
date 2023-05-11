@@ -5,7 +5,6 @@
 package org.cef.browser;
 
 import org.cef.CefApp;
-import org.cef.callback.CefNative;
 import org.cef.handler.CefAppStateHandler;
 import org.cef.handler.CefMessageRouterHandler;
 import org.cef.misc.CefLog;
@@ -13,7 +12,7 @@ import org.cef.misc.CefLog;
 import java.util.ArrayList;
 import java.util.List;
 
-class CefMessageRouter_N extends CefMessageRouter implements CefAppStateHandler {
+class CefMessageRouter_N extends CefMessageRouterBase implements CefAppStateHandler {
     private boolean isNativeCtxInitialized_ = false;
     private final List<Runnable> delayedActions_ = new ArrayList<>();
 

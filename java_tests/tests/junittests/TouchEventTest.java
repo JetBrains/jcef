@@ -2,8 +2,8 @@ package tests.junittests;
 
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefFrame;
-import org.cef.browser.CefMessageRouter;
-import org.cef.browser.CefMessageRouter.CefMessageRouterConfig;
+import org.cef.browser.CefMessageRouterBase;
+import org.cef.browser.CefMessageRouterBase.CefMessageRouterConfig;
 import org.cef.callback.CefQueryCallback;
 import org.cef.handler.CefMessageRouterHandlerAdapter;
 import org.cef.input.CefTouchEvent;
@@ -68,7 +68,7 @@ public class TouchEventTest {
             {
                 CefMessageRouterConfig config = new CefMessageRouterConfig();
                 config.jsQueryFunction = TOUCH_CALLBACK_NAME;
-                var router = CefMessageRouter.create(config);
+                var router = CefMessageRouterBase.create(config);
                 router.addHandler(new CefMessageRouterHandlerAdapter() {
                     @Override
                     public boolean onQuery(CefBrowser browser, CefFrame frame, long queryId, String request, boolean persistent, CefQueryCallback callback) {
@@ -83,7 +83,7 @@ public class TouchEventTest {
             {
                 CefMessageRouterConfig config = new CefMessageRouterConfig();
                 config.jsQueryFunction = SEND_MESSAGE_NAME;
-                var router = CefMessageRouter.create(config);
+                var router = CefMessageRouterBase.create(config);
                 router.addHandler(new CefMessageRouterHandlerAdapter() {
                     @Override
                     public boolean onQuery(CefBrowser browser, CefFrame frame, long queryId, String request, boolean persistent, CefQueryCallback callback) {
