@@ -106,12 +106,11 @@ class RemoteServerObjectBase {
 template <class T, class D>
 class RemoteServerObject : public RemoteServerObjectBase<T> {
  public:
-  explicit RemoteServerObject(RemoteClientHandler& owner, int id, CefRefPtr<D> delegate) : RemoteServerObjectBase<T>(owner.getService(), id), myDelegate(delegate), myOwner(owner) {}
+  explicit RemoteServerObject(std::shared_ptr<RpcExecutor> service, int id, CefRefPtr<D> delegate) : RemoteServerObjectBase<T>(service, id), myDelegate(delegate) {}
 
   CefRefPtr<D> getDelegate() { return myDelegate; }
 
  protected:
-  RemoteClientHandler & myOwner;
   CefRefPtr<D> myDelegate;
 };
 

@@ -23,7 +23,7 @@ bool RemoteRequestHandler::OnBeforeBrowse(CefRefPtr<CefBrowser> browser,
                     bool is_redirect
 ) {
   LNDCT();
-  RemoteRequest * rr = RemoteRequest::create(myOwner, request);
+  RemoteRequest * rr = RemoteRequest::create(myOwner.getService(), request);
   Holder<RemoteRequest> holder(*rr);
   return myOwner.exec<bool>([&](RpcExecutor::Service s){
     return s->RequestHandler_OnBeforeBrowse(myOwner.getBid(), rr->toThriftWithMap(), user_gesture, is_redirect);
@@ -55,7 +55,7 @@ CefRefPtr<CefResourceRequestHandler> RemoteRequestHandler::GetResourceRequestHan
   LogNdc ndc(__FILE_NAME__, __FUNCTION__, 500, false, false, "ChromeIO");
 
   if (!myResourceRequestHandlerReceived) {
-    RemoteRequest * rr = RemoteRequest::create(myOwner, request);
+    RemoteRequest * rr = RemoteRequest::create(myOwner.getService(), request);
     Holder<RemoteRequest> holder(*rr);
     thrift_codegen::RObject peer;
     peer.__set_objId(-1);
@@ -87,7 +87,7 @@ bool RemoteRequestHandler::GetAuthCredentials(CefRefPtr<CefBrowser> browser,
                         CefRefPtr<CefAuthCallback> callback
 ) {
   LNDCT();
-  RemoteAuthCallback * rc = RemoteAuthCallback::create(myOwner, callback);
+  RemoteAuthCallback * rc = RemoteAuthCallback::create(myOwner.getService(), callback);
     return myOwner.exec<bool>([&](RpcExecutor::Service s){
       return s->RequestHandler_GetAuthCredentials(myOwner.getBid(), origin_url.ToString(), isProxy, host.ToString(), port, realm.ToString(), scheme.ToString(), rc->toThrift());
   }, false);
@@ -100,7 +100,7 @@ bool RemoteRequestHandler::OnCertificateError(CefRefPtr<CefBrowser> browser,
                         CefRefPtr<CefCallback> callback
 ) {
   LNDCT();
-  RemoteCallback * rc = RemoteCallback::create(myOwner, callback);
+  RemoteCallback * rc = RemoteCallback::create(myOwner.getService(), callback);
   thrift_codegen::RObject sslInfo;
   sslInfo.__set_objId(-1); // TODO: implement ssl_info
   return myOwner.exec<bool>([&](RpcExecutor::Service s){

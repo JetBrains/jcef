@@ -1,8 +1,8 @@
 #include "RemoteAuthCallback.h"
 
-RemoteAuthCallback::RemoteAuthCallback(RemoteClientHandler& owner, CefRefPtr<CefAuthCallback> delegate, int id)
-    : RemoteServerObject<RemoteAuthCallback, CefAuthCallback>(owner, id, delegate) {}
+RemoteAuthCallback::RemoteAuthCallback(std::shared_ptr<RpcExecutor> service, CefRefPtr<CefAuthCallback> delegate, int id)
+    : RemoteServerObject<RemoteAuthCallback, CefAuthCallback>(service, id, delegate) {}
 
-RemoteAuthCallback * RemoteAuthCallback::create(RemoteClientHandler & owner, CefRefPtr<CefAuthCallback> delegate) {
-  return FACTORY.create([&](int id) -> RemoteAuthCallback* {return new RemoteAuthCallback(owner, delegate, id);});
+RemoteAuthCallback * RemoteAuthCallback::create(std::shared_ptr<RpcExecutor> service, CefRefPtr<CefAuthCallback> delegate) {
+  return FACTORY.create([&](int id) -> RemoteAuthCallback* {return new RemoteAuthCallback(service, delegate, id);});
 }

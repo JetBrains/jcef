@@ -7,10 +7,10 @@
 
 class RemoteAuthCallback : public virtual CefBaseRefCounted, public RemoteServerObject<RemoteAuthCallback, CefAuthCallback> {
  public:
-  static RemoteAuthCallback * create(RemoteClientHandler & owner, CefRefPtr<CefAuthCallback> delegate);
+  static RemoteAuthCallback * create(std::shared_ptr<RpcExecutor> service, CefRefPtr<CefAuthCallback> delegate);
 
  private:
-  explicit RemoteAuthCallback(RemoteClientHandler& owner, CefRefPtr<CefAuthCallback> delegate, int id);
+  explicit RemoteAuthCallback(std::shared_ptr<RpcExecutor> service, CefRefPtr<CefAuthCallback> delegate, int id);
   IMPLEMENT_REFCOUNTING(RemoteAuthCallback);
 };
 

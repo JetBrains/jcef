@@ -7,10 +7,10 @@
 
 class RemoteCallback : public virtual CefBaseRefCounted, public RemoteServerObject<RemoteCallback, CefCallback> {
  public:
-  static RemoteCallback * create(RemoteClientHandler & owner, CefRefPtr<CefCallback> delegate);
+  static RemoteCallback * create(std::shared_ptr<RpcExecutor> service, CefRefPtr<CefCallback> delegate);
 
  private:
-  explicit RemoteCallback(RemoteClientHandler& owner, CefRefPtr<CefCallback> delegate, int id);
+  explicit RemoteCallback(std::shared_ptr<RpcExecutor> service, CefRefPtr<CefCallback> delegate, int id);
   IMPLEMENT_REFCOUNTING(RemoteCallback);
 };
 

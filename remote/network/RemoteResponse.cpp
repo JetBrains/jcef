@@ -1,10 +1,10 @@
 #include "RemoteResponse.h"
 
-RemoteResponse::RemoteResponse(RemoteClientHandler& owner, CefRefPtr<CefResponse> delegate, int id)
-    : RemoteServerObject<RemoteResponse, CefResponse>(owner, id, delegate) {}
+RemoteResponse::RemoteResponse(std::shared_ptr<RpcExecutor> service, CefRefPtr<CefResponse> delegate, int id)
+    : RemoteServerObject<RemoteResponse, CefResponse>(service, id, delegate) {}
 
-RemoteResponse * RemoteResponse::create(RemoteClientHandler & owner, CefRefPtr<CefResponse> delegate) {
-  return FACTORY.create([&](int id) -> RemoteResponse* {return new RemoteResponse(owner, delegate, id);});
+RemoteResponse * RemoteResponse::create(std::shared_ptr<RpcExecutor> service, CefRefPtr<CefResponse> delegate) {
+  return FACTORY.create([&](int id) -> RemoteResponse* {return new RemoteResponse(service, delegate, id);});
 }
 
 extern std::string err2str(cef_errorcode_t errorcode);

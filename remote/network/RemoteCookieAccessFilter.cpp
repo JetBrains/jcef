@@ -25,7 +25,7 @@ bool RemoteCookieAccessFilter::CanSendCookie(CefRefPtr<CefBrowser> browser,
                                              const CefCookie& cookie
 ) {
   LNDCT();
-  RemoteRequest * rr = RemoteRequest::create(myOwner, request);
+  RemoteRequest * rr = RemoteRequest::create(myOwner.getService(), request);
   Holder<RemoteRequest> holder(*rr);
   return myOwner.exec<bool>([&](RpcExecutor::Service s){
     return s->CookieAccessFilter_CanSendCookie(myPeerId, myOwner.getBid(), rr->toThriftWithMap(), cookie2list(cookie));
@@ -39,9 +39,9 @@ bool RemoteCookieAccessFilter::CanSaveCookie(CefRefPtr<CefBrowser> browser,
                                              const CefCookie& cookie
 ) {
   LNDCT();
-  RemoteRequest * rreq = RemoteRequest::create(myOwner, request);
+  RemoteRequest * rreq = RemoteRequest::create(myOwner.getService(), request);
   Holder<RemoteRequest> holderReq(*rreq);
-  RemoteResponse * rresp = RemoteResponse::create(myOwner, response);
+  RemoteResponse * rresp = RemoteResponse::create(myOwner.getService(), response);
   Holder<RemoteResponse> holderResp(*rresp);
   return myOwner.exec<bool>([&](RpcExecutor::Service s){
     return s->CookieAccessFilter_CanSaveCookie(myPeerId, myOwner.getBid(), rreq->toThriftWithMap(),
