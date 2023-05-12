@@ -95,7 +95,7 @@ class ServerHandler : public thrift_codegen::ServerIf {
   void closeAllBrowsers();
 
   std::shared_ptr<std::vector<CefRefPtr<RemoteClientHandler>>> myRemoteBrowsers;
-  std::shared_ptr<BackwardConnection> myBackwardConnection;
+  std::shared_ptr<RpcExecutor> myService;
 };
 
 #endif  // JCEF_SERVERHANDLER_H

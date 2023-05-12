@@ -5,6 +5,7 @@
 #include "../Utils.h"
 #include "../log/Log.h"
 #include "include/internal/cef_ptr.h"
+#include "RemoteClientHandler.h"
 
 template <class T>
 class RemoteObjectFactory {
@@ -46,12 +47,10 @@ class RemoteObjectFactory {
   std::recursive_mutex MUTEX;
 };
 
-class RemoteClientHandler;
-
 template <class T>
 class RemoteServerObjectBase {
  public:
-  explicit RemoteServerObjectBase(RemoteClientHandler & owner, int id) : myId(id), myOwner(owner) {}
+  explicit RemoteServerObjectBase(std::shared_ptr<RpcExecutor> service, int id) : myId(id), myService(service) {}
   virtual ~RemoteServerObjectBase() { FACTORY.dispose(myId, false); }
 
   int getId() { return myId; }
@@ -95,7 +94,7 @@ class RemoteServerObjectBase {
  protected:
   const int myId;
   std::recursive_mutex myMutex;
-  RemoteClientHandler & myOwner;
+  std::shared_ptr<RpcExecutor> myService;
 
   // Cache support
   virtual void updateImpl(const std::map<std::string, std::string>&) {}
@@ -107,11 +106,12 @@ class RemoteServerObjectBase {
 template <class T, class D>
 class RemoteServerObject : public RemoteServerObjectBase<T> {
  public:
-  explicit RemoteServerObject(RemoteClientHandler& owner, int id, CefRefPtr<D> delegate) : RemoteServerObjectBase<T>(owner, id), myDelegate(delegate) {}
+  explicit RemoteServerObject(RemoteClientHandler& owner, int id, CefRefPtr<D> delegate) : RemoteServerObjectBase<T>(owner.getService(), id), myDelegate(delegate), myOwner(owner) {}
 
   CefRefPtr<D> getDelegate() { return myDelegate; }
 
  protected:
+  RemoteClientHandler & myOwner;
   CefRefPtr<D> myDelegate;
 };
 
@@ -123,18 +123,20 @@ class RemoteObject : public RemoteServerObjectBase<T> {
                         int id,
                         int peerId,
                         std::function<void(RpcExecutor::Service)> disposer)
-      : RemoteServerObjectBase<T>(owner, id),
+      : RemoteServerObjectBase<T>(owner.getService(), id),
+        myOwner(owner),
         myPeerId(peerId),
         myDisposer(disposer) {}
 
   virtual ~RemoteObject() {
-    base::myOwner.exec([&](RpcExecutor::Service s){
+    base::myService->exec([&](RpcExecutor::Service s){
       myDisposer(s);
     });
     base::FACTORY.dispose(base::myId, false);
   }
 
  protected:
+  RemoteClientHandler & myOwner;
   const int myPeerId; // java-peer (delegate)
   std::function<void(RpcExecutor::Service)> myDisposer;
 };

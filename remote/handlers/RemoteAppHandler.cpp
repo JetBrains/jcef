@@ -4,13 +4,13 @@
 using namespace thrift_codegen;
 
 RemoteAppHandler::RemoteAppHandler(
-    std::shared_ptr<BackwardConnection> backwardConnection,
+    std::shared_ptr<RpcExecutor> service,
     const std::vector<std::string> & args,
     const std::map<std::string, std::string>& settings
-) : RpcExecutor(backwardConnection),
-    myArgs(args),
+) : myArgs(args),
     mySettings(settings),
-    myBrowserProcessHandler(new RemoteBrowserProcessHandler(backwardConnection)) {}
+    myService(service),
+    myBrowserProcessHandler(new RemoteBrowserProcessHandler(service)) {}
 
 void RemoteAppHandler::OnBeforeCommandLineProcessing(
     const CefString& process_type,
@@ -93,7 +93,7 @@ void RemoteAppHandler::OnRegisterCustomSchemes(
     CefRawPtr<CefSchemeRegistrar> registrar) {
   LNDCT();
   std::vector<CustomScheme> result;
-  exec([&](RpcExecutor::Service s){
+  myService->exec([&](RpcExecutor::Service s){
     s->getRegisteredCustomSchemes(result);
   });
 

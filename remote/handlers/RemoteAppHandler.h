@@ -4,10 +4,10 @@
 #include "RemoteBrowserProcessHandler.h"
 #include "include/cef_app.h"
 
-class RemoteAppHandler : public CefApp, RpcExecutor {
+class RemoteAppHandler : public CefApp {
  public:
   explicit RemoteAppHandler(
-      std::shared_ptr<BackwardConnection> backwardConnection,
+      std::shared_ptr<RpcExecutor> service,
       const std::vector<std::string> & args,
       const std::map<std::string, std::string>& settings);
 
@@ -22,6 +22,7 @@ class RemoteAppHandler : public CefApp, RpcExecutor {
  private:
   const std::vector<std::string> myArgs;
   const std::map<std::string, std::string> mySettings;
+  std::shared_ptr<RpcExecutor> myService;
   CefRefPtr<CefBrowserProcessHandler> myBrowserProcessHandler;
 
   IMPLEMENT_REFCOUNTING(RemoteAppHandler);

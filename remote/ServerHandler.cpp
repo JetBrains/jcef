@@ -32,11 +32,8 @@ bool isCefInitialized() { return g_isInitialized; }
 ServerHandler::~ServerHandler() {
   try {
     closeAllBrowsers();
-    if (myBackwardConnection != nullptr) {
-      Log::debug("Close backward connection");
-      myBackwardConnection->close();
-      myBackwardConnection = nullptr;
-    }
+    if (myService && !myService->isClosed())
+      myService->close();
     // TODO: probably we should shutdown cef (so AppHandler will update on next intialization)
   } catch (TException e) {
     Log::error("Thrift exception in ~ServerHandler: %s", e.what());
@@ -56,12 +53,12 @@ int32_t ServerHandler::connect(
   Log::debug("Connected new client with cid=%d", cid);
 
   // Connect to client's side (for cef-callbacks execution on java side)
-  if (myBackwardConnection == nullptr) {
+  if (myService == nullptr) {
     try {
-      myBackwardConnection = std::make_shared<BackwardConnection>();
+      myService = std::make_shared<RpcExecutor>();
       myRemoteBrowsers = std::make_shared<std::vector<CefRefPtr<RemoteClientHandler>>>();
       if (g_remoteAppHandler == nullptr) {
-        g_remoteAppHandler = new RemoteAppHandler(myBackwardConnection, cmdLineArgs, settings);
+        g_remoteAppHandler = new RemoteAppHandler(myService, cmdLineArgs, settings);
         g_mainCefThread = new std::thread([=]() {
           MDC::put("thread.name", "CefMain");
           CefMainArgs main_args;
@@ -126,7 +123,7 @@ int32_t ServerHandler::createBrowser(int cid) {
       break;
     }
 
-  CefRefPtr<RemoteClientHandler> clienthandler = new RemoteClientHandler(myBackwardConnection, cid, bid);
+  CefRefPtr<RemoteClientHandler> clienthandler = new RemoteClientHandler(myService, cid, bid);
   if (bid >= 0 && bid < myRemoteBrowsers->size())
     (*myRemoteBrowsers)[bid] = clienthandler;
   else

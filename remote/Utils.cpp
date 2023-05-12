@@ -12,7 +12,7 @@ using namespace apache::thrift::transport;
 
 using namespace thrift_codegen;
 
-BackwardConnection::BackwardConnection() {
+RpcExecutor::RpcExecutor() {
   myTransport = std::make_shared<TBufferedTransport>(std::make_shared<TSocket>("localhost", 9091));
   myService = std::make_shared<ClientHandlersClient>(std::make_shared<TBinaryProtocol>(myTransport));
 
@@ -21,18 +21,18 @@ BackwardConnection::BackwardConnection() {
   Log::debug("backward connection to client established, backwardCid=%d", backwardCid);
 }
 
-void BackwardConnection::close() {
+void RpcExecutor::close() {
   Lock lock(myMutex);
 
   if (myService != nullptr) {
+    Log::debug("Close RpcExecutor transport");
     myService = nullptr;
-
     myTransport->close();
     myTransport = nullptr;
   }
 }
 
-void BackwardConnection::exec(std::function<void(Service)> rpc) {
+void RpcExecutor::exec(std::function<void(Service)> rpc) {
   Lock lock(myMutex);
 
   if (myService == nullptr) {
@@ -47,8 +47,3 @@ void BackwardConnection::exec(std::function<void(Service)> rpc) {
     // TODO: should we call close now ?
   }
 }
-
-void RpcExecutor::exec(std::function<void(Service)> rpc) {
-  myBackwardConnection->exec(rpc);
-}
-

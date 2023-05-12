@@ -4,9 +4,9 @@
 #include "../Utils.h"
 #include "include/cef_client.h"
 
-class RemoteClientHandler : public CefClient, public RpcExecutor {
+class RemoteClientHandler : public CefClient {
 public:
-  explicit RemoteClientHandler(std::shared_ptr<BackwardConnection> connection, int cid, int bid);
+  explicit RemoteClientHandler(std::shared_ptr<RpcExecutor> service, int cid, int bid);
 
   CefRefPtr<CefContextMenuHandler> GetContextMenuHandler() override;
   CefRefPtr<CefDialogHandler> GetDialogHandler() override;
@@ -30,10 +30,19 @@ public:
 
   int getBid() const { return myBid; }
   int getCid() const { return myCid; }
+  std::shared_ptr<RpcExecutor> getService() { return myService; }
 
-protected:
+  // Convenience methods
+  template<typename T>
+  T exec(std::function<T(RpcExecutor::Service)> rpc, T defVal) {
+    return myService->exec(rpc, defVal);
+  }
+  void exec(std::function<void(RpcExecutor::Service)> rpc) { myService->exec(rpc); }
+
+ protected:
  const int myCid;
  const int myBid;
+ std::shared_ptr<RpcExecutor> myService;
 
  const CefRefPtr<CefRenderHandler> myRemoteRenderHandler;
  const CefRefPtr<CefLifeSpanHandler> myRemoteLisfespanHandler;

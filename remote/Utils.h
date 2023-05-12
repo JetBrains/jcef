@@ -5,14 +5,15 @@
 #include "./gen-cpp/ClientHandlers.h"
 #include "log/Log.h"
 
-class BackwardConnection {
+class RpcExecutor {
  public:
   typedef std::shared_ptr<thrift_codegen::ClientHandlersClient> Service;
-  BackwardConnection();
+  RpcExecutor();
 
   void close();
+  bool isClosed() { return myService == nullptr; }
 
-  // Performs thread-safe RPC execution.
+  // Thread-safe RPC execution.
   template<typename T>
   T exec(std::function<T(Service)> rpc, T defVal) {
     std::unique_lock<std::recursive_mutex> lock(myMutex);
@@ -35,25 +36,6 @@ class BackwardConnection {
   std::shared_ptr<thrift_codegen::ClientHandlersClient> myService = nullptr;
   std::shared_ptr<apache::thrift::transport::TTransport> myTransport;
   std::recursive_mutex myMutex;
-};
-
-class RpcExecutor {
- public:
-  typedef std::shared_ptr<thrift_codegen::ClientHandlersClient> Service;
-
-  explicit RpcExecutor(std::shared_ptr<BackwardConnection> backwardConnection):
-        myBackwardConnection(backwardConnection) {}
-
-  // Thread-safe RPC execution.
-  template<typename T>
-  T exec(std::function<T(Service)> rpc, T defVal) {
-    return myBackwardConnection->exec(rpc, defVal);
-  }
-
-  void exec(std::function<void(Service)> rpc);
-
- private:
-  std::shared_ptr<BackwardConnection> myBackwardConnection;
 };
 
 typedef std::unique_lock<std::recursive_mutex> Lock;

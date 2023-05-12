@@ -7,10 +7,10 @@
 #include "RemoteRenderHandler.h"
 #include "request/RemoteRequestHandler.h"
 
-RemoteClientHandler::RemoteClientHandler(std::shared_ptr<BackwardConnection> connection, int cid, int bid)
-    : RpcExecutor(connection),
-      myCid(cid),
+RemoteClientHandler::RemoteClientHandler(std::shared_ptr<RpcExecutor> service, int cid, int bid)
+    : myCid(cid),
       myBid(bid),
+      myService(service),
       myRemoteRenderHandler(new RemoteRenderHandler(*this)),
       myRemoteLisfespanHandler(new RemoteLifespanHandler(*this)),
       myRemoteLoadHandler(new RemoteLoadHandler(*this)),
