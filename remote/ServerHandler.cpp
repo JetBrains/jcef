@@ -3,21 +3,22 @@
 #include <log4cxx/mdc.h>
 #include <thread>
 
-#include "CefBrowserAdapter.h"
+#include "browser/CefBrowserAdapter.h"
 #include "handlers/RemoteAppHandler.h"
 #include "handlers/RemoteLifespanHandler.h"
-#include "handlers/request/RemoteRequest.h"
-#include "handlers/request/RemoteResponse.h"
-#include "handlers/request/RemotePostData.h"
+#include "network/RemotePostData.h"
+#include "network/RemoteRequest.h"
+#include "network/RemoteResponse.h"
 
 #include "CefUtils.h"
-#include "handlers/RemoteObjectFactory.h"
-#include "handlers/request/RemoteAuthCallback.h"
-#include "handlers/request/RemoteCallback.h"
+#include "RemoteObjectFactory.h"
+#include "callback/RemoteAuthCallback.h"
+#include "callback/RemoteCallback.h"
 
 #include "include/base/cef_callback.h"
 #include "include/cef_task.h"
 #include "include/wrapper/cef_closure_task.h"
+#include "router/RemoteMessageRouter.h"
 
 using namespace apache::thrift;
 
@@ -412,4 +413,101 @@ void ServerHandler::Callback_Cancel(const thrift_codegen::RObject& callback) {
   if (rc == nullptr) return;
   rc->getDelegate()->Cancel();
   RemoteCallback::dispose(callback.objId);
+}
+
+void ServerHandler::CreateMessageRouter(thrift_codegen::RObject& _return,
+                                        const std::string& query,
+                                        const std::string& cancel) {
+  CefMessageRouterConfig config;
+  config.js_query_function = query;
+  config.js_cancel_function = cancel;
+  CefRefPtr<CefMessageRouterBrowserSide> msgRouter = CefMessageRouterBrowserSide::Create(config);
+
+  RemoteMessageRouter * rmr = RemoteMessageRouter::create(myService);
+  _return = rmr->toThrift();
+}
+
+void ServerHandler::MessageRouter_Dispose(const thrift_codegen::RObject& msgRouter) {
+  RemoteMessageRouter::dispose(msgRouter.objId);
+}
+
+void ServerHandler::MessageRouter_AddMessageRouterToBrowser(
+    const thrift_codegen::RObject& msgRouter,
+    const int32_t bid) {
+  RemoteMessageRouter * rmr = RemoteMessageRouter::get(msgRouter.objId);
+  if (rmr == nullptr) return;
+
+  CefRefPtr<CefMessageRouter> router = nullptr;//GetMessageRouter(env, jmessageRouter);
+  if (!router)
+    return;
+//
+//  CefMessageRouterConfig config;// = GetMessageRouterConfig(env, jmessageRouter);
+//
+//  // 1) Add CefMessageRouterBrowserSide into the list.
+//  {
+//    base::AutoLock lock_scope(message_router_lock_);
+//    message_routers_.insert(router);
+//  }
+//
+//  // 2) Update CefApp for new render-processes.
+//  BrowserProcessHandler::AddMessageRouterConfig(config);
+//
+//  // 3) Update running render-processes.
+//  BrowserSet allBrowsers = GetAllBrowsers(env);
+//  if (allBrowsers.empty())
+//    return;
+//
+//  CefRefPtr<CefProcessMessage> message =
+//      CefProcessMessage::Create("AddMessageRouter");
+//  CefRefPtr<CefListValue> args = message->GetArgumentList();
+//  args->SetString(0, config.js_query_function);
+//  args->SetString(1, config.js_cancel_function);
+//
+//  BrowserSet::const_iterator it = allBrowsers.begin();
+//  for (; it != allBrowsers.end(); ++it) {
+//    (*it)->GetMainFrame()->SendProcessMessage(PID_RENDERER, message);
+//  }
+}
+
+void ServerHandler::MessageRouter_RemoveMessageRouterFromBrowser(
+    const thrift_codegen::RObject& msgRouter,
+    const int32_t bid) {
+
+}
+
+void ServerHandler::MessageRouter_AddHandler(
+    const thrift_codegen::RObject& msgRouter,
+    const thrift_codegen::RObject& handler) {
+
+}
+
+void ServerHandler::MessageRouter_RemoveHandler(
+    const thrift_codegen::RObject& msgRouter,
+    const thrift_codegen::RObject& handler) {
+
+}
+
+void ServerHandler::MessageRouter_CancelPending(
+    const thrift_codegen::RObject& msgRouter,
+    const int32_t bid,
+    const thrift_codegen::RObject& handler) {
+
+}
+
+void ServerHandler::QueryCallback_Dispose(
+    const thrift_codegen::RObject& qcallback) {
+
+}
+
+void ServerHandler::QueryCallback_Success(
+    const thrift_codegen::RObject& qcallback,
+    const std::string& response) {
+
+}
+
+void ServerHandler::QueryCallback_Failure(
+    const thrift_codegen::RObject& qcallback,
+    const int32_t error_code,
+    const std::string& error_message) {
+
 }

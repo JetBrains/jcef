@@ -2,22 +2,14 @@ package com.jetbrains.cef.remote;
 
 
 import com.jetbrains.cef.remote.thrift_codegen.ClientHandlers;
-import com.jetbrains.cef.remote.thrift_codegen.Server;
 import org.apache.thrift.TException;
-import org.apache.thrift.protocol.TBinaryProtocol;
-import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.server.TServer;
 import org.apache.thrift.server.TSimpleServer;
 import org.apache.thrift.transport.TServerSocket;
-import org.apache.thrift.transport.TSocket;
-import org.apache.thrift.transport.TTransport;
-import org.apache.thrift.transport.TTransportException;
 import org.cef.CefSettings;
 import org.cef.callback.CefSchemeRegistrar;
 import org.cef.misc.CefLog;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.nio.ByteBuffer;
 import java.util.List;
 
@@ -33,13 +25,15 @@ public class CefServer {
     // Java client for native CefServer
     private final RpcExecutor myService = new RpcExecutor();
 
+    public RpcExecutor getService() { return myService; }
+
     synchronized
-    public CefRemoteBrowser createBrowser(CefRemoteClient remoteClient) {
+    public RemoteBrowser createBrowser(RemoteClient remoteClient) {
         int[] newBid = new int[]{-1};
         myService.exec((s)->{
             newBid[0] = s.createBrowser(remoteClient.getCid());
         });
-        CefRemoteBrowser result = new CefRemoteBrowser(this, newBid[0], remoteClient);
+        RemoteBrowser result = new RemoteBrowser(this, newBid[0], remoteClient);
         myClientHandlersImpl.registerBrowser(result);
         return result;
     }
@@ -68,7 +62,7 @@ public class CefServer {
     public boolean start(List<String> args, CefSettings settings) {
         try {
             // 1. Start server for cef-handlers execution
-            CefRemoteApp cefRemoteApp = new CefRemoteApp() {
+            RemoteApp cefRemoteApp = new RemoteApp() {
                 @Override
                 public void onRegisterCustomSchemes(CefSchemeRegistrar registrar) {
                     CefLog.Info("onRegisterCustomSchemes: " + registrar);

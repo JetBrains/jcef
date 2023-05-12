@@ -90,6 +90,33 @@ class ServerHandler : public thrift_codegen::ServerIf {
   void Callback_Continue(const thrift_codegen::RObject& callback) override;
   void Callback_Cancel(const thrift_codegen::RObject& callback) override;
 
+  void CreateMessageRouter(thrift_codegen::RObject& _return,
+                           const std::string& query,
+                           const std::string& cancel) override;
+  void MessageRouter_Dispose(const thrift_codegen::RObject& msgRouter) override;
+  void MessageRouter_AddMessageRouterToBrowser(
+      const thrift_codegen::RObject& msgRouter,
+      const int32_t bid) override;
+  void MessageRouter_RemoveMessageRouterFromBrowser(
+      const thrift_codegen::RObject& msgRouter,
+      const int32_t bid) override;
+  void MessageRouter_AddHandler(
+      const thrift_codegen::RObject& msgRouter,
+      const thrift_codegen::RObject& handler) override;
+  void MessageRouter_RemoveHandler(
+      const thrift_codegen::RObject& msgRouter,
+      const thrift_codegen::RObject& handler) override;
+  void MessageRouter_CancelPending(
+      const thrift_codegen::RObject& msgRouter,
+      const int32_t bid,
+      const thrift_codegen::RObject& handler) override;
+  void QueryCallback_Dispose(const thrift_codegen::RObject& qcallback) override;
+  void QueryCallback_Success(const thrift_codegen::RObject& qcallback,
+                             const std::string& response) override;
+  void QueryCallback_Failure(const thrift_codegen::RObject& qcallback,
+                             const int32_t error_code,
+                             const std::string& error_message) override;
+
  private:
   CefRefPtr<CefBrowser> getBrowser(int bid);
   void closeAllBrowsers();

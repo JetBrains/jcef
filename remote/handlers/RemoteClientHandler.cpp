@@ -1,11 +1,11 @@
 #include "RemoteClientHandler.h"
 #include <log4cxx/mdc.h>
 #include "../log/Log.h"
+#include "../network/RemoteRequestHandler.h"
 #include "RemoteDisplayHandler.h"
 #include "RemoteLifespanHandler.h"
 #include "RemoteLoadHandler.h"
 #include "RemoteRenderHandler.h"
-#include "request/RemoteRequestHandler.h"
 
 RemoteClientHandler::RemoteClientHandler(std::shared_ptr<RpcExecutor> service, int cid, int bid)
     : myCid(cid),

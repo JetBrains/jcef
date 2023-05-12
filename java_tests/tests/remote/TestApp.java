@@ -4,9 +4,10 @@
 
 package tests.remote;
 
-import com.jetbrains.cef.remote.CefRemoteBrowser;
-import com.jetbrains.cef.remote.CefRemoteClient;
+import com.jetbrains.cef.remote.RemoteBrowser;
+import com.jetbrains.cef.remote.RemoteClient;
 import com.jetbrains.cef.remote.CefServer;
+import com.jetbrains.cef.remote.router.RemoteMessageRouter;
 import org.cef.CefSettings;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefFrame;
@@ -40,7 +41,7 @@ public class TestApp extends JFrame {
 
         JBCefOsrComponent osrComponent = new JBCefOsrComponent();
         JBCefOsrHandler osrHandler = new JBCefOsrHandler(osrComponent, null);
-        CefRemoteClient client = new CefRemoteClient(ourServer);
+        RemoteClient client = new RemoteClient(ourServer);
         client.setRenderHandler(osrHandler);
         client.setLifeSpanHandler(new CefLifeSpanHandlerAdapter() {
             @Override
@@ -114,7 +115,11 @@ public class TestApp extends JFrame {
         });
 
         client.setRequestHandler(new TestRequestHandler());
-        CefRemoteBrowser browser = ourServer.createBrowser(client);
+
+        RemoteMessageRouter testRouter = RemoteMessageRouter.create(ourServer.getService(), "testQuery", "testQueryCancel");
+        testRouter.addHandler(new TestMessageRouterHandler(), true);
+        client.addMessageRouter(testRouter);
+        RemoteBrowser browser = ourServer.createBrowser(client);
         if (browser == null) {
             CefLog.Error("can't create remote browser");
             return;

@@ -1,6 +1,10 @@
 package com.jetbrains.cef.remote;
 
-import com.jetbrains.cef.remote.handlers.request.*;
+import com.jetbrains.cef.remote.callback.RemoteAuthCallback;
+import com.jetbrains.cef.remote.callback.RemoteCallback;
+import com.jetbrains.cef.remote.network.*;
+import com.jetbrains.cef.remote.router.RemoteMessageRouterHandler;
+import com.jetbrains.cef.remote.router.RemoteQueryCallback;
 import com.jetbrains.cef.remote.thrift_codegen.ClientHandlers;
 import com.jetbrains.cef.remote.thrift_codegen.CustomScheme;
 import com.jetbrains.cef.remote.thrift_codegen.RObject;
@@ -30,21 +34,21 @@ import java.util.concurrent.ConcurrentHashMap;
 // Service for rpc from native to java
 //
 public class ClientHandlersImpl implements ClientHandlers.Iface {
-    private final Map<Integer, CefRemoteBrowser> myBid2RemoteBrowser = new ConcurrentHashMap<>();
-    private final CefRemoteApp myRemoteApp;
+    private final Map<Integer, RemoteBrowser> myBid2RemoteBrowser = new ConcurrentHashMap<>();
+    private final RemoteApp myRemoteApp;
     private final RpcExecutor myServer;
 
-    public ClientHandlersImpl(RpcExecutor server, CefRemoteApp remoteApp) {
+    public ClientHandlersImpl(RpcExecutor server, RemoteApp remoteApp) {
         myRemoteApp = remoteApp;
         myServer = server;
     }
 
-    void registerBrowser(CefRemoteBrowser browser) {
+    void registerBrowser(RemoteBrowser browser) {
         myBid2RemoteBrowser.put(browser.getBid(), browser);
     }
 
     public void unregisterBrowser(int bid) {
-        CefRemoteBrowser browser = myBid2RemoteBrowser.remove(bid);
+        RemoteBrowser browser = myBid2RemoteBrowser.remove(bid);
         if (browser == null) {
             CefLog.Error("unregisterBrowser: bid=%d was already removed.");
             return;
@@ -52,8 +56,8 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         browser.getOwner().disposeClient();
     }
 
-    private CefRemoteBrowser getRemoteBrowser(int bid) {
-        CefRemoteBrowser browser = myBid2RemoteBrowser.get(bid);
+    private RemoteBrowser getRemoteBrowser(int bid) {
+        RemoteBrowser browser = myBid2RemoteBrowser.get(bid);
         if (browser == null) {
             CefLog.Error("Can't find remote browser with bid=%d.", bid);
             return null;
@@ -95,10 +99,10 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
 
     @Override
     public ByteBuffer getInfo(int bid, String request, ByteBuffer buffer) {
-        CefRemoteBrowser browser = getRemoteBrowser(bid);
+        RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return ZERO_BUFFER;
 
-        CefRemoteClient rclient = browser.getOwner();
+        RemoteClient rclient = browser.getOwner();
         CefRenderHandler rh = rclient.getRenderHandler();
         if (rh == null) return ZERO_BUFFER;
 
@@ -145,10 +149,10 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
 
     @Override
     public void onPaint(int bid, boolean popup, int dirtyRectsCount, String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height) {
-        CefRemoteBrowser browser = getRemoteBrowser(bid);
+        RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return;
 
-        CefRemoteClient rc = browser.getOwner();
+        RemoteClient rc = browser.getOwner();
         CefRenderHandler rh = rc.getRenderHandler();
         if (rh == null) return;
 
@@ -161,7 +165,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
 
     @Override
     public void onBeforePopup(int bid, String url, String frameName, boolean gesture) {
-        CefRemoteBrowser browser = getRemoteBrowser(bid);
+        RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return;
 
         CefLifeSpanHandler lsh = browser.getOwner().getLifeSpanHandler();
@@ -172,7 +176,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
 
     @Override
     public void onAfterCreated(int bid) {
-        CefRemoteBrowser browser = getRemoteBrowser(bid);
+        RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return;
 
         CefLifeSpanHandler lsh = browser.getOwner().getLifeSpanHandler();
@@ -183,7 +187,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
 
     @Override
     public void doClose(int bid) {
-        CefRemoteBrowser browser = getRemoteBrowser(bid);
+        RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return;
 
         CefLifeSpanHandler lsh = browser.getOwner().getLifeSpanHandler();
@@ -194,7 +198,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
 
     @Override
     public void onBeforeClose(int bid) {
-        CefRemoteBrowser browser = getRemoteBrowser(bid);
+        RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return;
 
         CefLifeSpanHandler lsh = browser.getOwner().getLifeSpanHandler();
@@ -210,7 +214,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
 
     @Override
     public void onLoadingStateChange(int bid, boolean isLoading, boolean canGoBack, boolean canGoForward) {
-        CefRemoteBrowser browser = getRemoteBrowser(bid);
+        RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return;
 
         CefLoadHandler lh = browser.getOwner().getLoadHandler();
@@ -221,7 +225,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
 
     @Override
     public void onLoadStart(int bid, int transition_type) {
-        CefRemoteBrowser browser = getRemoteBrowser(bid);
+        RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return;
 
         CefLoadHandler lh = browser.getOwner().getLoadHandler();
@@ -233,7 +237,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
 
     @Override
     public void onLoadEnd(int bid, int httpStatusCode) {
-        CefRemoteBrowser browser = getRemoteBrowser(bid);
+        RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return;
 
         CefLoadHandler lh = browser.getOwner().getLoadHandler();
@@ -244,7 +248,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
 
     @Override
     public void onLoadError(int bid, int errorCode, String errorText, String failedUrl) {
-        CefRemoteBrowser browser = getRemoteBrowser(bid);
+        RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return;
 
         CefLoadHandler lh = browser.getOwner().getLoadHandler();
@@ -259,7 +263,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
 
     @Override
     public void onAddressChange(int bid, String url) {
-        CefRemoteBrowser browser = getRemoteBrowser(bid);
+        RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return;
 
         CefDisplayHandler dh = browser.getOwner().getDisplayHandler();
@@ -270,7 +274,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
 
     @Override
     public void onTitleChange(int bid, String title) {
-        CefRemoteBrowser browser = getRemoteBrowser(bid);
+        RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return;
 
         CefDisplayHandler dh = browser.getOwner().getDisplayHandler();
@@ -281,7 +285,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
 
     @Override
     public boolean onTooltip(int bid, String text) {
-        CefRemoteBrowser browser = getRemoteBrowser(bid);
+        RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return false;
 
         CefDisplayHandler dh = browser.getOwner().getDisplayHandler();
@@ -292,7 +296,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
 
     @Override
     public void onStatusMessage(int bid, String value) {
-        CefRemoteBrowser browser = getRemoteBrowser(bid);
+        RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return;
 
         CefDisplayHandler dh = browser.getOwner().getDisplayHandler();
@@ -303,7 +307,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
 
     @Override
     public boolean onConsoleMessage(int bid, int level, String message, String source, int line) {
-        CefRemoteBrowser browser = getRemoteBrowser(bid);
+        RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return false;
 
         CefDisplayHandler dh = browser.getOwner().getDisplayHandler();
@@ -320,7 +324,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
 
     @Override
     public boolean RequestHandler_OnBeforeBrowse(int bid, RObject request, boolean user_gesture, boolean is_redirect) {
-        CefRemoteBrowser browser = getRemoteBrowser(bid);
+        RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return false;
 
         CefRequestHandler rh = browser.getOwner().getRequestHandler();
@@ -336,7 +340,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
 
     @Override
     public RObject RequestHandler_GetResourceRequestHandler(int bid, RObject request, boolean isNavigation, boolean isDownload, String requestInitiator) {
-        CefRemoteBrowser browser = getRemoteBrowser(bid);
+        RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return INVALID_PERSISTENT;
 
         CefRequestHandler rh = browser.getOwner().getRequestHandler();
@@ -435,7 +439,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
 
     @Override
     public boolean RequestHandler_OnOpenURLFromTab(int bid, String target_url, boolean user_gesture) {
-        CefRemoteBrowser browser = getRemoteBrowser(bid);
+        RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return false;
 
         CefRequestHandler rh = browser.getOwner().getRequestHandler();
@@ -446,7 +450,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
 
     @Override
     public boolean RequestHandler_GetAuthCredentials(int bid, String origin_url, boolean isProxy, String host, int port, String realm, String scheme, RObject authCallback) {
-        CefRemoteBrowser browser = getRemoteBrowser(bid);
+        RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return false;
 
         CefRequestHandler rh = browser.getOwner().getRequestHandler();
@@ -458,7 +462,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
 
     @Override
     public boolean RequestHandler_OnCertificateError(int bid, String cert_error, String request_url, RObject sslInfo, RObject callback) {
-        CefRemoteBrowser browser = getRemoteBrowser(bid);
+        RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return false;
 
         CefRequestHandler rh = browser.getOwner().getRequestHandler();
@@ -479,7 +483,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
 
     @Override
     public void RequestHandler_OnRenderProcessTerminated(int bid, String status) {
-        CefRemoteBrowser browser = getRemoteBrowser(bid);
+        RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return;
 
         CefRequestHandler rh = browser.getOwner().getRequestHandler();
@@ -589,5 +593,20 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     @Override
     public void ResourceHandler_Dispose(int resHandler) throws TException {
         RemoteResourceHandler.FACTORY.dispose(resHandler);
+    }
+
+    @Override
+    public boolean MessageRouterHandler_onQuery(RObject handler, int bid, long queryId, String request, boolean persistent, RObject queryCallback) throws TException {
+        RemoteMessageRouterHandler rmrh = RemoteMessageRouterHandler.FACTORY.get(handler.objId);
+        if (rmrh == null) return false;
+
+        RemoteQueryCallback rcb = new RemoteQueryCallback(myServer, queryCallback);
+        rmrh.getDelegate().onQuery(getRemoteBrowser(bid), null, queryId, request, persistent, rcb);
+        return false;
+    }
+
+    @Override
+    public void MessageRouterHandler_onQueryCanceled(RObject handler, int bid, long queryId) throws TException {
+
     }
 }

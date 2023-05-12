@@ -63,4 +63,19 @@ service Server {
    oneway void AuthCallback_Dispose(1:shared.RObject authCallback)
    oneway void AuthCallback_Continue(1:shared.RObject authCallback, 2:string username, 3:string password)
    oneway void AuthCallback_Cancel(1:shared.RObject authCallback)
+
+   //
+   // CefMessageRouter
+   //
+   shared.RObject CreateMessageRouter(1:string query, 2:string cancel)
+   oneway void MessageRouter_Dispose(1:shared.RObject msgRouter)
+   void MessageRouter_AddMessageRouterToBrowser(1:shared.RObject msgRouter, 2:i32 bid)
+   void MessageRouter_RemoveMessageRouterFromBrowser(1:shared.RObject msgRouter, 2:i32 bid)
+   void MessageRouter_AddHandler(1:shared.RObject msgRouter, 2:shared.RObject handler)
+   void MessageRouter_RemoveHandler(1:shared.RObject msgRouter, 2:shared.RObject handler)
+   void MessageRouter_CancelPending(1:shared.RObject msgRouter, 2:i32 bid, 3:shared.RObject handler)
+
+   oneway void QueryCallback_Dispose(1:shared.RObject qcallback)
+   oneway void QueryCallback_Success(1:shared.RObject qcallback, 2:string response)
+   oneway void QueryCallback_Failure(1:shared.RObject qcallback, 2:i32 error_code, 3:string error_message)
 }

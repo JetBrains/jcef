@@ -99,4 +99,10 @@ service ClientHandlers {
       bool ResourceRequestHandler_OnResourceResponse(1:i32 rrHandler, 2:i32 bid, 3:shared.RObject request, 4:shared.RObject response)
       void ResourceRequestHandler_OnResourceLoadComplete(1:i32 rrHandler, 2:i32 bid, 3:shared.RObject request, 4:shared.RObject response, 5:string status, 6:i64 receivedContentLength)
       bool ResourceRequestHandler_OnProtocolExecution(1:i32 rrHandler, 2:i32 bid, 3:shared.RObject request, 4:bool allowOsExecution)
+
+   //
+   // CefMessageRouter
+   //
+   bool MessageRouterHandler_onQuery(1:shared.RObject handler, 2:i32 bid, 3:i64 queryId, 4:string request, 5:bool persistent, 6:shared.RObject queryCallback)
+   void MessageRouterHandler_onQueryCanceled(1:shared.RObject handler, 2:i32 bid, 3:i64 queryId)
 }

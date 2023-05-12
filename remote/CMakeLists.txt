@@ -133,13 +133,13 @@ set(CEFSIMPLE_RESOURCES_SRCS
 set(EXECUTABLE_NAME "CefServer")
 set(PRODUCT_NAME "CefServer")
 add_executable(${EXECUTABLE_NAME} MACOSX_BUNDLE ${CEFSIMPLE_RESOURCES_SRCS}
-        CefBrowserAdapter.cpp
-        CefBrowserAdapter.h
+        browser/CefBrowserAdapter.cpp
+        browser/CefBrowserAdapter.h
         CefUtils.cpp
         CefUtils.h
         CppServer.cpp
-        KeyEventProcessing.cpp
-        MouseEventProcessing.cpp
+        browser/KeyEventProcessing.cpp
+        browser/MouseEventProcessing.cpp
         ServerHandler.cpp
         Utils.cpp
         Utils.h
@@ -159,15 +159,31 @@ add_executable(${EXECUTABLE_NAME} MACOSX_BUNDLE ${CEFSIMPLE_RESOURCES_SRCS}
         handlers/RemoteBrowserProcessHandler.h
         handlers/RemoteDisplayHandler.cpp
         handlers/RemoteDisplayHandler.h
-        handlers/RemoteObjectFactory.h
-        handlers/request/RemoteRequestHandler.cpp
-        handlers/request/RemoteRequestHandler.h
-        handlers/request/RemoteRequest.cpp
-        handlers/request/RemoteRequest.h
-        handlers/request/RemoteResourceRequestHandler.cpp
-        handlers/request/RemoteResourceRequestHandler.h
-        handlers/request/RemoteCookieAccessFilter.cpp
-        handlers/request/RemoteCookieAccessFilter.h handlers/request/RemoteResourceHandler.cpp handlers/request/RemoteResourceHandler.h handlers/request/RemoteResponse.cpp handlers/request/RemoteResponse.h handlers/request/RemotePostData.cpp handlers/request/RemotePostData.h handlers/request/RemotePostDataElement.cpp handlers/request/RemotePostDataElement.h handlers/request/RemoteCallback.cpp handlers/request/RemoteCallback.h handlers/request/RemoteAuthCallback.cpp handlers/request/RemoteAuthCallback.h)
+        RemoteObjectFactory.h
+        network/RemoteRequestHandler.cpp
+        network/RemoteRequestHandler.h
+        network/RemoteRequest.cpp
+        network/RemoteRequest.h
+        network/RemoteResourceRequestHandler.cpp
+        network/RemoteResourceRequestHandler.h
+        network/RemoteCookieAccessFilter.cpp
+        network/RemoteCookieAccessFilter.h
+        network/RemoteResourceHandler.cpp
+        network/RemoteResourceHandler.h
+        network/RemoteResponse.cpp
+        network/RemoteResponse.h
+        network/RemotePostData.cpp
+        network/RemotePostData.h
+        network/RemotePostDataElement.cpp
+        network/RemotePostDataElement.h
+        callback/RemoteCallback.cpp
+        callback/RemoteCallback.h
+        callback/RemoteAuthCallback.cpp
+        callback/RemoteAuthCallback.h
+        router/RemoteMessageRouter.cpp
+        router/RemoteMessageRouter.h
+)
+
 add_dependencies(${EXECUTABLE_NAME} libcef_dll_wrapper)
 target_include_directories(${EXECUTABLE_NAME} PRIVATE /opt/homebrew/Cellar/thrift/0.16.0/include)
 target_include_directories(${EXECUTABLE_NAME} PRIVATE ${CEF_INCLUDE_PATH})
