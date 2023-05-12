@@ -9,13 +9,7 @@ import com.jetbrains.cef.remote.RemoteClient;
 import com.jetbrains.cef.remote.CefServer;
 import com.jetbrains.cef.remote.router.RemoteMessageRouter;
 import org.cef.CefSettings;
-import org.cef.browser.CefBrowser;
-import org.cef.browser.CefFrame;
-import org.cef.handler.CefDisplayHandler;
-import org.cef.handler.CefLifeSpanHandlerAdapter;
-import org.cef.handler.CefLoadHandler;
 import org.cef.misc.CefLog;
-import org.cef.network.CefRequest;
 import tests.JBCefOsrComponent;
 import tests.JBCefOsrHandler;
 
@@ -39,81 +33,15 @@ public class TestApp extends JFrame {
             return;
         }
 
+        RemoteClient client = new RemoteClient(ourServer);
+
         JBCefOsrComponent osrComponent = new JBCefOsrComponent();
         JBCefOsrHandler osrHandler = new JBCefOsrHandler(osrComponent, null);
-        RemoteClient client = new RemoteClient(ourServer);
         client.setRenderHandler(osrHandler);
-        client.setLifeSpanHandler(new CefLifeSpanHandlerAdapter() {
-            @Override
-            public void onAfterCreated(CefBrowser browser) {
-                CefLog.Info("onAfterCreated " + browser);
-            }
-            @Override
-            public boolean doClose(CefBrowser browser) {
-                CefLog.Info("doClose " + browser);
-                return false;
-            }
-            @Override
-            public void onBeforeClose(CefBrowser browser) {
-                CefLog.Info("onBeforeClose " + browser);
-            }
-        });
-        client.setLoadHandler(new CefLoadHandler() {
-            @Override
-            public void onLoadingStateChange(CefBrowser browser, boolean isLoading, boolean canGoBack, boolean canGoForward) {
-                CefLog.Info("onLoadingStateChange " + browser + " " + isLoading + ", " + canGoBack + ", " + canGoForward);
-            }
 
-            @Override
-            public void onLoadStart(CefBrowser browser, CefFrame frame, CefRequest.TransitionType transitionType) {
-                CefLog.Info("onLoadStart " + browser + ", " + transitionType);
-            }
-
-            @Override
-            public void onLoadEnd(CefBrowser browser, CefFrame frame, int httpStatusCode) {
-                CefLog.Info("onLoadEnd " + browser + ", " + httpStatusCode);
-            }
-
-            @Override
-            public void onLoadError(CefBrowser browser, CefFrame frame, ErrorCode errorCode, String errorText, String failedUrl) {
-                CefLog.Info("onLoadError " + browser + ", " + errorCode + ", " + errorText);
-            }
-        });
-        client.setDisplayHandler(new CefDisplayHandler() {
-            @Override
-            public void onAddressChange(CefBrowser browser, CefFrame frame, String url) {
-                CefLog.Info("onAddressChange " + browser + ", " + url);
-            }
-
-            @Override
-            public void onTitleChange(CefBrowser browser, String title) {
-                CefLog.Info("onTitleChange " + browser + ", " + title);
-            }
-
-            @Override
-            public boolean onTooltip(CefBrowser browser, String text) {
-                CefLog.Info("onTooltip " + browser + ", " + text);
-                return false;
-            }
-
-            @Override
-            public void onStatusMessage(CefBrowser browser, String value) {
-                CefLog.Info("onStatusMessage " + browser + ", " + value);
-            }
-
-            @Override
-            public boolean onConsoleMessage(CefBrowser browser, CefSettings.LogSeverity level, String message, String source, int line) {
-                CefLog.Info("onConsoleMessage " + browser + ", " + message + ", " + source + ", " + line);
-                return false;
-            }
-
-            @Override
-            public boolean onCursorChange(CefBrowser browser, int cursorType) {
-                CefLog.Info("onCursorChange " + browser + ", " + cursorType);
-                return false;
-            }
-        });
-
+        client.setLifeSpanHandler(new TestLifeSpanHandler());
+        client.setLoadHandler(new TestLoadHandler());
+        client.setDisplayHandler(new TestDisplayHandler());
         client.setRequestHandler(new TestRequestHandler());
 
         RemoteMessageRouter testRouter = RemoteMessageRouter.create(ourServer.getService(), "testQuery", "testQueryCancel");
