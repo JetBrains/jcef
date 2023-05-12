@@ -189,6 +189,8 @@ public class RemoteBrowser implements CefBrowser {
 
     }
 
+
+
     @Override
     public void loadURL(String url) {
         if (myServer == null)
@@ -204,6 +206,14 @@ public class RemoteBrowser implements CefBrowser {
 
     @Override
     public void executeJavaScript(String code, String url, int line) {
+        if (myServer == null) return;
+
+        try {
+            ByteBuffer params = ourEncoder.encode(CharBuffer.wrap(url));
+            myServer.invoke(myBid, "loadurl", params);
+        } catch (CharacterCodingException e) {
+            CefLog.Error("loadURL can't encode string '%s', CharacterCodingException: %s", url, e.getMessage());
+        }
 
     }
 

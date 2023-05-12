@@ -44,7 +44,7 @@ class RemoteRequestHandler : public CefRequestHandler {
   void OnRenderProcessTerminated(CefRefPtr<CefBrowser> browser,
                                  TerminationStatus status) override;
 
- protected:
+ private:
   RemoteClientHandler & myOwner;
 
   // Persistent java handler
@@ -52,7 +52,6 @@ class RemoteRequestHandler : public CefRequestHandler {
   bool myDisableDefaultHandling = false;
   CefRefPtr<CefResourceRequestHandler> myResourceRequestHandler;
 
- private:
   IMPLEMENT_REFCOUNTING(RemoteRequestHandler);
 };
 

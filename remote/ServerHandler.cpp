@@ -16,9 +16,10 @@
 #include "callback/RemoteCallback.h"
 
 #include "include/base/cef_callback.h"
-#include "include/cef_task.h"
 #include "include/wrapper/cef_closure_task.h"
 #include "router/RemoteMessageRouter.h"
+#include "router/RemoteMessageRouterHandler.h"
+#include "router/RemoteQueryCallback.h"
 
 using namespace apache::thrift;
 
@@ -30,9 +31,12 @@ namespace {
 
 bool isCefInitialized() { return g_isInitialized; }
 
+ServerHandler::ServerHandler() : myRoutersManager(std::make_shared<MessageRoutersManager>()) {}
+
 ServerHandler::~ServerHandler() {
   try {
-    closeAllBrowsers();
+    if (myClientsManager)
+      myClientsManager->closeAllBrowsers();
     if (myService && !myService->isClosed())
       myService->close();
     // TODO: probably we should shutdown cef (so AppHandler will update on next intialization)
@@ -57,7 +61,7 @@ int32_t ServerHandler::connect(
   if (myService == nullptr) {
     try {
       myService = std::make_shared<RpcExecutor>();
-      myRemoteBrowsers = std::make_shared<std::vector<CefRefPtr<RemoteClientHandler>>>();
+      myClientsManager = std::make_shared<ClientsManager>();
       if (g_remoteAppHandler == nullptr) {
         g_remoteAppHandler = new RemoteAppHandler(myService, cmdLineArgs, settings);
         g_mainCefThread = new std::thread([=]() {
@@ -90,90 +94,16 @@ int32_t ServerHandler::connect(
   return cid;
 }
 
-void createBrowserImpl(
-    int cid, int bid, CefRefPtr<RemoteClientHandler> clienthandler,
-    std::function<void()> onCreationFailed
-) {
-  // Should be called on UI thread
-  CefWindowInfo windowInfo;
-  windowInfo.SetAsWindowless(0);
-
-  CefBrowserSettings settings;
-  CefString strUrl("www.google.com");
-
-  Log::debug( "CefBrowserHost::CreateBrowser cid=%d, bid=%d", cid, bid);
-  bool result = CefBrowserHost::CreateBrowser(windowInfo, clienthandler, strUrl,
-                                              settings, nullptr, nullptr);
-  if (!result) {
-    Log::error( "Failed to create browser with cid=%d, bid=%d", cid, bid);
-    onCreationFailed();
-  }
-}
-
 int32_t ServerHandler::createBrowser(int cid) {
-  if (!isCefInitialized()) {
-    Log::warn( "Can't create browser with cid=%d, need wait for cef initialization", cid);
-    // TODO: return wrapper and schedule browser creation after initialization
-    return -2;
-  }
-
-  int bid = myRemoteBrowsers->size();
-  for (int c = 0, cEnd = myRemoteBrowsers->size(); c < cEnd; ++c)
-    if ((*myRemoteBrowsers)[c] != nullptr) {
-      bid = c;
-      break;
-    }
-
-  CefRefPtr<RemoteClientHandler> clienthandler = new RemoteClientHandler(myService, cid, bid);
-  if (bid >= 0 && bid < myRemoteBrowsers->size())
-    (*myRemoteBrowsers)[bid] = clienthandler;
-  else
-    myRemoteBrowsers->push_back(clienthandler);
-
-  std::function<void()> onFailed = [=](){
-    (*myRemoteBrowsers)[bid] = nullptr;
-    // TODO: notify client
-  };
-  if (CefCurrentlyOn(TID_UI)) {
-    createBrowserImpl(cid, bid, clienthandler, onFailed);
-  } else {
-    CefPostTask(TID_UI, base::BindOnce(&createBrowserImpl, cid, bid, clienthandler, onFailed));
-  }
-
-  Log::debug("Scheduled browser creation, cid=%d, bid=%d", cid, bid);
-  return bid;
+  return myClientsManager->createBrowser(cid, myService, myRoutersManager);
 }
 
-void ServerHandler::closeBrowser(std::string& _return, const int32_t bid) {
-  Log::debug("Close browser %d", bid);
-
-  if (bid >= myRemoteBrowsers->size()) {
-    Log::error("closeBrowser: bid %d > myRemoteBrowsers->size() %d", bid,
-               myRemoteBrowsers->size());
-    _return.assign("invalid bid");
-    return;
-  }
-  if ((*myRemoteBrowsers)[bid] == nullptr) {
-    Log::error("closeBrowser: null browser at bid %d", bid);
-    _return.assign("null browser");
-    return;
-  }
-
-  auto browser = getBrowser(bid);
-  if (browser != nullptr)
-    browser->GetHost()->CloseBrowser(true);
-
-  (*myRemoteBrowsers)[bid] = nullptr;
+void ServerHandler::closeBrowser(const int32_t bid) {
+  myClientsManager->closeBrowser(bid);
 }
 
 void ServerHandler::invoke(const int32_t bid, const std::string& method, const std::string& buffer) {
-  if (bid >= myRemoteBrowsers->size()) {
-    Log::error("invoke: bid %d > myRemoteBrowsers->size() %d", bid,
-               myRemoteBrowsers->size());
-    return;
-  }
-
-  auto browser = getBrowser(bid);
+  auto browser = myClientsManager->getCefBrowser(bid);
   if (browser == nullptr) {
     Log::error("invoke: null browser, bid=%d", bid);
     return;
@@ -182,24 +112,6 @@ void ServerHandler::invoke(const int32_t bid, const std::string& method, const s
   CefBrowserAdapter adapter(browser);
   adapter.setBid(bid); // for logging only
   adapter.invoke(method, buffer);
-}
-
-CefRefPtr<CefBrowser> ServerHandler::getBrowser(int bid) {
-  if (bid >= myRemoteBrowsers->size()) {
-    Log::error("getBrowser: bid %d > myRemoteBrowsers->size() %d", bid, myRemoteBrowsers->size());
-    return nullptr;
-  }
-
-  auto ch = (*myRemoteBrowsers)[bid];
-  RemoteLifespanHandler * rsh = (RemoteLifespanHandler *)(ch->GetLifeSpanHandler()).get();
-  return rsh->getBrowser();
-}
-
-void ServerHandler::closeAllBrowsers() {
-  std::string tmp;
-  for (int bid = 0; bid < myRemoteBrowsers->size(); ++bid)
-    closeBrowser(tmp, bid);
-  myRemoteBrowsers->clear();
 }
 
 void ServerHandler::Request_Update(const thrift_codegen::RObject & request) {
@@ -415,99 +327,158 @@ void ServerHandler::Callback_Cancel(const thrift_codegen::RObject& callback) {
   RemoteCallback::dispose(callback.objId);
 }
 
-void ServerHandler::CreateMessageRouter(thrift_codegen::RObject& _return,
+// TODO: add leak protection: dispose all created routers is ~ServerHandler
+void ServerHandler::MessageRouter_Create(thrift_codegen::RObject& _return,
                                         const std::string& query,
                                         const std::string& cancel) {
-  CefMessageRouterConfig config;
-  config.js_query_function = query;
-  config.js_cancel_function = cancel;
-  CefRefPtr<CefMessageRouterBrowserSide> msgRouter = CefMessageRouterBrowserSide::Create(config);
-
-  RemoteMessageRouter * rmr = RemoteMessageRouter::create(myService);
-  _return = rmr->toThrift();
+  _return = myRoutersManager->CreateRemoteMessageRouter(myService, query, cancel)->toThrift();
 }
 
 void ServerHandler::MessageRouter_Dispose(const thrift_codegen::RObject& msgRouter) {
-  RemoteMessageRouter::dispose(msgRouter.objId);
+  myRoutersManager->DisposeRemoteMessageRouter(msgRouter.objId);
 }
 
 void ServerHandler::MessageRouter_AddMessageRouterToBrowser(
     const thrift_codegen::RObject& msgRouter,
     const int32_t bid) {
+  LNDCT();
   RemoteMessageRouter * rmr = RemoteMessageRouter::get(msgRouter.objId);
   if (rmr == nullptr) return;
 
-  CefRefPtr<CefMessageRouter> router = nullptr;//GetMessageRouter(env, jmessageRouter);
-  if (!router)
+  // Update running render-processes.
+  CefRefPtr<CefBrowser> browser = myClientsManager->getCefBrowser(bid);
+  if (!browser) {
+    Log::debug("CefBrowser instance wasn't created, bid %d", bid);
     return;
-//
-//  CefMessageRouterConfig config;// = GetMessageRouterConfig(env, jmessageRouter);
-//
-//  // 1) Add CefMessageRouterBrowserSide into the list.
-//  {
-//    base::AutoLock lock_scope(message_router_lock_);
-//    message_routers_.insert(router);
-//  }
-//
-//  // 2) Update CefApp for new render-processes.
-//  BrowserProcessHandler::AddMessageRouterConfig(config);
-//
-//  // 3) Update running render-processes.
-//  BrowserSet allBrowsers = GetAllBrowsers(env);
-//  if (allBrowsers.empty())
-//    return;
-//
-//  CefRefPtr<CefProcessMessage> message =
-//      CefProcessMessage::Create("AddMessageRouter");
-//  CefRefPtr<CefListValue> args = message->GetArgumentList();
-//  args->SetString(0, config.js_query_function);
-//  args->SetString(1, config.js_cancel_function);
-//
-//  BrowserSet::const_iterator it = allBrowsers.begin();
-//  for (; it != allBrowsers.end(); ++it) {
-//    (*it)->GetMainFrame()->SendProcessMessage(PID_RENDERER, message);
-//  }
+  }
+
+  CefRefPtr<CefProcessMessage> message = CefProcessMessage::Create("AddMessageRouter");
+  CefRefPtr<CefListValue> args = message->GetArgumentList();
+  const CefMessageRouterConfig& config = rmr->getConfig();
+  args->SetString(0, config.js_query_function);
+  args->SetString(1, config.js_cancel_function);
+
+  browser->GetMainFrame()->SendProcessMessage(PID_RENDERER, message);
 }
 
 void ServerHandler::MessageRouter_RemoveMessageRouterFromBrowser(
     const thrift_codegen::RObject& msgRouter,
     const int32_t bid) {
+  LNDCT();
+  RemoteMessageRouter * rmr = RemoteMessageRouter::get(msgRouter.objId);
+  if (rmr == nullptr) return;
 
+  // Update running render-processes.
+  CefRefPtr<CefBrowser> browser = myClientsManager->getCefBrowser(bid);
+  if (!browser) {
+    Log::debug("CefBrowser instance wasn't created, bid %d", bid);
+    return;
+  }
+
+  CefRefPtr<CefProcessMessage> message = CefProcessMessage::Create("RemoveMessageRouter");
+  CefRefPtr<CefListValue> args = message->GetArgumentList();
+  const CefMessageRouterConfig& config = rmr->getConfig();
+  args->SetString(0, config.js_query_function);
+  args->SetString(1, config.js_cancel_function);
+
+  browser->GetMainFrame()->SendProcessMessage(PID_RENDERER, message);
+}
+
+namespace {
+  void ServerHandler_MessageRouter_AddHandler_Impl(
+      std::shared_ptr<RpcExecutor> service,
+      std::shared_ptr<ClientsManager> manager,
+      const thrift_codegen::RObject& msgRouter,
+      const thrift_codegen::RObject& handler, bool first) {
+    LNDCT();
+    RemoteMessageRouter * rmr = RemoteMessageRouter::get(msgRouter.objId);
+    if (rmr == nullptr) {
+      Log::error("Can't find router %d", msgRouter.objId);
+      return;
+    }
+    rmr->AddRemoteHandler(manager, handler, first);
+  }
+  void ServerHandler_MessageRouter_RemoveHandler_Impl(
+      const thrift_codegen::RObject& msgRouter,
+      const thrift_codegen::RObject& handler) {
+    LNDCT();
+    RemoteMessageRouter * rmr = RemoteMessageRouter::get(msgRouter.objId);
+    if (rmr != nullptr) {
+      rmr->RemoveRemoteHandler(handler);
+    } else
+      Log::error("Can't find router %d", msgRouter.objId);
+
+    RemoteMessageRouterHandler::dispose(handler.objId); // should be called in RemoveRemoteHandler, just for insurance
+  }
 }
 
 void ServerHandler::MessageRouter_AddHandler(
     const thrift_codegen::RObject& msgRouter,
-    const thrift_codegen::RObject& handler) {
-
+    const thrift_codegen::RObject& handler, bool first) {
+  if (CefCurrentlyOn(TID_UI)) {
+    ServerHandler_MessageRouter_AddHandler_Impl(myService, myClientsManager, msgRouter, handler, first);
+  } else {
+    CefPostTask(TID_UI, base::BindOnce(
+        [](std::shared_ptr<RpcExecutor> service,
+           std::shared_ptr<ClientsManager> manager,
+           const thrift_codegen::RObject& msgRouter,
+           const thrift_codegen::RObject& handler,
+           bool first) {
+          ServerHandler_MessageRouter_AddHandler_Impl(service, manager, msgRouter, handler, first);
+        },
+        myService, myClientsManager, msgRouter, handler, first));
+  }
 }
 
 void ServerHandler::MessageRouter_RemoveHandler(
     const thrift_codegen::RObject& msgRouter,
     const thrift_codegen::RObject& handler) {
-
+  if (CefCurrentlyOn(TID_UI)) {
+    ServerHandler_MessageRouter_RemoveHandler_Impl(msgRouter, handler);
+  } else {
+    CefPostTask(TID_UI, base::BindOnce(
+        [](
+           const thrift_codegen::RObject& msgRouter,
+           const thrift_codegen::RObject& handler) {
+          ServerHandler_MessageRouter_RemoveHandler_Impl(msgRouter, handler);
+        },
+        msgRouter, handler));
+  }
 }
 
 void ServerHandler::MessageRouter_CancelPending(
     const thrift_codegen::RObject& msgRouter,
     const int32_t bid,
     const thrift_codegen::RObject& handler) {
-
+  LNDCT();
+  RemoteMessageRouter * rmr = RemoteMessageRouter::get(msgRouter.objId);
+  if (rmr == nullptr) return;
+  RemoteMessageRouterHandler * rmrh = RemoteMessageRouterHandler::find(handler.objId);
+  if (rmrh != nullptr) {
+    rmr->getDelegate()->CancelPending(myClientsManager->getCefBrowser(bid), rmrh);
+  } else
+    Log::error("Can't find RemoteMessageRouterHandler %d", handler.objId);
 }
 
-void ServerHandler::QueryCallback_Dispose(
-    const thrift_codegen::RObject& qcallback) {
-
+void ServerHandler::QueryCallback_Dispose(const thrift_codegen::RObject& qcallback) {
+  RemoteQueryCallback::dispose(qcallback.objId);
 }
 
 void ServerHandler::QueryCallback_Success(
     const thrift_codegen::RObject& qcallback,
     const std::string& response) {
-
+  RemoteQueryCallback * rc = RemoteQueryCallback::get(qcallback.objId);
+  if (rc == nullptr) return;
+  rc->getDelegate()->Success(response);
+  RemoteQueryCallback::dispose(qcallback.objId);
 }
 
 void ServerHandler::QueryCallback_Failure(
     const thrift_codegen::RObject& qcallback,
     const int32_t error_code,
     const std::string& error_message) {
-
+  RemoteQueryCallback * rc = RemoteQueryCallback::get(qcallback.objId);
+  if (rc == nullptr) return;
+  rc->getDelegate()->Failure(error_code, error_message);
+  RemoteQueryCallback::dispose(qcallback.objId);
 }

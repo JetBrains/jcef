@@ -105,10 +105,6 @@ target_include_directories(shared_mem_helper PUBLIC ${JNI_INCLUDE_DIRS})
 #
 # Sources
 #
-set(CEFSIMPLE_HELPER_SRCS_MAC
-    process_helper_mac.cc
-)
-APPEND_PLATFORM_SOURCES(CEFSIMPLE_HELPER_SRCS)
 
 set(CEFSIMPLE_RESOURCES_MAC_SRCS_MAC
     mac/Info.plist
@@ -182,7 +178,8 @@ add_executable(${EXECUTABLE_NAME} MACOSX_BUNDLE ${CEFSIMPLE_RESOURCES_SRCS}
         callback/RemoteAuthCallback.h
         router/RemoteMessageRouter.cpp
         router/RemoteMessageRouter.h
-)
+        router/MessageRoutersManager.cpp
+        router/MessageRoutersManager.h router/RemoteMessageRouterHandler.cpp router/RemoteMessageRouterHandler.h router/RemoteQueryCallback.cpp router/RemoteQueryCallback.h browser/ClientsManager.cpp browser/ClientsManager.h)
 
 add_dependencies(${EXECUTABLE_NAME} libcef_dll_wrapper)
 target_include_directories(${EXECUTABLE_NAME} PRIVATE /opt/homebrew/Cellar/thrift/0.16.0/include)
@@ -223,6 +220,15 @@ endif()
 set(CEF_HELPER_TARGET "${EXECUTABLE_NAME}_Helper")
 set(CEF_HELPER_OUTPUT_NAME "${EXECUTABLE_NAME} Helper")
 
+set(CEFSIMPLE_HELPER_SRCS_MAC
+    process_helper_mac.cc
+)
+
+list(APPEND HELPER_EXTRA_COMPILER_FLAGS
+    -fexceptions
+    -frtti
+)
+
 # Create the multiple Helper app bundle targets.
 foreach(_suffix_list ${CEF_HELPER_APP_SUFFIXES})
     # Convert to a list and extract the suffix values.
@@ -247,8 +253,14 @@ foreach(_suffix_list ${CEF_HELPER_APP_SUFFIXES})
     file(WRITE ${_helper_info_plist} ${_plist_contents})
 
     # Create Helper executable target.
-    add_executable(${_helper_target} MACOSX_BUNDLE ${CEFSIMPLE_HELPER_SRCS})
+    add_executable(${_helper_target} MACOSX_BUNDLE ${CEFSIMPLE_HELPER_SRCS_MAC})
+    target_include_directories(${_helper_target} PRIVATE /opt/homebrew/Cellar/thrift/0.16.0/include)
+    target_include_directories(${_helper_target} PRIVATE $<TARGET_PROPERTY:log4cxx,INTERFACE_INCLUDE_DIRECTORIES>)
+    target_link_libraries(${_helper_target} log4cxx)
+    target_link_libraries(${_helper_target} thrift_codegen)
+    target_link_libraries(${_helper_target} thrift ${Boost_FILESYSTEM_LIBRARY})
     SET_EXECUTABLE_TARGET_PROPERTIES(${_helper_target})
+    target_compile_options(${_helper_target} PRIVATE ${HELPER_EXTRA_COMPILER_FLAGS})
     add_dependencies(${_helper_target} libcef_dll_wrapper)
     target_link_libraries(${_helper_target} libcef_dll_wrapper ${CEF_STANDARD_LIBS})
     set_target_properties(${_helper_target} PROPERTIES

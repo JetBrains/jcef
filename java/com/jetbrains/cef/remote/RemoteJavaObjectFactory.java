@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public class RemoteObjectFactory<T> {
+public class RemoteJavaObjectFactory<T> {
     private final ArrayList<T> INSTANCES = new ArrayList<T>();
 
     public T create(Function<Integer, T> creator) {

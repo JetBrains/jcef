@@ -6,11 +6,14 @@
 #include "Utils.h"
 #include "handlers/RemoteClientHandler.h"
 #include "log/Log.h"
+#include "router/MessageRoutersManager.h"
+#include "browser/ClientsManager.h"
 
 // Used per connection (destroyed when connection closed)
 // All methods are invoked in socket-listening thread ("Client_N")
 class ServerHandler : public thrift_codegen::ServerIf {
  public:
+  ServerHandler();
   ~ServerHandler();
 
   //
@@ -27,7 +30,7 @@ class ServerHandler : public thrift_codegen::ServerIf {
   // CefBrowser
   //
   int32_t createBrowser(int cid) override;
-  void closeBrowser(std::string& _return, const int32_t bid) override;
+  void closeBrowser(const int32_t bid) override;
   void invoke(const int32_t bid, const std::string& method, const std::string& buffer) override;
 
   //
@@ -90,7 +93,7 @@ class ServerHandler : public thrift_codegen::ServerIf {
   void Callback_Continue(const thrift_codegen::RObject& callback) override;
   void Callback_Cancel(const thrift_codegen::RObject& callback) override;
 
-  void CreateMessageRouter(thrift_codegen::RObject& _return,
+  void MessageRouter_Create(thrift_codegen::RObject& _return,
                            const std::string& query,
                            const std::string& cancel) override;
   void MessageRouter_Dispose(const thrift_codegen::RObject& msgRouter) override;
@@ -102,7 +105,7 @@ class ServerHandler : public thrift_codegen::ServerIf {
       const int32_t bid) override;
   void MessageRouter_AddHandler(
       const thrift_codegen::RObject& msgRouter,
-      const thrift_codegen::RObject& handler) override;
+      const thrift_codegen::RObject& handler, bool first) override;
   void MessageRouter_RemoveHandler(
       const thrift_codegen::RObject& msgRouter,
       const thrift_codegen::RObject& handler) override;
@@ -118,11 +121,9 @@ class ServerHandler : public thrift_codegen::ServerIf {
                              const std::string& error_message) override;
 
  private:
-  CefRefPtr<CefBrowser> getBrowser(int bid);
-  void closeAllBrowsers();
-
-  std::shared_ptr<std::vector<CefRefPtr<RemoteClientHandler>>> myRemoteBrowsers;
   std::shared_ptr<RpcExecutor> myService;
+  std::shared_ptr<ClientsManager> myClientsManager;
+  std::shared_ptr<MessageRoutersManager> myRoutersManager;
 };
 
 #endif  // JCEF_SERVERHANDLER_H

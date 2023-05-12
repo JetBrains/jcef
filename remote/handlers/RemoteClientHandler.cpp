@@ -7,16 +7,20 @@
 #include "RemoteLoadHandler.h"
 #include "RemoteRenderHandler.h"
 
-RemoteClientHandler::RemoteClientHandler(std::shared_ptr<RpcExecutor> service, int cid, int bid)
+RemoteClientHandler::RemoteClientHandler(
+    std::shared_ptr<MessageRoutersManager> routersManager,
+    std::shared_ptr<RpcExecutor> service,
+    int cid,
+    int bid)
     : myCid(cid),
       myBid(bid),
       myService(service),
+      myRoutersManager(routersManager),
       myRemoteRenderHandler(new RemoteRenderHandler(*this)),
       myRemoteLisfespanHandler(new RemoteLifespanHandler(*this)),
       myRemoteLoadHandler(new RemoteLoadHandler(*this)),
       myRemoteDisplayHandler(new RemoteDisplayHandler(*this)),
-      myRemoteRequestHandler(new RemoteRequestHandler(*this))
-{}
+      myRemoteRequestHandler(new RemoteRequestHandler(*this)) {}
 
 CefRefPtr<CefContextMenuHandler> RemoteClientHandler::GetContextMenuHandler() {
     Log::error("UNIMPLEMENTED: RemoteClientHandler::GetContextMenuHandler");
@@ -83,11 +87,17 @@ CefRefPtr<CefRequestHandler> RemoteClientHandler::GetRequestHandler() {
     return myRemoteRequestHandler;
 }
 
+///
+/// Called when a new message is received from a different process. Return
+/// true if the message was handled or false otherwise.  It is safe to keep a
+/// reference to |message| outside of this callback.
+///
 bool RemoteClientHandler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser,
                                              CefRefPtr<CefFrame> frame,
                                              CefProcessId source_process,
                                              CefRefPtr<CefProcessMessage> message) {
-    Log::error("UNIMPLEMENTED: RemoteClientHandler::OnProcessMessageReceived");
+    LNDCT();
+    myRoutersManager->OnProcessMessageReceived(browser, frame, source_process, message);
     return false;
 }
 

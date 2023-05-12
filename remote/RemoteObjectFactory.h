@@ -115,19 +115,18 @@ class RemoteServerObject : public RemoteServerObjectBase<T> {
 };
 
 template <class T>
-class RemoteObject : public RemoteServerObjectBase<T> {
+class RemoteObjectBase : public RemoteServerObjectBase<T> {
   typedef RemoteServerObjectBase<T> base;
  public:
-  explicit RemoteObject(RemoteClientHandler& owner,
+  explicit RemoteObjectBase(std::shared_ptr<RpcExecutor> service,
                         int id,
                         int peerId,
                         std::function<void(RpcExecutor::Service)> disposer)
-      : RemoteServerObjectBase<T>(owner.getService(), id),
-        myOwner(owner),
+      : RemoteServerObjectBase<T>(service, id),
         myPeerId(peerId),
         myDisposer(disposer) {}
 
-  virtual ~RemoteObject() {
+  virtual ~RemoteObjectBase() {
     base::myService->exec([&](RpcExecutor::Service s){
       myDisposer(s);
     });
@@ -135,9 +134,23 @@ class RemoteObject : public RemoteServerObjectBase<T> {
   }
 
  protected:
-  RemoteClientHandler & myOwner;
   const int myPeerId; // java-peer (delegate)
   std::function<void(RpcExecutor::Service)> myDisposer;
+};
+
+template <class T>
+class RemoteObject : public RemoteObjectBase<T> {
+  typedef RemoteObjectBase<T> base;
+ public:
+  explicit RemoteObject(RemoteClientHandler& owner,
+                        int id,
+                        int peerId,
+                        std::function<void(RpcExecutor::Service)> disposer)
+      : RemoteObjectBase<T>(owner.getService(), id, peerId, disposer),
+        myOwner(owner) {}
+
+ protected:
+  RemoteClientHandler & myOwner;
 };
 
 template <class T>

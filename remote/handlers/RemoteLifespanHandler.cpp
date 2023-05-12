@@ -47,6 +47,7 @@ bool RemoteLifespanHandler::DoClose(CefRefPtr<CefBrowser> browser) {
 
 void RemoteLifespanHandler::OnBeforeClose(CefRefPtr<CefBrowser> browser) {
   LNDCT();
+  myOwner.getRoutersManager()->OnBeforeClose(browser);
   myOwner.exec([&](RpcExecutor::Service s){
     s->onBeforeClose(myOwner.getBid());
   });

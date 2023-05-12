@@ -23,6 +23,9 @@ bool RemoteRequestHandler::OnBeforeBrowse(CefRefPtr<CefBrowser> browser,
                     bool is_redirect
 ) {
   LNDCT();
+  // Forward request to ClientHandler to make the message_router_ happy.
+  myOwner.getRoutersManager()->OnBeforeBrowse(browser, frame);
+
   RemoteRequest * rr = RemoteRequest::create(myOwner.getService(), request);
   Holder<RemoteRequest> holder(*rr);
   return myOwner.exec<bool>([&](RpcExecutor::Service s){
@@ -110,6 +113,8 @@ bool RemoteRequestHandler::OnCertificateError(CefRefPtr<CefBrowser> browser,
 
 void RemoteRequestHandler::OnRenderProcessTerminated(CefRefPtr<CefBrowser> browser, TerminationStatus status) {
   LNDCT();
+  // Forward request to ClientHandler to make the message_router_ happy.
+  myOwner.getRoutersManager()->OnRenderProcessTerminated(browser);
   myOwner.exec([&](RpcExecutor::Service s){
     s->RequestHandler_OnRenderProcessTerminated(myOwner.getBid(), tstatus2str(status));
   });

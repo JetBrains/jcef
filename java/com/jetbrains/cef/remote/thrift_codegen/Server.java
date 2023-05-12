@@ -17,7 +17,7 @@ public class Server {
 
     public int createBrowser(int cid) throws org.apache.thrift.TException;
 
-    public java.lang.String closeBrowser(int bid) throws org.apache.thrift.TException;
+    public void closeBrowser(int bid) throws org.apache.thrift.TException;
 
     public void invoke(int bid, java.lang.String method, java.nio.ByteBuffer buffer) throws org.apache.thrift.TException;
 
@@ -59,7 +59,7 @@ public class Server {
 
     public void AuthCallback_Cancel(RObject authCallback) throws org.apache.thrift.TException;
 
-    public RObject CreateMessageRouter(java.lang.String query, java.lang.String cancel) throws org.apache.thrift.TException;
+    public RObject MessageRouter_Create(java.lang.String query, java.lang.String cancel) throws org.apache.thrift.TException;
 
     public void MessageRouter_Dispose(RObject msgRouter) throws org.apache.thrift.TException;
 
@@ -67,7 +67,7 @@ public class Server {
 
     public void MessageRouter_RemoveMessageRouterFromBrowser(RObject msgRouter, int bid) throws org.apache.thrift.TException;
 
-    public void MessageRouter_AddHandler(RObject msgRouter, RObject handler) throws org.apache.thrift.TException;
+    public void MessageRouter_AddHandler(RObject msgRouter, RObject handler, boolean first) throws org.apache.thrift.TException;
 
     public void MessageRouter_RemoveHandler(RObject msgRouter, RObject handler) throws org.apache.thrift.TException;
 
@@ -89,7 +89,7 @@ public class Server {
 
     public void createBrowser(int cid, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException;
 
-    public void closeBrowser(int bid, org.apache.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws org.apache.thrift.TException;
+    public void closeBrowser(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
     public void invoke(int bid, java.lang.String method, java.nio.ByteBuffer buffer, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
@@ -131,7 +131,7 @@ public class Server {
 
     public void AuthCallback_Cancel(RObject authCallback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void CreateMessageRouter(java.lang.String query, java.lang.String cancel, org.apache.thrift.async.AsyncMethodCallback<RObject> resultHandler) throws org.apache.thrift.TException;
+    public void MessageRouter_Create(java.lang.String query, java.lang.String cancel, org.apache.thrift.async.AsyncMethodCallback<RObject> resultHandler) throws org.apache.thrift.TException;
 
     public void MessageRouter_Dispose(RObject msgRouter, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
@@ -139,7 +139,7 @@ public class Server {
 
     public void MessageRouter_RemoveMessageRouterFromBrowser(RObject msgRouter, int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void MessageRouter_AddHandler(RObject msgRouter, RObject handler, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void MessageRouter_AddHandler(RObject msgRouter, RObject handler, boolean first, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
     public void MessageRouter_RemoveHandler(RObject msgRouter, RObject handler, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
@@ -233,27 +233,16 @@ public class Server {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "createBrowser failed: unknown result");
     }
 
-    public java.lang.String closeBrowser(int bid) throws org.apache.thrift.TException
+    public void closeBrowser(int bid) throws org.apache.thrift.TException
     {
       send_closeBrowser(bid);
-      return recv_closeBrowser();
     }
 
     public void send_closeBrowser(int bid) throws org.apache.thrift.TException
     {
       closeBrowser_args args = new closeBrowser_args();
       args.setBid(bid);
-      sendBase("closeBrowser", args);
-    }
-
-    public java.lang.String recv_closeBrowser() throws org.apache.thrift.TException
-    {
-      closeBrowser_result result = new closeBrowser_result();
-      receiveBase(result, "closeBrowser");
-      if (result.isSetSuccess()) {
-        return result.success;
-      }
-      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "closeBrowser failed: unknown result");
+      sendBaseOneway("closeBrowser", args);
     }
 
     public void invoke(int bid, java.lang.String method, java.nio.ByteBuffer buffer) throws org.apache.thrift.TException
@@ -634,28 +623,28 @@ public class Server {
       sendBaseOneway("AuthCallback_Cancel", args);
     }
 
-    public RObject CreateMessageRouter(java.lang.String query, java.lang.String cancel) throws org.apache.thrift.TException
+    public RObject MessageRouter_Create(java.lang.String query, java.lang.String cancel) throws org.apache.thrift.TException
     {
-      send_CreateMessageRouter(query, cancel);
-      return recv_CreateMessageRouter();
+      send_MessageRouter_Create(query, cancel);
+      return recv_MessageRouter_Create();
     }
 
-    public void send_CreateMessageRouter(java.lang.String query, java.lang.String cancel) throws org.apache.thrift.TException
+    public void send_MessageRouter_Create(java.lang.String query, java.lang.String cancel) throws org.apache.thrift.TException
     {
-      CreateMessageRouter_args args = new CreateMessageRouter_args();
+      MessageRouter_Create_args args = new MessageRouter_Create_args();
       args.setQuery(query);
       args.setCancel(cancel);
-      sendBase("CreateMessageRouter", args);
+      sendBase("MessageRouter_Create", args);
     }
 
-    public RObject recv_CreateMessageRouter() throws org.apache.thrift.TException
+    public RObject recv_MessageRouter_Create() throws org.apache.thrift.TException
     {
-      CreateMessageRouter_result result = new CreateMessageRouter_result();
-      receiveBase(result, "CreateMessageRouter");
+      MessageRouter_Create_result result = new MessageRouter_Create_result();
+      receiveBase(result, "MessageRouter_Create");
       if (result.isSetSuccess()) {
         return result.success;
       }
-      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "CreateMessageRouter failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "MessageRouter_Create failed: unknown result");
     }
 
     public void MessageRouter_Dispose(RObject msgRouter) throws org.apache.thrift.TException
@@ -712,17 +701,18 @@ public class Server {
       return;
     }
 
-    public void MessageRouter_AddHandler(RObject msgRouter, RObject handler) throws org.apache.thrift.TException
+    public void MessageRouter_AddHandler(RObject msgRouter, RObject handler, boolean first) throws org.apache.thrift.TException
     {
-      send_MessageRouter_AddHandler(msgRouter, handler);
+      send_MessageRouter_AddHandler(msgRouter, handler, first);
       recv_MessageRouter_AddHandler();
     }
 
-    public void send_MessageRouter_AddHandler(RObject msgRouter, RObject handler) throws org.apache.thrift.TException
+    public void send_MessageRouter_AddHandler(RObject msgRouter, RObject handler, boolean first) throws org.apache.thrift.TException
     {
       MessageRouter_AddHandler_args args = new MessageRouter_AddHandler_args();
       args.setMsgRouter(msgRouter);
       args.setHandler(handler);
+      args.setFirst(first);
       sendBase("MessageRouter_AddHandler", args);
     }
 
@@ -935,35 +925,35 @@ public class Server {
       }
     }
 
-    public void closeBrowser(int bid, org.apache.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws org.apache.thrift.TException {
+    public void closeBrowser(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       closeBrowser_call method_call = new closeBrowser_call(bid, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class closeBrowser_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.String> {
+    public static class closeBrowser_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
       private int bid;
-      public closeBrowser_call(int bid, org.apache.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
-        super(client, protocolFactory, transport, resultHandler, false);
+      public closeBrowser_call(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, true);
         this.bid = bid;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("closeBrowser", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("closeBrowser", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
         closeBrowser_args args = new closeBrowser_args();
         args.setBid(bid);
         args.write(prot);
         prot.writeMessageEnd();
       }
 
-      public java.lang.String getResult() throws org.apache.thrift.TException {
+      public Void getResult() throws org.apache.thrift.TException {
         if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new java.lang.IllegalStateException("Method call not finished!");
         }
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
         org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
-        return (new Client(prot)).recv_closeBrowser();
+        return null;
       }
     }
 
@@ -1664,25 +1654,25 @@ public class Server {
       }
     }
 
-    public void CreateMessageRouter(java.lang.String query, java.lang.String cancel, org.apache.thrift.async.AsyncMethodCallback<RObject> resultHandler) throws org.apache.thrift.TException {
+    public void MessageRouter_Create(java.lang.String query, java.lang.String cancel, org.apache.thrift.async.AsyncMethodCallback<RObject> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      CreateMessageRouter_call method_call = new CreateMessageRouter_call(query, cancel, resultHandler, this, ___protocolFactory, ___transport);
+      MessageRouter_Create_call method_call = new MessageRouter_Create_call(query, cancel, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class CreateMessageRouter_call extends org.apache.thrift.async.TAsyncMethodCall<RObject> {
+    public static class MessageRouter_Create_call extends org.apache.thrift.async.TAsyncMethodCall<RObject> {
       private java.lang.String query;
       private java.lang.String cancel;
-      public CreateMessageRouter_call(java.lang.String query, java.lang.String cancel, org.apache.thrift.async.AsyncMethodCallback<RObject> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public MessageRouter_Create_call(java.lang.String query, java.lang.String cancel, org.apache.thrift.async.AsyncMethodCallback<RObject> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.query = query;
         this.cancel = cancel;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("CreateMessageRouter", org.apache.thrift.protocol.TMessageType.CALL, 0));
-        CreateMessageRouter_args args = new CreateMessageRouter_args();
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("MessageRouter_Create", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        MessageRouter_Create_args args = new MessageRouter_Create_args();
         args.setQuery(query);
         args.setCancel(cancel);
         args.write(prot);
@@ -1695,7 +1685,7 @@ public class Server {
         }
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
         org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
-        return (new Client(prot)).recv_CreateMessageRouter();
+        return (new Client(prot)).recv_MessageRouter_Create();
       }
     }
 
@@ -1801,9 +1791,9 @@ public class Server {
       }
     }
 
-    public void MessageRouter_AddHandler(RObject msgRouter, RObject handler, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void MessageRouter_AddHandler(RObject msgRouter, RObject handler, boolean first, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      MessageRouter_AddHandler_call method_call = new MessageRouter_AddHandler_call(msgRouter, handler, resultHandler, this, ___protocolFactory, ___transport);
+      MessageRouter_AddHandler_call method_call = new MessageRouter_AddHandler_call(msgRouter, handler, first, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
@@ -1811,10 +1801,12 @@ public class Server {
     public static class MessageRouter_AddHandler_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
       private RObject msgRouter;
       private RObject handler;
-      public MessageRouter_AddHandler_call(RObject msgRouter, RObject handler, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private boolean first;
+      public MessageRouter_AddHandler_call(RObject msgRouter, RObject handler, boolean first, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.msgRouter = msgRouter;
         this.handler = handler;
+        this.first = first;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
@@ -1822,6 +1814,7 @@ public class Server {
         MessageRouter_AddHandler_args args = new MessageRouter_AddHandler_args();
         args.setMsgRouter(msgRouter);
         args.setHandler(handler);
+        args.setFirst(first);
         args.write(prot);
         prot.writeMessageEnd();
       }
@@ -2051,7 +2044,7 @@ public class Server {
       processMap.put("AuthCallback_Dispose", new AuthCallback_Dispose());
       processMap.put("AuthCallback_Continue", new AuthCallback_Continue());
       processMap.put("AuthCallback_Cancel", new AuthCallback_Cancel());
-      processMap.put("CreateMessageRouter", new CreateMessageRouter());
+      processMap.put("MessageRouter_Create", new MessageRouter_Create());
       processMap.put("MessageRouter_Dispose", new MessageRouter_Dispose());
       processMap.put("MessageRouter_AddMessageRouterToBrowser", new MessageRouter_AddMessageRouterToBrowser());
       processMap.put("MessageRouter_RemoveMessageRouterFromBrowser", new MessageRouter_RemoveMessageRouterFromBrowser());
@@ -2150,7 +2143,7 @@ public class Server {
       }
 
       protected boolean isOneway() {
-        return false;
+        return true;
       }
 
       @Override
@@ -2158,10 +2151,9 @@ public class Server {
         return false;
       }
 
-      public closeBrowser_result getResult(I iface, closeBrowser_args args) throws org.apache.thrift.TException {
-        closeBrowser_result result = new closeBrowser_result();
-        result.success = iface.closeBrowser(args.bid);
-        return result;
+      public org.apache.thrift.TBase getResult(I iface, closeBrowser_args args) throws org.apache.thrift.TException {
+        iface.closeBrowser(args.bid);
+        return null;
       }
     }
 
@@ -2658,13 +2650,13 @@ public class Server {
       }
     }
 
-    public static class CreateMessageRouter<I extends Iface> extends org.apache.thrift.ProcessFunction<I, CreateMessageRouter_args> {
-      public CreateMessageRouter() {
-        super("CreateMessageRouter");
+    public static class MessageRouter_Create<I extends Iface> extends org.apache.thrift.ProcessFunction<I, MessageRouter_Create_args> {
+      public MessageRouter_Create() {
+        super("MessageRouter_Create");
       }
 
-      public CreateMessageRouter_args getEmptyArgsInstance() {
-        return new CreateMessageRouter_args();
+      public MessageRouter_Create_args getEmptyArgsInstance() {
+        return new MessageRouter_Create_args();
       }
 
       protected boolean isOneway() {
@@ -2676,9 +2668,9 @@ public class Server {
         return false;
       }
 
-      public CreateMessageRouter_result getResult(I iface, CreateMessageRouter_args args) throws org.apache.thrift.TException {
-        CreateMessageRouter_result result = new CreateMessageRouter_result();
-        result.success = iface.CreateMessageRouter(args.query, args.cancel);
+      public MessageRouter_Create_result getResult(I iface, MessageRouter_Create_args args) throws org.apache.thrift.TException {
+        MessageRouter_Create_result result = new MessageRouter_Create_result();
+        result.success = iface.MessageRouter_Create(args.query, args.cancel);
         return result;
       }
     }
@@ -2777,7 +2769,7 @@ public class Server {
 
       public MessageRouter_AddHandler_result getResult(I iface, MessageRouter_AddHandler_args args) throws org.apache.thrift.TException {
         MessageRouter_AddHandler_result result = new MessageRouter_AddHandler_result();
-        iface.MessageRouter_AddHandler(args.msgRouter, args.handler);
+        iface.MessageRouter_AddHandler(args.msgRouter, args.handler, args.first);
         return result;
       }
     }
@@ -2941,7 +2933,7 @@ public class Server {
       processMap.put("AuthCallback_Dispose", new AuthCallback_Dispose());
       processMap.put("AuthCallback_Continue", new AuthCallback_Continue());
       processMap.put("AuthCallback_Cancel", new AuthCallback_Cancel());
-      processMap.put("CreateMessageRouter", new CreateMessageRouter());
+      processMap.put("MessageRouter_Create", new MessageRouter_Create());
       processMap.put("MessageRouter_Dispose", new MessageRouter_Dispose());
       processMap.put("MessageRouter_AddMessageRouterToBrowser", new MessageRouter_AddMessageRouterToBrowser());
       processMap.put("MessageRouter_RemoveMessageRouterFromBrowser", new MessageRouter_RemoveMessageRouterFromBrowser());
@@ -3112,7 +3104,7 @@ public class Server {
       }
     }
 
-    public static class closeBrowser<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, closeBrowser_args, java.lang.String> {
+    public static class closeBrowser<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, closeBrowser_args, Void> {
       public closeBrowser() {
         super("closeBrowser");
       }
@@ -3121,54 +3113,27 @@ public class Server {
         return new closeBrowser_args();
       }
 
-      public org.apache.thrift.async.AsyncMethodCallback<java.lang.String> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+      public org.apache.thrift.async.AsyncMethodCallback<Void> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
         final org.apache.thrift.AsyncProcessFunction fcall = this;
-        return new org.apache.thrift.async.AsyncMethodCallback<java.lang.String>() { 
-          public void onComplete(java.lang.String o) {
-            closeBrowser_result result = new closeBrowser_result();
-            result.success = o;
-            try {
-              fcall.sendResponse(fb, result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
-            } catch (org.apache.thrift.transport.TTransportException e) {
-              _LOGGER.error("TTransportException writing to internal frame buffer", e);
-              fb.close();
-            } catch (java.lang.Exception e) {
-              _LOGGER.error("Exception writing to internal frame buffer", e);
-              onError(e);
-            }
+        return new org.apache.thrift.async.AsyncMethodCallback<Void>() { 
+          public void onComplete(Void o) {
           }
           public void onError(java.lang.Exception e) {
-            byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
-            org.apache.thrift.TSerializable msg;
-            closeBrowser_result result = new closeBrowser_result();
             if (e instanceof org.apache.thrift.transport.TTransportException) {
               _LOGGER.error("TTransportException inside handler", e);
               fb.close();
-              return;
-            } else if (e instanceof org.apache.thrift.TApplicationException) {
-              _LOGGER.error("TApplicationException inside handler", e);
-              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
-              msg = (org.apache.thrift.TApplicationException)e;
             } else {
-              _LOGGER.error("Exception inside handler", e);
-              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
-              msg = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
-            }
-            try {
-              fcall.sendResponse(fb,msg,msgType,seqid);
-            } catch (java.lang.Exception ex) {
-              _LOGGER.error("Exception writing to internal frame buffer", ex);
-              fb.close();
+              _LOGGER.error("Exception inside oneway handler", e);
             }
           }
         };
       }
 
       protected boolean isOneway() {
-        return false;
+        return true;
       }
 
-      public void start(I iface, closeBrowser_args args, org.apache.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws org.apache.thrift.TException {
+      public void start(I iface, closeBrowser_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
         iface.closeBrowser(args.bid,resultHandler);
       }
     }
@@ -4196,20 +4161,20 @@ public class Server {
       }
     }
 
-    public static class CreateMessageRouter<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, CreateMessageRouter_args, RObject> {
-      public CreateMessageRouter() {
-        super("CreateMessageRouter");
+    public static class MessageRouter_Create<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, MessageRouter_Create_args, RObject> {
+      public MessageRouter_Create() {
+        super("MessageRouter_Create");
       }
 
-      public CreateMessageRouter_args getEmptyArgsInstance() {
-        return new CreateMessageRouter_args();
+      public MessageRouter_Create_args getEmptyArgsInstance() {
+        return new MessageRouter_Create_args();
       }
 
       public org.apache.thrift.async.AsyncMethodCallback<RObject> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
         final org.apache.thrift.AsyncProcessFunction fcall = this;
         return new org.apache.thrift.async.AsyncMethodCallback<RObject>() { 
           public void onComplete(RObject o) {
-            CreateMessageRouter_result result = new CreateMessageRouter_result();
+            MessageRouter_Create_result result = new MessageRouter_Create_result();
             result.success = o;
             try {
               fcall.sendResponse(fb, result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
@@ -4224,7 +4189,7 @@ public class Server {
           public void onError(java.lang.Exception e) {
             byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
             org.apache.thrift.TSerializable msg;
-            CreateMessageRouter_result result = new CreateMessageRouter_result();
+            MessageRouter_Create_result result = new MessageRouter_Create_result();
             if (e instanceof org.apache.thrift.transport.TTransportException) {
               _LOGGER.error("TTransportException inside handler", e);
               fb.close();
@@ -4252,8 +4217,8 @@ public class Server {
         return false;
       }
 
-      public void start(I iface, CreateMessageRouter_args args, org.apache.thrift.async.AsyncMethodCallback<RObject> resultHandler) throws org.apache.thrift.TException {
-        iface.CreateMessageRouter(args.query, args.cancel,resultHandler);
+      public void start(I iface, MessageRouter_Create_args args, org.apache.thrift.async.AsyncMethodCallback<RObject> resultHandler) throws org.apache.thrift.TException {
+        iface.MessageRouter_Create(args.query, args.cancel,resultHandler);
       }
     }
 
@@ -4467,7 +4432,7 @@ public class Server {
       }
 
       public void start(I iface, MessageRouter_AddHandler_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
-        iface.MessageRouter_AddHandler(args.msgRouter, args.handler,resultHandler);
+        iface.MessageRouter_AddHandler(args.msgRouter, args.handler, args.first,resultHandler);
       }
     }
 
@@ -7167,371 +7132,6 @@ public class Server {
         if (incoming.get(0)) {
           struct.bid = iprot.readI32();
           struct.setBidIsSet(true);
-        }
-      }
-    }
-
-    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
-      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
-    }
-  }
-
-  public static class closeBrowser_result implements org.apache.thrift.TBase<closeBrowser_result, closeBrowser_result._Fields>, java.io.Serializable, Cloneable, Comparable<closeBrowser_result>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("closeBrowser_result");
-
-    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRING, (short)0);
-
-    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new closeBrowser_resultStandardSchemeFactory();
-    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new closeBrowser_resultTupleSchemeFactory();
-
-    public @org.apache.thrift.annotation.Nullable java.lang.String success; // required
-
-    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      SUCCESS((short)0, "success");
-
-      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
-
-      static {
-        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
-          byName.put(field.getFieldName(), field);
-        }
-      }
-
-      /**
-       * Find the _Fields constant that matches fieldId, or null if its not found.
-       */
-      @org.apache.thrift.annotation.Nullable
-      public static _Fields findByThriftId(int fieldId) {
-        switch(fieldId) {
-          case 0: // SUCCESS
-            return SUCCESS;
-          default:
-            return null;
-        }
-      }
-
-      /**
-       * Find the _Fields constant that matches fieldId, throwing an exception
-       * if it is not found.
-       */
-      public static _Fields findByThriftIdOrThrow(int fieldId) {
-        _Fields fields = findByThriftId(fieldId);
-        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
-        return fields;
-      }
-
-      /**
-       * Find the _Fields constant that matches name, or null if its not found.
-       */
-      @org.apache.thrift.annotation.Nullable
-      public static _Fields findByName(java.lang.String name) {
-        return byName.get(name);
-      }
-
-      private final short _thriftId;
-      private final java.lang.String _fieldName;
-
-      _Fields(short thriftId, java.lang.String fieldName) {
-        _thriftId = thriftId;
-        _fieldName = fieldName;
-      }
-
-      public short getThriftFieldId() {
-        return _thriftId;
-      }
-
-      public java.lang.String getFieldName() {
-        return _fieldName;
-      }
-    }
-
-    // isset id assignments
-    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
-    static {
-      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(closeBrowser_result.class, metaDataMap);
-    }
-
-    public closeBrowser_result() {
-    }
-
-    public closeBrowser_result(
-      java.lang.String success)
-    {
-      this();
-      this.success = success;
-    }
-
-    /**
-     * Performs a deep copy on <i>other</i>.
-     */
-    public closeBrowser_result(closeBrowser_result other) {
-      if (other.isSetSuccess()) {
-        this.success = other.success;
-      }
-    }
-
-    public closeBrowser_result deepCopy() {
-      return new closeBrowser_result(this);
-    }
-
-    @Override
-    public void clear() {
-      this.success = null;
-    }
-
-    @org.apache.thrift.annotation.Nullable
-    public java.lang.String getSuccess() {
-      return this.success;
-    }
-
-    public closeBrowser_result setSuccess(@org.apache.thrift.annotation.Nullable java.lang.String success) {
-      this.success = success;
-      return this;
-    }
-
-    public void unsetSuccess() {
-      this.success = null;
-    }
-
-    /** Returns true if field success is set (has been assigned a value) and false otherwise */
-    public boolean isSetSuccess() {
-      return this.success != null;
-    }
-
-    public void setSuccessIsSet(boolean value) {
-      if (!value) {
-        this.success = null;
-      }
-    }
-
-    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
-      switch (field) {
-      case SUCCESS:
-        if (value == null) {
-          unsetSuccess();
-        } else {
-          setSuccess((java.lang.String)value);
-        }
-        break;
-
-      }
-    }
-
-    @org.apache.thrift.annotation.Nullable
-    public java.lang.Object getFieldValue(_Fields field) {
-      switch (field) {
-      case SUCCESS:
-        return getSuccess();
-
-      }
-      throw new java.lang.IllegalStateException();
-    }
-
-    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
-    public boolean isSet(_Fields field) {
-      if (field == null) {
-        throw new java.lang.IllegalArgumentException();
-      }
-
-      switch (field) {
-      case SUCCESS:
-        return isSetSuccess();
-      }
-      throw new java.lang.IllegalStateException();
-    }
-
-    @Override
-    public boolean equals(java.lang.Object that) {
-      if (that instanceof closeBrowser_result)
-        return this.equals((closeBrowser_result)that);
-      return false;
-    }
-
-    public boolean equals(closeBrowser_result that) {
-      if (that == null)
-        return false;
-      if (this == that)
-        return true;
-
-      boolean this_present_success = true && this.isSetSuccess();
-      boolean that_present_success = true && that.isSetSuccess();
-      if (this_present_success || that_present_success) {
-        if (!(this_present_success && that_present_success))
-          return false;
-        if (!this.success.equals(that.success))
-          return false;
-      }
-
-      return true;
-    }
-
-    @Override
-    public int hashCode() {
-      int hashCode = 1;
-
-      hashCode = hashCode * 8191 + ((isSetSuccess()) ? 131071 : 524287);
-      if (isSetSuccess())
-        hashCode = hashCode * 8191 + success.hashCode();
-
-      return hashCode;
-    }
-
-    @Override
-    public int compareTo(closeBrowser_result other) {
-      if (!getClass().equals(other.getClass())) {
-        return getClass().getName().compareTo(other.getClass().getName());
-      }
-
-      int lastComparison = 0;
-
-      lastComparison = java.lang.Boolean.compare(isSetSuccess(), other.isSetSuccess());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetSuccess()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, other.success);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
-      return 0;
-    }
-
-    @org.apache.thrift.annotation.Nullable
-    public _Fields fieldForId(int fieldId) {
-      return _Fields.findByThriftId(fieldId);
-    }
-
-    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-      scheme(iprot).read(iprot, this);
-    }
-
-    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-      scheme(oprot).write(oprot, this);
-      }
-
-    @Override
-    public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("closeBrowser_result(");
-      boolean first = true;
-
-      sb.append("success:");
-      if (this.success == null) {
-        sb.append("null");
-      } else {
-        sb.append(this.success);
-      }
-      first = false;
-      sb.append(")");
-      return sb.toString();
-    }
-
-    public void validate() throws org.apache.thrift.TException {
-      // check for required fields
-      // check for sub-struct validity
-    }
-
-    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
-      try {
-        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-      } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te);
-      }
-    }
-
-    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
-      try {
-        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-      } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te);
-      }
-    }
-
-    private static class closeBrowser_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public closeBrowser_resultStandardScheme getScheme() {
-        return new closeBrowser_resultStandardScheme();
-      }
-    }
-
-    private static class closeBrowser_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<closeBrowser_result> {
-
-      public void read(org.apache.thrift.protocol.TProtocol iprot, closeBrowser_result struct) throws org.apache.thrift.TException {
-        org.apache.thrift.protocol.TField schemeField;
-        iprot.readStructBegin();
-        while (true)
-        {
-          schemeField = iprot.readFieldBegin();
-          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
-            break;
-          }
-          switch (schemeField.id) {
-            case 0: // SUCCESS
-              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
-                struct.success = iprot.readString();
-                struct.setSuccessIsSet(true);
-              } else { 
-                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
-            default:
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-          }
-          iprot.readFieldEnd();
-        }
-        iprot.readStructEnd();
-
-        // check for required fields of primitive type, which can't be checked in the validate method
-        struct.validate();
-      }
-
-      public void write(org.apache.thrift.protocol.TProtocol oprot, closeBrowser_result struct) throws org.apache.thrift.TException {
-        struct.validate();
-
-        oprot.writeStructBegin(STRUCT_DESC);
-        if (struct.success != null) {
-          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
-          oprot.writeString(struct.success);
-          oprot.writeFieldEnd();
-        }
-        oprot.writeFieldStop();
-        oprot.writeStructEnd();
-      }
-
-    }
-
-    private static class closeBrowser_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public closeBrowser_resultTupleScheme getScheme() {
-        return new closeBrowser_resultTupleScheme();
-      }
-    }
-
-    private static class closeBrowser_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<closeBrowser_result> {
-
-      @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, closeBrowser_result struct) throws org.apache.thrift.TException {
-        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet optionals = new java.util.BitSet();
-        if (struct.isSetSuccess()) {
-          optionals.set(0);
-        }
-        oprot.writeBitSet(optionals, 1);
-        if (struct.isSetSuccess()) {
-          oprot.writeString(struct.success);
-        }
-      }
-
-      @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, closeBrowser_result struct) throws org.apache.thrift.TException {
-        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(1);
-        if (incoming.get(0)) {
-          struct.success = iprot.readString();
-          struct.setSuccessIsSet(true);
         }
       }
     }
@@ -21045,14 +20645,14 @@ public class Server {
     }
   }
 
-  public static class CreateMessageRouter_args implements org.apache.thrift.TBase<CreateMessageRouter_args, CreateMessageRouter_args._Fields>, java.io.Serializable, Cloneable, Comparable<CreateMessageRouter_args>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("CreateMessageRouter_args");
+  public static class MessageRouter_Create_args implements org.apache.thrift.TBase<MessageRouter_Create_args, MessageRouter_Create_args._Fields>, java.io.Serializable, Cloneable, Comparable<MessageRouter_Create_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("MessageRouter_Create_args");
 
     private static final org.apache.thrift.protocol.TField QUERY_FIELD_DESC = new org.apache.thrift.protocol.TField("query", org.apache.thrift.protocol.TType.STRING, (short)1);
     private static final org.apache.thrift.protocol.TField CANCEL_FIELD_DESC = new org.apache.thrift.protocol.TField("cancel", org.apache.thrift.protocol.TType.STRING, (short)2);
 
-    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new CreateMessageRouter_argsStandardSchemeFactory();
-    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new CreateMessageRouter_argsTupleSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new MessageRouter_Create_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new MessageRouter_Create_argsTupleSchemeFactory();
 
     public @org.apache.thrift.annotation.Nullable java.lang.String query; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String cancel; // required
@@ -21129,13 +20729,13 @@ public class Server {
       tmpMap.put(_Fields.CANCEL, new org.apache.thrift.meta_data.FieldMetaData("cancel", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(CreateMessageRouter_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(MessageRouter_Create_args.class, metaDataMap);
     }
 
-    public CreateMessageRouter_args() {
+    public MessageRouter_Create_args() {
     }
 
-    public CreateMessageRouter_args(
+    public MessageRouter_Create_args(
       java.lang.String query,
       java.lang.String cancel)
     {
@@ -21147,7 +20747,7 @@ public class Server {
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public CreateMessageRouter_args(CreateMessageRouter_args other) {
+    public MessageRouter_Create_args(MessageRouter_Create_args other) {
       if (other.isSetQuery()) {
         this.query = other.query;
       }
@@ -21156,8 +20756,8 @@ public class Server {
       }
     }
 
-    public CreateMessageRouter_args deepCopy() {
-      return new CreateMessageRouter_args(this);
+    public MessageRouter_Create_args deepCopy() {
+      return new MessageRouter_Create_args(this);
     }
 
     @Override
@@ -21171,7 +20771,7 @@ public class Server {
       return this.query;
     }
 
-    public CreateMessageRouter_args setQuery(@org.apache.thrift.annotation.Nullable java.lang.String query) {
+    public MessageRouter_Create_args setQuery(@org.apache.thrift.annotation.Nullable java.lang.String query) {
       this.query = query;
       return this;
     }
@@ -21196,7 +20796,7 @@ public class Server {
       return this.cancel;
     }
 
-    public CreateMessageRouter_args setCancel(@org.apache.thrift.annotation.Nullable java.lang.String cancel) {
+    public MessageRouter_Create_args setCancel(@org.apache.thrift.annotation.Nullable java.lang.String cancel) {
       this.cancel = cancel;
       return this;
     }
@@ -21267,12 +20867,12 @@ public class Server {
 
     @Override
     public boolean equals(java.lang.Object that) {
-      if (that instanceof CreateMessageRouter_args)
-        return this.equals((CreateMessageRouter_args)that);
+      if (that instanceof MessageRouter_Create_args)
+        return this.equals((MessageRouter_Create_args)that);
       return false;
     }
 
-    public boolean equals(CreateMessageRouter_args that) {
+    public boolean equals(MessageRouter_Create_args that) {
       if (that == null)
         return false;
       if (this == that)
@@ -21315,7 +20915,7 @@ public class Server {
     }
 
     @Override
-    public int compareTo(CreateMessageRouter_args other) {
+    public int compareTo(MessageRouter_Create_args other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
@@ -21360,7 +20960,7 @@ public class Server {
 
     @Override
     public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("CreateMessageRouter_args(");
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("MessageRouter_Create_args(");
       boolean first = true;
 
       sb.append("query:");
@@ -21403,15 +21003,15 @@ public class Server {
       }
     }
 
-    private static class CreateMessageRouter_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public CreateMessageRouter_argsStandardScheme getScheme() {
-        return new CreateMessageRouter_argsStandardScheme();
+    private static class MessageRouter_Create_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public MessageRouter_Create_argsStandardScheme getScheme() {
+        return new MessageRouter_Create_argsStandardScheme();
       }
     }
 
-    private static class CreateMessageRouter_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<CreateMessageRouter_args> {
+    private static class MessageRouter_Create_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<MessageRouter_Create_args> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, CreateMessageRouter_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, MessageRouter_Create_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -21448,7 +21048,7 @@ public class Server {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, CreateMessageRouter_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, MessageRouter_Create_args struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -21468,16 +21068,16 @@ public class Server {
 
     }
 
-    private static class CreateMessageRouter_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public CreateMessageRouter_argsTupleScheme getScheme() {
-        return new CreateMessageRouter_argsTupleScheme();
+    private static class MessageRouter_Create_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public MessageRouter_Create_argsTupleScheme getScheme() {
+        return new MessageRouter_Create_argsTupleScheme();
       }
     }
 
-    private static class CreateMessageRouter_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<CreateMessageRouter_args> {
+    private static class MessageRouter_Create_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<MessageRouter_Create_args> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, CreateMessageRouter_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, MessageRouter_Create_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet optionals = new java.util.BitSet();
         if (struct.isSetQuery()) {
@@ -21496,7 +21096,7 @@ public class Server {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, CreateMessageRouter_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, MessageRouter_Create_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(2);
         if (incoming.get(0)) {
@@ -21515,13 +21115,13 @@ public class Server {
     }
   }
 
-  public static class CreateMessageRouter_result implements org.apache.thrift.TBase<CreateMessageRouter_result, CreateMessageRouter_result._Fields>, java.io.Serializable, Cloneable, Comparable<CreateMessageRouter_result>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("CreateMessageRouter_result");
+  public static class MessageRouter_Create_result implements org.apache.thrift.TBase<MessageRouter_Create_result, MessageRouter_Create_result._Fields>, java.io.Serializable, Cloneable, Comparable<MessageRouter_Create_result>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("MessageRouter_Create_result");
 
     private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
 
-    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new CreateMessageRouter_resultStandardSchemeFactory();
-    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new CreateMessageRouter_resultTupleSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new MessageRouter_Create_resultStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new MessageRouter_Create_resultTupleSchemeFactory();
 
     public @org.apache.thrift.annotation.Nullable RObject success; // required
 
@@ -21592,13 +21192,13 @@ public class Server {
       tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(CreateMessageRouter_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(MessageRouter_Create_result.class, metaDataMap);
     }
 
-    public CreateMessageRouter_result() {
+    public MessageRouter_Create_result() {
     }
 
-    public CreateMessageRouter_result(
+    public MessageRouter_Create_result(
       RObject success)
     {
       this();
@@ -21608,14 +21208,14 @@ public class Server {
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public CreateMessageRouter_result(CreateMessageRouter_result other) {
+    public MessageRouter_Create_result(MessageRouter_Create_result other) {
       if (other.isSetSuccess()) {
         this.success = new RObject(other.success);
       }
     }
 
-    public CreateMessageRouter_result deepCopy() {
-      return new CreateMessageRouter_result(this);
+    public MessageRouter_Create_result deepCopy() {
+      return new MessageRouter_Create_result(this);
     }
 
     @Override
@@ -21628,7 +21228,7 @@ public class Server {
       return this.success;
     }
 
-    public CreateMessageRouter_result setSuccess(@org.apache.thrift.annotation.Nullable RObject success) {
+    public MessageRouter_Create_result setSuccess(@org.apache.thrift.annotation.Nullable RObject success) {
       this.success = success;
       return this;
     }
@@ -21686,12 +21286,12 @@ public class Server {
 
     @Override
     public boolean equals(java.lang.Object that) {
-      if (that instanceof CreateMessageRouter_result)
-        return this.equals((CreateMessageRouter_result)that);
+      if (that instanceof MessageRouter_Create_result)
+        return this.equals((MessageRouter_Create_result)that);
       return false;
     }
 
-    public boolean equals(CreateMessageRouter_result that) {
+    public boolean equals(MessageRouter_Create_result that) {
       if (that == null)
         return false;
       if (this == that)
@@ -21721,7 +21321,7 @@ public class Server {
     }
 
     @Override
-    public int compareTo(CreateMessageRouter_result other) {
+    public int compareTo(MessageRouter_Create_result other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
@@ -21756,7 +21356,7 @@ public class Server {
 
     @Override
     public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("CreateMessageRouter_result(");
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("MessageRouter_Create_result(");
       boolean first = true;
 
       sb.append("success:");
@@ -21794,15 +21394,15 @@ public class Server {
       }
     }
 
-    private static class CreateMessageRouter_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public CreateMessageRouter_resultStandardScheme getScheme() {
-        return new CreateMessageRouter_resultStandardScheme();
+    private static class MessageRouter_Create_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public MessageRouter_Create_resultStandardScheme getScheme() {
+        return new MessageRouter_Create_resultStandardScheme();
       }
     }
 
-    private static class CreateMessageRouter_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<CreateMessageRouter_result> {
+    private static class MessageRouter_Create_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<MessageRouter_Create_result> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, CreateMessageRouter_result struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, MessageRouter_Create_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -21832,7 +21432,7 @@ public class Server {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, CreateMessageRouter_result struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, MessageRouter_Create_result struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -21847,16 +21447,16 @@ public class Server {
 
     }
 
-    private static class CreateMessageRouter_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public CreateMessageRouter_resultTupleScheme getScheme() {
-        return new CreateMessageRouter_resultTupleScheme();
+    private static class MessageRouter_Create_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public MessageRouter_Create_resultTupleScheme getScheme() {
+        return new MessageRouter_Create_resultTupleScheme();
       }
     }
 
-    private static class CreateMessageRouter_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<CreateMessageRouter_result> {
+    private static class MessageRouter_Create_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<MessageRouter_Create_result> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, CreateMessageRouter_result struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, MessageRouter_Create_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet optionals = new java.util.BitSet();
         if (struct.isSetSuccess()) {
@@ -21869,7 +21469,7 @@ public class Server {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, CreateMessageRouter_result struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, MessageRouter_Create_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
@@ -23704,17 +23304,20 @@ public class Server {
 
     private static final org.apache.thrift.protocol.TField MSG_ROUTER_FIELD_DESC = new org.apache.thrift.protocol.TField("msgRouter", org.apache.thrift.protocol.TType.STRUCT, (short)1);
     private static final org.apache.thrift.protocol.TField HANDLER_FIELD_DESC = new org.apache.thrift.protocol.TField("handler", org.apache.thrift.protocol.TType.STRUCT, (short)2);
+    private static final org.apache.thrift.protocol.TField FIRST_FIELD_DESC = new org.apache.thrift.protocol.TField("first", org.apache.thrift.protocol.TType.BOOL, (short)3);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new MessageRouter_AddHandler_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new MessageRouter_AddHandler_argsTupleSchemeFactory();
 
     public @org.apache.thrift.annotation.Nullable RObject msgRouter; // required
     public @org.apache.thrift.annotation.Nullable RObject handler; // required
+    public boolean first; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       MSG_ROUTER((short)1, "msgRouter"),
-      HANDLER((short)2, "handler");
+      HANDLER((short)2, "handler"),
+      FIRST((short)3, "first");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -23734,6 +23337,8 @@ public class Server {
             return MSG_ROUTER;
           case 2: // HANDLER
             return HANDLER;
+          case 3: // FIRST
+            return FIRST;
           default:
             return null;
         }
@@ -23775,6 +23380,8 @@ public class Server {
     }
 
     // isset id assignments
+    private static final int __FIRST_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
     public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
@@ -23782,6 +23389,8 @@ public class Server {
           new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
       tmpMap.put(_Fields.HANDLER, new org.apache.thrift.meta_data.FieldMetaData("handler", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+      tmpMap.put(_Fields.FIRST, new org.apache.thrift.meta_data.FieldMetaData("first", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(MessageRouter_AddHandler_args.class, metaDataMap);
     }
@@ -23791,23 +23400,28 @@ public class Server {
 
     public MessageRouter_AddHandler_args(
       RObject msgRouter,
-      RObject handler)
+      RObject handler,
+      boolean first)
     {
       this();
       this.msgRouter = msgRouter;
       this.handler = handler;
+      this.first = first;
+      setFirstIsSet(true);
     }
 
     /**
      * Performs a deep copy on <i>other</i>.
      */
     public MessageRouter_AddHandler_args(MessageRouter_AddHandler_args other) {
+      __isset_bitfield = other.__isset_bitfield;
       if (other.isSetMsgRouter()) {
         this.msgRouter = new RObject(other.msgRouter);
       }
       if (other.isSetHandler()) {
         this.handler = new RObject(other.handler);
       }
+      this.first = other.first;
     }
 
     public MessageRouter_AddHandler_args deepCopy() {
@@ -23818,6 +23432,8 @@ public class Server {
     public void clear() {
       this.msgRouter = null;
       this.handler = null;
+      setFirstIsSet(false);
+      this.first = false;
     }
 
     @org.apache.thrift.annotation.Nullable
@@ -23870,6 +23486,29 @@ public class Server {
       }
     }
 
+    public boolean isFirst() {
+      return this.first;
+    }
+
+    public MessageRouter_AddHandler_args setFirst(boolean first) {
+      this.first = first;
+      setFirstIsSet(true);
+      return this;
+    }
+
+    public void unsetFirst() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __FIRST_ISSET_ID);
+    }
+
+    /** Returns true if field first is set (has been assigned a value) and false otherwise */
+    public boolean isSetFirst() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __FIRST_ISSET_ID);
+    }
+
+    public void setFirstIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __FIRST_ISSET_ID, value);
+    }
+
     public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
       switch (field) {
       case MSG_ROUTER:
@@ -23888,6 +23527,14 @@ public class Server {
         }
         break;
 
+      case FIRST:
+        if (value == null) {
+          unsetFirst();
+        } else {
+          setFirst((java.lang.Boolean)value);
+        }
+        break;
+
       }
     }
 
@@ -23899,6 +23546,9 @@ public class Server {
 
       case HANDLER:
         return getHandler();
+
+      case FIRST:
+        return isFirst();
 
       }
       throw new java.lang.IllegalStateException();
@@ -23915,6 +23565,8 @@ public class Server {
         return isSetMsgRouter();
       case HANDLER:
         return isSetHandler();
+      case FIRST:
+        return isSetFirst();
       }
       throw new java.lang.IllegalStateException();
     }
@@ -23950,6 +23602,15 @@ public class Server {
           return false;
       }
 
+      boolean this_present_first = true;
+      boolean that_present_first = true;
+      if (this_present_first || that_present_first) {
+        if (!(this_present_first && that_present_first))
+          return false;
+        if (this.first != that.first)
+          return false;
+      }
+
       return true;
     }
 
@@ -23964,6 +23625,8 @@ public class Server {
       hashCode = hashCode * 8191 + ((isSetHandler()) ? 131071 : 524287);
       if (isSetHandler())
         hashCode = hashCode * 8191 + handler.hashCode();
+
+      hashCode = hashCode * 8191 + ((first) ? 131071 : 524287);
 
       return hashCode;
     }
@@ -23992,6 +23655,16 @@ public class Server {
       }
       if (isSetHandler()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.handler, other.handler);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetFirst(), other.isSetFirst());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetFirst()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.first, other.first);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -24032,6 +23705,10 @@ public class Server {
         sb.append(this.handler);
       }
       first = false;
+      if (!first) sb.append(", ");
+      sb.append("first:");
+      sb.append(this.first);
+      first = false;
       sb.append(")");
       return sb.toString();
     }
@@ -24057,6 +23734,8 @@ public class Server {
 
     private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
       try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
       } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
@@ -24099,6 +23778,14 @@ public class Server {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
+            case 3: // FIRST
+              if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
+                struct.first = iprot.readBool();
+                struct.setFirstIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
             default:
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
           }
@@ -24124,6 +23811,9 @@ public class Server {
           struct.handler.write(oprot);
           oprot.writeFieldEnd();
         }
+        oprot.writeFieldBegin(FIRST_FIELD_DESC);
+        oprot.writeBool(struct.first);
+        oprot.writeFieldEnd();
         oprot.writeFieldStop();
         oprot.writeStructEnd();
       }
@@ -24148,19 +23838,25 @@ public class Server {
         if (struct.isSetHandler()) {
           optionals.set(1);
         }
-        oprot.writeBitSet(optionals, 2);
+        if (struct.isSetFirst()) {
+          optionals.set(2);
+        }
+        oprot.writeBitSet(optionals, 3);
         if (struct.isSetMsgRouter()) {
           struct.msgRouter.write(oprot);
         }
         if (struct.isSetHandler()) {
           struct.handler.write(oprot);
         }
+        if (struct.isSetFirst()) {
+          oprot.writeBool(struct.first);
+        }
       }
 
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, MessageRouter_AddHandler_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(2);
+        java.util.BitSet incoming = iprot.readBitSet(3);
         if (incoming.get(0)) {
           struct.msgRouter = new RObject();
           struct.msgRouter.read(iprot);
@@ -24170,6 +23866,10 @@ public class Server {
           struct.handler = new RObject();
           struct.handler.read(iprot);
           struct.setHandlerIsSet(true);
+        }
+        if (incoming.get(2)) {
+          struct.first = iprot.readBool();
+          struct.setFirstIsSet(true);
         }
       }
     }

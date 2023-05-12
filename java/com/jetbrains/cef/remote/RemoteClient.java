@@ -3,6 +3,7 @@ package com.jetbrains.cef.remote;
 import com.jetbrains.cef.remote.router.RemoteMessageRouter;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefMessageRouter;
+import org.cef.browser.CefMessageRouterBase;
 import org.cef.handler.*;
 import org.cef.misc.CefLog;
 
@@ -32,9 +33,19 @@ public class RemoteClient extends CefClientHandlerBase {
     private CefNativeRenderHandler renderHandler_ = null;
     private CefWindowHandler windowHandler_ = null;
 
+    // MessageRouter support
+    private Vector<RemoteMessageRouter> msgRouters = new Vector<>();
+
     public RemoteClient(CefServer server) {
         myCid = ourCounter.getAndIncrement();
         myServer = server;
+    }
+
+    public void dispose() {
+        for (int i = 0; i < msgRouters.size(); i++) {
+            msgRouters.get(i).disposeOnServer(); // called in finalize, just for insurance/clearness
+        }
+        msgRouters.clear();
     }
 
     public RemoteBrowser createBrowser() {
@@ -158,17 +169,24 @@ public class RemoteClient extends CefClientHandlerBase {
         this.requestHandler_ = requestHandler;
     }
 
+    //
     // CefMessageRouter
+    //
+
+    // NOTE: Stores messageRouter ref.
     public void addMessageRouter(RemoteMessageRouter messageRouter) {
-        // NOTE: addToBrowser does the same router-management actions as
-        // in native/ClientHandler::AddMessageRouter
-        messageRouter.addToBrowser(myRemoteBrowser.getBid());
+        // NOTE: we create RemoteMessageRouter via static factory method and then configure it
+        // with java handlers (internally will remote wrappers over java objects). CefMessageRouter is used only to
+        // add/remove handlers. So we can't create remote wrapper over pure CefMessageRouter here, since it's not a "handler".
+        msgRouters.add(messageRouter);
+        if (myRemoteBrowser != null)
+            messageRouter.addToBrowser(myRemoteBrowser.getBid());
     }
 
     public void removeMessageRouter(RemoteMessageRouter messageRouter) {
-        // NOTE: removeFromBrowser does the same router-management actions as
-        // in native/ClientHandler::RemoveMessageRouter
-        messageRouter.removeFromBrowser(myRemoteBrowser.getBid());
+        if (myRemoteBrowser != null)
+            messageRouter.removeFromBrowser(myRemoteBrowser.getBid());
+        msgRouters.remove(messageRouter);
     }
 
     @Override

@@ -26,7 +26,7 @@ service Server {
    // CefBrowser
    //
    i32 createBrowser(1:i32 cid)
-   string closeBrowser(1:i32 bid)
+   oneway void closeBrowser(1:i32 bid)
    oneway void invoke(1:i32 bid, 2:string method, 3:binary buffer)
 
    //
@@ -67,11 +67,11 @@ service Server {
    //
    // CefMessageRouter
    //
-   shared.RObject CreateMessageRouter(1:string query, 2:string cancel)
+   shared.RObject MessageRouter_Create(1:string query, 2:string cancel)
    oneway void MessageRouter_Dispose(1:shared.RObject msgRouter)
    void MessageRouter_AddMessageRouterToBrowser(1:shared.RObject msgRouter, 2:i32 bid)
    void MessageRouter_RemoveMessageRouterFromBrowser(1:shared.RObject msgRouter, 2:i32 bid)
-   void MessageRouter_AddHandler(1:shared.RObject msgRouter, 2:shared.RObject handler)
+   void MessageRouter_AddHandler(1:shared.RObject msgRouter, 2:shared.RObject handler, 3:bool first)
    void MessageRouter_RemoveHandler(1:shared.RObject msgRouter, 2:shared.RObject handler)
    void MessageRouter_CancelPending(1:shared.RObject msgRouter, 2:i32 bid, 3:shared.RObject handler)
 

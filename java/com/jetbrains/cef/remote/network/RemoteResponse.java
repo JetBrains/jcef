@@ -9,6 +9,12 @@ import org.cef.network.CefResponse;
 
 import java.util.Map;
 
+// 1. Represents remote java peer for native server object.
+// 2. Created on java side when processing some server request.
+// 3. Lifetime of remote native peer if managed by server: native object
+// peer (CefRequest) is destroyed immediately after rpc finished. After that
+// moment all requests from java to native will return errors (or default values).
+// Java object will be destroyed via usual gc.
 public class RemoteResponse extends RemoteServerObjectLocal implements CefResponse {
     public RemoteResponse(RpcExecutor server, RObject resp) {
         super(server, resp);

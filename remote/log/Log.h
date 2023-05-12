@@ -78,4 +78,6 @@ class LogNdc {
 #define LNDCTT(thresholdMcs) LogNdc ndc(__FILE_NAME__, __FUNCTION__, thresholdMcs)
 #define LNDCTTS(thresholdMcs) LogNdc ndc(__FILE_NAME__, __FUNCTION__, thresholdMcs, true)
 
+#define TRACE() LogNdc ndc(__FILE_NAME__, __FUNCTION__, 1000, true)
+
 #endif  // JCEF_LOG_H

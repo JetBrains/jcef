@@ -4,9 +4,9 @@
 
 package tests.remote;
 
+import com.jetbrains.cef.remote.CefServer;
 import com.jetbrains.cef.remote.RemoteBrowser;
 import com.jetbrains.cef.remote.RemoteClient;
-import com.jetbrains.cef.remote.CefServer;
 import com.jetbrains.cef.remote.router.RemoteMessageRouter;
 import org.cef.CefSettings;
 import org.cef.misc.CefLog;
@@ -44,7 +44,14 @@ public class TestApp extends JFrame {
         client.setDisplayHandler(new TestDisplayHandler());
         client.setRequestHandler(new TestRequestHandler());
 
-        RemoteMessageRouter testRouter = RemoteMessageRouter.create(ourServer.getService(), "testQuery", "testQueryCancel");
+        String qFunc = "testRemoteQuery";
+        String qFuncCancel = "testRemoteQueryCancel";
+        RemoteMessageRouter testRouter = RemoteMessageRouter.create(ourServer.getService(), qFunc, qFuncCancel);
+        if (testRouter == null) {
+            CefLog.Error("can't create RemoteMessageRouter");
+            return;
+        }
+
         testRouter.addHandler(new TestMessageRouterHandler(), true);
         client.addMessageRouter(testRouter);
         RemoteBrowser browser = ourServer.createBrowser(client);
@@ -57,7 +64,10 @@ public class TestApp extends JFrame {
 
         JFrame frame = new JFrame("Test out of process CEF");
         JTextField address_ = new JTextField("www.google.com", 100);
-        address_.addActionListener(event -> browser.loadURL(address_.getText()));
+        address_.addActionListener(event -> {
+            browser.loadURL(address_.getText());
+            browser.executeJavaScript("window." + qFunc + "({request: '" + qFunc + "'});", "", 0);
+        });
         frame.getContentPane().add(address_, BorderLayout.NORTH);
         frame.getContentPane().add(osrComponent, BorderLayout.CENTER);
         frame.pack();
@@ -68,6 +78,7 @@ public class TestApp extends JFrame {
             public void windowClosing(WindowEvent e) {
                 frame.dispose();
                 browser.close(true);
+                client.dispose();
                 ourServer.stop();
             }
         });

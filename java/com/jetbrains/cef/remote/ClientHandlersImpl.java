@@ -607,6 +607,9 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
 
     @Override
     public void MessageRouterHandler_onQueryCanceled(RObject handler, int bid, long queryId) throws TException {
+        RemoteMessageRouterHandler rmrh = RemoteMessageRouterHandler.FACTORY.get(handler.objId);
+        if (rmrh == null) return;
 
+        rmrh.getDelegate().onQueryCanceled(getRemoteBrowser(bid), null, queryId);
     }
 }

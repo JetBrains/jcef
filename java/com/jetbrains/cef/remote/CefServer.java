@@ -43,9 +43,7 @@ public class CefServer {
     public void closeBrowser(int bid) {
         myService.exec((s)->{
             // TODO: should we support force flag ? does it affect smth in OSR ?
-            String err = s.closeBrowser(bid);
-            if (err != null && !err.isEmpty())
-                CefLog.Error("tried to close remote browser %d, error '%s'", bid, err);
+            s.closeBrowser(bid);
         });
         myClientHandlersImpl.unregisterBrowser(bid);
     }

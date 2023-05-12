@@ -1,6 +1,5 @@
 package com.jetbrains.cef.remote;
 
-import com.jetbrains.cef.remote.RpcExecutor;
 import com.jetbrains.cef.remote.thrift_codegen.RObject;
 import org.apache.thrift.TException;
 import org.cef.misc.CefLog;
@@ -10,9 +9,13 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-//
-// Represents server object that valid only in current method context (destroyed on server after rpc executed)
-//
+// 1. Direct inheritors represent remote java peer for native server object that
+// valid only in current method context.
+// 2. Created on java side when processing some server request.
+// 3. Lifetime of remote native peer if managed by server and native object
+// peer is destroyed immediately after rpc finished. After that
+// moment all requests from java to native will return errors (or default values).
+// Java object peer will be destroyed via usual gc.
 public abstract class RemoteServerObjectLocal {
     protected final int myId;
     protected final RpcExecutor myServer;

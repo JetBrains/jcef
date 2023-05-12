@@ -24,11 +24,11 @@ class RemoteLifespanHandler : public CefLifeSpanHandler {
   void OnAfterCreated(CefRefPtr<CefBrowser> browser) override;
   bool DoClose(CefRefPtr<CefBrowser> browser) override;
   void OnBeforeClose(CefRefPtr<CefBrowser> browser) override;
- protected:
+
+ private:
   RemoteClientHandler & myOwner;
   CefRefPtr<CefBrowser> myBrowser = nullptr;
 
- private:
   IMPLEMENT_REFCOUNTING(RemoteLifespanHandler);
 };
 
