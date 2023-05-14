@@ -29,20 +29,23 @@ import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
 import java.util.Vector;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 
 public class RemoteBrowser implements CefBrowser {
     private static final Charset ourCharset = Charset.forName("UTF-8");
     private static final CharsetEncoder ourEncoder = ourCharset.newEncoder();
     private static final CharsetDecoder ourDecoder = ourCharset.newDecoder();
 
-    private final CefServer myServer;
+    private final RpcExecutor myService;
     private final int myBid;
     private final RemoteClient myOwner;
+    private final Consumer<Integer> myOnClose;
 
-    public RemoteBrowser(CefServer server, int bid, RemoteClient owner) {
-        this.myServer = server;
-        this.myBid = bid;
+    public RemoteBrowser(RpcExecutor service, int bid, RemoteClient owner, Consumer<Integer> onClose) {
+        myService = service;
+        myBid = bid;
         myOwner = owner;
+        myOnClose = onClose;
     }
 
     public int getBid() { return myBid; }
@@ -106,12 +109,16 @@ public class RemoteBrowser implements CefBrowser {
 
     @Override
     public void reload() {
-
+        myService.exec((s)->{
+            s.Browser_Reload(myBid);
+        });
     }
 
     @Override
     public void reloadIgnoreCache() {
-
+        myService.exec((s)->{
+            s.Browser_ReloadIgnoreCache(myBid);
+        });
     }
 
     @Override
@@ -189,42 +196,36 @@ public class RemoteBrowser implements CefBrowser {
 
     }
 
-
-
     @Override
     public void loadURL(String url) {
-        if (myServer == null)
-            return;
-
-        try {
-            ByteBuffer params = ourEncoder.encode(CharBuffer.wrap(url));
-            myServer.invoke(myBid, "loadurl", params);
-        } catch (CharacterCodingException e) {
-            CefLog.Error("loadURL can't encode string '%s', CharacterCodingException: %s", url, e.getMessage());
-        }
+        myService.exec((s)->{
+            s.Browser_LoadURL(myBid, url);
+        });
     }
 
     @Override
     public void executeJavaScript(String code, String url, int line) {
-        if (myServer == null) return;
-
-        try {
-            ByteBuffer params = ourEncoder.encode(CharBuffer.wrap(url));
-            myServer.invoke(myBid, "loadurl", params);
-        } catch (CharacterCodingException e) {
-            CefLog.Error("loadURL can't encode string '%s', CharacterCodingException: %s", url, e.getMessage());
-        }
-
+        myService.exec((s)->{
+            s.Browser_ExecuteJavaScript(myBid, code, url, line);
+        });
     }
 
     @Override
     public String getURL() {
-        return null;
+        return myService.execObj((s)->{
+            return s.Browser_GetURL(myBid);
+        });
     }
 
     @Override
     public void close(boolean force) {
-        myServer.closeBrowser(myBid);
+        if (myOnClose != null)
+            myOnClose.accept(myBid);
+
+        myService.exec((s)->{
+            // TODO: should we support force flag ? does it affect smth in OSR ?
+            s.closeBrowser(myBid);
+        });
     }
 
     @Override
@@ -319,14 +320,9 @@ public class RemoteBrowser implements CefBrowser {
 
     @Override
     public void wasResized(int width, int height) {
-        if (myServer == null)
-            return;
-
-        int[] data = new int[]{width, height};
-        ByteBuffer params = ByteBuffer.allocate(data.length*4);
-        params.order(ByteOrder.nativeOrder());
-        params.asIntBuffer().put(data);
-        myServer.invoke(myBid, "wasresized", params);
+        myService.exec((s)->{
+            s.Browser_WasResized(myBid, width, height);
+        });
     }
 
     @Override
@@ -336,59 +332,24 @@ public class RemoteBrowser implements CefBrowser {
 
     @Override
     public void sendKeyEvent(KeyEvent e) {
-        if (myServer == null)
-            return;
-
-        int[] data = new int[]{
-            e.getID(),
-            e.getModifiersEx(),
-            e.getKeyChar(),
-            0, // TODO: get e.scancode via reflection (windows only)
-            e.getKeyCode()
-        };
-
-        ByteBuffer params = ByteBuffer.allocate(data.length*4);
-        params.order(ByteOrder.nativeOrder());
-        params.asIntBuffer().put(data);
-        myServer.invoke(myBid, "sendkeyevent", params);
+        myService.exec((s)->{
+            // TODO: get e.scancode via reflection (windows only)
+            s.Browser_SendKeyEvent(myBid, e.getID(), e.getModifiersEx(), (short)e.getKeyChar(), 0, e.getKeyCode());
+        });
     }
 
     @Override
     public void sendMouseEvent(MouseEvent e) {
-        if (myServer == null)
-            return;
-
-        int[] data = new int[]{
-                e.getID(),
-                e.getX(),
-                e.getY(),
-                e.getModifiersEx(),
-                e.getClickCount(),
-                e.getButton()
-        };
-        ByteBuffer params = ByteBuffer.allocate(data.length*4);
-        params.order(ByteOrder.nativeOrder());
-        params.asIntBuffer().put(data);
-        myServer.invoke(myBid, "sendmouseevent", params);
+        myService.exec((s)->{
+            s.Browser_SendMouseEvent(myBid, e.getID(), e.getX(), e.getY(), e.getModifiersEx(), e.getClickCount(), e.getButton());
+        });
     }
 
     @Override
     public void sendMouseWheelEvent(MouseWheelEvent e) {
-        if (myServer == null)
-            return;
-
-        int[] data = new int[]{
-            e.getScrollType(),
-            e.getX(),
-            e.getY(),
-            e.getModifiersEx(),
-            e.getWheelRotation(),
-            e.getUnitsToScroll(),
-        };
-        ByteBuffer params = ByteBuffer.allocate(data.length*4);
-        params.order(ByteOrder.nativeOrder());
-        params.asIntBuffer().put(data);
-        myServer.invoke(myBid, "sendmousewheelevent", params);
+        myService.exec((s)->{
+            s.Browser_SendMouseWheelEvent(myBid, e.getScrollType(), e.getX(), e.getY(), e.getModifiersEx(), e.getWheelRotation(), e.getUnitsToScroll());
+        });
     }
 
     @Override

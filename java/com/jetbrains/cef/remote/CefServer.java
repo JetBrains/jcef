@@ -33,27 +33,9 @@ public class CefServer {
         myService.exec((s)->{
             newBid[0] = s.createBrowser(remoteClient.getCid());
         });
-        RemoteBrowser result = new RemoteBrowser(this, newBid[0], remoteClient);
+        RemoteBrowser result = new RemoteBrowser(myService, newBid[0], remoteClient, (bid)->myClientHandlersImpl.unregisterBrowser(bid));
         myClientHandlersImpl.registerBrowser(result);
         return result;
-    }
-
-    // closes remote browser
-    synchronized
-    public void closeBrowser(int bid) {
-        myService.exec((s)->{
-            // TODO: should we support force flag ? does it affect smth in OSR ?
-            s.closeBrowser(bid);
-        });
-        myClientHandlersImpl.unregisterBrowser(bid);
-    }
-
-    // invokes method of remote browser
-    synchronized
-    public void invoke(int bid, String method, ByteBuffer params) {
-        myService.exec((s)->{
-            s.invoke(bid, method, params);
-        });
     }
 
     // connect to CefServer and start cef-handlers service

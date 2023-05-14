@@ -3,7 +3,6 @@
 #include <log4cxx/mdc.h>
 #include <thread>
 
-#include "browser/CefBrowserAdapter.h"
 #include "handlers/RemoteAppHandler.h"
 #include "handlers/RemoteLifespanHandler.h"
 #include "network/RemotePostData.h"
@@ -102,16 +101,96 @@ void ServerHandler::closeBrowser(const int32_t bid) {
   myClientsManager->closeBrowser(bid);
 }
 
-void ServerHandler::invoke(const int32_t bid, const std::string& method, const std::string& buffer) {
-  auto browser = myClientsManager->getCefBrowser(bid);
-  if (browser == nullptr) {
-    Log::error("invoke: null browser, bid=%d", bid);
-    return;
+#define GET_BROWSER_OR_RETURN()                          \
+  auto browser = myClientsManager->getCefBrowser(bid);   \
+  if (browser == nullptr) {                              \
+    Log::error("CefBrowser is null, bid=%d", bid);       \
+    return;                                              \
   }
 
-  CefBrowserAdapter adapter(browser);
-  adapter.setBid(bid); // for logging only
-  adapter.invoke(method, buffer);
+void ServerHandler::Browser_Reload(const int32_t bid) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN()
+  browser->Reload();
+}
+
+void ServerHandler::Browser_ReloadIgnoreCache(const int32_t bid) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN()
+  browser->ReloadIgnoreCache();
+}
+
+void ServerHandler::Browser_LoadURL(const int32_t bid, const std::string& url) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN()
+  browser->GetMainFrame()->LoadURL(url);
+}
+
+void ServerHandler::Browser_GetURL(std::string& _return, const int32_t bid) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN()
+  _return = browser->GetMainFrame()->GetURL().ToString();
+}
+
+void ServerHandler::Browser_ExecuteJavaScript(const int32_t bid,const std::string& code,const std::string& url,const int32_t line) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN()
+  browser->GetMainFrame()->ExecuteJavaScript(code, url, line);
+}
+
+void ServerHandler::Browser_WasResized(const int32_t bid,const int32_t width,const int32_t height) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN()
+  browser->GetHost()->WasResized();
+}
+
+extern void processKeyEvent(
+    CefKeyEvent & cef_event,
+    int event_type, // event.getID()
+    int modifiers,  // event.getModifiersEx()
+    char16 key_char, // event.getKeyChar()
+    long scanCode,   // event.scancode, windows only
+    int key_code   // event.getKeyCode()
+);
+
+void ServerHandler::Browser_SendKeyEvent(const int32_t bid,const int32_t event_type,const int32_t modifiers,const int16_t key_char,const int64_t scanCode,const int32_t key_code) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN()
+  CefKeyEvent cef_event;
+  processKeyEvent(cef_event, event_type, modifiers, key_char, scanCode, key_char);
+  browser->GetHost()->SendKeyEvent(cef_event);
+}
+
+extern void processMouseEvent(
+    CefRefPtr<CefBrowser> browser,
+    int event_type, // getID
+    int x, // getX
+    int y, // getY
+    int modifiers, // getModifiersEx
+    int click_count, // getClickCount
+    int button // getButton
+);
+
+void ServerHandler::Browser_SendMouseEvent(const int32_t bid,const int32_t event_type,const int32_t x,const int32_t y,const int32_t modifiers,const int32_t click_count,const int32_t button) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN()
+  processMouseEvent(browser, event_type, x, y, modifiers, click_count, button);
+}
+
+extern void processMouseWheelEvent(
+    CefRefPtr<CefBrowser> browser,
+    int scroll_type, // getScrollType
+    int x, // getX
+    int y, // getY
+    int modifiers, // getModifiersEx
+    int delta, // getWheelRotation
+    int units_to_scroll // getUnitsToScroll
+);
+
+void ServerHandler::Browser_SendMouseWheelEvent(const int32_t bid,const int32_t scroll_type,const int32_t x,const int32_t y,const int32_t modifiers,const int32_t delta,const int32_t units_to_scroll) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN()
+  processMouseWheelEvent(browser, scroll_type, x, y, modifiers, delta, units_to_scroll);
 }
 
 void ServerHandler::Request_Update(const thrift_codegen::RObject & request) {

@@ -129,8 +129,6 @@ set(CEFSIMPLE_RESOURCES_SRCS
 set(EXECUTABLE_NAME "CefServer")
 set(PRODUCT_NAME "CefServer")
 add_executable(${EXECUTABLE_NAME} MACOSX_BUNDLE ${CEFSIMPLE_RESOURCES_SRCS}
-        browser/CefBrowserAdapter.cpp
-        browser/CefBrowserAdapter.h
         CefUtils.cpp
         CefUtils.h
         CppServer.cpp
