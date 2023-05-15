@@ -330,7 +330,6 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
 
         RemoteRequest rr = new RemoteRequest(myServer, request);
         boolean result = rh.onBeforeBrowse(browser, null, rr, user_gesture, is_redirect);
-        rr.flush();
         return result;
     }
 
@@ -347,7 +346,6 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         RemoteRequest rr = new RemoteRequest(myServer, request);
         BoolRef disableDefaultHandling = new BoolRef(false);
         CefResourceRequestHandler handler = rh.getResourceRequestHandler(browser, null, rr, isNavigation, isDownload, requestInitiator, disableDefaultHandling);
-        rr.flush();
         if (handler == null) return INVALID_PERSISTENT;
 
         boolean isPersistent = handler instanceof PersistentHandler;
@@ -368,7 +366,6 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         CefResourceRequestHandler handler = rrrh.getDelegate();
         RemoteRequest rr = new RemoteRequest(myServer, request);
         CefCookieAccessFilter filter = handler.getCookieAccessFilter(getRemoteBrowser(bid), null, rr);
-        rr.flush();
         if (handler == null) return INVALID_PERSISTENT;
 
         boolean isPersistent = handler instanceof PersistentHandler;
@@ -418,7 +415,6 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
 
         RemoteRequest rr = new RemoteRequest(myServer, request);
         boolean result = f.getDelegate().canSendCookie(getRemoteBrowser(bid), null, rr, cookieFromList(cookie));
-        rr.flush();
         return result;
     }
 
@@ -430,8 +426,6 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         RemoteRequest rreq = new RemoteRequest(myServer, request);
         RemoteResponse rresp = new RemoteResponse(myServer, response);
         boolean result = f.getDelegate().canSaveCookie(getRemoteBrowser(bid), null, rreq, rresp, cookieFromList(cookie));
-        rreq.flush();
-        rresp.flush();
         return result;
     }
 
@@ -505,7 +499,6 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
 
         RemoteRequest rr = new RemoteRequest(myServer, request);
         boolean result = rrrh.getDelegate().onBeforeResourceLoad(getRemoteBrowser(bid), null, rr);
-        rr.flush();
         return result;
     }
 
@@ -516,7 +509,6 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
 
         RemoteRequest rr = new RemoteRequest(myServer, request);
         CefResourceHandler handler = rrrh.getDelegate().getResourceHandler(getRemoteBrowser(bid), null, rr);
-        rr.flush();
         if (handler == null) return INVALID_PERSISTENT;
 
         boolean isPersistent = handler instanceof PersistentHandler;
@@ -538,8 +530,6 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         RemoteResponse rresp = new RemoteResponse(myServer, response);
         StringRef sref = new StringRef(new_url);
         rrrh.getDelegate().onResourceRedirect(getRemoteBrowser(bid), null, rreq, rresp, sref);
-        rreq.flush();
-        rresp.flush();
         return sref.get();
     }
 
@@ -551,8 +541,6 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         RemoteRequest rreq = new RemoteRequest(myServer, request);
         RemoteResponse rresp = new RemoteResponse(myServer, response);
         boolean result = rrrh.getDelegate().onResourceResponse(getRemoteBrowser(bid), null, rreq, rresp);
-        rreq.flush();
-        rresp.flush();
         return result;
     }
 
@@ -572,8 +560,6 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
             }
         }
         rrrh.getDelegate().onResourceLoadComplete(getRemoteBrowser(bid), null, rreq, rresp, s, receivedContentLength);
-        rreq.flush();
-        rresp.flush();
     }
 
     @Override
@@ -584,7 +570,6 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         RemoteRequest rreq = new RemoteRequest(myServer, request);
         BoolRef br = new BoolRef(allowOsExecution);
         rrrh.getDelegate().onProtocolExecution(getRemoteBrowser(bid), null, rreq, br);
-        rreq.flush();
         return br.get();
     }
 
