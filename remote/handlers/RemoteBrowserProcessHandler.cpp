@@ -13,6 +13,6 @@ RemoteBrowserProcessHandler::~RemoteBrowserProcessHandler() {
 void RemoteBrowserProcessHandler::OnContextInitialized() {
   LNDCT();
   myService->exec([&](RpcExecutor::Service s){
-    s->onContextInitialized();
+    s->AppHandler_OnContextInitialized();
   });
 }

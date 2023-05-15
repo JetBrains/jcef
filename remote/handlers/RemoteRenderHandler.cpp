@@ -77,23 +77,17 @@ void fillDummy(CefRect& rect) {
 void RemoteRenderHandler::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) {
     LNDCT();
     fillDummy(rect);
-    std::string result;
+    Rect result;
+    result.w = -1; // invalidate
     myOwner.exec([&](RpcExecutor::Service s){
-      s->getInfo(result, myOwner.getBid(), "viewRect", "");
+      s->RenderHandler_GetViewRect(result, myOwner.getBid());
     });
-    if (result.empty()) return;
+    if (result.w < 0) return;
 
-    const int len = result.size();
-    if (len < 4) {
-        Log::error("len %d < 4", len);
-        return;
-    }
-
-    const int32_t * p = (const int32_t *)result.c_str();
-    rect.x = *(p++);
-    rect.y = *(p++);
-    rect.width = *(p++);
-    rect.height = *(p++);
+    rect.x = result.x;
+    rect.y = result.y;
+    rect.width = result.w;
+    rect.height = result.h;
 
     if (rect.width < 1 || rect.height < 1) {
         Log::error("small size %d %d", rect.width, rect.height);
@@ -131,32 +125,26 @@ bool RemoteRenderHandler::GetScreenInfo(CefRefPtr<CefBrowser> browser,
                                   CefScreenInfo& screen_info) {
     LNDCT();
     fillDummy(screen_info);
-    std::string result;
+    ScreenInfo result;
+    result.depth = -1;// invalidate
     myOwner.exec([&](RpcExecutor::Service s){
-      s->getInfo(result, myOwner.getBid(), "screenInfo", "");
+      s->RenderHandler_GetScreenInfo(result, myOwner.getBid());
     });
-    if (result.empty()) return false;
+    if (result.depth == -1) return false;
 
-    const int len = result.size();
-    if (len <= 1) {
-        Log::warn("len %d <= 1", len);
-        return false;
-    }
+    screen_info.device_scale_factor = result.device_scale_factor;
+    screen_info.depth = result.depth;
+    screen_info.depth_per_component = result.depth_per_component;
+    screen_info.is_monochrome = result.is_monochrome;
 
-    const int32_t * p = (const int32_t *)result.data();
-    screen_info.device_scale_factor = *(p++);
-    screen_info.depth = *(p++);
-    screen_info.depth_per_component = *(p++);
-    screen_info.is_monochrome = *(p++);
-
-    screen_info.rect.x = *(p++);
-    screen_info.rect.y = *(p++);
-    screen_info.rect.width = *(p++);
-    screen_info.rect.height = *(p++);
-    screen_info.available_rect.x = *(p++);
-    screen_info.available_rect.y = *(p++);
-    screen_info.available_rect.width = *(p++);
-    screen_info.available_rect.height = *(p++);
+    screen_info.rect.x = result.rect.x;
+    screen_info.rect.y = result.rect.y;
+    screen_info.rect.width = result.rect.w;
+    screen_info.rect.height = result.rect.h;
+    screen_info.available_rect.x = result.available_rect.x;
+    screen_info.available_rect.y = result.available_rect.y;
+    screen_info.available_rect.width = result.available_rect.w;
+    screen_info.available_rect.height = result.available_rect.h;
     return true;
 }
 
@@ -166,17 +154,15 @@ bool RemoteRenderHandler::GetScreenPoint(CefRefPtr<CefBrowser> browser,
                                    int& screenX,
                                    int& screenY) {
     LNDCT();
-    int32_t argsarr[2] = {viewX, viewY};
-    std::string args((const char *)argsarr, sizeof(argsarr));
-    std::string result;
+    Point result;
+    result.x = INT32_MIN;// invalidate
     myOwner.exec([&](RpcExecutor::Service s){
-      s->getInfo(result, myOwner.getBid(), "screenPoint", args);
+      s->RenderHandler_GetScreenPoint(result, myOwner.getBid(), viewX, viewY);
     });
-    if (result.empty()) return false;
+    if (result.x == INT32_MIN) return false;
 
-    const int32_t * p = (const int32_t *)result.c_str();
-    screenX = *p;
-    screenY = *(p + 1);
+    screenX = result.x;
+    screenY = result.y;
     return true;
 }
 
@@ -271,7 +257,7 @@ void RemoteRenderHandler::OnPaint(CefRefPtr<CefBrowser> browser,
         Measurer measurer2("RPC");
 #endif
         myOwner.exec([&](RpcExecutor::Service s){
-          s->onPaint(myOwner.getBid(), type == PET_VIEW ? false : true, rectsCount,
+          s->RenderHandler_OnPaint(myOwner.getBid(), type == PET_VIEW ? false : true, rectsCount,
                      mySharedMemName, mySharedMemHandle, reallocated,
                      width, height);
         });

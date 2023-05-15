@@ -15,39 +15,43 @@ public class ClientHandlers {
 
     public void log(java.lang.String msg) throws org.apache.thrift.TException;
 
-    public java.util.List<CustomScheme> getRegisteredCustomSchemes() throws org.apache.thrift.TException;
+    public java.util.List<CustomScheme> AppHandler_GetRegisteredCustomSchemes() throws org.apache.thrift.TException;
 
-    public void onContextInitialized() throws org.apache.thrift.TException;
+    public void AppHandler_OnContextInitialized() throws org.apache.thrift.TException;
 
-    public java.nio.ByteBuffer getInfo(int bid, java.lang.String request, java.nio.ByteBuffer buffer) throws org.apache.thrift.TException;
+    public Rect RenderHandler_GetViewRect(int bid) throws org.apache.thrift.TException;
 
-    public void onPaint(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height) throws org.apache.thrift.TException;
+    public ScreenInfo RenderHandler_GetScreenInfo(int bid) throws org.apache.thrift.TException;
 
-    public void onBeforePopup(int bid, java.lang.String url, java.lang.String frameName, boolean gesture) throws org.apache.thrift.TException;
+    public Point RenderHandler_GetScreenPoint(int bid, int viewX, int viewY) throws org.apache.thrift.TException;
 
-    public void onAfterCreated(int bid) throws org.apache.thrift.TException;
+    public void RenderHandler_OnPaint(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height) throws org.apache.thrift.TException;
 
-    public void doClose(int bid) throws org.apache.thrift.TException;
+    public void LifeSpanHandler_OnBeforePopup(int bid, java.lang.String url, java.lang.String frameName, boolean gesture) throws org.apache.thrift.TException;
 
-    public void onBeforeClose(int bid) throws org.apache.thrift.TException;
+    public void LifeSpanHandler_OnAfterCreated(int bid) throws org.apache.thrift.TException;
 
-    public void onLoadingStateChange(int bid, boolean isLoading, boolean canGoBack, boolean canGoForward) throws org.apache.thrift.TException;
+    public void LifeSpanHandler_DoClose(int bid) throws org.apache.thrift.TException;
 
-    public void onLoadStart(int bid, int transition_type) throws org.apache.thrift.TException;
+    public void LifeSpanHandler_OnBeforeClose(int bid) throws org.apache.thrift.TException;
 
-    public void onLoadEnd(int bid, int httpStatusCode) throws org.apache.thrift.TException;
+    public void LoadHandler_OnLoadingStateChange(int bid, boolean isLoading, boolean canGoBack, boolean canGoForward) throws org.apache.thrift.TException;
 
-    public void onLoadError(int bid, int errorCode, java.lang.String errorText, java.lang.String failedUrl) throws org.apache.thrift.TException;
+    public void LoadHandler_OnLoadStart(int bid, int transition_type) throws org.apache.thrift.TException;
 
-    public void onAddressChange(int bid, java.lang.String url) throws org.apache.thrift.TException;
+    public void LoadHandler_OnLoadEnd(int bid, int httpStatusCode) throws org.apache.thrift.TException;
 
-    public void onTitleChange(int bid, java.lang.String title) throws org.apache.thrift.TException;
+    public void LoadHandler_OnLoadError(int bid, int errorCode, java.lang.String errorText, java.lang.String failedUrl) throws org.apache.thrift.TException;
 
-    public boolean onTooltip(int bid, java.lang.String text) throws org.apache.thrift.TException;
+    public void DisplayHandler_OnAddressChange(int bid, java.lang.String url) throws org.apache.thrift.TException;
 
-    public void onStatusMessage(int bid, java.lang.String value) throws org.apache.thrift.TException;
+    public void DisplayHandler_OnTitleChange(int bid, java.lang.String title) throws org.apache.thrift.TException;
 
-    public boolean onConsoleMessage(int bid, int level, java.lang.String message, java.lang.String source, int line) throws org.apache.thrift.TException;
+    public boolean DisplayHandler_OnTooltip(int bid, java.lang.String text) throws org.apache.thrift.TException;
+
+    public void DisplayHandler_OnStatusMessage(int bid, java.lang.String value) throws org.apache.thrift.TException;
+
+    public boolean DisplayHandler_OnConsoleMessage(int bid, int level, java.lang.String message, java.lang.String source, int line) throws org.apache.thrift.TException;
 
     public boolean RequestHandler_OnBeforeBrowse(int bid, RObject request, boolean user_gesture, boolean is_redirect) throws org.apache.thrift.TException;
 
@@ -97,39 +101,43 @@ public class ClientHandlers {
 
     public void log(java.lang.String msg, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void getRegisteredCustomSchemes(org.apache.thrift.async.AsyncMethodCallback<java.util.List<CustomScheme>> resultHandler) throws org.apache.thrift.TException;
+    public void AppHandler_GetRegisteredCustomSchemes(org.apache.thrift.async.AsyncMethodCallback<java.util.List<CustomScheme>> resultHandler) throws org.apache.thrift.TException;
 
-    public void onContextInitialized(org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void AppHandler_OnContextInitialized(org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void getInfo(int bid, java.lang.String request, java.nio.ByteBuffer buffer, org.apache.thrift.async.AsyncMethodCallback<java.nio.ByteBuffer> resultHandler) throws org.apache.thrift.TException;
+    public void RenderHandler_GetViewRect(int bid, org.apache.thrift.async.AsyncMethodCallback<Rect> resultHandler) throws org.apache.thrift.TException;
 
-    public void onPaint(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void RenderHandler_GetScreenInfo(int bid, org.apache.thrift.async.AsyncMethodCallback<ScreenInfo> resultHandler) throws org.apache.thrift.TException;
 
-    public void onBeforePopup(int bid, java.lang.String url, java.lang.String frameName, boolean gesture, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void RenderHandler_GetScreenPoint(int bid, int viewX, int viewY, org.apache.thrift.async.AsyncMethodCallback<Point> resultHandler) throws org.apache.thrift.TException;
 
-    public void onAfterCreated(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void RenderHandler_OnPaint(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void doClose(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void LifeSpanHandler_OnBeforePopup(int bid, java.lang.String url, java.lang.String frameName, boolean gesture, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void onBeforeClose(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void LifeSpanHandler_OnAfterCreated(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void onLoadingStateChange(int bid, boolean isLoading, boolean canGoBack, boolean canGoForward, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void LifeSpanHandler_DoClose(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void onLoadStart(int bid, int transition_type, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void LifeSpanHandler_OnBeforeClose(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void onLoadEnd(int bid, int httpStatusCode, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void LoadHandler_OnLoadingStateChange(int bid, boolean isLoading, boolean canGoBack, boolean canGoForward, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void onLoadError(int bid, int errorCode, java.lang.String errorText, java.lang.String failedUrl, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void LoadHandler_OnLoadStart(int bid, int transition_type, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void onAddressChange(int bid, java.lang.String url, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void LoadHandler_OnLoadEnd(int bid, int httpStatusCode, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void onTitleChange(int bid, java.lang.String title, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void LoadHandler_OnLoadError(int bid, int errorCode, java.lang.String errorText, java.lang.String failedUrl, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void onTooltip(int bid, java.lang.String text, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
+    public void DisplayHandler_OnAddressChange(int bid, java.lang.String url, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void onStatusMessage(int bid, java.lang.String value, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void DisplayHandler_OnTitleChange(int bid, java.lang.String title, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void onConsoleMessage(int bid, int level, java.lang.String message, java.lang.String source, int line, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
+    public void DisplayHandler_OnTooltip(int bid, java.lang.String text, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
+
+    public void DisplayHandler_OnStatusMessage(int bid, java.lang.String value, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+
+    public void DisplayHandler_OnConsoleMessage(int bid, int level, java.lang.String message, java.lang.String source, int line, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
 
     public void RequestHandler_OnBeforeBrowse(int bid, RObject request, boolean user_gesture, boolean is_redirect, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
 
@@ -227,81 +235,127 @@ public class ClientHandlers {
       sendBaseOneway("log", args);
     }
 
-    public java.util.List<CustomScheme> getRegisteredCustomSchemes() throws org.apache.thrift.TException
+    public java.util.List<CustomScheme> AppHandler_GetRegisteredCustomSchemes() throws org.apache.thrift.TException
     {
-      send_getRegisteredCustomSchemes();
-      return recv_getRegisteredCustomSchemes();
+      send_AppHandler_GetRegisteredCustomSchemes();
+      return recv_AppHandler_GetRegisteredCustomSchemes();
     }
 
-    public void send_getRegisteredCustomSchemes() throws org.apache.thrift.TException
+    public void send_AppHandler_GetRegisteredCustomSchemes() throws org.apache.thrift.TException
     {
-      getRegisteredCustomSchemes_args args = new getRegisteredCustomSchemes_args();
-      sendBase("getRegisteredCustomSchemes", args);
+      AppHandler_GetRegisteredCustomSchemes_args args = new AppHandler_GetRegisteredCustomSchemes_args();
+      sendBase("AppHandler_GetRegisteredCustomSchemes", args);
     }
 
-    public java.util.List<CustomScheme> recv_getRegisteredCustomSchemes() throws org.apache.thrift.TException
+    public java.util.List<CustomScheme> recv_AppHandler_GetRegisteredCustomSchemes() throws org.apache.thrift.TException
     {
-      getRegisteredCustomSchemes_result result = new getRegisteredCustomSchemes_result();
-      receiveBase(result, "getRegisteredCustomSchemes");
+      AppHandler_GetRegisteredCustomSchemes_result result = new AppHandler_GetRegisteredCustomSchemes_result();
+      receiveBase(result, "AppHandler_GetRegisteredCustomSchemes");
       if (result.isSetSuccess()) {
         return result.success;
       }
-      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getRegisteredCustomSchemes failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "AppHandler_GetRegisteredCustomSchemes failed: unknown result");
     }
 
-    public void onContextInitialized() throws org.apache.thrift.TException
+    public void AppHandler_OnContextInitialized() throws org.apache.thrift.TException
     {
-      send_onContextInitialized();
-      recv_onContextInitialized();
+      send_AppHandler_OnContextInitialized();
+      recv_AppHandler_OnContextInitialized();
     }
 
-    public void send_onContextInitialized() throws org.apache.thrift.TException
+    public void send_AppHandler_OnContextInitialized() throws org.apache.thrift.TException
     {
-      onContextInitialized_args args = new onContextInitialized_args();
-      sendBase("onContextInitialized", args);
+      AppHandler_OnContextInitialized_args args = new AppHandler_OnContextInitialized_args();
+      sendBase("AppHandler_OnContextInitialized", args);
     }
 
-    public void recv_onContextInitialized() throws org.apache.thrift.TException
+    public void recv_AppHandler_OnContextInitialized() throws org.apache.thrift.TException
     {
-      onContextInitialized_result result = new onContextInitialized_result();
-      receiveBase(result, "onContextInitialized");
+      AppHandler_OnContextInitialized_result result = new AppHandler_OnContextInitialized_result();
+      receiveBase(result, "AppHandler_OnContextInitialized");
       return;
     }
 
-    public java.nio.ByteBuffer getInfo(int bid, java.lang.String request, java.nio.ByteBuffer buffer) throws org.apache.thrift.TException
+    public Rect RenderHandler_GetViewRect(int bid) throws org.apache.thrift.TException
     {
-      send_getInfo(bid, request, buffer);
-      return recv_getInfo();
+      send_RenderHandler_GetViewRect(bid);
+      return recv_RenderHandler_GetViewRect();
     }
 
-    public void send_getInfo(int bid, java.lang.String request, java.nio.ByteBuffer buffer) throws org.apache.thrift.TException
+    public void send_RenderHandler_GetViewRect(int bid) throws org.apache.thrift.TException
     {
-      getInfo_args args = new getInfo_args();
+      RenderHandler_GetViewRect_args args = new RenderHandler_GetViewRect_args();
       args.setBid(bid);
-      args.setRequest(request);
-      args.setBuffer(buffer);
-      sendBase("getInfo", args);
+      sendBase("RenderHandler_GetViewRect", args);
     }
 
-    public java.nio.ByteBuffer recv_getInfo() throws org.apache.thrift.TException
+    public Rect recv_RenderHandler_GetViewRect() throws org.apache.thrift.TException
     {
-      getInfo_result result = new getInfo_result();
-      receiveBase(result, "getInfo");
+      RenderHandler_GetViewRect_result result = new RenderHandler_GetViewRect_result();
+      receiveBase(result, "RenderHandler_GetViewRect");
       if (result.isSetSuccess()) {
         return result.success;
       }
-      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getInfo failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "RenderHandler_GetViewRect failed: unknown result");
     }
 
-    public void onPaint(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height) throws org.apache.thrift.TException
+    public ScreenInfo RenderHandler_GetScreenInfo(int bid) throws org.apache.thrift.TException
     {
-      send_onPaint(bid, popup, dirtyRectsCount, sharedMemName, sharedMemHandle, recreateHandle, width, height);
-      recv_onPaint();
+      send_RenderHandler_GetScreenInfo(bid);
+      return recv_RenderHandler_GetScreenInfo();
     }
 
-    public void send_onPaint(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height) throws org.apache.thrift.TException
+    public void send_RenderHandler_GetScreenInfo(int bid) throws org.apache.thrift.TException
     {
-      onPaint_args args = new onPaint_args();
+      RenderHandler_GetScreenInfo_args args = new RenderHandler_GetScreenInfo_args();
+      args.setBid(bid);
+      sendBase("RenderHandler_GetScreenInfo", args);
+    }
+
+    public ScreenInfo recv_RenderHandler_GetScreenInfo() throws org.apache.thrift.TException
+    {
+      RenderHandler_GetScreenInfo_result result = new RenderHandler_GetScreenInfo_result();
+      receiveBase(result, "RenderHandler_GetScreenInfo");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "RenderHandler_GetScreenInfo failed: unknown result");
+    }
+
+    public Point RenderHandler_GetScreenPoint(int bid, int viewX, int viewY) throws org.apache.thrift.TException
+    {
+      send_RenderHandler_GetScreenPoint(bid, viewX, viewY);
+      return recv_RenderHandler_GetScreenPoint();
+    }
+
+    public void send_RenderHandler_GetScreenPoint(int bid, int viewX, int viewY) throws org.apache.thrift.TException
+    {
+      RenderHandler_GetScreenPoint_args args = new RenderHandler_GetScreenPoint_args();
+      args.setBid(bid);
+      args.setViewX(viewX);
+      args.setViewY(viewY);
+      sendBase("RenderHandler_GetScreenPoint", args);
+    }
+
+    public Point recv_RenderHandler_GetScreenPoint() throws org.apache.thrift.TException
+    {
+      RenderHandler_GetScreenPoint_result result = new RenderHandler_GetScreenPoint_result();
+      receiveBase(result, "RenderHandler_GetScreenPoint");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "RenderHandler_GetScreenPoint failed: unknown result");
+    }
+
+    public void RenderHandler_OnPaint(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height) throws org.apache.thrift.TException
+    {
+      send_RenderHandler_OnPaint(bid, popup, dirtyRectsCount, sharedMemName, sharedMemHandle, recreateHandle, width, height);
+      recv_RenderHandler_OnPaint();
+    }
+
+    public void send_RenderHandler_OnPaint(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height) throws org.apache.thrift.TException
+    {
+      RenderHandler_OnPaint_args args = new RenderHandler_OnPaint_args();
       args.setBid(bid);
       args.setPopup(popup);
       args.setDirtyRectsCount(dirtyRectsCount);
@@ -310,211 +364,211 @@ public class ClientHandlers {
       args.setRecreateHandle(recreateHandle);
       args.setWidth(width);
       args.setHeight(height);
-      sendBase("onPaint", args);
+      sendBase("RenderHandler_OnPaint", args);
     }
 
-    public void recv_onPaint() throws org.apache.thrift.TException
+    public void recv_RenderHandler_OnPaint() throws org.apache.thrift.TException
     {
-      onPaint_result result = new onPaint_result();
-      receiveBase(result, "onPaint");
+      RenderHandler_OnPaint_result result = new RenderHandler_OnPaint_result();
+      receiveBase(result, "RenderHandler_OnPaint");
       return;
     }
 
-    public void onBeforePopup(int bid, java.lang.String url, java.lang.String frameName, boolean gesture) throws org.apache.thrift.TException
+    public void LifeSpanHandler_OnBeforePopup(int bid, java.lang.String url, java.lang.String frameName, boolean gesture) throws org.apache.thrift.TException
     {
-      send_onBeforePopup(bid, url, frameName, gesture);
+      send_LifeSpanHandler_OnBeforePopup(bid, url, frameName, gesture);
     }
 
-    public void send_onBeforePopup(int bid, java.lang.String url, java.lang.String frameName, boolean gesture) throws org.apache.thrift.TException
+    public void send_LifeSpanHandler_OnBeforePopup(int bid, java.lang.String url, java.lang.String frameName, boolean gesture) throws org.apache.thrift.TException
     {
-      onBeforePopup_args args = new onBeforePopup_args();
+      LifeSpanHandler_OnBeforePopup_args args = new LifeSpanHandler_OnBeforePopup_args();
       args.setBid(bid);
       args.setUrl(url);
       args.setFrameName(frameName);
       args.setGesture(gesture);
-      sendBaseOneway("onBeforePopup", args);
+      sendBaseOneway("LifeSpanHandler_OnBeforePopup", args);
     }
 
-    public void onAfterCreated(int bid) throws org.apache.thrift.TException
+    public void LifeSpanHandler_OnAfterCreated(int bid) throws org.apache.thrift.TException
     {
-      send_onAfterCreated(bid);
+      send_LifeSpanHandler_OnAfterCreated(bid);
     }
 
-    public void send_onAfterCreated(int bid) throws org.apache.thrift.TException
+    public void send_LifeSpanHandler_OnAfterCreated(int bid) throws org.apache.thrift.TException
     {
-      onAfterCreated_args args = new onAfterCreated_args();
+      LifeSpanHandler_OnAfterCreated_args args = new LifeSpanHandler_OnAfterCreated_args();
       args.setBid(bid);
-      sendBaseOneway("onAfterCreated", args);
+      sendBaseOneway("LifeSpanHandler_OnAfterCreated", args);
     }
 
-    public void doClose(int bid) throws org.apache.thrift.TException
+    public void LifeSpanHandler_DoClose(int bid) throws org.apache.thrift.TException
     {
-      send_doClose(bid);
+      send_LifeSpanHandler_DoClose(bid);
     }
 
-    public void send_doClose(int bid) throws org.apache.thrift.TException
+    public void send_LifeSpanHandler_DoClose(int bid) throws org.apache.thrift.TException
     {
-      doClose_args args = new doClose_args();
+      LifeSpanHandler_DoClose_args args = new LifeSpanHandler_DoClose_args();
       args.setBid(bid);
-      sendBaseOneway("doClose", args);
+      sendBaseOneway("LifeSpanHandler_DoClose", args);
     }
 
-    public void onBeforeClose(int bid) throws org.apache.thrift.TException
+    public void LifeSpanHandler_OnBeforeClose(int bid) throws org.apache.thrift.TException
     {
-      send_onBeforeClose(bid);
+      send_LifeSpanHandler_OnBeforeClose(bid);
     }
 
-    public void send_onBeforeClose(int bid) throws org.apache.thrift.TException
+    public void send_LifeSpanHandler_OnBeforeClose(int bid) throws org.apache.thrift.TException
     {
-      onBeforeClose_args args = new onBeforeClose_args();
+      LifeSpanHandler_OnBeforeClose_args args = new LifeSpanHandler_OnBeforeClose_args();
       args.setBid(bid);
-      sendBaseOneway("onBeforeClose", args);
+      sendBaseOneway("LifeSpanHandler_OnBeforeClose", args);
     }
 
-    public void onLoadingStateChange(int bid, boolean isLoading, boolean canGoBack, boolean canGoForward) throws org.apache.thrift.TException
+    public void LoadHandler_OnLoadingStateChange(int bid, boolean isLoading, boolean canGoBack, boolean canGoForward) throws org.apache.thrift.TException
     {
-      send_onLoadingStateChange(bid, isLoading, canGoBack, canGoForward);
+      send_LoadHandler_OnLoadingStateChange(bid, isLoading, canGoBack, canGoForward);
     }
 
-    public void send_onLoadingStateChange(int bid, boolean isLoading, boolean canGoBack, boolean canGoForward) throws org.apache.thrift.TException
+    public void send_LoadHandler_OnLoadingStateChange(int bid, boolean isLoading, boolean canGoBack, boolean canGoForward) throws org.apache.thrift.TException
     {
-      onLoadingStateChange_args args = new onLoadingStateChange_args();
+      LoadHandler_OnLoadingStateChange_args args = new LoadHandler_OnLoadingStateChange_args();
       args.setBid(bid);
       args.setIsLoading(isLoading);
       args.setCanGoBack(canGoBack);
       args.setCanGoForward(canGoForward);
-      sendBaseOneway("onLoadingStateChange", args);
+      sendBaseOneway("LoadHandler_OnLoadingStateChange", args);
     }
 
-    public void onLoadStart(int bid, int transition_type) throws org.apache.thrift.TException
+    public void LoadHandler_OnLoadStart(int bid, int transition_type) throws org.apache.thrift.TException
     {
-      send_onLoadStart(bid, transition_type);
+      send_LoadHandler_OnLoadStart(bid, transition_type);
     }
 
-    public void send_onLoadStart(int bid, int transition_type) throws org.apache.thrift.TException
+    public void send_LoadHandler_OnLoadStart(int bid, int transition_type) throws org.apache.thrift.TException
     {
-      onLoadStart_args args = new onLoadStart_args();
+      LoadHandler_OnLoadStart_args args = new LoadHandler_OnLoadStart_args();
       args.setBid(bid);
       args.setTransition_type(transition_type);
-      sendBaseOneway("onLoadStart", args);
+      sendBaseOneway("LoadHandler_OnLoadStart", args);
     }
 
-    public void onLoadEnd(int bid, int httpStatusCode) throws org.apache.thrift.TException
+    public void LoadHandler_OnLoadEnd(int bid, int httpStatusCode) throws org.apache.thrift.TException
     {
-      send_onLoadEnd(bid, httpStatusCode);
+      send_LoadHandler_OnLoadEnd(bid, httpStatusCode);
     }
 
-    public void send_onLoadEnd(int bid, int httpStatusCode) throws org.apache.thrift.TException
+    public void send_LoadHandler_OnLoadEnd(int bid, int httpStatusCode) throws org.apache.thrift.TException
     {
-      onLoadEnd_args args = new onLoadEnd_args();
+      LoadHandler_OnLoadEnd_args args = new LoadHandler_OnLoadEnd_args();
       args.setBid(bid);
       args.setHttpStatusCode(httpStatusCode);
-      sendBaseOneway("onLoadEnd", args);
+      sendBaseOneway("LoadHandler_OnLoadEnd", args);
     }
 
-    public void onLoadError(int bid, int errorCode, java.lang.String errorText, java.lang.String failedUrl) throws org.apache.thrift.TException
+    public void LoadHandler_OnLoadError(int bid, int errorCode, java.lang.String errorText, java.lang.String failedUrl) throws org.apache.thrift.TException
     {
-      send_onLoadError(bid, errorCode, errorText, failedUrl);
+      send_LoadHandler_OnLoadError(bid, errorCode, errorText, failedUrl);
     }
 
-    public void send_onLoadError(int bid, int errorCode, java.lang.String errorText, java.lang.String failedUrl) throws org.apache.thrift.TException
+    public void send_LoadHandler_OnLoadError(int bid, int errorCode, java.lang.String errorText, java.lang.String failedUrl) throws org.apache.thrift.TException
     {
-      onLoadError_args args = new onLoadError_args();
+      LoadHandler_OnLoadError_args args = new LoadHandler_OnLoadError_args();
       args.setBid(bid);
       args.setErrorCode(errorCode);
       args.setErrorText(errorText);
       args.setFailedUrl(failedUrl);
-      sendBaseOneway("onLoadError", args);
+      sendBaseOneway("LoadHandler_OnLoadError", args);
     }
 
-    public void onAddressChange(int bid, java.lang.String url) throws org.apache.thrift.TException
+    public void DisplayHandler_OnAddressChange(int bid, java.lang.String url) throws org.apache.thrift.TException
     {
-      send_onAddressChange(bid, url);
+      send_DisplayHandler_OnAddressChange(bid, url);
     }
 
-    public void send_onAddressChange(int bid, java.lang.String url) throws org.apache.thrift.TException
+    public void send_DisplayHandler_OnAddressChange(int bid, java.lang.String url) throws org.apache.thrift.TException
     {
-      onAddressChange_args args = new onAddressChange_args();
+      DisplayHandler_OnAddressChange_args args = new DisplayHandler_OnAddressChange_args();
       args.setBid(bid);
       args.setUrl(url);
-      sendBaseOneway("onAddressChange", args);
+      sendBaseOneway("DisplayHandler_OnAddressChange", args);
     }
 
-    public void onTitleChange(int bid, java.lang.String title) throws org.apache.thrift.TException
+    public void DisplayHandler_OnTitleChange(int bid, java.lang.String title) throws org.apache.thrift.TException
     {
-      send_onTitleChange(bid, title);
+      send_DisplayHandler_OnTitleChange(bid, title);
     }
 
-    public void send_onTitleChange(int bid, java.lang.String title) throws org.apache.thrift.TException
+    public void send_DisplayHandler_OnTitleChange(int bid, java.lang.String title) throws org.apache.thrift.TException
     {
-      onTitleChange_args args = new onTitleChange_args();
+      DisplayHandler_OnTitleChange_args args = new DisplayHandler_OnTitleChange_args();
       args.setBid(bid);
       args.setTitle(title);
-      sendBaseOneway("onTitleChange", args);
+      sendBaseOneway("DisplayHandler_OnTitleChange", args);
     }
 
-    public boolean onTooltip(int bid, java.lang.String text) throws org.apache.thrift.TException
+    public boolean DisplayHandler_OnTooltip(int bid, java.lang.String text) throws org.apache.thrift.TException
     {
-      send_onTooltip(bid, text);
-      return recv_onTooltip();
+      send_DisplayHandler_OnTooltip(bid, text);
+      return recv_DisplayHandler_OnTooltip();
     }
 
-    public void send_onTooltip(int bid, java.lang.String text) throws org.apache.thrift.TException
+    public void send_DisplayHandler_OnTooltip(int bid, java.lang.String text) throws org.apache.thrift.TException
     {
-      onTooltip_args args = new onTooltip_args();
+      DisplayHandler_OnTooltip_args args = new DisplayHandler_OnTooltip_args();
       args.setBid(bid);
       args.setText(text);
-      sendBase("onTooltip", args);
+      sendBase("DisplayHandler_OnTooltip", args);
     }
 
-    public boolean recv_onTooltip() throws org.apache.thrift.TException
+    public boolean recv_DisplayHandler_OnTooltip() throws org.apache.thrift.TException
     {
-      onTooltip_result result = new onTooltip_result();
-      receiveBase(result, "onTooltip");
+      DisplayHandler_OnTooltip_result result = new DisplayHandler_OnTooltip_result();
+      receiveBase(result, "DisplayHandler_OnTooltip");
       if (result.isSetSuccess()) {
         return result.success;
       }
-      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "onTooltip failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "DisplayHandler_OnTooltip failed: unknown result");
     }
 
-    public void onStatusMessage(int bid, java.lang.String value) throws org.apache.thrift.TException
+    public void DisplayHandler_OnStatusMessage(int bid, java.lang.String value) throws org.apache.thrift.TException
     {
-      send_onStatusMessage(bid, value);
+      send_DisplayHandler_OnStatusMessage(bid, value);
     }
 
-    public void send_onStatusMessage(int bid, java.lang.String value) throws org.apache.thrift.TException
+    public void send_DisplayHandler_OnStatusMessage(int bid, java.lang.String value) throws org.apache.thrift.TException
     {
-      onStatusMessage_args args = new onStatusMessage_args();
+      DisplayHandler_OnStatusMessage_args args = new DisplayHandler_OnStatusMessage_args();
       args.setBid(bid);
       args.setValue(value);
-      sendBaseOneway("onStatusMessage", args);
+      sendBaseOneway("DisplayHandler_OnStatusMessage", args);
     }
 
-    public boolean onConsoleMessage(int bid, int level, java.lang.String message, java.lang.String source, int line) throws org.apache.thrift.TException
+    public boolean DisplayHandler_OnConsoleMessage(int bid, int level, java.lang.String message, java.lang.String source, int line) throws org.apache.thrift.TException
     {
-      send_onConsoleMessage(bid, level, message, source, line);
-      return recv_onConsoleMessage();
+      send_DisplayHandler_OnConsoleMessage(bid, level, message, source, line);
+      return recv_DisplayHandler_OnConsoleMessage();
     }
 
-    public void send_onConsoleMessage(int bid, int level, java.lang.String message, java.lang.String source, int line) throws org.apache.thrift.TException
+    public void send_DisplayHandler_OnConsoleMessage(int bid, int level, java.lang.String message, java.lang.String source, int line) throws org.apache.thrift.TException
     {
-      onConsoleMessage_args args = new onConsoleMessage_args();
+      DisplayHandler_OnConsoleMessage_args args = new DisplayHandler_OnConsoleMessage_args();
       args.setBid(bid);
       args.setLevel(level);
       args.setMessage(message);
       args.setSource(source);
       args.setLine(line);
-      sendBase("onConsoleMessage", args);
+      sendBase("DisplayHandler_OnConsoleMessage", args);
     }
 
-    public boolean recv_onConsoleMessage() throws org.apache.thrift.TException
+    public boolean recv_DisplayHandler_OnConsoleMessage() throws org.apache.thrift.TException
     {
-      onConsoleMessage_result result = new onConsoleMessage_result();
-      receiveBase(result, "onConsoleMessage");
+      DisplayHandler_OnConsoleMessage_result result = new DisplayHandler_OnConsoleMessage_result();
+      receiveBase(result, "DisplayHandler_OnConsoleMessage");
       if (result.isSetSuccess()) {
         return result.success;
       }
-      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "onConsoleMessage failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "DisplayHandler_OnConsoleMessage failed: unknown result");
     }
 
     public boolean RequestHandler_OnBeforeBrowse(int bid, RObject request, boolean user_gesture, boolean is_redirect) throws org.apache.thrift.TException
@@ -885,7 +939,6 @@ public class ClientHandlers {
     public void ResourceRequestHandler_OnResourceLoadComplete(int rrHandler, int bid, RObject request, RObject response, java.lang.String status, long receivedContentLength) throws org.apache.thrift.TException
     {
       send_ResourceRequestHandler_OnResourceLoadComplete(rrHandler, bid, request, response, status, receivedContentLength);
-      recv_ResourceRequestHandler_OnResourceLoadComplete();
     }
 
     public void send_ResourceRequestHandler_OnResourceLoadComplete(int rrHandler, int bid, RObject request, RObject response, java.lang.String status, long receivedContentLength) throws org.apache.thrift.TException
@@ -897,14 +950,7 @@ public class ClientHandlers {
       args.setResponse(response);
       args.setStatus(status);
       args.setReceivedContentLength(receivedContentLength);
-      sendBase("ResourceRequestHandler_OnResourceLoadComplete", args);
-    }
-
-    public void recv_ResourceRequestHandler_OnResourceLoadComplete() throws org.apache.thrift.TException
-    {
-      ResourceRequestHandler_OnResourceLoadComplete_result result = new ResourceRequestHandler_OnResourceLoadComplete_result();
-      receiveBase(result, "ResourceRequestHandler_OnResourceLoadComplete");
-      return;
+      sendBaseOneway("ResourceRequestHandler_OnResourceLoadComplete", args);
     }
 
     public boolean ResourceRequestHandler_OnProtocolExecution(int rrHandler, int bid, RObject request, boolean allowOsExecution) throws org.apache.thrift.TException
@@ -964,7 +1010,6 @@ public class ClientHandlers {
     public void MessageRouterHandler_onQueryCanceled(RObject handler, int bid, long queryId) throws org.apache.thrift.TException
     {
       send_MessageRouterHandler_onQueryCanceled(handler, bid, queryId);
-      recv_MessageRouterHandler_onQueryCanceled();
     }
 
     public void send_MessageRouterHandler_onQueryCanceled(RObject handler, int bid, long queryId) throws org.apache.thrift.TException
@@ -973,14 +1018,7 @@ public class ClientHandlers {
       args.setHandler(handler);
       args.setBid(bid);
       args.setQueryId(queryId);
-      sendBase("MessageRouterHandler_onQueryCanceled", args);
-    }
-
-    public void recv_MessageRouterHandler_onQueryCanceled() throws org.apache.thrift.TException
-    {
-      MessageRouterHandler_onQueryCanceled_result result = new MessageRouterHandler_onQueryCanceled_result();
-      receiveBase(result, "MessageRouterHandler_onQueryCanceled");
-      return;
+      sendBaseOneway("MessageRouterHandler_onQueryCanceled", args);
     }
 
   }
@@ -1062,21 +1100,21 @@ public class ClientHandlers {
       }
     }
 
-    public void getRegisteredCustomSchemes(org.apache.thrift.async.AsyncMethodCallback<java.util.List<CustomScheme>> resultHandler) throws org.apache.thrift.TException {
+    public void AppHandler_GetRegisteredCustomSchemes(org.apache.thrift.async.AsyncMethodCallback<java.util.List<CustomScheme>> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      getRegisteredCustomSchemes_call method_call = new getRegisteredCustomSchemes_call(resultHandler, this, ___protocolFactory, ___transport);
+      AppHandler_GetRegisteredCustomSchemes_call method_call = new AppHandler_GetRegisteredCustomSchemes_call(resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class getRegisteredCustomSchemes_call extends org.apache.thrift.async.TAsyncMethodCall<java.util.List<CustomScheme>> {
-      public getRegisteredCustomSchemes_call(org.apache.thrift.async.AsyncMethodCallback<java.util.List<CustomScheme>> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+    public static class AppHandler_GetRegisteredCustomSchemes_call extends org.apache.thrift.async.TAsyncMethodCall<java.util.List<CustomScheme>> {
+      public AppHandler_GetRegisteredCustomSchemes_call(org.apache.thrift.async.AsyncMethodCallback<java.util.List<CustomScheme>> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getRegisteredCustomSchemes", org.apache.thrift.protocol.TMessageType.CALL, 0));
-        getRegisteredCustomSchemes_args args = new getRegisteredCustomSchemes_args();
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("AppHandler_GetRegisteredCustomSchemes", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        AppHandler_GetRegisteredCustomSchemes_args args = new AppHandler_GetRegisteredCustomSchemes_args();
         args.write(prot);
         prot.writeMessageEnd();
       }
@@ -1087,25 +1125,25 @@ public class ClientHandlers {
         }
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
         org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
-        return (new Client(prot)).recv_getRegisteredCustomSchemes();
+        return (new Client(prot)).recv_AppHandler_GetRegisteredCustomSchemes();
       }
     }
 
-    public void onContextInitialized(org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void AppHandler_OnContextInitialized(org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      onContextInitialized_call method_call = new onContextInitialized_call(resultHandler, this, ___protocolFactory, ___transport);
+      AppHandler_OnContextInitialized_call method_call = new AppHandler_OnContextInitialized_call(resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class onContextInitialized_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
-      public onContextInitialized_call(org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+    public static class AppHandler_OnContextInitialized_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
+      public AppHandler_OnContextInitialized_call(org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("onContextInitialized", org.apache.thrift.protocol.TMessageType.CALL, 0));
-        onContextInitialized_args args = new onContextInitialized_args();
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("AppHandler_OnContextInitialized", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        AppHandler_OnContextInitialized_args args = new AppHandler_OnContextInitialized_args();
         args.write(prot);
         prot.writeMessageEnd();
       }
@@ -1120,52 +1158,116 @@ public class ClientHandlers {
       }
     }
 
-    public void getInfo(int bid, java.lang.String request, java.nio.ByteBuffer buffer, org.apache.thrift.async.AsyncMethodCallback<java.nio.ByteBuffer> resultHandler) throws org.apache.thrift.TException {
+    public void RenderHandler_GetViewRect(int bid, org.apache.thrift.async.AsyncMethodCallback<Rect> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      getInfo_call method_call = new getInfo_call(bid, request, buffer, resultHandler, this, ___protocolFactory, ___transport);
+      RenderHandler_GetViewRect_call method_call = new RenderHandler_GetViewRect_call(bid, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class getInfo_call extends org.apache.thrift.async.TAsyncMethodCall<java.nio.ByteBuffer> {
+    public static class RenderHandler_GetViewRect_call extends org.apache.thrift.async.TAsyncMethodCall<Rect> {
       private int bid;
-      private java.lang.String request;
-      private java.nio.ByteBuffer buffer;
-      public getInfo_call(int bid, java.lang.String request, java.nio.ByteBuffer buffer, org.apache.thrift.async.AsyncMethodCallback<java.nio.ByteBuffer> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public RenderHandler_GetViewRect_call(int bid, org.apache.thrift.async.AsyncMethodCallback<Rect> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.bid = bid;
-        this.request = request;
-        this.buffer = buffer;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getInfo", org.apache.thrift.protocol.TMessageType.CALL, 0));
-        getInfo_args args = new getInfo_args();
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("RenderHandler_GetViewRect", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        RenderHandler_GetViewRect_args args = new RenderHandler_GetViewRect_args();
         args.setBid(bid);
-        args.setRequest(request);
-        args.setBuffer(buffer);
         args.write(prot);
         prot.writeMessageEnd();
       }
 
-      public java.nio.ByteBuffer getResult() throws org.apache.thrift.TException {
+      public Rect getResult() throws org.apache.thrift.TException {
         if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new java.lang.IllegalStateException("Method call not finished!");
         }
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
         org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
-        return (new Client(prot)).recv_getInfo();
+        return (new Client(prot)).recv_RenderHandler_GetViewRect();
       }
     }
 
-    public void onPaint(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void RenderHandler_GetScreenInfo(int bid, org.apache.thrift.async.AsyncMethodCallback<ScreenInfo> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      onPaint_call method_call = new onPaint_call(bid, popup, dirtyRectsCount, sharedMemName, sharedMemHandle, recreateHandle, width, height, resultHandler, this, ___protocolFactory, ___transport);
+      RenderHandler_GetScreenInfo_call method_call = new RenderHandler_GetScreenInfo_call(bid, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class onPaint_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
+    public static class RenderHandler_GetScreenInfo_call extends org.apache.thrift.async.TAsyncMethodCall<ScreenInfo> {
+      private int bid;
+      public RenderHandler_GetScreenInfo_call(int bid, org.apache.thrift.async.AsyncMethodCallback<ScreenInfo> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.bid = bid;
+      }
+
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("RenderHandler_GetScreenInfo", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        RenderHandler_GetScreenInfo_args args = new RenderHandler_GetScreenInfo_args();
+        args.setBid(bid);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      public ScreenInfo getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_RenderHandler_GetScreenInfo();
+      }
+    }
+
+    public void RenderHandler_GetScreenPoint(int bid, int viewX, int viewY, org.apache.thrift.async.AsyncMethodCallback<Point> resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      RenderHandler_GetScreenPoint_call method_call = new RenderHandler_GetScreenPoint_call(bid, viewX, viewY, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class RenderHandler_GetScreenPoint_call extends org.apache.thrift.async.TAsyncMethodCall<Point> {
+      private int bid;
+      private int viewX;
+      private int viewY;
+      public RenderHandler_GetScreenPoint_call(int bid, int viewX, int viewY, org.apache.thrift.async.AsyncMethodCallback<Point> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.bid = bid;
+        this.viewX = viewX;
+        this.viewY = viewY;
+      }
+
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("RenderHandler_GetScreenPoint", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        RenderHandler_GetScreenPoint_args args = new RenderHandler_GetScreenPoint_args();
+        args.setBid(bid);
+        args.setViewX(viewX);
+        args.setViewY(viewY);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      public Point getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_RenderHandler_GetScreenPoint();
+      }
+    }
+
+    public void RenderHandler_OnPaint(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      RenderHandler_OnPaint_call method_call = new RenderHandler_OnPaint_call(bid, popup, dirtyRectsCount, sharedMemName, sharedMemHandle, recreateHandle, width, height, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class RenderHandler_OnPaint_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
       private int bid;
       private boolean popup;
       private int dirtyRectsCount;
@@ -1174,7 +1276,7 @@ public class ClientHandlers {
       private boolean recreateHandle;
       private int width;
       private int height;
-      public onPaint_call(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public RenderHandler_OnPaint_call(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.bid = bid;
         this.popup = popup;
@@ -1187,8 +1289,8 @@ public class ClientHandlers {
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("onPaint", org.apache.thrift.protocol.TMessageType.CALL, 0));
-        onPaint_args args = new onPaint_args();
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("RenderHandler_OnPaint", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        RenderHandler_OnPaint_args args = new RenderHandler_OnPaint_args();
         args.setBid(bid);
         args.setPopup(popup);
         args.setDirtyRectsCount(dirtyRectsCount);
@@ -1211,19 +1313,19 @@ public class ClientHandlers {
       }
     }
 
-    public void onBeforePopup(int bid, java.lang.String url, java.lang.String frameName, boolean gesture, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void LifeSpanHandler_OnBeforePopup(int bid, java.lang.String url, java.lang.String frameName, boolean gesture, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      onBeforePopup_call method_call = new onBeforePopup_call(bid, url, frameName, gesture, resultHandler, this, ___protocolFactory, ___transport);
+      LifeSpanHandler_OnBeforePopup_call method_call = new LifeSpanHandler_OnBeforePopup_call(bid, url, frameName, gesture, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class onBeforePopup_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
+    public static class LifeSpanHandler_OnBeforePopup_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
       private int bid;
       private java.lang.String url;
       private java.lang.String frameName;
       private boolean gesture;
-      public onBeforePopup_call(int bid, java.lang.String url, java.lang.String frameName, boolean gesture, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public LifeSpanHandler_OnBeforePopup_call(int bid, java.lang.String url, java.lang.String frameName, boolean gesture, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
         this.bid = bid;
         this.url = url;
@@ -1232,8 +1334,8 @@ public class ClientHandlers {
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("onBeforePopup", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
-        onBeforePopup_args args = new onBeforePopup_args();
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("LifeSpanHandler_OnBeforePopup", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
+        LifeSpanHandler_OnBeforePopup_args args = new LifeSpanHandler_OnBeforePopup_args();
         args.setBid(bid);
         args.setUrl(url);
         args.setFrameName(frameName);
@@ -1252,23 +1354,23 @@ public class ClientHandlers {
       }
     }
 
-    public void onAfterCreated(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void LifeSpanHandler_OnAfterCreated(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      onAfterCreated_call method_call = new onAfterCreated_call(bid, resultHandler, this, ___protocolFactory, ___transport);
+      LifeSpanHandler_OnAfterCreated_call method_call = new LifeSpanHandler_OnAfterCreated_call(bid, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class onAfterCreated_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
+    public static class LifeSpanHandler_OnAfterCreated_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
       private int bid;
-      public onAfterCreated_call(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public LifeSpanHandler_OnAfterCreated_call(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
         this.bid = bid;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("onAfterCreated", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
-        onAfterCreated_args args = new onAfterCreated_args();
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("LifeSpanHandler_OnAfterCreated", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
+        LifeSpanHandler_OnAfterCreated_args args = new LifeSpanHandler_OnAfterCreated_args();
         args.setBid(bid);
         args.write(prot);
         prot.writeMessageEnd();
@@ -1284,23 +1386,23 @@ public class ClientHandlers {
       }
     }
 
-    public void doClose(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void LifeSpanHandler_DoClose(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      doClose_call method_call = new doClose_call(bid, resultHandler, this, ___protocolFactory, ___transport);
+      LifeSpanHandler_DoClose_call method_call = new LifeSpanHandler_DoClose_call(bid, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class doClose_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
+    public static class LifeSpanHandler_DoClose_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
       private int bid;
-      public doClose_call(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public LifeSpanHandler_DoClose_call(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
         this.bid = bid;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("doClose", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
-        doClose_args args = new doClose_args();
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("LifeSpanHandler_DoClose", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
+        LifeSpanHandler_DoClose_args args = new LifeSpanHandler_DoClose_args();
         args.setBid(bid);
         args.write(prot);
         prot.writeMessageEnd();
@@ -1316,23 +1418,23 @@ public class ClientHandlers {
       }
     }
 
-    public void onBeforeClose(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void LifeSpanHandler_OnBeforeClose(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      onBeforeClose_call method_call = new onBeforeClose_call(bid, resultHandler, this, ___protocolFactory, ___transport);
+      LifeSpanHandler_OnBeforeClose_call method_call = new LifeSpanHandler_OnBeforeClose_call(bid, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class onBeforeClose_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
+    public static class LifeSpanHandler_OnBeforeClose_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
       private int bid;
-      public onBeforeClose_call(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public LifeSpanHandler_OnBeforeClose_call(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
         this.bid = bid;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("onBeforeClose", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
-        onBeforeClose_args args = new onBeforeClose_args();
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("LifeSpanHandler_OnBeforeClose", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
+        LifeSpanHandler_OnBeforeClose_args args = new LifeSpanHandler_OnBeforeClose_args();
         args.setBid(bid);
         args.write(prot);
         prot.writeMessageEnd();
@@ -1348,19 +1450,19 @@ public class ClientHandlers {
       }
     }
 
-    public void onLoadingStateChange(int bid, boolean isLoading, boolean canGoBack, boolean canGoForward, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void LoadHandler_OnLoadingStateChange(int bid, boolean isLoading, boolean canGoBack, boolean canGoForward, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      onLoadingStateChange_call method_call = new onLoadingStateChange_call(bid, isLoading, canGoBack, canGoForward, resultHandler, this, ___protocolFactory, ___transport);
+      LoadHandler_OnLoadingStateChange_call method_call = new LoadHandler_OnLoadingStateChange_call(bid, isLoading, canGoBack, canGoForward, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class onLoadingStateChange_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
+    public static class LoadHandler_OnLoadingStateChange_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
       private int bid;
       private boolean isLoading;
       private boolean canGoBack;
       private boolean canGoForward;
-      public onLoadingStateChange_call(int bid, boolean isLoading, boolean canGoBack, boolean canGoForward, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public LoadHandler_OnLoadingStateChange_call(int bid, boolean isLoading, boolean canGoBack, boolean canGoForward, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
         this.bid = bid;
         this.isLoading = isLoading;
@@ -1369,8 +1471,8 @@ public class ClientHandlers {
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("onLoadingStateChange", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
-        onLoadingStateChange_args args = new onLoadingStateChange_args();
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("LoadHandler_OnLoadingStateChange", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
+        LoadHandler_OnLoadingStateChange_args args = new LoadHandler_OnLoadingStateChange_args();
         args.setBid(bid);
         args.setIsLoading(isLoading);
         args.setCanGoBack(canGoBack);
@@ -1389,25 +1491,25 @@ public class ClientHandlers {
       }
     }
 
-    public void onLoadStart(int bid, int transition_type, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void LoadHandler_OnLoadStart(int bid, int transition_type, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      onLoadStart_call method_call = new onLoadStart_call(bid, transition_type, resultHandler, this, ___protocolFactory, ___transport);
+      LoadHandler_OnLoadStart_call method_call = new LoadHandler_OnLoadStart_call(bid, transition_type, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class onLoadStart_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
+    public static class LoadHandler_OnLoadStart_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
       private int bid;
       private int transition_type;
-      public onLoadStart_call(int bid, int transition_type, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public LoadHandler_OnLoadStart_call(int bid, int transition_type, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
         this.bid = bid;
         this.transition_type = transition_type;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("onLoadStart", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
-        onLoadStart_args args = new onLoadStart_args();
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("LoadHandler_OnLoadStart", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
+        LoadHandler_OnLoadStart_args args = new LoadHandler_OnLoadStart_args();
         args.setBid(bid);
         args.setTransition_type(transition_type);
         args.write(prot);
@@ -1424,25 +1526,25 @@ public class ClientHandlers {
       }
     }
 
-    public void onLoadEnd(int bid, int httpStatusCode, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void LoadHandler_OnLoadEnd(int bid, int httpStatusCode, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      onLoadEnd_call method_call = new onLoadEnd_call(bid, httpStatusCode, resultHandler, this, ___protocolFactory, ___transport);
+      LoadHandler_OnLoadEnd_call method_call = new LoadHandler_OnLoadEnd_call(bid, httpStatusCode, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class onLoadEnd_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
+    public static class LoadHandler_OnLoadEnd_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
       private int bid;
       private int httpStatusCode;
-      public onLoadEnd_call(int bid, int httpStatusCode, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public LoadHandler_OnLoadEnd_call(int bid, int httpStatusCode, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
         this.bid = bid;
         this.httpStatusCode = httpStatusCode;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("onLoadEnd", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
-        onLoadEnd_args args = new onLoadEnd_args();
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("LoadHandler_OnLoadEnd", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
+        LoadHandler_OnLoadEnd_args args = new LoadHandler_OnLoadEnd_args();
         args.setBid(bid);
         args.setHttpStatusCode(httpStatusCode);
         args.write(prot);
@@ -1459,19 +1561,19 @@ public class ClientHandlers {
       }
     }
 
-    public void onLoadError(int bid, int errorCode, java.lang.String errorText, java.lang.String failedUrl, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void LoadHandler_OnLoadError(int bid, int errorCode, java.lang.String errorText, java.lang.String failedUrl, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      onLoadError_call method_call = new onLoadError_call(bid, errorCode, errorText, failedUrl, resultHandler, this, ___protocolFactory, ___transport);
+      LoadHandler_OnLoadError_call method_call = new LoadHandler_OnLoadError_call(bid, errorCode, errorText, failedUrl, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class onLoadError_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
+    public static class LoadHandler_OnLoadError_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
       private int bid;
       private int errorCode;
       private java.lang.String errorText;
       private java.lang.String failedUrl;
-      public onLoadError_call(int bid, int errorCode, java.lang.String errorText, java.lang.String failedUrl, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public LoadHandler_OnLoadError_call(int bid, int errorCode, java.lang.String errorText, java.lang.String failedUrl, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
         this.bid = bid;
         this.errorCode = errorCode;
@@ -1480,8 +1582,8 @@ public class ClientHandlers {
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("onLoadError", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
-        onLoadError_args args = new onLoadError_args();
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("LoadHandler_OnLoadError", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
+        LoadHandler_OnLoadError_args args = new LoadHandler_OnLoadError_args();
         args.setBid(bid);
         args.setErrorCode(errorCode);
         args.setErrorText(errorText);
@@ -1500,25 +1602,25 @@ public class ClientHandlers {
       }
     }
 
-    public void onAddressChange(int bid, java.lang.String url, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void DisplayHandler_OnAddressChange(int bid, java.lang.String url, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      onAddressChange_call method_call = new onAddressChange_call(bid, url, resultHandler, this, ___protocolFactory, ___transport);
+      DisplayHandler_OnAddressChange_call method_call = new DisplayHandler_OnAddressChange_call(bid, url, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class onAddressChange_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
+    public static class DisplayHandler_OnAddressChange_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
       private int bid;
       private java.lang.String url;
-      public onAddressChange_call(int bid, java.lang.String url, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public DisplayHandler_OnAddressChange_call(int bid, java.lang.String url, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
         this.bid = bid;
         this.url = url;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("onAddressChange", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
-        onAddressChange_args args = new onAddressChange_args();
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("DisplayHandler_OnAddressChange", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
+        DisplayHandler_OnAddressChange_args args = new DisplayHandler_OnAddressChange_args();
         args.setBid(bid);
         args.setUrl(url);
         args.write(prot);
@@ -1535,25 +1637,25 @@ public class ClientHandlers {
       }
     }
 
-    public void onTitleChange(int bid, java.lang.String title, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void DisplayHandler_OnTitleChange(int bid, java.lang.String title, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      onTitleChange_call method_call = new onTitleChange_call(bid, title, resultHandler, this, ___protocolFactory, ___transport);
+      DisplayHandler_OnTitleChange_call method_call = new DisplayHandler_OnTitleChange_call(bid, title, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class onTitleChange_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
+    public static class DisplayHandler_OnTitleChange_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
       private int bid;
       private java.lang.String title;
-      public onTitleChange_call(int bid, java.lang.String title, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public DisplayHandler_OnTitleChange_call(int bid, java.lang.String title, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
         this.bid = bid;
         this.title = title;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("onTitleChange", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
-        onTitleChange_args args = new onTitleChange_args();
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("DisplayHandler_OnTitleChange", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
+        DisplayHandler_OnTitleChange_args args = new DisplayHandler_OnTitleChange_args();
         args.setBid(bid);
         args.setTitle(title);
         args.write(prot);
@@ -1570,25 +1672,25 @@ public class ClientHandlers {
       }
     }
 
-    public void onTooltip(int bid, java.lang.String text, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
+    public void DisplayHandler_OnTooltip(int bid, java.lang.String text, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      onTooltip_call method_call = new onTooltip_call(bid, text, resultHandler, this, ___protocolFactory, ___transport);
+      DisplayHandler_OnTooltip_call method_call = new DisplayHandler_OnTooltip_call(bid, text, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class onTooltip_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.Boolean> {
+    public static class DisplayHandler_OnTooltip_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.Boolean> {
       private int bid;
       private java.lang.String text;
-      public onTooltip_call(int bid, java.lang.String text, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public DisplayHandler_OnTooltip_call(int bid, java.lang.String text, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.bid = bid;
         this.text = text;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("onTooltip", org.apache.thrift.protocol.TMessageType.CALL, 0));
-        onTooltip_args args = new onTooltip_args();
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("DisplayHandler_OnTooltip", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        DisplayHandler_OnTooltip_args args = new DisplayHandler_OnTooltip_args();
         args.setBid(bid);
         args.setText(text);
         args.write(prot);
@@ -1601,29 +1703,29 @@ public class ClientHandlers {
         }
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
         org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
-        return (new Client(prot)).recv_onTooltip();
+        return (new Client(prot)).recv_DisplayHandler_OnTooltip();
       }
     }
 
-    public void onStatusMessage(int bid, java.lang.String value, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void DisplayHandler_OnStatusMessage(int bid, java.lang.String value, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      onStatusMessage_call method_call = new onStatusMessage_call(bid, value, resultHandler, this, ___protocolFactory, ___transport);
+      DisplayHandler_OnStatusMessage_call method_call = new DisplayHandler_OnStatusMessage_call(bid, value, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class onStatusMessage_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
+    public static class DisplayHandler_OnStatusMessage_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
       private int bid;
       private java.lang.String value;
-      public onStatusMessage_call(int bid, java.lang.String value, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public DisplayHandler_OnStatusMessage_call(int bid, java.lang.String value, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
         this.bid = bid;
         this.value = value;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("onStatusMessage", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
-        onStatusMessage_args args = new onStatusMessage_args();
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("DisplayHandler_OnStatusMessage", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
+        DisplayHandler_OnStatusMessage_args args = new DisplayHandler_OnStatusMessage_args();
         args.setBid(bid);
         args.setValue(value);
         args.write(prot);
@@ -1640,20 +1742,20 @@ public class ClientHandlers {
       }
     }
 
-    public void onConsoleMessage(int bid, int level, java.lang.String message, java.lang.String source, int line, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
+    public void DisplayHandler_OnConsoleMessage(int bid, int level, java.lang.String message, java.lang.String source, int line, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      onConsoleMessage_call method_call = new onConsoleMessage_call(bid, level, message, source, line, resultHandler, this, ___protocolFactory, ___transport);
+      DisplayHandler_OnConsoleMessage_call method_call = new DisplayHandler_OnConsoleMessage_call(bid, level, message, source, line, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class onConsoleMessage_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.Boolean> {
+    public static class DisplayHandler_OnConsoleMessage_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.Boolean> {
       private int bid;
       private int level;
       private java.lang.String message;
       private java.lang.String source;
       private int line;
-      public onConsoleMessage_call(int bid, int level, java.lang.String message, java.lang.String source, int line, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public DisplayHandler_OnConsoleMessage_call(int bid, int level, java.lang.String message, java.lang.String source, int line, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.bid = bid;
         this.level = level;
@@ -1663,8 +1765,8 @@ public class ClientHandlers {
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("onConsoleMessage", org.apache.thrift.protocol.TMessageType.CALL, 0));
-        onConsoleMessage_args args = new onConsoleMessage_args();
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("DisplayHandler_OnConsoleMessage", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        DisplayHandler_OnConsoleMessage_args args = new DisplayHandler_OnConsoleMessage_args();
         args.setBid(bid);
         args.setLevel(level);
         args.setMessage(message);
@@ -1680,7 +1782,7 @@ public class ClientHandlers {
         }
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
         org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
-        return (new Client(prot)).recv_onConsoleMessage();
+        return (new Client(prot)).recv_DisplayHandler_OnConsoleMessage();
       }
     }
 
@@ -2334,7 +2436,7 @@ public class ClientHandlers {
       private java.lang.String status;
       private long receivedContentLength;
       public ResourceRequestHandler_OnResourceLoadComplete_call(int rrHandler, int bid, RObject request, RObject response, java.lang.String status, long receivedContentLength, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
-        super(client, protocolFactory, transport, resultHandler, false);
+        super(client, protocolFactory, transport, resultHandler, true);
         this.rrHandler = rrHandler;
         this.bid = bid;
         this.request = request;
@@ -2344,7 +2446,7 @@ public class ClientHandlers {
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("ResourceRequestHandler_OnResourceLoadComplete", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("ResourceRequestHandler_OnResourceLoadComplete", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
         ResourceRequestHandler_OnResourceLoadComplete_args args = new ResourceRequestHandler_OnResourceLoadComplete_args();
         args.setRrHandler(rrHandler);
         args.setBid(bid);
@@ -2466,14 +2568,14 @@ public class ClientHandlers {
       private int bid;
       private long queryId;
       public MessageRouterHandler_onQueryCanceled_call(RObject handler, int bid, long queryId, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
-        super(client, protocolFactory, transport, resultHandler, false);
+        super(client, protocolFactory, transport, resultHandler, true);
         this.handler = handler;
         this.bid = bid;
         this.queryId = queryId;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("MessageRouterHandler_onQueryCanceled", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("MessageRouterHandler_onQueryCanceled", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
         MessageRouterHandler_onQueryCanceled_args args = new MessageRouterHandler_onQueryCanceled_args();
         args.setHandler(handler);
         args.setBid(bid);
@@ -2507,23 +2609,25 @@ public class ClientHandlers {
     private static <I extends Iface> java.util.Map<java.lang.String,  org.apache.thrift.ProcessFunction<I, ? extends org.apache.thrift.TBase>> getProcessMap(java.util.Map<java.lang.String, org.apache.thrift.ProcessFunction<I, ? extends  org.apache.thrift.TBase>> processMap) {
       processMap.put("connect", new connect());
       processMap.put("log", new log());
-      processMap.put("getRegisteredCustomSchemes", new getRegisteredCustomSchemes());
-      processMap.put("onContextInitialized", new onContextInitialized());
-      processMap.put("getInfo", new getInfo());
-      processMap.put("onPaint", new onPaint());
-      processMap.put("onBeforePopup", new onBeforePopup());
-      processMap.put("onAfterCreated", new onAfterCreated());
-      processMap.put("doClose", new doClose());
-      processMap.put("onBeforeClose", new onBeforeClose());
-      processMap.put("onLoadingStateChange", new onLoadingStateChange());
-      processMap.put("onLoadStart", new onLoadStart());
-      processMap.put("onLoadEnd", new onLoadEnd());
-      processMap.put("onLoadError", new onLoadError());
-      processMap.put("onAddressChange", new onAddressChange());
-      processMap.put("onTitleChange", new onTitleChange());
-      processMap.put("onTooltip", new onTooltip());
-      processMap.put("onStatusMessage", new onStatusMessage());
-      processMap.put("onConsoleMessage", new onConsoleMessage());
+      processMap.put("AppHandler_GetRegisteredCustomSchemes", new AppHandler_GetRegisteredCustomSchemes());
+      processMap.put("AppHandler_OnContextInitialized", new AppHandler_OnContextInitialized());
+      processMap.put("RenderHandler_GetViewRect", new RenderHandler_GetViewRect());
+      processMap.put("RenderHandler_GetScreenInfo", new RenderHandler_GetScreenInfo());
+      processMap.put("RenderHandler_GetScreenPoint", new RenderHandler_GetScreenPoint());
+      processMap.put("RenderHandler_OnPaint", new RenderHandler_OnPaint());
+      processMap.put("LifeSpanHandler_OnBeforePopup", new LifeSpanHandler_OnBeforePopup());
+      processMap.put("LifeSpanHandler_OnAfterCreated", new LifeSpanHandler_OnAfterCreated());
+      processMap.put("LifeSpanHandler_DoClose", new LifeSpanHandler_DoClose());
+      processMap.put("LifeSpanHandler_OnBeforeClose", new LifeSpanHandler_OnBeforeClose());
+      processMap.put("LoadHandler_OnLoadingStateChange", new LoadHandler_OnLoadingStateChange());
+      processMap.put("LoadHandler_OnLoadStart", new LoadHandler_OnLoadStart());
+      processMap.put("LoadHandler_OnLoadEnd", new LoadHandler_OnLoadEnd());
+      processMap.put("LoadHandler_OnLoadError", new LoadHandler_OnLoadError());
+      processMap.put("DisplayHandler_OnAddressChange", new DisplayHandler_OnAddressChange());
+      processMap.put("DisplayHandler_OnTitleChange", new DisplayHandler_OnTitleChange());
+      processMap.put("DisplayHandler_OnTooltip", new DisplayHandler_OnTooltip());
+      processMap.put("DisplayHandler_OnStatusMessage", new DisplayHandler_OnStatusMessage());
+      processMap.put("DisplayHandler_OnConsoleMessage", new DisplayHandler_OnConsoleMessage());
       processMap.put("RequestHandler_OnBeforeBrowse", new RequestHandler_OnBeforeBrowse());
       processMap.put("RequestHandler_OnOpenURLFromTab", new RequestHandler_OnOpenURLFromTab());
       processMap.put("RequestHandler_GetAuthCredentials", new RequestHandler_GetAuthCredentials());
@@ -2597,13 +2701,13 @@ public class ClientHandlers {
       }
     }
 
-    public static class getRegisteredCustomSchemes<I extends Iface> extends org.apache.thrift.ProcessFunction<I, getRegisteredCustomSchemes_args> {
-      public getRegisteredCustomSchemes() {
-        super("getRegisteredCustomSchemes");
+    public static class AppHandler_GetRegisteredCustomSchemes<I extends Iface> extends org.apache.thrift.ProcessFunction<I, AppHandler_GetRegisteredCustomSchemes_args> {
+      public AppHandler_GetRegisteredCustomSchemes() {
+        super("AppHandler_GetRegisteredCustomSchemes");
       }
 
-      public getRegisteredCustomSchemes_args getEmptyArgsInstance() {
-        return new getRegisteredCustomSchemes_args();
+      public AppHandler_GetRegisteredCustomSchemes_args getEmptyArgsInstance() {
+        return new AppHandler_GetRegisteredCustomSchemes_args();
       }
 
       protected boolean isOneway() {
@@ -2615,20 +2719,20 @@ public class ClientHandlers {
         return false;
       }
 
-      public getRegisteredCustomSchemes_result getResult(I iface, getRegisteredCustomSchemes_args args) throws org.apache.thrift.TException {
-        getRegisteredCustomSchemes_result result = new getRegisteredCustomSchemes_result();
-        result.success = iface.getRegisteredCustomSchemes();
+      public AppHandler_GetRegisteredCustomSchemes_result getResult(I iface, AppHandler_GetRegisteredCustomSchemes_args args) throws org.apache.thrift.TException {
+        AppHandler_GetRegisteredCustomSchemes_result result = new AppHandler_GetRegisteredCustomSchemes_result();
+        result.success = iface.AppHandler_GetRegisteredCustomSchemes();
         return result;
       }
     }
 
-    public static class onContextInitialized<I extends Iface> extends org.apache.thrift.ProcessFunction<I, onContextInitialized_args> {
-      public onContextInitialized() {
-        super("onContextInitialized");
+    public static class AppHandler_OnContextInitialized<I extends Iface> extends org.apache.thrift.ProcessFunction<I, AppHandler_OnContextInitialized_args> {
+      public AppHandler_OnContextInitialized() {
+        super("AppHandler_OnContextInitialized");
       }
 
-      public onContextInitialized_args getEmptyArgsInstance() {
-        return new onContextInitialized_args();
+      public AppHandler_OnContextInitialized_args getEmptyArgsInstance() {
+        return new AppHandler_OnContextInitialized_args();
       }
 
       protected boolean isOneway() {
@@ -2640,20 +2744,20 @@ public class ClientHandlers {
         return false;
       }
 
-      public onContextInitialized_result getResult(I iface, onContextInitialized_args args) throws org.apache.thrift.TException {
-        onContextInitialized_result result = new onContextInitialized_result();
-        iface.onContextInitialized();
+      public AppHandler_OnContextInitialized_result getResult(I iface, AppHandler_OnContextInitialized_args args) throws org.apache.thrift.TException {
+        AppHandler_OnContextInitialized_result result = new AppHandler_OnContextInitialized_result();
+        iface.AppHandler_OnContextInitialized();
         return result;
       }
     }
 
-    public static class getInfo<I extends Iface> extends org.apache.thrift.ProcessFunction<I, getInfo_args> {
-      public getInfo() {
-        super("getInfo");
+    public static class RenderHandler_GetViewRect<I extends Iface> extends org.apache.thrift.ProcessFunction<I, RenderHandler_GetViewRect_args> {
+      public RenderHandler_GetViewRect() {
+        super("RenderHandler_GetViewRect");
       }
 
-      public getInfo_args getEmptyArgsInstance() {
-        return new getInfo_args();
+      public RenderHandler_GetViewRect_args getEmptyArgsInstance() {
+        return new RenderHandler_GetViewRect_args();
       }
 
       protected boolean isOneway() {
@@ -2665,20 +2769,20 @@ public class ClientHandlers {
         return false;
       }
 
-      public getInfo_result getResult(I iface, getInfo_args args) throws org.apache.thrift.TException {
-        getInfo_result result = new getInfo_result();
-        result.success = iface.getInfo(args.bid, args.request, args.buffer);
+      public RenderHandler_GetViewRect_result getResult(I iface, RenderHandler_GetViewRect_args args) throws org.apache.thrift.TException {
+        RenderHandler_GetViewRect_result result = new RenderHandler_GetViewRect_result();
+        result.success = iface.RenderHandler_GetViewRect(args.bid);
         return result;
       }
     }
 
-    public static class onPaint<I extends Iface> extends org.apache.thrift.ProcessFunction<I, onPaint_args> {
-      public onPaint() {
-        super("onPaint");
+    public static class RenderHandler_GetScreenInfo<I extends Iface> extends org.apache.thrift.ProcessFunction<I, RenderHandler_GetScreenInfo_args> {
+      public RenderHandler_GetScreenInfo() {
+        super("RenderHandler_GetScreenInfo");
       }
 
-      public onPaint_args getEmptyArgsInstance() {
-        return new onPaint_args();
+      public RenderHandler_GetScreenInfo_args getEmptyArgsInstance() {
+        return new RenderHandler_GetScreenInfo_args();
       }
 
       protected boolean isOneway() {
@@ -2690,20 +2794,70 @@ public class ClientHandlers {
         return false;
       }
 
-      public onPaint_result getResult(I iface, onPaint_args args) throws org.apache.thrift.TException {
-        onPaint_result result = new onPaint_result();
-        iface.onPaint(args.bid, args.popup, args.dirtyRectsCount, args.sharedMemName, args.sharedMemHandle, args.recreateHandle, args.width, args.height);
+      public RenderHandler_GetScreenInfo_result getResult(I iface, RenderHandler_GetScreenInfo_args args) throws org.apache.thrift.TException {
+        RenderHandler_GetScreenInfo_result result = new RenderHandler_GetScreenInfo_result();
+        result.success = iface.RenderHandler_GetScreenInfo(args.bid);
         return result;
       }
     }
 
-    public static class onBeforePopup<I extends Iface> extends org.apache.thrift.ProcessFunction<I, onBeforePopup_args> {
-      public onBeforePopup() {
-        super("onBeforePopup");
+    public static class RenderHandler_GetScreenPoint<I extends Iface> extends org.apache.thrift.ProcessFunction<I, RenderHandler_GetScreenPoint_args> {
+      public RenderHandler_GetScreenPoint() {
+        super("RenderHandler_GetScreenPoint");
       }
 
-      public onBeforePopup_args getEmptyArgsInstance() {
-        return new onBeforePopup_args();
+      public RenderHandler_GetScreenPoint_args getEmptyArgsInstance() {
+        return new RenderHandler_GetScreenPoint_args();
+      }
+
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      public RenderHandler_GetScreenPoint_result getResult(I iface, RenderHandler_GetScreenPoint_args args) throws org.apache.thrift.TException {
+        RenderHandler_GetScreenPoint_result result = new RenderHandler_GetScreenPoint_result();
+        result.success = iface.RenderHandler_GetScreenPoint(args.bid, args.viewX, args.viewY);
+        return result;
+      }
+    }
+
+    public static class RenderHandler_OnPaint<I extends Iface> extends org.apache.thrift.ProcessFunction<I, RenderHandler_OnPaint_args> {
+      public RenderHandler_OnPaint() {
+        super("RenderHandler_OnPaint");
+      }
+
+      public RenderHandler_OnPaint_args getEmptyArgsInstance() {
+        return new RenderHandler_OnPaint_args();
+      }
+
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      public RenderHandler_OnPaint_result getResult(I iface, RenderHandler_OnPaint_args args) throws org.apache.thrift.TException {
+        RenderHandler_OnPaint_result result = new RenderHandler_OnPaint_result();
+        iface.RenderHandler_OnPaint(args.bid, args.popup, args.dirtyRectsCount, args.sharedMemName, args.sharedMemHandle, args.recreateHandle, args.width, args.height);
+        return result;
+      }
+    }
+
+    public static class LifeSpanHandler_OnBeforePopup<I extends Iface> extends org.apache.thrift.ProcessFunction<I, LifeSpanHandler_OnBeforePopup_args> {
+      public LifeSpanHandler_OnBeforePopup() {
+        super("LifeSpanHandler_OnBeforePopup");
+      }
+
+      public LifeSpanHandler_OnBeforePopup_args getEmptyArgsInstance() {
+        return new LifeSpanHandler_OnBeforePopup_args();
       }
 
       protected boolean isOneway() {
@@ -2715,19 +2869,19 @@ public class ClientHandlers {
         return false;
       }
 
-      public org.apache.thrift.TBase getResult(I iface, onBeforePopup_args args) throws org.apache.thrift.TException {
-        iface.onBeforePopup(args.bid, args.url, args.frameName, args.gesture);
+      public org.apache.thrift.TBase getResult(I iface, LifeSpanHandler_OnBeforePopup_args args) throws org.apache.thrift.TException {
+        iface.LifeSpanHandler_OnBeforePopup(args.bid, args.url, args.frameName, args.gesture);
         return null;
       }
     }
 
-    public static class onAfterCreated<I extends Iface> extends org.apache.thrift.ProcessFunction<I, onAfterCreated_args> {
-      public onAfterCreated() {
-        super("onAfterCreated");
+    public static class LifeSpanHandler_OnAfterCreated<I extends Iface> extends org.apache.thrift.ProcessFunction<I, LifeSpanHandler_OnAfterCreated_args> {
+      public LifeSpanHandler_OnAfterCreated() {
+        super("LifeSpanHandler_OnAfterCreated");
       }
 
-      public onAfterCreated_args getEmptyArgsInstance() {
-        return new onAfterCreated_args();
+      public LifeSpanHandler_OnAfterCreated_args getEmptyArgsInstance() {
+        return new LifeSpanHandler_OnAfterCreated_args();
       }
 
       protected boolean isOneway() {
@@ -2739,19 +2893,19 @@ public class ClientHandlers {
         return false;
       }
 
-      public org.apache.thrift.TBase getResult(I iface, onAfterCreated_args args) throws org.apache.thrift.TException {
-        iface.onAfterCreated(args.bid);
+      public org.apache.thrift.TBase getResult(I iface, LifeSpanHandler_OnAfterCreated_args args) throws org.apache.thrift.TException {
+        iface.LifeSpanHandler_OnAfterCreated(args.bid);
         return null;
       }
     }
 
-    public static class doClose<I extends Iface> extends org.apache.thrift.ProcessFunction<I, doClose_args> {
-      public doClose() {
-        super("doClose");
+    public static class LifeSpanHandler_DoClose<I extends Iface> extends org.apache.thrift.ProcessFunction<I, LifeSpanHandler_DoClose_args> {
+      public LifeSpanHandler_DoClose() {
+        super("LifeSpanHandler_DoClose");
       }
 
-      public doClose_args getEmptyArgsInstance() {
-        return new doClose_args();
+      public LifeSpanHandler_DoClose_args getEmptyArgsInstance() {
+        return new LifeSpanHandler_DoClose_args();
       }
 
       protected boolean isOneway() {
@@ -2763,19 +2917,19 @@ public class ClientHandlers {
         return false;
       }
 
-      public org.apache.thrift.TBase getResult(I iface, doClose_args args) throws org.apache.thrift.TException {
-        iface.doClose(args.bid);
+      public org.apache.thrift.TBase getResult(I iface, LifeSpanHandler_DoClose_args args) throws org.apache.thrift.TException {
+        iface.LifeSpanHandler_DoClose(args.bid);
         return null;
       }
     }
 
-    public static class onBeforeClose<I extends Iface> extends org.apache.thrift.ProcessFunction<I, onBeforeClose_args> {
-      public onBeforeClose() {
-        super("onBeforeClose");
+    public static class LifeSpanHandler_OnBeforeClose<I extends Iface> extends org.apache.thrift.ProcessFunction<I, LifeSpanHandler_OnBeforeClose_args> {
+      public LifeSpanHandler_OnBeforeClose() {
+        super("LifeSpanHandler_OnBeforeClose");
       }
 
-      public onBeforeClose_args getEmptyArgsInstance() {
-        return new onBeforeClose_args();
+      public LifeSpanHandler_OnBeforeClose_args getEmptyArgsInstance() {
+        return new LifeSpanHandler_OnBeforeClose_args();
       }
 
       protected boolean isOneway() {
@@ -2787,19 +2941,19 @@ public class ClientHandlers {
         return false;
       }
 
-      public org.apache.thrift.TBase getResult(I iface, onBeforeClose_args args) throws org.apache.thrift.TException {
-        iface.onBeforeClose(args.bid);
+      public org.apache.thrift.TBase getResult(I iface, LifeSpanHandler_OnBeforeClose_args args) throws org.apache.thrift.TException {
+        iface.LifeSpanHandler_OnBeforeClose(args.bid);
         return null;
       }
     }
 
-    public static class onLoadingStateChange<I extends Iface> extends org.apache.thrift.ProcessFunction<I, onLoadingStateChange_args> {
-      public onLoadingStateChange() {
-        super("onLoadingStateChange");
+    public static class LoadHandler_OnLoadingStateChange<I extends Iface> extends org.apache.thrift.ProcessFunction<I, LoadHandler_OnLoadingStateChange_args> {
+      public LoadHandler_OnLoadingStateChange() {
+        super("LoadHandler_OnLoadingStateChange");
       }
 
-      public onLoadingStateChange_args getEmptyArgsInstance() {
-        return new onLoadingStateChange_args();
+      public LoadHandler_OnLoadingStateChange_args getEmptyArgsInstance() {
+        return new LoadHandler_OnLoadingStateChange_args();
       }
 
       protected boolean isOneway() {
@@ -2811,19 +2965,19 @@ public class ClientHandlers {
         return false;
       }
 
-      public org.apache.thrift.TBase getResult(I iface, onLoadingStateChange_args args) throws org.apache.thrift.TException {
-        iface.onLoadingStateChange(args.bid, args.isLoading, args.canGoBack, args.canGoForward);
+      public org.apache.thrift.TBase getResult(I iface, LoadHandler_OnLoadingStateChange_args args) throws org.apache.thrift.TException {
+        iface.LoadHandler_OnLoadingStateChange(args.bid, args.isLoading, args.canGoBack, args.canGoForward);
         return null;
       }
     }
 
-    public static class onLoadStart<I extends Iface> extends org.apache.thrift.ProcessFunction<I, onLoadStart_args> {
-      public onLoadStart() {
-        super("onLoadStart");
+    public static class LoadHandler_OnLoadStart<I extends Iface> extends org.apache.thrift.ProcessFunction<I, LoadHandler_OnLoadStart_args> {
+      public LoadHandler_OnLoadStart() {
+        super("LoadHandler_OnLoadStart");
       }
 
-      public onLoadStart_args getEmptyArgsInstance() {
-        return new onLoadStart_args();
+      public LoadHandler_OnLoadStart_args getEmptyArgsInstance() {
+        return new LoadHandler_OnLoadStart_args();
       }
 
       protected boolean isOneway() {
@@ -2835,19 +2989,19 @@ public class ClientHandlers {
         return false;
       }
 
-      public org.apache.thrift.TBase getResult(I iface, onLoadStart_args args) throws org.apache.thrift.TException {
-        iface.onLoadStart(args.bid, args.transition_type);
+      public org.apache.thrift.TBase getResult(I iface, LoadHandler_OnLoadStart_args args) throws org.apache.thrift.TException {
+        iface.LoadHandler_OnLoadStart(args.bid, args.transition_type);
         return null;
       }
     }
 
-    public static class onLoadEnd<I extends Iface> extends org.apache.thrift.ProcessFunction<I, onLoadEnd_args> {
-      public onLoadEnd() {
-        super("onLoadEnd");
+    public static class LoadHandler_OnLoadEnd<I extends Iface> extends org.apache.thrift.ProcessFunction<I, LoadHandler_OnLoadEnd_args> {
+      public LoadHandler_OnLoadEnd() {
+        super("LoadHandler_OnLoadEnd");
       }
 
-      public onLoadEnd_args getEmptyArgsInstance() {
-        return new onLoadEnd_args();
+      public LoadHandler_OnLoadEnd_args getEmptyArgsInstance() {
+        return new LoadHandler_OnLoadEnd_args();
       }
 
       protected boolean isOneway() {
@@ -2859,19 +3013,19 @@ public class ClientHandlers {
         return false;
       }
 
-      public org.apache.thrift.TBase getResult(I iface, onLoadEnd_args args) throws org.apache.thrift.TException {
-        iface.onLoadEnd(args.bid, args.httpStatusCode);
+      public org.apache.thrift.TBase getResult(I iface, LoadHandler_OnLoadEnd_args args) throws org.apache.thrift.TException {
+        iface.LoadHandler_OnLoadEnd(args.bid, args.httpStatusCode);
         return null;
       }
     }
 
-    public static class onLoadError<I extends Iface> extends org.apache.thrift.ProcessFunction<I, onLoadError_args> {
-      public onLoadError() {
-        super("onLoadError");
+    public static class LoadHandler_OnLoadError<I extends Iface> extends org.apache.thrift.ProcessFunction<I, LoadHandler_OnLoadError_args> {
+      public LoadHandler_OnLoadError() {
+        super("LoadHandler_OnLoadError");
       }
 
-      public onLoadError_args getEmptyArgsInstance() {
-        return new onLoadError_args();
+      public LoadHandler_OnLoadError_args getEmptyArgsInstance() {
+        return new LoadHandler_OnLoadError_args();
       }
 
       protected boolean isOneway() {
@@ -2883,19 +3037,19 @@ public class ClientHandlers {
         return false;
       }
 
-      public org.apache.thrift.TBase getResult(I iface, onLoadError_args args) throws org.apache.thrift.TException {
-        iface.onLoadError(args.bid, args.errorCode, args.errorText, args.failedUrl);
+      public org.apache.thrift.TBase getResult(I iface, LoadHandler_OnLoadError_args args) throws org.apache.thrift.TException {
+        iface.LoadHandler_OnLoadError(args.bid, args.errorCode, args.errorText, args.failedUrl);
         return null;
       }
     }
 
-    public static class onAddressChange<I extends Iface> extends org.apache.thrift.ProcessFunction<I, onAddressChange_args> {
-      public onAddressChange() {
-        super("onAddressChange");
+    public static class DisplayHandler_OnAddressChange<I extends Iface> extends org.apache.thrift.ProcessFunction<I, DisplayHandler_OnAddressChange_args> {
+      public DisplayHandler_OnAddressChange() {
+        super("DisplayHandler_OnAddressChange");
       }
 
-      public onAddressChange_args getEmptyArgsInstance() {
-        return new onAddressChange_args();
+      public DisplayHandler_OnAddressChange_args getEmptyArgsInstance() {
+        return new DisplayHandler_OnAddressChange_args();
       }
 
       protected boolean isOneway() {
@@ -2907,19 +3061,19 @@ public class ClientHandlers {
         return false;
       }
 
-      public org.apache.thrift.TBase getResult(I iface, onAddressChange_args args) throws org.apache.thrift.TException {
-        iface.onAddressChange(args.bid, args.url);
+      public org.apache.thrift.TBase getResult(I iface, DisplayHandler_OnAddressChange_args args) throws org.apache.thrift.TException {
+        iface.DisplayHandler_OnAddressChange(args.bid, args.url);
         return null;
       }
     }
 
-    public static class onTitleChange<I extends Iface> extends org.apache.thrift.ProcessFunction<I, onTitleChange_args> {
-      public onTitleChange() {
-        super("onTitleChange");
+    public static class DisplayHandler_OnTitleChange<I extends Iface> extends org.apache.thrift.ProcessFunction<I, DisplayHandler_OnTitleChange_args> {
+      public DisplayHandler_OnTitleChange() {
+        super("DisplayHandler_OnTitleChange");
       }
 
-      public onTitleChange_args getEmptyArgsInstance() {
-        return new onTitleChange_args();
+      public DisplayHandler_OnTitleChange_args getEmptyArgsInstance() {
+        return new DisplayHandler_OnTitleChange_args();
       }
 
       protected boolean isOneway() {
@@ -2931,19 +3085,19 @@ public class ClientHandlers {
         return false;
       }
 
-      public org.apache.thrift.TBase getResult(I iface, onTitleChange_args args) throws org.apache.thrift.TException {
-        iface.onTitleChange(args.bid, args.title);
+      public org.apache.thrift.TBase getResult(I iface, DisplayHandler_OnTitleChange_args args) throws org.apache.thrift.TException {
+        iface.DisplayHandler_OnTitleChange(args.bid, args.title);
         return null;
       }
     }
 
-    public static class onTooltip<I extends Iface> extends org.apache.thrift.ProcessFunction<I, onTooltip_args> {
-      public onTooltip() {
-        super("onTooltip");
+    public static class DisplayHandler_OnTooltip<I extends Iface> extends org.apache.thrift.ProcessFunction<I, DisplayHandler_OnTooltip_args> {
+      public DisplayHandler_OnTooltip() {
+        super("DisplayHandler_OnTooltip");
       }
 
-      public onTooltip_args getEmptyArgsInstance() {
-        return new onTooltip_args();
+      public DisplayHandler_OnTooltip_args getEmptyArgsInstance() {
+        return new DisplayHandler_OnTooltip_args();
       }
 
       protected boolean isOneway() {
@@ -2955,21 +3109,21 @@ public class ClientHandlers {
         return false;
       }
 
-      public onTooltip_result getResult(I iface, onTooltip_args args) throws org.apache.thrift.TException {
-        onTooltip_result result = new onTooltip_result();
-        result.success = iface.onTooltip(args.bid, args.text);
+      public DisplayHandler_OnTooltip_result getResult(I iface, DisplayHandler_OnTooltip_args args) throws org.apache.thrift.TException {
+        DisplayHandler_OnTooltip_result result = new DisplayHandler_OnTooltip_result();
+        result.success = iface.DisplayHandler_OnTooltip(args.bid, args.text);
         result.setSuccessIsSet(true);
         return result;
       }
     }
 
-    public static class onStatusMessage<I extends Iface> extends org.apache.thrift.ProcessFunction<I, onStatusMessage_args> {
-      public onStatusMessage() {
-        super("onStatusMessage");
+    public static class DisplayHandler_OnStatusMessage<I extends Iface> extends org.apache.thrift.ProcessFunction<I, DisplayHandler_OnStatusMessage_args> {
+      public DisplayHandler_OnStatusMessage() {
+        super("DisplayHandler_OnStatusMessage");
       }
 
-      public onStatusMessage_args getEmptyArgsInstance() {
-        return new onStatusMessage_args();
+      public DisplayHandler_OnStatusMessage_args getEmptyArgsInstance() {
+        return new DisplayHandler_OnStatusMessage_args();
       }
 
       protected boolean isOneway() {
@@ -2981,19 +3135,19 @@ public class ClientHandlers {
         return false;
       }
 
-      public org.apache.thrift.TBase getResult(I iface, onStatusMessage_args args) throws org.apache.thrift.TException {
-        iface.onStatusMessage(args.bid, args.value);
+      public org.apache.thrift.TBase getResult(I iface, DisplayHandler_OnStatusMessage_args args) throws org.apache.thrift.TException {
+        iface.DisplayHandler_OnStatusMessage(args.bid, args.value);
         return null;
       }
     }
 
-    public static class onConsoleMessage<I extends Iface> extends org.apache.thrift.ProcessFunction<I, onConsoleMessage_args> {
-      public onConsoleMessage() {
-        super("onConsoleMessage");
+    public static class DisplayHandler_OnConsoleMessage<I extends Iface> extends org.apache.thrift.ProcessFunction<I, DisplayHandler_OnConsoleMessage_args> {
+      public DisplayHandler_OnConsoleMessage() {
+        super("DisplayHandler_OnConsoleMessage");
       }
 
-      public onConsoleMessage_args getEmptyArgsInstance() {
-        return new onConsoleMessage_args();
+      public DisplayHandler_OnConsoleMessage_args getEmptyArgsInstance() {
+        return new DisplayHandler_OnConsoleMessage_args();
       }
 
       protected boolean isOneway() {
@@ -3005,9 +3159,9 @@ public class ClientHandlers {
         return false;
       }
 
-      public onConsoleMessage_result getResult(I iface, onConsoleMessage_args args) throws org.apache.thrift.TException {
-        onConsoleMessage_result result = new onConsoleMessage_result();
-        result.success = iface.onConsoleMessage(args.bid, args.level, args.message, args.source, args.line);
+      public DisplayHandler_OnConsoleMessage_result getResult(I iface, DisplayHandler_OnConsoleMessage_args args) throws org.apache.thrift.TException {
+        DisplayHandler_OnConsoleMessage_result result = new DisplayHandler_OnConsoleMessage_result();
+        result.success = iface.DisplayHandler_OnConsoleMessage(args.bid, args.level, args.message, args.source, args.line);
         result.setSuccessIsSet(true);
         return result;
       }
@@ -3427,7 +3581,7 @@ public class ClientHandlers {
       }
 
       protected boolean isOneway() {
-        return false;
+        return true;
       }
 
       @Override
@@ -3435,10 +3589,9 @@ public class ClientHandlers {
         return false;
       }
 
-      public ResourceRequestHandler_OnResourceLoadComplete_result getResult(I iface, ResourceRequestHandler_OnResourceLoadComplete_args args) throws org.apache.thrift.TException {
-        ResourceRequestHandler_OnResourceLoadComplete_result result = new ResourceRequestHandler_OnResourceLoadComplete_result();
+      public org.apache.thrift.TBase getResult(I iface, ResourceRequestHandler_OnResourceLoadComplete_args args) throws org.apache.thrift.TException {
         iface.ResourceRequestHandler_OnResourceLoadComplete(args.rrHandler, args.bid, args.request, args.response, args.status, args.receivedContentLength);
-        return result;
+        return null;
       }
     }
 
@@ -3504,7 +3657,7 @@ public class ClientHandlers {
       }
 
       protected boolean isOneway() {
-        return false;
+        return true;
       }
 
       @Override
@@ -3512,10 +3665,9 @@ public class ClientHandlers {
         return false;
       }
 
-      public MessageRouterHandler_onQueryCanceled_result getResult(I iface, MessageRouterHandler_onQueryCanceled_args args) throws org.apache.thrift.TException {
-        MessageRouterHandler_onQueryCanceled_result result = new MessageRouterHandler_onQueryCanceled_result();
+      public org.apache.thrift.TBase getResult(I iface, MessageRouterHandler_onQueryCanceled_args args) throws org.apache.thrift.TException {
         iface.MessageRouterHandler_onQueryCanceled(args.handler, args.bid, args.queryId);
-        return result;
+        return null;
       }
     }
 
@@ -3534,23 +3686,25 @@ public class ClientHandlers {
     private static <I extends AsyncIface> java.util.Map<java.lang.String,  org.apache.thrift.AsyncProcessFunction<I, ? extends  org.apache.thrift.TBase,?>> getProcessMap(java.util.Map<java.lang.String,  org.apache.thrift.AsyncProcessFunction<I, ? extends  org.apache.thrift.TBase, ?>> processMap) {
       processMap.put("connect", new connect());
       processMap.put("log", new log());
-      processMap.put("getRegisteredCustomSchemes", new getRegisteredCustomSchemes());
-      processMap.put("onContextInitialized", new onContextInitialized());
-      processMap.put("getInfo", new getInfo());
-      processMap.put("onPaint", new onPaint());
-      processMap.put("onBeforePopup", new onBeforePopup());
-      processMap.put("onAfterCreated", new onAfterCreated());
-      processMap.put("doClose", new doClose());
-      processMap.put("onBeforeClose", new onBeforeClose());
-      processMap.put("onLoadingStateChange", new onLoadingStateChange());
-      processMap.put("onLoadStart", new onLoadStart());
-      processMap.put("onLoadEnd", new onLoadEnd());
-      processMap.put("onLoadError", new onLoadError());
-      processMap.put("onAddressChange", new onAddressChange());
-      processMap.put("onTitleChange", new onTitleChange());
-      processMap.put("onTooltip", new onTooltip());
-      processMap.put("onStatusMessage", new onStatusMessage());
-      processMap.put("onConsoleMessage", new onConsoleMessage());
+      processMap.put("AppHandler_GetRegisteredCustomSchemes", new AppHandler_GetRegisteredCustomSchemes());
+      processMap.put("AppHandler_OnContextInitialized", new AppHandler_OnContextInitialized());
+      processMap.put("RenderHandler_GetViewRect", new RenderHandler_GetViewRect());
+      processMap.put("RenderHandler_GetScreenInfo", new RenderHandler_GetScreenInfo());
+      processMap.put("RenderHandler_GetScreenPoint", new RenderHandler_GetScreenPoint());
+      processMap.put("RenderHandler_OnPaint", new RenderHandler_OnPaint());
+      processMap.put("LifeSpanHandler_OnBeforePopup", new LifeSpanHandler_OnBeforePopup());
+      processMap.put("LifeSpanHandler_OnAfterCreated", new LifeSpanHandler_OnAfterCreated());
+      processMap.put("LifeSpanHandler_DoClose", new LifeSpanHandler_DoClose());
+      processMap.put("LifeSpanHandler_OnBeforeClose", new LifeSpanHandler_OnBeforeClose());
+      processMap.put("LoadHandler_OnLoadingStateChange", new LoadHandler_OnLoadingStateChange());
+      processMap.put("LoadHandler_OnLoadStart", new LoadHandler_OnLoadStart());
+      processMap.put("LoadHandler_OnLoadEnd", new LoadHandler_OnLoadEnd());
+      processMap.put("LoadHandler_OnLoadError", new LoadHandler_OnLoadError());
+      processMap.put("DisplayHandler_OnAddressChange", new DisplayHandler_OnAddressChange());
+      processMap.put("DisplayHandler_OnTitleChange", new DisplayHandler_OnTitleChange());
+      processMap.put("DisplayHandler_OnTooltip", new DisplayHandler_OnTooltip());
+      processMap.put("DisplayHandler_OnStatusMessage", new DisplayHandler_OnStatusMessage());
+      processMap.put("DisplayHandler_OnConsoleMessage", new DisplayHandler_OnConsoleMessage());
       processMap.put("RequestHandler_OnBeforeBrowse", new RequestHandler_OnBeforeBrowse());
       processMap.put("RequestHandler_OnOpenURLFromTab", new RequestHandler_OnOpenURLFromTab());
       processMap.put("RequestHandler_GetAuthCredentials", new RequestHandler_GetAuthCredentials());
@@ -3670,20 +3824,20 @@ public class ClientHandlers {
       }
     }
 
-    public static class getRegisteredCustomSchemes<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, getRegisteredCustomSchemes_args, java.util.List<CustomScheme>> {
-      public getRegisteredCustomSchemes() {
-        super("getRegisteredCustomSchemes");
+    public static class AppHandler_GetRegisteredCustomSchemes<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, AppHandler_GetRegisteredCustomSchemes_args, java.util.List<CustomScheme>> {
+      public AppHandler_GetRegisteredCustomSchemes() {
+        super("AppHandler_GetRegisteredCustomSchemes");
       }
 
-      public getRegisteredCustomSchemes_args getEmptyArgsInstance() {
-        return new getRegisteredCustomSchemes_args();
+      public AppHandler_GetRegisteredCustomSchemes_args getEmptyArgsInstance() {
+        return new AppHandler_GetRegisteredCustomSchemes_args();
       }
 
       public org.apache.thrift.async.AsyncMethodCallback<java.util.List<CustomScheme>> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
         final org.apache.thrift.AsyncProcessFunction fcall = this;
         return new org.apache.thrift.async.AsyncMethodCallback<java.util.List<CustomScheme>>() { 
           public void onComplete(java.util.List<CustomScheme> o) {
-            getRegisteredCustomSchemes_result result = new getRegisteredCustomSchemes_result();
+            AppHandler_GetRegisteredCustomSchemes_result result = new AppHandler_GetRegisteredCustomSchemes_result();
             result.success = o;
             try {
               fcall.sendResponse(fb, result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
@@ -3698,7 +3852,7 @@ public class ClientHandlers {
           public void onError(java.lang.Exception e) {
             byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
             org.apache.thrift.TSerializable msg;
-            getRegisteredCustomSchemes_result result = new getRegisteredCustomSchemes_result();
+            AppHandler_GetRegisteredCustomSchemes_result result = new AppHandler_GetRegisteredCustomSchemes_result();
             if (e instanceof org.apache.thrift.transport.TTransportException) {
               _LOGGER.error("TTransportException inside handler", e);
               fb.close();
@@ -3726,25 +3880,25 @@ public class ClientHandlers {
         return false;
       }
 
-      public void start(I iface, getRegisteredCustomSchemes_args args, org.apache.thrift.async.AsyncMethodCallback<java.util.List<CustomScheme>> resultHandler) throws org.apache.thrift.TException {
-        iface.getRegisteredCustomSchemes(resultHandler);
+      public void start(I iface, AppHandler_GetRegisteredCustomSchemes_args args, org.apache.thrift.async.AsyncMethodCallback<java.util.List<CustomScheme>> resultHandler) throws org.apache.thrift.TException {
+        iface.AppHandler_GetRegisteredCustomSchemes(resultHandler);
       }
     }
 
-    public static class onContextInitialized<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, onContextInitialized_args, Void> {
-      public onContextInitialized() {
-        super("onContextInitialized");
+    public static class AppHandler_OnContextInitialized<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, AppHandler_OnContextInitialized_args, Void> {
+      public AppHandler_OnContextInitialized() {
+        super("AppHandler_OnContextInitialized");
       }
 
-      public onContextInitialized_args getEmptyArgsInstance() {
-        return new onContextInitialized_args();
+      public AppHandler_OnContextInitialized_args getEmptyArgsInstance() {
+        return new AppHandler_OnContextInitialized_args();
       }
 
       public org.apache.thrift.async.AsyncMethodCallback<Void> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
         final org.apache.thrift.AsyncProcessFunction fcall = this;
         return new org.apache.thrift.async.AsyncMethodCallback<Void>() { 
           public void onComplete(Void o) {
-            onContextInitialized_result result = new onContextInitialized_result();
+            AppHandler_OnContextInitialized_result result = new AppHandler_OnContextInitialized_result();
             try {
               fcall.sendResponse(fb, result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
             } catch (org.apache.thrift.transport.TTransportException e) {
@@ -3758,7 +3912,7 @@ public class ClientHandlers {
           public void onError(java.lang.Exception e) {
             byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
             org.apache.thrift.TSerializable msg;
-            onContextInitialized_result result = new onContextInitialized_result();
+            AppHandler_OnContextInitialized_result result = new AppHandler_OnContextInitialized_result();
             if (e instanceof org.apache.thrift.transport.TTransportException) {
               _LOGGER.error("TTransportException inside handler", e);
               fb.close();
@@ -3786,25 +3940,25 @@ public class ClientHandlers {
         return false;
       }
 
-      public void start(I iface, onContextInitialized_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
-        iface.onContextInitialized(resultHandler);
+      public void start(I iface, AppHandler_OnContextInitialized_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+        iface.AppHandler_OnContextInitialized(resultHandler);
       }
     }
 
-    public static class getInfo<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, getInfo_args, java.nio.ByteBuffer> {
-      public getInfo() {
-        super("getInfo");
+    public static class RenderHandler_GetViewRect<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, RenderHandler_GetViewRect_args, Rect> {
+      public RenderHandler_GetViewRect() {
+        super("RenderHandler_GetViewRect");
       }
 
-      public getInfo_args getEmptyArgsInstance() {
-        return new getInfo_args();
+      public RenderHandler_GetViewRect_args getEmptyArgsInstance() {
+        return new RenderHandler_GetViewRect_args();
       }
 
-      public org.apache.thrift.async.AsyncMethodCallback<java.nio.ByteBuffer> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+      public org.apache.thrift.async.AsyncMethodCallback<Rect> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
         final org.apache.thrift.AsyncProcessFunction fcall = this;
-        return new org.apache.thrift.async.AsyncMethodCallback<java.nio.ByteBuffer>() { 
-          public void onComplete(java.nio.ByteBuffer o) {
-            getInfo_result result = new getInfo_result();
+        return new org.apache.thrift.async.AsyncMethodCallback<Rect>() { 
+          public void onComplete(Rect o) {
+            RenderHandler_GetViewRect_result result = new RenderHandler_GetViewRect_result();
             result.success = o;
             try {
               fcall.sendResponse(fb, result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
@@ -3819,7 +3973,7 @@ public class ClientHandlers {
           public void onError(java.lang.Exception e) {
             byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
             org.apache.thrift.TSerializable msg;
-            getInfo_result result = new getInfo_result();
+            RenderHandler_GetViewRect_result result = new RenderHandler_GetViewRect_result();
             if (e instanceof org.apache.thrift.transport.TTransportException) {
               _LOGGER.error("TTransportException inside handler", e);
               fb.close();
@@ -3847,25 +4001,26 @@ public class ClientHandlers {
         return false;
       }
 
-      public void start(I iface, getInfo_args args, org.apache.thrift.async.AsyncMethodCallback<java.nio.ByteBuffer> resultHandler) throws org.apache.thrift.TException {
-        iface.getInfo(args.bid, args.request, args.buffer,resultHandler);
+      public void start(I iface, RenderHandler_GetViewRect_args args, org.apache.thrift.async.AsyncMethodCallback<Rect> resultHandler) throws org.apache.thrift.TException {
+        iface.RenderHandler_GetViewRect(args.bid,resultHandler);
       }
     }
 
-    public static class onPaint<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, onPaint_args, Void> {
-      public onPaint() {
-        super("onPaint");
+    public static class RenderHandler_GetScreenInfo<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, RenderHandler_GetScreenInfo_args, ScreenInfo> {
+      public RenderHandler_GetScreenInfo() {
+        super("RenderHandler_GetScreenInfo");
       }
 
-      public onPaint_args getEmptyArgsInstance() {
-        return new onPaint_args();
+      public RenderHandler_GetScreenInfo_args getEmptyArgsInstance() {
+        return new RenderHandler_GetScreenInfo_args();
       }
 
-      public org.apache.thrift.async.AsyncMethodCallback<Void> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+      public org.apache.thrift.async.AsyncMethodCallback<ScreenInfo> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
         final org.apache.thrift.AsyncProcessFunction fcall = this;
-        return new org.apache.thrift.async.AsyncMethodCallback<Void>() { 
-          public void onComplete(Void o) {
-            onPaint_result result = new onPaint_result();
+        return new org.apache.thrift.async.AsyncMethodCallback<ScreenInfo>() { 
+          public void onComplete(ScreenInfo o) {
+            RenderHandler_GetScreenInfo_result result = new RenderHandler_GetScreenInfo_result();
+            result.success = o;
             try {
               fcall.sendResponse(fb, result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
             } catch (org.apache.thrift.transport.TTransportException e) {
@@ -3879,7 +4034,7 @@ public class ClientHandlers {
           public void onError(java.lang.Exception e) {
             byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
             org.apache.thrift.TSerializable msg;
-            onPaint_result result = new onPaint_result();
+            RenderHandler_GetScreenInfo_result result = new RenderHandler_GetScreenInfo_result();
             if (e instanceof org.apache.thrift.transport.TTransportException) {
               _LOGGER.error("TTransportException inside handler", e);
               fb.close();
@@ -3907,18 +4062,139 @@ public class ClientHandlers {
         return false;
       }
 
-      public void start(I iface, onPaint_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
-        iface.onPaint(args.bid, args.popup, args.dirtyRectsCount, args.sharedMemName, args.sharedMemHandle, args.recreateHandle, args.width, args.height,resultHandler);
+      public void start(I iface, RenderHandler_GetScreenInfo_args args, org.apache.thrift.async.AsyncMethodCallback<ScreenInfo> resultHandler) throws org.apache.thrift.TException {
+        iface.RenderHandler_GetScreenInfo(args.bid,resultHandler);
       }
     }
 
-    public static class onBeforePopup<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, onBeforePopup_args, Void> {
-      public onBeforePopup() {
-        super("onBeforePopup");
+    public static class RenderHandler_GetScreenPoint<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, RenderHandler_GetScreenPoint_args, Point> {
+      public RenderHandler_GetScreenPoint() {
+        super("RenderHandler_GetScreenPoint");
       }
 
-      public onBeforePopup_args getEmptyArgsInstance() {
-        return new onBeforePopup_args();
+      public RenderHandler_GetScreenPoint_args getEmptyArgsInstance() {
+        return new RenderHandler_GetScreenPoint_args();
+      }
+
+      public org.apache.thrift.async.AsyncMethodCallback<Point> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final org.apache.thrift.AsyncProcessFunction fcall = this;
+        return new org.apache.thrift.async.AsyncMethodCallback<Point>() { 
+          public void onComplete(Point o) {
+            RenderHandler_GetScreenPoint_result result = new RenderHandler_GetScreenPoint_result();
+            result.success = o;
+            try {
+              fcall.sendResponse(fb, result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (org.apache.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
+          }
+          public void onError(java.lang.Exception e) {
+            byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
+            org.apache.thrift.TSerializable msg;
+            RenderHandler_GetScreenPoint_result result = new RenderHandler_GetScreenPoint_result();
+            if (e instanceof org.apache.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+              return;
+            } else if (e instanceof org.apache.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (org.apache.thrift.TApplicationException)e;
+            } else {
+              _LOGGER.error("Exception inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
+            }
+          }
+        };
+      }
+
+      protected boolean isOneway() {
+        return false;
+      }
+
+      public void start(I iface, RenderHandler_GetScreenPoint_args args, org.apache.thrift.async.AsyncMethodCallback<Point> resultHandler) throws org.apache.thrift.TException {
+        iface.RenderHandler_GetScreenPoint(args.bid, args.viewX, args.viewY,resultHandler);
+      }
+    }
+
+    public static class RenderHandler_OnPaint<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, RenderHandler_OnPaint_args, Void> {
+      public RenderHandler_OnPaint() {
+        super("RenderHandler_OnPaint");
+      }
+
+      public RenderHandler_OnPaint_args getEmptyArgsInstance() {
+        return new RenderHandler_OnPaint_args();
+      }
+
+      public org.apache.thrift.async.AsyncMethodCallback<Void> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final org.apache.thrift.AsyncProcessFunction fcall = this;
+        return new org.apache.thrift.async.AsyncMethodCallback<Void>() { 
+          public void onComplete(Void o) {
+            RenderHandler_OnPaint_result result = new RenderHandler_OnPaint_result();
+            try {
+              fcall.sendResponse(fb, result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (org.apache.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
+          }
+          public void onError(java.lang.Exception e) {
+            byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
+            org.apache.thrift.TSerializable msg;
+            RenderHandler_OnPaint_result result = new RenderHandler_OnPaint_result();
+            if (e instanceof org.apache.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+              return;
+            } else if (e instanceof org.apache.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (org.apache.thrift.TApplicationException)e;
+            } else {
+              _LOGGER.error("Exception inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
+            }
+          }
+        };
+      }
+
+      protected boolean isOneway() {
+        return false;
+      }
+
+      public void start(I iface, RenderHandler_OnPaint_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+        iface.RenderHandler_OnPaint(args.bid, args.popup, args.dirtyRectsCount, args.sharedMemName, args.sharedMemHandle, args.recreateHandle, args.width, args.height,resultHandler);
+      }
+    }
+
+    public static class LifeSpanHandler_OnBeforePopup<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, LifeSpanHandler_OnBeforePopup_args, Void> {
+      public LifeSpanHandler_OnBeforePopup() {
+        super("LifeSpanHandler_OnBeforePopup");
+      }
+
+      public LifeSpanHandler_OnBeforePopup_args getEmptyArgsInstance() {
+        return new LifeSpanHandler_OnBeforePopup_args();
       }
 
       public org.apache.thrift.async.AsyncMethodCallback<Void> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
@@ -3941,18 +4217,18 @@ public class ClientHandlers {
         return true;
       }
 
-      public void start(I iface, onBeforePopup_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
-        iface.onBeforePopup(args.bid, args.url, args.frameName, args.gesture,resultHandler);
+      public void start(I iface, LifeSpanHandler_OnBeforePopup_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+        iface.LifeSpanHandler_OnBeforePopup(args.bid, args.url, args.frameName, args.gesture,resultHandler);
       }
     }
 
-    public static class onAfterCreated<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, onAfterCreated_args, Void> {
-      public onAfterCreated() {
-        super("onAfterCreated");
+    public static class LifeSpanHandler_OnAfterCreated<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, LifeSpanHandler_OnAfterCreated_args, Void> {
+      public LifeSpanHandler_OnAfterCreated() {
+        super("LifeSpanHandler_OnAfterCreated");
       }
 
-      public onAfterCreated_args getEmptyArgsInstance() {
-        return new onAfterCreated_args();
+      public LifeSpanHandler_OnAfterCreated_args getEmptyArgsInstance() {
+        return new LifeSpanHandler_OnAfterCreated_args();
       }
 
       public org.apache.thrift.async.AsyncMethodCallback<Void> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
@@ -3975,18 +4251,18 @@ public class ClientHandlers {
         return true;
       }
 
-      public void start(I iface, onAfterCreated_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
-        iface.onAfterCreated(args.bid,resultHandler);
+      public void start(I iface, LifeSpanHandler_OnAfterCreated_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+        iface.LifeSpanHandler_OnAfterCreated(args.bid,resultHandler);
       }
     }
 
-    public static class doClose<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, doClose_args, Void> {
-      public doClose() {
-        super("doClose");
+    public static class LifeSpanHandler_DoClose<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, LifeSpanHandler_DoClose_args, Void> {
+      public LifeSpanHandler_DoClose() {
+        super("LifeSpanHandler_DoClose");
       }
 
-      public doClose_args getEmptyArgsInstance() {
-        return new doClose_args();
+      public LifeSpanHandler_DoClose_args getEmptyArgsInstance() {
+        return new LifeSpanHandler_DoClose_args();
       }
 
       public org.apache.thrift.async.AsyncMethodCallback<Void> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
@@ -4009,18 +4285,18 @@ public class ClientHandlers {
         return true;
       }
 
-      public void start(I iface, doClose_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
-        iface.doClose(args.bid,resultHandler);
+      public void start(I iface, LifeSpanHandler_DoClose_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+        iface.LifeSpanHandler_DoClose(args.bid,resultHandler);
       }
     }
 
-    public static class onBeforeClose<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, onBeforeClose_args, Void> {
-      public onBeforeClose() {
-        super("onBeforeClose");
+    public static class LifeSpanHandler_OnBeforeClose<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, LifeSpanHandler_OnBeforeClose_args, Void> {
+      public LifeSpanHandler_OnBeforeClose() {
+        super("LifeSpanHandler_OnBeforeClose");
       }
 
-      public onBeforeClose_args getEmptyArgsInstance() {
-        return new onBeforeClose_args();
+      public LifeSpanHandler_OnBeforeClose_args getEmptyArgsInstance() {
+        return new LifeSpanHandler_OnBeforeClose_args();
       }
 
       public org.apache.thrift.async.AsyncMethodCallback<Void> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
@@ -4043,18 +4319,18 @@ public class ClientHandlers {
         return true;
       }
 
-      public void start(I iface, onBeforeClose_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
-        iface.onBeforeClose(args.bid,resultHandler);
+      public void start(I iface, LifeSpanHandler_OnBeforeClose_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+        iface.LifeSpanHandler_OnBeforeClose(args.bid,resultHandler);
       }
     }
 
-    public static class onLoadingStateChange<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, onLoadingStateChange_args, Void> {
-      public onLoadingStateChange() {
-        super("onLoadingStateChange");
+    public static class LoadHandler_OnLoadingStateChange<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, LoadHandler_OnLoadingStateChange_args, Void> {
+      public LoadHandler_OnLoadingStateChange() {
+        super("LoadHandler_OnLoadingStateChange");
       }
 
-      public onLoadingStateChange_args getEmptyArgsInstance() {
-        return new onLoadingStateChange_args();
+      public LoadHandler_OnLoadingStateChange_args getEmptyArgsInstance() {
+        return new LoadHandler_OnLoadingStateChange_args();
       }
 
       public org.apache.thrift.async.AsyncMethodCallback<Void> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
@@ -4077,18 +4353,18 @@ public class ClientHandlers {
         return true;
       }
 
-      public void start(I iface, onLoadingStateChange_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
-        iface.onLoadingStateChange(args.bid, args.isLoading, args.canGoBack, args.canGoForward,resultHandler);
+      public void start(I iface, LoadHandler_OnLoadingStateChange_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+        iface.LoadHandler_OnLoadingStateChange(args.bid, args.isLoading, args.canGoBack, args.canGoForward,resultHandler);
       }
     }
 
-    public static class onLoadStart<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, onLoadStart_args, Void> {
-      public onLoadStart() {
-        super("onLoadStart");
+    public static class LoadHandler_OnLoadStart<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, LoadHandler_OnLoadStart_args, Void> {
+      public LoadHandler_OnLoadStart() {
+        super("LoadHandler_OnLoadStart");
       }
 
-      public onLoadStart_args getEmptyArgsInstance() {
-        return new onLoadStart_args();
+      public LoadHandler_OnLoadStart_args getEmptyArgsInstance() {
+        return new LoadHandler_OnLoadStart_args();
       }
 
       public org.apache.thrift.async.AsyncMethodCallback<Void> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
@@ -4111,18 +4387,18 @@ public class ClientHandlers {
         return true;
       }
 
-      public void start(I iface, onLoadStart_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
-        iface.onLoadStart(args.bid, args.transition_type,resultHandler);
+      public void start(I iface, LoadHandler_OnLoadStart_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+        iface.LoadHandler_OnLoadStart(args.bid, args.transition_type,resultHandler);
       }
     }
 
-    public static class onLoadEnd<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, onLoadEnd_args, Void> {
-      public onLoadEnd() {
-        super("onLoadEnd");
+    public static class LoadHandler_OnLoadEnd<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, LoadHandler_OnLoadEnd_args, Void> {
+      public LoadHandler_OnLoadEnd() {
+        super("LoadHandler_OnLoadEnd");
       }
 
-      public onLoadEnd_args getEmptyArgsInstance() {
-        return new onLoadEnd_args();
+      public LoadHandler_OnLoadEnd_args getEmptyArgsInstance() {
+        return new LoadHandler_OnLoadEnd_args();
       }
 
       public org.apache.thrift.async.AsyncMethodCallback<Void> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
@@ -4145,18 +4421,18 @@ public class ClientHandlers {
         return true;
       }
 
-      public void start(I iface, onLoadEnd_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
-        iface.onLoadEnd(args.bid, args.httpStatusCode,resultHandler);
+      public void start(I iface, LoadHandler_OnLoadEnd_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+        iface.LoadHandler_OnLoadEnd(args.bid, args.httpStatusCode,resultHandler);
       }
     }
 
-    public static class onLoadError<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, onLoadError_args, Void> {
-      public onLoadError() {
-        super("onLoadError");
+    public static class LoadHandler_OnLoadError<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, LoadHandler_OnLoadError_args, Void> {
+      public LoadHandler_OnLoadError() {
+        super("LoadHandler_OnLoadError");
       }
 
-      public onLoadError_args getEmptyArgsInstance() {
-        return new onLoadError_args();
+      public LoadHandler_OnLoadError_args getEmptyArgsInstance() {
+        return new LoadHandler_OnLoadError_args();
       }
 
       public org.apache.thrift.async.AsyncMethodCallback<Void> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
@@ -4179,18 +4455,18 @@ public class ClientHandlers {
         return true;
       }
 
-      public void start(I iface, onLoadError_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
-        iface.onLoadError(args.bid, args.errorCode, args.errorText, args.failedUrl,resultHandler);
+      public void start(I iface, LoadHandler_OnLoadError_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+        iface.LoadHandler_OnLoadError(args.bid, args.errorCode, args.errorText, args.failedUrl,resultHandler);
       }
     }
 
-    public static class onAddressChange<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, onAddressChange_args, Void> {
-      public onAddressChange() {
-        super("onAddressChange");
+    public static class DisplayHandler_OnAddressChange<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, DisplayHandler_OnAddressChange_args, Void> {
+      public DisplayHandler_OnAddressChange() {
+        super("DisplayHandler_OnAddressChange");
       }
 
-      public onAddressChange_args getEmptyArgsInstance() {
-        return new onAddressChange_args();
+      public DisplayHandler_OnAddressChange_args getEmptyArgsInstance() {
+        return new DisplayHandler_OnAddressChange_args();
       }
 
       public org.apache.thrift.async.AsyncMethodCallback<Void> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
@@ -4213,18 +4489,18 @@ public class ClientHandlers {
         return true;
       }
 
-      public void start(I iface, onAddressChange_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
-        iface.onAddressChange(args.bid, args.url,resultHandler);
+      public void start(I iface, DisplayHandler_OnAddressChange_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+        iface.DisplayHandler_OnAddressChange(args.bid, args.url,resultHandler);
       }
     }
 
-    public static class onTitleChange<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, onTitleChange_args, Void> {
-      public onTitleChange() {
-        super("onTitleChange");
+    public static class DisplayHandler_OnTitleChange<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, DisplayHandler_OnTitleChange_args, Void> {
+      public DisplayHandler_OnTitleChange() {
+        super("DisplayHandler_OnTitleChange");
       }
 
-      public onTitleChange_args getEmptyArgsInstance() {
-        return new onTitleChange_args();
+      public DisplayHandler_OnTitleChange_args getEmptyArgsInstance() {
+        return new DisplayHandler_OnTitleChange_args();
       }
 
       public org.apache.thrift.async.AsyncMethodCallback<Void> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
@@ -4247,25 +4523,25 @@ public class ClientHandlers {
         return true;
       }
 
-      public void start(I iface, onTitleChange_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
-        iface.onTitleChange(args.bid, args.title,resultHandler);
+      public void start(I iface, DisplayHandler_OnTitleChange_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+        iface.DisplayHandler_OnTitleChange(args.bid, args.title,resultHandler);
       }
     }
 
-    public static class onTooltip<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, onTooltip_args, java.lang.Boolean> {
-      public onTooltip() {
-        super("onTooltip");
+    public static class DisplayHandler_OnTooltip<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, DisplayHandler_OnTooltip_args, java.lang.Boolean> {
+      public DisplayHandler_OnTooltip() {
+        super("DisplayHandler_OnTooltip");
       }
 
-      public onTooltip_args getEmptyArgsInstance() {
-        return new onTooltip_args();
+      public DisplayHandler_OnTooltip_args getEmptyArgsInstance() {
+        return new DisplayHandler_OnTooltip_args();
       }
 
       public org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
         final org.apache.thrift.AsyncProcessFunction fcall = this;
         return new org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean>() { 
           public void onComplete(java.lang.Boolean o) {
-            onTooltip_result result = new onTooltip_result();
+            DisplayHandler_OnTooltip_result result = new DisplayHandler_OnTooltip_result();
             result.success = o;
             result.setSuccessIsSet(true);
             try {
@@ -4281,7 +4557,7 @@ public class ClientHandlers {
           public void onError(java.lang.Exception e) {
             byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
             org.apache.thrift.TSerializable msg;
-            onTooltip_result result = new onTooltip_result();
+            DisplayHandler_OnTooltip_result result = new DisplayHandler_OnTooltip_result();
             if (e instanceof org.apache.thrift.transport.TTransportException) {
               _LOGGER.error("TTransportException inside handler", e);
               fb.close();
@@ -4309,18 +4585,18 @@ public class ClientHandlers {
         return false;
       }
 
-      public void start(I iface, onTooltip_args args, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
-        iface.onTooltip(args.bid, args.text,resultHandler);
+      public void start(I iface, DisplayHandler_OnTooltip_args args, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
+        iface.DisplayHandler_OnTooltip(args.bid, args.text,resultHandler);
       }
     }
 
-    public static class onStatusMessage<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, onStatusMessage_args, Void> {
-      public onStatusMessage() {
-        super("onStatusMessage");
+    public static class DisplayHandler_OnStatusMessage<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, DisplayHandler_OnStatusMessage_args, Void> {
+      public DisplayHandler_OnStatusMessage() {
+        super("DisplayHandler_OnStatusMessage");
       }
 
-      public onStatusMessage_args getEmptyArgsInstance() {
-        return new onStatusMessage_args();
+      public DisplayHandler_OnStatusMessage_args getEmptyArgsInstance() {
+        return new DisplayHandler_OnStatusMessage_args();
       }
 
       public org.apache.thrift.async.AsyncMethodCallback<Void> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
@@ -4343,25 +4619,25 @@ public class ClientHandlers {
         return true;
       }
 
-      public void start(I iface, onStatusMessage_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
-        iface.onStatusMessage(args.bid, args.value,resultHandler);
+      public void start(I iface, DisplayHandler_OnStatusMessage_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+        iface.DisplayHandler_OnStatusMessage(args.bid, args.value,resultHandler);
       }
     }
 
-    public static class onConsoleMessage<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, onConsoleMessage_args, java.lang.Boolean> {
-      public onConsoleMessage() {
-        super("onConsoleMessage");
+    public static class DisplayHandler_OnConsoleMessage<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, DisplayHandler_OnConsoleMessage_args, java.lang.Boolean> {
+      public DisplayHandler_OnConsoleMessage() {
+        super("DisplayHandler_OnConsoleMessage");
       }
 
-      public onConsoleMessage_args getEmptyArgsInstance() {
-        return new onConsoleMessage_args();
+      public DisplayHandler_OnConsoleMessage_args getEmptyArgsInstance() {
+        return new DisplayHandler_OnConsoleMessage_args();
       }
 
       public org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
         final org.apache.thrift.AsyncProcessFunction fcall = this;
         return new org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean>() { 
           public void onComplete(java.lang.Boolean o) {
-            onConsoleMessage_result result = new onConsoleMessage_result();
+            DisplayHandler_OnConsoleMessage_result result = new DisplayHandler_OnConsoleMessage_result();
             result.success = o;
             result.setSuccessIsSet(true);
             try {
@@ -4377,7 +4653,7 @@ public class ClientHandlers {
           public void onError(java.lang.Exception e) {
             byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
             org.apache.thrift.TSerializable msg;
-            onConsoleMessage_result result = new onConsoleMessage_result();
+            DisplayHandler_OnConsoleMessage_result result = new DisplayHandler_OnConsoleMessage_result();
             if (e instanceof org.apache.thrift.transport.TTransportException) {
               _LOGGER.error("TTransportException inside handler", e);
               fb.close();
@@ -4405,8 +4681,8 @@ public class ClientHandlers {
         return false;
       }
 
-      public void start(I iface, onConsoleMessage_args args, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
-        iface.onConsoleMessage(args.bid, args.level, args.message, args.source, args.line,resultHandler);
+      public void start(I iface, DisplayHandler_OnConsoleMessage_args args, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
+        iface.DisplayHandler_OnConsoleMessage(args.bid, args.level, args.message, args.source, args.line,resultHandler);
       }
     }
 
@@ -5299,46 +5575,20 @@ public class ClientHandlers {
         final org.apache.thrift.AsyncProcessFunction fcall = this;
         return new org.apache.thrift.async.AsyncMethodCallback<Void>() { 
           public void onComplete(Void o) {
-            ResourceRequestHandler_OnResourceLoadComplete_result result = new ResourceRequestHandler_OnResourceLoadComplete_result();
-            try {
-              fcall.sendResponse(fb, result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
-            } catch (org.apache.thrift.transport.TTransportException e) {
-              _LOGGER.error("TTransportException writing to internal frame buffer", e);
-              fb.close();
-            } catch (java.lang.Exception e) {
-              _LOGGER.error("Exception writing to internal frame buffer", e);
-              onError(e);
-            }
           }
           public void onError(java.lang.Exception e) {
-            byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
-            org.apache.thrift.TSerializable msg;
-            ResourceRequestHandler_OnResourceLoadComplete_result result = new ResourceRequestHandler_OnResourceLoadComplete_result();
             if (e instanceof org.apache.thrift.transport.TTransportException) {
               _LOGGER.error("TTransportException inside handler", e);
               fb.close();
-              return;
-            } else if (e instanceof org.apache.thrift.TApplicationException) {
-              _LOGGER.error("TApplicationException inside handler", e);
-              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
-              msg = (org.apache.thrift.TApplicationException)e;
             } else {
-              _LOGGER.error("Exception inside handler", e);
-              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
-              msg = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
-            }
-            try {
-              fcall.sendResponse(fb,msg,msgType,seqid);
-            } catch (java.lang.Exception ex) {
-              _LOGGER.error("Exception writing to internal frame buffer", ex);
-              fb.close();
+              _LOGGER.error("Exception inside oneway handler", e);
             }
           }
         };
       }
 
       protected boolean isOneway() {
-        return false;
+        return true;
       }
 
       public void start(I iface, ResourceRequestHandler_OnResourceLoadComplete_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
@@ -5483,46 +5733,20 @@ public class ClientHandlers {
         final org.apache.thrift.AsyncProcessFunction fcall = this;
         return new org.apache.thrift.async.AsyncMethodCallback<Void>() { 
           public void onComplete(Void o) {
-            MessageRouterHandler_onQueryCanceled_result result = new MessageRouterHandler_onQueryCanceled_result();
-            try {
-              fcall.sendResponse(fb, result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
-            } catch (org.apache.thrift.transport.TTransportException e) {
-              _LOGGER.error("TTransportException writing to internal frame buffer", e);
-              fb.close();
-            } catch (java.lang.Exception e) {
-              _LOGGER.error("Exception writing to internal frame buffer", e);
-              onError(e);
-            }
           }
           public void onError(java.lang.Exception e) {
-            byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
-            org.apache.thrift.TSerializable msg;
-            MessageRouterHandler_onQueryCanceled_result result = new MessageRouterHandler_onQueryCanceled_result();
             if (e instanceof org.apache.thrift.transport.TTransportException) {
               _LOGGER.error("TTransportException inside handler", e);
               fb.close();
-              return;
-            } else if (e instanceof org.apache.thrift.TApplicationException) {
-              _LOGGER.error("TApplicationException inside handler", e);
-              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
-              msg = (org.apache.thrift.TApplicationException)e;
             } else {
-              _LOGGER.error("Exception inside handler", e);
-              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
-              msg = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
-            }
-            try {
-              fcall.sendResponse(fb,msg,msgType,seqid);
-            } catch (java.lang.Exception ex) {
-              _LOGGER.error("Exception writing to internal frame buffer", ex);
-              fb.close();
+              _LOGGER.error("Exception inside oneway handler", e);
             }
           }
         };
       }
 
       protected boolean isOneway() {
-        return false;
+        return true;
       }
 
       public void start(I iface, MessageRouterHandler_onQueryCanceled_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
@@ -6511,12 +6735,12 @@ public class ClientHandlers {
     }
   }
 
-  public static class getRegisteredCustomSchemes_args implements org.apache.thrift.TBase<getRegisteredCustomSchemes_args, getRegisteredCustomSchemes_args._Fields>, java.io.Serializable, Cloneable, Comparable<getRegisteredCustomSchemes_args>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getRegisteredCustomSchemes_args");
+  public static class AppHandler_GetRegisteredCustomSchemes_args implements org.apache.thrift.TBase<AppHandler_GetRegisteredCustomSchemes_args, AppHandler_GetRegisteredCustomSchemes_args._Fields>, java.io.Serializable, Cloneable, Comparable<AppHandler_GetRegisteredCustomSchemes_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("AppHandler_GetRegisteredCustomSchemes_args");
 
 
-    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new getRegisteredCustomSchemes_argsStandardSchemeFactory();
-    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new getRegisteredCustomSchemes_argsTupleSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new AppHandler_GetRegisteredCustomSchemes_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new AppHandler_GetRegisteredCustomSchemes_argsTupleSchemeFactory();
 
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -6580,20 +6804,20 @@ public class ClientHandlers {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getRegisteredCustomSchemes_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(AppHandler_GetRegisteredCustomSchemes_args.class, metaDataMap);
     }
 
-    public getRegisteredCustomSchemes_args() {
+    public AppHandler_GetRegisteredCustomSchemes_args() {
     }
 
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public getRegisteredCustomSchemes_args(getRegisteredCustomSchemes_args other) {
+    public AppHandler_GetRegisteredCustomSchemes_args(AppHandler_GetRegisteredCustomSchemes_args other) {
     }
 
-    public getRegisteredCustomSchemes_args deepCopy() {
-      return new getRegisteredCustomSchemes_args(this);
+    public AppHandler_GetRegisteredCustomSchemes_args deepCopy() {
+      return new AppHandler_GetRegisteredCustomSchemes_args(this);
     }
 
     @Override
@@ -6625,12 +6849,12 @@ public class ClientHandlers {
 
     @Override
     public boolean equals(java.lang.Object that) {
-      if (that instanceof getRegisteredCustomSchemes_args)
-        return this.equals((getRegisteredCustomSchemes_args)that);
+      if (that instanceof AppHandler_GetRegisteredCustomSchemes_args)
+        return this.equals((AppHandler_GetRegisteredCustomSchemes_args)that);
       return false;
     }
 
-    public boolean equals(getRegisteredCustomSchemes_args that) {
+    public boolean equals(AppHandler_GetRegisteredCustomSchemes_args that) {
       if (that == null)
         return false;
       if (this == that)
@@ -6647,7 +6871,7 @@ public class ClientHandlers {
     }
 
     @Override
-    public int compareTo(getRegisteredCustomSchemes_args other) {
+    public int compareTo(AppHandler_GetRegisteredCustomSchemes_args other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
@@ -6672,7 +6896,7 @@ public class ClientHandlers {
 
     @Override
     public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("getRegisteredCustomSchemes_args(");
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("AppHandler_GetRegisteredCustomSchemes_args(");
       boolean first = true;
 
       sb.append(")");
@@ -6700,15 +6924,15 @@ public class ClientHandlers {
       }
     }
 
-    private static class getRegisteredCustomSchemes_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public getRegisteredCustomSchemes_argsStandardScheme getScheme() {
-        return new getRegisteredCustomSchemes_argsStandardScheme();
+    private static class AppHandler_GetRegisteredCustomSchemes_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public AppHandler_GetRegisteredCustomSchemes_argsStandardScheme getScheme() {
+        return new AppHandler_GetRegisteredCustomSchemes_argsStandardScheme();
       }
     }
 
-    private static class getRegisteredCustomSchemes_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<getRegisteredCustomSchemes_args> {
+    private static class AppHandler_GetRegisteredCustomSchemes_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<AppHandler_GetRegisteredCustomSchemes_args> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, getRegisteredCustomSchemes_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, AppHandler_GetRegisteredCustomSchemes_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -6729,7 +6953,7 @@ public class ClientHandlers {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, getRegisteredCustomSchemes_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, AppHandler_GetRegisteredCustomSchemes_args struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -6739,21 +6963,21 @@ public class ClientHandlers {
 
     }
 
-    private static class getRegisteredCustomSchemes_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public getRegisteredCustomSchemes_argsTupleScheme getScheme() {
-        return new getRegisteredCustomSchemes_argsTupleScheme();
+    private static class AppHandler_GetRegisteredCustomSchemes_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public AppHandler_GetRegisteredCustomSchemes_argsTupleScheme getScheme() {
+        return new AppHandler_GetRegisteredCustomSchemes_argsTupleScheme();
       }
     }
 
-    private static class getRegisteredCustomSchemes_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<getRegisteredCustomSchemes_args> {
+    private static class AppHandler_GetRegisteredCustomSchemes_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<AppHandler_GetRegisteredCustomSchemes_args> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, getRegisteredCustomSchemes_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, AppHandler_GetRegisteredCustomSchemes_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, getRegisteredCustomSchemes_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, AppHandler_GetRegisteredCustomSchemes_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
       }
     }
@@ -6763,13 +6987,13 @@ public class ClientHandlers {
     }
   }
 
-  public static class getRegisteredCustomSchemes_result implements org.apache.thrift.TBase<getRegisteredCustomSchemes_result, getRegisteredCustomSchemes_result._Fields>, java.io.Serializable, Cloneable, Comparable<getRegisteredCustomSchemes_result>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getRegisteredCustomSchemes_result");
+  public static class AppHandler_GetRegisteredCustomSchemes_result implements org.apache.thrift.TBase<AppHandler_GetRegisteredCustomSchemes_result, AppHandler_GetRegisteredCustomSchemes_result._Fields>, java.io.Serializable, Cloneable, Comparable<AppHandler_GetRegisteredCustomSchemes_result>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("AppHandler_GetRegisteredCustomSchemes_result");
 
     private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.LIST, (short)0);
 
-    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new getRegisteredCustomSchemes_resultStandardSchemeFactory();
-    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new getRegisteredCustomSchemes_resultTupleSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new AppHandler_GetRegisteredCustomSchemes_resultStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new AppHandler_GetRegisteredCustomSchemes_resultTupleSchemeFactory();
 
     public @org.apache.thrift.annotation.Nullable java.util.List<CustomScheme> success; // required
 
@@ -6841,13 +7065,13 @@ public class ClientHandlers {
           new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
               new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, CustomScheme.class))));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getRegisteredCustomSchemes_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(AppHandler_GetRegisteredCustomSchemes_result.class, metaDataMap);
     }
 
-    public getRegisteredCustomSchemes_result() {
+    public AppHandler_GetRegisteredCustomSchemes_result() {
     }
 
-    public getRegisteredCustomSchemes_result(
+    public AppHandler_GetRegisteredCustomSchemes_result(
       java.util.List<CustomScheme> success)
     {
       this();
@@ -6857,7 +7081,7 @@ public class ClientHandlers {
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public getRegisteredCustomSchemes_result(getRegisteredCustomSchemes_result other) {
+    public AppHandler_GetRegisteredCustomSchemes_result(AppHandler_GetRegisteredCustomSchemes_result other) {
       if (other.isSetSuccess()) {
         java.util.List<CustomScheme> __this__success = new java.util.ArrayList<CustomScheme>(other.success.size());
         for (CustomScheme other_element : other.success) {
@@ -6867,8 +7091,8 @@ public class ClientHandlers {
       }
     }
 
-    public getRegisteredCustomSchemes_result deepCopy() {
-      return new getRegisteredCustomSchemes_result(this);
+    public AppHandler_GetRegisteredCustomSchemes_result deepCopy() {
+      return new AppHandler_GetRegisteredCustomSchemes_result(this);
     }
 
     @Override
@@ -6897,7 +7121,7 @@ public class ClientHandlers {
       return this.success;
     }
 
-    public getRegisteredCustomSchemes_result setSuccess(@org.apache.thrift.annotation.Nullable java.util.List<CustomScheme> success) {
+    public AppHandler_GetRegisteredCustomSchemes_result setSuccess(@org.apache.thrift.annotation.Nullable java.util.List<CustomScheme> success) {
       this.success = success;
       return this;
     }
@@ -6955,12 +7179,12 @@ public class ClientHandlers {
 
     @Override
     public boolean equals(java.lang.Object that) {
-      if (that instanceof getRegisteredCustomSchemes_result)
-        return this.equals((getRegisteredCustomSchemes_result)that);
+      if (that instanceof AppHandler_GetRegisteredCustomSchemes_result)
+        return this.equals((AppHandler_GetRegisteredCustomSchemes_result)that);
       return false;
     }
 
-    public boolean equals(getRegisteredCustomSchemes_result that) {
+    public boolean equals(AppHandler_GetRegisteredCustomSchemes_result that) {
       if (that == null)
         return false;
       if (this == that)
@@ -6990,7 +7214,7 @@ public class ClientHandlers {
     }
 
     @Override
-    public int compareTo(getRegisteredCustomSchemes_result other) {
+    public int compareTo(AppHandler_GetRegisteredCustomSchemes_result other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
@@ -7025,7 +7249,7 @@ public class ClientHandlers {
 
     @Override
     public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("getRegisteredCustomSchemes_result(");
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("AppHandler_GetRegisteredCustomSchemes_result(");
       boolean first = true;
 
       sb.append("success:");
@@ -7060,15 +7284,15 @@ public class ClientHandlers {
       }
     }
 
-    private static class getRegisteredCustomSchemes_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public getRegisteredCustomSchemes_resultStandardScheme getScheme() {
-        return new getRegisteredCustomSchemes_resultStandardScheme();
+    private static class AppHandler_GetRegisteredCustomSchemes_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public AppHandler_GetRegisteredCustomSchemes_resultStandardScheme getScheme() {
+        return new AppHandler_GetRegisteredCustomSchemes_resultStandardScheme();
       }
     }
 
-    private static class getRegisteredCustomSchemes_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<getRegisteredCustomSchemes_result> {
+    private static class AppHandler_GetRegisteredCustomSchemes_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<AppHandler_GetRegisteredCustomSchemes_result> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, getRegisteredCustomSchemes_result struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, AppHandler_GetRegisteredCustomSchemes_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -7108,7 +7332,7 @@ public class ClientHandlers {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, getRegisteredCustomSchemes_result struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, AppHandler_GetRegisteredCustomSchemes_result struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -7130,16 +7354,16 @@ public class ClientHandlers {
 
     }
 
-    private static class getRegisteredCustomSchemes_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public getRegisteredCustomSchemes_resultTupleScheme getScheme() {
-        return new getRegisteredCustomSchemes_resultTupleScheme();
+    private static class AppHandler_GetRegisteredCustomSchemes_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public AppHandler_GetRegisteredCustomSchemes_resultTupleScheme getScheme() {
+        return new AppHandler_GetRegisteredCustomSchemes_resultTupleScheme();
       }
     }
 
-    private static class getRegisteredCustomSchemes_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<getRegisteredCustomSchemes_result> {
+    private static class AppHandler_GetRegisteredCustomSchemes_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<AppHandler_GetRegisteredCustomSchemes_result> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, getRegisteredCustomSchemes_result struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, AppHandler_GetRegisteredCustomSchemes_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet optionals = new java.util.BitSet();
         if (struct.isSetSuccess()) {
@@ -7158,7 +7382,7 @@ public class ClientHandlers {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, getRegisteredCustomSchemes_result struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, AppHandler_GetRegisteredCustomSchemes_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
@@ -7183,264 +7407,12 @@ public class ClientHandlers {
     }
   }
 
-  public static class onContextInitialized_args implements org.apache.thrift.TBase<onContextInitialized_args, onContextInitialized_args._Fields>, java.io.Serializable, Cloneable, Comparable<onContextInitialized_args>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("onContextInitialized_args");
+  public static class AppHandler_OnContextInitialized_args implements org.apache.thrift.TBase<AppHandler_OnContextInitialized_args, AppHandler_OnContextInitialized_args._Fields>, java.io.Serializable, Cloneable, Comparable<AppHandler_OnContextInitialized_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("AppHandler_OnContextInitialized_args");
 
 
-    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new onContextInitialized_argsStandardSchemeFactory();
-    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new onContextInitialized_argsTupleSchemeFactory();
-
-
-    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-;
-
-      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
-
-      static {
-        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
-          byName.put(field.getFieldName(), field);
-        }
-      }
-
-      /**
-       * Find the _Fields constant that matches fieldId, or null if its not found.
-       */
-      @org.apache.thrift.annotation.Nullable
-      public static _Fields findByThriftId(int fieldId) {
-        switch(fieldId) {
-          default:
-            return null;
-        }
-      }
-
-      /**
-       * Find the _Fields constant that matches fieldId, throwing an exception
-       * if it is not found.
-       */
-      public static _Fields findByThriftIdOrThrow(int fieldId) {
-        _Fields fields = findByThriftId(fieldId);
-        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
-        return fields;
-      }
-
-      /**
-       * Find the _Fields constant that matches name, or null if its not found.
-       */
-      @org.apache.thrift.annotation.Nullable
-      public static _Fields findByName(java.lang.String name) {
-        return byName.get(name);
-      }
-
-      private final short _thriftId;
-      private final java.lang.String _fieldName;
-
-      _Fields(short thriftId, java.lang.String fieldName) {
-        _thriftId = thriftId;
-        _fieldName = fieldName;
-      }
-
-      public short getThriftFieldId() {
-        return _thriftId;
-      }
-
-      public java.lang.String getFieldName() {
-        return _fieldName;
-      }
-    }
-    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
-    static {
-      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(onContextInitialized_args.class, metaDataMap);
-    }
-
-    public onContextInitialized_args() {
-    }
-
-    /**
-     * Performs a deep copy on <i>other</i>.
-     */
-    public onContextInitialized_args(onContextInitialized_args other) {
-    }
-
-    public onContextInitialized_args deepCopy() {
-      return new onContextInitialized_args(this);
-    }
-
-    @Override
-    public void clear() {
-    }
-
-    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
-      switch (field) {
-      }
-    }
-
-    @org.apache.thrift.annotation.Nullable
-    public java.lang.Object getFieldValue(_Fields field) {
-      switch (field) {
-      }
-      throw new java.lang.IllegalStateException();
-    }
-
-    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
-    public boolean isSet(_Fields field) {
-      if (field == null) {
-        throw new java.lang.IllegalArgumentException();
-      }
-
-      switch (field) {
-      }
-      throw new java.lang.IllegalStateException();
-    }
-
-    @Override
-    public boolean equals(java.lang.Object that) {
-      if (that instanceof onContextInitialized_args)
-        return this.equals((onContextInitialized_args)that);
-      return false;
-    }
-
-    public boolean equals(onContextInitialized_args that) {
-      if (that == null)
-        return false;
-      if (this == that)
-        return true;
-
-      return true;
-    }
-
-    @Override
-    public int hashCode() {
-      int hashCode = 1;
-
-      return hashCode;
-    }
-
-    @Override
-    public int compareTo(onContextInitialized_args other) {
-      if (!getClass().equals(other.getClass())) {
-        return getClass().getName().compareTo(other.getClass().getName());
-      }
-
-      int lastComparison = 0;
-
-      return 0;
-    }
-
-    @org.apache.thrift.annotation.Nullable
-    public _Fields fieldForId(int fieldId) {
-      return _Fields.findByThriftId(fieldId);
-    }
-
-    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-      scheme(iprot).read(iprot, this);
-    }
-
-    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-      scheme(oprot).write(oprot, this);
-    }
-
-    @Override
-    public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("onContextInitialized_args(");
-      boolean first = true;
-
-      sb.append(")");
-      return sb.toString();
-    }
-
-    public void validate() throws org.apache.thrift.TException {
-      // check for required fields
-      // check for sub-struct validity
-    }
-
-    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
-      try {
-        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-      } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te);
-      }
-    }
-
-    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
-      try {
-        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-      } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te);
-      }
-    }
-
-    private static class onContextInitialized_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onContextInitialized_argsStandardScheme getScheme() {
-        return new onContextInitialized_argsStandardScheme();
-      }
-    }
-
-    private static class onContextInitialized_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<onContextInitialized_args> {
-
-      public void read(org.apache.thrift.protocol.TProtocol iprot, onContextInitialized_args struct) throws org.apache.thrift.TException {
-        org.apache.thrift.protocol.TField schemeField;
-        iprot.readStructBegin();
-        while (true)
-        {
-          schemeField = iprot.readFieldBegin();
-          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
-            break;
-          }
-          switch (schemeField.id) {
-            default:
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-          }
-          iprot.readFieldEnd();
-        }
-        iprot.readStructEnd();
-
-        // check for required fields of primitive type, which can't be checked in the validate method
-        struct.validate();
-      }
-
-      public void write(org.apache.thrift.protocol.TProtocol oprot, onContextInitialized_args struct) throws org.apache.thrift.TException {
-        struct.validate();
-
-        oprot.writeStructBegin(STRUCT_DESC);
-        oprot.writeFieldStop();
-        oprot.writeStructEnd();
-      }
-
-    }
-
-    private static class onContextInitialized_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onContextInitialized_argsTupleScheme getScheme() {
-        return new onContextInitialized_argsTupleScheme();
-      }
-    }
-
-    private static class onContextInitialized_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<onContextInitialized_args> {
-
-      @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, onContextInitialized_args struct) throws org.apache.thrift.TException {
-        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-      }
-
-      @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, onContextInitialized_args struct) throws org.apache.thrift.TException {
-        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-      }
-    }
-
-    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
-      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
-    }
-  }
-
-  public static class onContextInitialized_result implements org.apache.thrift.TBase<onContextInitialized_result, onContextInitialized_result._Fields>, java.io.Serializable, Cloneable, Comparable<onContextInitialized_result>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("onContextInitialized_result");
-
-
-    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new onContextInitialized_resultStandardSchemeFactory();
-    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new onContextInitialized_resultTupleSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new AppHandler_OnContextInitialized_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new AppHandler_OnContextInitialized_argsTupleSchemeFactory();
 
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -7504,20 +7476,20 @@ public class ClientHandlers {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(onContextInitialized_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(AppHandler_OnContextInitialized_args.class, metaDataMap);
     }
 
-    public onContextInitialized_result() {
+    public AppHandler_OnContextInitialized_args() {
     }
 
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public onContextInitialized_result(onContextInitialized_result other) {
+    public AppHandler_OnContextInitialized_args(AppHandler_OnContextInitialized_args other) {
     }
 
-    public onContextInitialized_result deepCopy() {
-      return new onContextInitialized_result(this);
+    public AppHandler_OnContextInitialized_args deepCopy() {
+      return new AppHandler_OnContextInitialized_args(this);
     }
 
     @Override
@@ -7549,12 +7521,12 @@ public class ClientHandlers {
 
     @Override
     public boolean equals(java.lang.Object that) {
-      if (that instanceof onContextInitialized_result)
-        return this.equals((onContextInitialized_result)that);
+      if (that instanceof AppHandler_OnContextInitialized_args)
+        return this.equals((AppHandler_OnContextInitialized_args)that);
       return false;
     }
 
-    public boolean equals(onContextInitialized_result that) {
+    public boolean equals(AppHandler_OnContextInitialized_args that) {
       if (that == null)
         return false;
       if (this == that)
@@ -7571,7 +7543,7 @@ public class ClientHandlers {
     }
 
     @Override
-    public int compareTo(onContextInitialized_result other) {
+    public int compareTo(AppHandler_OnContextInitialized_args other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
@@ -7592,11 +7564,11 @@ public class ClientHandlers {
 
     public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       scheme(oprot).write(oprot, this);
-      }
+    }
 
     @Override
     public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("onContextInitialized_result(");
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("AppHandler_OnContextInitialized_args(");
       boolean first = true;
 
       sb.append(")");
@@ -7624,15 +7596,15 @@ public class ClientHandlers {
       }
     }
 
-    private static class onContextInitialized_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onContextInitialized_resultStandardScheme getScheme() {
-        return new onContextInitialized_resultStandardScheme();
+    private static class AppHandler_OnContextInitialized_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public AppHandler_OnContextInitialized_argsStandardScheme getScheme() {
+        return new AppHandler_OnContextInitialized_argsStandardScheme();
       }
     }
 
-    private static class onContextInitialized_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<onContextInitialized_result> {
+    private static class AppHandler_OnContextInitialized_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<AppHandler_OnContextInitialized_args> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, onContextInitialized_result struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, AppHandler_OnContextInitialized_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -7653,7 +7625,7 @@ public class ClientHandlers {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, onContextInitialized_result struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, AppHandler_OnContextInitialized_args struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -7663,21 +7635,21 @@ public class ClientHandlers {
 
     }
 
-    private static class onContextInitialized_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onContextInitialized_resultTupleScheme getScheme() {
-        return new onContextInitialized_resultTupleScheme();
+    private static class AppHandler_OnContextInitialized_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public AppHandler_OnContextInitialized_argsTupleScheme getScheme() {
+        return new AppHandler_OnContextInitialized_argsTupleScheme();
       }
     }
 
-    private static class onContextInitialized_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<onContextInitialized_result> {
+    private static class AppHandler_OnContextInitialized_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<AppHandler_OnContextInitialized_args> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, onContextInitialized_result struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, AppHandler_OnContextInitialized_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, onContextInitialized_result struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, AppHandler_OnContextInitialized_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
       }
     }
@@ -7687,25 +7659,271 @@ public class ClientHandlers {
     }
   }
 
-  public static class getInfo_args implements org.apache.thrift.TBase<getInfo_args, getInfo_args._Fields>, java.io.Serializable, Cloneable, Comparable<getInfo_args>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getInfo_args");
+  public static class AppHandler_OnContextInitialized_result implements org.apache.thrift.TBase<AppHandler_OnContextInitialized_result, AppHandler_OnContextInitialized_result._Fields>, java.io.Serializable, Cloneable, Comparable<AppHandler_OnContextInitialized_result>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("AppHandler_OnContextInitialized_result");
+
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new AppHandler_OnContextInitialized_resultStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new AppHandler_OnContextInitialized_resultTupleSchemeFactory();
+
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+;
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(AppHandler_OnContextInitialized_result.class, metaDataMap);
+    }
+
+    public AppHandler_OnContextInitialized_result() {
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public AppHandler_OnContextInitialized_result(AppHandler_OnContextInitialized_result other) {
+    }
+
+    public AppHandler_OnContextInitialized_result deepCopy() {
+      return new AppHandler_OnContextInitialized_result(this);
+    }
+
+    @Override
+    public void clear() {
+    }
+
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof AppHandler_OnContextInitialized_result)
+        return this.equals((AppHandler_OnContextInitialized_result)that);
+      return false;
+    }
+
+    public boolean equals(AppHandler_OnContextInitialized_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(AppHandler_OnContextInitialized_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("AppHandler_OnContextInitialized_result(");
+      boolean first = true;
+
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class AppHandler_OnContextInitialized_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public AppHandler_OnContextInitialized_resultStandardScheme getScheme() {
+        return new AppHandler_OnContextInitialized_resultStandardScheme();
+      }
+    }
+
+    private static class AppHandler_OnContextInitialized_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<AppHandler_OnContextInitialized_result> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, AppHandler_OnContextInitialized_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, AppHandler_OnContextInitialized_result struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class AppHandler_OnContextInitialized_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public AppHandler_OnContextInitialized_resultTupleScheme getScheme() {
+        return new AppHandler_OnContextInitialized_resultTupleScheme();
+      }
+    }
+
+    private static class AppHandler_OnContextInitialized_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<AppHandler_OnContextInitialized_result> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, AppHandler_OnContextInitialized_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, AppHandler_OnContextInitialized_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  public static class RenderHandler_GetViewRect_args implements org.apache.thrift.TBase<RenderHandler_GetViewRect_args, RenderHandler_GetViewRect_args._Fields>, java.io.Serializable, Cloneable, Comparable<RenderHandler_GetViewRect_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("RenderHandler_GetViewRect_args");
 
     private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
-    private static final org.apache.thrift.protocol.TField REQUEST_FIELD_DESC = new org.apache.thrift.protocol.TField("request", org.apache.thrift.protocol.TType.STRING, (short)2);
-    private static final org.apache.thrift.protocol.TField BUFFER_FIELD_DESC = new org.apache.thrift.protocol.TField("buffer", org.apache.thrift.protocol.TType.STRING, (short)3);
 
-    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new getInfo_argsStandardSchemeFactory();
-    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new getInfo_argsTupleSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RenderHandler_GetViewRect_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RenderHandler_GetViewRect_argsTupleSchemeFactory();
 
     public int bid; // required
-    public @org.apache.thrift.annotation.Nullable java.lang.String request; // required
-    public @org.apache.thrift.annotation.Nullable java.nio.ByteBuffer buffer; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      BID((short)1, "bid"),
-      REQUEST((short)2, "request"),
-      BUFFER((short)3, "buffer");
+      BID((short)1, "bid");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -7723,10 +7941,6 @@ public class ClientHandlers {
         switch(fieldId) {
           case 1: // BID
             return BID;
-          case 2: // REQUEST
-            return REQUEST;
-          case 3: // BUFFER
-            return BUFFER;
           default:
             return null;
         }
@@ -7775,60 +7989,44 @@ public class ClientHandlers {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
-      tmpMap.put(_Fields.REQUEST, new org.apache.thrift.meta_data.FieldMetaData("request", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-      tmpMap.put(_Fields.BUFFER, new org.apache.thrift.meta_data.FieldMetaData("buffer", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING          , true)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getInfo_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(RenderHandler_GetViewRect_args.class, metaDataMap);
     }
 
-    public getInfo_args() {
+    public RenderHandler_GetViewRect_args() {
     }
 
-    public getInfo_args(
-      int bid,
-      java.lang.String request,
-      java.nio.ByteBuffer buffer)
+    public RenderHandler_GetViewRect_args(
+      int bid)
     {
       this();
       this.bid = bid;
       setBidIsSet(true);
-      this.request = request;
-      this.buffer = org.apache.thrift.TBaseHelper.copyBinary(buffer);
     }
 
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public getInfo_args(getInfo_args other) {
+    public RenderHandler_GetViewRect_args(RenderHandler_GetViewRect_args other) {
       __isset_bitfield = other.__isset_bitfield;
       this.bid = other.bid;
-      if (other.isSetRequest()) {
-        this.request = other.request;
-      }
-      if (other.isSetBuffer()) {
-        this.buffer = org.apache.thrift.TBaseHelper.copyBinary(other.buffer);
-      }
     }
 
-    public getInfo_args deepCopy() {
-      return new getInfo_args(this);
+    public RenderHandler_GetViewRect_args deepCopy() {
+      return new RenderHandler_GetViewRect_args(this);
     }
 
     @Override
     public void clear() {
       setBidIsSet(false);
       this.bid = 0;
-      this.request = null;
-      this.buffer = null;
     }
 
     public int getBid() {
       return this.bid;
     }
 
-    public getInfo_args setBid(int bid) {
+    public RenderHandler_GetViewRect_args setBid(int bid) {
       this.bid = bid;
       setBidIsSet(true);
       return this;
@@ -7847,65 +8045,6 @@ public class ClientHandlers {
       __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
     }
 
-    @org.apache.thrift.annotation.Nullable
-    public java.lang.String getRequest() {
-      return this.request;
-    }
-
-    public getInfo_args setRequest(@org.apache.thrift.annotation.Nullable java.lang.String request) {
-      this.request = request;
-      return this;
-    }
-
-    public void unsetRequest() {
-      this.request = null;
-    }
-
-    /** Returns true if field request is set (has been assigned a value) and false otherwise */
-    public boolean isSetRequest() {
-      return this.request != null;
-    }
-
-    public void setRequestIsSet(boolean value) {
-      if (!value) {
-        this.request = null;
-      }
-    }
-
-    public byte[] getBuffer() {
-      setBuffer(org.apache.thrift.TBaseHelper.rightSize(buffer));
-      return buffer == null ? null : buffer.array();
-    }
-
-    public java.nio.ByteBuffer bufferForBuffer() {
-      return org.apache.thrift.TBaseHelper.copyBinary(buffer);
-    }
-
-    public getInfo_args setBuffer(byte[] buffer) {
-      this.buffer = buffer == null ? (java.nio.ByteBuffer)null     : java.nio.ByteBuffer.wrap(buffer.clone());
-      return this;
-    }
-
-    public getInfo_args setBuffer(@org.apache.thrift.annotation.Nullable java.nio.ByteBuffer buffer) {
-      this.buffer = org.apache.thrift.TBaseHelper.copyBinary(buffer);
-      return this;
-    }
-
-    public void unsetBuffer() {
-      this.buffer = null;
-    }
-
-    /** Returns true if field buffer is set (has been assigned a value) and false otherwise */
-    public boolean isSetBuffer() {
-      return this.buffer != null;
-    }
-
-    public void setBufferIsSet(boolean value) {
-      if (!value) {
-        this.buffer = null;
-      }
-    }
-
     public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
       switch (field) {
       case BID:
@@ -7913,26 +8052,6 @@ public class ClientHandlers {
           unsetBid();
         } else {
           setBid((java.lang.Integer)value);
-        }
-        break;
-
-      case REQUEST:
-        if (value == null) {
-          unsetRequest();
-        } else {
-          setRequest((java.lang.String)value);
-        }
-        break;
-
-      case BUFFER:
-        if (value == null) {
-          unsetBuffer();
-        } else {
-          if (value instanceof byte[]) {
-            setBuffer((byte[])value);
-          } else {
-            setBuffer((java.nio.ByteBuffer)value);
-          }
         }
         break;
 
@@ -7944,12 +8063,6 @@ public class ClientHandlers {
       switch (field) {
       case BID:
         return getBid();
-
-      case REQUEST:
-        return getRequest();
-
-      case BUFFER:
-        return getBuffer();
 
       }
       throw new java.lang.IllegalStateException();
@@ -7964,22 +8077,18 @@ public class ClientHandlers {
       switch (field) {
       case BID:
         return isSetBid();
-      case REQUEST:
-        return isSetRequest();
-      case BUFFER:
-        return isSetBuffer();
       }
       throw new java.lang.IllegalStateException();
     }
 
     @Override
     public boolean equals(java.lang.Object that) {
-      if (that instanceof getInfo_args)
-        return this.equals((getInfo_args)that);
+      if (that instanceof RenderHandler_GetViewRect_args)
+        return this.equals((RenderHandler_GetViewRect_args)that);
       return false;
     }
 
-    public boolean equals(getInfo_args that) {
+    public boolean equals(RenderHandler_GetViewRect_args that) {
       if (that == null)
         return false;
       if (this == that)
@@ -7994,24 +8103,6 @@ public class ClientHandlers {
           return false;
       }
 
-      boolean this_present_request = true && this.isSetRequest();
-      boolean that_present_request = true && that.isSetRequest();
-      if (this_present_request || that_present_request) {
-        if (!(this_present_request && that_present_request))
-          return false;
-        if (!this.request.equals(that.request))
-          return false;
-      }
-
-      boolean this_present_buffer = true && this.isSetBuffer();
-      boolean that_present_buffer = true && that.isSetBuffer();
-      if (this_present_buffer || that_present_buffer) {
-        if (!(this_present_buffer && that_present_buffer))
-          return false;
-        if (!this.buffer.equals(that.buffer))
-          return false;
-      }
-
       return true;
     }
 
@@ -8021,19 +8112,11 @@ public class ClientHandlers {
 
       hashCode = hashCode * 8191 + bid;
 
-      hashCode = hashCode * 8191 + ((isSetRequest()) ? 131071 : 524287);
-      if (isSetRequest())
-        hashCode = hashCode * 8191 + request.hashCode();
-
-      hashCode = hashCode * 8191 + ((isSetBuffer()) ? 131071 : 524287);
-      if (isSetBuffer())
-        hashCode = hashCode * 8191 + buffer.hashCode();
-
       return hashCode;
     }
 
     @Override
-    public int compareTo(getInfo_args other) {
+    public int compareTo(RenderHandler_GetViewRect_args other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
@@ -8046,26 +8129,6 @@ public class ClientHandlers {
       }
       if (isSetBid()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bid, other.bid);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
-      lastComparison = java.lang.Boolean.compare(isSetRequest(), other.isSetRequest());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetRequest()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.request, other.request);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
-      lastComparison = java.lang.Boolean.compare(isSetBuffer(), other.isSetBuffer());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetBuffer()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.buffer, other.buffer);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -8088,27 +8151,11 @@ public class ClientHandlers {
 
     @Override
     public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("getInfo_args(");
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("RenderHandler_GetViewRect_args(");
       boolean first = true;
 
       sb.append("bid:");
       sb.append(this.bid);
-      first = false;
-      if (!first) sb.append(", ");
-      sb.append("request:");
-      if (this.request == null) {
-        sb.append("null");
-      } else {
-        sb.append(this.request);
-      }
-      first = false;
-      if (!first) sb.append(", ");
-      sb.append("buffer:");
-      if (this.buffer == null) {
-        sb.append("null");
-      } else {
-        org.apache.thrift.TBaseHelper.toString(this.buffer, sb);
-      }
       first = false;
       sb.append(")");
       return sb.toString();
@@ -8137,15 +8184,15 @@ public class ClientHandlers {
       }
     }
 
-    private static class getInfo_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public getInfo_argsStandardScheme getScheme() {
-        return new getInfo_argsStandardScheme();
+    private static class RenderHandler_GetViewRect_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public RenderHandler_GetViewRect_argsStandardScheme getScheme() {
+        return new RenderHandler_GetViewRect_argsStandardScheme();
       }
     }
 
-    private static class getInfo_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<getInfo_args> {
+    private static class RenderHandler_GetViewRect_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<RenderHandler_GetViewRect_args> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, getInfo_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, RenderHandler_GetViewRect_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -8163,22 +8210,6 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 2: // REQUEST
-              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
-                struct.request = iprot.readString();
-                struct.setRequestIsSet(true);
-              } else { 
-                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
-            case 3: // BUFFER
-              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
-                struct.buffer = iprot.readBinary();
-                struct.setBufferIsSet(true);
-              } else { 
-                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
             default:
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
           }
@@ -8190,77 +8221,47 @@ public class ClientHandlers {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, getInfo_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, RenderHandler_GetViewRect_args struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
         oprot.writeFieldBegin(BID_FIELD_DESC);
         oprot.writeI32(struct.bid);
         oprot.writeFieldEnd();
-        if (struct.request != null) {
-          oprot.writeFieldBegin(REQUEST_FIELD_DESC);
-          oprot.writeString(struct.request);
-          oprot.writeFieldEnd();
-        }
-        if (struct.buffer != null) {
-          oprot.writeFieldBegin(BUFFER_FIELD_DESC);
-          oprot.writeBinary(struct.buffer);
-          oprot.writeFieldEnd();
-        }
         oprot.writeFieldStop();
         oprot.writeStructEnd();
       }
 
     }
 
-    private static class getInfo_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public getInfo_argsTupleScheme getScheme() {
-        return new getInfo_argsTupleScheme();
+    private static class RenderHandler_GetViewRect_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public RenderHandler_GetViewRect_argsTupleScheme getScheme() {
+        return new RenderHandler_GetViewRect_argsTupleScheme();
       }
     }
 
-    private static class getInfo_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<getInfo_args> {
+    private static class RenderHandler_GetViewRect_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<RenderHandler_GetViewRect_args> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, getInfo_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, RenderHandler_GetViewRect_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet optionals = new java.util.BitSet();
         if (struct.isSetBid()) {
           optionals.set(0);
         }
-        if (struct.isSetRequest()) {
-          optionals.set(1);
-        }
-        if (struct.isSetBuffer()) {
-          optionals.set(2);
-        }
-        oprot.writeBitSet(optionals, 3);
+        oprot.writeBitSet(optionals, 1);
         if (struct.isSetBid()) {
           oprot.writeI32(struct.bid);
-        }
-        if (struct.isSetRequest()) {
-          oprot.writeString(struct.request);
-        }
-        if (struct.isSetBuffer()) {
-          oprot.writeBinary(struct.buffer);
         }
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, getInfo_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, RenderHandler_GetViewRect_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(3);
+        java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
           struct.bid = iprot.readI32();
           struct.setBidIsSet(true);
-        }
-        if (incoming.get(1)) {
-          struct.request = iprot.readString();
-          struct.setRequestIsSet(true);
-        }
-        if (incoming.get(2)) {
-          struct.buffer = iprot.readBinary();
-          struct.setBufferIsSet(true);
         }
       }
     }
@@ -8270,15 +8271,15 @@ public class ClientHandlers {
     }
   }
 
-  public static class getInfo_result implements org.apache.thrift.TBase<getInfo_result, getInfo_result._Fields>, java.io.Serializable, Cloneable, Comparable<getInfo_result>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getInfo_result");
+  public static class RenderHandler_GetViewRect_result implements org.apache.thrift.TBase<RenderHandler_GetViewRect_result, RenderHandler_GetViewRect_result._Fields>, java.io.Serializable, Cloneable, Comparable<RenderHandler_GetViewRect_result>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("RenderHandler_GetViewRect_result");
 
-    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRING, (short)0);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
 
-    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new getInfo_resultStandardSchemeFactory();
-    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new getInfo_resultTupleSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RenderHandler_GetViewRect_resultStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RenderHandler_GetViewRect_resultTupleSchemeFactory();
 
-    public @org.apache.thrift.annotation.Nullable java.nio.ByteBuffer success; // required
+    public @org.apache.thrift.annotation.Nullable Rect success; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -8345,32 +8346,32 @@ public class ClientHandlers {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING          , true)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Rect.class)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getInfo_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(RenderHandler_GetViewRect_result.class, metaDataMap);
     }
 
-    public getInfo_result() {
+    public RenderHandler_GetViewRect_result() {
     }
 
-    public getInfo_result(
-      java.nio.ByteBuffer success)
+    public RenderHandler_GetViewRect_result(
+      Rect success)
     {
       this();
-      this.success = org.apache.thrift.TBaseHelper.copyBinary(success);
+      this.success = success;
     }
 
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public getInfo_result(getInfo_result other) {
+    public RenderHandler_GetViewRect_result(RenderHandler_GetViewRect_result other) {
       if (other.isSetSuccess()) {
-        this.success = org.apache.thrift.TBaseHelper.copyBinary(other.success);
+        this.success = new Rect(other.success);
       }
     }
 
-    public getInfo_result deepCopy() {
-      return new getInfo_result(this);
+    public RenderHandler_GetViewRect_result deepCopy() {
+      return new RenderHandler_GetViewRect_result(this);
     }
 
     @Override
@@ -8378,22 +8379,13 @@ public class ClientHandlers {
       this.success = null;
     }
 
-    public byte[] getSuccess() {
-      setSuccess(org.apache.thrift.TBaseHelper.rightSize(success));
-      return success == null ? null : success.array();
+    @org.apache.thrift.annotation.Nullable
+    public Rect getSuccess() {
+      return this.success;
     }
 
-    public java.nio.ByteBuffer bufferForSuccess() {
-      return org.apache.thrift.TBaseHelper.copyBinary(success);
-    }
-
-    public getInfo_result setSuccess(byte[] success) {
-      this.success = success == null ? (java.nio.ByteBuffer)null     : java.nio.ByteBuffer.wrap(success.clone());
-      return this;
-    }
-
-    public getInfo_result setSuccess(@org.apache.thrift.annotation.Nullable java.nio.ByteBuffer success) {
-      this.success = org.apache.thrift.TBaseHelper.copyBinary(success);
+    public RenderHandler_GetViewRect_result setSuccess(@org.apache.thrift.annotation.Nullable Rect success) {
+      this.success = success;
       return this;
     }
 
@@ -8418,11 +8410,7 @@ public class ClientHandlers {
         if (value == null) {
           unsetSuccess();
         } else {
-          if (value instanceof byte[]) {
-            setSuccess((byte[])value);
-          } else {
-            setSuccess((java.nio.ByteBuffer)value);
-          }
+          setSuccess((Rect)value);
         }
         break;
 
@@ -8454,12 +8442,12 @@ public class ClientHandlers {
 
     @Override
     public boolean equals(java.lang.Object that) {
-      if (that instanceof getInfo_result)
-        return this.equals((getInfo_result)that);
+      if (that instanceof RenderHandler_GetViewRect_result)
+        return this.equals((RenderHandler_GetViewRect_result)that);
       return false;
     }
 
-    public boolean equals(getInfo_result that) {
+    public boolean equals(RenderHandler_GetViewRect_result that) {
       if (that == null)
         return false;
       if (this == that)
@@ -8489,7 +8477,7 @@ public class ClientHandlers {
     }
 
     @Override
-    public int compareTo(getInfo_result other) {
+    public int compareTo(RenderHandler_GetViewRect_result other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
@@ -8524,15 +8512,380 @@ public class ClientHandlers {
 
     @Override
     public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("getInfo_result(");
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("RenderHandler_GetViewRect_result(");
       boolean first = true;
 
       sb.append("success:");
       if (this.success == null) {
         sb.append("null");
       } else {
-        org.apache.thrift.TBaseHelper.toString(this.success, sb);
+        sb.append(this.success);
       }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (success != null) {
+        success.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class RenderHandler_GetViewRect_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public RenderHandler_GetViewRect_resultStandardScheme getScheme() {
+        return new RenderHandler_GetViewRect_resultStandardScheme();
+      }
+    }
+
+    private static class RenderHandler_GetViewRect_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<RenderHandler_GetViewRect_result> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, RenderHandler_GetViewRect_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 0: // SUCCESS
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.success = new Rect();
+                struct.success.read(iprot);
+                struct.setSuccessIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, RenderHandler_GetViewRect_result struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.success != null) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          struct.success.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class RenderHandler_GetViewRect_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public RenderHandler_GetViewRect_resultTupleScheme getScheme() {
+        return new RenderHandler_GetViewRect_resultTupleScheme();
+      }
+    }
+
+    private static class RenderHandler_GetViewRect_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<RenderHandler_GetViewRect_result> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, RenderHandler_GetViewRect_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          struct.success.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, RenderHandler_GetViewRect_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.success = new Rect();
+          struct.success.read(iprot);
+          struct.setSuccessIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  public static class RenderHandler_GetScreenInfo_args implements org.apache.thrift.TBase<RenderHandler_GetScreenInfo_args, RenderHandler_GetScreenInfo_args._Fields>, java.io.Serializable, Cloneable, Comparable<RenderHandler_GetScreenInfo_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("RenderHandler_GetScreenInfo_args");
+
+    private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RenderHandler_GetScreenInfo_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RenderHandler_GetScreenInfo_argsTupleSchemeFactory();
+
+    public int bid; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      BID((short)1, "bid");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // BID
+            return BID;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __BID_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(RenderHandler_GetScreenInfo_args.class, metaDataMap);
+    }
+
+    public RenderHandler_GetScreenInfo_args() {
+    }
+
+    public RenderHandler_GetScreenInfo_args(
+      int bid)
+    {
+      this();
+      this.bid = bid;
+      setBidIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public RenderHandler_GetScreenInfo_args(RenderHandler_GetScreenInfo_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.bid = other.bid;
+    }
+
+    public RenderHandler_GetScreenInfo_args deepCopy() {
+      return new RenderHandler_GetScreenInfo_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setBidIsSet(false);
+      this.bid = 0;
+    }
+
+    public int getBid() {
+      return this.bid;
+    }
+
+    public RenderHandler_GetScreenInfo_args setBid(int bid) {
+      this.bid = bid;
+      setBidIsSet(true);
+      return this;
+    }
+
+    public void unsetBid() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    /** Returns true if field bid is set (has been assigned a value) and false otherwise */
+    public boolean isSetBid() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    public void setBidIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case BID:
+        if (value == null) {
+          unsetBid();
+        } else {
+          setBid((java.lang.Integer)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case BID:
+        return getBid();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case BID:
+        return isSetBid();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof RenderHandler_GetScreenInfo_args)
+        return this.equals((RenderHandler_GetScreenInfo_args)that);
+      return false;
+    }
+
+    public boolean equals(RenderHandler_GetScreenInfo_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_bid = true;
+      boolean that_present_bid = true;
+      if (this_present_bid || that_present_bid) {
+        if (!(this_present_bid && that_present_bid))
+          return false;
+        if (this.bid != that.bid)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + bid;
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(RenderHandler_GetScreenInfo_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetBid()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("RenderHandler_GetScreenInfo_args(");
+      boolean first = true;
+
+      sb.append("bid:");
+      sb.append(this.bid);
       first = false;
       sb.append(")");
       return sb.toString();
@@ -8553,21 +8906,389 @@ public class ClientHandlers {
 
     private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
       try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
       } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
       }
     }
 
-    private static class getInfo_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public getInfo_resultStandardScheme getScheme() {
-        return new getInfo_resultStandardScheme();
+    private static class RenderHandler_GetScreenInfo_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public RenderHandler_GetScreenInfo_argsStandardScheme getScheme() {
+        return new RenderHandler_GetScreenInfo_argsStandardScheme();
       }
     }
 
-    private static class getInfo_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<getInfo_result> {
+    private static class RenderHandler_GetScreenInfo_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<RenderHandler_GetScreenInfo_args> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, getInfo_result struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, RenderHandler_GetScreenInfo_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // BID
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.bid = iprot.readI32();
+                struct.setBidIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, RenderHandler_GetScreenInfo_args struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(BID_FIELD_DESC);
+        oprot.writeI32(struct.bid);
+        oprot.writeFieldEnd();
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class RenderHandler_GetScreenInfo_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public RenderHandler_GetScreenInfo_argsTupleScheme getScheme() {
+        return new RenderHandler_GetScreenInfo_argsTupleScheme();
+      }
+    }
+
+    private static class RenderHandler_GetScreenInfo_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<RenderHandler_GetScreenInfo_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, RenderHandler_GetScreenInfo_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetBid()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetBid()) {
+          oprot.writeI32(struct.bid);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, RenderHandler_GetScreenInfo_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.bid = iprot.readI32();
+          struct.setBidIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  public static class RenderHandler_GetScreenInfo_result implements org.apache.thrift.TBase<RenderHandler_GetScreenInfo_result, RenderHandler_GetScreenInfo_result._Fields>, java.io.Serializable, Cloneable, Comparable<RenderHandler_GetScreenInfo_result>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("RenderHandler_GetScreenInfo_result");
+
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RenderHandler_GetScreenInfo_resultStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RenderHandler_GetScreenInfo_resultTupleSchemeFactory();
+
+    public @org.apache.thrift.annotation.Nullable ScreenInfo success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ScreenInfo.class)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(RenderHandler_GetScreenInfo_result.class, metaDataMap);
+    }
+
+    public RenderHandler_GetScreenInfo_result() {
+    }
+
+    public RenderHandler_GetScreenInfo_result(
+      ScreenInfo success)
+    {
+      this();
+      this.success = success;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public RenderHandler_GetScreenInfo_result(RenderHandler_GetScreenInfo_result other) {
+      if (other.isSetSuccess()) {
+        this.success = new ScreenInfo(other.success);
+      }
+    }
+
+    public RenderHandler_GetScreenInfo_result deepCopy() {
+      return new RenderHandler_GetScreenInfo_result(this);
+    }
+
+    @Override
+    public void clear() {
+      this.success = null;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public ScreenInfo getSuccess() {
+      return this.success;
+    }
+
+    public RenderHandler_GetScreenInfo_result setSuccess(@org.apache.thrift.annotation.Nullable ScreenInfo success) {
+      this.success = success;
+      return this;
+    }
+
+    public void unsetSuccess() {
+      this.success = null;
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return this.success != null;
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      if (!value) {
+        this.success = null;
+      }
+    }
+
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((ScreenInfo)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return getSuccess();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof RenderHandler_GetScreenInfo_result)
+        return this.equals((RenderHandler_GetScreenInfo_result)that);
+      return false;
+    }
+
+    public boolean equals(RenderHandler_GetScreenInfo_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_success = true && this.isSetSuccess();
+      boolean that_present_success = true && that.isSetSuccess();
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (!this.success.equals(that.success))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((isSetSuccess()) ? 131071 : 524287);
+      if (isSetSuccess())
+        hashCode = hashCode * 8191 + success.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(RenderHandler_GetScreenInfo_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetSuccess(), other.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, other.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("RenderHandler_GetScreenInfo_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      if (this.success == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.success);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (success != null) {
+        success.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class RenderHandler_GetScreenInfo_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public RenderHandler_GetScreenInfo_resultStandardScheme getScheme() {
+        return new RenderHandler_GetScreenInfo_resultStandardScheme();
+      }
+    }
+
+    private static class RenderHandler_GetScreenInfo_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<RenderHandler_GetScreenInfo_result> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, RenderHandler_GetScreenInfo_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -8578,8 +9299,9 @@ public class ClientHandlers {
           }
           switch (schemeField.id) {
             case 0: // SUCCESS
-              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
-                struct.success = iprot.readBinary();
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.success = new ScreenInfo();
+                struct.success.read(iprot);
                 struct.setSuccessIsSet(true);
               } else { 
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
@@ -8596,13 +9318,13 @@ public class ClientHandlers {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, getInfo_result struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, RenderHandler_GetScreenInfo_result struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
         if (struct.success != null) {
           oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
-          oprot.writeBinary(struct.success);
+          struct.success.write(oprot);
           oprot.writeFieldEnd();
         }
         oprot.writeFieldStop();
@@ -8611,16 +9333,16 @@ public class ClientHandlers {
 
     }
 
-    private static class getInfo_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public getInfo_resultTupleScheme getScheme() {
-        return new getInfo_resultTupleScheme();
+    private static class RenderHandler_GetScreenInfo_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public RenderHandler_GetScreenInfo_resultTupleScheme getScheme() {
+        return new RenderHandler_GetScreenInfo_resultTupleScheme();
       }
     }
 
-    private static class getInfo_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<getInfo_result> {
+    private static class RenderHandler_GetScreenInfo_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<RenderHandler_GetScreenInfo_result> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, getInfo_result struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, RenderHandler_GetScreenInfo_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet optionals = new java.util.BitSet();
         if (struct.isSetSuccess()) {
@@ -8628,16 +9350,17 @@ public class ClientHandlers {
         }
         oprot.writeBitSet(optionals, 1);
         if (struct.isSetSuccess()) {
-          oprot.writeBinary(struct.success);
+          struct.success.write(oprot);
         }
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, getInfo_result struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, RenderHandler_GetScreenInfo_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
-          struct.success = iprot.readBinary();
+          struct.success = new ScreenInfo();
+          struct.success.read(iprot);
           struct.setSuccessIsSet(true);
         }
       }
@@ -8648,8 +9371,930 @@ public class ClientHandlers {
     }
   }
 
-  public static class onPaint_args implements org.apache.thrift.TBase<onPaint_args, onPaint_args._Fields>, java.io.Serializable, Cloneable, Comparable<onPaint_args>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("onPaint_args");
+  public static class RenderHandler_GetScreenPoint_args implements org.apache.thrift.TBase<RenderHandler_GetScreenPoint_args, RenderHandler_GetScreenPoint_args._Fields>, java.io.Serializable, Cloneable, Comparable<RenderHandler_GetScreenPoint_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("RenderHandler_GetScreenPoint_args");
+
+    private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
+    private static final org.apache.thrift.protocol.TField VIEW_X_FIELD_DESC = new org.apache.thrift.protocol.TField("viewX", org.apache.thrift.protocol.TType.I32, (short)2);
+    private static final org.apache.thrift.protocol.TField VIEW_Y_FIELD_DESC = new org.apache.thrift.protocol.TField("viewY", org.apache.thrift.protocol.TType.I32, (short)3);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RenderHandler_GetScreenPoint_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RenderHandler_GetScreenPoint_argsTupleSchemeFactory();
+
+    public int bid; // required
+    public int viewX; // required
+    public int viewY; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      BID((short)1, "bid"),
+      VIEW_X((short)2, "viewX"),
+      VIEW_Y((short)3, "viewY");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // BID
+            return BID;
+          case 2: // VIEW_X
+            return VIEW_X;
+          case 3: // VIEW_Y
+            return VIEW_Y;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __BID_ISSET_ID = 0;
+    private static final int __VIEWX_ISSET_ID = 1;
+    private static final int __VIEWY_ISSET_ID = 2;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.VIEW_X, new org.apache.thrift.meta_data.FieldMetaData("viewX", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.VIEW_Y, new org.apache.thrift.meta_data.FieldMetaData("viewY", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(RenderHandler_GetScreenPoint_args.class, metaDataMap);
+    }
+
+    public RenderHandler_GetScreenPoint_args() {
+    }
+
+    public RenderHandler_GetScreenPoint_args(
+      int bid,
+      int viewX,
+      int viewY)
+    {
+      this();
+      this.bid = bid;
+      setBidIsSet(true);
+      this.viewX = viewX;
+      setViewXIsSet(true);
+      this.viewY = viewY;
+      setViewYIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public RenderHandler_GetScreenPoint_args(RenderHandler_GetScreenPoint_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.bid = other.bid;
+      this.viewX = other.viewX;
+      this.viewY = other.viewY;
+    }
+
+    public RenderHandler_GetScreenPoint_args deepCopy() {
+      return new RenderHandler_GetScreenPoint_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setBidIsSet(false);
+      this.bid = 0;
+      setViewXIsSet(false);
+      this.viewX = 0;
+      setViewYIsSet(false);
+      this.viewY = 0;
+    }
+
+    public int getBid() {
+      return this.bid;
+    }
+
+    public RenderHandler_GetScreenPoint_args setBid(int bid) {
+      this.bid = bid;
+      setBidIsSet(true);
+      return this;
+    }
+
+    public void unsetBid() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    /** Returns true if field bid is set (has been assigned a value) and false otherwise */
+    public boolean isSetBid() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    public void setBidIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    public int getViewX() {
+      return this.viewX;
+    }
+
+    public RenderHandler_GetScreenPoint_args setViewX(int viewX) {
+      this.viewX = viewX;
+      setViewXIsSet(true);
+      return this;
+    }
+
+    public void unsetViewX() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __VIEWX_ISSET_ID);
+    }
+
+    /** Returns true if field viewX is set (has been assigned a value) and false otherwise */
+    public boolean isSetViewX() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __VIEWX_ISSET_ID);
+    }
+
+    public void setViewXIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __VIEWX_ISSET_ID, value);
+    }
+
+    public int getViewY() {
+      return this.viewY;
+    }
+
+    public RenderHandler_GetScreenPoint_args setViewY(int viewY) {
+      this.viewY = viewY;
+      setViewYIsSet(true);
+      return this;
+    }
+
+    public void unsetViewY() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __VIEWY_ISSET_ID);
+    }
+
+    /** Returns true if field viewY is set (has been assigned a value) and false otherwise */
+    public boolean isSetViewY() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __VIEWY_ISSET_ID);
+    }
+
+    public void setViewYIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __VIEWY_ISSET_ID, value);
+    }
+
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case BID:
+        if (value == null) {
+          unsetBid();
+        } else {
+          setBid((java.lang.Integer)value);
+        }
+        break;
+
+      case VIEW_X:
+        if (value == null) {
+          unsetViewX();
+        } else {
+          setViewX((java.lang.Integer)value);
+        }
+        break;
+
+      case VIEW_Y:
+        if (value == null) {
+          unsetViewY();
+        } else {
+          setViewY((java.lang.Integer)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case BID:
+        return getBid();
+
+      case VIEW_X:
+        return getViewX();
+
+      case VIEW_Y:
+        return getViewY();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case BID:
+        return isSetBid();
+      case VIEW_X:
+        return isSetViewX();
+      case VIEW_Y:
+        return isSetViewY();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof RenderHandler_GetScreenPoint_args)
+        return this.equals((RenderHandler_GetScreenPoint_args)that);
+      return false;
+    }
+
+    public boolean equals(RenderHandler_GetScreenPoint_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_bid = true;
+      boolean that_present_bid = true;
+      if (this_present_bid || that_present_bid) {
+        if (!(this_present_bid && that_present_bid))
+          return false;
+        if (this.bid != that.bid)
+          return false;
+      }
+
+      boolean this_present_viewX = true;
+      boolean that_present_viewX = true;
+      if (this_present_viewX || that_present_viewX) {
+        if (!(this_present_viewX && that_present_viewX))
+          return false;
+        if (this.viewX != that.viewX)
+          return false;
+      }
+
+      boolean this_present_viewY = true;
+      boolean that_present_viewY = true;
+      if (this_present_viewY || that_present_viewY) {
+        if (!(this_present_viewY && that_present_viewY))
+          return false;
+        if (this.viewY != that.viewY)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + bid;
+
+      hashCode = hashCode * 8191 + viewX;
+
+      hashCode = hashCode * 8191 + viewY;
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(RenderHandler_GetScreenPoint_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetBid()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetViewX(), other.isSetViewX());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetViewX()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.viewX, other.viewX);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetViewY(), other.isSetViewY());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetViewY()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.viewY, other.viewY);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("RenderHandler_GetScreenPoint_args(");
+      boolean first = true;
+
+      sb.append("bid:");
+      sb.append(this.bid);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("viewX:");
+      sb.append(this.viewX);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("viewY:");
+      sb.append(this.viewY);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class RenderHandler_GetScreenPoint_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public RenderHandler_GetScreenPoint_argsStandardScheme getScheme() {
+        return new RenderHandler_GetScreenPoint_argsStandardScheme();
+      }
+    }
+
+    private static class RenderHandler_GetScreenPoint_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<RenderHandler_GetScreenPoint_args> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, RenderHandler_GetScreenPoint_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // BID
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.bid = iprot.readI32();
+                struct.setBidIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // VIEW_X
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.viewX = iprot.readI32();
+                struct.setViewXIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 3: // VIEW_Y
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.viewY = iprot.readI32();
+                struct.setViewYIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, RenderHandler_GetScreenPoint_args struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(BID_FIELD_DESC);
+        oprot.writeI32(struct.bid);
+        oprot.writeFieldEnd();
+        oprot.writeFieldBegin(VIEW_X_FIELD_DESC);
+        oprot.writeI32(struct.viewX);
+        oprot.writeFieldEnd();
+        oprot.writeFieldBegin(VIEW_Y_FIELD_DESC);
+        oprot.writeI32(struct.viewY);
+        oprot.writeFieldEnd();
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class RenderHandler_GetScreenPoint_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public RenderHandler_GetScreenPoint_argsTupleScheme getScheme() {
+        return new RenderHandler_GetScreenPoint_argsTupleScheme();
+      }
+    }
+
+    private static class RenderHandler_GetScreenPoint_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<RenderHandler_GetScreenPoint_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, RenderHandler_GetScreenPoint_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetBid()) {
+          optionals.set(0);
+        }
+        if (struct.isSetViewX()) {
+          optionals.set(1);
+        }
+        if (struct.isSetViewY()) {
+          optionals.set(2);
+        }
+        oprot.writeBitSet(optionals, 3);
+        if (struct.isSetBid()) {
+          oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetViewX()) {
+          oprot.writeI32(struct.viewX);
+        }
+        if (struct.isSetViewY()) {
+          oprot.writeI32(struct.viewY);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, RenderHandler_GetScreenPoint_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(3);
+        if (incoming.get(0)) {
+          struct.bid = iprot.readI32();
+          struct.setBidIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.viewX = iprot.readI32();
+          struct.setViewXIsSet(true);
+        }
+        if (incoming.get(2)) {
+          struct.viewY = iprot.readI32();
+          struct.setViewYIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  public static class RenderHandler_GetScreenPoint_result implements org.apache.thrift.TBase<RenderHandler_GetScreenPoint_result, RenderHandler_GetScreenPoint_result._Fields>, java.io.Serializable, Cloneable, Comparable<RenderHandler_GetScreenPoint_result>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("RenderHandler_GetScreenPoint_result");
+
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RenderHandler_GetScreenPoint_resultStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RenderHandler_GetScreenPoint_resultTupleSchemeFactory();
+
+    public @org.apache.thrift.annotation.Nullable Point success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Point.class)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(RenderHandler_GetScreenPoint_result.class, metaDataMap);
+    }
+
+    public RenderHandler_GetScreenPoint_result() {
+    }
+
+    public RenderHandler_GetScreenPoint_result(
+      Point success)
+    {
+      this();
+      this.success = success;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public RenderHandler_GetScreenPoint_result(RenderHandler_GetScreenPoint_result other) {
+      if (other.isSetSuccess()) {
+        this.success = new Point(other.success);
+      }
+    }
+
+    public RenderHandler_GetScreenPoint_result deepCopy() {
+      return new RenderHandler_GetScreenPoint_result(this);
+    }
+
+    @Override
+    public void clear() {
+      this.success = null;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public Point getSuccess() {
+      return this.success;
+    }
+
+    public RenderHandler_GetScreenPoint_result setSuccess(@org.apache.thrift.annotation.Nullable Point success) {
+      this.success = success;
+      return this;
+    }
+
+    public void unsetSuccess() {
+      this.success = null;
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return this.success != null;
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      if (!value) {
+        this.success = null;
+      }
+    }
+
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((Point)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return getSuccess();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof RenderHandler_GetScreenPoint_result)
+        return this.equals((RenderHandler_GetScreenPoint_result)that);
+      return false;
+    }
+
+    public boolean equals(RenderHandler_GetScreenPoint_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_success = true && this.isSetSuccess();
+      boolean that_present_success = true && that.isSetSuccess();
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (!this.success.equals(that.success))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((isSetSuccess()) ? 131071 : 524287);
+      if (isSetSuccess())
+        hashCode = hashCode * 8191 + success.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(RenderHandler_GetScreenPoint_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetSuccess(), other.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, other.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("RenderHandler_GetScreenPoint_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      if (this.success == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.success);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (success != null) {
+        success.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class RenderHandler_GetScreenPoint_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public RenderHandler_GetScreenPoint_resultStandardScheme getScheme() {
+        return new RenderHandler_GetScreenPoint_resultStandardScheme();
+      }
+    }
+
+    private static class RenderHandler_GetScreenPoint_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<RenderHandler_GetScreenPoint_result> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, RenderHandler_GetScreenPoint_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 0: // SUCCESS
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.success = new Point();
+                struct.success.read(iprot);
+                struct.setSuccessIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, RenderHandler_GetScreenPoint_result struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.success != null) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          struct.success.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class RenderHandler_GetScreenPoint_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public RenderHandler_GetScreenPoint_resultTupleScheme getScheme() {
+        return new RenderHandler_GetScreenPoint_resultTupleScheme();
+      }
+    }
+
+    private static class RenderHandler_GetScreenPoint_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<RenderHandler_GetScreenPoint_result> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, RenderHandler_GetScreenPoint_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          struct.success.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, RenderHandler_GetScreenPoint_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.success = new Point();
+          struct.success.read(iprot);
+          struct.setSuccessIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  public static class RenderHandler_OnPaint_args implements org.apache.thrift.TBase<RenderHandler_OnPaint_args, RenderHandler_OnPaint_args._Fields>, java.io.Serializable, Cloneable, Comparable<RenderHandler_OnPaint_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("RenderHandler_OnPaint_args");
 
     private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
     private static final org.apache.thrift.protocol.TField POPUP_FIELD_DESC = new org.apache.thrift.protocol.TField("popup", org.apache.thrift.protocol.TType.BOOL, (short)2);
@@ -8660,8 +10305,8 @@ public class ClientHandlers {
     private static final org.apache.thrift.protocol.TField WIDTH_FIELD_DESC = new org.apache.thrift.protocol.TField("width", org.apache.thrift.protocol.TType.I32, (short)7);
     private static final org.apache.thrift.protocol.TField HEIGHT_FIELD_DESC = new org.apache.thrift.protocol.TField("height", org.apache.thrift.protocol.TType.I32, (short)8);
 
-    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new onPaint_argsStandardSchemeFactory();
-    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new onPaint_argsTupleSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RenderHandler_OnPaint_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RenderHandler_OnPaint_argsTupleSchemeFactory();
 
     public int bid; // required
     public boolean popup; // required
@@ -8782,13 +10427,13 @@ public class ClientHandlers {
       tmpMap.put(_Fields.HEIGHT, new org.apache.thrift.meta_data.FieldMetaData("height", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(onPaint_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(RenderHandler_OnPaint_args.class, metaDataMap);
     }
 
-    public onPaint_args() {
+    public RenderHandler_OnPaint_args() {
     }
 
-    public onPaint_args(
+    public RenderHandler_OnPaint_args(
       int bid,
       boolean popup,
       int dirtyRectsCount,
@@ -8819,7 +10464,7 @@ public class ClientHandlers {
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public onPaint_args(onPaint_args other) {
+    public RenderHandler_OnPaint_args(RenderHandler_OnPaint_args other) {
       __isset_bitfield = other.__isset_bitfield;
       this.bid = other.bid;
       this.popup = other.popup;
@@ -8833,8 +10478,8 @@ public class ClientHandlers {
       this.height = other.height;
     }
 
-    public onPaint_args deepCopy() {
-      return new onPaint_args(this);
+    public RenderHandler_OnPaint_args deepCopy() {
+      return new RenderHandler_OnPaint_args(this);
     }
 
     @Override
@@ -8860,7 +10505,7 @@ public class ClientHandlers {
       return this.bid;
     }
 
-    public onPaint_args setBid(int bid) {
+    public RenderHandler_OnPaint_args setBid(int bid) {
       this.bid = bid;
       setBidIsSet(true);
       return this;
@@ -8883,7 +10528,7 @@ public class ClientHandlers {
       return this.popup;
     }
 
-    public onPaint_args setPopup(boolean popup) {
+    public RenderHandler_OnPaint_args setPopup(boolean popup) {
       this.popup = popup;
       setPopupIsSet(true);
       return this;
@@ -8906,7 +10551,7 @@ public class ClientHandlers {
       return this.dirtyRectsCount;
     }
 
-    public onPaint_args setDirtyRectsCount(int dirtyRectsCount) {
+    public RenderHandler_OnPaint_args setDirtyRectsCount(int dirtyRectsCount) {
       this.dirtyRectsCount = dirtyRectsCount;
       setDirtyRectsCountIsSet(true);
       return this;
@@ -8930,7 +10575,7 @@ public class ClientHandlers {
       return this.sharedMemName;
     }
 
-    public onPaint_args setSharedMemName(@org.apache.thrift.annotation.Nullable java.lang.String sharedMemName) {
+    public RenderHandler_OnPaint_args setSharedMemName(@org.apache.thrift.annotation.Nullable java.lang.String sharedMemName) {
       this.sharedMemName = sharedMemName;
       return this;
     }
@@ -8954,7 +10599,7 @@ public class ClientHandlers {
       return this.sharedMemHandle;
     }
 
-    public onPaint_args setSharedMemHandle(long sharedMemHandle) {
+    public RenderHandler_OnPaint_args setSharedMemHandle(long sharedMemHandle) {
       this.sharedMemHandle = sharedMemHandle;
       setSharedMemHandleIsSet(true);
       return this;
@@ -8977,7 +10622,7 @@ public class ClientHandlers {
       return this.recreateHandle;
     }
 
-    public onPaint_args setRecreateHandle(boolean recreateHandle) {
+    public RenderHandler_OnPaint_args setRecreateHandle(boolean recreateHandle) {
       this.recreateHandle = recreateHandle;
       setRecreateHandleIsSet(true);
       return this;
@@ -9000,7 +10645,7 @@ public class ClientHandlers {
       return this.width;
     }
 
-    public onPaint_args setWidth(int width) {
+    public RenderHandler_OnPaint_args setWidth(int width) {
       this.width = width;
       setWidthIsSet(true);
       return this;
@@ -9023,7 +10668,7 @@ public class ClientHandlers {
       return this.height;
     }
 
-    public onPaint_args setHeight(int height) {
+    public RenderHandler_OnPaint_args setHeight(int height) {
       this.height = height;
       setHeightIsSet(true);
       return this;
@@ -9171,12 +10816,12 @@ public class ClientHandlers {
 
     @Override
     public boolean equals(java.lang.Object that) {
-      if (that instanceof onPaint_args)
-        return this.equals((onPaint_args)that);
+      if (that instanceof RenderHandler_OnPaint_args)
+        return this.equals((RenderHandler_OnPaint_args)that);
       return false;
     }
 
-    public boolean equals(onPaint_args that) {
+    public boolean equals(RenderHandler_OnPaint_args that) {
       if (that == null)
         return false;
       if (this == that)
@@ -9283,7 +10928,7 @@ public class ClientHandlers {
     }
 
     @Override
-    public int compareTo(onPaint_args other) {
+    public int compareTo(RenderHandler_OnPaint_args other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
@@ -9388,7 +11033,7 @@ public class ClientHandlers {
 
     @Override
     public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("onPaint_args(");
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("RenderHandler_OnPaint_args(");
       boolean first = true;
 
       sb.append("bid:");
@@ -9453,15 +11098,15 @@ public class ClientHandlers {
       }
     }
 
-    private static class onPaint_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onPaint_argsStandardScheme getScheme() {
-        return new onPaint_argsStandardScheme();
+    private static class RenderHandler_OnPaint_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public RenderHandler_OnPaint_argsStandardScheme getScheme() {
+        return new RenderHandler_OnPaint_argsStandardScheme();
       }
     }
 
-    private static class onPaint_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<onPaint_args> {
+    private static class RenderHandler_OnPaint_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<RenderHandler_OnPaint_args> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, onPaint_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, RenderHandler_OnPaint_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -9546,7 +11191,7 @@ public class ClientHandlers {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, onPaint_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, RenderHandler_OnPaint_args struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -9582,16 +11227,16 @@ public class ClientHandlers {
 
     }
 
-    private static class onPaint_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onPaint_argsTupleScheme getScheme() {
-        return new onPaint_argsTupleScheme();
+    private static class RenderHandler_OnPaint_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public RenderHandler_OnPaint_argsTupleScheme getScheme() {
+        return new RenderHandler_OnPaint_argsTupleScheme();
       }
     }
 
-    private static class onPaint_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<onPaint_args> {
+    private static class RenderHandler_OnPaint_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<RenderHandler_OnPaint_args> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, onPaint_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, RenderHandler_OnPaint_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet optionals = new java.util.BitSet();
         if (struct.isSetBid()) {
@@ -9646,7 +11291,7 @@ public class ClientHandlers {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, onPaint_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, RenderHandler_OnPaint_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(8);
         if (incoming.get(0)) {
@@ -9689,12 +11334,12 @@ public class ClientHandlers {
     }
   }
 
-  public static class onPaint_result implements org.apache.thrift.TBase<onPaint_result, onPaint_result._Fields>, java.io.Serializable, Cloneable, Comparable<onPaint_result>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("onPaint_result");
+  public static class RenderHandler_OnPaint_result implements org.apache.thrift.TBase<RenderHandler_OnPaint_result, RenderHandler_OnPaint_result._Fields>, java.io.Serializable, Cloneable, Comparable<RenderHandler_OnPaint_result>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("RenderHandler_OnPaint_result");
 
 
-    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new onPaint_resultStandardSchemeFactory();
-    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new onPaint_resultTupleSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RenderHandler_OnPaint_resultStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RenderHandler_OnPaint_resultTupleSchemeFactory();
 
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -9758,20 +11403,20 @@ public class ClientHandlers {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(onPaint_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(RenderHandler_OnPaint_result.class, metaDataMap);
     }
 
-    public onPaint_result() {
+    public RenderHandler_OnPaint_result() {
     }
 
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public onPaint_result(onPaint_result other) {
+    public RenderHandler_OnPaint_result(RenderHandler_OnPaint_result other) {
     }
 
-    public onPaint_result deepCopy() {
-      return new onPaint_result(this);
+    public RenderHandler_OnPaint_result deepCopy() {
+      return new RenderHandler_OnPaint_result(this);
     }
 
     @Override
@@ -9803,12 +11448,12 @@ public class ClientHandlers {
 
     @Override
     public boolean equals(java.lang.Object that) {
-      if (that instanceof onPaint_result)
-        return this.equals((onPaint_result)that);
+      if (that instanceof RenderHandler_OnPaint_result)
+        return this.equals((RenderHandler_OnPaint_result)that);
       return false;
     }
 
-    public boolean equals(onPaint_result that) {
+    public boolean equals(RenderHandler_OnPaint_result that) {
       if (that == null)
         return false;
       if (this == that)
@@ -9825,7 +11470,7 @@ public class ClientHandlers {
     }
 
     @Override
-    public int compareTo(onPaint_result other) {
+    public int compareTo(RenderHandler_OnPaint_result other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
@@ -9850,7 +11495,7 @@ public class ClientHandlers {
 
     @Override
     public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("onPaint_result(");
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("RenderHandler_OnPaint_result(");
       boolean first = true;
 
       sb.append(")");
@@ -9878,15 +11523,15 @@ public class ClientHandlers {
       }
     }
 
-    private static class onPaint_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onPaint_resultStandardScheme getScheme() {
-        return new onPaint_resultStandardScheme();
+    private static class RenderHandler_OnPaint_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public RenderHandler_OnPaint_resultStandardScheme getScheme() {
+        return new RenderHandler_OnPaint_resultStandardScheme();
       }
     }
 
-    private static class onPaint_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<onPaint_result> {
+    private static class RenderHandler_OnPaint_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<RenderHandler_OnPaint_result> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, onPaint_result struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, RenderHandler_OnPaint_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -9907,7 +11552,7 @@ public class ClientHandlers {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, onPaint_result struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, RenderHandler_OnPaint_result struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -9917,21 +11562,21 @@ public class ClientHandlers {
 
     }
 
-    private static class onPaint_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onPaint_resultTupleScheme getScheme() {
-        return new onPaint_resultTupleScheme();
+    private static class RenderHandler_OnPaint_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public RenderHandler_OnPaint_resultTupleScheme getScheme() {
+        return new RenderHandler_OnPaint_resultTupleScheme();
       }
     }
 
-    private static class onPaint_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<onPaint_result> {
+    private static class RenderHandler_OnPaint_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<RenderHandler_OnPaint_result> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, onPaint_result struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, RenderHandler_OnPaint_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, onPaint_result struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, RenderHandler_OnPaint_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
       }
     }
@@ -9941,16 +11586,16 @@ public class ClientHandlers {
     }
   }
 
-  public static class onBeforePopup_args implements org.apache.thrift.TBase<onBeforePopup_args, onBeforePopup_args._Fields>, java.io.Serializable, Cloneable, Comparable<onBeforePopup_args>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("onBeforePopup_args");
+  public static class LifeSpanHandler_OnBeforePopup_args implements org.apache.thrift.TBase<LifeSpanHandler_OnBeforePopup_args, LifeSpanHandler_OnBeforePopup_args._Fields>, java.io.Serializable, Cloneable, Comparable<LifeSpanHandler_OnBeforePopup_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("LifeSpanHandler_OnBeforePopup_args");
 
     private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
     private static final org.apache.thrift.protocol.TField URL_FIELD_DESC = new org.apache.thrift.protocol.TField("url", org.apache.thrift.protocol.TType.STRING, (short)2);
     private static final org.apache.thrift.protocol.TField FRAME_NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("frameName", org.apache.thrift.protocol.TType.STRING, (short)3);
     private static final org.apache.thrift.protocol.TField GESTURE_FIELD_DESC = new org.apache.thrift.protocol.TField("gesture", org.apache.thrift.protocol.TType.BOOL, (short)4);
 
-    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new onBeforePopup_argsStandardSchemeFactory();
-    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new onBeforePopup_argsTupleSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new LifeSpanHandler_OnBeforePopup_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new LifeSpanHandler_OnBeforePopup_argsTupleSchemeFactory();
 
     public int bid; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String url; // required
@@ -10042,13 +11687,13 @@ public class ClientHandlers {
       tmpMap.put(_Fields.GESTURE, new org.apache.thrift.meta_data.FieldMetaData("gesture", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(onBeforePopup_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(LifeSpanHandler_OnBeforePopup_args.class, metaDataMap);
     }
 
-    public onBeforePopup_args() {
+    public LifeSpanHandler_OnBeforePopup_args() {
     }
 
-    public onBeforePopup_args(
+    public LifeSpanHandler_OnBeforePopup_args(
       int bid,
       java.lang.String url,
       java.lang.String frameName,
@@ -10066,7 +11711,7 @@ public class ClientHandlers {
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public onBeforePopup_args(onBeforePopup_args other) {
+    public LifeSpanHandler_OnBeforePopup_args(LifeSpanHandler_OnBeforePopup_args other) {
       __isset_bitfield = other.__isset_bitfield;
       this.bid = other.bid;
       if (other.isSetUrl()) {
@@ -10078,8 +11723,8 @@ public class ClientHandlers {
       this.gesture = other.gesture;
     }
 
-    public onBeforePopup_args deepCopy() {
-      return new onBeforePopup_args(this);
+    public LifeSpanHandler_OnBeforePopup_args deepCopy() {
+      return new LifeSpanHandler_OnBeforePopup_args(this);
     }
 
     @Override
@@ -10096,7 +11741,7 @@ public class ClientHandlers {
       return this.bid;
     }
 
-    public onBeforePopup_args setBid(int bid) {
+    public LifeSpanHandler_OnBeforePopup_args setBid(int bid) {
       this.bid = bid;
       setBidIsSet(true);
       return this;
@@ -10120,7 +11765,7 @@ public class ClientHandlers {
       return this.url;
     }
 
-    public onBeforePopup_args setUrl(@org.apache.thrift.annotation.Nullable java.lang.String url) {
+    public LifeSpanHandler_OnBeforePopup_args setUrl(@org.apache.thrift.annotation.Nullable java.lang.String url) {
       this.url = url;
       return this;
     }
@@ -10145,7 +11790,7 @@ public class ClientHandlers {
       return this.frameName;
     }
 
-    public onBeforePopup_args setFrameName(@org.apache.thrift.annotation.Nullable java.lang.String frameName) {
+    public LifeSpanHandler_OnBeforePopup_args setFrameName(@org.apache.thrift.annotation.Nullable java.lang.String frameName) {
       this.frameName = frameName;
       return this;
     }
@@ -10169,7 +11814,7 @@ public class ClientHandlers {
       return this.gesture;
     }
 
-    public onBeforePopup_args setGesture(boolean gesture) {
+    public LifeSpanHandler_OnBeforePopup_args setGesture(boolean gesture) {
       this.gesture = gesture;
       setGestureIsSet(true);
       return this;
@@ -10265,12 +11910,12 @@ public class ClientHandlers {
 
     @Override
     public boolean equals(java.lang.Object that) {
-      if (that instanceof onBeforePopup_args)
-        return this.equals((onBeforePopup_args)that);
+      if (that instanceof LifeSpanHandler_OnBeforePopup_args)
+        return this.equals((LifeSpanHandler_OnBeforePopup_args)that);
       return false;
     }
 
-    public boolean equals(onBeforePopup_args that) {
+    public boolean equals(LifeSpanHandler_OnBeforePopup_args that) {
       if (that == null)
         return false;
       if (this == that)
@@ -10335,7 +11980,7 @@ public class ClientHandlers {
     }
 
     @Override
-    public int compareTo(onBeforePopup_args other) {
+    public int compareTo(LifeSpanHandler_OnBeforePopup_args other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
@@ -10400,7 +12045,7 @@ public class ClientHandlers {
 
     @Override
     public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("onBeforePopup_args(");
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("LifeSpanHandler_OnBeforePopup_args(");
       boolean first = true;
 
       sb.append("bid:");
@@ -10453,15 +12098,15 @@ public class ClientHandlers {
       }
     }
 
-    private static class onBeforePopup_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onBeforePopup_argsStandardScheme getScheme() {
-        return new onBeforePopup_argsStandardScheme();
+    private static class LifeSpanHandler_OnBeforePopup_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public LifeSpanHandler_OnBeforePopup_argsStandardScheme getScheme() {
+        return new LifeSpanHandler_OnBeforePopup_argsStandardScheme();
       }
     }
 
-    private static class onBeforePopup_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<onBeforePopup_args> {
+    private static class LifeSpanHandler_OnBeforePopup_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<LifeSpanHandler_OnBeforePopup_args> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, onBeforePopup_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, LifeSpanHandler_OnBeforePopup_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -10514,7 +12159,7 @@ public class ClientHandlers {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, onBeforePopup_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, LifeSpanHandler_OnBeforePopup_args struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -10540,16 +12185,16 @@ public class ClientHandlers {
 
     }
 
-    private static class onBeforePopup_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onBeforePopup_argsTupleScheme getScheme() {
-        return new onBeforePopup_argsTupleScheme();
+    private static class LifeSpanHandler_OnBeforePopup_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public LifeSpanHandler_OnBeforePopup_argsTupleScheme getScheme() {
+        return new LifeSpanHandler_OnBeforePopup_argsTupleScheme();
       }
     }
 
-    private static class onBeforePopup_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<onBeforePopup_args> {
+    private static class LifeSpanHandler_OnBeforePopup_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<LifeSpanHandler_OnBeforePopup_args> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, onBeforePopup_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, LifeSpanHandler_OnBeforePopup_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet optionals = new java.util.BitSet();
         if (struct.isSetBid()) {
@@ -10580,7 +12225,7 @@ public class ClientHandlers {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, onBeforePopup_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, LifeSpanHandler_OnBeforePopup_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(4);
         if (incoming.get(0)) {
@@ -10607,13 +12252,13 @@ public class ClientHandlers {
     }
   }
 
-  public static class onAfterCreated_args implements org.apache.thrift.TBase<onAfterCreated_args, onAfterCreated_args._Fields>, java.io.Serializable, Cloneable, Comparable<onAfterCreated_args>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("onAfterCreated_args");
+  public static class LifeSpanHandler_OnAfterCreated_args implements org.apache.thrift.TBase<LifeSpanHandler_OnAfterCreated_args, LifeSpanHandler_OnAfterCreated_args._Fields>, java.io.Serializable, Cloneable, Comparable<LifeSpanHandler_OnAfterCreated_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("LifeSpanHandler_OnAfterCreated_args");
 
     private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
 
-    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new onAfterCreated_argsStandardSchemeFactory();
-    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new onAfterCreated_argsTupleSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new LifeSpanHandler_OnAfterCreated_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new LifeSpanHandler_OnAfterCreated_argsTupleSchemeFactory();
 
     public int bid; // required
 
@@ -10686,13 +12331,13 @@ public class ClientHandlers {
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(onAfterCreated_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(LifeSpanHandler_OnAfterCreated_args.class, metaDataMap);
     }
 
-    public onAfterCreated_args() {
+    public LifeSpanHandler_OnAfterCreated_args() {
     }
 
-    public onAfterCreated_args(
+    public LifeSpanHandler_OnAfterCreated_args(
       int bid)
     {
       this();
@@ -10703,13 +12348,13 @@ public class ClientHandlers {
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public onAfterCreated_args(onAfterCreated_args other) {
+    public LifeSpanHandler_OnAfterCreated_args(LifeSpanHandler_OnAfterCreated_args other) {
       __isset_bitfield = other.__isset_bitfield;
       this.bid = other.bid;
     }
 
-    public onAfterCreated_args deepCopy() {
-      return new onAfterCreated_args(this);
+    public LifeSpanHandler_OnAfterCreated_args deepCopy() {
+      return new LifeSpanHandler_OnAfterCreated_args(this);
     }
 
     @Override
@@ -10722,7 +12367,7 @@ public class ClientHandlers {
       return this.bid;
     }
 
-    public onAfterCreated_args setBid(int bid) {
+    public LifeSpanHandler_OnAfterCreated_args setBid(int bid) {
       this.bid = bid;
       setBidIsSet(true);
       return this;
@@ -10779,12 +12424,12 @@ public class ClientHandlers {
 
     @Override
     public boolean equals(java.lang.Object that) {
-      if (that instanceof onAfterCreated_args)
-        return this.equals((onAfterCreated_args)that);
+      if (that instanceof LifeSpanHandler_OnAfterCreated_args)
+        return this.equals((LifeSpanHandler_OnAfterCreated_args)that);
       return false;
     }
 
-    public boolean equals(onAfterCreated_args that) {
+    public boolean equals(LifeSpanHandler_OnAfterCreated_args that) {
       if (that == null)
         return false;
       if (this == that)
@@ -10812,7 +12457,7 @@ public class ClientHandlers {
     }
 
     @Override
-    public int compareTo(onAfterCreated_args other) {
+    public int compareTo(LifeSpanHandler_OnAfterCreated_args other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
@@ -10847,7 +12492,7 @@ public class ClientHandlers {
 
     @Override
     public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("onAfterCreated_args(");
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("LifeSpanHandler_OnAfterCreated_args(");
       boolean first = true;
 
       sb.append("bid:");
@@ -10880,15 +12525,15 @@ public class ClientHandlers {
       }
     }
 
-    private static class onAfterCreated_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onAfterCreated_argsStandardScheme getScheme() {
-        return new onAfterCreated_argsStandardScheme();
+    private static class LifeSpanHandler_OnAfterCreated_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public LifeSpanHandler_OnAfterCreated_argsStandardScheme getScheme() {
+        return new LifeSpanHandler_OnAfterCreated_argsStandardScheme();
       }
     }
 
-    private static class onAfterCreated_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<onAfterCreated_args> {
+    private static class LifeSpanHandler_OnAfterCreated_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<LifeSpanHandler_OnAfterCreated_args> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, onAfterCreated_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, LifeSpanHandler_OnAfterCreated_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -10917,7 +12562,7 @@ public class ClientHandlers {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, onAfterCreated_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, LifeSpanHandler_OnAfterCreated_args struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -10930,16 +12575,16 @@ public class ClientHandlers {
 
     }
 
-    private static class onAfterCreated_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onAfterCreated_argsTupleScheme getScheme() {
-        return new onAfterCreated_argsTupleScheme();
+    private static class LifeSpanHandler_OnAfterCreated_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public LifeSpanHandler_OnAfterCreated_argsTupleScheme getScheme() {
+        return new LifeSpanHandler_OnAfterCreated_argsTupleScheme();
       }
     }
 
-    private static class onAfterCreated_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<onAfterCreated_args> {
+    private static class LifeSpanHandler_OnAfterCreated_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<LifeSpanHandler_OnAfterCreated_args> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, onAfterCreated_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, LifeSpanHandler_OnAfterCreated_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet optionals = new java.util.BitSet();
         if (struct.isSetBid()) {
@@ -10952,7 +12597,7 @@ public class ClientHandlers {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, onAfterCreated_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, LifeSpanHandler_OnAfterCreated_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
@@ -10967,13 +12612,13 @@ public class ClientHandlers {
     }
   }
 
-  public static class doClose_args implements org.apache.thrift.TBase<doClose_args, doClose_args._Fields>, java.io.Serializable, Cloneable, Comparable<doClose_args>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("doClose_args");
+  public static class LifeSpanHandler_DoClose_args implements org.apache.thrift.TBase<LifeSpanHandler_DoClose_args, LifeSpanHandler_DoClose_args._Fields>, java.io.Serializable, Cloneable, Comparable<LifeSpanHandler_DoClose_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("LifeSpanHandler_DoClose_args");
 
     private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
 
-    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new doClose_argsStandardSchemeFactory();
-    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new doClose_argsTupleSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new LifeSpanHandler_DoClose_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new LifeSpanHandler_DoClose_argsTupleSchemeFactory();
 
     public int bid; // required
 
@@ -11046,13 +12691,13 @@ public class ClientHandlers {
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(doClose_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(LifeSpanHandler_DoClose_args.class, metaDataMap);
     }
 
-    public doClose_args() {
+    public LifeSpanHandler_DoClose_args() {
     }
 
-    public doClose_args(
+    public LifeSpanHandler_DoClose_args(
       int bid)
     {
       this();
@@ -11063,13 +12708,13 @@ public class ClientHandlers {
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public doClose_args(doClose_args other) {
+    public LifeSpanHandler_DoClose_args(LifeSpanHandler_DoClose_args other) {
       __isset_bitfield = other.__isset_bitfield;
       this.bid = other.bid;
     }
 
-    public doClose_args deepCopy() {
-      return new doClose_args(this);
+    public LifeSpanHandler_DoClose_args deepCopy() {
+      return new LifeSpanHandler_DoClose_args(this);
     }
 
     @Override
@@ -11082,7 +12727,7 @@ public class ClientHandlers {
       return this.bid;
     }
 
-    public doClose_args setBid(int bid) {
+    public LifeSpanHandler_DoClose_args setBid(int bid) {
       this.bid = bid;
       setBidIsSet(true);
       return this;
@@ -11139,12 +12784,12 @@ public class ClientHandlers {
 
     @Override
     public boolean equals(java.lang.Object that) {
-      if (that instanceof doClose_args)
-        return this.equals((doClose_args)that);
+      if (that instanceof LifeSpanHandler_DoClose_args)
+        return this.equals((LifeSpanHandler_DoClose_args)that);
       return false;
     }
 
-    public boolean equals(doClose_args that) {
+    public boolean equals(LifeSpanHandler_DoClose_args that) {
       if (that == null)
         return false;
       if (this == that)
@@ -11172,7 +12817,7 @@ public class ClientHandlers {
     }
 
     @Override
-    public int compareTo(doClose_args other) {
+    public int compareTo(LifeSpanHandler_DoClose_args other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
@@ -11207,7 +12852,7 @@ public class ClientHandlers {
 
     @Override
     public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("doClose_args(");
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("LifeSpanHandler_DoClose_args(");
       boolean first = true;
 
       sb.append("bid:");
@@ -11240,15 +12885,15 @@ public class ClientHandlers {
       }
     }
 
-    private static class doClose_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public doClose_argsStandardScheme getScheme() {
-        return new doClose_argsStandardScheme();
+    private static class LifeSpanHandler_DoClose_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public LifeSpanHandler_DoClose_argsStandardScheme getScheme() {
+        return new LifeSpanHandler_DoClose_argsStandardScheme();
       }
     }
 
-    private static class doClose_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<doClose_args> {
+    private static class LifeSpanHandler_DoClose_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<LifeSpanHandler_DoClose_args> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, doClose_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, LifeSpanHandler_DoClose_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -11277,7 +12922,7 @@ public class ClientHandlers {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, doClose_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, LifeSpanHandler_DoClose_args struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -11290,16 +12935,16 @@ public class ClientHandlers {
 
     }
 
-    private static class doClose_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public doClose_argsTupleScheme getScheme() {
-        return new doClose_argsTupleScheme();
+    private static class LifeSpanHandler_DoClose_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public LifeSpanHandler_DoClose_argsTupleScheme getScheme() {
+        return new LifeSpanHandler_DoClose_argsTupleScheme();
       }
     }
 
-    private static class doClose_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<doClose_args> {
+    private static class LifeSpanHandler_DoClose_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<LifeSpanHandler_DoClose_args> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, doClose_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, LifeSpanHandler_DoClose_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet optionals = new java.util.BitSet();
         if (struct.isSetBid()) {
@@ -11312,7 +12957,7 @@ public class ClientHandlers {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, doClose_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, LifeSpanHandler_DoClose_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
@@ -11327,13 +12972,13 @@ public class ClientHandlers {
     }
   }
 
-  public static class onBeforeClose_args implements org.apache.thrift.TBase<onBeforeClose_args, onBeforeClose_args._Fields>, java.io.Serializable, Cloneable, Comparable<onBeforeClose_args>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("onBeforeClose_args");
+  public static class LifeSpanHandler_OnBeforeClose_args implements org.apache.thrift.TBase<LifeSpanHandler_OnBeforeClose_args, LifeSpanHandler_OnBeforeClose_args._Fields>, java.io.Serializable, Cloneable, Comparable<LifeSpanHandler_OnBeforeClose_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("LifeSpanHandler_OnBeforeClose_args");
 
     private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
 
-    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new onBeforeClose_argsStandardSchemeFactory();
-    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new onBeforeClose_argsTupleSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new LifeSpanHandler_OnBeforeClose_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new LifeSpanHandler_OnBeforeClose_argsTupleSchemeFactory();
 
     public int bid; // required
 
@@ -11406,13 +13051,13 @@ public class ClientHandlers {
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(onBeforeClose_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(LifeSpanHandler_OnBeforeClose_args.class, metaDataMap);
     }
 
-    public onBeforeClose_args() {
+    public LifeSpanHandler_OnBeforeClose_args() {
     }
 
-    public onBeforeClose_args(
+    public LifeSpanHandler_OnBeforeClose_args(
       int bid)
     {
       this();
@@ -11423,13 +13068,13 @@ public class ClientHandlers {
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public onBeforeClose_args(onBeforeClose_args other) {
+    public LifeSpanHandler_OnBeforeClose_args(LifeSpanHandler_OnBeforeClose_args other) {
       __isset_bitfield = other.__isset_bitfield;
       this.bid = other.bid;
     }
 
-    public onBeforeClose_args deepCopy() {
-      return new onBeforeClose_args(this);
+    public LifeSpanHandler_OnBeforeClose_args deepCopy() {
+      return new LifeSpanHandler_OnBeforeClose_args(this);
     }
 
     @Override
@@ -11442,7 +13087,7 @@ public class ClientHandlers {
       return this.bid;
     }
 
-    public onBeforeClose_args setBid(int bid) {
+    public LifeSpanHandler_OnBeforeClose_args setBid(int bid) {
       this.bid = bid;
       setBidIsSet(true);
       return this;
@@ -11499,12 +13144,12 @@ public class ClientHandlers {
 
     @Override
     public boolean equals(java.lang.Object that) {
-      if (that instanceof onBeforeClose_args)
-        return this.equals((onBeforeClose_args)that);
+      if (that instanceof LifeSpanHandler_OnBeforeClose_args)
+        return this.equals((LifeSpanHandler_OnBeforeClose_args)that);
       return false;
     }
 
-    public boolean equals(onBeforeClose_args that) {
+    public boolean equals(LifeSpanHandler_OnBeforeClose_args that) {
       if (that == null)
         return false;
       if (this == that)
@@ -11532,7 +13177,7 @@ public class ClientHandlers {
     }
 
     @Override
-    public int compareTo(onBeforeClose_args other) {
+    public int compareTo(LifeSpanHandler_OnBeforeClose_args other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
@@ -11567,7 +13212,7 @@ public class ClientHandlers {
 
     @Override
     public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("onBeforeClose_args(");
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("LifeSpanHandler_OnBeforeClose_args(");
       boolean first = true;
 
       sb.append("bid:");
@@ -11600,15 +13245,15 @@ public class ClientHandlers {
       }
     }
 
-    private static class onBeforeClose_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onBeforeClose_argsStandardScheme getScheme() {
-        return new onBeforeClose_argsStandardScheme();
+    private static class LifeSpanHandler_OnBeforeClose_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public LifeSpanHandler_OnBeforeClose_argsStandardScheme getScheme() {
+        return new LifeSpanHandler_OnBeforeClose_argsStandardScheme();
       }
     }
 
-    private static class onBeforeClose_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<onBeforeClose_args> {
+    private static class LifeSpanHandler_OnBeforeClose_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<LifeSpanHandler_OnBeforeClose_args> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, onBeforeClose_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, LifeSpanHandler_OnBeforeClose_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -11637,7 +13282,7 @@ public class ClientHandlers {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, onBeforeClose_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, LifeSpanHandler_OnBeforeClose_args struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -11650,16 +13295,16 @@ public class ClientHandlers {
 
     }
 
-    private static class onBeforeClose_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onBeforeClose_argsTupleScheme getScheme() {
-        return new onBeforeClose_argsTupleScheme();
+    private static class LifeSpanHandler_OnBeforeClose_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public LifeSpanHandler_OnBeforeClose_argsTupleScheme getScheme() {
+        return new LifeSpanHandler_OnBeforeClose_argsTupleScheme();
       }
     }
 
-    private static class onBeforeClose_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<onBeforeClose_args> {
+    private static class LifeSpanHandler_OnBeforeClose_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<LifeSpanHandler_OnBeforeClose_args> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, onBeforeClose_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, LifeSpanHandler_OnBeforeClose_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet optionals = new java.util.BitSet();
         if (struct.isSetBid()) {
@@ -11672,7 +13317,7 @@ public class ClientHandlers {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, onBeforeClose_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, LifeSpanHandler_OnBeforeClose_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
@@ -11687,16 +13332,16 @@ public class ClientHandlers {
     }
   }
 
-  public static class onLoadingStateChange_args implements org.apache.thrift.TBase<onLoadingStateChange_args, onLoadingStateChange_args._Fields>, java.io.Serializable, Cloneable, Comparable<onLoadingStateChange_args>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("onLoadingStateChange_args");
+  public static class LoadHandler_OnLoadingStateChange_args implements org.apache.thrift.TBase<LoadHandler_OnLoadingStateChange_args, LoadHandler_OnLoadingStateChange_args._Fields>, java.io.Serializable, Cloneable, Comparable<LoadHandler_OnLoadingStateChange_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("LoadHandler_OnLoadingStateChange_args");
 
     private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
     private static final org.apache.thrift.protocol.TField IS_LOADING_FIELD_DESC = new org.apache.thrift.protocol.TField("isLoading", org.apache.thrift.protocol.TType.BOOL, (short)2);
     private static final org.apache.thrift.protocol.TField CAN_GO_BACK_FIELD_DESC = new org.apache.thrift.protocol.TField("canGoBack", org.apache.thrift.protocol.TType.BOOL, (short)3);
     private static final org.apache.thrift.protocol.TField CAN_GO_FORWARD_FIELD_DESC = new org.apache.thrift.protocol.TField("canGoForward", org.apache.thrift.protocol.TType.BOOL, (short)4);
 
-    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new onLoadingStateChange_argsStandardSchemeFactory();
-    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new onLoadingStateChange_argsTupleSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new LoadHandler_OnLoadingStateChange_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new LoadHandler_OnLoadingStateChange_argsTupleSchemeFactory();
 
     public int bid; // required
     public boolean isLoading; // required
@@ -11790,13 +13435,13 @@ public class ClientHandlers {
       tmpMap.put(_Fields.CAN_GO_FORWARD, new org.apache.thrift.meta_data.FieldMetaData("canGoForward", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(onLoadingStateChange_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(LoadHandler_OnLoadingStateChange_args.class, metaDataMap);
     }
 
-    public onLoadingStateChange_args() {
+    public LoadHandler_OnLoadingStateChange_args() {
     }
 
-    public onLoadingStateChange_args(
+    public LoadHandler_OnLoadingStateChange_args(
       int bid,
       boolean isLoading,
       boolean canGoBack,
@@ -11816,7 +13461,7 @@ public class ClientHandlers {
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public onLoadingStateChange_args(onLoadingStateChange_args other) {
+    public LoadHandler_OnLoadingStateChange_args(LoadHandler_OnLoadingStateChange_args other) {
       __isset_bitfield = other.__isset_bitfield;
       this.bid = other.bid;
       this.isLoading = other.isLoading;
@@ -11824,8 +13469,8 @@ public class ClientHandlers {
       this.canGoForward = other.canGoForward;
     }
 
-    public onLoadingStateChange_args deepCopy() {
-      return new onLoadingStateChange_args(this);
+    public LoadHandler_OnLoadingStateChange_args deepCopy() {
+      return new LoadHandler_OnLoadingStateChange_args(this);
     }
 
     @Override
@@ -11844,7 +13489,7 @@ public class ClientHandlers {
       return this.bid;
     }
 
-    public onLoadingStateChange_args setBid(int bid) {
+    public LoadHandler_OnLoadingStateChange_args setBid(int bid) {
       this.bid = bid;
       setBidIsSet(true);
       return this;
@@ -11867,7 +13512,7 @@ public class ClientHandlers {
       return this.isLoading;
     }
 
-    public onLoadingStateChange_args setIsLoading(boolean isLoading) {
+    public LoadHandler_OnLoadingStateChange_args setIsLoading(boolean isLoading) {
       this.isLoading = isLoading;
       setIsLoadingIsSet(true);
       return this;
@@ -11890,7 +13535,7 @@ public class ClientHandlers {
       return this.canGoBack;
     }
 
-    public onLoadingStateChange_args setCanGoBack(boolean canGoBack) {
+    public LoadHandler_OnLoadingStateChange_args setCanGoBack(boolean canGoBack) {
       this.canGoBack = canGoBack;
       setCanGoBackIsSet(true);
       return this;
@@ -11913,7 +13558,7 @@ public class ClientHandlers {
       return this.canGoForward;
     }
 
-    public onLoadingStateChange_args setCanGoForward(boolean canGoForward) {
+    public LoadHandler_OnLoadingStateChange_args setCanGoForward(boolean canGoForward) {
       this.canGoForward = canGoForward;
       setCanGoForwardIsSet(true);
       return this;
@@ -12009,12 +13654,12 @@ public class ClientHandlers {
 
     @Override
     public boolean equals(java.lang.Object that) {
-      if (that instanceof onLoadingStateChange_args)
-        return this.equals((onLoadingStateChange_args)that);
+      if (that instanceof LoadHandler_OnLoadingStateChange_args)
+        return this.equals((LoadHandler_OnLoadingStateChange_args)that);
       return false;
     }
 
-    public boolean equals(onLoadingStateChange_args that) {
+    public boolean equals(LoadHandler_OnLoadingStateChange_args that) {
       if (that == null)
         return false;
       if (this == that)
@@ -12075,7 +13720,7 @@ public class ClientHandlers {
     }
 
     @Override
-    public int compareTo(onLoadingStateChange_args other) {
+    public int compareTo(LoadHandler_OnLoadingStateChange_args other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
@@ -12140,7 +13785,7 @@ public class ClientHandlers {
 
     @Override
     public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("onLoadingStateChange_args(");
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("LoadHandler_OnLoadingStateChange_args(");
       boolean first = true;
 
       sb.append("bid:");
@@ -12185,15 +13830,15 @@ public class ClientHandlers {
       }
     }
 
-    private static class onLoadingStateChange_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onLoadingStateChange_argsStandardScheme getScheme() {
-        return new onLoadingStateChange_argsStandardScheme();
+    private static class LoadHandler_OnLoadingStateChange_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public LoadHandler_OnLoadingStateChange_argsStandardScheme getScheme() {
+        return new LoadHandler_OnLoadingStateChange_argsStandardScheme();
       }
     }
 
-    private static class onLoadingStateChange_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<onLoadingStateChange_args> {
+    private static class LoadHandler_OnLoadingStateChange_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<LoadHandler_OnLoadingStateChange_args> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, onLoadingStateChange_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, LoadHandler_OnLoadingStateChange_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -12246,7 +13891,7 @@ public class ClientHandlers {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, onLoadingStateChange_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, LoadHandler_OnLoadingStateChange_args struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -12268,16 +13913,16 @@ public class ClientHandlers {
 
     }
 
-    private static class onLoadingStateChange_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onLoadingStateChange_argsTupleScheme getScheme() {
-        return new onLoadingStateChange_argsTupleScheme();
+    private static class LoadHandler_OnLoadingStateChange_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public LoadHandler_OnLoadingStateChange_argsTupleScheme getScheme() {
+        return new LoadHandler_OnLoadingStateChange_argsTupleScheme();
       }
     }
 
-    private static class onLoadingStateChange_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<onLoadingStateChange_args> {
+    private static class LoadHandler_OnLoadingStateChange_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<LoadHandler_OnLoadingStateChange_args> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, onLoadingStateChange_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, LoadHandler_OnLoadingStateChange_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet optionals = new java.util.BitSet();
         if (struct.isSetBid()) {
@@ -12308,7 +13953,7 @@ public class ClientHandlers {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, onLoadingStateChange_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, LoadHandler_OnLoadingStateChange_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(4);
         if (incoming.get(0)) {
@@ -12335,14 +13980,14 @@ public class ClientHandlers {
     }
   }
 
-  public static class onLoadStart_args implements org.apache.thrift.TBase<onLoadStart_args, onLoadStart_args._Fields>, java.io.Serializable, Cloneable, Comparable<onLoadStart_args>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("onLoadStart_args");
+  public static class LoadHandler_OnLoadStart_args implements org.apache.thrift.TBase<LoadHandler_OnLoadStart_args, LoadHandler_OnLoadStart_args._Fields>, java.io.Serializable, Cloneable, Comparable<LoadHandler_OnLoadStart_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("LoadHandler_OnLoadStart_args");
 
     private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
     private static final org.apache.thrift.protocol.TField TRANSITION_TYPE_FIELD_DESC = new org.apache.thrift.protocol.TField("transition_type", org.apache.thrift.protocol.TType.I32, (short)2);
 
-    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new onLoadStart_argsStandardSchemeFactory();
-    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new onLoadStart_argsTupleSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new LoadHandler_OnLoadStart_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new LoadHandler_OnLoadStart_argsTupleSchemeFactory();
 
     public int bid; // required
     public int transition_type; // required
@@ -12422,13 +14067,13 @@ public class ClientHandlers {
       tmpMap.put(_Fields.TRANSITION_TYPE, new org.apache.thrift.meta_data.FieldMetaData("transition_type", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(onLoadStart_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(LoadHandler_OnLoadStart_args.class, metaDataMap);
     }
 
-    public onLoadStart_args() {
+    public LoadHandler_OnLoadStart_args() {
     }
 
-    public onLoadStart_args(
+    public LoadHandler_OnLoadStart_args(
       int bid,
       int transition_type)
     {
@@ -12442,14 +14087,14 @@ public class ClientHandlers {
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public onLoadStart_args(onLoadStart_args other) {
+    public LoadHandler_OnLoadStart_args(LoadHandler_OnLoadStart_args other) {
       __isset_bitfield = other.__isset_bitfield;
       this.bid = other.bid;
       this.transition_type = other.transition_type;
     }
 
-    public onLoadStart_args deepCopy() {
-      return new onLoadStart_args(this);
+    public LoadHandler_OnLoadStart_args deepCopy() {
+      return new LoadHandler_OnLoadStart_args(this);
     }
 
     @Override
@@ -12464,7 +14109,7 @@ public class ClientHandlers {
       return this.bid;
     }
 
-    public onLoadStart_args setBid(int bid) {
+    public LoadHandler_OnLoadStart_args setBid(int bid) {
       this.bid = bid;
       setBidIsSet(true);
       return this;
@@ -12487,7 +14132,7 @@ public class ClientHandlers {
       return this.transition_type;
     }
 
-    public onLoadStart_args setTransition_type(int transition_type) {
+    public LoadHandler_OnLoadStart_args setTransition_type(int transition_type) {
       this.transition_type = transition_type;
       setTransition_typeIsSet(true);
       return this;
@@ -12557,12 +14202,12 @@ public class ClientHandlers {
 
     @Override
     public boolean equals(java.lang.Object that) {
-      if (that instanceof onLoadStart_args)
-        return this.equals((onLoadStart_args)that);
+      if (that instanceof LoadHandler_OnLoadStart_args)
+        return this.equals((LoadHandler_OnLoadStart_args)that);
       return false;
     }
 
-    public boolean equals(onLoadStart_args that) {
+    public boolean equals(LoadHandler_OnLoadStart_args that) {
       if (that == null)
         return false;
       if (this == that)
@@ -12601,7 +14246,7 @@ public class ClientHandlers {
     }
 
     @Override
-    public int compareTo(onLoadStart_args other) {
+    public int compareTo(LoadHandler_OnLoadStart_args other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
@@ -12646,7 +14291,7 @@ public class ClientHandlers {
 
     @Override
     public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("onLoadStart_args(");
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("LoadHandler_OnLoadStart_args(");
       boolean first = true;
 
       sb.append("bid:");
@@ -12683,15 +14328,15 @@ public class ClientHandlers {
       }
     }
 
-    private static class onLoadStart_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onLoadStart_argsStandardScheme getScheme() {
-        return new onLoadStart_argsStandardScheme();
+    private static class LoadHandler_OnLoadStart_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public LoadHandler_OnLoadStart_argsStandardScheme getScheme() {
+        return new LoadHandler_OnLoadStart_argsStandardScheme();
       }
     }
 
-    private static class onLoadStart_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<onLoadStart_args> {
+    private static class LoadHandler_OnLoadStart_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<LoadHandler_OnLoadStart_args> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, onLoadStart_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, LoadHandler_OnLoadStart_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -12728,7 +14373,7 @@ public class ClientHandlers {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, onLoadStart_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, LoadHandler_OnLoadStart_args struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -12744,16 +14389,16 @@ public class ClientHandlers {
 
     }
 
-    private static class onLoadStart_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onLoadStart_argsTupleScheme getScheme() {
-        return new onLoadStart_argsTupleScheme();
+    private static class LoadHandler_OnLoadStart_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public LoadHandler_OnLoadStart_argsTupleScheme getScheme() {
+        return new LoadHandler_OnLoadStart_argsTupleScheme();
       }
     }
 
-    private static class onLoadStart_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<onLoadStart_args> {
+    private static class LoadHandler_OnLoadStart_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<LoadHandler_OnLoadStart_args> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, onLoadStart_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, LoadHandler_OnLoadStart_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet optionals = new java.util.BitSet();
         if (struct.isSetBid()) {
@@ -12772,7 +14417,7 @@ public class ClientHandlers {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, onLoadStart_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, LoadHandler_OnLoadStart_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(2);
         if (incoming.get(0)) {
@@ -12791,14 +14436,14 @@ public class ClientHandlers {
     }
   }
 
-  public static class onLoadEnd_args implements org.apache.thrift.TBase<onLoadEnd_args, onLoadEnd_args._Fields>, java.io.Serializable, Cloneable, Comparable<onLoadEnd_args>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("onLoadEnd_args");
+  public static class LoadHandler_OnLoadEnd_args implements org.apache.thrift.TBase<LoadHandler_OnLoadEnd_args, LoadHandler_OnLoadEnd_args._Fields>, java.io.Serializable, Cloneable, Comparable<LoadHandler_OnLoadEnd_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("LoadHandler_OnLoadEnd_args");
 
     private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
     private static final org.apache.thrift.protocol.TField HTTP_STATUS_CODE_FIELD_DESC = new org.apache.thrift.protocol.TField("httpStatusCode", org.apache.thrift.protocol.TType.I32, (short)2);
 
-    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new onLoadEnd_argsStandardSchemeFactory();
-    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new onLoadEnd_argsTupleSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new LoadHandler_OnLoadEnd_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new LoadHandler_OnLoadEnd_argsTupleSchemeFactory();
 
     public int bid; // required
     public int httpStatusCode; // required
@@ -12878,13 +14523,13 @@ public class ClientHandlers {
       tmpMap.put(_Fields.HTTP_STATUS_CODE, new org.apache.thrift.meta_data.FieldMetaData("httpStatusCode", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(onLoadEnd_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(LoadHandler_OnLoadEnd_args.class, metaDataMap);
     }
 
-    public onLoadEnd_args() {
+    public LoadHandler_OnLoadEnd_args() {
     }
 
-    public onLoadEnd_args(
+    public LoadHandler_OnLoadEnd_args(
       int bid,
       int httpStatusCode)
     {
@@ -12898,14 +14543,14 @@ public class ClientHandlers {
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public onLoadEnd_args(onLoadEnd_args other) {
+    public LoadHandler_OnLoadEnd_args(LoadHandler_OnLoadEnd_args other) {
       __isset_bitfield = other.__isset_bitfield;
       this.bid = other.bid;
       this.httpStatusCode = other.httpStatusCode;
     }
 
-    public onLoadEnd_args deepCopy() {
-      return new onLoadEnd_args(this);
+    public LoadHandler_OnLoadEnd_args deepCopy() {
+      return new LoadHandler_OnLoadEnd_args(this);
     }
 
     @Override
@@ -12920,7 +14565,7 @@ public class ClientHandlers {
       return this.bid;
     }
 
-    public onLoadEnd_args setBid(int bid) {
+    public LoadHandler_OnLoadEnd_args setBid(int bid) {
       this.bid = bid;
       setBidIsSet(true);
       return this;
@@ -12943,7 +14588,7 @@ public class ClientHandlers {
       return this.httpStatusCode;
     }
 
-    public onLoadEnd_args setHttpStatusCode(int httpStatusCode) {
+    public LoadHandler_OnLoadEnd_args setHttpStatusCode(int httpStatusCode) {
       this.httpStatusCode = httpStatusCode;
       setHttpStatusCodeIsSet(true);
       return this;
@@ -13013,12 +14658,12 @@ public class ClientHandlers {
 
     @Override
     public boolean equals(java.lang.Object that) {
-      if (that instanceof onLoadEnd_args)
-        return this.equals((onLoadEnd_args)that);
+      if (that instanceof LoadHandler_OnLoadEnd_args)
+        return this.equals((LoadHandler_OnLoadEnd_args)that);
       return false;
     }
 
-    public boolean equals(onLoadEnd_args that) {
+    public boolean equals(LoadHandler_OnLoadEnd_args that) {
       if (that == null)
         return false;
       if (this == that)
@@ -13057,7 +14702,7 @@ public class ClientHandlers {
     }
 
     @Override
-    public int compareTo(onLoadEnd_args other) {
+    public int compareTo(LoadHandler_OnLoadEnd_args other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
@@ -13102,7 +14747,7 @@ public class ClientHandlers {
 
     @Override
     public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("onLoadEnd_args(");
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("LoadHandler_OnLoadEnd_args(");
       boolean first = true;
 
       sb.append("bid:");
@@ -13139,15 +14784,15 @@ public class ClientHandlers {
       }
     }
 
-    private static class onLoadEnd_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onLoadEnd_argsStandardScheme getScheme() {
-        return new onLoadEnd_argsStandardScheme();
+    private static class LoadHandler_OnLoadEnd_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public LoadHandler_OnLoadEnd_argsStandardScheme getScheme() {
+        return new LoadHandler_OnLoadEnd_argsStandardScheme();
       }
     }
 
-    private static class onLoadEnd_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<onLoadEnd_args> {
+    private static class LoadHandler_OnLoadEnd_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<LoadHandler_OnLoadEnd_args> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, onLoadEnd_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, LoadHandler_OnLoadEnd_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -13184,7 +14829,7 @@ public class ClientHandlers {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, onLoadEnd_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, LoadHandler_OnLoadEnd_args struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -13200,16 +14845,16 @@ public class ClientHandlers {
 
     }
 
-    private static class onLoadEnd_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onLoadEnd_argsTupleScheme getScheme() {
-        return new onLoadEnd_argsTupleScheme();
+    private static class LoadHandler_OnLoadEnd_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public LoadHandler_OnLoadEnd_argsTupleScheme getScheme() {
+        return new LoadHandler_OnLoadEnd_argsTupleScheme();
       }
     }
 
-    private static class onLoadEnd_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<onLoadEnd_args> {
+    private static class LoadHandler_OnLoadEnd_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<LoadHandler_OnLoadEnd_args> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, onLoadEnd_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, LoadHandler_OnLoadEnd_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet optionals = new java.util.BitSet();
         if (struct.isSetBid()) {
@@ -13228,7 +14873,7 @@ public class ClientHandlers {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, onLoadEnd_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, LoadHandler_OnLoadEnd_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(2);
         if (incoming.get(0)) {
@@ -13247,16 +14892,16 @@ public class ClientHandlers {
     }
   }
 
-  public static class onLoadError_args implements org.apache.thrift.TBase<onLoadError_args, onLoadError_args._Fields>, java.io.Serializable, Cloneable, Comparable<onLoadError_args>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("onLoadError_args");
+  public static class LoadHandler_OnLoadError_args implements org.apache.thrift.TBase<LoadHandler_OnLoadError_args, LoadHandler_OnLoadError_args._Fields>, java.io.Serializable, Cloneable, Comparable<LoadHandler_OnLoadError_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("LoadHandler_OnLoadError_args");
 
     private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
     private static final org.apache.thrift.protocol.TField ERROR_CODE_FIELD_DESC = new org.apache.thrift.protocol.TField("errorCode", org.apache.thrift.protocol.TType.I32, (short)2);
     private static final org.apache.thrift.protocol.TField ERROR_TEXT_FIELD_DESC = new org.apache.thrift.protocol.TField("errorText", org.apache.thrift.protocol.TType.STRING, (short)3);
     private static final org.apache.thrift.protocol.TField FAILED_URL_FIELD_DESC = new org.apache.thrift.protocol.TField("failedUrl", org.apache.thrift.protocol.TType.STRING, (short)4);
 
-    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new onLoadError_argsStandardSchemeFactory();
-    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new onLoadError_argsTupleSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new LoadHandler_OnLoadError_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new LoadHandler_OnLoadError_argsTupleSchemeFactory();
 
     public int bid; // required
     public int errorCode; // required
@@ -13348,13 +14993,13 @@ public class ClientHandlers {
       tmpMap.put(_Fields.FAILED_URL, new org.apache.thrift.meta_data.FieldMetaData("failedUrl", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(onLoadError_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(LoadHandler_OnLoadError_args.class, metaDataMap);
     }
 
-    public onLoadError_args() {
+    public LoadHandler_OnLoadError_args() {
     }
 
-    public onLoadError_args(
+    public LoadHandler_OnLoadError_args(
       int bid,
       int errorCode,
       java.lang.String errorText,
@@ -13372,7 +15017,7 @@ public class ClientHandlers {
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public onLoadError_args(onLoadError_args other) {
+    public LoadHandler_OnLoadError_args(LoadHandler_OnLoadError_args other) {
       __isset_bitfield = other.__isset_bitfield;
       this.bid = other.bid;
       this.errorCode = other.errorCode;
@@ -13384,8 +15029,8 @@ public class ClientHandlers {
       }
     }
 
-    public onLoadError_args deepCopy() {
-      return new onLoadError_args(this);
+    public LoadHandler_OnLoadError_args deepCopy() {
+      return new LoadHandler_OnLoadError_args(this);
     }
 
     @Override
@@ -13402,7 +15047,7 @@ public class ClientHandlers {
       return this.bid;
     }
 
-    public onLoadError_args setBid(int bid) {
+    public LoadHandler_OnLoadError_args setBid(int bid) {
       this.bid = bid;
       setBidIsSet(true);
       return this;
@@ -13425,7 +15070,7 @@ public class ClientHandlers {
       return this.errorCode;
     }
 
-    public onLoadError_args setErrorCode(int errorCode) {
+    public LoadHandler_OnLoadError_args setErrorCode(int errorCode) {
       this.errorCode = errorCode;
       setErrorCodeIsSet(true);
       return this;
@@ -13449,7 +15094,7 @@ public class ClientHandlers {
       return this.errorText;
     }
 
-    public onLoadError_args setErrorText(@org.apache.thrift.annotation.Nullable java.lang.String errorText) {
+    public LoadHandler_OnLoadError_args setErrorText(@org.apache.thrift.annotation.Nullable java.lang.String errorText) {
       this.errorText = errorText;
       return this;
     }
@@ -13474,7 +15119,7 @@ public class ClientHandlers {
       return this.failedUrl;
     }
 
-    public onLoadError_args setFailedUrl(@org.apache.thrift.annotation.Nullable java.lang.String failedUrl) {
+    public LoadHandler_OnLoadError_args setFailedUrl(@org.apache.thrift.annotation.Nullable java.lang.String failedUrl) {
       this.failedUrl = failedUrl;
       return this;
     }
@@ -13571,12 +15216,12 @@ public class ClientHandlers {
 
     @Override
     public boolean equals(java.lang.Object that) {
-      if (that instanceof onLoadError_args)
-        return this.equals((onLoadError_args)that);
+      if (that instanceof LoadHandler_OnLoadError_args)
+        return this.equals((LoadHandler_OnLoadError_args)that);
       return false;
     }
 
-    public boolean equals(onLoadError_args that) {
+    public boolean equals(LoadHandler_OnLoadError_args that) {
       if (that == null)
         return false;
       if (this == that)
@@ -13641,7 +15286,7 @@ public class ClientHandlers {
     }
 
     @Override
-    public int compareTo(onLoadError_args other) {
+    public int compareTo(LoadHandler_OnLoadError_args other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
@@ -13706,7 +15351,7 @@ public class ClientHandlers {
 
     @Override
     public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("onLoadError_args(");
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("LoadHandler_OnLoadError_args(");
       boolean first = true;
 
       sb.append("bid:");
@@ -13759,15 +15404,15 @@ public class ClientHandlers {
       }
     }
 
-    private static class onLoadError_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onLoadError_argsStandardScheme getScheme() {
-        return new onLoadError_argsStandardScheme();
+    private static class LoadHandler_OnLoadError_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public LoadHandler_OnLoadError_argsStandardScheme getScheme() {
+        return new LoadHandler_OnLoadError_argsStandardScheme();
       }
     }
 
-    private static class onLoadError_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<onLoadError_args> {
+    private static class LoadHandler_OnLoadError_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<LoadHandler_OnLoadError_args> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, onLoadError_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, LoadHandler_OnLoadError_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -13820,7 +15465,7 @@ public class ClientHandlers {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, onLoadError_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, LoadHandler_OnLoadError_args struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -13846,16 +15491,16 @@ public class ClientHandlers {
 
     }
 
-    private static class onLoadError_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onLoadError_argsTupleScheme getScheme() {
-        return new onLoadError_argsTupleScheme();
+    private static class LoadHandler_OnLoadError_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public LoadHandler_OnLoadError_argsTupleScheme getScheme() {
+        return new LoadHandler_OnLoadError_argsTupleScheme();
       }
     }
 
-    private static class onLoadError_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<onLoadError_args> {
+    private static class LoadHandler_OnLoadError_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<LoadHandler_OnLoadError_args> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, onLoadError_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, LoadHandler_OnLoadError_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet optionals = new java.util.BitSet();
         if (struct.isSetBid()) {
@@ -13886,7 +15531,7 @@ public class ClientHandlers {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, onLoadError_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, LoadHandler_OnLoadError_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(4);
         if (incoming.get(0)) {
@@ -13913,14 +15558,14 @@ public class ClientHandlers {
     }
   }
 
-  public static class onAddressChange_args implements org.apache.thrift.TBase<onAddressChange_args, onAddressChange_args._Fields>, java.io.Serializable, Cloneable, Comparable<onAddressChange_args>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("onAddressChange_args");
+  public static class DisplayHandler_OnAddressChange_args implements org.apache.thrift.TBase<DisplayHandler_OnAddressChange_args, DisplayHandler_OnAddressChange_args._Fields>, java.io.Serializable, Cloneable, Comparable<DisplayHandler_OnAddressChange_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("DisplayHandler_OnAddressChange_args");
 
     private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
     private static final org.apache.thrift.protocol.TField URL_FIELD_DESC = new org.apache.thrift.protocol.TField("url", org.apache.thrift.protocol.TType.STRING, (short)2);
 
-    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new onAddressChange_argsStandardSchemeFactory();
-    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new onAddressChange_argsTupleSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new DisplayHandler_OnAddressChange_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new DisplayHandler_OnAddressChange_argsTupleSchemeFactory();
 
     public int bid; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String url; // required
@@ -13999,13 +15644,13 @@ public class ClientHandlers {
       tmpMap.put(_Fields.URL, new org.apache.thrift.meta_data.FieldMetaData("url", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(onAddressChange_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(DisplayHandler_OnAddressChange_args.class, metaDataMap);
     }
 
-    public onAddressChange_args() {
+    public DisplayHandler_OnAddressChange_args() {
     }
 
-    public onAddressChange_args(
+    public DisplayHandler_OnAddressChange_args(
       int bid,
       java.lang.String url)
     {
@@ -14018,7 +15663,7 @@ public class ClientHandlers {
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public onAddressChange_args(onAddressChange_args other) {
+    public DisplayHandler_OnAddressChange_args(DisplayHandler_OnAddressChange_args other) {
       __isset_bitfield = other.__isset_bitfield;
       this.bid = other.bid;
       if (other.isSetUrl()) {
@@ -14026,8 +15671,8 @@ public class ClientHandlers {
       }
     }
 
-    public onAddressChange_args deepCopy() {
-      return new onAddressChange_args(this);
+    public DisplayHandler_OnAddressChange_args deepCopy() {
+      return new DisplayHandler_OnAddressChange_args(this);
     }
 
     @Override
@@ -14041,7 +15686,7 @@ public class ClientHandlers {
       return this.bid;
     }
 
-    public onAddressChange_args setBid(int bid) {
+    public DisplayHandler_OnAddressChange_args setBid(int bid) {
       this.bid = bid;
       setBidIsSet(true);
       return this;
@@ -14065,7 +15710,7 @@ public class ClientHandlers {
       return this.url;
     }
 
-    public onAddressChange_args setUrl(@org.apache.thrift.annotation.Nullable java.lang.String url) {
+    public DisplayHandler_OnAddressChange_args setUrl(@org.apache.thrift.annotation.Nullable java.lang.String url) {
       this.url = url;
       return this;
     }
@@ -14136,12 +15781,12 @@ public class ClientHandlers {
 
     @Override
     public boolean equals(java.lang.Object that) {
-      if (that instanceof onAddressChange_args)
-        return this.equals((onAddressChange_args)that);
+      if (that instanceof DisplayHandler_OnAddressChange_args)
+        return this.equals((DisplayHandler_OnAddressChange_args)that);
       return false;
     }
 
-    public boolean equals(onAddressChange_args that) {
+    public boolean equals(DisplayHandler_OnAddressChange_args that) {
       if (that == null)
         return false;
       if (this == that)
@@ -14182,7 +15827,7 @@ public class ClientHandlers {
     }
 
     @Override
-    public int compareTo(onAddressChange_args other) {
+    public int compareTo(DisplayHandler_OnAddressChange_args other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
@@ -14227,7 +15872,7 @@ public class ClientHandlers {
 
     @Override
     public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("onAddressChange_args(");
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("DisplayHandler_OnAddressChange_args(");
       boolean first = true;
 
       sb.append("bid:");
@@ -14268,15 +15913,15 @@ public class ClientHandlers {
       }
     }
 
-    private static class onAddressChange_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onAddressChange_argsStandardScheme getScheme() {
-        return new onAddressChange_argsStandardScheme();
+    private static class DisplayHandler_OnAddressChange_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public DisplayHandler_OnAddressChange_argsStandardScheme getScheme() {
+        return new DisplayHandler_OnAddressChange_argsStandardScheme();
       }
     }
 
-    private static class onAddressChange_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<onAddressChange_args> {
+    private static class DisplayHandler_OnAddressChange_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<DisplayHandler_OnAddressChange_args> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, onAddressChange_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, DisplayHandler_OnAddressChange_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -14313,7 +15958,7 @@ public class ClientHandlers {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, onAddressChange_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, DisplayHandler_OnAddressChange_args struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -14331,16 +15976,16 @@ public class ClientHandlers {
 
     }
 
-    private static class onAddressChange_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onAddressChange_argsTupleScheme getScheme() {
-        return new onAddressChange_argsTupleScheme();
+    private static class DisplayHandler_OnAddressChange_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public DisplayHandler_OnAddressChange_argsTupleScheme getScheme() {
+        return new DisplayHandler_OnAddressChange_argsTupleScheme();
       }
     }
 
-    private static class onAddressChange_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<onAddressChange_args> {
+    private static class DisplayHandler_OnAddressChange_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<DisplayHandler_OnAddressChange_args> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, onAddressChange_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, DisplayHandler_OnAddressChange_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet optionals = new java.util.BitSet();
         if (struct.isSetBid()) {
@@ -14359,7 +16004,7 @@ public class ClientHandlers {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, onAddressChange_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, DisplayHandler_OnAddressChange_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(2);
         if (incoming.get(0)) {
@@ -14378,14 +16023,14 @@ public class ClientHandlers {
     }
   }
 
-  public static class onTitleChange_args implements org.apache.thrift.TBase<onTitleChange_args, onTitleChange_args._Fields>, java.io.Serializable, Cloneable, Comparable<onTitleChange_args>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("onTitleChange_args");
+  public static class DisplayHandler_OnTitleChange_args implements org.apache.thrift.TBase<DisplayHandler_OnTitleChange_args, DisplayHandler_OnTitleChange_args._Fields>, java.io.Serializable, Cloneable, Comparable<DisplayHandler_OnTitleChange_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("DisplayHandler_OnTitleChange_args");
 
     private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
     private static final org.apache.thrift.protocol.TField TITLE_FIELD_DESC = new org.apache.thrift.protocol.TField("title", org.apache.thrift.protocol.TType.STRING, (short)2);
 
-    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new onTitleChange_argsStandardSchemeFactory();
-    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new onTitleChange_argsTupleSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new DisplayHandler_OnTitleChange_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new DisplayHandler_OnTitleChange_argsTupleSchemeFactory();
 
     public int bid; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String title; // required
@@ -14464,13 +16109,13 @@ public class ClientHandlers {
       tmpMap.put(_Fields.TITLE, new org.apache.thrift.meta_data.FieldMetaData("title", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(onTitleChange_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(DisplayHandler_OnTitleChange_args.class, metaDataMap);
     }
 
-    public onTitleChange_args() {
+    public DisplayHandler_OnTitleChange_args() {
     }
 
-    public onTitleChange_args(
+    public DisplayHandler_OnTitleChange_args(
       int bid,
       java.lang.String title)
     {
@@ -14483,7 +16128,7 @@ public class ClientHandlers {
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public onTitleChange_args(onTitleChange_args other) {
+    public DisplayHandler_OnTitleChange_args(DisplayHandler_OnTitleChange_args other) {
       __isset_bitfield = other.__isset_bitfield;
       this.bid = other.bid;
       if (other.isSetTitle()) {
@@ -14491,8 +16136,8 @@ public class ClientHandlers {
       }
     }
 
-    public onTitleChange_args deepCopy() {
-      return new onTitleChange_args(this);
+    public DisplayHandler_OnTitleChange_args deepCopy() {
+      return new DisplayHandler_OnTitleChange_args(this);
     }
 
     @Override
@@ -14506,7 +16151,7 @@ public class ClientHandlers {
       return this.bid;
     }
 
-    public onTitleChange_args setBid(int bid) {
+    public DisplayHandler_OnTitleChange_args setBid(int bid) {
       this.bid = bid;
       setBidIsSet(true);
       return this;
@@ -14530,7 +16175,7 @@ public class ClientHandlers {
       return this.title;
     }
 
-    public onTitleChange_args setTitle(@org.apache.thrift.annotation.Nullable java.lang.String title) {
+    public DisplayHandler_OnTitleChange_args setTitle(@org.apache.thrift.annotation.Nullable java.lang.String title) {
       this.title = title;
       return this;
     }
@@ -14601,12 +16246,12 @@ public class ClientHandlers {
 
     @Override
     public boolean equals(java.lang.Object that) {
-      if (that instanceof onTitleChange_args)
-        return this.equals((onTitleChange_args)that);
+      if (that instanceof DisplayHandler_OnTitleChange_args)
+        return this.equals((DisplayHandler_OnTitleChange_args)that);
       return false;
     }
 
-    public boolean equals(onTitleChange_args that) {
+    public boolean equals(DisplayHandler_OnTitleChange_args that) {
       if (that == null)
         return false;
       if (this == that)
@@ -14647,7 +16292,7 @@ public class ClientHandlers {
     }
 
     @Override
-    public int compareTo(onTitleChange_args other) {
+    public int compareTo(DisplayHandler_OnTitleChange_args other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
@@ -14692,7 +16337,7 @@ public class ClientHandlers {
 
     @Override
     public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("onTitleChange_args(");
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("DisplayHandler_OnTitleChange_args(");
       boolean first = true;
 
       sb.append("bid:");
@@ -14733,15 +16378,15 @@ public class ClientHandlers {
       }
     }
 
-    private static class onTitleChange_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onTitleChange_argsStandardScheme getScheme() {
-        return new onTitleChange_argsStandardScheme();
+    private static class DisplayHandler_OnTitleChange_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public DisplayHandler_OnTitleChange_argsStandardScheme getScheme() {
+        return new DisplayHandler_OnTitleChange_argsStandardScheme();
       }
     }
 
-    private static class onTitleChange_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<onTitleChange_args> {
+    private static class DisplayHandler_OnTitleChange_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<DisplayHandler_OnTitleChange_args> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, onTitleChange_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, DisplayHandler_OnTitleChange_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -14778,7 +16423,7 @@ public class ClientHandlers {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, onTitleChange_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, DisplayHandler_OnTitleChange_args struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -14796,16 +16441,16 @@ public class ClientHandlers {
 
     }
 
-    private static class onTitleChange_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onTitleChange_argsTupleScheme getScheme() {
-        return new onTitleChange_argsTupleScheme();
+    private static class DisplayHandler_OnTitleChange_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public DisplayHandler_OnTitleChange_argsTupleScheme getScheme() {
+        return new DisplayHandler_OnTitleChange_argsTupleScheme();
       }
     }
 
-    private static class onTitleChange_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<onTitleChange_args> {
+    private static class DisplayHandler_OnTitleChange_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<DisplayHandler_OnTitleChange_args> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, onTitleChange_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, DisplayHandler_OnTitleChange_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet optionals = new java.util.BitSet();
         if (struct.isSetBid()) {
@@ -14824,7 +16469,7 @@ public class ClientHandlers {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, onTitleChange_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, DisplayHandler_OnTitleChange_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(2);
         if (incoming.get(0)) {
@@ -14843,14 +16488,14 @@ public class ClientHandlers {
     }
   }
 
-  public static class onTooltip_args implements org.apache.thrift.TBase<onTooltip_args, onTooltip_args._Fields>, java.io.Serializable, Cloneable, Comparable<onTooltip_args>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("onTooltip_args");
+  public static class DisplayHandler_OnTooltip_args implements org.apache.thrift.TBase<DisplayHandler_OnTooltip_args, DisplayHandler_OnTooltip_args._Fields>, java.io.Serializable, Cloneable, Comparable<DisplayHandler_OnTooltip_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("DisplayHandler_OnTooltip_args");
 
     private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
     private static final org.apache.thrift.protocol.TField TEXT_FIELD_DESC = new org.apache.thrift.protocol.TField("text", org.apache.thrift.protocol.TType.STRING, (short)2);
 
-    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new onTooltip_argsStandardSchemeFactory();
-    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new onTooltip_argsTupleSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new DisplayHandler_OnTooltip_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new DisplayHandler_OnTooltip_argsTupleSchemeFactory();
 
     public int bid; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String text; // required
@@ -14929,13 +16574,13 @@ public class ClientHandlers {
       tmpMap.put(_Fields.TEXT, new org.apache.thrift.meta_data.FieldMetaData("text", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(onTooltip_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(DisplayHandler_OnTooltip_args.class, metaDataMap);
     }
 
-    public onTooltip_args() {
+    public DisplayHandler_OnTooltip_args() {
     }
 
-    public onTooltip_args(
+    public DisplayHandler_OnTooltip_args(
       int bid,
       java.lang.String text)
     {
@@ -14948,7 +16593,7 @@ public class ClientHandlers {
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public onTooltip_args(onTooltip_args other) {
+    public DisplayHandler_OnTooltip_args(DisplayHandler_OnTooltip_args other) {
       __isset_bitfield = other.__isset_bitfield;
       this.bid = other.bid;
       if (other.isSetText()) {
@@ -14956,8 +16601,8 @@ public class ClientHandlers {
       }
     }
 
-    public onTooltip_args deepCopy() {
-      return new onTooltip_args(this);
+    public DisplayHandler_OnTooltip_args deepCopy() {
+      return new DisplayHandler_OnTooltip_args(this);
     }
 
     @Override
@@ -14971,7 +16616,7 @@ public class ClientHandlers {
       return this.bid;
     }
 
-    public onTooltip_args setBid(int bid) {
+    public DisplayHandler_OnTooltip_args setBid(int bid) {
       this.bid = bid;
       setBidIsSet(true);
       return this;
@@ -14995,7 +16640,7 @@ public class ClientHandlers {
       return this.text;
     }
 
-    public onTooltip_args setText(@org.apache.thrift.annotation.Nullable java.lang.String text) {
+    public DisplayHandler_OnTooltip_args setText(@org.apache.thrift.annotation.Nullable java.lang.String text) {
       this.text = text;
       return this;
     }
@@ -15066,12 +16711,12 @@ public class ClientHandlers {
 
     @Override
     public boolean equals(java.lang.Object that) {
-      if (that instanceof onTooltip_args)
-        return this.equals((onTooltip_args)that);
+      if (that instanceof DisplayHandler_OnTooltip_args)
+        return this.equals((DisplayHandler_OnTooltip_args)that);
       return false;
     }
 
-    public boolean equals(onTooltip_args that) {
+    public boolean equals(DisplayHandler_OnTooltip_args that) {
       if (that == null)
         return false;
       if (this == that)
@@ -15112,7 +16757,7 @@ public class ClientHandlers {
     }
 
     @Override
-    public int compareTo(onTooltip_args other) {
+    public int compareTo(DisplayHandler_OnTooltip_args other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
@@ -15157,7 +16802,7 @@ public class ClientHandlers {
 
     @Override
     public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("onTooltip_args(");
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("DisplayHandler_OnTooltip_args(");
       boolean first = true;
 
       sb.append("bid:");
@@ -15198,15 +16843,15 @@ public class ClientHandlers {
       }
     }
 
-    private static class onTooltip_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onTooltip_argsStandardScheme getScheme() {
-        return new onTooltip_argsStandardScheme();
+    private static class DisplayHandler_OnTooltip_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public DisplayHandler_OnTooltip_argsStandardScheme getScheme() {
+        return new DisplayHandler_OnTooltip_argsStandardScheme();
       }
     }
 
-    private static class onTooltip_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<onTooltip_args> {
+    private static class DisplayHandler_OnTooltip_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<DisplayHandler_OnTooltip_args> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, onTooltip_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, DisplayHandler_OnTooltip_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -15243,7 +16888,7 @@ public class ClientHandlers {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, onTooltip_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, DisplayHandler_OnTooltip_args struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -15261,16 +16906,16 @@ public class ClientHandlers {
 
     }
 
-    private static class onTooltip_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onTooltip_argsTupleScheme getScheme() {
-        return new onTooltip_argsTupleScheme();
+    private static class DisplayHandler_OnTooltip_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public DisplayHandler_OnTooltip_argsTupleScheme getScheme() {
+        return new DisplayHandler_OnTooltip_argsTupleScheme();
       }
     }
 
-    private static class onTooltip_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<onTooltip_args> {
+    private static class DisplayHandler_OnTooltip_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<DisplayHandler_OnTooltip_args> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, onTooltip_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, DisplayHandler_OnTooltip_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet optionals = new java.util.BitSet();
         if (struct.isSetBid()) {
@@ -15289,7 +16934,7 @@ public class ClientHandlers {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, onTooltip_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, DisplayHandler_OnTooltip_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(2);
         if (incoming.get(0)) {
@@ -15308,13 +16953,13 @@ public class ClientHandlers {
     }
   }
 
-  public static class onTooltip_result implements org.apache.thrift.TBase<onTooltip_result, onTooltip_result._Fields>, java.io.Serializable, Cloneable, Comparable<onTooltip_result>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("onTooltip_result");
+  public static class DisplayHandler_OnTooltip_result implements org.apache.thrift.TBase<DisplayHandler_OnTooltip_result, DisplayHandler_OnTooltip_result._Fields>, java.io.Serializable, Cloneable, Comparable<DisplayHandler_OnTooltip_result>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("DisplayHandler_OnTooltip_result");
 
     private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.BOOL, (short)0);
 
-    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new onTooltip_resultStandardSchemeFactory();
-    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new onTooltip_resultTupleSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new DisplayHandler_OnTooltip_resultStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new DisplayHandler_OnTooltip_resultTupleSchemeFactory();
 
     public boolean success; // required
 
@@ -15387,13 +17032,13 @@ public class ClientHandlers {
       tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(onTooltip_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(DisplayHandler_OnTooltip_result.class, metaDataMap);
     }
 
-    public onTooltip_result() {
+    public DisplayHandler_OnTooltip_result() {
     }
 
-    public onTooltip_result(
+    public DisplayHandler_OnTooltip_result(
       boolean success)
     {
       this();
@@ -15404,13 +17049,13 @@ public class ClientHandlers {
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public onTooltip_result(onTooltip_result other) {
+    public DisplayHandler_OnTooltip_result(DisplayHandler_OnTooltip_result other) {
       __isset_bitfield = other.__isset_bitfield;
       this.success = other.success;
     }
 
-    public onTooltip_result deepCopy() {
-      return new onTooltip_result(this);
+    public DisplayHandler_OnTooltip_result deepCopy() {
+      return new DisplayHandler_OnTooltip_result(this);
     }
 
     @Override
@@ -15423,7 +17068,7 @@ public class ClientHandlers {
       return this.success;
     }
 
-    public onTooltip_result setSuccess(boolean success) {
+    public DisplayHandler_OnTooltip_result setSuccess(boolean success) {
       this.success = success;
       setSuccessIsSet(true);
       return this;
@@ -15480,12 +17125,12 @@ public class ClientHandlers {
 
     @Override
     public boolean equals(java.lang.Object that) {
-      if (that instanceof onTooltip_result)
-        return this.equals((onTooltip_result)that);
+      if (that instanceof DisplayHandler_OnTooltip_result)
+        return this.equals((DisplayHandler_OnTooltip_result)that);
       return false;
     }
 
-    public boolean equals(onTooltip_result that) {
+    public boolean equals(DisplayHandler_OnTooltip_result that) {
       if (that == null)
         return false;
       if (this == that)
@@ -15513,7 +17158,7 @@ public class ClientHandlers {
     }
 
     @Override
-    public int compareTo(onTooltip_result other) {
+    public int compareTo(DisplayHandler_OnTooltip_result other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
@@ -15548,7 +17193,7 @@ public class ClientHandlers {
 
     @Override
     public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("onTooltip_result(");
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("DisplayHandler_OnTooltip_result(");
       boolean first = true;
 
       sb.append("success:");
@@ -15581,15 +17226,15 @@ public class ClientHandlers {
       }
     }
 
-    private static class onTooltip_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onTooltip_resultStandardScheme getScheme() {
-        return new onTooltip_resultStandardScheme();
+    private static class DisplayHandler_OnTooltip_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public DisplayHandler_OnTooltip_resultStandardScheme getScheme() {
+        return new DisplayHandler_OnTooltip_resultStandardScheme();
       }
     }
 
-    private static class onTooltip_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<onTooltip_result> {
+    private static class DisplayHandler_OnTooltip_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<DisplayHandler_OnTooltip_result> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, onTooltip_result struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, DisplayHandler_OnTooltip_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -15618,7 +17263,7 @@ public class ClientHandlers {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, onTooltip_result struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, DisplayHandler_OnTooltip_result struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -15633,16 +17278,16 @@ public class ClientHandlers {
 
     }
 
-    private static class onTooltip_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onTooltip_resultTupleScheme getScheme() {
-        return new onTooltip_resultTupleScheme();
+    private static class DisplayHandler_OnTooltip_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public DisplayHandler_OnTooltip_resultTupleScheme getScheme() {
+        return new DisplayHandler_OnTooltip_resultTupleScheme();
       }
     }
 
-    private static class onTooltip_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<onTooltip_result> {
+    private static class DisplayHandler_OnTooltip_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<DisplayHandler_OnTooltip_result> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, onTooltip_result struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, DisplayHandler_OnTooltip_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet optionals = new java.util.BitSet();
         if (struct.isSetSuccess()) {
@@ -15655,7 +17300,7 @@ public class ClientHandlers {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, onTooltip_result struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, DisplayHandler_OnTooltip_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
@@ -15670,14 +17315,14 @@ public class ClientHandlers {
     }
   }
 
-  public static class onStatusMessage_args implements org.apache.thrift.TBase<onStatusMessage_args, onStatusMessage_args._Fields>, java.io.Serializable, Cloneable, Comparable<onStatusMessage_args>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("onStatusMessage_args");
+  public static class DisplayHandler_OnStatusMessage_args implements org.apache.thrift.TBase<DisplayHandler_OnStatusMessage_args, DisplayHandler_OnStatusMessage_args._Fields>, java.io.Serializable, Cloneable, Comparable<DisplayHandler_OnStatusMessage_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("DisplayHandler_OnStatusMessage_args");
 
     private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
     private static final org.apache.thrift.protocol.TField VALUE_FIELD_DESC = new org.apache.thrift.protocol.TField("value", org.apache.thrift.protocol.TType.STRING, (short)2);
 
-    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new onStatusMessage_argsStandardSchemeFactory();
-    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new onStatusMessage_argsTupleSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new DisplayHandler_OnStatusMessage_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new DisplayHandler_OnStatusMessage_argsTupleSchemeFactory();
 
     public int bid; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String value; // required
@@ -15756,13 +17401,13 @@ public class ClientHandlers {
       tmpMap.put(_Fields.VALUE, new org.apache.thrift.meta_data.FieldMetaData("value", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(onStatusMessage_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(DisplayHandler_OnStatusMessage_args.class, metaDataMap);
     }
 
-    public onStatusMessage_args() {
+    public DisplayHandler_OnStatusMessage_args() {
     }
 
-    public onStatusMessage_args(
+    public DisplayHandler_OnStatusMessage_args(
       int bid,
       java.lang.String value)
     {
@@ -15775,7 +17420,7 @@ public class ClientHandlers {
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public onStatusMessage_args(onStatusMessage_args other) {
+    public DisplayHandler_OnStatusMessage_args(DisplayHandler_OnStatusMessage_args other) {
       __isset_bitfield = other.__isset_bitfield;
       this.bid = other.bid;
       if (other.isSetValue()) {
@@ -15783,8 +17428,8 @@ public class ClientHandlers {
       }
     }
 
-    public onStatusMessage_args deepCopy() {
-      return new onStatusMessage_args(this);
+    public DisplayHandler_OnStatusMessage_args deepCopy() {
+      return new DisplayHandler_OnStatusMessage_args(this);
     }
 
     @Override
@@ -15798,7 +17443,7 @@ public class ClientHandlers {
       return this.bid;
     }
 
-    public onStatusMessage_args setBid(int bid) {
+    public DisplayHandler_OnStatusMessage_args setBid(int bid) {
       this.bid = bid;
       setBidIsSet(true);
       return this;
@@ -15822,7 +17467,7 @@ public class ClientHandlers {
       return this.value;
     }
 
-    public onStatusMessage_args setValue(@org.apache.thrift.annotation.Nullable java.lang.String value) {
+    public DisplayHandler_OnStatusMessage_args setValue(@org.apache.thrift.annotation.Nullable java.lang.String value) {
       this.value = value;
       return this;
     }
@@ -15893,12 +17538,12 @@ public class ClientHandlers {
 
     @Override
     public boolean equals(java.lang.Object that) {
-      if (that instanceof onStatusMessage_args)
-        return this.equals((onStatusMessage_args)that);
+      if (that instanceof DisplayHandler_OnStatusMessage_args)
+        return this.equals((DisplayHandler_OnStatusMessage_args)that);
       return false;
     }
 
-    public boolean equals(onStatusMessage_args that) {
+    public boolean equals(DisplayHandler_OnStatusMessage_args that) {
       if (that == null)
         return false;
       if (this == that)
@@ -15939,7 +17584,7 @@ public class ClientHandlers {
     }
 
     @Override
-    public int compareTo(onStatusMessage_args other) {
+    public int compareTo(DisplayHandler_OnStatusMessage_args other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
@@ -15984,7 +17629,7 @@ public class ClientHandlers {
 
     @Override
     public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("onStatusMessage_args(");
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("DisplayHandler_OnStatusMessage_args(");
       boolean first = true;
 
       sb.append("bid:");
@@ -16025,15 +17670,15 @@ public class ClientHandlers {
       }
     }
 
-    private static class onStatusMessage_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onStatusMessage_argsStandardScheme getScheme() {
-        return new onStatusMessage_argsStandardScheme();
+    private static class DisplayHandler_OnStatusMessage_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public DisplayHandler_OnStatusMessage_argsStandardScheme getScheme() {
+        return new DisplayHandler_OnStatusMessage_argsStandardScheme();
       }
     }
 
-    private static class onStatusMessage_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<onStatusMessage_args> {
+    private static class DisplayHandler_OnStatusMessage_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<DisplayHandler_OnStatusMessage_args> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, onStatusMessage_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, DisplayHandler_OnStatusMessage_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -16070,7 +17715,7 @@ public class ClientHandlers {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, onStatusMessage_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, DisplayHandler_OnStatusMessage_args struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -16088,16 +17733,16 @@ public class ClientHandlers {
 
     }
 
-    private static class onStatusMessage_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onStatusMessage_argsTupleScheme getScheme() {
-        return new onStatusMessage_argsTupleScheme();
+    private static class DisplayHandler_OnStatusMessage_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public DisplayHandler_OnStatusMessage_argsTupleScheme getScheme() {
+        return new DisplayHandler_OnStatusMessage_argsTupleScheme();
       }
     }
 
-    private static class onStatusMessage_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<onStatusMessage_args> {
+    private static class DisplayHandler_OnStatusMessage_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<DisplayHandler_OnStatusMessage_args> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, onStatusMessage_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, DisplayHandler_OnStatusMessage_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet optionals = new java.util.BitSet();
         if (struct.isSetBid()) {
@@ -16116,7 +17761,7 @@ public class ClientHandlers {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, onStatusMessage_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, DisplayHandler_OnStatusMessage_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(2);
         if (incoming.get(0)) {
@@ -16135,8 +17780,8 @@ public class ClientHandlers {
     }
   }
 
-  public static class onConsoleMessage_args implements org.apache.thrift.TBase<onConsoleMessage_args, onConsoleMessage_args._Fields>, java.io.Serializable, Cloneable, Comparable<onConsoleMessage_args>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("onConsoleMessage_args");
+  public static class DisplayHandler_OnConsoleMessage_args implements org.apache.thrift.TBase<DisplayHandler_OnConsoleMessage_args, DisplayHandler_OnConsoleMessage_args._Fields>, java.io.Serializable, Cloneable, Comparable<DisplayHandler_OnConsoleMessage_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("DisplayHandler_OnConsoleMessage_args");
 
     private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
     private static final org.apache.thrift.protocol.TField LEVEL_FIELD_DESC = new org.apache.thrift.protocol.TField("level", org.apache.thrift.protocol.TType.I32, (short)2);
@@ -16144,8 +17789,8 @@ public class ClientHandlers {
     private static final org.apache.thrift.protocol.TField SOURCE_FIELD_DESC = new org.apache.thrift.protocol.TField("source", org.apache.thrift.protocol.TType.STRING, (short)4);
     private static final org.apache.thrift.protocol.TField LINE_FIELD_DESC = new org.apache.thrift.protocol.TField("line", org.apache.thrift.protocol.TType.I32, (short)5);
 
-    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new onConsoleMessage_argsStandardSchemeFactory();
-    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new onConsoleMessage_argsTupleSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new DisplayHandler_OnConsoleMessage_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new DisplayHandler_OnConsoleMessage_argsTupleSchemeFactory();
 
     public int bid; // required
     public int level; // required
@@ -16244,13 +17889,13 @@ public class ClientHandlers {
       tmpMap.put(_Fields.LINE, new org.apache.thrift.meta_data.FieldMetaData("line", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(onConsoleMessage_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(DisplayHandler_OnConsoleMessage_args.class, metaDataMap);
     }
 
-    public onConsoleMessage_args() {
+    public DisplayHandler_OnConsoleMessage_args() {
     }
 
-    public onConsoleMessage_args(
+    public DisplayHandler_OnConsoleMessage_args(
       int bid,
       int level,
       java.lang.String message,
@@ -16271,7 +17916,7 @@ public class ClientHandlers {
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public onConsoleMessage_args(onConsoleMessage_args other) {
+    public DisplayHandler_OnConsoleMessage_args(DisplayHandler_OnConsoleMessage_args other) {
       __isset_bitfield = other.__isset_bitfield;
       this.bid = other.bid;
       this.level = other.level;
@@ -16284,8 +17929,8 @@ public class ClientHandlers {
       this.line = other.line;
     }
 
-    public onConsoleMessage_args deepCopy() {
-      return new onConsoleMessage_args(this);
+    public DisplayHandler_OnConsoleMessage_args deepCopy() {
+      return new DisplayHandler_OnConsoleMessage_args(this);
     }
 
     @Override
@@ -16304,7 +17949,7 @@ public class ClientHandlers {
       return this.bid;
     }
 
-    public onConsoleMessage_args setBid(int bid) {
+    public DisplayHandler_OnConsoleMessage_args setBid(int bid) {
       this.bid = bid;
       setBidIsSet(true);
       return this;
@@ -16327,7 +17972,7 @@ public class ClientHandlers {
       return this.level;
     }
 
-    public onConsoleMessage_args setLevel(int level) {
+    public DisplayHandler_OnConsoleMessage_args setLevel(int level) {
       this.level = level;
       setLevelIsSet(true);
       return this;
@@ -16351,7 +17996,7 @@ public class ClientHandlers {
       return this.message;
     }
 
-    public onConsoleMessage_args setMessage(@org.apache.thrift.annotation.Nullable java.lang.String message) {
+    public DisplayHandler_OnConsoleMessage_args setMessage(@org.apache.thrift.annotation.Nullable java.lang.String message) {
       this.message = message;
       return this;
     }
@@ -16376,7 +18021,7 @@ public class ClientHandlers {
       return this.source;
     }
 
-    public onConsoleMessage_args setSource(@org.apache.thrift.annotation.Nullable java.lang.String source) {
+    public DisplayHandler_OnConsoleMessage_args setSource(@org.apache.thrift.annotation.Nullable java.lang.String source) {
       this.source = source;
       return this;
     }
@@ -16400,7 +18045,7 @@ public class ClientHandlers {
       return this.line;
     }
 
-    public onConsoleMessage_args setLine(int line) {
+    public DisplayHandler_OnConsoleMessage_args setLine(int line) {
       this.line = line;
       setLineIsSet(true);
       return this;
@@ -16509,12 +18154,12 @@ public class ClientHandlers {
 
     @Override
     public boolean equals(java.lang.Object that) {
-      if (that instanceof onConsoleMessage_args)
-        return this.equals((onConsoleMessage_args)that);
+      if (that instanceof DisplayHandler_OnConsoleMessage_args)
+        return this.equals((DisplayHandler_OnConsoleMessage_args)that);
       return false;
     }
 
-    public boolean equals(onConsoleMessage_args that) {
+    public boolean equals(DisplayHandler_OnConsoleMessage_args that) {
       if (that == null)
         return false;
       if (this == that)
@@ -16590,7 +18235,7 @@ public class ClientHandlers {
     }
 
     @Override
-    public int compareTo(onConsoleMessage_args other) {
+    public int compareTo(DisplayHandler_OnConsoleMessage_args other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
@@ -16665,7 +18310,7 @@ public class ClientHandlers {
 
     @Override
     public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("onConsoleMessage_args(");
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("DisplayHandler_OnConsoleMessage_args(");
       boolean first = true;
 
       sb.append("bid:");
@@ -16722,15 +18367,15 @@ public class ClientHandlers {
       }
     }
 
-    private static class onConsoleMessage_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onConsoleMessage_argsStandardScheme getScheme() {
-        return new onConsoleMessage_argsStandardScheme();
+    private static class DisplayHandler_OnConsoleMessage_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public DisplayHandler_OnConsoleMessage_argsStandardScheme getScheme() {
+        return new DisplayHandler_OnConsoleMessage_argsStandardScheme();
       }
     }
 
-    private static class onConsoleMessage_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<onConsoleMessage_args> {
+    private static class DisplayHandler_OnConsoleMessage_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<DisplayHandler_OnConsoleMessage_args> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, onConsoleMessage_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, DisplayHandler_OnConsoleMessage_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -16791,7 +18436,7 @@ public class ClientHandlers {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, onConsoleMessage_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, DisplayHandler_OnConsoleMessage_args struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -16820,16 +18465,16 @@ public class ClientHandlers {
 
     }
 
-    private static class onConsoleMessage_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onConsoleMessage_argsTupleScheme getScheme() {
-        return new onConsoleMessage_argsTupleScheme();
+    private static class DisplayHandler_OnConsoleMessage_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public DisplayHandler_OnConsoleMessage_argsTupleScheme getScheme() {
+        return new DisplayHandler_OnConsoleMessage_argsTupleScheme();
       }
     }
 
-    private static class onConsoleMessage_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<onConsoleMessage_args> {
+    private static class DisplayHandler_OnConsoleMessage_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<DisplayHandler_OnConsoleMessage_args> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, onConsoleMessage_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, DisplayHandler_OnConsoleMessage_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet optionals = new java.util.BitSet();
         if (struct.isSetBid()) {
@@ -16866,7 +18511,7 @@ public class ClientHandlers {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, onConsoleMessage_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, DisplayHandler_OnConsoleMessage_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(5);
         if (incoming.get(0)) {
@@ -16897,13 +18542,13 @@ public class ClientHandlers {
     }
   }
 
-  public static class onConsoleMessage_result implements org.apache.thrift.TBase<onConsoleMessage_result, onConsoleMessage_result._Fields>, java.io.Serializable, Cloneable, Comparable<onConsoleMessage_result>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("onConsoleMessage_result");
+  public static class DisplayHandler_OnConsoleMessage_result implements org.apache.thrift.TBase<DisplayHandler_OnConsoleMessage_result, DisplayHandler_OnConsoleMessage_result._Fields>, java.io.Serializable, Cloneable, Comparable<DisplayHandler_OnConsoleMessage_result>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("DisplayHandler_OnConsoleMessage_result");
 
     private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.BOOL, (short)0);
 
-    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new onConsoleMessage_resultStandardSchemeFactory();
-    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new onConsoleMessage_resultTupleSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new DisplayHandler_OnConsoleMessage_resultStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new DisplayHandler_OnConsoleMessage_resultTupleSchemeFactory();
 
     public boolean success; // required
 
@@ -16976,13 +18621,13 @@ public class ClientHandlers {
       tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(onConsoleMessage_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(DisplayHandler_OnConsoleMessage_result.class, metaDataMap);
     }
 
-    public onConsoleMessage_result() {
+    public DisplayHandler_OnConsoleMessage_result() {
     }
 
-    public onConsoleMessage_result(
+    public DisplayHandler_OnConsoleMessage_result(
       boolean success)
     {
       this();
@@ -16993,13 +18638,13 @@ public class ClientHandlers {
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public onConsoleMessage_result(onConsoleMessage_result other) {
+    public DisplayHandler_OnConsoleMessage_result(DisplayHandler_OnConsoleMessage_result other) {
       __isset_bitfield = other.__isset_bitfield;
       this.success = other.success;
     }
 
-    public onConsoleMessage_result deepCopy() {
-      return new onConsoleMessage_result(this);
+    public DisplayHandler_OnConsoleMessage_result deepCopy() {
+      return new DisplayHandler_OnConsoleMessage_result(this);
     }
 
     @Override
@@ -17012,7 +18657,7 @@ public class ClientHandlers {
       return this.success;
     }
 
-    public onConsoleMessage_result setSuccess(boolean success) {
+    public DisplayHandler_OnConsoleMessage_result setSuccess(boolean success) {
       this.success = success;
       setSuccessIsSet(true);
       return this;
@@ -17069,12 +18714,12 @@ public class ClientHandlers {
 
     @Override
     public boolean equals(java.lang.Object that) {
-      if (that instanceof onConsoleMessage_result)
-        return this.equals((onConsoleMessage_result)that);
+      if (that instanceof DisplayHandler_OnConsoleMessage_result)
+        return this.equals((DisplayHandler_OnConsoleMessage_result)that);
       return false;
     }
 
-    public boolean equals(onConsoleMessage_result that) {
+    public boolean equals(DisplayHandler_OnConsoleMessage_result that) {
       if (that == null)
         return false;
       if (this == that)
@@ -17102,7 +18747,7 @@ public class ClientHandlers {
     }
 
     @Override
-    public int compareTo(onConsoleMessage_result other) {
+    public int compareTo(DisplayHandler_OnConsoleMessage_result other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
@@ -17137,7 +18782,7 @@ public class ClientHandlers {
 
     @Override
     public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("onConsoleMessage_result(");
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("DisplayHandler_OnConsoleMessage_result(");
       boolean first = true;
 
       sb.append("success:");
@@ -17170,15 +18815,15 @@ public class ClientHandlers {
       }
     }
 
-    private static class onConsoleMessage_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onConsoleMessage_resultStandardScheme getScheme() {
-        return new onConsoleMessage_resultStandardScheme();
+    private static class DisplayHandler_OnConsoleMessage_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public DisplayHandler_OnConsoleMessage_resultStandardScheme getScheme() {
+        return new DisplayHandler_OnConsoleMessage_resultStandardScheme();
       }
     }
 
-    private static class onConsoleMessage_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<onConsoleMessage_result> {
+    private static class DisplayHandler_OnConsoleMessage_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<DisplayHandler_OnConsoleMessage_result> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, onConsoleMessage_result struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, DisplayHandler_OnConsoleMessage_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -17207,7 +18852,7 @@ public class ClientHandlers {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, onConsoleMessage_result struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, DisplayHandler_OnConsoleMessage_result struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -17222,16 +18867,16 @@ public class ClientHandlers {
 
     }
 
-    private static class onConsoleMessage_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public onConsoleMessage_resultTupleScheme getScheme() {
-        return new onConsoleMessage_resultTupleScheme();
+    private static class DisplayHandler_OnConsoleMessage_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public DisplayHandler_OnConsoleMessage_resultTupleScheme getScheme() {
+        return new DisplayHandler_OnConsoleMessage_resultTupleScheme();
       }
     }
 
-    private static class onConsoleMessage_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<onConsoleMessage_result> {
+    private static class DisplayHandler_OnConsoleMessage_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<DisplayHandler_OnConsoleMessage_result> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, onConsoleMessage_result struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, DisplayHandler_OnConsoleMessage_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet optionals = new java.util.BitSet();
         if (struct.isSetSuccess()) {
@@ -17244,7 +18889,7 @@ public class ClientHandlers {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, onConsoleMessage_result struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, DisplayHandler_OnConsoleMessage_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
@@ -32621,258 +34266,6 @@ public class ClientHandlers {
     }
   }
 
-  public static class ResourceRequestHandler_OnResourceLoadComplete_result implements org.apache.thrift.TBase<ResourceRequestHandler_OnResourceLoadComplete_result, ResourceRequestHandler_OnResourceLoadComplete_result._Fields>, java.io.Serializable, Cloneable, Comparable<ResourceRequestHandler_OnResourceLoadComplete_result>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("ResourceRequestHandler_OnResourceLoadComplete_result");
-
-
-    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new ResourceRequestHandler_OnResourceLoadComplete_resultStandardSchemeFactory();
-    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new ResourceRequestHandler_OnResourceLoadComplete_resultTupleSchemeFactory();
-
-
-    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-;
-
-      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
-
-      static {
-        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
-          byName.put(field.getFieldName(), field);
-        }
-      }
-
-      /**
-       * Find the _Fields constant that matches fieldId, or null if its not found.
-       */
-      @org.apache.thrift.annotation.Nullable
-      public static _Fields findByThriftId(int fieldId) {
-        switch(fieldId) {
-          default:
-            return null;
-        }
-      }
-
-      /**
-       * Find the _Fields constant that matches fieldId, throwing an exception
-       * if it is not found.
-       */
-      public static _Fields findByThriftIdOrThrow(int fieldId) {
-        _Fields fields = findByThriftId(fieldId);
-        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
-        return fields;
-      }
-
-      /**
-       * Find the _Fields constant that matches name, or null if its not found.
-       */
-      @org.apache.thrift.annotation.Nullable
-      public static _Fields findByName(java.lang.String name) {
-        return byName.get(name);
-      }
-
-      private final short _thriftId;
-      private final java.lang.String _fieldName;
-
-      _Fields(short thriftId, java.lang.String fieldName) {
-        _thriftId = thriftId;
-        _fieldName = fieldName;
-      }
-
-      public short getThriftFieldId() {
-        return _thriftId;
-      }
-
-      public java.lang.String getFieldName() {
-        return _fieldName;
-      }
-    }
-    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
-    static {
-      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(ResourceRequestHandler_OnResourceLoadComplete_result.class, metaDataMap);
-    }
-
-    public ResourceRequestHandler_OnResourceLoadComplete_result() {
-    }
-
-    /**
-     * Performs a deep copy on <i>other</i>.
-     */
-    public ResourceRequestHandler_OnResourceLoadComplete_result(ResourceRequestHandler_OnResourceLoadComplete_result other) {
-    }
-
-    public ResourceRequestHandler_OnResourceLoadComplete_result deepCopy() {
-      return new ResourceRequestHandler_OnResourceLoadComplete_result(this);
-    }
-
-    @Override
-    public void clear() {
-    }
-
-    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
-      switch (field) {
-      }
-    }
-
-    @org.apache.thrift.annotation.Nullable
-    public java.lang.Object getFieldValue(_Fields field) {
-      switch (field) {
-      }
-      throw new java.lang.IllegalStateException();
-    }
-
-    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
-    public boolean isSet(_Fields field) {
-      if (field == null) {
-        throw new java.lang.IllegalArgumentException();
-      }
-
-      switch (field) {
-      }
-      throw new java.lang.IllegalStateException();
-    }
-
-    @Override
-    public boolean equals(java.lang.Object that) {
-      if (that instanceof ResourceRequestHandler_OnResourceLoadComplete_result)
-        return this.equals((ResourceRequestHandler_OnResourceLoadComplete_result)that);
-      return false;
-    }
-
-    public boolean equals(ResourceRequestHandler_OnResourceLoadComplete_result that) {
-      if (that == null)
-        return false;
-      if (this == that)
-        return true;
-
-      return true;
-    }
-
-    @Override
-    public int hashCode() {
-      int hashCode = 1;
-
-      return hashCode;
-    }
-
-    @Override
-    public int compareTo(ResourceRequestHandler_OnResourceLoadComplete_result other) {
-      if (!getClass().equals(other.getClass())) {
-        return getClass().getName().compareTo(other.getClass().getName());
-      }
-
-      int lastComparison = 0;
-
-      return 0;
-    }
-
-    @org.apache.thrift.annotation.Nullable
-    public _Fields fieldForId(int fieldId) {
-      return _Fields.findByThriftId(fieldId);
-    }
-
-    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-      scheme(iprot).read(iprot, this);
-    }
-
-    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-      scheme(oprot).write(oprot, this);
-      }
-
-    @Override
-    public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("ResourceRequestHandler_OnResourceLoadComplete_result(");
-      boolean first = true;
-
-      sb.append(")");
-      return sb.toString();
-    }
-
-    public void validate() throws org.apache.thrift.TException {
-      // check for required fields
-      // check for sub-struct validity
-    }
-
-    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
-      try {
-        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-      } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te);
-      }
-    }
-
-    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
-      try {
-        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-      } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te);
-      }
-    }
-
-    private static class ResourceRequestHandler_OnResourceLoadComplete_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public ResourceRequestHandler_OnResourceLoadComplete_resultStandardScheme getScheme() {
-        return new ResourceRequestHandler_OnResourceLoadComplete_resultStandardScheme();
-      }
-    }
-
-    private static class ResourceRequestHandler_OnResourceLoadComplete_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<ResourceRequestHandler_OnResourceLoadComplete_result> {
-
-      public void read(org.apache.thrift.protocol.TProtocol iprot, ResourceRequestHandler_OnResourceLoadComplete_result struct) throws org.apache.thrift.TException {
-        org.apache.thrift.protocol.TField schemeField;
-        iprot.readStructBegin();
-        while (true)
-        {
-          schemeField = iprot.readFieldBegin();
-          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
-            break;
-          }
-          switch (schemeField.id) {
-            default:
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-          }
-          iprot.readFieldEnd();
-        }
-        iprot.readStructEnd();
-
-        // check for required fields of primitive type, which can't be checked in the validate method
-        struct.validate();
-      }
-
-      public void write(org.apache.thrift.protocol.TProtocol oprot, ResourceRequestHandler_OnResourceLoadComplete_result struct) throws org.apache.thrift.TException {
-        struct.validate();
-
-        oprot.writeStructBegin(STRUCT_DESC);
-        oprot.writeFieldStop();
-        oprot.writeStructEnd();
-      }
-
-    }
-
-    private static class ResourceRequestHandler_OnResourceLoadComplete_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public ResourceRequestHandler_OnResourceLoadComplete_resultTupleScheme getScheme() {
-        return new ResourceRequestHandler_OnResourceLoadComplete_resultTupleScheme();
-      }
-    }
-
-    private static class ResourceRequestHandler_OnResourceLoadComplete_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<ResourceRequestHandler_OnResourceLoadComplete_result> {
-
-      @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, ResourceRequestHandler_OnResourceLoadComplete_result struct) throws org.apache.thrift.TException {
-        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-      }
-
-      @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, ResourceRequestHandler_OnResourceLoadComplete_result struct) throws org.apache.thrift.TException {
-        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-      }
-    }
-
-    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
-      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
-    }
-  }
-
   public static class ResourceRequestHandler_OnProtocolExecution_args implements org.apache.thrift.TBase<ResourceRequestHandler_OnProtocolExecution_args, ResourceRequestHandler_OnProtocolExecution_args._Fields>, java.io.Serializable, Cloneable, Comparable<ResourceRequestHandler_OnProtocolExecution_args>   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("ResourceRequestHandler_OnProtocolExecution_args");
 
@@ -35694,258 +37087,6 @@ public class ClientHandlers {
           struct.queryId = iprot.readI64();
           struct.setQueryIdIsSet(true);
         }
-      }
-    }
-
-    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
-      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
-    }
-  }
-
-  public static class MessageRouterHandler_onQueryCanceled_result implements org.apache.thrift.TBase<MessageRouterHandler_onQueryCanceled_result, MessageRouterHandler_onQueryCanceled_result._Fields>, java.io.Serializable, Cloneable, Comparable<MessageRouterHandler_onQueryCanceled_result>   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("MessageRouterHandler_onQueryCanceled_result");
-
-
-    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new MessageRouterHandler_onQueryCanceled_resultStandardSchemeFactory();
-    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new MessageRouterHandler_onQueryCanceled_resultTupleSchemeFactory();
-
-
-    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-;
-
-      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
-
-      static {
-        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
-          byName.put(field.getFieldName(), field);
-        }
-      }
-
-      /**
-       * Find the _Fields constant that matches fieldId, or null if its not found.
-       */
-      @org.apache.thrift.annotation.Nullable
-      public static _Fields findByThriftId(int fieldId) {
-        switch(fieldId) {
-          default:
-            return null;
-        }
-      }
-
-      /**
-       * Find the _Fields constant that matches fieldId, throwing an exception
-       * if it is not found.
-       */
-      public static _Fields findByThriftIdOrThrow(int fieldId) {
-        _Fields fields = findByThriftId(fieldId);
-        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
-        return fields;
-      }
-
-      /**
-       * Find the _Fields constant that matches name, or null if its not found.
-       */
-      @org.apache.thrift.annotation.Nullable
-      public static _Fields findByName(java.lang.String name) {
-        return byName.get(name);
-      }
-
-      private final short _thriftId;
-      private final java.lang.String _fieldName;
-
-      _Fields(short thriftId, java.lang.String fieldName) {
-        _thriftId = thriftId;
-        _fieldName = fieldName;
-      }
-
-      public short getThriftFieldId() {
-        return _thriftId;
-      }
-
-      public java.lang.String getFieldName() {
-        return _fieldName;
-      }
-    }
-    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
-    static {
-      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(MessageRouterHandler_onQueryCanceled_result.class, metaDataMap);
-    }
-
-    public MessageRouterHandler_onQueryCanceled_result() {
-    }
-
-    /**
-     * Performs a deep copy on <i>other</i>.
-     */
-    public MessageRouterHandler_onQueryCanceled_result(MessageRouterHandler_onQueryCanceled_result other) {
-    }
-
-    public MessageRouterHandler_onQueryCanceled_result deepCopy() {
-      return new MessageRouterHandler_onQueryCanceled_result(this);
-    }
-
-    @Override
-    public void clear() {
-    }
-
-    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
-      switch (field) {
-      }
-    }
-
-    @org.apache.thrift.annotation.Nullable
-    public java.lang.Object getFieldValue(_Fields field) {
-      switch (field) {
-      }
-      throw new java.lang.IllegalStateException();
-    }
-
-    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
-    public boolean isSet(_Fields field) {
-      if (field == null) {
-        throw new java.lang.IllegalArgumentException();
-      }
-
-      switch (field) {
-      }
-      throw new java.lang.IllegalStateException();
-    }
-
-    @Override
-    public boolean equals(java.lang.Object that) {
-      if (that instanceof MessageRouterHandler_onQueryCanceled_result)
-        return this.equals((MessageRouterHandler_onQueryCanceled_result)that);
-      return false;
-    }
-
-    public boolean equals(MessageRouterHandler_onQueryCanceled_result that) {
-      if (that == null)
-        return false;
-      if (this == that)
-        return true;
-
-      return true;
-    }
-
-    @Override
-    public int hashCode() {
-      int hashCode = 1;
-
-      return hashCode;
-    }
-
-    @Override
-    public int compareTo(MessageRouterHandler_onQueryCanceled_result other) {
-      if (!getClass().equals(other.getClass())) {
-        return getClass().getName().compareTo(other.getClass().getName());
-      }
-
-      int lastComparison = 0;
-
-      return 0;
-    }
-
-    @org.apache.thrift.annotation.Nullable
-    public _Fields fieldForId(int fieldId) {
-      return _Fields.findByThriftId(fieldId);
-    }
-
-    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-      scheme(iprot).read(iprot, this);
-    }
-
-    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-      scheme(oprot).write(oprot, this);
-      }
-
-    @Override
-    public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("MessageRouterHandler_onQueryCanceled_result(");
-      boolean first = true;
-
-      sb.append(")");
-      return sb.toString();
-    }
-
-    public void validate() throws org.apache.thrift.TException {
-      // check for required fields
-      // check for sub-struct validity
-    }
-
-    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
-      try {
-        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-      } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te);
-      }
-    }
-
-    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
-      try {
-        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-      } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te);
-      }
-    }
-
-    private static class MessageRouterHandler_onQueryCanceled_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public MessageRouterHandler_onQueryCanceled_resultStandardScheme getScheme() {
-        return new MessageRouterHandler_onQueryCanceled_resultStandardScheme();
-      }
-    }
-
-    private static class MessageRouterHandler_onQueryCanceled_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<MessageRouterHandler_onQueryCanceled_result> {
-
-      public void read(org.apache.thrift.protocol.TProtocol iprot, MessageRouterHandler_onQueryCanceled_result struct) throws org.apache.thrift.TException {
-        org.apache.thrift.protocol.TField schemeField;
-        iprot.readStructBegin();
-        while (true)
-        {
-          schemeField = iprot.readFieldBegin();
-          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
-            break;
-          }
-          switch (schemeField.id) {
-            default:
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-          }
-          iprot.readFieldEnd();
-        }
-        iprot.readStructEnd();
-
-        // check for required fields of primitive type, which can't be checked in the validate method
-        struct.validate();
-      }
-
-      public void write(org.apache.thrift.protocol.TProtocol oprot, MessageRouterHandler_onQueryCanceled_result struct) throws org.apache.thrift.TException {
-        struct.validate();
-
-        oprot.writeStructBegin(STRUCT_DESC);
-        oprot.writeFieldStop();
-        oprot.writeStructEnd();
-      }
-
-    }
-
-    private static class MessageRouterHandler_onQueryCanceled_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
-      public MessageRouterHandler_onQueryCanceled_resultTupleScheme getScheme() {
-        return new MessageRouterHandler_onQueryCanceled_resultTupleScheme();
-      }
-    }
-
-    private static class MessageRouterHandler_onQueryCanceled_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<MessageRouterHandler_onQueryCanceled_result> {
-
-      @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, MessageRouterHandler_onQueryCanceled_result struct) throws org.apache.thrift.TException {
-        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-      }
-
-      @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, MessageRouterHandler_onQueryCanceled_result struct) throws org.apache.thrift.TException {
-        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
       }
     }
 

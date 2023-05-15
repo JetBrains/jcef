@@ -23,6 +23,27 @@ struct CustomScheme {
 2: required i32 options;
 }
 
+struct Point {
+1: required i32 x;
+2: required i32 y;
+}
+
+struct Rect {
+1: required i32 x;
+2: required i32 y;
+3: required i32 w;
+4: required i32 h;
+}
+
+struct ScreenInfo {
+1:required double device_scale_factor;
+2:required i32 depth;
+3:required i32 depth_per_component;
+4:required bool is_monochrome;
+5:required Rect rect;
+6:required Rect available_rect;
+}
+
 service ClientHandlers {
    i32 connect()
    oneway void log(1:string msg)
@@ -30,15 +51,21 @@ service ClientHandlers {
    //
    // CefAppHandler
    //
-   list<CustomScheme> getRegisteredCustomSchemes()
-   void onContextInitialized()
+   list<CustomScheme> AppHandler_GetRegisteredCustomSchemes()
+   void               AppHandler_OnContextInitialized()
 
    //
    // CefRenderHandler
    //
-   // TODO: implement: OnPopupShow, OnPopupSize, StartDragging, UpdateDragCursor
-   binary getInfo(1:i32 bid, 2:string request, 3:binary buffer)
-   void onPaint(1:i32 bid, 2:bool popup, 3:i32 dirtyRectsCount, 4:string sharedMemName, 5:i64 sharedMemHandle, 6:bool recreateHandle, 7:i32 width, 8:i32 height)
+   Rect       RenderHandler_GetViewRect(1:i32 bid)
+   ScreenInfo RenderHandler_GetScreenInfo(1:i32 bid)
+   Point      RenderHandler_GetScreenPoint(1:i32 bid, 2:i32 viewX, 3:i32 viewY)
+   void       RenderHandler_OnPaint(1:i32 bid, 2:bool popup, 3:i32 dirtyRectsCount, 4:string sharedMemName, 5:i64 sharedMemHandle, 6:bool recreateHandle, 7:i32 width, 8:i32 height)
+   // TODO: implement
+   // OnPopupShow(1:i32 bid, bool show)
+   // OnPopupSize(1:i32 bid, const CefRect& rect)
+   // StartDragging(1:i32 bid, CefRefPtr<CefDragData> drag_data, DragOperationsMask allowed_ops, int x, int y)
+   // UpdateDragCursor(1:i32 bid, DragOperation operation)
 
    //
    // TODO: support frame argument in all handlers
@@ -47,46 +74,46 @@ service ClientHandlers {
    //
    // CefLifeSpanHandler
    //
-   oneway void onBeforePopup(1:i32 bid, 2:string url, 3:string frameName, 4:bool gesture) // TODO: add other params
-   oneway void onAfterCreated(1:i32 bid)
-   oneway void doClose(1:i32 bid)
-   oneway void onBeforeClose(1:i32 bid)
+   oneway void LifeSpanHandler_OnBeforePopup(1:i32 bid, 2:string url, 3:string frameName, 4:bool gesture) // TODO: add other params
+   oneway void LifeSpanHandler_OnAfterCreated(1:i32 bid)
+   oneway void LifeSpanHandler_DoClose(1:i32 bid)
+   oneway void LifeSpanHandler_OnBeforeClose(1:i32 bid)
 
    //
    // CefLoadHandler
    //
-   oneway void onLoadingStateChange(1:i32 bid, 2:bool isLoading, 3:bool canGoBack, 4:bool canGoForward)
-   oneway void onLoadStart(1:i32 bid, 2:i32 transition_type)
-   oneway void onLoadEnd(1:i32 bid, 2:i32 httpStatusCode)
-   oneway void onLoadError(1:i32 bid, 2:i32 errorCode, 3:string errorText, 4:string failedUrl)
+   oneway void LoadHandler_OnLoadingStateChange(1:i32 bid, 2:bool isLoading, 3:bool canGoBack, 4:bool canGoForward)
+   oneway void LoadHandler_OnLoadStart(1:i32 bid, 2:i32 transition_type)
+   oneway void LoadHandler_OnLoadEnd(1:i32 bid, 2:i32 httpStatusCode)
+   oneway void LoadHandler_OnLoadError(1:i32 bid, 2:i32 errorCode, 3:string errorText, 4:string failedUrl)
 
    //
    // CefDisplayHandler
    //
-   oneway void onAddressChange(1:i32 bid, 2:string url)
-   oneway void onTitleChange(1:i32 bid, 2:string title)
-   bool onTooltip(1:i32 bid, 2:string text)
-   oneway void onStatusMessage(1:i32 bid, 2:string value)
-   bool onConsoleMessage(1:i32 bid, 2:i32 level, 3:string message, 4:string source, 5:i32 line)
+   oneway void DisplayHandler_OnAddressChange(1:i32 bid, 2:string url)
+   oneway void DisplayHandler_OnTitleChange(1:i32 bid, 2:string title)
+   bool        DisplayHandler_OnTooltip(1:i32 bid, 2:string text)
+   oneway void DisplayHandler_OnStatusMessage(1:i32 bid, 2:string value)
+   bool        DisplayHandler_OnConsoleMessage(1:i32 bid, 2:i32 level, 3:string message, 4:string source, 5:i32 line)
    
    //
    // CefRequestHandler
    //
-   bool RequestHandler_OnBeforeBrowse(1:i32 bid, 2:shared.RObject request, 3:bool user_gesture, 4:bool is_redirect)
-   bool RequestHandler_OnOpenURLFromTab(1:i32 bid, 2:string target_url, 3:bool user_gesture)
-   bool RequestHandler_GetAuthCredentials(1:i32 bid, 2:string origin_url, 3:bool isProxy, 4:string host, 5:i32 port, 6:string realm, 7:string scheme, 8:shared.RObject authCallback)
-   bool RequestHandler_OnCertificateError(1:i32 bid, 2:string cert_error, 3:string request_url, 4:shared.RObject sslInfo, 5:shared.RObject callback)
+   bool        RequestHandler_OnBeforeBrowse(1:i32 bid, 2:shared.RObject request, 3:bool user_gesture, 4:bool is_redirect)
+   bool        RequestHandler_OnOpenURLFromTab(1:i32 bid, 2:string target_url, 3:bool user_gesture)
+   bool        RequestHandler_GetAuthCredentials(1:i32 bid, 2:string origin_url, 3:bool isProxy, 4:string host, 5:i32 port, 6:string realm, 7:string scheme, 8:shared.RObject authCallback)
+   bool        RequestHandler_OnCertificateError(1:i32 bid, 2:string cert_error, 3:string request_url, 4:shared.RObject sslInfo, 5:shared.RObject callback)
    oneway void RequestHandler_OnRenderProcessTerminated(1:i32 bid, 2:string status)
 
    shared.RObject RequestHandler_GetResourceRequestHandler(1:i32 bid, 2:shared.RObject request, 3:bool isNavigation, 4:bool isDownload, 5:string requestInitiator)
-      oneway void ResourceRequestHandler_Dispose(1:i32 rrHandler)
+      oneway void    ResourceRequestHandler_Dispose(1:i32 rrHandler)
       shared.RObject ResourceRequestHandler_GetCookieAccessFilter(1:i32 rrHandler, 2:i32 bid, 3:shared.RObject request)
-         oneway void CookieAccessFilter_Dispose(1:i32 filter)
-         bool CookieAccessFilter_CanSendCookie(1:i32 filter, 2:i32 bid, 3:shared.RObject request, 4:list<string> cookie)
-         bool CookieAccessFilter_CanSaveCookie(1:i32 filter, 2:i32 bid, 3:shared.RObject request, 4:shared.RObject response, 5:list<string> cookie)
-      bool ResourceRequestHandler_OnBeforeResourceLoad(1:i32 rrHandler, 2:i32 bid, 3:shared.RObject request)
+         oneway void    CookieAccessFilter_Dispose(1:i32 filter)
+         bool           CookieAccessFilter_CanSendCookie(1:i32 filter, 2:i32 bid, 3:shared.RObject request, 4:list<string> cookie)
+         bool           CookieAccessFilter_CanSaveCookie(1:i32 filter, 2:i32 bid, 3:shared.RObject request, 4:shared.RObject response, 5:list<string> cookie)
+      bool           ResourceRequestHandler_OnBeforeResourceLoad(1:i32 rrHandler, 2:i32 bid, 3:shared.RObject request)
       shared.RObject ResourceRequestHandler_GetResourceHandler(1:i32 rrHandler, 2:i32 bid, 3:shared.RObject request)
-         oneway void ResourceHandler_Dispose(1:i32 resourceHandler)
+         oneway void    ResourceHandler_Dispose(1:i32 resourceHandler)
          // TODO: implement
          //bool ResourceHandler_Open(1:i32 resourceHandler, 2:shared.RObject request, bool& handle_request, shared.RObject callback)
          //bool ResourceHandler_ProcessRequest(1:i32 resourceHandler, 2:shared.RObject request, shared.RObject callback)
@@ -95,14 +122,14 @@ service ClientHandlers {
          //bool ResourceHandler_Read(void* data_out, int bytes_to_read, int& bytes_read, CefRefPtr<CefResourceReadCallback> callback)
          //bool ResourceHandler_ReadResponse(void* data_out, int bytes_to_read, int& bytes_read, shared.RObject callback)
          //void ResourceHandler_Cancel()
-      string ResourceRequestHandler_OnResourceRedirect(1:i32 rrHandler, 2:i32 bid, 3:shared.RObject request, 4:shared.RObject response, 5:string new_url)
-      bool ResourceRequestHandler_OnResourceResponse(1:i32 rrHandler, 2:i32 bid, 3:shared.RObject request, 4:shared.RObject response)
-      void ResourceRequestHandler_OnResourceLoadComplete(1:i32 rrHandler, 2:i32 bid, 3:shared.RObject request, 4:shared.RObject response, 5:string status, 6:i64 receivedContentLength)
-      bool ResourceRequestHandler_OnProtocolExecution(1:i32 rrHandler, 2:i32 bid, 3:shared.RObject request, 4:bool allowOsExecution)
+      string         ResourceRequestHandler_OnResourceRedirect(1:i32 rrHandler, 2:i32 bid, 3:shared.RObject request, 4:shared.RObject response, 5:string new_url)
+      bool           ResourceRequestHandler_OnResourceResponse(1:i32 rrHandler, 2:i32 bid, 3:shared.RObject request, 4:shared.RObject response)
+      oneway void    ResourceRequestHandler_OnResourceLoadComplete(1:i32 rrHandler, 2:i32 bid, 3:shared.RObject request, 4:shared.RObject response, 5:string status, 6:i64 receivedContentLength)
+      bool           ResourceRequestHandler_OnProtocolExecution(1:i32 rrHandler, 2:i32 bid, 3:shared.RObject request, 4:bool allowOsExecution)
 
    //
    // CefMessageRouter
    //
-   bool MessageRouterHandler_onQuery(1:shared.RObject handler, 2:i32 bid, 3:i64 queryId, 4:string request, 5:bool persistent, 6:shared.RObject queryCallback)
-   void MessageRouterHandler_onQueryCanceled(1:shared.RObject handler, 2:i32 bid, 3:i64 queryId)
+   bool        MessageRouterHandler_onQuery(1:shared.RObject handler, 2:i32 bid, 3:i64 queryId, 4:string request, 5:bool persistent, 6:shared.RObject queryCallback)
+   oneway void MessageRouterHandler_onQueryCanceled(1:shared.RObject handler, 2:i32 bid, 3:i64 queryId)
 }

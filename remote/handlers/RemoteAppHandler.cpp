@@ -94,7 +94,7 @@ void RemoteAppHandler::OnRegisterCustomSchemes(
   LNDCT();
   std::vector<CustomScheme> result;
   myService->exec([&](RpcExecutor::Service s){
-    s->getRegisteredCustomSchemes(result);
+    s->AppHandler_GetRegisteredCustomSchemes(result);
   });
 
   Log::debug("Additional schemes:");

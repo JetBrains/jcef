@@ -10,7 +10,7 @@ void RemoteLoadHandler::OnLoadingStateChange(CefRefPtr<CefBrowser> browser,
                           bool canGoForward) {
   LNDCT();
   myOwner.exec([&](RpcExecutor::Service s){
-    s->onLoadingStateChange(
+    s->LoadHandler_OnLoadingStateChange(
         myOwner.getBid(),
         isLoading, canGoBack, canGoForward
     );
@@ -22,7 +22,7 @@ void RemoteLoadHandler::OnLoadStart(CefRefPtr<CefBrowser> browser,
                  CefLoadHandler::TransitionType transition_type) {
   LNDCT();
   myOwner.exec([&](RpcExecutor::Service s){
-    s->onLoadStart(myOwner.getBid(), transition_type);
+    s->LoadHandler_OnLoadStart(myOwner.getBid(), transition_type);
   });
 }
 
@@ -31,7 +31,7 @@ void RemoteLoadHandler::OnLoadEnd(CefRefPtr<CefBrowser> browser,
                int httpStatusCode) {
   LNDCT();
   myOwner.exec([&](RpcExecutor::Service s){
-    s->onLoadEnd(myOwner.getBid(), httpStatusCode);
+    s->LoadHandler_OnLoadEnd(myOwner.getBid(), httpStatusCode);
   });
 }
 
@@ -42,6 +42,6 @@ void RemoteLoadHandler::OnLoadError(CefRefPtr<CefBrowser> browser,
                  const CefString& failedUrl) {
   LNDCT();
   myOwner.exec([&](RpcExecutor::Service s){
-    s->onLoadError(myOwner.getBid(), errorCode, errorText.ToString(), failedUrl.ToString());
+    s->LoadHandler_OnLoadError(myOwner.getBid(), errorCode, errorText.ToString(), failedUrl.ToString());
   });
 }

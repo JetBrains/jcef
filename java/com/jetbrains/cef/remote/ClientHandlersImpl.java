@@ -5,9 +5,10 @@ import com.jetbrains.cef.remote.callback.RemoteCallback;
 import com.jetbrains.cef.remote.network.*;
 import com.jetbrains.cef.remote.router.RemoteMessageRouterHandler;
 import com.jetbrains.cef.remote.router.RemoteQueryCallback;
-import com.jetbrains.cef.remote.thrift_codegen.ClientHandlers;
-import com.jetbrains.cef.remote.thrift_codegen.CustomScheme;
-import com.jetbrains.cef.remote.thrift_codegen.RObject;
+import com.jetbrains.cef.remote.thrift_codegen.*;
+import com.jetbrains.cef.remote.thrift_codegen.Point;
+import com.jetbrains.cef.remote.thrift_codegen.Rect;
+import com.jetbrains.cef.remote.thrift_codegen.ScreenInfo;
 import org.apache.thrift.TException;
 import org.cef.CefSettings;
 import org.cef.callback.CefAuthCallback;
@@ -80,14 +81,14 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     //
 
     @Override
-    public void onContextInitialized() {
-        CefLog.Debug("onContextInitialized: ");
+    public void AppHandler_OnContextInitialized() {
+        CefLog.Debug("AppHandler_OnContextInitialized: ");
         myRemoteApp.onContextInitialized();
     }
 
     @Override
-    public List<CustomScheme> getRegisteredCustomSchemes() {
-        CefLog.Debug("onRegisterCustomSchemes: ");
+    public List<CustomScheme> AppHandler_GetRegisteredCustomSchemes() {
+        CefLog.Debug("AppHandler_GetRegisteredCustomSchemes: ");
         return myRemoteApp.getAllRegisteredCustomSchemes();
     }
 
@@ -95,60 +96,57 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     // CefRenderHandler
     //
 
-    private static final ByteBuffer ZERO_BUFFER = ByteBuffer.allocate(4).putInt(0);
+    private static final Rect INVALID_RECT = new Rect(0,0,-1,-1);
+    private static final Point INVALID_POINT = new Point(Integer.MIN_VALUE, Integer.MIN_VALUE);
+    private static final ScreenInfo INVALID_SCREENINFO = new ScreenInfo(-1, -1, -1, false, new Rect(), new Rect());
 
     @Override
-    public ByteBuffer getInfo(int bid, String request, ByteBuffer buffer) {
+    public Rect RenderHandler_GetViewRect(int bid) throws TException {
         RemoteBrowser browser = getRemoteBrowser(bid);
-        if (browser == null) return ZERO_BUFFER;
-
+        if (browser == null) return INVALID_RECT;
         RemoteClient rclient = browser.getOwner();
         CefRenderHandler rh = rclient.getRenderHandler();
-        if (rh == null) return ZERO_BUFFER;
+        if (rh == null) return INVALID_RECT;
 
-        request = request == null ? "" : request.toLowerCase();
-        int[] data = new int[0];
-        if ("viewrect".equals(request)) {
-            Rectangle rect = rh.getViewRect(browser);
-            data = new int[]{rect.x, rect.y, rect.width, rect.height};
-        } else if ("screeninfo".equals(request)) {
-            CefScreenInfo csi = new CefScreenInfo();
-            boolean success = rh.getScreenInfo(browser, csi);
-            if (success) {
-                data = new int[]{
-                        (int) csi.device_scale_factor,
-                        csi.depth,
-                        csi.depth_per_component,
-                        csi.is_monochrome ? 1 : 0,
-                        csi.x,
-                        csi.y,
-                        csi.width,
-                        csi.height,
-                        csi.available_x,
-                        csi.available_y,
-                        csi.available_width,
-                        csi.available_height
-                };
-            } else {
-                data = new int[]{0};
-            }
-        } else if ("screenpoint".equals(request)) {
-            Point pt = new Point(buffer.getInt(), buffer.getInt());
-            Point res = rh.getScreenPoint(browser, pt);
-            data = new int[]{res.x, res.y};
-        } else {
-            CefLog.Error("getInfo, unknown request: " + request);
-            return ZERO_BUFFER;
-        }
-
-        ByteBuffer result = ByteBuffer.allocate(data.length*4);
-        result.order(ByteOrder.nativeOrder());
-        result.asIntBuffer().put(data);
-        return result;
+        Rectangle rect = rh.getViewRect(browser);
+        return new Rect(rect.x, rect.y, rect.width, rect.height);
     }
 
     @Override
-    public void onPaint(int bid, boolean popup, int dirtyRectsCount, String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height) {
+    public ScreenInfo RenderHandler_GetScreenInfo(int bid) throws TException {
+        RemoteBrowser browser = getRemoteBrowser(bid);
+        if (browser == null) return INVALID_SCREENINFO;
+        RemoteClient rclient = browser.getOwner();
+        CefRenderHandler rh = rclient.getRenderHandler();
+        if (rh == null) return INVALID_SCREENINFO;
+
+        CefScreenInfo csi = new CefScreenInfo();
+        boolean success = rh.getScreenInfo(browser, csi);
+        return success ?
+             new ScreenInfo(
+                csi.device_scale_factor,
+                csi.depth,
+                csi.depth_per_component,
+                csi.is_monochrome,
+                new Rect(csi.x, csi.y, csi.width, csi.height),
+                new Rect(csi.available_x, csi.available_y, csi.available_width, csi.available_height))
+             : INVALID_SCREENINFO;
+    }
+
+    @Override
+    public Point RenderHandler_GetScreenPoint(int bid, int viewX, int viewY) throws TException {
+        RemoteBrowser browser = getRemoteBrowser(bid);
+        if (browser == null) return INVALID_POINT;
+        RemoteClient rclient = browser.getOwner();
+        CefRenderHandler rh = rclient.getRenderHandler();
+        if (rh == null) return INVALID_POINT;
+
+        java.awt.Point res = rh.getScreenPoint(browser, new java.awt.Point(viewX, viewY));
+        return new Point(res.x, res.y);
+    }
+
+    @Override
+    public void RenderHandler_OnPaint(int bid, boolean popup, int dirtyRectsCount, String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height) {
         RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return;
 
@@ -164,7 +162,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     //
 
     @Override
-    public void onBeforePopup(int bid, String url, String frameName, boolean gesture) {
+    public void LifeSpanHandler_OnBeforePopup(int bid, String url, String frameName, boolean gesture) {
         RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return;
 
@@ -175,7 +173,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     }
 
     @Override
-    public void onAfterCreated(int bid) {
+    public void LifeSpanHandler_OnAfterCreated(int bid) {
         RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return;
 
@@ -186,7 +184,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     }
 
     @Override
-    public void doClose(int bid) {
+    public void LifeSpanHandler_DoClose(int bid) {
         RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return;
 
@@ -197,7 +195,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     }
 
     @Override
-    public void onBeforeClose(int bid) {
+    public void LifeSpanHandler_OnBeforeClose(int bid) {
         RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return;
 
@@ -213,7 +211,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     //
 
     @Override
-    public void onLoadingStateChange(int bid, boolean isLoading, boolean canGoBack, boolean canGoForward) {
+    public void LoadHandler_OnLoadingStateChange(int bid, boolean isLoading, boolean canGoBack, boolean canGoForward) {
         RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return;
 
@@ -224,7 +222,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     }
 
     @Override
-    public void onLoadStart(int bid, int transition_type) {
+    public void LoadHandler_OnLoadStart(int bid, int transition_type) {
         RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return;
 
@@ -236,7 +234,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     }
 
     @Override
-    public void onLoadEnd(int bid, int httpStatusCode) {
+    public void LoadHandler_OnLoadEnd(int bid, int httpStatusCode) {
         RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return;
 
@@ -247,7 +245,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     }
 
     @Override
-    public void onLoadError(int bid, int errorCode, String errorText, String failedUrl) {
+    public void LoadHandler_OnLoadError(int bid, int errorCode, String errorText, String failedUrl) {
         RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return;
 
@@ -262,7 +260,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     //
 
     @Override
-    public void onAddressChange(int bid, String url) {
+    public void DisplayHandler_OnAddressChange(int bid, String url) {
         RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return;
 
@@ -273,7 +271,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     }
 
     @Override
-    public void onTitleChange(int bid, String title) {
+    public void DisplayHandler_OnTitleChange(int bid, String title) {
         RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return;
 
@@ -284,7 +282,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     }
 
     @Override
-    public boolean onTooltip(int bid, String text) {
+    public boolean DisplayHandler_OnTooltip(int bid, String text) {
         RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return false;
 
@@ -295,7 +293,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     }
 
     @Override
-    public void onStatusMessage(int bid, String value) {
+    public void DisplayHandler_OnStatusMessage(int bid, String value) {
         RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return;
 
@@ -306,7 +304,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     }
 
     @Override
-    public boolean onConsoleMessage(int bid, int level, String message, String source, int line) {
+    public boolean DisplayHandler_OnConsoleMessage(int bid, int level, String message, String source, int line) {
         RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return false;
 

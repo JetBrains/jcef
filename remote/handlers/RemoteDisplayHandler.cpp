@@ -10,7 +10,7 @@ void RemoteDisplayHandler::OnAddressChange(CefRefPtr<CefBrowser> browser,
                      const CefString& url) {
   LNDCT();
   myOwner.exec([&](RpcExecutor::Service s){
-    s->onAddressChange(myOwner.getBid(), url.ToString());
+    s->DisplayHandler_OnAddressChange(myOwner.getBid(), url.ToString());
   });
 }
 
@@ -18,14 +18,14 @@ void RemoteDisplayHandler::OnTitleChange(CefRefPtr<CefBrowser> browser,
                    const CefString& title) {
   LNDCT();
   myOwner.exec([&](RpcExecutor::Service s){
-    s->onTitleChange(myOwner.getBid(), title.ToString());
+    s->DisplayHandler_OnTitleChange(myOwner.getBid(), title.ToString());
   });
 }
 
 bool RemoteDisplayHandler::OnTooltip(CefRefPtr<CefBrowser> browser, CefString& text) {
   LNDCT();
   return myOwner.exec<bool>([&](RpcExecutor::Service s){
-    return s->onTooltip(myOwner.getBid(), text.ToString());
+    return s->DisplayHandler_OnTooltip(myOwner.getBid(), text.ToString());
   }, false);
 }
 
@@ -33,7 +33,7 @@ void RemoteDisplayHandler::OnStatusMessage(CefRefPtr<CefBrowser> browser,
                      const CefString& value) {
   LNDCT();
   myOwner.exec([&](RpcExecutor::Service s){
-    s->onStatusMessage(myOwner.getBid(), value.ToString());
+    s->DisplayHandler_OnStatusMessage(myOwner.getBid(), value.ToString());
   });
 }
 
@@ -44,6 +44,6 @@ bool RemoteDisplayHandler::OnConsoleMessage(CefRefPtr<CefBrowser> browser,
                       int line) {
   LNDCT();
   return myOwner.exec<bool>([&](RpcExecutor::Service s){
-    return s->onConsoleMessage(myOwner.getBid(), level, message.ToString(), source.ToString(), line);
+    return s->DisplayHandler_OnConsoleMessage(myOwner.getBid(), level, message.ToString(), source.ToString(), line);
   }, false);
 }
