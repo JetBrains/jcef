@@ -15,7 +15,7 @@ public class Server {
 
     public void log(java.lang.String msg) throws org.apache.thrift.TException;
 
-    public int createBrowser(int cid) throws org.apache.thrift.TException;
+    public int createBrowser(int cid, java.lang.String url) throws org.apache.thrift.TException;
 
     public void closeBrowser(int bid) throws org.apache.thrift.TException;
 
@@ -103,7 +103,7 @@ public class Server {
 
     public void log(java.lang.String msg, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void createBrowser(int cid, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException;
+    public void createBrowser(int cid, java.lang.String url, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException;
 
     public void closeBrowser(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
@@ -242,16 +242,17 @@ public class Server {
       sendBaseOneway("log", args);
     }
 
-    public int createBrowser(int cid) throws org.apache.thrift.TException
+    public int createBrowser(int cid, java.lang.String url) throws org.apache.thrift.TException
     {
-      send_createBrowser(cid);
+      send_createBrowser(cid, url);
       return recv_createBrowser();
     }
 
-    public void send_createBrowser(int cid) throws org.apache.thrift.TException
+    public void send_createBrowser(int cid, java.lang.String url) throws org.apache.thrift.TException
     {
       createBrowser_args args = new createBrowser_args();
       args.setCid(cid);
+      args.setUrl(url);
       sendBase("createBrowser", args);
     }
 
@@ -1053,24 +1054,27 @@ public class Server {
       }
     }
 
-    public void createBrowser(int cid, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException {
+    public void createBrowser(int cid, java.lang.String url, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      createBrowser_call method_call = new createBrowser_call(cid, resultHandler, this, ___protocolFactory, ___transport);
+      createBrowser_call method_call = new createBrowser_call(cid, url, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
     public static class createBrowser_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.Integer> {
       private int cid;
-      public createBrowser_call(int cid, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private java.lang.String url;
+      public createBrowser_call(int cid, java.lang.String url, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.cid = cid;
+        this.url = url;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("createBrowser", org.apache.thrift.protocol.TMessageType.CALL, 0));
         createBrowser_args args = new createBrowser_args();
         args.setCid(cid);
+        args.setUrl(url);
         args.write(prot);
         prot.writeMessageEnd();
       }
@@ -2614,7 +2618,7 @@ public class Server {
 
       public createBrowser_result getResult(I iface, createBrowser_args args) throws org.apache.thrift.TException {
         createBrowser_result result = new createBrowser_result();
-        result.success = iface.createBrowser(args.cid);
+        result.success = iface.createBrowser(args.cid, args.url);
         result.setSuccessIsSet(true);
         return result;
       }
@@ -3788,7 +3792,7 @@ public class Server {
       }
 
       public void start(I iface, createBrowser_args args, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException {
-        iface.createBrowser(args.cid,resultHandler);
+        iface.createBrowser(args.cid, args.url,resultHandler);
       }
     }
 
@@ -7050,15 +7054,18 @@ public class Server {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("createBrowser_args");
 
     private static final org.apache.thrift.protocol.TField CID_FIELD_DESC = new org.apache.thrift.protocol.TField("cid", org.apache.thrift.protocol.TType.I32, (short)1);
+    private static final org.apache.thrift.protocol.TField URL_FIELD_DESC = new org.apache.thrift.protocol.TField("url", org.apache.thrift.protocol.TType.STRING, (short)2);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new createBrowser_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new createBrowser_argsTupleSchemeFactory();
 
     public int cid; // required
+    public @org.apache.thrift.annotation.Nullable java.lang.String url; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      CID((short)1, "cid");
+      CID((short)1, "cid"),
+      URL((short)2, "url");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -7076,6 +7083,8 @@ public class Server {
         switch(fieldId) {
           case 1: // CID
             return CID;
+          case 2: // URL
+            return URL;
           default:
             return null;
         }
@@ -7124,6 +7133,8 @@ public class Server {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.CID, new org.apache.thrift.meta_data.FieldMetaData("cid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.URL, new org.apache.thrift.meta_data.FieldMetaData("url", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(createBrowser_args.class, metaDataMap);
     }
@@ -7132,11 +7143,13 @@ public class Server {
     }
 
     public createBrowser_args(
-      int cid)
+      int cid,
+      java.lang.String url)
     {
       this();
       this.cid = cid;
       setCidIsSet(true);
+      this.url = url;
     }
 
     /**
@@ -7145,6 +7158,9 @@ public class Server {
     public createBrowser_args(createBrowser_args other) {
       __isset_bitfield = other.__isset_bitfield;
       this.cid = other.cid;
+      if (other.isSetUrl()) {
+        this.url = other.url;
+      }
     }
 
     public createBrowser_args deepCopy() {
@@ -7155,6 +7171,7 @@ public class Server {
     public void clear() {
       setCidIsSet(false);
       this.cid = 0;
+      this.url = null;
     }
 
     public int getCid() {
@@ -7180,6 +7197,31 @@ public class Server {
       __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __CID_ISSET_ID, value);
     }
 
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.String getUrl() {
+      return this.url;
+    }
+
+    public createBrowser_args setUrl(@org.apache.thrift.annotation.Nullable java.lang.String url) {
+      this.url = url;
+      return this;
+    }
+
+    public void unsetUrl() {
+      this.url = null;
+    }
+
+    /** Returns true if field url is set (has been assigned a value) and false otherwise */
+    public boolean isSetUrl() {
+      return this.url != null;
+    }
+
+    public void setUrlIsSet(boolean value) {
+      if (!value) {
+        this.url = null;
+      }
+    }
+
     public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
       switch (field) {
       case CID:
@@ -7187,6 +7229,14 @@ public class Server {
           unsetCid();
         } else {
           setCid((java.lang.Integer)value);
+        }
+        break;
+
+      case URL:
+        if (value == null) {
+          unsetUrl();
+        } else {
+          setUrl((java.lang.String)value);
         }
         break;
 
@@ -7198,6 +7248,9 @@ public class Server {
       switch (field) {
       case CID:
         return getCid();
+
+      case URL:
+        return getUrl();
 
       }
       throw new java.lang.IllegalStateException();
@@ -7212,6 +7265,8 @@ public class Server {
       switch (field) {
       case CID:
         return isSetCid();
+      case URL:
+        return isSetUrl();
       }
       throw new java.lang.IllegalStateException();
     }
@@ -7238,6 +7293,15 @@ public class Server {
           return false;
       }
 
+      boolean this_present_url = true && this.isSetUrl();
+      boolean that_present_url = true && that.isSetUrl();
+      if (this_present_url || that_present_url) {
+        if (!(this_present_url && that_present_url))
+          return false;
+        if (!this.url.equals(that.url))
+          return false;
+      }
+
       return true;
     }
 
@@ -7246,6 +7310,10 @@ public class Server {
       int hashCode = 1;
 
       hashCode = hashCode * 8191 + cid;
+
+      hashCode = hashCode * 8191 + ((isSetUrl()) ? 131071 : 524287);
+      if (isSetUrl())
+        hashCode = hashCode * 8191 + url.hashCode();
 
       return hashCode;
     }
@@ -7264,6 +7332,16 @@ public class Server {
       }
       if (isSetCid()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.cid, other.cid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetUrl(), other.isSetUrl());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetUrl()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.url, other.url);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -7291,6 +7369,14 @@ public class Server {
 
       sb.append("cid:");
       sb.append(this.cid);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("url:");
+      if (this.url == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.url);
+      }
       first = false;
       sb.append(")");
       return sb.toString();
@@ -7345,6 +7431,14 @@ public class Server {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
+            case 2: // URL
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.url = iprot.readString();
+                struct.setUrlIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
             default:
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
           }
@@ -7363,6 +7457,11 @@ public class Server {
         oprot.writeFieldBegin(CID_FIELD_DESC);
         oprot.writeI32(struct.cid);
         oprot.writeFieldEnd();
+        if (struct.url != null) {
+          oprot.writeFieldBegin(URL_FIELD_DESC);
+          oprot.writeString(struct.url);
+          oprot.writeFieldEnd();
+        }
         oprot.writeFieldStop();
         oprot.writeStructEnd();
       }
@@ -7384,19 +7483,29 @@ public class Server {
         if (struct.isSetCid()) {
           optionals.set(0);
         }
-        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetUrl()) {
+          optionals.set(1);
+        }
+        oprot.writeBitSet(optionals, 2);
         if (struct.isSetCid()) {
           oprot.writeI32(struct.cid);
+        }
+        if (struct.isSetUrl()) {
+          oprot.writeString(struct.url);
         }
       }
 
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, createBrowser_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(1);
+        java.util.BitSet incoming = iprot.readBitSet(2);
         if (incoming.get(0)) {
           struct.cid = iprot.readI32();
           struct.setCidIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.url = iprot.readString();
+          struct.setUrlIsSet(true);
         }
       }
     }

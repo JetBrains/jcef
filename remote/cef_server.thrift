@@ -25,7 +25,7 @@ service Server {
    //
    // CefBrowser
    //
-   i32         createBrowser(1:i32 cid)
+   i32         createBrowser(1:i32 cid, 2:string url)
    oneway void closeBrowser(1:i32 bid)
 
    oneway void Browser_Reload(1:i32 bid);

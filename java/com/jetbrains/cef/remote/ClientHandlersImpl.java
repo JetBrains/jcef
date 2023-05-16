@@ -11,6 +11,7 @@ import com.jetbrains.cef.remote.thrift_codegen.Rect;
 import com.jetbrains.cef.remote.thrift_codegen.ScreenInfo;
 import org.apache.thrift.TException;
 import org.cef.CefSettings;
+import org.cef.browser.CefFrame;
 import org.cef.callback.CefAuthCallback;
 import org.cef.callback.CefCallback;
 import org.cef.handler.*;
@@ -37,6 +38,8 @@ public class ClientHandlersImpl implements ClientHandlers.Iface, RemoteClient.Br
     private final RemoteApp myRemoteApp;
     private final RpcExecutor myServer;
 
+    private static final CefFrame NULL_FRAME = new RemoteFrame();
+
     public ClientHandlersImpl(RpcExecutor server, RemoteApp remoteApp) {
         myRemoteApp = remoteApp;
         myServer = server;
@@ -44,6 +47,10 @@ public class ClientHandlersImpl implements ClientHandlers.Iface, RemoteClient.Br
 
     @Override
     public void register(RemoteBrowser browser) {
+        if (browser.getBid() < 0) {
+            CefLog.Error("Can't register browser with bid %d", browser.getBid());
+            return;
+        }
         myBid2RemoteBrowser.put(browser.getBid(), browser);
     }
 
@@ -97,14 +104,14 @@ public class ClientHandlersImpl implements ClientHandlers.Iface, RemoteClient.Br
     private static final Point INVALID_POINT = new Point(Integer.MIN_VALUE, Integer.MIN_VALUE);
     private static final ScreenInfo INVALID_SCREENINFO = new ScreenInfo(-1, -1, -1, false, new Rect(), new Rect());
 
+    // NOTE: assume getRenderHandler() != null always
+
     @Override
     public Rect RenderHandler_GetViewRect(int bid) throws TException {
         RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return INVALID_RECT;
         RemoteClient rclient = browser.getOwner();
         CefRenderHandler rh = rclient.getRenderHandler();
-        if (rh == null) return INVALID_RECT;
-
         Rectangle rect = rh.getViewRect(browser);
         return new Rect(rect.x, rect.y, rect.width, rect.height);
     }
@@ -115,8 +122,6 @@ public class ClientHandlersImpl implements ClientHandlers.Iface, RemoteClient.Br
         if (browser == null) return INVALID_SCREENINFO;
         RemoteClient rclient = browser.getOwner();
         CefRenderHandler rh = rclient.getRenderHandler();
-        if (rh == null) return INVALID_SCREENINFO;
-
         CefScreenInfo csi = new CefScreenInfo();
         boolean success = rh.getScreenInfo(browser, csi);
         return success ?
@@ -136,8 +141,6 @@ public class ClientHandlersImpl implements ClientHandlers.Iface, RemoteClient.Br
         if (browser == null) return INVALID_POINT;
         RemoteClient rclient = browser.getOwner();
         CefRenderHandler rh = rclient.getRenderHandler();
-        if (rh == null) return INVALID_POINT;
-
         java.awt.Point res = rh.getScreenPoint(browser, new java.awt.Point(viewX, viewY));
         return new Point(res.x, res.y);
     }
@@ -146,11 +149,8 @@ public class ClientHandlersImpl implements ClientHandlers.Iface, RemoteClient.Br
     public void RenderHandler_OnPaint(int bid, boolean popup, int dirtyRectsCount, String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height) {
         RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return;
-
         RemoteClient rc = browser.getOwner();
         CefRenderHandler rh = rc.getRenderHandler();
-        if (rh == null) return;
-
         ((CefNativeRenderHandler)rh).onPaintWithSharedMem(browser, popup, dirtyRectsCount, sharedMemName, sharedMemHandle, recreateHandle, width, height);
     }
 
@@ -163,7 +163,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface, RemoteClient.Br
         RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return false;
 
-        return browser.getOwner().hLifeSpan.handleBool(lsh-> lsh.onBeforePopup(browser, null, url, frameName));
+        return browser.getOwner().hLifeSpan.handleBool(lsh-> lsh.onBeforePopup(browser, NULL_FRAME, url, frameName));
     }
 
     @Override
@@ -220,7 +220,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface, RemoteClient.Br
         if (browser == null) return;
 
         // TODO: use correct transition_type instead of TT_LINK
-        browser.getOwner().hLoad.handle(lh->lh.onLoadStart(browser, null, CefRequest.TransitionType.TT_LINK));
+        browser.getOwner().hLoad.handle(lh->lh.onLoadStart(browser, NULL_FRAME, CefRequest.TransitionType.TT_LINK));
     }
 
     @Override
@@ -228,7 +228,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface, RemoteClient.Br
         RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return;
 
-        browser.getOwner().hLoad.handle(lh->lh.onLoadEnd(browser, null, httpStatusCode));
+        browser.getOwner().hLoad.handle(lh->lh.onLoadEnd(browser, NULL_FRAME, httpStatusCode));
     }
 
     @Override
@@ -237,7 +237,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface, RemoteClient.Br
         if (browser == null) return;
 
         browser.getOwner().hLoad.handle(
-                lh->lh.onLoadError(browser, null, CefLoadHandler.ErrorCode.findByCode(errorCode), errorText, failedUrl)
+                lh->lh.onLoadError(browser, NULL_FRAME, CefLoadHandler.ErrorCode.findByCode(errorCode), errorText, failedUrl)
         );
     }
 
@@ -253,7 +253,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface, RemoteClient.Br
         CefDisplayHandler dh = browser.getOwner().getDisplayHandler();
         if (dh == null) return;
 
-        dh.onAddressChange(browser, null, url);
+        dh.onAddressChange(browser, NULL_FRAME, url);
     }
 
     @Override
@@ -315,7 +315,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface, RemoteClient.Br
         if (rh == null) return false;
 
         RemoteRequest rr = new RemoteRequest(myServer, request);
-        boolean result = rh.onBeforeBrowse(browser, null, rr, user_gesture, is_redirect);
+        boolean result = rh.onBeforeBrowse(browser, NULL_FRAME, rr, user_gesture, is_redirect);
         return result;
     }
 
@@ -331,7 +331,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface, RemoteClient.Br
 
         RemoteRequest rr = new RemoteRequest(myServer, request);
         BoolRef disableDefaultHandling = new BoolRef(false);
-        CefResourceRequestHandler handler = rh.getResourceRequestHandler(browser, null, rr, isNavigation, isDownload, requestInitiator, disableDefaultHandling);
+        CefResourceRequestHandler handler = rh.getResourceRequestHandler(browser, NULL_FRAME, rr, isNavigation, isDownload, requestInitiator, disableDefaultHandling);
         if (handler == null) return INVALID_PERSISTENT;
 
         boolean isPersistent = handler instanceof PersistentHandler;
@@ -351,7 +351,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface, RemoteClient.Br
 
         CefResourceRequestHandler handler = rrrh.getDelegate();
         RemoteRequest rr = new RemoteRequest(myServer, request);
-        CefCookieAccessFilter filter = handler.getCookieAccessFilter(getRemoteBrowser(bid), null, rr);
+        CefCookieAccessFilter filter = handler.getCookieAccessFilter(getRemoteBrowser(bid), NULL_FRAME, rr);
         if (handler == null) return INVALID_PERSISTENT;
 
         boolean isPersistent = handler instanceof PersistentHandler;
@@ -400,7 +400,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface, RemoteClient.Br
         if (f == null) return false;
 
         RemoteRequest rr = new RemoteRequest(myServer, request);
-        boolean result = f.getDelegate().canSendCookie(getRemoteBrowser(bid), null, rr, cookieFromList(cookie));
+        boolean result = f.getDelegate().canSendCookie(getRemoteBrowser(bid), NULL_FRAME, rr, cookieFromList(cookie));
         return result;
     }
 
@@ -411,7 +411,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface, RemoteClient.Br
 
         RemoteRequest rreq = new RemoteRequest(myServer, request);
         RemoteResponse rresp = new RemoteResponse(myServer, response);
-        boolean result = f.getDelegate().canSaveCookie(getRemoteBrowser(bid), null, rreq, rresp, cookieFromList(cookie));
+        boolean result = f.getDelegate().canSaveCookie(getRemoteBrowser(bid), NULL_FRAME, rreq, rresp, cookieFromList(cookie));
         return result;
     }
 
@@ -423,7 +423,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface, RemoteClient.Br
         CefRequestHandler rh = browser.getOwner().getRequestHandler();
         if (rh == null) return false;
 
-        return rh.onOpenURLFromTab(browser, null, target_url, user_gesture);
+        return rh.onOpenURLFromTab(browser, NULL_FRAME, target_url, user_gesture);
     }
 
     @Override
@@ -484,7 +484,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface, RemoteClient.Br
         if (rrrh == null) return false;
 
         RemoteRequest rr = new RemoteRequest(myServer, request);
-        boolean result = rrrh.getDelegate().onBeforeResourceLoad(getRemoteBrowser(bid), null, rr);
+        boolean result = rrrh.getDelegate().onBeforeResourceLoad(getRemoteBrowser(bid), NULL_FRAME, rr);
         return result;
     }
 
@@ -494,7 +494,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface, RemoteClient.Br
         if (rrrh == null) return INVALID_PERSISTENT;
 
         RemoteRequest rr = new RemoteRequest(myServer, request);
-        CefResourceHandler handler = rrrh.getDelegate().getResourceHandler(getRemoteBrowser(bid), null, rr);
+        CefResourceHandler handler = rrrh.getDelegate().getResourceHandler(getRemoteBrowser(bid), NULL_FRAME, rr);
         if (handler == null) return INVALID_PERSISTENT;
 
         boolean isPersistent = handler instanceof PersistentHandler;
@@ -515,7 +515,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface, RemoteClient.Br
         RemoteRequest rreq = new RemoteRequest(myServer, request);
         RemoteResponse rresp = new RemoteResponse(myServer, response);
         StringRef sref = new StringRef(new_url);
-        rrrh.getDelegate().onResourceRedirect(getRemoteBrowser(bid), null, rreq, rresp, sref);
+        rrrh.getDelegate().onResourceRedirect(getRemoteBrowser(bid), NULL_FRAME, rreq, rresp, sref);
         return sref.get();
     }
 
@@ -526,7 +526,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface, RemoteClient.Br
 
         RemoteRequest rreq = new RemoteRequest(myServer, request);
         RemoteResponse rresp = new RemoteResponse(myServer, response);
-        boolean result = rrrh.getDelegate().onResourceResponse(getRemoteBrowser(bid), null, rreq, rresp);
+        boolean result = rrrh.getDelegate().onResourceResponse(getRemoteBrowser(bid), NULL_FRAME, rreq, rresp);
         return result;
     }
 
@@ -545,7 +545,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface, RemoteClient.Br
                 CefLog.Error("OnResourceLoadComplete: ", e.getMessage());
             }
         }
-        rrrh.getDelegate().onResourceLoadComplete(getRemoteBrowser(bid), null, rreq, rresp, s, receivedContentLength);
+        rrrh.getDelegate().onResourceLoadComplete(getRemoteBrowser(bid), NULL_FRAME, rreq, rresp, s, receivedContentLength);
     }
 
     @Override
@@ -555,7 +555,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface, RemoteClient.Br
 
         RemoteRequest rreq = new RemoteRequest(myServer, request);
         BoolRef br = new BoolRef(allowOsExecution);
-        rrrh.getDelegate().onProtocolExecution(getRemoteBrowser(bid), null, rreq, br);
+        rrrh.getDelegate().onProtocolExecution(getRemoteBrowser(bid), NULL_FRAME, rreq, br);
         return br.get();
     }
 
@@ -570,7 +570,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface, RemoteClient.Br
         if (rmrh == null) return false;
 
         RemoteQueryCallback rcb = new RemoteQueryCallback(myServer, queryCallback);
-        rmrh.getDelegate().onQuery(getRemoteBrowser(bid), null, queryId, request, persistent, rcb);
+        rmrh.getDelegate().onQuery(getRemoteBrowser(bid), NULL_FRAME, queryId, request, persistent, rcb);
         return false;
     }
 
@@ -579,6 +579,6 @@ public class ClientHandlersImpl implements ClientHandlers.Iface, RemoteClient.Br
         RemoteMessageRouterHandler rmrh = RemoteMessageRouterHandler.FACTORY.get(handler.objId);
         if (rmrh == null) return;
 
-        rmrh.getDelegate().onQueryCanceled(getRemoteBrowser(bid), null, queryId);
+        rmrh.getDelegate().onQueryCanceled(getRemoteBrowser(bid), NULL_FRAME, queryId);
     }
 }

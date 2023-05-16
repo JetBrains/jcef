@@ -15,56 +15,58 @@ import org.cef.misc.CefLog;
 import org.cef.misc.CefPdfPrintSettings;
 import org.cef.network.CefRequest;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferedImage;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.CharBuffer;
-import java.nio.charset.CharacterCodingException;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharsetEncoder;
 import java.util.Vector;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Consumer;
 
 public class RemoteBrowser implements CefBrowser {
-    private static final Charset ourCharset = Charset.forName("UTF-8");
-    private static final CharsetEncoder ourEncoder = ourCharset.newEncoder();
-    private static final CharsetDecoder ourDecoder = ourCharset.newDecoder();
-
     private final RpcExecutor myService;
-    private final int myBid;
     private final RemoteClient myOwner;
-    private final Consumer<Integer> myOnClose;
 
-    public RemoteBrowser(RpcExecutor service, int bid, RemoteClient owner, Consumer<Integer> onClose) {
+    // TODO: check all myBid usages (compare with -1)
+    private int myBid = -1;
+    private String myUrl = null;
+    private JComponent myComponent;
+
+    public RemoteBrowser(RpcExecutor service, RemoteClient owner, String url) {
         myService = service;
-        myBid = bid;
         myOwner = owner;
-        myOnClose = onClose;
+        myUrl = url;
     }
 
     public int getBid() { return myBid; }
     public int getCid() { return myOwner.getCid(); }
     public RemoteClient getOwner() { return myOwner; }
 
+    public boolean isNativeBrowserCreated() { return myOwner.isNativeBrowserCreated(); }
+    public boolean isNativeBrowserClosed() { return myOwner.isNativeBrowserClosed(); }
+
+    public void setComponent(JComponent component) { myComponent = component; }
+
     @Override
     public void createImmediately() {
-
+        myService.exec((s)->{
+            myBid = s.createBrowser(myOwner.getCid(), myUrl);
+        });
+        if (myBid < 0)
+            CefLog.Error("Can't obtain bid, result=%d", myBid);
+        else
+            myOwner.getTracker().register(this);
     }
 
     @Override
     public Component getUIComponent() {
-        return null;
+        return myComponent;
     }
 
     @Override
     public CefClient getClient() {
-        return null;
+        return myOwner;
     }
 
     @Override
@@ -74,7 +76,7 @@ public class RemoteBrowser implements CefBrowser {
 
     @Override
     public CefRenderHandler getRenderHandler() {
-        return null;
+        return myOwner.getRenderHandler();
     }
 
     @Override
@@ -219,13 +221,15 @@ public class RemoteBrowser implements CefBrowser {
 
     @Override
     public void close(boolean force) {
-        if (myOnClose != null)
-            myOnClose.accept(myBid);
+        if (myBid >= 0) {
+            if (myOwner.getTracker() != null)
+                myOwner.getTracker().unregister(myBid);
 
-        myService.exec((s)->{
-            // TODO: should we support force flag ? does it affect smth in OSR ?
-            s.closeBrowser(myBid);
-        });
+            myService.exec((s)->{
+                // TODO: should we support force flag ? does it affect smth in OSR ?
+                s.closeBrowser(myBid);
+            });
+        }
         getOwner().dispose();
     }
 

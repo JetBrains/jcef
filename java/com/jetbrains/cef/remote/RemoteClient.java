@@ -17,6 +17,8 @@ public class RemoteClient implements CefClient {
     private final RpcExecutor myService;
     private final BrowserTracker myTracker;
     private RemoteBrowser myRemoteBrowser;
+    private volatile boolean myIsNativeBrowserCreated = false;
+    private volatile boolean myIsNativeBrowserClosed = false;
 
     private CefContextMenuHandler contextMenuHandler_ = null;
     private CefDialogHandler dialogHandler_ = null;
@@ -46,7 +48,20 @@ public class RemoteClient implements CefClient {
         myCid = ourCounter.getAndIncrement();
         myService = service;
         myTracker = tracker;
+
+        hLifeSpan.addHandler(new CefLifeSpanHandlerAdapter() {
+            @Override
+            public void onAfterCreated(CefBrowser browser) {
+                myIsNativeBrowserCreated = true;
+            }
+            @Override
+            public void onBeforeClose(CefBrowser browser) {
+                myIsNativeBrowserClosed = true;
+            }
+        });
     }
+
+    protected BrowserTracker getTracker() { return myTracker; }
 
     protected CefContextMenuHandler getContextMenuHandler() {
         return contextMenuHandler_;
@@ -107,6 +122,9 @@ public class RemoteClient implements CefClient {
 
     public int getCid() { return myCid; }
 
+    public boolean isNativeBrowserCreated() { return myIsNativeBrowserCreated; }
+    public boolean isNativeBrowserClosed() { return myIsNativeBrowserClosed; }
+
     public void setRenderHandler(CefNativeRenderHandler renderHandler) { this.renderHandler_ = renderHandler; }
 
     //
@@ -115,13 +133,8 @@ public class RemoteClient implements CefClient {
 
     // Browser creation
     public RemoteBrowser createBrowser(String url, boolean isTransparent, CefRequestContext context) {
-        // TODO: support params
-        int[] newBid = new int[]{-1};
-        myService.exec((s)->{
-            newBid[0] = s.createBrowser(myCid);
-        });
-        RemoteBrowser result = new RemoteBrowser(myService, newBid[0], this, (bid)->myTracker.unregister(bid));
-        myTracker.register(result);
+        // TODO: support context
+        RemoteBrowser result = new RemoteBrowser(myService, this, url);
         return result;
     }
 
@@ -283,12 +296,12 @@ public class RemoteClient implements CefClient {
         // with java handlers (internally will remote wrappers over java objects). CefMessageRouter is used only to
         // add/remove handlers. So we can't create remote wrapper over pure CefMessageRouter here, since it's not a "handler".
         msgRouters.add(messageRouter);
-        if (myRemoteBrowser != null)
+        if (myRemoteBrowser != null && myRemoteBrowser.getBid() >= 0)
             messageRouter.addToBrowser(myRemoteBrowser.getBid());
     }
 
     public void removeMessageRouter(RemoteMessageRouter messageRouter) {
-        if (myRemoteBrowser != null)
+        if (myRemoteBrowser != null && myRemoteBrowser.getBid() >= 0)
             messageRouter.removeFromBrowser(myRemoteBrowser.getBid());
         msgRouters.remove(messageRouter);
     }

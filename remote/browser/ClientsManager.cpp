@@ -20,6 +20,7 @@ void ClientsManager::disposeClient(int bid) {
 namespace {
   void createBrowserImpl(
       int cid, int bid, CefRefPtr<RemoteClientHandler> clienthandler,
+      const std::string& url,
       std::function<void()> onCreationFailed
   ) {
     // Should be called on UI thread
@@ -27,7 +28,6 @@ namespace {
     windowInfo.SetAsWindowless(0);
 
     CefBrowserSettings settings;
-    CefString strUrl("www.google.com");
 
     CefRefPtr<CefDictionaryValue> extra_info;
     auto router_configs = MessageRoutersManager::GetMessageRouterConfigs();
@@ -38,7 +38,7 @@ namespace {
     }
 
     Log::debug( "CefBrowserHost::CreateBrowser cid=%d, bid=%d", cid, bid);
-    bool result = CefBrowserHost::CreateBrowser(windowInfo, clienthandler, strUrl,
+    bool result = CefBrowserHost::CreateBrowser(windowInfo, clienthandler, url,
                                                 settings, extra_info, nullptr);
     if (!result) {
       Log::error( "Failed to create browser with cid=%d, bid=%d", cid, bid);
@@ -49,7 +49,7 @@ namespace {
 
 extern bool isCefInitialized();
 
-int ClientsManager::createBrowser(int cid, std::shared_ptr<RpcExecutor> service, std::shared_ptr<MessageRoutersManager> routersManager) {
+int ClientsManager::createBrowser(int cid, std::shared_ptr<RpcExecutor> service, std::shared_ptr<MessageRoutersManager> routersManager, const std::string& url) {
   if (!isCefInitialized()) {
     Log::warn( "Can't create browser with cid=%d, need wait for cef initialization", cid);
     // TODO: return wrapper and schedule browser creation after initialization
@@ -74,9 +74,9 @@ int ClientsManager::createBrowser(int cid, std::shared_ptr<RpcExecutor> service,
     // TODO: notify client
   };
   if (CefCurrentlyOn(TID_UI)) {
-    createBrowserImpl(cid, bid, clienthandler, onFailed);
+    createBrowserImpl(cid, bid, clienthandler, url, onFailed);
   } else {
-    CefPostTask(TID_UI, base::BindOnce(&createBrowserImpl, cid, bid, clienthandler, onFailed));
+    CefPostTask(TID_UI, base::BindOnce(&createBrowserImpl, cid, bid, clienthandler, url, onFailed));
   }
 
   Log::debug("Scheduled browser creation, cid=%d, bid=%d", cid, bid);

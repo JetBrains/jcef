@@ -93,8 +93,8 @@ int32_t ServerHandler::connect(
   return cid;
 }
 
-int32_t ServerHandler::createBrowser(int cid) {
-  return myClientsManager->createBrowser(cid, myService, myRoutersManager);
+int32_t ServerHandler::createBrowser(int cid, const std::string& url) {
+  return myClientsManager->createBrowser(cid, myService, myRoutersManager, url);
 }
 
 void ServerHandler::closeBrowser(const int32_t bid) {

@@ -37,17 +37,18 @@ bool RemoteMessageRouterHandler::OnQuery(CefRefPtr<CefBrowser> browser,
                      bool persistent,
                      CefRefPtr<Callback> callback) {
   TRACE();
-  RemoteQueryCallback * rcb = RemoteQueryCallback::create(myService, callback);
   const int bid = myClientsManager->findRemoteBrowser(browser);
   if (bid < 0) {
     Log::error("Can't find remote browser by cef-id %d", browser ? browser->GetIdentifier() : -1);
     return false;
   }
+  RemoteQueryCallback * rcb = RemoteQueryCallback::create(myService, callback);
+  const int rcdId = rcb->getId();
   bool handled = myService->exec<bool>([&](RpcExecutor::Service s){
     return s->MessageRouterHandler_onQuery(toThrift(), bid, query_id, request, persistent, rcb->toThrift());
   }, false);
   if (!handled) // NOTE: must delete callback when onQuery returns false
-    delete rcb;
+    RemoteQueryCallback::dispose(rcdId);
   return handled;
 }
 

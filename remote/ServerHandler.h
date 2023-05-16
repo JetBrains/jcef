@@ -25,7 +25,7 @@ class ServerHandler : public thrift_codegen::ServerIf {
   //
   // CefBrowser
   //
-  int32_t createBrowser(int cid) override;
+  int32_t createBrowser(int cid, const std::string& url) override;
   void closeBrowser(const int32_t bid) override;
 
   void Browser_Reload(const int32_t bid) override;
