@@ -28,8 +28,53 @@ public class SharedMemory {
         closeSharedSegment(mySegment);
     }
 
+    public ByteBuffer wrap(int size) {
+        return wrapNativeMem(myPtr, size);
+    }
+
     // Helper method (for creating BufferedImage from native raster)
-    public static native ByteBuffer wrapNativeMem(long pdata, int length);
+    private static native ByteBuffer wrapNativeMem(long pdata, int length);
+    
+    public static class WithRaster extends SharedMemory {
+        private int myWidth;
+        private int myHeight;
+        private int myDirtyRectsCount;
+
+        public WithRaster(String sharedMemName, long boostHandle) {
+            super(sharedMemName, boostHandle);
+        }
+
+        public ByteBuffer wrapRaster() {
+            return wrapNativeMem(getPtr(), myWidth * myHeight * 4);
+        }
+        public ByteBuffer wrapRects() {
+            return wrapNativeMem(getPtr() + myWidth * myHeight * 4, myDirtyRectsCount * 4 * 4);
+        }
+
+        public int getWidth() {
+            return myWidth;
+        }
+
+        public void setWidth(int width) {
+            this.myWidth = width;
+        }
+
+        public int getHeight() {
+            return myHeight;
+        }
+
+        public void setHeight(int height) {
+            this.myHeight = height;
+        }
+
+        public int getDirtyRectsCount() {
+            return myDirtyRectsCount;
+        }
+
+        public void setDirtyRectsCount(int dirtyRectsCount) {
+            this.myDirtyRectsCount = dirtyRectsCount;
+        }
+    }
 
     //
     // Private native API

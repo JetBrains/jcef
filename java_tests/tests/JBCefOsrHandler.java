@@ -73,7 +73,7 @@ public class JBCefOsrHandler implements CefNativeRenderHandler {
     private boolean myPopupShown;
     private final CountDownLatch initLatch = new CountDownLatch(1);
 
-    private SharedMemory mySharedMem;
+    private SharedMemory.WithRaster mySharedMem;
 
     private JBCefFpsMeter myFpsMeter;
 
@@ -149,8 +149,12 @@ public class JBCefOsrHandler implements CefNativeRenderHandler {
         long startMs = System.currentTimeMillis();
         if (recreateHandle || mySharedMem == null || !mySharedMem.mname.equals(sharedMemName) || sharedMemHandle != mySharedMem.boostHandle) {
             if (mySharedMem != null) mySharedMem.close();
-            mySharedMem = new SharedMemory(sharedMemName, sharedMemHandle);
+            mySharedMem = new SharedMemory.WithRaster(sharedMemName, sharedMemHandle);
         }
+
+        mySharedMem.setWidth(width);
+        mySharedMem.setHeight(height);
+        mySharedMem.setDirtyRectsCount(dirtyRectsCount);
 
         BufferedImage bufImage = myImage;
         VolatileImage volatileImage = myVolatileImage;
@@ -170,10 +174,10 @@ public class JBCefOsrHandler implements CefNativeRenderHandler {
         long midMs = System.currentTimeMillis();
 
         if (RasterProcessor.isFastLoadingAvailable()) {
-            RasterProcessor.loadFast(volatileImage, mySharedMem.getPtr(), width, height, mySharedMem.getPtr() + width*height*4, dirtyRectsCount);
+            RasterProcessor.loadFast(volatileImage, mySharedMem);
         } else {
             // load buffered
-            RasterProcessor.loadBuffered(bufImage, mySharedMem.getPtr(), width, height, mySharedMem.getPtr() + width*height*4, dirtyRectsCount);
+            RasterProcessor.loadBuffered(bufImage, mySharedMem);
 
             // draw buffered onto volatile
             Graphics2D viGr = (Graphics2D)volatileImage.getGraphics().create();
@@ -407,25 +411,30 @@ public class JBCefOsrHandler implements CefNativeRenderHandler {
             }
         }
 
-        public static void loadFast(VolatileImage volatileImage, long pRaster, int width, int height, long pRects, int rectsCount) {
+        public static void loadFast(VolatileImage volatileImage, SharedMemory.WithRaster mem) {
             if (!isFastLoadingAvailable())
                 return;
 
             try {
                 // TODO: use jbr API
-                mLoadMethodHandle.invoke(volatileImage, pRaster, width, height, pRects, rectsCount);
+                mLoadMethodHandle.invoke(volatileImage, mem.getPtr(), mem.getWidth(), mem.getHeight(), mem.getPtr() + mem.getWidth()*mem.getHeight()*4, mem.getDirtyRectsCount());
             } catch (IllegalAccessException | InvocationTargetException ignore) {
             }
         }
 
-        public static void loadBuffered(BufferedImage bufImage, long pRaster, int width, int height, long pRects, int rectsCount) {
-            ByteBuffer buffer = SharedMemory.wrapNativeMem(pRaster, width*height*4);
+        public static void loadBuffered(BufferedImage bufImage, SharedMemory.WithRaster mem) {
+            final long pRaster = mem.getPtr();
+            final int width = mem.getWidth();
+            final int height = mem.getHeight();
+            final int rectsCount = mem.getDirtyRectsCount();
+
+            ByteBuffer buffer = mem.wrapRaster();
             int[] dst = ((DataBufferInt)bufImage.getRaster().getDataBuffer()).getData();
             IntBuffer src = buffer.order(ByteOrder.LITTLE_ENDIAN).asIntBuffer();
 
             Rectangle[] dirtyRects = new Rectangle[]{new Rectangle(0, 0, width, height)};
             if (rectsCount > 0) {
-                ByteBuffer rectsMem = SharedMemory.wrapNativeMem(pRaster + width*height*4, rectsCount*4*4);
+                ByteBuffer rectsMem = mem.wrapRects();
                 IntBuffer rects = rectsMem.order(ByteOrder.LITTLE_ENDIAN).asIntBuffer();
                 for (int c = 0; c < rectsCount; ++c) {
                     int pos = c*4;
