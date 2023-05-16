@@ -23,8 +23,6 @@ import org.cef.network.CefURLRequest;
 import org.cef.security.CefSSLInfo;
 
 import java.awt.*;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -34,7 +32,7 @@ import java.util.concurrent.ConcurrentHashMap;
 //
 // Service for rpc from native to java
 //
-public class ClientHandlersImpl implements ClientHandlers.Iface {
+public class ClientHandlersImpl implements ClientHandlers.Iface, RemoteClient.BrowserTracker {
     private final Map<Integer, RemoteBrowser> myBid2RemoteBrowser = new ConcurrentHashMap<>();
     private final RemoteApp myRemoteApp;
     private final RpcExecutor myServer;
@@ -44,17 +42,16 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         myServer = server;
     }
 
-    void registerBrowser(RemoteBrowser browser) {
+    @Override
+    public void register(RemoteBrowser browser) {
         myBid2RemoteBrowser.put(browser.getBid(), browser);
     }
 
-    public void unregisterBrowser(int bid) {
+    @Override
+    public void unregister(int bid) {
         RemoteBrowser browser = myBid2RemoteBrowser.remove(bid);
-        if (browser == null) {
+        if (browser == null)
             CefLog.Error("unregisterBrowser: bid=%d was already removed.");
-            return;
-        }
-        browser.getOwner().disposeClient();
     }
 
     private RemoteBrowser getRemoteBrowser(int bid) {
@@ -162,14 +159,11 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     //
 
     @Override
-    public void LifeSpanHandler_OnBeforePopup(int bid, String url, String frameName, boolean gesture) {
+    public boolean LifeSpanHandler_OnBeforePopup(int bid, String url, String frameName, boolean gesture) {
         RemoteBrowser browser = getRemoteBrowser(bid);
-        if (browser == null) return;
+        if (browser == null) return false;
 
-        CefLifeSpanHandler lsh = browser.getOwner().getLifeSpanHandler();
-        if (lsh == null) return;
-
-        lsh.onBeforePopup(browser, null, url, frameName);
+        return browser.getOwner().hLifeSpan.handleBool(lsh-> lsh.onBeforePopup(browser, null, url, frameName));
     }
 
     @Override
@@ -177,21 +171,26 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return;
 
-        CefLifeSpanHandler lsh = browser.getOwner().getLifeSpanHandler();
-        if (lsh == null) return;
-
-        lsh.onAfterCreated(browser);
+        browser.getOwner().hLifeSpan.handle(lsh->lsh.onAfterCreated(browser));
     }
 
+    /**
+     * Called when a browser has received a request to close.
+     *
+     * If no OS window exists (window rendering disabled)
+     * returning false will cause the browser object to be destroyed immediately. Return true if the
+     * browser is parented to another window and that other window needs to receive close
+     * notification via some non-standard technique.
+     *
+     * @param bid The browser generating the event.
+     * @return False to send an OS close notification to the browser window's top-level owner.
+     */
     @Override
-    public void LifeSpanHandler_DoClose(int bid) {
+    public boolean LifeSpanHandler_DoClose(int bid) {
         RemoteBrowser browser = getRemoteBrowser(bid);
-        if (browser == null) return;
-
-        CefLifeSpanHandler lsh = browser.getOwner().getLifeSpanHandler();
-        if (lsh == null) return;
-
-        lsh.doClose(browser);
+        if (browser != null)
+            browser.getOwner().hLifeSpan.handle(lsh->lsh.doClose(browser));
+        return false;
     }
 
     @Override
@@ -199,10 +198,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return;
 
-        CefLifeSpanHandler lsh = browser.getOwner().getLifeSpanHandler();
-        if (lsh == null) return;
-
-        lsh.onBeforeClose(browser);
+        browser.getOwner().hLifeSpan.handle(lsh->lsh.onBeforeClose(browser));
     }
 
 
@@ -215,10 +211,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return;
 
-        CefLoadHandler lh = browser.getOwner().getLoadHandler();
-        if (lh == null) return;
-
-        lh.onLoadingStateChange(browser, isLoading, canGoBack, canGoForward);
+        browser.getOwner().hLoad.handle(lh->lh.onLoadingStateChange(browser, isLoading, canGoBack, canGoForward));
     }
 
     @Override
@@ -226,11 +219,8 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return;
 
-        CefLoadHandler lh = browser.getOwner().getLoadHandler();
-        if (lh == null) return;
-
         // TODO: use correct transition_type instead of TT_LINK
-        lh.onLoadStart(browser, null, CefRequest.TransitionType.TT_LINK);
+        browser.getOwner().hLoad.handle(lh->lh.onLoadStart(browser, null, CefRequest.TransitionType.TT_LINK));
     }
 
     @Override
@@ -238,10 +228,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return;
 
-        CefLoadHandler lh = browser.getOwner().getLoadHandler();
-        if (lh == null) return;
-
-        lh.onLoadEnd(browser, null, httpStatusCode);
+        browser.getOwner().hLoad.handle(lh->lh.onLoadEnd(browser, null, httpStatusCode));
     }
 
     @Override
@@ -249,10 +236,9 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return;
 
-        CefLoadHandler lh = browser.getOwner().getLoadHandler();
-        if (lh == null) return;
-
-        lh.onLoadError(browser, null, CefLoadHandler.ErrorCode.findByCode(errorCode), errorText, failedUrl);
+        browser.getOwner().hLoad.handle(
+                lh->lh.onLoadError(browser, null, CefLoadHandler.ErrorCode.findByCode(errorCode), errorText, failedUrl)
+        );
     }
 
     //

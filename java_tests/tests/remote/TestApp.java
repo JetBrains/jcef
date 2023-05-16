@@ -17,36 +17,29 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.Collections;
-import java.util.List;
 
 public class TestApp extends JFrame {
-    static CefServer ourServer;
-
     public static void main(String[] args) {
         CefLog.init(null, CefSettings.LogSeverity.LOGSEVERITY_VERBOSE);
-        ourServer = new CefServer();
-        List<String> cefArgs = Collections.emptyList();
-        CefSettings settings = new CefSettings();
-        if (!ourServer.start(cefArgs, settings)) {
-            CefLog.Error("can't connect to CefServer");
+        CefServer.initialize();
+        if (CefServer.instance() == null)
             return;
-        }
 
-        RemoteClient client = new RemoteClient(ourServer);
+        CefServer server = CefServer.instance();
+        RemoteClient client = server.createClient();
 
         JBCefOsrComponent osrComponent = new JBCefOsrComponent();
         JBCefOsrHandler osrHandler = new JBCefOsrHandler(osrComponent, null);
         client.setRenderHandler(osrHandler);
 
-        client.setLifeSpanHandler(new TestLifeSpanHandler());
-        client.setLoadHandler(new TestLoadHandler());
-        client.setDisplayHandler(new TestDisplayHandler());
-        client.setRequestHandler(new TestRequestHandler());
+        client.addLifeSpanHandler(new TestLifeSpanHandler());
+        client.addLoadHandler(new TestLoadHandler());
+        client.addDisplayHandler(new TestDisplayHandler());
+        client.addRequestHandler(new TestRequestHandler());
 
         String qFunc = "testRemoteQuery";
         String qFuncCancel = "testRemoteQueryCancel";
-        RemoteMessageRouter testRouter = RemoteMessageRouter.create(ourServer.getService(), qFunc, qFuncCancel);
+        RemoteMessageRouter testRouter = RemoteMessageRouter.create(server.getService(), qFunc, qFuncCancel);
         if (testRouter == null) {
             CefLog.Error("can't create RemoteMessageRouter");
             return;
@@ -54,7 +47,7 @@ public class TestApp extends JFrame {
 
         testRouter.addHandler(new TestMessageRouterHandler(), true);
         client.addMessageRouter(testRouter);
-        RemoteBrowser browser = ourServer.createBrowser(client);
+        RemoteBrowser browser = client.createBrowser("",true,null);
         if (browser == null) {
             CefLog.Error("can't create remote browser");
             return;
@@ -79,7 +72,7 @@ public class TestApp extends JFrame {
                 frame.dispose();
                 browser.close(true);
                 client.dispose();
-                ourServer.stop();
+                server.stop();
             }
         });
     }

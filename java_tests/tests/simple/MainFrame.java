@@ -8,6 +8,7 @@ import com.jetbrains.cef.JCefAppConfig;
 import org.cef.CefApp;
 import org.cef.CefApp.CefAppState;
 import org.cef.CefClient;
+import org.cef.CefClientImpl;
 import org.cef.CefSettings;
 import org.cef.browser.*;
 import org.cef.handler.CefAppHandlerAdapter;
@@ -122,7 +123,7 @@ public class MainFrame extends JFrame {
         if (useOSR) {
             browser_ = OsrSupport.createBrowser(client_, startURL);
         } else {
-            browser_ = client_.createBrowser(startURL, useOSR, isTransparent);
+            browser_ = ((CefClientImpl)client_).createBrowser(startURL, useOSR, isTransparent);
         }
 
         browerUI_ = browser_.getUIComponent();

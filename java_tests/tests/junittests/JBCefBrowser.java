@@ -2,6 +2,7 @@ package tests.junittests;
 
 import org.cef.CefApp;
 import org.cef.CefClient;
+import org.cef.CefClientImpl;
 import org.cef.CefSettings;
 import org.cef.browser.CefBrowser;
 import org.cef.handler.CefLifeSpanHandlerAdapter;
@@ -57,7 +58,7 @@ public class JBCefBrowser {
         myCefClient = CefApp.getInstance().createClient();
 
         myClientDisposeLatch = new CountDownLatch(1);
-        myCefClient.setOnDisposeCallback(()->{
+        ((CefClientImpl)myCefClient).setOnDisposeCallback(()->{
             myClientDisposeLatch.countDown();
         });
 
@@ -81,14 +82,14 @@ public class JBCefBrowser {
         if (OsrSupport.isEnabled()) {
             myCefBrowser = OsrSupport.createBrowser(myCefClient, "about:blank");
         } else {
-            myCefBrowser = myCefClient.createBrowser("about:blank", false, false);
+            myCefBrowser = ((CefClientImpl)myCefClient).createBrowser("about:blank", false, false);
         }
     }
 
     public final void awaitClientDisposed() {
         try {
             if (!myClientDisposeLatch.await(5, TimeUnit.SECONDS)) {
-                throw new RuntimeException("CefClient wasn't completely disposed: " + myCefClient.getInfo());
+                throw new RuntimeException("CefClient wasn't completely disposed: " + ((CefClientImpl)myCefClient).getInfo());
             }
         } catch (InterruptedException e) {
         }
@@ -148,6 +149,6 @@ public class JBCefBrowser {
     public void dispose() {
         myCefBrowser.setCloseAllowed(); // Cause browser.doClose() to return false so that OSR browser can close.
         myCefBrowser.close(true);
-        myCefClient.dispose();
+        ((CefClientImpl)myCefClient).dispose();
     }
 }

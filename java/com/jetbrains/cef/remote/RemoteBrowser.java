@@ -226,6 +226,7 @@ public class RemoteBrowser implements CefBrowser {
             // TODO: should we support force flag ? does it affect smth in OSR ?
             s.closeBrowser(myBid);
         });
+        getOwner().dispose();
     }
 
     @Override

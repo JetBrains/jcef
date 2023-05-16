@@ -27,11 +27,11 @@ public class ClientHandlers {
 
     public void RenderHandler_OnPaint(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height) throws org.apache.thrift.TException;
 
-    public void LifeSpanHandler_OnBeforePopup(int bid, java.lang.String url, java.lang.String frameName, boolean gesture) throws org.apache.thrift.TException;
+    public boolean LifeSpanHandler_OnBeforePopup(int bid, java.lang.String url, java.lang.String frameName, boolean gesture) throws org.apache.thrift.TException;
 
     public void LifeSpanHandler_OnAfterCreated(int bid) throws org.apache.thrift.TException;
 
-    public void LifeSpanHandler_DoClose(int bid) throws org.apache.thrift.TException;
+    public boolean LifeSpanHandler_DoClose(int bid) throws org.apache.thrift.TException;
 
     public void LifeSpanHandler_OnBeforeClose(int bid) throws org.apache.thrift.TException;
 
@@ -113,11 +113,11 @@ public class ClientHandlers {
 
     public void RenderHandler_OnPaint(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void LifeSpanHandler_OnBeforePopup(int bid, java.lang.String url, java.lang.String frameName, boolean gesture, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void LifeSpanHandler_OnBeforePopup(int bid, java.lang.String url, java.lang.String frameName, boolean gesture, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
 
     public void LifeSpanHandler_OnAfterCreated(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void LifeSpanHandler_DoClose(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void LifeSpanHandler_DoClose(int bid, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
 
     public void LifeSpanHandler_OnBeforeClose(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
@@ -374,9 +374,10 @@ public class ClientHandlers {
       return;
     }
 
-    public void LifeSpanHandler_OnBeforePopup(int bid, java.lang.String url, java.lang.String frameName, boolean gesture) throws org.apache.thrift.TException
+    public boolean LifeSpanHandler_OnBeforePopup(int bid, java.lang.String url, java.lang.String frameName, boolean gesture) throws org.apache.thrift.TException
     {
       send_LifeSpanHandler_OnBeforePopup(bid, url, frameName, gesture);
+      return recv_LifeSpanHandler_OnBeforePopup();
     }
 
     public void send_LifeSpanHandler_OnBeforePopup(int bid, java.lang.String url, java.lang.String frameName, boolean gesture) throws org.apache.thrift.TException
@@ -386,7 +387,17 @@ public class ClientHandlers {
       args.setUrl(url);
       args.setFrameName(frameName);
       args.setGesture(gesture);
-      sendBaseOneway("LifeSpanHandler_OnBeforePopup", args);
+      sendBase("LifeSpanHandler_OnBeforePopup", args);
+    }
+
+    public boolean recv_LifeSpanHandler_OnBeforePopup() throws org.apache.thrift.TException
+    {
+      LifeSpanHandler_OnBeforePopup_result result = new LifeSpanHandler_OnBeforePopup_result();
+      receiveBase(result, "LifeSpanHandler_OnBeforePopup");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "LifeSpanHandler_OnBeforePopup failed: unknown result");
     }
 
     public void LifeSpanHandler_OnAfterCreated(int bid) throws org.apache.thrift.TException
@@ -401,16 +412,27 @@ public class ClientHandlers {
       sendBaseOneway("LifeSpanHandler_OnAfterCreated", args);
     }
 
-    public void LifeSpanHandler_DoClose(int bid) throws org.apache.thrift.TException
+    public boolean LifeSpanHandler_DoClose(int bid) throws org.apache.thrift.TException
     {
       send_LifeSpanHandler_DoClose(bid);
+      return recv_LifeSpanHandler_DoClose();
     }
 
     public void send_LifeSpanHandler_DoClose(int bid) throws org.apache.thrift.TException
     {
       LifeSpanHandler_DoClose_args args = new LifeSpanHandler_DoClose_args();
       args.setBid(bid);
-      sendBaseOneway("LifeSpanHandler_DoClose", args);
+      sendBase("LifeSpanHandler_DoClose", args);
+    }
+
+    public boolean recv_LifeSpanHandler_DoClose() throws org.apache.thrift.TException
+    {
+      LifeSpanHandler_DoClose_result result = new LifeSpanHandler_DoClose_result();
+      receiveBase(result, "LifeSpanHandler_DoClose");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "LifeSpanHandler_DoClose failed: unknown result");
     }
 
     public void LifeSpanHandler_OnBeforeClose(int bid) throws org.apache.thrift.TException
@@ -1313,20 +1335,20 @@ public class ClientHandlers {
       }
     }
 
-    public void LifeSpanHandler_OnBeforePopup(int bid, java.lang.String url, java.lang.String frameName, boolean gesture, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void LifeSpanHandler_OnBeforePopup(int bid, java.lang.String url, java.lang.String frameName, boolean gesture, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       LifeSpanHandler_OnBeforePopup_call method_call = new LifeSpanHandler_OnBeforePopup_call(bid, url, frameName, gesture, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class LifeSpanHandler_OnBeforePopup_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
+    public static class LifeSpanHandler_OnBeforePopup_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.Boolean> {
       private int bid;
       private java.lang.String url;
       private java.lang.String frameName;
       private boolean gesture;
-      public LifeSpanHandler_OnBeforePopup_call(int bid, java.lang.String url, java.lang.String frameName, boolean gesture, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
-        super(client, protocolFactory, transport, resultHandler, true);
+      public LifeSpanHandler_OnBeforePopup_call(int bid, java.lang.String url, java.lang.String frameName, boolean gesture, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
         this.bid = bid;
         this.url = url;
         this.frameName = frameName;
@@ -1334,7 +1356,7 @@ public class ClientHandlers {
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("LifeSpanHandler_OnBeforePopup", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("LifeSpanHandler_OnBeforePopup", org.apache.thrift.protocol.TMessageType.CALL, 0));
         LifeSpanHandler_OnBeforePopup_args args = new LifeSpanHandler_OnBeforePopup_args();
         args.setBid(bid);
         args.setUrl(url);
@@ -1344,13 +1366,13 @@ public class ClientHandlers {
         prot.writeMessageEnd();
       }
 
-      public Void getResult() throws org.apache.thrift.TException {
+      public java.lang.Boolean getResult() throws org.apache.thrift.TException {
         if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new java.lang.IllegalStateException("Method call not finished!");
         }
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
         org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
-        return null;
+        return (new Client(prot)).recv_LifeSpanHandler_OnBeforePopup();
       }
     }
 
@@ -1386,35 +1408,35 @@ public class ClientHandlers {
       }
     }
 
-    public void LifeSpanHandler_DoClose(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void LifeSpanHandler_DoClose(int bid, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       LifeSpanHandler_DoClose_call method_call = new LifeSpanHandler_DoClose_call(bid, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class LifeSpanHandler_DoClose_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
+    public static class LifeSpanHandler_DoClose_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.Boolean> {
       private int bid;
-      public LifeSpanHandler_DoClose_call(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
-        super(client, protocolFactory, transport, resultHandler, true);
+      public LifeSpanHandler_DoClose_call(int bid, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
         this.bid = bid;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("LifeSpanHandler_DoClose", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("LifeSpanHandler_DoClose", org.apache.thrift.protocol.TMessageType.CALL, 0));
         LifeSpanHandler_DoClose_args args = new LifeSpanHandler_DoClose_args();
         args.setBid(bid);
         args.write(prot);
         prot.writeMessageEnd();
       }
 
-      public Void getResult() throws org.apache.thrift.TException {
+      public java.lang.Boolean getResult() throws org.apache.thrift.TException {
         if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new java.lang.IllegalStateException("Method call not finished!");
         }
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
         org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
-        return null;
+        return (new Client(prot)).recv_LifeSpanHandler_DoClose();
       }
     }
 
@@ -2861,7 +2883,7 @@ public class ClientHandlers {
       }
 
       protected boolean isOneway() {
-        return true;
+        return false;
       }
 
       @Override
@@ -2869,9 +2891,11 @@ public class ClientHandlers {
         return false;
       }
 
-      public org.apache.thrift.TBase getResult(I iface, LifeSpanHandler_OnBeforePopup_args args) throws org.apache.thrift.TException {
-        iface.LifeSpanHandler_OnBeforePopup(args.bid, args.url, args.frameName, args.gesture);
-        return null;
+      public LifeSpanHandler_OnBeforePopup_result getResult(I iface, LifeSpanHandler_OnBeforePopup_args args) throws org.apache.thrift.TException {
+        LifeSpanHandler_OnBeforePopup_result result = new LifeSpanHandler_OnBeforePopup_result();
+        result.success = iface.LifeSpanHandler_OnBeforePopup(args.bid, args.url, args.frameName, args.gesture);
+        result.setSuccessIsSet(true);
+        return result;
       }
     }
 
@@ -2909,7 +2933,7 @@ public class ClientHandlers {
       }
 
       protected boolean isOneway() {
-        return true;
+        return false;
       }
 
       @Override
@@ -2917,9 +2941,11 @@ public class ClientHandlers {
         return false;
       }
 
-      public org.apache.thrift.TBase getResult(I iface, LifeSpanHandler_DoClose_args args) throws org.apache.thrift.TException {
-        iface.LifeSpanHandler_DoClose(args.bid);
-        return null;
+      public LifeSpanHandler_DoClose_result getResult(I iface, LifeSpanHandler_DoClose_args args) throws org.apache.thrift.TException {
+        LifeSpanHandler_DoClose_result result = new LifeSpanHandler_DoClose_result();
+        result.success = iface.LifeSpanHandler_DoClose(args.bid);
+        result.setSuccessIsSet(true);
+        return result;
       }
     }
 
@@ -4188,7 +4214,7 @@ public class ClientHandlers {
       }
     }
 
-    public static class LifeSpanHandler_OnBeforePopup<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, LifeSpanHandler_OnBeforePopup_args, Void> {
+    public static class LifeSpanHandler_OnBeforePopup<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, LifeSpanHandler_OnBeforePopup_args, java.lang.Boolean> {
       public LifeSpanHandler_OnBeforePopup() {
         super("LifeSpanHandler_OnBeforePopup");
       }
@@ -4197,27 +4223,55 @@ public class ClientHandlers {
         return new LifeSpanHandler_OnBeforePopup_args();
       }
 
-      public org.apache.thrift.async.AsyncMethodCallback<Void> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+      public org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
         final org.apache.thrift.AsyncProcessFunction fcall = this;
-        return new org.apache.thrift.async.AsyncMethodCallback<Void>() { 
-          public void onComplete(Void o) {
+        return new org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean>() { 
+          public void onComplete(java.lang.Boolean o) {
+            LifeSpanHandler_OnBeforePopup_result result = new LifeSpanHandler_OnBeforePopup_result();
+            result.success = o;
+            result.setSuccessIsSet(true);
+            try {
+              fcall.sendResponse(fb, result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (org.apache.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
           }
           public void onError(java.lang.Exception e) {
+            byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
+            org.apache.thrift.TSerializable msg;
+            LifeSpanHandler_OnBeforePopup_result result = new LifeSpanHandler_OnBeforePopup_result();
             if (e instanceof org.apache.thrift.transport.TTransportException) {
               _LOGGER.error("TTransportException inside handler", e);
               fb.close();
+              return;
+            } else if (e instanceof org.apache.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (org.apache.thrift.TApplicationException)e;
             } else {
-              _LOGGER.error("Exception inside oneway handler", e);
+              _LOGGER.error("Exception inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
             }
           }
         };
       }
 
       protected boolean isOneway() {
-        return true;
+        return false;
       }
 
-      public void start(I iface, LifeSpanHandler_OnBeforePopup_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+      public void start(I iface, LifeSpanHandler_OnBeforePopup_args args, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
         iface.LifeSpanHandler_OnBeforePopup(args.bid, args.url, args.frameName, args.gesture,resultHandler);
       }
     }
@@ -4256,7 +4310,7 @@ public class ClientHandlers {
       }
     }
 
-    public static class LifeSpanHandler_DoClose<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, LifeSpanHandler_DoClose_args, Void> {
+    public static class LifeSpanHandler_DoClose<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, LifeSpanHandler_DoClose_args, java.lang.Boolean> {
       public LifeSpanHandler_DoClose() {
         super("LifeSpanHandler_DoClose");
       }
@@ -4265,27 +4319,55 @@ public class ClientHandlers {
         return new LifeSpanHandler_DoClose_args();
       }
 
-      public org.apache.thrift.async.AsyncMethodCallback<Void> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+      public org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
         final org.apache.thrift.AsyncProcessFunction fcall = this;
-        return new org.apache.thrift.async.AsyncMethodCallback<Void>() { 
-          public void onComplete(Void o) {
+        return new org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean>() { 
+          public void onComplete(java.lang.Boolean o) {
+            LifeSpanHandler_DoClose_result result = new LifeSpanHandler_DoClose_result();
+            result.success = o;
+            result.setSuccessIsSet(true);
+            try {
+              fcall.sendResponse(fb, result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (org.apache.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
           }
           public void onError(java.lang.Exception e) {
+            byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
+            org.apache.thrift.TSerializable msg;
+            LifeSpanHandler_DoClose_result result = new LifeSpanHandler_DoClose_result();
             if (e instanceof org.apache.thrift.transport.TTransportException) {
               _LOGGER.error("TTransportException inside handler", e);
               fb.close();
+              return;
+            } else if (e instanceof org.apache.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (org.apache.thrift.TApplicationException)e;
             } else {
-              _LOGGER.error("Exception inside oneway handler", e);
+              _LOGGER.error("Exception inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
             }
           }
         };
       }
 
       protected boolean isOneway() {
-        return true;
+        return false;
       }
 
-      public void start(I iface, LifeSpanHandler_DoClose_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+      public void start(I iface, LifeSpanHandler_DoClose_args args, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
         iface.LifeSpanHandler_DoClose(args.bid,resultHandler);
       }
     }
@@ -12252,6 +12334,368 @@ public class ClientHandlers {
     }
   }
 
+  public static class LifeSpanHandler_OnBeforePopup_result implements org.apache.thrift.TBase<LifeSpanHandler_OnBeforePopup_result, LifeSpanHandler_OnBeforePopup_result._Fields>, java.io.Serializable, Cloneable, Comparable<LifeSpanHandler_OnBeforePopup_result>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("LifeSpanHandler_OnBeforePopup_result");
+
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.BOOL, (short)0);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new LifeSpanHandler_OnBeforePopup_resultStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new LifeSpanHandler_OnBeforePopup_resultTupleSchemeFactory();
+
+    public boolean success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __SUCCESS_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(LifeSpanHandler_OnBeforePopup_result.class, metaDataMap);
+    }
+
+    public LifeSpanHandler_OnBeforePopup_result() {
+    }
+
+    public LifeSpanHandler_OnBeforePopup_result(
+      boolean success)
+    {
+      this();
+      this.success = success;
+      setSuccessIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public LifeSpanHandler_OnBeforePopup_result(LifeSpanHandler_OnBeforePopup_result other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.success = other.success;
+    }
+
+    public LifeSpanHandler_OnBeforePopup_result deepCopy() {
+      return new LifeSpanHandler_OnBeforePopup_result(this);
+    }
+
+    @Override
+    public void clear() {
+      setSuccessIsSet(false);
+      this.success = false;
+    }
+
+    public boolean isSuccess() {
+      return this.success;
+    }
+
+    public LifeSpanHandler_OnBeforePopup_result setSuccess(boolean success) {
+      this.success = success;
+      setSuccessIsSet(true);
+      return this;
+    }
+
+    public void unsetSuccess() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __SUCCESS_ISSET_ID, value);
+    }
+
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((java.lang.Boolean)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return isSuccess();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof LifeSpanHandler_OnBeforePopup_result)
+        return this.equals((LifeSpanHandler_OnBeforePopup_result)that);
+      return false;
+    }
+
+    public boolean equals(LifeSpanHandler_OnBeforePopup_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_success = true;
+      boolean that_present_success = true;
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (this.success != that.success)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((success) ? 131071 : 524287);
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(LifeSpanHandler_OnBeforePopup_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetSuccess(), other.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, other.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("LifeSpanHandler_OnBeforePopup_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      sb.append(this.success);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class LifeSpanHandler_OnBeforePopup_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public LifeSpanHandler_OnBeforePopup_resultStandardScheme getScheme() {
+        return new LifeSpanHandler_OnBeforePopup_resultStandardScheme();
+      }
+    }
+
+    private static class LifeSpanHandler_OnBeforePopup_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<LifeSpanHandler_OnBeforePopup_result> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, LifeSpanHandler_OnBeforePopup_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 0: // SUCCESS
+              if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
+                struct.success = iprot.readBool();
+                struct.setSuccessIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, LifeSpanHandler_OnBeforePopup_result struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.isSetSuccess()) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          oprot.writeBool(struct.success);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class LifeSpanHandler_OnBeforePopup_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public LifeSpanHandler_OnBeforePopup_resultTupleScheme getScheme() {
+        return new LifeSpanHandler_OnBeforePopup_resultTupleScheme();
+      }
+    }
+
+    private static class LifeSpanHandler_OnBeforePopup_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<LifeSpanHandler_OnBeforePopup_result> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, LifeSpanHandler_OnBeforePopup_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          oprot.writeBool(struct.success);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, LifeSpanHandler_OnBeforePopup_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.success = iprot.readBool();
+          struct.setSuccessIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
   public static class LifeSpanHandler_OnAfterCreated_args implements org.apache.thrift.TBase<LifeSpanHandler_OnAfterCreated_args, LifeSpanHandler_OnAfterCreated_args._Fields>, java.io.Serializable, Cloneable, Comparable<LifeSpanHandler_OnAfterCreated_args>   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("LifeSpanHandler_OnAfterCreated_args");
 
@@ -12963,6 +13407,368 @@ public class ClientHandlers {
         if (incoming.get(0)) {
           struct.bid = iprot.readI32();
           struct.setBidIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  public static class LifeSpanHandler_DoClose_result implements org.apache.thrift.TBase<LifeSpanHandler_DoClose_result, LifeSpanHandler_DoClose_result._Fields>, java.io.Serializable, Cloneable, Comparable<LifeSpanHandler_DoClose_result>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("LifeSpanHandler_DoClose_result");
+
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.BOOL, (short)0);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new LifeSpanHandler_DoClose_resultStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new LifeSpanHandler_DoClose_resultTupleSchemeFactory();
+
+    public boolean success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __SUCCESS_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(LifeSpanHandler_DoClose_result.class, metaDataMap);
+    }
+
+    public LifeSpanHandler_DoClose_result() {
+    }
+
+    public LifeSpanHandler_DoClose_result(
+      boolean success)
+    {
+      this();
+      this.success = success;
+      setSuccessIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public LifeSpanHandler_DoClose_result(LifeSpanHandler_DoClose_result other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.success = other.success;
+    }
+
+    public LifeSpanHandler_DoClose_result deepCopy() {
+      return new LifeSpanHandler_DoClose_result(this);
+    }
+
+    @Override
+    public void clear() {
+      setSuccessIsSet(false);
+      this.success = false;
+    }
+
+    public boolean isSuccess() {
+      return this.success;
+    }
+
+    public LifeSpanHandler_DoClose_result setSuccess(boolean success) {
+      this.success = success;
+      setSuccessIsSet(true);
+      return this;
+    }
+
+    public void unsetSuccess() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __SUCCESS_ISSET_ID, value);
+    }
+
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((java.lang.Boolean)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return isSuccess();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof LifeSpanHandler_DoClose_result)
+        return this.equals((LifeSpanHandler_DoClose_result)that);
+      return false;
+    }
+
+    public boolean equals(LifeSpanHandler_DoClose_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_success = true;
+      boolean that_present_success = true;
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (this.success != that.success)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((success) ? 131071 : 524287);
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(LifeSpanHandler_DoClose_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetSuccess(), other.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, other.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("LifeSpanHandler_DoClose_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      sb.append(this.success);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class LifeSpanHandler_DoClose_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public LifeSpanHandler_DoClose_resultStandardScheme getScheme() {
+        return new LifeSpanHandler_DoClose_resultStandardScheme();
+      }
+    }
+
+    private static class LifeSpanHandler_DoClose_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<LifeSpanHandler_DoClose_result> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, LifeSpanHandler_DoClose_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 0: // SUCCESS
+              if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
+                struct.success = iprot.readBool();
+                struct.setSuccessIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, LifeSpanHandler_DoClose_result struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.isSetSuccess()) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          oprot.writeBool(struct.success);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class LifeSpanHandler_DoClose_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public LifeSpanHandler_DoClose_resultTupleScheme getScheme() {
+        return new LifeSpanHandler_DoClose_resultTupleScheme();
+      }
+    }
+
+    private static class LifeSpanHandler_DoClose_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<LifeSpanHandler_DoClose_result> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, LifeSpanHandler_DoClose_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          oprot.writeBool(struct.success);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, LifeSpanHandler_DoClose_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.success = iprot.readBool();
+          struct.setSuccessIsSet(true);
         }
       }
     }

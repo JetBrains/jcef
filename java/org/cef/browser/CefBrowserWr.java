@@ -7,6 +7,7 @@ package org.cef.browser;
 import com.jetbrains.cef.JCefAppConfig;
 import org.cef.CefClient;
 import org.cef.OS;
+import org.cef.handler.CefClientHandler;
 import org.cef.handler.CefWindowHandler;
 import org.cef.handler.CefWindowHandlerAdapter;
 
@@ -503,11 +504,11 @@ class CefBrowserWr extends CefBrowser_N {
 
         if (getNativeRef("CefBrowser") == 0) {
             if (getParentBrowser() != null) {
-                createDevTools(getParentBrowser(), getClient(), windowHandle, false, false, canvas,
+                createDevTools(getParentBrowser(), (CefClientHandler)getClient(), windowHandle, false, false, canvas,
                         getInspectAt());
                 return true;
             } else {
-                createBrowser(getClient(), windowHandle, getUrl(), false, false, canvas);
+                createBrowser((CefClientHandler)getClient(), windowHandle, getUrl(), false, false, canvas);
                 return true;
             }
         } else if (hasParent && justCreated_) {

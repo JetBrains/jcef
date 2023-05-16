@@ -19,6 +19,7 @@ import com.jetbrains.cef.JCefAppConfig;
 import org.cef.CefApp;
 import org.cef.CefApp.CefVersion;
 import org.cef.CefClient;
+import org.cef.CefClientImpl;
 import org.cef.CefSettings;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefFrame;
@@ -205,7 +206,7 @@ public class MainFrame extends BrowserFrame {
         });
 
         // Create the browser.
-        CefBrowser browser = client_.createBrowser(
+        CefBrowser browser = ((CefClientImpl)client_).createBrowser(
                 "http://www.google.com", osrEnabled, transparentPaintingEnabled, null);
         setBrowser(browser);
 

@@ -10,11 +10,12 @@ import org.cef.CefSettings;
 import org.cef.callback.CefSchemeRegistrar;
 import org.cef.misc.CefLog;
 
-import java.nio.ByteBuffer;
+import java.util.Collections;
 import java.util.List;
 
 public class CefServer {
     private static final int PORT = Integer.getInteger("jcef.remote.port", 9090);
+    private static CefServer INSTANCE = null;
 
     // Fields for cef-handlers execution on java side
     private Thread myClientHandlersThread;
@@ -25,17 +26,26 @@ public class CefServer {
     // Java client for native CefServer
     private final RpcExecutor myService = new RpcExecutor();
 
+    public static void initialize() {
+        if (INSTANCE != null)
+            return;
+
+        INSTANCE = new CefServer();
+
+        List<String> cefArgs = Collections.emptyList();
+        CefSettings settings = new CefSettings();
+        if (!INSTANCE.start(cefArgs, settings)) {
+            CefLog.Error("Can't connect to CefServer");
+            INSTANCE = null;
+        }
+    }
+
+    public static CefServer instance() { return INSTANCE; }
+
     public RpcExecutor getService() { return myService; }
 
-    synchronized
-    public RemoteBrowser createBrowser(RemoteClient remoteClient) {
-        int[] newBid = new int[]{-1};
-        myService.exec((s)->{
-            newBid[0] = s.createBrowser(remoteClient.getCid());
-        });
-        RemoteBrowser result = new RemoteBrowser(myService, newBid[0], remoteClient, (bid)->myClientHandlersImpl.unregisterBrowser(bid));
-        myClientHandlersImpl.registerBrowser(result);
-        return result;
+    public RemoteClient createClient() {
+        return new RemoteClient(myService, myClientHandlersImpl);
     }
 
     // connect to CefServer and start cef-handlers service

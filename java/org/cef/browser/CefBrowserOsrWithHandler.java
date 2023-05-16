@@ -1,6 +1,7 @@
 package org.cef.browser;
 
 import org.cef.CefClient;
+import org.cef.CefClientImpl;
 import org.cef.handler.CefClientHandler;
 import org.cef.handler.CefRenderHandler;
 
@@ -56,11 +57,12 @@ public class CefBrowserOsrWithHandler extends CefBrowser_N  {
 
     @Override
     public void createImmediately() {
+        // TODO: make separate class fro osr-wth-handler remote browser
         long windowHandle = component_ != null ? CefBrowserWr.getWindowHandle(component_) : 0;
         if (getParentBrowser() == null) {
-            createBrowser(getClient(), windowHandle, getUrl(), true, false, null);
+            createBrowser((CefClientImpl)getClient(), windowHandle, getUrl(), true, false, null);
         } else {
-            createDevTools(getParentBrowser(), getClient(), windowHandle, true, false, null, getInspectAt());
+            createDevTools(getParentBrowser(), (CefClientImpl)getClient(), windowHandle, true, false, null, getInspectAt());
         }
     }
 

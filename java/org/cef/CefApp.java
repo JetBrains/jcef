@@ -363,8 +363,10 @@ public class CefApp extends CefAppHandlerAdapter {
                     CefLog.Debug("CefApp: dispose clients before shutting down");
                     HashSet<CefClient> clients = new HashSet<CefClient>(clients_);
                     for (CefClient c : clients) {
-                        CefLog.Debug("CefApp: dispose %s", c);
-                        c.dispose();
+                        if (c instanceof CefClientImpl) {
+                            CefLog.Debug("CefApp: dispose %s", c);
+                            ((CefClientImpl)c).dispose();
+                        }
                     }
                 }
                 break;
@@ -391,7 +393,7 @@ public class CefApp extends CefAppHandlerAdapter {
             throw new IllegalStateException(errMsg);
         }
 
-        CefClient client = new CefClient();
+        CefClientImpl client = new CefClientImpl();
         onInitialization(client, true);
         clients_.add(client);
         return client;
