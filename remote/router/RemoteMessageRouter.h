@@ -1,13 +1,16 @@
 #ifndef JCEF_REMOTEMESSAGEROUTER_H
 #define JCEF_REMOTEMESSAGEROUTER_H
 
-#include "../RemoteObjectFactory.h"
+#include "../RemoteObjects.h"
 #include "include/wrapper/cef_message_router.h"
 
 using CefMessageRouter = CefMessageRouterBrowserSide;
 class ClientsManager;
+class RemoteMessageRouterHandler;
 
 // Created by java request (ServerHandler::CreateMessageRouter), disposed by java request
+// Stores (and manages lifetime) RemoteMessageRouterHandlers.
+//
 // TODO: add simple leak protection (link with client's connection)
 class RemoteMessageRouter : public RemoteServerObject<RemoteMessageRouter, CefMessageRouter> {
  public:
@@ -15,12 +18,15 @@ class RemoteMessageRouter : public RemoteServerObject<RemoteMessageRouter, CefMe
 
   const CefMessageRouterConfig& getConfig() const { return myConfig; }
 
-  // TODO: add simple leak protection (save handlers internally and dispose them in dtor)
   void AddRemoteHandler(std::shared_ptr<ClientsManager> manager, const thrift_codegen::RObject& handler, bool first);
   void RemoveRemoteHandler(const thrift_codegen::RObject& handler);
+  std::shared_ptr<RemoteMessageRouterHandler> FindRemoteHandler(int objId);
 
  private:
   CefMessageRouterConfig myConfig;
+  std::map<int, std::shared_ptr<RemoteMessageRouterHandler>> myHandlers;
+  std::recursive_mutex myMutex;
+
   explicit RemoteMessageRouter(std::shared_ptr<RpcExecutor> service, int id, CefRefPtr<CefMessageRouter> delegate, CefMessageRouterConfig config);
 };
 

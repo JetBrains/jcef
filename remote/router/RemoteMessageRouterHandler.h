@@ -1,7 +1,7 @@
 #ifndef JCEF_REMOTEMESSAGEROUTERHANDLER_H
 #define JCEF_REMOTEMESSAGEROUTERHANDLER_H
 
-#include "../RemoteObjectFactory.h"
+#include "../RemoteObjects.h"
 #include "../gen-cpp/shared_types.h"
 #include "include/wrapper/cef_message_router.h"
 
@@ -9,11 +9,12 @@ class RemoteClientHandler;
 class ClientsManager;
 
 // Created in MessageRouter_AddHandler, disposed in MessageRouter_RemoveHandler.
-// TODO: add simple leak protection (link with owner RemoteMessageRouter)
-class RemoteMessageRouterHandler  : public CefMessageRouterBrowserSide::Handler, public RemoteObjectBase<RemoteMessageRouterHandler> {
+// Owned (and managed) by RemoteMessageRouter
+class RemoteMessageRouterHandler : public CefMessageRouterBrowserSide::Handler, public RemoteJavaObjectBase<RemoteMessageRouterHandler> {
  public:
   // Use shared_ptr because need to share pointer between threads
-  static RemoteMessageRouterHandler* create(std::shared_ptr<RpcExecutor> service, std::shared_ptr<ClientsManager> manager, thrift_codegen::RObject peer);
+  explicit RemoteMessageRouterHandler(std::shared_ptr<RpcExecutor> service, std::shared_ptr<ClientsManager> manager, thrift_codegen::RObject peer);
+  ~RemoteMessageRouterHandler() override;
 
   virtual bool OnQuery(CefRefPtr<CefBrowser> browser,
                        CefRefPtr<CefFrame> frame,
@@ -26,9 +27,7 @@ class RemoteMessageRouterHandler  : public CefMessageRouterBrowserSide::Handler,
                                int64 query_id) override;
 
  private:
-  std::shared_ptr<ClientsManager> myClientsManager; // needed to obtain bid by CefRefPtr<CefBrowser>
-
-  explicit RemoteMessageRouterHandler(std::shared_ptr<RpcExecutor> service, std::shared_ptr<ClientsManager> manager, int id, int peerId);
+  std::shared_ptr<ClientsManager> myClientsManager; // necessary for finding bid by CefRefPtr<CefBrowser>
 };
 
 #endif  // JCEF_REMOTEMESSAGEROUTERHANDLER_H

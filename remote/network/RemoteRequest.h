@@ -2,7 +2,7 @@
 #define JCEF_REMOTEREQUEST_H
 
 #include <map>
-#include "../RemoteObjectFactory.h"
+#include "../RemoteObjects.h"
 #include "../Utils.h"
 #include "include/cef_request.h"
 

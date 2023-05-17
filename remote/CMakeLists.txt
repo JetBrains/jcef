@@ -152,7 +152,7 @@ add_executable(${EXECUTABLE_NAME} MACOSX_BUNDLE ${CEFSIMPLE_RESOURCES_SRCS}
         handlers/RemoteBrowserProcessHandler.h
         handlers/RemoteDisplayHandler.cpp
         handlers/RemoteDisplayHandler.h
-        RemoteObjectFactory.h
+        RemoteObjects.h
         network/RemoteRequestHandler.cpp
         network/RemoteRequestHandler.h
         network/RemoteRequest.cpp

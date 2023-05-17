@@ -8,26 +8,20 @@
 RemoteMessageRouterHandler::RemoteMessageRouterHandler(
     std::shared_ptr<RpcExecutor> service,
     std::shared_ptr<ClientsManager> manager,
-    int id,
-    int peerId)
-    : RemoteObjectBase(
+    thrift_codegen::RObject peer)
+    : RemoteJavaObjectBase(
           service,
-          id,
-          peerId,
+          peer.objId,
           [=](std::shared_ptr<thrift_codegen::ClientHandlersClient> service) {
-            service->ResourceRequestHandler_Dispose(peerId);
+            service->ResourceRequestHandler_Dispose(peer.objId);
           }),
       myClientsManager(manager) {
   TRACE();
+  Log::trace("new RouterHandler: peerId=%d", peer.objId);
 }
 
-RemoteMessageRouterHandler* RemoteMessageRouterHandler::create(
-    std::shared_ptr<RpcExecutor> service,
-    std::shared_ptr<ClientsManager> manager,
-    thrift_codegen::RObject peer) {
-  return FACTORY.create([&](int id) -> RemoteMessageRouterHandler* {
-    return new RemoteMessageRouterHandler(service, manager, id, peer.objId);
-  });
+RemoteMessageRouterHandler::~RemoteMessageRouterHandler() {
+  Log::trace("delete RouterHandler: peerId=%d", myPeerId);
 }
 
 bool RemoteMessageRouterHandler::OnQuery(CefRefPtr<CefBrowser> browser,
@@ -45,7 +39,7 @@ bool RemoteMessageRouterHandler::OnQuery(CefRefPtr<CefBrowser> browser,
   RemoteQueryCallback * rcb = RemoteQueryCallback::create(myService, callback);
   const int rcdId = rcb->getId();
   bool handled = myService->exec<bool>([&](RpcExecutor::Service s){
-    return s->MessageRouterHandler_onQuery(toThrift(), bid, query_id, request, persistent, rcb->toThrift());
+    return s->MessageRouterHandler_onQuery(javaId(), bid, query_id, request, persistent, rcb->serverId());
   }, false);
   if (!handled) // NOTE: must delete callback when onQuery returns false
     RemoteQueryCallback::dispose(rcdId);
@@ -62,6 +56,7 @@ void RemoteMessageRouterHandler::OnQueryCanceled(CefRefPtr<CefBrowser> browser,
     return;
   }
   myService->exec([&](RpcExecutor::Service s){
-    return s->MessageRouterHandler_onQueryCanceled(toThrift(), bid, query_id);
+    return s->MessageRouterHandler_onQueryCanceled(javaId(), bid, query_id);
   });
 }
+

@@ -1,7 +1,7 @@
 #ifndef JCEF_REMOTECALLBACK_H
 #define JCEF_REMOTECALLBACK_H
 
-#include "../RemoteObjectFactory.h"
+#include "../RemoteObjects.h"
 #include "include/cef_base.h"
 #include "include/cef_callback.h"
 

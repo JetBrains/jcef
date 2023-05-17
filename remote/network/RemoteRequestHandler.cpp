@@ -29,7 +29,7 @@ bool RemoteRequestHandler::OnBeforeBrowse(CefRefPtr<CefBrowser> browser,
   RemoteRequest * rr = RemoteRequest::create(myOwner.getService(), request);
   Holder<RemoteRequest> holder(*rr);
   return myOwner.exec<bool>([&](RpcExecutor::Service s){
-    return s->RequestHandler_OnBeforeBrowse(myOwner.getBid(), rr->toThriftWithMap(), user_gesture, is_redirect);
+    return s->RequestHandler_OnBeforeBrowse(myOwner.getBid(), rr->serverIdWithMap(), user_gesture, is_redirect);
   }, false);
 }
 
@@ -64,13 +64,13 @@ CefRefPtr<CefResourceRequestHandler> RemoteRequestHandler::GetResourceRequestHan
     peer.__set_objId(-1);
     myOwner.exec([&](RpcExecutor::Service s){
       s->RequestHandler_GetResourceRequestHandler(
-          peer, myOwner.getBid(), rr->toThriftWithMap(), is_navigation, is_download, request_initiator.ToString());
+          peer, myOwner.getBid(), rr->serverIdWithMap(), is_navigation, is_download, request_initiator.ToString());
     });
     myResourceRequestHandlerReceived = true;
     if (!peer.__isset.isPersistent || !peer.isPersistent)
       Log::error("Non-persistent ResourceRequestHandler can cause unstable behaviour and won't be used.");
     else if (peer.objId != -1) {
-      myResourceRequestHandler = RemoteResourceRequestHandler::create(myOwner, peer); // returns ref-ptr wrapper over remote object (disposes java-object in dtor)
+      myResourceRequestHandler = new RemoteResourceRequestHandler(myOwner, peer);
       myDisableDefaultHandling = peer.__isset.isDisableDefaultHandling &&
                                  peer.isDisableDefaultHandling;
     }
@@ -92,7 +92,7 @@ bool RemoteRequestHandler::GetAuthCredentials(CefRefPtr<CefBrowser> browser,
   LNDCT();
   RemoteAuthCallback * rc = RemoteAuthCallback::create(myOwner.getService(), callback);
     return myOwner.exec<bool>([&](RpcExecutor::Service s){
-      return s->RequestHandler_GetAuthCredentials(myOwner.getBid(), origin_url.ToString(), isProxy, host.ToString(), port, realm.ToString(), scheme.ToString(), rc->toThrift());
+      return s->RequestHandler_GetAuthCredentials(myOwner.getBid(), origin_url.ToString(), isProxy, host.ToString(), port, realm.ToString(), scheme.ToString(), rc->serverId());
   }, false);
 }
 
@@ -107,7 +107,7 @@ bool RemoteRequestHandler::OnCertificateError(CefRefPtr<CefBrowser> browser,
   thrift_codegen::RObject sslInfo;
   sslInfo.__set_objId(-1); // TODO: implement ssl_info
   return myOwner.exec<bool>([&](RpcExecutor::Service s){
-      return s->RequestHandler_OnCertificateError(myOwner.getBid(), err2str(cert_error), request_url, sslInfo, rc->toThriftWithMap());
+      return s->RequestHandler_OnCertificateError(myOwner.getBid(), err2str(cert_error), request_url, sslInfo, rc->serverIdWithMap());
   }, false);
 }
 

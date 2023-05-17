@@ -9,7 +9,7 @@
 #include "network/RemoteResponse.h"
 
 #include "CefUtils.h"
-#include "RemoteObjectFactory.h"
+#include "RemoteObjects.h"
 #include "callback/RemoteAuthCallback.h"
 #include "callback/RemoteCallback.h"
 
@@ -214,7 +214,7 @@ void ServerHandler::Request_GetHeaderByName(
   if (rr == nullptr)
     return;
 
-  std::string result = rr->getDelegate()->GetHeaderByName(name).ToString();
+  std::string result = rr->getDelegate().GetHeaderByName(name).ToString();
   _return.assign(result);
 }
 
@@ -227,7 +227,7 @@ void ServerHandler::Request_SetHeaderByName(
   if (rr == nullptr)
     return;
 
-  rr->getDelegate()->SetHeaderByName(name, value, overwrite);
+  rr->getDelegate().SetHeaderByName(name, value, overwrite);
 }
 
 void ServerHandler::Request_GetHeaderMap(
@@ -238,7 +238,7 @@ void ServerHandler::Request_GetHeaderMap(
     return;
 
   CefRequest::HeaderMap hmap;
-  rr->getDelegate()->GetHeaderMap(hmap);
+  rr->getDelegate().GetHeaderMap(hmap);
   fillMap(_return, hmap);
 }
 
@@ -251,7 +251,7 @@ void ServerHandler::Request_SetHeaderMap(
 
   CefRequest::HeaderMap hmap;
   fillMap(hmap, headerMap);
-  rr->getDelegate()->SetHeaderMap(hmap);
+  rr->getDelegate().SetHeaderMap(hmap);
 }
 
 void ServerHandler::Response_GetHeaderByName(
@@ -262,7 +262,7 @@ void ServerHandler::Response_GetHeaderByName(
   if (rr == nullptr)
     return;
 
-  std::string result = rr->getDelegate()->GetHeaderByName(name).ToString();
+  std::string result = rr->getDelegate().GetHeaderByName(name).ToString();
   _return.assign(result);
 }
 
@@ -275,7 +275,7 @@ void ServerHandler::Response_SetHeaderByName(
   if (rr == nullptr)
     return;
 
-  rr->getDelegate()->SetHeaderByName(name, value, overwrite);
+  rr->getDelegate().SetHeaderByName(name, value, overwrite);
 }
 
 void ServerHandler::Response_GetHeaderMap(
@@ -286,7 +286,7 @@ void ServerHandler::Response_GetHeaderMap(
     return;
 
   CefRequest::HeaderMap hmap;
-  rr->getDelegate()->GetHeaderMap(hmap);
+  rr->getDelegate().GetHeaderMap(hmap);
   fillMap(_return, hmap);
 }
 
@@ -299,7 +299,7 @@ void ServerHandler::Response_SetHeaderMap(
 
   CefRequest::HeaderMap hmap;
   fillMap(hmap, headerMap);
-  rr->getDelegate()->SetHeaderMap(hmap);
+  rr->getDelegate().SetHeaderMap(hmap);
 }
 
 void ServerHandler::Request_GetPostData(
@@ -310,7 +310,7 @@ void ServerHandler::Request_GetPostData(
   RemoteRequest * rr = RemoteRequest::get(request.objId);
   if (rr == nullptr) return;
 
-  CefRefPtr<CefPostData> pd = rr->getDelegate()->GetPostData();
+  CefRefPtr<CefPostData> pd = rr->getDelegate().GetPostData();
   if (!pd) return;
 
   _return.isReadOnly = pd->IsReadOnly();
@@ -344,7 +344,7 @@ void ServerHandler::Request_SetPostData(
     return;
 
   CefRefPtr<CefPostData> pd = new RemotePostData(postData);
-  rr->getDelegate()->SetPostData(pd);
+  rr->getDelegate().SetPostData(pd);
 }
 
 void ServerHandler::Request_Set(
@@ -360,7 +360,7 @@ void ServerHandler::Request_Set(
   CefRefPtr<CefPostData> pd = new RemotePostData(postData);
   CefRequest::HeaderMap hmap;
   fillMap(hmap, headerMap);
-  rr->getDelegate()->Set(url, method, pd, hmap);
+  rr->getDelegate().Set(url, method, pd, hmap);
 }
 
 void ServerHandler::AuthCallback_Dispose(const thrift_codegen::RObject& authCallback) {
@@ -374,14 +374,14 @@ void ServerHandler::AuthCallback_Continue(
 ) {
   RemoteAuthCallback * rc = RemoteAuthCallback::get(authCallback.objId);
   if (rc == nullptr) return;
-  rc->getDelegate()->Continue(username, password);
+  rc->getDelegate().Continue(username, password);
   RemoteAuthCallback::dispose(authCallback.objId);
 }
 
 void ServerHandler::AuthCallback_Cancel(const thrift_codegen::RObject& authCallback) {
   RemoteAuthCallback * rc = RemoteAuthCallback::get(authCallback.objId);
   if (rc == nullptr) return;
-  rc->getDelegate()->Cancel();
+  rc->getDelegate().Cancel();
   RemoteAuthCallback::dispose(authCallback.objId);
 }
 
@@ -392,14 +392,14 @@ void ServerHandler::Callback_Dispose(const thrift_codegen::RObject& callback) {
 void ServerHandler::Callback_Continue(const thrift_codegen::RObject& callback) {
   RemoteCallback * rc = RemoteCallback::get(callback.objId);
   if (rc == nullptr) return;
-  rc->getDelegate()->Continue();
+  rc->getDelegate().Continue();
   RemoteCallback::dispose(callback.objId);
 }
 
 void ServerHandler::Callback_Cancel(const thrift_codegen::RObject& callback) {
   RemoteCallback * rc = RemoteCallback::get(callback.objId);
   if (rc == nullptr) return;
-  rc->getDelegate()->Cancel();
+  rc->getDelegate().Cancel();
   RemoteCallback::dispose(callback.objId);
 }
 
@@ -407,7 +407,7 @@ void ServerHandler::Callback_Cancel(const thrift_codegen::RObject& callback) {
 void ServerHandler::MessageRouter_Create(thrift_codegen::RObject& _return,
                                         const std::string& query,
                                         const std::string& cancel) {
-  _return = myRoutersManager->CreateRemoteMessageRouter(myService, query, cancel)->toThrift();
+  _return = myRoutersManager->CreateRemoteMessageRouter(myService, query, cancel)->serverId();
 }
 
 void ServerHandler::MessageRouter_Dispose(const thrift_codegen::RObject& msgRouter) {
@@ -461,6 +461,7 @@ void ServerHandler::MessageRouter_RemoveMessageRouterFromBrowser(
 }
 
 namespace {
+  // NOTE: must be called on UI thread (and [docs says] that CancelPending can be called on any thread)
   void ServerHandler_MessageRouter_AddHandler_Impl(
       std::shared_ptr<RpcExecutor> service,
       std::shared_ptr<ClientsManager> manager,
@@ -482,9 +483,7 @@ namespace {
     if (rmr != nullptr) {
       rmr->RemoveRemoteHandler(handler);
     } else
-      Log::error("Can't find router %d", msgRouter.objId);
-
-    RemoteMessageRouterHandler::dispose(handler.objId); // should be called in RemoveRemoteHandler, just for insurance
+      Log::error("Can't find router %d for removing handler %d", msgRouter.objId, handler.objId);
   }
 }
 
@@ -528,12 +527,11 @@ void ServerHandler::MessageRouter_CancelPending(
     const thrift_codegen::RObject& handler) {
   LNDCT();
   RemoteMessageRouter * rmr = RemoteMessageRouter::get(msgRouter.objId);
-  if (rmr == nullptr) return;
-  RemoteMessageRouterHandler * rmrh = RemoteMessageRouterHandler::find(handler.objId);
-  if (rmrh != nullptr) {
-    rmr->getDelegate()->CancelPending(myClientsManager->getCefBrowser(bid), rmrh);
-  } else
-    Log::error("Can't find RemoteMessageRouterHandler %d", handler.objId);
+  CefRefPtr<CefBrowser> browser = myClientsManager->getCefBrowser(bid);
+  if (!rmr || !browser) return;
+  std::shared_ptr<RemoteMessageRouterHandler> rmrh = rmr->FindRemoteHandler(handler.objId);
+  if (rmrh)
+    rmr->getDelegate().CancelPending(browser, rmrh.get());
 }
 
 void ServerHandler::QueryCallback_Dispose(const thrift_codegen::RObject& qcallback) {
@@ -545,7 +543,7 @@ void ServerHandler::QueryCallback_Success(
     const std::string& response) {
   RemoteQueryCallback * rc = RemoteQueryCallback::get(qcallback.objId);
   if (rc == nullptr) return;
-  rc->getDelegate()->Success(response);
+  rc->getDelegate().Success(response);
   RemoteQueryCallback::dispose(qcallback.objId);
 }
 
@@ -555,6 +553,6 @@ void ServerHandler::QueryCallback_Failure(
     const std::string& error_message) {
   RemoteQueryCallback * rc = RemoteQueryCallback::get(qcallback.objId);
   if (rc == nullptr) return;
-  rc->getDelegate()->Failure(error_code, error_message);
+  rc->getDelegate().Failure(error_code, error_message);
   RemoteQueryCallback::dispose(qcallback.objId);
 }

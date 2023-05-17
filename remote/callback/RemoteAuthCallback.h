@@ -1,7 +1,7 @@
 #ifndef JCEF_REMOTEAUTHCALLBACK_H
 #define JCEF_REMOTEAUTHCALLBACK_H
 
-#include "../RemoteObjectFactory.h"
+#include "../RemoteObjects.h"
 #include "include/cef_auth_callback.h"
 #include "include/cef_base.h"
 

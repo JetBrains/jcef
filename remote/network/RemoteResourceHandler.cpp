@@ -3,13 +3,9 @@
 #include "../handlers/RemoteClientHandler.h"
 #include "../log/Log.h"
 
-RemoteResourceHandler::RemoteResourceHandler(RemoteClientHandler& owner, int id, int peerId)
-    : RemoteObject(owner, id, peerId,
-        [=](std::shared_ptr<thrift_codegen::ClientHandlersClient> service) { service->ResourceHandler_Dispose(peerId); }) {}
-
-CefRefPtr<RemoteResourceHandler> RemoteResourceHandler::create(RemoteClientHandler& owner, thrift_codegen::RObject peer) {
-  return FACTORY.create([&](int id) -> RemoteResourceHandler* {return new RemoteResourceHandler(owner, id, peer.objId);});
-}
+RemoteResourceHandler::RemoteResourceHandler(RemoteClientHandler& owner, thrift_codegen::RObject peer)
+    : RemoteJavaObject(owner, peer.objId,
+        [=](std::shared_ptr<thrift_codegen::ClientHandlersClient> service) { service->ResourceHandler_Dispose(peer.objId); }) {}
 
 bool RemoteResourceHandler::Open(CefRefPtr<CefRequest> request,
                                  bool& handle_request,

@@ -2,7 +2,7 @@
 #include "RemoteMessageRouter.h"
 
 // remove to enable tracing
-#define TRACE()
+//#define TRACE()
 
 bool MessageRoutersManager::OnProcessMessageReceived(
     CefRefPtr<CefBrowser> browser,
@@ -116,7 +116,7 @@ void MessageRoutersManager::DisposeRemoteMessageRouter(int objId) {
 
   {
     base::AutoLock lock_scope(myRoutersLock);
-    myRouters.erase(rmr->getDelegate());
+    myRouters.erase(CefRefPtr<CefMessageRouterBrowserSide>(&(rmr->getDelegate())));
   }
 
   {

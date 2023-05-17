@@ -1,13 +1,13 @@
 #ifndef JCEF_REMOTERESOURCEREQUESTHANDLER_H
 #define JCEF_REMOTERESOURCEREQUESTHANDLER_H
 
-#include "../RemoteObjectFactory.h"
+#include "../RemoteObjects.h"
 #include "RemoteCookieAccessFilter.h"
 #include "include/cef_request_handler.h"
 
-class RemoteResourceRequestHandler : public CefResourceRequestHandler, public RemoteObject<RemoteResourceRequestHandler> {
+class RemoteResourceRequestHandler : public CefResourceRequestHandler, public RemoteJavaObject<RemoteResourceRequestHandler> {
  public:
-  static CefRefPtr<RemoteResourceRequestHandler> create(RemoteClientHandler & owner, thrift_codegen::RObject peer);
+  explicit RemoteResourceRequestHandler(RemoteClientHandler& owner, thrift_codegen::RObject peerd);
 
   CefRefPtr<CefCookieAccessFilter> GetCookieAccessFilter(
       CefRefPtr<CefBrowser> browser,
@@ -56,7 +56,6 @@ class RemoteResourceRequestHandler : public CefResourceRequestHandler, public Re
   CefRefPtr<CefResourceHandler>  myResourceHandler;
   CefRefPtr<CefCookieAccessFilter> myCookieAccessFilter;
 
-  explicit RemoteResourceRequestHandler(RemoteClientHandler& owner, int id, int peerId);
   IMPLEMENT_REFCOUNTING(RemoteResourceRequestHandler);
 };
 

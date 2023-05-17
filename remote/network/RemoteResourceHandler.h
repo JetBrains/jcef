@@ -1,12 +1,12 @@
 #ifndef JCEF_REMOTERESOURCEHANDLER_H
 #define JCEF_REMOTERESOURCEHANDLER_H
 
-#include "../RemoteObjectFactory.h"
+#include "../RemoteObjects.h"
 #include "include/cef_resource_handler.h"
 
-class RemoteResourceHandler : public CefResourceHandler, public RemoteObject<RemoteResourceHandler> {
+class RemoteResourceHandler : public CefResourceHandler, public RemoteJavaObject<RemoteResourceHandler> {
  public:
-  static CefRefPtr<RemoteResourceHandler> create(RemoteClientHandler & owner, thrift_codegen::RObject peer);
+  explicit RemoteResourceHandler(RemoteClientHandler& owner, thrift_codegen::RObject peer);
 
   bool Open(CefRefPtr<CefRequest> request,
             bool& handle_request,
@@ -30,7 +30,6 @@ class RemoteResourceHandler : public CefResourceHandler, public RemoteObject<Rem
   void Cancel() override;
 
  private:
-  explicit RemoteResourceHandler(RemoteClientHandler& owner, int id, int peerId);
   IMPLEMENT_REFCOUNTING(RemoteResourceHandler);
 };
 

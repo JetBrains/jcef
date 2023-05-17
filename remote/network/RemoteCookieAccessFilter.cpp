@@ -11,13 +11,9 @@ namespace {
 // Disable logging until optimized
 #define LNDCT()
 
-RemoteCookieAccessFilter::RemoteCookieAccessFilter(RemoteClientHandler& owner, int id, int peerId)
-    : RemoteObject<RemoteCookieAccessFilter>(owner, id, peerId,
-    [=](std::shared_ptr<thrift_codegen::ClientHandlersClient> service) { service->CookieAccessFilter_Dispose(peerId); }) {}
-
-CefRefPtr<RemoteCookieAccessFilter> RemoteCookieAccessFilter::create(RemoteClientHandler& owner, thrift_codegen::RObject peer) {
-  return FACTORY.create([&](int id) -> RemoteCookieAccessFilter* {return new RemoteCookieAccessFilter(owner, id, peer.objId);});
-}
+RemoteCookieAccessFilter::RemoteCookieAccessFilter(RemoteClientHandler& owner, thrift_codegen::RObject peer)
+    : RemoteJavaObject<RemoteCookieAccessFilter>(owner, peer.objId,
+    [=](std::shared_ptr<thrift_codegen::ClientHandlersClient> service) { service->CookieAccessFilter_Dispose(peer.objId); }) {}
 
 bool RemoteCookieAccessFilter::CanSendCookie(CefRefPtr<CefBrowser> browser,
                                              CefRefPtr<CefFrame> frame,
@@ -28,7 +24,7 @@ bool RemoteCookieAccessFilter::CanSendCookie(CefRefPtr<CefBrowser> browser,
   RemoteRequest * rr = RemoteRequest::create(myOwner.getService(), request);
   Holder<RemoteRequest> holder(*rr);
   return myOwner.exec<bool>([&](RpcExecutor::Service s){
-    return s->CookieAccessFilter_CanSendCookie(myPeerId, myOwner.getBid(), rr->toThriftWithMap(), cookie2list(cookie));
+    return s->CookieAccessFilter_CanSendCookie(myPeerId, myOwner.getBid(), rr->serverIdWithMap(), cookie2list(cookie));
   }, true);
 }
 
@@ -44,8 +40,8 @@ bool RemoteCookieAccessFilter::CanSaveCookie(CefRefPtr<CefBrowser> browser,
   RemoteResponse * rresp = RemoteResponse::create(myOwner.getService(), response);
   Holder<RemoteResponse> holderResp(*rresp);
   return myOwner.exec<bool>([&](RpcExecutor::Service s){
-    return s->CookieAccessFilter_CanSaveCookie(myPeerId, myOwner.getBid(), rreq->toThriftWithMap(),
-                                                 rresp->toThriftWithMap(), cookie2list(cookie));
+    return s->CookieAccessFilter_CanSaveCookie(myPeerId, myOwner.getBid(), rreq->serverIdWithMap(),
+                                                 rresp->serverIdWithMap(), cookie2list(cookie));
   }, true);
 }
 

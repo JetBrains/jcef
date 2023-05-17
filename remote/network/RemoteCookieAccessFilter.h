@@ -1,12 +1,12 @@
 #ifndef JCEF_REMOTECOOKIEACCESSFILTER_H
 #define JCEF_REMOTECOOKIEACCESSFILTER_H
 
-#include "../RemoteObjectFactory.h"
+#include "../RemoteObjects.h"
 #include "include/cef_resource_request_handler.h"
 
-class RemoteCookieAccessFilter : public CefCookieAccessFilter, public RemoteObject<RemoteCookieAccessFilter> {
+class RemoteCookieAccessFilter : public CefCookieAccessFilter, public RemoteJavaObject<RemoteCookieAccessFilter> {
  public:
-  static CefRefPtr<RemoteCookieAccessFilter> create(RemoteClientHandler& owner, thrift_codegen::RObject peer);
+  explicit RemoteCookieAccessFilter(RemoteClientHandler& owner, thrift_codegen::RObject peer);
 
   bool CanSendCookie(CefRefPtr<CefBrowser> browser,
                      CefRefPtr<CefFrame> frame,
@@ -20,7 +20,6 @@ class RemoteCookieAccessFilter : public CefCookieAccessFilter, public RemoteObje
                      const CefCookie& cookie) override;
 
  private:
-  explicit RemoteCookieAccessFilter(RemoteClientHandler& owner, int id, int peerId);
   IMPLEMENT_REFCOUNTING(RemoteCookieAccessFilter);
 };
 

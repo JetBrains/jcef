@@ -1,5 +1,5 @@
-#ifndef JCEF_REMOTEOBJECTFACTORY_H
-#define JCEF_REMOTEOBJECTFACTORY_H
+#ifndef JCEF_REMOTEOBJECTS_H
+#define JCEF_REMOTEOBJECTS_H
 #include <mutex>
 #include <vector>
 #include "Utils.h"
@@ -8,7 +8,7 @@
 #include "log/Log.h"
 
 template <class T>
-class RemoteObjectFactory {
+class ServerObjectsFactory {
  public:
   T* create(std::function<T*(int)> creator) {
     Lock lock(MUTEX);
@@ -55,13 +55,13 @@ class RemoteServerObjectBase {
 
   int getId() { return myId; }
 
-  thrift_codegen::RObject toThrift() {
+  thrift_codegen::RObject serverId() {
     thrift_codegen::RObject robj;
     robj.__set_objId(myId);
     return robj;
   }
 
-  thrift_codegen::RObject toThriftWithMap() {
+  thrift_codegen::RObject serverIdWithMap() {
     thrift_codegen::RObject robj;
     robj.__set_objId(myId);
     robj.__set_objInfo(toMap());
@@ -100,53 +100,58 @@ class RemoteServerObjectBase {
   virtual void updateImpl(const std::map<std::string, std::string>&) {}
   virtual std::map<std::string, std::string> toMapImpl() { return std::map<std::string, std::string>(); }
 
-  static RemoteObjectFactory<T> FACTORY;
+  static ServerObjectsFactory<T> FACTORY;
 };
 
 template <class T, class D>
 class RemoteServerObject : public RemoteServerObjectBase<T> {
  public:
-  explicit RemoteServerObject(std::shared_ptr<RpcExecutor> service, int id, CefRefPtr<D> delegate) : RemoteServerObjectBase<T>(service, id), myDelegate(delegate) {}
+  explicit RemoteServerObject(std::shared_ptr<RpcExecutor> service, int id, CefRefPtr<D> delegate) : RemoteServerObjectBase<T>(service, id), myDelegate(delegate.get()) {
+    myDelegate->AddRef();
+  }
+  ~RemoteServerObject() override {
+    myDelegate->Release();
+  }
 
-  CefRefPtr<D> getDelegate() { return myDelegate; }
+  D& getDelegate() { return *myDelegate; }
 
  protected:
-  CefRefPtr<D> myDelegate;
+  D* myDelegate;
 };
 
 template <class T>
-class RemoteObjectBase : public RemoteServerObjectBase<T> {
-  typedef RemoteServerObjectBase<T> base;
+class RemoteJavaObjectBase {
  public:
-  explicit RemoteObjectBase(std::shared_ptr<RpcExecutor> service,
-                        int id,
-                        int peerId,
-                        std::function<void(RpcExecutor::Service)> disposer)
-      : RemoteServerObjectBase<T>(service, id),
+  explicit RemoteJavaObjectBase(std::shared_ptr<RpcExecutor> service, int peerId, std::function<void(RpcExecutor::Service)> disposer)
+      : myService(service),
         myPeerId(peerId),
         myDisposer(disposer) {}
 
-  virtual ~RemoteObjectBase() {
-    base::myService->exec([&](RpcExecutor::Service s){
+  virtual ~RemoteJavaObjectBase() {
+    myService->exec([&](RpcExecutor::Service s){
       myDisposer(s);
     });
-    base::FACTORY.dispose(base::myId, false);
+  }
+
+  thrift_codegen::RObject javaId() {
+    thrift_codegen::RObject robj;
+    robj.__set_objId(myPeerId);
+    return robj;
   }
 
  protected:
   const int myPeerId; // java-peer (delegate)
+  std::recursive_mutex myMutex;
+  std::shared_ptr<RpcExecutor> myService;
   std::function<void(RpcExecutor::Service)> myDisposer;
 };
 
 template <class T>
-class RemoteObject : public RemoteObjectBase<T> {
-  typedef RemoteObjectBase<T> base;
+class RemoteJavaObject : public RemoteJavaObjectBase<T> {
+  typedef RemoteJavaObjectBase<T> base;
  public:
-  explicit RemoteObject(RemoteClientHandler& owner,
-                        int id,
-                        int peerId,
-                        std::function<void(RpcExecutor::Service)> disposer)
-      : RemoteObjectBase<T>(owner.getService(), id, peerId, disposer),
+  explicit RemoteJavaObject(RemoteClientHandler& owner, int peerId, std::function<void(RpcExecutor::Service)> disposer)
+      : RemoteJavaObjectBase<T>(owner.getService(), peerId, disposer),
         myOwner(owner) {}
 
  protected:
@@ -164,7 +169,7 @@ class Holder {
 };
 
 template <typename T>
-RemoteObjectFactory<T> RemoteServerObjectBase<T>::FACTORY;
+ServerObjectsFactory<T> RemoteServerObjectBase<T>::FACTORY;
 
 #define SET_STR(map, key)                          \
   if (map.count(#key) > 0)                         \
@@ -180,4 +185,4 @@ RemoteObjectFactory<T> RemoteServerObjectBase<T>::FACTORY;
 #define GET_INT(map, key)                          \
   map[#key] = std::to_string(myDelegate->Get##key())
 
-#endif  // JCEF_REMOTEOBJECTFACTORY_H
+#endif  // JCEF_REMOTEOBJECTS_H

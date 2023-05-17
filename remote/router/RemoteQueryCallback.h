@@ -1,7 +1,7 @@
 #ifndef JCEF_REMOTEQUERYCALLBACK_H
 #define JCEF_REMOTEQUERYCALLBACK_H
 
-#include "../RemoteObjectFactory.h"
+#include "../RemoteObjects.h"
 #include "include/cef_base.h"
 
 // Created when processing MessageRouterHandler::OnQuery and passed into java
