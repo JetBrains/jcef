@@ -19,9 +19,13 @@ import java.util.List;
 // peer will be destroyed when java object destroyed via usual gc.
 public class RemoteMessageRouter extends RemoteServerObject implements CefMessageRouter {
     private final List<RemoteMessageRouterHandler> myHandlers = new ArrayList<>(); // used to manage lifetime of handlers
+    private String myQuery;
+    private String myCancel;
 
-    private RemoteMessageRouter(RpcExecutor server, RObject robj) {
+    private RemoteMessageRouter(RpcExecutor server, RObject robj, String query, String cancel) {
         super(server, robj);
+        myQuery = query;
+        myCancel = cancel;
     }
 
     public static RemoteMessageRouter create(RpcExecutor server) {
@@ -33,7 +37,7 @@ public class RemoteMessageRouter extends RemoteServerObject implements CefMessag
         RObject robj = server.execObj((s)->s.MessageRouter_Create(query, cancel));
         if (robj.objId < 0)
             return null;
-        return new RemoteMessageRouter(server, robj);
+        return new RemoteMessageRouter(server, robj, query, cancel);
     }
 
     public void addToBrowser(int bid) {
@@ -62,6 +66,7 @@ public class RemoteMessageRouter extends RemoteServerObject implements CefMessag
     @Override
     public boolean addHandler(CefMessageRouterHandler handler, boolean first) {
         RemoteMessageRouterHandler rhandler = RemoteMessageRouterHandler.create(handler);
+        CefLog.Debug("%s add handler %s [%d]", this, rhandler, rhandler.getId());
         synchronized (myHandlers) {
             myHandlers.add(rhandler);
         }
@@ -71,6 +76,7 @@ public class RemoteMessageRouter extends RemoteServerObject implements CefMessag
 
     @Override
     public boolean removeHandler(CefMessageRouterHandler handler) {
+        CefLog.Debug("%s remove handler by delegate %s", this, handler);
         RemoteMessageRouterHandler rhandler = RemoteMessageRouterHandler.findByDelegate(handler);
         if (rhandler == null)
             return false;
@@ -96,5 +102,10 @@ public class RemoteMessageRouter extends RemoteServerObject implements CefMessag
             int bid = browser == null ? -1 : ((RemoteBrowser)browser).getBid();
             myServer.exec((s) -> s.MessageRouter_CancelPending(thriftId(), bid, rhandler.thriftId(true)));
         }
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Router<%s | %s>", myQuery, myCancel);
     }
 }

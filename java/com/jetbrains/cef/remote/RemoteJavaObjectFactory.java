@@ -45,7 +45,7 @@ public class RemoteJavaObjectFactory<T> {
         synchronized (INSTANCES) {
             T result = id >= INSTANCES.size() ? null : INSTANCES.get(id);
             if (result == null)
-                CefLog.Error("Can't find instance of '%s' by id %d", getGenericName(), id);
+                CefLog.Error("Can't find instance in '%s' by id %d", INSTANCES, id);
             return result;
         }
     }

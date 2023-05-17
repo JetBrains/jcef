@@ -4,8 +4,6 @@
 #include <thrift/transport/TSocket.h>
 #include <thrift/transport/TTransportUtils.h>
 
-#include <log4cxx/mdc.h>
-
 #include "CefUtils.h"
 #include "ServerHandler.h"
 #include "log/Log.h"
@@ -45,8 +43,8 @@ class ServerCloneFactory : virtual public ServerIfFactory {
 };
 
 int main(int argc, char* argv[]) {
-  Log::init();
-  MDC::put("thread.name", "main");
+  Log::init(LEVEL_TRACE);
+  setThreadName("main");
 
   if (!doLoadCefLibrary())
     return -1;
@@ -58,7 +56,13 @@ int main(int argc, char* argv[]) {
                          std::make_shared<TBinaryProtocolFactory>());
 
   Log::debug("Starting the server...");
-  server.serve();
+  try {
+    server.serve();
+  } catch (TException e) {
+    Log::error("Exception in listening thread");
+    Log::error(e.what());
+  }
+
   Log::debug("Done, server stopped.");
   return 0;
 }

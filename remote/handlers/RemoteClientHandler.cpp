@@ -1,5 +1,4 @@
 #include "RemoteClientHandler.h"
-#include <log4cxx/mdc.h>
 #include "../log/Log.h"
 #include "../network/RemoteRequestHandler.h"
 #include "RemoteDisplayHandler.h"

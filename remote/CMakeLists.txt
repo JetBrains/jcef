@@ -80,7 +80,6 @@ endmacro()
 REQUIRE_BOOST_HEADERS()
 
 find_package(Boost COMPONENTS filesystem REQUIRED)
-find_package(log4cxx 1.0)
 
 #
 # Define helper libraries
@@ -182,8 +181,6 @@ add_executable(${EXECUTABLE_NAME} MACOSX_BUNDLE ${CEFSIMPLE_RESOURCES_SRCS}
 add_dependencies(${EXECUTABLE_NAME} libcef_dll_wrapper)
 target_include_directories(${EXECUTABLE_NAME} PRIVATE /opt/homebrew/Cellar/thrift/0.16.0/include)
 target_include_directories(${EXECUTABLE_NAME} PRIVATE ${CEF_INCLUDE_PATH})
-target_include_directories(${EXECUTABLE_NAME} PRIVATE $<TARGET_PROPERTY:log4cxx,INTERFACE_INCLUDE_DIRECTORIES>)
-target_link_libraries(${EXECUTABLE_NAME} log4cxx)
 target_link_libraries(${EXECUTABLE_NAME} libcef_dll_wrapper ${CEF_STANDARD_LIBS})
 target_link_libraries(${EXECUTABLE_NAME} thrift_codegen)
 target_link_libraries(${EXECUTABLE_NAME} thrift ${Boost_FILESYSTEM_LIBRARY})
@@ -195,10 +192,6 @@ set_target_properties(${EXECUTABLE_NAME} PROPERTIES
 )
 
 set(APP_BUNDLE_PATH ${CMAKE_CURRENT_BINARY_DIR}/${EXECUTABLE_NAME}.app)
-add_custom_command(TARGET ${EXECUTABLE_NAME}
-    POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/log4cxx.logconfig ${APP_BUNDLE_PATH}/Contents/MacOS
-)
 add_custom_command(TARGET ${EXECUTABLE_NAME}
     POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
@@ -253,8 +246,6 @@ foreach(_suffix_list ${CEF_HELPER_APP_SUFFIXES})
     # Create Helper executable target.
     add_executable(${_helper_target} MACOSX_BUNDLE ${CEFSIMPLE_HELPER_SRCS_MAC})
     target_include_directories(${_helper_target} PRIVATE /opt/homebrew/Cellar/thrift/0.16.0/include)
-    target_include_directories(${_helper_target} PRIVATE $<TARGET_PROPERTY:log4cxx,INTERFACE_INCLUDE_DIRECTORIES>)
-    target_link_libraries(${_helper_target} log4cxx)
     target_link_libraries(${_helper_target} thrift_codegen)
     target_link_libraries(${_helper_target} thrift ${Boost_FILESYSTEM_LIBRARY})
     SET_EXECUTABLE_TARGET_PROPERTIES(${_helper_target})

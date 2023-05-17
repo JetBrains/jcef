@@ -1,38 +1,33 @@
 #include "Log.h"
-#include <log4cxx/ndc.h>
+#include "../CefUtils.h"
 
+#include <stdio.h>
 #include <cstdarg>
 #include <stdexcept>
 #include <vector>
 #include <thread>
 
-#include <log4cxx/logger.h>
-#include <log4cxx/logmanager.h>
-#include <log4cxx/xml/domconfigurator.h>
+#include <boost/date_time/posix_time/posix_time.hpp>
 
-void Log::init() {
-  std::wstring configFile(L"log4cxx.logconfig");
-  log4cxx::xml::DOMConfigurator::configure(configFile);
-
-  log4cxx::LoggerPtr logger = log4cxx::Logger::getRootLogger();
-  LOG4CXX_INFO((logger),  L"Initialized log4cxx root logger");
+namespace {
+  thread_local std::vector<std::string> ourNDC;
+  thread_local std::string ourThreadName;
+  const std::string ourNdcSeparator = " | ";
+  int ourLogLevel = LEVEL_INFO;
+  bool ourAddNewLine = true;
+  bool ourPureMsg = false;
+  const std::string ourFinishedMsg = "Finished.";
 }
 
-void Log::log(const LevelPtr & level, const char *const format, ...) {
-  log4cxx::LoggerPtr logger = log4cxx::Logger::getRootLogger();
-  if (!level->isGreaterOrEqual(logger->getLevel()))
-    return;
+void setThreadName(std::string name) {
+  ourThreadName.assign(name);
+}
 
-  if (NDC::empty())
-    NDC::push(""); // for pretty logging
-  if (MDC::get("thread.name").empty()) {
-    // TODO: pass thread name
-    // size_t tidHash = std::hash<std::thread::id>()(std::this_thread::get_id());
-    static int tidLocal = 0;
-    char buf[64];
-    std::sprintf(buf, "th%d", tidLocal++);
-    MDC::put("thread.name", buf);
-  }
+void Log::init(int level) { ourLogLevel = level; }
+
+void Log::log(int level, const char *const format, ...) {
+  if (level < ourLogLevel)
+    return;
 
   auto temp = std::vector<char>{};
   auto length = std::size_t {63};
@@ -49,7 +44,38 @@ void Log::log(const LevelPtr & level, const char *const format, ...) {
   }
 
   std::string msg(temp.data(), length);
-  logger->log(level, msg);
+  std::string ndc;
+  if (!ourNDC.empty()) {
+    for (auto s: ourNDC) {
+      if (!ndc.empty())
+        ndc.append(ourNdcSeparator);
+      ndc.append(s);
+    }
+  }
+
+  if (ourThreadName.empty()) {
+    // TODO: pass thread name
+    // size_t tidHash = std::hash<std::thread::id>()(std::this_thread::get_id());
+    static int tidLocal = 0;
+    ourThreadName.assign(string_format("th%d", tidLocal++));
+  }
+
+  const boost::posix_time::ptime now =  boost::posix_time::microsec_clock::local_time();
+  const boost::posix_time::time_duration td = now.time_of_day();
+  const long hours        = td.hours();
+  const long minutes      = td.minutes();
+  const long seconds      = td.seconds();
+  const long milliseconds = td.total_milliseconds() - ((hours * 3600 + minutes * 60 + seconds) * 1000);
+  char timeBuf[64];
+  sprintf(timeBuf, "%02ld:%02ld:%02ld.%03ld", hours, minutes, seconds, milliseconds);
+
+  const char * end = ourAddNewLine ? "\n" : "";
+  if (ourPureMsg)
+    fprintf(stderr, "%s%s", msg.c_str(), end);
+  else if (ndc.empty())
+    fprintf(stderr, "%s [%s] %s%s", timeBuf, ourThreadName.c_str(), msg.c_str(), end);
+  else
+    fprintf(stderr, "%s [%s %s] %s%s", timeBuf, ourThreadName.c_str(), ndc.c_str(), msg.c_str(), end);
 }
 
 Measurer::Measurer(const std::string & msg):
@@ -74,26 +100,38 @@ LogNdc::LogNdc(std::string file, std::string func, std::string threadName) :
     msg.append(func);
   }
   if (!threadName.empty())
-    MDC::put("thread.name", threadName);
+    ourThreadName.assign(threadName);
 }
 
 LogNdc::LogNdc(std::string file, std::string func, int thresholdMcs, bool logStart, bool logFinish, std::string threadName) :
       startTime(Clock::now())
 {
-  std::string msg(file);
-  if (!func.empty()) {
+  std::string msg;
+  if (func.empty()) {
+    msg.assign(file);
+  } else {
+    // Make short file name
+    for (auto ch: file)
+      if (std::isupper(ch))
+        msg += ch;
+
+    if (msg.empty())
+      msg.assign(file);
     msg.append(":");
     msg.append(func);
   }
-  NDC::push(msg);
+  ourNDC.push_back(msg);
+
   if (!threadName.empty())
-    MDC::put("thread.name", threadName);
+    ourThreadName.assign(threadName);
+
   this->thresholdMcs = thresholdMcs;
   this->logStart = logStart;
   this->logFinish = logFinish;
 
-  if (logStart)
+  if (logStart) {
     Log::debug("Start.");
+  }
 }
 
 LogNdc::~LogNdc() {
@@ -106,7 +144,9 @@ LogNdc::~LogNdc() {
       logged = true;
     }
   }
-  if (!logged && logFinish)
-    Log::debug("Finished.");
-  NDC::pop();
+  if (!logged && logFinish) {
+    Log::debug(ourFinishedMsg.c_str());
+  }
+
+  ourNDC.pop_back();
 }

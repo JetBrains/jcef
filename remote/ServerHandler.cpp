@@ -1,6 +1,5 @@
 #include "ServerHandler.h"
 
-#include <log4cxx/mdc.h>
 #include <thread>
 
 #include "handlers/RemoteAppHandler.h"
@@ -51,9 +50,7 @@ int32_t ServerHandler::connect(
 ) {
   static int s_counter = 0;
   const int cid = s_counter++;
-  char buf[64];
-  std::sprintf(buf, "Client_%d", cid);
-  MDC::put("thread.name", buf);
+  setThreadName(string_format("Client_%d", cid));
   Log::debug("Connected new client with cid=%d", cid);
 
   // Connect to client's side (for cef-callbacks execution on java side)
@@ -64,7 +61,7 @@ int32_t ServerHandler::connect(
       if (g_remoteAppHandler == nullptr) {
         g_remoteAppHandler = new RemoteAppHandler(myService, cmdLineArgs, settings);
         g_mainCefThread = new std::thread([=]() {
-          MDC::put("thread.name", "CefMain");
+          setThreadName("CefMain");
           CefMainArgs main_args;
           CefSettings cefSettings;
           fillSettings(cefSettings, settings);
