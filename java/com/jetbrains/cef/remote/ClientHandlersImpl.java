@@ -570,8 +570,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface, RemoteClient.Br
         if (rmrh == null) return false;
 
         RemoteQueryCallback rcb = new RemoteQueryCallback(myServer, queryCallback);
-        rmrh.getDelegate().onQuery(getRemoteBrowser(bid), NULL_FRAME, queryId, request, persistent, rcb);
-        return false;
+        return rmrh.getDelegate().onQuery(getRemoteBrowser(bid), NULL_FRAME, queryId, request, persistent, rcb);
     }
 
     @Override
