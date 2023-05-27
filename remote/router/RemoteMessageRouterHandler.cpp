@@ -22,6 +22,8 @@ RemoteMessageRouterHandler::RemoteMessageRouterHandler(
 
 RemoteMessageRouterHandler::~RemoteMessageRouterHandler() {
   Log::trace("delete RouterHandler: peerId=%d", myPeerId);
+  for (auto cb: myCallbacks) // simple protection for leaking via callbacks
+    RemoteQueryCallback::dispose(cb);
 }
 
 bool RemoteMessageRouterHandler::OnQuery(CefRefPtr<CefBrowser> browser,
@@ -36,13 +38,14 @@ bool RemoteMessageRouterHandler::OnQuery(CefRefPtr<CefBrowser> browser,
     Log::error("Can't find remote browser by cef-id %d", browser ? browser->GetIdentifier() : -1);
     return false;
   }
-  RemoteQueryCallback * rcb = RemoteQueryCallback::create(myService, callback);
-  const int rcdId = rcb->getId();
+  thrift_codegen::RObject rcb = RemoteQueryCallback::create(myService, callback);
   bool handled = myService->exec<bool>([&](RpcExecutor::Service s){
-    return s->MessageRouterHandler_onQuery(javaId(), bid, query_id, request, persistent, rcb->serverId());
+    return s->MessageRouterHandler_onQuery(javaId(), bid, query_id, request, persistent, rcb);
   }, false);
   if (!handled) // NOTE: must delete callback when onQuery returns false
-    RemoteQueryCallback::dispose(rcdId);
+    RemoteQueryCallback::dispose(rcb.objId);
+  else
+    myCallbacks.insert(rcb.objId);
   return handled;
 }
 

@@ -28,7 +28,6 @@ public class RemoteBrowser implements CefBrowser {
     private final RpcExecutor myService;
     private final RemoteClient myOwner;
 
-    // TODO: check all myBid usages (compare with -1)
     private int myBid = -1;
     private String myUrl = null;
     private JComponent myComponent;
@@ -111,6 +110,10 @@ public class RemoteBrowser implements CefBrowser {
 
     @Override
     public void reload() {
+        if (myBid < 0) {
+            CefLog.Debug("Skip reload because remote browser wasn't created, bid=%d", myBid);
+            return;
+        }
         myService.exec((s)->{
             s.Browser_Reload(myBid);
         });
@@ -118,6 +121,10 @@ public class RemoteBrowser implements CefBrowser {
 
     @Override
     public void reloadIgnoreCache() {
+        if (myBid < 0) {
+            CefLog.Debug("Skip reloadIgnoreCache because remote browser wasn't created, bid=%d", myBid);
+            return;
+        }
         myService.exec((s)->{
             s.Browser_ReloadIgnoreCache(myBid);
         });
@@ -200,6 +207,10 @@ public class RemoteBrowser implements CefBrowser {
 
     @Override
     public void loadURL(String url) {
+        if (myBid < 0) {
+            CefLog.Debug("Skip loadURL because remote browser wasn't created, bid=%d", myBid);
+            return;
+        }
         myService.exec((s)->{
             s.Browser_LoadURL(myBid, url);
         });
@@ -207,6 +218,10 @@ public class RemoteBrowser implements CefBrowser {
 
     @Override
     public void executeJavaScript(String code, String url, int line) {
+        if (myBid < 0) {
+            CefLog.Debug("Skip executeJavaScript because remote browser wasn't created, bid=%d", myBid);
+            return;
+        }
         myService.exec((s)->{
             s.Browser_ExecuteJavaScript(myBid, code, url, line);
         });
@@ -214,6 +229,10 @@ public class RemoteBrowser implements CefBrowser {
 
     @Override
     public String getURL() {
+        if (myBid < 0) {
+            CefLog.Debug("Skip getURL because remote browser wasn't created, bid=%d", myBid);
+            return myUrl;
+        }
         return myService.execObj((s)->{
             return s.Browser_GetURL(myBid);
         });
@@ -325,6 +344,10 @@ public class RemoteBrowser implements CefBrowser {
 
     @Override
     public void wasResized(int width, int height) {
+        if (myBid < 0) {
+            CefLog.Debug("Skip wasResized because remote browser wasn't created, bid=%d", myBid);
+            return;
+        }
         myService.exec((s)->{
             s.Browser_WasResized(myBid, width, height);
         });
@@ -337,6 +360,10 @@ public class RemoteBrowser implements CefBrowser {
 
     @Override
     public void sendKeyEvent(KeyEvent e) {
+        if (myBid < 0) {
+            CefLog.Debug("Skip sendKeyEvent because remote browser wasn't created, bid=%d", myBid);
+            return;
+        }
         myService.exec((s)->{
             // TODO: get e.scancode via reflection (windows only)
             s.Browser_SendKeyEvent(myBid, e.getID(), e.getModifiersEx(), (short)e.getKeyChar(), 0, e.getKeyCode());
@@ -345,6 +372,10 @@ public class RemoteBrowser implements CefBrowser {
 
     @Override
     public void sendMouseEvent(MouseEvent e) {
+        if (myBid < 0) {
+            CefLog.Debug("Skip sendMouseEvent because remote browser wasn't created, bid=%d", myBid);
+            return;
+        }
         myService.exec((s)->{
             s.Browser_SendMouseEvent(myBid, e.getID(), e.getX(), e.getY(), e.getModifiersEx(), e.getClickCount(), e.getButton());
         });
@@ -352,6 +383,10 @@ public class RemoteBrowser implements CefBrowser {
 
     @Override
     public void sendMouseWheelEvent(MouseWheelEvent e) {
+        if (myBid < 0) {
+            CefLog.Debug("Skip sendMouseWheelEvent because remote browser wasn't created, bid=%d", myBid);
+            return;
+        }
         myService.exec((s)->{
             s.Browser_SendMouseWheelEvent(myBid, e.getScrollType(), e.getX(), e.getY(), e.getModifiersEx(), e.getWheelRotation(), e.getUnitsToScroll());
         });
@@ -369,6 +404,6 @@ public class RemoteBrowser implements CefBrowser {
 
     @Override
     public String toString() {
-        return "CefRemoteBrowser_" + myBid;
+        return "RemoteBrowser_" + myBid;
     }
 }

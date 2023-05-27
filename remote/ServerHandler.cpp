@@ -403,7 +403,6 @@ void ServerHandler::Callback_Cancel(const thrift_codegen::RObject& callback) {
   RemoteCallback::dispose(callback.objId);
 }
 
-// TODO: add leak protection: dispose all created routers is ~ServerHandler
 void ServerHandler::MessageRouter_Create(thrift_codegen::RObject& _return,
                                         const std::string& query,
                                         const std::string& cancel) {

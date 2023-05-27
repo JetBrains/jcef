@@ -4,6 +4,16 @@
 // remove to enable tracing
 //#define TRACE()
 
+MessageRoutersManager::~MessageRoutersManager() {
+  base::AutoLock lockR(myRoutersLock);
+  base::AutoLock lockC(router_cfg_lock_);
+  for (auto router: myRouters) {
+    router_cfg_.erase(router->getConfig());
+    RemoteMessageRouter::dispose(router->getId());
+  }
+  myRouters.clear();
+}
+
 bool MessageRoutersManager::OnProcessMessageReceived(
     CefRefPtr<CefBrowser> browser,
     CefRefPtr<CefFrame> frame,
@@ -18,7 +28,8 @@ bool MessageRoutersManager::OnProcessMessageReceived(
   std::set<CefRefPtr<CefMessageRouterBrowserSide>> message_routers;
   {
     base::AutoLock lock_scope(myRoutersLock);
-    message_routers = myRouters;
+    for (auto r: myRouters)
+      message_routers.insert(CefRefPtr<CefMessageRouterBrowserSide>(&r->getDelegate()));
   }
 
   for (auto& router : message_routers) {
@@ -34,7 +45,7 @@ void MessageRoutersManager::OnBeforeClose(CefRefPtr<CefBrowser> browser) {
   // NOTE: invoked on UI thread
   base::AutoLock lock_scope(myRoutersLock);
   for (auto& router : myRouters) {
-    router->OnBeforeClose(browser);
+    router->getDelegate().OnBeforeClose(browser);
   }
 }
 
@@ -43,7 +54,7 @@ void MessageRoutersManager::OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRef
   // NOTE: invoked on UI thread
   base::AutoLock lock_scope(myRoutersLock);
   for (auto& router : myRouters) {
-    router->OnBeforeBrowse(browser, frame);
+    router->getDelegate().OnBeforeBrowse(browser, frame);
   }
 }
 
@@ -52,7 +63,7 @@ void MessageRoutersManager::OnRenderProcessTerminated(CefRefPtr<CefBrowser> brow
   // NOTE: invoked on UI thread
   base::AutoLock lock_scope(myRoutersLock);
   for (auto& router : myRouters) {
-    router->OnRenderProcessTerminated(browser);
+    router->getDelegate().OnRenderProcessTerminated(browser);
   }
 }
 
@@ -88,17 +99,16 @@ void MessageRoutersManager::ClearAllConfigs() {
   router_cfg_.clear();
 }
 
-// TODO: add leak protection: dispose all created routers is ~MessageRoutersManager
 RemoteMessageRouter * MessageRoutersManager::CreateRemoteMessageRouter(std::shared_ptr<RpcExecutor> service, const std::string& query, const std::string& cancel) {
   TRACE();
   CefMessageRouterConfig config;
   config.js_query_function = query;
   config.js_cancel_function = cancel;
   CefRefPtr<CefMessageRouterBrowserSide> msgRouter = CefMessageRouterBrowserSide::Create(config);
-
+  RemoteMessageRouter * result = RemoteMessageRouter::create(service, msgRouter, config);
   {
     base::AutoLock lock_scope(myRoutersLock);
-    myRouters.insert(msgRouter);
+    myRouters.insert(result);
   }
 
   {
@@ -106,7 +116,7 @@ RemoteMessageRouter * MessageRoutersManager::CreateRemoteMessageRouter(std::shar
     router_cfg_.insert(config);
   }
 
-  return RemoteMessageRouter::create(service, msgRouter, config);
+  return result;
 }
 
 void MessageRoutersManager::DisposeRemoteMessageRouter(int objId) {
@@ -116,7 +126,7 @@ void MessageRoutersManager::DisposeRemoteMessageRouter(int objId) {
 
   {
     base::AutoLock lock_scope(myRoutersLock);
-    myRouters.erase(CefRefPtr<CefMessageRouterBrowserSide>(&(rmr->getDelegate())));
+    myRouters.erase(rmr);
   }
 
   {
@@ -125,3 +135,4 @@ void MessageRoutersManager::DisposeRemoteMessageRouter(int objId) {
   }
   RemoteMessageRouter::dispose(objId);
 }
+

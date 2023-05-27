@@ -8,10 +8,9 @@ using CefMessageRouter = CefMessageRouterBrowserSide;
 class ClientsManager;
 class RemoteMessageRouterHandler;
 
-// Created by java request (ServerHandler::CreateMessageRouter), disposed by java request
+// Created by java request (ServerHandler::CreateMessageRouter), disposed by java request.
+// Owned by MessageRoutersManage (it's lifetime: per connection)
 // Stores (and manages lifetime) RemoteMessageRouterHandlers.
-//
-// TODO: add simple leak protection (link with client's connection)
 class RemoteMessageRouter : public RemoteServerObject<RemoteMessageRouter, CefMessageRouter> {
  public:
   static RemoteMessageRouter * create(std::shared_ptr<RpcExecutor> service, CefRefPtr<CefMessageRouter> delegate, CefMessageRouterConfig config);

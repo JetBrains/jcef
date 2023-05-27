@@ -8,7 +8,7 @@ class RemoteClientHandler;
 class RemoteRequestHandler : public CefRequestHandler {
  public:
   explicit RemoteRequestHandler(RemoteClientHandler & owner);
-  virtual ~RemoteRequestHandler() {}
+  virtual ~RemoteRequestHandler();
 
   bool OnBeforeBrowse(CefRefPtr<CefBrowser> browser,
                       CefRefPtr<CefFrame> frame,
@@ -46,6 +46,8 @@ class RemoteRequestHandler : public CefRequestHandler {
 
  private:
   RemoteClientHandler & myOwner;
+  std::set<int> myCallbacks;
+  std::set<int> myAuthCallbacks;
 
   // Persistent java handler
   bool myResourceRequestHandlerReceived = false;

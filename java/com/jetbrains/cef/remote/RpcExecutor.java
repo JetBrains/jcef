@@ -74,6 +74,5 @@ public class RpcExecutor {
         StringWriter sw = new StringWriter();
         e.printStackTrace(new PrintWriter(sw));
         CefLog.Error(sw.getBuffer().toString());
-        // TODO: check whether socket is still open and reconnect if necessary
     }
 }

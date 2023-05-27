@@ -7,7 +7,7 @@
 
 class RemoteCallback : public virtual CefBaseRefCounted, public RemoteServerObject<RemoteCallback, CefCallback> {
  public:
-  static RemoteCallback * create(std::shared_ptr<RpcExecutor> service, CefRefPtr<CefCallback> delegate);
+  static thrift_codegen::RObject create(std::shared_ptr<RpcExecutor> service, CefRefPtr<CefCallback> delegate);
 
  private:
   explicit RemoteCallback(std::shared_ptr<RpcExecutor> service, CefRefPtr<CefCallback> delegate, int id);

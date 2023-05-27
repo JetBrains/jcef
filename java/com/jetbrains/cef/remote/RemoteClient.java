@@ -308,14 +308,9 @@ public class RemoteClient implements CefClient {
 
     @Override
     public void dispose() {
-        CefLog.Debug("CefRemoteClient: dispose cid=%d bid=%d", myCid, myRemoteBrowser != null ? myRemoteBrowser.getBid() : -1);
+        CefLog.Debug("RemoteClient: dispose cid=%d bid=%d", myCid, myRemoteBrowser != null ? myRemoteBrowser.getBid() : -1);
 
         // 1. Cleanup routers
-        // NOTE: disposeOnServer called in finalize, just for insurance/clearness
-        // TODO: remove unnecessary code after memory checkups
-        for (int i = 0; i < msgRouters.size(); i++) {
-            msgRouters.get(i).disposeOnServer();
-        }
         msgRouters.clear();
 
         // 2. Cleanup rendering stuff

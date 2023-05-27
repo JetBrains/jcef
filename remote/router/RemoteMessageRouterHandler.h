@@ -27,6 +27,7 @@ class RemoteMessageRouterHandler : public CefMessageRouterBrowserSide::Handler, 
                                int64 query_id) override;
 
  private:
+  std::set<int> myCallbacks;
   std::shared_ptr<ClientsManager> myClientsManager; // necessary for finding bid by CefRefPtr<CefBrowser>
 };
 

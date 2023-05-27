@@ -47,7 +47,7 @@ public class TestApp extends JFrame {
 
         testRouter.addHandler(new TestMessageRouterHandler(), true);
         client.addMessageRouter(testRouter);
-        RemoteBrowser browser = client.createBrowser("",true,null);
+        RemoteBrowser browser = client.createBrowser("www.google.com",true,null);
         browser.createImmediately();
         if (browser == null) {
             CefLog.Error("can't create remote browser");

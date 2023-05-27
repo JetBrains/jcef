@@ -8,10 +8,12 @@
 ClientsManager::ClientsManager() : myRemoteClients(std::make_shared<std::vector<CefRefPtr<RemoteClientHandler>>>()) {}
 
 CefRefPtr<RemoteClientHandler> ClientsManager::getClient(int bid) {
+  Lock lock(myMutex);
   return bid >= myRemoteClients->size() ? nullptr : (*myRemoteClients)[bid];
 }
 
 void ClientsManager::disposeClient(int bid) {
+  Lock lock(myMutex);
   if (bid >= myRemoteClients->size())
     return;
   (*myRemoteClients)[bid] = nullptr;
@@ -56,18 +58,23 @@ int ClientsManager::createBrowser(int cid, std::shared_ptr<RpcExecutor> service,
     return -2;
   }
 
-  int bid = myRemoteClients->size();
-  for (int c = 0, cEnd = myRemoteClients->size(); c < cEnd; ++c)
-    if ((*myRemoteClients)[c] != nullptr) {
-      bid = c;
-      break;
-    }
+  int bid;
+  CefRefPtr<RemoteClientHandler> clienthandler;
+  {
+    Lock lock(myMutex);
+    bid = myRemoteClients->size();
+    for (int c = 0, cEnd = myRemoteClients->size(); c < cEnd; ++c)
+      if ((*myRemoteClients)[c] != nullptr) {
+        bid = c;
+        break;
+      }
 
-  CefRefPtr<RemoteClientHandler> clienthandler = new RemoteClientHandler(routersManager, service, cid, bid);
-  if (bid >= 0 && bid < myRemoteClients->size())
-    (*myRemoteClients)[bid] = clienthandler;
-  else
-    myRemoteClients->push_back(clienthandler);
+    clienthandler = new RemoteClientHandler(routersManager, service, cid, bid);
+    if (bid >= 0 && bid < myRemoteClients->size())
+      (*myRemoteClients)[bid] = clienthandler;
+    else
+      myRemoteClients->push_back(clienthandler);
+  }
 
   std::function<void()> onFailed = [=](){
     disposeClient(bid);
@@ -98,6 +105,7 @@ int ClientsManager::findRemoteBrowser(CefRefPtr<CefBrowser> browser) {
   if (!browser)
     return -1;
 
+  Lock lock(myMutex);
   for (int c = 0, cEnd = myRemoteClients->size(); c < cEnd; ++c) {
     CefRefPtr<RemoteClientHandler> client = (*myRemoteClients)[c];
     if (client) {
@@ -127,6 +135,7 @@ void ClientsManager::closeBrowser(const int32_t bid) {
 }
 
 void ClientsManager::closeAllBrowsers() {
+  Lock lock(myMutex);
   for (int bid = 0; bid < myRemoteClients->size(); ++bid)
     closeBrowser(bid);
   myRemoteClients->clear();

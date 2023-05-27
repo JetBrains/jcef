@@ -16,11 +16,12 @@ struct cmpCfg {
 class RemoteMessageRouter;
 class RpcExecutor;
 
+// Manages lifetime of stored routers
 class MessageRoutersManager {
  public:
-  // TODO: add leak protection: dispose all created routers is ~MessageRoutersManager
   RemoteMessageRouter * CreateRemoteMessageRouter(std::shared_ptr<RpcExecutor> service, const std::string& query, const std::string& cancel);
   void DisposeRemoteMessageRouter(int objId);
+  virtual ~MessageRoutersManager();
 
   // Next 4 methods should be called from corresponding handlers of CefClient
   void OnBeforeClose(CefRefPtr<CefBrowser> browser);
@@ -35,7 +36,7 @@ class MessageRoutersManager {
   static void ClearAllConfigs();
 
  private:
-  std::set<CefRefPtr<CefMessageRouterBrowserSide>> myRouters;
+  std::set<RemoteMessageRouter*> myRouters;
   base::Lock myRoutersLock;
 
   static std::set<CefMessageRouterConfig, cmpCfg> router_cfg_;

@@ -16,6 +16,14 @@ namespace {
 
 RemoteRequestHandler::RemoteRequestHandler(RemoteClientHandler & owner) : myOwner(owner) {}
 
+RemoteRequestHandler::~RemoteRequestHandler() {
+  // simple protection for leaking via callbacks
+  for (auto c: myCallbacks)
+    RemoteCallback::dispose(c);
+  for (auto c: myAuthCallbacks)
+    RemoteAuthCallback::dispose(c);
+}
+
 bool RemoteRequestHandler::OnBeforeBrowse(CefRefPtr<CefBrowser> browser,
                     CefRefPtr<CefFrame> frame,
                     CefRefPtr<CefRequest> request,
@@ -90,10 +98,15 @@ bool RemoteRequestHandler::GetAuthCredentials(CefRefPtr<CefBrowser> browser,
                         CefRefPtr<CefAuthCallback> callback
 ) {
   LNDCT();
-  RemoteAuthCallback * rc = RemoteAuthCallback::create(myOwner.getService(), callback);
-    return myOwner.exec<bool>([&](RpcExecutor::Service s){
-      return s->RequestHandler_GetAuthCredentials(myOwner.getBid(), origin_url.ToString(), isProxy, host.ToString(), port, realm.ToString(), scheme.ToString(), rc->serverId());
+  thrift_codegen::RObject rc = RemoteAuthCallback::create(myOwner.getService(), callback);
+  const bool handled = myOwner.exec<bool>([&](RpcExecutor::Service s){
+      return s->RequestHandler_GetAuthCredentials(myOwner.getBid(), origin_url.ToString(), isProxy, host.ToString(), port, realm.ToString(), scheme.ToString(), rc);
   }, false);
+  if (!handled)
+    RemoteAuthCallback::dispose(rc.objId);
+  else
+    myAuthCallbacks.insert(rc.objId);
+  return handled;
 }
 
 bool RemoteRequestHandler::OnCertificateError(CefRefPtr<CefBrowser> browser,
@@ -103,12 +116,17 @@ bool RemoteRequestHandler::OnCertificateError(CefRefPtr<CefBrowser> browser,
                         CefRefPtr<CefCallback> callback
 ) {
   LNDCT();
-  RemoteCallback * rc = RemoteCallback::create(myOwner.getService(), callback);
+  thrift_codegen::RObject rc = RemoteCallback::create(myOwner.getService(), callback);
   thrift_codegen::RObject sslInfo;
   sslInfo.__set_objId(-1); // TODO: implement ssl_info
-  return myOwner.exec<bool>([&](RpcExecutor::Service s){
-      return s->RequestHandler_OnCertificateError(myOwner.getBid(), err2str(cert_error), request_url, sslInfo, rc->serverIdWithMap());
+  const bool handled = myOwner.exec<bool>([&](RpcExecutor::Service s){
+      return s->RequestHandler_OnCertificateError(myOwner.getBid(), err2str(cert_error), request_url, sslInfo, rc);
   }, false);
+  if (!handled)
+    RemoteCallback::dispose(rc.objId);
+  else
+    myCallbacks.insert(rc.objId);
+  return handled;
 }
 
 void RemoteRequestHandler::OnRenderProcessTerminated(CefRefPtr<CefBrowser> browser, TerminationStatus status) {
