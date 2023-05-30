@@ -1,5 +1,6 @@
 package com.jetbrains.cef.remote.router;
 
+import com.jetbrains.cef.remote.CefServer;
 import com.jetbrains.cef.remote.RemoteBrowser;
 import com.jetbrains.cef.remote.RemoteServerObject;
 import com.jetbrains.cef.remote.RpcExecutor;
@@ -30,6 +31,14 @@ public class RemoteMessageRouter extends RemoteServerObject implements CefMessag
 
     public static RemoteMessageRouter create(RpcExecutor server) {
         return create(server, "cefQuery", "cefQueryCancel");
+    }
+
+    public static RemoteMessageRouter create(String query, String cancel) {
+        if (CefServer.instance() == null || CefServer.instance().getService() == null) {
+            CefLog.Error("Can't create remote router <%s,%s> because CefServer wasn't initialized.");
+            return null;
+        }
+        return create(CefServer.instance().getService(),query, cancel);
     }
 
     public static RemoteMessageRouter create(RpcExecutor server, String query, String cancel) {

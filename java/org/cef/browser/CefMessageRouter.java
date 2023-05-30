@@ -1,5 +1,7 @@
 package org.cef.browser;
 
+import com.jetbrains.cef.remote.CefServer;
+import com.jetbrains.cef.remote.router.RemoteMessageRouter;
 import org.cef.Disposable;
 import org.cef.handler.CefMessageRouterHandler;
 
@@ -192,9 +194,12 @@ public interface CefMessageRouter extends Disposable {
     /**
      * Create a new router with the specified handler and configuration.
      */
-    static CefMessageRouter create(
-            CefMessageRouterConfig config, CefMessageRouterHandler handler) {
-        CefMessageRouter_N router = new CefMessageRouter_N(config);
+    static CefMessageRouter create(CefMessageRouterConfig config, CefMessageRouterHandler handler) {
+        CefMessageRouter router;
+        if (CefServer.isEnabled())
+            router = RemoteMessageRouter.create(config.jsQueryFunction, config.jsCancelFunction);
+        else
+            router = new CefMessageRouter_N(config);
         if (handler != null) router.addHandler(handler, true);
         return router;
     }

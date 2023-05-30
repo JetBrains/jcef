@@ -276,34 +276,27 @@ public class RemoteClient implements CefClient {
 
     }
 
-    @Override
-    public void addMessageRouter(CefMessageRouter messageRouter) {
-
-    }
-
-    @Override
-    public void removeMessageRouter(CefMessageRouter messageRouter) {
-
-    }
-
     //
     // CefMessageRouter
     //
 
-    // NOTE: Stores messageRouter ref.
-    public void addMessageRouter(RemoteMessageRouter messageRouter) {
+    @Override
+    public void addMessageRouter(CefMessageRouter messageRouter) {
         // NOTE: we create RemoteMessageRouter via static factory method and then configure it
         // with java handlers (internally will remote wrappers over java objects). CefMessageRouter is used only to
-        // add/remove handlers. So we can't create remote wrapper over pure CefMessageRouter here, since it's not a "handler".
-        msgRouters.add(messageRouter);
+        // add/remove handlers. So we can't create remote wrapper over "java" CefMessageRouter here.
+        RemoteMessageRouter router = (RemoteMessageRouter)messageRouter;
+        msgRouters.add(router);
         if (myRemoteBrowser != null && myRemoteBrowser.getBid() >= 0)
-            messageRouter.addToBrowser(myRemoteBrowser.getBid());
+            router.addToBrowser(myRemoteBrowser.getBid());
     }
 
-    public void removeMessageRouter(RemoteMessageRouter messageRouter) {
+    @Override
+    public void removeMessageRouter(CefMessageRouter messageRouter) {
+        RemoteMessageRouter router = (RemoteMessageRouter)messageRouter;
         if (myRemoteBrowser != null && myRemoteBrowser.getBid() >= 0)
-            messageRouter.removeFromBrowser(myRemoteBrowser.getBid());
-        msgRouters.remove(messageRouter);
+            router.removeFromBrowser(myRemoteBrowser.getBid());
+        msgRouters.remove(router);
     }
 
     @Override

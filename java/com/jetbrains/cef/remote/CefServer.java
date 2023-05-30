@@ -40,6 +40,8 @@ public class CefServer {
         }
     }
 
+    public static boolean isEnabled() { return true; }
+
     public static CefServer instance() { return INSTANCE; }
 
     public RpcExecutor getService() { return myService; }
