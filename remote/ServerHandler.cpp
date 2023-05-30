@@ -21,14 +21,6 @@
 
 using namespace apache::thrift;
 
-namespace {
-  RemoteAppHandler * g_remoteAppHandler = nullptr;
-  std::thread * g_mainCefThread = nullptr;
-  bool g_isInitialized = false;
-}
-
-bool isCefInitialized() { return g_isInitialized; }
-
 ServerHandler::ServerHandler() : myRoutersManager(std::make_shared<MessageRoutersManager>()) {}
 
 ServerHandler::~ServerHandler() {
@@ -58,29 +50,12 @@ int32_t ServerHandler::connect(
     try {
       myService = std::make_shared<RpcExecutor>();
       myClientsManager = std::make_shared<ClientsManager>();
-      if (g_remoteAppHandler == nullptr) {
-        g_remoteAppHandler = new RemoteAppHandler(myService, cmdLineArgs, settings);
-        g_mainCefThread = new std::thread([=]() {
-          setThreadName("CefMain");
-          CefMainArgs main_args;
-          CefSettings cefSettings;
-          fillSettings(cefSettings, settings);
-
-          Log::debug("Start CefInitialize");
-          const bool success = CefInitialize(main_args, cefSettings, g_remoteAppHandler, nullptr);
-          if (!success) {
-            Log::error("Cef initialization failed");
-            return;
-          }
-          g_isInitialized = true;
-          CefRunMessageLoop();
-          Log::debug("Cef shutdowns");
-          CefShutdown();
-          Log::debug("Shutdown finished");
-        });
-      } else {
-        Log::error("Cef has been initialized and CefApp handler from new client connection will be ignored");
-      }
+      RemoteAppHandler::instance().setArgs(cmdLineArgs);
+      RemoteAppHandler::instance().setSettings(settings);
+      RemoteAppHandler::instance().setService(myService);
+      // TODO:
+      //  1. compare new args and settings with old (from RemoteAppHandler::instance())
+      //  2. reinit CEF with new args and settings in necessary
     } catch (TException& tx) {
       Log::error(tx.what());
       return -1;

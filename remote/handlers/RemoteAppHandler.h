@@ -6,10 +6,23 @@
 
 class RemoteAppHandler : public CefApp {
  public:
-  explicit RemoteAppHandler(
-      std::shared_ptr<RpcExecutor> service,
-      const std::vector<std::string> & args,
-      const std::map<std::string, std::string>& settings);
+  static RemoteAppHandler& instance();
+
+  void setService(std::shared_ptr<RpcExecutor> service) {
+    myService = service;
+    myBrowserProcessHandler->setService(service);
+  }
+  void setArgs(const std::vector<std::string> & args) {
+    myArgs.clear();
+    myArgs.assign(args.begin(), args.end());
+  }
+  void setSettings(const std::map<std::string, std::string>& settings) {
+    mySettings.clear();
+    mySettings.insert(settings.begin(), settings.end());
+  }
+
+  const std::vector<std::string>& getArgs() const { return myArgs; }
+  const std::map<std::string, std::string>& getSettings() const { return mySettings; }
 
   // Similar to jcef::ClientApp implementation.
   void OnBeforeCommandLineProcessing(
@@ -17,13 +30,16 @@ class RemoteAppHandler : public CefApp {
       CefRefPtr<CefCommandLine> command_line) override;
   void OnRegisterCustomSchemes(
       CefRawPtr<CefSchemeRegistrar> registrar) override;
-  CefRefPtr<CefBrowserProcessHandler> GetBrowserProcessHandler() override;
+
+  CefRefPtr<CefBrowserProcessHandler> GetBrowserProcessHandler() override { return myBrowserProcessHandler; }
 
  private:
-  const std::vector<std::string> myArgs;
-  const std::map<std::string, std::string> mySettings;
+  std::vector<std::string> myArgs;
+  std::map<std::string, std::string> mySettings;
   std::shared_ptr<RpcExecutor> myService;
-  CefRefPtr<CefBrowserProcessHandler> myBrowserProcessHandler;
+  CefRefPtr<RemoteBrowserProcessHandler> myBrowserProcessHandler;
+
+  explicit RemoteAppHandler();
 
   IMPLEMENT_REFCOUNTING(RemoteAppHandler);
 };

@@ -2,9 +2,7 @@
 #include "../log/Log.h"
 #include "../router/MessageRoutersManager.h"
 
-RemoteBrowserProcessHandler::RemoteBrowserProcessHandler(std::shared_ptr<RpcExecutor> service)
-    : myService(service) {
-}
+RemoteBrowserProcessHandler::RemoteBrowserProcessHandler() : myService(nullptr) {}
 
 RemoteBrowserProcessHandler::~RemoteBrowserProcessHandler() {
   MessageRoutersManager::ClearAllConfigs();
@@ -12,7 +10,9 @@ RemoteBrowserProcessHandler::~RemoteBrowserProcessHandler() {
 
 void RemoteBrowserProcessHandler::OnContextInitialized() {
   LNDCT();
-  myService->exec([&](RpcExecutor::Service s){
-    s->AppHandler_OnContextInitialized();
-  });
+  auto service = myService;
+  if (service)
+    service->exec([&](RpcExecutor::Service s){
+      s->AppHandler_OnContextInitialized();
+    });
 }

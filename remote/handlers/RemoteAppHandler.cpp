@@ -3,14 +3,12 @@
 
 using namespace thrift_codegen;
 
-RemoteAppHandler::RemoteAppHandler(
-    std::shared_ptr<RpcExecutor> service,
-    const std::vector<std::string> & args,
-    const std::map<std::string, std::string>& settings
-) : myArgs(args),
-    mySettings(settings),
-    myService(service),
-    myBrowserProcessHandler(new RemoteBrowserProcessHandler(service)) {}
+RemoteAppHandler& RemoteAppHandler::instance() {
+  static RemoteAppHandler sInstance;
+  return sInstance;
+}
+
+RemoteAppHandler::RemoteAppHandler() : myArgs(), mySettings(), myService(nullptr), myBrowserProcessHandler(new RemoteBrowserProcessHandler()) {}
 
 void RemoteAppHandler::OnBeforeCommandLineProcessing(
     const CefString& process_type,
@@ -92,8 +90,13 @@ void RemoteAppHandler::OnBeforeCommandLineProcessing(
 void RemoteAppHandler::OnRegisterCustomSchemes(
     CefRawPtr<CefSchemeRegistrar> registrar) {
   LNDCT();
+  auto service = myService;
+  if (!service) {
+    Log::info("Skipped custome schemes processing because service is null.");
+    return;
+  }
   std::vector<CustomScheme> result;
-  myService->exec([&](RpcExecutor::Service s){
+  service->exec([&](RpcExecutor::Service s){
     s->AppHandler_GetRegisteredCustomSchemes(result);
   });
 
@@ -118,8 +121,4 @@ void RemoteAppHandler::OnRegisterCustomSchemes(
     registrar->AddCustomScheme(cs.schemeName, options);
     Log::debug("%s [%d:%d]", cs.schemeName.c_str(), cs.options, options);
   }
-}
-
-CefRefPtr<CefBrowserProcessHandler> RemoteAppHandler::GetBrowserProcessHandler() {
-  return myBrowserProcessHandler;
 }

@@ -46,8 +46,10 @@ int main(int argc, char* argv[]) {
   Log::init(LEVEL_TRACE);
   setThreadName("main");
 
-  if (!doLoadCefLibrary())
+  if (!CefUtils::doLoadCefLibrary())
     return -1;
+
+  CefUtils::initializeCef();
 
   TThreadedServer server(std::make_shared<ServerProcessorFactory>(
                              std::make_shared<ServerCloneFactory>()),

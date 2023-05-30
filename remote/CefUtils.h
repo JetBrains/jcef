@@ -8,8 +8,11 @@
 
 #include "include/cef_base.h"
 
-bool doLoadCefLibrary();
-bool isCefInitialized();
+namespace CefUtils {
+  bool doLoadCefLibrary();
+  bool isCefInitialized();
+  void initializeCef();
+}
 
 template<typename ... Args>
 std::string string_format( const std::string& format, Args ... args )
@@ -24,8 +27,5 @@ std::string string_format( const std::string& format, Args ... args )
 
 std::string toString(cef_rect_t& rect);
 std::string toString(cef_point_t& pt);
-
-void fillSettings(CefSettings & out, const std::map<std::string, std::string>& settings);
-
 
 #endif //IPC_CEFUTILS_H

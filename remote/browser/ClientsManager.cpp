@@ -1,4 +1,5 @@
 #include "ClientsManager.h"
+#include "../CefUtils.h"
 #include "../handlers/RemoteClientHandler.h"
 #include "../handlers/RemoteLifespanHandler.h"
 #include "include/base/cef_callback.h"
@@ -49,10 +50,8 @@ namespace {
   }
 }
 
-extern bool isCefInitialized();
-
 int ClientsManager::createBrowser(int cid, std::shared_ptr<RpcExecutor> service, std::shared_ptr<MessageRoutersManager> routersManager, const std::string& url) {
-  if (!isCefInitialized()) {
+  if (!CefUtils::isCefInitialized()) {
     Log::warn( "Can't create browser with cid=%d, need wait for cef initialization", cid);
     // TODO: return wrapper and schedule browser creation after initialization
     return -2;
