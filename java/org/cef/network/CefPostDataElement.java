@@ -2,6 +2,15 @@ package org.cef.network;
 
 public interface CefPostDataElement {
     /**
+     * Post data elements may represent either bytes or files.
+     */
+    enum Type {
+        PDE_TYPE_EMPTY,
+        PDE_TYPE_BYTES,
+        PDE_TYPE_FILE,
+    }
+
+    /**
      * Returns true if this object is read-only.
      */
     boolean isReadOnly();
@@ -25,7 +34,7 @@ public interface CefPostDataElement {
     /**
      * Return the type of this post data element.
      */
-    CefPostDataElementBase.Type getType();
+    Type getType();
 
     /**
      * Return the file name.
@@ -42,4 +51,11 @@ public interface CefPostDataElement {
      * actually read.
      */
     int getBytes(int size, byte[] bytes);
+
+    /**
+     * Create a new CefPostDataElement object.
+     */
+    static CefPostDataElement create() {
+        return CefPostDataElement_N.createNative();
+    }
 }

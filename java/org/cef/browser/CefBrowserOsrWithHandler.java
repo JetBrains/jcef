@@ -2,10 +2,8 @@ package org.cef.browser;
 
 import org.cef.CefClient;
 import org.cef.CefClientImpl;
-import org.cef.handler.CefClientHandler;
 import org.cef.handler.CefRenderHandler;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.concurrent.CompletableFuture;
@@ -44,7 +42,7 @@ public class CefBrowserOsrWithHandler extends CefBrowser_N  {
                                     CefBrowser parent,
                                     Point inspectAt)
     {
-        super(client, url, context, (CefBrowser_N)parent, inspectAt);
+        super((CefClientImpl)client, url, context, (CefBrowser_N)parent, inspectAt);
         assert renderHandler != null : "Handler can't be null";
         this.renderHandler_ = renderHandler;
         this.component_ = component;
@@ -57,12 +55,11 @@ public class CefBrowserOsrWithHandler extends CefBrowser_N  {
 
     @Override
     public void createImmediately() {
-        // TODO: make separate class fro osr-wth-handler remote browser
         long windowHandle = component_ != null ? CefBrowserWr.getWindowHandle(component_) : 0;
         if (getParentBrowser() == null) {
-            createBrowser((CefClientImpl)getClient(), windowHandle, getUrl(), true, false, null);
+            createBrowser(getClient(), windowHandle, getUrl(), true, false, null);
         } else {
-            createDevTools(getParentBrowser(), (CefClientImpl)getClient(), windowHandle, true, false, null, getInspectAt());
+            createDevTools(getParentBrowser(), getClient(), windowHandle, true, false, null, getInspectAt());
         }
     }
 

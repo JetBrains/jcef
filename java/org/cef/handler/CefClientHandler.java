@@ -7,7 +7,7 @@ package org.cef.handler;
 import org.cef.CefApp;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefMessageRouter;
-import org.cef.browser.CefMessageRouterBase;
+import org.cef.callback.CefNativeAdaperMulti;
 import org.cef.misc.CefLog;
 
 import java.util.Vector;
@@ -15,7 +15,7 @@ import java.util.Vector;
 /**
  * Implement this interface to provide handler implementations.
  */
-public abstract class CefClientHandler implements CefAppStateHandler {
+public abstract class CefClientHandler extends CefNativeAdaperMulti implements CefAppStateHandler {
     private Vector<CefMessageRouter> msgRouters = new Vector<>();
     protected boolean isNativeCtxInitialized = false;
 
@@ -38,8 +38,7 @@ public abstract class CefClientHandler implements CefAppStateHandler {
         try {
             // Call native DTOR if handler will be destroyed
             for (int i = 0; i < msgRouters.size(); i++) {
-                if (msgRouters.get(i) instanceof CefMessageRouterBase)
-                    ((CefMessageRouterBase)msgRouters.get(i)).dispose();
+                msgRouters.get(i).dispose();
             }
             msgRouters.clear();
 
@@ -48,6 +47,13 @@ public abstract class CefClientHandler implements CefAppStateHandler {
                 N_CefClientHandler_DTOR();
         } catch (UnsatisfiedLinkError err) {
             err.printStackTrace();
+        }
+    }
+
+    private void checkNativeCtxInitialized() {
+        if (!isNativeCtxInitialized) {
+            String m1 = new Throwable().getStackTrace()[1].getMethodName();
+            CefLog.Error("CefClientHandler: can't invoke native method '%s' before native context initialized", m1);
         }
     }
 
@@ -167,13 +173,6 @@ public abstract class CefClientHandler implements CefAppStateHandler {
      * the native code.
      */
     abstract protected CefWindowHandler getWindowHandler();
-
-    private void checkNativeCtxInitialized() {
-        if (!isNativeCtxInitialized) {
-            String m1 = new Throwable().getStackTrace()[1].getMethodName();
-            CefLog.Error("CefClientHandler: can't invoke native method '%s' before native context initialized", m1);
-        }
-    }
 
     protected synchronized void addMessageRouter(CefMessageRouter h) {
         try {

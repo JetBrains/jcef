@@ -52,6 +52,11 @@ public class RemoteMessageRouter extends RemoteServerObject implements CefMessag
     public void flush() {}
 
     @Override
+    public void dispose() {
+        disposeOnServer();
+    }
+
+    @Override
     protected void disposeOnServerImpl() {
         synchronized (myHandlers) {
             for (RemoteMessageRouterHandler h : myHandlers)

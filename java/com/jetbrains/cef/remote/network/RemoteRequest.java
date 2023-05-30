@@ -155,7 +155,7 @@ public class RemoteRequest extends RemoteServerObjectLocal implements CefRequest
 
     @Override
     public String toString() {
-        // TODO: use return CefRequestBase.toString(this) after debugging
+        // TODO: use return CefRequest.toString(this) after debugging
         return myCache.toString();
     }
 }

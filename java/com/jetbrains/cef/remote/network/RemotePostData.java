@@ -2,8 +2,8 @@ package com.jetbrains.cef.remote.network;
 
 import com.jetbrains.cef.remote.thrift_codegen.PostData;
 import com.jetbrains.cef.remote.thrift_codegen.PostDataElement;
+import org.cef.misc.DebugFormatter;
 import org.cef.network.CefPostData;
-import org.cef.network.CefPostDataBase;
 import org.cef.network.CefPostDataElement;
 
 import java.util.ArrayList;
@@ -57,6 +57,6 @@ public class RemotePostData implements CefPostData {
 
     @Override
     public String toString() {
-        return CefPostDataBase.toString(null, this);
+        return DebugFormatter.toString_PostData(null, this);
     }
 }

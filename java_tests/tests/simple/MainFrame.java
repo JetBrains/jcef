@@ -204,7 +204,7 @@ public class MainFrame extends JFrame {
         getContentPane().add(address_, BorderLayout.NORTH);
         getContentPane().add(browerUI_, BorderLayout.CENTER);
         pack();
-        setSize(2000, 1400);
+        setSize(800, 600);
         setVisible(true);
 
         // (6) To take care of shutting down CEF accordingly, it's important to call
@@ -277,6 +277,6 @@ public class MainFrame extends JFrame {
         // Perform startup initialization on platforms that require it.
         CefApp.startup(args);
 
-        new MainFrame(args, "file:///Users/bocha/projects/jcef/animated.svg", OsrSupport.isEnabled(), false);
+        new MainFrame(args, "http://www.google.com", OsrSupport.isEnabled(), false);
     }
 }

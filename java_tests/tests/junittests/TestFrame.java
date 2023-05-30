@@ -4,25 +4,14 @@
 
 package tests.junittests;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-
-import static tests.junittests.TestSetupContext.debugPrint;
-
 import org.cef.CefApp;
 import org.cef.CefClient;
 import org.cef.CefClientImpl;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefFrame;
-import org.cef.browser.CefRendering;
 import org.cef.callback.CefAuthCallback;
 import org.cef.callback.CefCallback;
-import org.cef.handler.CefCookieAccessFilter;
-import org.cef.handler.CefLifeSpanHandler;
-import org.cef.handler.CefLoadHandler;
-import org.cef.handler.CefRequestHandler;
-import org.cef.handler.CefResourceHandler;
-import org.cef.handler.CefResourceRequestHandler;
+import org.cef.handler.*;
 import org.cef.misc.BoolRef;
 import org.cef.misc.CefLog;
 import org.cef.misc.StringRef;
@@ -30,18 +19,20 @@ import org.cef.network.CefRequest;
 import org.cef.network.CefRequest.TransitionType;
 import org.cef.network.CefResponse;
 import org.cef.network.CefURLRequest;
-import tests.JBCefOsrComponent;
-import tests.JBCefOsrHandler;
 import org.cef.security.CefSSLInfo;
 import tests.OsrSupport;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.HashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-import javax.swing.*;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static tests.junittests.TestSetupContext.debugPrint;
 
 // Base class for browsers that run tests.
 class TestFrame extends JFrame implements CefLifeSpanHandler, CefLoadHandler, CefRequestHandler,
@@ -135,7 +126,7 @@ class TestFrame extends JFrame implements CefLifeSpanHandler, CefLoadHandler, Ce
     // Override this method to perform test cleanup.
     protected void cleanupTest() {
         if (debugPrint()) CefLog.Info("cleanupTest");
-        ((CefClientImpl)client_).dispose();
+        client_.dispose();
 
         EventQueue.invokeLater(() -> {
             if (debugPrint()) CefLog.Info("windowClosing Frame.dispose");

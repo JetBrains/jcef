@@ -76,4 +76,11 @@ public interface CefResponse {
      * Set all response header fields.
      */
      void setHeaderMap(Map<String, String> headerMap);
+
+    /**
+     * Create a new CefRequest object.
+     */
+    static CefResponse create() {
+        return CefResponse_N.createNative();
+    }
 }

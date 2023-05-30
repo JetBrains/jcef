@@ -91,7 +91,7 @@ public class RemoteResponse extends RemoteServerObjectLocal implements CefRespon
 
     @Override
     public String toString() {
-        // TODO: use return CefResponseBase.toString(this) after debugging
+        // TODO: use return CefResponse.toString(this) after debugging
         return myCache.toString();
     }
 }

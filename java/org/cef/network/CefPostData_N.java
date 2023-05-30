@@ -4,17 +4,19 @@
 
 package org.cef.network;
 
+import org.cef.callback.CefNativeAdapter;
+import org.cef.misc.DebugFormatter;
+
 import java.util.Vector;
 
-/**
- *
- */
-class CefPostData_N extends CefPostDataBase {
-    CefPostData_N() {
-        super();
-    }
+class CefPostData_N extends CefNativeAdapter implements CefPostData {
+    // This CTOR can't be called directly. Call method create() instead.
+    CefPostData_N() {}
 
-    public static CefPostDataBase createNative() {
+    /**
+     * Create a new CefPostData object.
+     */
+    static final CefPostData createNative() {
         try {
             return CefPostData_N.N_Create();
         } catch (UnsatisfiedLinkError ule) {
@@ -23,13 +25,21 @@ class CefPostData_N extends CefPostDataBase {
         }
     }
 
-    @Override
-    public void dispose() {
+    /**
+     * Removes the native reference from an unused object.
+     */
+    private void dispose() {
         try {
             N_Dispose(getNativeRef());
         } catch (UnsatisfiedLinkError ule) {
             ule.printStackTrace();
         }
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        dispose();
+        super.finalize();
     }
 
     @Override
@@ -88,6 +98,15 @@ class CefPostData_N extends CefPostDataBase {
         } catch (UnsatisfiedLinkError ule) {
             ule.printStackTrace();
         }
+    }
+
+    @Override
+    public String toString() {
+        return toString(null);
+    }
+
+    public String toString(String mimeType) {
+        return DebugFormatter.toString_PostData(mimeType, this);
     }
 
     private final native static CefPostData_N N_Create();

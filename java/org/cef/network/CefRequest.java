@@ -443,4 +443,11 @@ public interface CefRequest {
      * sub-frame navigation.
      */
      TransitionType getTransitionType();
+
+    /**
+     * Create a new CefRequest object.
+     */
+    static CefRequest create() {
+        return CefRequest_N.createNative();
+    }
 }

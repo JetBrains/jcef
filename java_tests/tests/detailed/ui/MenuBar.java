@@ -4,8 +4,6 @@
 
 package tests.detailed.ui;
 
-import org.cef.CefApp;
-import org.cef.CefClient;
 import org.cef.OS;
 import org.cef.browser.CefBrowser;
 import org.cef.callback.CefPdfPrintCallback;
@@ -15,19 +13,14 @@ import org.cef.handler.CefDialogHandler.FileDialogMode;
 import org.cef.misc.CefPdfPrintSettings;
 import org.cef.network.CefCookieManager;
 import org.cef.network.CefRequest;
+import tests.detailed.BrowserFrame;
+import tests.detailed.MainFrame;
+import tests.detailed.dialog.*;
+import tests.detailed.util.DataUri;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Frame;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -37,31 +30,6 @@ import java.util.Vector;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JRootPane;
-import javax.swing.SwingUtilities;
-
-import org.cef.network.CefRequestBase;
-import tests.detailed.BrowserFrame;
-import tests.detailed.MainFrame;
-import tests.detailed.dialog.CookieManagerDialog;
-import tests.detailed.dialog.DevToolsDialog;
-import tests.detailed.dialog.DownloadDialog;
-import tests.detailed.dialog.SearchDialog;
-import tests.detailed.dialog.ShowTextDialog;
-import tests.detailed.dialog.UrlRequestDialog;
-import tests.detailed.util.DataUri;
 
 @SuppressWarnings("serial")
 public class MenuBar extends JMenuBar {
@@ -335,7 +303,7 @@ public class MenuBar extends JMenuBar {
             public void actionPerformed(ActionEvent e) {
                 String searchFor = JOptionPane.showInputDialog(owner_, "Search on google:");
                 if (searchFor != null && !searchFor.isEmpty()) {
-                    CefRequest myRequest = CefRequestBase.create();
+                    CefRequest myRequest = CefRequest.create();
                     myRequest.setMethod("GET");
                     myRequest.setURL("http://www.google.com/#q=" + searchFor);
                     myRequest.setFirstPartyForCookies("http://www.google.com/#q=" + searchFor);

@@ -58,7 +58,7 @@ public class UrlRequestDialog extends JDialog {
             return null;
         }
 
-        CefRequest request = CefRequestBase.create();
+        CefRequest request = CefRequest.create();
         if (request == null) return null;
 
         String firstPartyForCookie = cookieUrl.getText();
@@ -77,7 +77,7 @@ public class UrlRequestDialog extends JDialog {
         CefPostData postData = null;
         int postDataRows = postDataModel.getRowCount();
         if (postDataRows > 0) {
-            postData = CefPostDataBase.create();
+            postData = CefPostData.create();
         } else if (method.equalsIgnoreCase("POST") || method.equalsIgnoreCase("PUT")) {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
@@ -94,7 +94,7 @@ public class UrlRequestDialog extends JDialog {
                 String value = (String) postDataModel.getValueAt(i, 0);
                 if (value.trim().isEmpty()) continue;
 
-                CefPostDataElement elem = CefPostDataElementBase.create();
+                CefPostDataElement elem = CefPostDataElement.create();
                 if (elem != null) {
                     File f = new File(value);
                     if (f.isFile()) {

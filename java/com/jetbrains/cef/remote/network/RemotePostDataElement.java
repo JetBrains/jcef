@@ -1,8 +1,8 @@
 package com.jetbrains.cef.remote.network;
 
 import com.jetbrains.cef.remote.thrift_codegen.PostDataElement;
+import org.cef.misc.DebugFormatter;
 import org.cef.network.CefPostDataElement;
-import org.cef.network.CefPostDataElementBase;
 
 import java.nio.ByteBuffer;
 
@@ -33,12 +33,12 @@ public class RemotePostDataElement implements CefPostDataElement {
     }
 
     @Override
-    public CefPostDataElementBase.Type getType() {
+    public Type getType() {
         if (myElement.file == null && myElement.bytes == null)
-            return CefPostDataElementBase.Type.PDE_TYPE_EMPTY;
+            return Type.PDE_TYPE_EMPTY;
         if (myElement.file == null)
-            return CefPostDataElementBase.Type.PDE_TYPE_BYTES;
-        return CefPostDataElementBase.Type.PDE_TYPE_FILE;
+            return Type.PDE_TYPE_BYTES;
+        return Type.PDE_TYPE_FILE;
     }
 
     @Override
@@ -58,9 +58,9 @@ public class RemotePostDataElement implements CefPostDataElement {
 
     static PostDataElement toThriftWithMap(CefPostDataElement postData) {
         PostDataElement e = new PostDataElement(postData.isReadOnly());
-        if (postData.getType() == CefPostDataElementBase.Type.PDE_TYPE_FILE) {
+        if (postData.getType() == Type.PDE_TYPE_FILE) {
             e.file = postData.getFile();
-        } else if (postData.getType() == CefPostDataElementBase.Type.PDE_TYPE_BYTES) {
+        } else if (postData.getType() == Type.PDE_TYPE_BYTES) {
             byte[] buf = new byte[postData.getBytesCount()];
             postData.getBytes(postData.getBytesCount(), buf);
             e.bytes = ByteBuffer.wrap(buf);
@@ -70,6 +70,6 @@ public class RemotePostDataElement implements CefPostDataElement {
 
     @Override
     public String toString() {
-        return CefPostDataElementBase.toString(null, this);
+        return DebugFormatter.toString_PostDataElement(null, this);
     }
 }

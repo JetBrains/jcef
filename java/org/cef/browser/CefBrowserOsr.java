@@ -14,6 +14,7 @@ import com.jogamp.opengl.GLContext;
 import com.jogamp.opengl.GLEventListener;
 import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.awt.GLCanvas;
+import com.jogamp.opengl.util.GLBuffers;
 
 import org.cef.CefClient;
 import org.cef.CefClientImpl;
@@ -91,7 +92,7 @@ class CefBrowserOsr extends CefBrowser_N implements CefRenderHandler {
 
     private CefBrowserOsr(CefClient client, String url, boolean transparent,
             CefRequestContext context, CefBrowserOsr parent, Point inspectAt) {
-        super(client, url, context, parent, inspectAt);
+        super((CefClientImpl)client, url, context, parent, inspectAt);
         isTransparent_ = transparent;
         renderer_ = new CefRenderer(transparent);
         createGLCanvas();
@@ -433,10 +434,10 @@ class CefBrowserOsr extends CefBrowser_N implements CefRenderHandler {
 
         if (getNativeRef("CefBrowser") == 0) {
             if (getParentBrowser() != null) {
-                createDevTools(getParentBrowser(), (CefClientImpl)getClient(), windowHandle, true, isTransparent_,
+                createDevTools(getParentBrowser(), getClient(), windowHandle, true, isTransparent_,
                         null, getInspectAt());
             } else {
-                createBrowser((CefClientImpl)getClient(), windowHandle, getUrl(), true, isTransparent_, null);
+                createBrowser(getClient(), windowHandle, getUrl(), true, isTransparent_, null);
             }
         } else if (hasParent && justCreated_) {
             notifyAfterParentChanged();
@@ -448,7 +449,7 @@ class CefBrowserOsr extends CefBrowser_N implements CefRenderHandler {
     private void notifyAfterParentChanged() {
         // With OSR there is no native window to reparent but we still need to send the
         // notification.
-        ((CefClientImpl)getClient()).onAfterParentChanged(this);
+        getClient().onAfterParentChanged(this);
     }
 
     @Override
@@ -485,6 +486,45 @@ class CefBrowserOsr extends CefBrowser_N implements CefRenderHandler {
             public BufferedImage call() {
                 BufferedImage screenshot =
                         new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+                ByteBuffer buffer = GLBuffers.newDirectByteBuffer(width * height * 4);
+
+                gl.getContext().makeCurrent();
+                try {
+                    if (useReadPixels) {
+                        // If pixels are copied directly to the framebuffer, we also directly read
+                        // them back.
+                        gl.glReadPixels(
+                                0, 0, width, height, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE, buffer);
+                    } else {
+                        // In this case, read the texture pixel data from the previously-retrieved
+                        // texture ID
+                        gl.glEnable(GL.GL_TEXTURE_2D);
+                        gl.glBindTexture(GL.GL_TEXTURE_2D, textureId);
+                        gl.glGetTexImage(
+                                GL.GL_TEXTURE_2D, 0, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE, buffer);
+                        gl.glDisable(GL.GL_TEXTURE_2D);
+                    }
+                } finally {
+                    gl.getContext().release();
+                }
+
+                for (int y = 0; y < height; y++) {
+                    for (int x = 0; x < width; x++) {
+                        // The OpenGL functions only support RGBA, while Java BufferedImage uses
+                        // ARGB. We must convert.
+                        int r = (buffer.get() & 0xff);
+                        int g = (buffer.get() & 0xff);
+                        int b = (buffer.get() & 0xff);
+                        int a = (buffer.get() & 0xff);
+                        int argb = (a << 24) | (r << 16) | (g << 8) | (b << 0);
+                        // If pixels were read from the framebuffer, we have to flip the resulting
+                        // image on the Y axis, as the OpenGL framebuffer's y axis starts at the
+                        // bottom of the image pointing "upwards", while BufferedImage has the
+                        // origin in the upper left corner. This flipping is done when drawing into
+                        // the BufferedImage.
+                        screenshot.setRGB(x, useReadPixels ? (height - y - 1) : y, argb);
+                    }
+                }
 
                 if (!nativeResolution && scaleFactor_ != 1.0) {
                     // HiDPI images should be resized down to "normal" levels

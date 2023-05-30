@@ -22,7 +22,7 @@ public class TestRequestHandler implements CefRequestHandler, PersistentHandler 
 //                CefLog.Info("\trequest header map: ", map.toString());
 //                CefPostData pd = request.getPostData();
 //                CefLog.Info("\trequest post data: ", pd.toString());
-//                CefLog.Info("\trequest: %s", CefRequestBase.toString(request));
+//                CefLog.Info("\trequest: %s", CefRequest.toString(request));
         return false;
     }
 

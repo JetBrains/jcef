@@ -363,10 +363,8 @@ public class CefApp extends CefAppHandlerAdapter {
                     CefLog.Debug("CefApp: dispose clients before shutting down");
                     HashSet<CefClient> clients = new HashSet<CefClient>(clients_);
                     for (CefClient c : clients) {
-                        if (c instanceof CefClientImpl) {
-                            CefLog.Debug("CefApp: dispose %s", c);
-                            ((CefClientImpl)c).dispose();
-                        }
+                        CefLog.Debug("CefApp: dispose %s", c);
+                        c.dispose();
                     }
                 }
                 break;

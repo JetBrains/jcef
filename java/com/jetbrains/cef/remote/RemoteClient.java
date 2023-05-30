@@ -311,6 +311,9 @@ public class RemoteClient implements CefClient {
         CefLog.Debug("RemoteClient: dispose cid=%d bid=%d", myCid, myRemoteBrowser != null ? myRemoteBrowser.getBid() : -1);
 
         // 1. Cleanup routers
+        // NOTE: CefClientHandler implementation disposes all managed routers. But it seems to be
+        // incorrect: router is created outside of client and one router can be used by several clients. So it's better
+        // to dispose router as usual (inside finalize or manually (via dispose)) => just clean list here.
         msgRouters.clear();
 
         // 2. Cleanup rendering stuff
