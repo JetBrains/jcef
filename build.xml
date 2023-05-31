@@ -35,15 +35,28 @@
   </condition>
 
   <condition property="jcef.native.lib"
-             value="${out.path}/libjcef.dylib">
+             value="libjcef.dylib">
     <os family="mac"/>
   </condition>
   <condition property="jcef.native.lib"
-             value="${out.native.path}/libjcef.so">
+             value="libjcef.so">
     <os family="unix"/>
   </condition>
   <condition property="jcef.native.lib"
-             value="${out.native.path}/jcef.dll">
+             value="jcef.dll">
+    <os family="windows"/>
+  </condition>
+
+  <condition property="jcef.helpers.pattern"
+             value="helpers.tar.gz">
+    <os family="mac"/>
+  </condition>
+  <condition property="jcef.helpers.pattern"
+             value="jcef_helper">
+    <os family="unix"/>
+  </condition>
+  <condition property="jcef.helpers.pattern"
+             value="jcef_helper.exe">
     <os family="windows"/>
   </condition>
 
@@ -121,6 +134,10 @@
         <include name="org/cef/**"/>
         <include name="com/jetbrains/**"/>
         <include name="${include.module-info.class}"/>
+      </fileset>
+      <fileset dir="${out.native.path}">
+        <include name="${jcef.native.lib}"/>
+        <include name="${jcef.helpers.pattern}"/>
       </fileset>
     </jar>
     <jar destfile="${out.path}/jcef-sources.jar" index="true" update="false">

@@ -5,7 +5,7 @@ package com.jetbrains.cef;
 import org.cef.CefApp;
 import org.cef.CefSettings;
 import org.cef.OS;
-import org.cef.misc.CefLog;
+import org.cef.misc.Utils;
 
 import java.awt.*;
 import java.io.*;
@@ -104,43 +104,15 @@ public abstract class JCefAppConfig {
     private static class JCefAppConfigMac extends JCefAppConfig {
         @Override
         protected void init() {
-            String ALT_CEF_FRAMEWORK_DIR = System.getenv("ALT_CEF_FRAMEWORK_DIR");
-            String ALT_CEF_HELPER_APP_DIR = System.getenv("ALT_CEF_HELPER_APP_DIR");
-            if (ALT_CEF_FRAMEWORK_DIR == null || ALT_CEF_HELPER_APP_DIR == null) {
-                String CONTENTS_PATH = System.getProperty("java.home") + "/..";
-                if (ALT_CEF_FRAMEWORK_DIR == null) {
-                    ALT_CEF_FRAMEWORK_DIR = CONTENTS_PATH + "/Frameworks/Chromium Embedded Framework.framework";
-                }
-                if (ALT_CEF_HELPER_APP_DIR == null) {
-                    ALT_CEF_HELPER_APP_DIR = CONTENTS_PATH + "/Frameworks/jcef Helper.app";
-                }
-            }
-            appArgs.add("--framework-dir-path=" + normalize(ALT_CEF_FRAMEWORK_DIR));
-            appArgs.add("--browser-subprocess-path=" + normalize(ALT_CEF_HELPER_APP_DIR + "/Contents/MacOS/jcef Helper"));
-            appArgs.add("--main-bundle-path=" + normalize(ALT_CEF_HELPER_APP_DIR));
             appArgs.add("--disable-in-process-stack-traces");
             appArgs.add("--use-mock-keychain");
             appArgs.add("--disable-features=SpareRendererForSitePerProcess");
-        }
-
-        // CEF does not accept ".." in path
-        static String normalize(String path) {
-            try {
-                return new File(path).getCanonicalPath();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
         }
     }
 
     private static class JCefAppConfigWindows extends JCefAppConfig {
         @Override
         protected void init() {
-            String JCEF_LIB_PATH = System.getProperty("java.home") + "/lib";
-            String JCEF_BIN_PATH = System.getProperty("java.home") + "/bin";
-            cefSettings.resources_dir_path = JCEF_LIB_PATH;
-            cefSettings.locales_dir_path = JCEF_LIB_PATH + "/locales";
-            cefSettings.browser_subprocess_path = JCEF_BIN_PATH + "/jcef_helper";
             appArgs.add("--disable-features=SpareRendererForSitePerProcess");
         }
     }
@@ -148,10 +120,6 @@ public abstract class JCefAppConfig {
     private static class JCefAppConfigLinux extends JCefAppConfig {
         @Override
         protected void init() {
-            String JCEF_PATH = System.getProperty("java.home") + "/lib";
-            cefSettings.resources_dir_path = JCEF_PATH;
-            cefSettings.locales_dir_path = JCEF_PATH + "/locales";
-            cefSettings.browser_subprocess_path = JCEF_PATH + "/jcef_helper";
             double scale = getDeviceScaleFactor(null);
             appArgs.add("--force-device-scale-factor=" + scale);
             appArgs.add("--disable-features=SpareRendererForSitePerProcess");
