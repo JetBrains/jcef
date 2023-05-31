@@ -1,5 +1,9 @@
 package org.cef.misc;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Objects;
+
 public class Utils {
     public static boolean getBoolean(String varName) {
         if (Boolean.getBoolean(varName))
@@ -11,6 +15,7 @@ public class Utils {
 
         return sval.trim().toLowerCase().equals("true");
     }
+
     public static int getInteger(String varName, int defaultVal) {
         int valFromSystem = Integer.getInteger(varName, defaultVal);
         if (valFromSystem != defaultVal)
@@ -26,5 +31,27 @@ public class Utils {
             e.printStackTrace();
         }
         return defaultVal;
+    }
+
+    public static String getString(String varName) {
+        return getString(varName, null);
+    }
+
+    public static String getString(String varName, String defaultVal) {
+        String valFromSystem = System.getProperty(varName, null);
+        if (valFromSystem != null && !valFromSystem.isEmpty())
+            return valFromSystem;
+
+        String sval = System.getenv(varName);
+        return sval == null || sval.isEmpty() ? defaultVal : sval;
+    }
+
+    // CEF does not accept ".." in path
+    public static String normalizePath(String path) {
+        try {
+            return new File(path).getCanonicalPath();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

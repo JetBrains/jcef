@@ -22,6 +22,10 @@ public abstract class CefAppHandlerAdapter implements CefAppHandler {
         args_ = args;
     }
 
+    public void updateArgs(String[] args) {
+        args_ = args;
+    }
+
     @Override
     public void onBeforeCommandLineProcessing(String process_type, CefCommandLine command_line) {
         if (process_type.isEmpty() && args_ != null) {

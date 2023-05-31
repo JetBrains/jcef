@@ -23,6 +23,12 @@ git checkout tools/make_version_header.py
 echo "*** run cmake [TARGET=$TARGET_ARCH]..."
 cd "$OUT_DIR" || exit 1
 
+cmake_executable="cmake"
+if [ -n "${ALT_JCEF_CMAKE:-}" ]; then
+  echo "Use alt cmake $ALT_JCEF_CMAKE"
+  cmake_executable=$ALT_JCEF_CMAKE
+fi
+
 additional_cmake=""
 if [ -n "${CEF_VERSION:-}" ]; then
   additional_cmake="$additional_cmake -DCEF_VERSION=$CEF_VERSION"
@@ -32,7 +38,7 @@ if [ -n "${CEF_DONT_DOWNLOAD:-}" ]; then
   additional_cmake="$additional_cmake -DCEF_DONT_DOWNLOAD=$CEF_DONT_DOWNLOAD"
 fi
 
-cmake -G "Unix Makefiles" -DPROJECT_ARCH="$TARGET_ARCH" -DCMAKE_BUILD_TYPE=Release $additional_cmake ..
+$cmake_executable -G "Unix Makefiles" -DPROJECT_ARCH="$TARGET_ARCH" -DCMAKE_BUILD_TYPE=Release $additional_cmake ..
 
 echo "*** run make..."
 make -j4

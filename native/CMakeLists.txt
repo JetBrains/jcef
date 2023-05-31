@@ -329,6 +329,15 @@ if(OS_MAC)
   add_custom_command(
     TARGET ${JCEF_TARGET}
     POST_BUILD
+    # Pack helpers
+    COMMAND tar
+            -czvf ${CEF_TARGET_OUT_DIR}/helpers.tar.gz
+            -C ${CEF_TARGET_OUT_DIR}
+            "jcef Helper.app"
+            "jcef Helper (GPU).app"
+            "jcef Helper (Renderer).app"
+            "jcef Helper (Plugin).app"
+
     # Build the main app bundle.
     COMMAND ant
             -buildfile ${CMAKE_SOURCE_DIR}
@@ -398,7 +407,7 @@ if(OS_MAC)
               "${JCEF_APP}/Contents/Frameworks/${_helper_output_name}.app"
       VERBATIM
       )
-  endforeach()
+    endforeach()
 endif()
 
 

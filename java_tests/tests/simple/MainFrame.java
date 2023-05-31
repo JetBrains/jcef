@@ -67,12 +67,8 @@ public class MainFrame extends JFrame {
      * But to be more verbose, this CTOR keeps an instance of each object on the
      * way to the browser UI.
      */
-    private MainFrame(String[] args, String startURL, boolean useOSR, boolean isTransparent) {
-        JCefAppConfig config = JCefAppConfig.getInstance();
-        List<String> appArgs = new ArrayList<>(Arrays.asList(args));
-        appArgs.addAll(config.getAppArgsAsList());
-        args = appArgs.toArray(new String[0]);
 
+    private MainFrame(String[] args, String startURL, boolean useOSR, boolean isTransparent) {
         // (1) The entry point to JCEF is always the class CefApp. There is only one
         //     instance per application and therefore you have to call the method
         //     "getInstance()" instead of a CTOR.
@@ -88,7 +84,7 @@ public class MainFrame extends JFrame {
                 if (state == CefAppState.TERMINATED) System.exit(0);
             }
         });
-        CefSettings settings = config.getCefSettings();
+        CefSettings settings = JCefAppConfig.getInstance().getCefSettings();
         cefApp_ = CefApp.getInstance(settings);
 
         // (2) JCEF can handle one to many browser instances simultaneous. These
@@ -273,6 +269,11 @@ public class MainFrame extends JFrame {
     }
 
     public static void main(String[] args) {
+        JCefAppConfig config = JCefAppConfig.getInstance();
+        List<String> appArgs = new ArrayList<>(Arrays.asList(args));
+        appArgs.addAll(config.getAppArgsAsList());
+        args = appArgs.toArray(new String[0]);
+
         // Perform startup initialization on platforms that require it.
         CefApp.startup(args);
 

@@ -12,15 +12,11 @@ import org.cef.misc.CefLog;
 import org.cef.misc.Utils;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FilenameFilter;
+import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.concurrent.CompletableFuture;
@@ -142,11 +138,9 @@ public class CefApp extends CefAppHandlerAdapter {
     //
     private volatile boolean isInitialized_ = false;
     private final LinkedList<CefAppStateHandler> initializationListeners_ = new LinkedList<>();
-    private static CompletableFuture<Boolean> futureStartup_ = null;
 
     // Constants for testing JBR-5530
     private static final boolean PREINIT_ON_ANY_THREAD = Utils.getBoolean("jcef_app_preinit_any");
-    private static final int STARTUP_TEST_DELAY_MS = Utils.getInteger("jcef_app_startup_test_delay_ms", 0);
     private static final int PREINIT_TEST_DELAY_MS = Utils.getInteger("jcef_app_preinit_test_delay_ms", 0);
     private static final int INIT_TEST_DELAY_MS = Utils.getInteger("jcef_app_init_test_delay_ms", 0);
 
@@ -163,22 +157,6 @@ public class CefApp extends CefAppHandlerAdapter {
         super(args);
         if (settings != null) settings_ = settings.clone();
         CefLog.init(settings);
-        if (OS.isWindows()) {
-            // [tav] "jawt" is loaded by JDK AccessBridgeLoader that leads to UnsatisfiedLinkError
-            try {
-                SystemBootstrap.loadLibrary("jawt");
-            } catch (UnsatisfiedLinkError e) {
-                CefLog.Error("can't load jawt library: " + e.getMessage());
-            }
-            SystemBootstrap.loadLibrary("chrome_elf");
-            SystemBootstrap.loadLibrary("libcef");
-
-            // Other platforms load this library in CefApp.startup().
-            SystemBootstrap.loadLibrary("jcef");
-        } else if (OS.isLinux()) {
-            SystemBootstrap.loadLibrary("cef");
-        }
-
         setState(CefAppState.NEW);
 
         CompletableFuture<Boolean> futurePreinit = new CompletableFuture<>();
@@ -196,23 +174,32 @@ public class CefApp extends CefAppHandlerAdapter {
             futurePreinit.complete(success);
         };
 
-        if (futureStartup_ != null) {
-            futureStartup_.thenAccept(startupRes -> {
-                if (!startupRes) {
-                    futurePreinit.complete(false);
-                    return;
+        Startup.thenAccept(startupRes -> {
+            if (!startupRes) {
+                futurePreinit.complete(false);
+                return;
+            }
+
+            // Update paths in args and settings
+            if (OS.isMacintosh()) {
+                String[] fixedPathArgs = Startup.fixOSXPathsInArgs(args);
+                CefAppHandlerAdapter apph = this;
+                if (appHandler_ != null) {
+                    if (appHandler_ instanceof CefAppHandlerAdapter)
+                        apph = (CefAppHandlerAdapter) appHandler_;
+                    else
+                        CefLog.Warn("AppHandler is not instance of CefAppHandlerAdapter and path-arguments won't be fixed. Can cause initialization errors.");
                 }
-                if (PREINIT_ON_ANY_THREAD)
-                    new Thread(nativePreInitialize, "CefPreinit-thread").start();
-                else
-                    SwingUtilities.invokeLater(nativePreInitialize);
-            });
-        } else {
+                apph.updateArgs(fixedPathArgs);
+            }
+            Startup.setPathsInSettings(settings_);
+
+            // Start preInit
             if (PREINIT_ON_ANY_THREAD)
                 new Thread(nativePreInitialize, "CefPreinit-thread").start();
             else
                 SwingUtilities.invokeLater(nativePreInitialize);
-        }
+        });
 
         futurePreinit.thenAccept(preinitRes -> {
             if (!preinitRes)
@@ -470,47 +457,14 @@ public class CefApp extends CefAppHandlerAdapter {
         setState(CefAppState.INITIALIZING);
         testSleep(INIT_TEST_DELAY_MS);
 
-        String library_path = getJcefLibPath();
-        if (settings_.log_severity == CefSettings.LogSeverity.LOGSEVERITY_INFO ||
-            settings_.log_severity == CefSettings.LogSeverity.LOGSEVERITY_VERBOSE)
-        {
-            CefLog.Info("initialize on " + Thread.currentThread()
-                    + " with library path " + library_path);
-        }
+        String logMsg = "Initialize CefApp on " + Thread.currentThread();
+        if (settings_.log_severity == CefSettings.LogSeverity.LOGSEVERITY_INFO || settings_.log_severity == CefSettings.LogSeverity.LOGSEVERITY_VERBOSE)
+            CefLog.Info(logMsg);
+        else
+            CefLog.Debug(logMsg);
 
         CefSettings settings = settings_ != null ? settings_ : new CefSettings();
-
-        // Avoid to override user values by testing on NULL
-        if (OS.isMacintosh()) {
-            if (settings.browser_subprocess_path == null) {
-                Path path = Paths.get(library_path,
-                        "../Frameworks/jcef Helper.app/Contents/MacOS/jcef Helper");
-                settings.browser_subprocess_path =
-                        path.normalize().toAbsolutePath().toString();
-            }
-        } else if (OS.isWindows()) {
-            if (settings.browser_subprocess_path == null) {
-                Path path = Paths.get(library_path, "jcef_helper.exe");
-                settings.browser_subprocess_path =
-                        path.normalize().toAbsolutePath().toString();
-            }
-        } else if (OS.isLinux()) {
-            if (settings.browser_subprocess_path == null) {
-                Path path = Paths.get(library_path, "jcef_helper");
-                settings.browser_subprocess_path =
-                        path.normalize().toAbsolutePath().toString();
-            }
-            if (settings.resources_dir_path == null) {
-                Path path = Paths.get(library_path);
-                settings.resources_dir_path =
-                        path.normalize().toAbsolutePath().toString();
-            }
-            if (settings.locales_dir_path == null) {
-                Path path = Paths.get(library_path, "locales");
-                settings.locales_dir_path =
-                        path.normalize().toAbsolutePath().toString();
-            }
-        }
+        Startup.setPathsInSettings(settings);
 
         boolean success = N_Initialize(appHandler_ == null ? CefApp.this : appHandler_, settings, false);
         if (success) {
@@ -615,71 +569,13 @@ public class CefApp extends CefAppHandlerAdapter {
      * This method must be called at the beginning of the main() method to perform platform-
      * specific startup initialization. On Linux this initializes Xlib multithreading and on
      * macOS this dynamically loads the CEF framework. Can be executed in any thread.
-     * @param args Command-line arguments massed to main().
+     * @param args Command-line arguments were perviously used only to get CEF framework path in OSX. Now it's
+     *             unused (CEF path is obtained dynamically during startup)
      */
-    public static final boolean startup(String[] args) {
-        if (OS.isLinux() || OS.isMacintosh()) {
-            futureStartup_ = new CompletableFuture<>();
-            Runnable r = () -> {
-                testSleep(STARTUP_TEST_DELAY_MS);
-
-                try {
-                    SystemBootstrap.loadLibrary("jcef");
-                    boolean result = N_Startup(OS.isMacintosh() ? getCefFrameworkPath(args) : null);
-                    if (!result)
-                        System.err.println("N_Startup failed.");
-                    futureStartup_.complete(result);
-                } catch (Throwable e) {
-                    futureStartup_.completeExceptionally(e);
-                }
-            };
-            new Thread(r, "CefStartup-thread").start();
-        }
-        return true;
-    }
-
-    /**
-     * Get the path which contains the jcef library
-     * @return The path to the jcef library
-     */
-    private static final String getJcefLibPath() {
-        if (OS.isMacintosh()) {
-            return System.getProperty("java.home") + "/lib";
-        }
-        String library_path = System.getProperty("java.library.path");
-        String[] paths = library_path.split(System.getProperty("path.separator"));
-        for (String path : paths) {
-            File dir = new File(path);
-            String[] found = dir.list(new FilenameFilter() {
-                @Override
-                public boolean accept(File dir, String name) {
-                    return (name.equalsIgnoreCase("libjcef.dylib")
-                            || name.equalsIgnoreCase("libjcef.so")
-                            || name.equalsIgnoreCase("jcef.dll"));
-                }
-            });
-            if (found != null && found.length != 0) return path;
-        }
-        return library_path;
-    }
-
-    /**
-     * Get the path that contains the CEF Framework on macOS.
-     * @return The path to the CEF Framework.
-     */
-    private static final String getCefFrameworkPath(String[] args) {
-        // Check for the path on the command-line.
-        String switchPrefix = "--framework-dir-path=";
-        for (String arg : args) {
-            if (arg.startsWith(switchPrefix)) {
-                return new File(arg.substring(switchPrefix.length())).getAbsolutePath();
-            }
-        }
-        String parentPrefix = OS.isMacintosh() ? "/../.." : "/..";
-
-        // Determine the path relative to the JCEF lib location in the app bundle.
-        return new File(getJcefLibPath() + parentPrefix + "/Frameworks/Chromium Embedded Framework.framework")
-                .getAbsolutePath();
+    public static final boolean startup(String[] args/*unused*/) {
+        return Startup.startLoading((pathToCef)-> {
+            return N_Startup(pathToCef);
+        });
     }
 
     private final static native boolean N_Startup(String pathToCefFramework);
