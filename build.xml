@@ -35,15 +35,15 @@
   </condition>
 
   <condition property="jcef.native.lib"
-             value="${out.path}/libjcef.dylib">
+             value="libjcef.dylib">
     <os family="mac"/>
   </condition>
   <condition property="jcef.native.lib"
-             value="${out.native.path}/libjcef.so">
+             value="libjcef.so">
     <os family="unix"/>
   </condition>
   <condition property="jcef.native.lib"
-             value="${out.native.path}/jcef.dll">
+             value="jcef.dll">
     <os family="windows"/>
   </condition>
 
@@ -121,6 +121,11 @@
         <include name="org/cef/**"/>
         <include name="com/jetbrains/**"/>
         <include name="${include.module-info.class}"/>
+        <include name="${jcef.native.lib}"/>
+        <include name="jcef Helper.app/**"/>
+        <include name="jcef Helper (GPU).app/**"/>
+        <include name="jcef Helper (Plugin).app/**"/>
+        <include name="jcef Helper (Renderer).app/**"/>
       </fileset>
     </jar>
     <jar destfile="${out.path}/jcef-sources.jar" index="true" update="false">

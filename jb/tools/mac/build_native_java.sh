@@ -28,14 +28,5 @@ xcodebuild -configuration ${CEF_BUILD_TYPE}
 
 echo "*** change @rpath in libjcef.dylib..."
 cd "$OUT_DIR"/native/${CEF_BUILD_TYPE} || exit 1
-install_name_tool -change @rpath/libjvm.dylib @loader_path/server/libjvm.dylib libjcef.dylib
-install_name_tool -change @rpath/libjawt.dylib @loader_path/libjawt.dylib libjcef.dylib
-
-if [ "$TARGET_ARCH" == "arm64" ]; then
-  if otool -L libjcef.dylib | grep -q JavaNativeFoundation; then
-    JNF_RPATH="$(otool -L libjcef.dylib | grep JavaNativeFoundation | awk '{print $1}')"
-    install_name_tool -change "$JNF_RPATH" @loader_path/../../Frameworks/JavaNativeFoundation.framework/JavaNativeFoundation libjcef.dylib
-  fi
-fi
 
 cp libjcef.dylib jcef_app.app/Contents/Java
