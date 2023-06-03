@@ -116,15 +116,15 @@ public abstract class JCefAppConfig {
         protected void init() {
             String ALT_CEF_FRAMEWORK_DIR = Utils.getString("ALT_CEF_FRAMEWORK_DIR");
             String ALT_CEF_HELPER_APP_DIR = Utils.getString("ALT_CEF_HELPER_APP_DIR");
-            if (ALT_CEF_FRAMEWORK_DIR == null || ALT_CEF_HELPER_APP_DIR == null) {
+            if (ALT_CEF_FRAMEWORK_DIR == null) {
                 String CONTENTS_PATH = System.getProperty("java.home") + "/..";
-                if (ALT_CEF_FRAMEWORK_DIR == null) {
-                    ALT_CEF_FRAMEWORK_DIR = CONTENTS_PATH + "/Frameworks/Chromium Embedded Framework.framework";
-                }
-                if (ALT_CEF_HELPER_APP_DIR == null) {
+                ALT_CEF_FRAMEWORK_DIR = CONTENTS_PATH + "/Frameworks/Chromium Embedded Framework.framework";
+                if (ALT_CEF_HELPER_APP_DIR == null)
                     ALT_CEF_HELPER_APP_DIR = CONTENTS_PATH + "/Frameworks/jcef Helper.app";
-                }
+            } else if (ALT_CEF_HELPER_APP_DIR == null) {
+                ALT_CEF_HELPER_APP_DIR = ALT_CEF_FRAMEWORK_DIR;
             }
+
             appArgs.add("--framework-dir-path=" + normalize(ALT_CEF_FRAMEWORK_DIR));
             appArgs.add("--browser-subprocess-path=" + normalize(ALT_CEF_HELPER_APP_DIR + "/Contents/MacOS/jcef Helper"));
             appArgs.add("--main-bundle-path=" + normalize(ALT_CEF_HELPER_APP_DIR));
@@ -150,14 +150,13 @@ public abstract class JCefAppConfig {
         @Override
         protected void init() {
             String ALT_CEF_FRAMEWORK_DIR = Utils.getString("ALT_CEF_FRAMEWORK_DIR");
-            String ALT_CEF_HELPER_APP_DIR = Utils.getString("ALT_CEF_HELPER_APP_DIR");
             String JCEF_PATH;
             String JCEF_HELPER_PATH;
-            if (ALT_CEF_FRAMEWORK_DIR == null || ALT_CEF_HELPER_APP_DIR == null) {
+            if (ALT_CEF_FRAMEWORK_DIR == null) {
                 JCEF_HELPER_PATH = JCEF_PATH = System.getProperty("java.home") + "/lib";
             } else {
                 JCEF_PATH = ALT_CEF_FRAMEWORK_DIR;
-                JCEF_HELPER_PATH = ALT_CEF_HELPER_APP_DIR;
+                JCEF_HELPER_PATH = Utils.getString("ALT_CEF_HELPER_APP_DIR", ALT_CEF_FRAMEWORK_DIR);
             }
             cefSettings.resources_dir_path = JCEF_PATH;
             cefSettings.locales_dir_path = JCEF_PATH + "/locales";

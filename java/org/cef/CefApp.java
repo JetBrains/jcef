@@ -27,6 +27,7 @@ import java.util.concurrent.CompletableFuture;
  */
 public class CefApp extends CefAppHandlerAdapter {
     private static final String ALT_CEF_FRAMEWORK_DIR = Utils.getString("ALT_CEF_FRAMEWORK_DIR");
+    private static final String ALT_CEF_HELPER_APP_DIR = Utils.getString("ALT_CEF_HELPER_APP_DIR");
     private static final String ALT_JCEF_LIB_DIR = Utils.getString("ALT_JCEF_LIB_DIR");
 
     public final class CefVersion {
@@ -168,20 +169,13 @@ public class CefApp extends CefAppHandlerAdapter {
             try {
                 SystemBootstrap.loadLibrary("jawt");
             } catch (UnsatisfiedLinkError e) {
-                CefLog.Error("can't load jawt library: " + e.getMessage());
+                CefLog.Error("Can't load jawt library, error: " + e.getMessage());
             }
             SystemBootstrap.loadLibrary("chrome_elf");
             SystemBootstrap.loadLibrary("libcef");
 
             // Other platforms load this library in CefApp.startup().
             SystemBootstrap.loadLibrary("jcef");
-        } else if (OS.isLinux()) {
-            if (ALT_CEF_FRAMEWORK_DIR != null && !ALT_CEF_FRAMEWORK_DIR.isEmpty()) {
-                String pathToCef = ALT_CEF_FRAMEWORK_DIR + "/libcef.so";
-                CefLog.Info("Load CEF by path '%s'", pathToCef);
-                System.load(pathToCef);
-            } else
-                SystemBootstrap.loadLibrary("cef");
         }
 
         setState(CefAppState.NEW);
@@ -670,6 +664,28 @@ public class CefApp extends CefAppHandlerAdapter {
                     }
 
                     if (!loaded) {
+                        if (OS.isLinux()) {
+                            try {
+                                SystemBootstrap.loadLibrary("jawt");
+                            } catch (UnsatisfiedLinkError e) {
+                                CefLog.Error("Can't load jawt library: %s", e.getMessage());
+                                futureStartup_.complete(false);
+                                return;
+                            }
+                            try {
+                                if (ALT_CEF_FRAMEWORK_DIR != null && !ALT_CEF_FRAMEWORK_DIR.isEmpty()) {
+                                    String pathToCef = ALT_CEF_FRAMEWORK_DIR + "/libcef.so";
+                                    CefLog.Info("Load CEF by path '%s'", pathToCef);
+                                    System.load(pathToCef);
+                                } else
+                                    SystemBootstrap.loadLibrary("cef");
+                            } catch (Throwable e) {
+                                CefLog.Error("Can't load libcef, error: %s", e.getMessage());
+                                futureStartup_.complete(false);
+                                return;
+                            }
+                        }
+
                         // Use libjcef from jar (or custom location).
                         String tmpLibDir;
                         URL url = CefApp.class.getResource("CefApp.class");
@@ -693,12 +709,15 @@ public class CefApp extends CefAppHandlerAdapter {
                                 CefLog.Info("Extract native lib into temp dir: " + tmpLibDir);
                                 boolean success = unpackFromJar(libjcef, tmpLibDir);
                                 if (success) {
-                                    String helper = OS.isMacintosh() ? "jcef Helper" : "jcef_helper";
-                                    // TODO: fix names under linux
-                                    unpackFromJar(helper + ".app", tmpLibDir);
-                                    unpackFromJar(helper + " (Plugin).app", tmpLibDir);
-                                    unpackFromJar(helper + " (Renderer).app", tmpLibDir);
-                                    unpackFromJar(helper + " (GPU).app", tmpLibDir);
+                                    if (OS.isLinux())
+                                        unpackFromJar("jcef_helper", tmpLibDir);
+                                    else {
+                                        String hprefix = "jcef Helper";
+                                        unpackFromJar(hprefix + ".app", tmpLibDir);
+                                        unpackFromJar(hprefix + " (Plugin).app", tmpLibDir);
+                                        unpackFromJar(hprefix + " (Renderer).app", tmpLibDir);
+                                        unpackFromJar(hprefix + " (GPU).app", tmpLibDir);
+                                    }
                                 }
                             }
                         }

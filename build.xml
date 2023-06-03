@@ -47,6 +47,19 @@
     <os family="windows"/>
   </condition>
 
+  <condition property="jcef.helpers.pattern"
+             value="jcef Helper*.app/**">
+    <os family="mac"/>
+  </condition>
+  <condition property="jcef.helpers.pattern"
+             value="jcef_helper">
+    <os family="unix"/>
+  </condition>
+  <condition property="jcef.helpers.pattern"
+             value="jcef_helper.exe">
+    <os family="windows"/>
+  </condition>
+
   <condition property="modular-sdk.module-info.java.path"
              value="jb/tools/common/module-info-aarch64.java"
              else="java/module-info.java">
@@ -121,11 +134,10 @@
         <include name="org/cef/**"/>
         <include name="com/jetbrains/**"/>
         <include name="${include.module-info.class}"/>
+      </fileset>
+      <fileset dir="${out.native.path}">
         <include name="${jcef.native.lib}"/>
-        <include name="jcef Helper.app/**"/>
-        <include name="jcef Helper (GPU).app/**"/>
-        <include name="jcef Helper (Plugin).app/**"/>
-        <include name="jcef Helper (Renderer).app/**"/>
+        <include name="${jcef.helpers.pattern}"/>
       </fileset>
     </jar>
     <jar destfile="${out.path}/jcef-sources.jar" index="true" update="false">
