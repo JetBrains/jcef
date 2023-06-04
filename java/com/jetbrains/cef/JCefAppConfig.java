@@ -137,8 +137,17 @@ public abstract class JCefAppConfig {
     private static class JCefAppConfigWindows extends JCefAppConfig {
         @Override
         protected void init() {
-            String JCEF_LIB_PATH = System.getProperty("java.home") + "/lib";
-            String JCEF_BIN_PATH = System.getProperty("java.home") + "/bin";
+            String ALT_CEF_FRAMEWORK_DIR = Utils.getString("ALT_CEF_FRAMEWORK_DIR");
+            String JCEF_LIB_PATH;
+            String JCEF_BIN_PATH;
+            if (ALT_CEF_FRAMEWORK_DIR == null) {
+                JCEF_LIB_PATH = System.getProperty("java.home") + "/lib";
+                JCEF_BIN_PATH = System.getProperty("java.home") + "/bin";
+            } else {
+                JCEF_LIB_PATH = ALT_CEF_FRAMEWORK_DIR;
+                JCEF_BIN_PATH = Utils.getString("ALT_CEF_HELPER_APP_DIR", ALT_CEF_FRAMEWORK_DIR);
+            }
+
             cefSettings.resources_dir_path = JCEF_LIB_PATH;
             cefSettings.locales_dir_path = JCEF_LIB_PATH + "/locales";
             cefSettings.browser_subprocess_path = JCEF_BIN_PATH + "/jcef_helper";

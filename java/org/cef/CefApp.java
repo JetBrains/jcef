@@ -134,6 +134,7 @@ public class CefApp extends CefAppHandlerAdapter {
     private static CefApp self = null;
     private static CefAppHandler appHandler_ = null;
     private static CefAppState state_ = CefAppState.NONE;
+    private static String browser_subprocess_path_ = null;
     private Timer workTimer_ = null;
     private HashSet<CefClient> clients_ = new HashSet<CefClient>();
     private CefSettings settings_ = null;
@@ -164,20 +165,6 @@ public class CefApp extends CefAppHandlerAdapter {
         super(args);
         if (settings != null) settings_ = settings.clone();
         CefLog.init(settings);
-        if (OS.isWindows()) {
-            // [tav] "jawt" is loaded by JDK AccessBridgeLoader that leads to UnsatisfiedLinkError
-            try {
-                SystemBootstrap.loadLibrary("jawt");
-            } catch (UnsatisfiedLinkError e) {
-                CefLog.Error("Can't load jawt library, error: " + e.getMessage());
-            }
-            SystemBootstrap.loadLibrary("chrome_elf");
-            SystemBootstrap.loadLibrary("libcef");
-
-            // Other platforms load this library in CefApp.startup().
-            SystemBootstrap.loadLibrary("jcef");
-        }
-
         setState(CefAppState.NEW);
 
         CompletableFuture<Boolean> futurePreinit = new CompletableFuture<>();
@@ -195,23 +182,16 @@ public class CefApp extends CefAppHandlerAdapter {
             futurePreinit.complete(success);
         };
 
-        if (futureStartup_ != null) {
-            futureStartup_.thenAccept(startupRes -> {
-                if (!startupRes) {
-                    futurePreinit.complete(false);
-                    return;
-                }
-                if (PREINIT_ON_ANY_THREAD)
-                    new Thread(nativePreInitialize, "CefPreinit-thread").start();
-                else
-                    SwingUtilities.invokeLater(nativePreInitialize);
-            });
-        } else {
+        futureStartup_.thenAccept(startupRes -> {
+            if (!startupRes) {
+                futurePreinit.complete(false);
+                return;
+            }
             if (PREINIT_ON_ANY_THREAD)
                 new Thread(nativePreInitialize, "CefPreinit-thread").start();
             else
                 SwingUtilities.invokeLater(nativePreInitialize);
-        }
+        });
 
         futurePreinit.thenAccept(preinitRes -> {
             if (!preinitRes)
@@ -469,9 +449,7 @@ public class CefApp extends CefAppHandlerAdapter {
         setState(CefAppState.INITIALIZING);
         testSleep(INIT_TEST_DELAY_MS);
 
-        String library_path = getJcefLibPath();
-        String logMsg = "Initialize CefApp on " + Thread.currentThread()
-                + " with library path " + library_path;
+        String logMsg = "Initialize CefApp on " + Thread.currentThread();
         if (settings_.log_severity == CefSettings.LogSeverity.LOGSEVERITY_INFO || settings_.log_severity == CefSettings.LogSeverity.LOGSEVERITY_VERBOSE)
             CefLog.Info(logMsg);
         else
@@ -479,40 +457,53 @@ public class CefApp extends CefAppHandlerAdapter {
 
         CefSettings settings = settings_ != null ? settings_ : new CefSettings();
 
-        // Avoid to override user values by testing on NULL
-        if (OS.isMacintosh()) {
-            if (settings.browser_subprocess_path == null) {
-                Path path = Paths.get(library_path,
-                        "../Frameworks/jcef Helper.app/Contents/MacOS/jcef Helper");
-                settings.browser_subprocess_path =
-                        path.normalize().toAbsolutePath().toString();
-                CefLog.Debug("Use default browser_subprocess_path: %s", settings.browser_subprocess_path);
-            }
-        } else if (OS.isWindows()) {
-            if (settings.browser_subprocess_path == null) {
-                Path path = Paths.get(library_path, "jcef_helper.exe");
-                settings.browser_subprocess_path =
-                        path.normalize().toAbsolutePath().toString();
-                CefLog.Debug("Use default browser_subprocess_path: %s", settings.browser_subprocess_path);
-            }
-        } else if (OS.isLinux()) {
-            if (settings.browser_subprocess_path == null) {
-                Path path = Paths.get(library_path, "jcef_helper");
-                settings.browser_subprocess_path =
-                        path.normalize().toAbsolutePath().toString();
-                CefLog.Debug("Use default browser_subprocess_path: %s", settings.browser_subprocess_path);
-            }
-            if (settings.resources_dir_path == null) {
-                Path path = Paths.get(library_path);
-                settings.resources_dir_path =
-                        path.normalize().toAbsolutePath().toString();
-                CefLog.Debug("Use default resources_dir_path: %s", settings.browser_subprocess_path);
-            }
-            if (settings.locales_dir_path == null) {
-                Path path = Paths.get(library_path, "locales");
-                settings.locales_dir_path =
-                        path.normalize().toAbsolutePath().toString();
-                CefLog.Debug("Use default locales_dir_path: %s", settings.browser_subprocess_path);
+        if (browser_subprocess_path_ != null) {
+            if (OS.isMacintosh())
+                settings.browser_subprocess_path = browser_subprocess_path_ + "/jcef Helper.app/Contents/MacOS/jcef Helper";
+            else if (OS.isLinux())
+                settings.browser_subprocess_path = browser_subprocess_path_ + "/jcef_helper";
+            else if (OS.isWindows())
+                settings.browser_subprocess_path = browser_subprocess_path_ + "/jcef_helper.exe";
+
+            CefLog.Debug("Use custom browser_subprocess_path: %s", settings.browser_subprocess_path);
+        } else {
+            // Avoid to override user values by testing on NULL
+            // TODO: move into SettingsHelper
+            String library_path = getJcefLibPath();
+            if (OS.isMacintosh()) {
+                if (settings.browser_subprocess_path == null) {
+                    Path path = Paths.get(library_path,
+                            "../Frameworks/jcef Helper.app/Contents/MacOS/jcef Helper");
+                    settings.browser_subprocess_path =
+                            path.normalize().toAbsolutePath().toString();
+                    CefLog.Debug("Use default browser_subprocess_path: %s", settings.browser_subprocess_path);
+                }
+            } else if (OS.isWindows()) {
+                if (settings.browser_subprocess_path == null) {
+                    Path path = Paths.get(library_path, "jcef_helper.exe");
+                    settings.browser_subprocess_path =
+                            path.normalize().toAbsolutePath().toString();
+                    CefLog.Debug("Use default browser_subprocess_path: %s", settings.browser_subprocess_path);
+                }
+            } else if (OS.isLinux()) {
+                if (settings.browser_subprocess_path == null) {
+                    Path path = Paths.get(library_path, "jcef_helper");
+                    settings.browser_subprocess_path =
+                            path.normalize().toAbsolutePath().toString();
+                    CefLog.Debug("Use default browser_subprocess_path: %s", settings.browser_subprocess_path);
+                }
+                if (settings.resources_dir_path == null) {
+                    Path path = Paths.get(library_path);
+                    settings.resources_dir_path =
+                            path.normalize().toAbsolutePath().toString();
+                    CefLog.Debug("Use default resources_dir_path: %s", settings.browser_subprocess_path);
+                }
+                if (settings.locales_dir_path == null) {
+                    Path path = Paths.get(library_path, "locales");
+                    settings.locales_dir_path =
+                            path.normalize().toAbsolutePath().toString();
+                    CefLog.Debug("Use default locales_dir_path: %s", settings.browser_subprocess_path);
+                }
             }
         }
 
@@ -641,6 +632,28 @@ public class CefApp extends CefAppHandlerAdapter {
         return true;
     }
 
+    private static void loadCEF() {
+        // NOTE: In OSX framework is loaded inside N_Startup
+        if (ALT_CEF_FRAMEWORK_DIR != null && !ALT_CEF_FRAMEWORK_DIR.isEmpty()) {
+            String libname = OS.isLinux() ? "libcef.so" : "libcef.dll";
+            String pathToCef = ALT_CEF_FRAMEWORK_DIR + "/" + libname;
+            CefLog.Info("Load CEF by path '%s'", pathToCef);
+            if (OS.isLinux()) {
+                System.load(pathToCef);
+            } else {
+                System.load(ALT_CEF_FRAMEWORK_DIR + "/chrome_elf.dll");
+                System.load(pathToCef);
+            }
+        } else {
+            if (OS.isLinux()) {
+                SystemBootstrap.loadLibrary("cef");
+            } else {
+                SystemBootstrap.loadLibrary("chrome_elf");
+                SystemBootstrap.loadLibrary("libcef");
+            }
+        }
+    }
+
     /**
      * This method must be called at the beginning of the main() method to perform platform-
      * specific startup initialization. On Linux this initializes Xlib multithreading and on
@@ -648,99 +661,111 @@ public class CefApp extends CefAppHandlerAdapter {
      * @param args Command-line arguments massed to main().
      */
     public static final boolean startup(String[] args) {
-        if (OS.isLinux() || OS.isMacintosh()) {
-            futureStartup_ = new CompletableFuture<>();
-            Runnable r = () -> {
-                testSleep(STARTUP_TEST_DELAY_MS);
+        futureStartup_ = new CompletableFuture<>();
+        Runnable r = () -> {
+            testSleep(STARTUP_TEST_DELAY_MS);
+            if (OS.isWindows()) {
+                // [tav] "jawt" is loaded by JDK AccessBridgeLoader that leads to UnsatisfiedLinkError
                 try {
-                    // At first check libjcef is in jbr.
-                    final String libjcef = OS.isLinux() ? "libjcef.so" : "libjcef.dylib";
-                    boolean loaded = false;
-                    try {
-                        SystemBootstrap.loadLibrary("jcef");
-                        loaded = true;
-                    } catch (Throwable e) {
-                        CefLog.Info("Shared jcef library isn't bundled with runtime (error: %s). Will be used %s from jcef.jar", e.getMessage(), libjcef);
+                    SystemBootstrap.loadLibrary("jawt");
+                } catch (UnsatisfiedLinkError e) {
+                    CefLog.Error("Can't load jawt library, error: " + e.getMessage());
+                }
+                try {
+                    loadCEF();
+                } catch (Throwable e) {
+                    CefLog.Error("Can't load CEF library, error: " + e.getMessage());
+                    futureStartup_.complete(false);
+                    return;
+                }
+            }
+
+            try {
+                // At first check libjcef is in jbr.
+                final String libjcef = OS.isLinux() ? "libjcef.so" : (OS.isMacintosh() ? "libjcef.dylib" : "jcef.dll");
+                boolean loaded = false;
+                try {
+                    SystemBootstrap.loadLibrary("jcef");
+                    loaded = true;
+                } catch (Throwable e) {
+                    CefLog.Info("Shared jcef library isn't bundled with runtime (error: %s). Will be used %s from jcef.jar", e.getMessage(), libjcef);
+                }
+
+                if (!loaded) {
+                    if (OS.isLinux()) {
+                        try {
+                            SystemBootstrap.loadLibrary("jawt");
+                        } catch (UnsatisfiedLinkError e) {
+                            CefLog.Error("Can't load jawt library: %s", e.getMessage());
+                            futureStartup_.complete(false);
+                            return;
+                        }
+                        try {
+                            loadCEF();
+                        } catch (Throwable e) {
+                            CefLog.Error("Can't load libcef, error: %s", e.getMessage());
+                            futureStartup_.complete(false);
+                            return;
+                        }
                     }
 
-                    if (!loaded) {
-                        if (OS.isLinux()) {
-                            try {
-                                SystemBootstrap.loadLibrary("jawt");
-                            } catch (UnsatisfiedLinkError e) {
-                                CefLog.Error("Can't load jawt library: %s", e.getMessage());
-                                futureStartup_.complete(false);
-                                return;
-                            }
-                            try {
-                                if (ALT_CEF_FRAMEWORK_DIR != null && !ALT_CEF_FRAMEWORK_DIR.isEmpty()) {
-                                    String pathToCef = ALT_CEF_FRAMEWORK_DIR + "/libcef.so";
-                                    CefLog.Info("Load CEF by path '%s'", pathToCef);
-                                    System.load(pathToCef);
-                                } else
-                                    SystemBootstrap.loadLibrary("cef");
-                            } catch (Throwable e) {
-                                CefLog.Error("Can't load libcef, error: %s", e.getMessage());
-                                futureStartup_.complete(false);
-                                return;
-                            }
+                    // Use libjcef from jar (or custom location).
+                    String tmpLibDir;
+                    URL url = CefApp.class.getResource("CefApp.class");
+                    if (url == null || !url.toString().contains(".jar")) {
+                        // CefApp wasn't loaded from jar (for example from compiled classes), so try load
+                        // libjcef from custom location (for example, for debugging).
+                        if (ALT_JCEF_LIB_DIR == null || ALT_JCEF_LIB_DIR.isEmpty()) {
+                            CefLog.Error("Can't locate libjcef.");
+                            futureStartup_.complete(false);
+                            return;
                         }
-
-                        // Use libjcef from jar (or custom location).
-                        String tmpLibDir;
-                        URL url = CefApp.class.getResource("CefApp.class");
-                        if (url == null || !url.toString().contains(".jar")) {
-                            // CefApp wasn't loaded from jar (for example from compiled classes), so try load
-                            // libjcef from custom location (for example, for debugging).
-                            if (ALT_JCEF_LIB_DIR == null || ALT_JCEF_LIB_DIR.isEmpty()) {
-                                CefLog.Error("Can't locate libjcef.");
-                                futureStartup_.complete(false);
-                                return;
-                            }
-                            tmpLibDir = ALT_JCEF_LIB_DIR;
-                            CefLog.Info("Load %s from dir %s.", libjcef, tmpLibDir);
+                        tmpLibDir = ALT_JCEF_LIB_DIR;
+                        CefLog.Info("Load %s from dir %s.", libjcef, tmpLibDir);
+                    } else {
+                        // Check that already was extracted (unpack if necessary).
+                        tmpLibDir = System.getProperty("java.io.tmpdir");
+                        File tmpLib = new File(tmpLibDir + "/" + libjcef);
+                        if (tmpLib.exists() && tmpLib.isFile()) {
+                            CefLog.Info("Use previously extracted %s in dir: %s", libjcef, tmpLibDir);
                         } else {
-                            // Check that already was extracted (unpack if necessary).
-                            tmpLibDir = System.getProperty("java.io.tmpdir");
-                            File tmpLib = new File(tmpLibDir + "/" + libjcef);
-                            if (tmpLib.exists() && tmpLib.isFile()) {
-                                CefLog.Info("Use previously extracted %s in dir: %s", libjcef, tmpLibDir);
-                            } else {
-                                CefLog.Info("Extract native lib into temp dir: " + tmpLibDir);
-                                boolean success = unpackFromJar(libjcef, tmpLibDir);
-                                if (success) {
-                                    if (OS.isLinux())
-                                        unpackFromJar("jcef_helper", tmpLibDir);
-                                    else {
-                                        String hprefix = "jcef Helper";
-                                        unpackFromJar(hprefix + ".app", tmpLibDir);
-                                        unpackFromJar(hprefix + " (Plugin).app", tmpLibDir);
-                                        unpackFromJar(hprefix + " (Renderer).app", tmpLibDir);
-                                        unpackFromJar(hprefix + " (GPU).app", tmpLibDir);
-                                    }
+                            CefLog.Info("Extract native lib into temp dir: " + tmpLibDir);
+                            boolean success = unpackFromJar(libjcef, tmpLibDir);
+                            if (success) {
+                                if (OS.isLinux())
+                                    unpackFromJar("jcef_helper", tmpLibDir);
+                                else if (OS.isMacintosh()) {
+                                    String hprefix = "jcef Helper";
+                                    unpackFromJar(hprefix + ".app", tmpLibDir);
+                                    unpackFromJar(hprefix + " (Plugin).app", tmpLibDir);
+                                    unpackFromJar(hprefix + " (Renderer).app", tmpLibDir);
+                                    unpackFromJar(hprefix + " (GPU).app", tmpLibDir);
+                                } else if (OS.isWindows()) {
+                                    unpackFromJar("jcef_helper.exe", tmpLibDir);
                                 }
                             }
                         }
-
-                        String libPath = tmpLibDir + "/" + libjcef;
-                        try {
-                            System.load(libPath);
-                        } catch (Throwable e) {
-                            CefLog.Info("Shared jcef library wasn't loaded, path: '%s'. Error: %s", libPath, e.getMessage());
-                            futureStartup_.completeExceptionally(e);
-                        }
+                        browser_subprocess_path_ = tmpLibDir;
                     }
 
-                    boolean result = N_Startup(OS.isMacintosh() ? getCefFrameworkPath(args) : null);
-                    if (!result)
-                        CefLog.Error("N_Startup failed.");
-                    futureStartup_.complete(result);
-                } catch (Throwable e) {
-                    futureStartup_.completeExceptionally(e);
+                    String libPath = tmpLibDir + "/" + libjcef;
+                    try {
+                        System.load(libPath);
+                    } catch (Throwable e) {
+                        CefLog.Info("Shared jcef library wasn't loaded, path: '%s'. Error: %s", libPath, e.getMessage());
+                        futureStartup_.completeExceptionally(e);
+                    }
                 }
-            };
-            new Thread(r, "CefStartup-thread").start();
-        }
+
+                boolean result = N_Startup(OS.isMacintosh() ? getCefFrameworkPath(args) : null);
+                if (!result)
+                    CefLog.Error("N_Startup failed.");
+                futureStartup_.complete(result);
+            } catch (Throwable e) {
+                futureStartup_.completeExceptionally(e);
+            }
+        };
+        new Thread(r, "CefStartup-thread").start();
         return true;
     }
 
