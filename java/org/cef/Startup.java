@@ -5,6 +5,7 @@ import org.cef.misc.Utils;
 
 import java.io.*;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -171,20 +172,21 @@ class Startup {
                     CefLog.Info("Shared jcef library isn't bundled with runtime (error: %s). Will be used %s from jcef.jar", e.getMessage(), getLibJcefName());
                 }
 
-                // Try load jcef library from alt locations.
-                if (!loaded && !loadJcefFromJar()) {
-                    futureStartup.complete(false);
-                    return;
-                }
-
                 if (OS.isLinux()) {
                     try {
+                        System.loadLibrary("jawt");
                         loadCEF();
                     } catch (Throwable e) {
                         CefLog.Error("Can't load libcef, error: %s", e.getMessage());
                         futureStartup.complete(false);
                         return;
                     }
+                }
+
+                // Try load jcef library from alt locations.
+                if (!loaded && !loadJcefFromJar()) {
+                    futureStartup.complete(false);
+                    return;
                 }
 
                 boolean result = nativeStartup.apply(getPathToFrameworkOSX());
@@ -288,28 +290,29 @@ class Startup {
             }
 
         } else if (OS.isLinux()) {
-            String pathToCef = ALT_CEF_FRAMEWORK_DIR;
-            String pathToHelpers = ALT_CEF_HELPER_APP_DIR;
-            if (pathToCef == null) {
-                pathToHelpers = pathToCef = System.getProperty("java.home") + "/lib";
-            }
-
-            if (settings.browser_subprocess_path == null) {
-                if (tmpLibDir != null) {
-                    String prev = settings.browser_subprocess_path;
-                    settings.browser_subprocess_path = tmpLibDir + "/jcef_helper";
-                    CefLog.Debug("Set custom browser_subprocess_path: %s (was %s)", settings.browser_subprocess_path, prev);
-                } else {
-                    settings.browser_subprocess_path = pathToHelpers + "/jcef_helper";
+            if (ALT_CEF_FRAMEWORK_DIR == null) {
+                String pathToCef = System.getProperty("java.home") + "/lib";
+                if (settings.browser_subprocess_path == null) {
+                    settings.browser_subprocess_path = pathToCef + "/jcef_helper";
                     CefLog.Debug("Set default browser_subprocess_path: %s", settings.browser_subprocess_path);
                 }
-            }
-            if (settings.resources_dir_path == null) {
-                settings.resources_dir_path = pathToCef;
+                if (settings.resources_dir_path == null) {
+                    settings.resources_dir_path = pathToCef;
+                    CefLog.Debug("Set default resources_dir_path: %s", settings.resources_dir_path);
+                }
+                if (settings.locales_dir_path == null) {
+                    settings.locales_dir_path = pathToCef + "/locales";
+                    CefLog.Debug("Set default locales_dir_path: %s", settings.locales_dir_path);
+                }
+            } else {
+                // NOTE: [libcef + jcef_helper + resources] must be in the same folder (otherwise CEF doesn't init)
+                settings.browser_subprocess_path = ALT_CEF_FRAMEWORK_DIR + "/jcef_helper";
+                CefLog.Debug("Set default browser_subprocess_path: %s", settings.browser_subprocess_path);
+
+                settings.resources_dir_path = ALT_CEF_FRAMEWORK_DIR;
                 CefLog.Debug("Set default resources_dir_path: %s", settings.resources_dir_path);
-            }
-            if (settings.locales_dir_path == null) {
-                settings.locales_dir_path = pathToCef + "/locales";
+
+                settings.locales_dir_path = ALT_CEF_FRAMEWORK_DIR + "/locales";
                 CefLog.Debug("Set default locales_dir_path: %s", settings.locales_dir_path);
             }
         }
