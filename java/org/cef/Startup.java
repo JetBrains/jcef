@@ -104,21 +104,30 @@ class Startup {
             } else {
                 CefLog.Info("Extract native lib into temp dir: " + tmpLibDir);
                 try {
-                    boolean success = unpackFromJar(libjcef, tmpLibDir);
+                    String arch = System.getProperty("os.arch");
+                    final boolean isArm = "aarch64".equals(arch) || "arm64".equals(arch);
+                    String jarPath = "undefined";
+                    if (OS.isLinux())
+                        jarPath = isArm ? "native_linux_aarch64.tar.gz" : "native_linux_x86_64.tar.gz";
+                    else if (OS.isMacintosh())
+                        jarPath = isArm ? "native_osx_aarch64.tar.gz" : "native_osx_x86_64.tar.gz";
+                    else if (OS.isWindows())
+                        jarPath = isArm ? "native_win_aarch64.tar.gz" : "native_win_x86_64.tar.gz";
+                    boolean success = unpackFromJar(jarPath, tmpLibDir);
                     if (success) {
-                        if (OS.isLinux())
-                            unpackFromJar("jcef_helper", tmpLibDir);
-                        else if (OS.isMacintosh()) {
-                            unpackFromJar("helpers.tar.gz", tmpLibDir);
-                            String unpackCmd = "tar -C " + tmpLibDir + " -xzf " + tmpLibDir + "/helpers.tar.gz";
-                            CefLog.Debug("Unpack heplers, cmd: %s", unpackCmd);
-                            Runtime.getRuntime().exec(unpackCmd);
-                        } else if (OS.isWindows()) {
-                            unpackFromJar("jcef_helper.exe", tmpLibDir);
-                        }
+                        String unpackCmd = "tar -C " + tmpLibDir + " -xzf " + tmpLibDir + "/" + jarPath;
+                        CefLog.Debug("Unpack native binaries, cmd: %s.", unpackCmd);
+                        long startMs = System.currentTimeMillis();
+                        Process unpackProcess = Runtime.getRuntime().exec(unpackCmd);
+                        unpackProcess.waitFor();
+                        CefLog.Debug("Spent %d ms.", System.currentTimeMillis() - startMs);
                     }
                 } catch (IOException e) {
                     CefLog.Error("Can't unpack binary from jar. Error: %s", e.getMessage());
+                    tmpLibDir = null;
+                    return false;
+                } catch (InterruptedException e) {
+                    CefLog.Error("%s", e.getMessage());
                     tmpLibDir = null;
                     return false;
                 }

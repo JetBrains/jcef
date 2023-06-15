@@ -8,7 +8,9 @@ source "$script_dir/set_env.sh"
 
 OUT_DIR="$JCEF_ROOT_DIR/jcef_build"
 OUT_JAVA_DIR="$JCEF_ROOT_DIR/out"
-export OUT_NATIVE_PATH="$JCEF_ROOT_DIR/jcef_build/native/Release"
+
+# pass path to downloaded natives into ant-script
+export BUNDLE_NATIVES_PATH="$JCEF_ROOT_DIR"
 
 if [ "${1:-}" == "clean" ]; then
   echo "*** delete $OUT_DIR..."

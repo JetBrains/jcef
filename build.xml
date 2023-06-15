@@ -5,6 +5,7 @@
 
   <property environment="env"/>
   <property name="out.native.path" value="${env.OUT_NATIVE_PATH}"/>
+  <property name="bundle.natives.path" value="${env.BUNDLE_NATIVES_PATH}"/>
   <property name="out.path"   value="${env.OUT_PATH}"/>
   <property name="out.name"   value="${env.OUT_NAME}"/>
   <property name="out.id"     value="${env.OUT_ID}"/>
@@ -32,32 +33,6 @@
              value=""
              else="org/cef/browser/mac/CefBrowserWindowMac.java">
     <os family="mac"/>
-  </condition>
-
-  <condition property="jcef.native.lib"
-             value="libjcef.dylib">
-    <os family="mac"/>
-  </condition>
-  <condition property="jcef.native.lib"
-             value="libjcef.so">
-    <os family="unix"/>
-  </condition>
-  <condition property="jcef.native.lib"
-             value="jcef.dll">
-    <os family="windows"/>
-  </condition>
-
-  <condition property="jcef.helpers.pattern"
-             value="helpers.tar.gz">
-    <os family="mac"/>
-  </condition>
-  <condition property="jcef.helpers.pattern"
-             value="jcef_helper">
-    <os family="unix"/>
-  </condition>
-  <condition property="jcef.helpers.pattern"
-             value="jcef_helper.exe">
-    <os family="windows"/>
   </condition>
 
   <condition property="modular-sdk.module-info.java.path"
@@ -129,15 +104,18 @@
   <target name="jar" depends="compile">
     <mkdir dir="${out.path}"/>
     <echo message="${jcef.version}" file="${out.path}/com/jetbrains/cef/version.info" append="false"/>
+    <echo message="${bundle.natives.path}"/>
+    <exec executable="ls">
+      <arg value="-l" />
+    </exec>
     <jar destfile="${out.path}/jcef.jar" index="true" update="false" manifest="java/manifest/MANIFEST.MF">
       <fileset dir="${out.path}">
         <include name="org/cef/**"/>
         <include name="com/jetbrains/**"/>
         <include name="${include.module-info.class}"/>
       </fileset>
-      <fileset dir="${out.native.path}">
-        <include name="${jcef.native.lib}"/>
-        <include name="${jcef.helpers.pattern}"/>
+      <fileset dir="${bundle.natives.path}">
+        <include name="native*"/>
       </fileset>
     </jar>
     <jar destfile="${out.path}/jcef-sources.jar" index="true" update="false">
