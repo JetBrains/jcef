@@ -1,6 +1,7 @@
 package com.jetbrains.cef;
 
 import org.cef.OS;
+import org.cef.misc.CefLog;
 import sun.awt.AWTAccessor;
 
 import javax.swing.*;
@@ -71,8 +72,9 @@ public class JdkEx {
                 //noinspection JavaReflectionMemberAccess
                 m = WindowPeer.class.getDeclaredMethod("getWindowHandle");
                 m.setAccessible(true);
-            } catch (NoSuchMethodException ignore) {
-                throw new RuntimeException("jcef: failed to retrieve platform window handle");
+            } catch (Throwable ignore) {
+                CefLog.Warn("failed to retrieve platform window handle");
+                m = null;
             }
             mGetWindowHandle = m;
         }
