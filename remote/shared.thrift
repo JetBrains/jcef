@@ -1,5 +1,5 @@
 namespace cpp thrift_codegen
-namespace java thrift_codegen
+namespace java com.jetbrains.cef.remote
 
 struct RObject {
     1: required i32 objId;

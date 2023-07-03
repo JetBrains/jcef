@@ -20,6 +20,8 @@ if "%~2" == "x86_64" (
 )
 echo TARGET_ARCH=%TARGET_ARCH%
 
+call bring_vcpkg.bat
+
 cd "%JCEF_ROOT_DIR%\jcef_build" || goto:__exit
 
 echo *** set VS16 env...
@@ -68,9 +70,9 @@ echo JCEF_JNI=%JCEF_JNI%
 set "PATH=%JCEF_JNI%\bin;%PATH%"
 
 if "%TARGET_ARCH%" == "arm64" (
-    cmake -G "Visual Studio 16 2019" -A ARM64 -D "JAVA_HOME=%JCEF_JNI:\=/%" .. || goto:__exit
+    cmake -G "Visual Studio 16 2019" -A ARM64 -D "JAVA_HOME=%JCEF_JNI:\=/%" -DVCPKG_TARGET_TRIPLET=%VCPKG_TRIPLET% -DCMAKE_TOOLCHAIN_FILE=%VCPKG_PATH%\\scripts\\buildsystems\\vcpkg.cmake .. || goto:__exit
 ) else (
-    cmake -G "Visual Studio 16 2019" -D "JAVA_HOME=%JCEF_JNI:\=/%" .. || goto:__exit
+    cmake -G "Visual Studio 16 2019" -D "JAVA_HOME=%JCEF_JNI:\=/%" -DVCPKG_TARGET_TRIPLET=%VCPKG_TRIPLET% -DCMAKE_TOOLCHAIN_FILE=%VCPKG_PATH%\\scripts\\buildsystems\\vcpkg.cmake .. || goto:__exit
 )
 
 endlocal

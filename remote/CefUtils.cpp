@@ -1,10 +1,14 @@
 #include "CefUtils.h"
 
 #include <thread>
+
+// TODO(kharitonov): get gid if boost
+#if defined(OS_MAC)
 #include <boost/filesystem.hpp>
 
 #include "include/cef_command_line.h"
 #include "include/wrapper/cef_library_loader.h"
+#endif
 
 #include "log/Log.h"
 
@@ -17,6 +21,7 @@ namespace {
 }
 
 namespace CefUtils {
+#if defined(OS_LINUX)
     bool doLoadCefLibrary() {
       // Load the CEF framework library at runtime instead of linking directly
       // NOTE: can't load directly by custom libPath, getting strange errors:
@@ -35,6 +40,7 @@ namespace CefUtils {
       Log::debug("Loaded cef native library");
       return true;
     }
+#endif
 
     bool isCefInitialized() { return g_isInitialized; }
 

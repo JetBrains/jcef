@@ -24,7 +24,7 @@ void RemotePostData::GetElements(CefPostData::ElementVector& elements) {
 }
 
 bool RemotePostData::RemoveElement(CefRefPtr<CefPostDataElement> element) {
-  std::remove(myElements.begin(), myElements.end(), element);
+  std::ignore = std::remove(myElements.begin(), myElements.end(), element);
   return false;
 }
 

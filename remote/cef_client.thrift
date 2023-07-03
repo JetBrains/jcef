@@ -16,7 +16,7 @@
 include "shared.thrift"
 
 namespace cpp thrift_codegen
-namespace java thrift_codegen
+namespace java com.jetbrains.cef.remote
 
 struct CustomScheme {
 1: required string schemeName;

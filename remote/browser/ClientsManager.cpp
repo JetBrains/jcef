@@ -61,8 +61,8 @@ int ClientsManager::createBrowser(int cid, std::shared_ptr<RpcExecutor> service,
   CefRefPtr<RemoteClientHandler> clienthandler;
   {
     Lock lock(myMutex);
-    bid = myRemoteClients->size();
-    for (int c = 0, cEnd = myRemoteClients->size(); c < cEnd; ++c)
+    bid = static_cast<int>(myRemoteClients->size());
+    for (int c = 0, cEnd = static_cast<int>(myRemoteClients->size()); c < cEnd; ++c)
       if ((*myRemoteClients)[c] != nullptr) {
         bid = c;
         break;
@@ -105,7 +105,7 @@ int ClientsManager::findRemoteBrowser(CefRefPtr<CefBrowser> browser) {
     return -1;
 
   Lock lock(myMutex);
-  for (int c = 0, cEnd = myRemoteClients->size(); c < cEnd; ++c) {
+  for (int c = 0, cEnd = static_cast<int>(myRemoteClients->size()); c < cEnd; ++c) {
     CefRefPtr<RemoteClientHandler> client = (*myRemoteClients)[c];
     if (client) {
       CefRefPtr<CefBrowser> clientBrowser = ((RemoteLifespanHandler *)(client->GetLifeSpanHandler()).get())->getBrowser();

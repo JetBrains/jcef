@@ -2,6 +2,7 @@
 #define JCEF_CLIENTSMANAGER_H
 
 #include <memory>
+#include <mutex>
 #include "include/cef_base.h"
 
 class RemoteClientHandler;
