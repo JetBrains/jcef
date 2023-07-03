@@ -3,7 +3,7 @@
 #include "../CefUtils.h"
 
 // remove to enable tracing
-#define TRACE()
+//#define TRACE()
 
 RemoteMessageRouter::RemoteMessageRouter(std::shared_ptr<RpcExecutor> service, int id, CefRefPtr<CefMessageRouter> delegate, CefMessageRouterConfig config)
     : RemoteServerObject<RemoteMessageRouter, CefMessageRouter>(service, id, delegate), myConfig(config) {

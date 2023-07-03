@@ -1,9 +1,8 @@
+#include "include/cef_base.h"
 
 #if defined(OS_MAC)
 #include <Carbon/Carbon.h>
 #endif
-
-#include "include/cef_base.h"
 
 namespace {
 //
@@ -458,28 +457,28 @@ void processKeyEvent(
   if (key_code == (JAVA_VK_BACK_SPACE)) {
     cef_event.native_key_code = kVK_Delete;
     cef_event.unmodified_character = kBackspaceCharCode;
-  } else if (key_code == (VK_DELETE)) {
+  } else if (key_code == (JAVA_VK_DELETE)) {
     cef_event.native_key_code = kVK_ForwardDelete;
     cef_event.unmodified_character = kDeleteCharCode;
-  } else if (key_code == (VK_DOWN)) {
+  } else if (key_code == (JAVA_VK_DOWN)) {
     cef_event.native_key_code = kVK_DownArrow;
     cef_event.unmodified_character = /* NSDownArrowFunctionKey */ 0xF701;
   } else if (key_code == (JAVA_VK_ENTER)) {
     cef_event.native_key_code = kVK_Return;
     cef_event.unmodified_character = kReturnCharCode;
-  } else if (key_code == (VK_ESCAPE)) {
+  } else if (key_code == (JAVA_VK_ESCAPE)) {
     cef_event.native_key_code = kVK_Escape;
     cef_event.unmodified_character = kEscapeCharCode;
-  } else if (key_code == (VK_LEFT)) {
+  } else if (key_code == (JAVA_VK_LEFT)) {
     cef_event.native_key_code = kVK_LeftArrow;
     cef_event.unmodified_character = /* NSLeftArrowFunctionKey */ 0xF702;
-  } else if (key_code == (VK_RIGHT)) {
+  } else if (key_code == (JAVA_VK_RIGHT)) {
     cef_event.native_key_code = kVK_RightArrow;
     cef_event.unmodified_character = /* NSRightArrowFunctionKey */ 0xF703;
-  } else if (key_code == (VK_TAB)) {
+  } else if (key_code == (JAVA_VK_TAB)) {
     cef_event.native_key_code = kVK_Tab;
     cef_event.unmodified_character = kTabCharCode;
-  } else if (key_code == (VK_UP)) {
+  } else if (key_code == (JAVA_VK_UP)) {
     cef_event.native_key_code = kVK_UpArrow;
     cef_event.unmodified_character = /* NSUpArrowFunctionKey */ 0xF700;
   } else {

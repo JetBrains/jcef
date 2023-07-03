@@ -2,7 +2,7 @@
 
 #include <thread>
 
-// TODO(kharitonov): get gid if boost
+// TODO(kharitonov): get gid of boost here
 #if defined(OS_MAC)
 #include <boost/filesystem.hpp>
 
@@ -21,7 +21,7 @@ namespace {
 }
 
 namespace CefUtils {
-#if defined(OS_LINUX)
+#if defined(OS_MAC)
     bool doLoadCefLibrary() {
       // Load the CEF framework library at runtime instead of linking directly
       // NOTE: can't load directly by custom libPath, getting strange errors:

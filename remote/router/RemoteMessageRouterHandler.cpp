@@ -3,7 +3,7 @@
 #include "../browser/ClientsManager.h"
 
 // remove to enable tracing
-#define TRACE()
+//#define TRACE()
 
 RemoteMessageRouterHandler::RemoteMessageRouterHandler(
     std::shared_ptr<RpcExecutor> service,

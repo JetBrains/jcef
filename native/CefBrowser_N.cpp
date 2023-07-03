@@ -1689,10 +1689,10 @@ Java_org_cef_browser_CefBrowser_1N_N_1SendKeyEvent(JNIEnv* env,
     return;
   }
 
-  JNI_STATIC_DEFINE_INT(env, cls, JAVA_VK_BACK_SPACE);
+  JNI_STATIC_DEFINE_INT(env, cls, VK_BACK_SPACE);
   JNI_STATIC_DEFINE_INT(env, cls, VK_DELETE);
   JNI_STATIC_DEFINE_INT(env, cls, VK_DOWN);
-  JNI_STATIC_DEFINE_INT(env, cls, JAVA_VK_ENTER);
+  JNI_STATIC_DEFINE_INT(env, cls, VK_ENTER);
   JNI_STATIC_DEFINE_INT(env, cls, VK_ESCAPE);
   JNI_STATIC_DEFINE_INT(env, cls, VK_LEFT);
   JNI_STATIC_DEFINE_INT(env, cls, VK_RIGHT);
@@ -1726,7 +1726,7 @@ Java_org_cef_browser_CefBrowser_1N_N_1SendKeyEvent(JNIEnv* env,
     cef_event.character = cef_event.unmodified_character;
   }
 #elif defined(OS_MAC)
-  if (key_code == JNI_STATIC(JAVA_VK_BACK_SPACE)) {
+  if (key_code == JNI_STATIC(VK_BACK_SPACE)) {
     cef_event.native_key_code = kVK_Delete;
     cef_event.unmodified_character = kBackspaceCharCode;
   } else if (key_code == JNI_STATIC(VK_DELETE)) {
@@ -1735,7 +1735,7 @@ Java_org_cef_browser_CefBrowser_1N_N_1SendKeyEvent(JNIEnv* env,
   } else if (key_code == JNI_STATIC(VK_DOWN)) {
     cef_event.native_key_code = kVK_DownArrow;
     cef_event.unmodified_character = /* NSDownArrowFunctionKey */ 0xF701;
-  } else if (key_code == JNI_STATIC(JAVA_VK_ENTER)) {
+  } else if (key_code == JNI_STATIC(VK_ENTER)) {
     cef_event.native_key_code = kVK_Return;
     cef_event.unmodified_character = kReturnCharCode;
   } else if (key_code == JNI_STATIC(VK_ESCAPE)) {
