@@ -93,3 +93,11 @@ or
 -DPROJECT_ARCH=arm64
 ```
 Don't forget to set `JAVA_HOME`
+
+## Thrift files code format
+Assuming `python` and `pip` are installed.
+```
+pip install thrift-fmt
+cd <project_root>
+thrift-fmt -w -r remote
+```
