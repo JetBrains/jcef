@@ -1,9 +1,11 @@
 #include "RemotePostData.h"
 #include "RemotePostDataElement.h"
 
+#include <algorithm>
+
 RemotePostData::RemotePostData(const thrift_codegen::PostData & postData) : myData(postData) {
-  for (auto e: myData.elements) {
-    myElements.push_back(CefRefPtr<RemotePostDataElement>(new RemotePostDataElement(e)));
+  for (const auto& e: myData.elements) {
+    myElements.emplace_back(CefRefPtr<RemotePostDataElement>(new RemotePostDataElement(e)));
   }
 }
 

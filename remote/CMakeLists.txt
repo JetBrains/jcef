@@ -5,7 +5,7 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 
 set(Boost_NO_WARN_NEW_VERSIONS 1)
 find_package(Boost REQUIRED COMPONENTS filesystem)
-find_package(thrift CONFIG REQUIRED)
+find_package(Thrift CONFIG REQUIRED)
 
 set(THRIFT_FILES
         cef_server.thrift
@@ -25,7 +25,7 @@ foreach (FILE ${THRIFT_FILES})
 
     message(STATUS "Compile ${FILE} to Java...")
     execute_process(
-            COMMAND ${THRIFT_COMPILER} --gen java:generated_annotations=suppress -out ${CMAKE_SOURCE_DIR}/java/com/jetbrains/cef/remote ${CMAKE_CURRENT_SOURCE_DIR}/${FILE}
+            COMMAND ${THRIFT_COMPILER} --gen java:generated_annotations=suppress -out ${CMAKE_SOURCE_DIR}/java ${CMAKE_CURRENT_SOURCE_DIR}/${FILE}
             WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/java
             RESULT_VARIABLE thrift_result
     )
@@ -156,6 +156,11 @@ if (OS_MAC)
     add_executable(${EXECUTABLE_NAME} MACOSX_BUNDLE ${SERVER_SOURCES})
 endif ()
 
+if (OS_LINUX)
+    list(APPEND SERVER_SOURCES CppServer.cpp)
+    add_executable(${EXECUTABLE_NAME} ${SERVER_SOURCES})
+endif ()
+
 target_include_directories(${EXECUTABLE_NAME} PRIVATE ${CEF_INCLUDE_PATH})
 if (OS_WINDOWS)
     add_logical_target("libcef_lib" "${CEF_LIB_DEBUG}" "${CEF_LIB_RELEASE}")
@@ -190,6 +195,17 @@ if (OS_WINDOWS)
         string(REPLACE ";" " " _flags_str "${CEF_LINKER_FLAGS_RELEASE}")
         set_property(TARGET ${EXECUTABLE_NAME} PROPERTY LINK_FLAGS_RELEASE ${_flags_str})
     endif ()
+endif ()
+
+if (OS_LINUX)
+    add_link_options(-static-libstdc++)
+    SET_CEF_TARGET_OUT_DIR()
+    # TODO: check if needed
+#    FIND_LINUX_LIBRARIES("gmodule-2.0 gtk+-2.0 gthread-2.0")
+    ADD_LOGICAL_TARGET("libcef_lib" "${CEF_LIB_DEBUG}" "${CEF_LIB_RELEASE}")
+    COPY_FILES("${EXECUTABLE_NAME}" "${CEF_BINARY_FILES}" "${CEF_BINARY_DIR}" "${CEF_TARGET_OUT_DIR}")
+    COPY_FILES(${EXECUTABLE_NAME} "${CEF_RESOURCE_FILES}" "${CEF_RESOURCE_DIR}" "${CEF_TARGET_OUT_DIR}")
+    target_link_libraries(${EXECUTABLE_NAME} libcef_lib libcef_dll_wrapper ${CEF_STANDARD_LIBS})
 endif ()
 
 if (OS_MAC)

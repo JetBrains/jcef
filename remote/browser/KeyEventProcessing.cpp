@@ -4,6 +4,12 @@
 #include <Carbon/Carbon.h>
 #endif
 
+#if defined(OS_LINUX)
+#define XK_3270  // for XK_3270_BackTab
+#include <X11/XF86keysym.h>
+#include <X11/keysym.h>
+#endif
+
 namespace {
 //
 // Constants from KeyEvent.java
@@ -428,31 +434,31 @@ void processKeyEvent(
                               1;                  // key repeat count
 #elif defined(OS_LINUX) || defined(OS_MAC)
 #if defined(OS_LINUX)
-  cef_event.native_key_code = JavaKeyCode2X11(env, &cls, key_code);
+//  cef_event.native_key_code = JavaKeyCode2X11(env, &cls, key_code);
 
-  KeyboardCode windows_key_code =
-      KeyboardCodeFromXKeysym(cef_event.native_key_code);
-  cef_event.windows_key_code =
-      GetWindowsKeyCodeWithoutLocation(windows_key_code);
+//  KeyboardCode windows_key_code =
+//      KeyboardCodeFromXKeysym(cef_event.native_key_code);
+//  cef_event.windows
+//      GetWindowsKeyCodeWithoutLocation(windows_key_code);
 
   if (cef_event.modifiers & EVENTFLAG_ALT_DOWN)
     cef_event.is_system_key = true;
 
-  if (windows_key_code == VKEY_RETURN) {
-    // We need to treat the enter key as a key press of character \r.  This
-    // is apparently just how webkit handles it and what it expects.
-    cef_event.unmodified_character = '\r';
-  } else {
-    cef_event.unmodified_character = key_char != '\n' ? key_char : '\r';
-  }
+//  if (windows_key_code == JAVA_VKEY_RETURN) {
+//    // We need to treat the enter key as a key press of character \r.  This
+//    // is apparently just how webkit handles it and what it expects.
+//    cef_event.unmodified_character = '\r';
+//  } else {
+//    cef_event.unmodified_character = key_char != '\n' ? key_char : '\r';
+//  }
 
   // If ctrl key is pressed down, then control character shall be input.
-  if (cef_event.modifiers & EVENTFLAG_CONTROL_DOWN) {
-    cef_event.character = GetControlCharacter(
-        windows_key_code, cef_event.modifiers & EVENTFLAG_SHIFT_DOWN);
-  } else {
-    cef_event.character = cef_event.unmodified_character;
-  }
+//  if (cef_event.modifiers & EVENTFLAG_CONTROL_DOWN) {
+//    cef_event.character = GetControlCharacter(
+//        windows_key_code, cef_event.modifiers & EVENTFLAG_SHIFT_DOWN);
+//  } else {
+//    cef_event.character = cef_event.unmodified_character;
+//  }
 #elif defined(OS_MAC)
   if (key_code == (JAVA_VK_BACK_SPACE)) {
     cef_event.native_key_code = kVK_Delete;

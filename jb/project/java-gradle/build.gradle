@@ -37,7 +37,7 @@ compileJava.options.compilerArgs += [
     '--add-exports', 'java.desktop/sun.lwawt=jcef']
 
 compileTestJava.options.compilerArgs += [
-    '--class-path', "$projectDir/../../../libthrift-0.16.0.jar:$projectDir/../../../jb/project/java-gradle/build/classes/java/main:/Users/bocha/projects/jcef/third_party/junit/junit-platform-console-standalone-1.4.2.jar"
+    '--class-path', "$projectDir/../../../libthrift-0.16.0.jar:$projectDir/../../../jb/project/java-gradle/build/classes/java/main:$projectDir/../../../third_party/junit/junit-platform-console-standalone-1.4.2.jar"
 ]
 
 def jbr_java = test.executable

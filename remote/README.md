@@ -52,4 +52,44 @@ PATH="/opt/homebrew/Cellar/bison/3.8.2/bin:$PATH" ./vcpkg install thrift boost-f
 ### 3. Pass this definition to cmake
 `-DCMAKE_TOOLCHAIN_FILE=-DCMAKE_TOOLCHAIN_FILE=<vcpkg_checkout>/scripts/buildsystems/vcpkg.cmake`
 
+## Developing CefServer on Ubuntu
+### 1. Get `bison`
+```
+apt-get install bison
+```
+Bison is only needed at the build dependencies in vcpkg stage.
+Unfortunately for macOS and Linux bison must be installed separately.
 
+Make sure that the version of bison is `2.7+`.
+```
+$ bison --version
+bison (GNU Bison) 3.8.2
+Written by Robert Corbett and Richard Stallman.
+
+Copyright (C) 2021 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+``` 
+
+### 2. Checkout `vcpkg` at any directory:
+TODO: automate deploying vcpkg. And build in into the build pipeline
+```
+git clone https://github.com/Microsoft/vcpkg.git
+```
+Install dependencies:
+```
+cd vcpkg
+./bootstrap-vcpkg.sh
+./vcpkg install thrift boost-filesystem boost-interprocess
+```
+
+### 3. Pass following definition to cmake
+```
+-DCMAKE_TOOLCHAIN_FILE=<vcpkg_checkout>/scripts/buildsystems/vcpkg.cmake
+-DPROJECT_ARCH=x86_64
+```
+or
+```
+-DCMAKE_TOOLCHAIN_FILE=-DCMAKE_TOOLCHAIN_FILE=<vcpkg_checkout>/scripts/buildsystems/vcpkg.cmake
+-DPROJECT_ARCH=arm64
+```
+Don't forget to set `JAVA_HOME`

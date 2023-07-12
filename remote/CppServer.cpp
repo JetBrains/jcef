@@ -46,8 +46,16 @@ int main(int argc, char* argv[]) {
   Log::init(LEVEL_TRACE);
   setThreadName("main");
 
+#if defined(OS_MAC)
   if (!CefUtils::doLoadCefLibrary())
     return -1;
+#elif defined(OS_LINUX)
+  CefMainArgs main_args(argc, argv);
+  int exit_code = CefExecuteProcess(main_args, nullptr, nullptr);
+  if (exit_code >= 0) {
+    return exit_code;
+  }
+#endif
 
   CefUtils::initializeCef();
 

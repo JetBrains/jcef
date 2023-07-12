@@ -16,7 +16,7 @@
 include "shared.thrift"
 
 namespace cpp thrift_codegen
-namespace java com.jetbrains.cef.remote
+namespace java com.jetbrains.cef.remote.thrift_codegen
 
 service Server {
    i32 connect(1:i32 backwardConnectionPort, 2:list<string> cmdLineArgs, 3:map<string,string> settings)

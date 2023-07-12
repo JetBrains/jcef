@@ -85,6 +85,10 @@ void setThreadName(std::string name);
 #define __FILE_NAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
 #endif
 
+#ifdef __linux__
+#define __FILE_NAME__  __FILE__
+#endif
+
 #define LNDCT() LogNdc ndc(__FILE_NAME__, __FUNCTION__, 1000)
 #define LNDCTT(thresholdMcs) LogNdc ndc(__FILE_NAME__, __FUNCTION__, thresholdMcs)
 #define LNDCTTS(thresholdMcs) LogNdc ndc(__FILE_NAME__, __FUNCTION__, thresholdMcs, true)

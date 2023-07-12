@@ -9,7 +9,9 @@
 #include "include/cef_base.h"
 
 namespace CefUtils {
+#if defined(OS_MAC)
   bool doLoadCefLibrary();
+#endif
   bool isCefInitialized();
   void initializeCef();
 }
