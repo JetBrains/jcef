@@ -53,45 +53,45 @@ public class ClientHandlers {
 
     public boolean DisplayHandler_OnConsoleMessage(int bid, int level, java.lang.String message, java.lang.String source, int line) throws org.apache.thrift.TException;
 
-    public boolean RequestHandler_OnBeforeBrowse(int bid, RObject request, boolean user_gesture, boolean is_redirect) throws org.apache.thrift.TException;
+    public boolean RequestHandler_OnBeforeBrowse(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean user_gesture, boolean is_redirect) throws org.apache.thrift.TException;
 
     public boolean RequestHandler_OnOpenURLFromTab(int bid, java.lang.String target_url, boolean user_gesture) throws org.apache.thrift.TException;
 
-    public boolean RequestHandler_GetAuthCredentials(int bid, java.lang.String origin_url, boolean isProxy, java.lang.String host, int port, java.lang.String realm, java.lang.String scheme, RObject authCallback) throws org.apache.thrift.TException;
+    public boolean RequestHandler_GetAuthCredentials(int bid, java.lang.String origin_url, boolean isProxy, java.lang.String host, int port, java.lang.String realm, java.lang.String scheme, com.jetbrains.cef.remote.thrift_codegen.RObject authCallback) throws org.apache.thrift.TException;
 
-    public boolean RequestHandler_OnCertificateError(int bid, java.lang.String cert_error, java.lang.String request_url, RObject sslInfo, RObject callback) throws org.apache.thrift.TException;
+    public boolean RequestHandler_OnCertificateError(int bid, java.lang.String cert_error, java.lang.String request_url, com.jetbrains.cef.remote.thrift_codegen.RObject sslInfo, com.jetbrains.cef.remote.thrift_codegen.RObject callback) throws org.apache.thrift.TException;
 
     public void RequestHandler_OnRenderProcessTerminated(int bid, java.lang.String status) throws org.apache.thrift.TException;
 
-    public RObject RequestHandler_GetResourceRequestHandler(int bid, RObject request, boolean isNavigation, boolean isDownload, java.lang.String requestInitiator) throws org.apache.thrift.TException;
+    public com.jetbrains.cef.remote.thrift_codegen.RObject RequestHandler_GetResourceRequestHandler(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean isNavigation, boolean isDownload, java.lang.String requestInitiator) throws org.apache.thrift.TException;
 
     public void ResourceRequestHandler_Dispose(int rrHandler) throws org.apache.thrift.TException;
 
-    public RObject ResourceRequestHandler_GetCookieAccessFilter(int rrHandler, int bid, RObject request) throws org.apache.thrift.TException;
+    public com.jetbrains.cef.remote.thrift_codegen.RObject ResourceRequestHandler_GetCookieAccessFilter(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException;
 
     public void CookieAccessFilter_Dispose(int filter) throws org.apache.thrift.TException;
 
-    public boolean CookieAccessFilter_CanSendCookie(int filter, int bid, RObject request, java.util.List<java.lang.String> cookie) throws org.apache.thrift.TException;
+    public boolean CookieAccessFilter_CanSendCookie(int filter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, java.util.List<java.lang.String> cookie) throws org.apache.thrift.TException;
 
-    public boolean CookieAccessFilter_CanSaveCookie(int filter, int bid, RObject request, RObject response, java.util.List<java.lang.String> cookie) throws org.apache.thrift.TException;
+    public boolean CookieAccessFilter_CanSaveCookie(int filter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.util.List<java.lang.String> cookie) throws org.apache.thrift.TException;
 
-    public boolean ResourceRequestHandler_OnBeforeResourceLoad(int rrHandler, int bid, RObject request) throws org.apache.thrift.TException;
+    public boolean ResourceRequestHandler_OnBeforeResourceLoad(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException;
 
-    public RObject ResourceRequestHandler_GetResourceHandler(int rrHandler, int bid, RObject request) throws org.apache.thrift.TException;
+    public com.jetbrains.cef.remote.thrift_codegen.RObject ResourceRequestHandler_GetResourceHandler(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException;
 
     public void ResourceHandler_Dispose(int resourceHandler) throws org.apache.thrift.TException;
 
-    public java.lang.String ResourceRequestHandler_OnResourceRedirect(int rrHandler, int bid, RObject request, RObject response, java.lang.String new_url) throws org.apache.thrift.TException;
+    public java.lang.String ResourceRequestHandler_OnResourceRedirect(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String new_url) throws org.apache.thrift.TException;
 
-    public boolean ResourceRequestHandler_OnResourceResponse(int rrHandler, int bid, RObject request, RObject response) throws org.apache.thrift.TException;
+    public boolean ResourceRequestHandler_OnResourceResponse(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response) throws org.apache.thrift.TException;
 
-    public void ResourceRequestHandler_OnResourceLoadComplete(int rrHandler, int bid, RObject request, RObject response, java.lang.String status, long receivedContentLength) throws org.apache.thrift.TException;
+    public void ResourceRequestHandler_OnResourceLoadComplete(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String status, long receivedContentLength) throws org.apache.thrift.TException;
 
-    public boolean ResourceRequestHandler_OnProtocolExecution(int rrHandler, int bid, RObject request, boolean allowOsExecution) throws org.apache.thrift.TException;
+    public boolean ResourceRequestHandler_OnProtocolExecution(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean allowOsExecution) throws org.apache.thrift.TException;
 
-    public boolean MessageRouterHandler_onQuery(RObject handler, int bid, long queryId, java.lang.String request, boolean persistent, RObject queryCallback) throws org.apache.thrift.TException;
+    public boolean MessageRouterHandler_onQuery(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, long queryId, java.lang.String request, boolean persistent, com.jetbrains.cef.remote.thrift_codegen.RObject queryCallback) throws org.apache.thrift.TException;
 
-    public void MessageRouterHandler_onQueryCanceled(RObject handler, int bid, long queryId) throws org.apache.thrift.TException;
+    public void MessageRouterHandler_onQueryCanceled(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, long queryId) throws org.apache.thrift.TException;
 
   }
 
@@ -139,45 +139,45 @@ public class ClientHandlers {
 
     public void DisplayHandler_OnConsoleMessage(int bid, int level, java.lang.String message, java.lang.String source, int line, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
 
-    public void RequestHandler_OnBeforeBrowse(int bid, RObject request, boolean user_gesture, boolean is_redirect, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
+    public void RequestHandler_OnBeforeBrowse(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean user_gesture, boolean is_redirect, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
 
     public void RequestHandler_OnOpenURLFromTab(int bid, java.lang.String target_url, boolean user_gesture, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
 
-    public void RequestHandler_GetAuthCredentials(int bid, java.lang.String origin_url, boolean isProxy, java.lang.String host, int port, java.lang.String realm, java.lang.String scheme, RObject authCallback, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
+    public void RequestHandler_GetAuthCredentials(int bid, java.lang.String origin_url, boolean isProxy, java.lang.String host, int port, java.lang.String realm, java.lang.String scheme, com.jetbrains.cef.remote.thrift_codegen.RObject authCallback, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
 
-    public void RequestHandler_OnCertificateError(int bid, java.lang.String cert_error, java.lang.String request_url, RObject sslInfo, RObject callback, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
+    public void RequestHandler_OnCertificateError(int bid, java.lang.String cert_error, java.lang.String request_url, com.jetbrains.cef.remote.thrift_codegen.RObject sslInfo, com.jetbrains.cef.remote.thrift_codegen.RObject callback, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
 
     public void RequestHandler_OnRenderProcessTerminated(int bid, java.lang.String status, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void RequestHandler_GetResourceRequestHandler(int bid, RObject request, boolean isNavigation, boolean isDownload, java.lang.String requestInitiator, org.apache.thrift.async.AsyncMethodCallback<RObject> resultHandler) throws org.apache.thrift.TException;
+    public void RequestHandler_GetResourceRequestHandler(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean isNavigation, boolean isDownload, java.lang.String requestInitiator, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException;
 
     public void ResourceRequestHandler_Dispose(int rrHandler, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void ResourceRequestHandler_GetCookieAccessFilter(int rrHandler, int bid, RObject request, org.apache.thrift.async.AsyncMethodCallback<RObject> resultHandler) throws org.apache.thrift.TException;
+    public void ResourceRequestHandler_GetCookieAccessFilter(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException;
 
     public void CookieAccessFilter_Dispose(int filter, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void CookieAccessFilter_CanSendCookie(int filter, int bid, RObject request, java.util.List<java.lang.String> cookie, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
+    public void CookieAccessFilter_CanSendCookie(int filter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, java.util.List<java.lang.String> cookie, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
 
-    public void CookieAccessFilter_CanSaveCookie(int filter, int bid, RObject request, RObject response, java.util.List<java.lang.String> cookie, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
+    public void CookieAccessFilter_CanSaveCookie(int filter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.util.List<java.lang.String> cookie, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
 
-    public void ResourceRequestHandler_OnBeforeResourceLoad(int rrHandler, int bid, RObject request, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
+    public void ResourceRequestHandler_OnBeforeResourceLoad(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
 
-    public void ResourceRequestHandler_GetResourceHandler(int rrHandler, int bid, RObject request, org.apache.thrift.async.AsyncMethodCallback<RObject> resultHandler) throws org.apache.thrift.TException;
+    public void ResourceRequestHandler_GetResourceHandler(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException;
 
     public void ResourceHandler_Dispose(int resourceHandler, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void ResourceRequestHandler_OnResourceRedirect(int rrHandler, int bid, RObject request, RObject response, java.lang.String new_url, org.apache.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws org.apache.thrift.TException;
+    public void ResourceRequestHandler_OnResourceRedirect(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String new_url, org.apache.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws org.apache.thrift.TException;
 
-    public void ResourceRequestHandler_OnResourceResponse(int rrHandler, int bid, RObject request, RObject response, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
+    public void ResourceRequestHandler_OnResourceResponse(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
 
-    public void ResourceRequestHandler_OnResourceLoadComplete(int rrHandler, int bid, RObject request, RObject response, java.lang.String status, long receivedContentLength, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void ResourceRequestHandler_OnResourceLoadComplete(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String status, long receivedContentLength, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void ResourceRequestHandler_OnProtocolExecution(int rrHandler, int bid, RObject request, boolean allowOsExecution, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
+    public void ResourceRequestHandler_OnProtocolExecution(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean allowOsExecution, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
 
-    public void MessageRouterHandler_onQuery(RObject handler, int bid, long queryId, java.lang.String request, boolean persistent, RObject queryCallback, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
+    public void MessageRouterHandler_onQuery(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, long queryId, java.lang.String request, boolean persistent, com.jetbrains.cef.remote.thrift_codegen.RObject queryCallback, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
 
-    public void MessageRouterHandler_onQueryCanceled(RObject handler, int bid, long queryId, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void MessageRouterHandler_onQueryCanceled(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, long queryId, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
   }
 
@@ -593,13 +593,13 @@ public class ClientHandlers {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "DisplayHandler_OnConsoleMessage failed: unknown result");
     }
 
-    public boolean RequestHandler_OnBeforeBrowse(int bid, RObject request, boolean user_gesture, boolean is_redirect) throws org.apache.thrift.TException
+    public boolean RequestHandler_OnBeforeBrowse(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean user_gesture, boolean is_redirect) throws org.apache.thrift.TException
     {
       send_RequestHandler_OnBeforeBrowse(bid, request, user_gesture, is_redirect);
       return recv_RequestHandler_OnBeforeBrowse();
     }
 
-    public void send_RequestHandler_OnBeforeBrowse(int bid, RObject request, boolean user_gesture, boolean is_redirect) throws org.apache.thrift.TException
+    public void send_RequestHandler_OnBeforeBrowse(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean user_gesture, boolean is_redirect) throws org.apache.thrift.TException
     {
       RequestHandler_OnBeforeBrowse_args args = new RequestHandler_OnBeforeBrowse_args();
       args.setBid(bid);
@@ -644,13 +644,13 @@ public class ClientHandlers {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "RequestHandler_OnOpenURLFromTab failed: unknown result");
     }
 
-    public boolean RequestHandler_GetAuthCredentials(int bid, java.lang.String origin_url, boolean isProxy, java.lang.String host, int port, java.lang.String realm, java.lang.String scheme, RObject authCallback) throws org.apache.thrift.TException
+    public boolean RequestHandler_GetAuthCredentials(int bid, java.lang.String origin_url, boolean isProxy, java.lang.String host, int port, java.lang.String realm, java.lang.String scheme, com.jetbrains.cef.remote.thrift_codegen.RObject authCallback) throws org.apache.thrift.TException
     {
       send_RequestHandler_GetAuthCredentials(bid, origin_url, isProxy, host, port, realm, scheme, authCallback);
       return recv_RequestHandler_GetAuthCredentials();
     }
 
-    public void send_RequestHandler_GetAuthCredentials(int bid, java.lang.String origin_url, boolean isProxy, java.lang.String host, int port, java.lang.String realm, java.lang.String scheme, RObject authCallback) throws org.apache.thrift.TException
+    public void send_RequestHandler_GetAuthCredentials(int bid, java.lang.String origin_url, boolean isProxy, java.lang.String host, int port, java.lang.String realm, java.lang.String scheme, com.jetbrains.cef.remote.thrift_codegen.RObject authCallback) throws org.apache.thrift.TException
     {
       RequestHandler_GetAuthCredentials_args args = new RequestHandler_GetAuthCredentials_args();
       args.setBid(bid);
@@ -674,13 +674,13 @@ public class ClientHandlers {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "RequestHandler_GetAuthCredentials failed: unknown result");
     }
 
-    public boolean RequestHandler_OnCertificateError(int bid, java.lang.String cert_error, java.lang.String request_url, RObject sslInfo, RObject callback) throws org.apache.thrift.TException
+    public boolean RequestHandler_OnCertificateError(int bid, java.lang.String cert_error, java.lang.String request_url, com.jetbrains.cef.remote.thrift_codegen.RObject sslInfo, com.jetbrains.cef.remote.thrift_codegen.RObject callback) throws org.apache.thrift.TException
     {
       send_RequestHandler_OnCertificateError(bid, cert_error, request_url, sslInfo, callback);
       return recv_RequestHandler_OnCertificateError();
     }
 
-    public void send_RequestHandler_OnCertificateError(int bid, java.lang.String cert_error, java.lang.String request_url, RObject sslInfo, RObject callback) throws org.apache.thrift.TException
+    public void send_RequestHandler_OnCertificateError(int bid, java.lang.String cert_error, java.lang.String request_url, com.jetbrains.cef.remote.thrift_codegen.RObject sslInfo, com.jetbrains.cef.remote.thrift_codegen.RObject callback) throws org.apache.thrift.TException
     {
       RequestHandler_OnCertificateError_args args = new RequestHandler_OnCertificateError_args();
       args.setBid(bid);
@@ -714,13 +714,13 @@ public class ClientHandlers {
       sendBaseOneway("RequestHandler_OnRenderProcessTerminated", args);
     }
 
-    public RObject RequestHandler_GetResourceRequestHandler(int bid, RObject request, boolean isNavigation, boolean isDownload, java.lang.String requestInitiator) throws org.apache.thrift.TException
+    public com.jetbrains.cef.remote.thrift_codegen.RObject RequestHandler_GetResourceRequestHandler(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean isNavigation, boolean isDownload, java.lang.String requestInitiator) throws org.apache.thrift.TException
     {
       send_RequestHandler_GetResourceRequestHandler(bid, request, isNavigation, isDownload, requestInitiator);
       return recv_RequestHandler_GetResourceRequestHandler();
     }
 
-    public void send_RequestHandler_GetResourceRequestHandler(int bid, RObject request, boolean isNavigation, boolean isDownload, java.lang.String requestInitiator) throws org.apache.thrift.TException
+    public void send_RequestHandler_GetResourceRequestHandler(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean isNavigation, boolean isDownload, java.lang.String requestInitiator) throws org.apache.thrift.TException
     {
       RequestHandler_GetResourceRequestHandler_args args = new RequestHandler_GetResourceRequestHandler_args();
       args.setBid(bid);
@@ -731,7 +731,7 @@ public class ClientHandlers {
       sendBase("RequestHandler_GetResourceRequestHandler", args);
     }
 
-    public RObject recv_RequestHandler_GetResourceRequestHandler() throws org.apache.thrift.TException
+    public com.jetbrains.cef.remote.thrift_codegen.RObject recv_RequestHandler_GetResourceRequestHandler() throws org.apache.thrift.TException
     {
       RequestHandler_GetResourceRequestHandler_result result = new RequestHandler_GetResourceRequestHandler_result();
       receiveBase(result, "RequestHandler_GetResourceRequestHandler");
@@ -753,13 +753,13 @@ public class ClientHandlers {
       sendBaseOneway("ResourceRequestHandler_Dispose", args);
     }
 
-    public RObject ResourceRequestHandler_GetCookieAccessFilter(int rrHandler, int bid, RObject request) throws org.apache.thrift.TException
+    public com.jetbrains.cef.remote.thrift_codegen.RObject ResourceRequestHandler_GetCookieAccessFilter(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException
     {
       send_ResourceRequestHandler_GetCookieAccessFilter(rrHandler, bid, request);
       return recv_ResourceRequestHandler_GetCookieAccessFilter();
     }
 
-    public void send_ResourceRequestHandler_GetCookieAccessFilter(int rrHandler, int bid, RObject request) throws org.apache.thrift.TException
+    public void send_ResourceRequestHandler_GetCookieAccessFilter(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException
     {
       ResourceRequestHandler_GetCookieAccessFilter_args args = new ResourceRequestHandler_GetCookieAccessFilter_args();
       args.setRrHandler(rrHandler);
@@ -768,7 +768,7 @@ public class ClientHandlers {
       sendBase("ResourceRequestHandler_GetCookieAccessFilter", args);
     }
 
-    public RObject recv_ResourceRequestHandler_GetCookieAccessFilter() throws org.apache.thrift.TException
+    public com.jetbrains.cef.remote.thrift_codegen.RObject recv_ResourceRequestHandler_GetCookieAccessFilter() throws org.apache.thrift.TException
     {
       ResourceRequestHandler_GetCookieAccessFilter_result result = new ResourceRequestHandler_GetCookieAccessFilter_result();
       receiveBase(result, "ResourceRequestHandler_GetCookieAccessFilter");
@@ -790,13 +790,13 @@ public class ClientHandlers {
       sendBaseOneway("CookieAccessFilter_Dispose", args);
     }
 
-    public boolean CookieAccessFilter_CanSendCookie(int filter, int bid, RObject request, java.util.List<java.lang.String> cookie) throws org.apache.thrift.TException
+    public boolean CookieAccessFilter_CanSendCookie(int filter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, java.util.List<java.lang.String> cookie) throws org.apache.thrift.TException
     {
       send_CookieAccessFilter_CanSendCookie(filter, bid, request, cookie);
       return recv_CookieAccessFilter_CanSendCookie();
     }
 
-    public void send_CookieAccessFilter_CanSendCookie(int filter, int bid, RObject request, java.util.List<java.lang.String> cookie) throws org.apache.thrift.TException
+    public void send_CookieAccessFilter_CanSendCookie(int filter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, java.util.List<java.lang.String> cookie) throws org.apache.thrift.TException
     {
       CookieAccessFilter_CanSendCookie_args args = new CookieAccessFilter_CanSendCookie_args();
       args.setFilter(filter);
@@ -816,13 +816,13 @@ public class ClientHandlers {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "CookieAccessFilter_CanSendCookie failed: unknown result");
     }
 
-    public boolean CookieAccessFilter_CanSaveCookie(int filter, int bid, RObject request, RObject response, java.util.List<java.lang.String> cookie) throws org.apache.thrift.TException
+    public boolean CookieAccessFilter_CanSaveCookie(int filter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.util.List<java.lang.String> cookie) throws org.apache.thrift.TException
     {
       send_CookieAccessFilter_CanSaveCookie(filter, bid, request, response, cookie);
       return recv_CookieAccessFilter_CanSaveCookie();
     }
 
-    public void send_CookieAccessFilter_CanSaveCookie(int filter, int bid, RObject request, RObject response, java.util.List<java.lang.String> cookie) throws org.apache.thrift.TException
+    public void send_CookieAccessFilter_CanSaveCookie(int filter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.util.List<java.lang.String> cookie) throws org.apache.thrift.TException
     {
       CookieAccessFilter_CanSaveCookie_args args = new CookieAccessFilter_CanSaveCookie_args();
       args.setFilter(filter);
@@ -843,13 +843,13 @@ public class ClientHandlers {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "CookieAccessFilter_CanSaveCookie failed: unknown result");
     }
 
-    public boolean ResourceRequestHandler_OnBeforeResourceLoad(int rrHandler, int bid, RObject request) throws org.apache.thrift.TException
+    public boolean ResourceRequestHandler_OnBeforeResourceLoad(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException
     {
       send_ResourceRequestHandler_OnBeforeResourceLoad(rrHandler, bid, request);
       return recv_ResourceRequestHandler_OnBeforeResourceLoad();
     }
 
-    public void send_ResourceRequestHandler_OnBeforeResourceLoad(int rrHandler, int bid, RObject request) throws org.apache.thrift.TException
+    public void send_ResourceRequestHandler_OnBeforeResourceLoad(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException
     {
       ResourceRequestHandler_OnBeforeResourceLoad_args args = new ResourceRequestHandler_OnBeforeResourceLoad_args();
       args.setRrHandler(rrHandler);
@@ -868,13 +868,13 @@ public class ClientHandlers {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "ResourceRequestHandler_OnBeforeResourceLoad failed: unknown result");
     }
 
-    public RObject ResourceRequestHandler_GetResourceHandler(int rrHandler, int bid, RObject request) throws org.apache.thrift.TException
+    public com.jetbrains.cef.remote.thrift_codegen.RObject ResourceRequestHandler_GetResourceHandler(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException
     {
       send_ResourceRequestHandler_GetResourceHandler(rrHandler, bid, request);
       return recv_ResourceRequestHandler_GetResourceHandler();
     }
 
-    public void send_ResourceRequestHandler_GetResourceHandler(int rrHandler, int bid, RObject request) throws org.apache.thrift.TException
+    public void send_ResourceRequestHandler_GetResourceHandler(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException
     {
       ResourceRequestHandler_GetResourceHandler_args args = new ResourceRequestHandler_GetResourceHandler_args();
       args.setRrHandler(rrHandler);
@@ -883,7 +883,7 @@ public class ClientHandlers {
       sendBase("ResourceRequestHandler_GetResourceHandler", args);
     }
 
-    public RObject recv_ResourceRequestHandler_GetResourceHandler() throws org.apache.thrift.TException
+    public com.jetbrains.cef.remote.thrift_codegen.RObject recv_ResourceRequestHandler_GetResourceHandler() throws org.apache.thrift.TException
     {
       ResourceRequestHandler_GetResourceHandler_result result = new ResourceRequestHandler_GetResourceHandler_result();
       receiveBase(result, "ResourceRequestHandler_GetResourceHandler");
@@ -905,13 +905,13 @@ public class ClientHandlers {
       sendBaseOneway("ResourceHandler_Dispose", args);
     }
 
-    public java.lang.String ResourceRequestHandler_OnResourceRedirect(int rrHandler, int bid, RObject request, RObject response, java.lang.String new_url) throws org.apache.thrift.TException
+    public java.lang.String ResourceRequestHandler_OnResourceRedirect(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String new_url) throws org.apache.thrift.TException
     {
       send_ResourceRequestHandler_OnResourceRedirect(rrHandler, bid, request, response, new_url);
       return recv_ResourceRequestHandler_OnResourceRedirect();
     }
 
-    public void send_ResourceRequestHandler_OnResourceRedirect(int rrHandler, int bid, RObject request, RObject response, java.lang.String new_url) throws org.apache.thrift.TException
+    public void send_ResourceRequestHandler_OnResourceRedirect(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String new_url) throws org.apache.thrift.TException
     {
       ResourceRequestHandler_OnResourceRedirect_args args = new ResourceRequestHandler_OnResourceRedirect_args();
       args.setRrHandler(rrHandler);
@@ -932,13 +932,13 @@ public class ClientHandlers {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "ResourceRequestHandler_OnResourceRedirect failed: unknown result");
     }
 
-    public boolean ResourceRequestHandler_OnResourceResponse(int rrHandler, int bid, RObject request, RObject response) throws org.apache.thrift.TException
+    public boolean ResourceRequestHandler_OnResourceResponse(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response) throws org.apache.thrift.TException
     {
       send_ResourceRequestHandler_OnResourceResponse(rrHandler, bid, request, response);
       return recv_ResourceRequestHandler_OnResourceResponse();
     }
 
-    public void send_ResourceRequestHandler_OnResourceResponse(int rrHandler, int bid, RObject request, RObject response) throws org.apache.thrift.TException
+    public void send_ResourceRequestHandler_OnResourceResponse(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response) throws org.apache.thrift.TException
     {
       ResourceRequestHandler_OnResourceResponse_args args = new ResourceRequestHandler_OnResourceResponse_args();
       args.setRrHandler(rrHandler);
@@ -958,12 +958,12 @@ public class ClientHandlers {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "ResourceRequestHandler_OnResourceResponse failed: unknown result");
     }
 
-    public void ResourceRequestHandler_OnResourceLoadComplete(int rrHandler, int bid, RObject request, RObject response, java.lang.String status, long receivedContentLength) throws org.apache.thrift.TException
+    public void ResourceRequestHandler_OnResourceLoadComplete(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String status, long receivedContentLength) throws org.apache.thrift.TException
     {
       send_ResourceRequestHandler_OnResourceLoadComplete(rrHandler, bid, request, response, status, receivedContentLength);
     }
 
-    public void send_ResourceRequestHandler_OnResourceLoadComplete(int rrHandler, int bid, RObject request, RObject response, java.lang.String status, long receivedContentLength) throws org.apache.thrift.TException
+    public void send_ResourceRequestHandler_OnResourceLoadComplete(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String status, long receivedContentLength) throws org.apache.thrift.TException
     {
       ResourceRequestHandler_OnResourceLoadComplete_args args = new ResourceRequestHandler_OnResourceLoadComplete_args();
       args.setRrHandler(rrHandler);
@@ -975,13 +975,13 @@ public class ClientHandlers {
       sendBaseOneway("ResourceRequestHandler_OnResourceLoadComplete", args);
     }
 
-    public boolean ResourceRequestHandler_OnProtocolExecution(int rrHandler, int bid, RObject request, boolean allowOsExecution) throws org.apache.thrift.TException
+    public boolean ResourceRequestHandler_OnProtocolExecution(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean allowOsExecution) throws org.apache.thrift.TException
     {
       send_ResourceRequestHandler_OnProtocolExecution(rrHandler, bid, request, allowOsExecution);
       return recv_ResourceRequestHandler_OnProtocolExecution();
     }
 
-    public void send_ResourceRequestHandler_OnProtocolExecution(int rrHandler, int bid, RObject request, boolean allowOsExecution) throws org.apache.thrift.TException
+    public void send_ResourceRequestHandler_OnProtocolExecution(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean allowOsExecution) throws org.apache.thrift.TException
     {
       ResourceRequestHandler_OnProtocolExecution_args args = new ResourceRequestHandler_OnProtocolExecution_args();
       args.setRrHandler(rrHandler);
@@ -1001,13 +1001,13 @@ public class ClientHandlers {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "ResourceRequestHandler_OnProtocolExecution failed: unknown result");
     }
 
-    public boolean MessageRouterHandler_onQuery(RObject handler, int bid, long queryId, java.lang.String request, boolean persistent, RObject queryCallback) throws org.apache.thrift.TException
+    public boolean MessageRouterHandler_onQuery(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, long queryId, java.lang.String request, boolean persistent, com.jetbrains.cef.remote.thrift_codegen.RObject queryCallback) throws org.apache.thrift.TException
     {
       send_MessageRouterHandler_onQuery(handler, bid, queryId, request, persistent, queryCallback);
       return recv_MessageRouterHandler_onQuery();
     }
 
-    public void send_MessageRouterHandler_onQuery(RObject handler, int bid, long queryId, java.lang.String request, boolean persistent, RObject queryCallback) throws org.apache.thrift.TException
+    public void send_MessageRouterHandler_onQuery(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, long queryId, java.lang.String request, boolean persistent, com.jetbrains.cef.remote.thrift_codegen.RObject queryCallback) throws org.apache.thrift.TException
     {
       MessageRouterHandler_onQuery_args args = new MessageRouterHandler_onQuery_args();
       args.setHandler(handler);
@@ -1029,12 +1029,12 @@ public class ClientHandlers {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "MessageRouterHandler_onQuery failed: unknown result");
     }
 
-    public void MessageRouterHandler_onQueryCanceled(RObject handler, int bid, long queryId) throws org.apache.thrift.TException
+    public void MessageRouterHandler_onQueryCanceled(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, long queryId) throws org.apache.thrift.TException
     {
       send_MessageRouterHandler_onQueryCanceled(handler, bid, queryId);
     }
 
-    public void send_MessageRouterHandler_onQueryCanceled(RObject handler, int bid, long queryId) throws org.apache.thrift.TException
+    public void send_MessageRouterHandler_onQueryCanceled(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, long queryId) throws org.apache.thrift.TException
     {
       MessageRouterHandler_onQueryCanceled_args args = new MessageRouterHandler_onQueryCanceled_args();
       args.setHandler(handler);
@@ -1808,7 +1808,7 @@ public class ClientHandlers {
       }
     }
 
-    public void RequestHandler_OnBeforeBrowse(int bid, RObject request, boolean user_gesture, boolean is_redirect, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
+    public void RequestHandler_OnBeforeBrowse(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean user_gesture, boolean is_redirect, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       RequestHandler_OnBeforeBrowse_call method_call = new RequestHandler_OnBeforeBrowse_call(bid, request, user_gesture, is_redirect, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -1817,10 +1817,10 @@ public class ClientHandlers {
 
     public static class RequestHandler_OnBeforeBrowse_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.Boolean> {
       private int bid;
-      private RObject request;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject request;
       private boolean user_gesture;
       private boolean is_redirect;
-      public RequestHandler_OnBeforeBrowse_call(int bid, RObject request, boolean user_gesture, boolean is_redirect, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public RequestHandler_OnBeforeBrowse_call(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean user_gesture, boolean is_redirect, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.bid = bid;
         this.request = request;
@@ -1887,7 +1887,7 @@ public class ClientHandlers {
       }
     }
 
-    public void RequestHandler_GetAuthCredentials(int bid, java.lang.String origin_url, boolean isProxy, java.lang.String host, int port, java.lang.String realm, java.lang.String scheme, RObject authCallback, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
+    public void RequestHandler_GetAuthCredentials(int bid, java.lang.String origin_url, boolean isProxy, java.lang.String host, int port, java.lang.String realm, java.lang.String scheme, com.jetbrains.cef.remote.thrift_codegen.RObject authCallback, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       RequestHandler_GetAuthCredentials_call method_call = new RequestHandler_GetAuthCredentials_call(bid, origin_url, isProxy, host, port, realm, scheme, authCallback, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -1902,8 +1902,8 @@ public class ClientHandlers {
       private int port;
       private java.lang.String realm;
       private java.lang.String scheme;
-      private RObject authCallback;
-      public RequestHandler_GetAuthCredentials_call(int bid, java.lang.String origin_url, boolean isProxy, java.lang.String host, int port, java.lang.String realm, java.lang.String scheme, RObject authCallback, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private com.jetbrains.cef.remote.thrift_codegen.RObject authCallback;
+      public RequestHandler_GetAuthCredentials_call(int bid, java.lang.String origin_url, boolean isProxy, java.lang.String host, int port, java.lang.String realm, java.lang.String scheme, com.jetbrains.cef.remote.thrift_codegen.RObject authCallback, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.bid = bid;
         this.origin_url = origin_url;
@@ -1940,7 +1940,7 @@ public class ClientHandlers {
       }
     }
 
-    public void RequestHandler_OnCertificateError(int bid, java.lang.String cert_error, java.lang.String request_url, RObject sslInfo, RObject callback, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
+    public void RequestHandler_OnCertificateError(int bid, java.lang.String cert_error, java.lang.String request_url, com.jetbrains.cef.remote.thrift_codegen.RObject sslInfo, com.jetbrains.cef.remote.thrift_codegen.RObject callback, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       RequestHandler_OnCertificateError_call method_call = new RequestHandler_OnCertificateError_call(bid, cert_error, request_url, sslInfo, callback, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -1951,9 +1951,9 @@ public class ClientHandlers {
       private int bid;
       private java.lang.String cert_error;
       private java.lang.String request_url;
-      private RObject sslInfo;
-      private RObject callback;
-      public RequestHandler_OnCertificateError_call(int bid, java.lang.String cert_error, java.lang.String request_url, RObject sslInfo, RObject callback, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private com.jetbrains.cef.remote.thrift_codegen.RObject sslInfo;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject callback;
+      public RequestHandler_OnCertificateError_call(int bid, java.lang.String cert_error, java.lang.String request_url, com.jetbrains.cef.remote.thrift_codegen.RObject sslInfo, com.jetbrains.cef.remote.thrift_codegen.RObject callback, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.bid = bid;
         this.cert_error = cert_error;
@@ -2019,20 +2019,20 @@ public class ClientHandlers {
       }
     }
 
-    public void RequestHandler_GetResourceRequestHandler(int bid, RObject request, boolean isNavigation, boolean isDownload, java.lang.String requestInitiator, org.apache.thrift.async.AsyncMethodCallback<RObject> resultHandler) throws org.apache.thrift.TException {
+    public void RequestHandler_GetResourceRequestHandler(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean isNavigation, boolean isDownload, java.lang.String requestInitiator, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       RequestHandler_GetResourceRequestHandler_call method_call = new RequestHandler_GetResourceRequestHandler_call(bid, request, isNavigation, isDownload, requestInitiator, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class RequestHandler_GetResourceRequestHandler_call extends org.apache.thrift.async.TAsyncMethodCall<RObject> {
+    public static class RequestHandler_GetResourceRequestHandler_call extends org.apache.thrift.async.TAsyncMethodCall<com.jetbrains.cef.remote.thrift_codegen.RObject> {
       private int bid;
-      private RObject request;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject request;
       private boolean isNavigation;
       private boolean isDownload;
       private java.lang.String requestInitiator;
-      public RequestHandler_GetResourceRequestHandler_call(int bid, RObject request, boolean isNavigation, boolean isDownload, java.lang.String requestInitiator, org.apache.thrift.async.AsyncMethodCallback<RObject> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public RequestHandler_GetResourceRequestHandler_call(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean isNavigation, boolean isDownload, java.lang.String requestInitiator, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.bid = bid;
         this.request = request;
@@ -2053,7 +2053,7 @@ public class ClientHandlers {
         prot.writeMessageEnd();
       }
 
-      public RObject getResult() throws org.apache.thrift.TException {
+      public com.jetbrains.cef.remote.thrift_codegen.RObject getResult() throws org.apache.thrift.TException {
         if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new java.lang.IllegalStateException("Method call not finished!");
         }
@@ -2095,18 +2095,18 @@ public class ClientHandlers {
       }
     }
 
-    public void ResourceRequestHandler_GetCookieAccessFilter(int rrHandler, int bid, RObject request, org.apache.thrift.async.AsyncMethodCallback<RObject> resultHandler) throws org.apache.thrift.TException {
+    public void ResourceRequestHandler_GetCookieAccessFilter(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       ResourceRequestHandler_GetCookieAccessFilter_call method_call = new ResourceRequestHandler_GetCookieAccessFilter_call(rrHandler, bid, request, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class ResourceRequestHandler_GetCookieAccessFilter_call extends org.apache.thrift.async.TAsyncMethodCall<RObject> {
+    public static class ResourceRequestHandler_GetCookieAccessFilter_call extends org.apache.thrift.async.TAsyncMethodCall<com.jetbrains.cef.remote.thrift_codegen.RObject> {
       private int rrHandler;
       private int bid;
-      private RObject request;
-      public ResourceRequestHandler_GetCookieAccessFilter_call(int rrHandler, int bid, RObject request, org.apache.thrift.async.AsyncMethodCallback<RObject> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private com.jetbrains.cef.remote.thrift_codegen.RObject request;
+      public ResourceRequestHandler_GetCookieAccessFilter_call(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.rrHandler = rrHandler;
         this.bid = bid;
@@ -2123,7 +2123,7 @@ public class ClientHandlers {
         prot.writeMessageEnd();
       }
 
-      public RObject getResult() throws org.apache.thrift.TException {
+      public com.jetbrains.cef.remote.thrift_codegen.RObject getResult() throws org.apache.thrift.TException {
         if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new java.lang.IllegalStateException("Method call not finished!");
         }
@@ -2165,7 +2165,7 @@ public class ClientHandlers {
       }
     }
 
-    public void CookieAccessFilter_CanSendCookie(int filter, int bid, RObject request, java.util.List<java.lang.String> cookie, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
+    public void CookieAccessFilter_CanSendCookie(int filter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, java.util.List<java.lang.String> cookie, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       CookieAccessFilter_CanSendCookie_call method_call = new CookieAccessFilter_CanSendCookie_call(filter, bid, request, cookie, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -2175,9 +2175,9 @@ public class ClientHandlers {
     public static class CookieAccessFilter_CanSendCookie_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.Boolean> {
       private int filter;
       private int bid;
-      private RObject request;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject request;
       private java.util.List<java.lang.String> cookie;
-      public CookieAccessFilter_CanSendCookie_call(int filter, int bid, RObject request, java.util.List<java.lang.String> cookie, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public CookieAccessFilter_CanSendCookie_call(int filter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, java.util.List<java.lang.String> cookie, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.filter = filter;
         this.bid = bid;
@@ -2206,7 +2206,7 @@ public class ClientHandlers {
       }
     }
 
-    public void CookieAccessFilter_CanSaveCookie(int filter, int bid, RObject request, RObject response, java.util.List<java.lang.String> cookie, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
+    public void CookieAccessFilter_CanSaveCookie(int filter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.util.List<java.lang.String> cookie, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       CookieAccessFilter_CanSaveCookie_call method_call = new CookieAccessFilter_CanSaveCookie_call(filter, bid, request, response, cookie, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -2216,10 +2216,10 @@ public class ClientHandlers {
     public static class CookieAccessFilter_CanSaveCookie_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.Boolean> {
       private int filter;
       private int bid;
-      private RObject request;
-      private RObject response;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject request;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject response;
       private java.util.List<java.lang.String> cookie;
-      public CookieAccessFilter_CanSaveCookie_call(int filter, int bid, RObject request, RObject response, java.util.List<java.lang.String> cookie, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public CookieAccessFilter_CanSaveCookie_call(int filter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.util.List<java.lang.String> cookie, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.filter = filter;
         this.bid = bid;
@@ -2250,7 +2250,7 @@ public class ClientHandlers {
       }
     }
 
-    public void ResourceRequestHandler_OnBeforeResourceLoad(int rrHandler, int bid, RObject request, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
+    public void ResourceRequestHandler_OnBeforeResourceLoad(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       ResourceRequestHandler_OnBeforeResourceLoad_call method_call = new ResourceRequestHandler_OnBeforeResourceLoad_call(rrHandler, bid, request, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -2260,8 +2260,8 @@ public class ClientHandlers {
     public static class ResourceRequestHandler_OnBeforeResourceLoad_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.Boolean> {
       private int rrHandler;
       private int bid;
-      private RObject request;
-      public ResourceRequestHandler_OnBeforeResourceLoad_call(int rrHandler, int bid, RObject request, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private com.jetbrains.cef.remote.thrift_codegen.RObject request;
+      public ResourceRequestHandler_OnBeforeResourceLoad_call(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.rrHandler = rrHandler;
         this.bid = bid;
@@ -2288,18 +2288,18 @@ public class ClientHandlers {
       }
     }
 
-    public void ResourceRequestHandler_GetResourceHandler(int rrHandler, int bid, RObject request, org.apache.thrift.async.AsyncMethodCallback<RObject> resultHandler) throws org.apache.thrift.TException {
+    public void ResourceRequestHandler_GetResourceHandler(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       ResourceRequestHandler_GetResourceHandler_call method_call = new ResourceRequestHandler_GetResourceHandler_call(rrHandler, bid, request, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class ResourceRequestHandler_GetResourceHandler_call extends org.apache.thrift.async.TAsyncMethodCall<RObject> {
+    public static class ResourceRequestHandler_GetResourceHandler_call extends org.apache.thrift.async.TAsyncMethodCall<com.jetbrains.cef.remote.thrift_codegen.RObject> {
       private int rrHandler;
       private int bid;
-      private RObject request;
-      public ResourceRequestHandler_GetResourceHandler_call(int rrHandler, int bid, RObject request, org.apache.thrift.async.AsyncMethodCallback<RObject> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private com.jetbrains.cef.remote.thrift_codegen.RObject request;
+      public ResourceRequestHandler_GetResourceHandler_call(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.rrHandler = rrHandler;
         this.bid = bid;
@@ -2316,7 +2316,7 @@ public class ClientHandlers {
         prot.writeMessageEnd();
       }
 
-      public RObject getResult() throws org.apache.thrift.TException {
+      public com.jetbrains.cef.remote.thrift_codegen.RObject getResult() throws org.apache.thrift.TException {
         if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new java.lang.IllegalStateException("Method call not finished!");
         }
@@ -2358,7 +2358,7 @@ public class ClientHandlers {
       }
     }
 
-    public void ResourceRequestHandler_OnResourceRedirect(int rrHandler, int bid, RObject request, RObject response, java.lang.String new_url, org.apache.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws org.apache.thrift.TException {
+    public void ResourceRequestHandler_OnResourceRedirect(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String new_url, org.apache.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       ResourceRequestHandler_OnResourceRedirect_call method_call = new ResourceRequestHandler_OnResourceRedirect_call(rrHandler, bid, request, response, new_url, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -2368,10 +2368,10 @@ public class ClientHandlers {
     public static class ResourceRequestHandler_OnResourceRedirect_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.String> {
       private int rrHandler;
       private int bid;
-      private RObject request;
-      private RObject response;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject request;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject response;
       private java.lang.String new_url;
-      public ResourceRequestHandler_OnResourceRedirect_call(int rrHandler, int bid, RObject request, RObject response, java.lang.String new_url, org.apache.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public ResourceRequestHandler_OnResourceRedirect_call(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String new_url, org.apache.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.rrHandler = rrHandler;
         this.bid = bid;
@@ -2402,7 +2402,7 @@ public class ClientHandlers {
       }
     }
 
-    public void ResourceRequestHandler_OnResourceResponse(int rrHandler, int bid, RObject request, RObject response, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
+    public void ResourceRequestHandler_OnResourceResponse(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       ResourceRequestHandler_OnResourceResponse_call method_call = new ResourceRequestHandler_OnResourceResponse_call(rrHandler, bid, request, response, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -2412,9 +2412,9 @@ public class ClientHandlers {
     public static class ResourceRequestHandler_OnResourceResponse_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.Boolean> {
       private int rrHandler;
       private int bid;
-      private RObject request;
-      private RObject response;
-      public ResourceRequestHandler_OnResourceResponse_call(int rrHandler, int bid, RObject request, RObject response, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private com.jetbrains.cef.remote.thrift_codegen.RObject request;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject response;
+      public ResourceRequestHandler_OnResourceResponse_call(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.rrHandler = rrHandler;
         this.bid = bid;
@@ -2443,7 +2443,7 @@ public class ClientHandlers {
       }
     }
 
-    public void ResourceRequestHandler_OnResourceLoadComplete(int rrHandler, int bid, RObject request, RObject response, java.lang.String status, long receivedContentLength, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void ResourceRequestHandler_OnResourceLoadComplete(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String status, long receivedContentLength, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       ResourceRequestHandler_OnResourceLoadComplete_call method_call = new ResourceRequestHandler_OnResourceLoadComplete_call(rrHandler, bid, request, response, status, receivedContentLength, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -2453,11 +2453,11 @@ public class ClientHandlers {
     public static class ResourceRequestHandler_OnResourceLoadComplete_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
       private int rrHandler;
       private int bid;
-      private RObject request;
-      private RObject response;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject request;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject response;
       private java.lang.String status;
       private long receivedContentLength;
-      public ResourceRequestHandler_OnResourceLoadComplete_call(int rrHandler, int bid, RObject request, RObject response, java.lang.String status, long receivedContentLength, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public ResourceRequestHandler_OnResourceLoadComplete_call(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String status, long receivedContentLength, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
         this.rrHandler = rrHandler;
         this.bid = bid;
@@ -2490,7 +2490,7 @@ public class ClientHandlers {
       }
     }
 
-    public void ResourceRequestHandler_OnProtocolExecution(int rrHandler, int bid, RObject request, boolean allowOsExecution, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
+    public void ResourceRequestHandler_OnProtocolExecution(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean allowOsExecution, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       ResourceRequestHandler_OnProtocolExecution_call method_call = new ResourceRequestHandler_OnProtocolExecution_call(rrHandler, bid, request, allowOsExecution, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -2500,9 +2500,9 @@ public class ClientHandlers {
     public static class ResourceRequestHandler_OnProtocolExecution_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.Boolean> {
       private int rrHandler;
       private int bid;
-      private RObject request;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject request;
       private boolean allowOsExecution;
-      public ResourceRequestHandler_OnProtocolExecution_call(int rrHandler, int bid, RObject request, boolean allowOsExecution, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public ResourceRequestHandler_OnProtocolExecution_call(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean allowOsExecution, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.rrHandler = rrHandler;
         this.bid = bid;
@@ -2531,7 +2531,7 @@ public class ClientHandlers {
       }
     }
 
-    public void MessageRouterHandler_onQuery(RObject handler, int bid, long queryId, java.lang.String request, boolean persistent, RObject queryCallback, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
+    public void MessageRouterHandler_onQuery(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, long queryId, java.lang.String request, boolean persistent, com.jetbrains.cef.remote.thrift_codegen.RObject queryCallback, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       MessageRouterHandler_onQuery_call method_call = new MessageRouterHandler_onQuery_call(handler, bid, queryId, request, persistent, queryCallback, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -2539,13 +2539,13 @@ public class ClientHandlers {
     }
 
     public static class MessageRouterHandler_onQuery_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.Boolean> {
-      private RObject handler;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject handler;
       private int bid;
       private long queryId;
       private java.lang.String request;
       private boolean persistent;
-      private RObject queryCallback;
-      public MessageRouterHandler_onQuery_call(RObject handler, int bid, long queryId, java.lang.String request, boolean persistent, RObject queryCallback, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private com.jetbrains.cef.remote.thrift_codegen.RObject queryCallback;
+      public MessageRouterHandler_onQuery_call(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, long queryId, java.lang.String request, boolean persistent, com.jetbrains.cef.remote.thrift_codegen.RObject queryCallback, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.handler = handler;
         this.bid = bid;
@@ -2578,7 +2578,7 @@ public class ClientHandlers {
       }
     }
 
-    public void MessageRouterHandler_onQueryCanceled(RObject handler, int bid, long queryId, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void MessageRouterHandler_onQueryCanceled(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, long queryId, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       MessageRouterHandler_onQueryCanceled_call method_call = new MessageRouterHandler_onQueryCanceled_call(handler, bid, queryId, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -2586,10 +2586,10 @@ public class ClientHandlers {
     }
 
     public static class MessageRouterHandler_onQueryCanceled_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
-      private RObject handler;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject handler;
       private int bid;
       private long queryId;
-      public MessageRouterHandler_onQueryCanceled_call(RObject handler, int bid, long queryId, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public MessageRouterHandler_onQueryCanceled_call(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, long queryId, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
         this.handler = handler;
         this.bid = bid;
@@ -5050,7 +5050,7 @@ public class ClientHandlers {
       }
     }
 
-    public static class RequestHandler_GetResourceRequestHandler<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, RequestHandler_GetResourceRequestHandler_args, RObject> {
+    public static class RequestHandler_GetResourceRequestHandler<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, RequestHandler_GetResourceRequestHandler_args, com.jetbrains.cef.remote.thrift_codegen.RObject> {
       public RequestHandler_GetResourceRequestHandler() {
         super("RequestHandler_GetResourceRequestHandler");
       }
@@ -5059,10 +5059,10 @@ public class ClientHandlers {
         return new RequestHandler_GetResourceRequestHandler_args();
       }
 
-      public org.apache.thrift.async.AsyncMethodCallback<RObject> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+      public org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
         final org.apache.thrift.AsyncProcessFunction fcall = this;
-        return new org.apache.thrift.async.AsyncMethodCallback<RObject>() { 
-          public void onComplete(RObject o) {
+        return new org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject>() { 
+          public void onComplete(com.jetbrains.cef.remote.thrift_codegen.RObject o) {
             RequestHandler_GetResourceRequestHandler_result result = new RequestHandler_GetResourceRequestHandler_result();
             result.success = o;
             try {
@@ -5106,7 +5106,7 @@ public class ClientHandlers {
         return false;
       }
 
-      public void start(I iface, RequestHandler_GetResourceRequestHandler_args args, org.apache.thrift.async.AsyncMethodCallback<RObject> resultHandler) throws org.apache.thrift.TException {
+      public void start(I iface, RequestHandler_GetResourceRequestHandler_args args, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException {
         iface.RequestHandler_GetResourceRequestHandler(args.bid, args.request, args.isNavigation, args.isDownload, args.requestInitiator,resultHandler);
       }
     }
@@ -5145,7 +5145,7 @@ public class ClientHandlers {
       }
     }
 
-    public static class ResourceRequestHandler_GetCookieAccessFilter<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, ResourceRequestHandler_GetCookieAccessFilter_args, RObject> {
+    public static class ResourceRequestHandler_GetCookieAccessFilter<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, ResourceRequestHandler_GetCookieAccessFilter_args, com.jetbrains.cef.remote.thrift_codegen.RObject> {
       public ResourceRequestHandler_GetCookieAccessFilter() {
         super("ResourceRequestHandler_GetCookieAccessFilter");
       }
@@ -5154,10 +5154,10 @@ public class ClientHandlers {
         return new ResourceRequestHandler_GetCookieAccessFilter_args();
       }
 
-      public org.apache.thrift.async.AsyncMethodCallback<RObject> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+      public org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
         final org.apache.thrift.AsyncProcessFunction fcall = this;
-        return new org.apache.thrift.async.AsyncMethodCallback<RObject>() { 
-          public void onComplete(RObject o) {
+        return new org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject>() { 
+          public void onComplete(com.jetbrains.cef.remote.thrift_codegen.RObject o) {
             ResourceRequestHandler_GetCookieAccessFilter_result result = new ResourceRequestHandler_GetCookieAccessFilter_result();
             result.success = o;
             try {
@@ -5201,7 +5201,7 @@ public class ClientHandlers {
         return false;
       }
 
-      public void start(I iface, ResourceRequestHandler_GetCookieAccessFilter_args args, org.apache.thrift.async.AsyncMethodCallback<RObject> resultHandler) throws org.apache.thrift.TException {
+      public void start(I iface, ResourceRequestHandler_GetCookieAccessFilter_args args, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException {
         iface.ResourceRequestHandler_GetCookieAccessFilter(args.rrHandler, args.bid, args.request,resultHandler);
       }
     }
@@ -5426,7 +5426,7 @@ public class ClientHandlers {
       }
     }
 
-    public static class ResourceRequestHandler_GetResourceHandler<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, ResourceRequestHandler_GetResourceHandler_args, RObject> {
+    public static class ResourceRequestHandler_GetResourceHandler<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, ResourceRequestHandler_GetResourceHandler_args, com.jetbrains.cef.remote.thrift_codegen.RObject> {
       public ResourceRequestHandler_GetResourceHandler() {
         super("ResourceRequestHandler_GetResourceHandler");
       }
@@ -5435,10 +5435,10 @@ public class ClientHandlers {
         return new ResourceRequestHandler_GetResourceHandler_args();
       }
 
-      public org.apache.thrift.async.AsyncMethodCallback<RObject> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+      public org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
         final org.apache.thrift.AsyncProcessFunction fcall = this;
-        return new org.apache.thrift.async.AsyncMethodCallback<RObject>() { 
-          public void onComplete(RObject o) {
+        return new org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject>() { 
+          public void onComplete(com.jetbrains.cef.remote.thrift_codegen.RObject o) {
             ResourceRequestHandler_GetResourceHandler_result result = new ResourceRequestHandler_GetResourceHandler_result();
             result.success = o;
             try {
@@ -5482,7 +5482,7 @@ public class ClientHandlers {
         return false;
       }
 
-      public void start(I iface, ResourceRequestHandler_GetResourceHandler_args args, org.apache.thrift.async.AsyncMethodCallback<RObject> resultHandler) throws org.apache.thrift.TException {
+      public void start(I iface, ResourceRequestHandler_GetResourceHandler_args args, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException {
         iface.ResourceRequestHandler_GetResourceHandler(args.rrHandler, args.bid, args.request,resultHandler);
       }
     }
@@ -19722,7 +19722,7 @@ public class ClientHandlers {
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RequestHandler_OnBeforeBrowse_argsTupleSchemeFactory();
 
     public int bid; // required
-    public @org.apache.thrift.annotation.Nullable RObject request; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request; // required
     public boolean user_gesture; // required
     public boolean is_redirect; // required
 
@@ -19806,7 +19806,7 @@ public class ClientHandlers {
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.REQUEST, new org.apache.thrift.meta_data.FieldMetaData("request", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.USER_GESTURE, new org.apache.thrift.meta_data.FieldMetaData("user_gesture", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
       tmpMap.put(_Fields.IS_REDIRECT, new org.apache.thrift.meta_data.FieldMetaData("is_redirect", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -19820,7 +19820,7 @@ public class ClientHandlers {
 
     public RequestHandler_OnBeforeBrowse_args(
       int bid,
-      RObject request,
+      com.jetbrains.cef.remote.thrift_codegen.RObject request,
       boolean user_gesture,
       boolean is_redirect)
     {
@@ -19841,7 +19841,7 @@ public class ClientHandlers {
       __isset_bitfield = other.__isset_bitfield;
       this.bid = other.bid;
       if (other.isSetRequest()) {
-        this.request = new RObject(other.request);
+        this.request = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.request);
       }
       this.user_gesture = other.user_gesture;
       this.is_redirect = other.is_redirect;
@@ -19886,11 +19886,11 @@ public class ClientHandlers {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getRequest() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getRequest() {
       return this.request;
     }
 
-    public RequestHandler_OnBeforeBrowse_args setRequest(@org.apache.thrift.annotation.Nullable RObject request) {
+    public RequestHandler_OnBeforeBrowse_args setRequest(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request) {
       this.request = request;
       return this;
     }
@@ -19970,7 +19970,7 @@ public class ClientHandlers {
         if (value == null) {
           unsetRequest();
         } else {
-          setRequest((RObject)value);
+          setRequest((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -20246,7 +20246,7 @@ public class ClientHandlers {
               break;
             case 2: // REQUEST
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.request = new RObject();
+                struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.request.read(iprot);
                 struct.setRequestIsSet(true);
               } else { 
@@ -20352,7 +20352,7 @@ public class ClientHandlers {
           struct.setBidIsSet(true);
         }
         if (incoming.get(1)) {
-          struct.request = new RObject();
+          struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.request.read(iprot);
           struct.setRequestIsSet(true);
         }
@@ -21679,7 +21679,7 @@ public class ClientHandlers {
     public int port; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String realm; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String scheme; // required
-    public @org.apache.thrift.annotation.Nullable RObject authCallback; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject authCallback; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -21785,7 +21785,7 @@ public class ClientHandlers {
       tmpMap.put(_Fields.SCHEME, new org.apache.thrift.meta_data.FieldMetaData("scheme", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       tmpMap.put(_Fields.AUTH_CALLBACK, new org.apache.thrift.meta_data.FieldMetaData("authCallback", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(RequestHandler_GetAuthCredentials_args.class, metaDataMap);
     }
@@ -21801,7 +21801,7 @@ public class ClientHandlers {
       int port,
       java.lang.String realm,
       java.lang.String scheme,
-      RObject authCallback)
+      com.jetbrains.cef.remote.thrift_codegen.RObject authCallback)
     {
       this();
       this.bid = bid;
@@ -21838,7 +21838,7 @@ public class ClientHandlers {
         this.scheme = other.scheme;
       }
       if (other.isSetAuthCallback()) {
-        this.authCallback = new RObject(other.authCallback);
+        this.authCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.authCallback);
       }
     }
 
@@ -22031,11 +22031,11 @@ public class ClientHandlers {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getAuthCallback() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getAuthCallback() {
       return this.authCallback;
     }
 
-    public RequestHandler_GetAuthCredentials_args setAuthCallback(@org.apache.thrift.annotation.Nullable RObject authCallback) {
+    public RequestHandler_GetAuthCredentials_args setAuthCallback(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject authCallback) {
       this.authCallback = authCallback;
       return this;
     }
@@ -22117,7 +22117,7 @@ public class ClientHandlers {
         if (value == null) {
           unsetAuthCallback();
         } else {
-          setAuthCallback((RObject)value);
+          setAuthCallback((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -22569,7 +22569,7 @@ public class ClientHandlers {
               break;
             case 8: // AUTH_CALLBACK
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.authCallback = new RObject();
+                struct.authCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.authCallback.read(iprot);
                 struct.setAuthCallbackIsSet(true);
               } else { 
@@ -22727,7 +22727,7 @@ public class ClientHandlers {
           struct.setSchemeIsSet(true);
         }
         if (incoming.get(7)) {
-          struct.authCallback = new RObject();
+          struct.authCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.authCallback.read(iprot);
           struct.setAuthCallbackIsSet(true);
         }
@@ -23116,8 +23116,8 @@ public class ClientHandlers {
     public int bid; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String cert_error; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String request_url; // required
-    public @org.apache.thrift.annotation.Nullable RObject sslInfo; // required
-    public @org.apache.thrift.annotation.Nullable RObject callback; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject sslInfo; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject callback; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -23204,9 +23204,9 @@ public class ClientHandlers {
       tmpMap.put(_Fields.REQUEST_URL, new org.apache.thrift.meta_data.FieldMetaData("request_url", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       tmpMap.put(_Fields.SSL_INFO, new org.apache.thrift.meta_data.FieldMetaData("sslInfo", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.CALLBACK, new org.apache.thrift.meta_data.FieldMetaData("callback", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(RequestHandler_OnCertificateError_args.class, metaDataMap);
     }
@@ -23218,8 +23218,8 @@ public class ClientHandlers {
       int bid,
       java.lang.String cert_error,
       java.lang.String request_url,
-      RObject sslInfo,
-      RObject callback)
+      com.jetbrains.cef.remote.thrift_codegen.RObject sslInfo,
+      com.jetbrains.cef.remote.thrift_codegen.RObject callback)
     {
       this();
       this.bid = bid;
@@ -23243,10 +23243,10 @@ public class ClientHandlers {
         this.request_url = other.request_url;
       }
       if (other.isSetSslInfo()) {
-        this.sslInfo = new RObject(other.sslInfo);
+        this.sslInfo = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.sslInfo);
       }
       if (other.isSetCallback()) {
-        this.callback = new RObject(other.callback);
+        this.callback = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.callback);
       }
     }
 
@@ -23338,11 +23338,11 @@ public class ClientHandlers {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getSslInfo() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getSslInfo() {
       return this.sslInfo;
     }
 
-    public RequestHandler_OnCertificateError_args setSslInfo(@org.apache.thrift.annotation.Nullable RObject sslInfo) {
+    public RequestHandler_OnCertificateError_args setSslInfo(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject sslInfo) {
       this.sslInfo = sslInfo;
       return this;
     }
@@ -23363,11 +23363,11 @@ public class ClientHandlers {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getCallback() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getCallback() {
       return this.callback;
     }
 
-    public RequestHandler_OnCertificateError_args setCallback(@org.apache.thrift.annotation.Nullable RObject callback) {
+    public RequestHandler_OnCertificateError_args setCallback(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject callback) {
       this.callback = callback;
       return this;
     }
@@ -23417,7 +23417,7 @@ public class ClientHandlers {
         if (value == null) {
           unsetSslInfo();
         } else {
-          setSslInfo((RObject)value);
+          setSslInfo((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -23425,7 +23425,7 @@ public class ClientHandlers {
         if (value == null) {
           unsetCallback();
         } else {
-          setCallback((RObject)value);
+          setCallback((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -23752,7 +23752,7 @@ public class ClientHandlers {
               break;
             case 4: // SSL_INFO
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.sslInfo = new RObject();
+                struct.sslInfo = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.sslInfo.read(iprot);
                 struct.setSslInfoIsSet(true);
               } else { 
@@ -23761,7 +23761,7 @@ public class ClientHandlers {
               break;
             case 5: // CALLBACK
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.callback = new RObject();
+                struct.callback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.callback.read(iprot);
                 struct.setCallbackIsSet(true);
               } else { 
@@ -23874,12 +23874,12 @@ public class ClientHandlers {
           struct.setRequest_urlIsSet(true);
         }
         if (incoming.get(3)) {
-          struct.sslInfo = new RObject();
+          struct.sslInfo = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.sslInfo.read(iprot);
           struct.setSslInfoIsSet(true);
         }
         if (incoming.get(4)) {
-          struct.callback = new RObject();
+          struct.callback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.callback.read(iprot);
           struct.setCallbackIsSet(true);
         }
@@ -24731,7 +24731,7 @@ public class ClientHandlers {
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RequestHandler_GetResourceRequestHandler_argsTupleSchemeFactory();
 
     public int bid; // required
-    public @org.apache.thrift.annotation.Nullable RObject request; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request; // required
     public boolean isNavigation; // required
     public boolean isDownload; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String requestInitiator; // required
@@ -24819,7 +24819,7 @@ public class ClientHandlers {
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.REQUEST, new org.apache.thrift.meta_data.FieldMetaData("request", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.IS_NAVIGATION, new org.apache.thrift.meta_data.FieldMetaData("isNavigation", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
       tmpMap.put(_Fields.IS_DOWNLOAD, new org.apache.thrift.meta_data.FieldMetaData("isDownload", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -24835,7 +24835,7 @@ public class ClientHandlers {
 
     public RequestHandler_GetResourceRequestHandler_args(
       int bid,
-      RObject request,
+      com.jetbrains.cef.remote.thrift_codegen.RObject request,
       boolean isNavigation,
       boolean isDownload,
       java.lang.String requestInitiator)
@@ -24858,7 +24858,7 @@ public class ClientHandlers {
       __isset_bitfield = other.__isset_bitfield;
       this.bid = other.bid;
       if (other.isSetRequest()) {
-        this.request = new RObject(other.request);
+        this.request = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.request);
       }
       this.isNavigation = other.isNavigation;
       this.isDownload = other.isDownload;
@@ -24907,11 +24907,11 @@ public class ClientHandlers {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getRequest() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getRequest() {
       return this.request;
     }
 
-    public RequestHandler_GetResourceRequestHandler_args setRequest(@org.apache.thrift.annotation.Nullable RObject request) {
+    public RequestHandler_GetResourceRequestHandler_args setRequest(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request) {
       this.request = request;
       return this;
     }
@@ -25016,7 +25016,7 @@ public class ClientHandlers {
         if (value == null) {
           unsetRequest();
         } else {
-          setRequest((RObject)value);
+          setRequest((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -25336,7 +25336,7 @@ public class ClientHandlers {
               break;
             case 2: // REQUEST
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.request = new RObject();
+                struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.request.read(iprot);
                 struct.setRequestIsSet(true);
               } else { 
@@ -25461,7 +25461,7 @@ public class ClientHandlers {
           struct.setBidIsSet(true);
         }
         if (incoming.get(1)) {
-          struct.request = new RObject();
+          struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.request.read(iprot);
           struct.setRequestIsSet(true);
         }
@@ -25493,7 +25493,7 @@ public class ClientHandlers {
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RequestHandler_GetResourceRequestHandler_resultStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RequestHandler_GetResourceRequestHandler_resultTupleSchemeFactory();
 
-    public @org.apache.thrift.annotation.Nullable RObject success; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject success; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -25560,7 +25560,7 @@ public class ClientHandlers {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(RequestHandler_GetResourceRequestHandler_result.class, metaDataMap);
     }
@@ -25569,7 +25569,7 @@ public class ClientHandlers {
     }
 
     public RequestHandler_GetResourceRequestHandler_result(
-      RObject success)
+      com.jetbrains.cef.remote.thrift_codegen.RObject success)
     {
       this();
       this.success = success;
@@ -25580,7 +25580,7 @@ public class ClientHandlers {
      */
     public RequestHandler_GetResourceRequestHandler_result(RequestHandler_GetResourceRequestHandler_result other) {
       if (other.isSetSuccess()) {
-        this.success = new RObject(other.success);
+        this.success = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.success);
       }
     }
 
@@ -25594,11 +25594,11 @@ public class ClientHandlers {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getSuccess() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getSuccess() {
       return this.success;
     }
 
-    public RequestHandler_GetResourceRequestHandler_result setSuccess(@org.apache.thrift.annotation.Nullable RObject success) {
+    public RequestHandler_GetResourceRequestHandler_result setSuccess(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject success) {
       this.success = success;
       return this;
     }
@@ -25624,7 +25624,7 @@ public class ClientHandlers {
         if (value == null) {
           unsetSuccess();
         } else {
-          setSuccess((RObject)value);
+          setSuccess((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -25784,7 +25784,7 @@ public class ClientHandlers {
           switch (schemeField.id) {
             case 0: // SUCCESS
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.success = new RObject();
+                struct.success = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.success.read(iprot);
                 struct.setSuccessIsSet(true);
               } else { 
@@ -25843,7 +25843,7 @@ public class ClientHandlers {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
-          struct.success = new RObject();
+          struct.success = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.success.read(iprot);
           struct.setSuccessIsSet(true);
         }
@@ -26227,7 +26227,7 @@ public class ClientHandlers {
 
     public int rrHandler; // required
     public int bid; // required
-    public @org.apache.thrift.annotation.Nullable RObject request; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -26307,7 +26307,7 @@ public class ClientHandlers {
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.REQUEST, new org.apache.thrift.meta_data.FieldMetaData("request", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(ResourceRequestHandler_GetCookieAccessFilter_args.class, metaDataMap);
     }
@@ -26318,7 +26318,7 @@ public class ClientHandlers {
     public ResourceRequestHandler_GetCookieAccessFilter_args(
       int rrHandler,
       int bid,
-      RObject request)
+      com.jetbrains.cef.remote.thrift_codegen.RObject request)
     {
       this();
       this.rrHandler = rrHandler;
@@ -26336,7 +26336,7 @@ public class ClientHandlers {
       this.rrHandler = other.rrHandler;
       this.bid = other.bid;
       if (other.isSetRequest()) {
-        this.request = new RObject(other.request);
+        this.request = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.request);
       }
     }
 
@@ -26400,11 +26400,11 @@ public class ClientHandlers {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getRequest() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getRequest() {
       return this.request;
     }
 
-    public ResourceRequestHandler_GetCookieAccessFilter_args setRequest(@org.apache.thrift.annotation.Nullable RObject request) {
+    public ResourceRequestHandler_GetCookieAccessFilter_args setRequest(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request) {
       this.request = request;
       return this;
     }
@@ -26446,7 +26446,7 @@ public class ClientHandlers {
         if (value == null) {
           unsetRequest();
         } else {
-          setRequest((RObject)value);
+          setRequest((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -26684,7 +26684,7 @@ public class ClientHandlers {
               break;
             case 3: // REQUEST
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.request = new RObject();
+                struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.request.read(iprot);
                 struct.setRequestIsSet(true);
               } else { 
@@ -26769,7 +26769,7 @@ public class ClientHandlers {
           struct.setBidIsSet(true);
         }
         if (incoming.get(2)) {
-          struct.request = new RObject();
+          struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.request.read(iprot);
           struct.setRequestIsSet(true);
         }
@@ -26789,7 +26789,7 @@ public class ClientHandlers {
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new ResourceRequestHandler_GetCookieAccessFilter_resultStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new ResourceRequestHandler_GetCookieAccessFilter_resultTupleSchemeFactory();
 
-    public @org.apache.thrift.annotation.Nullable RObject success; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject success; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -26856,7 +26856,7 @@ public class ClientHandlers {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(ResourceRequestHandler_GetCookieAccessFilter_result.class, metaDataMap);
     }
@@ -26865,7 +26865,7 @@ public class ClientHandlers {
     }
 
     public ResourceRequestHandler_GetCookieAccessFilter_result(
-      RObject success)
+      com.jetbrains.cef.remote.thrift_codegen.RObject success)
     {
       this();
       this.success = success;
@@ -26876,7 +26876,7 @@ public class ClientHandlers {
      */
     public ResourceRequestHandler_GetCookieAccessFilter_result(ResourceRequestHandler_GetCookieAccessFilter_result other) {
       if (other.isSetSuccess()) {
-        this.success = new RObject(other.success);
+        this.success = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.success);
       }
     }
 
@@ -26890,11 +26890,11 @@ public class ClientHandlers {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getSuccess() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getSuccess() {
       return this.success;
     }
 
-    public ResourceRequestHandler_GetCookieAccessFilter_result setSuccess(@org.apache.thrift.annotation.Nullable RObject success) {
+    public ResourceRequestHandler_GetCookieAccessFilter_result setSuccess(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject success) {
       this.success = success;
       return this;
     }
@@ -26920,7 +26920,7 @@ public class ClientHandlers {
         if (value == null) {
           unsetSuccess();
         } else {
-          setSuccess((RObject)value);
+          setSuccess((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -27080,7 +27080,7 @@ public class ClientHandlers {
           switch (schemeField.id) {
             case 0: // SUCCESS
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.success = new RObject();
+                struct.success = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.success.read(iprot);
                 struct.setSuccessIsSet(true);
               } else { 
@@ -27139,7 +27139,7 @@ public class ClientHandlers {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
-          struct.success = new RObject();
+          struct.success = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.success.read(iprot);
           struct.setSuccessIsSet(true);
         }
@@ -27524,7 +27524,7 @@ public class ClientHandlers {
 
     public int filter; // required
     public int bid; // required
-    public @org.apache.thrift.annotation.Nullable RObject request; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request; // required
     public @org.apache.thrift.annotation.Nullable java.util.List<java.lang.String> cookie; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -27608,7 +27608,7 @@ public class ClientHandlers {
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.REQUEST, new org.apache.thrift.meta_data.FieldMetaData("request", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.COOKIE, new org.apache.thrift.meta_data.FieldMetaData("cookie", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
               new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING))));
@@ -27622,7 +27622,7 @@ public class ClientHandlers {
     public CookieAccessFilter_CanSendCookie_args(
       int filter,
       int bid,
-      RObject request,
+      com.jetbrains.cef.remote.thrift_codegen.RObject request,
       java.util.List<java.lang.String> cookie)
     {
       this();
@@ -27642,7 +27642,7 @@ public class ClientHandlers {
       this.filter = other.filter;
       this.bid = other.bid;
       if (other.isSetRequest()) {
-        this.request = new RObject(other.request);
+        this.request = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.request);
       }
       if (other.isSetCookie()) {
         java.util.List<java.lang.String> __this__cookie = new java.util.ArrayList<java.lang.String>(other.cookie);
@@ -27711,11 +27711,11 @@ public class ClientHandlers {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getRequest() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getRequest() {
       return this.request;
     }
 
-    public CookieAccessFilter_CanSendCookie_args setRequest(@org.apache.thrift.annotation.Nullable RObject request) {
+    public CookieAccessFilter_CanSendCookie_args setRequest(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request) {
       this.request = request;
       return this;
     }
@@ -27798,7 +27798,7 @@ public class ClientHandlers {
         if (value == null) {
           unsetRequest();
         } else {
-          setRequest((RObject)value);
+          setRequest((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -28080,7 +28080,7 @@ public class ClientHandlers {
               break;
             case 3: // REQUEST
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.request = new RObject();
+                struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.request.read(iprot);
                 struct.setRequestIsSet(true);
               } else { 
@@ -28207,7 +28207,7 @@ public class ClientHandlers {
           struct.setBidIsSet(true);
         }
         if (incoming.get(2)) {
-          struct.request = new RObject();
+          struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.request.read(iprot);
           struct.setRequestIsSet(true);
         }
@@ -28608,8 +28608,8 @@ public class ClientHandlers {
 
     public int filter; // required
     public int bid; // required
-    public @org.apache.thrift.annotation.Nullable RObject request; // required
-    public @org.apache.thrift.annotation.Nullable RObject response; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject response; // required
     public @org.apache.thrift.annotation.Nullable java.util.List<java.lang.String> cookie; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -28696,9 +28696,9 @@ public class ClientHandlers {
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.REQUEST, new org.apache.thrift.meta_data.FieldMetaData("request", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.RESPONSE, new org.apache.thrift.meta_data.FieldMetaData("response", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.COOKIE, new org.apache.thrift.meta_data.FieldMetaData("cookie", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
               new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING))));
@@ -28712,8 +28712,8 @@ public class ClientHandlers {
     public CookieAccessFilter_CanSaveCookie_args(
       int filter,
       int bid,
-      RObject request,
-      RObject response,
+      com.jetbrains.cef.remote.thrift_codegen.RObject request,
+      com.jetbrains.cef.remote.thrift_codegen.RObject response,
       java.util.List<java.lang.String> cookie)
     {
       this();
@@ -28734,10 +28734,10 @@ public class ClientHandlers {
       this.filter = other.filter;
       this.bid = other.bid;
       if (other.isSetRequest()) {
-        this.request = new RObject(other.request);
+        this.request = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.request);
       }
       if (other.isSetResponse()) {
-        this.response = new RObject(other.response);
+        this.response = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.response);
       }
       if (other.isSetCookie()) {
         java.util.List<java.lang.String> __this__cookie = new java.util.ArrayList<java.lang.String>(other.cookie);
@@ -28807,11 +28807,11 @@ public class ClientHandlers {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getRequest() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getRequest() {
       return this.request;
     }
 
-    public CookieAccessFilter_CanSaveCookie_args setRequest(@org.apache.thrift.annotation.Nullable RObject request) {
+    public CookieAccessFilter_CanSaveCookie_args setRequest(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request) {
       this.request = request;
       return this;
     }
@@ -28832,11 +28832,11 @@ public class ClientHandlers {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getResponse() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getResponse() {
       return this.response;
     }
 
-    public CookieAccessFilter_CanSaveCookie_args setResponse(@org.apache.thrift.annotation.Nullable RObject response) {
+    public CookieAccessFilter_CanSaveCookie_args setResponse(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject response) {
       this.response = response;
       return this;
     }
@@ -28919,7 +28919,7 @@ public class ClientHandlers {
         if (value == null) {
           unsetRequest();
         } else {
-          setRequest((RObject)value);
+          setRequest((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -28927,7 +28927,7 @@ public class ClientHandlers {
         if (value == null) {
           unsetResponse();
         } else {
-          setResponse((RObject)value);
+          setResponse((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -29248,7 +29248,7 @@ public class ClientHandlers {
               break;
             case 3: // REQUEST
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.request = new RObject();
+                struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.request.read(iprot);
                 struct.setRequestIsSet(true);
               } else { 
@@ -29257,7 +29257,7 @@ public class ClientHandlers {
               break;
             case 4: // RESPONSE
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.response = new RObject();
+                struct.response = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.response.read(iprot);
                 struct.setResponseIsSet(true);
               } else { 
@@ -29395,12 +29395,12 @@ public class ClientHandlers {
           struct.setBidIsSet(true);
         }
         if (incoming.get(2)) {
-          struct.request = new RObject();
+          struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.request.read(iprot);
           struct.setRequestIsSet(true);
         }
         if (incoming.get(3)) {
-          struct.response = new RObject();
+          struct.response = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.response.read(iprot);
           struct.setResponseIsSet(true);
         }
@@ -29799,7 +29799,7 @@ public class ClientHandlers {
 
     public int rrHandler; // required
     public int bid; // required
-    public @org.apache.thrift.annotation.Nullable RObject request; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -29879,7 +29879,7 @@ public class ClientHandlers {
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.REQUEST, new org.apache.thrift.meta_data.FieldMetaData("request", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(ResourceRequestHandler_OnBeforeResourceLoad_args.class, metaDataMap);
     }
@@ -29890,7 +29890,7 @@ public class ClientHandlers {
     public ResourceRequestHandler_OnBeforeResourceLoad_args(
       int rrHandler,
       int bid,
-      RObject request)
+      com.jetbrains.cef.remote.thrift_codegen.RObject request)
     {
       this();
       this.rrHandler = rrHandler;
@@ -29908,7 +29908,7 @@ public class ClientHandlers {
       this.rrHandler = other.rrHandler;
       this.bid = other.bid;
       if (other.isSetRequest()) {
-        this.request = new RObject(other.request);
+        this.request = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.request);
       }
     }
 
@@ -29972,11 +29972,11 @@ public class ClientHandlers {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getRequest() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getRequest() {
       return this.request;
     }
 
-    public ResourceRequestHandler_OnBeforeResourceLoad_args setRequest(@org.apache.thrift.annotation.Nullable RObject request) {
+    public ResourceRequestHandler_OnBeforeResourceLoad_args setRequest(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request) {
       this.request = request;
       return this;
     }
@@ -30018,7 +30018,7 @@ public class ClientHandlers {
         if (value == null) {
           unsetRequest();
         } else {
-          setRequest((RObject)value);
+          setRequest((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -30256,7 +30256,7 @@ public class ClientHandlers {
               break;
             case 3: // REQUEST
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.request = new RObject();
+                struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.request.read(iprot);
                 struct.setRequestIsSet(true);
               } else { 
@@ -30341,7 +30341,7 @@ public class ClientHandlers {
           struct.setBidIsSet(true);
         }
         if (incoming.get(2)) {
-          struct.request = new RObject();
+          struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.request.read(iprot);
           struct.setRequestIsSet(true);
         }
@@ -30727,7 +30727,7 @@ public class ClientHandlers {
 
     public int rrHandler; // required
     public int bid; // required
-    public @org.apache.thrift.annotation.Nullable RObject request; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -30807,7 +30807,7 @@ public class ClientHandlers {
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.REQUEST, new org.apache.thrift.meta_data.FieldMetaData("request", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(ResourceRequestHandler_GetResourceHandler_args.class, metaDataMap);
     }
@@ -30818,7 +30818,7 @@ public class ClientHandlers {
     public ResourceRequestHandler_GetResourceHandler_args(
       int rrHandler,
       int bid,
-      RObject request)
+      com.jetbrains.cef.remote.thrift_codegen.RObject request)
     {
       this();
       this.rrHandler = rrHandler;
@@ -30836,7 +30836,7 @@ public class ClientHandlers {
       this.rrHandler = other.rrHandler;
       this.bid = other.bid;
       if (other.isSetRequest()) {
-        this.request = new RObject(other.request);
+        this.request = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.request);
       }
     }
 
@@ -30900,11 +30900,11 @@ public class ClientHandlers {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getRequest() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getRequest() {
       return this.request;
     }
 
-    public ResourceRequestHandler_GetResourceHandler_args setRequest(@org.apache.thrift.annotation.Nullable RObject request) {
+    public ResourceRequestHandler_GetResourceHandler_args setRequest(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request) {
       this.request = request;
       return this;
     }
@@ -30946,7 +30946,7 @@ public class ClientHandlers {
         if (value == null) {
           unsetRequest();
         } else {
-          setRequest((RObject)value);
+          setRequest((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -31184,7 +31184,7 @@ public class ClientHandlers {
               break;
             case 3: // REQUEST
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.request = new RObject();
+                struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.request.read(iprot);
                 struct.setRequestIsSet(true);
               } else { 
@@ -31269,7 +31269,7 @@ public class ClientHandlers {
           struct.setBidIsSet(true);
         }
         if (incoming.get(2)) {
-          struct.request = new RObject();
+          struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.request.read(iprot);
           struct.setRequestIsSet(true);
         }
@@ -31289,7 +31289,7 @@ public class ClientHandlers {
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new ResourceRequestHandler_GetResourceHandler_resultStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new ResourceRequestHandler_GetResourceHandler_resultTupleSchemeFactory();
 
-    public @org.apache.thrift.annotation.Nullable RObject success; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject success; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -31356,7 +31356,7 @@ public class ClientHandlers {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(ResourceRequestHandler_GetResourceHandler_result.class, metaDataMap);
     }
@@ -31365,7 +31365,7 @@ public class ClientHandlers {
     }
 
     public ResourceRequestHandler_GetResourceHandler_result(
-      RObject success)
+      com.jetbrains.cef.remote.thrift_codegen.RObject success)
     {
       this();
       this.success = success;
@@ -31376,7 +31376,7 @@ public class ClientHandlers {
      */
     public ResourceRequestHandler_GetResourceHandler_result(ResourceRequestHandler_GetResourceHandler_result other) {
       if (other.isSetSuccess()) {
-        this.success = new RObject(other.success);
+        this.success = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.success);
       }
     }
 
@@ -31390,11 +31390,11 @@ public class ClientHandlers {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getSuccess() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getSuccess() {
       return this.success;
     }
 
-    public ResourceRequestHandler_GetResourceHandler_result setSuccess(@org.apache.thrift.annotation.Nullable RObject success) {
+    public ResourceRequestHandler_GetResourceHandler_result setSuccess(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject success) {
       this.success = success;
       return this;
     }
@@ -31420,7 +31420,7 @@ public class ClientHandlers {
         if (value == null) {
           unsetSuccess();
         } else {
-          setSuccess((RObject)value);
+          setSuccess((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -31580,7 +31580,7 @@ public class ClientHandlers {
           switch (schemeField.id) {
             case 0: // SUCCESS
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.success = new RObject();
+                struct.success = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.success.read(iprot);
                 struct.setSuccessIsSet(true);
               } else { 
@@ -31639,7 +31639,7 @@ public class ClientHandlers {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
-          struct.success = new RObject();
+          struct.success = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.success.read(iprot);
           struct.setSuccessIsSet(true);
         }
@@ -32025,8 +32025,8 @@ public class ClientHandlers {
 
     public int rrHandler; // required
     public int bid; // required
-    public @org.apache.thrift.annotation.Nullable RObject request; // required
-    public @org.apache.thrift.annotation.Nullable RObject response; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject response; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String new_url; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -32113,9 +32113,9 @@ public class ClientHandlers {
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.REQUEST, new org.apache.thrift.meta_data.FieldMetaData("request", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.RESPONSE, new org.apache.thrift.meta_data.FieldMetaData("response", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.NEW_URL, new org.apache.thrift.meta_data.FieldMetaData("new_url", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
@@ -32128,8 +32128,8 @@ public class ClientHandlers {
     public ResourceRequestHandler_OnResourceRedirect_args(
       int rrHandler,
       int bid,
-      RObject request,
-      RObject response,
+      com.jetbrains.cef.remote.thrift_codegen.RObject request,
+      com.jetbrains.cef.remote.thrift_codegen.RObject response,
       java.lang.String new_url)
     {
       this();
@@ -32150,10 +32150,10 @@ public class ClientHandlers {
       this.rrHandler = other.rrHandler;
       this.bid = other.bid;
       if (other.isSetRequest()) {
-        this.request = new RObject(other.request);
+        this.request = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.request);
       }
       if (other.isSetResponse()) {
-        this.response = new RObject(other.response);
+        this.response = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.response);
       }
       if (other.isSetNew_url()) {
         this.new_url = other.new_url;
@@ -32222,11 +32222,11 @@ public class ClientHandlers {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getRequest() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getRequest() {
       return this.request;
     }
 
-    public ResourceRequestHandler_OnResourceRedirect_args setRequest(@org.apache.thrift.annotation.Nullable RObject request) {
+    public ResourceRequestHandler_OnResourceRedirect_args setRequest(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request) {
       this.request = request;
       return this;
     }
@@ -32247,11 +32247,11 @@ public class ClientHandlers {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getResponse() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getResponse() {
       return this.response;
     }
 
-    public ResourceRequestHandler_OnResourceRedirect_args setResponse(@org.apache.thrift.annotation.Nullable RObject response) {
+    public ResourceRequestHandler_OnResourceRedirect_args setResponse(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject response) {
       this.response = response;
       return this;
     }
@@ -32318,7 +32318,7 @@ public class ClientHandlers {
         if (value == null) {
           unsetRequest();
         } else {
-          setRequest((RObject)value);
+          setRequest((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -32326,7 +32326,7 @@ public class ClientHandlers {
         if (value == null) {
           unsetResponse();
         } else {
-          setResponse((RObject)value);
+          setResponse((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -32647,7 +32647,7 @@ public class ClientHandlers {
               break;
             case 3: // REQUEST
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.request = new RObject();
+                struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.request.read(iprot);
                 struct.setRequestIsSet(true);
               } else { 
@@ -32656,7 +32656,7 @@ public class ClientHandlers {
               break;
             case 4: // RESPONSE
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.response = new RObject();
+                struct.response = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.response.read(iprot);
                 struct.setResponseIsSet(true);
               } else { 
@@ -32771,12 +32771,12 @@ public class ClientHandlers {
           struct.setBidIsSet(true);
         }
         if (incoming.get(2)) {
-          struct.request = new RObject();
+          struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.request.read(iprot);
           struct.setRequestIsSet(true);
         }
         if (incoming.get(3)) {
-          struct.response = new RObject();
+          struct.response = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.response.read(iprot);
           struct.setResponseIsSet(true);
         }
@@ -33170,8 +33170,8 @@ public class ClientHandlers {
 
     public int rrHandler; // required
     public int bid; // required
-    public @org.apache.thrift.annotation.Nullable RObject request; // required
-    public @org.apache.thrift.annotation.Nullable RObject response; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject response; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -33254,9 +33254,9 @@ public class ClientHandlers {
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.REQUEST, new org.apache.thrift.meta_data.FieldMetaData("request", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.RESPONSE, new org.apache.thrift.meta_data.FieldMetaData("response", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(ResourceRequestHandler_OnResourceResponse_args.class, metaDataMap);
     }
@@ -33267,8 +33267,8 @@ public class ClientHandlers {
     public ResourceRequestHandler_OnResourceResponse_args(
       int rrHandler,
       int bid,
-      RObject request,
-      RObject response)
+      com.jetbrains.cef.remote.thrift_codegen.RObject request,
+      com.jetbrains.cef.remote.thrift_codegen.RObject response)
     {
       this();
       this.rrHandler = rrHandler;
@@ -33287,10 +33287,10 @@ public class ClientHandlers {
       this.rrHandler = other.rrHandler;
       this.bid = other.bid;
       if (other.isSetRequest()) {
-        this.request = new RObject(other.request);
+        this.request = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.request);
       }
       if (other.isSetResponse()) {
-        this.response = new RObject(other.response);
+        this.response = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.response);
       }
     }
 
@@ -33355,11 +33355,11 @@ public class ClientHandlers {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getRequest() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getRequest() {
       return this.request;
     }
 
-    public ResourceRequestHandler_OnResourceResponse_args setRequest(@org.apache.thrift.annotation.Nullable RObject request) {
+    public ResourceRequestHandler_OnResourceResponse_args setRequest(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request) {
       this.request = request;
       return this;
     }
@@ -33380,11 +33380,11 @@ public class ClientHandlers {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getResponse() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getResponse() {
       return this.response;
     }
 
-    public ResourceRequestHandler_OnResourceResponse_args setResponse(@org.apache.thrift.annotation.Nullable RObject response) {
+    public ResourceRequestHandler_OnResourceResponse_args setResponse(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject response) {
       this.response = response;
       return this;
     }
@@ -33426,7 +33426,7 @@ public class ClientHandlers {
         if (value == null) {
           unsetRequest();
         } else {
-          setRequest((RObject)value);
+          setRequest((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -33434,7 +33434,7 @@ public class ClientHandlers {
         if (value == null) {
           unsetResponse();
         } else {
-          setResponse((RObject)value);
+          setResponse((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -33711,7 +33711,7 @@ public class ClientHandlers {
               break;
             case 3: // REQUEST
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.request = new RObject();
+                struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.request.read(iprot);
                 struct.setRequestIsSet(true);
               } else { 
@@ -33720,7 +33720,7 @@ public class ClientHandlers {
               break;
             case 4: // RESPONSE
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.response = new RObject();
+                struct.response = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.response.read(iprot);
                 struct.setResponseIsSet(true);
               } else { 
@@ -33816,12 +33816,12 @@ public class ClientHandlers {
           struct.setBidIsSet(true);
         }
         if (incoming.get(2)) {
-          struct.request = new RObject();
+          struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.request.read(iprot);
           struct.setRequestIsSet(true);
         }
         if (incoming.get(3)) {
-          struct.response = new RObject();
+          struct.response = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.response.read(iprot);
           struct.setResponseIsSet(true);
         }
@@ -34210,8 +34210,8 @@ public class ClientHandlers {
 
     public int rrHandler; // required
     public int bid; // required
-    public @org.apache.thrift.annotation.Nullable RObject request; // required
-    public @org.apache.thrift.annotation.Nullable RObject response; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject response; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String status; // required
     public long receivedContentLength; // required
 
@@ -34303,9 +34303,9 @@ public class ClientHandlers {
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.REQUEST, new org.apache.thrift.meta_data.FieldMetaData("request", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.RESPONSE, new org.apache.thrift.meta_data.FieldMetaData("response", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.STATUS, new org.apache.thrift.meta_data.FieldMetaData("status", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       tmpMap.put(_Fields.RECEIVED_CONTENT_LENGTH, new org.apache.thrift.meta_data.FieldMetaData("receivedContentLength", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -34320,8 +34320,8 @@ public class ClientHandlers {
     public ResourceRequestHandler_OnResourceLoadComplete_args(
       int rrHandler,
       int bid,
-      RObject request,
-      RObject response,
+      com.jetbrains.cef.remote.thrift_codegen.RObject request,
+      com.jetbrains.cef.remote.thrift_codegen.RObject response,
       java.lang.String status,
       long receivedContentLength)
     {
@@ -34345,10 +34345,10 @@ public class ClientHandlers {
       this.rrHandler = other.rrHandler;
       this.bid = other.bid;
       if (other.isSetRequest()) {
-        this.request = new RObject(other.request);
+        this.request = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.request);
       }
       if (other.isSetResponse()) {
-        this.response = new RObject(other.response);
+        this.response = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.response);
       }
       if (other.isSetStatus()) {
         this.status = other.status;
@@ -34420,11 +34420,11 @@ public class ClientHandlers {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getRequest() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getRequest() {
       return this.request;
     }
 
-    public ResourceRequestHandler_OnResourceLoadComplete_args setRequest(@org.apache.thrift.annotation.Nullable RObject request) {
+    public ResourceRequestHandler_OnResourceLoadComplete_args setRequest(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request) {
       this.request = request;
       return this;
     }
@@ -34445,11 +34445,11 @@ public class ClientHandlers {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getResponse() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getResponse() {
       return this.response;
     }
 
-    public ResourceRequestHandler_OnResourceLoadComplete_args setResponse(@org.apache.thrift.annotation.Nullable RObject response) {
+    public ResourceRequestHandler_OnResourceLoadComplete_args setResponse(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject response) {
       this.response = response;
       return this;
     }
@@ -34539,7 +34539,7 @@ public class ClientHandlers {
         if (value == null) {
           unsetRequest();
         } else {
-          setRequest((RObject)value);
+          setRequest((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -34547,7 +34547,7 @@ public class ClientHandlers {
         if (value == null) {
           unsetResponse();
         } else {
-          setResponse((RObject)value);
+          setResponse((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -34906,7 +34906,7 @@ public class ClientHandlers {
               break;
             case 3: // REQUEST
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.request = new RObject();
+                struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.request.read(iprot);
                 struct.setRequestIsSet(true);
               } else { 
@@ -34915,7 +34915,7 @@ public class ClientHandlers {
               break;
             case 4: // RESPONSE
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.response = new RObject();
+                struct.response = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.response.read(iprot);
                 struct.setResponseIsSet(true);
               } else { 
@@ -35047,12 +35047,12 @@ public class ClientHandlers {
           struct.setBidIsSet(true);
         }
         if (incoming.get(2)) {
-          struct.request = new RObject();
+          struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.request.read(iprot);
           struct.setRequestIsSet(true);
         }
         if (incoming.get(3)) {
-          struct.response = new RObject();
+          struct.response = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.response.read(iprot);
           struct.setResponseIsSet(true);
         }
@@ -35085,7 +35085,7 @@ public class ClientHandlers {
 
     public int rrHandler; // required
     public int bid; // required
-    public @org.apache.thrift.annotation.Nullable RObject request; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request; // required
     public boolean allowOsExecution; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -35170,7 +35170,7 @@ public class ClientHandlers {
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.REQUEST, new org.apache.thrift.meta_data.FieldMetaData("request", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.ALLOW_OS_EXECUTION, new org.apache.thrift.meta_data.FieldMetaData("allowOsExecution", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
@@ -35183,7 +35183,7 @@ public class ClientHandlers {
     public ResourceRequestHandler_OnProtocolExecution_args(
       int rrHandler,
       int bid,
-      RObject request,
+      com.jetbrains.cef.remote.thrift_codegen.RObject request,
       boolean allowOsExecution)
     {
       this();
@@ -35204,7 +35204,7 @@ public class ClientHandlers {
       this.rrHandler = other.rrHandler;
       this.bid = other.bid;
       if (other.isSetRequest()) {
-        this.request = new RObject(other.request);
+        this.request = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.request);
       }
       this.allowOsExecution = other.allowOsExecution;
     }
@@ -35271,11 +35271,11 @@ public class ClientHandlers {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getRequest() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getRequest() {
       return this.request;
     }
 
-    public ResourceRequestHandler_OnProtocolExecution_args setRequest(@org.apache.thrift.annotation.Nullable RObject request) {
+    public ResourceRequestHandler_OnProtocolExecution_args setRequest(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request) {
       this.request = request;
       return this;
     }
@@ -35340,7 +35340,7 @@ public class ClientHandlers {
         if (value == null) {
           unsetRequest();
         } else {
-          setRequest((RObject)value);
+          setRequest((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -35616,7 +35616,7 @@ public class ClientHandlers {
               break;
             case 3: // REQUEST
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.request = new RObject();
+                struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.request.read(iprot);
                 struct.setRequestIsSet(true);
               } else { 
@@ -35718,7 +35718,7 @@ public class ClientHandlers {
           struct.setBidIsSet(true);
         }
         if (incoming.get(2)) {
-          struct.request = new RObject();
+          struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.request.read(iprot);
           struct.setRequestIsSet(true);
         }
@@ -36109,12 +36109,12 @@ public class ClientHandlers {
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new MessageRouterHandler_onQuery_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new MessageRouterHandler_onQuery_argsTupleSchemeFactory();
 
-    public @org.apache.thrift.annotation.Nullable RObject handler; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject handler; // required
     public int bid; // required
     public long queryId; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String request; // required
     public boolean persistent; // required
-    public @org.apache.thrift.annotation.Nullable RObject queryCallback; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject queryCallback; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -36200,7 +36200,7 @@ public class ClientHandlers {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.HANDLER, new org.apache.thrift.meta_data.FieldMetaData("handler", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.QUERY_ID, new org.apache.thrift.meta_data.FieldMetaData("queryId", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -36210,7 +36210,7 @@ public class ClientHandlers {
       tmpMap.put(_Fields.PERSISTENT, new org.apache.thrift.meta_data.FieldMetaData("persistent", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
       tmpMap.put(_Fields.QUERY_CALLBACK, new org.apache.thrift.meta_data.FieldMetaData("queryCallback", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(MessageRouterHandler_onQuery_args.class, metaDataMap);
     }
@@ -36219,12 +36219,12 @@ public class ClientHandlers {
     }
 
     public MessageRouterHandler_onQuery_args(
-      RObject handler,
+      com.jetbrains.cef.remote.thrift_codegen.RObject handler,
       int bid,
       long queryId,
       java.lang.String request,
       boolean persistent,
-      RObject queryCallback)
+      com.jetbrains.cef.remote.thrift_codegen.RObject queryCallback)
     {
       this();
       this.handler = handler;
@@ -36244,7 +36244,7 @@ public class ClientHandlers {
     public MessageRouterHandler_onQuery_args(MessageRouterHandler_onQuery_args other) {
       __isset_bitfield = other.__isset_bitfield;
       if (other.isSetHandler()) {
-        this.handler = new RObject(other.handler);
+        this.handler = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.handler);
       }
       this.bid = other.bid;
       this.queryId = other.queryId;
@@ -36253,7 +36253,7 @@ public class ClientHandlers {
       }
       this.persistent = other.persistent;
       if (other.isSetQueryCallback()) {
-        this.queryCallback = new RObject(other.queryCallback);
+        this.queryCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.queryCallback);
       }
     }
 
@@ -36275,11 +36275,11 @@ public class ClientHandlers {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getHandler() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getHandler() {
       return this.handler;
     }
 
-    public MessageRouterHandler_onQuery_args setHandler(@org.apache.thrift.annotation.Nullable RObject handler) {
+    public MessageRouterHandler_onQuery_args setHandler(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject handler) {
       this.handler = handler;
       return this;
     }
@@ -36394,11 +36394,11 @@ public class ClientHandlers {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getQueryCallback() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getQueryCallback() {
       return this.queryCallback;
     }
 
-    public MessageRouterHandler_onQuery_args setQueryCallback(@org.apache.thrift.annotation.Nullable RObject queryCallback) {
+    public MessageRouterHandler_onQuery_args setQueryCallback(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject queryCallback) {
       this.queryCallback = queryCallback;
       return this;
     }
@@ -36424,7 +36424,7 @@ public class ClientHandlers {
         if (value == null) {
           unsetHandler();
         } else {
-          setHandler((RObject)value);
+          setHandler((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -36464,7 +36464,7 @@ public class ClientHandlers {
         if (value == null) {
           unsetQueryCallback();
         } else {
-          setQueryCallback((RObject)value);
+          setQueryCallback((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -36791,7 +36791,7 @@ public class ClientHandlers {
           switch (schemeField.id) {
             case 1: // HANDLER
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.handler = new RObject();
+                struct.handler = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.handler.read(iprot);
                 struct.setHandlerIsSet(true);
               } else { 
@@ -36832,7 +36832,7 @@ public class ClientHandlers {
               break;
             case 6: // QUERY_CALLBACK
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.queryCallback = new RObject();
+                struct.queryCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.queryCallback.read(iprot);
                 struct.setQueryCallbackIsSet(true);
               } else { 
@@ -36940,7 +36940,7 @@ public class ClientHandlers {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(6);
         if (incoming.get(0)) {
-          struct.handler = new RObject();
+          struct.handler = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.handler.read(iprot);
           struct.setHandlerIsSet(true);
         }
@@ -36961,7 +36961,7 @@ public class ClientHandlers {
           struct.setPersistentIsSet(true);
         }
         if (incoming.get(5)) {
-          struct.queryCallback = new RObject();
+          struct.queryCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.queryCallback.read(iprot);
           struct.setQueryCallbackIsSet(true);
         }
@@ -37345,7 +37345,7 @@ public class ClientHandlers {
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new MessageRouterHandler_onQueryCanceled_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new MessageRouterHandler_onQueryCanceled_argsTupleSchemeFactory();
 
-    public @org.apache.thrift.annotation.Nullable RObject handler; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject handler; // required
     public int bid; // required
     public long queryId; // required
 
@@ -37423,7 +37423,7 @@ public class ClientHandlers {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.HANDLER, new org.apache.thrift.meta_data.FieldMetaData("handler", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.QUERY_ID, new org.apache.thrift.meta_data.FieldMetaData("queryId", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -37436,7 +37436,7 @@ public class ClientHandlers {
     }
 
     public MessageRouterHandler_onQueryCanceled_args(
-      RObject handler,
+      com.jetbrains.cef.remote.thrift_codegen.RObject handler,
       int bid,
       long queryId)
     {
@@ -37454,7 +37454,7 @@ public class ClientHandlers {
     public MessageRouterHandler_onQueryCanceled_args(MessageRouterHandler_onQueryCanceled_args other) {
       __isset_bitfield = other.__isset_bitfield;
       if (other.isSetHandler()) {
-        this.handler = new RObject(other.handler);
+        this.handler = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.handler);
       }
       this.bid = other.bid;
       this.queryId = other.queryId;
@@ -37474,11 +37474,11 @@ public class ClientHandlers {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getHandler() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getHandler() {
       return this.handler;
     }
 
-    public MessageRouterHandler_onQueryCanceled_args setHandler(@org.apache.thrift.annotation.Nullable RObject handler) {
+    public MessageRouterHandler_onQueryCanceled_args setHandler(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject handler) {
       this.handler = handler;
       return this;
     }
@@ -37550,7 +37550,7 @@ public class ClientHandlers {
         if (value == null) {
           unsetHandler();
         } else {
-          setHandler((RObject)value);
+          setHandler((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -37788,7 +37788,7 @@ public class ClientHandlers {
           switch (schemeField.id) {
             case 1: // HANDLER
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.handler = new RObject();
+                struct.handler = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.handler.read(iprot);
                 struct.setHandlerIsSet(true);
               } else { 
@@ -37881,7 +37881,7 @@ public class ClientHandlers {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(3);
         if (incoming.get(0)) {
-          struct.handler = new RObject();
+          struct.handler = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.handler.read(iprot);
           struct.setHandlerIsSet(true);
         }

@@ -37,63 +37,63 @@ public class Server {
 
     public void Browser_SendMouseWheelEvent(int bid, int scroll_type, int x, int y, int modifiers, int delta, int units_to_scroll) throws org.apache.thrift.TException;
 
-    public void Request_Update(RObject request) throws org.apache.thrift.TException;
+    public void Request_Update(com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException;
 
-    public PostData Request_GetPostData(RObject request) throws org.apache.thrift.TException;
+    public com.jetbrains.cef.remote.thrift_codegen.PostData Request_GetPostData(com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException;
 
-    public void Request_SetPostData(RObject request, PostData postData) throws org.apache.thrift.TException;
+    public void Request_SetPostData(com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.PostData postData) throws org.apache.thrift.TException;
 
-    public java.lang.String Request_GetHeaderByName(RObject request, java.lang.String name) throws org.apache.thrift.TException;
+    public java.lang.String Request_GetHeaderByName(com.jetbrains.cef.remote.thrift_codegen.RObject request, java.lang.String name) throws org.apache.thrift.TException;
 
-    public void Request_SetHeaderByName(RObject request, java.lang.String name, java.lang.String value, boolean overwrite) throws org.apache.thrift.TException;
+    public void Request_SetHeaderByName(com.jetbrains.cef.remote.thrift_codegen.RObject request, java.lang.String name, java.lang.String value, boolean overwrite) throws org.apache.thrift.TException;
 
-    public java.util.Map<java.lang.String,java.lang.String> Request_GetHeaderMap(RObject request) throws org.apache.thrift.TException;
+    public java.util.Map<java.lang.String,java.lang.String> Request_GetHeaderMap(com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException;
 
-    public void Request_SetHeaderMap(RObject request, java.util.Map<java.lang.String,java.lang.String> headerMap) throws org.apache.thrift.TException;
+    public void Request_SetHeaderMap(com.jetbrains.cef.remote.thrift_codegen.RObject request, java.util.Map<java.lang.String,java.lang.String> headerMap) throws org.apache.thrift.TException;
 
-    public void Request_Set(RObject request, java.lang.String url, java.lang.String method, PostData postData, java.util.Map<java.lang.String,java.lang.String> headerMap) throws org.apache.thrift.TException;
+    public void Request_Set(com.jetbrains.cef.remote.thrift_codegen.RObject request, java.lang.String url, java.lang.String method, com.jetbrains.cef.remote.thrift_codegen.PostData postData, java.util.Map<java.lang.String,java.lang.String> headerMap) throws org.apache.thrift.TException;
 
-    public void Response_Update(RObject response) throws org.apache.thrift.TException;
+    public void Response_Update(com.jetbrains.cef.remote.thrift_codegen.RObject response) throws org.apache.thrift.TException;
 
-    public java.lang.String Response_GetHeaderByName(RObject response, java.lang.String name) throws org.apache.thrift.TException;
+    public java.lang.String Response_GetHeaderByName(com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String name) throws org.apache.thrift.TException;
 
-    public void Response_SetHeaderByName(RObject response, java.lang.String name, java.lang.String value, boolean overwrite) throws org.apache.thrift.TException;
+    public void Response_SetHeaderByName(com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String name, java.lang.String value, boolean overwrite) throws org.apache.thrift.TException;
 
-    public java.util.Map<java.lang.String,java.lang.String> Response_GetHeaderMap(RObject response) throws org.apache.thrift.TException;
+    public java.util.Map<java.lang.String,java.lang.String> Response_GetHeaderMap(com.jetbrains.cef.remote.thrift_codegen.RObject response) throws org.apache.thrift.TException;
 
-    public void Response_SetHeaderMap(RObject response, java.util.Map<java.lang.String,java.lang.String> headerMap) throws org.apache.thrift.TException;
+    public void Response_SetHeaderMap(com.jetbrains.cef.remote.thrift_codegen.RObject response, java.util.Map<java.lang.String,java.lang.String> headerMap) throws org.apache.thrift.TException;
 
-    public void Callback_Dispose(RObject callback) throws org.apache.thrift.TException;
+    public void Callback_Dispose(com.jetbrains.cef.remote.thrift_codegen.RObject callback) throws org.apache.thrift.TException;
 
-    public void Callback_Continue(RObject callback) throws org.apache.thrift.TException;
+    public void Callback_Continue(com.jetbrains.cef.remote.thrift_codegen.RObject callback) throws org.apache.thrift.TException;
 
-    public void Callback_Cancel(RObject callback) throws org.apache.thrift.TException;
+    public void Callback_Cancel(com.jetbrains.cef.remote.thrift_codegen.RObject callback) throws org.apache.thrift.TException;
 
-    public void AuthCallback_Dispose(RObject authCallback) throws org.apache.thrift.TException;
+    public void AuthCallback_Dispose(com.jetbrains.cef.remote.thrift_codegen.RObject authCallback) throws org.apache.thrift.TException;
 
-    public void AuthCallback_Continue(RObject authCallback, java.lang.String username, java.lang.String password) throws org.apache.thrift.TException;
+    public void AuthCallback_Continue(com.jetbrains.cef.remote.thrift_codegen.RObject authCallback, java.lang.String username, java.lang.String password) throws org.apache.thrift.TException;
 
-    public void AuthCallback_Cancel(RObject authCallback) throws org.apache.thrift.TException;
+    public void AuthCallback_Cancel(com.jetbrains.cef.remote.thrift_codegen.RObject authCallback) throws org.apache.thrift.TException;
 
-    public RObject MessageRouter_Create(java.lang.String query, java.lang.String cancel) throws org.apache.thrift.TException;
+    public com.jetbrains.cef.remote.thrift_codegen.RObject MessageRouter_Create(java.lang.String query, java.lang.String cancel) throws org.apache.thrift.TException;
 
-    public void MessageRouter_Dispose(RObject msgRouter) throws org.apache.thrift.TException;
+    public void MessageRouter_Dispose(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter) throws org.apache.thrift.TException;
 
-    public void MessageRouter_AddMessageRouterToBrowser(RObject msgRouter, int bid) throws org.apache.thrift.TException;
+    public void MessageRouter_AddMessageRouterToBrowser(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, int bid) throws org.apache.thrift.TException;
 
-    public void MessageRouter_RemoveMessageRouterFromBrowser(RObject msgRouter, int bid) throws org.apache.thrift.TException;
+    public void MessageRouter_RemoveMessageRouterFromBrowser(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, int bid) throws org.apache.thrift.TException;
 
-    public void MessageRouter_AddHandler(RObject msgRouter, RObject handler, boolean first) throws org.apache.thrift.TException;
+    public void MessageRouter_AddHandler(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, com.jetbrains.cef.remote.thrift_codegen.RObject handler, boolean first) throws org.apache.thrift.TException;
 
-    public void MessageRouter_RemoveHandler(RObject msgRouter, RObject handler) throws org.apache.thrift.TException;
+    public void MessageRouter_RemoveHandler(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, com.jetbrains.cef.remote.thrift_codegen.RObject handler) throws org.apache.thrift.TException;
 
-    public void MessageRouter_CancelPending(RObject msgRouter, int bid, RObject handler) throws org.apache.thrift.TException;
+    public void MessageRouter_CancelPending(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject handler) throws org.apache.thrift.TException;
 
-    public void QueryCallback_Dispose(RObject qcallback) throws org.apache.thrift.TException;
+    public void QueryCallback_Dispose(com.jetbrains.cef.remote.thrift_codegen.RObject qcallback) throws org.apache.thrift.TException;
 
-    public void QueryCallback_Success(RObject qcallback, java.lang.String response) throws org.apache.thrift.TException;
+    public void QueryCallback_Success(com.jetbrains.cef.remote.thrift_codegen.RObject qcallback, java.lang.String response) throws org.apache.thrift.TException;
 
-    public void QueryCallback_Failure(RObject qcallback, int error_code, java.lang.String error_message) throws org.apache.thrift.TException;
+    public void QueryCallback_Failure(com.jetbrains.cef.remote.thrift_codegen.RObject qcallback, int error_code, java.lang.String error_message) throws org.apache.thrift.TException;
 
   }
 
@@ -125,63 +125,63 @@ public class Server {
 
     public void Browser_SendMouseWheelEvent(int bid, int scroll_type, int x, int y, int modifiers, int delta, int units_to_scroll, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void Request_Update(RObject request, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void Request_Update(com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void Request_GetPostData(RObject request, org.apache.thrift.async.AsyncMethodCallback<PostData> resultHandler) throws org.apache.thrift.TException;
+    public void Request_GetPostData(com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.PostData> resultHandler) throws org.apache.thrift.TException;
 
-    public void Request_SetPostData(RObject request, PostData postData, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void Request_SetPostData(com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.PostData postData, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void Request_GetHeaderByName(RObject request, java.lang.String name, org.apache.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws org.apache.thrift.TException;
+    public void Request_GetHeaderByName(com.jetbrains.cef.remote.thrift_codegen.RObject request, java.lang.String name, org.apache.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws org.apache.thrift.TException;
 
-    public void Request_SetHeaderByName(RObject request, java.lang.String name, java.lang.String value, boolean overwrite, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void Request_SetHeaderByName(com.jetbrains.cef.remote.thrift_codegen.RObject request, java.lang.String name, java.lang.String value, boolean overwrite, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void Request_GetHeaderMap(RObject request, org.apache.thrift.async.AsyncMethodCallback<java.util.Map<java.lang.String,java.lang.String>> resultHandler) throws org.apache.thrift.TException;
+    public void Request_GetHeaderMap(com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<java.util.Map<java.lang.String,java.lang.String>> resultHandler) throws org.apache.thrift.TException;
 
-    public void Request_SetHeaderMap(RObject request, java.util.Map<java.lang.String,java.lang.String> headerMap, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void Request_SetHeaderMap(com.jetbrains.cef.remote.thrift_codegen.RObject request, java.util.Map<java.lang.String,java.lang.String> headerMap, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void Request_Set(RObject request, java.lang.String url, java.lang.String method, PostData postData, java.util.Map<java.lang.String,java.lang.String> headerMap, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void Request_Set(com.jetbrains.cef.remote.thrift_codegen.RObject request, java.lang.String url, java.lang.String method, com.jetbrains.cef.remote.thrift_codegen.PostData postData, java.util.Map<java.lang.String,java.lang.String> headerMap, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void Response_Update(RObject response, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void Response_Update(com.jetbrains.cef.remote.thrift_codegen.RObject response, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void Response_GetHeaderByName(RObject response, java.lang.String name, org.apache.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws org.apache.thrift.TException;
+    public void Response_GetHeaderByName(com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String name, org.apache.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws org.apache.thrift.TException;
 
-    public void Response_SetHeaderByName(RObject response, java.lang.String name, java.lang.String value, boolean overwrite, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void Response_SetHeaderByName(com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String name, java.lang.String value, boolean overwrite, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void Response_GetHeaderMap(RObject response, org.apache.thrift.async.AsyncMethodCallback<java.util.Map<java.lang.String,java.lang.String>> resultHandler) throws org.apache.thrift.TException;
+    public void Response_GetHeaderMap(com.jetbrains.cef.remote.thrift_codegen.RObject response, org.apache.thrift.async.AsyncMethodCallback<java.util.Map<java.lang.String,java.lang.String>> resultHandler) throws org.apache.thrift.TException;
 
-    public void Response_SetHeaderMap(RObject response, java.util.Map<java.lang.String,java.lang.String> headerMap, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void Response_SetHeaderMap(com.jetbrains.cef.remote.thrift_codegen.RObject response, java.util.Map<java.lang.String,java.lang.String> headerMap, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void Callback_Dispose(RObject callback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void Callback_Dispose(com.jetbrains.cef.remote.thrift_codegen.RObject callback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void Callback_Continue(RObject callback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void Callback_Continue(com.jetbrains.cef.remote.thrift_codegen.RObject callback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void Callback_Cancel(RObject callback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void Callback_Cancel(com.jetbrains.cef.remote.thrift_codegen.RObject callback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void AuthCallback_Dispose(RObject authCallback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void AuthCallback_Dispose(com.jetbrains.cef.remote.thrift_codegen.RObject authCallback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void AuthCallback_Continue(RObject authCallback, java.lang.String username, java.lang.String password, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void AuthCallback_Continue(com.jetbrains.cef.remote.thrift_codegen.RObject authCallback, java.lang.String username, java.lang.String password, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void AuthCallback_Cancel(RObject authCallback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void AuthCallback_Cancel(com.jetbrains.cef.remote.thrift_codegen.RObject authCallback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void MessageRouter_Create(java.lang.String query, java.lang.String cancel, org.apache.thrift.async.AsyncMethodCallback<RObject> resultHandler) throws org.apache.thrift.TException;
+    public void MessageRouter_Create(java.lang.String query, java.lang.String cancel, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException;
 
-    public void MessageRouter_Dispose(RObject msgRouter, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void MessageRouter_Dispose(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void MessageRouter_AddMessageRouterToBrowser(RObject msgRouter, int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void MessageRouter_AddMessageRouterToBrowser(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void MessageRouter_RemoveMessageRouterFromBrowser(RObject msgRouter, int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void MessageRouter_RemoveMessageRouterFromBrowser(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void MessageRouter_AddHandler(RObject msgRouter, RObject handler, boolean first, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void MessageRouter_AddHandler(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, com.jetbrains.cef.remote.thrift_codegen.RObject handler, boolean first, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void MessageRouter_RemoveHandler(RObject msgRouter, RObject handler, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void MessageRouter_RemoveHandler(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, com.jetbrains.cef.remote.thrift_codegen.RObject handler, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void MessageRouter_CancelPending(RObject msgRouter, int bid, RObject handler, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void MessageRouter_CancelPending(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject handler, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void QueryCallback_Dispose(RObject qcallback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void QueryCallback_Dispose(com.jetbrains.cef.remote.thrift_codegen.RObject qcallback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void QueryCallback_Success(RObject qcallback, java.lang.String response, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void QueryCallback_Success(com.jetbrains.cef.remote.thrift_codegen.RObject qcallback, java.lang.String response, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void QueryCallback_Failure(RObject qcallback, int error_code, java.lang.String error_message, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void QueryCallback_Failure(com.jetbrains.cef.remote.thrift_codegen.RObject qcallback, int error_code, java.lang.String error_message, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
   }
 
@@ -420,13 +420,13 @@ public class Server {
       sendBaseOneway("Browser_SendMouseWheelEvent", args);
     }
 
-    public void Request_Update(RObject request) throws org.apache.thrift.TException
+    public void Request_Update(com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException
     {
       send_Request_Update(request);
       recv_Request_Update();
     }
 
-    public void send_Request_Update(RObject request) throws org.apache.thrift.TException
+    public void send_Request_Update(com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException
     {
       Request_Update_args args = new Request_Update_args();
       args.setRequest(request);
@@ -440,20 +440,20 @@ public class Server {
       return;
     }
 
-    public PostData Request_GetPostData(RObject request) throws org.apache.thrift.TException
+    public com.jetbrains.cef.remote.thrift_codegen.PostData Request_GetPostData(com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException
     {
       send_Request_GetPostData(request);
       return recv_Request_GetPostData();
     }
 
-    public void send_Request_GetPostData(RObject request) throws org.apache.thrift.TException
+    public void send_Request_GetPostData(com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException
     {
       Request_GetPostData_args args = new Request_GetPostData_args();
       args.setRequest(request);
       sendBase("Request_GetPostData", args);
     }
 
-    public PostData recv_Request_GetPostData() throws org.apache.thrift.TException
+    public com.jetbrains.cef.remote.thrift_codegen.PostData recv_Request_GetPostData() throws org.apache.thrift.TException
     {
       Request_GetPostData_result result = new Request_GetPostData_result();
       receiveBase(result, "Request_GetPostData");
@@ -463,13 +463,13 @@ public class Server {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "Request_GetPostData failed: unknown result");
     }
 
-    public void Request_SetPostData(RObject request, PostData postData) throws org.apache.thrift.TException
+    public void Request_SetPostData(com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.PostData postData) throws org.apache.thrift.TException
     {
       send_Request_SetPostData(request, postData);
       recv_Request_SetPostData();
     }
 
-    public void send_Request_SetPostData(RObject request, PostData postData) throws org.apache.thrift.TException
+    public void send_Request_SetPostData(com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.PostData postData) throws org.apache.thrift.TException
     {
       Request_SetPostData_args args = new Request_SetPostData_args();
       args.setRequest(request);
@@ -484,13 +484,13 @@ public class Server {
       return;
     }
 
-    public java.lang.String Request_GetHeaderByName(RObject request, java.lang.String name) throws org.apache.thrift.TException
+    public java.lang.String Request_GetHeaderByName(com.jetbrains.cef.remote.thrift_codegen.RObject request, java.lang.String name) throws org.apache.thrift.TException
     {
       send_Request_GetHeaderByName(request, name);
       return recv_Request_GetHeaderByName();
     }
 
-    public void send_Request_GetHeaderByName(RObject request, java.lang.String name) throws org.apache.thrift.TException
+    public void send_Request_GetHeaderByName(com.jetbrains.cef.remote.thrift_codegen.RObject request, java.lang.String name) throws org.apache.thrift.TException
     {
       Request_GetHeaderByName_args args = new Request_GetHeaderByName_args();
       args.setRequest(request);
@@ -508,13 +508,13 @@ public class Server {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "Request_GetHeaderByName failed: unknown result");
     }
 
-    public void Request_SetHeaderByName(RObject request, java.lang.String name, java.lang.String value, boolean overwrite) throws org.apache.thrift.TException
+    public void Request_SetHeaderByName(com.jetbrains.cef.remote.thrift_codegen.RObject request, java.lang.String name, java.lang.String value, boolean overwrite) throws org.apache.thrift.TException
     {
       send_Request_SetHeaderByName(request, name, value, overwrite);
       recv_Request_SetHeaderByName();
     }
 
-    public void send_Request_SetHeaderByName(RObject request, java.lang.String name, java.lang.String value, boolean overwrite) throws org.apache.thrift.TException
+    public void send_Request_SetHeaderByName(com.jetbrains.cef.remote.thrift_codegen.RObject request, java.lang.String name, java.lang.String value, boolean overwrite) throws org.apache.thrift.TException
     {
       Request_SetHeaderByName_args args = new Request_SetHeaderByName_args();
       args.setRequest(request);
@@ -531,13 +531,13 @@ public class Server {
       return;
     }
 
-    public java.util.Map<java.lang.String,java.lang.String> Request_GetHeaderMap(RObject request) throws org.apache.thrift.TException
+    public java.util.Map<java.lang.String,java.lang.String> Request_GetHeaderMap(com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException
     {
       send_Request_GetHeaderMap(request);
       return recv_Request_GetHeaderMap();
     }
 
-    public void send_Request_GetHeaderMap(RObject request) throws org.apache.thrift.TException
+    public void send_Request_GetHeaderMap(com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException
     {
       Request_GetHeaderMap_args args = new Request_GetHeaderMap_args();
       args.setRequest(request);
@@ -554,13 +554,13 @@ public class Server {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "Request_GetHeaderMap failed: unknown result");
     }
 
-    public void Request_SetHeaderMap(RObject request, java.util.Map<java.lang.String,java.lang.String> headerMap) throws org.apache.thrift.TException
+    public void Request_SetHeaderMap(com.jetbrains.cef.remote.thrift_codegen.RObject request, java.util.Map<java.lang.String,java.lang.String> headerMap) throws org.apache.thrift.TException
     {
       send_Request_SetHeaderMap(request, headerMap);
       recv_Request_SetHeaderMap();
     }
 
-    public void send_Request_SetHeaderMap(RObject request, java.util.Map<java.lang.String,java.lang.String> headerMap) throws org.apache.thrift.TException
+    public void send_Request_SetHeaderMap(com.jetbrains.cef.remote.thrift_codegen.RObject request, java.util.Map<java.lang.String,java.lang.String> headerMap) throws org.apache.thrift.TException
     {
       Request_SetHeaderMap_args args = new Request_SetHeaderMap_args();
       args.setRequest(request);
@@ -575,13 +575,13 @@ public class Server {
       return;
     }
 
-    public void Request_Set(RObject request, java.lang.String url, java.lang.String method, PostData postData, java.util.Map<java.lang.String,java.lang.String> headerMap) throws org.apache.thrift.TException
+    public void Request_Set(com.jetbrains.cef.remote.thrift_codegen.RObject request, java.lang.String url, java.lang.String method, com.jetbrains.cef.remote.thrift_codegen.PostData postData, java.util.Map<java.lang.String,java.lang.String> headerMap) throws org.apache.thrift.TException
     {
       send_Request_Set(request, url, method, postData, headerMap);
       recv_Request_Set();
     }
 
-    public void send_Request_Set(RObject request, java.lang.String url, java.lang.String method, PostData postData, java.util.Map<java.lang.String,java.lang.String> headerMap) throws org.apache.thrift.TException
+    public void send_Request_Set(com.jetbrains.cef.remote.thrift_codegen.RObject request, java.lang.String url, java.lang.String method, com.jetbrains.cef.remote.thrift_codegen.PostData postData, java.util.Map<java.lang.String,java.lang.String> headerMap) throws org.apache.thrift.TException
     {
       Request_Set_args args = new Request_Set_args();
       args.setRequest(request);
@@ -599,13 +599,13 @@ public class Server {
       return;
     }
 
-    public void Response_Update(RObject response) throws org.apache.thrift.TException
+    public void Response_Update(com.jetbrains.cef.remote.thrift_codegen.RObject response) throws org.apache.thrift.TException
     {
       send_Response_Update(response);
       recv_Response_Update();
     }
 
-    public void send_Response_Update(RObject response) throws org.apache.thrift.TException
+    public void send_Response_Update(com.jetbrains.cef.remote.thrift_codegen.RObject response) throws org.apache.thrift.TException
     {
       Response_Update_args args = new Response_Update_args();
       args.setResponse(response);
@@ -619,13 +619,13 @@ public class Server {
       return;
     }
 
-    public java.lang.String Response_GetHeaderByName(RObject response, java.lang.String name) throws org.apache.thrift.TException
+    public java.lang.String Response_GetHeaderByName(com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String name) throws org.apache.thrift.TException
     {
       send_Response_GetHeaderByName(response, name);
       return recv_Response_GetHeaderByName();
     }
 
-    public void send_Response_GetHeaderByName(RObject response, java.lang.String name) throws org.apache.thrift.TException
+    public void send_Response_GetHeaderByName(com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String name) throws org.apache.thrift.TException
     {
       Response_GetHeaderByName_args args = new Response_GetHeaderByName_args();
       args.setResponse(response);
@@ -643,13 +643,13 @@ public class Server {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "Response_GetHeaderByName failed: unknown result");
     }
 
-    public void Response_SetHeaderByName(RObject response, java.lang.String name, java.lang.String value, boolean overwrite) throws org.apache.thrift.TException
+    public void Response_SetHeaderByName(com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String name, java.lang.String value, boolean overwrite) throws org.apache.thrift.TException
     {
       send_Response_SetHeaderByName(response, name, value, overwrite);
       recv_Response_SetHeaderByName();
     }
 
-    public void send_Response_SetHeaderByName(RObject response, java.lang.String name, java.lang.String value, boolean overwrite) throws org.apache.thrift.TException
+    public void send_Response_SetHeaderByName(com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String name, java.lang.String value, boolean overwrite) throws org.apache.thrift.TException
     {
       Response_SetHeaderByName_args args = new Response_SetHeaderByName_args();
       args.setResponse(response);
@@ -666,13 +666,13 @@ public class Server {
       return;
     }
 
-    public java.util.Map<java.lang.String,java.lang.String> Response_GetHeaderMap(RObject response) throws org.apache.thrift.TException
+    public java.util.Map<java.lang.String,java.lang.String> Response_GetHeaderMap(com.jetbrains.cef.remote.thrift_codegen.RObject response) throws org.apache.thrift.TException
     {
       send_Response_GetHeaderMap(response);
       return recv_Response_GetHeaderMap();
     }
 
-    public void send_Response_GetHeaderMap(RObject response) throws org.apache.thrift.TException
+    public void send_Response_GetHeaderMap(com.jetbrains.cef.remote.thrift_codegen.RObject response) throws org.apache.thrift.TException
     {
       Response_GetHeaderMap_args args = new Response_GetHeaderMap_args();
       args.setResponse(response);
@@ -689,13 +689,13 @@ public class Server {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "Response_GetHeaderMap failed: unknown result");
     }
 
-    public void Response_SetHeaderMap(RObject response, java.util.Map<java.lang.String,java.lang.String> headerMap) throws org.apache.thrift.TException
+    public void Response_SetHeaderMap(com.jetbrains.cef.remote.thrift_codegen.RObject response, java.util.Map<java.lang.String,java.lang.String> headerMap) throws org.apache.thrift.TException
     {
       send_Response_SetHeaderMap(response, headerMap);
       recv_Response_SetHeaderMap();
     }
 
-    public void send_Response_SetHeaderMap(RObject response, java.util.Map<java.lang.String,java.lang.String> headerMap) throws org.apache.thrift.TException
+    public void send_Response_SetHeaderMap(com.jetbrains.cef.remote.thrift_codegen.RObject response, java.util.Map<java.lang.String,java.lang.String> headerMap) throws org.apache.thrift.TException
     {
       Response_SetHeaderMap_args args = new Response_SetHeaderMap_args();
       args.setResponse(response);
@@ -710,60 +710,60 @@ public class Server {
       return;
     }
 
-    public void Callback_Dispose(RObject callback) throws org.apache.thrift.TException
+    public void Callback_Dispose(com.jetbrains.cef.remote.thrift_codegen.RObject callback) throws org.apache.thrift.TException
     {
       send_Callback_Dispose(callback);
     }
 
-    public void send_Callback_Dispose(RObject callback) throws org.apache.thrift.TException
+    public void send_Callback_Dispose(com.jetbrains.cef.remote.thrift_codegen.RObject callback) throws org.apache.thrift.TException
     {
       Callback_Dispose_args args = new Callback_Dispose_args();
       args.setCallback(callback);
       sendBaseOneway("Callback_Dispose", args);
     }
 
-    public void Callback_Continue(RObject callback) throws org.apache.thrift.TException
+    public void Callback_Continue(com.jetbrains.cef.remote.thrift_codegen.RObject callback) throws org.apache.thrift.TException
     {
       send_Callback_Continue(callback);
     }
 
-    public void send_Callback_Continue(RObject callback) throws org.apache.thrift.TException
+    public void send_Callback_Continue(com.jetbrains.cef.remote.thrift_codegen.RObject callback) throws org.apache.thrift.TException
     {
       Callback_Continue_args args = new Callback_Continue_args();
       args.setCallback(callback);
       sendBaseOneway("Callback_Continue", args);
     }
 
-    public void Callback_Cancel(RObject callback) throws org.apache.thrift.TException
+    public void Callback_Cancel(com.jetbrains.cef.remote.thrift_codegen.RObject callback) throws org.apache.thrift.TException
     {
       send_Callback_Cancel(callback);
     }
 
-    public void send_Callback_Cancel(RObject callback) throws org.apache.thrift.TException
+    public void send_Callback_Cancel(com.jetbrains.cef.remote.thrift_codegen.RObject callback) throws org.apache.thrift.TException
     {
       Callback_Cancel_args args = new Callback_Cancel_args();
       args.setCallback(callback);
       sendBaseOneway("Callback_Cancel", args);
     }
 
-    public void AuthCallback_Dispose(RObject authCallback) throws org.apache.thrift.TException
+    public void AuthCallback_Dispose(com.jetbrains.cef.remote.thrift_codegen.RObject authCallback) throws org.apache.thrift.TException
     {
       send_AuthCallback_Dispose(authCallback);
     }
 
-    public void send_AuthCallback_Dispose(RObject authCallback) throws org.apache.thrift.TException
+    public void send_AuthCallback_Dispose(com.jetbrains.cef.remote.thrift_codegen.RObject authCallback) throws org.apache.thrift.TException
     {
       AuthCallback_Dispose_args args = new AuthCallback_Dispose_args();
       args.setAuthCallback(authCallback);
       sendBaseOneway("AuthCallback_Dispose", args);
     }
 
-    public void AuthCallback_Continue(RObject authCallback, java.lang.String username, java.lang.String password) throws org.apache.thrift.TException
+    public void AuthCallback_Continue(com.jetbrains.cef.remote.thrift_codegen.RObject authCallback, java.lang.String username, java.lang.String password) throws org.apache.thrift.TException
     {
       send_AuthCallback_Continue(authCallback, username, password);
     }
 
-    public void send_AuthCallback_Continue(RObject authCallback, java.lang.String username, java.lang.String password) throws org.apache.thrift.TException
+    public void send_AuthCallback_Continue(com.jetbrains.cef.remote.thrift_codegen.RObject authCallback, java.lang.String username, java.lang.String password) throws org.apache.thrift.TException
     {
       AuthCallback_Continue_args args = new AuthCallback_Continue_args();
       args.setAuthCallback(authCallback);
@@ -772,19 +772,19 @@ public class Server {
       sendBaseOneway("AuthCallback_Continue", args);
     }
 
-    public void AuthCallback_Cancel(RObject authCallback) throws org.apache.thrift.TException
+    public void AuthCallback_Cancel(com.jetbrains.cef.remote.thrift_codegen.RObject authCallback) throws org.apache.thrift.TException
     {
       send_AuthCallback_Cancel(authCallback);
     }
 
-    public void send_AuthCallback_Cancel(RObject authCallback) throws org.apache.thrift.TException
+    public void send_AuthCallback_Cancel(com.jetbrains.cef.remote.thrift_codegen.RObject authCallback) throws org.apache.thrift.TException
     {
       AuthCallback_Cancel_args args = new AuthCallback_Cancel_args();
       args.setAuthCallback(authCallback);
       sendBaseOneway("AuthCallback_Cancel", args);
     }
 
-    public RObject MessageRouter_Create(java.lang.String query, java.lang.String cancel) throws org.apache.thrift.TException
+    public com.jetbrains.cef.remote.thrift_codegen.RObject MessageRouter_Create(java.lang.String query, java.lang.String cancel) throws org.apache.thrift.TException
     {
       send_MessageRouter_Create(query, cancel);
       return recv_MessageRouter_Create();
@@ -798,7 +798,7 @@ public class Server {
       sendBase("MessageRouter_Create", args);
     }
 
-    public RObject recv_MessageRouter_Create() throws org.apache.thrift.TException
+    public com.jetbrains.cef.remote.thrift_codegen.RObject recv_MessageRouter_Create() throws org.apache.thrift.TException
     {
       MessageRouter_Create_result result = new MessageRouter_Create_result();
       receiveBase(result, "MessageRouter_Create");
@@ -808,25 +808,25 @@ public class Server {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "MessageRouter_Create failed: unknown result");
     }
 
-    public void MessageRouter_Dispose(RObject msgRouter) throws org.apache.thrift.TException
+    public void MessageRouter_Dispose(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter) throws org.apache.thrift.TException
     {
       send_MessageRouter_Dispose(msgRouter);
     }
 
-    public void send_MessageRouter_Dispose(RObject msgRouter) throws org.apache.thrift.TException
+    public void send_MessageRouter_Dispose(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter) throws org.apache.thrift.TException
     {
       MessageRouter_Dispose_args args = new MessageRouter_Dispose_args();
       args.setMsgRouter(msgRouter);
       sendBaseOneway("MessageRouter_Dispose", args);
     }
 
-    public void MessageRouter_AddMessageRouterToBrowser(RObject msgRouter, int bid) throws org.apache.thrift.TException
+    public void MessageRouter_AddMessageRouterToBrowser(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, int bid) throws org.apache.thrift.TException
     {
       send_MessageRouter_AddMessageRouterToBrowser(msgRouter, bid);
       recv_MessageRouter_AddMessageRouterToBrowser();
     }
 
-    public void send_MessageRouter_AddMessageRouterToBrowser(RObject msgRouter, int bid) throws org.apache.thrift.TException
+    public void send_MessageRouter_AddMessageRouterToBrowser(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, int bid) throws org.apache.thrift.TException
     {
       MessageRouter_AddMessageRouterToBrowser_args args = new MessageRouter_AddMessageRouterToBrowser_args();
       args.setMsgRouter(msgRouter);
@@ -841,13 +841,13 @@ public class Server {
       return;
     }
 
-    public void MessageRouter_RemoveMessageRouterFromBrowser(RObject msgRouter, int bid) throws org.apache.thrift.TException
+    public void MessageRouter_RemoveMessageRouterFromBrowser(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, int bid) throws org.apache.thrift.TException
     {
       send_MessageRouter_RemoveMessageRouterFromBrowser(msgRouter, bid);
       recv_MessageRouter_RemoveMessageRouterFromBrowser();
     }
 
-    public void send_MessageRouter_RemoveMessageRouterFromBrowser(RObject msgRouter, int bid) throws org.apache.thrift.TException
+    public void send_MessageRouter_RemoveMessageRouterFromBrowser(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, int bid) throws org.apache.thrift.TException
     {
       MessageRouter_RemoveMessageRouterFromBrowser_args args = new MessageRouter_RemoveMessageRouterFromBrowser_args();
       args.setMsgRouter(msgRouter);
@@ -862,13 +862,13 @@ public class Server {
       return;
     }
 
-    public void MessageRouter_AddHandler(RObject msgRouter, RObject handler, boolean first) throws org.apache.thrift.TException
+    public void MessageRouter_AddHandler(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, com.jetbrains.cef.remote.thrift_codegen.RObject handler, boolean first) throws org.apache.thrift.TException
     {
       send_MessageRouter_AddHandler(msgRouter, handler, first);
       recv_MessageRouter_AddHandler();
     }
 
-    public void send_MessageRouter_AddHandler(RObject msgRouter, RObject handler, boolean first) throws org.apache.thrift.TException
+    public void send_MessageRouter_AddHandler(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, com.jetbrains.cef.remote.thrift_codegen.RObject handler, boolean first) throws org.apache.thrift.TException
     {
       MessageRouter_AddHandler_args args = new MessageRouter_AddHandler_args();
       args.setMsgRouter(msgRouter);
@@ -884,13 +884,13 @@ public class Server {
       return;
     }
 
-    public void MessageRouter_RemoveHandler(RObject msgRouter, RObject handler) throws org.apache.thrift.TException
+    public void MessageRouter_RemoveHandler(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, com.jetbrains.cef.remote.thrift_codegen.RObject handler) throws org.apache.thrift.TException
     {
       send_MessageRouter_RemoveHandler(msgRouter, handler);
       recv_MessageRouter_RemoveHandler();
     }
 
-    public void send_MessageRouter_RemoveHandler(RObject msgRouter, RObject handler) throws org.apache.thrift.TException
+    public void send_MessageRouter_RemoveHandler(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, com.jetbrains.cef.remote.thrift_codegen.RObject handler) throws org.apache.thrift.TException
     {
       MessageRouter_RemoveHandler_args args = new MessageRouter_RemoveHandler_args();
       args.setMsgRouter(msgRouter);
@@ -905,13 +905,13 @@ public class Server {
       return;
     }
 
-    public void MessageRouter_CancelPending(RObject msgRouter, int bid, RObject handler) throws org.apache.thrift.TException
+    public void MessageRouter_CancelPending(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject handler) throws org.apache.thrift.TException
     {
       send_MessageRouter_CancelPending(msgRouter, bid, handler);
       recv_MessageRouter_CancelPending();
     }
 
-    public void send_MessageRouter_CancelPending(RObject msgRouter, int bid, RObject handler) throws org.apache.thrift.TException
+    public void send_MessageRouter_CancelPending(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject handler) throws org.apache.thrift.TException
     {
       MessageRouter_CancelPending_args args = new MessageRouter_CancelPending_args();
       args.setMsgRouter(msgRouter);
@@ -927,24 +927,24 @@ public class Server {
       return;
     }
 
-    public void QueryCallback_Dispose(RObject qcallback) throws org.apache.thrift.TException
+    public void QueryCallback_Dispose(com.jetbrains.cef.remote.thrift_codegen.RObject qcallback) throws org.apache.thrift.TException
     {
       send_QueryCallback_Dispose(qcallback);
     }
 
-    public void send_QueryCallback_Dispose(RObject qcallback) throws org.apache.thrift.TException
+    public void send_QueryCallback_Dispose(com.jetbrains.cef.remote.thrift_codegen.RObject qcallback) throws org.apache.thrift.TException
     {
       QueryCallback_Dispose_args args = new QueryCallback_Dispose_args();
       args.setQcallback(qcallback);
       sendBaseOneway("QueryCallback_Dispose", args);
     }
 
-    public void QueryCallback_Success(RObject qcallback, java.lang.String response) throws org.apache.thrift.TException
+    public void QueryCallback_Success(com.jetbrains.cef.remote.thrift_codegen.RObject qcallback, java.lang.String response) throws org.apache.thrift.TException
     {
       send_QueryCallback_Success(qcallback, response);
     }
 
-    public void send_QueryCallback_Success(RObject qcallback, java.lang.String response) throws org.apache.thrift.TException
+    public void send_QueryCallback_Success(com.jetbrains.cef.remote.thrift_codegen.RObject qcallback, java.lang.String response) throws org.apache.thrift.TException
     {
       QueryCallback_Success_args args = new QueryCallback_Success_args();
       args.setQcallback(qcallback);
@@ -952,12 +952,12 @@ public class Server {
       sendBaseOneway("QueryCallback_Success", args);
     }
 
-    public void QueryCallback_Failure(RObject qcallback, int error_code, java.lang.String error_message) throws org.apache.thrift.TException
+    public void QueryCallback_Failure(com.jetbrains.cef.remote.thrift_codegen.RObject qcallback, int error_code, java.lang.String error_message) throws org.apache.thrift.TException
     {
       send_QueryCallback_Failure(qcallback, error_code, error_message);
     }
 
-    public void send_QueryCallback_Failure(RObject qcallback, int error_code, java.lang.String error_message) throws org.apache.thrift.TException
+    public void send_QueryCallback_Failure(com.jetbrains.cef.remote.thrift_codegen.RObject qcallback, int error_code, java.lang.String error_message) throws org.apache.thrift.TException
     {
       QueryCallback_Failure_args args = new QueryCallback_Failure_args();
       args.setQcallback(qcallback);
@@ -1478,7 +1478,7 @@ public class Server {
       }
     }
 
-    public void Request_Update(RObject request, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void Request_Update(com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       Request_Update_call method_call = new Request_Update_call(request, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -1486,8 +1486,8 @@ public class Server {
     }
 
     public static class Request_Update_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
-      private RObject request;
-      public Request_Update_call(RObject request, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private com.jetbrains.cef.remote.thrift_codegen.RObject request;
+      public Request_Update_call(com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.request = request;
       }
@@ -1510,16 +1510,16 @@ public class Server {
       }
     }
 
-    public void Request_GetPostData(RObject request, org.apache.thrift.async.AsyncMethodCallback<PostData> resultHandler) throws org.apache.thrift.TException {
+    public void Request_GetPostData(com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.PostData> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       Request_GetPostData_call method_call = new Request_GetPostData_call(request, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class Request_GetPostData_call extends org.apache.thrift.async.TAsyncMethodCall<PostData> {
-      private RObject request;
-      public Request_GetPostData_call(RObject request, org.apache.thrift.async.AsyncMethodCallback<PostData> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+    public static class Request_GetPostData_call extends org.apache.thrift.async.TAsyncMethodCall<com.jetbrains.cef.remote.thrift_codegen.PostData> {
+      private com.jetbrains.cef.remote.thrift_codegen.RObject request;
+      public Request_GetPostData_call(com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.PostData> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.request = request;
       }
@@ -1532,7 +1532,7 @@ public class Server {
         prot.writeMessageEnd();
       }
 
-      public PostData getResult() throws org.apache.thrift.TException {
+      public com.jetbrains.cef.remote.thrift_codegen.PostData getResult() throws org.apache.thrift.TException {
         if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new java.lang.IllegalStateException("Method call not finished!");
         }
@@ -1542,7 +1542,7 @@ public class Server {
       }
     }
 
-    public void Request_SetPostData(RObject request, PostData postData, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void Request_SetPostData(com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.PostData postData, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       Request_SetPostData_call method_call = new Request_SetPostData_call(request, postData, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -1550,9 +1550,9 @@ public class Server {
     }
 
     public static class Request_SetPostData_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
-      private RObject request;
-      private PostData postData;
-      public Request_SetPostData_call(RObject request, PostData postData, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private com.jetbrains.cef.remote.thrift_codegen.RObject request;
+      private com.jetbrains.cef.remote.thrift_codegen.PostData postData;
+      public Request_SetPostData_call(com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.PostData postData, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.request = request;
         this.postData = postData;
@@ -1577,7 +1577,7 @@ public class Server {
       }
     }
 
-    public void Request_GetHeaderByName(RObject request, java.lang.String name, org.apache.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws org.apache.thrift.TException {
+    public void Request_GetHeaderByName(com.jetbrains.cef.remote.thrift_codegen.RObject request, java.lang.String name, org.apache.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       Request_GetHeaderByName_call method_call = new Request_GetHeaderByName_call(request, name, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -1585,9 +1585,9 @@ public class Server {
     }
 
     public static class Request_GetHeaderByName_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.String> {
-      private RObject request;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject request;
       private java.lang.String name;
-      public Request_GetHeaderByName_call(RObject request, java.lang.String name, org.apache.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public Request_GetHeaderByName_call(com.jetbrains.cef.remote.thrift_codegen.RObject request, java.lang.String name, org.apache.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.request = request;
         this.name = name;
@@ -1612,7 +1612,7 @@ public class Server {
       }
     }
 
-    public void Request_SetHeaderByName(RObject request, java.lang.String name, java.lang.String value, boolean overwrite, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void Request_SetHeaderByName(com.jetbrains.cef.remote.thrift_codegen.RObject request, java.lang.String name, java.lang.String value, boolean overwrite, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       Request_SetHeaderByName_call method_call = new Request_SetHeaderByName_call(request, name, value, overwrite, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -1620,11 +1620,11 @@ public class Server {
     }
 
     public static class Request_SetHeaderByName_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
-      private RObject request;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject request;
       private java.lang.String name;
       private java.lang.String value;
       private boolean overwrite;
-      public Request_SetHeaderByName_call(RObject request, java.lang.String name, java.lang.String value, boolean overwrite, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public Request_SetHeaderByName_call(com.jetbrains.cef.remote.thrift_codegen.RObject request, java.lang.String name, java.lang.String value, boolean overwrite, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.request = request;
         this.name = name;
@@ -1653,7 +1653,7 @@ public class Server {
       }
     }
 
-    public void Request_GetHeaderMap(RObject request, org.apache.thrift.async.AsyncMethodCallback<java.util.Map<java.lang.String,java.lang.String>> resultHandler) throws org.apache.thrift.TException {
+    public void Request_GetHeaderMap(com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<java.util.Map<java.lang.String,java.lang.String>> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       Request_GetHeaderMap_call method_call = new Request_GetHeaderMap_call(request, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -1661,8 +1661,8 @@ public class Server {
     }
 
     public static class Request_GetHeaderMap_call extends org.apache.thrift.async.TAsyncMethodCall<java.util.Map<java.lang.String,java.lang.String>> {
-      private RObject request;
-      public Request_GetHeaderMap_call(RObject request, org.apache.thrift.async.AsyncMethodCallback<java.util.Map<java.lang.String,java.lang.String>> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private com.jetbrains.cef.remote.thrift_codegen.RObject request;
+      public Request_GetHeaderMap_call(com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<java.util.Map<java.lang.String,java.lang.String>> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.request = request;
       }
@@ -1685,7 +1685,7 @@ public class Server {
       }
     }
 
-    public void Request_SetHeaderMap(RObject request, java.util.Map<java.lang.String,java.lang.String> headerMap, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void Request_SetHeaderMap(com.jetbrains.cef.remote.thrift_codegen.RObject request, java.util.Map<java.lang.String,java.lang.String> headerMap, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       Request_SetHeaderMap_call method_call = new Request_SetHeaderMap_call(request, headerMap, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -1693,9 +1693,9 @@ public class Server {
     }
 
     public static class Request_SetHeaderMap_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
-      private RObject request;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject request;
       private java.util.Map<java.lang.String,java.lang.String> headerMap;
-      public Request_SetHeaderMap_call(RObject request, java.util.Map<java.lang.String,java.lang.String> headerMap, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public Request_SetHeaderMap_call(com.jetbrains.cef.remote.thrift_codegen.RObject request, java.util.Map<java.lang.String,java.lang.String> headerMap, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.request = request;
         this.headerMap = headerMap;
@@ -1720,7 +1720,7 @@ public class Server {
       }
     }
 
-    public void Request_Set(RObject request, java.lang.String url, java.lang.String method, PostData postData, java.util.Map<java.lang.String,java.lang.String> headerMap, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void Request_Set(com.jetbrains.cef.remote.thrift_codegen.RObject request, java.lang.String url, java.lang.String method, com.jetbrains.cef.remote.thrift_codegen.PostData postData, java.util.Map<java.lang.String,java.lang.String> headerMap, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       Request_Set_call method_call = new Request_Set_call(request, url, method, postData, headerMap, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -1728,12 +1728,12 @@ public class Server {
     }
 
     public static class Request_Set_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
-      private RObject request;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject request;
       private java.lang.String url;
       private java.lang.String method;
-      private PostData postData;
+      private com.jetbrains.cef.remote.thrift_codegen.PostData postData;
       private java.util.Map<java.lang.String,java.lang.String> headerMap;
-      public Request_Set_call(RObject request, java.lang.String url, java.lang.String method, PostData postData, java.util.Map<java.lang.String,java.lang.String> headerMap, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public Request_Set_call(com.jetbrains.cef.remote.thrift_codegen.RObject request, java.lang.String url, java.lang.String method, com.jetbrains.cef.remote.thrift_codegen.PostData postData, java.util.Map<java.lang.String,java.lang.String> headerMap, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.request = request;
         this.url = url;
@@ -1764,7 +1764,7 @@ public class Server {
       }
     }
 
-    public void Response_Update(RObject response, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void Response_Update(com.jetbrains.cef.remote.thrift_codegen.RObject response, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       Response_Update_call method_call = new Response_Update_call(response, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -1772,8 +1772,8 @@ public class Server {
     }
 
     public static class Response_Update_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
-      private RObject response;
-      public Response_Update_call(RObject response, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private com.jetbrains.cef.remote.thrift_codegen.RObject response;
+      public Response_Update_call(com.jetbrains.cef.remote.thrift_codegen.RObject response, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.response = response;
       }
@@ -1796,7 +1796,7 @@ public class Server {
       }
     }
 
-    public void Response_GetHeaderByName(RObject response, java.lang.String name, org.apache.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws org.apache.thrift.TException {
+    public void Response_GetHeaderByName(com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String name, org.apache.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       Response_GetHeaderByName_call method_call = new Response_GetHeaderByName_call(response, name, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -1804,9 +1804,9 @@ public class Server {
     }
 
     public static class Response_GetHeaderByName_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.String> {
-      private RObject response;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject response;
       private java.lang.String name;
-      public Response_GetHeaderByName_call(RObject response, java.lang.String name, org.apache.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public Response_GetHeaderByName_call(com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String name, org.apache.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.response = response;
         this.name = name;
@@ -1831,7 +1831,7 @@ public class Server {
       }
     }
 
-    public void Response_SetHeaderByName(RObject response, java.lang.String name, java.lang.String value, boolean overwrite, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void Response_SetHeaderByName(com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String name, java.lang.String value, boolean overwrite, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       Response_SetHeaderByName_call method_call = new Response_SetHeaderByName_call(response, name, value, overwrite, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -1839,11 +1839,11 @@ public class Server {
     }
 
     public static class Response_SetHeaderByName_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
-      private RObject response;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject response;
       private java.lang.String name;
       private java.lang.String value;
       private boolean overwrite;
-      public Response_SetHeaderByName_call(RObject response, java.lang.String name, java.lang.String value, boolean overwrite, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public Response_SetHeaderByName_call(com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String name, java.lang.String value, boolean overwrite, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.response = response;
         this.name = name;
@@ -1872,7 +1872,7 @@ public class Server {
       }
     }
 
-    public void Response_GetHeaderMap(RObject response, org.apache.thrift.async.AsyncMethodCallback<java.util.Map<java.lang.String,java.lang.String>> resultHandler) throws org.apache.thrift.TException {
+    public void Response_GetHeaderMap(com.jetbrains.cef.remote.thrift_codegen.RObject response, org.apache.thrift.async.AsyncMethodCallback<java.util.Map<java.lang.String,java.lang.String>> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       Response_GetHeaderMap_call method_call = new Response_GetHeaderMap_call(response, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -1880,8 +1880,8 @@ public class Server {
     }
 
     public static class Response_GetHeaderMap_call extends org.apache.thrift.async.TAsyncMethodCall<java.util.Map<java.lang.String,java.lang.String>> {
-      private RObject response;
-      public Response_GetHeaderMap_call(RObject response, org.apache.thrift.async.AsyncMethodCallback<java.util.Map<java.lang.String,java.lang.String>> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private com.jetbrains.cef.remote.thrift_codegen.RObject response;
+      public Response_GetHeaderMap_call(com.jetbrains.cef.remote.thrift_codegen.RObject response, org.apache.thrift.async.AsyncMethodCallback<java.util.Map<java.lang.String,java.lang.String>> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.response = response;
       }
@@ -1904,7 +1904,7 @@ public class Server {
       }
     }
 
-    public void Response_SetHeaderMap(RObject response, java.util.Map<java.lang.String,java.lang.String> headerMap, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void Response_SetHeaderMap(com.jetbrains.cef.remote.thrift_codegen.RObject response, java.util.Map<java.lang.String,java.lang.String> headerMap, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       Response_SetHeaderMap_call method_call = new Response_SetHeaderMap_call(response, headerMap, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -1912,9 +1912,9 @@ public class Server {
     }
 
     public static class Response_SetHeaderMap_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
-      private RObject response;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject response;
       private java.util.Map<java.lang.String,java.lang.String> headerMap;
-      public Response_SetHeaderMap_call(RObject response, java.util.Map<java.lang.String,java.lang.String> headerMap, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public Response_SetHeaderMap_call(com.jetbrains.cef.remote.thrift_codegen.RObject response, java.util.Map<java.lang.String,java.lang.String> headerMap, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.response = response;
         this.headerMap = headerMap;
@@ -1939,7 +1939,7 @@ public class Server {
       }
     }
 
-    public void Callback_Dispose(RObject callback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void Callback_Dispose(com.jetbrains.cef.remote.thrift_codegen.RObject callback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       Callback_Dispose_call method_call = new Callback_Dispose_call(callback, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -1947,8 +1947,8 @@ public class Server {
     }
 
     public static class Callback_Dispose_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
-      private RObject callback;
-      public Callback_Dispose_call(RObject callback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private com.jetbrains.cef.remote.thrift_codegen.RObject callback;
+      public Callback_Dispose_call(com.jetbrains.cef.remote.thrift_codegen.RObject callback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
         this.callback = callback;
       }
@@ -1971,7 +1971,7 @@ public class Server {
       }
     }
 
-    public void Callback_Continue(RObject callback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void Callback_Continue(com.jetbrains.cef.remote.thrift_codegen.RObject callback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       Callback_Continue_call method_call = new Callback_Continue_call(callback, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -1979,8 +1979,8 @@ public class Server {
     }
 
     public static class Callback_Continue_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
-      private RObject callback;
-      public Callback_Continue_call(RObject callback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private com.jetbrains.cef.remote.thrift_codegen.RObject callback;
+      public Callback_Continue_call(com.jetbrains.cef.remote.thrift_codegen.RObject callback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
         this.callback = callback;
       }
@@ -2003,7 +2003,7 @@ public class Server {
       }
     }
 
-    public void Callback_Cancel(RObject callback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void Callback_Cancel(com.jetbrains.cef.remote.thrift_codegen.RObject callback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       Callback_Cancel_call method_call = new Callback_Cancel_call(callback, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -2011,8 +2011,8 @@ public class Server {
     }
 
     public static class Callback_Cancel_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
-      private RObject callback;
-      public Callback_Cancel_call(RObject callback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private com.jetbrains.cef.remote.thrift_codegen.RObject callback;
+      public Callback_Cancel_call(com.jetbrains.cef.remote.thrift_codegen.RObject callback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
         this.callback = callback;
       }
@@ -2035,7 +2035,7 @@ public class Server {
       }
     }
 
-    public void AuthCallback_Dispose(RObject authCallback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void AuthCallback_Dispose(com.jetbrains.cef.remote.thrift_codegen.RObject authCallback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       AuthCallback_Dispose_call method_call = new AuthCallback_Dispose_call(authCallback, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -2043,8 +2043,8 @@ public class Server {
     }
 
     public static class AuthCallback_Dispose_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
-      private RObject authCallback;
-      public AuthCallback_Dispose_call(RObject authCallback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private com.jetbrains.cef.remote.thrift_codegen.RObject authCallback;
+      public AuthCallback_Dispose_call(com.jetbrains.cef.remote.thrift_codegen.RObject authCallback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
         this.authCallback = authCallback;
       }
@@ -2067,7 +2067,7 @@ public class Server {
       }
     }
 
-    public void AuthCallback_Continue(RObject authCallback, java.lang.String username, java.lang.String password, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void AuthCallback_Continue(com.jetbrains.cef.remote.thrift_codegen.RObject authCallback, java.lang.String username, java.lang.String password, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       AuthCallback_Continue_call method_call = new AuthCallback_Continue_call(authCallback, username, password, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -2075,10 +2075,10 @@ public class Server {
     }
 
     public static class AuthCallback_Continue_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
-      private RObject authCallback;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject authCallback;
       private java.lang.String username;
       private java.lang.String password;
-      public AuthCallback_Continue_call(RObject authCallback, java.lang.String username, java.lang.String password, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public AuthCallback_Continue_call(com.jetbrains.cef.remote.thrift_codegen.RObject authCallback, java.lang.String username, java.lang.String password, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
         this.authCallback = authCallback;
         this.username = username;
@@ -2105,7 +2105,7 @@ public class Server {
       }
     }
 
-    public void AuthCallback_Cancel(RObject authCallback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void AuthCallback_Cancel(com.jetbrains.cef.remote.thrift_codegen.RObject authCallback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       AuthCallback_Cancel_call method_call = new AuthCallback_Cancel_call(authCallback, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -2113,8 +2113,8 @@ public class Server {
     }
 
     public static class AuthCallback_Cancel_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
-      private RObject authCallback;
-      public AuthCallback_Cancel_call(RObject authCallback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private com.jetbrains.cef.remote.thrift_codegen.RObject authCallback;
+      public AuthCallback_Cancel_call(com.jetbrains.cef.remote.thrift_codegen.RObject authCallback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
         this.authCallback = authCallback;
       }
@@ -2137,17 +2137,17 @@ public class Server {
       }
     }
 
-    public void MessageRouter_Create(java.lang.String query, java.lang.String cancel, org.apache.thrift.async.AsyncMethodCallback<RObject> resultHandler) throws org.apache.thrift.TException {
+    public void MessageRouter_Create(java.lang.String query, java.lang.String cancel, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       MessageRouter_Create_call method_call = new MessageRouter_Create_call(query, cancel, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class MessageRouter_Create_call extends org.apache.thrift.async.TAsyncMethodCall<RObject> {
+    public static class MessageRouter_Create_call extends org.apache.thrift.async.TAsyncMethodCall<com.jetbrains.cef.remote.thrift_codegen.RObject> {
       private java.lang.String query;
       private java.lang.String cancel;
-      public MessageRouter_Create_call(java.lang.String query, java.lang.String cancel, org.apache.thrift.async.AsyncMethodCallback<RObject> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public MessageRouter_Create_call(java.lang.String query, java.lang.String cancel, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.query = query;
         this.cancel = cancel;
@@ -2162,7 +2162,7 @@ public class Server {
         prot.writeMessageEnd();
       }
 
-      public RObject getResult() throws org.apache.thrift.TException {
+      public com.jetbrains.cef.remote.thrift_codegen.RObject getResult() throws org.apache.thrift.TException {
         if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new java.lang.IllegalStateException("Method call not finished!");
         }
@@ -2172,7 +2172,7 @@ public class Server {
       }
     }
 
-    public void MessageRouter_Dispose(RObject msgRouter, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void MessageRouter_Dispose(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       MessageRouter_Dispose_call method_call = new MessageRouter_Dispose_call(msgRouter, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -2180,8 +2180,8 @@ public class Server {
     }
 
     public static class MessageRouter_Dispose_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
-      private RObject msgRouter;
-      public MessageRouter_Dispose_call(RObject msgRouter, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter;
+      public MessageRouter_Dispose_call(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
         this.msgRouter = msgRouter;
       }
@@ -2204,7 +2204,7 @@ public class Server {
       }
     }
 
-    public void MessageRouter_AddMessageRouterToBrowser(RObject msgRouter, int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void MessageRouter_AddMessageRouterToBrowser(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       MessageRouter_AddMessageRouterToBrowser_call method_call = new MessageRouter_AddMessageRouterToBrowser_call(msgRouter, bid, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -2212,9 +2212,9 @@ public class Server {
     }
 
     public static class MessageRouter_AddMessageRouterToBrowser_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
-      private RObject msgRouter;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter;
       private int bid;
-      public MessageRouter_AddMessageRouterToBrowser_call(RObject msgRouter, int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public MessageRouter_AddMessageRouterToBrowser_call(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.msgRouter = msgRouter;
         this.bid = bid;
@@ -2239,7 +2239,7 @@ public class Server {
       }
     }
 
-    public void MessageRouter_RemoveMessageRouterFromBrowser(RObject msgRouter, int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void MessageRouter_RemoveMessageRouterFromBrowser(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       MessageRouter_RemoveMessageRouterFromBrowser_call method_call = new MessageRouter_RemoveMessageRouterFromBrowser_call(msgRouter, bid, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -2247,9 +2247,9 @@ public class Server {
     }
 
     public static class MessageRouter_RemoveMessageRouterFromBrowser_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
-      private RObject msgRouter;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter;
       private int bid;
-      public MessageRouter_RemoveMessageRouterFromBrowser_call(RObject msgRouter, int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public MessageRouter_RemoveMessageRouterFromBrowser_call(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.msgRouter = msgRouter;
         this.bid = bid;
@@ -2274,7 +2274,7 @@ public class Server {
       }
     }
 
-    public void MessageRouter_AddHandler(RObject msgRouter, RObject handler, boolean first, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void MessageRouter_AddHandler(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, com.jetbrains.cef.remote.thrift_codegen.RObject handler, boolean first, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       MessageRouter_AddHandler_call method_call = new MessageRouter_AddHandler_call(msgRouter, handler, first, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -2282,10 +2282,10 @@ public class Server {
     }
 
     public static class MessageRouter_AddHandler_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
-      private RObject msgRouter;
-      private RObject handler;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject handler;
       private boolean first;
-      public MessageRouter_AddHandler_call(RObject msgRouter, RObject handler, boolean first, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public MessageRouter_AddHandler_call(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, com.jetbrains.cef.remote.thrift_codegen.RObject handler, boolean first, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.msgRouter = msgRouter;
         this.handler = handler;
@@ -2312,7 +2312,7 @@ public class Server {
       }
     }
 
-    public void MessageRouter_RemoveHandler(RObject msgRouter, RObject handler, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void MessageRouter_RemoveHandler(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, com.jetbrains.cef.remote.thrift_codegen.RObject handler, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       MessageRouter_RemoveHandler_call method_call = new MessageRouter_RemoveHandler_call(msgRouter, handler, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -2320,9 +2320,9 @@ public class Server {
     }
 
     public static class MessageRouter_RemoveHandler_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
-      private RObject msgRouter;
-      private RObject handler;
-      public MessageRouter_RemoveHandler_call(RObject msgRouter, RObject handler, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject handler;
+      public MessageRouter_RemoveHandler_call(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, com.jetbrains.cef.remote.thrift_codegen.RObject handler, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.msgRouter = msgRouter;
         this.handler = handler;
@@ -2347,7 +2347,7 @@ public class Server {
       }
     }
 
-    public void MessageRouter_CancelPending(RObject msgRouter, int bid, RObject handler, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void MessageRouter_CancelPending(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject handler, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       MessageRouter_CancelPending_call method_call = new MessageRouter_CancelPending_call(msgRouter, bid, handler, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -2355,10 +2355,10 @@ public class Server {
     }
 
     public static class MessageRouter_CancelPending_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
-      private RObject msgRouter;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter;
       private int bid;
-      private RObject handler;
-      public MessageRouter_CancelPending_call(RObject msgRouter, int bid, RObject handler, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private com.jetbrains.cef.remote.thrift_codegen.RObject handler;
+      public MessageRouter_CancelPending_call(com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject handler, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.msgRouter = msgRouter;
         this.bid = bid;
@@ -2385,7 +2385,7 @@ public class Server {
       }
     }
 
-    public void QueryCallback_Dispose(RObject qcallback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void QueryCallback_Dispose(com.jetbrains.cef.remote.thrift_codegen.RObject qcallback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       QueryCallback_Dispose_call method_call = new QueryCallback_Dispose_call(qcallback, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -2393,8 +2393,8 @@ public class Server {
     }
 
     public static class QueryCallback_Dispose_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
-      private RObject qcallback;
-      public QueryCallback_Dispose_call(RObject qcallback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private com.jetbrains.cef.remote.thrift_codegen.RObject qcallback;
+      public QueryCallback_Dispose_call(com.jetbrains.cef.remote.thrift_codegen.RObject qcallback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
         this.qcallback = qcallback;
       }
@@ -2417,7 +2417,7 @@ public class Server {
       }
     }
 
-    public void QueryCallback_Success(RObject qcallback, java.lang.String response, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void QueryCallback_Success(com.jetbrains.cef.remote.thrift_codegen.RObject qcallback, java.lang.String response, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       QueryCallback_Success_call method_call = new QueryCallback_Success_call(qcallback, response, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -2425,9 +2425,9 @@ public class Server {
     }
 
     public static class QueryCallback_Success_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
-      private RObject qcallback;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject qcallback;
       private java.lang.String response;
-      public QueryCallback_Success_call(RObject qcallback, java.lang.String response, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public QueryCallback_Success_call(com.jetbrains.cef.remote.thrift_codegen.RObject qcallback, java.lang.String response, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
         this.qcallback = qcallback;
         this.response = response;
@@ -2452,7 +2452,7 @@ public class Server {
       }
     }
 
-    public void QueryCallback_Failure(RObject qcallback, int error_code, java.lang.String error_message, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void QueryCallback_Failure(com.jetbrains.cef.remote.thrift_codegen.RObject qcallback, int error_code, java.lang.String error_message, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       QueryCallback_Failure_call method_call = new QueryCallback_Failure_call(qcallback, error_code, error_message, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -2460,10 +2460,10 @@ public class Server {
     }
 
     public static class QueryCallback_Failure_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
-      private RObject qcallback;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject qcallback;
       private int error_code;
       private java.lang.String error_message;
-      public QueryCallback_Failure_call(RObject qcallback, int error_code, java.lang.String error_message, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public QueryCallback_Failure_call(com.jetbrains.cef.remote.thrift_codegen.RObject qcallback, int error_code, java.lang.String error_message, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
         this.qcallback = qcallback;
         this.error_code = error_code;
@@ -4223,7 +4223,7 @@ public class Server {
       }
     }
 
-    public static class Request_GetPostData<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, Request_GetPostData_args, PostData> {
+    public static class Request_GetPostData<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, Request_GetPostData_args, com.jetbrains.cef.remote.thrift_codegen.PostData> {
       public Request_GetPostData() {
         super("Request_GetPostData");
       }
@@ -4232,10 +4232,10 @@ public class Server {
         return new Request_GetPostData_args();
       }
 
-      public org.apache.thrift.async.AsyncMethodCallback<PostData> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+      public org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.PostData> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
         final org.apache.thrift.AsyncProcessFunction fcall = this;
-        return new org.apache.thrift.async.AsyncMethodCallback<PostData>() { 
-          public void onComplete(PostData o) {
+        return new org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.PostData>() { 
+          public void onComplete(com.jetbrains.cef.remote.thrift_codegen.PostData o) {
             Request_GetPostData_result result = new Request_GetPostData_result();
             result.success = o;
             try {
@@ -4279,7 +4279,7 @@ public class Server {
         return false;
       }
 
-      public void start(I iface, Request_GetPostData_args args, org.apache.thrift.async.AsyncMethodCallback<PostData> resultHandler) throws org.apache.thrift.TException {
+      public void start(I iface, Request_GetPostData_args args, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.PostData> resultHandler) throws org.apache.thrift.TException {
         iface.Request_GetPostData(args.request,resultHandler);
       }
     }
@@ -5152,7 +5152,7 @@ public class Server {
       }
     }
 
-    public static class MessageRouter_Create<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, MessageRouter_Create_args, RObject> {
+    public static class MessageRouter_Create<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, MessageRouter_Create_args, com.jetbrains.cef.remote.thrift_codegen.RObject> {
       public MessageRouter_Create() {
         super("MessageRouter_Create");
       }
@@ -5161,10 +5161,10 @@ public class Server {
         return new MessageRouter_Create_args();
       }
 
-      public org.apache.thrift.async.AsyncMethodCallback<RObject> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+      public org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
         final org.apache.thrift.AsyncProcessFunction fcall = this;
-        return new org.apache.thrift.async.AsyncMethodCallback<RObject>() { 
-          public void onComplete(RObject o) {
+        return new org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject>() { 
+          public void onComplete(com.jetbrains.cef.remote.thrift_codegen.RObject o) {
             MessageRouter_Create_result result = new MessageRouter_Create_result();
             result.success = o;
             try {
@@ -5208,7 +5208,7 @@ public class Server {
         return false;
       }
 
-      public void start(I iface, MessageRouter_Create_args args, org.apache.thrift.async.AsyncMethodCallback<RObject> resultHandler) throws org.apache.thrift.TException {
+      public void start(I iface, MessageRouter_Create_args args, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException {
         iface.MessageRouter_Create(args.query, args.cancel,resultHandler);
       }
     }
@@ -14085,7 +14085,7 @@ public class Server {
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new Request_Update_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new Request_Update_argsTupleSchemeFactory();
 
-    public @org.apache.thrift.annotation.Nullable RObject request; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -14152,7 +14152,7 @@ public class Server {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.REQUEST, new org.apache.thrift.meta_data.FieldMetaData("request", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Request_Update_args.class, metaDataMap);
     }
@@ -14161,7 +14161,7 @@ public class Server {
     }
 
     public Request_Update_args(
-      RObject request)
+      com.jetbrains.cef.remote.thrift_codegen.RObject request)
     {
       this();
       this.request = request;
@@ -14172,7 +14172,7 @@ public class Server {
      */
     public Request_Update_args(Request_Update_args other) {
       if (other.isSetRequest()) {
-        this.request = new RObject(other.request);
+        this.request = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.request);
       }
     }
 
@@ -14186,11 +14186,11 @@ public class Server {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getRequest() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getRequest() {
       return this.request;
     }
 
-    public Request_Update_args setRequest(@org.apache.thrift.annotation.Nullable RObject request) {
+    public Request_Update_args setRequest(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request) {
       this.request = request;
       return this;
     }
@@ -14216,7 +14216,7 @@ public class Server {
         if (value == null) {
           unsetRequest();
         } else {
-          setRequest((RObject)value);
+          setRequest((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -14376,7 +14376,7 @@ public class Server {
           switch (schemeField.id) {
             case 1: // REQUEST
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.request = new RObject();
+                struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.request.read(iprot);
                 struct.setRequestIsSet(true);
               } else { 
@@ -14435,7 +14435,7 @@ public class Server {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
-          struct.request = new RObject();
+          struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.request.read(iprot);
           struct.setRequestIsSet(true);
         }
@@ -14707,7 +14707,7 @@ public class Server {
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new Request_GetPostData_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new Request_GetPostData_argsTupleSchemeFactory();
 
-    public @org.apache.thrift.annotation.Nullable RObject request; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -14774,7 +14774,7 @@ public class Server {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.REQUEST, new org.apache.thrift.meta_data.FieldMetaData("request", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Request_GetPostData_args.class, metaDataMap);
     }
@@ -14783,7 +14783,7 @@ public class Server {
     }
 
     public Request_GetPostData_args(
-      RObject request)
+      com.jetbrains.cef.remote.thrift_codegen.RObject request)
     {
       this();
       this.request = request;
@@ -14794,7 +14794,7 @@ public class Server {
      */
     public Request_GetPostData_args(Request_GetPostData_args other) {
       if (other.isSetRequest()) {
-        this.request = new RObject(other.request);
+        this.request = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.request);
       }
     }
 
@@ -14808,11 +14808,11 @@ public class Server {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getRequest() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getRequest() {
       return this.request;
     }
 
-    public Request_GetPostData_args setRequest(@org.apache.thrift.annotation.Nullable RObject request) {
+    public Request_GetPostData_args setRequest(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request) {
       this.request = request;
       return this;
     }
@@ -14838,7 +14838,7 @@ public class Server {
         if (value == null) {
           unsetRequest();
         } else {
-          setRequest((RObject)value);
+          setRequest((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -14998,7 +14998,7 @@ public class Server {
           switch (schemeField.id) {
             case 1: // REQUEST
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.request = new RObject();
+                struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.request.read(iprot);
                 struct.setRequestIsSet(true);
               } else { 
@@ -15057,7 +15057,7 @@ public class Server {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
-          struct.request = new RObject();
+          struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.request.read(iprot);
           struct.setRequestIsSet(true);
         }
@@ -15077,7 +15077,7 @@ public class Server {
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new Request_GetPostData_resultStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new Request_GetPostData_resultTupleSchemeFactory();
 
-    public @org.apache.thrift.annotation.Nullable PostData success; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.PostData success; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -15144,7 +15144,7 @@ public class Server {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, PostData.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.PostData.class)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Request_GetPostData_result.class, metaDataMap);
     }
@@ -15153,7 +15153,7 @@ public class Server {
     }
 
     public Request_GetPostData_result(
-      PostData success)
+      com.jetbrains.cef.remote.thrift_codegen.PostData success)
     {
       this();
       this.success = success;
@@ -15164,7 +15164,7 @@ public class Server {
      */
     public Request_GetPostData_result(Request_GetPostData_result other) {
       if (other.isSetSuccess()) {
-        this.success = new PostData(other.success);
+        this.success = new com.jetbrains.cef.remote.thrift_codegen.PostData(other.success);
       }
     }
 
@@ -15178,11 +15178,11 @@ public class Server {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public PostData getSuccess() {
+    public com.jetbrains.cef.remote.thrift_codegen.PostData getSuccess() {
       return this.success;
     }
 
-    public Request_GetPostData_result setSuccess(@org.apache.thrift.annotation.Nullable PostData success) {
+    public Request_GetPostData_result setSuccess(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.PostData success) {
       this.success = success;
       return this;
     }
@@ -15208,7 +15208,7 @@ public class Server {
         if (value == null) {
           unsetSuccess();
         } else {
-          setSuccess((PostData)value);
+          setSuccess((com.jetbrains.cef.remote.thrift_codegen.PostData)value);
         }
         break;
 
@@ -15368,7 +15368,7 @@ public class Server {
           switch (schemeField.id) {
             case 0: // SUCCESS
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.success = new PostData();
+                struct.success = new com.jetbrains.cef.remote.thrift_codegen.PostData();
                 struct.success.read(iprot);
                 struct.setSuccessIsSet(true);
               } else { 
@@ -15427,7 +15427,7 @@ public class Server {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
-          struct.success = new PostData();
+          struct.success = new com.jetbrains.cef.remote.thrift_codegen.PostData();
           struct.success.read(iprot);
           struct.setSuccessIsSet(true);
         }
@@ -15448,8 +15448,8 @@ public class Server {
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new Request_SetPostData_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new Request_SetPostData_argsTupleSchemeFactory();
 
-    public @org.apache.thrift.annotation.Nullable RObject request; // required
-    public @org.apache.thrift.annotation.Nullable PostData postData; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.PostData postData; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -15519,9 +15519,9 @@ public class Server {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.REQUEST, new org.apache.thrift.meta_data.FieldMetaData("request", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.POST_DATA, new org.apache.thrift.meta_data.FieldMetaData("postData", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, PostData.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.PostData.class)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Request_SetPostData_args.class, metaDataMap);
     }
@@ -15530,8 +15530,8 @@ public class Server {
     }
 
     public Request_SetPostData_args(
-      RObject request,
-      PostData postData)
+      com.jetbrains.cef.remote.thrift_codegen.RObject request,
+      com.jetbrains.cef.remote.thrift_codegen.PostData postData)
     {
       this();
       this.request = request;
@@ -15543,10 +15543,10 @@ public class Server {
      */
     public Request_SetPostData_args(Request_SetPostData_args other) {
       if (other.isSetRequest()) {
-        this.request = new RObject(other.request);
+        this.request = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.request);
       }
       if (other.isSetPostData()) {
-        this.postData = new PostData(other.postData);
+        this.postData = new com.jetbrains.cef.remote.thrift_codegen.PostData(other.postData);
       }
     }
 
@@ -15561,11 +15561,11 @@ public class Server {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getRequest() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getRequest() {
       return this.request;
     }
 
-    public Request_SetPostData_args setRequest(@org.apache.thrift.annotation.Nullable RObject request) {
+    public Request_SetPostData_args setRequest(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request) {
       this.request = request;
       return this;
     }
@@ -15586,11 +15586,11 @@ public class Server {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public PostData getPostData() {
+    public com.jetbrains.cef.remote.thrift_codegen.PostData getPostData() {
       return this.postData;
     }
 
-    public Request_SetPostData_args setPostData(@org.apache.thrift.annotation.Nullable PostData postData) {
+    public Request_SetPostData_args setPostData(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.PostData postData) {
       this.postData = postData;
       return this;
     }
@@ -15616,7 +15616,7 @@ public class Server {
         if (value == null) {
           unsetRequest();
         } else {
-          setRequest((RObject)value);
+          setRequest((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -15624,7 +15624,7 @@ public class Server {
         if (value == null) {
           unsetPostData();
         } else {
-          setPostData((PostData)value);
+          setPostData((com.jetbrains.cef.remote.thrift_codegen.PostData)value);
         }
         break;
 
@@ -15823,7 +15823,7 @@ public class Server {
           switch (schemeField.id) {
             case 1: // REQUEST
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.request = new RObject();
+                struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.request.read(iprot);
                 struct.setRequestIsSet(true);
               } else { 
@@ -15832,7 +15832,7 @@ public class Server {
               break;
             case 2: // POST_DATA
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.postData = new PostData();
+                struct.postData = new com.jetbrains.cef.remote.thrift_codegen.PostData();
                 struct.postData.read(iprot);
                 struct.setPostDataIsSet(true);
               } else { 
@@ -15902,12 +15902,12 @@ public class Server {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(2);
         if (incoming.get(0)) {
-          struct.request = new RObject();
+          struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.request.read(iprot);
           struct.setRequestIsSet(true);
         }
         if (incoming.get(1)) {
-          struct.postData = new PostData();
+          struct.postData = new com.jetbrains.cef.remote.thrift_codegen.PostData();
           struct.postData.read(iprot);
           struct.setPostDataIsSet(true);
         }
@@ -16180,7 +16180,7 @@ public class Server {
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new Request_GetHeaderByName_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new Request_GetHeaderByName_argsTupleSchemeFactory();
 
-    public @org.apache.thrift.annotation.Nullable RObject request; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String name; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -16251,7 +16251,7 @@ public class Server {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.REQUEST, new org.apache.thrift.meta_data.FieldMetaData("request", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.NAME, new org.apache.thrift.meta_data.FieldMetaData("name", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
@@ -16262,7 +16262,7 @@ public class Server {
     }
 
     public Request_GetHeaderByName_args(
-      RObject request,
+      com.jetbrains.cef.remote.thrift_codegen.RObject request,
       java.lang.String name)
     {
       this();
@@ -16275,7 +16275,7 @@ public class Server {
      */
     public Request_GetHeaderByName_args(Request_GetHeaderByName_args other) {
       if (other.isSetRequest()) {
-        this.request = new RObject(other.request);
+        this.request = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.request);
       }
       if (other.isSetName()) {
         this.name = other.name;
@@ -16293,11 +16293,11 @@ public class Server {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getRequest() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getRequest() {
       return this.request;
     }
 
-    public Request_GetHeaderByName_args setRequest(@org.apache.thrift.annotation.Nullable RObject request) {
+    public Request_GetHeaderByName_args setRequest(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request) {
       this.request = request;
       return this;
     }
@@ -16348,7 +16348,7 @@ public class Server {
         if (value == null) {
           unsetRequest();
         } else {
-          setRequest((RObject)value);
+          setRequest((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -16552,7 +16552,7 @@ public class Server {
           switch (schemeField.id) {
             case 1: // REQUEST
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.request = new RObject();
+                struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.request.read(iprot);
                 struct.setRequestIsSet(true);
               } else { 
@@ -16630,7 +16630,7 @@ public class Server {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(2);
         if (incoming.get(0)) {
-          struct.request = new RObject();
+          struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.request.read(iprot);
           struct.setRequestIsSet(true);
         }
@@ -17022,7 +17022,7 @@ public class Server {
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new Request_SetHeaderByName_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new Request_SetHeaderByName_argsTupleSchemeFactory();
 
-    public @org.apache.thrift.annotation.Nullable RObject request; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String name; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String value; // required
     public boolean overwrite; // required
@@ -17103,7 +17103,7 @@ public class Server {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.REQUEST, new org.apache.thrift.meta_data.FieldMetaData("request", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.NAME, new org.apache.thrift.meta_data.FieldMetaData("name", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       tmpMap.put(_Fields.VALUE, new org.apache.thrift.meta_data.FieldMetaData("value", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -17118,7 +17118,7 @@ public class Server {
     }
 
     public Request_SetHeaderByName_args(
-      RObject request,
+      com.jetbrains.cef.remote.thrift_codegen.RObject request,
       java.lang.String name,
       java.lang.String value,
       boolean overwrite)
@@ -17137,7 +17137,7 @@ public class Server {
     public Request_SetHeaderByName_args(Request_SetHeaderByName_args other) {
       __isset_bitfield = other.__isset_bitfield;
       if (other.isSetRequest()) {
-        this.request = new RObject(other.request);
+        this.request = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.request);
       }
       if (other.isSetName()) {
         this.name = other.name;
@@ -17162,11 +17162,11 @@ public class Server {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getRequest() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getRequest() {
       return this.request;
     }
 
-    public Request_SetHeaderByName_args setRequest(@org.apache.thrift.annotation.Nullable RObject request) {
+    public Request_SetHeaderByName_args setRequest(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request) {
       this.request = request;
       return this;
     }
@@ -17265,7 +17265,7 @@ public class Server {
         if (value == null) {
           unsetRequest();
         } else {
-          setRequest((RObject)value);
+          setRequest((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -17553,7 +17553,7 @@ public class Server {
           switch (schemeField.id) {
             case 1: // REQUEST
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.request = new RObject();
+                struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.request.read(iprot);
                 struct.setRequestIsSet(true);
               } else { 
@@ -17667,7 +17667,7 @@ public class Server {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(4);
         if (incoming.get(0)) {
-          struct.request = new RObject();
+          struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.request.read(iprot);
           struct.setRequestIsSet(true);
         }
@@ -17951,7 +17951,7 @@ public class Server {
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new Request_GetHeaderMap_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new Request_GetHeaderMap_argsTupleSchemeFactory();
 
-    public @org.apache.thrift.annotation.Nullable RObject request; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -18018,7 +18018,7 @@ public class Server {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.REQUEST, new org.apache.thrift.meta_data.FieldMetaData("request", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Request_GetHeaderMap_args.class, metaDataMap);
     }
@@ -18027,7 +18027,7 @@ public class Server {
     }
 
     public Request_GetHeaderMap_args(
-      RObject request)
+      com.jetbrains.cef.remote.thrift_codegen.RObject request)
     {
       this();
       this.request = request;
@@ -18038,7 +18038,7 @@ public class Server {
      */
     public Request_GetHeaderMap_args(Request_GetHeaderMap_args other) {
       if (other.isSetRequest()) {
-        this.request = new RObject(other.request);
+        this.request = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.request);
       }
     }
 
@@ -18052,11 +18052,11 @@ public class Server {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getRequest() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getRequest() {
       return this.request;
     }
 
-    public Request_GetHeaderMap_args setRequest(@org.apache.thrift.annotation.Nullable RObject request) {
+    public Request_GetHeaderMap_args setRequest(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request) {
       this.request = request;
       return this;
     }
@@ -18082,7 +18082,7 @@ public class Server {
         if (value == null) {
           unsetRequest();
         } else {
-          setRequest((RObject)value);
+          setRequest((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -18242,7 +18242,7 @@ public class Server {
           switch (schemeField.id) {
             case 1: // REQUEST
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.request = new RObject();
+                struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.request.read(iprot);
                 struct.setRequestIsSet(true);
               } else { 
@@ -18301,7 +18301,7 @@ public class Server {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
-          struct.request = new RObject();
+          struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.request.read(iprot);
           struct.setRequestIsSet(true);
         }
@@ -18739,7 +18739,7 @@ public class Server {
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new Request_SetHeaderMap_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new Request_SetHeaderMap_argsTupleSchemeFactory();
 
-    public @org.apache.thrift.annotation.Nullable RObject request; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request; // required
     public @org.apache.thrift.annotation.Nullable java.util.Map<java.lang.String,java.lang.String> headerMap; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -18810,7 +18810,7 @@ public class Server {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.REQUEST, new org.apache.thrift.meta_data.FieldMetaData("request", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.HEADER_MAP, new org.apache.thrift.meta_data.FieldMetaData("headerMap", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.MapMetaData(org.apache.thrift.protocol.TType.MAP, 
               new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING), 
@@ -18823,7 +18823,7 @@ public class Server {
     }
 
     public Request_SetHeaderMap_args(
-      RObject request,
+      com.jetbrains.cef.remote.thrift_codegen.RObject request,
       java.util.Map<java.lang.String,java.lang.String> headerMap)
     {
       this();
@@ -18836,7 +18836,7 @@ public class Server {
      */
     public Request_SetHeaderMap_args(Request_SetHeaderMap_args other) {
       if (other.isSetRequest()) {
-        this.request = new RObject(other.request);
+        this.request = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.request);
       }
       if (other.isSetHeaderMap()) {
         java.util.Map<java.lang.String,java.lang.String> __this__headerMap = new java.util.HashMap<java.lang.String,java.lang.String>(other.headerMap);
@@ -18855,11 +18855,11 @@ public class Server {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getRequest() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getRequest() {
       return this.request;
     }
 
-    public Request_SetHeaderMap_args setRequest(@org.apache.thrift.annotation.Nullable RObject request) {
+    public Request_SetHeaderMap_args setRequest(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request) {
       this.request = request;
       return this;
     }
@@ -18921,7 +18921,7 @@ public class Server {
         if (value == null) {
           unsetRequest();
         } else {
-          setRequest((RObject)value);
+          setRequest((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -19125,7 +19125,7 @@ public class Server {
           switch (schemeField.id) {
             case 1: // REQUEST
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.request = new RObject();
+                struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.request.read(iprot);
                 struct.setRequestIsSet(true);
               } else { 
@@ -19230,7 +19230,7 @@ public class Server {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(2);
         if (incoming.get(0)) {
-          struct.request = new RObject();
+          struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.request.read(iprot);
           struct.setRequestIsSet(true);
         }
@@ -19521,10 +19521,10 @@ public class Server {
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new Request_Set_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new Request_Set_argsTupleSchemeFactory();
 
-    public @org.apache.thrift.annotation.Nullable RObject request; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String url; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String method; // required
-    public @org.apache.thrift.annotation.Nullable PostData postData; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.PostData postData; // required
     public @org.apache.thrift.annotation.Nullable java.util.Map<java.lang.String,java.lang.String> headerMap; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -19604,13 +19604,13 @@ public class Server {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.REQUEST, new org.apache.thrift.meta_data.FieldMetaData("request", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.URL, new org.apache.thrift.meta_data.FieldMetaData("url", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       tmpMap.put(_Fields.METHOD, new org.apache.thrift.meta_data.FieldMetaData("method", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       tmpMap.put(_Fields.POST_DATA, new org.apache.thrift.meta_data.FieldMetaData("postData", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, PostData.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.PostData.class)));
       tmpMap.put(_Fields.HEADER_MAP, new org.apache.thrift.meta_data.FieldMetaData("headerMap", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.MapMetaData(org.apache.thrift.protocol.TType.MAP, 
               new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING), 
@@ -19623,10 +19623,10 @@ public class Server {
     }
 
     public Request_Set_args(
-      RObject request,
+      com.jetbrains.cef.remote.thrift_codegen.RObject request,
       java.lang.String url,
       java.lang.String method,
-      PostData postData,
+      com.jetbrains.cef.remote.thrift_codegen.PostData postData,
       java.util.Map<java.lang.String,java.lang.String> headerMap)
     {
       this();
@@ -19642,7 +19642,7 @@ public class Server {
      */
     public Request_Set_args(Request_Set_args other) {
       if (other.isSetRequest()) {
-        this.request = new RObject(other.request);
+        this.request = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.request);
       }
       if (other.isSetUrl()) {
         this.url = other.url;
@@ -19651,7 +19651,7 @@ public class Server {
         this.method = other.method;
       }
       if (other.isSetPostData()) {
-        this.postData = new PostData(other.postData);
+        this.postData = new com.jetbrains.cef.remote.thrift_codegen.PostData(other.postData);
       }
       if (other.isSetHeaderMap()) {
         java.util.Map<java.lang.String,java.lang.String> __this__headerMap = new java.util.HashMap<java.lang.String,java.lang.String>(other.headerMap);
@@ -19673,11 +19673,11 @@ public class Server {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getRequest() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getRequest() {
       return this.request;
     }
 
-    public Request_Set_args setRequest(@org.apache.thrift.annotation.Nullable RObject request) {
+    public Request_Set_args setRequest(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request) {
       this.request = request;
       return this;
     }
@@ -19748,11 +19748,11 @@ public class Server {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public PostData getPostData() {
+    public com.jetbrains.cef.remote.thrift_codegen.PostData getPostData() {
       return this.postData;
     }
 
-    public Request_Set_args setPostData(@org.apache.thrift.annotation.Nullable PostData postData) {
+    public Request_Set_args setPostData(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.PostData postData) {
       this.postData = postData;
       return this;
     }
@@ -19814,7 +19814,7 @@ public class Server {
         if (value == null) {
           unsetRequest();
         } else {
-          setRequest((RObject)value);
+          setRequest((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -19838,7 +19838,7 @@ public class Server {
         if (value == null) {
           unsetPostData();
         } else {
-          setPostData((PostData)value);
+          setPostData((com.jetbrains.cef.remote.thrift_codegen.PostData)value);
         }
         break;
 
@@ -20153,7 +20153,7 @@ public class Server {
           switch (schemeField.id) {
             case 1: // REQUEST
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.request = new RObject();
+                struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.request.read(iprot);
                 struct.setRequestIsSet(true);
               } else { 
@@ -20178,7 +20178,7 @@ public class Server {
               break;
             case 4: // POST_DATA
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.postData = new PostData();
+                struct.postData = new com.jetbrains.cef.remote.thrift_codegen.PostData();
                 struct.postData.read(iprot);
                 struct.setPostDataIsSet(true);
               } else { 
@@ -20316,7 +20316,7 @@ public class Server {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(5);
         if (incoming.get(0)) {
-          struct.request = new RObject();
+          struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.request.read(iprot);
           struct.setRequestIsSet(true);
         }
@@ -20329,7 +20329,7 @@ public class Server {
           struct.setMethodIsSet(true);
         }
         if (incoming.get(3)) {
-          struct.postData = new PostData();
+          struct.postData = new com.jetbrains.cef.remote.thrift_codegen.PostData();
           struct.postData.read(iprot);
           struct.setPostDataIsSet(true);
         }
@@ -20616,7 +20616,7 @@ public class Server {
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new Response_Update_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new Response_Update_argsTupleSchemeFactory();
 
-    public @org.apache.thrift.annotation.Nullable RObject response; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject response; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -20683,7 +20683,7 @@ public class Server {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.RESPONSE, new org.apache.thrift.meta_data.FieldMetaData("response", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Response_Update_args.class, metaDataMap);
     }
@@ -20692,7 +20692,7 @@ public class Server {
     }
 
     public Response_Update_args(
-      RObject response)
+      com.jetbrains.cef.remote.thrift_codegen.RObject response)
     {
       this();
       this.response = response;
@@ -20703,7 +20703,7 @@ public class Server {
      */
     public Response_Update_args(Response_Update_args other) {
       if (other.isSetResponse()) {
-        this.response = new RObject(other.response);
+        this.response = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.response);
       }
     }
 
@@ -20717,11 +20717,11 @@ public class Server {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getResponse() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getResponse() {
       return this.response;
     }
 
-    public Response_Update_args setResponse(@org.apache.thrift.annotation.Nullable RObject response) {
+    public Response_Update_args setResponse(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject response) {
       this.response = response;
       return this;
     }
@@ -20747,7 +20747,7 @@ public class Server {
         if (value == null) {
           unsetResponse();
         } else {
-          setResponse((RObject)value);
+          setResponse((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -20907,7 +20907,7 @@ public class Server {
           switch (schemeField.id) {
             case 1: // RESPONSE
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.response = new RObject();
+                struct.response = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.response.read(iprot);
                 struct.setResponseIsSet(true);
               } else { 
@@ -20966,7 +20966,7 @@ public class Server {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
-          struct.response = new RObject();
+          struct.response = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.response.read(iprot);
           struct.setResponseIsSet(true);
         }
@@ -21239,7 +21239,7 @@ public class Server {
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new Response_GetHeaderByName_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new Response_GetHeaderByName_argsTupleSchemeFactory();
 
-    public @org.apache.thrift.annotation.Nullable RObject response; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject response; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String name; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -21310,7 +21310,7 @@ public class Server {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.RESPONSE, new org.apache.thrift.meta_data.FieldMetaData("response", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.NAME, new org.apache.thrift.meta_data.FieldMetaData("name", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
@@ -21321,7 +21321,7 @@ public class Server {
     }
 
     public Response_GetHeaderByName_args(
-      RObject response,
+      com.jetbrains.cef.remote.thrift_codegen.RObject response,
       java.lang.String name)
     {
       this();
@@ -21334,7 +21334,7 @@ public class Server {
      */
     public Response_GetHeaderByName_args(Response_GetHeaderByName_args other) {
       if (other.isSetResponse()) {
-        this.response = new RObject(other.response);
+        this.response = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.response);
       }
       if (other.isSetName()) {
         this.name = other.name;
@@ -21352,11 +21352,11 @@ public class Server {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getResponse() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getResponse() {
       return this.response;
     }
 
-    public Response_GetHeaderByName_args setResponse(@org.apache.thrift.annotation.Nullable RObject response) {
+    public Response_GetHeaderByName_args setResponse(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject response) {
       this.response = response;
       return this;
     }
@@ -21407,7 +21407,7 @@ public class Server {
         if (value == null) {
           unsetResponse();
         } else {
-          setResponse((RObject)value);
+          setResponse((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -21611,7 +21611,7 @@ public class Server {
           switch (schemeField.id) {
             case 1: // RESPONSE
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.response = new RObject();
+                struct.response = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.response.read(iprot);
                 struct.setResponseIsSet(true);
               } else { 
@@ -21689,7 +21689,7 @@ public class Server {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(2);
         if (incoming.get(0)) {
-          struct.response = new RObject();
+          struct.response = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.response.read(iprot);
           struct.setResponseIsSet(true);
         }
@@ -22081,7 +22081,7 @@ public class Server {
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new Response_SetHeaderByName_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new Response_SetHeaderByName_argsTupleSchemeFactory();
 
-    public @org.apache.thrift.annotation.Nullable RObject response; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject response; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String name; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String value; // required
     public boolean overwrite; // required
@@ -22162,7 +22162,7 @@ public class Server {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.RESPONSE, new org.apache.thrift.meta_data.FieldMetaData("response", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.NAME, new org.apache.thrift.meta_data.FieldMetaData("name", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       tmpMap.put(_Fields.VALUE, new org.apache.thrift.meta_data.FieldMetaData("value", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -22177,7 +22177,7 @@ public class Server {
     }
 
     public Response_SetHeaderByName_args(
-      RObject response,
+      com.jetbrains.cef.remote.thrift_codegen.RObject response,
       java.lang.String name,
       java.lang.String value,
       boolean overwrite)
@@ -22196,7 +22196,7 @@ public class Server {
     public Response_SetHeaderByName_args(Response_SetHeaderByName_args other) {
       __isset_bitfield = other.__isset_bitfield;
       if (other.isSetResponse()) {
-        this.response = new RObject(other.response);
+        this.response = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.response);
       }
       if (other.isSetName()) {
         this.name = other.name;
@@ -22221,11 +22221,11 @@ public class Server {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getResponse() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getResponse() {
       return this.response;
     }
 
-    public Response_SetHeaderByName_args setResponse(@org.apache.thrift.annotation.Nullable RObject response) {
+    public Response_SetHeaderByName_args setResponse(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject response) {
       this.response = response;
       return this;
     }
@@ -22324,7 +22324,7 @@ public class Server {
         if (value == null) {
           unsetResponse();
         } else {
-          setResponse((RObject)value);
+          setResponse((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -22612,7 +22612,7 @@ public class Server {
           switch (schemeField.id) {
             case 1: // RESPONSE
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.response = new RObject();
+                struct.response = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.response.read(iprot);
                 struct.setResponseIsSet(true);
               } else { 
@@ -22726,7 +22726,7 @@ public class Server {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(4);
         if (incoming.get(0)) {
-          struct.response = new RObject();
+          struct.response = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.response.read(iprot);
           struct.setResponseIsSet(true);
         }
@@ -23010,7 +23010,7 @@ public class Server {
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new Response_GetHeaderMap_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new Response_GetHeaderMap_argsTupleSchemeFactory();
 
-    public @org.apache.thrift.annotation.Nullable RObject response; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject response; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -23077,7 +23077,7 @@ public class Server {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.RESPONSE, new org.apache.thrift.meta_data.FieldMetaData("response", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Response_GetHeaderMap_args.class, metaDataMap);
     }
@@ -23086,7 +23086,7 @@ public class Server {
     }
 
     public Response_GetHeaderMap_args(
-      RObject response)
+      com.jetbrains.cef.remote.thrift_codegen.RObject response)
     {
       this();
       this.response = response;
@@ -23097,7 +23097,7 @@ public class Server {
      */
     public Response_GetHeaderMap_args(Response_GetHeaderMap_args other) {
       if (other.isSetResponse()) {
-        this.response = new RObject(other.response);
+        this.response = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.response);
       }
     }
 
@@ -23111,11 +23111,11 @@ public class Server {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getResponse() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getResponse() {
       return this.response;
     }
 
-    public Response_GetHeaderMap_args setResponse(@org.apache.thrift.annotation.Nullable RObject response) {
+    public Response_GetHeaderMap_args setResponse(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject response) {
       this.response = response;
       return this;
     }
@@ -23141,7 +23141,7 @@ public class Server {
         if (value == null) {
           unsetResponse();
         } else {
-          setResponse((RObject)value);
+          setResponse((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -23301,7 +23301,7 @@ public class Server {
           switch (schemeField.id) {
             case 1: // RESPONSE
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.response = new RObject();
+                struct.response = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.response.read(iprot);
                 struct.setResponseIsSet(true);
               } else { 
@@ -23360,7 +23360,7 @@ public class Server {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
-          struct.response = new RObject();
+          struct.response = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.response.read(iprot);
           struct.setResponseIsSet(true);
         }
@@ -23798,7 +23798,7 @@ public class Server {
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new Response_SetHeaderMap_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new Response_SetHeaderMap_argsTupleSchemeFactory();
 
-    public @org.apache.thrift.annotation.Nullable RObject response; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject response; // required
     public @org.apache.thrift.annotation.Nullable java.util.Map<java.lang.String,java.lang.String> headerMap; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -23869,7 +23869,7 @@ public class Server {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.RESPONSE, new org.apache.thrift.meta_data.FieldMetaData("response", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.HEADER_MAP, new org.apache.thrift.meta_data.FieldMetaData("headerMap", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.MapMetaData(org.apache.thrift.protocol.TType.MAP, 
               new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING), 
@@ -23882,7 +23882,7 @@ public class Server {
     }
 
     public Response_SetHeaderMap_args(
-      RObject response,
+      com.jetbrains.cef.remote.thrift_codegen.RObject response,
       java.util.Map<java.lang.String,java.lang.String> headerMap)
     {
       this();
@@ -23895,7 +23895,7 @@ public class Server {
      */
     public Response_SetHeaderMap_args(Response_SetHeaderMap_args other) {
       if (other.isSetResponse()) {
-        this.response = new RObject(other.response);
+        this.response = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.response);
       }
       if (other.isSetHeaderMap()) {
         java.util.Map<java.lang.String,java.lang.String> __this__headerMap = new java.util.HashMap<java.lang.String,java.lang.String>(other.headerMap);
@@ -23914,11 +23914,11 @@ public class Server {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getResponse() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getResponse() {
       return this.response;
     }
 
-    public Response_SetHeaderMap_args setResponse(@org.apache.thrift.annotation.Nullable RObject response) {
+    public Response_SetHeaderMap_args setResponse(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject response) {
       this.response = response;
       return this;
     }
@@ -23980,7 +23980,7 @@ public class Server {
         if (value == null) {
           unsetResponse();
         } else {
-          setResponse((RObject)value);
+          setResponse((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -24184,7 +24184,7 @@ public class Server {
           switch (schemeField.id) {
             case 1: // RESPONSE
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.response = new RObject();
+                struct.response = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.response.read(iprot);
                 struct.setResponseIsSet(true);
               } else { 
@@ -24289,7 +24289,7 @@ public class Server {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(2);
         if (incoming.get(0)) {
-          struct.response = new RObject();
+          struct.response = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.response.read(iprot);
           struct.setResponseIsSet(true);
         }
@@ -24576,7 +24576,7 @@ public class Server {
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new Callback_Dispose_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new Callback_Dispose_argsTupleSchemeFactory();
 
-    public @org.apache.thrift.annotation.Nullable RObject callback; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject callback; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -24643,7 +24643,7 @@ public class Server {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.CALLBACK, new org.apache.thrift.meta_data.FieldMetaData("callback", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Callback_Dispose_args.class, metaDataMap);
     }
@@ -24652,7 +24652,7 @@ public class Server {
     }
 
     public Callback_Dispose_args(
-      RObject callback)
+      com.jetbrains.cef.remote.thrift_codegen.RObject callback)
     {
       this();
       this.callback = callback;
@@ -24663,7 +24663,7 @@ public class Server {
      */
     public Callback_Dispose_args(Callback_Dispose_args other) {
       if (other.isSetCallback()) {
-        this.callback = new RObject(other.callback);
+        this.callback = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.callback);
       }
     }
 
@@ -24677,11 +24677,11 @@ public class Server {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getCallback() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getCallback() {
       return this.callback;
     }
 
-    public Callback_Dispose_args setCallback(@org.apache.thrift.annotation.Nullable RObject callback) {
+    public Callback_Dispose_args setCallback(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject callback) {
       this.callback = callback;
       return this;
     }
@@ -24707,7 +24707,7 @@ public class Server {
         if (value == null) {
           unsetCallback();
         } else {
-          setCallback((RObject)value);
+          setCallback((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -24867,7 +24867,7 @@ public class Server {
           switch (schemeField.id) {
             case 1: // CALLBACK
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.callback = new RObject();
+                struct.callback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.callback.read(iprot);
                 struct.setCallbackIsSet(true);
               } else { 
@@ -24926,7 +24926,7 @@ public class Server {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
-          struct.callback = new RObject();
+          struct.callback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.callback.read(iprot);
           struct.setCallbackIsSet(true);
         }
@@ -24946,7 +24946,7 @@ public class Server {
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new Callback_Continue_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new Callback_Continue_argsTupleSchemeFactory();
 
-    public @org.apache.thrift.annotation.Nullable RObject callback; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject callback; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -25013,7 +25013,7 @@ public class Server {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.CALLBACK, new org.apache.thrift.meta_data.FieldMetaData("callback", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Callback_Continue_args.class, metaDataMap);
     }
@@ -25022,7 +25022,7 @@ public class Server {
     }
 
     public Callback_Continue_args(
-      RObject callback)
+      com.jetbrains.cef.remote.thrift_codegen.RObject callback)
     {
       this();
       this.callback = callback;
@@ -25033,7 +25033,7 @@ public class Server {
      */
     public Callback_Continue_args(Callback_Continue_args other) {
       if (other.isSetCallback()) {
-        this.callback = new RObject(other.callback);
+        this.callback = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.callback);
       }
     }
 
@@ -25047,11 +25047,11 @@ public class Server {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getCallback() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getCallback() {
       return this.callback;
     }
 
-    public Callback_Continue_args setCallback(@org.apache.thrift.annotation.Nullable RObject callback) {
+    public Callback_Continue_args setCallback(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject callback) {
       this.callback = callback;
       return this;
     }
@@ -25077,7 +25077,7 @@ public class Server {
         if (value == null) {
           unsetCallback();
         } else {
-          setCallback((RObject)value);
+          setCallback((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -25237,7 +25237,7 @@ public class Server {
           switch (schemeField.id) {
             case 1: // CALLBACK
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.callback = new RObject();
+                struct.callback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.callback.read(iprot);
                 struct.setCallbackIsSet(true);
               } else { 
@@ -25296,7 +25296,7 @@ public class Server {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
-          struct.callback = new RObject();
+          struct.callback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.callback.read(iprot);
           struct.setCallbackIsSet(true);
         }
@@ -25316,7 +25316,7 @@ public class Server {
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new Callback_Cancel_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new Callback_Cancel_argsTupleSchemeFactory();
 
-    public @org.apache.thrift.annotation.Nullable RObject callback; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject callback; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -25383,7 +25383,7 @@ public class Server {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.CALLBACK, new org.apache.thrift.meta_data.FieldMetaData("callback", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Callback_Cancel_args.class, metaDataMap);
     }
@@ -25392,7 +25392,7 @@ public class Server {
     }
 
     public Callback_Cancel_args(
-      RObject callback)
+      com.jetbrains.cef.remote.thrift_codegen.RObject callback)
     {
       this();
       this.callback = callback;
@@ -25403,7 +25403,7 @@ public class Server {
      */
     public Callback_Cancel_args(Callback_Cancel_args other) {
       if (other.isSetCallback()) {
-        this.callback = new RObject(other.callback);
+        this.callback = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.callback);
       }
     }
 
@@ -25417,11 +25417,11 @@ public class Server {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getCallback() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getCallback() {
       return this.callback;
     }
 
-    public Callback_Cancel_args setCallback(@org.apache.thrift.annotation.Nullable RObject callback) {
+    public Callback_Cancel_args setCallback(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject callback) {
       this.callback = callback;
       return this;
     }
@@ -25447,7 +25447,7 @@ public class Server {
         if (value == null) {
           unsetCallback();
         } else {
-          setCallback((RObject)value);
+          setCallback((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -25607,7 +25607,7 @@ public class Server {
           switch (schemeField.id) {
             case 1: // CALLBACK
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.callback = new RObject();
+                struct.callback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.callback.read(iprot);
                 struct.setCallbackIsSet(true);
               } else { 
@@ -25666,7 +25666,7 @@ public class Server {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
-          struct.callback = new RObject();
+          struct.callback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.callback.read(iprot);
           struct.setCallbackIsSet(true);
         }
@@ -25686,7 +25686,7 @@ public class Server {
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new AuthCallback_Dispose_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new AuthCallback_Dispose_argsTupleSchemeFactory();
 
-    public @org.apache.thrift.annotation.Nullable RObject authCallback; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject authCallback; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -25753,7 +25753,7 @@ public class Server {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.AUTH_CALLBACK, new org.apache.thrift.meta_data.FieldMetaData("authCallback", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(AuthCallback_Dispose_args.class, metaDataMap);
     }
@@ -25762,7 +25762,7 @@ public class Server {
     }
 
     public AuthCallback_Dispose_args(
-      RObject authCallback)
+      com.jetbrains.cef.remote.thrift_codegen.RObject authCallback)
     {
       this();
       this.authCallback = authCallback;
@@ -25773,7 +25773,7 @@ public class Server {
      */
     public AuthCallback_Dispose_args(AuthCallback_Dispose_args other) {
       if (other.isSetAuthCallback()) {
-        this.authCallback = new RObject(other.authCallback);
+        this.authCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.authCallback);
       }
     }
 
@@ -25787,11 +25787,11 @@ public class Server {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getAuthCallback() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getAuthCallback() {
       return this.authCallback;
     }
 
-    public AuthCallback_Dispose_args setAuthCallback(@org.apache.thrift.annotation.Nullable RObject authCallback) {
+    public AuthCallback_Dispose_args setAuthCallback(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject authCallback) {
       this.authCallback = authCallback;
       return this;
     }
@@ -25817,7 +25817,7 @@ public class Server {
         if (value == null) {
           unsetAuthCallback();
         } else {
-          setAuthCallback((RObject)value);
+          setAuthCallback((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -25977,7 +25977,7 @@ public class Server {
           switch (schemeField.id) {
             case 1: // AUTH_CALLBACK
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.authCallback = new RObject();
+                struct.authCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.authCallback.read(iprot);
                 struct.setAuthCallbackIsSet(true);
               } else { 
@@ -26036,7 +26036,7 @@ public class Server {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
-          struct.authCallback = new RObject();
+          struct.authCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.authCallback.read(iprot);
           struct.setAuthCallbackIsSet(true);
         }
@@ -26058,7 +26058,7 @@ public class Server {
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new AuthCallback_Continue_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new AuthCallback_Continue_argsTupleSchemeFactory();
 
-    public @org.apache.thrift.annotation.Nullable RObject authCallback; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject authCallback; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String username; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String password; // required
 
@@ -26133,7 +26133,7 @@ public class Server {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.AUTH_CALLBACK, new org.apache.thrift.meta_data.FieldMetaData("authCallback", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.USERNAME, new org.apache.thrift.meta_data.FieldMetaData("username", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       tmpMap.put(_Fields.PASSWORD, new org.apache.thrift.meta_data.FieldMetaData("password", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -26146,7 +26146,7 @@ public class Server {
     }
 
     public AuthCallback_Continue_args(
-      RObject authCallback,
+      com.jetbrains.cef.remote.thrift_codegen.RObject authCallback,
       java.lang.String username,
       java.lang.String password)
     {
@@ -26161,7 +26161,7 @@ public class Server {
      */
     public AuthCallback_Continue_args(AuthCallback_Continue_args other) {
       if (other.isSetAuthCallback()) {
-        this.authCallback = new RObject(other.authCallback);
+        this.authCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.authCallback);
       }
       if (other.isSetUsername()) {
         this.username = other.username;
@@ -26183,11 +26183,11 @@ public class Server {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getAuthCallback() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getAuthCallback() {
       return this.authCallback;
     }
 
-    public AuthCallback_Continue_args setAuthCallback(@org.apache.thrift.annotation.Nullable RObject authCallback) {
+    public AuthCallback_Continue_args setAuthCallback(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject authCallback) {
       this.authCallback = authCallback;
       return this;
     }
@@ -26263,7 +26263,7 @@ public class Server {
         if (value == null) {
           unsetAuthCallback();
         } else {
-          setAuthCallback((RObject)value);
+          setAuthCallback((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -26511,7 +26511,7 @@ public class Server {
           switch (schemeField.id) {
             case 1: // AUTH_CALLBACK
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.authCallback = new RObject();
+                struct.authCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.authCallback.read(iprot);
                 struct.setAuthCallbackIsSet(true);
               } else { 
@@ -26608,7 +26608,7 @@ public class Server {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(3);
         if (incoming.get(0)) {
-          struct.authCallback = new RObject();
+          struct.authCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.authCallback.read(iprot);
           struct.setAuthCallbackIsSet(true);
         }
@@ -26636,7 +26636,7 @@ public class Server {
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new AuthCallback_Cancel_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new AuthCallback_Cancel_argsTupleSchemeFactory();
 
-    public @org.apache.thrift.annotation.Nullable RObject authCallback; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject authCallback; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -26703,7 +26703,7 @@ public class Server {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.AUTH_CALLBACK, new org.apache.thrift.meta_data.FieldMetaData("authCallback", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(AuthCallback_Cancel_args.class, metaDataMap);
     }
@@ -26712,7 +26712,7 @@ public class Server {
     }
 
     public AuthCallback_Cancel_args(
-      RObject authCallback)
+      com.jetbrains.cef.remote.thrift_codegen.RObject authCallback)
     {
       this();
       this.authCallback = authCallback;
@@ -26723,7 +26723,7 @@ public class Server {
      */
     public AuthCallback_Cancel_args(AuthCallback_Cancel_args other) {
       if (other.isSetAuthCallback()) {
-        this.authCallback = new RObject(other.authCallback);
+        this.authCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.authCallback);
       }
     }
 
@@ -26737,11 +26737,11 @@ public class Server {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getAuthCallback() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getAuthCallback() {
       return this.authCallback;
     }
 
-    public AuthCallback_Cancel_args setAuthCallback(@org.apache.thrift.annotation.Nullable RObject authCallback) {
+    public AuthCallback_Cancel_args setAuthCallback(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject authCallback) {
       this.authCallback = authCallback;
       return this;
     }
@@ -26767,7 +26767,7 @@ public class Server {
         if (value == null) {
           unsetAuthCallback();
         } else {
-          setAuthCallback((RObject)value);
+          setAuthCallback((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -26927,7 +26927,7 @@ public class Server {
           switch (schemeField.id) {
             case 1: // AUTH_CALLBACK
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.authCallback = new RObject();
+                struct.authCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.authCallback.read(iprot);
                 struct.setAuthCallbackIsSet(true);
               } else { 
@@ -26986,7 +26986,7 @@ public class Server {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
-          struct.authCallback = new RObject();
+          struct.authCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.authCallback.read(iprot);
           struct.setAuthCallbackIsSet(true);
         }
@@ -27476,7 +27476,7 @@ public class Server {
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new MessageRouter_Create_resultStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new MessageRouter_Create_resultTupleSchemeFactory();
 
-    public @org.apache.thrift.annotation.Nullable RObject success; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject success; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -27543,7 +27543,7 @@ public class Server {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(MessageRouter_Create_result.class, metaDataMap);
     }
@@ -27552,7 +27552,7 @@ public class Server {
     }
 
     public MessageRouter_Create_result(
-      RObject success)
+      com.jetbrains.cef.remote.thrift_codegen.RObject success)
     {
       this();
       this.success = success;
@@ -27563,7 +27563,7 @@ public class Server {
      */
     public MessageRouter_Create_result(MessageRouter_Create_result other) {
       if (other.isSetSuccess()) {
-        this.success = new RObject(other.success);
+        this.success = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.success);
       }
     }
 
@@ -27577,11 +27577,11 @@ public class Server {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getSuccess() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getSuccess() {
       return this.success;
     }
 
-    public MessageRouter_Create_result setSuccess(@org.apache.thrift.annotation.Nullable RObject success) {
+    public MessageRouter_Create_result setSuccess(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject success) {
       this.success = success;
       return this;
     }
@@ -27607,7 +27607,7 @@ public class Server {
         if (value == null) {
           unsetSuccess();
         } else {
-          setSuccess((RObject)value);
+          setSuccess((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -27767,7 +27767,7 @@ public class Server {
           switch (schemeField.id) {
             case 0: // SUCCESS
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.success = new RObject();
+                struct.success = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.success.read(iprot);
                 struct.setSuccessIsSet(true);
               } else { 
@@ -27826,7 +27826,7 @@ public class Server {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
-          struct.success = new RObject();
+          struct.success = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.success.read(iprot);
           struct.setSuccessIsSet(true);
         }
@@ -27846,7 +27846,7 @@ public class Server {
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new MessageRouter_Dispose_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new MessageRouter_Dispose_argsTupleSchemeFactory();
 
-    public @org.apache.thrift.annotation.Nullable RObject msgRouter; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -27913,7 +27913,7 @@ public class Server {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.MSG_ROUTER, new org.apache.thrift.meta_data.FieldMetaData("msgRouter", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(MessageRouter_Dispose_args.class, metaDataMap);
     }
@@ -27922,7 +27922,7 @@ public class Server {
     }
 
     public MessageRouter_Dispose_args(
-      RObject msgRouter)
+      com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter)
     {
       this();
       this.msgRouter = msgRouter;
@@ -27933,7 +27933,7 @@ public class Server {
      */
     public MessageRouter_Dispose_args(MessageRouter_Dispose_args other) {
       if (other.isSetMsgRouter()) {
-        this.msgRouter = new RObject(other.msgRouter);
+        this.msgRouter = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.msgRouter);
       }
     }
 
@@ -27947,11 +27947,11 @@ public class Server {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getMsgRouter() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getMsgRouter() {
       return this.msgRouter;
     }
 
-    public MessageRouter_Dispose_args setMsgRouter(@org.apache.thrift.annotation.Nullable RObject msgRouter) {
+    public MessageRouter_Dispose_args setMsgRouter(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter) {
       this.msgRouter = msgRouter;
       return this;
     }
@@ -27977,7 +27977,7 @@ public class Server {
         if (value == null) {
           unsetMsgRouter();
         } else {
-          setMsgRouter((RObject)value);
+          setMsgRouter((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -28137,7 +28137,7 @@ public class Server {
           switch (schemeField.id) {
             case 1: // MSG_ROUTER
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.msgRouter = new RObject();
+                struct.msgRouter = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.msgRouter.read(iprot);
                 struct.setMsgRouterIsSet(true);
               } else { 
@@ -28196,7 +28196,7 @@ public class Server {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
-          struct.msgRouter = new RObject();
+          struct.msgRouter = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.msgRouter.read(iprot);
           struct.setMsgRouterIsSet(true);
         }
@@ -28217,7 +28217,7 @@ public class Server {
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new MessageRouter_AddMessageRouterToBrowser_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new MessageRouter_AddMessageRouterToBrowser_argsTupleSchemeFactory();
 
-    public @org.apache.thrift.annotation.Nullable RObject msgRouter; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter; // required
     public int bid; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -28290,7 +28290,7 @@ public class Server {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.MSG_ROUTER, new org.apache.thrift.meta_data.FieldMetaData("msgRouter", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
@@ -28301,7 +28301,7 @@ public class Server {
     }
 
     public MessageRouter_AddMessageRouterToBrowser_args(
-      RObject msgRouter,
+      com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter,
       int bid)
     {
       this();
@@ -28316,7 +28316,7 @@ public class Server {
     public MessageRouter_AddMessageRouterToBrowser_args(MessageRouter_AddMessageRouterToBrowser_args other) {
       __isset_bitfield = other.__isset_bitfield;
       if (other.isSetMsgRouter()) {
-        this.msgRouter = new RObject(other.msgRouter);
+        this.msgRouter = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.msgRouter);
       }
       this.bid = other.bid;
     }
@@ -28333,11 +28333,11 @@ public class Server {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getMsgRouter() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getMsgRouter() {
       return this.msgRouter;
     }
 
-    public MessageRouter_AddMessageRouterToBrowser_args setMsgRouter(@org.apache.thrift.annotation.Nullable RObject msgRouter) {
+    public MessageRouter_AddMessageRouterToBrowser_args setMsgRouter(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter) {
       this.msgRouter = msgRouter;
       return this;
     }
@@ -28386,7 +28386,7 @@ public class Server {
         if (value == null) {
           unsetMsgRouter();
         } else {
-          setMsgRouter((RObject)value);
+          setMsgRouter((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -28586,7 +28586,7 @@ public class Server {
           switch (schemeField.id) {
             case 1: // MSG_ROUTER
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.msgRouter = new RObject();
+                struct.msgRouter = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.msgRouter.read(iprot);
                 struct.setMsgRouterIsSet(true);
               } else { 
@@ -28662,7 +28662,7 @@ public class Server {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(2);
         if (incoming.get(0)) {
-          struct.msgRouter = new RObject();
+          struct.msgRouter = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.msgRouter.read(iprot);
           struct.setMsgRouterIsSet(true);
         }
@@ -28939,7 +28939,7 @@ public class Server {
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new MessageRouter_RemoveMessageRouterFromBrowser_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new MessageRouter_RemoveMessageRouterFromBrowser_argsTupleSchemeFactory();
 
-    public @org.apache.thrift.annotation.Nullable RObject msgRouter; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter; // required
     public int bid; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -29012,7 +29012,7 @@ public class Server {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.MSG_ROUTER, new org.apache.thrift.meta_data.FieldMetaData("msgRouter", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
@@ -29023,7 +29023,7 @@ public class Server {
     }
 
     public MessageRouter_RemoveMessageRouterFromBrowser_args(
-      RObject msgRouter,
+      com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter,
       int bid)
     {
       this();
@@ -29038,7 +29038,7 @@ public class Server {
     public MessageRouter_RemoveMessageRouterFromBrowser_args(MessageRouter_RemoveMessageRouterFromBrowser_args other) {
       __isset_bitfield = other.__isset_bitfield;
       if (other.isSetMsgRouter()) {
-        this.msgRouter = new RObject(other.msgRouter);
+        this.msgRouter = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.msgRouter);
       }
       this.bid = other.bid;
     }
@@ -29055,11 +29055,11 @@ public class Server {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getMsgRouter() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getMsgRouter() {
       return this.msgRouter;
     }
 
-    public MessageRouter_RemoveMessageRouterFromBrowser_args setMsgRouter(@org.apache.thrift.annotation.Nullable RObject msgRouter) {
+    public MessageRouter_RemoveMessageRouterFromBrowser_args setMsgRouter(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter) {
       this.msgRouter = msgRouter;
       return this;
     }
@@ -29108,7 +29108,7 @@ public class Server {
         if (value == null) {
           unsetMsgRouter();
         } else {
-          setMsgRouter((RObject)value);
+          setMsgRouter((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -29308,7 +29308,7 @@ public class Server {
           switch (schemeField.id) {
             case 1: // MSG_ROUTER
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.msgRouter = new RObject();
+                struct.msgRouter = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.msgRouter.read(iprot);
                 struct.setMsgRouterIsSet(true);
               } else { 
@@ -29384,7 +29384,7 @@ public class Server {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(2);
         if (incoming.get(0)) {
-          struct.msgRouter = new RObject();
+          struct.msgRouter = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.msgRouter.read(iprot);
           struct.setMsgRouterIsSet(true);
         }
@@ -29662,8 +29662,8 @@ public class Server {
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new MessageRouter_AddHandler_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new MessageRouter_AddHandler_argsTupleSchemeFactory();
 
-    public @org.apache.thrift.annotation.Nullable RObject msgRouter; // required
-    public @org.apache.thrift.annotation.Nullable RObject handler; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject handler; // required
     public boolean first; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -29739,9 +29739,9 @@ public class Server {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.MSG_ROUTER, new org.apache.thrift.meta_data.FieldMetaData("msgRouter", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.HANDLER, new org.apache.thrift.meta_data.FieldMetaData("handler", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.FIRST, new org.apache.thrift.meta_data.FieldMetaData("first", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
@@ -29752,8 +29752,8 @@ public class Server {
     }
 
     public MessageRouter_AddHandler_args(
-      RObject msgRouter,
-      RObject handler,
+      com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter,
+      com.jetbrains.cef.remote.thrift_codegen.RObject handler,
       boolean first)
     {
       this();
@@ -29769,10 +29769,10 @@ public class Server {
     public MessageRouter_AddHandler_args(MessageRouter_AddHandler_args other) {
       __isset_bitfield = other.__isset_bitfield;
       if (other.isSetMsgRouter()) {
-        this.msgRouter = new RObject(other.msgRouter);
+        this.msgRouter = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.msgRouter);
       }
       if (other.isSetHandler()) {
-        this.handler = new RObject(other.handler);
+        this.handler = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.handler);
       }
       this.first = other.first;
     }
@@ -29790,11 +29790,11 @@ public class Server {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getMsgRouter() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getMsgRouter() {
       return this.msgRouter;
     }
 
-    public MessageRouter_AddHandler_args setMsgRouter(@org.apache.thrift.annotation.Nullable RObject msgRouter) {
+    public MessageRouter_AddHandler_args setMsgRouter(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter) {
       this.msgRouter = msgRouter;
       return this;
     }
@@ -29815,11 +29815,11 @@ public class Server {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getHandler() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getHandler() {
       return this.handler;
     }
 
-    public MessageRouter_AddHandler_args setHandler(@org.apache.thrift.annotation.Nullable RObject handler) {
+    public MessageRouter_AddHandler_args setHandler(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject handler) {
       this.handler = handler;
       return this;
     }
@@ -29868,7 +29868,7 @@ public class Server {
         if (value == null) {
           unsetMsgRouter();
         } else {
-          setMsgRouter((RObject)value);
+          setMsgRouter((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -29876,7 +29876,7 @@ public class Server {
         if (value == null) {
           unsetHandler();
         } else {
-          setHandler((RObject)value);
+          setHandler((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -30115,7 +30115,7 @@ public class Server {
           switch (schemeField.id) {
             case 1: // MSG_ROUTER
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.msgRouter = new RObject();
+                struct.msgRouter = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.msgRouter.read(iprot);
                 struct.setMsgRouterIsSet(true);
               } else { 
@@ -30124,7 +30124,7 @@ public class Server {
               break;
             case 2: // HANDLER
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.handler = new RObject();
+                struct.handler = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.handler.read(iprot);
                 struct.setHandlerIsSet(true);
               } else { 
@@ -30211,12 +30211,12 @@ public class Server {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(3);
         if (incoming.get(0)) {
-          struct.msgRouter = new RObject();
+          struct.msgRouter = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.msgRouter.read(iprot);
           struct.setMsgRouterIsSet(true);
         }
         if (incoming.get(1)) {
-          struct.handler = new RObject();
+          struct.handler = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.handler.read(iprot);
           struct.setHandlerIsSet(true);
         }
@@ -30493,8 +30493,8 @@ public class Server {
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new MessageRouter_RemoveHandler_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new MessageRouter_RemoveHandler_argsTupleSchemeFactory();
 
-    public @org.apache.thrift.annotation.Nullable RObject msgRouter; // required
-    public @org.apache.thrift.annotation.Nullable RObject handler; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject handler; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -30564,9 +30564,9 @@ public class Server {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.MSG_ROUTER, new org.apache.thrift.meta_data.FieldMetaData("msgRouter", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.HANDLER, new org.apache.thrift.meta_data.FieldMetaData("handler", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(MessageRouter_RemoveHandler_args.class, metaDataMap);
     }
@@ -30575,8 +30575,8 @@ public class Server {
     }
 
     public MessageRouter_RemoveHandler_args(
-      RObject msgRouter,
-      RObject handler)
+      com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter,
+      com.jetbrains.cef.remote.thrift_codegen.RObject handler)
     {
       this();
       this.msgRouter = msgRouter;
@@ -30588,10 +30588,10 @@ public class Server {
      */
     public MessageRouter_RemoveHandler_args(MessageRouter_RemoveHandler_args other) {
       if (other.isSetMsgRouter()) {
-        this.msgRouter = new RObject(other.msgRouter);
+        this.msgRouter = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.msgRouter);
       }
       if (other.isSetHandler()) {
-        this.handler = new RObject(other.handler);
+        this.handler = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.handler);
       }
     }
 
@@ -30606,11 +30606,11 @@ public class Server {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getMsgRouter() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getMsgRouter() {
       return this.msgRouter;
     }
 
-    public MessageRouter_RemoveHandler_args setMsgRouter(@org.apache.thrift.annotation.Nullable RObject msgRouter) {
+    public MessageRouter_RemoveHandler_args setMsgRouter(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter) {
       this.msgRouter = msgRouter;
       return this;
     }
@@ -30631,11 +30631,11 @@ public class Server {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getHandler() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getHandler() {
       return this.handler;
     }
 
-    public MessageRouter_RemoveHandler_args setHandler(@org.apache.thrift.annotation.Nullable RObject handler) {
+    public MessageRouter_RemoveHandler_args setHandler(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject handler) {
       this.handler = handler;
       return this;
     }
@@ -30661,7 +30661,7 @@ public class Server {
         if (value == null) {
           unsetMsgRouter();
         } else {
-          setMsgRouter((RObject)value);
+          setMsgRouter((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -30669,7 +30669,7 @@ public class Server {
         if (value == null) {
           unsetHandler();
         } else {
-          setHandler((RObject)value);
+          setHandler((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -30868,7 +30868,7 @@ public class Server {
           switch (schemeField.id) {
             case 1: // MSG_ROUTER
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.msgRouter = new RObject();
+                struct.msgRouter = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.msgRouter.read(iprot);
                 struct.setMsgRouterIsSet(true);
               } else { 
@@ -30877,7 +30877,7 @@ public class Server {
               break;
             case 2: // HANDLER
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.handler = new RObject();
+                struct.handler = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.handler.read(iprot);
                 struct.setHandlerIsSet(true);
               } else { 
@@ -30947,12 +30947,12 @@ public class Server {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(2);
         if (incoming.get(0)) {
-          struct.msgRouter = new RObject();
+          struct.msgRouter = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.msgRouter.read(iprot);
           struct.setMsgRouterIsSet(true);
         }
         if (incoming.get(1)) {
-          struct.handler = new RObject();
+          struct.handler = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.handler.read(iprot);
           struct.setHandlerIsSet(true);
         }
@@ -31226,9 +31226,9 @@ public class Server {
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new MessageRouter_CancelPending_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new MessageRouter_CancelPending_argsTupleSchemeFactory();
 
-    public @org.apache.thrift.annotation.Nullable RObject msgRouter; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter; // required
     public int bid; // required
-    public @org.apache.thrift.annotation.Nullable RObject handler; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject handler; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -31303,11 +31303,11 @@ public class Server {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.MSG_ROUTER, new org.apache.thrift.meta_data.FieldMetaData("msgRouter", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.HANDLER, new org.apache.thrift.meta_data.FieldMetaData("handler", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(MessageRouter_CancelPending_args.class, metaDataMap);
     }
@@ -31316,9 +31316,9 @@ public class Server {
     }
 
     public MessageRouter_CancelPending_args(
-      RObject msgRouter,
+      com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter,
       int bid,
-      RObject handler)
+      com.jetbrains.cef.remote.thrift_codegen.RObject handler)
     {
       this();
       this.msgRouter = msgRouter;
@@ -31333,11 +31333,11 @@ public class Server {
     public MessageRouter_CancelPending_args(MessageRouter_CancelPending_args other) {
       __isset_bitfield = other.__isset_bitfield;
       if (other.isSetMsgRouter()) {
-        this.msgRouter = new RObject(other.msgRouter);
+        this.msgRouter = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.msgRouter);
       }
       this.bid = other.bid;
       if (other.isSetHandler()) {
-        this.handler = new RObject(other.handler);
+        this.handler = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.handler);
       }
     }
 
@@ -31354,11 +31354,11 @@ public class Server {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getMsgRouter() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getMsgRouter() {
       return this.msgRouter;
     }
 
-    public MessageRouter_CancelPending_args setMsgRouter(@org.apache.thrift.annotation.Nullable RObject msgRouter) {
+    public MessageRouter_CancelPending_args setMsgRouter(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject msgRouter) {
       this.msgRouter = msgRouter;
       return this;
     }
@@ -31402,11 +31402,11 @@ public class Server {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getHandler() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getHandler() {
       return this.handler;
     }
 
-    public MessageRouter_CancelPending_args setHandler(@org.apache.thrift.annotation.Nullable RObject handler) {
+    public MessageRouter_CancelPending_args setHandler(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject handler) {
       this.handler = handler;
       return this;
     }
@@ -31432,7 +31432,7 @@ public class Server {
         if (value == null) {
           unsetMsgRouter();
         } else {
-          setMsgRouter((RObject)value);
+          setMsgRouter((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -31448,7 +31448,7 @@ public class Server {
         if (value == null) {
           unsetHandler();
         } else {
-          setHandler((RObject)value);
+          setHandler((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -31679,7 +31679,7 @@ public class Server {
           switch (schemeField.id) {
             case 1: // MSG_ROUTER
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.msgRouter = new RObject();
+                struct.msgRouter = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.msgRouter.read(iprot);
                 struct.setMsgRouterIsSet(true);
               } else { 
@@ -31696,7 +31696,7 @@ public class Server {
               break;
             case 3: // HANDLER
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.handler = new RObject();
+                struct.handler = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.handler.read(iprot);
                 struct.setHandlerIsSet(true);
               } else { 
@@ -31775,7 +31775,7 @@ public class Server {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(3);
         if (incoming.get(0)) {
-          struct.msgRouter = new RObject();
+          struct.msgRouter = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.msgRouter.read(iprot);
           struct.setMsgRouterIsSet(true);
         }
@@ -31784,7 +31784,7 @@ public class Server {
           struct.setBidIsSet(true);
         }
         if (incoming.get(2)) {
-          struct.handler = new RObject();
+          struct.handler = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.handler.read(iprot);
           struct.setHandlerIsSet(true);
         }
@@ -32056,7 +32056,7 @@ public class Server {
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new QueryCallback_Dispose_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new QueryCallback_Dispose_argsTupleSchemeFactory();
 
-    public @org.apache.thrift.annotation.Nullable RObject qcallback; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject qcallback; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -32123,7 +32123,7 @@ public class Server {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.QCALLBACK, new org.apache.thrift.meta_data.FieldMetaData("qcallback", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(QueryCallback_Dispose_args.class, metaDataMap);
     }
@@ -32132,7 +32132,7 @@ public class Server {
     }
 
     public QueryCallback_Dispose_args(
-      RObject qcallback)
+      com.jetbrains.cef.remote.thrift_codegen.RObject qcallback)
     {
       this();
       this.qcallback = qcallback;
@@ -32143,7 +32143,7 @@ public class Server {
      */
     public QueryCallback_Dispose_args(QueryCallback_Dispose_args other) {
       if (other.isSetQcallback()) {
-        this.qcallback = new RObject(other.qcallback);
+        this.qcallback = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.qcallback);
       }
     }
 
@@ -32157,11 +32157,11 @@ public class Server {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getQcallback() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getQcallback() {
       return this.qcallback;
     }
 
-    public QueryCallback_Dispose_args setQcallback(@org.apache.thrift.annotation.Nullable RObject qcallback) {
+    public QueryCallback_Dispose_args setQcallback(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject qcallback) {
       this.qcallback = qcallback;
       return this;
     }
@@ -32187,7 +32187,7 @@ public class Server {
         if (value == null) {
           unsetQcallback();
         } else {
-          setQcallback((RObject)value);
+          setQcallback((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -32347,7 +32347,7 @@ public class Server {
           switch (schemeField.id) {
             case 1: // QCALLBACK
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.qcallback = new RObject();
+                struct.qcallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.qcallback.read(iprot);
                 struct.setQcallbackIsSet(true);
               } else { 
@@ -32406,7 +32406,7 @@ public class Server {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
-          struct.qcallback = new RObject();
+          struct.qcallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.qcallback.read(iprot);
           struct.setQcallbackIsSet(true);
         }
@@ -32427,7 +32427,7 @@ public class Server {
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new QueryCallback_Success_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new QueryCallback_Success_argsTupleSchemeFactory();
 
-    public @org.apache.thrift.annotation.Nullable RObject qcallback; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject qcallback; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String response; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -32498,7 +32498,7 @@ public class Server {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.QCALLBACK, new org.apache.thrift.meta_data.FieldMetaData("qcallback", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.RESPONSE, new org.apache.thrift.meta_data.FieldMetaData("response", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
@@ -32509,7 +32509,7 @@ public class Server {
     }
 
     public QueryCallback_Success_args(
-      RObject qcallback,
+      com.jetbrains.cef.remote.thrift_codegen.RObject qcallback,
       java.lang.String response)
     {
       this();
@@ -32522,7 +32522,7 @@ public class Server {
      */
     public QueryCallback_Success_args(QueryCallback_Success_args other) {
       if (other.isSetQcallback()) {
-        this.qcallback = new RObject(other.qcallback);
+        this.qcallback = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.qcallback);
       }
       if (other.isSetResponse()) {
         this.response = other.response;
@@ -32540,11 +32540,11 @@ public class Server {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getQcallback() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getQcallback() {
       return this.qcallback;
     }
 
-    public QueryCallback_Success_args setQcallback(@org.apache.thrift.annotation.Nullable RObject qcallback) {
+    public QueryCallback_Success_args setQcallback(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject qcallback) {
       this.qcallback = qcallback;
       return this;
     }
@@ -32595,7 +32595,7 @@ public class Server {
         if (value == null) {
           unsetQcallback();
         } else {
-          setQcallback((RObject)value);
+          setQcallback((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -32799,7 +32799,7 @@ public class Server {
           switch (schemeField.id) {
             case 1: // QCALLBACK
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.qcallback = new RObject();
+                struct.qcallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.qcallback.read(iprot);
                 struct.setQcallbackIsSet(true);
               } else { 
@@ -32877,7 +32877,7 @@ public class Server {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(2);
         if (incoming.get(0)) {
-          struct.qcallback = new RObject();
+          struct.qcallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.qcallback.read(iprot);
           struct.setQcallbackIsSet(true);
         }
@@ -32903,7 +32903,7 @@ public class Server {
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new QueryCallback_Failure_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new QueryCallback_Failure_argsTupleSchemeFactory();
 
-    public @org.apache.thrift.annotation.Nullable RObject qcallback; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject qcallback; // required
     public int error_code; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String error_message; // required
 
@@ -32980,7 +32980,7 @@ public class Server {
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.QCALLBACK, new org.apache.thrift.meta_data.FieldMetaData("qcallback", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, RObject.class)));
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.ERROR_CODE, new org.apache.thrift.meta_data.FieldMetaData("error_code", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.ERROR_MESSAGE, new org.apache.thrift.meta_data.FieldMetaData("error_message", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -32993,7 +32993,7 @@ public class Server {
     }
 
     public QueryCallback_Failure_args(
-      RObject qcallback,
+      com.jetbrains.cef.remote.thrift_codegen.RObject qcallback,
       int error_code,
       java.lang.String error_message)
     {
@@ -33010,7 +33010,7 @@ public class Server {
     public QueryCallback_Failure_args(QueryCallback_Failure_args other) {
       __isset_bitfield = other.__isset_bitfield;
       if (other.isSetQcallback()) {
-        this.qcallback = new RObject(other.qcallback);
+        this.qcallback = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.qcallback);
       }
       this.error_code = other.error_code;
       if (other.isSetError_message()) {
@@ -33031,11 +33031,11 @@ public class Server {
     }
 
     @org.apache.thrift.annotation.Nullable
-    public RObject getQcallback() {
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getQcallback() {
       return this.qcallback;
     }
 
-    public QueryCallback_Failure_args setQcallback(@org.apache.thrift.annotation.Nullable RObject qcallback) {
+    public QueryCallback_Failure_args setQcallback(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject qcallback) {
       this.qcallback = qcallback;
       return this;
     }
@@ -33109,7 +33109,7 @@ public class Server {
         if (value == null) {
           unsetQcallback();
         } else {
-          setQcallback((RObject)value);
+          setQcallback((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
         }
         break;
 
@@ -33353,7 +33353,7 @@ public class Server {
           switch (schemeField.id) {
             case 1: // QCALLBACK
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.qcallback = new RObject();
+                struct.qcallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.qcallback.read(iprot);
                 struct.setQcallbackIsSet(true);
               } else { 
@@ -33448,7 +33448,7 @@ public class Server {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(3);
         if (incoming.get(0)) {
-          struct.qcallback = new RObject();
+          struct.qcallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.qcallback.read(iprot);
           struct.setQcallbackIsSet(true);
         }
