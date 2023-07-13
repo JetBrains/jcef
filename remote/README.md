@@ -87,12 +87,20 @@ cd vcpkg
 -DCMAKE_TOOLCHAIN_FILE=<vcpkg_checkout>/scripts/buildsystems/vcpkg.cmake
 -DPROJECT_ARCH=x86_64
 ```
-or
+Replace `x86_64` with `arm64` for ARM hardware.
+
+Don't forget to set `JAVA_HOME`.
+
+### 4. Run Java test ap on Linux
+1. Build `CefServer` and `shared_mem_helper` cmake targets.
+2. Open gradle project at `<project_root>/jb/project/java-gradle/build.gradle` in IDEA.
+3. Navigate to `<project_root>/java_tests/tests/remote/TestApp.java`.
+4. Run `TestApp.main()`. It will fail.
+5. Go to the Run configurations in IDEA and specify the path to `shared_mem_helper` in the environment variables.
+   It must be something like:
 ```
--DCMAKE_TOOLCHAIN_FILE=-DCMAKE_TOOLCHAIN_FILE=<vcpkg_checkout>/scripts/buildsystems/vcpkg.cmake
--DPROJECT_ARCH=arm64
+LD_LIBRARY_PATH=/home/khvv/develop/jcef/cmake-build-release/remote/Debug
 ```
-Don't forget to set `JAVA_HOME`
 
 ## Thrift files code format
 Assuming `python` and `pip` are installed.

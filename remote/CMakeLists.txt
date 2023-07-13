@@ -7,6 +7,8 @@ set(Boost_NO_WARN_NEW_VERSIONS 1)
 find_package(Boost REQUIRED COMPONENTS filesystem)
 find_package(Thrift CONFIG REQUIRED)
 
+SET_CEF_TARGET_OUT_DIR()
+
 set(THRIFT_FILES
         cef_server.thrift
         cef_client.thrift
@@ -199,13 +201,13 @@ endif ()
 
 if (OS_LINUX)
     add_link_options(-static-libstdc++)
-    SET_CEF_TARGET_OUT_DIR()
-    # TODO: check if needed
-#    FIND_LINUX_LIBRARIES("gmodule-2.0 gtk+-2.0 gthread-2.0")
     ADD_LOGICAL_TARGET("libcef_lib" "${CEF_LIB_DEBUG}" "${CEF_LIB_RELEASE}")
     COPY_FILES("${EXECUTABLE_NAME}" "${CEF_BINARY_FILES}" "${CEF_BINARY_DIR}" "${CEF_TARGET_OUT_DIR}")
     COPY_FILES(${EXECUTABLE_NAME} "${CEF_RESOURCE_FILES}" "${CEF_RESOURCE_DIR}" "${CEF_TARGET_OUT_DIR}")
     target_link_libraries(${EXECUTABLE_NAME} libcef_lib libcef_dll_wrapper ${CEF_STANDARD_LIBS})
+    # Set rpath so that libraries can be placed next to the executable.
+    set_target_properties(${EXECUTABLE_NAME} PROPERTIES INSTALL_RPATH "$ORIGIN")
+    set_target_properties(${EXECUTABLE_NAME} PROPERTIES BUILD_WITH_INSTALL_RPATH TRUE)
 endif ()
 
 if (OS_MAC)
