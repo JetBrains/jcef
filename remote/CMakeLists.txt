@@ -214,7 +214,7 @@ if (OS_MAC)
     set_target_properties(${EXECUTABLE_NAME} PROPERTIES
             MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/mac/Info.plist)
 
-    set(APP_BUNDLE_PATH ${CMAKE_CURRENT_BINARY_DIR}/${EXECUTABLE_NAME}.app)
+    set(APP_BUNDLE_PATH ${CEF_TARGET_OUT_DIR}/${EXECUTABLE_NAME}.app)
     add_custom_command(TARGET ${EXECUTABLE_NAME}
             POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_directory
@@ -259,7 +259,7 @@ if (OS_MAC)
         # manually because the configure_file command (which is executed as part of
         # MACOSX_BUNDLE_INFO_PLIST) uses global env variables and would insert the
         # wrong values with multiple targets.
-        set(_helper_info_plist "${CMAKE_CURRENT_BINARY_DIR}/helper-Info${_target_suffix}.plist")
+        set(_helper_info_plist "${CEF_TARGET_OUT_DIR}/helper-Info${_target_suffix}.plist")
         file(READ "${CMAKE_CURRENT_SOURCE_DIR}/mac/helper-Info.plist" _plist_contents)
         string(REPLACE "\${EXECUTABLE_NAME}" "${_helper_output_name}" _plist_contents ${_plist_contents})
         string(REPLACE "\${PRODUCT_NAME}" "${_helper_output_name}" _plist_contents ${_plist_contents})
@@ -291,7 +291,7 @@ if (OS_MAC)
                 TARGET ${EXECUTABLE_NAME}
                 POST_BUILD
                 COMMAND ${CMAKE_COMMAND} -E copy_directory
-                "${CMAKE_CURRENT_BINARY_DIR}/${_helper_output_name}.app"
+                "${CEF_TARGET_OUT_DIR}/${_helper_output_name}.app"
                 "${APP_BUNDLE_PATH}/Contents/Frameworks/${_helper_output_name}.app"
                 VERBATIM
         )
