@@ -410,14 +410,12 @@ public class CefApp extends CefAppHandlerAdapter {
      * |domain_name|. Returns false if an error occurs. This function may be
      * called on any thread in the browser process.
      */
-    public boolean registerSchemeHandlerFactory(
-            String schemeName, String domainName, CefSchemeHandlerFactory factory) {
-        try {
-            return N_RegisterSchemeHandlerFactory(schemeName, domainName, factory);
-        } catch (Exception err) {
-            err.printStackTrace();
-        }
-        return false;
+    public boolean registerSchemeHandlerFactory(String schemeName, String domainName, CefSchemeHandlerFactory factory) {
+        onInitialization(state -> {
+            if (!N_RegisterSchemeHandlerFactory(schemeName, domainName, factory))
+                CefLog.Error("Can't register scheme [%s:%s]", schemeName, domainName);
+        });
+        return true;
     }
 
     /**
@@ -425,12 +423,9 @@ public class CefApp extends CefAppHandlerAdapter {
      * function may be called on any thread in the browser process.
      */
     public boolean clearSchemeHandlerFactories() {
-        try {
-            return N_ClearSchemeHandlerFactories();
-        } catch (Exception err) {
-            err.printStackTrace();
-        }
-        return false;
+        if (!isInitialized_)
+            return false;
+        return N_ClearSchemeHandlerFactories();
     }
 
     /**
