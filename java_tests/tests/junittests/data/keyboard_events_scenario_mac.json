@@ -1,0 +1,1178 @@
+[
+  {
+    "name": "`",
+    "comments": "",
+    "eventsJava": [
+      {
+        "id": 401,
+        "modifiers": 0,
+        "keyCode": 192,
+        "keyChar": "`",
+        "keyLocation": 1
+      },
+      {
+        "id": 402,
+        "modifiers": 0,
+        "keyCode": 192,
+        "keyChar": "`",
+        "keyLocation": 1
+      }
+    ],
+    "eventsJSExpected": [
+      {
+        "type": "keydown",
+        "key": "`",
+        "code": "Backquote",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      },
+      {
+        "type": "keyup",
+        "key": "`",
+        "code": "Backquote",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      }
+    ]
+  },
+  {
+    "name": "1",
+    "comments": "",
+    "eventsJava": [
+      {
+        "id": 401,
+        "modifiers": 0,
+        "keyCode": 49,
+        "keyChar": "1",
+        "keyLocation": 1
+      },
+      {
+        "id": 402,
+        "modifiers": 0,
+        "keyCode": 49,
+        "keyChar": "1",
+        "keyLocation": 1
+      }
+    ],
+    "eventsJSExpected": [
+      {
+        "type": "keydown",
+        "key": "1",
+        "code": "Digit1",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      },
+      {
+        "type": "keyup",
+        "key": "1",
+        "code": "Digit1",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      }
+    ]
+  },
+  {
+    "name": "2",
+    "comments": "",
+    "eventsJava": [
+      {
+        "id": 401,
+        "modifiers": 0,
+        "keyCode": 50,
+        "keyChar": "2",
+        "keyLocation": 1
+      },
+      {
+        "id": 402,
+        "modifiers": 0,
+        "keyCode": 50,
+        "keyChar": "2",
+        "keyLocation": 1
+      }
+    ],
+    "eventsJSExpected": [
+      {
+        "type": "keydown",
+        "key": "2",
+        "code": "Digit2",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      },
+      {
+        "type": "keyup",
+        "key": "2",
+        "code": "Digit2",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      }
+    ]
+  },
+  {
+    "name": "3",
+    "comments": "",
+    "eventsJava": [
+      {
+        "id": 401,
+        "modifiers": 0,
+        "keyCode": 51,
+        "keyChar": "3",
+        "keyLocation": 1
+      },
+      {
+        "id": 402,
+        "modifiers": 0,
+        "keyCode": 51,
+        "keyChar": "3",
+        "keyLocation": 1
+      }
+    ],
+    "eventsJSExpected": [
+      {
+        "type": "keydown",
+        "key": "3",
+        "code": "Digit3",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      },
+      {
+        "type": "keyup",
+        "key": "3",
+        "code": "Digit3",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      }
+    ]
+  },
+  {
+    "name": "4",
+    "comments": "",
+    "eventsJava": [
+      {
+        "id": 401,
+        "modifiers": 0,
+        "keyCode": 52,
+        "keyChar": "4",
+        "keyLocation": 1
+      },
+      {
+        "id": 402,
+        "modifiers": 0,
+        "keyCode": 52,
+        "keyChar": "4",
+        "keyLocation": 1
+      }
+    ],
+    "eventsJSExpected": [
+      {
+        "type": "keydown",
+        "key": "4",
+        "code": "Digit4",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      },
+      {
+        "type": "keyup",
+        "key": "4",
+        "code": "Digit4",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      }
+    ]
+  },
+  {
+    "name": "5",
+    "comments": "",
+    "eventsJava": [
+      {
+        "id": 401,
+        "modifiers": 0,
+        "keyCode": 53,
+        "keyChar": "5",
+        "keyLocation": 1
+      },
+      {
+        "id": 402,
+        "modifiers": 0,
+        "keyCode": 53,
+        "keyChar": "5",
+        "keyLocation": 1
+      }
+    ],
+    "eventsJSExpected": [
+      {
+        "type": "keydown",
+        "key": "5",
+        "code": "Digit5",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      },
+      {
+        "type": "keyup",
+        "key": "5",
+        "code": "Digit5",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      }
+    ]
+  },
+  {
+    "name": "6",
+    "comments": "",
+    "eventsJava": [
+      {
+        "id": 401,
+        "modifiers": 0,
+        "keyCode": 54,
+        "keyChar": "6",
+        "keyLocation": 1
+      },
+      {
+        "id": 402,
+        "modifiers": 0,
+        "keyCode": 54,
+        "keyChar": "6",
+        "keyLocation": 1
+      }
+    ],
+    "eventsJSExpected": [
+      {
+        "type": "keydown",
+        "key": "6",
+        "code": "Digit6",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      },
+      {
+        "type": "keyup",
+        "key": "6",
+        "code": "Digit6",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      }
+    ]
+  },
+  {
+    "name": "7",
+    "comments": "",
+    "eventsJava": [
+      {
+        "id": 401,
+        "modifiers": 0,
+        "keyCode": 55,
+        "keyChar": "7",
+        "keyLocation": 1
+      },
+      {
+        "id": 402,
+        "modifiers": 0,
+        "keyCode": 55,
+        "keyChar": "7",
+        "keyLocation": 1
+      }
+    ],
+    "eventsJSExpected": [
+      {
+        "type": "keydown",
+        "key": "7",
+        "code": "Digit7",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      },
+      {
+        "type": "keyup",
+        "key": "7",
+        "code": "Digit7",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      }
+    ]
+  },
+  {
+    "name": "8",
+    "comments": "",
+    "eventsJava": [
+      {
+        "id": 401,
+        "modifiers": 0,
+        "keyCode": 56,
+        "keyChar": "8",
+        "keyLocation": 1
+      },
+      {
+        "id": 402,
+        "modifiers": 0,
+        "keyCode": 56,
+        "keyChar": "8",
+        "keyLocation": 1
+      }
+    ],
+    "eventsJSExpected": [
+      {
+        "type": "keydown",
+        "key": "8",
+        "code": "Digit8",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      },
+      {
+        "type": "keyup",
+        "key": "8",
+        "code": "Digit8",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      }
+    ]
+  },
+  {
+    "name": "9",
+    "comments": "",
+    "eventsJava": [
+      {
+        "id": 401,
+        "modifiers": 0,
+        "keyCode": 57,
+        "keyChar": "9",
+        "keyLocation": 1
+      },
+      {
+        "id": 402,
+        "modifiers": 0,
+        "keyCode": 57,
+        "keyChar": "9",
+        "keyLocation": 1
+      }
+    ],
+    "eventsJSExpected": [
+      {
+        "type": "keydown",
+        "key": "9",
+        "code": "Digit9",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      },
+      {
+        "type": "keyup",
+        "key": "9",
+        "code": "Digit9",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      }
+    ]
+  },
+  {
+    "name": "0",
+    "comments": "",
+    "eventsJava": [
+      {
+        "id": 401,
+        "modifiers": 0,
+        "keyCode": 48,
+        "keyChar": "0",
+        "keyLocation": 1
+      },
+      {
+        "id": 402,
+        "modifiers": 0,
+        "keyCode": 48,
+        "keyChar": "0",
+        "keyLocation": 1
+      }
+    ],
+    "eventsJSExpected": [
+      {
+        "type": "keydown",
+        "key": "0",
+        "code": "Digit0",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      },
+      {
+        "type": "keyup",
+        "key": "0",
+        "code": "Digit0",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      }
+    ]
+  },
+  {
+    "name": "-",
+    "comments": "",
+    "eventsJava": [
+      {
+        "id": 401,
+        "modifiers": 0,
+        "keyCode": 45,
+        "keyChar": "-",
+        "keyLocation": 1
+      },
+      {
+        "id": 402,
+        "modifiers": 0,
+        "keyCode": 45,
+        "keyChar": "-",
+        "keyLocation": 1
+      }
+    ],
+    "eventsJSExpected": [
+      {
+        "type": "keydown",
+        "key": "-",
+        "code": "Minus",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      },
+      {
+        "type": "keyup",
+        "key": "-",
+        "code": "Minus",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      }
+    ]
+  },
+  {
+    "name": "\u003d",
+    "comments": "",
+    "eventsJava": [
+      {
+        "id": 401,
+        "modifiers": 0,
+        "keyCode": 61,
+        "keyChar": "\u003d",
+        "keyLocation": 1
+      },
+      {
+        "id": 402,
+        "modifiers": 0,
+        "keyCode": 61,
+        "keyChar": "\u003d",
+        "keyLocation": 1
+      }
+    ],
+    "eventsJSExpected": [
+      {
+        "type": "keydown",
+        "key": "\u003d",
+        "code": "Equal",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      },
+      {
+        "type": "keyup",
+        "key": "\u003d",
+        "code": "Equal",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      }
+    ]
+  },
+  {
+    "name": "⌫",
+    "comments": "",
+    "eventsJava": [
+      {
+        "id": 401,
+        "modifiers": 0,
+        "keyCode": 8,
+        "keyChar": "\b",
+        "keyLocation": 1
+      },
+      {
+        "id": 402,
+        "modifiers": 0,
+        "keyCode": 8,
+        "keyChar": "\b",
+        "keyLocation": 1
+      }
+    ],
+    "eventsJSExpected": [
+      {
+        "type": "keydown",
+        "key": "Backspace",
+        "code": "Backspace",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      },
+      {
+        "type": "keyup",
+        "key": "Backspace",
+        "code": "Backspace",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      }
+    ]
+  },
+  {
+    "name": "⇥",
+    "comments": "",
+    "eventsJava": [
+      {
+        "id": 401,
+        "modifiers": 0,
+        "keyCode": 9,
+        "keyChar": "\t",
+        "keyLocation": 1
+      },
+      {
+        "id": 402,
+        "modifiers": 0,
+        "keyCode": 9,
+        "keyChar": "\t",
+        "keyLocation": 1
+      }
+    ],
+    "eventsJSExpected": [
+      {
+        "type": "keydown",
+        "key": "Tab",
+        "code": "Tab",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      },
+      {
+        "type": "keyup",
+        "key": "Tab",
+        "code": "Tab",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      }
+    ]
+  },
+  {
+    "name": "Q",
+    "comments": "",
+    "eventsJava": [
+      {
+        "id": 401,
+        "modifiers": 0,
+        "keyCode": 81,
+        "keyChar": "q",
+        "keyLocation": 1
+      },
+      {
+        "id": 402,
+        "modifiers": 0,
+        "keyCode": 81,
+        "keyChar": "q",
+        "keyLocation": 1
+      }
+    ],
+    "eventsJSExpected": [
+      {
+        "type": "keydown",
+        "key": "q",
+        "code": "KeyQ",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      },
+      {
+        "type": "keyup",
+        "key": "q",
+        "code": "KeyQ",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      }
+    ]
+  },
+  {
+    "name": "W",
+    "comments": "",
+    "eventsJava": [
+      {
+        "id": 401,
+        "modifiers": 0,
+        "keyCode": 87,
+        "keyChar": "w",
+        "keyLocation": 1
+      },
+      {
+        "id": 402,
+        "modifiers": 0,
+        "keyCode": 87,
+        "keyChar": "w",
+        "keyLocation": 1
+      }
+    ],
+    "eventsJSExpected": [
+      {
+        "type": "keydown",
+        "key": "w",
+        "code": "KeyW",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      },
+      {
+        "type": "keyup",
+        "key": "w",
+        "code": "KeyW",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      }
+    ]
+  },
+  {
+    "name": "E",
+    "comments": "",
+    "eventsJava": [
+      {
+        "id": 401,
+        "modifiers": 0,
+        "keyCode": 69,
+        "keyChar": "e",
+        "keyLocation": 1
+      },
+      {
+        "id": 402,
+        "modifiers": 0,
+        "keyCode": 69,
+        "keyChar": "e",
+        "keyLocation": 1
+      }
+    ],
+    "eventsJSExpected": [
+      {
+        "type": "keydown",
+        "key": "e",
+        "code": "KeyE",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      },
+      {
+        "type": "keyup",
+        "key": "e",
+        "code": "KeyE",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      }
+    ]
+  },
+  {
+    "name": "R",
+    "comments": "",
+    "eventsJava": [
+      {
+        "id": 401,
+        "modifiers": 0,
+        "keyCode": 82,
+        "keyChar": "r",
+        "keyLocation": 1
+      },
+      {
+        "id": 402,
+        "modifiers": 0,
+        "keyCode": 82,
+        "keyChar": "r",
+        "keyLocation": 1
+      }
+    ],
+    "eventsJSExpected": [
+      {
+        "type": "keydown",
+        "key": "r",
+        "code": "KeyR",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      },
+      {
+        "type": "keyup",
+        "key": "r",
+        "code": "KeyR",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      }
+    ]
+  },
+  {
+    "name": "T",
+    "comments": "",
+    "eventsJava": [
+      {
+        "id": 401,
+        "modifiers": 0,
+        "keyCode": 84,
+        "keyChar": "t",
+        "keyLocation": 1
+      },
+      {
+        "id": 402,
+        "modifiers": 0,
+        "keyCode": 84,
+        "keyChar": "t",
+        "keyLocation": 1
+      }
+    ],
+    "eventsJSExpected": [
+      {
+        "type": "keydown",
+        "key": "t",
+        "code": "KeyT",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      },
+      {
+        "type": "keyup",
+        "key": "t",
+        "code": "KeyT",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      }
+    ]
+  },
+  {
+    "name": "Y",
+    "comments": "",
+    "eventsJava": [
+      {
+        "id": 401,
+        "modifiers": 0,
+        "keyCode": 89,
+        "keyChar": "y",
+        "keyLocation": 1
+      },
+      {
+        "id": 402,
+        "modifiers": 0,
+        "keyCode": 89,
+        "keyChar": "y",
+        "keyLocation": 1
+      }
+    ],
+    "eventsJSExpected": [
+      {
+        "type": "keydown",
+        "key": "y",
+        "code": "KeyY",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      },
+      {
+        "type": "keyup",
+        "key": "y",
+        "code": "KeyY",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      }
+    ]
+  },
+  {
+    "name": "U",
+    "comments": "",
+    "eventsJava": [
+      {
+        "id": 401,
+        "modifiers": 0,
+        "keyCode": 85,
+        "keyChar": "u",
+        "keyLocation": 1
+      },
+      {
+        "id": 402,
+        "modifiers": 0,
+        "keyCode": 85,
+        "keyChar": "u",
+        "keyLocation": 1
+      }
+    ],
+    "eventsJSExpected": [
+      {
+        "type": "keydown",
+        "key": "u",
+        "code": "KeyU",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      },
+      {
+        "type": "keyup",
+        "key": "u",
+        "code": "KeyU",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      }
+    ]
+  },
+  {
+    "name": "I",
+    "comments": "",
+    "eventsJava": [
+      {
+        "id": 401,
+        "modifiers": 0,
+        "keyCode": 73,
+        "keyChar": "i",
+        "keyLocation": 1
+      },
+      {
+        "id": 402,
+        "modifiers": 0,
+        "keyCode": 73,
+        "keyChar": "i",
+        "keyLocation": 1
+      }
+    ],
+    "eventsJSExpected": [
+      {
+        "type": "keydown",
+        "key": "i",
+        "code": "KeyI",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      },
+      {
+        "type": "keyup",
+        "key": "i",
+        "code": "KeyI",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      }
+    ]
+  },
+  {
+    "name": "O",
+    "comments": "",
+    "eventsJava": [
+      {
+        "id": 401,
+        "modifiers": 0,
+        "keyCode": 79,
+        "keyChar": "o",
+        "keyLocation": 1
+      },
+      {
+        "id": 402,
+        "modifiers": 0,
+        "keyCode": 79,
+        "keyChar": "o",
+        "keyLocation": 1
+      }
+    ],
+    "eventsJSExpected": [
+      {
+        "type": "keydown",
+        "key": "o",
+        "code": "KeyO",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      },
+      {
+        "type": "keyup",
+        "key": "o",
+        "code": "KeyO",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      }
+    ]
+  },
+  {
+    "name": "P",
+    "comments": "",
+    "eventsJava": [
+      {
+        "id": 401,
+        "modifiers": 0,
+        "keyCode": 80,
+        "keyChar": "p",
+        "keyLocation": 1
+      },
+      {
+        "id": 402,
+        "modifiers": 0,
+        "keyCode": 80,
+        "keyChar": "p",
+        "keyLocation": 1
+      }
+    ],
+    "eventsJSExpected": [
+      {
+        "type": "keydown",
+        "key": "p",
+        "code": "KeyP",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      },
+      {
+        "type": "keyup",
+        "key": "p",
+        "code": "KeyP",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      }
+    ]
+  },
+  {
+    "name": "[",
+    "comments": "",
+    "eventsJava": [
+      {
+        "id": 401,
+        "modifiers": 0,
+        "keyCode": 91,
+        "keyChar": "[",
+        "keyLocation": 1
+      },
+      {
+        "id": 402,
+        "modifiers": 0,
+        "keyCode": 91,
+        "keyChar": "[",
+        "keyLocation": 1
+      }
+    ],
+    "eventsJSExpected": [
+      {
+        "type": "keydown",
+        "key": "[",
+        "code": "BracketLeft",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      },
+      {
+        "type": "keyup",
+        "key": "[",
+        "code": "BracketLeft",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      }
+    ]
+  },
+  {
+    "name": "]",
+    "comments": "",
+    "eventsJava": [
+      {
+        "id": 401,
+        "modifiers": 0,
+        "keyCode": 93,
+        "keyChar": "]",
+        "keyLocation": 1
+      },
+      {
+        "id": 402,
+        "modifiers": 0,
+        "keyCode": 93,
+        "keyChar": "]",
+        "keyLocation": 1
+      }
+    ],
+    "eventsJSExpected": [
+      {
+        "type": "keydown",
+        "key": "]",
+        "code": "BracketRight",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      },
+      {
+        "type": "keyup",
+        "key": "]",
+        "code": "BracketRight",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      }
+    ]
+  },
+  {
+    "name": "\\",
+    "comments": "",
+    "eventsJava": [
+      {
+        "id": 401,
+        "modifiers": 0,
+        "keyCode": 92,
+        "keyChar": "\\",
+        "keyLocation": 1
+      },
+      {
+        "id": 402,
+        "modifiers": 0,
+        "keyCode": 92,
+        "keyChar": "\\",
+        "keyLocation": 1
+      }
+    ],
+    "eventsJSExpected": [
+      {
+        "type": "keydown",
+        "key": "\\",
+        "code": "Backslash",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      },
+      {
+        "type": "keyup",
+        "key": "\\",
+        "code": "Backslash",
+        "location": "0",
+        "altKey": "false",
+        "ctrlKey": "false",
+        "metaKay": "false",
+        "shiftKey": "false"
+      }
+    ]
+  }
+]
