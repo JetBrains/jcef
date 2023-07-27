@@ -112,7 +112,7 @@ public class TouchEventTest {
             assert ready;
             myTouchCallbackLatch.set(new CountDownLatch(1));
             SwingUtilities.invokeLater(() -> browser_.sendTouchEvent(e));
-            Assertions.assertTrue(myTouchCallbackLatch.get().await(2000, TimeUnit.SECONDS));
+            Assertions.assertTrue(myTouchCallbackLatch.get().await(2, TimeUnit.SECONDS));
         }
 
         public String getValue(String /*language=javascript*/ expression) throws ExecutionException, InterruptedException {
