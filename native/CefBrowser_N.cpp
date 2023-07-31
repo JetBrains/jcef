@@ -1861,7 +1861,7 @@ Java_org_cef_browser_CefBrowser_1N_N_1SendKeyEvent(JNIEnv* env,
   } else {
     cef_event.native_key_code = GetMacKeyCodeFromChar(key_char);
     if (cef_event.native_key_code == -1)
-      return;
+      cef_event.native_key_code = 0;
 
     if (cef_event.native_key_code == kVK_Return) {
       cef_event.unmodified_character = kReturnCharCode;
