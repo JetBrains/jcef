@@ -62,6 +62,7 @@
   </path>
 
   <path id="class.path.tests">
+    <fileset dir="third_party/gson" includes="gson-2.10.1.jar"/>
     <fileset dir="third_party/junit" includes="junit-platform-console-standalone-1.10.0.jar"/>
     <fileset dir="third_party/jakarta" includes="jakarta.xml.bind-api-2.3.2.jar"/>
     <fileset dir="${out.path}" includes="jcef.jar"/>
@@ -90,6 +91,7 @@
   <target name="compile.tests">
     <mkdir dir="${out.path}/tmp"/>
     <mkdir dir="${out.path}/tests"/>
+    <mkdir dir="${out.path}/tests/junittests/data"/>
     <!--  Javac will always recompile the tests due to https://ant.apache.org/faq.html#always-recompiles -->
     <javac encoding="UTF8" nowarn="on" deprecation="off" debug="on" includeantruntime="false" fork="true"
            destdir="${out.path}/tmp">
@@ -97,6 +99,11 @@
       <src path="java_tests/tests/"/>
       <include name="**/*.java"/>
     </javac>
+
+    <copy todir="${out.path}/tests/junittests/data">
+      <fileset dir="java_tests/tests/junittests/data" includes="*" />
+    </copy>
+
     <move file="${out.path}/tmp/tests" tofile="${out.path}/tests"/>
     <delete dir="${out.path}/tmp"/>
   </target>
