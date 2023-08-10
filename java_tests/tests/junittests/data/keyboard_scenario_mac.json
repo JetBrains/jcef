@@ -51468,7 +51468,7 @@
       },
       {
         "type": "keydown",
-        "key": "\u003c",
+        "key": ",",
         "code": "Comma",
         "location": "0",
         "altKey": "false",
@@ -51478,7 +51478,7 @@
       },
       {
         "type": "keypress",
-        "key": "\u003c",
+        "key": ",",
         "code": "Comma",
         "location": "0",
         "altKey": "false",
@@ -51488,7 +51488,7 @@
       },
       {
         "type": "keyup",
-        "key": "\u003c",
+        "key": ",",
         "code": "Comma",
         "location": "0",
         "altKey": "false",
@@ -51581,7 +51581,7 @@
       },
       {
         "type": "keydown",
-        "key": "\u003e",
+        "key": ".",
         "code": "Period",
         "location": "0",
         "altKey": "false",
@@ -51591,7 +51591,7 @@
       },
       {
         "type": "keypress",
-        "key": "\u003e",
+        "key": ".",
         "code": "Period",
         "location": "0",
         "altKey": "false",
@@ -51601,7 +51601,7 @@
       },
       {
         "type": "keyup",
-        "key": "\u003e",
+        "key": ".",
         "code": "Period",
         "location": "0",
         "altKey": "false",
@@ -51694,7 +51694,7 @@
       },
       {
         "type": "keydown",
-        "key": ":",
+        "key": ";",
         "code": "Semicolon",
         "location": "0",
         "altKey": "false",
@@ -51704,7 +51704,7 @@
       },
       {
         "type": "keypress",
-        "key": ":",
+        "key": ";",
         "code": "Semicolon",
         "location": "0",
         "altKey": "false",
@@ -51714,7 +51714,7 @@
       },
       {
         "type": "keyup",
-        "key": ":",
+        "key": ";",
         "code": "Semicolon",
         "location": "0",
         "altKey": "false",
@@ -54971,7 +54971,7 @@
       },
       {
         "type": "keydown",
-        "key": "{",
+        "key": "[",
         "code": "BracketLeft",
         "location": "0",
         "altKey": "false",
@@ -54981,7 +54981,7 @@
       },
       {
         "type": "keypress",
-        "key": "{",
+        "key": "[",
         "code": "BracketLeft",
         "location": "0",
         "altKey": "false",
@@ -54991,7 +54991,7 @@
       },
       {
         "type": "keyup",
-        "key": "{",
+        "key": "[",
         "code": "BracketLeft",
         "location": "0",
         "altKey": "false",
@@ -60371,7 +60371,7 @@
       },
       {
         "type": "keydown",
-        "key": "?",
+        "key": "/",
         "code": "Slash",
         "location": "0",
         "altKey": "false",
@@ -60381,7 +60381,7 @@
       },
       {
         "type": "keypress",
-        "key": "?",
+        "key": "/",
         "code": "Slash",
         "location": "0",
         "altKey": "false",
@@ -60391,7 +60391,7 @@
       },
       {
         "type": "keyup",
-        "key": "?",
+        "key": "/",
         "code": "Slash",
         "location": "0",
         "altKey": "false",
@@ -60710,7 +60710,7 @@
       },
       {
         "type": "keydown",
-        "key": "+",
+        "key": "\u003d",
         "code": "Equal",
         "location": "0",
         "altKey": "false",
@@ -60720,7 +60720,7 @@
       },
       {
         "type": "keypress",
-        "key": "+",
+        "key": "\u003d",
         "code": "Equal",
         "location": "0",
         "altKey": "false",
@@ -60730,7 +60730,7 @@
       },
       {
         "type": "keyup",
-        "key": "+",
+        "key": "\u003d",
         "code": "Equal",
         "location": "0",
         "altKey": "false",
@@ -60935,7 +60935,7 @@
       },
       {
         "type": "keyup",
-        "key": "~",
+        "key": "`",
         "code": "Backquote",
         "location": "0",
         "altKey": "false",
@@ -63627,7 +63627,7 @@
       },
       {
         "type": "keydown",
-        "key": "\"",
+        "key": "\u0027",
         "code": "Quote",
         "location": "0",
         "altKey": "false",
@@ -63637,7 +63637,7 @@
       },
       {
         "type": "keypress",
-        "key": "\"",
+        "key": "\u0027",
         "code": "Quote",
         "location": "0",
         "altKey": "false",
@@ -63647,7 +63647,7 @@
       },
       {
         "type": "keyup",
-        "key": "\"",
+        "key": "\u0027",
         "code": "Quote",
         "location": "0",
         "altKey": "false",
@@ -64644,7 +64644,7 @@
       },
       {
         "type": "keydown",
-        "key": ":",
+        "key": ";",
         "code": "Semicolon",
         "location": "0",
         "altKey": "false",
@@ -64654,7 +64654,7 @@
       },
       {
         "type": "keypress",
-        "key": ":",
+        "key": ";",
         "code": "Semicolon",
         "location": "0",
         "altKey": "false",
@@ -64664,7 +64664,7 @@
       },
       {
         "type": "keyup",
-        "key": ":",
+        "key": ";",
         "code": "Semicolon",
         "location": "0",
         "altKey": "false",
