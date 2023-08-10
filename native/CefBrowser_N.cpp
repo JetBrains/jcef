@@ -732,8 +732,6 @@ int GetControlCharacter(KeyboardCode windows_key_code, bool shift) {
 #endif  // defined(OS_LINUX)
 
 #if defined(OS_MAC)
-// A convenient array for getting symbol characters on the number keys.
-const char kShiftCharsForNumberKeys[] = ")!@#$%^&*(";
 
 // Convert an ANSI character to a Mac key code.
 int GetMacKeyCodeFromChar(int key_char) {
@@ -1871,53 +1869,6 @@ Java_org_cef_browser_CefBrowser_1N_N_1SendKeyEvent(JNIEnv* env,
   }
 
   cef_event.character = cef_event.unmodified_character;
-
-  // Fill in |character| according to flags.
-  if (cef_event.modifiers & EVENTFLAG_SHIFT_DOWN) {
-    if (key_char >= '0' && key_char <= '9') {
-      cef_event.character = kShiftCharsForNumberKeys[key_char - '0'];
-    } else if (key_char >= 'A' && key_char <= 'Z') {
-      cef_event.character = 'A' + (key_char - 'A');
-    } else {
-      switch (cef_event.native_key_code) {
-        case kVK_ANSI_Grave:
-          cef_event.character = '~';
-          break;
-        case kVK_ANSI_Minus:
-          cef_event.character = '_';
-          break;
-        case kVK_ANSI_Equal:
-          cef_event.character = '+';
-          break;
-        case kVK_ANSI_LeftBracket:
-          cef_event.character = '{';
-          break;
-        case kVK_ANSI_RightBracket:
-          cef_event.character = '}';
-          break;
-        case kVK_ANSI_Backslash:
-          cef_event.character = '|';
-          break;
-        case kVK_ANSI_Semicolon:
-          cef_event.character = ':';
-          break;
-        case kVK_ANSI_Quote:
-          cef_event.character = '\"';
-          break;
-        case kVK_ANSI_Comma:
-          cef_event.character = '<';
-          break;
-        case kVK_ANSI_Period:
-          cef_event.character = '>';
-          break;
-        case kVK_ANSI_Slash:
-          cef_event.character = '?';
-          break;
-        default:
-          break;
-      }
-    }
-  }
 
   // Control characters.
   if (cef_event.modifiers & EVENTFLAG_CONTROL_DOWN) {
