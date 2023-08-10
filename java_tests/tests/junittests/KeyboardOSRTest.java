@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
@@ -100,7 +101,7 @@ public class KeyboardOSRTest {
                     .create()
                     .toJson(outputScenarios.toArray());
 
-            Files.write(file.toPath(), jsonString.getBytes());
+            Files.writeString(file.toPath(), jsonString, StandardCharsets.UTF_8);
         }
     }
 
@@ -109,7 +110,7 @@ public class KeyboardOSRTest {
         if (file == null) {
             return Stream.empty();
         }
-        String jsonText = Files.readString(file.toPath());
+        String jsonText = Files.readString(file.toPath(), StandardCharsets.UTF_8);
 
         Type typeToken = new TypeToken<ArrayList<Scenario>>() {
         }.getType();
@@ -125,6 +126,8 @@ public class KeyboardOSRTest {
         String osName = System.getProperty("os.name", "").toLowerCase();
         if (osName.startsWith("mac")) {
             scenarioPath = "data/keyboard_scenario_mac.json";
+        } else if (osName.startsWith("windows")) {
+            scenarioPath = "data/keyboard_scenario_windows.json";
         } else {
             return null;
         }
@@ -144,7 +147,7 @@ public class KeyboardOSRTest {
         for (Scenario.EventDataJava data : scenario.eventsJava) {
             callbackLatch = new CountDownLatch(1);
             myFrame.browser_.sendKeyEvent(data.makeKeyEvent(myFrame.browser_.getUIComponent()));
-            callbackLatch.await(200, TimeUnit.MILLISECONDS);
+            boolean ignored = callbackLatch.await(100, TimeUnit.MILLISECONDS);
         }
         List<Scenario.EventDataJS> eventsJS = eventsWaiter.get();
 

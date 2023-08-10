@@ -10,6 +10,7 @@ import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.*;
@@ -22,7 +23,7 @@ public class ScenarioMaker {
 
     public static class Impl {
         final static String START_BUTTON_TEXT = "\uD83D\uDD34(Press to start)";
-        final static String STOP_BUTTON_TEXT = "⏹(Press to stop)";
+        final static String STOP_BUTTON_TEXT = "\u23F9(Press to stop)";
 
         private final JFrame myFrame = new JFrame("Keyboard test scenario generator");
 
@@ -136,7 +137,7 @@ public class ScenarioMaker {
                 if (fileChooser.showOpenDialog(myFrame) == JFileChooser.APPROVE_OPTION) {
                     String jsonText = null;
                     try {
-                        jsonText = Files.readString(fileChooser.getSelectedFile().toPath());
+                        jsonText = Files.readString(fileChooser.getSelectedFile().toPath(), StandardCharsets.UTF_8);
                     } catch (IOException ex) {
                         JOptionPane.showMessageDialog(myFrame,
                                 "Failed to write the file:\n" + fileChooser.getSelectedFile(), "Error",
@@ -159,7 +160,7 @@ public class ScenarioMaker {
                             .toJson(myScenariosList.toArray());
                     File outFile = fileChooser.getSelectedFile();
                     try {
-                        Files.write(outFile.toPath(), jsonString.getBytes());
+                        Files.writeString(outFile.toPath(), jsonString, StandardCharsets.UTF_8);
                     } catch (IOException ex) {
                         JOptionPane.showMessageDialog(myFrame,
                                 "Failed to write the file:\n" + outFile,
