@@ -33,6 +33,41 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Stream;
 
+/**
+ * @author Vladimir Kharitonov
+ * <strong>Creating a new scenario</strong> .
+ * Run the test scenario editor {@link tests.keyboard.ScenarioMaker}. Run with
+ * '--add-opens=java.desktop/java.awt.event=ALL-UNNAMED' JVM option.` Pay attention at JBR version that is used to run
+ * the tool.
+ * ScenarioMaker needs to access private fields of
+ * `KeyEvent`. Getting `java.lang.reflect.InaccessibleObjectException` is a sight that the option is needed.
+ * The tool allows to record, view end edit keyboard test scenarios.
+ * <p>
+ * A scenario contains a list of Java keyboard events. It starts with a KEY_PRESS event and ends with KEY_RELEASED
+ * events for the same key as the first event. Otherwise, the scenario is not invalid. Between first and last event
+ * there might be other events including events for other keys. An example of a scenario:
+ * 1. KEY_PRESSED - Shift
+ * 2. KEY_PRESSED - A
+ * 3. KEY_TYPED - A
+ * 4. KEY_RELEASED - A
+ * 5. KEY_RELEASED - Shift
+ * <p>
+ * During recording a scenario keep an eye on Composition events list. Once all keys are released it must be empty. If
+ * it's not the case, it means that the composed scenario is not valid and can't be added to the list. The compositions
+ * might be reset to continue. For some keys it's not possible to record a valid scenario.
+ * <p>
+ * Once a scenario is ready it might be saved as a JSON file and used in this test.
+ * <p>
+ * Warning. Please be carefully with editing the JSON file with IDEA especially on Windows. It can easily spoil it.
+ * The contains not escaped unicode.
+ * <p>
+ * <strong>Update references</strong>
+ * After making new scenarios or making changes the test references must be updated. On order to it put the path to the
+ * corresponding scenarios file to `KEYBOARD_TEST_OUTPUT_FILE` environment variable and run the test.
+ * E.g. `KEYBOARD_TEST_OUTPUT_FILE=/home/user/jcef-kb/java_tests/tests/junittests/data/keyboard_scenario_linux.json`
+ * The file get
+ * updated and the change might review via git diff.
+ */
 @ExtendWith(TestSetupExtension.class)
 public class KeyboardOSRTest {
     static final String PAGE_URL = "https://some.url/";
