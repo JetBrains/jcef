@@ -163,6 +163,8 @@ public class KeyboardOSRTest {
             scenarioPath = "data/keyboard_scenario_mac.json";
         } else if (osName.startsWith("windows")) {
             scenarioPath = "data/keyboard_scenario_windows.json";
+        } else if (osName.startsWith("linux")) {
+            scenarioPath = "data/keyboard_scenario_linux.json";
         } else {
             return null;
         }
