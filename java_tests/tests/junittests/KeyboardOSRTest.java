@@ -126,9 +126,7 @@ public class KeyboardOSRTest {
     }
 
     @AfterAll
-    public static void after() throws IOException {
-        myFrame.closeBrowser();
-        myFrame.awaitCompletion();
+    public static void after() throws IOException, InterruptedException {
         File file = getScenarioFile();
         if (UPDATE_REFERENCE && file != null) {
             String jsonString = new GsonBuilder()
