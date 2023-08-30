@@ -1697,6 +1697,7 @@ Java_org_cef_browser_CefBrowser_1N_N_1SendKeyEvent(JNIEnv* env,
 
   JNI_STATIC_DEFINE_INT(env, cls, VK_BACK_SPACE);
   JNI_STATIC_DEFINE_INT(env, cls, VK_DELETE);
+  JNI_STATIC_DEFINE_INT(env, cls, VK_CLEAR);
   JNI_STATIC_DEFINE_INT(env, cls, VK_DOWN);
   JNI_STATIC_DEFINE_INT(env, cls, VK_ENTER);
   JNI_STATIC_DEFINE_INT(env, cls, VK_ESCAPE);
@@ -1722,6 +1723,12 @@ Java_org_cef_browser_CefBrowser_1N_N_1SendKeyEvent(JNIEnv* env,
   JNI_STATIC_DEFINE_INT(env, cls, VK_F11);
   JNI_STATIC_DEFINE_INT(env, cls, VK_F12);
   JNI_STATIC_DEFINE_INT(env, cls, VK_F13);
+  JNI_STATIC_DEFINE_INT(env, cls, VK_F14);
+  JNI_STATIC_DEFINE_INT(env, cls, VK_F15);
+  JNI_STATIC_DEFINE_INT(env, cls, VK_F16);
+  JNI_STATIC_DEFINE_INT(env, cls, VK_F17);
+  JNI_STATIC_DEFINE_INT(env, cls, VK_F18);
+  JNI_STATIC_DEFINE_INT(env, cls, VK_F19);
 
   JNI_STATIC_DEFINE_INT(env, cls, VK_META);
   JNI_STATIC_DEFINE_INT(env, cls, VK_SHIFT);
@@ -1764,6 +1771,9 @@ Java_org_cef_browser_CefBrowser_1N_N_1SendKeyEvent(JNIEnv* env,
   } else if (key_code == JNI_STATIC(VK_DELETE)) {
     cef_event.native_key_code = kVK_ForwardDelete;
     cef_event.unmodified_character = kDeleteCharCode;
+  } else if (key_code == JNI_STATIC(VK_CLEAR)) {
+    cef_event.native_key_code = kVK_ANSI_KeypadClear;
+    cef_event.unmodified_character = /* NSClearLineFunctionKey */ 0xF739;
   } else if (key_code == JNI_STATIC(VK_DOWN)) {
     cef_event.native_key_code = kVK_DownArrow;
     cef_event.unmodified_character = /* NSDownArrowFunctionKey */ 0xF701;
@@ -1836,6 +1846,24 @@ Java_org_cef_browser_CefBrowser_1N_N_1SendKeyEvent(JNIEnv* env,
   } else if (key_code == JNI_STATIC(VK_F13)) {
     cef_event.native_key_code = kVK_F13;
     cef_event.unmodified_character = 63248;
+  } else if (key_code == JNI_STATIC(VK_F14)) {
+    cef_event.native_key_code = kVK_F14;
+    cef_event.unmodified_character = 63249;
+  } else if (key_code == JNI_STATIC(VK_F15)) {
+    cef_event.native_key_code = kVK_F15;
+    cef_event.unmodified_character = 63250;
+  } else if (key_code == JNI_STATIC(VK_F16)) {
+    cef_event.native_key_code = kVK_F16;
+    cef_event.unmodified_character = 63251;
+  } else if (key_code == JNI_STATIC(VK_F17)) {
+    cef_event.native_key_code = kVK_F17;
+    cef_event.unmodified_character = 63252;
+  } else if (key_code == JNI_STATIC(VK_F18)) {
+    cef_event.native_key_code = kVK_F18;
+    cef_event.unmodified_character = 63253;
+  } else if (key_code == JNI_STATIC(VK_F19)) {
+    cef_event.native_key_code = kVK_F19;
+    cef_event.unmodified_character = 63254;
   } else if (key_code == JNI_STATIC(VK_META)) {
     cef_event.native_key_code = key_location == JNI_STATIC(KEY_LOCATION_RIGHT)
                                     ? kVK_RightCommand
