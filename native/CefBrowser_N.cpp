@@ -1681,9 +1681,14 @@ Java_org_cef_browser_CefBrowser_1N_N_1SendKeyEvent(JNIEnv* env,
 
   jlong scanCode = 0;
   GetJNIFieldLong(env, cls, key_event, "scancode", &scanCode);
-  BYTE VkCode = LOBYTE(MapVirtualKey(scanCode, MAPVK_VSC_TO_VK));
   cef_event.native_key_code = (scanCode << 16) |  // key scan code
                               1;                  // key repeat count
+
+  jlong rawCode = 0;
+  if (!GetJNIFieldLong(env, cls, key_event, "rawCode", &rawCode)) {
+    return;
+  }
+
 #elif defined(OS_LINUX) || defined(OS_MAC)
   int key_code;
   if (!CallJNIMethodI_V(env, cls, key_event, "getKeyCode", &key_code)) {
@@ -1914,12 +1919,12 @@ Java_org_cef_browser_CefBrowser_1N_N_1SendKeyEvent(JNIEnv* env,
 
   if (event_type == JNI_STATIC(KEY_PRESSED)) {
 #if defined(OS_WIN)
-    cef_event.windows_key_code = VkCode;
+    cef_event.windows_key_code = static_cast<int>(rawCode);
 #endif
     cef_event.type = KEYEVENT_RAWKEYDOWN;
   } else if (event_type == JNI_STATIC(KEY_RELEASED)) {
 #if defined(OS_WIN)
-    cef_event.windows_key_code = VkCode;
+    cef_event.windows_key_code =  static_cast<int>(rawCode);
     // bits 30 and 31 should always be 1 for WM_KEYUP
     cef_event.native_key_code |= 0xC0000000;
 #endif

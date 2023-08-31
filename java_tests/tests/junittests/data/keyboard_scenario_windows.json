@@ -5507,7 +5507,7 @@
     "eventsJSExpected": [
       {
         "type": "keydown",
-        "key": "Home",
+        "key": "7",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -5527,7 +5527,7 @@
       },
       {
         "type": "keyup",
-        "key": "Home",
+        "key": "7",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -5578,7 +5578,7 @@
     "eventsJSExpected": [
       {
         "type": "keydown",
-        "key": "ArrowUp",
+        "key": "8",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -5598,7 +5598,7 @@
       },
       {
         "type": "keyup",
-        "key": "ArrowUp",
+        "key": "8",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -5649,7 +5649,7 @@
     "eventsJSExpected": [
       {
         "type": "keydown",
-        "key": "PageUp",
+        "key": "9",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -5669,7 +5669,7 @@
       },
       {
         "type": "keyup",
-        "key": "PageUp",
+        "key": "9",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -5791,7 +5791,7 @@
     "eventsJSExpected": [
       {
         "type": "keydown",
-        "key": "ArrowLeft",
+        "key": "4",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -5811,7 +5811,7 @@
       },
       {
         "type": "keyup",
-        "key": "ArrowLeft",
+        "key": "4",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -5862,7 +5862,7 @@
     "eventsJSExpected": [
       {
         "type": "keydown",
-        "key": "Clear",
+        "key": "5",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -5882,7 +5882,7 @@
       },
       {
         "type": "keyup",
-        "key": "Clear",
+        "key": "5",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -5933,7 +5933,7 @@
     "eventsJSExpected": [
       {
         "type": "keydown",
-        "key": "ArrowRight",
+        "key": "6",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -5953,7 +5953,7 @@
       },
       {
         "type": "keyup",
-        "key": "ArrowRight",
+        "key": "6",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -6004,7 +6004,7 @@
     "eventsJSExpected": [
       {
         "type": "keydown",
-        "key": "End",
+        "key": "1",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -6024,7 +6024,7 @@
       },
       {
         "type": "keyup",
-        "key": "End",
+        "key": "1",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -6075,7 +6075,7 @@
     "eventsJSExpected": [
       {
         "type": "keydown",
-        "key": "ArrowDown",
+        "key": "2",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -6095,7 +6095,7 @@
       },
       {
         "type": "keyup",
-        "key": "ArrowDown",
+        "key": "2",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -6146,7 +6146,7 @@
     "eventsJSExpected": [
       {
         "type": "keydown",
-        "key": "PageDown",
+        "key": "3",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -6166,7 +6166,7 @@
       },
       {
         "type": "keyup",
-        "key": "PageDown",
+        "key": "3",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -6288,7 +6288,7 @@
     "eventsJSExpected": [
       {
         "type": "keydown",
-        "key": "Insert",
+        "key": "0",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -6308,7 +6308,7 @@
       },
       {
         "type": "keyup",
-        "key": "Insert",
+        "key": "0",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -6359,7 +6359,7 @@
     "eventsJSExpected": [
       {
         "type": "keydown",
-        "key": "Delete",
+        "key": ".",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -6379,7 +6379,7 @@
       },
       {
         "type": "keyup",
-        "key": "Delete",
+        "key": ".",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -16528,7 +16528,7 @@
       },
       {
         "type": "keydown",
-        "key": "?",
+        "key": "/",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -16548,7 +16548,7 @@
       },
       {
         "type": "keyup",
-        "key": "?",
+        "key": "/",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -24910,7 +24910,7 @@
       },
       {
         "type": "keydown",
-        "key": "Home",
+        "key": "7",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -24920,7 +24920,7 @@
       },
       {
         "type": "keyup",
-        "key": "Home",
+        "key": "7",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -25002,7 +25002,7 @@
       },
       {
         "type": "keydown",
-        "key": "ArrowUp",
+        "key": "8",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -25012,7 +25012,7 @@
       },
       {
         "type": "keyup",
-        "key": "ArrowUp",
+        "key": "8",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -25094,7 +25094,7 @@
       },
       {
         "type": "keydown",
-        "key": "PageUp",
+        "key": "9",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -25104,7 +25104,7 @@
       },
       {
         "type": "keyup",
-        "key": "PageUp",
+        "key": "9",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -25278,7 +25278,7 @@
       },
       {
         "type": "keydown",
-        "key": "ArrowLeft",
+        "key": "4",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -25288,7 +25288,7 @@
       },
       {
         "type": "keyup",
-        "key": "ArrowLeft",
+        "key": "4",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -25370,7 +25370,7 @@
       },
       {
         "type": "keydown",
-        "key": "Clear",
+        "key": "5",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -25380,7 +25380,7 @@
       },
       {
         "type": "keyup",
-        "key": "Clear",
+        "key": "5",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -25462,7 +25462,7 @@
       },
       {
         "type": "keydown",
-        "key": "ArrowRight",
+        "key": "6",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -25472,7 +25472,7 @@
       },
       {
         "type": "keyup",
-        "key": "ArrowRight",
+        "key": "6",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -25554,7 +25554,7 @@
       },
       {
         "type": "keydown",
-        "key": "End",
+        "key": "1",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -25564,7 +25564,7 @@
       },
       {
         "type": "keyup",
-        "key": "End",
+        "key": "1",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -25646,7 +25646,7 @@
       },
       {
         "type": "keydown",
-        "key": "ArrowDown",
+        "key": "2",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -25656,7 +25656,7 @@
       },
       {
         "type": "keyup",
-        "key": "ArrowDown",
+        "key": "2",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -25738,7 +25738,7 @@
       },
       {
         "type": "keydown",
-        "key": "PageDown",
+        "key": "3",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -25748,7 +25748,7 @@
       },
       {
         "type": "keyup",
-        "key": "PageDown",
+        "key": "3",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -25943,7 +25943,7 @@
       },
       {
         "type": "keydown",
-        "key": "Insert",
+        "key": "0",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -25953,7 +25953,7 @@
       },
       {
         "type": "keyup",
-        "key": "Insert",
+        "key": "0",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -26035,7 +26035,7 @@
       },
       {
         "type": "keydown",
-        "key": "Delete",
+        "key": ".",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -26045,7 +26045,7 @@
       },
       {
         "type": "keyup",
-        "key": "Delete",
+        "key": ".",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -43222,7 +43222,7 @@
     "eventsJSExpected": [
       {
         "type": "keydown",
-        "key": "-",
+        "key": "[",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -43242,7 +43242,7 @@
       },
       {
         "type": "keyup",
-        "key": "-",
+        "key": "[",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -43669,7 +43669,7 @@
     "eventsJSExpected": [
       {
         "type": "keydown",
-        "key": "y",
+        "key": "z",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -43689,7 +43689,7 @@
       },
       {
         "type": "keyup",
-        "key": "y",
+        "key": "z",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -44024,7 +44024,7 @@
     "eventsJSExpected": [
       {
         "type": "keydown",
-        "key": "[",
+        "key": ";",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -44044,7 +44044,7 @@
       },
       {
         "type": "keyup",
-        "key": "[",
+        "key": ";",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -44095,7 +44095,7 @@
     "eventsJSExpected": [
       {
         "type": "keydown",
-        "key": "]",
+        "key": "\u003d",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -44115,7 +44115,7 @@
       },
       {
         "type": "keyup",
-        "key": "]",
+        "key": "\u003d",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -44805,7 +44805,7 @@
     "eventsJSExpected": [
       {
         "type": "keydown",
-        "key": ";",
+        "key": "`",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -44825,7 +44825,7 @@
       },
       {
         "type": "keyup",
-        "key": ";",
+        "key": "`",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -44947,7 +44947,7 @@
     "eventsJSExpected": [
       {
         "type": "keydown",
-        "key": "\\",
+        "key": "/",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -44967,7 +44967,7 @@
       },
       {
         "type": "keyup",
-        "key": "\\",
+        "key": "/",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -45089,7 +45089,7 @@
     "eventsJSExpected": [
       {
         "type": "keydown",
-        "key": "z",
+        "key": "y",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -45109,7 +45109,7 @@
       },
       {
         "type": "keyup",
-        "key": "z",
+        "key": "y",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -45728,7 +45728,7 @@
     "eventsJSExpected": [
       {
         "type": "keydown",
-        "key": "/",
+        "key": "-",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -45748,7 +45748,7 @@
       },
       {
         "type": "keyup",
-        "key": "/",
+        "key": "-",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -46961,7 +46961,7 @@
       },
       {
         "type": "keydown",
-        "key": "_",
+        "key": "{",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -46981,7 +46981,7 @@
       },
       {
         "type": "keyup",
-        "key": "_",
+        "key": "{",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -47639,7 +47639,7 @@
       },
       {
         "type": "keydown",
-        "key": "Y",
+        "key": "Z",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -47659,7 +47659,7 @@
       },
       {
         "type": "keyup",
-        "key": "Y",
+        "key": "Z",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -48204,7 +48204,7 @@
       },
       {
         "type": "keydown",
-        "key": "{",
+        "key": ":",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -48224,7 +48224,7 @@
       },
       {
         "type": "keyup",
-        "key": "{",
+        "key": ":",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -48317,7 +48317,7 @@
       },
       {
         "type": "keydown",
-        "key": "}",
+        "key": "+",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -48337,7 +48337,7 @@
       },
       {
         "type": "keyup",
-        "key": "}",
+        "key": "+",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -49447,7 +49447,7 @@
       },
       {
         "type": "keydown",
-        "key": ":",
+        "key": "~",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -49467,7 +49467,7 @@
       },
       {
         "type": "keyup",
-        "key": ":",
+        "key": "~",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -49673,7 +49673,7 @@
       },
       {
         "type": "keydown",
-        "key": "|",
+        "key": "?",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -49693,7 +49693,7 @@
       },
       {
         "type": "keyup",
-        "key": "|",
+        "key": "?",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -49899,7 +49899,7 @@
       },
       {
         "type": "keydown",
-        "key": "Z",
+        "key": "Y",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -49919,7 +49919,7 @@
       },
       {
         "type": "keyup",
-        "key": "Z",
+        "key": "Y",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -50916,7 +50916,7 @@
       },
       {
         "type": "keydown",
-        "key": "?",
+        "key": "_",
         "code": "",
         "location": "0",
         "altKey": "false",
@@ -50936,7 +50936,7 @@
       },
       {
         "type": "keyup",
-        "key": "?",
+        "key": "_",
         "code": "",
         "location": "0",
         "altKey": "false",
