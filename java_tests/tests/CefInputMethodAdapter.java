@@ -61,7 +61,7 @@ public class CefInputMethodAdapter implements InputMethodRequests, InputMethodLi
         }
 
         var compositionText = textBuffer.toString();
-        if (compositionText.length() > 0) {
+        if (!compositionText.isEmpty()) {
             CefRange selectionRange = new CefRange(compositionText.length(), compositionText.length());
             CefLog.Debug("Browser::ImeSetComposition(text='" + compositionText + "', replacementRange=" + myReplacementRange + ", selectionRange=" + myReplacementRange + ")");
             Color color = new Color(0, true);
@@ -75,7 +75,7 @@ public class CefInputMethodAdapter implements InputMethodRequests, InputMethodLi
 
     @Override
     public void caretPositionChanged(InputMethodEvent event) {
-        System.out.println("InputMethodListener::caretPositionChanged(" + event + ")");
+        CefLog.Debug("InputMethodListener::caretPositionChanged(" + event + ")");
     }
 
     void setBrowser(CefBrowser cefBrowser) {
@@ -154,7 +154,7 @@ public class CefInputMethodAdapter implements InputMethodRequests, InputMethodLi
     }
 
     public void OnTextSelectionChanged(String selectedText, CefRange selectionRange) {
-        System.out.println("CefRenderHandler::OnTextSelectionChanged(selectionText=" + selectedText + ", " + "selectionRange=" + selectionRange + ")");
+        CefLog.Debug("CefRenderHandler::OnTextSelectionChanged(selectionText=" + selectedText + ", " + "selectionRange=" + selectionRange + ")");
         this.myReplacementRange = selectionRange;
         this.mySelectedText = selectedText;
     }
