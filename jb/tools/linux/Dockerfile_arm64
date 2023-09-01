@@ -15,7 +15,7 @@ RUN wget -nv -O jdk.deb https://cache-redirector.jetbrains.com/corretto.aws/down
 ENV JAVA_HOME=/usr/lib/jvm/java-17-amazon-corretto
 RUN ${JAVA_HOME}/bin/javac -version
 
-ARG ANT_VERSION=1.10.12
+ARG ANT_VERSION=1.10.14
 RUN wget -nv -O ant.tgz https://dlcdn.apache.org//ant/binaries/apache-ant-${ANT_VERSION}-bin.tar.gz && \
     tar xfz ant.tgz -C /opt && \
     rm ant.tgz
