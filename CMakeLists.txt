@@ -118,7 +118,7 @@ cmake_minimum_required(VERSION 3.19)
 set(CMAKE_CONFIGURATION_TYPES Debug Release)
 
 include(cmake/vcpkg.cmake)
-bring_vcpkg(${CMAKE_CURRENT_SOURCE_DIR}/third_party/vcpkg)
+bring_vcpkg()
 
 # Project name.
 project(jcef)
