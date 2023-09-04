@@ -123,6 +123,8 @@ bring_vcpkg()
 # Project name.
 project(jcef)
 
+vcpkg_install_package(boost-filesystem boost-interprocess thrift)
+
 # Use folders in the resulting project files.
 set_property(GLOBAL PROPERTY OS_FOLDERS ON)
 
