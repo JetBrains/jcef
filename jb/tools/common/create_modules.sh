@@ -81,6 +81,12 @@ case "$OS" in
     cp -R "$OUT_NATIVE_DIR"/"$resource" lib
   done
 
+  if [[ -n "${OUT_REMOTE_DIR-}" ]]; then
+    echo "Coping $OUT_REMOTE_DIR/bin/CefServer.exe and $OUT_REMOTE_DIR/shared_mem_helper.dll to lib"
+    cp -R "$OUT_REMOTE_DIR"/bin/CefServer.exe bin
+    cp -R "$OUT_REMOTE_DIR"/shared_mem_helper.dll bin
+  fi
+
   "$JAVA_HOME"/bin/jmod create --module-path . --class-path jcef.jar --cmds bin --libs lib jcef.jmod
   rm -rf jcef.jar bin lib
   ;;
@@ -96,6 +102,10 @@ case "$OS" in
 "linux")
   mkdir lib
   cp -R "$OUT_NATIVE_DIR"/* lib
+  if [ "${BUILD_CEF_SERVER:-0}" != 0 ]; then
+    cp -R "$OUT_REMOTE_DIR"/libshared_mem_helper.so lib
+    cp -R "$OUT_REMOTE_DIR"/CefServer lib
+  fi
 
   echo "*** find patched libcef.so..."
   if [ -z "${PATCHED_LIBCEF_DIR:-}" ]; then
@@ -113,6 +123,9 @@ case "$OS" in
   find lib -name "*.so" | xargs strip -x
   strip -x lib/chrome-sandbox
   strip -x lib/jcef_helper
+  if [ "${BUILD_CEF_SERVER:-0}" != 0 ]; then
+    strip -x lib/CefServer
+  fi
 
   "$JAVA_HOME"/bin/jmod create --module-path . --class-path jcef.jar --libs lib jcef.jmod
   rm -rf jcef.jar lib
