@@ -117,8 +117,17 @@ cmake_minimum_required(VERSION 3.19)
 # Only generate Debug and Release configuration types.
 set(CMAKE_CONFIGURATION_TYPES Debug Release)
 
+if($ENV{BUILD_CEF_SERVER})
+  include(cmake/vcpkg.cmake)
+  bring_vcpkg()
+endif ()
+
 # Project name.
 project(jcef)
+
+if($ENV{BUILD_CEF_SERVER})
+  vcpkg_install_package(boost-filesystem boost-interprocess thrift)
+endif ()
 
 # Use folders in the resulting project files.
 set_property(GLOBAL PROPERTY OS_FOLDERS ON)
@@ -325,6 +334,10 @@ endif()
 
 add_subdirectory(${CEF_LIBCEF_DLL_WRAPPER_PATH} libcef_dll_wrapper)
 add_subdirectory(native)
+
+if($ENV{BUILD_CEF_SERVER})
+  add_subdirectory(remote)
+endif ()
 
 
 #
