@@ -50,6 +50,8 @@ fi
 rm -rf gluegen-rt.jar lib
 
 echo "*** create jogl.all module..."
+
+echo "*** create jogl.all module..."
 cp "$JOGAMP_DIR"/jogl-all.jar .
 cp "$JB_TOOLS_OS_DIR"/jogl-module-info.java module-info.java
 
