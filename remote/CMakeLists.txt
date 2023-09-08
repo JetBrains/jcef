@@ -219,7 +219,7 @@ if (OS_MAC)
             POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_directory
             "${CEF_BINARY_DIR}/Chromium Embedded Framework.framework"
-            "${APP_BUNDLE_PATH}/Contents/Frameworks/Chromium Embedded Framework.framework"
+            "${CEF_TARGET_OUT_DIR}/Chromium Embedded Framework.framework"
             )
 
     if (USE_SANDBOX)

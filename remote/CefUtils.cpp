@@ -30,9 +30,14 @@ namespace CefUtils {
       // Need to put CEF into CefServer.app/Contents/Frameworks
       // TODO: fixme
 
-      boost::filesystem::path full_path( boost::filesystem::current_path() );
-      boost::filesystem::path frameworkPath = full_path.parent_path().append("Frameworks");
-      boost::filesystem::path libPath = frameworkPath.append("Chromium Embedded Framework.framework").append("Chromium Embedded Framework");
+      boost::filesystem::path libPath =
+          boost::filesystem::current_path()
+              .append("..")
+              .append("..")
+              .append("..")
+              .append("Chromium Embedded Framework.framework")
+              .append("Chromium Embedded Framework")
+              .lexically_normal();
       if (!cef_load_library(libPath.c_str())) {
         Log::debug("Failed to load the CEF framework by libPath %s", libPath.c_str());
         return false;
@@ -48,11 +53,13 @@ namespace CefUtils {
         if (g_mainCefThread)
             return;
 
+        boost::filesystem::path framework_path = boost::filesystem::current_path().append("..").append("..").append("..").append("./Chromium Embedded Framework.framework").lexically_normal();
         g_mainCefThread = new std::thread([=]() {
             setThreadName("CefMain");
             CefMainArgs main_args;
             CefSettings cefSettings;
             fillSettings(cefSettings, RemoteAppHandler::instance().getSettings());
+            CefString(&cefSettings.framework_dir_path) = framework_path.string();
 
             Log::debug("Start CefInitialize");
             CefRefPtr<CefApp> app = &RemoteAppHandler::instance();
