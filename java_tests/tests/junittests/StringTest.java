@@ -20,7 +20,7 @@ class StringTest {
         s = "Юникод";
         assertEquals(s, convertString(s));
 
-        s = "Cookie symbol: 🍪.";
+        s = "Cookie symbol: \uD83C\uDF6A.";
         assertEquals(s, convertString(s));
 
         StringBuilder sb = new StringBuilder("Very-very long string, ");

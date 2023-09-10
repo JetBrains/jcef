@@ -20,11 +20,21 @@ if (!OperatingSystem.current().isMacOsX()) {
     sourceSets.main.java.excludes += ['org/cef/browser/mac/**']
 }
 
+def listSeparator = ":"
+if (OperatingSystem.current().isWindows()) {
+    listSeparator = ";"
+}
+
 sourceSets.test.java.srcDirs = ['../../../java_tests']
 
 compileJava.options.compilerArgs += [
-    '--class-path', "$projectDir/../../../third_party/thrift/libthrift-0.16.0.jar:$projectDir/../../../third_party/slf4j/slf4j-api-2.0.0.jar",
-    '--module-path', "$projectDir/../../../third_party/jogamp/jar:$projectDir/../../../third_party/thrift/libthrift-0.16.0.jar:$projectDir/../../../third_party/slf4j/slf4j-api-2.0.0.jar",
+    '--class-path',
+        "$projectDir/../../../third_party/thrift/libthrift-0.16.0.jar" + listSeparator +
+        "$projectDir/../../../third_party/slf4j/slf4j-api-2.0.0.jar",
+    '--module-path',
+        "$projectDir/../../../third_party/jogamp/jar" + listSeparator +
+        "$projectDir/../../../third_party/thrift" + listSeparator +
+        "$projectDir/../../../third_party/slf4j",
     '--add-modules', 'jogl.all,gluegen.rt,org.apache.thrift,org.slf4j',
     '--add-reads', 'jcef=ALL-UNNAMED',
     '--add-exports', 'jogl.all/com.jogamp.nativewindow=jcef',
@@ -37,7 +47,10 @@ compileJava.options.compilerArgs += [
     '--add-exports', 'java.desktop/sun.lwawt=jcef']
 
 compileTestJava.options.compilerArgs += [
-    '--class-path', "$projectDir/../../../third_party/thrift/libthrift-0.16.0.jar:$projectDir/../../../jb/project/java-gradle/build/classes/java/main:$projectDir/../../../third_party/junit/junit-platform-console-standalone-1.4.2.jar"
+    '--class-path',
+        "$projectDir/../../../third_party/thrift/libthrift-0.16.0.jar" + listSeparator +
+        "$projectDir/../../../jb/project/java-gradle/build/classes/java/main"  + listSeparator +
+        "$projectDir/../../../third_party/junit/junit-platform-console-standalone-1.4.2.jar"
 ]
 
 def jbr_java = test.executable
