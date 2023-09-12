@@ -32,20 +32,19 @@ class ServerCloneFactory : virtual public ServerIfFactory {
     Log::debug("\tPeerHost: %s", sock->getPeerHost().c_str());
     Log::debug("\tPeerAddress: %s", sock->getPeerAddress().c_str());
     Log::debug("\tPeerPort: %d", sock->getPeerPort());
-    ServerHandler * serverHandler = new ServerHandler;
+    auto * serverHandler = new ServerHandler;
     Log::debug("\tServerHandler: %p\n", serverHandler);
     return serverHandler;
   }
   void releaseHandler(ServerIf* handler) override { delete handler; }
 };
 
-int CALLBACK WinMain(HINSTANCE hInstance,
-                     HINSTANCE hPrevInstance,
-                     LPSTR lpCmdLine,
-                     int nCmdShow) {
+int main() {
+  HINSTANCE hi = GetModuleHandle (0);
+
   Log::init(LEVEL_TRACE);
   setThreadName("main");
-  CefMainArgs main_args(hInstance);
+  CefMainArgs main_args(hi);
 
   Log::debug("Starting the process...");
 
@@ -65,7 +64,7 @@ int CALLBACK WinMain(HINSTANCE hInstance,
   Log::debug("Starting the server...");
   try {
     server.serve();
-  } catch (TException e) {
+  } catch (const TException& e) {
     Log::error("Exception in listening thread");
     Log::error(e.what());
   }

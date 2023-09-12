@@ -150,7 +150,8 @@ set(SERVER_SOURCES
 
 if (OS_WINDOWS)
     list(APPEND SERVER_SOURCES CppServerWin.cpp)
-    add_executable(${EXECUTABLE_NAME} WIN32 ${SERVER_SOURCES})
+    add_executable(${EXECUTABLE_NAME} ${SERVER_SOURCES})
+    target_link_options(${EXECUTABLE_NAME} PRIVATE "/SUBSYSTEM:console")
 endif ()
 
 if (OS_MAC)
