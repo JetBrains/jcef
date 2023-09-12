@@ -1,4 +1,6 @@
 #include "RemoteClientHandler.h"
+
+#include <utility>
 #include "../log/Log.h"
 #include "../network/RemoteRequestHandler.h"
 #include "RemoteDisplayHandler.h"
@@ -13,8 +15,8 @@ RemoteClientHandler::RemoteClientHandler(
     int bid)
     : myCid(cid),
       myBid(bid),
-      myService(service),
-      myRoutersManager(routersManager),
+      myService(std::move(service)),
+      myRoutersManager(std::move(routersManager)),
       myRemoteRenderHandler(new RemoteRenderHandler(*this)),
       myRemoteLisfespanHandler(new RemoteLifespanHandler(*this)),
       myRemoteLoadHandler(new RemoteLoadHandler(*this)),

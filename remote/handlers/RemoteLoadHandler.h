@@ -7,7 +7,7 @@
 class RemoteClientHandler;
 class RemoteLoadHandler : public CefLoadHandler {
  public:
-  RemoteLoadHandler(RemoteClientHandler & owner);
+  explicit RemoteLoadHandler(RemoteClientHandler & owner);
 
   void OnLoadingStateChange(CefRefPtr<CefBrowser> browser,
                             bool isLoading,

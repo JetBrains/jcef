@@ -8,7 +8,7 @@ class RemoteClientHandler;
 class RemoteDisplayHandler : public CefDisplayHandler {
  public:
   explicit RemoteDisplayHandler(RemoteClientHandler & owner);
-  virtual ~RemoteDisplayHandler() {}
+  ~RemoteDisplayHandler() override {}
 
   void OnAddressChange(CefRefPtr<CefBrowser> browser,
                        CefRefPtr<CefFrame> frame,

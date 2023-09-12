@@ -12,7 +12,7 @@ void RemoteBrowserProcessHandler::OnContextInitialized() {
   LNDCT();
   auto service = myService;
   if (service)
-    service->exec([&](RpcExecutor::Service s){
+    service->exec([&](const RpcExecutor::Service& s){
       s->AppHandler_OnContextInitialized();
     });
 }

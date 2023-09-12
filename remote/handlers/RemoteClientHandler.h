@@ -1,6 +1,8 @@
 #ifndef JCEF_NATIVE_CLIENT_HANDLER_H_
 #define JCEF_NATIVE_CLIENT_HANDLER_H_
 
+#include <utility>
+
 #include "../Utils.h"
 #include "../router/MessageRoutersManager.h"
 #include "include/cef_client.h"
@@ -42,7 +44,7 @@ public:
     T exec(std::function<T(RpcExecutor::Service)> rpc, T defVal) {
       return myService->exec(rpc, defVal);
     }
-    void exec(std::function<void(RpcExecutor::Service)> rpc) { myService->exec(rpc); }
+    void exec(std::function<void(RpcExecutor::Service)> rpc) { myService->exec(std::move(rpc)); }
 
   private:
     const int myCid;

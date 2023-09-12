@@ -36,7 +36,7 @@ void RemoteRenderHandler::_releaseSharedMem() {
   shared_memory_object::remove(mySharedMemName);
 }
 
-bool RemoteRenderHandler::_ensureSharedCapacity(int len) {
+bool RemoteRenderHandler::_ensureSharedCapacity(size_t len) {
   if (myLen >= len)
     return false;
 
@@ -44,7 +44,7 @@ bool RemoteRenderHandler::_ensureSharedCapacity(int len) {
 
   _releaseSharedMem();
 
-  const int additionalBytes = 1024;
+  const unsigned int additionalBytes = 1024;
   mySharedSegment = new managed_shared_memory(create_only, mySharedMemName, len + additionalBytes);
   managed_shared_memory::size_type free_memory = mySharedSegment->get_free_memory();
   mySharedMem = mySharedSegment->allocate(len);
@@ -79,7 +79,7 @@ void RemoteRenderHandler::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& re
     fillDummy(rect);
     Rect result;
     result.w = -1; // invalidate
-    myOwner.exec([&](RpcExecutor::Service s){
+    myOwner.exec([&](const RpcExecutor::Service& s){
       s->RenderHandler_GetViewRect(result, myOwner.getBid());
     });
     if (result.w < 0) return;
@@ -127,12 +127,13 @@ bool RemoteRenderHandler::GetScreenInfo(CefRefPtr<CefBrowser> browser,
     fillDummy(screen_info);
     ScreenInfo result;
     result.depth = -1;// invalidate
-    myOwner.exec([&](RpcExecutor::Service s){
+    myOwner.exec([&](const RpcExecutor::Service& s){
       s->RenderHandler_GetScreenInfo(result, myOwner.getBid());
     });
     if (result.depth == -1) return false;
 
-    screen_info.device_scale_factor = result.device_scale_factor;
+    screen_info.device_scale_factor =
+        static_cast<float>(result.device_scale_factor);
     screen_info.depth = result.depth;
     screen_info.depth_per_component = result.depth_per_component;
     screen_info.is_monochrome = result.is_monochrome;
@@ -156,7 +157,7 @@ bool RemoteRenderHandler::GetScreenPoint(CefRefPtr<CefBrowser> browser,
     LNDCT();
     Point result;
     result.x = INT32_MIN;// invalidate
-    myOwner.exec([&](RpcExecutor::Service s){
+    myOwner.exec([&](const RpcExecutor::Service& s){
       s->RenderHandler_GetScreenPoint(result, myOwner.getBid(), viewX, viewY);
     });
     if (result.x == INT32_MIN) return false;
@@ -205,12 +206,12 @@ void RemoteRenderHandler::OnPaint(CefRefPtr<CefBrowser> browser,
     LogNdc ndc("RemoteRenderHandler", string_format("OnPaint(w=%d,h=%d), rects=%d", width, height, dirtyRects.size()));
 #endif
     const int rasterPixCount = width*height;
-    const int extendedRectsCount = dirtyRects.size() < 10 ? 10 : dirtyRects.size();
+    const size_t extendedRectsCount = dirtyRects.size() < 10 ? 10 : dirtyRects.size();
     const bool reallocated = _ensureSharedCapacity(rasterPixCount*4 + 4*4*extendedRectsCount);
     if (mySharedMem == nullptr) return;
 
     // write rects and flipped raster
-    int rectsCount = dirtyRects.size();
+    size_t rectsCount = dirtyRects.size();
     const int stride = width*4;
     int32_t * sharedRects = (int32_t *)mySharedMem + rasterPixCount;
     if (dirtyRects.empty() || reallocated) {
@@ -256,8 +257,8 @@ void RemoteRenderHandler::OnPaint(CefRefPtr<CefBrowser> browser,
 #ifdef LOG_PAINT
         Measurer measurer2("RPC");
 #endif
-        myOwner.exec([&](RpcExecutor::Service s){
-          s->RenderHandler_OnPaint(myOwner.getBid(), type == PET_VIEW ? false : true, rectsCount,
+        myOwner.exec([&](const RpcExecutor::Service& s){
+          s->RenderHandler_OnPaint(myOwner.getBid(), type != PET_VIEW, static_cast<int>(rectsCount),
                      mySharedMemName, mySharedMemHandle, reallocated,
                      width, height);
         });

@@ -1,6 +1,8 @@
 #ifndef JCEF_REMOTEBROWSERPROCESSHANDLER_H
 #define JCEF_REMOTEBROWSERPROCESSHANDLER_H
 
+#include <utility>
+
 #include "../Utils.h"
 #include "include/cef_browser_process_handler.h"
 
@@ -15,7 +17,7 @@ class RemoteBrowserProcessHandler : public CefBrowserProcessHandler {
   // TODO: add IsContextInitialized, because OnContextInitialized() is called once (when
   // server starts first time) and client should be able to detect this case.
 
-  void setService(std::shared_ptr<RpcExecutor> service) { myService = service; }
+  void setService(std::shared_ptr<RpcExecutor> service) { myService = std::move(service); }
 
  private:
   std::shared_ptr<RpcExecutor> myService;

@@ -13,53 +13,53 @@ public:
  explicit RemoteRenderHandler(RemoteClientHandler & owner);
  ~RemoteRenderHandler() override;
 
- virtual bool GetRootScreenRect(CefRefPtr<CefBrowser> browser,
+ bool GetRootScreenRect(CefRefPtr<CefBrowser> browser,
                                    CefRect &rect) override;
 
-  virtual void GetViewRect(CefRefPtr<CefBrowser> browser,
+  void GetViewRect(CefRefPtr<CefBrowser> browser,
                            CefRect &rect) override;
 
-  virtual bool GetScreenInfo(CefRefPtr<CefBrowser> browser,
+  bool GetScreenInfo(CefRefPtr<CefBrowser> browser,
                              CefScreenInfo &screen_info) override;
 
-  virtual bool GetScreenPoint(CefRefPtr<CefBrowser> browser,
+  bool GetScreenPoint(CefRefPtr<CefBrowser> browser,
                               int viewX,
                               int viewY,
                               int &screenX,
                               int &screenY) override;
 
-  virtual void OnPopupShow(CefRefPtr<CefBrowser> browser, bool show) override;
+  void OnPopupShow(CefRefPtr<CefBrowser> browser, bool show) override;
 
-  virtual void OnPopupSize(CefRefPtr<CefBrowser> browser,
+  void OnPopupSize(CefRefPtr<CefBrowser> browser,
                            const CefRect &rect) override;
 
-  virtual void OnPaint(CefRefPtr<CefBrowser> browser,
+  void OnPaint(CefRefPtr<CefBrowser> browser,
                        PaintElementType type,
                        const RectList &dirtyRects,
                        const void *buffer,
                        int width,
                        int height) override;
 
-  virtual bool StartDragging(CefRefPtr<CefBrowser> browser,
+  bool StartDragging(CefRefPtr<CefBrowser> browser,
                              CefRefPtr<CefDragData> drag_data,
                              DragOperationsMask allowed_ops,
                              int x,
                              int y) override;
 
-  virtual void UpdateDragCursor(CefRefPtr<CefBrowser> browser,
+  void UpdateDragCursor(CefRefPtr<CefBrowser> browser,
                                 DragOperation operation) override;
 
 protected:
   RemoteClientHandler & myOwner;
 
-  char mySharedMemName[64];
+  char mySharedMemName[64]{};
 
-  boost::interprocess::managed_shared_memory::handle_t mySharedMemHandle;
+  boost::interprocess::managed_shared_memory::handle_t mySharedMemHandle{};
   boost::interprocess::managed_shared_memory * mySharedSegment = nullptr;
   void * mySharedMem = nullptr;
-  int myLen = 0;
+  size_t myLen = 0;
 
-  bool _ensureSharedCapacity(int len);
+  bool _ensureSharedCapacity(size_t len);
   void _releaseSharedMem();
 
 private:

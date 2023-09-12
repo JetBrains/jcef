@@ -175,7 +175,7 @@ if (OS_MAC)
 endif ()
 
 if (OS_WINDOWS)
-    target_compile_options(${EXECUTABLE_NAME} PRIVATE /MP;/Gy;/GR;/W4;/WX;/wd4100;/wd4127;/wd4244;/wd4324;/wd4481;/wd4512;/wd4701;/wd4702;/wd4996;/wd4706;/wd4005;/Zi ${CEF_CXX_COMPILER_FLAGS})
+    target_compile_options(${EXECUTABLE_NAME} PRIVATE /MP;/Gy;/GR;/W4;/WX;/wd4100;/wd4127;/wd4244;/wd4324;/wd4481;/wd4512;/wd4701;/wd4702;/wd4996;/wd4706;/wd4005;/wd4245;/Zi ${CEF_CXX_COMPILER_FLAGS})
     target_compile_options(${EXECUTABLE_NAME} PRIVATE $<$<CONFIG:Debug>:/MTd;/RTC1;/Od ${CEF_CXX_COMPILER_FLAGS_DEBUG}>)
     target_compile_options(${EXECUTABLE_NAME} PRIVATE $<$<CONFIG:Release>:/MT;/O2;/Ob2;/GF ${CEF_CXX_COMPILER_FLAGS_RELEASE}>)
 

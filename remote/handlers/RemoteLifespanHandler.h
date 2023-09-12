@@ -7,7 +7,7 @@
 class RemoteClientHandler;
 class RemoteLifespanHandler : public CefLifeSpanHandler {
  public:
-  RemoteLifespanHandler(RemoteClientHandler & owner);
+  explicit RemoteLifespanHandler(RemoteClientHandler & owner);
   CefRefPtr<CefBrowser> getBrowser();
   bool OnBeforePopup(CefRefPtr<CefBrowser> browser,
                      CefRefPtr<CefFrame> frame,

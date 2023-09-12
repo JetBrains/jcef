@@ -19,12 +19,12 @@ void RemoteAppHandler::OnBeforeCommandLineProcessing(
 
   Log::debug("Original command line:\n%s", command_line->GetCommandLineString().ToString().c_str());
 
-  std::string additionalItems = "";
+  std::string additionalItems;
   if (!myArgs.empty()) {
     // Copy-paste from CefAppHandlerAdapter.onBeforeCommandLineProcessing
     // Forward switches and arguments from Java to Cef
     bool parseSwitchesDone = false;
-    for (auto arg : myArgs) {
+    for (const auto& arg : myArgs) {
       if (parseSwitchesDone || arg.length() < 2) {
         command_line->AppendArgument(arg);
         additionalItems += arg + ", ";
@@ -96,12 +96,12 @@ void RemoteAppHandler::OnRegisterCustomSchemes(
     return;
   }
   std::vector<CustomScheme> result;
-  service->exec([&](RpcExecutor::Service s){
+  service->exec([&](const RpcExecutor::Service& s){
     s->AppHandler_GetRegisteredCustomSchemes(result);
   });
 
   Log::debug("Additional schemes:");
-  for (auto cs: result) {
+  for (const auto& cs: result) {
     int options = 0;
     if (cs.options & (1 << 0))
       options |= CEF_SCHEME_OPTION_STANDARD;
