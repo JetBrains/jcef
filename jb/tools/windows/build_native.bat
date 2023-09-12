@@ -68,9 +68,9 @@ echo JCEF_JNI=%JCEF_JNI%
 set "PATH=%JCEF_JNI%\bin;%PATH%"
 
 if "%TARGET_ARCH%" == "arm64" (
-    cmake -G "Visual Studio 16 2019" -A ARM64 -D "JAVA_HOME=%JCEF_JNI:\=/%" .. || goto:__exit
+    cmake -G "Visual Studio 16 2019" -A ARM64 -D "JAVA_HOME=%JCEF_JNI:\=/%" -D "PROJECT_ARCH=arm64" .. || goto:__exit
 ) else (
-    cmake -G "Visual Studio 16 2019" -D "JAVA_HOME=%JCEF_JNI:\=/%" .. || goto:__exit
+    cmake -G "Visual Studio 16 2019" -D "JAVA_HOME=%JCEF_JNI:\=/%" -D "PROJECT_ARCH=x86_64" .. || goto:__exit
 )
 
 endlocal

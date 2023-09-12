@@ -14,6 +14,14 @@ set JB_TOOLS_DIR=%JCEF_ROOT_DIR%\jb\tools
 set JB_TOOLS_OS_DIR=%JB_TOOLS_DIR%\windows
 set OUT_CLS_DIR=%JCEF_ROOT_DIR%\out\win64
 set OUT_NATIVE_DIR=%JCEF_ROOT_DIR%\jcef_build\native\Release
+
+if "%env.BUILD_CEF_SERVER%" neq "" (
+    set "BUILD_CEF_SERVER=%env.BUILD_CEF_SERVER%"
+)
+if "%BUILD_CEF_SERVER%" neq "" if "%BUILD_CEF_SERVER%" neq "0" (
+    set OUT_REMOTE_DIR=%JCEF_ROOT_DIR%\jcef_build\remote\Release
+)
+
 set OS=windows
 set ORIGINAL_PATH=%PATH%
 if "%TARGET_ARCH%" == "arm64" (

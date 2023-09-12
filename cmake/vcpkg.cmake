@@ -69,10 +69,18 @@ endfunction()
 function(vcpkg_install_package)
     foreach (PKG IN LISTS ARGN)
         message("Run: ${JCEF_VCPKG_DIRECTORY}/vcpkg install ${PKG}:${VCPKG_TARGET_TRIPLET}")
-        execute_process(
-                COMMAND ${JCEF_VCPKG_DIRECTORY}/vcpkg install ${PKG}:${VCPKG_TARGET_TRIPLET} --overlay-triplets ${CMAKE_SOURCE_DIR}/vcpkg_triplets/mac
-                WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-                RESULT_VARIABLE RESULT)
+        if ("${CMAKE_HOST_SYSTEM_NAME}" STREQUAL "Darwin")
+            execute_process(
+                    COMMAND ${JCEF_VCPKG_DIRECTORY}/vcpkg install ${PKG}:${VCPKG_TARGET_TRIPLET} --overlay-triplets ${CMAKE_SOURCE_DIR}/vcpkg_triplets/mac
+                    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+                    RESULT_VARIABLE RESULT)
+        elseif ("${CMAKE_HOST_SYSTEM_NAME}" STREQUAL "Windows")
+            execute_process(
+                    COMMAND ${JCEF_VCPKG_DIRECTORY}/vcpkg install ${PKG}:${VCPKG_TARGET_TRIPLET} --overlay-triplets ${CMAKE_SOURCE_DIR}/vcpkg_triplets/windows
+                    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+                    RESULT_VARIABLE RESULT)
+        endif ()
+
         if (RESULT)
             message(FATAL_ERROR "Failed to install ${PKG}. Result: ${RESULT}")
         endif ()

@@ -1,6 +1,7 @@
 #include "CefUtils.h"
 
 #include <thread>
+#include <boost/filesystem.hpp>
 
 // TODO(kharitonov): get gid of boost here
 #if defined(OS_MAC)
