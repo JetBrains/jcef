@@ -36,6 +36,10 @@ help) print_usage 0 ;;
 *) print_usage 1 ;;
 esac
 
+HOMEBREW_NO_AUTO_UPDATE=1 brew install bison
+brew link bison --force
+HOMEBREW_NO_AUTO_UPDATE=1 brew install pkg-config
+
 CEF_BUILD_TYPE=${CEF_BUILD_TYPE:-Release}
 export CEF_BUILD_TYPE
 
