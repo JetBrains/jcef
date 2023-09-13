@@ -86,3 +86,48 @@ function(vcpkg_install_package)
         endif ()
     endforeach ()
 endfunction()
+
+function(vcpkg_bring_host_thrift)
+    file(GLOB_RECURSE THRIFT_COMPILER_HOST
+            ${CMAKE_SOURCE_DIR}/third_party/thrift/installed/*/tools/thrift/thrift
+            ${CMAKE_SOURCE_DIR}/third_party/thrift/installed/*/tools/thrift/thrift.exe)
+    if (THRIFT_COMPILER_HOST)
+        LIST(LENGTH THRIFT_COMPILER_HOST N)
+        if (${N} EQUAL 1)
+            message("Found thrift compiler: ${THRIFT_COMPILER_HOST}")
+            set(THRIFT_COMPILER_HOST ${THRIFT_COMPILER_HOST} PARENT_SCOPE)
+            return()
+        else ()
+            message(FATAL_ERROR "Thrift compiler list is ambiguous '${THRIFT_COMPILER_HOST}'")
+        endif ()
+    endif ()
+
+    message("Run: ${JCEF_VCPKG_DIRECTORY}/vcpkg install thrift")
+    execute_process(
+            COMMAND ${JCEF_VCPKG_DIRECTORY}/vcpkg install thrift
+            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+            RESULT_VARIABLE RESULT)
+    if (RESULT)
+        message(FATAL_ERROR "Failed to install thrift. Result: ${RESULT}")
+    endif ()
+    execute_process(
+        COMMAND ${JCEF_VCPKG_DIRECTORY}/vcpkg export --raw --output=thrift --output-dir=${CMAKE_SOURCE_DIR}/third_party thrift
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        RESULT_VARIABLE RESULT)
+
+    file(GLOB_RECURSE THRIFT_COMPILER_HOST
+            ${CMAKE_SOURCE_DIR}/third_party/thrift/installed/*/tools/thrift/thrift
+            ${CMAKE_SOURCE_DIR}/third_party/thrift/installed/*/tools/thrift/thrift.exe
+    )
+
+    if (THRIFT_COMPILER_HOST)
+        LIST(LENGTH THRIFT_COMPILER_HOST N)
+        if (${N} EQUAL 1)
+            message("Found thrift compiler: ${THRIFT_COMPILER_HOST}")
+            set(THRIFT_COMPILER_HOST ${THRIFT_COMPILER_HOST} PARENT_SCOPE)
+            return()
+        else ()
+            message(FATAL_ERROR "Thrift compiler list is ambiguous '${THRIFT_COMPILER_HOST}'")
+        endif ()
+    endif ()
+endfunction()

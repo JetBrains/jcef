@@ -6,6 +6,7 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 set(Boost_NO_WARN_NEW_VERSIONS 1)
 find_package(Boost REQUIRED COMPONENTS filesystem)
 find_package(Thrift CONFIG REQUIRED)
+vcpkg_bring_host_thrift()
 
 SET_CEF_TARGET_OUT_DIR()
 
@@ -17,7 +18,7 @@ set(THRIFT_FILES
 foreach (FILE ${THRIFT_FILES})
     message(STATUS "Compile ${FILE} to C++...")
     execute_process(
-            COMMAND ${THRIFT_COMPILER} --gen cpp -r ${CMAKE_CURRENT_SOURCE_DIR}/${FILE}
+            COMMAND ${THRIFT_COMPILER_HOST} --gen cpp -r ${CMAKE_CURRENT_SOURCE_DIR}/${FILE}
             WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
             RESULT_VARIABLE thrift_result
     )
@@ -27,7 +28,7 @@ foreach (FILE ${THRIFT_FILES})
 
 #    message(STATUS "Compile ${FILE} to Java...")
 #    execute_process(
-#            COMMAND ${THRIFT_COMPILER} --gen java:generated_annotations=suppress -out ${CMAKE_SOURCE_DIR}/java ${CMAKE_CURRENT_SOURCE_DIR}/${FILE}
+#            COMMAND ${THRIFT_COMPILER_HOST} --gen java:generated_annotations=suppress -out ${CMAKE_SOURCE_DIR}/java ${CMAKE_CURRENT_SOURCE_DIR}/${FILE}
 #            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/java
 #            RESULT_VARIABLE thrift_result
 #    )
@@ -61,9 +62,7 @@ if (OS_WINDOWS)
 endif ()
 target_link_libraries(thrift_codegen thrift::thrift libcef_dll_wrapper ${CEF_STANDARD_LIBS})
 
-set(shared_mem_helper_SOURCES
-        CefServerHelper.cpp
-        )
+set(shared_mem_helper_SOURCES CefServerHelper.cpp)
 add_library(shared_mem_helper SHARED ${shared_mem_helper_SOURCES})
 target_include_directories(shared_mem_helper PUBLIC ${JNI_INCLUDE_DIRS})
 
