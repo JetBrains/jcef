@@ -1,6 +1,7 @@
 #include "CefUtils.h"
 
 #include <thread>
+#include <algorithm>
 #include <boost/filesystem.hpp>
 
 // TODO(kharitonov): get gid of boost here
@@ -54,14 +55,31 @@ namespace CefUtils {
         if (g_mainCefThread)
             return;
 
-        boost::filesystem::path framework_path = boost::filesystem::current_path().append("..").append("..").append("..").append("./Chromium Embedded Framework.framework").lexically_normal();
         g_mainCefThread = new std::thread([=]() {
             setThreadName("CefMain");
             CefMainArgs main_args;
             CefSettings cefSettings;
             fillSettings(cefSettings, RemoteAppHandler::instance().getSettings());
+#if defined(OS_MAC)
+            boost::filesystem::path framework_path = boost::filesystem::current_path().append("..").append("..").append("..").append("./Chromium Embedded Framework.framework").lexically_normal();
             CefString(&cefSettings.framework_dir_path) = framework_path.string();
+#endif
+#if defined(OS_WIN)
+          auto installation_root =
+              boost::filesystem::current_path().append("..").lexically_normal();
 
+            boost::filesystem::path resources_dir_path =
+              installation_root.append("lib");
+            boost::filesystem::path framework_dir_path =
+                installation_root.append("bin");
+
+             std::string resources_path = resources_dir_path.string();
+             std::string locales_dir_path =
+                resources_dir_path.append("locales").string();
+
+            CefString(&cefSettings.resources_dir_path).FromString(resources_path);
+            CefString(&cefSettings.locales_dir_path).FromString(locales_dir_path);
+#endif
             Log::debug("Start CefInitialize");
             CefRefPtr<CefApp> app = &RemoteAppHandler::instance();
             const bool success = CefInitialize(main_args, cefSettings, app, nullptr);

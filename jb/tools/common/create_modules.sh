@@ -82,9 +82,9 @@ case "$OS" in
   done
 
   if [[ -n "${OUT_REMOTE_DIR-}" ]]; then
-    echo "Coping $OUT_REMOTE_DIR/CefServer.exe and $OUT_REMOTE_DIR/shared_mem_helper.dll to lib"
-    cp -R "$OUT_REMOTE_DIR"/CefServer.exe lib
-    cp -R "$OUT_REMOTE_DIR"/shared_mem_helper.dll lib
+    echo "Coping $OUT_REMOTE_DIR/bin/CefServer.exe and $OUT_REMOTE_DIR/shared_mem_helper.dll to lib"
+    cp -R "$OUT_REMOTE_DIR"/bin/CefServer.exe bin
+    cp -R "$OUT_REMOTE_DIR"/shared_mem_helper.dll bin
   fi
 
   "$JAVA_HOME"/bin/jmod create --module-path . --class-path jcef.jar --cmds bin --libs lib jcef.jmod
