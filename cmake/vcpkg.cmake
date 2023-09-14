@@ -79,6 +79,11 @@ function(vcpkg_install_package)
                     COMMAND ${JCEF_VCPKG_DIRECTORY}/vcpkg install ${PKG}:${VCPKG_TARGET_TRIPLET} --overlay-triplets ${CMAKE_SOURCE_DIR}/vcpkg_triplets/windows
                     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
                     RESULT_VARIABLE RESULT)
+        elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Linux")
+            execute_process(
+                    COMMAND ${JCEF_VCPKG_DIRECTORY}/vcpkg install ${PKG}:${VCPKG_TARGET_TRIPLET}
+                    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+                    RESULT_VARIABLE RESULT)
         endif ()
 
         if (RESULT)
