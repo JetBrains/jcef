@@ -36,6 +36,7 @@ help) print_usage 0 ;;
 *) print_usage 1 ;;
 esac
 
+export BUILD_CEF_SERVER=1
 HOMEBREW_NO_AUTO_UPDATE=1 brew install bison
 brew link bison --force
 HOMEBREW_NO_AUTO_UPDATE=1 brew install pkg-config

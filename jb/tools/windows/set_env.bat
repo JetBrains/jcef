@@ -15,6 +15,7 @@ set JB_TOOLS_OS_DIR=%JB_TOOLS_DIR%\windows
 set OUT_CLS_DIR=%JCEF_ROOT_DIR%\out\win64
 set OUT_NATIVE_DIR=%JCEF_ROOT_DIR%\jcef_build\native\Release
 
+set BUILD_CEF_SERVER=1
 if "%env.BUILD_CEF_SERVER%" neq "" (
     set "BUILD_CEF_SERVER=%env.BUILD_CEF_SERVER%"
 )
