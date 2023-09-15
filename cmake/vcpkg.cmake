@@ -4,6 +4,27 @@
 function(bring_vcpkg)
     set(JCEF_VCPKG_DIRECTORY ${CMAKE_SOURCE_DIR}/third_party/vcpkg)
 
+    if (${PROJECT_ARCH} STREQUAL "arm64")
+        set(VCPKG_ARCH arm64)
+    elseif (${PROJECT_ARCH} STREQUAL "x86_64")
+        set(VCPKG_ARCH x64)
+    elseif (${PROJECT_ARCH} STREQUAL "x86")
+        set(VCPKG_ARCH x86)
+    endif ()
+
+    if ("${CMAKE_HOST_SYSTEM_NAME}" STREQUAL "Windows")
+        set(VCPKG_TARGET_TRIPLET "${VCPKG_ARCH}-windows-static-jcef")
+    elseif ("${CMAKE_HOST_SYSTEM_NAME}" STREQUAL "Linux")
+        set(VCPKG_TARGET_TRIPLET "${VCPKG_ARCH}-linux")
+        if ("${VCPKG_ARCH}" STREQUAL "arm64")
+            set(ENV{VCPKG_FORCE_SYSTEM_BINARIES} 1)
+        endif ()
+    elseif ("${CMAKE_HOST_SYSTEM_NAME}" STREQUAL "Darwin")
+        set(VCPKG_TARGET_TRIPLET "${VCPKG_ARCH}-osx-jcef")
+    else ()
+        message(FATAL_ERROR "Unknown OS: ${CMAKE_HOST_SYSTEM_NAME}")
+    endif ()
+
     find_package(Git REQUIRED)
     execute_process(
             COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive
@@ -41,24 +62,6 @@ function(bring_vcpkg)
 
     if (NOT PROJECT_ARCH)
         message(FATAL_ERROR "PROJECT_ARCH expected to be arm64, x86_64 or x86. Actual value: '${PROJECT_ARCH}'")
-    endif ()
-
-    if (${PROJECT_ARCH} STREQUAL "arm64")
-        set(VCPKG_ARCH arm64)
-    elseif (${PROJECT_ARCH} STREQUAL "x86_64")
-        set(VCPKG_ARCH x64)
-    elseif (${PROJECT_ARCH} STREQUAL "x86")
-        set(VCPKG_ARCH x86)
-    endif ()
-
-    if ("${CMAKE_HOST_SYSTEM_NAME}" STREQUAL "Windows")
-        set(VCPKG_TARGET_TRIPLET "${VCPKG_ARCH}-windows-static-jcef")
-    elseif ("${CMAKE_HOST_SYSTEM_NAME}" STREQUAL "Linux")
-        set(VCPKG_TARGET_TRIPLET "${VCPKG_ARCH}-linux")
-    elseif ("${CMAKE_HOST_SYSTEM_NAME}" STREQUAL "Darwin")
-        set(VCPKG_TARGET_TRIPLET "${VCPKG_ARCH}-osx-jcef")
-    else ()
-        message(FATAL_ERROR "Unknown OS: ${CMAKE_HOST_SYSTEM_NAME}")
     endif ()
 
     set(JCEF_VCPKG_DIRECTORY ${JCEF_VCPKG_DIRECTORY} PARENT_SCOPE)
