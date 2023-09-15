@@ -213,7 +213,7 @@ if (OS_LINUX)
     ADD_LOGICAL_TARGET("libcef_lib" "${CEF_LIB_DEBUG}" "${CEF_LIB_RELEASE}")
     COPY_FILES("${EXECUTABLE_NAME}" "${CEF_BINARY_FILES}" "${CEF_BINARY_DIR}" "${CEF_TARGET_OUT_DIR}")
     COPY_FILES(${EXECUTABLE_NAME} "${CEF_RESOURCE_FILES}" "${CEF_RESOURCE_DIR}" "${CEF_TARGET_OUT_DIR}")
-    target_link_libraries(${EXECUTABLE_NAME} libcef_lib libcef_dll_wrapper ${CEF_STANDARD_LIBS})
+    target_link_libraries(${EXECUTABLE_NAME} libcef_lib libcef_dll_wrapper rt ${CEF_STANDARD_LIBS})
     # Set rpath so that libraries can be placed next to the executable.
     set_target_properties(${EXECUTABLE_NAME} PROPERTIES INSTALL_RPATH "$ORIGIN")
     set_target_properties(${EXECUTABLE_NAME} PROPERTIES BUILD_WITH_INSTALL_RPATH TRUE)
