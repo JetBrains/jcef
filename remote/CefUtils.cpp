@@ -29,7 +29,7 @@ namespace CefUtils {
       // NOTE: can't load directly by custom libPath, getting strange errors:
       //[0314/193420.234812:ERROR:icu_util.cc(178)] icudtl.dat not found in bundle
       //[0314/193420.235447:ERROR:icu_util.cc(240)] Invalid file descriptor to ICU data received.
-      // Need to put CEF into CefServer.app/Contents/Frameworks
+      // Need to put CEF into cef_server.app/Contents/Frameworks
       // TODO: fixme
 
       boost::filesystem::path libPath =

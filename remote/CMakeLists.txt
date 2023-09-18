@@ -87,8 +87,8 @@ endif ()
 #
 # Set application
 #
-set(EXECUTABLE_NAME "CefServer")
-set(PRODUCT_NAME "CefServer")
+set(EXECUTABLE_NAME "cef_server")
+set(PRODUCT_NAME "cef_server")
 
 set(SERVER_SOURCES
         CefUtils.cpp
