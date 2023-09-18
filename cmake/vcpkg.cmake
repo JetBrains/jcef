@@ -4,6 +4,10 @@
 function(bring_vcpkg)
     set(JCEF_VCPKG_DIRECTORY ${CMAKE_SOURCE_DIR}/third_party/vcpkg)
 
+    if (NOT DEFINED PROJECT_ARCH)
+        message(FATAL_ERROR "PROJECT_ARCH is not defined. It's expected to be arm64 or x86_64")
+    endif ()
+
     if (${PROJECT_ARCH} STREQUAL "arm64")
         set(VCPKG_ARCH arm64)
     elseif (${PROJECT_ARCH} STREQUAL "x86_64")
