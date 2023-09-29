@@ -14,9 +14,6 @@ import org.cef.misc.Utils;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.concurrent.CompletableFuture;
@@ -25,7 +22,7 @@ import java.util.concurrent.CompletableFuture;
  * Exposes static methods for managing the global CEF context.
  */
 public class CefApp extends CefAppHandlerAdapter {
-    public final class CefVersion {
+    public static final class CefVersion {
         public final int JCEF_COMMIT_NUMBER;
 
         public final String JCEF_COMMIT_HASH;
@@ -41,7 +38,7 @@ public class CefApp extends CefAppHandlerAdapter {
         public final int CHROME_VERSION_PATCH;
 
         private CefVersion(int jcefCommitNo, String jcefCommitHash, int cefMajor, int cefMinor, int cefPatch,
-                int cefCommitNo, int chrMajor, int chrMin, int chrBuild, int chrPatch) {
+                           int cefCommitNo, int chrMajor, int chrMin, int chrBuild, int chrPatch) {
             JCEF_COMMIT_NUMBER = jcefCommitNo;
             JCEF_COMMIT_HASH = jcefCommitHash;
 
@@ -123,14 +120,14 @@ public class CefApp extends CefAppHandlerAdapter {
     }
 
     /**
-     * According the singleton pattern, this attribute keeps
+     * According to the singleton pattern, this attribute keeps
      * one single object of this class.
      */
     private static CefApp self = null;
     private static CefAppHandler appHandler_ = null;
     private static CefAppState state_ = CefAppState.NONE;
     private Timer workTimer_ = null;
-    private HashSet<CefClient> clients_ = new HashSet<CefClient>();
+    private final HashSet<CefClient> clients_ = new HashSet<CefClient>();
     private CefSettings settings_ = null;
 
     //
@@ -147,13 +144,11 @@ public class CefApp extends CefAppHandlerAdapter {
     /**
      * To get an instance of this class, use the method
      * getInstance() instead of this CTOR.
-     *
+     * <p>
      * The CTOR is called by getInstance() as needed and
      * loads all required JCEF libraries.
-     *
-     * @throws UnsatisfiedLinkError
      */
-    private CefApp(String[] args, CefSettings settings) throws UnsatisfiedLinkError {
+    private CefApp(String[] args, CefSettings settings) {
         super(args);
         if (settings != null) settings_ = settings.clone();
         CefLog.init(settings);
@@ -204,7 +199,7 @@ public class CefApp extends CefAppHandlerAdapter {
         futurePreinit.thenAccept(preinitRes -> {
             if (!preinitRes)
                 return;
-            new Thread(()-> initialize(), "CefInitialize-thread").start();
+            new Thread(this::initialize, "CefInitialize-thread").start();
         });
     }
 
@@ -213,6 +208,7 @@ public class CefApp extends CefAppHandlerAdapter {
     public void onInitialization(CefAppStateHandler initListener) {
         onInitialization(initListener, false);
     }
+
     public void onInitialization(CefAppStateHandler initListener, boolean first) {
         synchronized (initializationListeners_) {
             if (isInitialized_)
@@ -230,11 +226,11 @@ public class CefApp extends CefAppHandlerAdapter {
      * Assign an AppHandler to CefApp. The AppHandler can be used to evaluate
      * application arguments, to register your own schemes and to hook into the
      * shutdown sequence. See CefAppHandler for more details.
-     *
+     * <p>
      * This method must be called before CefApp is initialized. CefApp will be
      * initialized automatically if you call createClient() the first time.
-     * @param appHandler An instance of CefAppHandler.
      *
+     * @param appHandler An instance of CefAppHandler.
      * @throws IllegalStateException in case of CefApp is already initialized
      */
     public static void addAppHandler(CefAppHandler appHandler) throws IllegalStateException {
@@ -245,14 +241,14 @@ public class CefApp extends CefAppHandlerAdapter {
 
     /**
      * Get an instance of this class.
+     *
      * @return an instance of this class
-     * @throws UnsatisfiedLinkError
      */
-    public static synchronized CefApp getInstance() throws UnsatisfiedLinkError {
+    public static synchronized CefApp getInstance() {
         return getInstance(null, null);
     }
 
-    public static synchronized CefApp getInstance(String[] args) throws UnsatisfiedLinkError {
+    public static synchronized CefApp getInstance(String[] args) {
         return getInstance(args, null);
     }
 
@@ -261,8 +257,7 @@ public class CefApp extends CefAppHandlerAdapter {
         return getInstance(null, settings);
     }
 
-    public static synchronized CefApp getInstance(String[] args, CefSettings settings)
-            throws UnsatisfiedLinkError {
+    public static synchronized CefApp getInstance(String[] args, CefSettings settings) {
         if (settings != null) {
             if (getState().compareTo(CefAppState.NEW) > 0)
                 throw new IllegalStateException("Settings can only be passed to CEF"
@@ -292,20 +287,21 @@ public class CefApp extends CefAppHandlerAdapter {
         try {
             return N_GetVersion();
         } catch (UnsatisfiedLinkError ule) {
-            ule.printStackTrace();
+            CefLog.Error("Failed to get CEF version. %s", ule.getMessage());
         }
         return null;
     }
 
     /**
      * Returns the current state of CefApp.
+     *
      * @return current state.
      */
-    public final static CefAppState getState() {
+    public static CefAppState getState() {
         return state_;
     }
 
-    private static final void setState(final CefAppState state) {
+    private static void setState(final CefAppState state) {
         if (state.compareTo(state_) < 0) {
             String errMsg = "CefApp: state cannot go backward. Current state " + state_ + ". Proposed state " + state;
             CefLog.Error(errMsg);
@@ -369,6 +365,7 @@ public class CefApp extends CefAppHandlerAdapter {
      * Creates a new client instance and returns it to the caller.
      * One client instance is responsible for one to many browser
      * instances
+     *
      * @return a new client instance
      */
     public synchronized CefClient createClient() {
@@ -419,6 +416,7 @@ public class CefApp extends CefAppHandlerAdapter {
      * This method is called by a CefClient if it was disposed. This causes
      * CefApp to clean up its list of available client instances. If all clients
      * are disposed, CefApp will be shutdown.
+     *
      * @param client the disposed client.
      */
     protected final synchronized void clientWasDisposed(CefClient client) {
@@ -438,17 +436,15 @@ public class CefApp extends CefAppHandlerAdapter {
             CefLog.Debug("testSleep %s ms", ms);
             try {
                 Thread.sleep(ms);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            } catch (InterruptedException ignored) {
             }
         }
     }
 
     /**
      * Initialize the context. Can be executed in any thread.
-     * @return true on success.
      */
-    private final void initialize() {
+    private void initialize() {
         setState(CefAppState.INITIALIZING);
         testSleep(INIT_TEST_DELAY_MS);
 
@@ -476,27 +472,10 @@ public class CefApp extends CefAppHandlerAdapter {
     }
 
     /**
-     * This method is invoked by the native code (currently on Mac only) in case
-     * of a termination event (e.g. someone pressed CMD+Q).
-     */
-    protected final void handleBeforeTerminate() {
-        CefLog.Info("Cmd+Q termination request.");
-        // Execute on the AWT event dispatching thread. Always call asynchronously
-        // so the call stack has a chance to unwind.
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                CefAppHandler handler = appHandler_ == null ? CefApp.this : appHandler_;
-                if (!handler.onBeforeTerminate()) dispose();
-            }
-        });
-    }
-
-    /**
      * Shut down the context.
      */
     private void scheduleNativeShutdown() {
-        new Thread(()-> {
+        new Thread(() -> {
             // Can execute on any thread
             CefLog.Info("shutdown CEF on " + Thread.currentThread());
 
@@ -564,22 +543,28 @@ public class CefApp extends CefAppHandlerAdapter {
      * This method must be called at the beginning of the main() method to perform platform-
      * specific startup initialization. On Linux this initializes Xlib multithreading and on
      * macOS this dynamically loads the CEF framework. Can be executed in any thread.
+     *
      * @param args Command-line arguments were perviously used only to get CEF framework path in OSX. Now it's
      *             unused (CEF path is obtained dynamically during startup)
      */
-    public static final boolean startup(String[] args/*unused*/) {
-        return Startup.startLoading((pathToCef)-> {
-            return N_Startup(pathToCef);
-        });
+    public static boolean startup(String[] args/*unused*/) {
+        return Startup.startLoading(CefApp::N_Startup);
     }
 
-    private final static native boolean N_Startup(String pathToCefFramework);
-    private final native boolean N_PreInitialize();
-    private final native boolean N_Initialize(CefAppHandler appHandler, CefSettings settings, boolean checkThread);
-    private final native void N_Shutdown();
-    private final native void N_DoMessageLoopWork();
-    private final native CefVersion N_GetVersion();
-    private final native boolean N_RegisterSchemeHandlerFactory(
+    private static native boolean N_Startup(String pathToCefFramework);
+
+    private native boolean N_PreInitialize();
+
+    private native boolean N_Initialize(CefAppHandler appHandler, CefSettings settings, boolean checkThread);
+
+    private native void N_Shutdown();
+
+    private native void N_DoMessageLoopWork();
+
+    private native CefVersion N_GetVersion();
+
+    private native boolean N_RegisterSchemeHandlerFactory(
             String schemeName, String domainName, CefSchemeHandlerFactory factory);
-    private final native boolean N_ClearSchemeHandlerFactories();
+
+    private native boolean N_ClearSchemeHandlerFactories();
 }

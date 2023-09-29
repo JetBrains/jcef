@@ -5,10 +5,10 @@ import org.cef.misc.Utils;
 
 import java.io.*;
 import java.net.URL;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -43,7 +43,7 @@ class Startup {
             classLoader = CefApp.class.getClassLoader();
         InputStream input = classLoader.getResourceAsStream(resource);
         if (input == null) {
-            CefLog.Error("Can't getResourceAsStream %s from jar %s", resource, CefApp.class.getResource("CefApp.class").toString());
+            CefLog.Error("Can't getResourceAsStream %s from jar %s", resource, Objects.requireNonNull(CefApp.class.getResource("CefApp.class")).toString());
             return false;
         }
         String path = outDir + "/" + resource;
@@ -104,15 +104,7 @@ class Startup {
             } else {
                 CefLog.Info("Extract native lib into temp dir: " + tmpLibDir);
                 try {
-                    String arch = System.getProperty("os.arch");
-                    final boolean isArm = "aarch64".equals(arch) || "arm64".equals(arch);
-                    String jarPath = "undefined";
-                    if (OS.isLinux())
-                        jarPath = isArm ? "native_linux_aarch64.tar.gz" : "native_linux_x86_64.tar.gz";
-                    else if (OS.isMacintosh())
-                        jarPath = isArm ? "native_osx_aarch64.tar.gz" : "native_osx_x86_64.tar.gz";
-                    else if (OS.isWindows())
-                        jarPath = isArm ? "native_win_aarch64.tar.gz" : "native_win_x86_64.tar.gz";
+                    String jarPath = getJarFileName(System.getProperty("os.arch"));
                     boolean success = unpackFromJar(jarPath, tmpLibDir);
                     if (success) {
                         String unpackCmd = "tar -C " + tmpLibDir + " -xzf " + tmpLibDir + "/" + jarPath;
@@ -146,6 +138,18 @@ class Startup {
         return true;
     }
 
+    private static String getJarFileName(String arch) {
+        final boolean isArm = "aarch64".equals(arch) || "arm64".equals(arch);
+        String jarPath = "undefined";
+        if (OS.isLinux())
+            jarPath = isArm ? "native_linux_aarch64.tar.gz" : "native_linux_x86_64.tar.gz";
+        else if (OS.isMacintosh())
+            jarPath = isArm ? "native_osx_aarch64.tar.gz" : "native_osx_x86_64.tar.gz";
+        else if (OS.isWindows())
+            jarPath = isArm ? "native_win_aarch64.tar.gz" : "native_win_x86_64.tar.gz";
+        return jarPath;
+    }
+
     private static String getLibJcefName() {
         return OS.isLinux() ? "libjcef.so" : (OS.isMacintosh() ? "libjcef.dylib" : "jcef.dll");
     }
@@ -154,7 +158,7 @@ class Startup {
         futureStartup = new CompletableFuture<>();
 
         Runnable r = () -> {
-            testSleep(STARTUP_TEST_DELAY_MS);
+            testSleep();
             if (OS.isWindows()) {
                 // [tav] "jawt" is loaded by JDK AccessBridgeLoader that leads to UnsatisfiedLinkError
                 try {
@@ -245,7 +249,7 @@ class Startup {
 
         List<String> fixed = new ArrayList<>();
         if (args != null)
-            for (String arg: args) {
+            for (String arg : args) {
                 if (!arg.contains("--framework-dir-path=") && !arg.contains("--browser-subprocess-path=") && !arg.contains("--main-bundle-path="))
                     fixed.add(arg);
                 else
@@ -327,13 +331,12 @@ class Startup {
         }
     }
 
-    private static void testSleep(int ms) {
-        if (ms > 0) {
-            CefLog.Debug("testSleep %s ms", ms);
+    private static void testSleep() {
+        if (Startup.STARTUP_TEST_DELAY_MS > 0) {
+            CefLog.Debug("testSleep %s ms", Startup.STARTUP_TEST_DELAY_MS);
             try {
-                Thread.sleep(ms);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                Thread.sleep(Startup.STARTUP_TEST_DELAY_MS);
+            } catch (InterruptedException ignored) {
             }
         }
     }
