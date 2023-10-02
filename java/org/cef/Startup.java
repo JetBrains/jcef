@@ -9,9 +9,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.CompletableFuture;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 class Startup {
     private static final String ALT_CEF_FRAMEWORK_DIR = Utils.getString("ALT_CEF_FRAMEWORK_DIR");
@@ -20,12 +17,7 @@ class Startup {
 
     private static final int STARTUP_TEST_DELAY_MS = Utils.getInteger("jcef_app_startup_test_delay_ms", 0);
 
-    private static CompletableFuture<Boolean> futureStartup = null;
     private static String tmpLibDir = null;
-
-    static void thenAccept(Consumer<? super Boolean> action) {
-        futureStartup.thenAccept(action);
-    }
 
     private static void copyStream(InputStream input, OutputStream output) throws IOException {
         byte[] buffer = new byte[8192];
@@ -154,68 +146,47 @@ class Startup {
         return OS.isLinux() ? "libjcef.so" : (OS.isMacintosh() ? "libjcef.dylib" : "jcef.dll");
     }
 
-    static boolean startLoading(Function<String, Boolean> nativeStartup) {
-        futureStartup = new CompletableFuture<>();
-
-        Runnable r = () -> {
-            testSleep();
-            if (OS.isWindows()) {
-                // [tav] "jawt" is loaded by JDK AccessBridgeLoader that leads to UnsatisfiedLinkError
-                try {
-                    SystemBootstrap.loadLibrary("jawt");
-                } catch (UnsatisfiedLinkError e) {
-                    CefLog.Error("Can't load jawt library, error: " + e.getMessage());
-                }
-                try {
-                    loadCEF();
-                } catch (Throwable e) {
-                    CefLog.Error("Can't load CEF library, error: " + e.getMessage());
-                    futureStartup.complete(false);
-                    return;
-                }
-            }
-
+    static void loadCefLibrary() {
+        testSleep();
+        if (OS.isWindows()) {
+            // [tav] "jawt" is loaded by JDK AccessBridgeLoader that leads to UnsatisfiedLinkError
             try {
-                // At first check libjcef is in jbr.
-                boolean loaded = false;
-                try {
-                    SystemBootstrap.loadLibrary("jcef");
-                    loaded = true;
-                } catch (Throwable e) {
-                    CefLog.Info("Shared jcef library isn't bundled with runtime (error: %s). Will be used %s from jcef.jar", e.getMessage(), getLibJcefName());
-                }
-
-                if (OS.isLinux()) {
-                    try {
-                        System.loadLibrary("jawt");
-                        loadCEF();
-                    } catch (Throwable e) {
-                        CefLog.Error("Can't load libcef, error: %s", e.getMessage());
-                        futureStartup.complete(false);
-                        return;
-                    }
-                }
-
-                // Try load jcef library from alt locations.
-                if (!loaded && !loadJcefFromJar()) {
-                    futureStartup.complete(false);
-                    return;
-                }
-
-                boolean result = nativeStartup.apply(getPathToFrameworkOSX());
-                if (!result)
-                    CefLog.Error("N_Startup failed.");
-                futureStartup.complete(result);
-            } catch (Throwable e) {
-                CefLog.Error(e.getMessage());
-                futureStartup.completeExceptionally(e);
+                SystemBootstrap.loadLibrary("jawt");
+            } catch (UnsatisfiedLinkError e) {
+                CefLog.Error("Can't load jawt library, error: " + e.getMessage());
             }
-        };
-        new Thread(r, "CefStartup-thread").start();
-        return true;
+            try {
+                loadCEF();
+            } catch (Throwable e) {
+                CefLog.Error("Can't load CEF library, error: " + e.getMessage());
+                throw e;
+            }
+        }
+
+        // At first check libjcef is in jbr.
+        boolean jcefLoadedFromJBR = false;
+        try {
+            SystemBootstrap.loadLibrary("jcef");
+            jcefLoadedFromJBR = true;
+        } catch (Throwable e) {
+            CefLog.Info("Shared jcef library isn't bundled with runtime (error: %s). Will be used %s from jcef.jar", e.getMessage(), getLibJcefName());
+        }
+
+        if (OS.isLinux()) {
+            try {
+                System.loadLibrary("jawt");
+                loadCEF();
+            } catch (Throwable e) {
+                CefLog.Error("Can't load libcef, error: %s", e.getMessage());
+                return;
+            }
+        }
+
+        if (!jcefLoadedFromJBR && !loadJcefFromJar())
+            throw new RuntimeException("Failed to load jcef");
     }
 
-    static private String getPathToFrameworkOSX() {
+    static String getPathToFrameworkOSX() {
         if (!OS.isMacintosh())
             return null;
 

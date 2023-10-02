@@ -14,9 +14,12 @@ import org.cef.misc.Utils;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Exposes static methods for managing the global CEF context.
@@ -126,6 +129,7 @@ public class CefApp extends CefAppHandlerAdapter {
     private static CefApp self = null;
     private static CefAppHandler appHandler_ = null;
     private static CefAppState state_ = CefAppState.NONE;
+    private static final CompletableFuture<Void> ourStartupFeature = new CompletableFuture<>();
     private Timer workTimer_ = null;
     private final HashSet<CefClient> clients_ = new HashSet<CefClient>();
     private CefSettings settings_ = null;
@@ -150,32 +154,24 @@ public class CefApp extends CefAppHandlerAdapter {
      */
     private CefApp(String[] args, CefSettings settings) {
         super(args);
+
         if (settings != null) settings_ = settings.clone();
         CefLog.init(settings);
         setState(CefAppState.NEW);
 
-        CompletableFuture<Boolean> futurePreinit = new CompletableFuture<>();
-        Runnable nativePreInitialize = () -> {
-            testSleep(PREINIT_TEST_DELAY_MS);
+        ourStartupFeature.thenRunAsync(() -> { // Perform native pre-initialization.
+                    // This code will save global pointer to JVM instance.
+                    // Execute on the AWT event dispatching thread to store JNI context from EDT
+                    // NOTE: in practice it seems that this method can be called from any thread (at tests
+                    // execute successfully)
+                    // TODO: ensure and make all initialization steps in single bg thread.
+                    preinit(args);
+                    initialize();
+                },
+                new NamedThreadExecutor("CefInitialize-thread"));
+    }
 
-            // Perform native pre-initialization.
-            // This code will save global pointer to JVM instance.
-            // Execute on the AWT event dispatching thread to store JNI context from EDT
-            // NOTE: in practice it seems that this method can be called from any thread (at tests execute successfully)
-            // TODO: ensure and make all initialization steps in single bg thread.
-            boolean success = N_PreInitialize();
-            if (!success)
-                CefLog.Error("Failed to pre-initialize native code");
-            futurePreinit.complete(success);
-        };
-
-        Startup.thenAccept(startupRes -> {
-            if (!startupRes) {
-                futurePreinit.complete(false);
-                return;
-            }
-
-            // Update paths in args and settings
+    private void preinit(String[] args) throws RuntimeException {
             if (OS.isMacintosh()) {
                 String[] fixedPathArgs = Startup.fixOSXPathsInArgs(args);
                 CefAppHandlerAdapter apph = this;
@@ -189,18 +185,20 @@ public class CefApp extends CefAppHandlerAdapter {
             }
             Startup.setPathsInSettings(settings_);
 
-            // Start preInit
-            if (PREINIT_ON_ANY_THREAD)
-                new Thread(nativePreInitialize, "CefPreinit-thread").start();
-            else
-                SwingUtilities.invokeLater(nativePreInitialize);
-        });
-
-        futurePreinit.thenAccept(preinitRes -> {
-            if (!preinitRes)
-                return;
-            new Thread(this::initialize, "CefInitialize-thread").start();
-        });
+        // Start preInit
+        AtomicBoolean success = new AtomicBoolean(false);
+        if (PREINIT_ON_ANY_THREAD)
+            success.set(N_PreInitialize());
+        else {
+            try {
+                SwingUtilities.invokeAndWait(() -> success.set(N_PreInitialize()));
+            } catch (InterruptedException | InvocationTargetException e) {
+                throw new RuntimeException("Failed to do JCEF preinit", e);
+            }
+        }
+        if (!success.get()) {
+            throw new RuntimeException("Failed to do JCEF preinit");
+        }
     }
 
     // Notifies (in initialization thread) listener that native context has been initialized.
@@ -540,15 +538,41 @@ public class CefApp extends CefAppHandlerAdapter {
     }
 
     /**
-     * This method must be called at the beginning of the main() method to perform platform-
-     * specific startup initialization. On Linux this initializes Xlib multithreading and on
-     * macOS this dynamically loads the CEF framework. Can be executed in any thread.
+     * This method must be called at the beginning of the main() method to perform platform-specific startup
+     * initialization. On Linux this initializes Xlib multithreading and on macOS this dynamically loads the
+     * CEF framework. Can be executed in any thread.
      *
      * @param args Command-line arguments were perviously used only to get CEF framework path in OSX. Now it's
      *             unused (CEF path is obtained dynamically during startup)
      */
     public static boolean startup(String[] args/*unused*/) {
-        return Startup.startLoading(CefApp::N_Startup);
+        startupAsync();
+        return true;
+    }
+
+    public static void startupAsync() {
+        new NamedThreadExecutor("CefStartup-thread").execute(()->{
+            try {
+                Startup.loadCefLibrary();
+                CefApp.N_Startup(Startup.getPathToFrameworkOSX());
+                ourStartupFeature.complete(null);
+            } catch (Throwable e) {
+                ourStartupFeature.completeExceptionally(e);
+            }
+        });
+    }
+
+    static class NamedThreadExecutor implements Executor {
+        private final String name;
+
+        NamedThreadExecutor(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public void execute(Runnable command) {
+            new Thread(command, name).start();
+        }
     }
 
     private static native boolean N_Startup(String pathToCefFramework);
