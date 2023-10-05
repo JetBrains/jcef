@@ -4,6 +4,7 @@
 
 package org.cef.network;
 
+import org.cef.CefApp;
 import org.cef.callback.CefCompletionCallback;
 import org.cef.callback.CefCookieVisitor;
 import org.cef.callback.CefNativeAdapter;
@@ -30,6 +31,9 @@ public abstract class CefCookieManager extends CefNativeAdapter {
      * @return The global cookie manager.
      */
     public static final CefCookieManager getGlobalManager() {
+        if (CefApp.getState() != CefApp.CefAppState.INITIALIZED) {
+            throw new RuntimeException("Failed to start JCEF. Consider getting the cookie manager after the JCEF initialisation(see CefApp#onInitialization)");
+        }
         return CefCookieManager_N.getGlobalManagerNative();
     }
 
