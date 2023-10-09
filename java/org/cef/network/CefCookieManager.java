@@ -9,7 +9,7 @@ import org.cef.callback.CefCompletionCallback;
 import org.cef.callback.CefCookieVisitor;
 import org.cef.callback.CefNativeAdapter;
 
-import java.util.Vector;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Class used for managing cookies. The methods of this class may be called on any thread unless
@@ -31,10 +31,14 @@ public abstract class CefCookieManager extends CefNativeAdapter {
      * @return The global cookie manager.
      */
     public static final CefCookieManager getGlobalManager() {
-        if (CefApp.getState() != CefApp.CefAppState.INITIALIZED) {
-            throw new RuntimeException("Failed to start JCEF. Consider getting the cookie manager after the JCEF initialisation(see CefApp#onInitialization)");
-        }
-        return CefCookieManager_N.getGlobalManagerNative();
+        CookieManagerWrapper instance = new CookieManagerWrapper();
+        CefApp.getInstance().onInitialization(state -> {
+            if (state == CefApp.CefAppState.INITIALIZED) {
+                instance.setInstance(CefCookieManager_N.getGlobalManagerNative());
+            }
+        });
+
+        return instance;
     }
 
     /**
@@ -90,4 +94,70 @@ public abstract class CefCookieManager extends CefNativeAdapter {
      * @return False if cookies cannot be accessed.
      */
     public abstract boolean flushStore(CefCompletionCallback handler);
+
+    private static class CookieManagerWrapper extends CefCookieManager {
+        private final AtomicReference<CefCookieManager> myInstance = new AtomicReference<>();
+
+        public void setInstance(CefCookieManager manager) {
+            myInstance.set(manager);
+        }
+
+        @Override
+        public void dispose() {
+            CefCookieManager impl = myInstance.get();
+            if (impl != null) {
+                impl.dispose();
+            }
+        }
+
+        @Override
+        public boolean visitAllCookies(CefCookieVisitor visitor) {
+            CefCookieManager impl = myInstance.get();
+            if (impl != null) {
+                return impl.visitAllCookies(visitor);
+            }
+
+            throw new RuntimeException("JCEF is not initialed yet. Consider subscribing on JCEF initialisation(see CefApp#onInitialization)");
+        }
+
+        @Override
+        public boolean visitUrlCookies(String url, boolean includeHttpOnly, CefCookieVisitor visitor) {
+            CefCookieManager impl = myInstance.get();
+            if (impl != null) {
+                return impl.visitUrlCookies(url, includeHttpOnly, visitor);
+            }
+
+            throw new RuntimeException("JCEF is not initialed yet. Consider subscribing on JCEF initialisation(see CefApp#onInitialization)");
+        }
+
+        @Override
+        public boolean setCookie(String url, CefCookie cookie) {
+            CefCookieManager impl = myInstance.get();
+            if (impl != null) {
+                return impl.setCookie(url, cookie);
+            }
+
+            throw new RuntimeException("JCEF is not initialed yet. Consider subscribing on JCEF initialisation(see CefApp#onInitialization)");
+        }
+
+        @Override
+        public boolean deleteCookies(String url, String cookieName) {
+            CefCookieManager impl = myInstance.get();
+            if (impl != null) {
+                return impl.deleteCookies(url, cookieName);
+            }
+
+            throw new RuntimeException("JCEF is not initialed yet. Consider subscribing on JCEF initialisation(see CefApp#onInitialization)");
+        }
+
+        @Override
+        public boolean flushStore(CefCompletionCallback handler) {
+            CefCookieManager impl = myInstance.get();
+            if (impl != null) {
+                return impl.flushStore(handler);
+            }
+
+            throw new RuntimeException("JCEF is not initialed yet. Consider subscribing on JCEF initialisation(see CefApp#onInitialization)");
+        }
+    }
 }
