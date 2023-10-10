@@ -25,7 +25,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Exposes static methods for managing the global CEF context.
  */
 public class CefApp extends CefAppHandlerAdapter {
-    public static final class CefVersion {
+    public final class CefVersion {
         public final int JCEF_COMMIT_NUMBER;
 
         public final String JCEF_COMMIT_HASH;
