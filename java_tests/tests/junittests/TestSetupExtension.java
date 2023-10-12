@@ -4,18 +4,15 @@
 
 package tests.junittests;
 
-import static org.junit.jupiter.api.extension.ExtensionContext.Namespace.GLOBAL;
-
 import com.jetbrains.cef.JCefAppConfig;
 import org.cef.CefApp;
 import org.cef.CefApp.CefAppState;
 import org.cef.CefClient;
+import org.cef.CefClientImpl;
 import org.cef.CefSettings;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefFrame;
 import org.cef.handler.CefAppHandlerAdapter;
-import org.cef.handler.CefLifeSpanHandlerAdapter;
-import org.cef.handler.CefLoadHandlerAdapter;
 import org.cef.misc.CefLog;
 import org.cef.network.CefRequest;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
@@ -24,14 +21,13 @@ import tests.OsrSupport;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
+
+import static org.junit.jupiter.api.extension.ExtensionContext.Namespace.GLOBAL;
 
 // All test cases must install this extension for CEF to be properly initialized
 // and shut down.
@@ -178,11 +174,11 @@ public class TestSetupExtension
         //
         CefClient client = CefApp.getInstance().createClient();
         final long time1 = System.currentTimeMillis();
-        CefLog.Info("CefApp.getInstance().createClient() spent %d ms, created test client: %s", time1 - time0, client.getInfo());
+        CefLog.Info("CefApp.getInstance().createClient() spent %d ms, created test client: %s", time1 - time0, ((CefClientImpl)client).getInfo());
 
         // Check correct disposing
         CountDownLatch clientDispose_ = new CountDownLatch(1);
-        client.setOnDisposeCallback(()->clientDispose_.countDown());
+        ((CefClientImpl)client).setOnDisposeCallback(()->clientDispose_.countDown());
 
         // Check CefLifeSpanHandler
         long[] onAfterCreatedTime = new long[]{-1};
@@ -231,7 +227,7 @@ public class TestSetupExtension
         if (OsrSupport.isEnabled()) {
             browser = OsrSupport.createBrowser(client, "about:blank");
         } else {
-            browser = client.createBrowser("about:blank", false, false);
+            browser = ((CefClientImpl)client).createBrowser("about:blank", false, false);
         }
         CefLog.Info("Created test browser with bid=" + browser.getIdentifier());
 
@@ -272,7 +268,7 @@ public class TestSetupExtension
         browser.close(true);
         _wait(onBeforeClose_, 5, "onBeforeClose wasn't called");
         client.dispose();
-        _wait(clientDispose_, 5, "CefClient wasn't completely disposed: " + client.getInfo());
+        _wait(clientDispose_, 5, "CefClient wasn't completely disposed: " + ((CefClientImpl)client).getInfo());
 
         if (frame[0] != null)
             frame[0].dispose();

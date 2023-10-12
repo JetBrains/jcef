@@ -4,9 +4,7 @@
 
 package tests.detailed.dialog;
 
-import org.cef.network.CefPostData;
-import org.cef.network.CefPostDataElement;
-import org.cef.network.CefRequest;
+import org.cef.network.*;
 import org.cef.network.CefRequest.CefUrlRequestFlags;
 
 import java.awt.BorderLayout;

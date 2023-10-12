@@ -195,7 +195,7 @@ public class HandleJSQueryTest {
             final String jsQuery;
 
             public JSRequest(String uid) {
-                config = new org.cef.browser.CefMessageRouter.CefMessageRouterConfig();
+                config = new CefMessageRouter.CefMessageRouterConfig();
                 config.jsQueryFunction = "cef_query_" + uid;
                 config.jsCancelFunction = "cef_query_cancel_" + uid;
                 msgRouter = CefMessageRouter.create(config);

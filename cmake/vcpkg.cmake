@@ -123,13 +123,13 @@ function(vcpkg_bring_host_thrift)
         message(FATAL_ERROR "Failed to install thrift. Result: ${RESULT}")
     endif ()
     execute_process(
-        COMMAND ${JCEF_VCPKG_DIRECTORY}/vcpkg export --raw --output=thrift --output-dir=${CMAKE_SOURCE_DIR}/third_party thrift
+        COMMAND ${JCEF_VCPKG_DIRECTORY}/vcpkg export --raw --output=thrift_compiler --output-dir=${CMAKE_SOURCE_DIR}/third_party thrift
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
         RESULT_VARIABLE RESULT)
 
     file(GLOB_RECURSE THRIFT_COMPILER_HOST
-            ${CMAKE_SOURCE_DIR}/third_party/thrift/installed/*/tools/thrift/thrift
-            ${CMAKE_SOURCE_DIR}/third_party/thrift/installed/*/tools/thrift/thrift.exe
+            ${CMAKE_SOURCE_DIR}/third_party/thrift_compiler/installed/*/tools/thrift/thrift
+            ${CMAKE_SOURCE_DIR}/third_party/thrift_compiler/installed/*/tools/thrift/thrift.exe
     )
 
     if (THRIFT_COMPILER_HOST)

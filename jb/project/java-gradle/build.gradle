@@ -25,8 +25,6 @@ sourceSets.test.resources.srcDirs = ['../../../java_tests/tests/junittests/data'
 sourceSets.test.output.resourcesDir = 'build/classes/java/test/tests/junittests/data'
 
 compileJava.options.compilerArgs += [
-    '--module-path', "$projectDir/../../../third_party/jogamp/jar",
-    '--add-modules', 'jogl.all,gluegen.rt',
     '--add-exports', 'jogl.all/com.jogamp.nativewindow=jcef',
     '--add-exports', 'jogl.all/com.jogamp.opengl.awt=jcef',
     '--add-exports', 'jogl.all/com.jogamp.opengl=jcef',
@@ -64,9 +62,13 @@ test {
 dependencies {
     implementation files(
         "$projectDir/../../../third_party/jogamp/jar/jogl-all.jar",
-        "$projectDir/../../../third_party/jogamp/jar/gluegen-rt.jar")
+        "$projectDir/../../../third_party/jogamp/jar/gluegen-rt.jar",
+        "$projectDir/../../../third_party/slf4j/slf4j-api-2.0.0.jar",
+        "$projectDir/../../../third_party/thrift/libthrift-0.16.0.jar"
+    )
     testImplementation files(
         "$projectDir/../../../third_party/junit/junit-platform-console-standalone-1.10.0.jar",
         "$projectDir/../../../third_party/gson/gson-2.10.1.jar",
+        "$projectDir/../../../third_party/thrift/libthrift-0.16.0.jar",
         "$projectDir/../../../third_party/jakarta/jakarta.xml.bind-api-2.3.2.jar")
 }
