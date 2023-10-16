@@ -30,9 +30,11 @@ class Startup {
     private static boolean unpackFromJar(String resource, String outDir) throws IOException {
         CefLog.Debug("Unpack from jar, resource: %s, outDir: %s", resource, outDir);
         long startMs = System.currentTimeMillis();
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        if (classLoader == null)
-            classLoader = CefApp.class.getClassLoader();
+        ClassLoader classLoader = CefApp.class.getClassLoader();
+        if (classLoader == null) {
+            CefLog.Info("Default class loader is null. Will use thread's ContextClassLoader for unpacking from jar, resource: %s, outDir: %s", resource, outDir);
+            classLoader = Thread.currentThread().getContextClassLoader();
+        }
         InputStream input = classLoader.getResourceAsStream(resource);
         if (input == null) {
             CefLog.Error("Can't getResourceAsStream %s from jar %s", resource, Objects.requireNonNull(CefApp.class.getResource("CefApp.class")).toString());
