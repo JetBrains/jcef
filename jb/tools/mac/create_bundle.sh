@@ -42,10 +42,8 @@ rm -rf "$ARTIFACT" && mkdir "$ARTIFACT"
 mv jmods "$ARTIFACT"/
 cp -R "$RELEASE_PATH"/jcef_app.app/Contents/Frameworks "$ARTIFACT"/
 
-if [ "${BUILD_CEF_SERVER:-0}" != 0 ]; then
-  cp -R "$RELEASE_PATH"/../../remote/"$CEF_BUILD_TYPE"/libshared_mem_helper.dylib "$ARTIFACT"/Frameworks/
-  cp -R "$RELEASE_PATH"/../../remote/"$CEF_BUILD_TYPE"/cef_server.app "$ARTIFACT"/Frameworks/
-fi
+cp -R "$RELEASE_PATH"/../../remote/"$CEF_BUILD_TYPE"/libshared_mem_helper.dylib "$ARTIFACT"/Frameworks/
+cp -R "$RELEASE_PATH"/../../remote/"$CEF_BUILD_TYPE"/cef_server.app "$ARTIFACT"/Frameworks/
 
 # create jcef.version file
 bash "$JB_TOOLS_DIR"/common/create_version_file.sh $ARTIFACT

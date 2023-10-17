@@ -17,9 +17,7 @@ x86_64) export DEPS_ARCH="amd64" ;;
 *) echo "Incorrect TARGET_ARCH: $TARGET_ARCH" && exit 1 ;;
 esac
 
-if [ "${BUILD_CEF_SERVER:-0}" != 0 ]; then
-  export OUT_REMOTE_DIR="$JCEF_ROOT_DIR"/jcef_build/remote/Release
-fi
+export OUT_REMOTE_DIR="$JCEF_ROOT_DIR"/jcef_build/remote/Release
 
 if [ -z "${JAVA_HOME:-}" ]; then
   echo "error: JAVA_HOME is not set"

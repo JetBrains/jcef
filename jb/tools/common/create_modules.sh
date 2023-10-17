@@ -102,10 +102,8 @@ case "$OS" in
 "linux")
   mkdir lib
   cp -R "$OUT_NATIVE_DIR"/* lib
-  if [ "${BUILD_CEF_SERVER:-0}" != 0 ]; then
-    cp -R "$OUT_REMOTE_DIR"/libshared_mem_helper.so lib
-    cp -R "$OUT_REMOTE_DIR"/cef_server lib
-  fi
+  cp -R "$OUT_REMOTE_DIR"/libshared_mem_helper.so lib
+  cp -R "$OUT_REMOTE_DIR"/cef_server lib
 
   echo "*** find patched libcef.so..."
   if [ -z "${PATCHED_LIBCEF_DIR:-}" ]; then
@@ -123,9 +121,7 @@ case "$OS" in
   find lib -name "*.so" | xargs strip -x
   strip -x lib/chrome-sandbox
   strip -x lib/jcef_helper
-  if [ "${BUILD_CEF_SERVER:-0}" != 0 ]; then
-    strip -x lib/cef_server
-  fi
+  strip -x lib/cef_server
 
   "$JAVA_HOME"/bin/jmod create --module-path . --class-path jcef.jar --libs lib jcef.jmod
   rm -rf jcef.jar lib
