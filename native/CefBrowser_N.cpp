@@ -13,9 +13,9 @@
 #include "client_handler.h"
 #include "critical_wait.h"
 #include "jni_util.h"
+#include "keyboard_utils.h"
 #include "life_span_handler.h"
 #include "pdf_print_callback.h"
-#include "render_handler.h"
 #include "run_file_dialog_callback.h"
 #include "string_visitor.h"
 #include "temp_window.h"
@@ -29,7 +29,6 @@
 #endif
 
 #if defined(OS_MAC)
-#include <Carbon/Carbon.h>
 #include "util_mac.h"
 #endif
 
@@ -730,169 +729,6 @@ int GetControlCharacter(KeyboardCode windows_key_code, bool shift) {
 }
 
 #endif  // defined(OS_LINUX)
-
-#if defined(OS_MAC)
-
-// Convert an ANSI character to a Mac key code.
-int GetMacKeyCodeFromChar(int key_char) {
-  switch (key_char) {
-    case ' ':
-      return kVK_Space;
-    case '\n':
-      return kVK_Return;
-
-    case kEscapeCharCode:
-      return kVK_Escape;
-
-    case '0':
-    case ')':
-      return kVK_ANSI_0;
-    case '1':
-    case '!':
-      return kVK_ANSI_1;
-    case '2':
-    case '@':
-      return kVK_ANSI_2;
-    case '3':
-    case '#':
-      return kVK_ANSI_3;
-    case '4':
-    case '$':
-      return kVK_ANSI_4;
-    case '5':
-    case '%':
-      return kVK_ANSI_5;
-    case '6':
-    case '^':
-      return kVK_ANSI_6;
-    case '7':
-    case '&':
-      return kVK_ANSI_7;
-    case '8':
-    case '*':
-      return kVK_ANSI_8;
-    case '9':
-    case '(':
-      return kVK_ANSI_9;
-
-    case 'a':
-    case 'A':
-      return kVK_ANSI_A;
-    case 'b':
-    case 'B':
-      return kVK_ANSI_B;
-    case 'c':
-    case 'C':
-      return kVK_ANSI_C;
-    case 'd':
-    case 'D':
-      return kVK_ANSI_D;
-    case 'e':
-    case 'E':
-      return kVK_ANSI_E;
-    case 'f':
-    case 'F':
-      return kVK_ANSI_F;
-    case 'g':
-    case 'G':
-      return kVK_ANSI_G;
-    case 'h':
-    case 'H':
-      return kVK_ANSI_H;
-    case 'i':
-    case 'I':
-      return kVK_ANSI_I;
-    case 'j':
-    case 'J':
-      return kVK_ANSI_J;
-    case 'k':
-    case 'K':
-      return kVK_ANSI_K;
-    case 'l':
-    case 'L':
-      return kVK_ANSI_L;
-    case 'm':
-    case 'M':
-      return kVK_ANSI_M;
-    case 'n':
-    case 'N':
-      return kVK_ANSI_N;
-    case 'o':
-    case 'O':
-      return kVK_ANSI_O;
-    case 'p':
-    case 'P':
-      return kVK_ANSI_P;
-    case 'q':
-    case 'Q':
-      return kVK_ANSI_Q;
-    case 'r':
-    case 'R':
-      return kVK_ANSI_R;
-    case 's':
-    case 'S':
-      return kVK_ANSI_S;
-    case 't':
-    case 'T':
-      return kVK_ANSI_T;
-    case 'u':
-    case 'U':
-      return kVK_ANSI_U;
-    case 'v':
-    case 'V':
-      return kVK_ANSI_V;
-    case 'w':
-    case 'W':
-      return kVK_ANSI_W;
-    case 'x':
-    case 'X':
-      return kVK_ANSI_X;
-    case 'y':
-    case 'Y':
-      return kVK_ANSI_Y;
-    case 'z':
-    case 'Z':
-      return kVK_ANSI_Z;
-
-    // U.S. Specific mappings.  Mileage may vary.
-    case ';':
-    case ':':
-      return kVK_ANSI_Semicolon;
-    case '=':
-    case '+':
-      return kVK_ANSI_Equal;
-    case ',':
-    case '<':
-      return kVK_ANSI_Comma;
-    case '-':
-    case '_':
-      return kVK_ANSI_Minus;
-    case '.':
-    case '>':
-      return kVK_ANSI_Period;
-    case '/':
-    case '?':
-      return kVK_ANSI_Slash;
-    case '`':
-    case '~':
-      return kVK_ANSI_Grave;
-    case '[':
-    case '{':
-      return kVK_ANSI_LeftBracket;
-    case '\\':
-    case '|':
-      return kVK_ANSI_Backslash;
-    case ']':
-    case '}':
-      return kVK_ANSI_RightBracket;
-    case '\'':
-    case '"':
-      return kVK_ANSI_Quote;
-  }
-
-  return -1;
-}
-#endif  // defined(OS_MAC)
 
 struct JNIObjectsForCreate {
  public:
@@ -1658,287 +1494,315 @@ Java_org_cef_browser_CefBrowser_1N_N_1SendKeyEvent(JNIEnv* env,
                                                    jobject obj,
                                                    jobject key_event) {
   CefRefPtr<CefBrowser> browser = JNI_GET_BROWSER_OR_RETURN(env, obj);
-  ScopedJNIClass cls(env, env->GetObjectClass(key_event));
-  if (!cls)
-    return;
-
-  JNI_STATIC_DEFINE_INT(env, cls, KEY_PRESSED);
-  JNI_STATIC_DEFINE_INT(env, cls, KEY_RELEASED);
-  JNI_STATIC_DEFINE_INT(env, cls, KEY_TYPED);
-
-  int event_type, modifiers;
-  char16 key_char;
-  if (!CallJNIMethodI_V(env, cls, key_event, "getID", &event_type) ||
-      !CallJNIMethodC_V(env, cls, key_event, "getKeyChar", &key_char) ||
-      !CallJNIMethodI_V(env, cls, key_event, "getModifiersEx", &modifiers)) {
+#ifdef OS_MAC
+  using namespace jcef_keyboard_utils;
+  CefKeyEventAttributes eventAttributes{};
+  if (!javaKeyEventToCef(env, key_event, &eventAttributes)) {
+    LOG(ERROR) << "CefBrowser#SendKeyEvent: failed to convert the key event";
     return;
   }
-
-  CefKeyEvent cef_event;
-  cef_event.modifiers = GetCefModifiers(env, cls, modifiers);
-
-#if defined(OS_WIN)
-
-  jlong scanCode = 0;
-  GetJNIFieldLong(env, cls, key_event, "scancode", &scanCode);
-  cef_event.native_key_code = (scanCode << 16) |  // key scan code
-                              1;                  // key repeat count
-
-  jlong rawCode = 0;
-  if (!GetJNIFieldLong(env, cls, key_event, "rawCode", &rawCode)) {
-    return;
+  CefKeyEvent cef_key_event{};
+  switch (eventAttributes.type) {
+    case CefKeyEventType::KEYDOWN:
+      cef_key_event.type = KEYEVENT_RAWKEYDOWN;
+      break;
+    case CefKeyEventType::KEYUP:
+      cef_key_event.type = KEYEVENT_KEYUP;
+      break;
+    case CefKeyEventType::CHAR:
+      cef_key_event.type = KEYEVENT_CHAR;
+      break;
   }
-
-#elif defined(OS_LINUX) || defined(OS_MAC)
-  int key_code;
-  if (!CallJNIMethodI_V(env, cls, key_event, "getKeyCode", &key_code)) {
-    return;
-  }
-
-  int key_location;
-  if (!CallJNIMethodI_V(env, cls, key_event, "getKeyLocation", &key_location)) {
-    return;
-  }
-
-  JNI_STATIC_DEFINE_INT(env, cls, VK_BACK_SPACE);
-  JNI_STATIC_DEFINE_INT(env, cls, VK_DELETE);
-  JNI_STATIC_DEFINE_INT(env, cls, VK_CLEAR);
-  JNI_STATIC_DEFINE_INT(env, cls, VK_DOWN);
-  JNI_STATIC_DEFINE_INT(env, cls, VK_ENTER);
-  JNI_STATIC_DEFINE_INT(env, cls, VK_ESCAPE);
-  JNI_STATIC_DEFINE_INT(env, cls, VK_LEFT);
-  JNI_STATIC_DEFINE_INT(env, cls, VK_RIGHT);
-  JNI_STATIC_DEFINE_INT(env, cls, VK_TAB);
-  JNI_STATIC_DEFINE_INT(env, cls, VK_UP);
-  JNI_STATIC_DEFINE_INT(env, cls, VK_PAGE_UP);
-  JNI_STATIC_DEFINE_INT(env, cls, VK_PAGE_DOWN);
-  JNI_STATIC_DEFINE_INT(env, cls, VK_HOME);
-  JNI_STATIC_DEFINE_INT(env, cls, VK_END);
-
-  JNI_STATIC_DEFINE_INT(env, cls, VK_F1);
-  JNI_STATIC_DEFINE_INT(env, cls, VK_F2);
-  JNI_STATIC_DEFINE_INT(env, cls, VK_F3);
-  JNI_STATIC_DEFINE_INT(env, cls, VK_F4);
-  JNI_STATIC_DEFINE_INT(env, cls, VK_F5);
-  JNI_STATIC_DEFINE_INT(env, cls, VK_F6);
-  JNI_STATIC_DEFINE_INT(env, cls, VK_F7);
-  JNI_STATIC_DEFINE_INT(env, cls, VK_F8);
-  JNI_STATIC_DEFINE_INT(env, cls, VK_F9);
-  JNI_STATIC_DEFINE_INT(env, cls, VK_F10);
-  JNI_STATIC_DEFINE_INT(env, cls, VK_F11);
-  JNI_STATIC_DEFINE_INT(env, cls, VK_F12);
-  JNI_STATIC_DEFINE_INT(env, cls, VK_F13);
-  JNI_STATIC_DEFINE_INT(env, cls, VK_F14);
-  JNI_STATIC_DEFINE_INT(env, cls, VK_F15);
-  JNI_STATIC_DEFINE_INT(env, cls, VK_F16);
-  JNI_STATIC_DEFINE_INT(env, cls, VK_F17);
-  JNI_STATIC_DEFINE_INT(env, cls, VK_F18);
-  JNI_STATIC_DEFINE_INT(env, cls, VK_F19);
-
-  JNI_STATIC_DEFINE_INT(env, cls, VK_META);
-  JNI_STATIC_DEFINE_INT(env, cls, VK_SHIFT);
-  JNI_STATIC_DEFINE_INT(env, cls, VK_CONTROL);
-  JNI_STATIC_DEFINE_INT(env, cls, VK_ALT);
-
-  JNI_STATIC_DEFINE_INT(env, cls, KEY_LOCATION_LEFT);
-  JNI_STATIC_DEFINE_INT(env, cls, KEY_LOCATION_RIGHT);
-
-#if defined(OS_LINUX)
-  cef_event.native_key_code = JavaKeyCode2X11(env, &cls, key_code);
-
-  KeyboardCode windows_key_code =
-      KeyboardCodeFromXKeysym(cef_event.native_key_code);
-  cef_event.windows_key_code =
-      GetWindowsKeyCodeWithoutLocation(windows_key_code);
-
-  if (cef_event.modifiers & EVENTFLAG_ALT_DOWN)
-    cef_event.is_system_key = true;
-
-  if (windows_key_code == VKEY_RETURN) {
-    // We need to treat the enter key as a key press of character \r.  This
-    // is apparently just how webkit handles it and what it expects.
-    cef_event.unmodified_character = '\r';
-  } else {
-    cef_event.unmodified_character = key_char != '\n' ? key_char : '\r';
-  }
-
-  // If ctrl key is pressed down, then control character shall be input.
-  if (cef_event.modifiers & EVENTFLAG_CONTROL_DOWN) {
-    cef_event.character = GetControlCharacter(
-        windows_key_code, cef_event.modifiers & EVENTFLAG_SHIFT_DOWN);
-  } else {
-    cef_event.character = cef_event.unmodified_character;
-  }
-#elif defined(OS_MAC)
-  if (key_code == JNI_STATIC(VK_BACK_SPACE)) {
-    cef_event.native_key_code = kVK_Delete;
-    cef_event.unmodified_character = kBackspaceCharCode;
-  } else if (key_code == JNI_STATIC(VK_DELETE)) {
-    cef_event.native_key_code = kVK_ForwardDelete;
-    cef_event.unmodified_character = kDeleteCharCode;
-  } else if (key_code == JNI_STATIC(VK_CLEAR)) {
-    cef_event.native_key_code = kVK_ANSI_KeypadClear;
-    cef_event.unmodified_character = /* NSClearLineFunctionKey */ 0xF739;
-  } else if (key_code == JNI_STATIC(VK_DOWN)) {
-    cef_event.native_key_code = kVK_DownArrow;
-    cef_event.unmodified_character = /* NSDownArrowFunctionKey */ 0xF701;
-  } else if (key_code == JNI_STATIC(VK_ENTER)) {
-    cef_event.native_key_code = kVK_Return;
-    cef_event.unmodified_character = kReturnCharCode;
-  } else if (key_code == JNI_STATIC(VK_ESCAPE)) {
-    cef_event.native_key_code = kVK_Escape;
-    cef_event.unmodified_character = kEscapeCharCode;
-  } else if (key_code == JNI_STATIC(VK_LEFT)) {
-    cef_event.native_key_code = kVK_LeftArrow;
-    cef_event.unmodified_character = /* NSLeftArrowFunctionKey */ 0xF702;
-  } else if (key_code == JNI_STATIC(VK_RIGHT)) {
-    cef_event.native_key_code = kVK_RightArrow;
-    cef_event.unmodified_character = /* NSRightArrowFunctionKey */ 0xF703;
-  } else if (key_code == JNI_STATIC(VK_TAB)) {
-    cef_event.native_key_code = kVK_Tab;
-    cef_event.unmodified_character = kTabCharCode;
-  } else if (key_code == JNI_STATIC(VK_UP)) {
-    cef_event.native_key_code = kVK_UpArrow;
-    cef_event.unmodified_character = /* NSUpArrowFunctionKey */ 0xF700;
-  } else if (key_code == JNI_STATIC(VK_PAGE_UP)) {
-    cef_event.native_key_code = kVK_PageUp;
-    cef_event.unmodified_character = kPageUpCharCode;
-  } else if (key_code == JNI_STATIC(VK_PAGE_DOWN)) {
-    cef_event.native_key_code = kVK_PageDown;
-    cef_event.unmodified_character = kPageDownCharCode;
-  } else if (key_code == JNI_STATIC(VK_HOME)) {
-    cef_event.native_key_code = kVK_Home;
-    cef_event.unmodified_character = kHomeCharCode;
-  } else if (key_code == JNI_STATIC(VK_END)) {
-    cef_event.native_key_code = kVK_End;
-    cef_event.unmodified_character = kEndCharCode;
-  } else if (key_code == JNI_STATIC(VK_F1)) {
-    cef_event.native_key_code = kVK_F1;
-    cef_event.unmodified_character = 63236;
-  } else if (key_code == JNI_STATIC(VK_F2)) {
-    cef_event.native_key_code = kVK_F2;
-    cef_event.unmodified_character = 63237;
-  } else if (key_code == JNI_STATIC(VK_F3)) {
-    cef_event.native_key_code = kVK_F3;
-    cef_event.unmodified_character = 63238;
-  } else if (key_code == JNI_STATIC(VK_F4)) {
-    cef_event.native_key_code = kVK_F4;
-    cef_event.unmodified_character = 63239;
-  } else if (key_code == JNI_STATIC(VK_F5)) {
-    cef_event.native_key_code = kVK_F5;
-    cef_event.unmodified_character = 63240;
-  } else if (key_code == JNI_STATIC(VK_F6)) {
-    cef_event.native_key_code = kVK_F6;
-    cef_event.unmodified_character = 63241;
-  } else if (key_code == JNI_STATIC(VK_F7)) {
-    cef_event.native_key_code = kVK_F7;
-    cef_event.unmodified_character = 63242;
-  } else if (key_code == JNI_STATIC(VK_F8)) {
-    cef_event.native_key_code = kVK_F8;
-    cef_event.unmodified_character = 63243;
-  } else if (key_code == JNI_STATIC(VK_F9)) {
-    cef_event.native_key_code = kVK_F9;
-    cef_event.unmodified_character = 63244;
-  } else if (key_code == JNI_STATIC(VK_F10)) {
-    cef_event.native_key_code = kVK_F10;
-    cef_event.unmodified_character = 63245;
-  } else if (key_code == JNI_STATIC(VK_F11)) {
-    cef_event.native_key_code = kVK_F11;
-    cef_event.unmodified_character = 63246;
-  } else if (key_code == JNI_STATIC(VK_F12)) {
-    cef_event.native_key_code = kVK_F12;
-    cef_event.unmodified_character = 63247;
-  } else if (key_code == JNI_STATIC(VK_F13)) {
-    cef_event.native_key_code = kVK_F13;
-    cef_event.unmodified_character = 63248;
-  } else if (key_code == JNI_STATIC(VK_F14)) {
-    cef_event.native_key_code = kVK_F14;
-    cef_event.unmodified_character = 63249;
-  } else if (key_code == JNI_STATIC(VK_F15)) {
-    cef_event.native_key_code = kVK_F15;
-    cef_event.unmodified_character = 63250;
-  } else if (key_code == JNI_STATIC(VK_F16)) {
-    cef_event.native_key_code = kVK_F16;
-    cef_event.unmodified_character = 63251;
-  } else if (key_code == JNI_STATIC(VK_F17)) {
-    cef_event.native_key_code = kVK_F17;
-    cef_event.unmodified_character = 63252;
-  } else if (key_code == JNI_STATIC(VK_F18)) {
-    cef_event.native_key_code = kVK_F18;
-    cef_event.unmodified_character = 63253;
-  } else if (key_code == JNI_STATIC(VK_F19)) {
-    cef_event.native_key_code = kVK_F19;
-    cef_event.unmodified_character = 63254;
-  } else if (key_code == JNI_STATIC(VK_META)) {
-    cef_event.native_key_code = key_location == JNI_STATIC(KEY_LOCATION_RIGHT)
-                                    ? kVK_RightCommand
-                                    : kVK_Command;
-    cef_event.unmodified_character = 0;
-  } else if (key_code == JNI_STATIC(VK_CONTROL)) {
-    cef_event.native_key_code = key_location == JNI_STATIC(KEY_LOCATION_RIGHT)
-                                ? kVK_RightControl
-                                : kVK_Control;
-    cef_event.unmodified_character = 0;
-  } else if (key_code == JNI_STATIC(VK_SHIFT)) {
-    cef_event.native_key_code = key_location == JNI_STATIC(KEY_LOCATION_RIGHT)
-                                ? kVK_RightShift
-                                : kVK_Shift;
-    cef_event.unmodified_character = 0;
-  } else if (key_code == JNI_STATIC(VK_ALT)) {
-    cef_event.native_key_code = key_location == JNI_STATIC(KEY_LOCATION_RIGHT)
-                                ? kVK_RightOption
-                                : kVK_Option;
-    cef_event.unmodified_character = 0;
-  } else {
-    cef_event.native_key_code = GetMacKeyCodeFromChar(key_char);
-    if (cef_event.native_key_code == -1)
-      cef_event.native_key_code = 0;
-
-    if (cef_event.native_key_code == kVK_Return) {
-      cef_event.unmodified_character = kReturnCharCode;
-    } else {
-      cef_event.unmodified_character = key_char;
-    }
-  }
-
-  cef_event.character = cef_event.unmodified_character;
-
-  // Control characters.
-  if (cef_event.modifiers & EVENTFLAG_CONTROL_DOWN) {
-    if (key_char >= 'A' && key_char <= 'Z')
-      cef_event.character = 1 + key_char - 'A';
-    else if (cef_event.native_key_code == kVK_ANSI_LeftBracket)
-      cef_event.character = 27;
-    else if (cef_event.native_key_code == kVK_ANSI_Backslash)
-      cef_event.character = 28;
-    else if (cef_event.native_key_code == kVK_ANSI_RightBracket)
-      cef_event.character = 29;
-  }
-#endif  // defined(OS_MAC)
-#endif  // defined(OS_LINUX) || defined(OS_MAC)
-
-  if (event_type == JNI_STATIC(KEY_PRESSED)) {
-#if defined(OS_WIN)
-    cef_event.windows_key_code = static_cast<int>(rawCode);
+  cef_key_event.modifiers = eventAttributes.modifiers;
+  cef_key_event.character = eventAttributes.character;
+  cef_key_event.unmodified_character = eventAttributes.unmodified_character;
+  cef_key_event.native_key_code = eventAttributes.native_key_code;
+  cef_key_event.windows_key_code = eventAttributes.windows_key_code;
+  cef_key_event.is_system_key = eventAttributes.is_system_key;
+  browser->GetHost()->SendKeyEvent(cef_key_event);
 #endif
-    cef_event.type = KEYEVENT_RAWKEYDOWN;
-  } else if (event_type == JNI_STATIC(KEY_RELEASED)) {
-#if defined(OS_WIN)
-    cef_event.windows_key_code =  static_cast<int>(rawCode);
-    // bits 30 and 31 should always be 1 for WM_KEYUP
-    cef_event.native_key_code |= 0xC0000000;
-#endif
-    cef_event.type = KEYEVENT_KEYUP;
-  } else if (event_type == JNI_STATIC(KEY_TYPED)) {
-#if defined(OS_WIN)
-    cef_event.windows_key_code = key_char == '\n' ? '\r' : key_char;
-#endif
-    cef_event.type = KEYEVENT_CHAR;
-  } else {
-    return;
-  }
 
-  browser->GetHost()->SendKeyEvent(cef_event);
+//  ScopedJNIClass cls(env, env->GetObjectClass(key_event));
+//  if (!cls)
+//    return;
+//
+//  JNI_STATIC_DEFINE_INT(env, cls, KEY_PRESSED);
+//  JNI_STATIC_DEFINE_INT(env, cls, KEY_RELEASED);
+//  JNI_STATIC_DEFINE_INT(env, cls, KEY_TYPED);
+//
+//  int event_type, modifiers;
+//  char16 key_char;
+//  if (!CallJNIMethodI_V(env, cls, key_event, "getID", &event_type) ||
+//      !CallJNIMethodC_V(env, cls, key_event, "getKeyChar", &key_char) ||
+//      !CallJNIMethodI_V(env, cls, key_event, "getModifiersEx", &modifiers)) {
+//    return;
+//  }
+//
+//  CefKeyEvent cef_event;
+//  cef_event.modifiers = GetCefModifiers(env, cls, modifiers);
+//
+//#if defined(OS_WIN)
+//
+//  jlong scanCode = 0;
+//  GetJNIFieldLong(env, cls, key_event, "scancode", &scanCode);
+//  cef_event.native_key_code = (scanCode << 16) |  // key scan code
+//                              1;                  // key repeat count
+//
+//  jlong rawCode = 0;
+//  if (!GetJNIFieldLong(env, cls, key_event, "rawCode", &rawCode)) {
+//    return;
+//  }
+//
+//#elif defined(OS_LINUX) || defined(OS_MAC)
+//  int key_code;
+//  if (!CallJNIMethodI_V(env, cls, key_event, "getKeyCode", &key_code)) {
+//    return;
+//  }
+//
+//  int key_location;
+//  if (!CallJNIMethodI_V(env, cls, key_event, "getKeyLocation", &key_location)) {
+//    return;
+//  }
+//
+//  JNI_STATIC_DEFINE_INT(env, cls, VK_BACK_SPACE);
+//  JNI_STATIC_DEFINE_INT(env, cls, VK_DELETE);
+//  JNI_STATIC_DEFINE_INT(env, cls, VK_CLEAR);
+//  JNI_STATIC_DEFINE_INT(env, cls, VK_DOWN);
+//  JNI_STATIC_DEFINE_INT(env, cls, VK_ENTER);
+//  JNI_STATIC_DEFINE_INT(env, cls, VK_ESCAPE);
+//  JNI_STATIC_DEFINE_INT(env, cls, VK_LEFT);
+//  JNI_STATIC_DEFINE_INT(env, cls, VK_RIGHT);
+//  JNI_STATIC_DEFINE_INT(env, cls, VK_TAB);
+//  JNI_STATIC_DEFINE_INT(env, cls, VK_UP);
+//  JNI_STATIC_DEFINE_INT(env, cls, VK_PAGE_UP);
+//  JNI_STATIC_DEFINE_INT(env, cls, VK_PAGE_DOWN);
+//  JNI_STATIC_DEFINE_INT(env, cls, VK_HOME);
+//  JNI_STATIC_DEFINE_INT(env, cls, VK_END);
+//
+//  JNI_STATIC_DEFINE_INT(env, cls, VK_F1);
+//  JNI_STATIC_DEFINE_INT(env, cls, VK_F2);
+//  JNI_STATIC_DEFINE_INT(env, cls, VK_F3);
+//  JNI_STATIC_DEFINE_INT(env, cls, VK_F4);
+//  JNI_STATIC_DEFINE_INT(env, cls, VK_F5);
+//  JNI_STATIC_DEFINE_INT(env, cls, VK_F6);
+//  JNI_STATIC_DEFINE_INT(env, cls, VK_F7);
+//  JNI_STATIC_DEFINE_INT(env, cls, VK_F8);
+//  JNI_STATIC_DEFINE_INT(env, cls, VK_F9);
+//  JNI_STATIC_DEFINE_INT(env, cls, VK_F10);
+//  JNI_STATIC_DEFINE_INT(env, cls, VK_F11);
+//  JNI_STATIC_DEFINE_INT(env, cls, VK_F12);
+//  JNI_STATIC_DEFINE_INT(env, cls, VK_F13);
+//  JNI_STATIC_DEFINE_INT(env, cls, VK_F14);
+//  JNI_STATIC_DEFINE_INT(env, cls, VK_F15);
+//  JNI_STATIC_DEFINE_INT(env, cls, VK_F16);
+//  JNI_STATIC_DEFINE_INT(env, cls, VK_F17);
+//  JNI_STATIC_DEFINE_INT(env, cls, VK_F18);
+//  JNI_STATIC_DEFINE_INT(env, cls, VK_F19);
+//
+//  JNI_STATIC_DEFINE_INT(env, cls, VK_META);
+//  JNI_STATIC_DEFINE_INT(env, cls, VK_SHIFT);
+//  JNI_STATIC_DEFINE_INT(env, cls, VK_CONTROL);
+//  JNI_STATIC_DEFINE_INT(env, cls, VK_ALT);
+//
+//  JNI_STATIC_DEFINE_INT(env, cls, KEY_LOCATION_LEFT);
+//  JNI_STATIC_DEFINE_INT(env, cls, KEY_LOCATION_RIGHT);
+//
+//#if defined(OS_LINUX)
+//  cef_event.native_key_code = JavaKeyCode2X11(env, &cls, key_code);
+//
+//  KeyboardCode windows_key_code =
+//      KeyboardCodeFromXKeysym(cef_event.native_key_code);
+//  cef_event.windows_key_code =
+//      GetWindowsKeyCodeWithoutLocation(windows_key_code);
+//
+//  if (cef_event.modifiers & EVENTFLAG_ALT_DOWN)
+//    cef_event.is_system_key = true;
+//
+//  if (windows_key_code == VKEY_RETURN) {
+//    // We need to treat the enter key as a key press of character \r.  This
+//    // is apparently just how webkit handles it and what it expects.
+//    cef_event.unmodified_character = '\r';
+//  } else {
+//    cef_event.unmodified_character = key_char != '\n' ? key_char : '\r';
+//  }
+//
+//  // If ctrl key is pressed down, then control character shall be input.
+//  if (cef_event.modifiers & EVENTFLAG_CONTROL_DOWN) {
+//    cef_event.character = GetControlCharacter(
+//        windows_key_code, cef_event.modifiers & EVENTFLAG_SHIFT_DOWN);
+//  } else {
+//    cef_event.character = cef_event.unmodified_character;
+//  }
+//#elif defined(OS_MAC)
+//  if (key_code == JNI_STATIC(VK_BACK_SPACE)) {
+//    cef_event.native_key_code = kVK_Delete;
+//    cef_event.unmodified_character = kBackspaceCharCode;
+//  } else if (key_code == JNI_STATIC(VK_DELETE)) {
+//    cef_event.native_key_code = kVK_ForwardDelete;
+//    cef_event.unmodified_character = kDeleteCharCode;
+//  } else if (key_code == JNI_STATIC(VK_CLEAR)) {
+//    cef_event.native_key_code = kVK_ANSI_KeypadClear;
+//    cef_event.unmodified_character = /* NSClearLineFunctionKey */ 0xF739;
+//  } else if (key_code == JNI_STATIC(VK_DOWN)) {
+//    cef_event.native_key_code = kVK_DownArrow;
+//    cef_event.unmodified_character = /* NSDownArrowFunctionKey */ 0xF701;
+//  } else if (key_code == JNI_STATIC(VK_ENTER)) {
+//    cef_event.native_key_code = kVK_Return;
+//    cef_event.unmodified_character = kReturnCharCode;
+//  } else if (key_code == JNI_STATIC(VK_ESCAPE)) {
+//    cef_event.native_key_code = kVK_Escape;
+//    cef_event.unmodified_character = kEscapeCharCode;
+//  } else if (key_code == JNI_STATIC(VK_LEFT)) {
+//    cef_event.native_key_code = kVK_LeftArrow;
+//    cef_event.unmodified_character = /* NSLeftArrowFunctionKey */ 0xF702;
+//  } else if (key_code == JNI_STATIC(VK_RIGHT)) {
+//    cef_event.native_key_code = kVK_RightArrow;
+//    cef_event.unmodified_character = /* NSRightArrowFunctionKey */ 0xF703;
+//  } else if (key_code == JNI_STATIC(VK_TAB)) {
+//    cef_event.native_key_code = kVK_Tab;
+//    cef_event.unmodified_character = kTabCharCode;
+//  } else if (key_code == JNI_STATIC(VK_UP)) {
+//    cef_event.native_key_code = kVK_UpArrow;
+//    cef_event.unmodified_character = /* NSUpArrowFunctionKey */ 0xF700;
+//  } else if (key_code == JNI_STATIC(VK_PAGE_UP)) {
+//    cef_event.native_key_code = kVK_PageUp;
+//    cef_event.unmodified_character = kPageUpCharCode;
+//  } else if (key_code == JNI_STATIC(VK_PAGE_DOWN)) {
+//    cef_event.native_key_code = kVK_PageDown;
+//    cef_event.unmodified_character = kPageDownCharCode;
+//  } else if (key_code == JNI_STATIC(VK_HOME)) {
+//    cef_event.native_key_code = kVK_Home;
+//    cef_event.unmodified_character = kHomeCharCode;
+//  } else if (key_code == JNI_STATIC(VK_END)) {
+//    cef_event.native_key_code = kVK_End;
+//    cef_event.unmodified_character = kEndCharCode;
+//  } else if (key_code == JNI_STATIC(VK_F1)) {
+//    cef_event.native_key_code = kVK_F1;
+//    cef_event.unmodified_character = 63236;
+//  } else if (key_code == JNI_STATIC(VK_F2)) {
+//    cef_event.native_key_code = kVK_F2;
+//    cef_event.unmodified_character = 63237;
+//  } else if (key_code == JNI_STATIC(VK_F3)) {
+//    cef_event.native_key_code = kVK_F3;
+//    cef_event.unmodified_character = 63238;
+//  } else if (key_code == JNI_STATIC(VK_F4)) {
+//    cef_event.native_key_code = kVK_F4;
+//    cef_event.unmodified_character = 63239;
+//  } else if (key_code == JNI_STATIC(VK_F5)) {
+//    cef_event.native_key_code = kVK_F5;
+//    cef_event.unmodified_character = 63240;
+//  } else if (key_code == JNI_STATIC(VK_F6)) {
+//    cef_event.native_key_code = kVK_F6;
+//    cef_event.unmodified_character = 63241;
+//  } else if (key_code == JNI_STATIC(VK_F7)) {
+//    cef_event.native_key_code = kVK_F7;
+//    cef_event.unmodified_character = 63242;
+//  } else if (key_code == JNI_STATIC(VK_F8)) {
+//    cef_event.native_key_code = kVK_F8;
+//    cef_event.unmodified_character = 63243;
+//  } else if (key_code == JNI_STATIC(VK_F9)) {
+//    cef_event.native_key_code = kVK_F9;
+//    cef_event.unmodified_character = 63244;
+//  } else if (key_code == JNI_STATIC(VK_F10)) {
+//    cef_event.native_key_code = kVK_F10;
+//    cef_event.unmodified_character = 63245;
+//  } else if (key_code == JNI_STATIC(VK_F11)) {
+//    cef_event.native_key_code = kVK_F11;
+//    cef_event.unmodified_character = 63246;
+//  } else if (key_code == JNI_STATIC(VK_F12)) {
+//    cef_event.native_key_code = kVK_F12;
+//    cef_event.unmodified_character = 63247;
+//  } else if (key_code == JNI_STATIC(VK_F13)) {
+//    cef_event.native_key_code = kVK_F13;
+//    cef_event.unmodified_character = 63248;
+//  } else if (key_code == JNI_STATIC(VK_F14)) {
+//    cef_event.native_key_code = kVK_F14;
+//    cef_event.unmodified_character = 63249;
+//  } else if (key_code == JNI_STATIC(VK_F15)) {
+//    cef_event.native_key_code = kVK_F15;
+//    cef_event.unmodified_character = 63250;
+//  } else if (key_code == JNI_STATIC(VK_F16)) {
+//    cef_event.native_key_code = kVK_F16;
+//    cef_event.unmodified_character = 63251;
+//  } else if (key_code == JNI_STATIC(VK_F17)) {
+//    cef_event.native_key_code = kVK_F17;
+//    cef_event.unmodified_character = 63252;
+//  } else if (key_code == JNI_STATIC(VK_F18)) {
+//    cef_event.native_key_code = kVK_F18;
+//    cef_event.unmodified_character = 63253;
+//  } else if (key_code == JNI_STATIC(VK_F19)) {
+//    cef_event.native_key_code = kVK_F19;
+//    cef_event.unmodified_character = 63254;
+//  } else if (key_code == JNI_STATIC(VK_META)) {
+//    cef_event.native_key_code = key_location == JNI_STATIC(KEY_LOCATION_RIGHT)
+//                                    ? kVK_RightCommand
+//                                    : kVK_Command;
+//    cef_event.unmodified_character = 0;
+//  } else if (key_code == JNI_STATIC(VK_CONTROL)) {
+//    cef_event.native_key_code = key_location == JNI_STATIC(KEY_LOCATION_RIGHT)
+//                                ? kVK_RightControl
+//                                : kVK_Control;
+//    cef_event.unmodified_character = 0;
+//  } else if (key_code == JNI_STATIC(VK_SHIFT)) {
+//    cef_event.native_key_code = key_location == JNI_STATIC(KEY_LOCATION_RIGHT)
+//                                ? kVK_RightShift
+//                                : kVK_Shift;
+//    cef_event.unmodified_character = 0;
+//  } else if (key_code == JNI_STATIC(VK_ALT)) {
+//    cef_event.native_key_code = key_location == JNI_STATIC(KEY_LOCATION_RIGHT)
+//                                ? kVK_RightOption
+//                                : kVK_Option;
+//    cef_event.unmodified_character = 0;
+//  } else {
+//    cef_event.native_key_code = GetMacKeyCodeFromChar(key_char);
+//    if (cef_event.native_key_code == -1)
+//      cef_event.native_key_code = 0;
+//
+//    if (cef_event.native_key_code == kVK_Return) {
+//      cef_event.unmodified_character = kReturnCharCode;
+//    } else {
+//      cef_event.unmodified_character = key_char;
+//    }
+//  }
+//
+//  cef_event.character = cef_event.unmodified_character;
+//
+//  // Control characters.
+//  if (cef_event.modifiers & EVENTFLAG_CONTROL_DOWN) {
+//    if (key_char >= 'A' && key_char <= 'Z')
+//      cef_event.character = 1 + key_char - 'A';
+//    else if (cef_event.native_key_code == kVK_ANSI_LeftBracket)
+//      cef_event.character = 27;
+//    else if (cef_event.native_key_code == kVK_ANSI_Backslash)
+//      cef_event.character = 28;
+//    else if (cef_event.native_key_code == kVK_ANSI_RightBracket)
+//      cef_event.character = 29;
+//  }
+//#endif  // defined(OS_MAC)
+//#endif  // defined(OS_LINUX) || defined(OS_MAC)
+//
+//  if (event_type == JNI_STATIC(KEY_PRESSED)) {
+//#if defined(OS_WIN)
+//    cef_event.windows_key_code = static_cast<int>(rawCode);
+//#endif
+//    cef_event.type = KEYEVENT_RAWKEYDOWN;
+//  } else if (event_type == JNI_STATIC(KEY_RELEASED)) {
+//#if defined(OS_WIN)
+//    cef_event.windows_key_code =  static_cast<int>(rawCode);
+//    // bits 30 and 31 should always be 1 for WM_KEYUP
+//    cef_event.native_key_code |= 0xC0000000;
+//#endif
+//    cef_event.type = KEYEVENT_KEYUP;
+//  } else if (event_type == JNI_STATIC(KEY_TYPED)) {
+//#if defined(OS_WIN)
+//    cef_event.windows_key_code = key_char == '\n' ? '\r' : key_char;
+//#endif
+//    cef_event.type = KEYEVENT_CHAR;
+//  } else {
+//    return;
+//  }
+//
+//  browser->GetHost()->SendKeyEvent(cef_event);
 }
 
 namespace {
