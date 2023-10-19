@@ -1,54 +1,34 @@
-The Java Chromium Embedded Framework (JCEF) is a simple framework for embedding Chromium-based browsers in other applications using the Java programming language.
+[![official JetBrains project](https://jb.gg/badges/official-plastic.svg)](https://confluence.jetbrains.com/display/ALL/JetBrains+on+GitHub)
+# Welcome
+This is a fork of [jcef](https://github.com/chromiumembedded/java-cef). It's distributed as part of
+[JetBrainsRuntime](https://github.com/JetBrains/JetBrainsRuntime).
 
 # Quick Links
+* [File a bug](https://youtrack.jetbrains.com/newIssue?project=JBR&description=**Problem+description**%0A%5BA+short+problem+description%5D%0A%0A**Way+to+reproduce**%0A1.+Open++%E2%80%A6%0A2.+Go+to+%E2%80%A6%0A3.+Press+or+click+%E2%80%A6%0A4.+Observer+%E2%80%A6%0A5.+Expected+%E2%80%A6%0A%0A**Screen+records+or+screenshorts**%0A%5BPut+here+some+video+or+pictures+if+applicable%5D%0A%0A**Version+and+environment**%0AJetBrains+Runtime+version%3A+%5Bexample+17.0.8%2B7-b1000.22+aarch64.+In+a+JetBrains+IDEs+it+can+be+copied+from+%60About+IntelliJ+IDEA%60%2C+%60About+Clion%60+etc.%5D+%0AOS%3A+%5Bput+here+the+OS+name+and+version%28e.g.+macOS+13.4.1+%2C+Ubuntu+22.10%2C+Windows+11%29%5D%0ACPU%3A+%5Bput+here+CPU+architecture+like+arm64%2C+M1%2C+M2%2C+x86%2C+etc.%5D%0AAdditional+info%3A+%5BAnything+you+think+might+be+important+in+your+environment.+For+example%2C+in+the+case+of+graphics+problems%2C+you+can+tell+us+the+number+of+monitors+you+are+using%2C+their+resolutions+and+scaling+factors%5D%0A%0A**Additional+context**%0A%5Bput+here%5D%0A%0A%0A%0A&c=add+Board+Bug2Fix+Vitaly+Provodin&c=add+Board+JBR+Planing+No+Fix+versions&c=Subsystem+jcef&c=Assignee+Vladimir.Kharitonov)
+* [Issue tracker](https://youtrack.jetbrains.com/issues/JBR?q=Subsystem:%20jcef%20)
+* [JCEF in IntelliJ Platform Plugin SDK](https://plugins.jetbrains.com/docs/intellij/jcef.html)
+* [CEF forum](https://www.magpcss.org/ceforum/index.php)
+* [CEF on github](https://github.com/chromiumembedded)
 
-* Building JCEF - https://bitbucket.org/chromiumembedded/java-cef/wiki/BranchesAndBuilding
-* Support Forum - http://magpcss.org/ceforum/viewforum.php?f=17
-* Downloads - https://github.com/jcefmaven/jcefbuild
-* Maven/Gradle Artifacts - https://github.com/jcefmaven/jcefmaven
-* Donations - http://www.magpcss.org/ceforum/donate.php
-
-# Introduction
-
-CEF is a BSD-licensed open source project founded by Marshall Greenblatt in 2008 and based on the [Google Chromium](http://www.chromium.org/Home) project. Unlike the Chromium project itself, which focuses mainly on Google Chrome application development, CEF focuses on facilitating embedded browser use cases in third-party applications. CEF insulates the user from the underlying Chromium and Blink code complexity by offering production-quality stable APIs, release branches tracking specific Chromium releases, and binary distributions. Most features in CEF have default implementations that provide rich functionality while requiring little or no integration work from the user. There are currently over 100 million installed instances of CEF around the world embedded in products from a wide range of companies and industries. A partial list of companies and products using CEF is available on the [CEF Wikipedia page](http://en.wikipedia.org/wiki/Chromium_Embedded_Framework#Applications_using_CEF). Some use cases for CEF include:
-
-* Embedding an HTML5-compliant Web browser control in an existing native application.
-* Creating a light-weight native “shell” application that hosts a user interface developed primarily using Web technologies.
-* Rendering Web content “off-screen” in applications that have their own custom drawing frameworks.
-* Acting as a host for automated testing of existing Web properties and applications.
-
-CEF supports a wide range of programming languages and operating systems and can be easily integrated into both new and existing applications. It was designed from the ground up with both performance and ease of use in mind. The base framework includes C and C++ programming interfaces exposed via native libraries that insulate the host application from Chromium and Blink implementation details. It provides close integration between the browser and the host application including support for custom plugins, protocols, JavaScript objects and JavaScript extensions. The host application can optionally control resource loading, navigation, context menus, printing and more, while taking advantage of the same performance and HTML5 technologies available in the Google Chrome Web browser.
-
-This project provides a Java Wrapper for CEF (JCEF).
+# Help
+* Check the issue [tracker](https://youtrack.jetbrains.com/issues/JBR?q=Subsystem:%20jcef%20). Probably the problem is known.
+* Vote the for the opened issues. We track votes and take it into consideration for planning.
+* [JetBrains Platform Slack community](https://plugins.jetbrains.com/slack)
+* Check [CEF forum](https://www.magpcss.org/ceforum/index.php). It is a great source of knowledge about cef project.
+* Report a bug at JetBrains [youtrack](https://youtrack.jetbrains.com/newIssue?project=JBR&description=**Problem+description**%0A%5BA+short+problem+description%5D%0A%0A**Way+to+reproduce**%0A1.+Open++%E2%80%A6%0A2.+Go+to+%E2%80%A6%0A3.+Press+or+click+%E2%80%A6%0A4.+Observer+%E2%80%A6%0A5.+Expected+%E2%80%A6%0A%0A**Screen+records+or+screenshorts**%0A%5BPut+here+some+video+or+pictures+if+applicable%5D%0A%0A**Version+and+environment**%0AJetBrains+Runtime+version%3A+%5Bexample+17.0.8%2B7-b1000.22+aarch64.+In+a+JetBrains+IDEs+it+can+be+copied+from+%60About+IntelliJ+IDEA%60%2C+%60About+Clion%60+etc.%5D+%0AOS%3A+%5Bput+here+the+OS+name+and+version%28e.g.+macOS+13.4.1+%2C+Ubuntu+22.10%2C+Windows+11%29%5D%0ACPU%3A+%5Bput+here+CPU+architecture+like+arm64%2C+M1%2C+M2%2C+x86%2C+etc.%5D%0AAdditional+info%3A+%5BAnything+you+think+might+be+important+in+your+environment.+For+example%2C+in+the+case+of+graphics+problems%2C+you+can+tell+us+the+number+of+monitors+you+are+using%2C+their+resolutions+and+scaling+factors%5D%0A%0A**Additional+context**%0A%5Bput+here%5D%0A%0A%0A%0A&c=add+Board+Bug2Fix+Vitaly+Provodin&c=add+Board+JBR+Planing+No+Fix+versions&c=Subsystem+jcef&c=Assignee+Vladimir.Kharitonov).
 
 # Building JCEF
+1. Get sources
+   `git clone https://github.com/JetBrains/jcef.git`
+2. Set `JAVA_HOME`.
+3. Run `./jb/tools/mac/build.sh all <platform>` or `./jb/tools/mac/build.bat all <platform>` for Windows at the project root. `<platform>` might be `amd64` or `x86_64`.
+4. Check `jcef_*.tar.gz` file.
 
-The JCEF project is an extension of the Chromium Embedded Framework (CEF) project hosted at https://bitbucket.org/chromiumembedded/cef/. JCEF maintains a development branch that tracks the most recent CEF3 release branch. JCEF source code can be downloaded, built and packaged into a binary distribution. Once you have created the binary distribution for your platform you can distribute it as a stand-alone package without further dependencies on the JCEF, CEF or Chromium source code. Visit the [BranchesAndBuilding](https://bitbucket.org/chromiumembedded/java-cef/wiki/BranchesAndBuilding) Wiki page for detailed instructions.
+# Developing with CLion
+To be done
 
-# Helping Out
+# Developing with IntelliJ IDEA and running the tests
+To be done
 
-JCEF is still very much a work in progress. Some ways that you can help out:
-
-\- Vote for issues in the [JCEF issue tracker](https://bitbucket.org/chromiumembedded/java-cef/issues?status=new&status=open) that are important to you. This helps with development prioritization.
-
-\- Report any bugs that you find or feature requests that are important to you. Make sure to first search for existing issues before creating new ones. Please use the [JCEF Forum](http://magpcss.org/ceforum/viewforum.php?f=17) and not the issue tracker for usage questions. Each JCEF issue should:
-
-* Include the JCEF revision, CEF revision or binary distribution version.
-* Include information about your OS and compiler version.
-* If the issue is a bug please provide detailed reproduction information.
-* If the issue is a feature please describe why the feature is beneficial.
-
-\- Write unit tests for new or existing functionality.
-
-\- Pull requests and patches are welcome. View open issues in the [JCEF issue tracker](https://bitbucket.org/chromiumembedded/java-cef/issues?status=new&status=open) or search for TODO(cef) in the source code for ideas.
-
-If you would like to contribute source code changes to JCEF please follow the below guidelines:
-
-\- Create or find an appropriate issue for each distinct bug, feature or change. 
-
-\- Submit a [pull request](https://bitbucket.org/chromiumembedded/java-cef/wiki/ContributingWithGit) or create a patch with your changes and attach it to the JCEF issue. Changes should:
-
-* Be submitted against the current [JCEF master branch](https://bitbucket.org/chromiumembedded/java-cef/src/?at=master) unless explicitly fixing a bug in a CEF release branch.
-* Follow the style of existing JCEF source files. In general JCEF uses the [Chromium coding style](http://www.chromium.org/developers/coding-style).
-* Include new or modified unit tests as appropriate to the functionality.
-* Not include unnecessary or unrelated changes.
+# Out of process CEF
+See [remote/README.md](remote/README.md).
