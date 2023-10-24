@@ -88,11 +88,15 @@ This is a fork of [java-cef](https://github.com/chromiumembedded/java-cef). It's
    ```
 
 ## Building on Linux
-1. Get sources
-   `git clone https://github.com/JetBrains/jcef.git`
-2. Set `JAVA_HOME`.
-3. Run `./jb/tools/linux/build.sh all <x86_64 or arm64>` at the project root.
-4. Check `jcef_linux_<x86_64 or arm64>.tar.gz` file in the project root directory.
+1. Get tools to build jcef `apt-get install ant git gcc cmake`.
+2. Get tools to build jcef rpc `apt-get install bison flex pkg-config`.
+3. Get sources
+   ```bash
+   git clone https://github.com/JetBrains/jcef.git
+   ```
+4. Set `JAVA_HOME`.
+5. Run `./jb/tools/linux/build.sh all <x86_64 or arm64>` at the project root.
+6. Check `jcef_linux_<x86_64 or arm64>.tar.gz` file in the project root directory.
 
 ## Building on Mac
 1. Get sources
