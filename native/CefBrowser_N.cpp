@@ -839,18 +839,7 @@ Java_org_cef_browser_CefBrowser_1N_N_1SendKeyEvent(JNIEnv* env,
   }
 
   CefKeyEvent cef_key_event{};
-  switch (eventAttributes.type) {
-    case CefKeyEventType::KEYDOWN:
-      cef_key_event.type = KEYEVENT_RAWKEYDOWN;
-      break;
-    case CefKeyEventType::KEYUP:
-      cef_key_event.type = KEYEVENT_KEYUP;
-      break;
-    case CefKeyEventType::CHAR:
-      cef_key_event.type = KEYEVENT_CHAR;
-      break;
-  }
-
+  cef_key_event.type = static_cast<cef_key_event_type_t>(eventAttributes.type);
   cef_key_event.modifiers = eventAttributes.modifiers;
   cef_key_event.character = eventAttributes.character;
   cef_key_event.unmodified_character = eventAttributes.unmodified_character;
