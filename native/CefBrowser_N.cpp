@@ -1494,7 +1494,7 @@ Java_org_cef_browser_CefBrowser_1N_N_1SendKeyEvent(JNIEnv* env,
                                                    jobject obj,
                                                    jobject key_event) {
   CefRefPtr<CefBrowser> browser = JNI_GET_BROWSER_OR_RETURN(env, obj);
-#ifdef OS_MAC
+#if defined(OS_MAC) || defined(OS_WIN)
   using namespace jcef_keyboard_utils;
   CefKeyEventAttributes eventAttributes{};
   if (!javaKeyEventToCef(env, key_event, &eventAttributes)) {
