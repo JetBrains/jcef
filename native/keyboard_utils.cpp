@@ -133,6 +133,13 @@ enum CefModifiers {
   EVENTFLAG_IS_REPEAT = 1 << 13,
 };
 
+enum CefKeyEventType {
+  KEYDOWN = 0,
+  KEYUP = 2,
+  CHAR = 3
+};
+
+
 int GetCefModifiers(JNIEnv* env, jclass cls, int modifiers) {
   JNI_STATIC_DEFINE_INT_RV(env, cls, ALT_DOWN_MASK, 0);
   JNI_STATIC_DEFINE_INT_RV(env, cls, BUTTON1_DOWN_MASK, 0);

@@ -15,10 +15,8 @@
 
 namespace jcef_keyboard_utils {
 
-enum class CefKeyEventType { KEYDOWN, KEYUP, CHAR };
-
 struct CefKeyEventAttributes {
-  CefKeyEventType type;
+  int type;
   uint32_t modifiers;
   int windows_key_code;
   int native_key_code;
