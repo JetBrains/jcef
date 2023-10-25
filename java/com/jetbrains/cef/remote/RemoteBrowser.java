@@ -369,8 +369,8 @@ public class RemoteBrowser implements CefBrowser {
             return;
         }
         myService.exec((s)->{
-            // TODO: get e.scancode via reflection (windows only)
-            s.Browser_SendKeyEvent(myBid, e.getID(), e.getModifiersEx(), (short)e.getKeyChar(), 0, e.getKeyCode());
+            var cefKeyEvent = PlatformUtils.toCefKeyEvent(e);
+            s.Browser_SendCefKeyEvent(myBid, cefKeyEvent);
         });
     }
 
