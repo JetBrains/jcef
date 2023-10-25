@@ -62,7 +62,14 @@ if (OS_WINDOWS)
 endif ()
 target_link_libraries(thrift_codegen thrift::thrift libcef_dll_wrapper ${CEF_STANDARD_LIBS})
 
-set(shared_mem_helper_SOURCES CefServerHelper.cpp)
+set(shared_mem_helper_SOURCES
+        CefServerHelper.cpp
+        ../native/keyboard_utils.cpp
+        PlatformUtils.cpp)
+if (OS_LINUX)
+    list(APPEND shared_mem_helper_SOURCES ../native/JavaKeyCode2X11.cpp)
+endif ()
+
 add_library(shared_mem_helper SHARED ${shared_mem_helper_SOURCES})
 target_include_directories(shared_mem_helper PUBLIC ${JNI_INCLUDE_DIRS})
 
