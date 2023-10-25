@@ -57,7 +57,13 @@ class CefBrowserWr extends CefBrowser_N {
                         delayedUpdate_.restart();
                         return;
                     }
-                    if (AWTAccessor.getComponentAccessor().getPeer(component_) == null || // not in UI yet
+
+                    boolean restart = false;
+                    try {
+                        restart = AWTAccessor.getComponentAccessor().getPeer(component_) == null;
+                    } catch (Throwable ignore) { }
+
+                    if (restart || // not in UI yet
                         createBrowserIfRequired(true)) // has just created UI
                     {
                         delayedUpdate_.restart();
@@ -427,11 +433,8 @@ class CefBrowserWr extends CefBrowser_N {
     static long getWindowHandle(Component component) {
         if (OS.isMacintosh()) {
             try {
-                Class<?> cls = Class.forName("org.cef.browser.mac.CefBrowserWindowMac");
-                CefBrowserWindow browserWindow = (CefBrowserWindow) cls.newInstance();
-                if (browserWindow != null) {
-                    return browserWindow.getWindowHandle(component);
-                }
+                CefBrowserWindow browserWindow = CefBrowserWindowMac();
+                return browserWindow.getWindowHandle(component);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             } catch (InstantiationException e) {
