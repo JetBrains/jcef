@@ -17,7 +17,7 @@ import java.lang.reflect.Proxy;
 
 public class CefBrowserWindowMac implements CefBrowserWindow {
     @Override
-    public long getWindowHandle(Component comp) {
+    public long getWindowHandle(Component comp) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, ClassNotFoundException {
         final long[] result = new long[1];
         while (comp != null) {
             if (comp.isLightweight()) {
