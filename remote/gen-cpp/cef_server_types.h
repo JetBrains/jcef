@@ -22,6 +22,81 @@
 
 namespace thrift_codegen {
 
+class CefKeyEvent;
+
+
+class CefKeyEvent : public virtual ::apache::thrift::TBase {
+ public:
+
+  CefKeyEvent(const CefKeyEvent&) noexcept;
+  CefKeyEvent& operator=(const CefKeyEvent&) noexcept;
+  CefKeyEvent() noexcept
+              : type(0),
+                modifiers(0),
+                windows_key_code(0),
+                native_key_code(0),
+                character(0),
+                unmodified_character(0),
+                is_system_key(0) {
+  }
+
+  virtual ~CefKeyEvent() noexcept;
+  int32_t type;
+  int32_t modifiers;
+  int32_t windows_key_code;
+  int32_t native_key_code;
+  int16_t character;
+  int16_t unmodified_character;
+  bool is_system_key;
+
+  void __set_type(const int32_t val);
+
+  void __set_modifiers(const int32_t val);
+
+  void __set_windows_key_code(const int32_t val);
+
+  void __set_native_key_code(const int32_t val);
+
+  void __set_character(const int16_t val);
+
+  void __set_unmodified_character(const int16_t val);
+
+  void __set_is_system_key(const bool val);
+
+  bool operator == (const CefKeyEvent & rhs) const
+  {
+    if (!(type == rhs.type))
+      return false;
+    if (!(modifiers == rhs.modifiers))
+      return false;
+    if (!(windows_key_code == rhs.windows_key_code))
+      return false;
+    if (!(native_key_code == rhs.native_key_code))
+      return false;
+    if (!(character == rhs.character))
+      return false;
+    if (!(unmodified_character == rhs.unmodified_character))
+      return false;
+    if (!(is_system_key == rhs.is_system_key))
+      return false;
+    return true;
+  }
+  bool operator != (const CefKeyEvent &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const CefKeyEvent & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
+
+  virtual void printTo(std::ostream& out) const;
+};
+
+void swap(CefKeyEvent &a, CefKeyEvent &b);
+
+std::ostream& operator<<(std::ostream& out, const CefKeyEvent& obj);
+
 } // namespace
 
 #endif

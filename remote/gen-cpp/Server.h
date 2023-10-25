@@ -33,6 +33,7 @@ class ServerIf {
   virtual void Browser_ExecuteJavaScript(const int32_t bid, const std::string& code, const std::string& url, const int32_t line) = 0;
   virtual void Browser_WasResized(const int32_t bid, const int32_t width, const int32_t height) = 0;
   virtual void Browser_SendKeyEvent(const int32_t bid, const int32_t event_type, const int32_t modifiers, const int16_t key_char, const int64_t scanCode, const int32_t key_code) = 0;
+  virtual void Browser_SendCefKeyEvent(const int32_t bid, const CefKeyEvent& event) = 0;
   virtual void Browser_SendMouseEvent(const int32_t bid, const int32_t event_type, const int32_t x, const int32_t y, const int32_t modifiers, const int32_t click_count, const int32_t button) = 0;
   virtual void Browser_SendMouseWheelEvent(const int32_t bid, const int32_t scroll_type, const int32_t x, const int32_t y, const int32_t modifiers, const int32_t delta, const int32_t units_to_scroll) = 0;
   virtual void Request_Update(const  ::thrift_codegen::RObject& request) = 0;
@@ -126,6 +127,9 @@ class ServerNull : virtual public ServerIf {
     return;
   }
   void Browser_SendKeyEvent(const int32_t /* bid */, const int32_t /* event_type */, const int32_t /* modifiers */, const int16_t /* key_char */, const int64_t /* scanCode */, const int32_t /* key_code */) override {
+    return;
+  }
+  void Browser_SendCefKeyEvent(const int32_t /* bid */, const CefKeyEvent& /* event */) override {
     return;
   }
   void Browser_SendMouseEvent(const int32_t /* bid */, const int32_t /* event_type */, const int32_t /* x */, const int32_t /* y */, const int32_t /* modifiers */, const int32_t /* click_count */, const int32_t /* button */) override {
@@ -1046,6 +1050,63 @@ class Server_Browser_SendKeyEvent_pargs {
   const int16_t* key_char;
   const int64_t* scanCode;
   const int32_t* key_code;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_Browser_SendCefKeyEvent_args__isset {
+  _Server_Browser_SendCefKeyEvent_args__isset() : bid(false), event(false) {}
+  bool bid :1;
+  bool event :1;
+} _Server_Browser_SendCefKeyEvent_args__isset;
+
+class Server_Browser_SendCefKeyEvent_args {
+ public:
+
+  Server_Browser_SendCefKeyEvent_args(const Server_Browser_SendCefKeyEvent_args&) noexcept;
+  Server_Browser_SendCefKeyEvent_args& operator=(const Server_Browser_SendCefKeyEvent_args&) noexcept;
+  Server_Browser_SendCefKeyEvent_args() noexcept
+                                      : bid(0) {
+  }
+
+  virtual ~Server_Browser_SendCefKeyEvent_args() noexcept;
+  int32_t bid;
+  CefKeyEvent event;
+
+  _Server_Browser_SendCefKeyEvent_args__isset __isset;
+
+  void __set_bid(const int32_t val);
+
+  void __set_event(const CefKeyEvent& val);
+
+  bool operator == (const Server_Browser_SendCefKeyEvent_args & rhs) const
+  {
+    if (!(bid == rhs.bid))
+      return false;
+    if (!(event == rhs.event))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_Browser_SendCefKeyEvent_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Browser_SendCefKeyEvent_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Browser_SendCefKeyEvent_pargs {
+ public:
+
+
+  virtual ~Server_Browser_SendCefKeyEvent_pargs() noexcept;
+  const int32_t* bid;
+  const CefKeyEvent* event;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -3748,6 +3809,8 @@ class ServerClient : virtual public ServerIf {
   void send_Browser_WasResized(const int32_t bid, const int32_t width, const int32_t height);
   void Browser_SendKeyEvent(const int32_t bid, const int32_t event_type, const int32_t modifiers, const int16_t key_char, const int64_t scanCode, const int32_t key_code) override;
   void send_Browser_SendKeyEvent(const int32_t bid, const int32_t event_type, const int32_t modifiers, const int16_t key_char, const int64_t scanCode, const int32_t key_code);
+  void Browser_SendCefKeyEvent(const int32_t bid, const CefKeyEvent& event) override;
+  void send_Browser_SendCefKeyEvent(const int32_t bid, const CefKeyEvent& event);
   void Browser_SendMouseEvent(const int32_t bid, const int32_t event_type, const int32_t x, const int32_t y, const int32_t modifiers, const int32_t click_count, const int32_t button) override;
   void send_Browser_SendMouseEvent(const int32_t bid, const int32_t event_type, const int32_t x, const int32_t y, const int32_t modifiers, const int32_t click_count, const int32_t button);
   void Browser_SendMouseWheelEvent(const int32_t bid, const int32_t scroll_type, const int32_t x, const int32_t y, const int32_t modifiers, const int32_t delta, const int32_t units_to_scroll) override;
@@ -3855,6 +3918,7 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_Browser_ExecuteJavaScript(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_WasResized(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_SendKeyEvent(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_Browser_SendCefKeyEvent(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_SendMouseEvent(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_SendMouseWheelEvent(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Request_Update(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -3900,6 +3964,7 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["Browser_ExecuteJavaScript"] = &ServerProcessor::process_Browser_ExecuteJavaScript;
     processMap_["Browser_WasResized"] = &ServerProcessor::process_Browser_WasResized;
     processMap_["Browser_SendKeyEvent"] = &ServerProcessor::process_Browser_SendKeyEvent;
+    processMap_["Browser_SendCefKeyEvent"] = &ServerProcessor::process_Browser_SendCefKeyEvent;
     processMap_["Browser_SendMouseEvent"] = &ServerProcessor::process_Browser_SendMouseEvent;
     processMap_["Browser_SendMouseWheelEvent"] = &ServerProcessor::process_Browser_SendMouseWheelEvent;
     processMap_["Request_Update"] = &ServerProcessor::process_Request_Update;
@@ -4057,6 +4122,15 @@ class ServerMultiface : virtual public ServerIf {
       ifaces_[i]->Browser_SendKeyEvent(bid, event_type, modifiers, key_char, scanCode, key_code);
     }
     ifaces_[i]->Browser_SendKeyEvent(bid, event_type, modifiers, key_char, scanCode, key_code);
+  }
+
+  void Browser_SendCefKeyEvent(const int32_t bid, const CefKeyEvent& event) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->Browser_SendCefKeyEvent(bid, event);
+    }
+    ifaces_[i]->Browser_SendCefKeyEvent(bid, event);
   }
 
   void Browser_SendMouseEvent(const int32_t bid, const int32_t event_type, const int32_t x, const int32_t y, const int32_t modifiers, const int32_t click_count, const int32_t button) override {
@@ -4401,6 +4475,8 @@ class ServerConcurrentClient : virtual public ServerIf {
   void send_Browser_WasResized(const int32_t bid, const int32_t width, const int32_t height);
   void Browser_SendKeyEvent(const int32_t bid, const int32_t event_type, const int32_t modifiers, const int16_t key_char, const int64_t scanCode, const int32_t key_code) override;
   void send_Browser_SendKeyEvent(const int32_t bid, const int32_t event_type, const int32_t modifiers, const int16_t key_char, const int64_t scanCode, const int32_t key_code);
+  void Browser_SendCefKeyEvent(const int32_t bid, const CefKeyEvent& event) override;
+  void send_Browser_SendCefKeyEvent(const int32_t bid, const CefKeyEvent& event);
   void Browser_SendMouseEvent(const int32_t bid, const int32_t event_type, const int32_t x, const int32_t y, const int32_t modifiers, const int32_t click_count, const int32_t button) override;
   void send_Browser_SendMouseEvent(const int32_t bid, const int32_t event_type, const int32_t x, const int32_t y, const int32_t modifiers, const int32_t click_count, const int32_t button);
   void Browser_SendMouseWheelEvent(const int32_t bid, const int32_t scroll_type, const int32_t x, const int32_t y, const int32_t modifiers, const int32_t delta, const int32_t units_to_scroll) override;

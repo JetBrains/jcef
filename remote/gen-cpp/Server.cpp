@@ -46,14 +46,14 @@ uint32_t Server_connect_args::read(::apache::thrift::protocol::TProtocol* iprot)
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->cmdLineArgs.clear();
-            uint32_t _size0;
-            ::apache::thrift::protocol::TType _etype3;
-            xfer += iprot->readListBegin(_etype3, _size0);
-            this->cmdLineArgs.resize(_size0);
-            uint32_t _i4;
-            for (_i4 = 0; _i4 < _size0; ++_i4)
+            uint32_t _size2;
+            ::apache::thrift::protocol::TType _etype5;
+            xfer += iprot->readListBegin(_etype5, _size2);
+            this->cmdLineArgs.resize(_size2);
+            uint32_t _i6;
+            for (_i6 = 0; _i6 < _size2; ++_i6)
             {
-              xfer += iprot->readString(this->cmdLineArgs[_i4]);
+              xfer += iprot->readString(this->cmdLineArgs[_i6]);
             }
             xfer += iprot->readListEnd();
           }
@@ -66,17 +66,17 @@ uint32_t Server_connect_args::read(::apache::thrift::protocol::TProtocol* iprot)
         if (ftype == ::apache::thrift::protocol::T_MAP) {
           {
             this->settings.clear();
-            uint32_t _size5;
-            ::apache::thrift::protocol::TType _ktype6;
-            ::apache::thrift::protocol::TType _vtype7;
-            xfer += iprot->readMapBegin(_ktype6, _vtype7, _size5);
-            uint32_t _i9;
-            for (_i9 = 0; _i9 < _size5; ++_i9)
+            uint32_t _size7;
+            ::apache::thrift::protocol::TType _ktype8;
+            ::apache::thrift::protocol::TType _vtype9;
+            xfer += iprot->readMapBegin(_ktype8, _vtype9, _size7);
+            uint32_t _i11;
+            for (_i11 = 0; _i11 < _size7; ++_i11)
             {
-              std::string _key10;
-              xfer += iprot->readString(_key10);
-              std::string& _val11 = this->settings[_key10];
-              xfer += iprot->readString(_val11);
+              std::string _key12;
+              xfer += iprot->readString(_key12);
+              std::string& _val13 = this->settings[_key12];
+              xfer += iprot->readString(_val13);
             }
             xfer += iprot->readMapEnd();
           }
@@ -109,10 +109,10 @@ uint32_t Server_connect_args::write(::apache::thrift::protocol::TProtocol* oprot
   xfer += oprot->writeFieldBegin("cmdLineArgs", ::apache::thrift::protocol::T_LIST, 2);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->cmdLineArgs.size()));
-    std::vector<std::string> ::const_iterator _iter12;
-    for (_iter12 = this->cmdLineArgs.begin(); _iter12 != this->cmdLineArgs.end(); ++_iter12)
+    std::vector<std::string> ::const_iterator _iter14;
+    for (_iter14 = this->cmdLineArgs.begin(); _iter14 != this->cmdLineArgs.end(); ++_iter14)
     {
-      xfer += oprot->writeString((*_iter12));
+      xfer += oprot->writeString((*_iter14));
     }
     xfer += oprot->writeListEnd();
   }
@@ -121,11 +121,11 @@ uint32_t Server_connect_args::write(::apache::thrift::protocol::TProtocol* oprot
   xfer += oprot->writeFieldBegin("settings", ::apache::thrift::protocol::T_MAP, 3);
   {
     xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->settings.size()));
-    std::map<std::string, std::string> ::const_iterator _iter13;
-    for (_iter13 = this->settings.begin(); _iter13 != this->settings.end(); ++_iter13)
+    std::map<std::string, std::string> ::const_iterator _iter15;
+    for (_iter15 = this->settings.begin(); _iter15 != this->settings.end(); ++_iter15)
     {
-      xfer += oprot->writeString(_iter13->first);
-      xfer += oprot->writeString(_iter13->second);
+      xfer += oprot->writeString(_iter15->first);
+      xfer += oprot->writeString(_iter15->second);
     }
     xfer += oprot->writeMapEnd();
   }
@@ -153,10 +153,10 @@ uint32_t Server_connect_pargs::write(::apache::thrift::protocol::TProtocol* opro
   xfer += oprot->writeFieldBegin("cmdLineArgs", ::apache::thrift::protocol::T_LIST, 2);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*(this->cmdLineArgs)).size()));
-    std::vector<std::string> ::const_iterator _iter14;
-    for (_iter14 = (*(this->cmdLineArgs)).begin(); _iter14 != (*(this->cmdLineArgs)).end(); ++_iter14)
+    std::vector<std::string> ::const_iterator _iter16;
+    for (_iter16 = (*(this->cmdLineArgs)).begin(); _iter16 != (*(this->cmdLineArgs)).end(); ++_iter16)
     {
-      xfer += oprot->writeString((*_iter14));
+      xfer += oprot->writeString((*_iter16));
     }
     xfer += oprot->writeListEnd();
   }
@@ -165,11 +165,11 @@ uint32_t Server_connect_pargs::write(::apache::thrift::protocol::TProtocol* opro
   xfer += oprot->writeFieldBegin("settings", ::apache::thrift::protocol::T_MAP, 3);
   {
     xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*(this->settings)).size()));
-    std::map<std::string, std::string> ::const_iterator _iter15;
-    for (_iter15 = (*(this->settings)).begin(); _iter15 != (*(this->settings)).end(); ++_iter15)
+    std::map<std::string, std::string> ::const_iterator _iter17;
+    for (_iter17 = (*(this->settings)).begin(); _iter17 != (*(this->settings)).end(); ++_iter17)
     {
-      xfer += oprot->writeString(_iter15->first);
-      xfer += oprot->writeString(_iter15->second);
+      xfer += oprot->writeString(_iter17->first);
+      xfer += oprot->writeString(_iter17->second);
     }
     xfer += oprot->writeMapEnd();
   }
@@ -1479,6 +1479,101 @@ uint32_t Server_Browser_SendKeyEvent_pargs::write(::apache::thrift::protocol::TP
 
   xfer += oprot->writeFieldBegin("key_code", ::apache::thrift::protocol::T_I32, 6);
   xfer += oprot->writeI32((*(this->key_code)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Browser_SendCefKeyEvent_args::~Server_Browser_SendCefKeyEvent_args() noexcept {
+}
+
+
+uint32_t Server_Browser_SendCefKeyEvent_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->bid);
+          this->__isset.bid = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->event.read(iprot);
+          this->__isset.event = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_Browser_SendCefKeyEvent_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_Browser_SendCefKeyEvent_args");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->bid);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("event", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += this->event.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Browser_SendCefKeyEvent_pargs::~Server_Browser_SendCefKeyEvent_pargs() noexcept {
+}
+
+
+uint32_t Server_Browser_SendCefKeyEvent_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_Browser_SendCefKeyEvent_pargs");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->bid)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("event", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += (*(this->event)).write(oprot);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -2867,17 +2962,17 @@ uint32_t Server_Request_GetHeaderMap_result::read(::apache::thrift::protocol::TP
         if (ftype == ::apache::thrift::protocol::T_MAP) {
           {
             this->success.clear();
-            uint32_t _size16;
-            ::apache::thrift::protocol::TType _ktype17;
-            ::apache::thrift::protocol::TType _vtype18;
-            xfer += iprot->readMapBegin(_ktype17, _vtype18, _size16);
-            uint32_t _i20;
-            for (_i20 = 0; _i20 < _size16; ++_i20)
+            uint32_t _size18;
+            ::apache::thrift::protocol::TType _ktype19;
+            ::apache::thrift::protocol::TType _vtype20;
+            xfer += iprot->readMapBegin(_ktype19, _vtype20, _size18);
+            uint32_t _i22;
+            for (_i22 = 0; _i22 < _size18; ++_i22)
             {
-              std::string _key21;
-              xfer += iprot->readString(_key21);
-              std::string& _val22 = this->success[_key21];
-              xfer += iprot->readString(_val22);
+              std::string _key23;
+              xfer += iprot->readString(_key23);
+              std::string& _val24 = this->success[_key23];
+              xfer += iprot->readString(_val24);
             }
             xfer += iprot->readMapEnd();
           }
@@ -2908,11 +3003,11 @@ uint32_t Server_Request_GetHeaderMap_result::write(::apache::thrift::protocol::T
     xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_MAP, 0);
     {
       xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->success.size()));
-      std::map<std::string, std::string> ::const_iterator _iter23;
-      for (_iter23 = this->success.begin(); _iter23 != this->success.end(); ++_iter23)
+      std::map<std::string, std::string> ::const_iterator _iter25;
+      for (_iter25 = this->success.begin(); _iter25 != this->success.end(); ++_iter25)
       {
-        xfer += oprot->writeString(_iter23->first);
-        xfer += oprot->writeString(_iter23->second);
+        xfer += oprot->writeString(_iter25->first);
+        xfer += oprot->writeString(_iter25->second);
       }
       xfer += oprot->writeMapEnd();
     }
@@ -2953,17 +3048,17 @@ uint32_t Server_Request_GetHeaderMap_presult::read(::apache::thrift::protocol::T
         if (ftype == ::apache::thrift::protocol::T_MAP) {
           {
             (*(this->success)).clear();
-            uint32_t _size24;
-            ::apache::thrift::protocol::TType _ktype25;
-            ::apache::thrift::protocol::TType _vtype26;
-            xfer += iprot->readMapBegin(_ktype25, _vtype26, _size24);
-            uint32_t _i28;
-            for (_i28 = 0; _i28 < _size24; ++_i28)
+            uint32_t _size26;
+            ::apache::thrift::protocol::TType _ktype27;
+            ::apache::thrift::protocol::TType _vtype28;
+            xfer += iprot->readMapBegin(_ktype27, _vtype28, _size26);
+            uint32_t _i30;
+            for (_i30 = 0; _i30 < _size26; ++_i30)
             {
-              std::string _key29;
-              xfer += iprot->readString(_key29);
-              std::string& _val30 = (*(this->success))[_key29];
-              xfer += iprot->readString(_val30);
+              std::string _key31;
+              xfer += iprot->readString(_key31);
+              std::string& _val32 = (*(this->success))[_key31];
+              xfer += iprot->readString(_val32);
             }
             xfer += iprot->readMapEnd();
           }
@@ -3022,17 +3117,17 @@ uint32_t Server_Request_SetHeaderMap_args::read(::apache::thrift::protocol::TPro
         if (ftype == ::apache::thrift::protocol::T_MAP) {
           {
             this->headerMap.clear();
-            uint32_t _size31;
-            ::apache::thrift::protocol::TType _ktype32;
-            ::apache::thrift::protocol::TType _vtype33;
-            xfer += iprot->readMapBegin(_ktype32, _vtype33, _size31);
-            uint32_t _i35;
-            for (_i35 = 0; _i35 < _size31; ++_i35)
+            uint32_t _size33;
+            ::apache::thrift::protocol::TType _ktype34;
+            ::apache::thrift::protocol::TType _vtype35;
+            xfer += iprot->readMapBegin(_ktype34, _vtype35, _size33);
+            uint32_t _i37;
+            for (_i37 = 0; _i37 < _size33; ++_i37)
             {
-              std::string _key36;
-              xfer += iprot->readString(_key36);
-              std::string& _val37 = this->headerMap[_key36];
-              xfer += iprot->readString(_val37);
+              std::string _key38;
+              xfer += iprot->readString(_key38);
+              std::string& _val39 = this->headerMap[_key38];
+              xfer += iprot->readString(_val39);
             }
             xfer += iprot->readMapEnd();
           }
@@ -3065,11 +3160,11 @@ uint32_t Server_Request_SetHeaderMap_args::write(::apache::thrift::protocol::TPr
   xfer += oprot->writeFieldBegin("headerMap", ::apache::thrift::protocol::T_MAP, 2);
   {
     xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->headerMap.size()));
-    std::map<std::string, std::string> ::const_iterator _iter38;
-    for (_iter38 = this->headerMap.begin(); _iter38 != this->headerMap.end(); ++_iter38)
+    std::map<std::string, std::string> ::const_iterator _iter40;
+    for (_iter40 = this->headerMap.begin(); _iter40 != this->headerMap.end(); ++_iter40)
     {
-      xfer += oprot->writeString(_iter38->first);
-      xfer += oprot->writeString(_iter38->second);
+      xfer += oprot->writeString(_iter40->first);
+      xfer += oprot->writeString(_iter40->second);
     }
     xfer += oprot->writeMapEnd();
   }
@@ -3097,11 +3192,11 @@ uint32_t Server_Request_SetHeaderMap_pargs::write(::apache::thrift::protocol::TP
   xfer += oprot->writeFieldBegin("headerMap", ::apache::thrift::protocol::T_MAP, 2);
   {
     xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*(this->headerMap)).size()));
-    std::map<std::string, std::string> ::const_iterator _iter39;
-    for (_iter39 = (*(this->headerMap)).begin(); _iter39 != (*(this->headerMap)).end(); ++_iter39)
+    std::map<std::string, std::string> ::const_iterator _iter41;
+    for (_iter41 = (*(this->headerMap)).begin(); _iter41 != (*(this->headerMap)).end(); ++_iter41)
     {
-      xfer += oprot->writeString(_iter39->first);
-      xfer += oprot->writeString(_iter39->second);
+      xfer += oprot->writeString(_iter41->first);
+      xfer += oprot->writeString(_iter41->second);
     }
     xfer += oprot->writeMapEnd();
   }
@@ -3251,17 +3346,17 @@ uint32_t Server_Request_Set_args::read(::apache::thrift::protocol::TProtocol* ip
         if (ftype == ::apache::thrift::protocol::T_MAP) {
           {
             this->headerMap.clear();
-            uint32_t _size40;
-            ::apache::thrift::protocol::TType _ktype41;
-            ::apache::thrift::protocol::TType _vtype42;
-            xfer += iprot->readMapBegin(_ktype41, _vtype42, _size40);
-            uint32_t _i44;
-            for (_i44 = 0; _i44 < _size40; ++_i44)
+            uint32_t _size42;
+            ::apache::thrift::protocol::TType _ktype43;
+            ::apache::thrift::protocol::TType _vtype44;
+            xfer += iprot->readMapBegin(_ktype43, _vtype44, _size42);
+            uint32_t _i46;
+            for (_i46 = 0; _i46 < _size42; ++_i46)
             {
-              std::string _key45;
-              xfer += iprot->readString(_key45);
-              std::string& _val46 = this->headerMap[_key45];
-              xfer += iprot->readString(_val46);
+              std::string _key47;
+              xfer += iprot->readString(_key47);
+              std::string& _val48 = this->headerMap[_key47];
+              xfer += iprot->readString(_val48);
             }
             xfer += iprot->readMapEnd();
           }
@@ -3306,11 +3401,11 @@ uint32_t Server_Request_Set_args::write(::apache::thrift::protocol::TProtocol* o
   xfer += oprot->writeFieldBegin("headerMap", ::apache::thrift::protocol::T_MAP, 5);
   {
     xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->headerMap.size()));
-    std::map<std::string, std::string> ::const_iterator _iter47;
-    for (_iter47 = this->headerMap.begin(); _iter47 != this->headerMap.end(); ++_iter47)
+    std::map<std::string, std::string> ::const_iterator _iter49;
+    for (_iter49 = this->headerMap.begin(); _iter49 != this->headerMap.end(); ++_iter49)
     {
-      xfer += oprot->writeString(_iter47->first);
-      xfer += oprot->writeString(_iter47->second);
+      xfer += oprot->writeString(_iter49->first);
+      xfer += oprot->writeString(_iter49->second);
     }
     xfer += oprot->writeMapEnd();
   }
@@ -3350,11 +3445,11 @@ uint32_t Server_Request_Set_pargs::write(::apache::thrift::protocol::TProtocol* 
   xfer += oprot->writeFieldBegin("headerMap", ::apache::thrift::protocol::T_MAP, 5);
   {
     xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*(this->headerMap)).size()));
-    std::map<std::string, std::string> ::const_iterator _iter48;
-    for (_iter48 = (*(this->headerMap)).begin(); _iter48 != (*(this->headerMap)).end(); ++_iter48)
+    std::map<std::string, std::string> ::const_iterator _iter50;
+    for (_iter50 = (*(this->headerMap)).begin(); _iter50 != (*(this->headerMap)).end(); ++_iter50)
     {
-      xfer += oprot->writeString(_iter48->first);
-      xfer += oprot->writeString(_iter48->second);
+      xfer += oprot->writeString(_iter50->first);
+      xfer += oprot->writeString(_iter50->second);
     }
     xfer += oprot->writeMapEnd();
   }
@@ -4114,17 +4209,17 @@ uint32_t Server_Response_GetHeaderMap_result::read(::apache::thrift::protocol::T
         if (ftype == ::apache::thrift::protocol::T_MAP) {
           {
             this->success.clear();
-            uint32_t _size49;
-            ::apache::thrift::protocol::TType _ktype50;
-            ::apache::thrift::protocol::TType _vtype51;
-            xfer += iprot->readMapBegin(_ktype50, _vtype51, _size49);
-            uint32_t _i53;
-            for (_i53 = 0; _i53 < _size49; ++_i53)
+            uint32_t _size51;
+            ::apache::thrift::protocol::TType _ktype52;
+            ::apache::thrift::protocol::TType _vtype53;
+            xfer += iprot->readMapBegin(_ktype52, _vtype53, _size51);
+            uint32_t _i55;
+            for (_i55 = 0; _i55 < _size51; ++_i55)
             {
-              std::string _key54;
-              xfer += iprot->readString(_key54);
-              std::string& _val55 = this->success[_key54];
-              xfer += iprot->readString(_val55);
+              std::string _key56;
+              xfer += iprot->readString(_key56);
+              std::string& _val57 = this->success[_key56];
+              xfer += iprot->readString(_val57);
             }
             xfer += iprot->readMapEnd();
           }
@@ -4155,11 +4250,11 @@ uint32_t Server_Response_GetHeaderMap_result::write(::apache::thrift::protocol::
     xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_MAP, 0);
     {
       xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->success.size()));
-      std::map<std::string, std::string> ::const_iterator _iter56;
-      for (_iter56 = this->success.begin(); _iter56 != this->success.end(); ++_iter56)
+      std::map<std::string, std::string> ::const_iterator _iter58;
+      for (_iter58 = this->success.begin(); _iter58 != this->success.end(); ++_iter58)
       {
-        xfer += oprot->writeString(_iter56->first);
-        xfer += oprot->writeString(_iter56->second);
+        xfer += oprot->writeString(_iter58->first);
+        xfer += oprot->writeString(_iter58->second);
       }
       xfer += oprot->writeMapEnd();
     }
@@ -4200,17 +4295,17 @@ uint32_t Server_Response_GetHeaderMap_presult::read(::apache::thrift::protocol::
         if (ftype == ::apache::thrift::protocol::T_MAP) {
           {
             (*(this->success)).clear();
-            uint32_t _size57;
-            ::apache::thrift::protocol::TType _ktype58;
-            ::apache::thrift::protocol::TType _vtype59;
-            xfer += iprot->readMapBegin(_ktype58, _vtype59, _size57);
-            uint32_t _i61;
-            for (_i61 = 0; _i61 < _size57; ++_i61)
+            uint32_t _size59;
+            ::apache::thrift::protocol::TType _ktype60;
+            ::apache::thrift::protocol::TType _vtype61;
+            xfer += iprot->readMapBegin(_ktype60, _vtype61, _size59);
+            uint32_t _i63;
+            for (_i63 = 0; _i63 < _size59; ++_i63)
             {
-              std::string _key62;
-              xfer += iprot->readString(_key62);
-              std::string& _val63 = (*(this->success))[_key62];
-              xfer += iprot->readString(_val63);
+              std::string _key64;
+              xfer += iprot->readString(_key64);
+              std::string& _val65 = (*(this->success))[_key64];
+              xfer += iprot->readString(_val65);
             }
             xfer += iprot->readMapEnd();
           }
@@ -4269,17 +4364,17 @@ uint32_t Server_Response_SetHeaderMap_args::read(::apache::thrift::protocol::TPr
         if (ftype == ::apache::thrift::protocol::T_MAP) {
           {
             this->headerMap.clear();
-            uint32_t _size64;
-            ::apache::thrift::protocol::TType _ktype65;
-            ::apache::thrift::protocol::TType _vtype66;
-            xfer += iprot->readMapBegin(_ktype65, _vtype66, _size64);
-            uint32_t _i68;
-            for (_i68 = 0; _i68 < _size64; ++_i68)
+            uint32_t _size66;
+            ::apache::thrift::protocol::TType _ktype67;
+            ::apache::thrift::protocol::TType _vtype68;
+            xfer += iprot->readMapBegin(_ktype67, _vtype68, _size66);
+            uint32_t _i70;
+            for (_i70 = 0; _i70 < _size66; ++_i70)
             {
-              std::string _key69;
-              xfer += iprot->readString(_key69);
-              std::string& _val70 = this->headerMap[_key69];
-              xfer += iprot->readString(_val70);
+              std::string _key71;
+              xfer += iprot->readString(_key71);
+              std::string& _val72 = this->headerMap[_key71];
+              xfer += iprot->readString(_val72);
             }
             xfer += iprot->readMapEnd();
           }
@@ -4312,11 +4407,11 @@ uint32_t Server_Response_SetHeaderMap_args::write(::apache::thrift::protocol::TP
   xfer += oprot->writeFieldBegin("headerMap", ::apache::thrift::protocol::T_MAP, 2);
   {
     xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->headerMap.size()));
-    std::map<std::string, std::string> ::const_iterator _iter71;
-    for (_iter71 = this->headerMap.begin(); _iter71 != this->headerMap.end(); ++_iter71)
+    std::map<std::string, std::string> ::const_iterator _iter73;
+    for (_iter73 = this->headerMap.begin(); _iter73 != this->headerMap.end(); ++_iter73)
     {
-      xfer += oprot->writeString(_iter71->first);
-      xfer += oprot->writeString(_iter71->second);
+      xfer += oprot->writeString(_iter73->first);
+      xfer += oprot->writeString(_iter73->second);
     }
     xfer += oprot->writeMapEnd();
   }
@@ -4344,11 +4439,11 @@ uint32_t Server_Response_SetHeaderMap_pargs::write(::apache::thrift::protocol::T
   xfer += oprot->writeFieldBegin("headerMap", ::apache::thrift::protocol::T_MAP, 2);
   {
     xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*(this->headerMap)).size()));
-    std::map<std::string, std::string> ::const_iterator _iter72;
-    for (_iter72 = (*(this->headerMap)).begin(); _iter72 != (*(this->headerMap)).end(); ++_iter72)
+    std::map<std::string, std::string> ::const_iterator _iter74;
+    for (_iter74 = (*(this->headerMap)).begin(); _iter74 != (*(this->headerMap)).end(); ++_iter74)
     {
-      xfer += oprot->writeString(_iter72->first);
-      xfer += oprot->writeString(_iter72->second);
+      xfer += oprot->writeString(_iter74->first);
+      xfer += oprot->writeString(_iter74->second);
     }
     xfer += oprot->writeMapEnd();
   }
@@ -6741,6 +6836,26 @@ void ServerClient::send_Browser_SendKeyEvent(const int32_t bid, const int32_t ev
   oprot_->getTransport()->flush();
 }
 
+void ServerClient::Browser_SendCefKeyEvent(const int32_t bid, const CefKeyEvent& event)
+{
+  send_Browser_SendCefKeyEvent(bid, event);
+}
+
+void ServerClient::send_Browser_SendCefKeyEvent(const int32_t bid, const CefKeyEvent& event)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("Browser_SendCefKeyEvent", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_Browser_SendCefKeyEvent_pargs args;
+  args.bid = &bid;
+  args.event = &event;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
 void ServerClient::Browser_SendMouseEvent(const int32_t bid, const int32_t event_type, const int32_t x, const int32_t y, const int32_t modifiers, const int32_t click_count, const int32_t button)
 {
   send_Browser_SendMouseEvent(bid, event_type, x, y, modifiers, click_count, button);
@@ -8518,6 +8633,43 @@ void ServerProcessor::process_Browser_SendKeyEvent(int32_t, ::apache::thrift::pr
 
   if (this->eventHandler_.get() != nullptr) {
     this->eventHandler_->asyncComplete(ctx, "Server.Browser_SendKeyEvent");
+  }
+
+  return;
+}
+
+void ServerProcessor::process_Browser_SendCefKeyEvent(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("Server.Browser_SendCefKeyEvent", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.Browser_SendCefKeyEvent");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "Server.Browser_SendCefKeyEvent");
+  }
+
+  Server_Browser_SendCefKeyEvent_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "Server.Browser_SendCefKeyEvent", bytes);
+  }
+
+  try {
+    iface_->Browser_SendCefKeyEvent(args.bid, args.event);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "Server.Browser_SendCefKeyEvent");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "Server.Browser_SendCefKeyEvent");
   }
 
   return;
@@ -10420,6 +10572,29 @@ void ServerConcurrentClient::send_Browser_SendKeyEvent(const int32_t bid, const 
   args.key_char = &key_char;
   args.scanCode = &scanCode;
   args.key_code = &key_code;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
+void ServerConcurrentClient::Browser_SendCefKeyEvent(const int32_t bid, const CefKeyEvent& event)
+{
+  send_Browser_SendCefKeyEvent(bid, event);
+}
+
+void ServerConcurrentClient::send_Browser_SendCefKeyEvent(const int32_t bid, const CefKeyEvent& event)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("Browser_SendCefKeyEvent", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_Browser_SendCefKeyEvent_pargs args;
+  args.bid = &bid;
+  args.event = &event;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();

@@ -75,6 +75,11 @@ class ServerHandler : virtual public ServerIf {
     printf("Browser_SendKeyEvent\n");
   }
 
+  void Browser_SendCefKeyEvent(const int32_t bid, const CefKeyEvent& event) {
+    // Your implementation goes here
+    printf("Browser_SendCefKeyEvent\n");
+  }
+
   void Browser_SendMouseEvent(const int32_t bid, const int32_t event_type, const int32_t x, const int32_t y, const int32_t modifiers, const int32_t click_count, const int32_t button) {
     // Your implementation goes here
     printf("Browser_SendMouseEvent\n");

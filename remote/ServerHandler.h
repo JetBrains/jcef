@@ -81,6 +81,9 @@ class ServerHandler : public thrift_codegen::ServerIf {
   void QueryCallback_Dispose(const thrift_codegen::RObject& qcallback) override;
   void QueryCallback_Success(const thrift_codegen::RObject& qcallback,const std::string& response) override;
   void QueryCallback_Failure(const thrift_codegen::RObject& qcallback,const int32_t error_code,const std::string& error_message) override;
+  void Browser_SendCefKeyEvent(
+      const int32_t bid,
+      const thrift_codegen::CefKeyEvent& event) override;
 
  private:
   std::shared_ptr<RpcExecutor> myService;

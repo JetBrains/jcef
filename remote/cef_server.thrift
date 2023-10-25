@@ -19,6 +19,16 @@ include "shared.thrift"
 namespace cpp thrift_codegen
 namespace java com.jetbrains.cef.remote.thrift_codegen
 
+struct CefKeyEvent {
+    1: required i32 type,
+    2: required i32 modifiers,
+    3: required i32 windows_key_code,
+    4: required i32 native_key_code,
+    5: required i16 character,
+    6: required i16 unmodified_character,
+    7: required bool is_system_key,
+}
+
 service Server {
     i32 connect(1: i32 backwardConnectionPort, 2: list<string> cmdLineArgs, 3: map<string, string> settings),
     oneway void log(1: string msg),
@@ -34,6 +44,7 @@ service Server {
     oneway void Browser_ExecuteJavaScript(1: i32 bid, 2: string code, 3: string url, 4: i32 line),
     oneway void Browser_WasResized(1: i32 bid, 2: i32 width, 3: i32 height),
     oneway void Browser_SendKeyEvent(1: i32 bid, 2: i32 event_type, 3: i32 modifiers, 4: i16 key_char, 5: i64 scanCode, 6: i32 key_code),
+    oneway void Browser_SendCefKeyEvent(1: i32 bid, 2: CefKeyEvent event),
     oneway void Browser_SendMouseEvent(1: i32 bid, 2: i32 event_type, 3: i32 x, 4: i32 y, 5: i32 modifiers, 6: i32 click_count, 7: i32 button),
     oneway void Browser_SendMouseWheelEvent(1: i32 bid, 2: i32 scroll_type, 3: i32 x, 4: i32 y, 5: i32 modifiers, 6: i32 delta, 7: i32 units_to_scroll),
     //

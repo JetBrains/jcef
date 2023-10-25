@@ -133,6 +133,23 @@ void ServerHandler::Browser_SendKeyEvent(const int32_t bid,const int32_t event_t
   browser->GetHost()->SendKeyEvent(cef_event);
 }
 
+void ServerHandler::Browser_SendCefKeyEvent(
+    const int32_t bid,
+    const thrift_codegen::CefKeyEvent& event) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN()
+  CefKeyEvent cef_event{};
+  cef_event.type = static_cast<cef_key_event_type_t>(event.type);
+  cef_event.modifiers = event.modifiers;
+  cef_event.windows_key_code = event.windows_key_code;
+  cef_event.native_key_code = event.native_key_code;
+  cef_event.is_system_key = event.is_system_key;
+  cef_event.character = event.character;
+  cef_event.unmodified_character = event.unmodified_character;
+
+  browser->GetHost()->SendKeyEvent(cef_event);
+}
+
 extern void processMouseEvent(
     CefRefPtr<CefBrowser> browser,
     int event_type, // getID
