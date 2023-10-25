@@ -5,6 +5,7 @@
 package org.cef.browser;
 
 import java.awt.Component;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * Interface representing system dependent methods for the browser.

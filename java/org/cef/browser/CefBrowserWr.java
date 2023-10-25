@@ -26,6 +26,7 @@ import javax.swing.ToolTipManager;
 import com.jetbrains.cef.JdkEx;
 import org.cef.misc.CefLog;
 import sun.awt.AWTAccessor;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * This class represents a windowed rendered browser.
