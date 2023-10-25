@@ -28,29 +28,25 @@ public class CefBrowserWindowMac implements CefBrowserWindow {
                 return JdkEx.WindowHandleAccessor.getWindowHandle(comp);
             }
 
-            try {
-                ComponentPeer peer = AWTAccessor.getComponentAccessor().getPeer(comp);
-                Class<?> lw = Class.forName("sun.lwawt.LWComponentPeer");
+            ComponentPeer peer = AWTAccessor.getComponentAccessor().getPeer(comp);
+            Class<?> lw = Class.forName("sun.lwawt.LWComponentPeer");
 
-                if (lw.isInstance(peer)) {
-                    Method platformWindowMethod = lw.getMethod("getPlatformWindow");
-                    Object pWindow = platformWindowMethod.invoke(lw.cast(peer));
-                    Class<?> cPlatformWindow = Class.forName("sun.lwawt.macosx.CPlatformWindow");
+            if (lw.isInstance(peer)) {
+                Method platformWindowMethod = lw.getMethod("getPlatformWindow");
+                Object pWindow = platformWindowMethod.invoke(lw.cast(peer));
+                Class<?> cPlatformWindow = Class.forName("sun.lwawt.macosx.CPlatformWindow");
 
-                    if (cPlatformWindow.isInstance(pWindow)) {
-                        Class<?> nativeAction = Class.forName("sun.lwawt.macosx.CFRetainedResource$CFNativeAction");
-                        Object nativeActionInstance = Proxy.newProxyInstance(
-                                nativeAction.getClassLoader(),
-                                new Class[]{nativeAction},
-                                new WindowInvocationHandler(ptr -> result[0] = ptr)
-                        );
+                if (cPlatformWindow.isInstance(pWindow)) {
+                    Class<?> nativeAction = Class.forName("sun.lwawt.macosx.CFRetainedResource$CFNativeAction");
+                    Object nativeActionInstance = Proxy.newProxyInstance(
+                            nativeAction.getClassLoader(),
+                            new Class[]{nativeAction},
+                            new WindowInvocationHandler(ptr -> result[0] = ptr)
+                    );
 
-                        Method execute = cPlatformWindow.getMethod("execute", nativeAction);
-                        execute.invoke(pWindow, nativeActionInstance);
-                    }
+                    Method execute = cPlatformWindow.getMethod("execute", nativeAction);
+                    execute.invoke(pWindow, nativeActionInstance);
                 }
-            } catch (Throwable e) {
-                e.printStackTrace();
             }
             comp = comp.getParent();
         }
