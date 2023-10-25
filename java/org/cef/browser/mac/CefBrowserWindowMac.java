@@ -47,6 +47,7 @@ public class CefBrowserWindowMac implements CefBrowserWindow {
 
                     Method execute = cPlatformWindow.getMethod("execute", nativeAction);
                     execute.invoke(pWindow, nativeActionInstance);
+                    break;
                 }
             }
             comp = comp.getParent();
