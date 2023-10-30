@@ -10,6 +10,7 @@ import com.jetbrains.cef.JCefAppConfig;
 import org.cef.CefApp;
 import org.cef.CefApp.CefAppState;
 import org.cef.CefClient;
+import org.cef.CefClientImpl;
 import org.cef.CefSettings;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefFrame;
@@ -178,11 +179,11 @@ public class TestSetupExtension
         //
         CefClient client = CefApp.getInstance().createClient();
         final long time1 = System.currentTimeMillis();
-        CefLog.Info("CefApp.getInstance().createClient() spent %d ms, created test client: %s", time1 - time0, client.getInfo());
+        CefLog.Info("CefApp.getInstance().createClient() spent %d ms, created test client: %s", time1 - time0, ((CefClientImpl)client).getInfo());
 
         // Check correct disposing
         CountDownLatch clientDispose_ = new CountDownLatch(1);
-        client.setOnDisposeCallback(()->clientDispose_.countDown());
+        ((CefClientImpl)client).setOnDisposeCallback(()->clientDispose_.countDown());
 
         // Check CefLifeSpanHandler
         long[] onAfterCreatedTime = new long[]{-1};
@@ -272,7 +273,7 @@ public class TestSetupExtension
         browser.close(true);
         _wait(onBeforeClose_, 5, "onBeforeClose wasn't called");
         client.dispose();
-        _wait(clientDispose_, 5, "CefClient wasn't completely disposed: " + client.getInfo());
+        _wait(clientDispose_, 5, "CefClient wasn't completely disposed: " + ((CefClientImpl)client).getInfo());
 
         if (frame[0] != null)
             frame[0].dispose();
