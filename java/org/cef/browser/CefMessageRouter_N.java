@@ -5,7 +5,7 @@
 package org.cef.browser;
 
 import org.cef.CefApp;
-import org.cef.callback.CefNative;
+import org.cef.callback.CefNativeAdapter;
 import org.cef.handler.CefAppStateHandler;
 import org.cef.handler.CefMessageRouterHandler;
 import org.cef.misc.CefLog;
@@ -13,12 +13,12 @@ import org.cef.misc.CefLog;
 import java.util.ArrayList;
 import java.util.List;
 
-class CefMessageRouter_N extends CefMessageRouter implements CefAppStateHandler {
+class CefMessageRouter_N extends CefNativeAdapter implements CefMessageRouter, CefAppStateHandler {
+    private CefMessageRouterConfig routerConfig_ = null;
     private boolean isNativeCtxInitialized_ = false;
     private final List<Runnable> delayedActions_ = new ArrayList<>();
 
     CefMessageRouter_N(CefMessageRouterConfig config) {
-        super();
         setMessageRouterConfig(config);
         // NOTE: message router must be registered before browser created, so use flag 'first' here
         CefApp.getInstance().onInitialization(this, true);
@@ -48,6 +48,15 @@ class CefMessageRouter_N extends CefMessageRouter implements CefAppStateHandler 
     }
 
     @Override
+    protected void finalize() throws Throwable {
+        dispose();
+        super.finalize();
+    }
+
+    /**
+     * Must be called if the CefMessageRouter instance isn't used any more.
+     */
+    @Override
     public void dispose() {
         try {
             synchronized (delayedActions_) {
@@ -75,6 +84,16 @@ class CefMessageRouter_N extends CefMessageRouter implements CefAppStateHandler 
     @Override
     public void cancelPending(CefBrowser browser, CefMessageRouterHandler handler) {
         executeNative(() -> N_CancelPending(getNativeRef(), browser, handler), "cancelPending");
+    }
+
+    // Called from native code during handling of createNative().
+    void setMessageRouterConfig(CefMessageRouterConfig config) {
+        routerConfig_ = config;
+    }
+
+    // Called from native code during handling of CefClientHandler.[add|remove]MessageRouter().
+    public final CefMessageRouterConfig getMessageRouterConfig() {
+        return routerConfig_;
     }
 
     private final native void N_Initialize(CefMessageRouterConfig config);
