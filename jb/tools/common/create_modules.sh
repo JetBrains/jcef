@@ -3,6 +3,10 @@
 set -euo pipefail
 
 export JOGAMP_DIR="$JCEF_ROOT_DIR"/third_party/jogamp/jar
+export THRIFT_DIR="$JCEF_ROOT_DIR"/third_party/thrift
+export SLF_DIR="$JCEF_ROOT_DIR"/third_party/slf4j
+export THRIFT_JAR=libthrift-0.16.0.jar
+export SLF_JAR=slf4j-api-2.0.0.jar
 
 function extract_jar {
   __jar=$1
@@ -64,6 +68,34 @@ if [ "${OS}" == "macosx" ] || [ "${TARGET_ARCH}" == "x86_64" ]; then
 fi
 "$JAVA_HOME"/bin/jmod create --module-path . --class-path jogl-all.jar --libs lib jogl.all.jmod
 rm -rf jogl-all.jar lib
+
+echo "*** create slf4j module..."
+
+cp "$SLF_DIR"/"$SLF_JAR" .
+cp "$JB_TOOLS_DIR"/common/slf4j-module-info.java module-info.java
+"$JAVA_HOME"/bin/javac --patch-module org.slf4j=$SLF_JAR module-info.java
+
+export TMP_DIR="tmp_jar_content"
+mkdir $TMP_DIR
+cd $TMP_DIR
+jar -xvf ../$SLF_JAR
+rm -rf ./META-INF/versions
+cp ../module-info.class .
+jar -cvf ../slf4j.jar .
+cd ..
+rm -rf module-info.class module-info.java $TMP_DIR
+"$JAVA_HOME"/bin/jmod create --class-path slf4j.jar org.slf4j.jmod
+rm -rf "$SLF_JAR" slf4j.jar
+
+echo "*** create thrift module..."
+
+cp "$THRIFT_DIR"/"$THRIFT_JAR" .
+cp "$JB_TOOLS_DIR"/common/thrift-module-info.java module-info.java
+"$JAVA_HOME"/bin/javac --patch-module org.apache.thrift=$THRIFT_JAR module-info.java
+"$JAVA_HOME"/bin/jar uf $THRIFT_JAR module-info.class
+rm module-info.class module-info.java
+"$JAVA_HOME"/bin/jmod create --class-path $THRIFT_JAR org.apache.thrift.jmod
+rm -rf "$THRIFT_JAR"
 
 echo "*** create jcef module..."
 cp "$OUT_CLS_DIR"/jcef.jar .
