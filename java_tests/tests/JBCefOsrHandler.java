@@ -2,16 +2,25 @@ package tests;
 // Copyright 2000-2021 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 
 import com.jetbrains.cef.JCefAppConfig;
+import com.jetbrains.cef.remote.SharedMemory;
 import org.cef.browser.CefBrowser;
 import org.cef.callback.CefDragData;
-import org.cef.handler.CefRenderHandler;
+import org.cef.handler.CefNativeRenderHandler;
 import org.cef.handler.CefScreenInfo;
 import org.cef.misc.CefRange;
+import org.cef.misc.CefLog;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
+import java.awt.image.VolatileImage;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.IntBuffer;
@@ -28,7 +37,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * @see JBCefOsrComponent
  * @author tav
  */
-public class JBCefOsrHandler implements CefRenderHandler {
+public class JBCefOsrHandler implements CefNativeRenderHandler {
     interface ScreenBoundsProvider {
         Rectangle fun(JComponent param);
     }
@@ -65,6 +74,10 @@ public class JBCefOsrHandler implements CefRenderHandler {
     private boolean myPopupShown;
     private final CountDownLatch initLatch = new CountDownLatch(1);
 
+    private SharedMemory.WithRaster mySharedMem;
+
+    private JBCefFpsMeter myFpsMeter;
+
     public JBCefOsrHandler(JBCefOsrComponent component, ScreenBoundsProvider screenBoundsProvider) {
         myComponent = component;
         component.setRenderHandler(this);
@@ -83,6 +96,15 @@ public class JBCefOsrHandler implements CefRenderHandler {
                 updateLocation();
             }
         });
+
+        myFpsMeter = JBCefFpsMeter.register(this.toString());
+        myFpsMeter.registerComponent(myComponent);
+        myFpsMeter.setActive(true);
+    }
+
+    @Override
+    public void disposeNativeResources() {
+        if (mySharedMem != null) mySharedMem.close();
     }
 
     @Override
@@ -123,7 +145,71 @@ public class JBCefOsrHandler implements CefRenderHandler {
     }
 
     @Override
+    public void onPaintWithSharedMem(CefBrowser browser, boolean popup, int dirtyRectsCount, String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height) {
+        // TODO: support popups
+        long startMs = System.currentTimeMillis();
+        if (recreateHandle || mySharedMem == null || !mySharedMem.mname.equals(sharedMemName) || sharedMemHandle != mySharedMem.boostHandle) {
+            if (mySharedMem != null) mySharedMem.close();
+            mySharedMem = new SharedMemory.WithRaster(sharedMemName, sharedMemHandle);
+        }
+
+        mySharedMem.setWidth(width);
+        mySharedMem.setHeight(height);
+        mySharedMem.setDirtyRectsCount(dirtyRectsCount);
+
+        BufferedImage bufImage = myImage;
+        VolatileImage volatileImage = myVolatileImage;
+        final double jreScale = myScale.getJreBiased();
+        final int scaledW = (int)(width / jreScale);
+        final int scaledH = (int)(height / jreScale);
+        if (volatileImage == null || volatileImage.getWidth() != scaledW || volatileImage.getHeight() != scaledH) {
+            try {
+                volatileImage = myComponent.getGraphicsConfiguration().createCompatibleVolatileImage(scaledW, scaledH, null, Transparency.TRANSLUCENT);
+                if (!RasterProcessor.isFastLoadingAvailable())
+                    bufImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB_PRE);
+            } catch (AWTException e) {
+                throw new RuntimeException(e);
+            }
+            dirtyRectsCount = 0; // will cause full raster loading
+        }
+        long midMs = System.currentTimeMillis();
+
+        if (RasterProcessor.isFastLoadingAvailable()) {
+            RasterProcessor.loadFast(volatileImage, mySharedMem);
+        } else {
+            // load buffered
+            RasterProcessor.loadBuffered(bufImage, mySharedMem);
+
+            // draw buffered onto volatile
+            Graphics2D viGr = (Graphics2D)volatileImage.getGraphics().create();
+            try {
+                double sx = viGr.getTransform().getScaleX();
+                double sy = viGr.getTransform().getScaleY();
+                viGr.scale(1 / sx, 1 / sy);
+                viGr.drawImage(bufImage,
+                        0, 0, width, height,
+                        0, 0, width, height,
+                        null);
+            }
+            finally {
+                viGr.dispose();
+            }
+        }
+        myVolatileImage = volatileImage;
+        myImage = bufImage;
+
+        // TODO: calculate outerRect
+        //Rectangle outerRect = findOuterRect(dirtyRects);
+        //SwingUtilities.invokeLater(() -> myComponent.repaint(scaleDown(outerRect)));
+        SwingUtilities.invokeLater(() -> myComponent.repaint());
+
+        long endMs = System.currentTimeMillis();
+        System.err.println("onPaintWithSharedMem spent " + (endMs - startMs) + " ms, load spent " + (endMs - midMs));
+    }
+
+    @Override
     public void onPaint(CefBrowser browser, boolean popup, Rectangle[] dirtyRects, ByteBuffer buffer, int width, int height) {
+        long startMs = System.currentTimeMillis();
         initLatch.countDown();
         BufferedImage image = myImage;
         VolatileImage volatileImage = myVolatileImage;
@@ -193,6 +279,8 @@ public class JBCefOsrHandler implements CefRenderHandler {
             }
         }
 
+        long midMs = System.currentTimeMillis();
+
         //
         // Draw the BufferedImage into the VolatileImage
         //
@@ -217,6 +305,9 @@ public class JBCefOsrHandler implements CefRenderHandler {
         myImage = image;
         myVolatileImage = volatileImage;
         SwingUtilities.invokeLater(() -> myComponent.repaint(popup ? scaleDown(new Rectangle(0, 0, imageWidth, imageHeight)) : scaleDown(outerRect)));
+
+        long endMs = System.currentTimeMillis();
+        System.err.println("onPaint spent " + (endMs - startMs) + " ms, draw buffered spent " + (endMs - midMs));
     }
 
     @Override
@@ -255,6 +346,8 @@ public class JBCefOsrHandler implements CefRenderHandler {
             g.drawImage(image, 0, 0, null );
             //UIUtil.drawImage(g, image, 0, 0, null);
         }
+
+        myFpsMeter.paintFrameFinished(g);
     }
 
     private static Rectangle findOuterRect(Rectangle[] rects) {
@@ -314,5 +407,85 @@ public class JBCefOsrHandler implements CefRenderHandler {
 
     public boolean awaitInit() throws InterruptedException {
         return initLatch.await(5, TimeUnit.SECONDS);
+    }
+
+    public static class RasterProcessor {
+        private static Method mLoadMethodHandle;
+
+        static {
+            try {
+                //noinspection JavaReflectionMemberAccess
+                mLoadMethodHandle = Image.class.getDeclaredMethod("loadNativeRasterWithRects", long.class, int.class, int.class, long.class, int.class);
+            } catch (NoSuchMethodException ignore) {
+                mLoadMethodHandle = null;
+                CefLog.Info("Java runtime doesn't support fast volatile image loading.");
+            }
+        }
+
+        public static void loadFast(VolatileImage volatileImage, SharedMemory.WithRaster mem) {
+            if (!isFastLoadingAvailable())
+                return;
+
+            try {
+                // TODO: use jbr API
+                mLoadMethodHandle.invoke(volatileImage, mem.getPtr(), mem.getWidth(), mem.getHeight(), mem.getPtr() + mem.getWidth()*mem.getHeight()*4, mem.getDirtyRectsCount());
+            } catch (IllegalAccessException | InvocationTargetException ignore) {
+            }
+        }
+
+        public static void loadBuffered(BufferedImage bufImage, SharedMemory.WithRaster mem) {
+            final long pRaster = mem.getPtr();
+            final int width = mem.getWidth();
+            final int height = mem.getHeight();
+            final int rectsCount = mem.getDirtyRectsCount();
+
+            ByteBuffer buffer = mem.wrapRaster();
+            int[] dst = ((DataBufferInt)bufImage.getRaster().getDataBuffer()).getData();
+            IntBuffer src = buffer.order(ByteOrder.LITTLE_ENDIAN).asIntBuffer();
+
+            Rectangle[] dirtyRects = new Rectangle[]{new Rectangle(0, 0, width, height)};
+            if (rectsCount > 0) {
+                ByteBuffer rectsMem = mem.wrapRects();
+                IntBuffer rects = rectsMem.order(ByteOrder.LITTLE_ENDIAN).asIntBuffer();
+                for (int c = 0; c < rectsCount; ++c) {
+                    int pos = c*4;
+                    Rectangle r = new Rectangle();
+                    r.x = rects.get(pos++);
+                    r.y = rects.get(pos++);
+                    r.width = rects.get(pos++);
+                    r.height = rects.get(pos++);
+                    r.y = height - (r.y + r.height); // flip
+                    dirtyRects[c] = r;
+                }
+            }
+
+            // flip image here
+            // TODO: consider to optimize
+            for (Rectangle rect : dirtyRects) {
+                if (rect.width < width) {
+                    for (int line = rect.y; line < rect.y + rect.height; line++) {
+                        int srcOffset = line*width + rect.x;
+                        int dstOffset = (height - line - 1)*width + rect.x;
+                        src.position(srcOffset).get(dst, dstOffset, rect.width);
+                    }
+                }
+                else { // optimized for a buffer wide dirty rect
+                    for (int y = rect.y; y < rect.y + rect.height; ++y)
+                        src.position(y*width).get(dst, (height - y - 1)*width, width);
+                }
+            }
+
+            // draw debug
+//            Graphics2D g = bufImage.createGraphics();
+//            g.setColor(Color.RED);
+//            for (Rectangle r : dirtyRects)
+//                g.drawRect(r.x, r.y, r.width, r.height);
+//            g.dispose();
+        }
+
+        public static boolean isFastLoadingAvailable() {
+            // TODO: use jbr API
+            return mLoadMethodHandle != null;
+        }
     }
 }
