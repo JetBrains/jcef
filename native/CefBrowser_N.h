@@ -257,6 +257,14 @@ JNIEXPORT void JNICALL Java_org_cef_browser_CefBrowser_1N_N_1SetWindowVisibility
 
 /*
  * Class:     org_cef_browser_CefBrowser_N
+ * Method:    N_SetWindowlessFrameRate
+ * Signature: (I)V
+ */
+JNIEXPORT void JNICALL Java_org_cef_browser_CefBrowser_1N_N_1SetWindowlessFrameRate
+  (JNIEnv *, jobject, jint);
+
+/*
+ * Class:     org_cef_browser_CefBrowser_N
  * Method:    N_GetZoomLevel
  * Signature: ()D
  */
