@@ -276,6 +276,13 @@ public interface CefBrowser {
     public void setWindowVisibility(boolean visible);
 
     /**
+     * Set frame rate.
+     * Note: Only for windowless(OSR) mode.
+     * @param frameRate
+     */
+    public void setWindowlessFrameRate(int frameRate);
+
+    /**
      * Get the current zoom level. The default zoom level is 0.0.
      * @return The current zoom level.
      */
