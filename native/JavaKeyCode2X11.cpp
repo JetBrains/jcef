@@ -1,7 +1,31 @@
-#include "jni_scoped_helpers.h"
-#include "jni_util.h"
-
 #include <X11/keysym.h>
+#include <jni.h>
+
+namespace {
+
+bool GetJNIFieldStaticInt(JNIEnv* env,
+                          jclass cls,
+                          const char* field_name,
+                          int* value) {
+  jfieldID field = env->GetStaticFieldID(cls, field_name, "I");
+  if (field) {
+    *value = env->GetStaticIntField(cls, field);
+    return true;
+  }
+  env->ExceptionClear();
+  return false;
+}
+
+}  // namespace
+
+#define JNI_STATIC(name) _static_##name
+
+#define JNI_STATIC_DEFINE_INT_RV(env, cls, name, rv)                        \
+  static int JNI_STATIC(name) = -1;                                         \
+  if (JNI_STATIC(name) == -1 && !GetJNIFieldStaticInt( \
+                                    env, cls, #name, &JNI_STATIC(name))) {  \
+    return rv;                                                              \
+  }
 
 int JavaKeyCode2X11(JNIEnv* env,
                     jclass cls /*KeyEvent*/,
