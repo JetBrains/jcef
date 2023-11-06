@@ -237,7 +237,7 @@ public class CefSettings {
      * Affects the CEF message loop delay.
      * message_loop_delay_ms = 1000 / fps_limit.
      */
-    public int fps_limit = Integer.getInteger("jcef.fps_limit", 30);
+    public int frameRateLimit = Integer.getInteger("jcef.frameRateLimit", 30);
 
     public CefSettings() {}
 
@@ -264,7 +264,7 @@ public class CefSettings {
         tmp.cookieable_schemes_list = cookieable_schemes_list;
         tmp.cookieable_schemes_exclude_defaults = cookieable_schemes_exclude_defaults;
         tmp.no_sandbox = no_sandbox;
-        tmp.fps_limit = fps_limit;
+        tmp.frameRateLimit = frameRateLimit;
         return tmp;
     }
     
@@ -290,7 +290,7 @@ public class CefSettings {
         sb.append("cookieable_schemes_list=" + cookieable_schemes_list + ", ");
         sb.append("cookieable_schemes_exclude_defaults=" + cookieable_schemes_exclude_defaults + ", ");
         sb.append("no_sandbox=" + no_sandbox + ", ");
-        sb.append("fps_limit=" + fps_limit);
+        sb.append("fps_limit=" + frameRateLimit);
         return sb.toString();
     }
 }
