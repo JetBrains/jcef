@@ -21,7 +21,7 @@ public:
             CefRefPtr<CefBrowser> browser,
             CefRefPtr<CefFrame> frame,
             const CefString& requesting_url,
-            uint32 requested_permissions,
+            uint32_t requested_permissions,
             CefRefPtr<CefMediaAccessCallback> callback) override;
 
 protected:

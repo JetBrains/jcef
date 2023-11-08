@@ -422,7 +422,7 @@ void processKeyEvent(
     CefKeyEvent & cef_event,
     int event_type, // event.getID()
     int modifiers,  // event.getModifiersEx()
-    char16 key_char, // event.getKeyChar()
+    char16_t key_char, // event.getKeyChar()
     long scanCode,   // event.scancode, windows only
     int key_code   // event.getKeyCode()
 ) {
