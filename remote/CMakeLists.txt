@@ -62,10 +62,6 @@ if (OS_WINDOWS)
 endif ()
 target_link_libraries(thrift_codegen thrift::thrift libcef_dll_wrapper ${CEF_STANDARD_LIBS})
 
-set(shared_mem_helper_SOURCES CefServerHelper.cpp)
-add_library(shared_mem_helper SHARED ${shared_mem_helper_SOURCES})
-target_include_directories(shared_mem_helper PUBLIC ${JNI_INCLUDE_DIRS})
-
 if (OS_MAC)
     set(CEFSIMPLE_RESOURCES_MAC_SRCS_MAC
             mac/Info.plist
@@ -307,3 +303,7 @@ if (OS_MAC)
         )
     endforeach ()
 endif ()
+
+set(shared_mem_helper_SOURCES CefServerHelper.cpp)
+add_library(shared_mem_helper SHARED ${shared_mem_helper_SOURCES})
+target_include_directories(shared_mem_helper PUBLIC ${JNI_INCLUDE_DIRS})
