@@ -5,11 +5,16 @@
 package org.cef.browser;
 
 import com.jetbrains.cef.JCefAppConfig;
+import com.jetbrains.cef.JdkEx;
 import org.cef.CefClient;
+import org.cef.CefClientImpl;
 import org.cef.OS;
 import org.cef.handler.CefWindowHandler;
 import org.cef.handler.CefWindowHandlerAdapter;
+import org.cef.misc.CefLog;
+import sun.awt.AWTAccessor;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -189,7 +194,7 @@ class CefBrowserWr extends CefBrowser_N {
     @SuppressWarnings("serial")
     private CefBrowserWr(CefClient client, String url, CefRequestContext context,
             CefBrowserWr parent, Point inspectAt) {
-        super(client, url, context, parent, inspectAt);
+        super((CefClientImpl)client, url, context, parent, inspectAt);
         delayedUpdate_.setRepeats(false);
         delayCreationUntilMs_ = Long.getLong("jcef.debug.cefbrowserwr.delay_creation", 0);
         if (delayCreationUntilMs_ > 0) delayCreationUntilMs_ += System.currentTimeMillis();
@@ -518,7 +523,7 @@ class CefBrowserWr extends CefBrowser_N {
                         getInspectAt());
                 return true;
             } else {
-                createBrowser(getClient(), windowHandle, getUrl(), false, false, canvas);
+                createBrowser(getClient(), windowHandle, getUrl(), false, false, canvas, 0);
                 return true;
             }
         } else if (hasParent && justCreated_) {

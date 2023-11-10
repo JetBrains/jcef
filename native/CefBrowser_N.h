@@ -10,10 +10,10 @@ extern "C" {
 /*
  * Class:     org_cef_browser_CefBrowser_N
  * Method:    N_CreateBrowser
- * Signature: (Lorg/cef/handler/CefClientHandler;JLjava/lang/String;ZZLjava/awt/Component;Lorg/cef/browser/CefRequestContext;)Z
+ * Signature: (Lorg/cef/handler/CefClientHandler;JLjava/lang/String;ZZLjava/awt/Component;Lorg/cef/browser/CefRequestContext;I)Z
  */
 JNIEXPORT jboolean JNICALL Java_org_cef_browser_CefBrowser_1N_N_1CreateBrowser
-  (JNIEnv *, jobject, jobject, jlong, jstring, jboolean, jboolean, jobject, jobject);
+  (JNIEnv *, jobject, jobject, jlong, jstring, jboolean, jboolean, jobject, jobject, jint);
 
 /*
  * Class:     org_cef_browser_CefBrowser_N
@@ -254,6 +254,14 @@ JNIEXPORT void JNICALL Java_org_cef_browser_CefBrowser_1N_N_1SetFocus
  */
 JNIEXPORT void JNICALL Java_org_cef_browser_CefBrowser_1N_N_1SetWindowVisibility
   (JNIEnv *, jobject, jboolean);
+
+/*
+ * Class:     org_cef_browser_CefBrowser_N
+ * Method:    N_SetWindowlessFrameRate
+ * Signature: (I)V
+ */
+JNIEXPORT void JNICALL Java_org_cef_browser_CefBrowser_1N_N_1SetWindowlessFrameRate
+  (JNIEnv *, jobject, jint);
 
 /*
  * Class:     org_cef_browser_CefBrowser_N

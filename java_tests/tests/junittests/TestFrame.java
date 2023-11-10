@@ -11,6 +11,7 @@ import static tests.junittests.TestSetupContext.debugPrint;
 
 import org.cef.CefApp;
 import org.cef.CefClient;
+import org.cef.CefClientImpl;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefFrame;
 import org.cef.browser.CefRendering;
@@ -66,7 +67,7 @@ class TestFrame extends JFrame implements CefLifeSpanHandler, CefLoadHandler, Ce
         disposeLatch_ = new CountDownLatch(1);
         client_ = CefApp.getInstance().createClient();
         assertNotNull(client_);
-        client_.setOnDisposeCallback(()->{
+        ((CefClientImpl)client_).setOnDisposeCallback(()->{
             disposeLatch_.countDown();
         });
 
@@ -169,7 +170,7 @@ class TestFrame extends JFrame implements CefLifeSpanHandler, CefLoadHandler, Ce
 
         try {
             if(!disposeLatch_.await(TIMEOUT, TimeUnit.SECONDS)) {
-                throw new RuntimeException("CefClient wasn't completely disposed: " + client_.getInfo());
+                throw new RuntimeException("CefClient wasn't completely disposed: " + ((CefClientImpl)client_).getInfo());
             }
         } catch (InterruptedException e) {
         }

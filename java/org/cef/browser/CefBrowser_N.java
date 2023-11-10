@@ -6,6 +6,7 @@ package org.cef.browser;
 
 import org.cef.CefApp;
 import org.cef.CefClient;
+import org.cef.CefClientImpl;
 import org.cef.callback.CefDragData;
 import org.cef.callback.CefNativeAdapter;
 import org.cef.callback.CefPdfPrintCallback;
@@ -43,11 +44,12 @@ import javax.swing.SwingUtilities;
 abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefAppStateHandler {
     private static final boolean TRACE_LIFESPAN = Boolean.getBoolean("jcef.trace.cefbrowser_n.lifespan");
     private volatile boolean isPending_ = false;
-    private final CefClient client_;
+    private final CefClientImpl client_;
     private final String url_;
     private CefRequestContext request_context_;
     private volatile CefBrowser_N parent_ = null;
     private volatile Point inspectAt_ = null;
+    private volatile int frameRate_ = 0;
     private volatile CefBrowser_N devTools_ = null;
     private boolean closeAllowed_ = false;
     private volatile boolean isClosed_ = false;
@@ -57,7 +59,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     private boolean isNativeCtxInitialized_ = false;
     private final List<Runnable> delayedActions_ = new ArrayList<>();
 
-    protected CefBrowser_N(CefClient client, String url, CefRequestContext context,
+    protected CefBrowser_N(CefClientImpl client, String url, CefRequestContext context,
             CefBrowser_N parent, Point inspectAt) {
         client_ = client;
         url_ = url;
@@ -78,6 +80,10 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
 
     protected Point getInspectAt() {
         return inspectAt_;
+    }
+
+    protected int getFrameRate() {
+        return frameRate_;
     }
 
     @Override
@@ -107,7 +113,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     }
 
     @Override
-    public CefClient getClient() {
+    public CefClientImpl getClient() {
         return client_;
     }
 
@@ -205,7 +211,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
      * Create a new browser.
      */
     protected void createBrowser(CefClientHandler clientHandler, long windowHandle, String url,
-            boolean osr, boolean transparent, Component canvas) {
+            boolean osr, boolean transparent, Component canvas, int frameRate) {
         if (isClosing_ || isClosed_ || isCreating_)
             return;
 
@@ -214,7 +220,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
             executeNative(() -> {
                 try {
                     if (TRACE_LIFESPAN) CefLog.Debug("CefBrowser_N: %s: started native creation", this);
-                    N_CreateBrowser(clientHandler, windowHandle, url, osr, transparent, canvas, request_context_);
+                    N_CreateBrowser(clientHandler, windowHandle, url, osr, transparent, canvas, request_context_, frameRate);
                 } catch (UnsatisfiedLinkError err) {
                     err.printStackTrace();
                 }
@@ -612,6 +618,18 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
             checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_SetWindowVisibility(visible);
+        } catch (UnsatisfiedLinkError ule) {
+            ule.printStackTrace();
+        }
+    }
+
+    @Override
+    public void setWindowlessFrameRate(int frameRate) {
+        try {
+            checkNativeCtxInitialized();
+            if (isNativeCtxInitialized_)
+                N_SetWindowlessFrameRate(frameRate);
+            this.frameRate_ = frameRate;
         } catch (UnsatisfiedLinkError ule) {
             ule.printStackTrace();
         }
@@ -1016,7 +1034,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
 
     private final native boolean N_CreateBrowser(CefClientHandler clientHandler, long windowHandle,
             String url, boolean osr, boolean transparent, Component canvas,
-            CefRequestContext context);
+            CefRequestContext context, int frameRate);
     private final native boolean N_CreateDevTools(CefBrowser parent, CefClientHandler clientHandler,
             long windowHandle, boolean osr, boolean transparent, Component canvas, Point inspectAt);
     private final native long N_GetWindowHandle(long surfaceHandle);
@@ -1048,6 +1066,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     private final native void N_Close(boolean force);
     private final native void N_SetFocus(boolean enable);
     private final native void N_SetWindowVisibility(boolean visible);
+    private final native void N_SetWindowlessFrameRate(int framerate);
     private final native double N_GetZoomLevel();
     private final native void N_SetZoomLevel(double zoomLevel);
     private final native void N_RunFileDialog(FileDialogMode mode, String title,
