@@ -30,3 +30,4 @@ RUN wget -nv -O /cmake.tar.gz https://github.com/Kitware/CMake/releases/download
 
 RUN git config --global --add safe.directory '*'
 
+ENV JCEF_CLEANUP_VCPKG=1

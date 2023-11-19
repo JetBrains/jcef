@@ -29,5 +29,7 @@ RUN wget -nv -O /cmake.tar.gz https://github.com/Kitware/CMake/releases/download
 
 RUN git config --global --add safe.directory '*'
 
+ENV JCEF_CLEANUP_VCPKG=1
+
 #RUN git clone https://github.com/JetBrains/jcef.git && cd jcef && git checkout dev
 #RUN echo "env BUILD_CEF_SERVER=1 bash ./jb/tools/linux/build.sh all x86_64" > run.sh
