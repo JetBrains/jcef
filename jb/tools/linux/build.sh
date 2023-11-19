@@ -9,9 +9,10 @@ function print_usage() {
   echo "  all [arch]          - Build all the artifacts. Optional 'arch' defines the target CPU: x86_64 (default) or arm64."
   echo "  clean               - Clean all the artifacts."
   echo "Environment variables:"
-  echo "  JAVA_HOME           - Path to java home."
-  echo "  ANT_HOME            - Path to 'ant' home, or if not set then 'ant' must be in PATH."
-  echo "  PATCHED_LIBCEF_DIR  - Path to the patched libcef.so dir, or if not set then the stock libcef.so is used."
+  echo "  JAVA_HOME          - Path to java home."
+  echo "  ANT_HOME           - Path to 'ant' home, or if not set then 'ant' must be in PATH."
+  echo "  PATCHED_LIBCEF_DIR - [optional] Path to the patched libcef.so dir, or if not set then the stock libcef.so is used."
+  echo "  JCEF_CLEANUP_VCPKG - [optional] Cleanup the checkout dir before build"
   exit "$1"
 }
 
@@ -35,6 +36,16 @@ help) print_usage 0 ;;
 esac
 
 script_dir=$(cd -- "$(dirname -- "$0")" &>/dev/null && pwd)
+
+if [ "${JCEF_CLEANUP_VCPKG:-0}" != "0" ] || [ -n "${TEAMCITY_VERSION:-}" ]; then
+  echo "Cleaning up the checkout directory..."
+  cd "$script_dir/../../../"
+  git clean -xfdf
+  git submodule foreach --recursive git clean -xfdf
+  git submodule foreach --recursive git reset --hard
+  git submodule update --init --recursive
+  cd -
+fi
 
 PATH="$script_dir:$PATH"
 export PATH
