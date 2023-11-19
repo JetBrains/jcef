@@ -55,6 +55,8 @@ ENV LD_LIBRARY_PATH=/opt/rh/devtoolset-10/root$rpmlibdir$rpmlibdir32${LD_LIBRARY
 ENV LD_LIBRARY_PATH=/opt/rh/devtoolset-10/root$rpmlibdir$rpmlibdir32:/opt/rh/devtoolset-10/root$rpmlibdir/dyninst$rpmlibdir32/dyninst${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
 ENV PKG_CONFIG_PATH=/opt/rh/devtoolset-10/root/usr/lib64/pkgconfig${PKG_CONFIG_PATH:+:${PKG_CONFIG_PATH}}
 
+ENV JCEF_CLEANUP_VCPKG=1
+
 RUN echo "git clone https://github.com/JetBrains/jcef.git && cd jcef && bash jb/tools/linux/build.sh all x86_64" > /build.sh
 
 
