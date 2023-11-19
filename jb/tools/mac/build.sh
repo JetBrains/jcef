@@ -9,11 +9,12 @@ function print_usage() {
   echo "  all [arch]  - Build all the artifacts. Optional 'arch' defines the target CPU: x86_64 (default) or arm64."
   echo "  clean       - Clean all the artifacts."
   echo "Environment variables:"
-  echo "  JAVA_HOME           - Path to java home."
-  echo "  ANT_HOME            - Path to 'ant' home, or if not set then 'ant' must be in PATH."
-  echo "  JNF_FRAMEWORK_PATH  - [optional] When no standard location is suitable."
-  echo "  JNF_HEADERS_PATH    - [optional] When no standard location is suitable."
-  echo "  CEF_BUILD_TYPE      - [optional] Build type(Debug or Release)"
+  echo "  JAVA_HOME          - Path to java home."
+  echo "  ANT_HOME           - Path to 'ant' home, or if not set then 'ant' must be in PATH."
+  echo "  JNF_FRAMEWORK_PATH - [optional] When no standard location is suitable."
+  echo "  JNF_HEADERS_PATH   - [optional] When no standard location is suitable."
+  echo "  CEF_BUILD_TYPE     - [optional] Build type(Debug or Release)"
+  echo "  JCEF_CLEANUP_VCPKG - [optional] Cleanup the checkout dir before build"
   exit "$1"
 }
 
@@ -44,6 +45,17 @@ CEF_BUILD_TYPE=${CEF_BUILD_TYPE:-Release}
 export CEF_BUILD_TYPE
 
 script_dir=$(cd -- "$(dirname -- "$0")" &>/dev/null && pwd)
+
+if [ "${JCEF_CLEANUP_VCPKG:-0}" != "0" ] || [ -n "${TEAMCITY_VERSION:-}" ]; then
+  echo "Cleaning up the vcpkg checkout directory..."
+  cd "$script_dir/../../../"
+  git submodule foreach --recursive git clean -xfdf
+  git submodule foreach --recursive git reset --hard
+  git submodule update --init --recursive
+  echo "Removing thrift compiler..."
+  rm -rf ./third_party/thrift_compiler
+  cd -
+fi
 
 PATH="$script_dir:$PATH"
 export PATH
