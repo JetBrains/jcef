@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.im.InputMethodRequests;
 
+
 @SuppressWarnings("NotNullFieldNotInitialized")
 public
 class JBCefOsrComponent extends JPanel {
@@ -19,7 +20,7 @@ class JBCefOsrComponent extends JPanel {
     private Timer myTimer;
 
     private final CefInputMethodAdapter myCefInputMethodAdapter;
-
+    
     public JBCefOsrComponent() {
         setPreferredSize(new Dimension(800, 600));
         setBackground(Color.CYAN);
@@ -43,13 +44,11 @@ class JBCefOsrComponent extends JPanel {
         addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                if (myBrowser != null)
-                    myBrowser.setFocus(true);
+                myBrowser.setFocus(true);
             }
             @Override
             public void focusLost(FocusEvent e) {
-                if (myBrowser != null)
-                    myBrowser.setFocus(false);
+                myBrowser.setFocus(false);
             }
         });
 
@@ -70,8 +69,7 @@ class JBCefOsrComponent extends JPanel {
     @Override
     public void addNotify() {
         super.addNotify();
-        if (myBrowser instanceof CefNativeAdapter
-                && ((CefNativeAdapter)myBrowser).getNativeRef("CefBrowser") == 0) {
+        if (((CefNativeAdapter)myBrowser).getNativeRef("CefBrowser") == 0) {
             myBrowser.createImmediately();
         }
     }
@@ -97,12 +95,8 @@ class JBCefOsrComponent extends JPanel {
 
         double scale = myScale.getInverted();
         myTimer = new Timer(100, e -> {
-        int sizeX = (int) Math.ceil(w * scale);
-        int sizeY = (int) Math.ceil(h * scale);
-        if (myBrowser != null)
-            myBrowser.wasResized(sizeX, sizeY);
+            myBrowser.wasResized((int) Math.ceil(w * scale), (int) Math.ceil(h * scale));
         });
-        myTimer.setRepeats(false);
         myTimer.start();
     }
 
@@ -121,8 +115,7 @@ class JBCefOsrComponent extends JPanel {
         super.processMouseEvent(e);
 
         double scale = myScale.getIdeBiased();
-        if (myBrowser != null)
-            myBrowser.sendMouseEvent(new MouseEvent(
+        myBrowser.sendMouseEvent(new MouseEvent(
                 e.getComponent(),
                 e.getID(),
                 e.getWhen(),
@@ -146,8 +139,7 @@ class JBCefOsrComponent extends JPanel {
 
         double val = e.getPreciseWheelRotation() * Integer.getInteger("ide.browser.jcef.osr.wheelRotation.factor", 1) * (-1);
         double scale = myScale.getIdeBiased();
-        if (myBrowser != null)
-            myBrowser.sendMouseWheelEvent(new MouseWheelEvent(
+        myBrowser.sendMouseWheelEvent(new MouseWheelEvent(
                 e.getComponent(),
                 e.getID(),
                 e.getWhen(),
@@ -170,8 +162,7 @@ class JBCefOsrComponent extends JPanel {
         super.processMouseMotionEvent(e);
 
         double scale = myScale.getIdeBiased();
-        if (myBrowser != null)
-            myBrowser.sendMouseEvent(new MouseEvent(
+        myBrowser.sendMouseEvent(new MouseEvent(
                 e.getComponent(),
                 e.getID(),
                 e.getWhen(),
@@ -188,8 +179,7 @@ class JBCefOsrComponent extends JPanel {
     @Override
     protected void processKeyEvent(KeyEvent e) {
         super.processKeyEvent(e);
-        if (myBrowser != null)
-            myBrowser.sendKeyEvent(e);
+        myBrowser.sendKeyEvent(e);
     }
 
     static class MyScale {
