@@ -2,7 +2,6 @@ package tests.junittests;
 
 import org.cef.CefApp;
 import org.cef.CefClient;
-import org.cef.CefClientImpl;
 import org.cef.CefSettings;
 import org.cef.browser.CefBrowser;
 import org.cef.handler.CefLifeSpanHandlerAdapter;
@@ -58,7 +57,7 @@ public class JBCefBrowser {
         myCefClient = CefApp.getInstance().createClient();
 
         myClientDisposeLatch = new CountDownLatch(1);
-        ((CefClientImpl)myCefClient).setOnDisposeCallback(()->{
+        myCefClient.setOnDisposeCallback(()->{
             myClientDisposeLatch.countDown();
         });
 
@@ -89,7 +88,7 @@ public class JBCefBrowser {
     public final void awaitClientDisposed() {
         try {
             if (!myClientDisposeLatch.await(5, TimeUnit.SECONDS)) {
-                throw new RuntimeException("CefClient wasn't completely disposed: " + ((CefClientImpl)myCefClient).getInfo());
+                throw new RuntimeException("CefClient wasn't completely disposed: " + myCefClient.getInfo());
             }
         } catch (InterruptedException e) {
         }

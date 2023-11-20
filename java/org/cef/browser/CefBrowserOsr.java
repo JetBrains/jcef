@@ -17,7 +17,6 @@ import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.GLBuffers;
 
 import org.cef.CefClient;
-import org.cef.CefClientImpl;
 import org.cef.OS;
 import org.cef.callback.CefDragData;
 import org.cef.handler.CefRenderHandler;
@@ -93,7 +92,7 @@ class CefBrowserOsr extends CefBrowser_N implements CefRenderHandler {
 
     private CefBrowserOsr(CefClient client, String url, boolean transparent,
             CefRequestContext context, CefBrowserOsr parent, Point inspectAt) {
-        super((CefClientImpl)client, url, context, parent, inspectAt);
+        super(client, url, context, parent, inspectAt);
         isTransparent_ = transparent;
         renderer_ = new CefRenderer(transparent);
         createGLCanvas();

@@ -373,7 +373,7 @@ public class CefApp extends CefAppHandlerAdapter {
             throw new IllegalStateException(errMsg);
         }
 
-        CefClientImpl client = new CefClientImpl();
+        CefClient client = new CefClient();
         onInitialization(client, true);
         clients_.add(client);
         return client;

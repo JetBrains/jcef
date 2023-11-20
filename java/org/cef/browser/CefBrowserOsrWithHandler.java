@@ -1,9 +1,10 @@
 package org.cef.browser;
 
 import org.cef.CefClient;
-import org.cef.CefClientImpl;
+import org.cef.handler.CefClientHandler;
 import org.cef.handler.CefRenderHandler;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.concurrent.CompletableFuture;
@@ -42,7 +43,7 @@ public class CefBrowserOsrWithHandler extends CefBrowser_N  {
                                     CefBrowser parent,
                                     Point inspectAt)
     {
-        super((CefClientImpl)client, url, context, (CefBrowser_N)parent, inspectAt);
+        super(client, url, context, (CefBrowser_N)parent, inspectAt);
         assert renderHandler != null : "Handler can't be null";
         this.renderHandler_ = renderHandler;
         this.component_ = component;
