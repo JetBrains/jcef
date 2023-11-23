@@ -50,6 +50,10 @@ if (OS_MAC)
     set(Boost_USE_STATIC_RUNTIME OFF)
 endif ()
 
+if (OS_LINUX)
+    add_link_options(-static-libstdc++)
+endif ()
+
 set(thrift_codegen_SOURCES
         gen-cpp/Server.cpp
         gen-cpp/ClientHandlers.cpp
@@ -206,7 +210,6 @@ if (OS_WINDOWS)
 endif ()
 
 if (OS_LINUX)
-    add_link_options(-static-libstdc++)
     ADD_LOGICAL_TARGET("libcef_lib" "${CEF_LIB_DEBUG}" "${CEF_LIB_RELEASE}")
     COPY_FILES("${EXECUTABLE_NAME}" "${CEF_BINARY_FILES}" "${CEF_BINARY_DIR}" "${CEF_TARGET_OUT_DIR}")
     COPY_FILES(${EXECUTABLE_NAME} "${CEF_RESOURCE_FILES}" "${CEF_RESOURCE_DIR}" "${CEF_TARGET_OUT_DIR}")
