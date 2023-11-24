@@ -1,8 +1,10 @@
+// Copyright (c) 2014 The Chromium Embedded Framework Authors. All rights
+// reserved. Use of this source code is governed by a BSD-style license that
+// can be found in the LICENSE file.
+
 package org.cef.browser;
 
-import com.jetbrains.cef.remote.CefServer;
-import com.jetbrains.cef.remote.router.RemoteMessageRouter;
-import org.cef.Disposable;
+import org.cef.callback.CefNativeAdapter;
 import org.cef.handler.CefMessageRouterHandler;
 
 /**
@@ -140,12 +142,14 @@ import org.cef.handler.CefMessageRouterHandler;
  *
  * 6. Notice that the success callback is executed in JavaScript.
  */
-public interface CefMessageRouter extends Disposable {
+public abstract class CefMessageRouter extends CefNativeAdapter {
+    private CefMessageRouterConfig routerConfig_ = null;
+
     /**
      * Used to configure the query router. If using multiple router pairs make
      * sure to choose values that do not conflict.
      */
-    class CefMessageRouterConfig {
+    public static class CefMessageRouterConfig {
         /**
          * Name of the JavaScript function that will be added to the 'window' object
          * for sending a query. The default value is "cefQuery".
@@ -168,11 +172,20 @@ public interface CefMessageRouter extends Disposable {
         }
     }
 
+    // This CTOR can't be called directly. Call method create() instead.
+    CefMessageRouter() {}
+
+    @Override
+    protected void finalize() throws Throwable {
+        dispose();
+        super.finalize();
+    }
+
     /**
      * Create a new router with the default configuration. The addHandler() method should be called
      * to add a handler.
      */
-    static CefMessageRouter create() {
+    public static final CefMessageRouter create() {
         return CefMessageRouter.create(null, null);
     }
 
@@ -180,26 +193,23 @@ public interface CefMessageRouter extends Disposable {
      * Create a new router with the specified configuration. The addHandler() method should be
      * called to add a handler.
      */
-    static CefMessageRouter create(CefMessageRouterConfig config) {
+    public static final CefMessageRouter create(CefMessageRouterConfig config) {
         return CefMessageRouter.create(config, null);
     }
 
     /**
      * Create a new router with the specified handler and default configuration.
      */
-    static CefMessageRouter create(CefMessageRouterHandler handler) {
+    public static final CefMessageRouter create(CefMessageRouterHandler handler) {
         return CefMessageRouter.create(null, handler);
     }
 
     /**
      * Create a new router with the specified handler and configuration.
      */
-    static CefMessageRouter create(CefMessageRouterConfig config, CefMessageRouterHandler handler) {
-        CefMessageRouter router;
-        if (CefServer.isEnabled())
-            router = RemoteMessageRouter.create(config.jsQueryFunction, config.jsCancelFunction);
-        else
-            router = new CefMessageRouter_N(config);
+    public static final CefMessageRouter create(
+            CefMessageRouterConfig config, CefMessageRouterHandler handler) {
+        CefMessageRouter_N router = new CefMessageRouter_N(config);
         if (handler != null) router.addHandler(handler, true);
         return router;
     }
@@ -207,7 +217,17 @@ public interface CefMessageRouter extends Disposable {
     /**
      * Must be called if the CefMessageRouter instance isn't used any more.
      */
-    void dispose();
+    public abstract void dispose();
+
+    // Called from native code during handling of createNative().
+    void setMessageRouterConfig(CefMessageRouterConfig config) {
+        routerConfig_ = config;
+    }
+
+    // Called from native code during handling of CefClientHandler.[add|remove]MessageRouter().
+    public final CefMessageRouterConfig getMessageRouterConfig() {
+        return routerConfig_;
+    }
 
     /**
      * Add a new query handler.
@@ -217,7 +237,7 @@ public interface CefMessageRouter extends Disposable {
      *         added as the last handler.
      * @return True if the handler is added successfully.
      */
-    boolean addHandler(CefMessageRouterHandler handler, boolean first);
+    public abstract boolean addHandler(CefMessageRouterHandler handler, boolean first);
 
     /**
      * Remove an existing query handler. Any pending queries associated with the handler will be
@@ -227,7 +247,7 @@ public interface CefMessageRouter extends Disposable {
      * @param handler The handler to be removed.
      * @return True if the handler is removed successfully.
      */
-    boolean removeHandler(CefMessageRouterHandler handler);
+    public abstract boolean removeHandler(CefMessageRouterHandler handler);
 
     /**
      * Cancel all pending queries associated with either |browser| or |handler|. If both |browser|
@@ -238,5 +258,5 @@ public interface CefMessageRouter extends Disposable {
      * @param browser The associated browser, or null.
      * @param handler The associated handler, or null.
      */
-    void cancelPending(CefBrowser browser, CefMessageRouterHandler handler);
+    public abstract void cancelPending(CefBrowser browser, CefMessageRouterHandler handler);
 }

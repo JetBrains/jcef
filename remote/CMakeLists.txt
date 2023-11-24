@@ -50,6 +50,10 @@ if (OS_MAC)
     set(Boost_USE_STATIC_RUNTIME OFF)
 endif ()
 
+if (OS_LINUX)
+    add_link_options(-static-libstdc++)
+endif ()
+
 set(thrift_codegen_SOURCES
         gen-cpp/Server.cpp
         gen-cpp/ClientHandlers.cpp
@@ -61,10 +65,6 @@ if (OS_WINDOWS)
     set_library_target_properties(thrift_codegen)
 endif ()
 target_link_libraries(thrift_codegen thrift::thrift libcef_dll_wrapper ${CEF_STANDARD_LIBS})
-
-set(shared_mem_helper_SOURCES CefServerHelper.cpp)
-add_library(shared_mem_helper SHARED ${shared_mem_helper_SOURCES})
-target_include_directories(shared_mem_helper PUBLIC ${JNI_INCLUDE_DIRS})
 
 if (OS_MAC)
     set(CEFSIMPLE_RESOURCES_MAC_SRCS_MAC
@@ -209,7 +209,6 @@ if (OS_WINDOWS)
 endif ()
 
 if (OS_LINUX)
-    add_link_options(-static-libstdc++)
     ADD_LOGICAL_TARGET("libcef_lib" "${CEF_LIB_DEBUG}" "${CEF_LIB_RELEASE}")
     COPY_FILES("${EXECUTABLE_NAME}" "${CEF_BINARY_FILES}" "${CEF_BINARY_DIR}" "${CEF_TARGET_OUT_DIR}")
     COPY_FILES(${EXECUTABLE_NAME} "${CEF_RESOURCE_FILES}" "${CEF_RESOURCE_DIR}" "${CEF_TARGET_OUT_DIR}")
@@ -306,3 +305,7 @@ if (OS_MAC)
         )
     endforeach ()
 endif ()
+
+set(shared_mem_helper_SOURCES CefServerHelper.cpp)
+add_library(shared_mem_helper SHARED ${shared_mem_helper_SOURCES})
+target_include_directories(shared_mem_helper PUBLIC ${JNI_INCLUDE_DIRS})

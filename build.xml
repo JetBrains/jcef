@@ -12,7 +12,7 @@
   <property name="out.mainclass" value="${env.OUT_MAINCLASS}"/>
 
   <condition property="jvm.opts"
-             value="--module-path third_party/jogamp/jar:third_party/slf4j/slf4j-api-2.0.0.jar:third_party/thrift/libthrift-0.16.0.jar --add-exports jogl.all/com.jogamp.nativewindow=jcef --add-exports jogl.all/com.jogamp.opengl.awt=jcef --add-exports jogl.all/com.jogamp.opengl.util=jcef --add-exports jogl.all/com.jogamp.opengl=jcef --add-exports java.desktop/sun.awt=jcef --add-exports java.desktop/java.awt.peer=jcef --add-exports java.desktop/sun.lwawt.macosx=jcef --add-exports java.desktop/sun.lwawt=jcef"
+             value="--module-path third_party/jogamp/jar --add-modules jogl.all,gluegen.rt --add-exports jogl.all/com.jogamp.nativewindow=jcef --add-exports jogl.all/com.jogamp.opengl.awt=jcef --add-exports jogl.all/com.jogamp.opengl.util=jcef --add-exports jogl.all/com.jogamp.opengl=jcef --add-exports java.desktop/sun.awt=jcef --add-exports java.desktop/java.awt.peer=jcef --add-exports java.desktop/sun.lwawt.macosx=jcef --add-exports java.desktop/sun.lwawt=jcef"
              else="">
     <matches pattern="17*.*" string="${java.version}"/>
   </condition>

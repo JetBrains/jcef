@@ -1,54 +1,87 @@
+// Copyright (c) 2014 The Chromium Embedded Framework Authors. All rights
+// reserved. Use of this source code is governed by a BSD-style license that
+// can be found in the LICENSE file.
+
 package org.cef.network;
 
-import org.cef.handler.CefLoadHandler;
+import org.cef.callback.CefNativeAdapter;
+import org.cef.handler.CefLoadHandler.ErrorCode;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
-public interface CefResponse {
+/**
+ * Class used to represent a web response. The methods of this class may be
+ * called on any thread.
+ */
+public abstract class CefResponse extends CefNativeAdapter {
+    // This CTOR can't be called directly. Call method create() instead.
+    CefResponse() {}
+
+    @Override
+    protected void finalize() throws Throwable {
+        dispose();
+        super.finalize();
+    }
+
+    /**
+     * Create a new CefRequest object.
+     */
+    public static final CefResponse create() {
+        return CefResponse_N.createNative();
+    }
+
+    /**
+     * Removes the native reference from an unused object.
+     */
+    public abstract void dispose();
+
     /**
      * Returns true if this object is read-only.
      */
-     boolean isReadOnly();
+    public abstract boolean isReadOnly();
 
     /**
      * Get the response error code. Returns ERR_NONE if there was no error.
      */
-     CefLoadHandler.ErrorCode getError();
+    public abstract ErrorCode getError();
 
     /**
      * Get the response error code. Returns ERR_NONE if there was no error.
      */
-     void setError(CefLoadHandler.ErrorCode errorCode);
+    public abstract void setError(ErrorCode errorCode);
 
     /**
      * Get the response status code.
      */
-     int getStatus();
+    public abstract int getStatus();
 
     /**
      * Set the response status code.
      */
-     void setStatus(int status);
+    public abstract void setStatus(int status);
 
     /**
      * Get the response status text.
      */
-     String getStatusText();
+    public abstract String getStatusText();
 
     /**
      * Set the response status text.
      */
-     void setStatusText(String statusText);
+    public abstract void setStatusText(String statusText);
 
     /**
      * Get the response mime type.
      */
-     String getMimeType();
+    public abstract String getMimeType();
 
     /**
      * Set the response mime type.
      */
-     void setMimeType(String mimeType);
+    public abstract void setMimeType(String mimeType);
 
     /**
      * Get the value for the specified response header field. Use getHeaderMap instead if there
@@ -56,7 +89,7 @@ public interface CefResponse {
      * @param name The header name.
      * @return The header value.
      */
-     String getHeaderByName(String name);
+    public abstract String getHeaderByName(String name);
 
     /**
      * Set the value for the specified response header field.
@@ -65,22 +98,34 @@ public interface CefResponse {
      * @param overwrite If true any existing values will be replaced with the new value. If false
      *         any existing values will not be overwritten.
      */
-     void setHeaderByName(String name, String value, boolean overwrite);
+    public abstract void setHeaderByName(String name, String value, boolean overwrite);
 
     /**
      * Get all response header fields.
      */
-     void getHeaderMap(Map<String, String> headerMap);
+    public abstract void getHeaderMap(Map<String, String> headerMap);
 
     /**
      * Set all response header fields.
      */
-     void setHeaderMap(Map<String, String> headerMap);
+    public abstract void setHeaderMap(Map<String, String> headerMap);
 
-    /**
-     * Create a new CefRequest object.
-     */
-    static CefResponse create() {
-        return CefResponse_N.createNative();
+    @Override
+    public String toString() {
+        String returnValue = "\nHTTP-Response:";
+
+        returnValue += "\n  error: " + getError();
+        returnValue += "\n  readOnly: " + isReadOnly();
+        returnValue += "\n    HTTP/1.1 " + getStatus() + " " + getStatusText();
+        returnValue += "\n    Content-Type: " + getMimeType();
+
+        Map<String, String> headerMap = new HashMap<>();
+        getHeaderMap(headerMap);
+        Set<Entry<String, String>> entrySet = headerMap.entrySet();
+        for (Entry<String, String> entry : entrySet) {
+            returnValue += "    " + entry.getKey() + "=" + entry.getValue() + "\n";
+        }
+
+        return returnValue;
     }
 }

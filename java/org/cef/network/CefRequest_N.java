@@ -5,13 +5,13 @@
 package org.cef.network;
 
 import org.cef.callback.CefNative;
-import org.cef.callback.CefNativeAdapter;
-import org.cef.misc.DebugFormatter;
 
 import java.util.Map;
 
-class CefRequest_N extends CefNativeAdapter implements CefRequest {
-    CefRequest_N() {}
+class CefRequest_N extends CefRequest{
+    CefRequest_N() {
+        super();
+    }
 
     public static CefRequest createNative() {
         try {
@@ -23,15 +23,7 @@ class CefRequest_N extends CefNativeAdapter implements CefRequest {
     }
 
     @Override
-    protected void finalize() throws Throwable {
-        dispose();
-        super.finalize();
-    }
-
-    /**
-     * Removes the native reference from an unused object.
-     */
-    private void dispose() {
+    public void dispose() {
         try {
             N_Dispose(getNativeRef());
         } catch (UnsatisfiedLinkError ule) {
@@ -249,9 +241,6 @@ class CefRequest_N extends CefNativeAdapter implements CefRequest {
         }
         return TransitionType.TT_AUTO_SUBFRAME;
     }
-
-    @Override
-    public String toString() { return DebugFormatter.toString_Request(this); }
 
     private final native static CefRequest_N N_Create();
     private final native void N_Dispose(long self);

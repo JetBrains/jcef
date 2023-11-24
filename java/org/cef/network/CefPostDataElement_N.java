@@ -4,12 +4,12 @@
 
 package org.cef.network;
 
-import org.cef.callback.CefNativeAdapter;
-import org.cef.misc.DebugFormatter;
+import org.cef.callback.CefNative;
 
-class CefPostDataElement_N extends CefNativeAdapter implements CefPostDataElement {
-    // This CTOR can't be called directly. Call method create() instead.
-    CefPostDataElement_N() {}
+class CefPostDataElement_N extends CefPostDataElement {
+    CefPostDataElement_N() {
+        super();
+    }
 
     public static CefPostDataElement createNative() {
         try {
@@ -21,15 +21,7 @@ class CefPostDataElement_N extends CefNativeAdapter implements CefPostDataElemen
     }
 
     @Override
-    protected void finalize() throws Throwable {
-        dispose();
-        super.finalize();
-    }
-
-    /**
-     * Removes the native reference from an unused object.
-     */
-    private void dispose() {
+    public void dispose() {
         try {
             N_Dispose(getNativeRef());
         } catch (UnsatisfiedLinkError ule) {
@@ -112,15 +104,6 @@ class CefPostDataElement_N extends CefNativeAdapter implements CefPostDataElemen
             ule.printStackTrace();
         }
         return 0;
-    }
-
-    @Override
-    public String toString() {
-        return toString(null);
-    }
-
-    public String toString(String mimeType) {
-        return DebugFormatter.toString_PostDataElement(mimeType, this);
     }
 
     private final native static CefPostDataElement_N N_Create();

@@ -1,12 +1,21 @@
+// Copyright (c) 2014 The Chromium Embedded Framework Authors. All rights
+// reserved. Use of this source code is governed by a BSD-style license that
+// can be found in the LICENSE file.
+
 package org.cef.network;
 
+import org.cef.callback.CefNativeAdapter;
+
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  * Class used to represent a web request. The methods of this class may be
  * called on any thread.
  */
-public interface CefRequest {
+public abstract class CefRequest extends CefNativeAdapter {
     /**
      * Resource type for a request.
      */
@@ -313,65 +322,86 @@ public interface CefRequest {
         REFERRER_POLICY_LAST_VALUE
     }
 
+    // This CTOR can't be called directly. Call method create() instead.
+    CefRequest() {}
+
+    @Override
+    protected void finalize() throws Throwable {
+        dispose();
+        super.finalize();
+    }
+
+    /**
+     * Create a new CefRequest object.
+     */
+    public static final CefRequest create() {
+        return CefRequest_N.createNative();
+    }
+
+    /**
+     * Removes the native reference from an unused object.
+     */
+    public abstract void dispose();
+
     /**
      * Returns the globally unique identifier for this request or 0 if not
      * specified. Can be used by CefRequestHandler implementations in the browser
      * process to track a single request across multiple callbacks.
      */
-     long getIdentifier();
+    public abstract long getIdentifier();
 
     /**
      * Returns true if this object is read-only.
      */
-     boolean isReadOnly();
+    public abstract boolean isReadOnly();
 
     /**
      * Get the fully qualified URL.
      */
-     String getURL();
+    public abstract String getURL();
 
     /**
      * Set the fully qualified URL.
      */
-     void setURL(String url);
+    public abstract void setURL(String url);
 
     /**
      * Get the request method type. The value will default to POST if post data
      * is provided and GET otherwise.
      */
-     String getMethod();
+    public abstract String getMethod();
 
     /**
      * Set the request method type.
      */
-     void setMethod(String method);
+    public abstract void setMethod(String method);
 
     /**
      * Set the referrer URL and policy. If non-empty the referrer URL must be
      * fully qualified with an HTTP or HTTPS scheme component. Any username,
      * password or ref component will be removed.
      */
-     void setReferrer(String url, ReferrerPolicy policy);
+    public abstract void setReferrer(String url, ReferrerPolicy policy);
 
     /**
      * Get the referrer URL.
      */
-     String getReferrerURL();
+    public abstract String getReferrerURL();
 
     /**
      * Get the referrer policy.
      */
-     ReferrerPolicy getReferrerPolicy();
+    public abstract ReferrerPolicy getReferrerPolicy();
 
     /**
      * Get the post data.
      */
-     CefPostData getPostData();
+    public abstract CefPostData getPostData();
 
     /**
      * Set the post data.
      */
-     void setPostData(CefPostData postData);
+    public abstract void setPostData(CefPostData postData);
 
     /**
      * Get the value for the specified response header field. The Referer value cannot be retrieved
@@ -379,7 +409,7 @@ public interface CefRequest {
      * @param name The header name.
      * @return The header value.
      */
-     String getHeaderByName(String name);
+    public abstract String getHeaderByName(String name);
 
     /**
      * Set the value for the specified response header field. The Referer value cannot be set using
@@ -389,65 +419,89 @@ public interface CefRequest {
      * @param overwrite If true any existing values will be replaced with the new value. If false
      *         any existing values will not be overwritten.
      */
-     void setHeaderByName(String name, String value, boolean overwrite);
+    public abstract void setHeaderByName(String name, String value, boolean overwrite);
 
     /**
      * Get the header values.
      */
-     void getHeaderMap(Map<String, String> headerMap);
+    public abstract void getHeaderMap(Map<String, String> headerMap);
 
     /**
      * Set the header values.
      */
-     void setHeaderMap(Map<String, String> headerMap);
+    public abstract void setHeaderMap(Map<String, String> headerMap);
 
     /**
      * Set all values at one time.
      */
-     void set(
+    public abstract void set(
             String url, String method, CefPostData postData, Map<String, String> headerMap);
 
     /**
      * Get the flags used in combination with CefURLRequest. See
      * CefUrlRequestFlags for supported values.
      */
-     int getFlags();
+    public abstract int getFlags();
 
     /**
      * Set the flags used in combination with CefURLRequest. See
      * CefUrlRequestFlags for supported values.
      */
-     void setFlags(int flags);
+    public abstract void setFlags(int flags);
 
     /**
      * Get the URL to the first party for cookies used in combination with
      * CefURLRequest.
      */
-     String getFirstPartyForCookies();
+    public abstract String getFirstPartyForCookies();
 
     /**
      * Set the URL to the first party for cookies used in combination with
      * CefURLRequest.
      */
-     void setFirstPartyForCookies(String url);
+    public abstract void setFirstPartyForCookies(String url);
 
     /**
      * Get the resource type for this request. Accurate resource type information
      * may only be available in the browser process.
      */
-     ResourceType getResourceType();
+    public abstract ResourceType getResourceType();
 
     /**
      * Get the transition type for this request. Only available in the browser
      * process and only applies to requests that represent a main frame or
      * sub-frame navigation.
      */
-     TransitionType getTransitionType();
+    public abstract TransitionType getTransitionType();
 
-    /**
-     * Create a new CefRequest object.
-     */
-    static CefRequest create() {
-        return CefRequest_N.createNative();
+    @Override
+    public String toString() {
+        String returnValue = "\nHTTP-Request";
+        returnValue += "\n  flags: " + getFlags();
+        returnValue += "\n  resourceType: " + getResourceType();
+        returnValue += "\n  transitionType: " + getTransitionType();
+        returnValue += "\n  firstPartyForCookies: " + getFirstPartyForCookies();
+        returnValue += "\n  referrerURL: " + getReferrerURL();
+        returnValue += "\n  referrerPolicy: " + getReferrerPolicy();
+        returnValue += "\n    " + getMethod() + " " + getURL() + " HTTP/1.1\n";
+
+        Map<String, String> headerMap = new HashMap<>();
+        getHeaderMap(headerMap);
+        Set<Entry<String, String>> entrySet = headerMap.entrySet();
+        String mimeType = null;
+        for (Entry<String, String> entry : entrySet) {
+            String key = entry.getKey();
+            returnValue += "    " + key + "=" + entry.getValue() + "\n";
+            if (key.equals("Content-Type")) {
+                mimeType = entry.getValue();
+            }
+        }
+
+        CefPostData pd = getPostData();
+        if (pd != null) {
+            returnValue += pd.toString(mimeType);
+        }
+
+        return returnValue;
     }
 }

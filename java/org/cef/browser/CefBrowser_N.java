@@ -6,7 +6,6 @@ package org.cef.browser;
 
 import org.cef.CefApp;
 import org.cef.CefClient;
-import org.cef.CefClientImpl;
 import org.cef.callback.CefDragData;
 import org.cef.callback.CefNativeAdapter;
 import org.cef.callback.CefPdfPrintCallback;
@@ -44,7 +43,7 @@ import javax.swing.SwingUtilities;
 abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefAppStateHandler {
     private static final boolean TRACE_LIFESPAN = Boolean.getBoolean("jcef.trace.cefbrowser_n.lifespan");
     private volatile boolean isPending_ = false;
-    private final CefClientImpl client_;
+    private final CefClient client_;
     private final String url_;
     private CefRequestContext request_context_;
     private volatile CefBrowser_N parent_ = null;
@@ -59,7 +58,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     private boolean isNativeCtxInitialized_ = false;
     private final List<Runnable> delayedActions_ = new ArrayList<>();
 
-    protected CefBrowser_N(CefClientImpl client, String url, CefRequestContext context,
+    protected CefBrowser_N(CefClient client, String url, CefRequestContext context,
             CefBrowser_N parent, Point inspectAt) {
         client_ = client;
         url_ = url;
@@ -113,7 +112,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     }
 
     @Override
-    public CefClientImpl getClient() {
+    public CefClient getClient() {
         return client_;
     }
 

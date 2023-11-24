@@ -4,9 +4,6 @@
 
 package org.cef;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Initialization settings. Specify NULL or 0 to get the recommended default
  * values. Many of these and other settings can also configured using command-
@@ -295,35 +292,5 @@ public class CefSettings {
         sb.append("no_sandbox=" + no_sandbox + ", ");
         sb.append("fps_limit=" + frameRateLimit);
         return sb.toString();
-    }
-
-    private static void putNonEmpty(Map<String, String> result, String key, String value) {
-        if (value != null && !value.isEmpty())
-            result.put(key, value);
-    }
-
-    public Map<String, String> toMap() {
-        Map<String, String> result = new HashMap<>();
-        putNonEmpty(result, "browser_subprocess_path", browser_subprocess_path);
-        putNonEmpty(result, "windowless_rendering_enabled", String.valueOf(windowless_rendering_enabled));
-        putNonEmpty(result, "command_line_args_disabled", String.valueOf(command_line_args_disabled));
-        putNonEmpty(result, "cache_path", cache_path);
-        putNonEmpty(result, "persist_session_cookies", String.valueOf(persist_session_cookies));
-        putNonEmpty(result, "user_agent", user_agent);
-        putNonEmpty(result, "user_agent_product", user_agent_product);
-        putNonEmpty(result, "locale", locale);
-        putNonEmpty(result, "log_file", log_file);
-        putNonEmpty(result, "log_severity", String.valueOf(log_severity));
-        putNonEmpty(result, "javascript_flags", javascript_flags);
-        putNonEmpty(result, "resources_dir_path", resources_dir_path);
-        putNonEmpty(result, "locales_dir_path", locales_dir_path);
-        putNonEmpty(result, "pack_loading_disabled", String.valueOf(pack_loading_disabled));
-        putNonEmpty(result, "remote_debugging_port", String.valueOf(remote_debugging_port));
-        putNonEmpty(result, "uncaught_exception_stack_size", String.valueOf(uncaught_exception_stack_size));
-        if (background_color != null) putNonEmpty(result, "background_color", String.valueOf(background_color.getColor()));
-        putNonEmpty(result, "cookieable_schemes_list", cookieable_schemes_list);
-        putNonEmpty(result, "cookieable_schemes_exclude_defaults", String.valueOf(cookieable_schemes_exclude_defaults));
-        putNonEmpty(result, "no_sandbox", String.valueOf(no_sandbox));
-        return result;
     }
 }

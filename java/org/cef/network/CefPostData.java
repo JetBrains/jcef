@@ -1,4 +1,10 @@
+// Copyright (c) 2014 The Chromium Embedded Framework Authors. All rights
+// reserved. Use of this source code is governed by a BSD-style license that
+// can be found in the LICENSE file.
+
 package org.cef.network;
+
+import org.cef.callback.CefNativeAdapter;
 
 import java.util.Vector;
 
@@ -6,42 +12,72 @@ import java.util.Vector;
  * Class used to represent post data for a web request. The methods of this
  * class may be called on any thread.
  */
-public interface CefPostData {
+public abstract class CefPostData extends CefNativeAdapter {
+    // This CTOR can't be called directly. Call method create() instead.
+    CefPostData() {}
+
+    @Override
+    protected void finalize() throws Throwable {
+        dispose();
+        super.finalize();
+    }
+
+    /**
+     * Create a new CefPostData object.
+     */
+    public static final CefPostData create() {
+        return CefPostData_N.createNative();
+    }
+
+    /**
+     * Removes the native reference from an unused object.
+     */
+    public abstract void dispose();
+
     /**
      * Returns true if this object is read-only.
      */
-    boolean isReadOnly();
+    public abstract boolean isReadOnly();
 
     /**
      * Returns the number of existing post data elements.
      */
-    int getElementCount();
+    public abstract int getElementCount();
 
     /**
      * Retrieve the post data elements.
      */
-    void getElements(Vector<CefPostDataElement> elements);
+    public abstract void getElements(Vector<CefPostDataElement> elements);
 
     /**
      * Remove the specified post data element. Returns true if the removal
      * succeeds.
      */
-    boolean removeElement(CefPostDataElement element);
+    public abstract boolean removeElement(CefPostDataElement element);
 
     /**
      * Add the specified post data element. Returns true if the add succeeds.
      */
-    boolean addElement(CefPostDataElement element);
+    public abstract boolean addElement(CefPostDataElement element);
 
     /**
      * Remove all existing post data elements.
      */
-    void removeElements();
+    public abstract void removeElements();
 
-    /**
-     * Create a new CefPostData object.
-     */
-    static CefPostData create() {
-        return CefPostData_N.createNative();
+    @Override
+    public String toString() {
+        return toString(null);
+    }
+
+    public String toString(String mimeType) {
+        Vector<CefPostDataElement> elements = new Vector<CefPostDataElement>();
+        getElements(elements);
+
+        String returnValue = "";
+        for (CefPostDataElement el : elements) {
+            returnValue += el.toString(mimeType) + "\n";
+        }
+        return returnValue;
     }
 }
