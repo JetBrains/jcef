@@ -1220,7 +1220,11 @@ bool GetJNIRange(JNIEnv* env, jobject obj, CefRange& range) {
     return false;
   }
 
-  range.Set(from, to);
+  if (from == -1 && to == -1) {
+    range = CefRange::InvalidRange();
+  } else {
+    range.Set(from, to);
+  }
 
   return true;
 }
