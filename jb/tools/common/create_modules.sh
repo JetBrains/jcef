@@ -78,10 +78,10 @@ cp "$JB_TOOLS_DIR"/common/slf4j-module-info.java module-info.java
 export TMP_DIR="tmp_jar_content"
 mkdir $TMP_DIR
 cd $TMP_DIR
-jar -xvf ../$SLF_JAR
+"$JAVA_HOME"/bin/jar -xvf ../$SLF_JAR
 rm -rf ./META-INF/versions
 cp ../module-info.class .
-jar -cvf ../slf4j.jar .
+"$JAVA_HOME"/bin/jar -cvf ../slf4j.jar .
 cd ..
 rm -rf module-info.class module-info.java $TMP_DIR
 "$JAVA_HOME"/bin/jmod create --class-path slf4j.jar org.slf4j.jmod
