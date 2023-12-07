@@ -25,7 +25,7 @@ sourceSets.test.resources.srcDirs = ['../../../java_tests/tests/junittests/data'
 sourceSets.test.output.resourcesDir = 'build/classes/java/test/tests/junittests/data'
 
 compileJava.options.compilerArgs += [
-    '--module-path', "$projectDir/../../../third_party/jogamp/jar",
+    '--module-path', "$projectDir/../../../third_party/jogamp/jar:$projectDir/../../../third_party/thrift:$projectDir/../../../third_party/slf4j:$projectDir/../../../third_party/jogamp/jar/gluegen-rt.jar",
     '--add-modules', 'jogl.all,gluegen.rt',
     '--add-exports', 'jogl.all/com.jogamp.nativewindow=jcef',
     '--add-exports', 'jogl.all/com.jogamp.opengl.awt=jcef',
