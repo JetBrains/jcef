@@ -7,6 +7,8 @@ package org.cef;
 import com.jetbrains.cef.JCefAppConfig;
 import com.jetbrains.cef.JdkEx;
 
+import com.jetbrains.cef.remote.CefServer;
+import com.jetbrains.cef.remote.RemoteClient;
 import org.cef.browser.*;
 import org.cef.callback.CefAuthCallback;
 import org.cef.callback.CefBeforeDownloadCallback;
@@ -71,6 +73,10 @@ public class CefClient extends CefClientHandler
                    CefLifeSpanHandler, CefLoadHandler, CefPrintHandler, CefRenderHandler,
                    CefRequestHandler, CefWindowHandler {
     private static final boolean TRACE_LIFESPAN = Boolean.getBoolean("jcef.trace.cefclient.lifespan");
+    // Delegate for remote implementation.
+    private final RemoteClient remoteClient;
+
+    // Fields for JNI implementation.
     private final ConcurrentHashMap<Integer, CefBrowser> browser_ = new ConcurrentHashMap<Integer, CefBrowser>();
     private CefContextMenuHandler contextMenuHandler_ = null;
     private CefDialogHandler dialogHandler_ = null;
@@ -113,10 +119,11 @@ public class CefClient extends CefClientHandler
     CefClient() throws UnsatisfiedLinkError {
         super();
 
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().addPropertyChangeListener(
-                propertyChangeListener);
+        remoteClient = CefServer.createClientIfEnabled();
+        if (remoteClient == null)
+            KeyboardFocusManager.getCurrentKeyboardFocusManager().addPropertyChangeListener(propertyChangeListener);
 
-        if (TRACE_LIFESPAN) CefLog.Debug("CefClient: created client %s", this);
+        if (TRACE_LIFESPAN) CefLog.Debug("CefClient: created client %s [remote=%s]", this, remoteClient);
     }
 
     private boolean isPartOf(Object obj, Component browserUI) {
@@ -132,9 +139,12 @@ public class CefClient extends CefClientHandler
 
     @Override
     public void dispose() {
-        if (TRACE_LIFESPAN) CefLog.Debug("CefClient: dispose client %s", this);
+        if (TRACE_LIFESPAN) CefLog.Debug("CefClient: dispose client %s [remote=%s]", this, remoteClient);
         isDisposed_ = true;
-        cleanupBrowser(-1);
+        if (remoteClient != null)
+            remoteClient.dispose();
+        else
+            cleanupBrowser(-1);
     }
 
     public void setOnDisposeCallback(Runnable onDisposed) {
@@ -169,108 +179,153 @@ public class CefClient extends CefClientHandler
                                     CefRequestContext context) {
         if (isDisposed_)
             throw new IllegalStateException("Can't create browser. CefClient is disposed");
+        if (remoteClient != null) {
+            // TODO: check rendering (and throw exception when not OSR)
+            return remoteClient.createBrowser(url, isTransparent, context);
+        }
         return CefBrowserFactory.create(this, url, rendering, isTransparent, context);
     }
 
     @Override
     protected CefBrowser getBrowser(int identifier) {
+        if (remoteClient != null)
+            return remoteClient.getRemoteBrowser();
         return browser_.get(identifier);
     }
 
     @Override
     protected Object[] getAllBrowser() {
+        if (remoteClient != null)
+            return new Object[]{remoteClient.getRemoteBrowser()};
         return browser_.values().stream().filter(browser -> !browser.isClosing()).toArray();
     }
 
     @Override
     protected CefContextMenuHandler getContextMenuHandler() {
+        if (remoteClient != null)
+            return remoteClient.getContextMenuHandler();
         return this;
     }
 
     @Override
     protected CefDialogHandler getDialogHandler() {
+        if (remoteClient != null)
+            return remoteClient.getDialogHandler();
         return this;
     }
 
     @Override
     protected CefDisplayHandler getDisplayHandler() {
+        if (remoteClient != null)
+            return remoteClient.getDisplayHandler();
         return this;
     }
 
     @Override
     protected CefDownloadHandler getDownloadHandler() {
+        if (remoteClient != null)
+            return remoteClient.getDownloadHandler();
         return this;
     }
 
     @Override
     protected CefDragHandler getDragHandler() {
+        if (remoteClient != null)
+            return remoteClient.getDragHandler();
         return this;
     }
 
     @Override
     protected CefFocusHandler getFocusHandler() {
+        if (remoteClient != null)
+            return remoteClient.getFocusHandler();
         return this;
     }
 
     @Override
     protected CefPermissionHandler getPermissionHandler() {
+        if (remoteClient != null)
+            return remoteClient.getPermissionHandler();
         return this;
     }
 
     @Override
     protected CefJSDialogHandler getJSDialogHandler() {
+        if (remoteClient != null)
+            return remoteClient.getJSDialogHandler();
         return this;
     }
 
     @Override
     protected CefKeyboardHandler getKeyboardHandler() {
+        if (remoteClient != null)
+            return remoteClient.getKeyboardHandler();
         return this;
     }
 
     @Override
     protected CefLifeSpanHandler getLifeSpanHandler() {
+        if (remoteClient != null)
+            return remoteClient.getLifeSpanHandler();
         return this;
     }
 
     @Override
     protected CefLoadHandler getLoadHandler() {
+        if (remoteClient != null)
+            return remoteClient.getLoadHandler();
         return this;
     }
 
     @Override
     protected CefPrintHandler getPrintHandler() {
+        if (remoteClient != null)
+            return remoteClient.getPrintHandler();
         return this;
     }
 
     @Override
     protected CefRenderHandler getRenderHandler() {
+        if (remoteClient != null)
+            return remoteClient.getRenderHandler();
         return this;
     }
 
     @Override
     protected CefRequestHandler getRequestHandler() {
+        if (remoteClient != null)
+            return remoteClient.getRequestHandler();
         return this;
     }
 
     @Override
     protected CefWindowHandler getWindowHandler() {
+        if (remoteClient != null)
+            return remoteClient.getWindowHandler();
         return this;
     }
 
     // CefContextMenuHandler
 
     public CefClient addContextMenuHandler(CefContextMenuHandler handler) {
-        if (contextMenuHandler_ == null) contextMenuHandler_ = handler;
+        if (remoteClient != null)
+            remoteClient.addContextMenuHandler(handler);
+        else
+            if (contextMenuHandler_ == null) contextMenuHandler_ = handler;
         return this;
     }
 
     public void removeContextMenuHandler() {
-        contextMenuHandler_ = null;
+        if (remoteClient != null)
+            remoteClient.removeContextMenuHandler();
+        else
+            contextMenuHandler_ = null;
     }
 
     @Override
     public void onBeforeContextMenu(
             CefBrowser browser, CefFrame frame, CefContextMenuParams params, CefMenuModel model) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (contextMenuHandler_ != null && browser != null)
             contextMenuHandler_.onBeforeContextMenu(browser, frame, params, model);
     }
@@ -278,6 +333,7 @@ public class CefClient extends CefClientHandler
     @Override
     public boolean onContextMenuCommand(CefBrowser browser, CefFrame frame,
                                         CefContextMenuParams params, int commandId, int eventFlags) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (contextMenuHandler_ != null && browser != null)
             return contextMenuHandler_.onContextMenuCommand(
                     browser, frame, params, commandId, eventFlags);
@@ -286,6 +342,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public void onContextMenuDismissed(CefBrowser browser, CefFrame frame) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (contextMenuHandler_ != null && browser != null)
             contextMenuHandler_.onContextMenuDismissed(browser, frame);
     }
@@ -293,17 +350,24 @@ public class CefClient extends CefClientHandler
     // CefDialogHandler
 
     public CefClient addDialogHandler(CefDialogHandler handler) {
-        if (dialogHandler_ == null) dialogHandler_ = handler;
+        if (remoteClient != null)
+            remoteClient.addDialogHandler(handler);
+        else
+            if (dialogHandler_ == null) dialogHandler_ = handler;
         return this;
     }
 
     public void removeDialogHandler() {
-        dialogHandler_ = null;
+        if (remoteClient != null)
+            remoteClient.removeDialogHandler();
+        else
+            dialogHandler_ = null;
     }
 
     @Override
     public boolean onFileDialog(CefBrowser browser, FileDialogMode mode, String title,
                                 String defaultFilePath, Vector<String> acceptFilters, CefFileDialogCallback callback) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (dialogHandler_ != null && browser != null) {
             return dialogHandler_.onFileDialog(
                     browser, mode, title, defaultFilePath, acceptFilters, callback);
@@ -314,28 +378,37 @@ public class CefClient extends CefClientHandler
     // CefDisplayHandler
 
     public CefClient addDisplayHandler(CefDisplayHandler handler) {
-        if (displayHandler_ == null) displayHandler_ = handler;
+        if (remoteClient != null)
+            remoteClient.addDisplayHandler(handler);
+        else
+            if (displayHandler_ == null) displayHandler_ = handler;
         return this;
     }
 
     public void removeDisplayHandler() {
-        displayHandler_ = null;
+        if (remoteClient != null)
+            remoteClient.removeDisplayHandler();
+        else
+            displayHandler_ = null;
     }
 
     @Override
     public void onAddressChange(CefBrowser browser, CefFrame frame, String url) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (displayHandler_ != null && browser != null)
             displayHandler_.onAddressChange(browser, frame, url);
     }
 
     @Override
     public void onTitleChange(CefBrowser browser, String title) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (displayHandler_ != null && browser != null)
             displayHandler_.onTitleChange(browser, title);
     }
 
     @Override
     public boolean onTooltip(CefBrowser browser, String text) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (displayHandler_ != null && browser != null) {
             return displayHandler_.onTooltip(browser, text);
         }
@@ -344,6 +417,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public void onStatusMessage(CefBrowser browser, String value) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (displayHandler_ != null && browser != null) {
             displayHandler_.onStatusMessage(browser, value);
         }
@@ -352,6 +426,7 @@ public class CefClient extends CefClientHandler
     @Override
     public boolean onConsoleMessage(CefBrowser browser, CefSettings.LogSeverity level,
                                     String message, String source, int line) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (displayHandler_ != null && browser != null) {
             return displayHandler_.onConsoleMessage(browser, level, message, source, line);
         }
@@ -360,6 +435,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public boolean onCursorChange(CefBrowser browser, int cursorType) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (browser == null) {
             return false;
         }
@@ -379,17 +455,24 @@ public class CefClient extends CefClientHandler
     // CefDownloadHandler
 
     public CefClient addDownloadHandler(CefDownloadHandler handler) {
-        if (downloadHandler_ == null) downloadHandler_ = handler;
+        if (remoteClient != null)
+            remoteClient.addDownloadHandler(handler);
+        else
+            if (downloadHandler_ == null) downloadHandler_ = handler;
         return this;
     }
 
     public void removeDownloadHandler() {
-        downloadHandler_ = null;
+        if (remoteClient != null)
+            remoteClient.removeDownloadHandler();
+        else
+            downloadHandler_ = null;
     }
 
     @Override
     public void onBeforeDownload(CefBrowser browser, CefDownloadItem downloadItem,
                                  String suggestedName, CefBeforeDownloadCallback callback) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (downloadHandler_ != null && browser != null)
             downloadHandler_.onBeforeDownload(browser, downloadItem, suggestedName, callback);
     }
@@ -397,6 +480,7 @@ public class CefClient extends CefClientHandler
     @Override
     public void onDownloadUpdated(
             CefBrowser browser, CefDownloadItem downloadItem, CefDownloadItemCallback callback) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (downloadHandler_ != null && browser != null)
             downloadHandler_.onDownloadUpdated(browser, downloadItem, callback);
     }
@@ -404,16 +488,23 @@ public class CefClient extends CefClientHandler
     // CefDragHandler
 
     public CefClient addDragHandler(CefDragHandler handler) {
-        if (dragHandler_ == null) dragHandler_ = handler;
+        if (remoteClient != null)
+            remoteClient.addDragHandler(handler);
+        else
+            if (dragHandler_ == null) dragHandler_ = handler;
         return this;
     }
 
     public void removeDragHandler() {
-        dragHandler_ = null;
+        if (remoteClient != null)
+            remoteClient.removeDragHandler();
+        else
+            dragHandler_ = null;
     }
 
     @Override
     public boolean onDragEnter(CefBrowser browser, CefDragData dragData, int mask) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (dragHandler_ != null && browser != null)
             return dragHandler_.onDragEnter(browser, dragData, mask);
         return false;
@@ -422,16 +513,23 @@ public class CefClient extends CefClientHandler
     // CefFocusHandler
 
     public CefClient addFocusHandler(CefFocusHandler handler) {
-        if (focusHandler_ == null) focusHandler_ = handler;
+        if (remoteClient != null)
+            remoteClient.addFocusHandler(handler);
+        else
+            if (focusHandler_ == null) focusHandler_ = handler;
         return this;
     }
 
     public void removeFocusHandler() {
-        focusHandler_ = null;
+        if (remoteClient != null)
+            remoteClient.removeFocusHandler();
+        else
+            focusHandler_ = null;
     }
 
     @Override
     public void onTakeFocus(CefBrowser browser, boolean next) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (browser == null) return;
 
         browser.setFocus(false);
@@ -462,6 +560,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public boolean onSetFocus(final CefBrowser browser, FocusSource source) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (browser == null) return false;
 
         Boolean alreadyHandled = Boolean.FALSE;
@@ -475,6 +574,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public void onGotFocus(CefBrowser browser) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (browser == null) return;
         if (focusedBrowser_ == browser) return; // prevent recursive call (in OSR)
 
@@ -490,12 +590,18 @@ public class CefClient extends CefClientHandler
     // CefPermissionHandler
 
     public CefClient addPermissionHandler(CefPermissionHandler handler) {
-        if (permissionHandler_ == null) permissionHandler_ = handler;
+        if (remoteClient != null)
+            remoteClient.addPermissionHandler(handler);
+        else
+            if (permissionHandler_ == null) permissionHandler_ = handler;
         return this;
     }
 
     public void removePermissionHandler() {
-        permissionHandler_ = null;
+        if (remoteClient != null)
+            remoteClient.removePermissionHandler();
+        else
+            permissionHandler_ = null;
     }
 
     @Override
@@ -505,6 +611,7 @@ public class CefClient extends CefClientHandler
             String requesting_url,
             int requested_permissions,
             CefMediaAccessCallback callback) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (permissionHandler_ != null && browser != null)
             return permissionHandler_.onRequestMediaAccessPermission(browser, frame, requesting_url,
                     requested_permissions, callback);
@@ -514,18 +621,25 @@ public class CefClient extends CefClientHandler
     // CefJSDialogHandler
 
     public CefClient addJSDialogHandler(CefJSDialogHandler handler) {
-        if (jsDialogHandler_ == null) jsDialogHandler_ = handler;
+        if (remoteClient != null)
+            remoteClient.addJSDialogHandler(handler);
+        else
+            if (jsDialogHandler_ == null) jsDialogHandler_ = handler;
         return this;
     }
 
     public void removeJSDialogHandler() {
-        jsDialogHandler_ = null;
+        if (remoteClient != null)
+            remoteClient.removeJSDialogHandler();
+        else
+            jsDialogHandler_ = null;
     }
 
     @Override
     public boolean onJSDialog(CefBrowser browser, String origin_url, JSDialogType dialog_type,
                               String message_text, String default_prompt_text, CefJSDialogCallback callback,
                               BoolRef suppress_message) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (jsDialogHandler_ != null && browser != null)
             return jsDialogHandler_.onJSDialog(browser, origin_url, dialog_type, message_text,
                     default_prompt_text, callback, suppress_message);
@@ -535,6 +649,7 @@ public class CefClient extends CefClientHandler
     @Override
     public boolean onBeforeUnloadDialog(CefBrowser browser, String message_text, boolean is_reload,
                                         CefJSDialogCallback callback) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (jsDialogHandler_ != null && browser != null)
             return jsDialogHandler_.onBeforeUnloadDialog(
                     browser, message_text, is_reload, callback);
@@ -543,29 +658,38 @@ public class CefClient extends CefClientHandler
 
     @Override
     public void onResetDialogState(CefBrowser browser) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (jsDialogHandler_ != null && browser != null)
             jsDialogHandler_.onResetDialogState(browser);
     }
 
     @Override
     public void onDialogClosed(CefBrowser browser) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (jsDialogHandler_ != null && browser != null) jsDialogHandler_.onDialogClosed(browser);
     }
 
     // CefKeyboardHandler
 
     public CefClient addKeyboardHandler(CefKeyboardHandler handler) {
-        if (keyboardHandler_ == null) keyboardHandler_ = handler;
+        if (remoteClient != null)
+            remoteClient.addKeyboardHandler(handler);
+        else
+            if (keyboardHandler_ == null) keyboardHandler_ = handler;
         return this;
     }
 
     public void removeKeyboardHandler() {
-        keyboardHandler_ = null;
+        if (remoteClient != null)
+            remoteClient.removeKeyboardHandler();
+        else
+            keyboardHandler_ = null;
     }
 
     @Override
     public boolean onPreKeyEvent(
             CefBrowser browser, CefKeyEvent event, BoolRef is_keyboard_shortcut) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (keyboardHandler_ != null && browser != null)
             return keyboardHandler_.onPreKeyEvent(browser, event, is_keyboard_shortcut);
         return false;
@@ -573,6 +697,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public boolean onKeyEvent(CefBrowser browser, CefKeyEvent event) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (keyboardHandler_ != null && browser != null)
             return keyboardHandler_.onKeyEvent(browser, event);
         return false;
@@ -581,21 +706,28 @@ public class CefClient extends CefClientHandler
     // CefLifeSpanHandler
 
     public CefClient addLifeSpanHandler(CefLifeSpanHandler handler) {
-        synchronized (lifeSpanHandlers_) {
-            lifeSpanHandlers_.add(handler);
-        }
+        if (remoteClient != null)
+            remoteClient.addLifeSpanHandler(handler);
+        else
+            synchronized (lifeSpanHandlers_) {
+                lifeSpanHandlers_.add(handler);
+            }
         return this;
     }
 
     public void removeLifeSpanHandler() {
-        synchronized (lifeSpanHandlers_) {
-            lifeSpanHandlers_.clear();
-        }
+        if (remoteClient != null)
+            remoteClient.removeLifeSpanHandler();
+        else
+            synchronized (lifeSpanHandlers_) {
+                lifeSpanHandlers_.clear();
+            }
     }
 
     @Override
     public boolean onBeforePopup(
             CefBrowser browser, CefFrame frame, String target_url, String target_frame_name) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (isDisposed_) return true;
         if (browser == null)
             return false;
@@ -610,6 +742,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public void onAfterCreated(CefBrowser browser) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (browser == null) return;
         if (TRACE_LIFESPAN) CefLog.Debug("CefClient: browser=%s: onAfterCreated", browser);
         boolean disposed = isDisposed_;
@@ -633,6 +766,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public void onAfterParentChanged(CefBrowser browser) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (browser == null) return;
         synchronized (lifeSpanHandlers_) {
             for (CefLifeSpanHandler lsh : lifeSpanHandlers_)
@@ -642,6 +776,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public boolean doClose(CefBrowser browser) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (browser == null) return false;
         synchronized (lifeSpanHandlers_) {
             for (CefLifeSpanHandler lsh : lifeSpanHandlers_)
@@ -652,6 +787,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public void onBeforeClose(CefBrowser browser) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (browser == null) return;
         if (TRACE_LIFESPAN) CefLog.Debug("CefClient: browser=%s: onBeforeClose", browser);
         synchronized (lifeSpanHandlers_) {
@@ -711,29 +847,38 @@ public class CefClient extends CefClientHandler
     // CefLoadHandler
 
     public CefClient addLoadHandler(CefLoadHandler handler) {
-        if (loadHandler_ == null) loadHandler_ = handler;
+        if (remoteClient != null)
+            remoteClient.addLoadHandler(handler);
+        else
+            if (loadHandler_ == null) loadHandler_ = handler;
         return this;
     }
 
     public void removeLoadHandler() {
-        loadHandler_ = null;
+        if (remoteClient != null)
+            remoteClient.removeLoadHandler();
+        else
+            loadHandler_ = null;
     }
 
     @Override
     public void onLoadingStateChange(
             CefBrowser browser, boolean isLoading, boolean canGoBack, boolean canGoForward) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (loadHandler_ != null && browser != null)
             loadHandler_.onLoadingStateChange(browser, isLoading, canGoBack, canGoForward);
     }
 
     @Override
     public void onLoadStart(CefBrowser browser, CefFrame frame, TransitionType transitionType) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (loadHandler_ != null && browser != null)
             loadHandler_.onLoadStart(browser, frame, transitionType);
     }
 
     @Override
     public void onLoadEnd(CefBrowser browser, CefFrame frame, int httpStatusCode) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (loadHandler_ != null && browser != null)
             loadHandler_.onLoadEnd(browser, frame, httpStatusCode);
     }
@@ -741,6 +886,7 @@ public class CefClient extends CefClientHandler
     @Override
     public void onLoadError(CefBrowser browser, CefFrame frame, ErrorCode errorCode,
                             String errorText, String failedUrl) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (loadHandler_ != null && browser != null)
             loadHandler_.onLoadError(browser, frame, errorCode, errorText, failedUrl);
     }
@@ -748,22 +894,30 @@ public class CefClient extends CefClientHandler
     // CefPrintHandler
 
     public CefClient addPrintHandler(CefPrintHandler handler) {
-        if (printHandler_ == null) printHandler_ = handler;
+        if (remoteClient != null)
+            remoteClient.addPrintHandler(handler);
+        else
+            if (printHandler_ == null) printHandler_ = handler;
         return this;
     }
 
     public void removePrintHandler() {
-        printHandler_ = null;
+        if (remoteClient != null)
+            remoteClient.removePrintHandler();
+        else
+            printHandler_ = null;
     }
 
     @Override
     public void onPrintStart(CefBrowser browser) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (printHandler_ != null && browser != null) printHandler_.onPrintStart(browser);
     }
 
     @Override
     public void onPrintSettings(
             CefBrowser browser, CefPrintSettings settings, boolean getDefaults) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (printHandler_ != null && browser != null)
             printHandler_.onPrintSettings(browser, settings, getDefaults);
     }
@@ -771,6 +925,7 @@ public class CefClient extends CefClientHandler
     @Override
     public boolean onPrintDialog(
             CefBrowser browser, boolean hasSelection, CefPrintDialogCallback callback) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (printHandler_ != null && browser != null)
             return printHandler_.onPrintDialog(browser, hasSelection, callback);
         return false;
@@ -779,6 +934,7 @@ public class CefClient extends CefClientHandler
     @Override
     public boolean onPrintJob(CefBrowser browser, String documentName, String pdfFilePath,
                               CefPrintJobCallback callback) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (printHandler_ != null && browser != null)
             return printHandler_.onPrintJob(browser, documentName, pdfFilePath, callback);
         return false;
@@ -786,11 +942,13 @@ public class CefClient extends CefClientHandler
 
     @Override
     public void onPrintReset(CefBrowser browser) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (printHandler_ != null && browser != null) printHandler_.onPrintReset(browser);
     }
 
     @Override
     public Dimension getPdfPaperSize(CefBrowser browser, int deviceUnitsPerInch) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (printHandler_ != null && browser != null)
             return printHandler_.getPdfPaperSize(browser, deviceUnitsPerInch);
         return null;
@@ -800,18 +958,25 @@ public class CefClient extends CefClientHandler
 
     @Override
     public synchronized void addMessageRouter(CefMessageRouter messageRouter) {
-        super.addMessageRouter(messageRouter);
+        if (remoteClient != null)
+            remoteClient.addMessageRouter(messageRouter);
+        else
+            super.addMessageRouter(messageRouter);
     }
 
     @Override
     public synchronized void removeMessageRouter(CefMessageRouter messageRouter) {
-        super.removeMessageRouter(messageRouter);
+        if (remoteClient != null)
+            remoteClient.removeMessageRouter(messageRouter);
+        else
+            super.removeMessageRouter(messageRouter);
     }
 
     // CefRenderHandler
 
     @Override
     public Rectangle getViewRect(CefBrowser browser) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         // [tav] resize to 1x1 size to avoid crash in cef
         if (browser == null) return new Rectangle(0, 0, 1, 1);
 
@@ -828,6 +993,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public Point getScreenPoint(CefBrowser browser, Point viewPoint) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (browser == null) return new Point(0, 0);
 
         CefRenderHandler realHandler = browser.getRenderHandler();
@@ -837,6 +1003,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public double getDeviceScaleFactor(CefBrowser browser) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         CefRenderHandler realHandler = browser.getRenderHandler();
         if (realHandler != null) {
             return realHandler.getDeviceScaleFactor(browser);
@@ -846,6 +1013,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public void onPopupShow(CefBrowser browser, boolean show) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (browser == null) return;
 
         CefRenderHandler realHandler = browser.getRenderHandler();
@@ -854,6 +1022,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public void onPopupSize(CefBrowser browser, Rectangle size) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (browser == null) return;
 
         CefRenderHandler realHandler = browser.getRenderHandler();
@@ -863,6 +1032,7 @@ public class CefClient extends CefClientHandler
     @Override
     public void onPaint(CefBrowser browser, boolean popup, Rectangle[] dirtyRects,
                         ByteBuffer buffer, int width, int height) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (browser == null) return;
 
         CefRenderHandler realHandler = browser.getRenderHandler();
@@ -872,6 +1042,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public boolean startDragging(CefBrowser browser, CefDragData dragData, int mask, int x, int y) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (browser == null) return false;
 
         CefRenderHandler realHandler = browser.getRenderHandler();
@@ -881,6 +1052,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public void updateDragCursor(CefBrowser browser, int operation) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (browser == null) return;
 
         CefRenderHandler realHandler = browser.getRenderHandler();
@@ -889,6 +1061,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public void OnImeCompositionRangeChanged(CefBrowser browser, CefRange selectionRange, Rectangle[] characterBounds) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (browser == null) return;
         CefRenderHandler realHandler = browser.getRenderHandler();
         if (realHandler != null) realHandler.OnImeCompositionRangeChanged(browser, selectionRange, characterBounds);
@@ -896,6 +1069,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public void OnTextSelectionChanged(CefBrowser browser, String selectedText, CefRange selectionRange) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (browser == null) return;
         CefRenderHandler realHandler = browser.getRenderHandler();
         if (realHandler != null) realHandler.OnTextSelectionChanged(browser, selectedText, selectionRange);
@@ -903,6 +1077,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public boolean getScreenInfo(CefBrowser browser, CefScreenInfo screenInfo) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (browser == null) return false;
 
         CefRenderHandler realHandler = browser.getRenderHandler();
@@ -913,17 +1088,24 @@ public class CefClient extends CefClientHandler
     // CefRequestHandler
 
     public CefClient addRequestHandler(CefRequestHandler handler) {
-        if (requestHandler_ == null) requestHandler_ = handler;
+        if (remoteClient != null)
+            remoteClient.addRequestHandler(handler);
+        else
+            if (requestHandler_ == null) requestHandler_ = handler;
         return this;
     }
 
     public void removeRequestHandler() {
-        requestHandler_ = null;
+        if (remoteClient != null)
+            remoteClient.removeRequestHandler();
+        else
+            requestHandler_ = null;
     }
 
     @Override
     public boolean onBeforeBrowse(CefBrowser browser, CefFrame frame, CefRequest request,
                                   boolean user_gesture, boolean is_redirect) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (requestHandler_ != null && browser != null)
             return requestHandler_.onBeforeBrowse(
                     browser, frame, request, user_gesture, is_redirect);
@@ -933,6 +1115,7 @@ public class CefClient extends CefClientHandler
     @Override
     public boolean onOpenURLFromTab(
             CefBrowser browser, CefFrame frame, String target_url, boolean user_gesture) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (isDisposed_) return true;
         if (requestHandler_ != null && browser != null)
             return requestHandler_.onOpenURLFromTab(browser, frame, target_url, user_gesture);
@@ -943,6 +1126,7 @@ public class CefClient extends CefClientHandler
     public CefResourceRequestHandler getResourceRequestHandler(CefBrowser browser, CefFrame frame,
                                                                CefRequest request, boolean isNavigation, boolean isDownload, String requestInitiator,
                                                                BoolRef disableDefaultHandling) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (requestHandler_ != null && browser != null) {
             return requestHandler_.getResourceRequestHandler(browser, frame, request, isNavigation,
                     isDownload, requestInitiator, disableDefaultHandling);
@@ -953,6 +1137,7 @@ public class CefClient extends CefClientHandler
     @Override
     public boolean getAuthCredentials(CefBrowser browser, String origin_url, boolean isProxy,
                                       String host, int port, String realm, String scheme, CefAuthCallback callback) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (requestHandler_ != null && browser != null)
             return requestHandler_.getAuthCredentials(
                     browser, origin_url, isProxy, host, port, realm, scheme, callback);
@@ -962,6 +1147,7 @@ public class CefClient extends CefClientHandler
     @Override
     public boolean onCertificateError(
             CefBrowser browser, ErrorCode cert_error, String request_url, CefSSLInfo sslInfo, CefCallback callback) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (requestHandler_ != null)
             return requestHandler_.onCertificateError(browser, cert_error, request_url, sslInfo, callback);
         return false;
@@ -969,6 +1155,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public void onRenderProcessTerminated(CefBrowser browser, TerminationStatus status) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (requestHandler_ != null) requestHandler_.onRenderProcessTerminated(browser, status);
     }
 
@@ -976,6 +1163,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public Rectangle getRect(CefBrowser browser) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (browser == null) return new Rectangle(0, 0, 0, 0);
 
         CefWindowHandler realHandler = browser.getWindowHandler();
@@ -986,6 +1174,7 @@ public class CefClient extends CefClientHandler
     @Override
     public void onMouseEvent(
             CefBrowser browser, int event, int screenX, int screenY, int modifier, int button) {
+        if (remoteClient != null) CefLog.Error("mustn't be called.");
         if (browser == null) return;
 
         CefWindowHandler realHandler = browser.getWindowHandler();

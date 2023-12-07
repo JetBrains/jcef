@@ -10,7 +10,7 @@ import java.util.Objects;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class RemoteClient implements CefClient {
+public class RemoteClient {
     private static AtomicInteger ourCounter = new AtomicInteger(0);
 
     private final int myCid;
@@ -33,9 +33,10 @@ public class RemoteClient implements CefClient {
     private CefRequestHandler requestHandler_ = null;
     private CefNativeRenderHandler renderHandler_ = null;
     private CefWindowHandler windowHandler_ = null;
+    private CefLoadHandler loadHandler_ = null;
 
+    final CefLifeSpanHandler hLifeSpanMain;
     final MultiHandler<CefLifeSpanHandler> hLifeSpan = new MultiHandler<>();
-    final MultiHandler<CefLoadHandler> hLoad = new MultiHandler<>();
 
     // MessageRouter support
     private Vector<RemoteMessageRouter> msgRouters = new Vector<>();
@@ -49,7 +50,7 @@ public class RemoteClient implements CefClient {
         myService = service;
         myTracker = tracker;
 
-        hLifeSpan.addHandler(new CefLifeSpanHandlerAdapter() {
+        hLifeSpanMain = new CefLifeSpanHandlerAdapter() {
             @Override
             public void onAfterCreated(CefBrowser browser) {
                 myIsNativeBrowserCreated = true;
@@ -58,67 +59,64 @@ public class RemoteClient implements CefClient {
             public void onBeforeClose(CefBrowser browser) {
                 myIsNativeBrowserClosed = true;
             }
-        });
+        };
+        hLifeSpan.addHandler(hLifeSpanMain);
     }
 
     protected BrowserTracker getTracker() { return myTracker; }
 
-    protected CefContextMenuHandler getContextMenuHandler() {
+    //
+    // Handler getters.
+    //
+    public CefContextMenuHandler getContextMenuHandler() {
         return contextMenuHandler_;
     }
-
-    protected CefDialogHandler getDialogHandler() {
+    public CefDialogHandler getDialogHandler() {
         return dialogHandler_;
     }
-
-    protected CefDisplayHandler getDisplayHandler() {
+    public CefDisplayHandler getDisplayHandler() {
         return displayHandler_;
     }
-
-    protected CefDownloadHandler getDownloadHandler() {
+    public CefDownloadHandler getDownloadHandler() {
         return downloadHandler_;
     }
-
-    protected CefDragHandler getDragHandler() {
+    public CefDragHandler getDragHandler() {
         return dragHandler_;
     }
-
-    protected CefFocusHandler getFocusHandler() {
+    public CefFocusHandler getFocusHandler() {
         return focusHandler_;
     }
-
-    protected CefPermissionHandler getPermissionHandler() {
+    public CefPermissionHandler getPermissionHandler() {
         return permissionHandler_;
     }
-
-    protected CefJSDialogHandler getJSDialogHandler() {
+    public CefJSDialogHandler getJSDialogHandler() {
         return jsDialogHandler_;
     }
-
-    protected CefKeyboardHandler getKeyboardHandler() {
+    public CefKeyboardHandler getKeyboardHandler() {
         return keyboardHandler_;
     }
-
-    protected CefPrintHandler getPrintHandler() {
+    public CefPrintHandler getPrintHandler() {
         return printHandler_;
     }
-
-    protected CefRenderHandler getRenderHandler() {
+    public CefRenderHandler getRenderHandler() {
         return renderHandler_;
     }
-
-    protected CefRequestHandler getRequestHandler() {
+    public CefRequestHandler getRequestHandler() {
         return requestHandler_;
     }
-
-    protected CefWindowHandler getWindowHandler() {
+    public CefWindowHandler getWindowHandler() {
         return windowHandler_;
     }
-
+    public CefLifeSpanHandler getLifeSpanHandler() {
+        return hLifeSpanMain;
+    }
+    public CefLoadHandler getLoadHandler() { return loadHandler_; }
 
     //
     // Public API
     //
+
+    public RemoteBrowser getRemoteBrowser() { return myRemoteBrowser; }
 
     public int getCid() { return myCid; }
 
@@ -131,178 +129,130 @@ public class RemoteClient implements CefClient {
     // CefClient
     //
 
-    // Browser creation
-    @Deprecated
-    @Override
-    public RemoteBrowser createBrowser(String url, boolean isOffscreenRendered, boolean isTransparent) {
-        return createBrowser(url, isOffscreenRendered, isTransparent, null);
-    }
-
-    @Deprecated
-    @Override
-    public RemoteBrowser createBrowser(String url, boolean isOffscreenRendered, boolean isTransparent, CefRequestContext context) {
-        return createBrowser(url, isOffscreenRendered ? CefRendering.OFFSCREEN : CefRendering.DEFAULT, isTransparent, context);
-    }
-
-    @Override
-    public RemoteBrowser createBrowser(String url, CefRendering rendering, boolean isTransparent) {
-        return createBrowser(url, rendering, isTransparent, null);
-    }
-
-    @Override
-    public RemoteBrowser createBrowser(String url, CefRendering rendering, boolean isTransparent, CefRequestContext context) {
+    public RemoteBrowser createBrowser(String url, boolean isTransparent, CefRequestContext context) {
         // TODO: check whether client is disposed
 //        if (isDisposed_)
 //            throw new IllegalStateException("Can't create browser. CefClient is disposed");
-
-        // TODO: support context
-        RemoteBrowser result = new RemoteBrowser(myService, this, url);
-        return result;
+        if (myRemoteBrowser != null) {
+            CefLog.Error("Can't create new instance of browser, current %s will be used.", myRemoteBrowser);
+        } else {
+            // TODO: support context
+            myRemoteBrowser = new RemoteBrowser(myService, this, url);
+        }
+        return myRemoteBrowser;
     }
 
     // Handlers management
-
-    @Override
-    public CefClient addLifeSpanHandler(CefLifeSpanHandler handler) {
+    public void addLifeSpanHandler(CefLifeSpanHandler handler) {
         hLifeSpan.addHandler(handler);
-        return this;
     }
 
-    @Override
+
     public void removeLifeSpanHandler() {
         // TODO: use lifeSpanHandler_.removeHandler(handler);
         hLifeSpan.removeAllHandlers();
     }
 
-    @Override
-    public CefClient addLoadHandler(CefLoadHandler loadHandler) {
-        hLoad.addHandler(loadHandler);
-        return this;
+    public void addLoadHandler(CefLoadHandler loadHandler) {
+        if (loadHandler_ != null && !Objects.equals(loadHandler_, loadHandler))
+            CefLog.Warn("loadHandler_ will be replaced.");
+        loadHandler_ = loadHandler;
     }
 
-    @Override
-    public void removeLoadHandler() {
-        // TODO: use loadHandler_.removeHandler(handler);
-        hLoad.removeAllHandlers();
-    }
+    public void removeLoadHandler() { loadHandler_ = null; }
 
-    @Override
-    public CefClient addDisplayHandler(CefDisplayHandler displayHandler) {
+    public void addDisplayHandler(CefDisplayHandler displayHandler) {
         if (displayHandler_ != null && !Objects.equals(displayHandler_, displayHandler))
-            CefLog.Warn("DisplayHandler will be replaced.");
+            CefLog.Warn("displayHandler_ will be replaced.");
         displayHandler_ = displayHandler;
-        return this;
     }
 
-    @Override
     public void removeDisplayHandler() { displayHandler_ = null; }
 
-    @Override
-    public CefClient addRequestHandler(CefRequestHandler requestHandler) {
+    public void addRequestHandler(CefRequestHandler requestHandler) {
         if (requestHandler_ != null && !Objects.equals(requestHandler_, requestHandler))
-            CefLog.Warn("RequestHandler will be replaced.");
+            CefLog.Warn("requestHandler_ will be replaced.");
         requestHandler_ = requestHandler;
-        return this;
     }
 
-    @Override
     public void removeRequestHandler() { requestHandler_ = null; }
 
-    @Override
-    public CefClient addContextMenuHandler(CefContextMenuHandler handler) {
-        return null;
+    public void addContextMenuHandler(CefContextMenuHandler handler) {
+        if (contextMenuHandler_ != null && !Objects.equals(contextMenuHandler_, handler))
+            CefLog.Warn("contextMenuHandler_ will be replaced.");
+        contextMenuHandler_ = handler;
     }
 
-    @Override
-    public void removeContextMenuHandler() {
+    public void removeContextMenuHandler() {}
 
+    public void addDialogHandler(CefDialogHandler handler) {
+        if (dialogHandler_ != null && !Objects.equals(dialogHandler_, handler))
+            CefLog.Warn("dialogHandler_ will be replaced.");
+        dialogHandler_ = handler;
     }
 
-    @Override
-    public CefClient addDialogHandler(CefDialogHandler handler) {
-        return null;
+    public void removeDialogHandler() {}
+
+    public void addDownloadHandler(CefDownloadHandler handler) {
+        if (downloadHandler_ != null && !Objects.equals(downloadHandler_, handler))
+            CefLog.Warn("downloadHandler_ will be replaced.");
+        downloadHandler_ = handler;
     }
 
-    @Override
-    public void removeDialogHandler() {
+    public void removeDownloadHandler() {}
 
+    public void addDragHandler(CefDragHandler handler) {
+        if (dragHandler_ != null && !Objects.equals(dragHandler_, handler))
+            CefLog.Warn("dragHandler_ will be replaced.");
+        dragHandler_ = handler;
     }
 
-    @Override
-    public CefClient addDownloadHandler(CefDownloadHandler handler) {
-        return null;
+    public void removeDragHandler() {}
+
+    public void addFocusHandler(CefFocusHandler handler) {
+        if (focusHandler_ != null && !Objects.equals(focusHandler_, handler))
+            CefLog.Warn("focusHandler_ will be replaced.");
+        focusHandler_ = handler;
     }
 
-    @Override
-    public void removeDownloadHandler() {
+    public void removeFocusHandler() {}
 
+    public void addPermissionHandler(CefPermissionHandler handler) {
+        if (permissionHandler_ != null && !Objects.equals(permissionHandler_, handler))
+            CefLog.Warn("permissionHandler_ will be replaced.");
+        permissionHandler_ = handler;
     }
 
-    @Override
-    public CefClient addDragHandler(CefDragHandler handler) {
-        return null;
+    public void removePermissionHandler() {}
+
+    public void addJSDialogHandler(CefJSDialogHandler handler) {
+        if (jsDialogHandler_ != null && !Objects.equals(jsDialogHandler_, handler))
+            CefLog.Warn("jsDialogHandler_ will be replaced.");
+        jsDialogHandler_ = handler;
     }
 
-    @Override
-    public void removeDragHandler() {
+    public void removeJSDialogHandler() {}
 
+    public void addKeyboardHandler(CefKeyboardHandler handler) {
+        if (keyboardHandler_ != null && !Objects.equals(keyboardHandler_, handler))
+            CefLog.Warn("keyboardHandler_ will be replaced.");
+        keyboardHandler_ = handler;
     }
 
-    @Override
-    public CefClient addFocusHandler(CefFocusHandler handler) {
-        return null;
+    public void removeKeyboardHandler() {}
+
+    public void addPrintHandler(CefPrintHandler handler) {
+        if (printHandler_ != null && !Objects.equals(printHandler_, handler))
+            CefLog.Warn("printHandler_ will be replaced.");
+        printHandler_ = handler;
     }
 
-    @Override
-    public void removeFocusHandler() {
-
-    }
-
-    @Override
-    public CefClient addPermissionHandler(CefPermissionHandler handler) {
-        return null;
-    }
-
-    @Override
-    public void removePermissionHandler() {
-
-    }
-
-    @Override
-    public CefClient addJSDialogHandler(CefJSDialogHandler handler) {
-        return null;
-    }
-
-    @Override
-    public void removeJSDialogHandler() {
-
-    }
-
-    @Override
-    public CefClient addKeyboardHandler(CefKeyboardHandler handler) {
-        return null;
-    }
-
-    @Override
-    public void removeKeyboardHandler() {
-
-    }
-
-    @Override
-    public CefClient addPrintHandler(CefPrintHandler handler) {
-        return null;
-    }
-
-    @Override
-    public void removePrintHandler() {
-
-    }
+    public void removePrintHandler() {}
 
     //
     // CefMessageRouter
     //
 
-    @Override
     public void addMessageRouter(CefMessageRouter messageRouter) {
         // NOTE: we create RemoteMessageRouter via static factory method and then configure it
         // with java handlers (internally will remote wrappers over java objects). CefMessageRouter is used only to
@@ -313,7 +263,6 @@ public class RemoteClient implements CefClient {
             router.addToBrowser(myRemoteBrowser.getBid());
     }
 
-    @Override
     public void removeMessageRouter(CefMessageRouter messageRouter) {
         RemoteMessageRouter router = (RemoteMessageRouter)messageRouter;
         if (myRemoteBrowser != null && myRemoteBrowser.getBid() >= 0)
@@ -321,7 +270,6 @@ public class RemoteClient implements CefClient {
         msgRouters.remove(router);
     }
 
-    @Override
     public void dispose() {
         CefLog.Debug("RemoteClient: dispose cid=%d bid=%d", myCid, myRemoteBrowser != null ? myRemoteBrowser.getBid() : -1);
 
@@ -338,8 +286,7 @@ public class RemoteClient implements CefClient {
         myRemoteBrowser = null;
     }
 
-    @Override
     public String toString() {
-        return "CefRemoteClient_" + myCid;
+        return "RemoteClient_" + myCid;
     }
 }

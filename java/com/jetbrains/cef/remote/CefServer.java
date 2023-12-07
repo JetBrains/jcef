@@ -51,6 +51,10 @@ public class CefServer {
         return new RemoteClient(myService, myClientHandlersImpl);
     }
 
+    public static RemoteClient createClientIfEnabled() {
+        return IS_ENABLED && INSTANCE != null ? INSTANCE.createClient() : null;
+    }
+
     // connect to CefServer and start cef-handlers service
     public boolean start(List<String> args, CefSettings settings) {
         try {
