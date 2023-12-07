@@ -135,7 +135,7 @@ JNIEXPORT CefString JNICALL GetJNIString(JNIEnv* env, jstring jstr) {
     chr = env->GetStringChars(jstr, nullptr);
   if (chr) {
     const jsize len = env->GetStringLength(jstr);
-    cef_str.FromString((const char16*)chr, len, true);
+    cef_str.FromString((const char16_t*)chr, len, true);
   }
   if (jstr)
     env->ReleaseStringChars(jstr, chr);
