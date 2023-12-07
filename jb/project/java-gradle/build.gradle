@@ -25,6 +25,9 @@ sourceSets.test.resources.srcDirs = ['../../../java_tests/tests/junittests/data'
 sourceSets.test.output.resourcesDir = 'build/classes/java/test/tests/junittests/data'
 
 def separator = ":"
+if (OperatingSystem.current().isWindows()) {
+    separator = ";"
+}
 def mpaths = "$projectDir/../../../third_party/jogamp/jar" +
         separator + "$projectDir/../../../third_party/thrift" +
         separator + "$projectDir/../../../third_party/slf4j" +
