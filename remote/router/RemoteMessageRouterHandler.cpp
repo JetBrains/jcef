@@ -28,7 +28,7 @@ RemoteMessageRouterHandler::~RemoteMessageRouterHandler() {
 
 bool RemoteMessageRouterHandler::OnQuery(CefRefPtr<CefBrowser> browser,
                      CefRefPtr<CefFrame> frame,
-                     int64 query_id,
+                     int64_t query_id,
                      const CefString& request,
                      bool persistent,
                      CefRefPtr<Callback> callback) {
@@ -51,7 +51,7 @@ bool RemoteMessageRouterHandler::OnQuery(CefRefPtr<CefBrowser> browser,
 
 void RemoteMessageRouterHandler::OnQueryCanceled(CefRefPtr<CefBrowser> browser,
                              CefRefPtr<CefFrame> frame,
-                             int64 query_id) {
+                             int64_t query_id) {
   TRACE();
   const int bid = myClientsManager->findRemoteBrowser(browser);
   if (bid < 0) {

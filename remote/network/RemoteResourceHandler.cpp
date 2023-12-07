@@ -23,14 +23,14 @@ bool RemoteResourceHandler::ProcessRequest(CefRefPtr<CefRequest> request,
 }
 
 void RemoteResourceHandler::GetResponseHeaders(CefRefPtr<CefResponse> response,
-                                               int64& response_length,
+                                               int64_t& response_length,
                                                CefString& redirectUrl) {
   // TODO: implement
   Log::error("Unimplemented: RemoteResourceHandler::GetResponseHeaders");
 }
 
-bool RemoteResourceHandler::Skip(int64 bytes_to_skip,
-                                 int64& bytes_skipped,
+bool RemoteResourceHandler::Skip(int64_t bytes_to_skip,
+                                 int64_t& bytes_skipped,
                                  CefRefPtr<CefResourceSkipCallback> callback) {
   // TODO: implement
   Log::error("Unimplemented: RemoteResourceHandler::Skip");

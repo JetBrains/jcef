@@ -37,7 +37,7 @@ foreach (FILE ${THRIFT_FILES})
 #    endif ()
 endforeach ()
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 include_directories(${Boost_INCLUDE_DIRS})
 
 if (OS_WINDOWS)
@@ -164,6 +164,7 @@ if (OS_LINUX)
 endif ()
 
 target_include_directories(${EXECUTABLE_NAME} PRIVATE ${CEF_INCLUDE_PATH})
+
 if (OS_WINDOWS)
     add_logical_target("libcef_lib" "${CEF_LIB_DEBUG}" "${CEF_LIB_RELEASE}")
     target_link_libraries(${EXECUTABLE_NAME} libcef_lib ${Boost_FILESYSTEM_LIBRARY})

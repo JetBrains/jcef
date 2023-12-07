@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <mutex>
+#include <vector>
 #include "include/cef_base.h"
 
 class RemoteClientHandler;
