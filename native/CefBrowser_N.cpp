@@ -245,12 +245,12 @@ void OnAfterParentChanged(CefRefPtr<CefBrowser> browser) {
   }
 }
 
-jobject NewJNILongVector(JNIEnv* env, const std::vector<int64>& vals) {
+jobject NewJNILongVector(JNIEnv* env, const std::vector<int64_t>& vals) {
   ScopedJNIObjectLocal jvector(env, "java/util/Vector");
   if (!jvector)
     return nullptr;
 
-  std::vector<int64>::const_iterator iter;
+  std::vector<int64_t>::const_iterator iter;
   for (iter = vals.begin(); iter != vals.end(); ++iter) {
     ScopedJNIObjectLocal argument(
         env, NewJNIObject(env, "java/lang/Long", "(J)V", (jlong)*iter));
@@ -514,7 +514,7 @@ JNIEXPORT jobject JNICALL
 Java_org_cef_browser_CefBrowser_1N_N_1GetFrameIdentifiers(JNIEnv* env,
                                                           jobject obj) {
   CefRefPtr<CefBrowser> browser = JNI_GET_BROWSER_OR_RETURN(env, obj, nullptr);
-  std::vector<int64> identifiers;
+  std::vector<int64_t> identifiers;
   browser->GetFrameIdentifiers(identifiers);
   return NewJNILongVector(env, identifiers);
 }
