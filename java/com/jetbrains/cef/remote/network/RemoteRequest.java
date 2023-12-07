@@ -1,161 +1,128 @@
 package com.jetbrains.cef.remote.network;
 
-import com.jetbrains.cef.remote.RpcExecutor;
-import com.jetbrains.cef.remote.RemoteServerObjectLocal;
-import com.jetbrains.cef.remote.thrift_codegen.PostData;
-import com.jetbrains.cef.remote.thrift_codegen.RObject;
-import org.cef.misc.CefLog;
 import org.cef.network.CefPostData;
 import org.cef.network.CefRequest;
 
 import java.util.Map;
 
-// 1. Represents remote java peer for native server object (CefRequest).
-// 2. Created on java side when processing some server request.
-// 3. Lifetime of remote native peer if managed by server: native object
-// peer (CefRequest) is destroyed immediately after rpc finished. After that
-// moment all requests from java to native will return errors (or default values).
-// Java object will be destroyed via usual gc.
-public class RemoteRequest extends RemoteServerObjectLocal implements CefRequest {
-    public RemoteRequest(RpcExecutor server, RObject request) {
-        super(server, request);
-    }
+public class RemoteRequest extends CefRequest {
+    private final RemoteRequestImpl myImpl;
 
-    public void flush() {
-        myServer.exec((s)->{
-            s.Request_Update(thriftIdWithCache());
-        });
+    public RemoteRequest(RemoteRequestImpl impl) {
+        super();
+        myImpl = impl;
     }
 
     @Override
-    public long getIdentifier() { return getLongVal("Identifier"); }
+    public void dispose() {}
 
     @Override
-    public boolean isReadOnly() { return getBoolVal("IsReadOnly"); }
+    public long getIdentifier() {
+        return myImpl.getIdentifier();
+    }
 
     @Override
-    public String getURL() { return myCache.get("URL"); }
+    public boolean isReadOnly() {
+        return myImpl.isReadOnly();
+    }
 
     @Override
-    public void setURL(String url) { setStrVal("URL", url); }
+    public String getURL() {
+        return myImpl.getURL();
+    }
 
     @Override
-    public String getMethod() { return myCache.get("Method"); }
+    public void setURL(String url) {
+        myImpl.setURL(url);
+    }
 
     @Override
-    public void setMethod(String method) { setStrVal("Method", method); }
+    public String getMethod() {
+        return myImpl.getMethod();
+    }
+
+    @Override
+    public void setMethod(String method) {
+        myImpl.setMethod(method);
+    }
 
     @Override
     public void setReferrer(String url, ReferrerPolicy policy) {
-        setStrVal("ReferrerURL", url);
-        setStrVal("ReferrerPolicy", policy.name());
+        myImpl.setReferrer(url, policy);
     }
 
     @Override
-    public String getReferrerURL() { return myCache.get("ReferrerURL"); }
+    public String getReferrerURL() {
+        return myImpl.getReferrerURL();
+    }
 
     @Override
     public ReferrerPolicy getReferrerPolicy() {
-        String sval = myCache.get("ReferrerPolicy");
-        if (sval != null && !sval.isEmpty()) {
-            try {
-                return ReferrerPolicy.valueOf(sval);
-            } catch (IllegalArgumentException e) {
-                CefLog.Error("getReferrerPolicy: ", e.getMessage());
-            }
-        }
-        return null;// probably REFERRER_POLICY_DEFAULT ?
+        return myImpl.getReferrerPolicy();
     }
 
     @Override
     public CefPostData getPostData() {
-        PostData pd = myServer.execObj((s)-> s.Request_GetPostData(thriftId()));
-        return pd == null ? null : new RemotePostData(pd);
+        return myImpl.getPostData();
     }
 
     @Override
     public void setPostData(CefPostData postData) {
-        myServer.exec((s)->{
-            s.Request_SetPostData(thriftId(), RemotePostData.toThriftWithMap(postData));
-        });
-    }
-
-    @Override
-    public void set(String url, String method, CefPostData postData, Map<String, String> headerMap) {
-        myServer.exec((s)->{
-            s.Request_Set(thriftId(), url, method, RemotePostData.toThriftWithMap(postData), headerMap);
-        });
+        myImpl.setPostData(postData);
     }
 
     @Override
     public String getHeaderByName(String name) {
-        return myServer.execObj((s)->s.Request_GetHeaderByName(thriftId(), name));
+        return myImpl.getHeaderByName(name);
     }
 
     @Override
     public void setHeaderByName(String name, String value, boolean overwrite) {
-        myServer.exec((s)->{
-            s.Request_SetHeaderByName(thriftId(), name, value, overwrite);
-        });
+        myImpl.setHeaderByName(name, value, overwrite);
     }
 
     @Override
     public void getHeaderMap(Map<String, String> headerMap) {
-        if (headerMap == null)
-            return;
-        Map<String, String> result = myServer.execObj((s)-> s.Request_GetHeaderMap(thriftId()));
-        if (result != null)
-            headerMap.putAll(result);
+        myImpl.getHeaderMap(headerMap);
     }
 
     @Override
     public void setHeaderMap(Map<String, String> headerMap) {
-        myServer.exec((s)->{
-            s.Request_SetHeaderMap(thriftId(), headerMap);
-        });
+        myImpl.setHeaderMap(headerMap);
     }
 
     @Override
-    public int getFlags() { return (int)getLongVal("Flags"); }
+    public void set(String url, String method, CefPostData postData, Map<String, String> headerMap) {
+        myImpl.set(url, method, postData, headerMap);
+    }
 
     @Override
-    public void setFlags(int flags) { setLongVal("Flags", flags); }
+    public int getFlags() {
+        return myImpl.getFlags();
+    }
 
     @Override
-    public String getFirstPartyForCookies() { return myCache.get("FirstPartyForCookies"); }
+    public void setFlags(int flags) {
+        myImpl.setFlags(flags);
+    }
 
     @Override
-    public void setFirstPartyForCookies(String url) { setStrVal("FirstPartyForCookies", url); }
+    public String getFirstPartyForCookies() {
+        return myImpl.getFirstPartyForCookies();
+    }
+
+    @Override
+    public void setFirstPartyForCookies(String url) {
+        myImpl.setFirstPartyForCookies(url);
+    }
 
     @Override
     public ResourceType getResourceType() {
-        String sval = myCache.get("ResourceType");
-        if (sval != null && !sval.isEmpty()) {
-            try {
-                return ResourceType.valueOf(sval);
-            } catch (IllegalArgumentException e) {
-                CefLog.Error("getResourceType: ", e.getMessage());
-            }
-        }
-        return null;
+        return myImpl.getResourceType();
     }
 
     @Override
     public TransitionType getTransitionType() {
-        String sval = myCache.get("TransitionType");
-        if (sval != null && !sval.isEmpty()) {
-            try {
-                return TransitionType.valueOf(sval);
-            } catch (IllegalArgumentException e) {
-                CefLog.Error("getTransitionType: ", e.getMessage());
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public String toString() {
-        // TODO: use return CefRequest.toString(this) after debugging
-        return myCache.toString();
+        return myImpl.getTransitionType();
     }
 }

@@ -8,7 +8,9 @@ import com.jetbrains.cef.remote.CefServer;
 import com.jetbrains.cef.remote.RemoteBrowser;
 import com.jetbrains.cef.remote.RemoteClient;
 import com.jetbrains.cef.remote.router.RemoteMessageRouter;
+import com.jetbrains.cef.remote.router.RemoteMessageRouterImpl;
 import org.cef.CefSettings;
+import org.cef.browser.CefMessageRouter;
 import org.cef.misc.CefLog;
 import tests.JBCefOsrComponent;
 import tests.JBCefOsrHandler;
@@ -39,15 +41,15 @@ public class TestApp extends JFrame {
 
         String qFunc = "testRemoteQuery";
         String qFuncCancel = "testRemoteQueryCancel";
-        RemoteMessageRouter testRouter = RemoteMessageRouter.create(server.getService(), qFunc, qFuncCancel);
+        RemoteMessageRouterImpl testRouter = RemoteMessageRouterImpl.create(new CefMessageRouter.CefMessageRouterConfig(qFunc, qFuncCancel));
         if (testRouter == null) {
             CefLog.Error("can't create RemoteMessageRouter");
             return;
         }
 
         testRouter.addHandler(new TestMessageRouterHandler(), true);
-        client.addMessageRouter(testRouter);
-        RemoteBrowser browser = client.createBrowser("www.google.com",null,true,null);
+        client.addMessageRouter(new RemoteMessageRouter(testRouter));
+        RemoteBrowser browser = client.createBrowser("www.google.com",true,null, null);
         browser.createImmediately();
         if (browser == null) {
             CefLog.Error("can't create remote browser");

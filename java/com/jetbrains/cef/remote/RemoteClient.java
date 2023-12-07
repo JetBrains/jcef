@@ -1,6 +1,7 @@
 package com.jetbrains.cef.remote;
 
 import com.jetbrains.cef.remote.router.RemoteMessageRouter;
+import com.jetbrains.cef.remote.router.RemoteMessageRouterImpl;
 import org.cef.CefClient;
 import org.cef.browser.*;
 import org.cef.handler.*;
@@ -39,7 +40,7 @@ public class RemoteClient {
     final MultiHandler<CefLifeSpanHandler> hLifeSpan = new MultiHandler<>();
 
     // MessageRouter support
-    private Vector<RemoteMessageRouter> msgRouters = new Vector<>();
+    private Vector<RemoteMessageRouterImpl> msgRouters = new Vector<>();
 
     public interface BrowserTracker {
         void register(RemoteBrowser browser);
@@ -129,7 +130,7 @@ public class RemoteClient {
     // CefClient
     //
 
-    public RemoteBrowser createBrowser(String url, boolean isTransparent, CefRequestContext context) {
+    public RemoteBrowser createBrowser(String url, boolean isTransparent, CefRequestContext context, CefClient client) {
         // TODO: check whether client is disposed
 //        if (isDisposed_)
 //            throw new IllegalStateException("Can't create browser. CefClient is disposed");
@@ -138,6 +139,7 @@ public class RemoteClient {
         } else {
             // TODO: support context
             myRemoteBrowser = new RemoteBrowser(myService, this, url);
+            myRemoteBrowser.setCefClient(client);
         }
         return myRemoteBrowser;
     }
@@ -258,16 +260,16 @@ public class RemoteClient {
         // with java handlers (internally will remote wrappers over java objects). CefMessageRouter is used only to
         // add/remove handlers. So we can't create remote wrapper over "java" CefMessageRouter here.
         RemoteMessageRouter router = (RemoteMessageRouter)messageRouter;
-        msgRouters.add(router);
+        msgRouters.add(router.getImpl());
         if (myRemoteBrowser != null && myRemoteBrowser.getBid() >= 0)
-            router.addToBrowser(myRemoteBrowser.getBid());
+            router.getImpl().addToBrowser(myRemoteBrowser.getBid());
     }
 
     public void removeMessageRouter(CefMessageRouter messageRouter) {
         RemoteMessageRouter router = (RemoteMessageRouter)messageRouter;
         if (myRemoteBrowser != null && myRemoteBrowser.getBid() >= 0)
-            router.removeFromBrowser(myRemoteBrowser.getBid());
-        msgRouters.remove(router);
+            router.getImpl().removeFromBrowser(myRemoteBrowser.getBid());
+        msgRouters.remove(router.getImpl());
     }
 
     public void dispose() {

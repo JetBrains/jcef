@@ -10,11 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-public class RemotePostData implements CefPostData {
+public class RemotePostData extends CefPostData {
     private final PostData myPostData;
     private final List<CefPostDataElement> myElements = new ArrayList<>();
 
     public RemotePostData(PostData postData) {
+        super();
         myPostData = postData;
         if (myPostData.elements != null)
             myPostData.elements.forEach(e -> {
@@ -23,6 +24,8 @@ public class RemotePostData implements CefPostData {
     }
 
     @Override
+    public void dispose() {}
+
     public boolean isReadOnly() { return myPostData.isReadOnly; }
 
     public boolean hasExcludedElements() { return myPostData.hasExcludedElements; }

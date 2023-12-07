@@ -18,7 +18,7 @@ import java.util.Set;
  */
 public abstract class CefResponse extends CefNativeAdapter {
     // This CTOR can't be called directly. Call method create() instead.
-    CefResponse() {}
+    protected CefResponse() {}
 
     @Override
     protected void finalize() throws Throwable {

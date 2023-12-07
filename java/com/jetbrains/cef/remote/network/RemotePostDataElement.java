@@ -6,12 +6,17 @@ import org.cef.network.CefPostDataElement;
 
 import java.nio.ByteBuffer;
 
-public class RemotePostDataElement implements CefPostDataElement {
+public class RemotePostDataElement extends CefPostDataElement {
     private final PostDataElement myElement;
 
-    public RemotePostDataElement(PostDataElement postDataElement) { myElement = postDataElement; }
+    public RemotePostDataElement(PostDataElement postDataElement) {
+        super();
+        myElement = postDataElement;
+    }
 
     @Override
+    public void dispose() {}
+
     public boolean isReadOnly() { return myElement.isReadOnly; }
 
     @Override
@@ -35,10 +40,10 @@ public class RemotePostDataElement implements CefPostDataElement {
     @Override
     public Type getType() {
         if (myElement.file == null && myElement.bytes == null)
-            return Type.PDE_TYPE_EMPTY;
+            return CefPostDataElement.Type.PDE_TYPE_EMPTY;
         if (myElement.file == null)
-            return Type.PDE_TYPE_BYTES;
-        return Type.PDE_TYPE_FILE;
+            return CefPostDataElement.Type.PDE_TYPE_BYTES;
+        return CefPostDataElement.Type.PDE_TYPE_FILE;
     }
 
     @Override
@@ -58,9 +63,9 @@ public class RemotePostDataElement implements CefPostDataElement {
 
     static PostDataElement toThriftWithMap(CefPostDataElement postData) {
         PostDataElement e = new PostDataElement(postData.isReadOnly());
-        if (postData.getType() == Type.PDE_TYPE_FILE) {
+        if (postData.getType() == CefPostDataElement.Type.PDE_TYPE_FILE) {
             e.file = postData.getFile();
-        } else if (postData.getType() == Type.PDE_TYPE_BYTES) {
+        } else if (postData.getType() == CefPostDataElement.Type.PDE_TYPE_BYTES) {
             byte[] buf = new byte[postData.getBytesCount()];
             postData.getBytes(postData.getBytesCount(), buf);
             e.bytes = ByteBuffer.wrap(buf);
