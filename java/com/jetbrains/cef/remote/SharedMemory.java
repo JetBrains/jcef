@@ -1,8 +1,11 @@
 package com.jetbrains.cef.remote;
 
+import org.cef.misc.Utils;
+
 import java.nio.ByteBuffer;
 
 public class SharedMemory {
+    private static final String ALT_MEM_HELPER_PATH = Utils.getString("ALT_MEM_HELPER_PATH");
     public final String mname;
     public final long boostHandle;
 
@@ -10,7 +13,10 @@ public class SharedMemory {
     final private long myPtr;
 
     static {
-        System.loadLibrary("shared_mem_helper");
+        if ("".equals(ALT_MEM_HELPER_PATH))
+            System.loadLibrary("shared_mem_helper");
+        else
+            System.load(ALT_MEM_HELPER_PATH);
     }
 
     public SharedMemory(String sharedMemName, long boostHandle) {

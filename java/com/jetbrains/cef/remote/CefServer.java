@@ -6,6 +6,7 @@ import org.apache.thrift.TException;
 import org.apache.thrift.server.TServer;
 import org.apache.thrift.server.TSimpleServer;
 import org.apache.thrift.transport.TServerSocket;
+import org.cef.CefApp;
 import org.cef.CefSettings;
 import org.cef.callback.CefSchemeRegistrar;
 import org.cef.misc.CefLog;
@@ -14,36 +15,46 @@ import java.util.Collections;
 import java.util.List;
 
 public class CefServer {
-    private static final boolean IS_ENABLED = Boolean.getBoolean("jcef.remote.enabled");
     private static final int PORT = Integer.getInteger("jcef.remote.port", 9090);
-    private static CefServer INSTANCE = null;
+    private static final CefServer INSTANCE = CefApp.isRemoteEnabled() ? new CefServer() : null;
 
     // Fields for cef-handlers execution on java side
     private Thread myClientHandlersThread;
     private TServer myClientHandlersServer;
     private TServerSocket myClientHandlersTransport;
-    private ClientHandlersImpl myClientHandlersImpl;
-
-    // Java client for native CefServer
     private final RpcExecutor myService = new RpcExecutor();
+    private final ClientHandlersImpl myClientHandlersImpl = new ClientHandlersImpl(myService, new RemoteApp() {
+        @Override
+        public void onRegisterCustomSchemes(CefSchemeRegistrar registrar) {
+            CefLog.Info("onRegisterCustomSchemes: " + registrar);
+        }
+        @Override
+        public void onContextInitialized() {
+            CefLog.Info("onContextInitialized: ");
+        }
+    });
+    private volatile boolean myIsInitialized = false;
 
-    public static void initialize() {
-        if (INSTANCE != null)
-            return;
+    // Connects to CefServer and start cef-handlers service.
+    // Should be executed in bg thread.
+    public static boolean initialize() {
+        if (!CefApp.isRemoteEnabled())
+            return false;
 
-        INSTANCE = new CefServer();
-
+        // TODO: pass args and settings
         List<String> cefArgs = Collections.emptyList();
         CefSettings settings = new CefSettings();
-        if (!INSTANCE.start(cefArgs, settings)) {
-            CefLog.Error("Can't connect to CefServer");
-            INSTANCE = null;
+        if (!INSTANCE.initialize(cefArgs, settings)) {
+            CefLog.Error("Can't initialize client for CefServer");
+            return false;
         }
+        INSTANCE.myIsInitialized = true;
+        return true;
     }
 
-    public static boolean isEnabled() { return IS_ENABLED; }
-
     public static CefServer instance() { return INSTANCE; }
+
+    public boolean isInitialized() { return myIsInitialized; }
 
     public RpcExecutor getService() { return myService; }
 
@@ -51,31 +62,13 @@ public class CefServer {
         return new RemoteClient(myService, myClientHandlersImpl);
     }
 
-    public static RemoteClient createClientIfEnabled() {
-        return IS_ENABLED && INSTANCE != null ? INSTANCE.createClient() : null;
-    }
-
-    // connect to CefServer and start cef-handlers service
-    public boolean start(List<String> args, CefSettings settings) {
+    private boolean initialize(List<String> args, CefSettings settings) {
         try {
-            // 1. Start server for cef-handlers execution
-            RemoteApp cefRemoteApp = new RemoteApp() {
-                @Override
-                public void onRegisterCustomSchemes(CefSchemeRegistrar registrar) {
-                    CefLog.Info("onRegisterCustomSchemes: " + registrar);
-                }
-
-                @Override
-                public void onContextInitialized() {
-                    CefLog.Info("onContextInitialized: ");
-                }
-            };
-
-            // 1. Create client and open socket
+            // 1. Start server for cef-handlers execution. Open socket
+            CefLog.Debug("Initialize CefServer. Open socket.");
             myService.init(PORT);
 
             // 2. Start service for backward rpc calls (from native to java)
-            myClientHandlersImpl = new ClientHandlersImpl(myService, cefRemoteApp);
             ClientHandlers.Processor processor = new ClientHandlers.Processor(myClientHandlersImpl);
             int backwardConnectionPort = PORT + 1;
             myClientHandlersTransport = new TServerSocket(backwardConnectionPort);

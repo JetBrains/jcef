@@ -119,7 +119,7 @@ public class CefClient extends CefClientHandler
     CefClient() throws UnsatisfiedLinkError {
         super();
 
-        remoteClient = CefServer.createClientIfEnabled();
+        remoteClient = CefApp.isRemoteEnabled() ? CefServer.instance().createClient() : null;
         if (remoteClient == null)
             KeyboardFocusManager.getCurrentKeyboardFocusManager().addPropertyChangeListener(propertyChangeListener);
 

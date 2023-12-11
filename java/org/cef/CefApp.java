@@ -4,6 +4,8 @@
 
 package org.cef;
 
+import com.jetbrains.cef.JCefAppConfig;
+import com.jetbrains.cef.remote.CefServer;
 import org.cef.callback.CefSchemeHandlerFactory;
 import org.cef.handler.CefAppHandler;
 import org.cef.handler.CefAppHandlerAdapter;
@@ -25,7 +27,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Exposes static methods for managing the global CEF context.
  */
 public class CefApp extends CefAppHandlerAdapter {
-    public final class CefVersion {
+    public class CefVersion {
         public final int JCEF_COMMIT_NUMBER;
 
         public final String JCEF_COMMIT_HASH;
@@ -40,7 +42,7 @@ public class CefApp extends CefAppHandlerAdapter {
         public final int CHROME_VERSION_BUILD;
         public final int CHROME_VERSION_PATCH;
 
-        private CefVersion(int jcefCommitNo, String jcefCommitHash, int cefMajor, int cefMinor, int cefPatch,
+        protected CefVersion(int jcefCommitNo, String jcefCommitHash, int cefMajor, int cefMinor, int cefPatch,
                            int cefCommitNo, int chrMajor, int chrMin, int chrBuild, int chrPatch) {
             JCEF_COMMIT_NUMBER = jcefCommitNo;
             JCEF_COMMIT_HASH = jcefCommitHash;
@@ -145,6 +147,9 @@ public class CefApp extends CefAppHandlerAdapter {
     private static final int PREINIT_TEST_DELAY_MS = Utils.getInteger("jcef_app_preinit_test_delay_ms", 0);
     private static final int INIT_TEST_DELAY_MS = Utils.getInteger("jcef_app_init_test_delay_ms", 0);
 
+    // Support for JBR-4430
+    private static final boolean IS_REMOTE_ENABLED = Boolean.getBoolean("jcef.remote.enabled");
+
     /**
      * To get an instance of this class, use the method
      * getInstance() instead of this CTOR.
@@ -159,16 +164,32 @@ public class CefApp extends CefAppHandlerAdapter {
         CefLog.init(settings);
         setState(CefAppState.NEW);
 
-        ourStartupFeature.thenRunAsync(() -> { // Perform native pre-initialization.
-                    // This code will save global pointer to JVM instance.
-                    // Execute on the AWT event dispatching thread to store JNI context from EDT
-                    // NOTE: in practice it seems that this method can be called from any thread (at tests
-                    // execute successfully)
-                    // TODO: ensure and make all initialization steps in single bg thread.
-                    preinit(args);
-                    initialize();
-                },
-                new NamedThreadExecutor("CefInitialize-thread"));
+        ourStartupFeature.thenRunAsync(() -> {
+            // Perform native pre-initialization.
+            // This code will save global pointer to JVM instance.
+            // Execute on the AWT event dispatching thread to store JNI context from EDT
+            // NOTE: in practice it seems that this method can be called from any thread (at tests
+            // execute successfully)
+            // TODO: ensure and make all initialization steps in single bg thread.
+            if (IS_REMOTE_ENABLED) {
+                if (!CefServer.initialize()) {
+                    CefLog.Error("CefApp: can't connect to native server.");
+                } else {
+                    CefLog.Debug("CefApp: native CefServer is initialized.");
+                    setState(CefAppState.INITIALIZED);
+                    synchronized (initializationListeners_) {
+                        isInitialized_ = true;
+                        initializationListeners_.forEach(l -> l.stateHasChanged(CefAppState.INITIALIZED));
+                        initializationListeners_.clear();
+                    }
+                    CefLog.Info("Connected to CefServer. JCEF version: %s", getVersion());
+                }
+            } else {
+                preinit(args);
+                initialize();
+            }
+        },
+        new NamedThreadExecutor("CefInitialize-thread"));
     }
 
     private void preinit(String[] args) throws RuntimeException {
@@ -282,6 +303,19 @@ public class CefApp extends CefAppHandlerAdapter {
     }
 
     public final CefVersion getVersion() {
+        if (isRemoteEnabled()) {
+            // TODO: request from server
+            CefVersion result = new CefVersion(0, "0", 0, 0, 0, 0, 0, 0, 0, 0) {
+                @Override
+                public String toString() {
+                    return "remote " + JCefAppConfig.getVersion();
+                }
+                @Override
+                public String getJcefVersion() {
+                    return "remote " + JCefAppConfig.getVersion();
+                }
+            };
+        }
         try {
             return N_GetVersion();
         } catch (UnsatisfiedLinkError ule) {
@@ -289,6 +323,8 @@ public class CefApp extends CefAppHandlerAdapter {
         }
         return null;
     }
+
+    public static final boolean isRemoteEnabled() { return IS_REMOTE_ENABLED; }
 
     /**
      * Returns the current state of CefApp.
@@ -551,6 +587,11 @@ public class CefApp extends CefAppHandlerAdapter {
     }
 
     public static void startupAsync() {
+        if (IS_REMOTE_ENABLED) {
+            ourStartupFeature.complete(null);
+            return;
+        }
+
         new NamedThreadExecutor("CefStartup-thread").execute(()->{
             try {
                 Startup.loadCefLibrary();

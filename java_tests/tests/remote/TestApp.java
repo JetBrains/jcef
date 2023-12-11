@@ -41,14 +41,11 @@ public class TestApp extends JFrame {
 
         String qFunc = "testRemoteQuery";
         String qFuncCancel = "testRemoteQueryCancel";
-        RemoteMessageRouterImpl testRouter = RemoteMessageRouterImpl.create(new CefMessageRouter.CefMessageRouterConfig(qFunc, qFuncCancel));
-        if (testRouter == null) {
-            CefLog.Error("can't create RemoteMessageRouter");
-            return;
-        }
+        CefMessageRouter.CefMessageRouterConfig config = new CefMessageRouter.CefMessageRouterConfig(qFunc, qFuncCancel);
+        RemoteMessageRouter testRouter = new RemoteMessageRouter(config);
 
         testRouter.addHandler(new TestMessageRouterHandler(), true);
-        client.addMessageRouter(new RemoteMessageRouter(testRouter));
+        client.addMessageRouter(testRouter);
         RemoteBrowser browser = client.createBrowser("www.google.com",true,null, null);
         browser.createImmediately();
         if (browser == null) {

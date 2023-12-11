@@ -34,7 +34,7 @@ public class RemoteBrowser implements CefBrowser {
 
     private int myBid = -1;
     private String myUrl = null;
-    private JComponent myComponent;
+    private Component myComponent;
     private CefClient myCefClient;
 
     public RemoteBrowser(RpcExecutor service, RemoteClient owner, String url) {
@@ -51,7 +51,7 @@ public class RemoteBrowser implements CefBrowser {
     public boolean isNativeBrowserCreated() { return myOwner.isNativeBrowserCreated(); }
     public boolean isNativeBrowserClosed() { return myOwner.isNativeBrowserClosed(); }
 
-    public void setComponent(JComponent component) { myComponent = component; }
+    public void setComponent(Component component) { myComponent = component; }
     public void setCefClient(CefClient client) { myCefClient = client; }
 
 
