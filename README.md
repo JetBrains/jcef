@@ -25,19 +25,15 @@ This is a fork of [java-cef](https://github.com/chromiumembedded/java-cef). It's
    ```
 2. Install [Apache Ant](https://ant.apache.org/manual/install.html). Make sure that `ANT_HOME` is set.
 3. Set `JAVA_HOME`.
-4. Set `VS170COMNTOOLS` env variable to point onto your Visual Studio 2019 Community installation. E.g.
-   ```
-   VS170COMNTOOLS='C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\Tools\'.
-   ```
-5. Install cmake. Set `JCEF_CMAKE` env variable. E.g.
+4. Install cmake. Set `JCEF_CMAKE` env variable. E.g.
    ```
    `JCEF_CMAKE='C:\cmake-3.27.0-rc2-windows-x86_64'`.
    ```
-6. Run at `<project_root>\jb\tools\windows` directory. Replace `x86_64` with `arm64` if needed.
+5. Run at `<project_root>\jb\tools\windows` directory. Replace `x86_64` with `arm64` if needed.
    ```
    cmd /c build.bat all x86_64
    ```
-7. Check `jcef_win_x86_64.tar.gz` or `jcef_win_arm64.tar.gz` file in the project root directory.
+6. Check `jcef_win_x86_64.tar.gz` or `jcef_win_arm64.tar.gz` file in the project root directory.
 
 ### Building JetBrainsRuntime with JCEF.
 1. Assume that we are working on `x86_64` platform. For `x64` or `x86_64` has to replaced with `arm64` or `aarch64`.

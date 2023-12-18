@@ -22,22 +22,6 @@ echo TARGET_ARCH=%TARGET_ARCH%
 
 cd "%JCEF_ROOT_DIR%\jcef_build" || goto:__exit
 
-echo *** set VS17 env...
-if "%env.VS170COMNTOOLS%" neq "" (
-    set "VS170COMNTOOLS=%env.VS170COMNTOOLS%"
-)
-if "%VS170COMNTOOLS%" == "" (
-    echo error: VS170COMNTOOLS is not set
-    goto:__exit
-)
-echo VS170COMNTOOLS="%VS170COMNTOOLS%"
-
-rem if "%TARGET_ARCH%" == "arm64" (
-rem     call "%VS170COMNTOOLS%\..\..\VC\Auxiliary\Build\vcvarsamd64_arm64.bat" || goto:__exit
-rem ) else (
-rem     call "%VS170COMNTOOLS%\..\..\VC\Auxiliary\Build\vcvarsall.bat" amd64 || goto:__exit
-rem )
-
 echo *** run cmake...
 if "%env.JCEF_CMAKE%" neq "" (
     set "JCEF_CMAKE=%env.JCEF_CMAKE%"
