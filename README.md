@@ -25,9 +25,9 @@ This is a fork of [java-cef](https://github.com/chromiumembedded/java-cef). It's
    ```
 2. Install [Apache Ant](https://ant.apache.org/manual/install.html). Make sure that `ANT_HOME` is set.
 3. Set `JAVA_HOME`.
-4. Set `VS160COMNTOOLS` env variable to point onto your Visual Studio 2019 Community installation. E.g.
+4. Set `VS170COMNTOOLS` env variable to point onto your Visual Studio 2019 Community installation. E.g.
    ```
-   VS160COMNTOOLS='C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools'.
+   VS170COMNTOOLS='C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\Tools\'.
    ```
 5. Install cmake. Set `JCEF_CMAKE` env variable. E.g.
    ```
