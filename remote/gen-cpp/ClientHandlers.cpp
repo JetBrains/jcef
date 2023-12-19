@@ -1246,14 +1246,6 @@ uint32_t ClientHandlers_RenderHandler_OnPaint_args::read(::apache::thrift::proto
         }
         break;
       case 6:
-        if (ftype == ::apache::thrift::protocol::T_BOOL) {
-          xfer += iprot->readBool(this->recreateHandle);
-          this->__isset.recreateHandle = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 7:
         if (ftype == ::apache::thrift::protocol::T_I32) {
           xfer += iprot->readI32(this->width);
           this->__isset.width = true;
@@ -1261,7 +1253,7 @@ uint32_t ClientHandlers_RenderHandler_OnPaint_args::read(::apache::thrift::proto
           xfer += iprot->skip(ftype);
         }
         break;
-      case 8:
+      case 7:
         if (ftype == ::apache::thrift::protocol::T_I32) {
           xfer += iprot->readI32(this->height);
           this->__isset.height = true;
@@ -1306,15 +1298,11 @@ uint32_t ClientHandlers_RenderHandler_OnPaint_args::write(::apache::thrift::prot
   xfer += oprot->writeI64(this->sharedMemHandle);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("recreateHandle", ::apache::thrift::protocol::T_BOOL, 6);
-  xfer += oprot->writeBool(this->recreateHandle);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("width", ::apache::thrift::protocol::T_I32, 7);
+  xfer += oprot->writeFieldBegin("width", ::apache::thrift::protocol::T_I32, 6);
   xfer += oprot->writeI32(this->width);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("height", ::apache::thrift::protocol::T_I32, 8);
+  xfer += oprot->writeFieldBegin("height", ::apache::thrift::protocol::T_I32, 7);
   xfer += oprot->writeI32(this->height);
   xfer += oprot->writeFieldEnd();
 
@@ -1353,15 +1341,11 @@ uint32_t ClientHandlers_RenderHandler_OnPaint_pargs::write(::apache::thrift::pro
   xfer += oprot->writeI64((*(this->sharedMemHandle)));
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("recreateHandle", ::apache::thrift::protocol::T_BOOL, 6);
-  xfer += oprot->writeBool((*(this->recreateHandle)));
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("width", ::apache::thrift::protocol::T_I32, 7);
+  xfer += oprot->writeFieldBegin("width", ::apache::thrift::protocol::T_I32, 6);
   xfer += oprot->writeI32((*(this->width)));
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("height", ::apache::thrift::protocol::T_I32, 8);
+  xfer += oprot->writeFieldBegin("height", ::apache::thrift::protocol::T_I32, 7);
   xfer += oprot->writeI32((*(this->height)));
   xfer += oprot->writeFieldEnd();
 
@@ -7615,13 +7599,13 @@ void ClientHandlersClient::recv_RenderHandler_GetScreenPoint(Point& _return)
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "RenderHandler_GetScreenPoint failed: unknown result");
 }
 
-void ClientHandlersClient::RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const bool recreateHandle, const int32_t width, const int32_t height)
+void ClientHandlersClient::RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const int32_t width, const int32_t height)
 {
-  send_RenderHandler_OnPaint(bid, popup, dirtyRectsCount, sharedMemName, sharedMemHandle, recreateHandle, width, height);
+  send_RenderHandler_OnPaint(bid, popup, dirtyRectsCount, sharedMemName, sharedMemHandle, width, height);
   recv_RenderHandler_OnPaint();
 }
 
-void ClientHandlersClient::send_RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const bool recreateHandle, const int32_t width, const int32_t height)
+void ClientHandlersClient::send_RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const int32_t width, const int32_t height)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("RenderHandler_OnPaint", ::apache::thrift::protocol::T_CALL, cseqid);
@@ -7632,7 +7616,6 @@ void ClientHandlersClient::send_RenderHandler_OnPaint(const int32_t bid, const b
   args.dirtyRectsCount = &dirtyRectsCount;
   args.sharedMemName = &sharedMemName;
   args.sharedMemHandle = &sharedMemHandle;
-  args.recreateHandle = &recreateHandle;
   args.width = &width;
   args.height = &height;
   args.write(oprot_);
@@ -9481,7 +9464,7 @@ void ClientHandlersProcessor::process_RenderHandler_OnPaint(int32_t seqid, ::apa
 
   ClientHandlers_RenderHandler_OnPaint_result result;
   try {
-    iface_->RenderHandler_OnPaint(args.bid, args.popup, args.dirtyRectsCount, args.sharedMemName, args.sharedMemHandle, args.recreateHandle, args.width, args.height);
+    iface_->RenderHandler_OnPaint(args.bid, args.popup, args.dirtyRectsCount, args.sharedMemName, args.sharedMemHandle, args.width, args.height);
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "ClientHandlers.RenderHandler_OnPaint");
@@ -11564,13 +11547,13 @@ void ClientHandlersConcurrentClient::recv_RenderHandler_GetScreenPoint(Point& _r
   } // end while(true)
 }
 
-void ClientHandlersConcurrentClient::RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const bool recreateHandle, const int32_t width, const int32_t height)
+void ClientHandlersConcurrentClient::RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const int32_t width, const int32_t height)
 {
-  int32_t seqid = send_RenderHandler_OnPaint(bid, popup, dirtyRectsCount, sharedMemName, sharedMemHandle, recreateHandle, width, height);
+  int32_t seqid = send_RenderHandler_OnPaint(bid, popup, dirtyRectsCount, sharedMemName, sharedMemHandle, width, height);
   recv_RenderHandler_OnPaint(seqid);
 }
 
-int32_t ClientHandlersConcurrentClient::send_RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const bool recreateHandle, const int32_t width, const int32_t height)
+int32_t ClientHandlersConcurrentClient::send_RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const int32_t width, const int32_t height)
 {
   int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
@@ -11582,7 +11565,6 @@ int32_t ClientHandlersConcurrentClient::send_RenderHandler_OnPaint(const int32_t
   args.dirtyRectsCount = &dirtyRectsCount;
   args.sharedMemName = &sharedMemName;
   args.sharedMemHandle = &sharedMemHandle;
-  args.recreateHandle = &recreateHandle;
   args.width = &width;
   args.height = &height;
   args.write(oprot_);

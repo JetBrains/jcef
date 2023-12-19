@@ -7,8 +7,8 @@ import org.cef.browser.CefBrowser;
 import org.cef.callback.CefDragData;
 import org.cef.handler.CefNativeRenderHandler;
 import org.cef.handler.CefScreenInfo;
-import org.cef.misc.CefRange;
 import org.cef.misc.CefLog;
+import org.cef.misc.CefRange;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,6 +26,8 @@ import java.nio.ByteOrder;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
@@ -38,6 +40,9 @@ import java.util.concurrent.atomic.AtomicReference;
  * @author tav
  */
 public class JBCefOsrHandler implements CefNativeRenderHandler {
+    private static final int CLEAN_CACHE_SIZE = Integer.getInteger("jcef.remote.tests.clean_cache_size", 4);
+    private static final int CLEAN_CACHE_TIME_MS = Integer.getInteger("jcef.remote.tests.clean_cache_time_ms", 10*1000); // 10 sec
+
     interface ScreenBoundsProvider {
         Rectangle fun(JComponent param);
     }
@@ -74,7 +79,7 @@ public class JBCefOsrHandler implements CefNativeRenderHandler {
     private boolean myPopupShown;
     private final CountDownLatch initLatch = new CountDownLatch(1);
 
-    private SharedMemory.WithRaster mySharedMem;
+    private final Map<String, SharedMemory.WithRaster> mySharedMemCache = new ConcurrentHashMap<>();
 
     private JBCefFpsMeter myFpsMeter;
 
@@ -104,7 +109,9 @@ public class JBCefOsrHandler implements CefNativeRenderHandler {
 
     @Override
     public void disposeNativeResources() {
-        if (mySharedMem != null) mySharedMem.close();
+        for (SharedMemory.WithRaster mem: mySharedMemCache.values())
+            mem.close();
+        mySharedMemCache.clear();
     }
 
     @Override
@@ -144,18 +151,41 @@ public class JBCefOsrHandler implements CefNativeRenderHandler {
         myPopupBounds = scaleUp(size);
     }
 
-    @Override
-    public void onPaintWithSharedMem(CefBrowser browser, boolean popup, int dirtyRectsCount, String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height) {
-        // TODO: support popups
-        long startMs = System.currentTimeMillis();
-        if (recreateHandle || mySharedMem == null || !mySharedMem.mname.equals(sharedMemName) || sharedMemHandle != mySharedMem.boostHandle) {
-            if (mySharedMem != null) mySharedMem.close();
-            mySharedMem = new SharedMemory.WithRaster(sharedMemName, sharedMemHandle);
+    private void cleanCacheIfNecessary() {
+        final long timeMs = System.currentTimeMillis();
+        if (mySharedMemCache.size() < CLEAN_CACHE_SIZE)
+            return;
+
+        ArrayList<String> toRemove = new ArrayList<>();
+        for (Map.Entry<String, SharedMemory.WithRaster> item: mySharedMemCache.entrySet()) {
+            if (timeMs - item.getValue().lasUsedMs > CLEAN_CACHE_TIME_MS) {
+                toRemove.add(item.getKey());
+            }
+        }
+        for (String name: toRemove) {
+            SharedMemory.WithRaster removed = mySharedMemCache.remove(name);
+            if (removed != null)
+                removed.close();
         }
 
-        mySharedMem.setWidth(width);
-        mySharedMem.setHeight(height);
-        mySharedMem.setDirtyRectsCount(dirtyRectsCount);
+    }
+
+    @Override
+    public void onPaintWithSharedMem(CefBrowser browser, boolean popup, int dirtyRectsCount, String sharedMemName, long sharedMemHandle, int width, int height) {
+        // TODO: support popups
+        long startMs = System.currentTimeMillis();
+
+        SharedMemory.WithRaster mem = mySharedMemCache.get(sharedMemName);
+        if (mem == null) {
+            cleanCacheIfNecessary();
+            mem = new SharedMemory.WithRaster(sharedMemName, sharedMemHandle);
+            mySharedMemCache.put(sharedMemName, mem);
+        }
+
+        mem.setWidth(width);
+        mem.setHeight(height);
+        mem.setDirtyRectsCount(dirtyRectsCount);
+        mem.lasUsedMs = startMs;
 
         BufferedImage bufImage = myImage;
         VolatileImage volatileImage = myVolatileImage;
@@ -175,10 +205,10 @@ public class JBCefOsrHandler implements CefNativeRenderHandler {
         long midMs = System.currentTimeMillis();
 
         if (RasterProcessor.isFastLoadingAvailable()) {
-            RasterProcessor.loadFast(volatileImage, mySharedMem);
+            RasterProcessor.loadFast(volatileImage, mem);
         } else {
             // load buffered
-            RasterProcessor.loadBuffered(bufImage, mySharedMem);
+            RasterProcessor.loadBuffered(bufImage, mem);
 
             // draw buffered onto volatile
             Graphics2D viGr = (Graphics2D)volatileImage.getGraphics().create();

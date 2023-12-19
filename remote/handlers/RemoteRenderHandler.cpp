@@ -16,50 +16,7 @@ using namespace boost::interprocess;
 // Disable logging until optimized
 #define LNDCT()
 
-RemoteRenderHandler::RemoteRenderHandler(RemoteClientHandler & owner) : myOwner(owner) {
-    std::sprintf(mySharedMemName, "CefSharedRasterC%dB%d", myOwner.getCid(), myOwner.getBid());
-}
-
-RemoteRenderHandler::~RemoteRenderHandler() {
-  _releaseSharedMem();
-}
-
-void RemoteRenderHandler::_releaseSharedMem() {
-  if (mySharedSegment != nullptr) {
-    mySharedSegment->deallocate(mySharedMem);
-    delete mySharedSegment;
-
-    mySharedSegment = nullptr;
-    mySharedMem = nullptr;
-    myLen = 0;
-  }
-  shared_memory_object::remove(mySharedMemName);
-}
-
-bool RemoteRenderHandler::_ensureSharedCapacity(size_t len) {
-  if (myLen >= len)
-    return false;
-
-  Log::trace("Allocate shared buffer '%s' | %d bytes", mySharedMemName, len);
-
-  _releaseSharedMem();
-
-  const unsigned int additionalBytes = 1024;
-  mySharedSegment = new managed_shared_memory(create_only, mySharedMemName, len + additionalBytes);
-  managed_shared_memory::size_type free_memory = mySharedSegment->get_free_memory();
-  mySharedMem = mySharedSegment->allocate(len);
-  myLen = len;
-
-  // Check invariant
-  if(free_memory <= mySharedSegment->get_free_memory()) {
-    Log::error("free_memory %d <= mySharedSegment->get_free_memory() %d", free_memory, mySharedSegment->get_free_memory());
-    _releaseSharedMem();
-    return false;
-  }
-
-  mySharedMemHandle = mySharedSegment->get_handle_from_address(mySharedMem);
-  return true;
-}
+RemoteRenderHandler::RemoteRenderHandler(RemoteClientHandler & owner) : myOwner(owner), myBufferManager(owner.getCid(), owner.getBid()) {}
 
 bool RemoteRenderHandler::GetRootScreenRect(CefRefPtr<CefBrowser> browser,
                                       CefRect& rect) {
@@ -201,68 +158,39 @@ void RemoteRenderHandler::OnPaint(CefRefPtr<CefBrowser> browser,
                             const void* buffer,
                             int width,
                             int height) {
-#ifdef LOG_PAINT
-    Measurer measurer;
-    LogNdc ndc("RemoteRenderHandler", string_format("OnPaint(w=%d,h=%d), rects=%d", width, height, dirtyRects.size()));
-#endif
     const int rasterPixCount = width*height;
     const size_t extendedRectsCount = dirtyRects.size() < 10 ? 10 : dirtyRects.size();
-    const bool reallocated = _ensureSharedCapacity(rasterPixCount*4 + 4*4*extendedRectsCount);
-    if (mySharedMem == nullptr) return;
+    SharedBuffer & buff = myBufferManager.getLockedBuffer(rasterPixCount*4 + 4*4*extendedRectsCount);
+    if (buff.ptr() == nullptr) return;
 
-    // write rects and flipped raster
-    size_t rectsCount = dirtyRects.size();
+    // write flipped raster
+    // TODO: premultiply alpha in this loop
     const int stride = width*4;
-    int32_t * sharedRects = (int32_t *)mySharedMem + rasterPixCount;
-    if (dirtyRects.empty() || reallocated) {
-#ifdef LOG_PAINT
-        measurer.append(": full copy");
-#endif
-        rectsCount = 0;
-        for (int y = 0; y < height; ++y)
-          ::memcpy(((char*)mySharedMem) + (height - y - 1)*stride, ((char*)buffer) + y*stride, stride);
-    } else {
-#ifdef LOG_PAINT
-        measurer.append(": ");
-#endif
+    for (int y = 0; y < height; ++y)
+      ::memcpy(((char*)buff.ptr()) + (height - y - 1)*stride, ((char*)buffer) + y*stride, stride);
 
-        // NOTE: single memcpy takes the same time as line-by-line copy (tested on macbook pro m1)
-        // TODO: premultiply alpha in this loop
-        for (const CefRect& r : dirtyRects) {
-          for (int y = r.y, yEnd = r.y + r.height; y < yEnd; ++y)
-            ::memcpy(((char*)mySharedMem) + (height - y - 1)*stride + r.x*4, ((char*)buffer) + y*stride + r.x*4, r.width*4);
-
-          char str[128];
-          ::sprintf(str, "[%d,%d,%d,%d], ", r.x, r.y, r.width, r.height);
-
-          *(sharedRects++) = r.x;
-          *(sharedRects++) = height - (r.y + r.height);
-          *(sharedRects++) = r.width;
-          *(sharedRects++) = r.height;
-
-#ifdef LOG_PAINT
-          measurer.append(str);
-#endif
-        }
+    int32_t * sharedRects = (int32_t *)buff.ptr() + rasterPixCount;
+    for (const CefRect& r : dirtyRects) {
+      *(sharedRects++) = r.x;
+      *(sharedRects++) = height - (r.y + r.height);
+      *(sharedRects++) = r.width;
+      *(sharedRects++) = r.height;
     }
 
 #ifdef DRAW_DEBUG
-    fillRect((unsigned char *)mySharedMem, stride, 0, 0, 10, 10, 255, 0, 0, 255);
-    fillRect((unsigned char *)mySharedMem, stride, 0, width - 10, 10, 10, 0, 255, 0, 255);
-    fillRect((unsigned char *)mySharedMem, stride, height - 10, width - 10, 10, 10, 0, 0, 255, 255);
-    fillRect((unsigned char *)mySharedMem, stride, height - 10, 0, 10, 10, 255, 0, 255, 255);
+    fillRect((unsigned char *)buff.ptr(), stride, 0, 0, 10, 10, 255, 0, 0, 255);
+    fillRect((unsigned char *)buff.ptr(), stride, 0, width - 10, 10, 10, 0, 255, 0, 255);
+    fillRect((unsigned char *)buff.ptr(), stride, height - 10, width - 10, 10, 10, 0, 0, 255, 255);
+    fillRect((unsigned char *)buff.ptr(), stride, height - 10, 0, 10, 10, 255, 0, 255, 255);
 #endif //DRAW_DEBUG
 
-    {
-#ifdef LOG_PAINT
-        Measurer measurer2("RPC");
-#endif
-        myOwner.exec([&](const RpcExecutor::Service& s){
-          s->RenderHandler_OnPaint(myOwner.getBid(), type != PET_VIEW, static_cast<int>(rectsCount),
-                     mySharedMemName, mySharedMemHandle, reallocated,
-                     width, height);
-        });
-    }
+    buff.unlock();
+
+    myOwner.exec([&](const RpcExecutor::Service& s){
+      s->RenderHandler_OnPaint(myOwner.getBid(), type != PET_VIEW, static_cast<int>(dirtyRects.size()),
+                 buff.uid(), buff.handle(),
+                 width, height);
+    });
 }
 
 bool RemoteRenderHandler::StartDragging(CefRefPtr<CefBrowser> browser,

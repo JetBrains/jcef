@@ -59,7 +59,7 @@ service ClientHandlers {
     Rect RenderHandler_GetViewRect(1: i32 bid),
     ScreenInfo RenderHandler_GetScreenInfo(1: i32 bid),
     Point RenderHandler_GetScreenPoint(1: i32 bid, 2: i32 viewX, 3: i32 viewY),
-    void RenderHandler_OnPaint(1: i32 bid, 2: bool popup, 3: i32 dirtyRectsCount, 4: string sharedMemName, 5: i64 sharedMemHandle, 6: bool recreateHandle, 7: i32 width, 8: i32 height),
+    void RenderHandler_OnPaint(1: i32 bid, 2: bool popup, 3: i32 dirtyRectsCount, 4: string sharedMemName, 5: i64 sharedMemHandle, 6: i32 width, 7: i32 height),
     // TODO: implement
     // OnPopupShow(1:i32 bid, bool show)
     // OnPopupSize(1:i32 bid, const CefRect& rect)

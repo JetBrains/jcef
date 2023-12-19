@@ -8,12 +8,16 @@ public class SharedMemory {
     private static final String ALT_MEM_HELPER_PATH = Utils.getString("ALT_MEM_HELPER_PATH");
     public final String mname;
     public final long boostHandle;
+    public long lasUsedMs = 0;
 
     final private long mySegment;
     final private long myPtr;
+    private volatile boolean myClosed = false;
+
+    final private long myMutex;
 
     static {
-        if ("".equals(ALT_MEM_HELPER_PATH))
+        if (ALT_MEM_HELPER_PATH == null || ALT_MEM_HELPER_PATH.isEmpty())
             System.loadLibrary("shared_mem_helper");
         else
             System.load(ALT_MEM_HELPER_PATH);
@@ -24,14 +28,31 @@ public class SharedMemory {
         this.boostHandle = boostHandle;
         this.mySegment = openSharedSegment(sharedMemName);
         this.myPtr = getPointer(mySegment, boostHandle);
+
+        myMutex = openSharedMutex(sharedMemName);
+    }
+
+    public void lock() {
+        lockSharedMutex(myMutex);
+    }
+
+    public void unlock() {
+        unlockSharedMutex(myMutex);
     }
 
     public long getPtr() {
         return myPtr;
     }
 
+    public boolean isClosed() { return myClosed; }
+
+    synchronized
     public void close() {
+        if (myClosed)
+            return;
+        myClosed = true;
         closeSharedSegment(mySegment);
+        closeSharedMutex(myMutex);
     }
 
     public ByteBuffer wrap(int size) {
@@ -88,4 +109,9 @@ public class SharedMemory {
     private static native long openSharedSegment(String sid);
     private static native long getPointer(long segment, long handle);
     private static native void closeSharedSegment(long segment);
+
+    private static native long openSharedMutex(String uid);
+    private static native void lockSharedMutex(long mutex);
+    private static native void unlockSharedMutex(long mutex);
+    private static native void closeSharedMutex(long mutex);
 }

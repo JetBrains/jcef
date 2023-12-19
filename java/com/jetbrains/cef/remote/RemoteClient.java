@@ -7,6 +7,7 @@ import org.cef.browser.*;
 import org.cef.handler.*;
 import org.cef.misc.CefLog;
 
+import java.awt.*;
 import java.util.Objects;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -124,13 +125,11 @@ public class RemoteClient {
     public boolean isNativeBrowserCreated() { return myIsNativeBrowserCreated; }
     public boolean isNativeBrowserClosed() { return myIsNativeBrowserClosed; }
 
-    public void setRenderHandler(CefNativeRenderHandler renderHandler) { this.renderHandler_ = renderHandler; }
-
     //
     // CefClient
     //
 
-    public RemoteBrowser createBrowser(String url, boolean isTransparent, CefRequestContext context, CefClient client) {
+    public RemoteBrowser createBrowser(String url, CefRequestContext context, CefClient client, CefNativeRenderHandler renderHandler, Component component) {
         // TODO: check whether client is disposed
 //        if (isDisposed_)
 //            throw new IllegalStateException("Can't create browser. CefClient is disposed");
@@ -140,9 +139,23 @@ public class RemoteClient {
             // TODO: support context
             myRemoteBrowser = new RemoteBrowser(myService, this, url);
             myRemoteBrowser.setCefClient(client);
+            myRemoteBrowser.setComponent(component);
+            this.renderHandler_ = renderHandler;
         }
         return myRemoteBrowser;
     }
+
+    public RemoteBrowser createBrowser(String url, CefRequestContext context, CefClient client, CefRendering rendering) {
+        if (rendering instanceof CefRendering.CefRenderingWithHandler) {
+            CefRendering.CefRenderingWithHandler rh = (CefRendering.CefRenderingWithHandler) rendering;
+            if (rh.getRenderHandler() instanceof CefNativeRenderHandler) {
+                return createBrowser(url, context, client, (CefNativeRenderHandler)rh.getRenderHandler(), rh.getComponent());
+            }
+            throw new IllegalStateException("Can't create remote browser with render-handler: " + rh.getRenderHandler());
+        }
+        throw new IllegalStateException("Can't create remote browser with rendering: " + rendering);
+    }
+
 
     // Handlers management
     public void addLifeSpanHandler(CefLifeSpanHandler handler) {

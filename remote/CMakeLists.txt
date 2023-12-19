@@ -145,7 +145,9 @@ set(SERVER_SOURCES
         router/RemoteQueryCallback.h
         browser/ClientsManager.cpp
         browser/ClientsManager.h
-        )
+        handlers/SharedBufferManager.cpp
+        handlers/SharedBufferManager.h
+)
 
 if (OS_WINDOWS)
     list(APPEND SERVER_SOURCES CppServerWin.cpp)

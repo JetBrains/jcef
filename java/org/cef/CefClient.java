@@ -179,10 +179,8 @@ public class CefClient extends CefClientHandler
                                     CefRequestContext context) {
         if (isDisposed_)
             throw new IllegalStateException("Can't create browser. CefClient is disposed");
-        if (remoteClient != null) {
-            // TODO: check rendering (and throw exception when not OSR)
-            return remoteClient.createBrowser(url, isTransparent, context, this);
-        }
+        if (remoteClient != null)
+            return remoteClient.createBrowser(url, context, this, rendering);
         return CefBrowserFactory.create(this, url, rendering, isTransparent, context);
     }
 

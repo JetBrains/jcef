@@ -25,7 +25,7 @@ public class ClientHandlers {
 
     public Point RenderHandler_GetScreenPoint(int bid, int viewX, int viewY) throws org.apache.thrift.TException;
 
-    public void RenderHandler_OnPaint(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height) throws org.apache.thrift.TException;
+    public void RenderHandler_OnPaint(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, int width, int height) throws org.apache.thrift.TException;
 
     public boolean LifeSpanHandler_OnBeforePopup(int bid, java.lang.String url, java.lang.String frameName, boolean gesture) throws org.apache.thrift.TException;
 
@@ -111,7 +111,7 @@ public class ClientHandlers {
 
     public void RenderHandler_GetScreenPoint(int bid, int viewX, int viewY, org.apache.thrift.async.AsyncMethodCallback<Point> resultHandler) throws org.apache.thrift.TException;
 
-    public void RenderHandler_OnPaint(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void RenderHandler_OnPaint(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, int width, int height, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
     public void LifeSpanHandler_OnBeforePopup(int bid, java.lang.String url, java.lang.String frameName, boolean gesture, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
 
@@ -347,13 +347,14 @@ public class ClientHandlers {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "RenderHandler_GetScreenPoint failed: unknown result");
     }
 
-    public void RenderHandler_OnPaint(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height) throws org.apache.thrift.TException
+    @Override
+    public void RenderHandler_OnPaint(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, int width, int height) throws org.apache.thrift.TException
     {
-      send_RenderHandler_OnPaint(bid, popup, dirtyRectsCount, sharedMemName, sharedMemHandle, recreateHandle, width, height);
+      send_RenderHandler_OnPaint(bid, popup, dirtyRectsCount, sharedMemName, sharedMemHandle, width, height);
       recv_RenderHandler_OnPaint();
     }
 
-    public void send_RenderHandler_OnPaint(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height) throws org.apache.thrift.TException
+    public void send_RenderHandler_OnPaint(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, int width, int height) throws org.apache.thrift.TException
     {
       RenderHandler_OnPaint_args args = new RenderHandler_OnPaint_args();
       args.setBid(bid);
@@ -361,7 +362,6 @@ public class ClientHandlers {
       args.setDirtyRectsCount(dirtyRectsCount);
       args.setSharedMemName(sharedMemName);
       args.setSharedMemHandle(sharedMemHandle);
-      args.setRecreateHandle(recreateHandle);
       args.setWidth(width);
       args.setHeight(height);
       sendBase("RenderHandler_OnPaint", args);
@@ -1176,6 +1176,7 @@ public class ClientHandlers {
         }
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
         org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        (new Client(prot)).recv_AppHandler_OnContextInitialized();
         return null;
       }
     }
@@ -1282,9 +1283,10 @@ public class ClientHandlers {
       }
     }
 
-    public void RenderHandler_OnPaint(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    @Override
+    public void RenderHandler_OnPaint(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, int width, int height, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      RenderHandler_OnPaint_call method_call = new RenderHandler_OnPaint_call(bid, popup, dirtyRectsCount, sharedMemName, sharedMemHandle, recreateHandle, width, height, resultHandler, this, ___protocolFactory, ___transport);
+      RenderHandler_OnPaint_call method_call = new RenderHandler_OnPaint_call(bid, popup, dirtyRectsCount, sharedMemName, sharedMemHandle, width, height, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
@@ -1295,17 +1297,15 @@ public class ClientHandlers {
       private int dirtyRectsCount;
       private java.lang.String sharedMemName;
       private long sharedMemHandle;
-      private boolean recreateHandle;
       private int width;
       private int height;
-      public RenderHandler_OnPaint_call(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public RenderHandler_OnPaint_call(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, int width, int height, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.bid = bid;
         this.popup = popup;
         this.dirtyRectsCount = dirtyRectsCount;
         this.sharedMemName = sharedMemName;
         this.sharedMemHandle = sharedMemHandle;
-        this.recreateHandle = recreateHandle;
         this.width = width;
         this.height = height;
       }
@@ -1318,7 +1318,6 @@ public class ClientHandlers {
         args.setDirtyRectsCount(dirtyRectsCount);
         args.setSharedMemName(sharedMemName);
         args.setSharedMemHandle(sharedMemHandle);
-        args.setRecreateHandle(recreateHandle);
         args.setWidth(width);
         args.setHeight(height);
         args.write(prot);
@@ -1331,6 +1330,7 @@ public class ClientHandlers {
         }
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
         org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        (new Client(prot)).recv_RenderHandler_OnPaint();
         return null;
       }
     }
@@ -2868,7 +2868,7 @@ public class ClientHandlers {
 
       public RenderHandler_OnPaint_result getResult(I iface, RenderHandler_OnPaint_args args) throws org.apache.thrift.TException {
         RenderHandler_OnPaint_result result = new RenderHandler_OnPaint_result();
-        iface.RenderHandler_OnPaint(args.bid, args.popup, args.dirtyRectsCount, args.sharedMemName, args.sharedMemHandle, args.recreateHandle, args.width, args.height);
+        iface.RenderHandler_OnPaint(args.bid, args.popup, args.dirtyRectsCount, args.sharedMemName, args.sharedMemHandle, args.width, args.height);
         return result;
       }
     }
@@ -4210,7 +4210,7 @@ public class ClientHandlers {
       }
 
       public void start(I iface, RenderHandler_OnPaint_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
-        iface.RenderHandler_OnPaint(args.bid, args.popup, args.dirtyRectsCount, args.sharedMemName, args.sharedMemHandle, args.recreateHandle, args.width, args.height,resultHandler);
+        iface.RenderHandler_OnPaint(args.bid, args.popup, args.dirtyRectsCount, args.sharedMemName, args.sharedMemHandle, args.width, args.height,resultHandler);
       }
     }
 
@@ -10383,9 +10383,8 @@ public class ClientHandlers {
     private static final org.apache.thrift.protocol.TField DIRTY_RECTS_COUNT_FIELD_DESC = new org.apache.thrift.protocol.TField("dirtyRectsCount", org.apache.thrift.protocol.TType.I32, (short)3);
     private static final org.apache.thrift.protocol.TField SHARED_MEM_NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("sharedMemName", org.apache.thrift.protocol.TType.STRING, (short)4);
     private static final org.apache.thrift.protocol.TField SHARED_MEM_HANDLE_FIELD_DESC = new org.apache.thrift.protocol.TField("sharedMemHandle", org.apache.thrift.protocol.TType.I64, (short)5);
-    private static final org.apache.thrift.protocol.TField RECREATE_HANDLE_FIELD_DESC = new org.apache.thrift.protocol.TField("recreateHandle", org.apache.thrift.protocol.TType.BOOL, (short)6);
-    private static final org.apache.thrift.protocol.TField WIDTH_FIELD_DESC = new org.apache.thrift.protocol.TField("width", org.apache.thrift.protocol.TType.I32, (short)7);
-    private static final org.apache.thrift.protocol.TField HEIGHT_FIELD_DESC = new org.apache.thrift.protocol.TField("height", org.apache.thrift.protocol.TType.I32, (short)8);
+    private static final org.apache.thrift.protocol.TField WIDTH_FIELD_DESC = new org.apache.thrift.protocol.TField("width", org.apache.thrift.protocol.TType.I32, (short)6);
+    private static final org.apache.thrift.protocol.TField HEIGHT_FIELD_DESC = new org.apache.thrift.protocol.TField("height", org.apache.thrift.protocol.TType.I32, (short)7);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RenderHandler_OnPaint_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RenderHandler_OnPaint_argsTupleSchemeFactory();
@@ -10395,7 +10394,6 @@ public class ClientHandlers {
     public int dirtyRectsCount; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String sharedMemName; // required
     public long sharedMemHandle; // required
-    public boolean recreateHandle; // required
     public int width; // required
     public int height; // required
 
@@ -10406,9 +10404,8 @@ public class ClientHandlers {
       DIRTY_RECTS_COUNT((short)3, "dirtyRectsCount"),
       SHARED_MEM_NAME((short)4, "sharedMemName"),
       SHARED_MEM_HANDLE((short)5, "sharedMemHandle"),
-      RECREATE_HANDLE((short)6, "recreateHandle"),
-      WIDTH((short)7, "width"),
-      HEIGHT((short)8, "height");
+      WIDTH((short)6, "width"),
+      HEIGHT((short)7, "height");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -10434,11 +10431,9 @@ public class ClientHandlers {
             return SHARED_MEM_NAME;
           case 5: // SHARED_MEM_HANDLE
             return SHARED_MEM_HANDLE;
-          case 6: // RECREATE_HANDLE
-            return RECREATE_HANDLE;
-          case 7: // WIDTH
+          case 6: // WIDTH
             return WIDTH;
-          case 8: // HEIGHT
+          case 7: // HEIGHT
             return HEIGHT;
           default:
             return null;
@@ -10485,9 +10480,8 @@ public class ClientHandlers {
     private static final int __POPUP_ISSET_ID = 1;
     private static final int __DIRTYRECTSCOUNT_ISSET_ID = 2;
     private static final int __SHAREDMEMHANDLE_ISSET_ID = 3;
-    private static final int __RECREATEHANDLE_ISSET_ID = 4;
-    private static final int __WIDTH_ISSET_ID = 5;
-    private static final int __HEIGHT_ISSET_ID = 6;
+    private static final int __WIDTH_ISSET_ID = 4;
+    private static final int __HEIGHT_ISSET_ID = 5;
     private byte __isset_bitfield = 0;
     public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
@@ -10502,8 +10496,6 @@ public class ClientHandlers {
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       tmpMap.put(_Fields.SHARED_MEM_HANDLE, new org.apache.thrift.meta_data.FieldMetaData("sharedMemHandle", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
-      tmpMap.put(_Fields.RECREATE_HANDLE, new org.apache.thrift.meta_data.FieldMetaData("recreateHandle", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
       tmpMap.put(_Fields.WIDTH, new org.apache.thrift.meta_data.FieldMetaData("width", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.HEIGHT, new org.apache.thrift.meta_data.FieldMetaData("height", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -10521,7 +10513,6 @@ public class ClientHandlers {
       int dirtyRectsCount,
       java.lang.String sharedMemName,
       long sharedMemHandle,
-      boolean recreateHandle,
       int width,
       int height)
     {
@@ -10535,8 +10526,6 @@ public class ClientHandlers {
       this.sharedMemName = sharedMemName;
       this.sharedMemHandle = sharedMemHandle;
       setSharedMemHandleIsSet(true);
-      this.recreateHandle = recreateHandle;
-      setRecreateHandleIsSet(true);
       this.width = width;
       setWidthIsSet(true);
       this.height = height;
@@ -10555,7 +10544,6 @@ public class ClientHandlers {
         this.sharedMemName = other.sharedMemName;
       }
       this.sharedMemHandle = other.sharedMemHandle;
-      this.recreateHandle = other.recreateHandle;
       this.width = other.width;
       this.height = other.height;
     }
@@ -10575,8 +10563,6 @@ public class ClientHandlers {
       this.sharedMemName = null;
       setSharedMemHandleIsSet(false);
       this.sharedMemHandle = 0;
-      setRecreateHandleIsSet(false);
-      this.recreateHandle = false;
       setWidthIsSet(false);
       this.width = 0;
       setHeightIsSet(false);
@@ -10700,29 +10686,6 @@ public class ClientHandlers {
       __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __SHAREDMEMHANDLE_ISSET_ID, value);
     }
 
-    public boolean isRecreateHandle() {
-      return this.recreateHandle;
-    }
-
-    public RenderHandler_OnPaint_args setRecreateHandle(boolean recreateHandle) {
-      this.recreateHandle = recreateHandle;
-      setRecreateHandleIsSet(true);
-      return this;
-    }
-
-    public void unsetRecreateHandle() {
-      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __RECREATEHANDLE_ISSET_ID);
-    }
-
-    /** Returns true if field recreateHandle is set (has been assigned a value) and false otherwise */
-    public boolean isSetRecreateHandle() {
-      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __RECREATEHANDLE_ISSET_ID);
-    }
-
-    public void setRecreateHandleIsSet(boolean value) {
-      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __RECREATEHANDLE_ISSET_ID, value);
-    }
-
     public int getWidth() {
       return this.width;
     }
@@ -10811,14 +10774,6 @@ public class ClientHandlers {
         }
         break;
 
-      case RECREATE_HANDLE:
-        if (value == null) {
-          unsetRecreateHandle();
-        } else {
-          setRecreateHandle((java.lang.Boolean)value);
-        }
-        break;
-
       case WIDTH:
         if (value == null) {
           unsetWidth();
@@ -10856,9 +10811,6 @@ public class ClientHandlers {
       case SHARED_MEM_HANDLE:
         return getSharedMemHandle();
 
-      case RECREATE_HANDLE:
-        return isRecreateHandle();
-
       case WIDTH:
         return getWidth();
 
@@ -10886,8 +10838,6 @@ public class ClientHandlers {
         return isSetSharedMemName();
       case SHARED_MEM_HANDLE:
         return isSetSharedMemHandle();
-      case RECREATE_HANDLE:
-        return isSetRecreateHandle();
       case WIDTH:
         return isSetWidth();
       case HEIGHT:
@@ -10954,15 +10904,6 @@ public class ClientHandlers {
           return false;
       }
 
-      boolean this_present_recreateHandle = true;
-      boolean that_present_recreateHandle = true;
-      if (this_present_recreateHandle || that_present_recreateHandle) {
-        if (!(this_present_recreateHandle && that_present_recreateHandle))
-          return false;
-        if (this.recreateHandle != that.recreateHandle)
-          return false;
-      }
-
       boolean this_present_width = true;
       boolean that_present_width = true;
       if (this_present_width || that_present_width) {
@@ -10999,8 +10940,6 @@ public class ClientHandlers {
         hashCode = hashCode * 8191 + sharedMemName.hashCode();
 
       hashCode = hashCode * 8191 + org.apache.thrift.TBaseHelper.hashCode(sharedMemHandle);
-
-      hashCode = hashCode * 8191 + ((recreateHandle) ? 131071 : 524287);
 
       hashCode = hashCode * 8191 + width;
 
@@ -11063,16 +11002,6 @@ public class ClientHandlers {
       }
       if (isSetSharedMemHandle()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.sharedMemHandle, other.sharedMemHandle);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
-      lastComparison = java.lang.Boolean.compare(isSetRecreateHandle(), other.isSetRecreateHandle());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetRecreateHandle()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.recreateHandle, other.recreateHandle);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -11140,10 +11069,6 @@ public class ClientHandlers {
       if (!first) sb.append(", ");
       sb.append("sharedMemHandle:");
       sb.append(this.sharedMemHandle);
-      first = false;
-      if (!first) sb.append(", ");
-      sb.append("recreateHandle:");
-      sb.append(this.recreateHandle);
       first = false;
       if (!first) sb.append(", ");
       sb.append("width:");
@@ -11238,15 +11163,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 6: // RECREATE_HANDLE
-              if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
-                struct.recreateHandle = iprot.readBool();
-                struct.setRecreateHandleIsSet(true);
-              } else { 
-                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
-            case 7: // WIDTH
+            case 6: // WIDTH
               if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
                 struct.width = iprot.readI32();
                 struct.setWidthIsSet(true);
@@ -11254,7 +11171,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 8: // HEIGHT
+            case 7: // HEIGHT
               if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
                 struct.height = iprot.readI32();
                 struct.setHeightIsSet(true);
@@ -11293,9 +11210,6 @@ public class ClientHandlers {
         }
         oprot.writeFieldBegin(SHARED_MEM_HANDLE_FIELD_DESC);
         oprot.writeI64(struct.sharedMemHandle);
-        oprot.writeFieldEnd();
-        oprot.writeFieldBegin(RECREATE_HANDLE_FIELD_DESC);
-        oprot.writeBool(struct.recreateHandle);
         oprot.writeFieldEnd();
         oprot.writeFieldBegin(WIDTH_FIELD_DESC);
         oprot.writeI32(struct.width);
@@ -11336,16 +11250,13 @@ public class ClientHandlers {
         if (struct.isSetSharedMemHandle()) {
           optionals.set(4);
         }
-        if (struct.isSetRecreateHandle()) {
+        if (struct.isSetWidth()) {
           optionals.set(5);
         }
-        if (struct.isSetWidth()) {
+        if (struct.isSetHeight()) {
           optionals.set(6);
         }
-        if (struct.isSetHeight()) {
-          optionals.set(7);
-        }
-        oprot.writeBitSet(optionals, 8);
+        oprot.writeBitSet(optionals, 7);
         if (struct.isSetBid()) {
           oprot.writeI32(struct.bid);
         }
@@ -11361,9 +11272,6 @@ public class ClientHandlers {
         if (struct.isSetSharedMemHandle()) {
           oprot.writeI64(struct.sharedMemHandle);
         }
-        if (struct.isSetRecreateHandle()) {
-          oprot.writeBool(struct.recreateHandle);
-        }
         if (struct.isSetWidth()) {
           oprot.writeI32(struct.width);
         }
@@ -11375,7 +11283,7 @@ public class ClientHandlers {
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, RenderHandler_OnPaint_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(8);
+        java.util.BitSet incoming = iprot.readBitSet(7);
         if (incoming.get(0)) {
           struct.bid = iprot.readI32();
           struct.setBidIsSet(true);
@@ -11397,14 +11305,10 @@ public class ClientHandlers {
           struct.setSharedMemHandleIsSet(true);
         }
         if (incoming.get(5)) {
-          struct.recreateHandle = iprot.readBool();
-          struct.setRecreateHandleIsSet(true);
-        }
-        if (incoming.get(6)) {
           struct.width = iprot.readI32();
           struct.setWidthIsSet(true);
         }
-        if (incoming.get(7)) {
+        if (incoming.get(6)) {
           struct.height = iprot.readI32();
           struct.setHeightIsSet(true);
         }

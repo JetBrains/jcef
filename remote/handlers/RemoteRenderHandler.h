@@ -1,17 +1,13 @@
 #ifndef IPC_JAVARENDERHANDLER_H
 #define IPC_JAVARENDERHANDLER_H
 
-#include <boost/interprocess/managed_shared_memory.hpp>
-
-#include "../Utils.h"
-#include "../gen-cpp/ClientHandlers.h"
 #include "include/cef_render_handler.h"
+#include "SharedBufferManager.h"
 
 class RemoteClientHandler;
 class RemoteRenderHandler : public CefRenderHandler {
 public:
  explicit RemoteRenderHandler(RemoteClientHandler & owner);
- ~RemoteRenderHandler() override;
 
  bool GetRootScreenRect(CefRefPtr<CefBrowser> browser,
                                    CefRect &rect) override;
@@ -51,16 +47,7 @@ public:
 
 protected:
   RemoteClientHandler & myOwner;
-
-  char mySharedMemName[64]{};
-
-  boost::interprocess::managed_shared_memory::handle_t mySharedMemHandle{};
-  boost::interprocess::managed_shared_memory * mySharedSegment = nullptr;
-  void * mySharedMem = nullptr;
-  size_t myLen = 0;
-
-  bool _ensureSharedCapacity(size_t len);
-  void _releaseSharedMem();
+  SharedBufferManager myBufferManager;
 
 private:
   IMPLEMENT_REFCOUNTING(RemoteRenderHandler);

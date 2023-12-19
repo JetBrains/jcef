@@ -32,7 +32,6 @@ public class TestApp extends JFrame {
 
         JBCefOsrComponent osrComponent = new JBCefOsrComponent();
         JBCefOsrHandler osrHandler = new JBCefOsrHandler(osrComponent, null);
-        client.setRenderHandler(osrHandler);
 
         client.addLifeSpanHandler(new TestLifeSpanHandler());
         client.addLoadHandler(new TestLoadHandler());
@@ -46,7 +45,7 @@ public class TestApp extends JFrame {
 
         testRouter.addHandler(new TestMessageRouterHandler(), true);
         client.addMessageRouter(testRouter);
-        RemoteBrowser browser = client.createBrowser("www.google.com",true,null, null);
+        RemoteBrowser browser = client.createBrowser("www.google.com",null, null, osrHandler, osrComponent);
         browser.createImmediately();
         if (browser == null) {
             CefLog.Error("can't create remote browser");

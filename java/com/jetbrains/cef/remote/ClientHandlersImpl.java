@@ -146,12 +146,12 @@ public class ClientHandlersImpl implements ClientHandlers.Iface, RemoteClient.Br
     }
 
     @Override
-    public void RenderHandler_OnPaint(int bid, boolean popup, int dirtyRectsCount, String sharedMemName, long sharedMemHandle, boolean recreateHandle, int width, int height) {
+    public void RenderHandler_OnPaint(int bid, boolean popup, int dirtyRectsCount, String sharedMemName, long sharedMemHandle, int width, int height) {
         RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return;
         RemoteClient rc = browser.getOwner();
         CefRenderHandler rh = rc.getRenderHandler();
-        ((CefNativeRenderHandler)rh).onPaintWithSharedMem(browser, popup, dirtyRectsCount, sharedMemName, sharedMemHandle, recreateHandle, width, height);
+        ((CefNativeRenderHandler)rh).onPaintWithSharedMem(browser, popup, dirtyRectsCount, sharedMemName, sharedMemHandle, width, height);
     }
 
     //
