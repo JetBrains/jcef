@@ -118,9 +118,6 @@
   <target name="jar" depends="compile">
     <mkdir dir="${out.path}"/>
     <echo message="${jcef.version}" file="${out.path}/com/jetbrains/cef/version.info" append="false"/>
-    <exec executable="ls">
-      <arg value="-l" />
-    </exec>
     <jar destfile="${out.path}/jcef.jar" index="true" update="false" manifest="java/manifest/MANIFEST.MF">
       <fileset dir="${out.path}">
         <include name="org/cef/**"/>
