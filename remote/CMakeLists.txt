@@ -26,15 +26,15 @@ foreach (FILE ${THRIFT_FILES})
         message(FATAL_ERROR "Failed to compile ${FILE}: ${thrift_result}")
     endif ()
 
-#    message(STATUS "Compile ${FILE} to Java...")
-#    execute_process(
-#            COMMAND ${THRIFT_COMPILER_HOST} --gen java:generated_annotations=suppress -out ${CMAKE_SOURCE_DIR}/java ${CMAKE_CURRENT_SOURCE_DIR}/${FILE}
-#            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/java
-#            RESULT_VARIABLE thrift_result
-#    )
-#    if (thrift_result AND NOT STATUS EQUAL 0)
-#        message(FATAL_ERROR "Failed to compile ${FILE}: ${thrift_result}")
-#    endif ()
+    message(STATUS "Compile ${FILE} to Java...")
+    execute_process(
+            COMMAND ${THRIFT_COMPILER_HOST} --gen java:generated_annotations=suppress -out ${CMAKE_SOURCE_DIR}/java ${CMAKE_CURRENT_SOURCE_DIR}/${FILE}
+            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/java
+            RESULT_VARIABLE thrift_result
+    )
+    if (thrift_result AND NOT STATUS EQUAL 0)
+        message(FATAL_ERROR "Failed to compile ${FILE}: ${thrift_result}")
+    endif ()
 endforeach ()
 
 set(CMAKE_CXX_STANDARD 17)

@@ -3901,6 +3901,43 @@ class ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_pargs {
 
 };
 
+
+class ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_result {
+ public:
+
+  ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_result(const ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_result&) noexcept;
+  ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_result& operator=(const ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_result&) noexcept;
+  ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_result() noexcept {
+  }
+
+  virtual ~ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_result() noexcept;
+
+  bool operator == (const ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_result & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_presult {
+ public:
+
+
+  virtual ~ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_presult() noexcept;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
 typedef struct _ClientHandlers_ResourceRequestHandler_OnProtocolExecution_args__isset {
   _ClientHandlers_ResourceRequestHandler_OnProtocolExecution_args__isset() : rrHandler(false), bid(false), request(false), allowOsExecution(false) {}
   bool rrHandler :1;
@@ -4363,6 +4400,7 @@ class ClientHandlersClient : virtual public ClientHandlersIf {
   bool recv_ResourceRequestHandler_OnResourceResponse();
   void ResourceRequestHandler_OnResourceLoadComplete(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& response, const std::string& status, const int64_t receivedContentLength) override;
   void send_ResourceRequestHandler_OnResourceLoadComplete(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& response, const std::string& status, const int64_t receivedContentLength);
+  void recv_ResourceRequestHandler_OnResourceLoadComplete();
   bool ResourceRequestHandler_OnProtocolExecution(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const bool allowOsExecution) override;
   void send_ResourceRequestHandler_OnProtocolExecution(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const bool allowOsExecution);
   bool recv_ResourceRequestHandler_OnProtocolExecution();
@@ -5006,7 +5044,8 @@ class ClientHandlersConcurrentClient : virtual public ClientHandlersIf {
   int32_t send_ResourceRequestHandler_OnResourceResponse(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& response);
   bool recv_ResourceRequestHandler_OnResourceResponse(const int32_t seqid);
   void ResourceRequestHandler_OnResourceLoadComplete(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& response, const std::string& status, const int64_t receivedContentLength) override;
-  void send_ResourceRequestHandler_OnResourceLoadComplete(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& response, const std::string& status, const int64_t receivedContentLength);
+  int32_t send_ResourceRequestHandler_OnResourceLoadComplete(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& response, const std::string& status, const int64_t receivedContentLength);
+  void recv_ResourceRequestHandler_OnResourceLoadComplete(const int32_t seqid);
   bool ResourceRequestHandler_OnProtocolExecution(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const bool allowOsExecution) override;
   int32_t send_ResourceRequestHandler_OnProtocolExecution(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const bool allowOsExecution);
   bool recv_ResourceRequestHandler_OnProtocolExecution(const int32_t seqid);
