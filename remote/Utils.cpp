@@ -25,7 +25,6 @@ void RpcExecutor::close() {
   Lock lock(myMutex);
 
   if (myService != nullptr) {
-    Log::debug("Close RpcExecutor transport");
     myService = nullptr;
     myTransport->close();
     myTransport = nullptr;
@@ -36,7 +35,7 @@ void RpcExecutor::exec(std::function<void(Service)> rpc) {
   Lock lock(myMutex);
 
   if (myService == nullptr) {
-    Log::error("null remote service");
+    //Log::debug("null remote service");
     return;
   }
 
