@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="javaLauncher" default="default" basedir=".">
 
-  <property name="jcef.version" value="119.4.3-gc76a3b9-chromium-119.0.6045.159-api-1.12"/>
+  <property name="jcef.version" value="119.4.3-gc76a3b9-chromium-119.0.6045.159-api-1.13"/>
 
   <property environment="env"/>
   <property name="out.native.path" value="${env.OUT_NATIVE_PATH}"/>
