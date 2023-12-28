@@ -116,7 +116,7 @@ case "$OS" in
   if [[ -n "${OUT_REMOTE_DIR-}" ]]; then
     echo "Coping $OUT_REMOTE_DIR/bin/cef_server.exe and $OUT_REMOTE_DIR/shared_mem_helper.dll to lib"
     cp -R "$OUT_REMOTE_DIR"/bin/cef_server.exe bin
-    cp -R "$OUT_REMOTE_DIR"/shared_mem_helper.dll bin
+    cp -R "$OUT_REMOTE_DIR"/shared_mem_helper.dll lib
   fi
 
   "$JAVA_HOME"/bin/jmod create --module-path . --class-path jcef.jar --cmds bin --libs lib jcef.jmod
@@ -126,6 +126,7 @@ case "$OS" in
 "macosx")
   mkdir lib
   cp "$OUT_NATIVE_DIR"/libjcef.dylib lib
+  cp "$OUT_REMOTE_DIR"/libshared_mem_helper.dylib lib
 
   "$JAVA_HOME"/bin/jmod create --module-path . --class-path jcef.jar --libs lib jcef.jmod
   rm -rf jcef.jar lib
