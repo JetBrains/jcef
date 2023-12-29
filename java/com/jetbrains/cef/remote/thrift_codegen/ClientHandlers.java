@@ -53,6 +53,16 @@ public class ClientHandlers {
 
     public boolean DisplayHandler_OnConsoleMessage(int bid, int level, java.lang.String message, java.lang.String source, int line) throws org.apache.thrift.TException;
 
+    public boolean KeyboardHandler_OnPreKeyEvent(int bid, com.jetbrains.cef.remote.thrift_codegen.KeyEvent event) throws org.apache.thrift.TException;
+
+    public boolean KeyboardHandler_OnKeyEvent(int bid, com.jetbrains.cef.remote.thrift_codegen.KeyEvent event) throws org.apache.thrift.TException;
+
+    public void FocusHandler_OnTakeFocus(int bid, boolean next) throws org.apache.thrift.TException;
+
+    public boolean FocusHandler_OnSetFocus(int bid, java.lang.String source) throws org.apache.thrift.TException;
+
+    public void FocusHandler_OnGotFocus(int bid) throws org.apache.thrift.TException;
+
     public boolean RequestHandler_OnBeforeBrowse(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean user_gesture, boolean is_redirect) throws org.apache.thrift.TException;
 
     public boolean RequestHandler_OnOpenURLFromTab(int bid, java.lang.String target_url, boolean user_gesture) throws org.apache.thrift.TException;
@@ -138,6 +148,16 @@ public class ClientHandlers {
     public void DisplayHandler_OnStatusMessage(int bid, java.lang.String value, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
     public void DisplayHandler_OnConsoleMessage(int bid, int level, java.lang.String message, java.lang.String source, int line, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
+
+    public void KeyboardHandler_OnPreKeyEvent(int bid, com.jetbrains.cef.remote.thrift_codegen.KeyEvent event, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
+
+    public void KeyboardHandler_OnKeyEvent(int bid, com.jetbrains.cef.remote.thrift_codegen.KeyEvent event, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
+
+    public void FocusHandler_OnTakeFocus(int bid, boolean next, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+
+    public void FocusHandler_OnSetFocus(int bid, java.lang.String source, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
+
+    public void FocusHandler_OnGotFocus(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
     public void RequestHandler_OnBeforeBrowse(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean user_gesture, boolean is_redirect, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
 
@@ -613,6 +633,108 @@ public class ClientHandlers {
         return result.success;
       }
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "DisplayHandler_OnConsoleMessage failed: unknown result");
+    }
+
+    @Override
+    public boolean KeyboardHandler_OnPreKeyEvent(int bid, com.jetbrains.cef.remote.thrift_codegen.KeyEvent event) throws org.apache.thrift.TException
+    {
+      send_KeyboardHandler_OnPreKeyEvent(bid, event);
+      return recv_KeyboardHandler_OnPreKeyEvent();
+    }
+
+    public void send_KeyboardHandler_OnPreKeyEvent(int bid, com.jetbrains.cef.remote.thrift_codegen.KeyEvent event) throws org.apache.thrift.TException
+    {
+      KeyboardHandler_OnPreKeyEvent_args args = new KeyboardHandler_OnPreKeyEvent_args();
+      args.setBid(bid);
+      args.setEvent(event);
+      sendBase("KeyboardHandler_OnPreKeyEvent", args);
+    }
+
+    public boolean recv_KeyboardHandler_OnPreKeyEvent() throws org.apache.thrift.TException
+    {
+      KeyboardHandler_OnPreKeyEvent_result result = new KeyboardHandler_OnPreKeyEvent_result();
+      receiveBase(result, "KeyboardHandler_OnPreKeyEvent");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "KeyboardHandler_OnPreKeyEvent failed: unknown result");
+    }
+
+    @Override
+    public boolean KeyboardHandler_OnKeyEvent(int bid, com.jetbrains.cef.remote.thrift_codegen.KeyEvent event) throws org.apache.thrift.TException
+    {
+      send_KeyboardHandler_OnKeyEvent(bid, event);
+      return recv_KeyboardHandler_OnKeyEvent();
+    }
+
+    public void send_KeyboardHandler_OnKeyEvent(int bid, com.jetbrains.cef.remote.thrift_codegen.KeyEvent event) throws org.apache.thrift.TException
+    {
+      KeyboardHandler_OnKeyEvent_args args = new KeyboardHandler_OnKeyEvent_args();
+      args.setBid(bid);
+      args.setEvent(event);
+      sendBase("KeyboardHandler_OnKeyEvent", args);
+    }
+
+    public boolean recv_KeyboardHandler_OnKeyEvent() throws org.apache.thrift.TException
+    {
+      KeyboardHandler_OnKeyEvent_result result = new KeyboardHandler_OnKeyEvent_result();
+      receiveBase(result, "KeyboardHandler_OnKeyEvent");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "KeyboardHandler_OnKeyEvent failed: unknown result");
+    }
+
+    @Override
+    public void FocusHandler_OnTakeFocus(int bid, boolean next) throws org.apache.thrift.TException
+    {
+      send_FocusHandler_OnTakeFocus(bid, next);
+    }
+
+    public void send_FocusHandler_OnTakeFocus(int bid, boolean next) throws org.apache.thrift.TException
+    {
+      FocusHandler_OnTakeFocus_args args = new FocusHandler_OnTakeFocus_args();
+      args.setBid(bid);
+      args.setNext(next);
+      sendBaseOneway("FocusHandler_OnTakeFocus", args);
+    }
+
+    @Override
+    public boolean FocusHandler_OnSetFocus(int bid, java.lang.String source) throws org.apache.thrift.TException
+    {
+      send_FocusHandler_OnSetFocus(bid, source);
+      return recv_FocusHandler_OnSetFocus();
+    }
+
+    public void send_FocusHandler_OnSetFocus(int bid, java.lang.String source) throws org.apache.thrift.TException
+    {
+      FocusHandler_OnSetFocus_args args = new FocusHandler_OnSetFocus_args();
+      args.setBid(bid);
+      args.setSource(source);
+      sendBase("FocusHandler_OnSetFocus", args);
+    }
+
+    public boolean recv_FocusHandler_OnSetFocus() throws org.apache.thrift.TException
+    {
+      FocusHandler_OnSetFocus_result result = new FocusHandler_OnSetFocus_result();
+      receiveBase(result, "FocusHandler_OnSetFocus");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "FocusHandler_OnSetFocus failed: unknown result");
+    }
+
+    @Override
+    public void FocusHandler_OnGotFocus(int bid) throws org.apache.thrift.TException
+    {
+      send_FocusHandler_OnGotFocus(bid);
+    }
+
+    public void send_FocusHandler_OnGotFocus(int bid) throws org.apache.thrift.TException
+    {
+      FocusHandler_OnGotFocus_args args = new FocusHandler_OnGotFocus_args();
+      args.setBid(bid);
+      sendBaseOneway("FocusHandler_OnGotFocus", args);
     }
 
     @Override
@@ -1922,6 +2044,193 @@ public class ClientHandlers {
     }
 
     @Override
+    public void KeyboardHandler_OnPreKeyEvent(int bid, com.jetbrains.cef.remote.thrift_codegen.KeyEvent event, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      KeyboardHandler_OnPreKeyEvent_call method_call = new KeyboardHandler_OnPreKeyEvent_call(bid, event, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class KeyboardHandler_OnPreKeyEvent_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.Boolean> {
+      private int bid;
+      private com.jetbrains.cef.remote.thrift_codegen.KeyEvent event;
+      public KeyboardHandler_OnPreKeyEvent_call(int bid, com.jetbrains.cef.remote.thrift_codegen.KeyEvent event, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.bid = bid;
+        this.event = event;
+      }
+
+      @Override
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("KeyboardHandler_OnPreKeyEvent", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        KeyboardHandler_OnPreKeyEvent_args args = new KeyboardHandler_OnPreKeyEvent_args();
+        args.setBid(bid);
+        args.setEvent(event);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public java.lang.Boolean getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_KeyboardHandler_OnPreKeyEvent();
+      }
+    }
+
+    @Override
+    public void KeyboardHandler_OnKeyEvent(int bid, com.jetbrains.cef.remote.thrift_codegen.KeyEvent event, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      KeyboardHandler_OnKeyEvent_call method_call = new KeyboardHandler_OnKeyEvent_call(bid, event, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class KeyboardHandler_OnKeyEvent_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.Boolean> {
+      private int bid;
+      private com.jetbrains.cef.remote.thrift_codegen.KeyEvent event;
+      public KeyboardHandler_OnKeyEvent_call(int bid, com.jetbrains.cef.remote.thrift_codegen.KeyEvent event, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.bid = bid;
+        this.event = event;
+      }
+
+      @Override
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("KeyboardHandler_OnKeyEvent", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        KeyboardHandler_OnKeyEvent_args args = new KeyboardHandler_OnKeyEvent_args();
+        args.setBid(bid);
+        args.setEvent(event);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public java.lang.Boolean getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_KeyboardHandler_OnKeyEvent();
+      }
+    }
+
+    @Override
+    public void FocusHandler_OnTakeFocus(int bid, boolean next, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      FocusHandler_OnTakeFocus_call method_call = new FocusHandler_OnTakeFocus_call(bid, next, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class FocusHandler_OnTakeFocus_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
+      private int bid;
+      private boolean next;
+      public FocusHandler_OnTakeFocus_call(int bid, boolean next, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, true);
+        this.bid = bid;
+        this.next = next;
+      }
+
+      @Override
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("FocusHandler_OnTakeFocus", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
+        FocusHandler_OnTakeFocus_args args = new FocusHandler_OnTakeFocus_args();
+        args.setBid(bid);
+        args.setNext(next);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public Void getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return null;
+      }
+    }
+
+    @Override
+    public void FocusHandler_OnSetFocus(int bid, java.lang.String source, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      FocusHandler_OnSetFocus_call method_call = new FocusHandler_OnSetFocus_call(bid, source, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class FocusHandler_OnSetFocus_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.Boolean> {
+      private int bid;
+      private java.lang.String source;
+      public FocusHandler_OnSetFocus_call(int bid, java.lang.String source, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.bid = bid;
+        this.source = source;
+      }
+
+      @Override
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("FocusHandler_OnSetFocus", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        FocusHandler_OnSetFocus_args args = new FocusHandler_OnSetFocus_args();
+        args.setBid(bid);
+        args.setSource(source);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public java.lang.Boolean getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_FocusHandler_OnSetFocus();
+      }
+    }
+
+    @Override
+    public void FocusHandler_OnGotFocus(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      FocusHandler_OnGotFocus_call method_call = new FocusHandler_OnGotFocus_call(bid, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class FocusHandler_OnGotFocus_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
+      private int bid;
+      public FocusHandler_OnGotFocus_call(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, true);
+        this.bid = bid;
+      }
+
+      @Override
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("FocusHandler_OnGotFocus", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
+        FocusHandler_OnGotFocus_args args = new FocusHandler_OnGotFocus_args();
+        args.setBid(bid);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public Void getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return null;
+      }
+    }
+
+    @Override
     public void RequestHandler_OnBeforeBrowse(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean user_gesture, boolean is_redirect, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       RequestHandler_OnBeforeBrowse_call method_call = new RequestHandler_OnBeforeBrowse_call(bid, request, user_gesture, is_redirect, resultHandler, this, ___protocolFactory, ___transport);
@@ -2824,6 +3133,11 @@ public class ClientHandlers {
       processMap.put("DisplayHandler_OnTooltip", new DisplayHandler_OnTooltip());
       processMap.put("DisplayHandler_OnStatusMessage", new DisplayHandler_OnStatusMessage());
       processMap.put("DisplayHandler_OnConsoleMessage", new DisplayHandler_OnConsoleMessage());
+      processMap.put("KeyboardHandler_OnPreKeyEvent", new KeyboardHandler_OnPreKeyEvent());
+      processMap.put("KeyboardHandler_OnKeyEvent", new KeyboardHandler_OnKeyEvent());
+      processMap.put("FocusHandler_OnTakeFocus", new FocusHandler_OnTakeFocus());
+      processMap.put("FocusHandler_OnSetFocus", new FocusHandler_OnSetFocus());
+      processMap.put("FocusHandler_OnGotFocus", new FocusHandler_OnGotFocus());
       processMap.put("RequestHandler_OnBeforeBrowse", new RequestHandler_OnBeforeBrowse());
       processMap.put("RequestHandler_OnOpenURLFromTab", new RequestHandler_OnOpenURLFromTab());
       processMap.put("RequestHandler_GetAuthCredentials", new RequestHandler_GetAuthCredentials());
@@ -3430,6 +3744,147 @@ public class ClientHandlers {
       }
     }
 
+    public static class KeyboardHandler_OnPreKeyEvent<I extends Iface> extends org.apache.thrift.ProcessFunction<I, KeyboardHandler_OnPreKeyEvent_args> {
+      public KeyboardHandler_OnPreKeyEvent() {
+        super("KeyboardHandler_OnPreKeyEvent");
+      }
+
+      @Override
+      public KeyboardHandler_OnPreKeyEvent_args getEmptyArgsInstance() {
+        return new KeyboardHandler_OnPreKeyEvent_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public KeyboardHandler_OnPreKeyEvent_result getResult(I iface, KeyboardHandler_OnPreKeyEvent_args args) throws org.apache.thrift.TException {
+        KeyboardHandler_OnPreKeyEvent_result result = new KeyboardHandler_OnPreKeyEvent_result();
+        result.success = iface.KeyboardHandler_OnPreKeyEvent(args.bid, args.event);
+        result.setSuccessIsSet(true);
+        return result;
+      }
+    }
+
+    public static class KeyboardHandler_OnKeyEvent<I extends Iface> extends org.apache.thrift.ProcessFunction<I, KeyboardHandler_OnKeyEvent_args> {
+      public KeyboardHandler_OnKeyEvent() {
+        super("KeyboardHandler_OnKeyEvent");
+      }
+
+      @Override
+      public KeyboardHandler_OnKeyEvent_args getEmptyArgsInstance() {
+        return new KeyboardHandler_OnKeyEvent_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public KeyboardHandler_OnKeyEvent_result getResult(I iface, KeyboardHandler_OnKeyEvent_args args) throws org.apache.thrift.TException {
+        KeyboardHandler_OnKeyEvent_result result = new KeyboardHandler_OnKeyEvent_result();
+        result.success = iface.KeyboardHandler_OnKeyEvent(args.bid, args.event);
+        result.setSuccessIsSet(true);
+        return result;
+      }
+    }
+
+    public static class FocusHandler_OnTakeFocus<I extends Iface> extends org.apache.thrift.ProcessFunction<I, FocusHandler_OnTakeFocus_args> {
+      public FocusHandler_OnTakeFocus() {
+        super("FocusHandler_OnTakeFocus");
+      }
+
+      @Override
+      public FocusHandler_OnTakeFocus_args getEmptyArgsInstance() {
+        return new FocusHandler_OnTakeFocus_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public org.apache.thrift.TBase getResult(I iface, FocusHandler_OnTakeFocus_args args) throws org.apache.thrift.TException {
+        iface.FocusHandler_OnTakeFocus(args.bid, args.next);
+        return null;
+      }
+    }
+
+    public static class FocusHandler_OnSetFocus<I extends Iface> extends org.apache.thrift.ProcessFunction<I, FocusHandler_OnSetFocus_args> {
+      public FocusHandler_OnSetFocus() {
+        super("FocusHandler_OnSetFocus");
+      }
+
+      @Override
+      public FocusHandler_OnSetFocus_args getEmptyArgsInstance() {
+        return new FocusHandler_OnSetFocus_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public FocusHandler_OnSetFocus_result getResult(I iface, FocusHandler_OnSetFocus_args args) throws org.apache.thrift.TException {
+        FocusHandler_OnSetFocus_result result = new FocusHandler_OnSetFocus_result();
+        result.success = iface.FocusHandler_OnSetFocus(args.bid, args.source);
+        result.setSuccessIsSet(true);
+        return result;
+      }
+    }
+
+    public static class FocusHandler_OnGotFocus<I extends Iface> extends org.apache.thrift.ProcessFunction<I, FocusHandler_OnGotFocus_args> {
+      public FocusHandler_OnGotFocus() {
+        super("FocusHandler_OnGotFocus");
+      }
+
+      @Override
+      public FocusHandler_OnGotFocus_args getEmptyArgsInstance() {
+        return new FocusHandler_OnGotFocus_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public org.apache.thrift.TBase getResult(I iface, FocusHandler_OnGotFocus_args args) throws org.apache.thrift.TException {
+        iface.FocusHandler_OnGotFocus(args.bid);
+        return null;
+      }
+    }
+
     public static class RequestHandler_OnBeforeBrowse<I extends Iface> extends org.apache.thrift.ProcessFunction<I, RequestHandler_OnBeforeBrowse_args> {
       public RequestHandler_OnBeforeBrowse() {
         super("RequestHandler_OnBeforeBrowse");
@@ -4029,6 +4484,11 @@ public class ClientHandlers {
       processMap.put("DisplayHandler_OnTooltip", new DisplayHandler_OnTooltip());
       processMap.put("DisplayHandler_OnStatusMessage", new DisplayHandler_OnStatusMessage());
       processMap.put("DisplayHandler_OnConsoleMessage", new DisplayHandler_OnConsoleMessage());
+      processMap.put("KeyboardHandler_OnPreKeyEvent", new KeyboardHandler_OnPreKeyEvent());
+      processMap.put("KeyboardHandler_OnKeyEvent", new KeyboardHandler_OnKeyEvent());
+      processMap.put("FocusHandler_OnTakeFocus", new FocusHandler_OnTakeFocus());
+      processMap.put("FocusHandler_OnSetFocus", new FocusHandler_OnSetFocus());
+      processMap.put("FocusHandler_OnGotFocus", new FocusHandler_OnGotFocus());
       processMap.put("RequestHandler_OnBeforeBrowse", new RequestHandler_OnBeforeBrowse());
       processMap.put("RequestHandler_OnOpenURLFromTab", new RequestHandler_OnOpenURLFromTab());
       processMap.put("RequestHandler_GetAuthCredentials", new RequestHandler_GetAuthCredentials());
@@ -5189,6 +5649,290 @@ public class ClientHandlers {
       @Override
       public void start(I iface, DisplayHandler_OnConsoleMessage_args args, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
         iface.DisplayHandler_OnConsoleMessage(args.bid, args.level, args.message, args.source, args.line,resultHandler);
+      }
+    }
+
+    public static class KeyboardHandler_OnPreKeyEvent<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, KeyboardHandler_OnPreKeyEvent_args, java.lang.Boolean> {
+      public KeyboardHandler_OnPreKeyEvent() {
+        super("KeyboardHandler_OnPreKeyEvent");
+      }
+
+      @Override
+      public KeyboardHandler_OnPreKeyEvent_args getEmptyArgsInstance() {
+        return new KeyboardHandler_OnPreKeyEvent_args();
+      }
+
+      @Override
+      public org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final org.apache.thrift.AsyncProcessFunction fcall = this;
+        return new org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean>() { 
+          @Override
+          public void onComplete(java.lang.Boolean o) {
+            KeyboardHandler_OnPreKeyEvent_result result = new KeyboardHandler_OnPreKeyEvent_result();
+            result.success = o;
+            result.setSuccessIsSet(true);
+            try {
+              fcall.sendResponse(fb, result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (org.apache.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
+            org.apache.thrift.TSerializable msg;
+            KeyboardHandler_OnPreKeyEvent_result result = new KeyboardHandler_OnPreKeyEvent_result();
+            if (e instanceof org.apache.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+              return;
+            } else if (e instanceof org.apache.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (org.apache.thrift.TApplicationException)e;
+            } else {
+              _LOGGER.error("Exception inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      public void start(I iface, KeyboardHandler_OnPreKeyEvent_args args, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
+        iface.KeyboardHandler_OnPreKeyEvent(args.bid, args.event,resultHandler);
+      }
+    }
+
+    public static class KeyboardHandler_OnKeyEvent<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, KeyboardHandler_OnKeyEvent_args, java.lang.Boolean> {
+      public KeyboardHandler_OnKeyEvent() {
+        super("KeyboardHandler_OnKeyEvent");
+      }
+
+      @Override
+      public KeyboardHandler_OnKeyEvent_args getEmptyArgsInstance() {
+        return new KeyboardHandler_OnKeyEvent_args();
+      }
+
+      @Override
+      public org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final org.apache.thrift.AsyncProcessFunction fcall = this;
+        return new org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean>() { 
+          @Override
+          public void onComplete(java.lang.Boolean o) {
+            KeyboardHandler_OnKeyEvent_result result = new KeyboardHandler_OnKeyEvent_result();
+            result.success = o;
+            result.setSuccessIsSet(true);
+            try {
+              fcall.sendResponse(fb, result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (org.apache.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
+            org.apache.thrift.TSerializable msg;
+            KeyboardHandler_OnKeyEvent_result result = new KeyboardHandler_OnKeyEvent_result();
+            if (e instanceof org.apache.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+              return;
+            } else if (e instanceof org.apache.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (org.apache.thrift.TApplicationException)e;
+            } else {
+              _LOGGER.error("Exception inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      public void start(I iface, KeyboardHandler_OnKeyEvent_args args, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
+        iface.KeyboardHandler_OnKeyEvent(args.bid, args.event,resultHandler);
+      }
+    }
+
+    public static class FocusHandler_OnTakeFocus<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, FocusHandler_OnTakeFocus_args, Void> {
+      public FocusHandler_OnTakeFocus() {
+        super("FocusHandler_OnTakeFocus");
+      }
+
+      @Override
+      public FocusHandler_OnTakeFocus_args getEmptyArgsInstance() {
+        return new FocusHandler_OnTakeFocus_args();
+      }
+
+      @Override
+      public org.apache.thrift.async.AsyncMethodCallback<Void> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final org.apache.thrift.AsyncProcessFunction fcall = this;
+        return new org.apache.thrift.async.AsyncMethodCallback<Void>() { 
+          @Override
+          public void onComplete(Void o) {
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            if (e instanceof org.apache.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+            } else {
+              _LOGGER.error("Exception inside oneway handler", e);
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      public void start(I iface, FocusHandler_OnTakeFocus_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+        iface.FocusHandler_OnTakeFocus(args.bid, args.next,resultHandler);
+      }
+    }
+
+    public static class FocusHandler_OnSetFocus<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, FocusHandler_OnSetFocus_args, java.lang.Boolean> {
+      public FocusHandler_OnSetFocus() {
+        super("FocusHandler_OnSetFocus");
+      }
+
+      @Override
+      public FocusHandler_OnSetFocus_args getEmptyArgsInstance() {
+        return new FocusHandler_OnSetFocus_args();
+      }
+
+      @Override
+      public org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final org.apache.thrift.AsyncProcessFunction fcall = this;
+        return new org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean>() { 
+          @Override
+          public void onComplete(java.lang.Boolean o) {
+            FocusHandler_OnSetFocus_result result = new FocusHandler_OnSetFocus_result();
+            result.success = o;
+            result.setSuccessIsSet(true);
+            try {
+              fcall.sendResponse(fb, result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (org.apache.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
+            org.apache.thrift.TSerializable msg;
+            FocusHandler_OnSetFocus_result result = new FocusHandler_OnSetFocus_result();
+            if (e instanceof org.apache.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+              return;
+            } else if (e instanceof org.apache.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (org.apache.thrift.TApplicationException)e;
+            } else {
+              _LOGGER.error("Exception inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      public void start(I iface, FocusHandler_OnSetFocus_args args, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
+        iface.FocusHandler_OnSetFocus(args.bid, args.source,resultHandler);
+      }
+    }
+
+    public static class FocusHandler_OnGotFocus<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, FocusHandler_OnGotFocus_args, Void> {
+      public FocusHandler_OnGotFocus() {
+        super("FocusHandler_OnGotFocus");
+      }
+
+      @Override
+      public FocusHandler_OnGotFocus_args getEmptyArgsInstance() {
+        return new FocusHandler_OnGotFocus_args();
+      }
+
+      @Override
+      public org.apache.thrift.async.AsyncMethodCallback<Void> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final org.apache.thrift.AsyncProcessFunction fcall = this;
+        return new org.apache.thrift.async.AsyncMethodCallback<Void>() { 
+          @Override
+          public void onComplete(Void o) {
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            if (e instanceof org.apache.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+            } else {
+              _LOGGER.error("Exception inside oneway handler", e);
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      public void start(I iface, FocusHandler_OnGotFocus_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+        iface.FocusHandler_OnGotFocus(args.bid,resultHandler);
       }
     }
 
@@ -20612,6 +21356,3422 @@ public class ClientHandlers {
         if (incoming.get(0)) {
           struct.success = iprot.readBool();
           struct.setSuccessIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class KeyboardHandler_OnPreKeyEvent_args implements org.apache.thrift.TBase<KeyboardHandler_OnPreKeyEvent_args, KeyboardHandler_OnPreKeyEvent_args._Fields>, java.io.Serializable, Cloneable, Comparable<KeyboardHandler_OnPreKeyEvent_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("KeyboardHandler_OnPreKeyEvent_args");
+
+    private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
+    private static final org.apache.thrift.protocol.TField EVENT_FIELD_DESC = new org.apache.thrift.protocol.TField("event", org.apache.thrift.protocol.TType.STRUCT, (short)2);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new KeyboardHandler_OnPreKeyEvent_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new KeyboardHandler_OnPreKeyEvent_argsTupleSchemeFactory();
+
+    public int bid; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.KeyEvent event; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      BID((short)1, "bid"),
+      EVENT((short)2, "event");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // BID
+            return BID;
+          case 2: // EVENT
+            return EVENT;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __BID_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.EVENT, new org.apache.thrift.meta_data.FieldMetaData("event", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.KeyEvent.class)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(KeyboardHandler_OnPreKeyEvent_args.class, metaDataMap);
+    }
+
+    public KeyboardHandler_OnPreKeyEvent_args() {
+    }
+
+    public KeyboardHandler_OnPreKeyEvent_args(
+      int bid,
+      com.jetbrains.cef.remote.thrift_codegen.KeyEvent event)
+    {
+      this();
+      this.bid = bid;
+      setBidIsSet(true);
+      this.event = event;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public KeyboardHandler_OnPreKeyEvent_args(KeyboardHandler_OnPreKeyEvent_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.bid = other.bid;
+      if (other.isSetEvent()) {
+        this.event = new com.jetbrains.cef.remote.thrift_codegen.KeyEvent(other.event);
+      }
+    }
+
+    @Override
+    public KeyboardHandler_OnPreKeyEvent_args deepCopy() {
+      return new KeyboardHandler_OnPreKeyEvent_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setBidIsSet(false);
+      this.bid = 0;
+      this.event = null;
+    }
+
+    public int getBid() {
+      return this.bid;
+    }
+
+    public KeyboardHandler_OnPreKeyEvent_args setBid(int bid) {
+      this.bid = bid;
+      setBidIsSet(true);
+      return this;
+    }
+
+    public void unsetBid() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    /** Returns true if field bid is set (has been assigned a value) and false otherwise */
+    public boolean isSetBid() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    public void setBidIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.KeyEvent getEvent() {
+      return this.event;
+    }
+
+    public KeyboardHandler_OnPreKeyEvent_args setEvent(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.KeyEvent event) {
+      this.event = event;
+      return this;
+    }
+
+    public void unsetEvent() {
+      this.event = null;
+    }
+
+    /** Returns true if field event is set (has been assigned a value) and false otherwise */
+    public boolean isSetEvent() {
+      return this.event != null;
+    }
+
+    public void setEventIsSet(boolean value) {
+      if (!value) {
+        this.event = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case BID:
+        if (value == null) {
+          unsetBid();
+        } else {
+          setBid((java.lang.Integer)value);
+        }
+        break;
+
+      case EVENT:
+        if (value == null) {
+          unsetEvent();
+        } else {
+          setEvent((com.jetbrains.cef.remote.thrift_codegen.KeyEvent)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case BID:
+        return getBid();
+
+      case EVENT:
+        return getEvent();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case BID:
+        return isSetBid();
+      case EVENT:
+        return isSetEvent();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof KeyboardHandler_OnPreKeyEvent_args)
+        return this.equals((KeyboardHandler_OnPreKeyEvent_args)that);
+      return false;
+    }
+
+    public boolean equals(KeyboardHandler_OnPreKeyEvent_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_bid = true;
+      boolean that_present_bid = true;
+      if (this_present_bid || that_present_bid) {
+        if (!(this_present_bid && that_present_bid))
+          return false;
+        if (this.bid != that.bid)
+          return false;
+      }
+
+      boolean this_present_event = true && this.isSetEvent();
+      boolean that_present_event = true && that.isSetEvent();
+      if (this_present_event || that_present_event) {
+        if (!(this_present_event && that_present_event))
+          return false;
+        if (!this.event.equals(that.event))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + bid;
+
+      hashCode = hashCode * 8191 + ((isSetEvent()) ? 131071 : 524287);
+      if (isSetEvent())
+        hashCode = hashCode * 8191 + event.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(KeyboardHandler_OnPreKeyEvent_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetBid()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetEvent(), other.isSetEvent());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetEvent()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.event, other.event);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("KeyboardHandler_OnPreKeyEvent_args(");
+      boolean first = true;
+
+      sb.append("bid:");
+      sb.append(this.bid);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("event:");
+      if (this.event == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.event);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (event != null) {
+        event.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class KeyboardHandler_OnPreKeyEvent_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public KeyboardHandler_OnPreKeyEvent_argsStandardScheme getScheme() {
+        return new KeyboardHandler_OnPreKeyEvent_argsStandardScheme();
+      }
+    }
+
+    private static class KeyboardHandler_OnPreKeyEvent_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<KeyboardHandler_OnPreKeyEvent_args> {
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol iprot, KeyboardHandler_OnPreKeyEvent_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // BID
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.bid = iprot.readI32();
+                struct.setBidIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // EVENT
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.event = new com.jetbrains.cef.remote.thrift_codegen.KeyEvent();
+                struct.event.read(iprot);
+                struct.setEventIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol oprot, KeyboardHandler_OnPreKeyEvent_args struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(BID_FIELD_DESC);
+        oprot.writeI32(struct.bid);
+        oprot.writeFieldEnd();
+        if (struct.event != null) {
+          oprot.writeFieldBegin(EVENT_FIELD_DESC);
+          struct.event.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class KeyboardHandler_OnPreKeyEvent_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public KeyboardHandler_OnPreKeyEvent_argsTupleScheme getScheme() {
+        return new KeyboardHandler_OnPreKeyEvent_argsTupleScheme();
+      }
+    }
+
+    private static class KeyboardHandler_OnPreKeyEvent_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<KeyboardHandler_OnPreKeyEvent_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, KeyboardHandler_OnPreKeyEvent_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetBid()) {
+          optionals.set(0);
+        }
+        if (struct.isSetEvent()) {
+          optionals.set(1);
+        }
+        oprot.writeBitSet(optionals, 2);
+        if (struct.isSetBid()) {
+          oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetEvent()) {
+          struct.event.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, KeyboardHandler_OnPreKeyEvent_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(2);
+        if (incoming.get(0)) {
+          struct.bid = iprot.readI32();
+          struct.setBidIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.event = new com.jetbrains.cef.remote.thrift_codegen.KeyEvent();
+          struct.event.read(iprot);
+          struct.setEventIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class KeyboardHandler_OnPreKeyEvent_result implements org.apache.thrift.TBase<KeyboardHandler_OnPreKeyEvent_result, KeyboardHandler_OnPreKeyEvent_result._Fields>, java.io.Serializable, Cloneable, Comparable<KeyboardHandler_OnPreKeyEvent_result>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("KeyboardHandler_OnPreKeyEvent_result");
+
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.BOOL, (short)0);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new KeyboardHandler_OnPreKeyEvent_resultStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new KeyboardHandler_OnPreKeyEvent_resultTupleSchemeFactory();
+
+    public boolean success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __SUCCESS_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(KeyboardHandler_OnPreKeyEvent_result.class, metaDataMap);
+    }
+
+    public KeyboardHandler_OnPreKeyEvent_result() {
+    }
+
+    public KeyboardHandler_OnPreKeyEvent_result(
+      boolean success)
+    {
+      this();
+      this.success = success;
+      setSuccessIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public KeyboardHandler_OnPreKeyEvent_result(KeyboardHandler_OnPreKeyEvent_result other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.success = other.success;
+    }
+
+    @Override
+    public KeyboardHandler_OnPreKeyEvent_result deepCopy() {
+      return new KeyboardHandler_OnPreKeyEvent_result(this);
+    }
+
+    @Override
+    public void clear() {
+      setSuccessIsSet(false);
+      this.success = false;
+    }
+
+    public boolean isSuccess() {
+      return this.success;
+    }
+
+    public KeyboardHandler_OnPreKeyEvent_result setSuccess(boolean success) {
+      this.success = success;
+      setSuccessIsSet(true);
+      return this;
+    }
+
+    public void unsetSuccess() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __SUCCESS_ISSET_ID, value);
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((java.lang.Boolean)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return isSuccess();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof KeyboardHandler_OnPreKeyEvent_result)
+        return this.equals((KeyboardHandler_OnPreKeyEvent_result)that);
+      return false;
+    }
+
+    public boolean equals(KeyboardHandler_OnPreKeyEvent_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_success = true;
+      boolean that_present_success = true;
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (this.success != that.success)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((success) ? 131071 : 524287);
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(KeyboardHandler_OnPreKeyEvent_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetSuccess(), other.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, other.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("KeyboardHandler_OnPreKeyEvent_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      sb.append(this.success);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class KeyboardHandler_OnPreKeyEvent_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public KeyboardHandler_OnPreKeyEvent_resultStandardScheme getScheme() {
+        return new KeyboardHandler_OnPreKeyEvent_resultStandardScheme();
+      }
+    }
+
+    private static class KeyboardHandler_OnPreKeyEvent_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<KeyboardHandler_OnPreKeyEvent_result> {
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol iprot, KeyboardHandler_OnPreKeyEvent_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 0: // SUCCESS
+              if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
+                struct.success = iprot.readBool();
+                struct.setSuccessIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol oprot, KeyboardHandler_OnPreKeyEvent_result struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.isSetSuccess()) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          oprot.writeBool(struct.success);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class KeyboardHandler_OnPreKeyEvent_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public KeyboardHandler_OnPreKeyEvent_resultTupleScheme getScheme() {
+        return new KeyboardHandler_OnPreKeyEvent_resultTupleScheme();
+      }
+    }
+
+    private static class KeyboardHandler_OnPreKeyEvent_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<KeyboardHandler_OnPreKeyEvent_result> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, KeyboardHandler_OnPreKeyEvent_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          oprot.writeBool(struct.success);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, KeyboardHandler_OnPreKeyEvent_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.success = iprot.readBool();
+          struct.setSuccessIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class KeyboardHandler_OnKeyEvent_args implements org.apache.thrift.TBase<KeyboardHandler_OnKeyEvent_args, KeyboardHandler_OnKeyEvent_args._Fields>, java.io.Serializable, Cloneable, Comparable<KeyboardHandler_OnKeyEvent_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("KeyboardHandler_OnKeyEvent_args");
+
+    private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
+    private static final org.apache.thrift.protocol.TField EVENT_FIELD_DESC = new org.apache.thrift.protocol.TField("event", org.apache.thrift.protocol.TType.STRUCT, (short)2);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new KeyboardHandler_OnKeyEvent_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new KeyboardHandler_OnKeyEvent_argsTupleSchemeFactory();
+
+    public int bid; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.KeyEvent event; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      BID((short)1, "bid"),
+      EVENT((short)2, "event");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // BID
+            return BID;
+          case 2: // EVENT
+            return EVENT;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __BID_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.EVENT, new org.apache.thrift.meta_data.FieldMetaData("event", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.KeyEvent.class)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(KeyboardHandler_OnKeyEvent_args.class, metaDataMap);
+    }
+
+    public KeyboardHandler_OnKeyEvent_args() {
+    }
+
+    public KeyboardHandler_OnKeyEvent_args(
+      int bid,
+      com.jetbrains.cef.remote.thrift_codegen.KeyEvent event)
+    {
+      this();
+      this.bid = bid;
+      setBidIsSet(true);
+      this.event = event;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public KeyboardHandler_OnKeyEvent_args(KeyboardHandler_OnKeyEvent_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.bid = other.bid;
+      if (other.isSetEvent()) {
+        this.event = new com.jetbrains.cef.remote.thrift_codegen.KeyEvent(other.event);
+      }
+    }
+
+    @Override
+    public KeyboardHandler_OnKeyEvent_args deepCopy() {
+      return new KeyboardHandler_OnKeyEvent_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setBidIsSet(false);
+      this.bid = 0;
+      this.event = null;
+    }
+
+    public int getBid() {
+      return this.bid;
+    }
+
+    public KeyboardHandler_OnKeyEvent_args setBid(int bid) {
+      this.bid = bid;
+      setBidIsSet(true);
+      return this;
+    }
+
+    public void unsetBid() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    /** Returns true if field bid is set (has been assigned a value) and false otherwise */
+    public boolean isSetBid() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    public void setBidIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.KeyEvent getEvent() {
+      return this.event;
+    }
+
+    public KeyboardHandler_OnKeyEvent_args setEvent(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.KeyEvent event) {
+      this.event = event;
+      return this;
+    }
+
+    public void unsetEvent() {
+      this.event = null;
+    }
+
+    /** Returns true if field event is set (has been assigned a value) and false otherwise */
+    public boolean isSetEvent() {
+      return this.event != null;
+    }
+
+    public void setEventIsSet(boolean value) {
+      if (!value) {
+        this.event = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case BID:
+        if (value == null) {
+          unsetBid();
+        } else {
+          setBid((java.lang.Integer)value);
+        }
+        break;
+
+      case EVENT:
+        if (value == null) {
+          unsetEvent();
+        } else {
+          setEvent((com.jetbrains.cef.remote.thrift_codegen.KeyEvent)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case BID:
+        return getBid();
+
+      case EVENT:
+        return getEvent();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case BID:
+        return isSetBid();
+      case EVENT:
+        return isSetEvent();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof KeyboardHandler_OnKeyEvent_args)
+        return this.equals((KeyboardHandler_OnKeyEvent_args)that);
+      return false;
+    }
+
+    public boolean equals(KeyboardHandler_OnKeyEvent_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_bid = true;
+      boolean that_present_bid = true;
+      if (this_present_bid || that_present_bid) {
+        if (!(this_present_bid && that_present_bid))
+          return false;
+        if (this.bid != that.bid)
+          return false;
+      }
+
+      boolean this_present_event = true && this.isSetEvent();
+      boolean that_present_event = true && that.isSetEvent();
+      if (this_present_event || that_present_event) {
+        if (!(this_present_event && that_present_event))
+          return false;
+        if (!this.event.equals(that.event))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + bid;
+
+      hashCode = hashCode * 8191 + ((isSetEvent()) ? 131071 : 524287);
+      if (isSetEvent())
+        hashCode = hashCode * 8191 + event.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(KeyboardHandler_OnKeyEvent_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetBid()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetEvent(), other.isSetEvent());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetEvent()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.event, other.event);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("KeyboardHandler_OnKeyEvent_args(");
+      boolean first = true;
+
+      sb.append("bid:");
+      sb.append(this.bid);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("event:");
+      if (this.event == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.event);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (event != null) {
+        event.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class KeyboardHandler_OnKeyEvent_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public KeyboardHandler_OnKeyEvent_argsStandardScheme getScheme() {
+        return new KeyboardHandler_OnKeyEvent_argsStandardScheme();
+      }
+    }
+
+    private static class KeyboardHandler_OnKeyEvent_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<KeyboardHandler_OnKeyEvent_args> {
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol iprot, KeyboardHandler_OnKeyEvent_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // BID
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.bid = iprot.readI32();
+                struct.setBidIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // EVENT
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.event = new com.jetbrains.cef.remote.thrift_codegen.KeyEvent();
+                struct.event.read(iprot);
+                struct.setEventIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol oprot, KeyboardHandler_OnKeyEvent_args struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(BID_FIELD_DESC);
+        oprot.writeI32(struct.bid);
+        oprot.writeFieldEnd();
+        if (struct.event != null) {
+          oprot.writeFieldBegin(EVENT_FIELD_DESC);
+          struct.event.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class KeyboardHandler_OnKeyEvent_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public KeyboardHandler_OnKeyEvent_argsTupleScheme getScheme() {
+        return new KeyboardHandler_OnKeyEvent_argsTupleScheme();
+      }
+    }
+
+    private static class KeyboardHandler_OnKeyEvent_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<KeyboardHandler_OnKeyEvent_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, KeyboardHandler_OnKeyEvent_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetBid()) {
+          optionals.set(0);
+        }
+        if (struct.isSetEvent()) {
+          optionals.set(1);
+        }
+        oprot.writeBitSet(optionals, 2);
+        if (struct.isSetBid()) {
+          oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetEvent()) {
+          struct.event.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, KeyboardHandler_OnKeyEvent_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(2);
+        if (incoming.get(0)) {
+          struct.bid = iprot.readI32();
+          struct.setBidIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.event = new com.jetbrains.cef.remote.thrift_codegen.KeyEvent();
+          struct.event.read(iprot);
+          struct.setEventIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class KeyboardHandler_OnKeyEvent_result implements org.apache.thrift.TBase<KeyboardHandler_OnKeyEvent_result, KeyboardHandler_OnKeyEvent_result._Fields>, java.io.Serializable, Cloneable, Comparable<KeyboardHandler_OnKeyEvent_result>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("KeyboardHandler_OnKeyEvent_result");
+
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.BOOL, (short)0);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new KeyboardHandler_OnKeyEvent_resultStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new KeyboardHandler_OnKeyEvent_resultTupleSchemeFactory();
+
+    public boolean success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __SUCCESS_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(KeyboardHandler_OnKeyEvent_result.class, metaDataMap);
+    }
+
+    public KeyboardHandler_OnKeyEvent_result() {
+    }
+
+    public KeyboardHandler_OnKeyEvent_result(
+      boolean success)
+    {
+      this();
+      this.success = success;
+      setSuccessIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public KeyboardHandler_OnKeyEvent_result(KeyboardHandler_OnKeyEvent_result other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.success = other.success;
+    }
+
+    @Override
+    public KeyboardHandler_OnKeyEvent_result deepCopy() {
+      return new KeyboardHandler_OnKeyEvent_result(this);
+    }
+
+    @Override
+    public void clear() {
+      setSuccessIsSet(false);
+      this.success = false;
+    }
+
+    public boolean isSuccess() {
+      return this.success;
+    }
+
+    public KeyboardHandler_OnKeyEvent_result setSuccess(boolean success) {
+      this.success = success;
+      setSuccessIsSet(true);
+      return this;
+    }
+
+    public void unsetSuccess() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __SUCCESS_ISSET_ID, value);
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((java.lang.Boolean)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return isSuccess();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof KeyboardHandler_OnKeyEvent_result)
+        return this.equals((KeyboardHandler_OnKeyEvent_result)that);
+      return false;
+    }
+
+    public boolean equals(KeyboardHandler_OnKeyEvent_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_success = true;
+      boolean that_present_success = true;
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (this.success != that.success)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((success) ? 131071 : 524287);
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(KeyboardHandler_OnKeyEvent_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetSuccess(), other.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, other.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("KeyboardHandler_OnKeyEvent_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      sb.append(this.success);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class KeyboardHandler_OnKeyEvent_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public KeyboardHandler_OnKeyEvent_resultStandardScheme getScheme() {
+        return new KeyboardHandler_OnKeyEvent_resultStandardScheme();
+      }
+    }
+
+    private static class KeyboardHandler_OnKeyEvent_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<KeyboardHandler_OnKeyEvent_result> {
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol iprot, KeyboardHandler_OnKeyEvent_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 0: // SUCCESS
+              if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
+                struct.success = iprot.readBool();
+                struct.setSuccessIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol oprot, KeyboardHandler_OnKeyEvent_result struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.isSetSuccess()) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          oprot.writeBool(struct.success);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class KeyboardHandler_OnKeyEvent_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public KeyboardHandler_OnKeyEvent_resultTupleScheme getScheme() {
+        return new KeyboardHandler_OnKeyEvent_resultTupleScheme();
+      }
+    }
+
+    private static class KeyboardHandler_OnKeyEvent_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<KeyboardHandler_OnKeyEvent_result> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, KeyboardHandler_OnKeyEvent_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          oprot.writeBool(struct.success);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, KeyboardHandler_OnKeyEvent_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.success = iprot.readBool();
+          struct.setSuccessIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class FocusHandler_OnTakeFocus_args implements org.apache.thrift.TBase<FocusHandler_OnTakeFocus_args, FocusHandler_OnTakeFocus_args._Fields>, java.io.Serializable, Cloneable, Comparable<FocusHandler_OnTakeFocus_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("FocusHandler_OnTakeFocus_args");
+
+    private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
+    private static final org.apache.thrift.protocol.TField NEXT_FIELD_DESC = new org.apache.thrift.protocol.TField("next", org.apache.thrift.protocol.TType.BOOL, (short)2);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new FocusHandler_OnTakeFocus_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new FocusHandler_OnTakeFocus_argsTupleSchemeFactory();
+
+    public int bid; // required
+    public boolean next; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      BID((short)1, "bid"),
+      NEXT((short)2, "next");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // BID
+            return BID;
+          case 2: // NEXT
+            return NEXT;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __BID_ISSET_ID = 0;
+    private static final int __NEXT_ISSET_ID = 1;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.NEXT, new org.apache.thrift.meta_data.FieldMetaData("next", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(FocusHandler_OnTakeFocus_args.class, metaDataMap);
+    }
+
+    public FocusHandler_OnTakeFocus_args() {
+    }
+
+    public FocusHandler_OnTakeFocus_args(
+      int bid,
+      boolean next)
+    {
+      this();
+      this.bid = bid;
+      setBidIsSet(true);
+      this.next = next;
+      setNextIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public FocusHandler_OnTakeFocus_args(FocusHandler_OnTakeFocus_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.bid = other.bid;
+      this.next = other.next;
+    }
+
+    @Override
+    public FocusHandler_OnTakeFocus_args deepCopy() {
+      return new FocusHandler_OnTakeFocus_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setBidIsSet(false);
+      this.bid = 0;
+      setNextIsSet(false);
+      this.next = false;
+    }
+
+    public int getBid() {
+      return this.bid;
+    }
+
+    public FocusHandler_OnTakeFocus_args setBid(int bid) {
+      this.bid = bid;
+      setBidIsSet(true);
+      return this;
+    }
+
+    public void unsetBid() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    /** Returns true if field bid is set (has been assigned a value) and false otherwise */
+    public boolean isSetBid() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    public void setBidIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    public boolean isNext() {
+      return this.next;
+    }
+
+    public FocusHandler_OnTakeFocus_args setNext(boolean next) {
+      this.next = next;
+      setNextIsSet(true);
+      return this;
+    }
+
+    public void unsetNext() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __NEXT_ISSET_ID);
+    }
+
+    /** Returns true if field next is set (has been assigned a value) and false otherwise */
+    public boolean isSetNext() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __NEXT_ISSET_ID);
+    }
+
+    public void setNextIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __NEXT_ISSET_ID, value);
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case BID:
+        if (value == null) {
+          unsetBid();
+        } else {
+          setBid((java.lang.Integer)value);
+        }
+        break;
+
+      case NEXT:
+        if (value == null) {
+          unsetNext();
+        } else {
+          setNext((java.lang.Boolean)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case BID:
+        return getBid();
+
+      case NEXT:
+        return isNext();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case BID:
+        return isSetBid();
+      case NEXT:
+        return isSetNext();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof FocusHandler_OnTakeFocus_args)
+        return this.equals((FocusHandler_OnTakeFocus_args)that);
+      return false;
+    }
+
+    public boolean equals(FocusHandler_OnTakeFocus_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_bid = true;
+      boolean that_present_bid = true;
+      if (this_present_bid || that_present_bid) {
+        if (!(this_present_bid && that_present_bid))
+          return false;
+        if (this.bid != that.bid)
+          return false;
+      }
+
+      boolean this_present_next = true;
+      boolean that_present_next = true;
+      if (this_present_next || that_present_next) {
+        if (!(this_present_next && that_present_next))
+          return false;
+        if (this.next != that.next)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + bid;
+
+      hashCode = hashCode * 8191 + ((next) ? 131071 : 524287);
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(FocusHandler_OnTakeFocus_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetBid()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetNext(), other.isSetNext());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetNext()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.next, other.next);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("FocusHandler_OnTakeFocus_args(");
+      boolean first = true;
+
+      sb.append("bid:");
+      sb.append(this.bid);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("next:");
+      sb.append(this.next);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class FocusHandler_OnTakeFocus_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public FocusHandler_OnTakeFocus_argsStandardScheme getScheme() {
+        return new FocusHandler_OnTakeFocus_argsStandardScheme();
+      }
+    }
+
+    private static class FocusHandler_OnTakeFocus_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<FocusHandler_OnTakeFocus_args> {
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol iprot, FocusHandler_OnTakeFocus_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // BID
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.bid = iprot.readI32();
+                struct.setBidIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // NEXT
+              if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
+                struct.next = iprot.readBool();
+                struct.setNextIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol oprot, FocusHandler_OnTakeFocus_args struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(BID_FIELD_DESC);
+        oprot.writeI32(struct.bid);
+        oprot.writeFieldEnd();
+        oprot.writeFieldBegin(NEXT_FIELD_DESC);
+        oprot.writeBool(struct.next);
+        oprot.writeFieldEnd();
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class FocusHandler_OnTakeFocus_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public FocusHandler_OnTakeFocus_argsTupleScheme getScheme() {
+        return new FocusHandler_OnTakeFocus_argsTupleScheme();
+      }
+    }
+
+    private static class FocusHandler_OnTakeFocus_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<FocusHandler_OnTakeFocus_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, FocusHandler_OnTakeFocus_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetBid()) {
+          optionals.set(0);
+        }
+        if (struct.isSetNext()) {
+          optionals.set(1);
+        }
+        oprot.writeBitSet(optionals, 2);
+        if (struct.isSetBid()) {
+          oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetNext()) {
+          oprot.writeBool(struct.next);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, FocusHandler_OnTakeFocus_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(2);
+        if (incoming.get(0)) {
+          struct.bid = iprot.readI32();
+          struct.setBidIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.next = iprot.readBool();
+          struct.setNextIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class FocusHandler_OnSetFocus_args implements org.apache.thrift.TBase<FocusHandler_OnSetFocus_args, FocusHandler_OnSetFocus_args._Fields>, java.io.Serializable, Cloneable, Comparable<FocusHandler_OnSetFocus_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("FocusHandler_OnSetFocus_args");
+
+    private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
+    private static final org.apache.thrift.protocol.TField SOURCE_FIELD_DESC = new org.apache.thrift.protocol.TField("source", org.apache.thrift.protocol.TType.STRING, (short)2);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new FocusHandler_OnSetFocus_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new FocusHandler_OnSetFocus_argsTupleSchemeFactory();
+
+    public int bid; // required
+    public @org.apache.thrift.annotation.Nullable java.lang.String source; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      BID((short)1, "bid"),
+      SOURCE((short)2, "source");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // BID
+            return BID;
+          case 2: // SOURCE
+            return SOURCE;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __BID_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.SOURCE, new org.apache.thrift.meta_data.FieldMetaData("source", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(FocusHandler_OnSetFocus_args.class, metaDataMap);
+    }
+
+    public FocusHandler_OnSetFocus_args() {
+    }
+
+    public FocusHandler_OnSetFocus_args(
+      int bid,
+      java.lang.String source)
+    {
+      this();
+      this.bid = bid;
+      setBidIsSet(true);
+      this.source = source;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public FocusHandler_OnSetFocus_args(FocusHandler_OnSetFocus_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.bid = other.bid;
+      if (other.isSetSource()) {
+        this.source = other.source;
+      }
+    }
+
+    @Override
+    public FocusHandler_OnSetFocus_args deepCopy() {
+      return new FocusHandler_OnSetFocus_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setBidIsSet(false);
+      this.bid = 0;
+      this.source = null;
+    }
+
+    public int getBid() {
+      return this.bid;
+    }
+
+    public FocusHandler_OnSetFocus_args setBid(int bid) {
+      this.bid = bid;
+      setBidIsSet(true);
+      return this;
+    }
+
+    public void unsetBid() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    /** Returns true if field bid is set (has been assigned a value) and false otherwise */
+    public boolean isSetBid() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    public void setBidIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.String getSource() {
+      return this.source;
+    }
+
+    public FocusHandler_OnSetFocus_args setSource(@org.apache.thrift.annotation.Nullable java.lang.String source) {
+      this.source = source;
+      return this;
+    }
+
+    public void unsetSource() {
+      this.source = null;
+    }
+
+    /** Returns true if field source is set (has been assigned a value) and false otherwise */
+    public boolean isSetSource() {
+      return this.source != null;
+    }
+
+    public void setSourceIsSet(boolean value) {
+      if (!value) {
+        this.source = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case BID:
+        if (value == null) {
+          unsetBid();
+        } else {
+          setBid((java.lang.Integer)value);
+        }
+        break;
+
+      case SOURCE:
+        if (value == null) {
+          unsetSource();
+        } else {
+          setSource((java.lang.String)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case BID:
+        return getBid();
+
+      case SOURCE:
+        return getSource();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case BID:
+        return isSetBid();
+      case SOURCE:
+        return isSetSource();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof FocusHandler_OnSetFocus_args)
+        return this.equals((FocusHandler_OnSetFocus_args)that);
+      return false;
+    }
+
+    public boolean equals(FocusHandler_OnSetFocus_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_bid = true;
+      boolean that_present_bid = true;
+      if (this_present_bid || that_present_bid) {
+        if (!(this_present_bid && that_present_bid))
+          return false;
+        if (this.bid != that.bid)
+          return false;
+      }
+
+      boolean this_present_source = true && this.isSetSource();
+      boolean that_present_source = true && that.isSetSource();
+      if (this_present_source || that_present_source) {
+        if (!(this_present_source && that_present_source))
+          return false;
+        if (!this.source.equals(that.source))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + bid;
+
+      hashCode = hashCode * 8191 + ((isSetSource()) ? 131071 : 524287);
+      if (isSetSource())
+        hashCode = hashCode * 8191 + source.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(FocusHandler_OnSetFocus_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetBid()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetSource(), other.isSetSource());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSource()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.source, other.source);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("FocusHandler_OnSetFocus_args(");
+      boolean first = true;
+
+      sb.append("bid:");
+      sb.append(this.bid);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("source:");
+      if (this.source == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.source);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class FocusHandler_OnSetFocus_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public FocusHandler_OnSetFocus_argsStandardScheme getScheme() {
+        return new FocusHandler_OnSetFocus_argsStandardScheme();
+      }
+    }
+
+    private static class FocusHandler_OnSetFocus_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<FocusHandler_OnSetFocus_args> {
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol iprot, FocusHandler_OnSetFocus_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // BID
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.bid = iprot.readI32();
+                struct.setBidIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // SOURCE
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.source = iprot.readString();
+                struct.setSourceIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol oprot, FocusHandler_OnSetFocus_args struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(BID_FIELD_DESC);
+        oprot.writeI32(struct.bid);
+        oprot.writeFieldEnd();
+        if (struct.source != null) {
+          oprot.writeFieldBegin(SOURCE_FIELD_DESC);
+          oprot.writeString(struct.source);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class FocusHandler_OnSetFocus_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public FocusHandler_OnSetFocus_argsTupleScheme getScheme() {
+        return new FocusHandler_OnSetFocus_argsTupleScheme();
+      }
+    }
+
+    private static class FocusHandler_OnSetFocus_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<FocusHandler_OnSetFocus_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, FocusHandler_OnSetFocus_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetBid()) {
+          optionals.set(0);
+        }
+        if (struct.isSetSource()) {
+          optionals.set(1);
+        }
+        oprot.writeBitSet(optionals, 2);
+        if (struct.isSetBid()) {
+          oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetSource()) {
+          oprot.writeString(struct.source);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, FocusHandler_OnSetFocus_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(2);
+        if (incoming.get(0)) {
+          struct.bid = iprot.readI32();
+          struct.setBidIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.source = iprot.readString();
+          struct.setSourceIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class FocusHandler_OnSetFocus_result implements org.apache.thrift.TBase<FocusHandler_OnSetFocus_result, FocusHandler_OnSetFocus_result._Fields>, java.io.Serializable, Cloneable, Comparable<FocusHandler_OnSetFocus_result>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("FocusHandler_OnSetFocus_result");
+
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.BOOL, (short)0);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new FocusHandler_OnSetFocus_resultStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new FocusHandler_OnSetFocus_resultTupleSchemeFactory();
+
+    public boolean success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __SUCCESS_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(FocusHandler_OnSetFocus_result.class, metaDataMap);
+    }
+
+    public FocusHandler_OnSetFocus_result() {
+    }
+
+    public FocusHandler_OnSetFocus_result(
+      boolean success)
+    {
+      this();
+      this.success = success;
+      setSuccessIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public FocusHandler_OnSetFocus_result(FocusHandler_OnSetFocus_result other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.success = other.success;
+    }
+
+    @Override
+    public FocusHandler_OnSetFocus_result deepCopy() {
+      return new FocusHandler_OnSetFocus_result(this);
+    }
+
+    @Override
+    public void clear() {
+      setSuccessIsSet(false);
+      this.success = false;
+    }
+
+    public boolean isSuccess() {
+      return this.success;
+    }
+
+    public FocusHandler_OnSetFocus_result setSuccess(boolean success) {
+      this.success = success;
+      setSuccessIsSet(true);
+      return this;
+    }
+
+    public void unsetSuccess() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __SUCCESS_ISSET_ID, value);
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((java.lang.Boolean)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return isSuccess();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof FocusHandler_OnSetFocus_result)
+        return this.equals((FocusHandler_OnSetFocus_result)that);
+      return false;
+    }
+
+    public boolean equals(FocusHandler_OnSetFocus_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_success = true;
+      boolean that_present_success = true;
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (this.success != that.success)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((success) ? 131071 : 524287);
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(FocusHandler_OnSetFocus_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetSuccess(), other.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, other.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("FocusHandler_OnSetFocus_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      sb.append(this.success);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class FocusHandler_OnSetFocus_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public FocusHandler_OnSetFocus_resultStandardScheme getScheme() {
+        return new FocusHandler_OnSetFocus_resultStandardScheme();
+      }
+    }
+
+    private static class FocusHandler_OnSetFocus_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<FocusHandler_OnSetFocus_result> {
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol iprot, FocusHandler_OnSetFocus_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 0: // SUCCESS
+              if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
+                struct.success = iprot.readBool();
+                struct.setSuccessIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol oprot, FocusHandler_OnSetFocus_result struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.isSetSuccess()) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          oprot.writeBool(struct.success);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class FocusHandler_OnSetFocus_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public FocusHandler_OnSetFocus_resultTupleScheme getScheme() {
+        return new FocusHandler_OnSetFocus_resultTupleScheme();
+      }
+    }
+
+    private static class FocusHandler_OnSetFocus_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<FocusHandler_OnSetFocus_result> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, FocusHandler_OnSetFocus_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          oprot.writeBool(struct.success);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, FocusHandler_OnSetFocus_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.success = iprot.readBool();
+          struct.setSuccessIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class FocusHandler_OnGotFocus_args implements org.apache.thrift.TBase<FocusHandler_OnGotFocus_args, FocusHandler_OnGotFocus_args._Fields>, java.io.Serializable, Cloneable, Comparable<FocusHandler_OnGotFocus_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("FocusHandler_OnGotFocus_args");
+
+    private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new FocusHandler_OnGotFocus_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new FocusHandler_OnGotFocus_argsTupleSchemeFactory();
+
+    public int bid; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      BID((short)1, "bid");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // BID
+            return BID;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __BID_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(FocusHandler_OnGotFocus_args.class, metaDataMap);
+    }
+
+    public FocusHandler_OnGotFocus_args() {
+    }
+
+    public FocusHandler_OnGotFocus_args(
+      int bid)
+    {
+      this();
+      this.bid = bid;
+      setBidIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public FocusHandler_OnGotFocus_args(FocusHandler_OnGotFocus_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.bid = other.bid;
+    }
+
+    @Override
+    public FocusHandler_OnGotFocus_args deepCopy() {
+      return new FocusHandler_OnGotFocus_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setBidIsSet(false);
+      this.bid = 0;
+    }
+
+    public int getBid() {
+      return this.bid;
+    }
+
+    public FocusHandler_OnGotFocus_args setBid(int bid) {
+      this.bid = bid;
+      setBidIsSet(true);
+      return this;
+    }
+
+    public void unsetBid() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    /** Returns true if field bid is set (has been assigned a value) and false otherwise */
+    public boolean isSetBid() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    public void setBidIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case BID:
+        if (value == null) {
+          unsetBid();
+        } else {
+          setBid((java.lang.Integer)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case BID:
+        return getBid();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case BID:
+        return isSetBid();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof FocusHandler_OnGotFocus_args)
+        return this.equals((FocusHandler_OnGotFocus_args)that);
+      return false;
+    }
+
+    public boolean equals(FocusHandler_OnGotFocus_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_bid = true;
+      boolean that_present_bid = true;
+      if (this_present_bid || that_present_bid) {
+        if (!(this_present_bid && that_present_bid))
+          return false;
+        if (this.bid != that.bid)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + bid;
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(FocusHandler_OnGotFocus_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetBid()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("FocusHandler_OnGotFocus_args(");
+      boolean first = true;
+
+      sb.append("bid:");
+      sb.append(this.bid);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class FocusHandler_OnGotFocus_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public FocusHandler_OnGotFocus_argsStandardScheme getScheme() {
+        return new FocusHandler_OnGotFocus_argsStandardScheme();
+      }
+    }
+
+    private static class FocusHandler_OnGotFocus_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<FocusHandler_OnGotFocus_args> {
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol iprot, FocusHandler_OnGotFocus_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // BID
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.bid = iprot.readI32();
+                struct.setBidIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol oprot, FocusHandler_OnGotFocus_args struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(BID_FIELD_DESC);
+        oprot.writeI32(struct.bid);
+        oprot.writeFieldEnd();
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class FocusHandler_OnGotFocus_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public FocusHandler_OnGotFocus_argsTupleScheme getScheme() {
+        return new FocusHandler_OnGotFocus_argsTupleScheme();
+      }
+    }
+
+    private static class FocusHandler_OnGotFocus_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<FocusHandler_OnGotFocus_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, FocusHandler_OnGotFocus_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetBid()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetBid()) {
+          oprot.writeI32(struct.bid);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, FocusHandler_OnGotFocus_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.bid = iprot.readI32();
+          struct.setBidIsSet(true);
         }
       }
     }

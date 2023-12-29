@@ -57,6 +57,8 @@ public:
     const CefRefPtr<CefLoadHandler> myRemoteLoadHandler;
     const CefRefPtr<CefDisplayHandler> myRemoteDisplayHandler;
     const CefRefPtr<CefRequestHandler> myRemoteRequestHandler;
+    const CefRefPtr<CefKeyboardHandler> myRemoteKeyboardHandler;
+    const CefRefPtr<CefFocusHandler> myRemoteFocusHandler;
 
     IMPLEMENT_REFCOUNTING(RemoteClientHandler);
 };

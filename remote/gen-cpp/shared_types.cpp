@@ -497,4 +497,257 @@ void PostData::printTo(std::ostream& out) const {
   out << ")";
 }
 
+
+KeyEvent::~KeyEvent() noexcept {
+}
+
+
+void KeyEvent::__set_type(const std::string& val) {
+  this->type = val;
+}
+
+void KeyEvent::__set_modifiers(const int32_t val) {
+  this->modifiers = val;
+}
+
+void KeyEvent::__set_windows_key_code(const int32_t val) {
+  this->windows_key_code = val;
+}
+
+void KeyEvent::__set_native_key_code(const int32_t val) {
+  this->native_key_code = val;
+}
+
+void KeyEvent::__set_is_system_key(const bool val) {
+  this->is_system_key = val;
+}
+
+void KeyEvent::__set_character(const int16_t val) {
+  this->character = val;
+}
+
+void KeyEvent::__set_unmodified_character(const int16_t val) {
+  this->unmodified_character = val;
+}
+
+void KeyEvent::__set_focus_on_editable_field(const bool val) {
+  this->focus_on_editable_field = val;
+}
+std::ostream& operator<<(std::ostream& out, const KeyEvent& obj)
+{
+  obj.printTo(out);
+  return out;
+}
+
+
+uint32_t KeyEvent::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+  bool isset_type = false;
+  bool isset_modifiers = false;
+  bool isset_windows_key_code = false;
+  bool isset_native_key_code = false;
+  bool isset_is_system_key = false;
+  bool isset_character = false;
+  bool isset_unmodified_character = false;
+  bool isset_focus_on_editable_field = false;
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->type);
+          isset_type = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->modifiers);
+          isset_modifiers = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->windows_key_code);
+          isset_windows_key_code = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->native_key_code);
+          isset_native_key_code = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 5:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->is_system_key);
+          isset_is_system_key = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 6:
+        if (ftype == ::apache::thrift::protocol::T_I16) {
+          xfer += iprot->readI16(this->character);
+          isset_character = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 7:
+        if (ftype == ::apache::thrift::protocol::T_I16) {
+          xfer += iprot->readI16(this->unmodified_character);
+          isset_unmodified_character = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 8:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->focus_on_editable_field);
+          isset_focus_on_editable_field = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  if (!isset_type)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_modifiers)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_windows_key_code)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_native_key_code)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_is_system_key)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_character)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_unmodified_character)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_focus_on_editable_field)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  return xfer;
+}
+
+uint32_t KeyEvent::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("KeyEvent");
+
+  xfer += oprot->writeFieldBegin("type", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->type);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("modifiers", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32(this->modifiers);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("windows_key_code", ::apache::thrift::protocol::T_I32, 3);
+  xfer += oprot->writeI32(this->windows_key_code);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("native_key_code", ::apache::thrift::protocol::T_I32, 4);
+  xfer += oprot->writeI32(this->native_key_code);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("is_system_key", ::apache::thrift::protocol::T_BOOL, 5);
+  xfer += oprot->writeBool(this->is_system_key);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("character", ::apache::thrift::protocol::T_I16, 6);
+  xfer += oprot->writeI16(this->character);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("unmodified_character", ::apache::thrift::protocol::T_I16, 7);
+  xfer += oprot->writeI16(this->unmodified_character);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("focus_on_editable_field", ::apache::thrift::protocol::T_BOOL, 8);
+  xfer += oprot->writeBool(this->focus_on_editable_field);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+void swap(KeyEvent &a, KeyEvent &b) {
+  using ::std::swap;
+  swap(a.type, b.type);
+  swap(a.modifiers, b.modifiers);
+  swap(a.windows_key_code, b.windows_key_code);
+  swap(a.native_key_code, b.native_key_code);
+  swap(a.is_system_key, b.is_system_key);
+  swap(a.character, b.character);
+  swap(a.unmodified_character, b.unmodified_character);
+  swap(a.focus_on_editable_field, b.focus_on_editable_field);
+}
+
+KeyEvent::KeyEvent(const KeyEvent& other20) {
+  type = other20.type;
+  modifiers = other20.modifiers;
+  windows_key_code = other20.windows_key_code;
+  native_key_code = other20.native_key_code;
+  is_system_key = other20.is_system_key;
+  character = other20.character;
+  unmodified_character = other20.unmodified_character;
+  focus_on_editable_field = other20.focus_on_editable_field;
+}
+KeyEvent& KeyEvent::operator=(const KeyEvent& other21) {
+  type = other21.type;
+  modifiers = other21.modifiers;
+  windows_key_code = other21.windows_key_code;
+  native_key_code = other21.native_key_code;
+  is_system_key = other21.is_system_key;
+  character = other21.character;
+  unmodified_character = other21.unmodified_character;
+  focus_on_editable_field = other21.focus_on_editable_field;
+  return *this;
+}
+void KeyEvent::printTo(std::ostream& out) const {
+  using ::apache::thrift::to_string;
+  out << "KeyEvent(";
+  out << "type=" << to_string(type);
+  out << ", " << "modifiers=" << to_string(modifiers);
+  out << ", " << "windows_key_code=" << to_string(windows_key_code);
+  out << ", " << "native_key_code=" << to_string(native_key_code);
+  out << ", " << "is_system_key=" << to_string(is_system_key);
+  out << ", " << "character=" << to_string(character);
+  out << ", " << "unmodified_character=" << to_string(unmodified_character);
+  out << ", " << "focus_on_editable_field=" << to_string(focus_on_editable_field);
+  out << ")";
+}
+
 } // namespace

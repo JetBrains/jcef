@@ -303,6 +303,97 @@ public class ClientHandlersImpl implements ClientHandlers.Iface, RemoteClient.Br
     }
 
     //
+    // CefKeyboardHandler (all methods will be called on the UI thread).
+    //
+
+    @Override
+    public boolean KeyboardHandler_OnPreKeyEvent(int bid, KeyEvent event) throws TException {
+        RemoteBrowser browser = getRemoteBrowser(bid);
+        if (browser == null) return false;
+
+        CefKeyboardHandler kh = browser.getOwner().getKeyboardHandler();
+        if (kh == null) return false;
+
+        return kh.onPreKeyEvent(browser, thrift2jcef(event), new BoolRef());
+    }
+
+    private static CefKeyboardHandler.CefKeyEvent thrift2jcef(KeyEvent event) {
+        if (event == null)
+            return null;
+        if (event.type == null || event.type.isEmpty()) {
+            CefLog.Error("Empty key event type: ");
+            return null;
+        }
+
+        CefKeyboardHandler.CefKeyEvent.EventType type;
+        try {
+            type = CefKeyboardHandler.CefKeyEvent.EventType.valueOf(event.type);
+        } catch (IllegalArgumentException e) {
+            CefLog.Error("Unknown key event type: ", e.getMessage());
+            return null;
+        }
+
+        return new CefKeyboardHandler.CefKeyEvent(type, event.modifiers, event.windows_key_code, event.native_key_code, event.is_system_key, (char)event.character, (char)event.unmodified_character, event.focus_on_editable_field);
+    }
+
+    @Override
+    public boolean KeyboardHandler_OnKeyEvent(int bid, KeyEvent event) throws TException {
+        RemoteBrowser browser = getRemoteBrowser(bid);
+        if (browser == null) return false;
+
+        CefKeyboardHandler kh = browser.getOwner().getKeyboardHandler();
+        if (kh == null) return false;
+
+        return kh.onKeyEvent(browser, thrift2jcef(event));
+    }
+
+    //
+    // CefFocusHandler (all methods will be called on the UI thread).
+    //
+
+    @Override
+    public void FocusHandler_OnTakeFocus(int bid, boolean next) throws TException {
+        RemoteBrowser browser = getRemoteBrowser(bid);
+        if (browser == null) return;
+
+        CefFocusHandler fh = browser.getOwner().getFocusHandler();
+        if (fh == null) return;
+
+        fh.onTakeFocus(browser, next);
+    }
+
+    @Override
+    public boolean FocusHandler_OnSetFocus(int bid, String source) throws TException {
+        RemoteBrowser browser = getRemoteBrowser(bid);
+        if (browser == null) return false;
+
+        CefFocusHandler fh = browser.getOwner().getFocusHandler();
+        if (fh == null) return false;
+
+        CefFocusHandler.FocusSource src = CefFocusHandler.FocusSource.FOCUS_SOURCE_NAVIGATION;
+        if (source != null && !source.isEmpty()) {
+            try {
+                src = CefFocusHandler.FocusSource.valueOf(source);
+            } catch (IllegalArgumentException e) {
+                CefLog.Error("FocusHandler_OnSetFocus: ", e.getMessage());
+            }
+        }
+
+        return fh.onSetFocus(browser, src);
+    }
+
+    @Override
+    public void FocusHandler_OnGotFocus(int bid) throws TException {
+        RemoteBrowser browser = getRemoteBrowser(bid);
+        if (browser == null) return;
+
+        CefFocusHandler fh = browser.getOwner().getFocusHandler();
+        if (fh == null) return;
+
+        fh.onGotFocus(browser);
+    }
+
+    //
     // CefRequestHandler
     //
 
