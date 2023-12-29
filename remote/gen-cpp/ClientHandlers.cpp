@@ -3195,6 +3195,789 @@ uint32_t ClientHandlers_DisplayHandler_OnConsoleMessage_presult::read(::apache::
 }
 
 
+ClientHandlers_KeyboardHandler_OnPreKeyEvent_args::~ClientHandlers_KeyboardHandler_OnPreKeyEvent_args() noexcept {
+}
+
+
+uint32_t ClientHandlers_KeyboardHandler_OnPreKeyEvent_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->bid);
+          this->__isset.bid = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->event.read(iprot);
+          this->__isset.event = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_KeyboardHandler_OnPreKeyEvent_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_KeyboardHandler_OnPreKeyEvent_args");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->bid);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("event", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += this->event.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_KeyboardHandler_OnPreKeyEvent_pargs::~ClientHandlers_KeyboardHandler_OnPreKeyEvent_pargs() noexcept {
+}
+
+
+uint32_t ClientHandlers_KeyboardHandler_OnPreKeyEvent_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_KeyboardHandler_OnPreKeyEvent_pargs");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->bid)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("event", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += (*(this->event)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_KeyboardHandler_OnPreKeyEvent_result::~ClientHandlers_KeyboardHandler_OnPreKeyEvent_result() noexcept {
+}
+
+
+uint32_t ClientHandlers_KeyboardHandler_OnPreKeyEvent_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->success);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_KeyboardHandler_OnPreKeyEvent_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("ClientHandlers_KeyboardHandler_OnPreKeyEvent_result");
+
+  if (this->__isset.success) {
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_BOOL, 0);
+    xfer += oprot->writeBool(this->success);
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_KeyboardHandler_OnPreKeyEvent_presult::~ClientHandlers_KeyboardHandler_OnPreKeyEvent_presult() noexcept {
+}
+
+
+uint32_t ClientHandlers_KeyboardHandler_OnPreKeyEvent_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool((*(this->success)));
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
+ClientHandlers_KeyboardHandler_OnKeyEvent_args::~ClientHandlers_KeyboardHandler_OnKeyEvent_args() noexcept {
+}
+
+
+uint32_t ClientHandlers_KeyboardHandler_OnKeyEvent_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->bid);
+          this->__isset.bid = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->event.read(iprot);
+          this->__isset.event = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_KeyboardHandler_OnKeyEvent_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_KeyboardHandler_OnKeyEvent_args");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->bid);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("event", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += this->event.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_KeyboardHandler_OnKeyEvent_pargs::~ClientHandlers_KeyboardHandler_OnKeyEvent_pargs() noexcept {
+}
+
+
+uint32_t ClientHandlers_KeyboardHandler_OnKeyEvent_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_KeyboardHandler_OnKeyEvent_pargs");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->bid)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("event", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += (*(this->event)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_KeyboardHandler_OnKeyEvent_result::~ClientHandlers_KeyboardHandler_OnKeyEvent_result() noexcept {
+}
+
+
+uint32_t ClientHandlers_KeyboardHandler_OnKeyEvent_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->success);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_KeyboardHandler_OnKeyEvent_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("ClientHandlers_KeyboardHandler_OnKeyEvent_result");
+
+  if (this->__isset.success) {
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_BOOL, 0);
+    xfer += oprot->writeBool(this->success);
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_KeyboardHandler_OnKeyEvent_presult::~ClientHandlers_KeyboardHandler_OnKeyEvent_presult() noexcept {
+}
+
+
+uint32_t ClientHandlers_KeyboardHandler_OnKeyEvent_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool((*(this->success)));
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
+ClientHandlers_FocusHandler_OnTakeFocus_args::~ClientHandlers_FocusHandler_OnTakeFocus_args() noexcept {
+}
+
+
+uint32_t ClientHandlers_FocusHandler_OnTakeFocus_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->bid);
+          this->__isset.bid = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->next);
+          this->__isset.next = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_FocusHandler_OnTakeFocus_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_FocusHandler_OnTakeFocus_args");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->bid);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("next", ::apache::thrift::protocol::T_BOOL, 2);
+  xfer += oprot->writeBool(this->next);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_FocusHandler_OnTakeFocus_pargs::~ClientHandlers_FocusHandler_OnTakeFocus_pargs() noexcept {
+}
+
+
+uint32_t ClientHandlers_FocusHandler_OnTakeFocus_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_FocusHandler_OnTakeFocus_pargs");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->bid)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("next", ::apache::thrift::protocol::T_BOOL, 2);
+  xfer += oprot->writeBool((*(this->next)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_FocusHandler_OnSetFocus_args::~ClientHandlers_FocusHandler_OnSetFocus_args() noexcept {
+}
+
+
+uint32_t ClientHandlers_FocusHandler_OnSetFocus_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->bid);
+          this->__isset.bid = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->source);
+          this->__isset.source = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_FocusHandler_OnSetFocus_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_FocusHandler_OnSetFocus_args");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->bid);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("source", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString(this->source);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_FocusHandler_OnSetFocus_pargs::~ClientHandlers_FocusHandler_OnSetFocus_pargs() noexcept {
+}
+
+
+uint32_t ClientHandlers_FocusHandler_OnSetFocus_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_FocusHandler_OnSetFocus_pargs");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->bid)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("source", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString((*(this->source)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_FocusHandler_OnSetFocus_result::~ClientHandlers_FocusHandler_OnSetFocus_result() noexcept {
+}
+
+
+uint32_t ClientHandlers_FocusHandler_OnSetFocus_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->success);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_FocusHandler_OnSetFocus_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("ClientHandlers_FocusHandler_OnSetFocus_result");
+
+  if (this->__isset.success) {
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_BOOL, 0);
+    xfer += oprot->writeBool(this->success);
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_FocusHandler_OnSetFocus_presult::~ClientHandlers_FocusHandler_OnSetFocus_presult() noexcept {
+}
+
+
+uint32_t ClientHandlers_FocusHandler_OnSetFocus_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool((*(this->success)));
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
+ClientHandlers_FocusHandler_OnGotFocus_args::~ClientHandlers_FocusHandler_OnGotFocus_args() noexcept {
+}
+
+
+uint32_t ClientHandlers_FocusHandler_OnGotFocus_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->bid);
+          this->__isset.bid = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_FocusHandler_OnGotFocus_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_FocusHandler_OnGotFocus_args");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->bid);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_FocusHandler_OnGotFocus_pargs::~ClientHandlers_FocusHandler_OnGotFocus_pargs() noexcept {
+}
+
+
+uint32_t ClientHandlers_FocusHandler_OnGotFocus_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_FocusHandler_OnGotFocus_pargs");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->bid)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
 ClientHandlers_RequestHandler_OnBeforeBrowse_args::~ClientHandlers_RequestHandler_OnBeforeBrowse_args() noexcept {
 }
 
@@ -8157,6 +8940,222 @@ bool ClientHandlersClient::recv_DisplayHandler_OnConsoleMessage()
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "DisplayHandler_OnConsoleMessage failed: unknown result");
 }
 
+bool ClientHandlersClient::KeyboardHandler_OnPreKeyEvent(const int32_t bid, const  ::thrift_codegen::KeyEvent& event)
+{
+  send_KeyboardHandler_OnPreKeyEvent(bid, event);
+  return recv_KeyboardHandler_OnPreKeyEvent();
+}
+
+void ClientHandlersClient::send_KeyboardHandler_OnPreKeyEvent(const int32_t bid, const  ::thrift_codegen::KeyEvent& event)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("KeyboardHandler_OnPreKeyEvent", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  ClientHandlers_KeyboardHandler_OnPreKeyEvent_pargs args;
+  args.bid = &bid;
+  args.event = &event;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+bool ClientHandlersClient::recv_KeyboardHandler_OnPreKeyEvent()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("KeyboardHandler_OnPreKeyEvent") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  bool _return;
+  ClientHandlers_KeyboardHandler_OnPreKeyEvent_presult result;
+  result.success = &_return;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  if (result.__isset.success) {
+    return _return;
+  }
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "KeyboardHandler_OnPreKeyEvent failed: unknown result");
+}
+
+bool ClientHandlersClient::KeyboardHandler_OnKeyEvent(const int32_t bid, const  ::thrift_codegen::KeyEvent& event)
+{
+  send_KeyboardHandler_OnKeyEvent(bid, event);
+  return recv_KeyboardHandler_OnKeyEvent();
+}
+
+void ClientHandlersClient::send_KeyboardHandler_OnKeyEvent(const int32_t bid, const  ::thrift_codegen::KeyEvent& event)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("KeyboardHandler_OnKeyEvent", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  ClientHandlers_KeyboardHandler_OnKeyEvent_pargs args;
+  args.bid = &bid;
+  args.event = &event;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+bool ClientHandlersClient::recv_KeyboardHandler_OnKeyEvent()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("KeyboardHandler_OnKeyEvent") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  bool _return;
+  ClientHandlers_KeyboardHandler_OnKeyEvent_presult result;
+  result.success = &_return;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  if (result.__isset.success) {
+    return _return;
+  }
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "KeyboardHandler_OnKeyEvent failed: unknown result");
+}
+
+void ClientHandlersClient::FocusHandler_OnTakeFocus(const int32_t bid, const bool next)
+{
+  send_FocusHandler_OnTakeFocus(bid, next);
+}
+
+void ClientHandlersClient::send_FocusHandler_OnTakeFocus(const int32_t bid, const bool next)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("FocusHandler_OnTakeFocus", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  ClientHandlers_FocusHandler_OnTakeFocus_pargs args;
+  args.bid = &bid;
+  args.next = &next;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+bool ClientHandlersClient::FocusHandler_OnSetFocus(const int32_t bid, const std::string& source)
+{
+  send_FocusHandler_OnSetFocus(bid, source);
+  return recv_FocusHandler_OnSetFocus();
+}
+
+void ClientHandlersClient::send_FocusHandler_OnSetFocus(const int32_t bid, const std::string& source)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("FocusHandler_OnSetFocus", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  ClientHandlers_FocusHandler_OnSetFocus_pargs args;
+  args.bid = &bid;
+  args.source = &source;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+bool ClientHandlersClient::recv_FocusHandler_OnSetFocus()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("FocusHandler_OnSetFocus") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  bool _return;
+  ClientHandlers_FocusHandler_OnSetFocus_presult result;
+  result.success = &_return;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  if (result.__isset.success) {
+    return _return;
+  }
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "FocusHandler_OnSetFocus failed: unknown result");
+}
+
+void ClientHandlersClient::FocusHandler_OnGotFocus(const int32_t bid)
+{
+  send_FocusHandler_OnGotFocus(bid);
+}
+
+void ClientHandlersClient::send_FocusHandler_OnGotFocus(const int32_t bid)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("FocusHandler_OnGotFocus", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  ClientHandlers_FocusHandler_OnGotFocus_pargs args;
+  args.bid = &bid;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
 bool ClientHandlersClient::RequestHandler_OnBeforeBrowse(const int32_t bid, const  ::thrift_codegen::RObject& request, const bool user_gesture, const bool is_redirect)
 {
   send_RequestHandler_OnBeforeBrowse(bid, request, user_gesture, is_redirect);
@@ -10152,6 +11151,242 @@ void ClientHandlersProcessor::process_DisplayHandler_OnConsoleMessage(int32_t se
   if (this->eventHandler_.get() != nullptr) {
     this->eventHandler_->postWrite(ctx, "ClientHandlers.DisplayHandler_OnConsoleMessage", bytes);
   }
+}
+
+void ClientHandlersProcessor::process_KeyboardHandler_OnPreKeyEvent(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("ClientHandlers.KeyboardHandler_OnPreKeyEvent", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ClientHandlers.KeyboardHandler_OnPreKeyEvent");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "ClientHandlers.KeyboardHandler_OnPreKeyEvent");
+  }
+
+  ClientHandlers_KeyboardHandler_OnPreKeyEvent_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "ClientHandlers.KeyboardHandler_OnPreKeyEvent", bytes);
+  }
+
+  ClientHandlers_KeyboardHandler_OnPreKeyEvent_result result;
+  try {
+    result.success = iface_->KeyboardHandler_OnPreKeyEvent(args.bid, args.event);
+    result.__isset.success = true;
+  } catch (const std::exception& e) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "ClientHandlers.KeyboardHandler_OnPreKeyEvent");
+    }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("KeyboardHandler_OnPreKeyEvent", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preWrite(ctx, "ClientHandlers.KeyboardHandler_OnPreKeyEvent");
+  }
+
+  oprot->writeMessageBegin("KeyboardHandler_OnPreKeyEvent", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "ClientHandlers.KeyboardHandler_OnPreKeyEvent", bytes);
+  }
+}
+
+void ClientHandlersProcessor::process_KeyboardHandler_OnKeyEvent(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("ClientHandlers.KeyboardHandler_OnKeyEvent", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ClientHandlers.KeyboardHandler_OnKeyEvent");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "ClientHandlers.KeyboardHandler_OnKeyEvent");
+  }
+
+  ClientHandlers_KeyboardHandler_OnKeyEvent_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "ClientHandlers.KeyboardHandler_OnKeyEvent", bytes);
+  }
+
+  ClientHandlers_KeyboardHandler_OnKeyEvent_result result;
+  try {
+    result.success = iface_->KeyboardHandler_OnKeyEvent(args.bid, args.event);
+    result.__isset.success = true;
+  } catch (const std::exception& e) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "ClientHandlers.KeyboardHandler_OnKeyEvent");
+    }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("KeyboardHandler_OnKeyEvent", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preWrite(ctx, "ClientHandlers.KeyboardHandler_OnKeyEvent");
+  }
+
+  oprot->writeMessageBegin("KeyboardHandler_OnKeyEvent", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "ClientHandlers.KeyboardHandler_OnKeyEvent", bytes);
+  }
+}
+
+void ClientHandlersProcessor::process_FocusHandler_OnTakeFocus(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("ClientHandlers.FocusHandler_OnTakeFocus", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ClientHandlers.FocusHandler_OnTakeFocus");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "ClientHandlers.FocusHandler_OnTakeFocus");
+  }
+
+  ClientHandlers_FocusHandler_OnTakeFocus_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "ClientHandlers.FocusHandler_OnTakeFocus", bytes);
+  }
+
+  try {
+    iface_->FocusHandler_OnTakeFocus(args.bid, args.next);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "ClientHandlers.FocusHandler_OnTakeFocus");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "ClientHandlers.FocusHandler_OnTakeFocus");
+  }
+
+  return;
+}
+
+void ClientHandlersProcessor::process_FocusHandler_OnSetFocus(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("ClientHandlers.FocusHandler_OnSetFocus", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ClientHandlers.FocusHandler_OnSetFocus");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "ClientHandlers.FocusHandler_OnSetFocus");
+  }
+
+  ClientHandlers_FocusHandler_OnSetFocus_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "ClientHandlers.FocusHandler_OnSetFocus", bytes);
+  }
+
+  ClientHandlers_FocusHandler_OnSetFocus_result result;
+  try {
+    result.success = iface_->FocusHandler_OnSetFocus(args.bid, args.source);
+    result.__isset.success = true;
+  } catch (const std::exception& e) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "ClientHandlers.FocusHandler_OnSetFocus");
+    }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("FocusHandler_OnSetFocus", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preWrite(ctx, "ClientHandlers.FocusHandler_OnSetFocus");
+  }
+
+  oprot->writeMessageBegin("FocusHandler_OnSetFocus", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "ClientHandlers.FocusHandler_OnSetFocus", bytes);
+  }
+}
+
+void ClientHandlersProcessor::process_FocusHandler_OnGotFocus(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("ClientHandlers.FocusHandler_OnGotFocus", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ClientHandlers.FocusHandler_OnGotFocus");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "ClientHandlers.FocusHandler_OnGotFocus");
+  }
+
+  ClientHandlers_FocusHandler_OnGotFocus_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "ClientHandlers.FocusHandler_OnGotFocus", bytes);
+  }
+
+  try {
+    iface_->FocusHandler_OnGotFocus(args.bid);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "ClientHandlers.FocusHandler_OnGotFocus");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "ClientHandlers.FocusHandler_OnGotFocus");
+  }
+
+  return;
 }
 
 void ClientHandlersProcessor::process_RequestHandler_OnBeforeBrowse(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
@@ -12309,6 +13544,306 @@ bool ClientHandlersConcurrentClient::recv_DisplayHandler_OnConsoleMessage(const 
     // this will temporarily unlock the readMutex, and let other clients get work done
     this->sync_->waitForWork(seqid);
   } // end while(true)
+}
+
+bool ClientHandlersConcurrentClient::KeyboardHandler_OnPreKeyEvent(const int32_t bid, const  ::thrift_codegen::KeyEvent& event)
+{
+  int32_t seqid = send_KeyboardHandler_OnPreKeyEvent(bid, event);
+  return recv_KeyboardHandler_OnPreKeyEvent(seqid);
+}
+
+int32_t ClientHandlersConcurrentClient::send_KeyboardHandler_OnPreKeyEvent(const int32_t bid, const  ::thrift_codegen::KeyEvent& event)
+{
+  int32_t cseqid = this->sync_->generateSeqId();
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("KeyboardHandler_OnPreKeyEvent", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  ClientHandlers_KeyboardHandler_OnPreKeyEvent_pargs args;
+  args.bid = &bid;
+  args.event = &event;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+  return cseqid;
+}
+
+bool ClientHandlersConcurrentClient::recv_KeyboardHandler_OnPreKeyEvent(const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("KeyboardHandler_OnPreKeyEvent") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      bool _return;
+      ClientHandlers_KeyboardHandler_OnPreKeyEvent_presult result;
+      result.success = &_return;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      if (result.__isset.success) {
+        sentry.commit();
+        return _return;
+      }
+      // in a bad state, don't commit
+      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "KeyboardHandler_OnPreKeyEvent failed: unknown result");
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
+}
+
+bool ClientHandlersConcurrentClient::KeyboardHandler_OnKeyEvent(const int32_t bid, const  ::thrift_codegen::KeyEvent& event)
+{
+  int32_t seqid = send_KeyboardHandler_OnKeyEvent(bid, event);
+  return recv_KeyboardHandler_OnKeyEvent(seqid);
+}
+
+int32_t ClientHandlersConcurrentClient::send_KeyboardHandler_OnKeyEvent(const int32_t bid, const  ::thrift_codegen::KeyEvent& event)
+{
+  int32_t cseqid = this->sync_->generateSeqId();
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("KeyboardHandler_OnKeyEvent", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  ClientHandlers_KeyboardHandler_OnKeyEvent_pargs args;
+  args.bid = &bid;
+  args.event = &event;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+  return cseqid;
+}
+
+bool ClientHandlersConcurrentClient::recv_KeyboardHandler_OnKeyEvent(const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("KeyboardHandler_OnKeyEvent") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      bool _return;
+      ClientHandlers_KeyboardHandler_OnKeyEvent_presult result;
+      result.success = &_return;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      if (result.__isset.success) {
+        sentry.commit();
+        return _return;
+      }
+      // in a bad state, don't commit
+      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "KeyboardHandler_OnKeyEvent failed: unknown result");
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
+}
+
+void ClientHandlersConcurrentClient::FocusHandler_OnTakeFocus(const int32_t bid, const bool next)
+{
+  send_FocusHandler_OnTakeFocus(bid, next);
+}
+
+void ClientHandlersConcurrentClient::send_FocusHandler_OnTakeFocus(const int32_t bid, const bool next)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("FocusHandler_OnTakeFocus", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  ClientHandlers_FocusHandler_OnTakeFocus_pargs args;
+  args.bid = &bid;
+  args.next = &next;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
+bool ClientHandlersConcurrentClient::FocusHandler_OnSetFocus(const int32_t bid, const std::string& source)
+{
+  int32_t seqid = send_FocusHandler_OnSetFocus(bid, source);
+  return recv_FocusHandler_OnSetFocus(seqid);
+}
+
+int32_t ClientHandlersConcurrentClient::send_FocusHandler_OnSetFocus(const int32_t bid, const std::string& source)
+{
+  int32_t cseqid = this->sync_->generateSeqId();
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("FocusHandler_OnSetFocus", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  ClientHandlers_FocusHandler_OnSetFocus_pargs args;
+  args.bid = &bid;
+  args.source = &source;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+  return cseqid;
+}
+
+bool ClientHandlersConcurrentClient::recv_FocusHandler_OnSetFocus(const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("FocusHandler_OnSetFocus") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      bool _return;
+      ClientHandlers_FocusHandler_OnSetFocus_presult result;
+      result.success = &_return;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      if (result.__isset.success) {
+        sentry.commit();
+        return _return;
+      }
+      // in a bad state, don't commit
+      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "FocusHandler_OnSetFocus failed: unknown result");
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
+}
+
+void ClientHandlersConcurrentClient::FocusHandler_OnGotFocus(const int32_t bid)
+{
+  send_FocusHandler_OnGotFocus(bid);
+}
+
+void ClientHandlersConcurrentClient::send_FocusHandler_OnGotFocus(const int32_t bid)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("FocusHandler_OnGotFocus", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  ClientHandlers_FocusHandler_OnGotFocus_pargs args;
+  args.bid = &bid;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
 }
 
 bool ClientHandlersConcurrentClient::RequestHandler_OnBeforeBrowse(const int32_t bid, const  ::thrift_codegen::RObject& request, const bool user_gesture, const bool is_redirect)

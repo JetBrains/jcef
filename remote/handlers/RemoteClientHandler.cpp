@@ -7,6 +7,8 @@
 #include "RemoteLifespanHandler.h"
 #include "RemoteLoadHandler.h"
 #include "RemoteRenderHandler.h"
+#include "RemoteKeyboardHandler.h"
+#include "RemoteFocusHandler.h"
 
 RemoteClientHandler::RemoteClientHandler(
     std::shared_ptr<MessageRoutersManager> routersManager,
@@ -21,7 +23,10 @@ RemoteClientHandler::RemoteClientHandler(
       myRemoteLisfespanHandler(new RemoteLifespanHandler(*this)),
       myRemoteLoadHandler(new RemoteLoadHandler(*this)),
       myRemoteDisplayHandler(new RemoteDisplayHandler(*this)),
-      myRemoteRequestHandler(new RemoteRequestHandler(*this)) {}
+      myRemoteRequestHandler(new RemoteRequestHandler(*this)),
+      myRemoteKeyboardHandler(new RemoteKeyboardHandler(*this)),
+      myRemoteFocusHandler(new RemoteFocusHandler(*this))
+{}
 
 CefRefPtr<CefContextMenuHandler> RemoteClientHandler::GetContextMenuHandler() {
     Log::error("UNIMPLEMENTED: RemoteClientHandler::GetContextMenuHandler");
@@ -48,8 +53,7 @@ CefRefPtr<CefDragHandler> RemoteClientHandler::GetDragHandler() {
 }
 
 CefRefPtr<CefFocusHandler> RemoteClientHandler::GetFocusHandler() {
-    Log::error("UNIMPLEMENTED: RemoteClientHandler::GetFocusHandler");
-    return nullptr;
+    return myRemoteFocusHandler;
 }
 
 CefRefPtr<CefPermissionHandler> RemoteClientHandler::GetPermissionHandler() {
@@ -63,8 +67,7 @@ CefRefPtr<CefJSDialogHandler> RemoteClientHandler::GetJSDialogHandler() {
 }
 
 CefRefPtr<CefKeyboardHandler> RemoteClientHandler::GetKeyboardHandler() {
-    Log::error("UNIMPLEMENTED: RemoteClientHandler::GetKeyboardHandler");
-    return nullptr;
+    return myRemoteKeyboardHandler;
 }
 
 CefRefPtr<CefLifeSpanHandler> RemoteClientHandler::GetLifeSpanHandler() {

@@ -125,6 +125,31 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
     printf("DisplayHandler_OnConsoleMessage\n");
   }
 
+  bool KeyboardHandler_OnPreKeyEvent(const int32_t bid, const  ::thrift_codegen::KeyEvent& event) {
+    // Your implementation goes here
+    printf("KeyboardHandler_OnPreKeyEvent\n");
+  }
+
+  bool KeyboardHandler_OnKeyEvent(const int32_t bid, const  ::thrift_codegen::KeyEvent& event) {
+    // Your implementation goes here
+    printf("KeyboardHandler_OnKeyEvent\n");
+  }
+
+  void FocusHandler_OnTakeFocus(const int32_t bid, const bool next) {
+    // Your implementation goes here
+    printf("FocusHandler_OnTakeFocus\n");
+  }
+
+  bool FocusHandler_OnSetFocus(const int32_t bid, const std::string& source) {
+    // Your implementation goes here
+    printf("FocusHandler_OnSetFocus\n");
+  }
+
+  void FocusHandler_OnGotFocus(const int32_t bid) {
+    // Your implementation goes here
+    printf("FocusHandler_OnGotFocus\n");
+  }
+
   bool RequestHandler_OnBeforeBrowse(const int32_t bid, const  ::thrift_codegen::RObject& request, const bool user_gesture, const bool is_redirect) {
     // Your implementation goes here
     printf("RequestHandler_OnBeforeBrowse\n");

@@ -147,6 +147,10 @@ set(SERVER_SOURCES
         browser/ClientsManager.h
         handlers/SharedBufferManager.cpp
         handlers/SharedBufferManager.h
+        handlers/RemoteKeyboardHandler.cpp
+        handlers/RemoteKeyboardHandler.h
+        handlers/RemoteFocusHandler.cpp
+        handlers/RemoteFocusHandler.h
 )
 
 if (OS_WINDOWS)

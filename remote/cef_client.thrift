@@ -91,6 +91,17 @@ service ClientHandlers {
     oneway void DisplayHandler_OnStatusMessage(1: i32 bid, 2: string value),
     bool DisplayHandler_OnConsoleMessage(1: i32 bid, 2: i32 level, 3: string message, 4: string source, 5: i32 line),
     //
+    // CefKeyboardHandler (will be called on the UI thread).
+    //
+    bool KeyboardHandler_OnPreKeyEvent(1: i32 bid, 2: shared.KeyEvent event) // TODO: support bool* is_keyboard_shortcut
+    bool KeyboardHandler_OnKeyEvent(1: i32 bid, 2: shared.KeyEvent event)
+    //
+    // CefFocusHandler (will be called on the UI thread).
+    //
+    oneway void FocusHandler_OnTakeFocus(1: i32 bid, 2: bool next)
+    bool FocusHandler_OnSetFocus(1: i32 bid, 2: string source)
+    oneway void FocusHandler_OnGotFocus(1: i32 bid)
+    //
     // CefRequestHandler
     //
     bool RequestHandler_OnBeforeBrowse(1: i32 bid, 2: shared.RObject request, 3: bool user_gesture, 4: bool is_redirect),

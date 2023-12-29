@@ -27,6 +27,8 @@ class PostDataElement;
 
 class PostData;
 
+class KeyEvent;
+
 typedef struct _RObject__isset {
   _RObject__isset() : isPersistent(false), isDisableDefaultHandling(false), objInfo(false) {}
   bool isPersistent :1;
@@ -210,6 +212,85 @@ class PostData : public virtual ::apache::thrift::TBase {
 void swap(PostData &a, PostData &b);
 
 std::ostream& operator<<(std::ostream& out, const PostData& obj);
+
+
+class KeyEvent : public virtual ::apache::thrift::TBase {
+ public:
+
+  KeyEvent(const KeyEvent&);
+  KeyEvent& operator=(const KeyEvent&);
+  KeyEvent() noexcept
+           : type(),
+             modifiers(0),
+             windows_key_code(0),
+             native_key_code(0),
+             is_system_key(0),
+             character(0),
+             unmodified_character(0),
+             focus_on_editable_field(0) {
+  }
+
+  virtual ~KeyEvent() noexcept;
+  std::string type;
+  int32_t modifiers;
+  int32_t windows_key_code;
+  int32_t native_key_code;
+  bool is_system_key;
+  int16_t character;
+  int16_t unmodified_character;
+  bool focus_on_editable_field;
+
+  void __set_type(const std::string& val);
+
+  void __set_modifiers(const int32_t val);
+
+  void __set_windows_key_code(const int32_t val);
+
+  void __set_native_key_code(const int32_t val);
+
+  void __set_is_system_key(const bool val);
+
+  void __set_character(const int16_t val);
+
+  void __set_unmodified_character(const int16_t val);
+
+  void __set_focus_on_editable_field(const bool val);
+
+  bool operator == (const KeyEvent & rhs) const
+  {
+    if (!(type == rhs.type))
+      return false;
+    if (!(modifiers == rhs.modifiers))
+      return false;
+    if (!(windows_key_code == rhs.windows_key_code))
+      return false;
+    if (!(native_key_code == rhs.native_key_code))
+      return false;
+    if (!(is_system_key == rhs.is_system_key))
+      return false;
+    if (!(character == rhs.character))
+      return false;
+    if (!(unmodified_character == rhs.unmodified_character))
+      return false;
+    if (!(focus_on_editable_field == rhs.focus_on_editable_field))
+      return false;
+    return true;
+  }
+  bool operator != (const KeyEvent &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const KeyEvent & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
+
+  virtual void printTo(std::ostream& out) const;
+};
+
+void swap(KeyEvent &a, KeyEvent &b);
+
+std::ostream& operator<<(std::ostream& out, const KeyEvent& obj);
 
 } // namespace
 

@@ -19,3 +19,14 @@ struct PostData {
     2: required bool hasExcludedElements,
     3: optional list<PostDataElement> elements,
 }
+
+struct KeyEvent {
+    1: required string type,
+    2: required i32 modifiers,
+    3: required i32 windows_key_code,
+    4: required i32 native_key_code,
+    5: required bool is_system_key,
+    6: required i16 character,
+    7: required i16 unmodified_character,
+    8: required bool focus_on_editable_field
+}

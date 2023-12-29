@@ -43,6 +43,11 @@ class ClientHandlersIf {
   virtual bool DisplayHandler_OnTooltip(const int32_t bid, const std::string& text) = 0;
   virtual void DisplayHandler_OnStatusMessage(const int32_t bid, const std::string& value) = 0;
   virtual bool DisplayHandler_OnConsoleMessage(const int32_t bid, const int32_t level, const std::string& message, const std::string& source, const int32_t line) = 0;
+  virtual bool KeyboardHandler_OnPreKeyEvent(const int32_t bid, const  ::thrift_codegen::KeyEvent& event) = 0;
+  virtual bool KeyboardHandler_OnKeyEvent(const int32_t bid, const  ::thrift_codegen::KeyEvent& event) = 0;
+  virtual void FocusHandler_OnTakeFocus(const int32_t bid, const bool next) = 0;
+  virtual bool FocusHandler_OnSetFocus(const int32_t bid, const std::string& source) = 0;
+  virtual void FocusHandler_OnGotFocus(const int32_t bid) = 0;
   virtual bool RequestHandler_OnBeforeBrowse(const int32_t bid, const  ::thrift_codegen::RObject& request, const bool user_gesture, const bool is_redirect) = 0;
   virtual bool RequestHandler_OnOpenURLFromTab(const int32_t bid, const std::string& target_url, const bool user_gesture) = 0;
   virtual bool RequestHandler_GetAuthCredentials(const int32_t bid, const std::string& origin_url, const bool isProxy, const std::string& host, const int32_t port, const std::string& realm, const std::string& scheme, const  ::thrift_codegen::RObject& authCallback) = 0;
@@ -159,6 +164,24 @@ class ClientHandlersNull : virtual public ClientHandlersIf {
   bool DisplayHandler_OnConsoleMessage(const int32_t /* bid */, const int32_t /* level */, const std::string& /* message */, const std::string& /* source */, const int32_t /* line */) override {
     bool _return = false;
     return _return;
+  }
+  bool KeyboardHandler_OnPreKeyEvent(const int32_t /* bid */, const  ::thrift_codegen::KeyEvent& /* event */) override {
+    bool _return = false;
+    return _return;
+  }
+  bool KeyboardHandler_OnKeyEvent(const int32_t /* bid */, const  ::thrift_codegen::KeyEvent& /* event */) override {
+    bool _return = false;
+    return _return;
+  }
+  void FocusHandler_OnTakeFocus(const int32_t /* bid */, const bool /* next */) override {
+    return;
+  }
+  bool FocusHandler_OnSetFocus(const int32_t /* bid */, const std::string& /* source */) override {
+    bool _return = false;
+    return _return;
+  }
+  void FocusHandler_OnGotFocus(const int32_t /* bid */) override {
+    return;
   }
   bool RequestHandler_OnBeforeBrowse(const int32_t /* bid */, const  ::thrift_codegen::RObject& /* request */, const bool /* user_gesture */, const bool /* is_redirect */) override {
     bool _return = false;
@@ -2030,6 +2053,454 @@ class ClientHandlers_DisplayHandler_OnConsoleMessage_presult {
   _ClientHandlers_DisplayHandler_OnConsoleMessage_presult__isset __isset;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _ClientHandlers_KeyboardHandler_OnPreKeyEvent_args__isset {
+  _ClientHandlers_KeyboardHandler_OnPreKeyEvent_args__isset() : bid(false), event(false) {}
+  bool bid :1;
+  bool event :1;
+} _ClientHandlers_KeyboardHandler_OnPreKeyEvent_args__isset;
+
+class ClientHandlers_KeyboardHandler_OnPreKeyEvent_args {
+ public:
+
+  ClientHandlers_KeyboardHandler_OnPreKeyEvent_args(const ClientHandlers_KeyboardHandler_OnPreKeyEvent_args&);
+  ClientHandlers_KeyboardHandler_OnPreKeyEvent_args& operator=(const ClientHandlers_KeyboardHandler_OnPreKeyEvent_args&);
+  ClientHandlers_KeyboardHandler_OnPreKeyEvent_args() noexcept
+                                                    : bid(0) {
+  }
+
+  virtual ~ClientHandlers_KeyboardHandler_OnPreKeyEvent_args() noexcept;
+  int32_t bid;
+   ::thrift_codegen::KeyEvent event;
+
+  _ClientHandlers_KeyboardHandler_OnPreKeyEvent_args__isset __isset;
+
+  void __set_bid(const int32_t val);
+
+  void __set_event(const  ::thrift_codegen::KeyEvent& val);
+
+  bool operator == (const ClientHandlers_KeyboardHandler_OnPreKeyEvent_args & rhs) const
+  {
+    if (!(bid == rhs.bid))
+      return false;
+    if (!(event == rhs.event))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_KeyboardHandler_OnPreKeyEvent_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_KeyboardHandler_OnPreKeyEvent_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_KeyboardHandler_OnPreKeyEvent_pargs {
+ public:
+
+
+  virtual ~ClientHandlers_KeyboardHandler_OnPreKeyEvent_pargs() noexcept;
+  const int32_t* bid;
+  const  ::thrift_codegen::KeyEvent* event;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_KeyboardHandler_OnPreKeyEvent_result__isset {
+  _ClientHandlers_KeyboardHandler_OnPreKeyEvent_result__isset() : success(false) {}
+  bool success :1;
+} _ClientHandlers_KeyboardHandler_OnPreKeyEvent_result__isset;
+
+class ClientHandlers_KeyboardHandler_OnPreKeyEvent_result {
+ public:
+
+  ClientHandlers_KeyboardHandler_OnPreKeyEvent_result(const ClientHandlers_KeyboardHandler_OnPreKeyEvent_result&) noexcept;
+  ClientHandlers_KeyboardHandler_OnPreKeyEvent_result& operator=(const ClientHandlers_KeyboardHandler_OnPreKeyEvent_result&) noexcept;
+  ClientHandlers_KeyboardHandler_OnPreKeyEvent_result() noexcept
+                                                      : success(0) {
+  }
+
+  virtual ~ClientHandlers_KeyboardHandler_OnPreKeyEvent_result() noexcept;
+  bool success;
+
+  _ClientHandlers_KeyboardHandler_OnPreKeyEvent_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const ClientHandlers_KeyboardHandler_OnPreKeyEvent_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_KeyboardHandler_OnPreKeyEvent_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_KeyboardHandler_OnPreKeyEvent_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_KeyboardHandler_OnPreKeyEvent_presult__isset {
+  _ClientHandlers_KeyboardHandler_OnPreKeyEvent_presult__isset() : success(false) {}
+  bool success :1;
+} _ClientHandlers_KeyboardHandler_OnPreKeyEvent_presult__isset;
+
+class ClientHandlers_KeyboardHandler_OnPreKeyEvent_presult {
+ public:
+
+
+  virtual ~ClientHandlers_KeyboardHandler_OnPreKeyEvent_presult() noexcept;
+  bool* success;
+
+  _ClientHandlers_KeyboardHandler_OnPreKeyEvent_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _ClientHandlers_KeyboardHandler_OnKeyEvent_args__isset {
+  _ClientHandlers_KeyboardHandler_OnKeyEvent_args__isset() : bid(false), event(false) {}
+  bool bid :1;
+  bool event :1;
+} _ClientHandlers_KeyboardHandler_OnKeyEvent_args__isset;
+
+class ClientHandlers_KeyboardHandler_OnKeyEvent_args {
+ public:
+
+  ClientHandlers_KeyboardHandler_OnKeyEvent_args(const ClientHandlers_KeyboardHandler_OnKeyEvent_args&);
+  ClientHandlers_KeyboardHandler_OnKeyEvent_args& operator=(const ClientHandlers_KeyboardHandler_OnKeyEvent_args&);
+  ClientHandlers_KeyboardHandler_OnKeyEvent_args() noexcept
+                                                 : bid(0) {
+  }
+
+  virtual ~ClientHandlers_KeyboardHandler_OnKeyEvent_args() noexcept;
+  int32_t bid;
+   ::thrift_codegen::KeyEvent event;
+
+  _ClientHandlers_KeyboardHandler_OnKeyEvent_args__isset __isset;
+
+  void __set_bid(const int32_t val);
+
+  void __set_event(const  ::thrift_codegen::KeyEvent& val);
+
+  bool operator == (const ClientHandlers_KeyboardHandler_OnKeyEvent_args & rhs) const
+  {
+    if (!(bid == rhs.bid))
+      return false;
+    if (!(event == rhs.event))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_KeyboardHandler_OnKeyEvent_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_KeyboardHandler_OnKeyEvent_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_KeyboardHandler_OnKeyEvent_pargs {
+ public:
+
+
+  virtual ~ClientHandlers_KeyboardHandler_OnKeyEvent_pargs() noexcept;
+  const int32_t* bid;
+  const  ::thrift_codegen::KeyEvent* event;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_KeyboardHandler_OnKeyEvent_result__isset {
+  _ClientHandlers_KeyboardHandler_OnKeyEvent_result__isset() : success(false) {}
+  bool success :1;
+} _ClientHandlers_KeyboardHandler_OnKeyEvent_result__isset;
+
+class ClientHandlers_KeyboardHandler_OnKeyEvent_result {
+ public:
+
+  ClientHandlers_KeyboardHandler_OnKeyEvent_result(const ClientHandlers_KeyboardHandler_OnKeyEvent_result&) noexcept;
+  ClientHandlers_KeyboardHandler_OnKeyEvent_result& operator=(const ClientHandlers_KeyboardHandler_OnKeyEvent_result&) noexcept;
+  ClientHandlers_KeyboardHandler_OnKeyEvent_result() noexcept
+                                                   : success(0) {
+  }
+
+  virtual ~ClientHandlers_KeyboardHandler_OnKeyEvent_result() noexcept;
+  bool success;
+
+  _ClientHandlers_KeyboardHandler_OnKeyEvent_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const ClientHandlers_KeyboardHandler_OnKeyEvent_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_KeyboardHandler_OnKeyEvent_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_KeyboardHandler_OnKeyEvent_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_KeyboardHandler_OnKeyEvent_presult__isset {
+  _ClientHandlers_KeyboardHandler_OnKeyEvent_presult__isset() : success(false) {}
+  bool success :1;
+} _ClientHandlers_KeyboardHandler_OnKeyEvent_presult__isset;
+
+class ClientHandlers_KeyboardHandler_OnKeyEvent_presult {
+ public:
+
+
+  virtual ~ClientHandlers_KeyboardHandler_OnKeyEvent_presult() noexcept;
+  bool* success;
+
+  _ClientHandlers_KeyboardHandler_OnKeyEvent_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _ClientHandlers_FocusHandler_OnTakeFocus_args__isset {
+  _ClientHandlers_FocusHandler_OnTakeFocus_args__isset() : bid(false), next(false) {}
+  bool bid :1;
+  bool next :1;
+} _ClientHandlers_FocusHandler_OnTakeFocus_args__isset;
+
+class ClientHandlers_FocusHandler_OnTakeFocus_args {
+ public:
+
+  ClientHandlers_FocusHandler_OnTakeFocus_args(const ClientHandlers_FocusHandler_OnTakeFocus_args&) noexcept;
+  ClientHandlers_FocusHandler_OnTakeFocus_args& operator=(const ClientHandlers_FocusHandler_OnTakeFocus_args&) noexcept;
+  ClientHandlers_FocusHandler_OnTakeFocus_args() noexcept
+                                               : bid(0),
+                                                 next(0) {
+  }
+
+  virtual ~ClientHandlers_FocusHandler_OnTakeFocus_args() noexcept;
+  int32_t bid;
+  bool next;
+
+  _ClientHandlers_FocusHandler_OnTakeFocus_args__isset __isset;
+
+  void __set_bid(const int32_t val);
+
+  void __set_next(const bool val);
+
+  bool operator == (const ClientHandlers_FocusHandler_OnTakeFocus_args & rhs) const
+  {
+    if (!(bid == rhs.bid))
+      return false;
+    if (!(next == rhs.next))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_FocusHandler_OnTakeFocus_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_FocusHandler_OnTakeFocus_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_FocusHandler_OnTakeFocus_pargs {
+ public:
+
+
+  virtual ~ClientHandlers_FocusHandler_OnTakeFocus_pargs() noexcept;
+  const int32_t* bid;
+  const bool* next;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_FocusHandler_OnSetFocus_args__isset {
+  _ClientHandlers_FocusHandler_OnSetFocus_args__isset() : bid(false), source(false) {}
+  bool bid :1;
+  bool source :1;
+} _ClientHandlers_FocusHandler_OnSetFocus_args__isset;
+
+class ClientHandlers_FocusHandler_OnSetFocus_args {
+ public:
+
+  ClientHandlers_FocusHandler_OnSetFocus_args(const ClientHandlers_FocusHandler_OnSetFocus_args&);
+  ClientHandlers_FocusHandler_OnSetFocus_args& operator=(const ClientHandlers_FocusHandler_OnSetFocus_args&);
+  ClientHandlers_FocusHandler_OnSetFocus_args() noexcept
+                                              : bid(0),
+                                                source() {
+  }
+
+  virtual ~ClientHandlers_FocusHandler_OnSetFocus_args() noexcept;
+  int32_t bid;
+  std::string source;
+
+  _ClientHandlers_FocusHandler_OnSetFocus_args__isset __isset;
+
+  void __set_bid(const int32_t val);
+
+  void __set_source(const std::string& val);
+
+  bool operator == (const ClientHandlers_FocusHandler_OnSetFocus_args & rhs) const
+  {
+    if (!(bid == rhs.bid))
+      return false;
+    if (!(source == rhs.source))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_FocusHandler_OnSetFocus_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_FocusHandler_OnSetFocus_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_FocusHandler_OnSetFocus_pargs {
+ public:
+
+
+  virtual ~ClientHandlers_FocusHandler_OnSetFocus_pargs() noexcept;
+  const int32_t* bid;
+  const std::string* source;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_FocusHandler_OnSetFocus_result__isset {
+  _ClientHandlers_FocusHandler_OnSetFocus_result__isset() : success(false) {}
+  bool success :1;
+} _ClientHandlers_FocusHandler_OnSetFocus_result__isset;
+
+class ClientHandlers_FocusHandler_OnSetFocus_result {
+ public:
+
+  ClientHandlers_FocusHandler_OnSetFocus_result(const ClientHandlers_FocusHandler_OnSetFocus_result&) noexcept;
+  ClientHandlers_FocusHandler_OnSetFocus_result& operator=(const ClientHandlers_FocusHandler_OnSetFocus_result&) noexcept;
+  ClientHandlers_FocusHandler_OnSetFocus_result() noexcept
+                                                : success(0) {
+  }
+
+  virtual ~ClientHandlers_FocusHandler_OnSetFocus_result() noexcept;
+  bool success;
+
+  _ClientHandlers_FocusHandler_OnSetFocus_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const ClientHandlers_FocusHandler_OnSetFocus_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_FocusHandler_OnSetFocus_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_FocusHandler_OnSetFocus_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_FocusHandler_OnSetFocus_presult__isset {
+  _ClientHandlers_FocusHandler_OnSetFocus_presult__isset() : success(false) {}
+  bool success :1;
+} _ClientHandlers_FocusHandler_OnSetFocus_presult__isset;
+
+class ClientHandlers_FocusHandler_OnSetFocus_presult {
+ public:
+
+
+  virtual ~ClientHandlers_FocusHandler_OnSetFocus_presult() noexcept;
+  bool* success;
+
+  _ClientHandlers_FocusHandler_OnSetFocus_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _ClientHandlers_FocusHandler_OnGotFocus_args__isset {
+  _ClientHandlers_FocusHandler_OnGotFocus_args__isset() : bid(false) {}
+  bool bid :1;
+} _ClientHandlers_FocusHandler_OnGotFocus_args__isset;
+
+class ClientHandlers_FocusHandler_OnGotFocus_args {
+ public:
+
+  ClientHandlers_FocusHandler_OnGotFocus_args(const ClientHandlers_FocusHandler_OnGotFocus_args&) noexcept;
+  ClientHandlers_FocusHandler_OnGotFocus_args& operator=(const ClientHandlers_FocusHandler_OnGotFocus_args&) noexcept;
+  ClientHandlers_FocusHandler_OnGotFocus_args() noexcept
+                                              : bid(0) {
+  }
+
+  virtual ~ClientHandlers_FocusHandler_OnGotFocus_args() noexcept;
+  int32_t bid;
+
+  _ClientHandlers_FocusHandler_OnGotFocus_args__isset __isset;
+
+  void __set_bid(const int32_t val);
+
+  bool operator == (const ClientHandlers_FocusHandler_OnGotFocus_args & rhs) const
+  {
+    if (!(bid == rhs.bid))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_FocusHandler_OnGotFocus_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_FocusHandler_OnGotFocus_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_FocusHandler_OnGotFocus_pargs {
+ public:
+
+
+  virtual ~ClientHandlers_FocusHandler_OnGotFocus_pargs() noexcept;
+  const int32_t* bid;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
 };
 
@@ -4354,6 +4825,19 @@ class ClientHandlersClient : virtual public ClientHandlersIf {
   bool DisplayHandler_OnConsoleMessage(const int32_t bid, const int32_t level, const std::string& message, const std::string& source, const int32_t line) override;
   void send_DisplayHandler_OnConsoleMessage(const int32_t bid, const int32_t level, const std::string& message, const std::string& source, const int32_t line);
   bool recv_DisplayHandler_OnConsoleMessage();
+  bool KeyboardHandler_OnPreKeyEvent(const int32_t bid, const  ::thrift_codegen::KeyEvent& event) override;
+  void send_KeyboardHandler_OnPreKeyEvent(const int32_t bid, const  ::thrift_codegen::KeyEvent& event);
+  bool recv_KeyboardHandler_OnPreKeyEvent();
+  bool KeyboardHandler_OnKeyEvent(const int32_t bid, const  ::thrift_codegen::KeyEvent& event) override;
+  void send_KeyboardHandler_OnKeyEvent(const int32_t bid, const  ::thrift_codegen::KeyEvent& event);
+  bool recv_KeyboardHandler_OnKeyEvent();
+  void FocusHandler_OnTakeFocus(const int32_t bid, const bool next) override;
+  void send_FocusHandler_OnTakeFocus(const int32_t bid, const bool next);
+  bool FocusHandler_OnSetFocus(const int32_t bid, const std::string& source) override;
+  void send_FocusHandler_OnSetFocus(const int32_t bid, const std::string& source);
+  bool recv_FocusHandler_OnSetFocus();
+  void FocusHandler_OnGotFocus(const int32_t bid) override;
+  void send_FocusHandler_OnGotFocus(const int32_t bid);
   bool RequestHandler_OnBeforeBrowse(const int32_t bid, const  ::thrift_codegen::RObject& request, const bool user_gesture, const bool is_redirect) override;
   void send_RequestHandler_OnBeforeBrowse(const int32_t bid, const  ::thrift_codegen::RObject& request, const bool user_gesture, const bool is_redirect);
   bool recv_RequestHandler_OnBeforeBrowse();
@@ -4445,6 +4929,11 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_DisplayHandler_OnTooltip(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_DisplayHandler_OnStatusMessage(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_DisplayHandler_OnConsoleMessage(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_KeyboardHandler_OnPreKeyEvent(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_KeyboardHandler_OnKeyEvent(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_FocusHandler_OnTakeFocus(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_FocusHandler_OnSetFocus(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_FocusHandler_OnGotFocus(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_RequestHandler_OnBeforeBrowse(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_RequestHandler_OnOpenURLFromTab(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_RequestHandler_GetAuthCredentials(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -4489,6 +4978,11 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["DisplayHandler_OnTooltip"] = &ClientHandlersProcessor::process_DisplayHandler_OnTooltip;
     processMap_["DisplayHandler_OnStatusMessage"] = &ClientHandlersProcessor::process_DisplayHandler_OnStatusMessage;
     processMap_["DisplayHandler_OnConsoleMessage"] = &ClientHandlersProcessor::process_DisplayHandler_OnConsoleMessage;
+    processMap_["KeyboardHandler_OnPreKeyEvent"] = &ClientHandlersProcessor::process_KeyboardHandler_OnPreKeyEvent;
+    processMap_["KeyboardHandler_OnKeyEvent"] = &ClientHandlersProcessor::process_KeyboardHandler_OnKeyEvent;
+    processMap_["FocusHandler_OnTakeFocus"] = &ClientHandlersProcessor::process_FocusHandler_OnTakeFocus;
+    processMap_["FocusHandler_OnSetFocus"] = &ClientHandlersProcessor::process_FocusHandler_OnSetFocus;
+    processMap_["FocusHandler_OnGotFocus"] = &ClientHandlersProcessor::process_FocusHandler_OnGotFocus;
     processMap_["RequestHandler_OnBeforeBrowse"] = &ClientHandlersProcessor::process_RequestHandler_OnBeforeBrowse;
     processMap_["RequestHandler_OnOpenURLFromTab"] = &ClientHandlersProcessor::process_RequestHandler_OnOpenURLFromTab;
     processMap_["RequestHandler_GetAuthCredentials"] = &ClientHandlersProcessor::process_RequestHandler_GetAuthCredentials;
@@ -4728,6 +5222,51 @@ class ClientHandlersMultiface : virtual public ClientHandlersIf {
       ifaces_[i]->DisplayHandler_OnConsoleMessage(bid, level, message, source, line);
     }
     return ifaces_[i]->DisplayHandler_OnConsoleMessage(bid, level, message, source, line);
+  }
+
+  bool KeyboardHandler_OnPreKeyEvent(const int32_t bid, const  ::thrift_codegen::KeyEvent& event) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->KeyboardHandler_OnPreKeyEvent(bid, event);
+    }
+    return ifaces_[i]->KeyboardHandler_OnPreKeyEvent(bid, event);
+  }
+
+  bool KeyboardHandler_OnKeyEvent(const int32_t bid, const  ::thrift_codegen::KeyEvent& event) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->KeyboardHandler_OnKeyEvent(bid, event);
+    }
+    return ifaces_[i]->KeyboardHandler_OnKeyEvent(bid, event);
+  }
+
+  void FocusHandler_OnTakeFocus(const int32_t bid, const bool next) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->FocusHandler_OnTakeFocus(bid, next);
+    }
+    ifaces_[i]->FocusHandler_OnTakeFocus(bid, next);
+  }
+
+  bool FocusHandler_OnSetFocus(const int32_t bid, const std::string& source) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->FocusHandler_OnSetFocus(bid, source);
+    }
+    return ifaces_[i]->FocusHandler_OnSetFocus(bid, source);
+  }
+
+  void FocusHandler_OnGotFocus(const int32_t bid) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->FocusHandler_OnGotFocus(bid);
+    }
+    ifaces_[i]->FocusHandler_OnGotFocus(bid);
   }
 
   bool RequestHandler_OnBeforeBrowse(const int32_t bid, const  ::thrift_codegen::RObject& request, const bool user_gesture, const bool is_redirect) override {
@@ -4999,6 +5538,19 @@ class ClientHandlersConcurrentClient : virtual public ClientHandlersIf {
   bool DisplayHandler_OnConsoleMessage(const int32_t bid, const int32_t level, const std::string& message, const std::string& source, const int32_t line) override;
   int32_t send_DisplayHandler_OnConsoleMessage(const int32_t bid, const int32_t level, const std::string& message, const std::string& source, const int32_t line);
   bool recv_DisplayHandler_OnConsoleMessage(const int32_t seqid);
+  bool KeyboardHandler_OnPreKeyEvent(const int32_t bid, const  ::thrift_codegen::KeyEvent& event) override;
+  int32_t send_KeyboardHandler_OnPreKeyEvent(const int32_t bid, const  ::thrift_codegen::KeyEvent& event);
+  bool recv_KeyboardHandler_OnPreKeyEvent(const int32_t seqid);
+  bool KeyboardHandler_OnKeyEvent(const int32_t bid, const  ::thrift_codegen::KeyEvent& event) override;
+  int32_t send_KeyboardHandler_OnKeyEvent(const int32_t bid, const  ::thrift_codegen::KeyEvent& event);
+  bool recv_KeyboardHandler_OnKeyEvent(const int32_t seqid);
+  void FocusHandler_OnTakeFocus(const int32_t bid, const bool next) override;
+  void send_FocusHandler_OnTakeFocus(const int32_t bid, const bool next);
+  bool FocusHandler_OnSetFocus(const int32_t bid, const std::string& source) override;
+  int32_t send_FocusHandler_OnSetFocus(const int32_t bid, const std::string& source);
+  bool recv_FocusHandler_OnSetFocus(const int32_t seqid);
+  void FocusHandler_OnGotFocus(const int32_t bid) override;
+  void send_FocusHandler_OnGotFocus(const int32_t bid);
   bool RequestHandler_OnBeforeBrowse(const int32_t bid, const  ::thrift_codegen::RObject& request, const bool user_gesture, const bool is_redirect) override;
   int32_t send_RequestHandler_OnBeforeBrowse(const int32_t bid, const  ::thrift_codegen::RObject& request, const bool user_gesture, const bool is_redirect);
   bool recv_RequestHandler_OnBeforeBrowse(const int32_t seqid);

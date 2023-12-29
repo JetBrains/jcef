@@ -45,7 +45,7 @@ public interface CefKeyboardHandler {
             KEYEVENT_CHAR
         }
 
-        CefKeyEvent(EventType typeAttr, int modifiersAttr, int windows_key_codeAttr,
+        public CefKeyEvent(EventType typeAttr, int modifiersAttr, int windows_key_codeAttr,
                 int native_key_codeAttr, boolean is_system_keyAttr, char characterAttr,
                 char unmodified_characterAttr, boolean focus_on_editable_fieldAttr) {
             type = typeAttr;
