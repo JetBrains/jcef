@@ -19,7 +19,7 @@ bool RemoteLifespanHandler::OnBeforePopup(
     CefRefPtr<CefDictionaryValue>& extra_info,
     bool* no_javascript_access)
 {
-  LNDCT();
+  //LNDCT();
   return myOwner.exec<bool>([&](const RpcExecutor::Service& s){
     // TODO: support other params and return values
     Log::error("Unimplemented some params transferring");

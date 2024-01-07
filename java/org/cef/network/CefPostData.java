@@ -14,7 +14,7 @@ import java.util.Vector;
  */
 public abstract class CefPostData extends CefNativeAdapter {
     // This CTOR can't be called directly. Call method create() instead.
-    CefPostData() {}
+    protected CefPostData() {}
 
     @Override
     protected void finalize() throws Throwable {

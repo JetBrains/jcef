@@ -10,6 +10,7 @@ export JB_TOOLS_DIR="$JCEF_ROOT_DIR"/jb/tools
 export JB_TOOLS_OS_DIR="$JB_TOOLS_DIR"/mac
 export OUT_CLS_DIR="$JCEF_ROOT_DIR"/jcef_build/native/${CEF_BUILD_TYPE}
 export OUT_NATIVE_DIR="$JCEF_ROOT_DIR"/jcef_build/native/${CEF_BUILD_TYPE}
+export OUT_REMOTE_DIR="$JCEF_ROOT_DIR"/jcef_build/remote/Release
 export OS=macosx
 export DEPS_ARCH=universal
 

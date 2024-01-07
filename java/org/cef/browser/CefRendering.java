@@ -36,7 +36,7 @@ public abstract class CefRendering {
             osrComponent_ = osrComponent;
         }
 
-        CefRenderHandler getRenderHandler() {
+        public CefRenderHandler getRenderHandler() {
             return renderHandler_;
         }
 

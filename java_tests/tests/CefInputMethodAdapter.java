@@ -23,7 +23,6 @@ public class CefInputMethodAdapter implements InputMethodRequests, InputMethodLi
     private final JComponent myComponent;
 
     private volatile String mySelectedText = "";
-    private volatile CefRange myReplacementRange = new CefRange(0, 0);
     private volatile Rectangle[] myCharacterBounds = {};
 
     public CefInputMethodAdapter(CefBrowser browser, JComponent component) {
@@ -50,8 +49,8 @@ public class CefInputMethodAdapter implements InputMethodRequests, InputMethodLi
             }
 
             String committedText = textBuffer.toString();
-            CefLog.Debug("Browser::ImeCommitText(text=" + committedText + ", selectionRange=" + myReplacementRange + ", relativeCursorPos=0)");
-            myBrowser.ImeCommitText(committedText, myReplacementRange, 0);
+            CefLog.Debug("Browser::ImeCommitText(text=" + committedText + ", selectionRange=" + new CefRange(-1, -1) + ", relativeCursorPos=0)");
+            myBrowser.ImeCommitText(committedText, new CefRange(-1, -1), 0);
         }
 
         StringBuilder textBuffer = new StringBuilder();
@@ -63,12 +62,12 @@ public class CefInputMethodAdapter implements InputMethodRequests, InputMethodLi
         var compositionText = textBuffer.toString();
         if (!compositionText.isEmpty()) {
             CefRange selectionRange = new CefRange(compositionText.length(), compositionText.length());
-            CefLog.Debug("Browser::ImeSetComposition(text='" + compositionText + "', replacementRange=" + myReplacementRange + ", selectionRange=" + myReplacementRange + ")");
+            CefLog.Debug("Browser::ImeSetComposition(text='" + compositionText + "', replacementRange=" + new CefRange(-1, -1) + ", selectionRange=" + new CefRange(-1, -1) + ")");
             Color color = new Color(0, true);
             List<CefCompositionUnderline> underlines = new ArrayList<>();
             underlines.add(new CefCompositionUnderline(
                     new CefRange(0, compositionText.length()), color, color, 0, CefCompositionUnderline.Style.SOLID));
-            myBrowser.ImeSetComposition(compositionText, underlines, myReplacementRange, selectionRange);
+            myBrowser.ImeSetComposition(compositionText, underlines, new CefRange(-1, -1), new CefRange(-1, -1));
         }
         event.consume();
     }
@@ -149,13 +148,11 @@ public class CefInputMethodAdapter implements InputMethodRequests, InputMethodLi
 
     public void OnImeCompositionRangeChanged(CefRange selectionRange, Rectangle[] characterBounds) {
         CefLog.Debug("CefRenderHandler::OnImeCompositionRangeChanged(selectionRange=" + selectionRange + ", characterBounds=" + Arrays.toString(characterBounds) + ")");
-        this.myReplacementRange = selectionRange;
         this.myCharacterBounds = characterBounds;
     }
 
     public void OnTextSelectionChanged(String selectedText, CefRange selectionRange) {
         CefLog.Debug("CefRenderHandler::OnTextSelectionChanged(selectionText=" + selectedText + ", " + "selectionRange=" + selectionRange + ")");
-        this.myReplacementRange = selectionRange;
         this.mySelectedText = selectedText;
     }
 }

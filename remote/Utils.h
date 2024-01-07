@@ -18,7 +18,7 @@ class RpcExecutor {
   T exec(std::function<T(Service)> rpc, T defVal) {
     std::unique_lock<std::recursive_mutex> lock(myMutex);
     if (myService == nullptr) {
-      Log::error("null remote service");
+      //Log::debug("null remote service");
       return defVal;
     }
     try {

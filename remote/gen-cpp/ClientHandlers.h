@@ -29,7 +29,7 @@ class ClientHandlersIf {
   virtual void RenderHandler_GetViewRect(Rect& _return, const int32_t bid) = 0;
   virtual void RenderHandler_GetScreenInfo(ScreenInfo& _return, const int32_t bid) = 0;
   virtual void RenderHandler_GetScreenPoint(Point& _return, const int32_t bid, const int32_t viewX, const int32_t viewY) = 0;
-  virtual void RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const bool recreateHandle, const int32_t width, const int32_t height) = 0;
+  virtual void RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const int32_t width, const int32_t height) = 0;
   virtual bool LifeSpanHandler_OnBeforePopup(const int32_t bid, const std::string& url, const std::string& frameName, const bool gesture) = 0;
   virtual void LifeSpanHandler_OnAfterCreated(const int32_t bid) = 0;
   virtual bool LifeSpanHandler_DoClose(const int32_t bid) = 0;
@@ -114,7 +114,7 @@ class ClientHandlersNull : virtual public ClientHandlersIf {
   void RenderHandler_GetScreenPoint(Point& /* _return */, const int32_t /* bid */, const int32_t /* viewX */, const int32_t /* viewY */) override {
     return;
   }
-  void RenderHandler_OnPaint(const int32_t /* bid */, const bool /* popup */, const int32_t /* dirtyRectsCount */, const std::string& /* sharedMemName */, const int64_t /* sharedMemHandle */, const bool /* recreateHandle */, const int32_t /* width */, const int32_t /* height */) override {
+  void RenderHandler_OnPaint(const int32_t /* bid */, const bool /* popup */, const int32_t /* dirtyRectsCount */, const std::string& /* sharedMemName */, const int64_t /* sharedMemHandle */, const int32_t /* width */, const int32_t /* height */) override {
     return;
   }
   bool LifeSpanHandler_OnBeforePopup(const int32_t /* bid */, const std::string& /* url */, const std::string& /* frameName */, const bool /* gesture */) override {
@@ -873,13 +873,12 @@ class ClientHandlers_RenderHandler_GetScreenPoint_presult {
 };
 
 typedef struct _ClientHandlers_RenderHandler_OnPaint_args__isset {
-  _ClientHandlers_RenderHandler_OnPaint_args__isset() : bid(false), popup(false), dirtyRectsCount(false), sharedMemName(false), sharedMemHandle(false), recreateHandle(false), width(false), height(false) {}
+  _ClientHandlers_RenderHandler_OnPaint_args__isset() : bid(false), popup(false), dirtyRectsCount(false), sharedMemName(false), sharedMemHandle(false), width(false), height(false) {}
   bool bid :1;
   bool popup :1;
   bool dirtyRectsCount :1;
   bool sharedMemName :1;
   bool sharedMemHandle :1;
-  bool recreateHandle :1;
   bool width :1;
   bool height :1;
 } _ClientHandlers_RenderHandler_OnPaint_args__isset;
@@ -895,7 +894,6 @@ class ClientHandlers_RenderHandler_OnPaint_args {
                                               dirtyRectsCount(0),
                                               sharedMemName(),
                                               sharedMemHandle(0),
-                                              recreateHandle(0),
                                               width(0),
                                               height(0) {
   }
@@ -906,7 +904,6 @@ class ClientHandlers_RenderHandler_OnPaint_args {
   int32_t dirtyRectsCount;
   std::string sharedMemName;
   int64_t sharedMemHandle;
-  bool recreateHandle;
   int32_t width;
   int32_t height;
 
@@ -921,8 +918,6 @@ class ClientHandlers_RenderHandler_OnPaint_args {
   void __set_sharedMemName(const std::string& val);
 
   void __set_sharedMemHandle(const int64_t val);
-
-  void __set_recreateHandle(const bool val);
 
   void __set_width(const int32_t val);
 
@@ -939,8 +934,6 @@ class ClientHandlers_RenderHandler_OnPaint_args {
     if (!(sharedMemName == rhs.sharedMemName))
       return false;
     if (!(sharedMemHandle == rhs.sharedMemHandle))
-      return false;
-    if (!(recreateHandle == rhs.recreateHandle))
       return false;
     if (!(width == rhs.width))
       return false;
@@ -970,7 +963,6 @@ class ClientHandlers_RenderHandler_OnPaint_pargs {
   const int32_t* dirtyRectsCount;
   const std::string* sharedMemName;
   const int64_t* sharedMemHandle;
-  const bool* recreateHandle;
   const int32_t* width;
   const int32_t* height;
 
@@ -3909,6 +3901,43 @@ class ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_pargs {
 
 };
 
+
+class ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_result {
+ public:
+
+  ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_result(const ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_result&) noexcept;
+  ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_result& operator=(const ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_result&) noexcept;
+  ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_result() noexcept {
+  }
+
+  virtual ~ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_result() noexcept;
+
+  bool operator == (const ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_result & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_presult {
+ public:
+
+
+  virtual ~ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_presult() noexcept;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
 typedef struct _ClientHandlers_ResourceRequestHandler_OnProtocolExecution_args__isset {
   _ClientHandlers_ResourceRequestHandler_OnProtocolExecution_args__isset() : rrHandler(false), bid(false), request(false), allowOsExecution(false) {}
   bool rrHandler :1;
@@ -4292,8 +4321,8 @@ class ClientHandlersClient : virtual public ClientHandlersIf {
   void RenderHandler_GetScreenPoint(Point& _return, const int32_t bid, const int32_t viewX, const int32_t viewY) override;
   void send_RenderHandler_GetScreenPoint(const int32_t bid, const int32_t viewX, const int32_t viewY);
   void recv_RenderHandler_GetScreenPoint(Point& _return);
-  void RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const bool recreateHandle, const int32_t width, const int32_t height) override;
-  void send_RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const bool recreateHandle, const int32_t width, const int32_t height);
+  void RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const int32_t width, const int32_t height) override;
+  void send_RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const int32_t width, const int32_t height);
   void recv_RenderHandler_OnPaint();
   bool LifeSpanHandler_OnBeforePopup(const int32_t bid, const std::string& url, const std::string& frameName, const bool gesture) override;
   void send_LifeSpanHandler_OnBeforePopup(const int32_t bid, const std::string& url, const std::string& frameName, const bool gesture);
@@ -4371,6 +4400,7 @@ class ClientHandlersClient : virtual public ClientHandlersIf {
   bool recv_ResourceRequestHandler_OnResourceResponse();
   void ResourceRequestHandler_OnResourceLoadComplete(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& response, const std::string& status, const int64_t receivedContentLength) override;
   void send_ResourceRequestHandler_OnResourceLoadComplete(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& response, const std::string& status, const int64_t receivedContentLength);
+  void recv_ResourceRequestHandler_OnResourceLoadComplete();
   bool ResourceRequestHandler_OnProtocolExecution(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const bool allowOsExecution) override;
   void send_ResourceRequestHandler_OnProtocolExecution(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const bool allowOsExecution);
   bool recv_ResourceRequestHandler_OnProtocolExecution();
@@ -4574,13 +4604,13 @@ class ClientHandlersMultiface : virtual public ClientHandlersIf {
     return;
   }
 
-  void RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const bool recreateHandle, const int32_t width, const int32_t height) override {
+  void RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const int32_t width, const int32_t height) override {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->RenderHandler_OnPaint(bid, popup, dirtyRectsCount, sharedMemName, sharedMemHandle, recreateHandle, width, height);
+      ifaces_[i]->RenderHandler_OnPaint(bid, popup, dirtyRectsCount, sharedMemName, sharedMemHandle, width, height);
     }
-    ifaces_[i]->RenderHandler_OnPaint(bid, popup, dirtyRectsCount, sharedMemName, sharedMemHandle, recreateHandle, width, height);
+    ifaces_[i]->RenderHandler_OnPaint(bid, popup, dirtyRectsCount, sharedMemName, sharedMemHandle, width, height);
   }
 
   bool LifeSpanHandler_OnBeforePopup(const int32_t bid, const std::string& url, const std::string& frameName, const bool gesture) override {
@@ -4936,8 +4966,8 @@ class ClientHandlersConcurrentClient : virtual public ClientHandlersIf {
   void RenderHandler_GetScreenPoint(Point& _return, const int32_t bid, const int32_t viewX, const int32_t viewY) override;
   int32_t send_RenderHandler_GetScreenPoint(const int32_t bid, const int32_t viewX, const int32_t viewY);
   void recv_RenderHandler_GetScreenPoint(Point& _return, const int32_t seqid);
-  void RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const bool recreateHandle, const int32_t width, const int32_t height) override;
-  int32_t send_RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const bool recreateHandle, const int32_t width, const int32_t height);
+  void RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const int32_t width, const int32_t height) override;
+  int32_t send_RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const int32_t width, const int32_t height);
   void recv_RenderHandler_OnPaint(const int32_t seqid);
   bool LifeSpanHandler_OnBeforePopup(const int32_t bid, const std::string& url, const std::string& frameName, const bool gesture) override;
   int32_t send_LifeSpanHandler_OnBeforePopup(const int32_t bid, const std::string& url, const std::string& frameName, const bool gesture);
@@ -5014,7 +5044,8 @@ class ClientHandlersConcurrentClient : virtual public ClientHandlersIf {
   int32_t send_ResourceRequestHandler_OnResourceResponse(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& response);
   bool recv_ResourceRequestHandler_OnResourceResponse(const int32_t seqid);
   void ResourceRequestHandler_OnResourceLoadComplete(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& response, const std::string& status, const int64_t receivedContentLength) override;
-  void send_ResourceRequestHandler_OnResourceLoadComplete(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& response, const std::string& status, const int64_t receivedContentLength);
+  int32_t send_ResourceRequestHandler_OnResourceLoadComplete(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& response, const std::string& status, const int64_t receivedContentLength);
+  void recv_ResourceRequestHandler_OnResourceLoadComplete(const int32_t seqid);
   bool ResourceRequestHandler_OnProtocolExecution(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const bool allowOsExecution) override;
   int32_t send_ResourceRequestHandler_OnProtocolExecution(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const bool allowOsExecution);
   bool recv_ResourceRequestHandler_OnProtocolExecution(const int32_t seqid);

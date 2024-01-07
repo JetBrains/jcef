@@ -4,6 +4,10 @@
 
 package org.cef.browser;
 
+import com.jetbrains.cef.remote.CefServer;
+import com.jetbrains.cef.remote.router.RemoteMessageRouter;
+import com.jetbrains.cef.remote.router.RemoteMessageRouterImpl;
+import org.cef.CefApp;
 import org.cef.callback.CefNativeAdapter;
 import org.cef.handler.CefMessageRouterHandler;
 
@@ -173,7 +177,9 @@ public abstract class CefMessageRouter extends CefNativeAdapter {
     }
 
     // This CTOR can't be called directly. Call method create() instead.
-    CefMessageRouter() {}
+    protected CefMessageRouter() {}
+
+    protected CefMessageRouter(CefMessageRouterConfig config) { routerConfig_ = config; }
 
     @Override
     protected void finalize() throws Throwable {
@@ -209,7 +215,9 @@ public abstract class CefMessageRouter extends CefNativeAdapter {
      */
     public static final CefMessageRouter create(
             CefMessageRouterConfig config, CefMessageRouterHandler handler) {
-        CefMessageRouter_N router = new CefMessageRouter_N(config);
+        CefMessageRouter router = CefApp.isRemoteEnabled() ?
+                new RemoteMessageRouter(config)
+                : new CefMessageRouter_N(config);
         if (handler != null) router.addHandler(handler, true);
         return router;
     }

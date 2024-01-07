@@ -7,7 +7,9 @@
 
 RemoteMessageRouter::RemoteMessageRouter(std::shared_ptr<RpcExecutor> service, int id, CefRefPtr<CefMessageRouter> delegate, CefMessageRouterConfig config)
     : RemoteServerObject<RemoteMessageRouter, CefMessageRouter>(service, id, delegate), myConfig(config) {
+#ifdef TRACE
     LogNdc ndc(string_format("Create router <%s | %s>", config.js_query_function.ToString().c_str(), config.js_cancel_function.ToString().c_str()), "", 0, true);
+#endif
 }
 
 RemoteMessageRouter * RemoteMessageRouter::create(std::shared_ptr<RpcExecutor> service, CefRefPtr<CefMessageRouter> delegate, CefMessageRouterConfig config) {

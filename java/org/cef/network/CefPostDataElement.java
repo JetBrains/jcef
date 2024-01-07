@@ -21,7 +21,7 @@ public abstract class CefPostDataElement extends CefNativeAdapter {
     }
 
     // This CTOR can't be called directly. Call method create() instead.
-    CefPostDataElement() {}
+    protected CefPostDataElement() {}
 
     @Override
     protected void finalize() throws Throwable {

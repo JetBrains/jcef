@@ -59,7 +59,7 @@ service ClientHandlers {
     Rect RenderHandler_GetViewRect(1: i32 bid),
     ScreenInfo RenderHandler_GetScreenInfo(1: i32 bid),
     Point RenderHandler_GetScreenPoint(1: i32 bid, 2: i32 viewX, 3: i32 viewY),
-    void RenderHandler_OnPaint(1: i32 bid, 2: bool popup, 3: i32 dirtyRectsCount, 4: string sharedMemName, 5: i64 sharedMemHandle, 6: bool recreateHandle, 7: i32 width, 8: i32 height),
+    void RenderHandler_OnPaint(1: i32 bid, 2: bool popup, 3: i32 dirtyRectsCount, 4: string sharedMemName, 5: i64 sharedMemHandle, 6: i32 width, 7: i32 height),
     // TODO: implement
     // OnPopupShow(1:i32 bid, bool show)
     // OnPopupSize(1:i32 bid, const CefRect& rect)
@@ -117,7 +117,7 @@ service ClientHandlers {
     //void ResourceHandler_Cancel()
     string ResourceRequestHandler_OnResourceRedirect(1: i32 rrHandler, 2: i32 bid, 3: shared.RObject request, 4: shared.RObject response, 5: string new_url),
     bool ResourceRequestHandler_OnResourceResponse(1: i32 rrHandler, 2: i32 bid, 3: shared.RObject request, 4: shared.RObject response),
-    oneway void ResourceRequestHandler_OnResourceLoadComplete(1: i32 rrHandler, 2: i32 bid, 3: shared.RObject request, 4: shared.RObject response, 5: string status, 6: i64 receivedContentLength),
+    void ResourceRequestHandler_OnResourceLoadComplete(1: i32 rrHandler, 2: i32 bid, 3: shared.RObject request, 4: shared.RObject response, 5: string status, 6: i64 receivedContentLength),
     bool ResourceRequestHandler_OnProtocolExecution(1: i32 rrHandler, 2: i32 bid, 3: shared.RObject request, 4: bool allowOsExecution),
     //
     // CefMessageRouter

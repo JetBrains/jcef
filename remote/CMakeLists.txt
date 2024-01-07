@@ -26,18 +26,18 @@ foreach (FILE ${THRIFT_FILES})
         message(FATAL_ERROR "Failed to compile ${FILE}: ${thrift_result}")
     endif ()
 
-#    message(STATUS "Compile ${FILE} to Java...")
-#    execute_process(
-#            COMMAND ${THRIFT_COMPILER_HOST} --gen java:generated_annotations=suppress -out ${CMAKE_SOURCE_DIR}/java ${CMAKE_CURRENT_SOURCE_DIR}/${FILE}
-#            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/java
-#            RESULT_VARIABLE thrift_result
-#    )
-#    if (thrift_result AND NOT STATUS EQUAL 0)
-#        message(FATAL_ERROR "Failed to compile ${FILE}: ${thrift_result}")
-#    endif ()
+    message(STATUS "Compile ${FILE} to Java...")
+    execute_process(
+            COMMAND ${THRIFT_COMPILER_HOST} --gen java:generated_annotations=suppress -out ${CMAKE_SOURCE_DIR}/java ${CMAKE_CURRENT_SOURCE_DIR}/${FILE}
+            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/java
+            RESULT_VARIABLE thrift_result
+    )
+    if (thrift_result AND NOT STATUS EQUAL 0)
+        message(FATAL_ERROR "Failed to compile ${FILE}: ${thrift_result}")
+    endif ()
 endforeach ()
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 include_directories(${Boost_INCLUDE_DIRS})
 
 if (OS_WINDOWS)
@@ -145,7 +145,9 @@ set(SERVER_SOURCES
         router/RemoteQueryCallback.h
         browser/ClientsManager.cpp
         browser/ClientsManager.h
-        )
+        handlers/SharedBufferManager.cpp
+        handlers/SharedBufferManager.h
+)
 
 if (OS_WINDOWS)
     list(APPEND SERVER_SOURCES CppServerWin.cpp)
@@ -164,6 +166,7 @@ if (OS_LINUX)
 endif ()
 
 target_include_directories(${EXECUTABLE_NAME} PRIVATE ${CEF_INCLUDE_PATH})
+
 if (OS_WINDOWS)
     add_logical_target("libcef_lib" "${CEF_LIB_DEBUG}" "${CEF_LIB_RELEASE}")
     target_link_libraries(${EXECUTABLE_NAME} libcef_lib ${Boost_FILESYSTEM_LIBRARY})

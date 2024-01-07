@@ -4,6 +4,7 @@
 
 package org.cef.handler;
 
+import com.jetbrains.cef.remote.CefServer;
 import org.cef.CefApp;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefMessageRouter;
@@ -21,6 +22,8 @@ public abstract class CefClientHandler extends CefNativeAdaperMulti implements C
 
     @Override
     public void stateHasChanged(CefApp.CefAppState state) {
+        if (CefApp.isRemoteEnabled())
+            return;
         if (CefApp.CefAppState.INITIALIZED == state) {
             synchronized (this) {
                 try {
@@ -35,6 +38,8 @@ public abstract class CefClientHandler extends CefNativeAdaperMulti implements C
     }
 
     protected void dispose() {
+        if (CefApp.isRemoteEnabled())
+            return;
         try {
             // Call native DTOR if handler will be destroyed
             for (int i = 0; i < msgRouters.size(); i++) {

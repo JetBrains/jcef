@@ -2,6 +2,8 @@
 #include "../log/Log.h"
 #include "../router/MessageRoutersManager.h"
 
+#define LNDCT()
+
 RemoteBrowserProcessHandler::RemoteBrowserProcessHandler() : myService(nullptr) {}
 
 RemoteBrowserProcessHandler::~RemoteBrowserProcessHandler() {

@@ -66,10 +66,13 @@ int32_t ServerHandler::connect(
 }
 
 int32_t ServerHandler::createBrowser(int cid, const std::string& url) {
-  return myClientsManager->createBrowser(cid, myService, myRoutersManager, url);
+  int32_t result = myClientsManager->createBrowser(cid, myService, myRoutersManager, url);
+  Log::debug("Created remote browser cid=%d, bid=%d", cid, result);
+  return result;
 }
 
 void ServerHandler::closeBrowser(const int32_t bid) {
+  Log::debug("Close remote browser bid=%d", bid);
   myClientsManager->closeBrowser(bid);
 }
 

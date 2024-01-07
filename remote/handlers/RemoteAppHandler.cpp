@@ -1,6 +1,8 @@
 #include "RemoteAppHandler.h"
 #include "../log/Log.h"
 
+#define LNDCT()
+
 using namespace thrift_codegen;
 
 RemoteAppHandler& RemoteAppHandler::instance() {

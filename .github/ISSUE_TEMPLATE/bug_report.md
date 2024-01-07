@@ -23,14 +23,14 @@ A clear and concise description of what you expected to happen and what happened
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
-**Versions (please complete the following information):**
- - OS: [e.g. Windows 10, MacOS 13.2, Ubuntu 22.10]
- - JetBrains Runtime version: [example 17.0.8+7-b1000.22 aarch64. In a JetBrains IDEs it can be copied from `About IntelliJ IDEA`, `About Clion` etc.]
- - CPU: [put here CPU architecture like arm64, M1, M2, x86, etc.]
- - Is OSR enabled: [Yes/No]
- - JCEF Version: [e.g. 87476e9]
- - CEF Version: [e.g. 110.0.25]
- - Additional info: [Anything you think might be important in your environment. For example, in the case of graphics problems, you can tell us the number of monitors you are using, their resolutions and scaling factors]
+**Version and environment:**
+ - OS: [put here the OS name and version(e.g. macOS 13.4.1 , Ubuntu 22.10, Windows 11)]
+ - JetBrains Runtime version: [example 17.0.8+7-b1000.22 aarch64. In a JetBrains IDEs it can be copied from `About IntelliJ IDEA`, `About Clion` etc.] 
+- CPU: [put here CPU architecture like arm64, M1, M2, x86, etc.]
+- JCEF Version: [e.g. 87476e9]
+- CEF Version: [e.g. 110.0.25]
+- Is OSR enabled: [Yes/No]
+- Additional info: [Anything you think might be important in your environment. For example, in the case of graphics problems, you can tell us the number of monitors you are using, their resolutions and scaling factors]
 
 **Additional context**
 Does the problem reproduce with the JCEF simple or detailed sample application at the same version?

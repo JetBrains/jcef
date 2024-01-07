@@ -231,9 +231,6 @@ if(OS_LINUX)
   # e.g. allows JCEF to work on CentOS 7 while being built by a compiler with newer libstdc++
   add_link_options(-static-libstdc++)
 
-  # Find required libraries and update compiler/linker variables.
-  FIND_LINUX_LIBRARIES("gmodule-2.0 gtk+-2.0 gthread-2.0")
-
   # Helper executable target.
   add_executable(${JCEF_HELPER_TARGET} ${JCEF_HELPER_SRCS})
   SET_EXECUTABLE_TARGET_PROPERTIES(${JCEF_HELPER_TARGET})

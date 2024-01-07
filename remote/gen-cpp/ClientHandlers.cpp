@@ -1246,14 +1246,6 @@ uint32_t ClientHandlers_RenderHandler_OnPaint_args::read(::apache::thrift::proto
         }
         break;
       case 6:
-        if (ftype == ::apache::thrift::protocol::T_BOOL) {
-          xfer += iprot->readBool(this->recreateHandle);
-          this->__isset.recreateHandle = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 7:
         if (ftype == ::apache::thrift::protocol::T_I32) {
           xfer += iprot->readI32(this->width);
           this->__isset.width = true;
@@ -1261,7 +1253,7 @@ uint32_t ClientHandlers_RenderHandler_OnPaint_args::read(::apache::thrift::proto
           xfer += iprot->skip(ftype);
         }
         break;
-      case 8:
+      case 7:
         if (ftype == ::apache::thrift::protocol::T_I32) {
           xfer += iprot->readI32(this->height);
           this->__isset.height = true;
@@ -1306,15 +1298,11 @@ uint32_t ClientHandlers_RenderHandler_OnPaint_args::write(::apache::thrift::prot
   xfer += oprot->writeI64(this->sharedMemHandle);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("recreateHandle", ::apache::thrift::protocol::T_BOOL, 6);
-  xfer += oprot->writeBool(this->recreateHandle);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("width", ::apache::thrift::protocol::T_I32, 7);
+  xfer += oprot->writeFieldBegin("width", ::apache::thrift::protocol::T_I32, 6);
   xfer += oprot->writeI32(this->width);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("height", ::apache::thrift::protocol::T_I32, 8);
+  xfer += oprot->writeFieldBegin("height", ::apache::thrift::protocol::T_I32, 7);
   xfer += oprot->writeI32(this->height);
   xfer += oprot->writeFieldEnd();
 
@@ -1353,15 +1341,11 @@ uint32_t ClientHandlers_RenderHandler_OnPaint_pargs::write(::apache::thrift::pro
   xfer += oprot->writeI64((*(this->sharedMemHandle)));
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("recreateHandle", ::apache::thrift::protocol::T_BOOL, 6);
-  xfer += oprot->writeBool((*(this->recreateHandle)));
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("width", ::apache::thrift::protocol::T_I32, 7);
+  xfer += oprot->writeFieldBegin("width", ::apache::thrift::protocol::T_I32, 6);
   xfer += oprot->writeI32((*(this->width)));
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("height", ::apache::thrift::protocol::T_I32, 8);
+  xfer += oprot->writeFieldBegin("height", ::apache::thrift::protocol::T_I32, 7);
   xfer += oprot->writeI32((*(this->height)));
   xfer += oprot->writeFieldEnd();
 
@@ -6642,6 +6626,83 @@ uint32_t ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_pargs::wri
 }
 
 
+ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_result::~ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_result() noexcept {
+}
+
+
+uint32_t ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_result");
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_presult::~ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_presult() noexcept {
+}
+
+
+uint32_t ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
 ClientHandlers_ResourceRequestHandler_OnProtocolExecution_args::~ClientHandlers_ResourceRequestHandler_OnProtocolExecution_args() noexcept {
 }
 
@@ -7615,13 +7676,13 @@ void ClientHandlersClient::recv_RenderHandler_GetScreenPoint(Point& _return)
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "RenderHandler_GetScreenPoint failed: unknown result");
 }
 
-void ClientHandlersClient::RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const bool recreateHandle, const int32_t width, const int32_t height)
+void ClientHandlersClient::RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const int32_t width, const int32_t height)
 {
-  send_RenderHandler_OnPaint(bid, popup, dirtyRectsCount, sharedMemName, sharedMemHandle, recreateHandle, width, height);
+  send_RenderHandler_OnPaint(bid, popup, dirtyRectsCount, sharedMemName, sharedMemHandle, width, height);
   recv_RenderHandler_OnPaint();
 }
 
-void ClientHandlersClient::send_RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const bool recreateHandle, const int32_t width, const int32_t height)
+void ClientHandlersClient::send_RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const int32_t width, const int32_t height)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("RenderHandler_OnPaint", ::apache::thrift::protocol::T_CALL, cseqid);
@@ -7632,7 +7693,6 @@ void ClientHandlersClient::send_RenderHandler_OnPaint(const int32_t bid, const b
   args.dirtyRectsCount = &dirtyRectsCount;
   args.sharedMemName = &sharedMemName;
   args.sharedMemHandle = &sharedMemHandle;
-  args.recreateHandle = &recreateHandle;
   args.width = &width;
   args.height = &height;
   args.write(oprot_);
@@ -8913,12 +8973,13 @@ bool ClientHandlersClient::recv_ResourceRequestHandler_OnResourceResponse()
 void ClientHandlersClient::ResourceRequestHandler_OnResourceLoadComplete(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& response, const std::string& status, const int64_t receivedContentLength)
 {
   send_ResourceRequestHandler_OnResourceLoadComplete(rrHandler, bid, request, response, status, receivedContentLength);
+  recv_ResourceRequestHandler_OnResourceLoadComplete();
 }
 
 void ClientHandlersClient::send_ResourceRequestHandler_OnResourceLoadComplete(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& response, const std::string& status, const int64_t receivedContentLength)
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("ResourceRequestHandler_OnResourceLoadComplete", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("ResourceRequestHandler_OnResourceLoadComplete", ::apache::thrift::protocol::T_CALL, cseqid);
 
   ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_pargs args;
   args.rrHandler = &rrHandler;
@@ -8932,6 +8993,39 @@ void ClientHandlersClient::send_ResourceRequestHandler_OnResourceLoadComplete(co
   oprot_->writeMessageEnd();
   oprot_->getTransport()->writeEnd();
   oprot_->getTransport()->flush();
+}
+
+void ClientHandlersClient::recv_ResourceRequestHandler_OnResourceLoadComplete()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("ResourceRequestHandler_OnResourceLoadComplete") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_presult result;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  return;
 }
 
 bool ClientHandlersClient::ResourceRequestHandler_OnProtocolExecution(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const bool allowOsExecution)
@@ -9481,7 +9575,7 @@ void ClientHandlersProcessor::process_RenderHandler_OnPaint(int32_t seqid, ::apa
 
   ClientHandlers_RenderHandler_OnPaint_result result;
   try {
-    iface_->RenderHandler_OnPaint(args.bid, args.popup, args.dirtyRectsCount, args.sharedMemName, args.sharedMemHandle, args.recreateHandle, args.width, args.height);
+    iface_->RenderHandler_OnPaint(args.bid, args.popup, args.dirtyRectsCount, args.sharedMemName, args.sharedMemHandle, args.width, args.height);
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "ClientHandlers.RenderHandler_OnPaint");
@@ -10856,7 +10950,7 @@ void ClientHandlersProcessor::process_ResourceRequestHandler_OnResourceResponse(
   }
 }
 
-void ClientHandlersProcessor::process_ResourceRequestHandler_OnResourceLoadComplete(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+void ClientHandlersProcessor::process_ResourceRequestHandler_OnResourceLoadComplete(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = nullptr;
   if (this->eventHandler_.get() != nullptr) {
@@ -10877,20 +10971,36 @@ void ClientHandlersProcessor::process_ResourceRequestHandler_OnResourceLoadCompl
     this->eventHandler_->postRead(ctx, "ClientHandlers.ResourceRequestHandler_OnResourceLoadComplete", bytes);
   }
 
+  ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_result result;
   try {
     iface_->ResourceRequestHandler_OnResourceLoadComplete(args.rrHandler, args.bid, args.request, args.response, args.status, args.receivedContentLength);
-  } catch (const std::exception&) {
+  } catch (const std::exception& e) {
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "ClientHandlers.ResourceRequestHandler_OnResourceLoadComplete");
     }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("ResourceRequestHandler_OnResourceLoadComplete", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
     return;
   }
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->asyncComplete(ctx, "ClientHandlers.ResourceRequestHandler_OnResourceLoadComplete");
+    this->eventHandler_->preWrite(ctx, "ClientHandlers.ResourceRequestHandler_OnResourceLoadComplete");
   }
 
-  return;
+  oprot->writeMessageBegin("ResourceRequestHandler_OnResourceLoadComplete", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "ClientHandlers.ResourceRequestHandler_OnResourceLoadComplete", bytes);
+  }
 }
 
 void ClientHandlersProcessor::process_ResourceRequestHandler_OnProtocolExecution(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
@@ -11564,13 +11674,13 @@ void ClientHandlersConcurrentClient::recv_RenderHandler_GetScreenPoint(Point& _r
   } // end while(true)
 }
 
-void ClientHandlersConcurrentClient::RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const bool recreateHandle, const int32_t width, const int32_t height)
+void ClientHandlersConcurrentClient::RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const int32_t width, const int32_t height)
 {
-  int32_t seqid = send_RenderHandler_OnPaint(bid, popup, dirtyRectsCount, sharedMemName, sharedMemHandle, recreateHandle, width, height);
+  int32_t seqid = send_RenderHandler_OnPaint(bid, popup, dirtyRectsCount, sharedMemName, sharedMemHandle, width, height);
   recv_RenderHandler_OnPaint(seqid);
 }
 
-int32_t ClientHandlersConcurrentClient::send_RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const bool recreateHandle, const int32_t width, const int32_t height)
+int32_t ClientHandlersConcurrentClient::send_RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const int32_t width, const int32_t height)
 {
   int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
@@ -11582,7 +11692,6 @@ int32_t ClientHandlersConcurrentClient::send_RenderHandler_OnPaint(const int32_t
   args.dirtyRectsCount = &dirtyRectsCount;
   args.sharedMemName = &sharedMemName;
   args.sharedMemHandle = &sharedMemHandle;
-  args.recreateHandle = &recreateHandle;
   args.width = &width;
   args.height = &height;
   args.write(oprot_);
@@ -13341,14 +13450,15 @@ bool ClientHandlersConcurrentClient::recv_ResourceRequestHandler_OnResourceRespo
 
 void ClientHandlersConcurrentClient::ResourceRequestHandler_OnResourceLoadComplete(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& response, const std::string& status, const int64_t receivedContentLength)
 {
-  send_ResourceRequestHandler_OnResourceLoadComplete(rrHandler, bid, request, response, status, receivedContentLength);
+  int32_t seqid = send_ResourceRequestHandler_OnResourceLoadComplete(rrHandler, bid, request, response, status, receivedContentLength);
+  recv_ResourceRequestHandler_OnResourceLoadComplete(seqid);
 }
 
-void ClientHandlersConcurrentClient::send_ResourceRequestHandler_OnResourceLoadComplete(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& response, const std::string& status, const int64_t receivedContentLength)
+int32_t ClientHandlersConcurrentClient::send_ResourceRequestHandler_OnResourceLoadComplete(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& response, const std::string& status, const int64_t receivedContentLength)
 {
-  int32_t cseqid = 0;
+  int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
-  oprot_->writeMessageBegin("ResourceRequestHandler_OnResourceLoadComplete", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("ResourceRequestHandler_OnResourceLoadComplete", ::apache::thrift::protocol::T_CALL, cseqid);
 
   ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_pargs args;
   args.rrHandler = &rrHandler;
@@ -13364,6 +13474,61 @@ void ClientHandlersConcurrentClient::send_ResourceRequestHandler_OnResourceLoadC
   oprot_->getTransport()->flush();
 
   sentry.commit();
+  return cseqid;
+}
+
+void ClientHandlersConcurrentClient::recv_ResourceRequestHandler_OnResourceLoadComplete(const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("ResourceRequestHandler_OnResourceLoadComplete") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      ClientHandlers_ResourceRequestHandler_OnResourceLoadComplete_presult result;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      sentry.commit();
+      return;
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
 }
 
 bool ClientHandlersConcurrentClient::ResourceRequestHandler_OnProtocolExecution(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const bool allowOsExecution)

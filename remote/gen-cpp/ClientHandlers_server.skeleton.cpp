@@ -55,7 +55,7 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
     printf("RenderHandler_GetScreenPoint\n");
   }
 
-  void RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const bool recreateHandle, const int32_t width, const int32_t height) {
+  void RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const int32_t width, const int32_t height) {
     // Your implementation goes here
     printf("RenderHandler_OnPaint\n");
   }

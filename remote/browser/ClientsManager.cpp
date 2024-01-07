@@ -85,7 +85,7 @@ int ClientsManager::createBrowser(int cid, std::shared_ptr<RpcExecutor> service,
     CefPostTask(TID_UI, base::BindOnce(&createBrowserImpl, cid, bid, clienthandler, url, onFailed));
   }
 
-  Log::debug("Scheduled browser creation, cid=%d, bid=%d", cid, bid);
+  Log::debug("Started native CefBrowser creation, cid=%d, bid=%d", cid, bid);
   return bid;
 }
 
@@ -118,11 +118,9 @@ int ClientsManager::findRemoteBrowser(CefRefPtr<CefBrowser> browser) {
 }
 
 void ClientsManager::closeBrowser(const int32_t bid) {
-  Log::debug("Close browser %d", bid);
-
   CefRefPtr<RemoteClientHandler> client = getClient(bid);
   if (!client) {
-    Log::error("closeBrowser: can't find browser %d", bid);
+    // already closed
     return;
   }
 
