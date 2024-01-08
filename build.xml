@@ -15,7 +15,7 @@
     <pathelement location="third_party/jogamp/jar"/>
     <pathelement location="third_party/jogamp/jar/gluegen-rt.jar"/>
     <pathelement location="third_party/slf4j/slf4j-api-2.0.0.jar"/>
-    <pathelement location="third_party/thrift/libthrift-0.16.0.jar"/>
+    <pathelement location="third_party/thrift/libthrift-0.19.0.jar"/>
   </path>
 
   <condition property="jvm.opts"

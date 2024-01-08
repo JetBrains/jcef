@@ -5,7 +5,7 @@ set -euo pipefail
 export JOGAMP_DIR="$JCEF_ROOT_DIR"/third_party/jogamp/jar
 export THRIFT_DIR="$JCEF_ROOT_DIR"/third_party/thrift
 export SLF_DIR="$JCEF_ROOT_DIR"/third_party/slf4j
-export THRIFT_JAR=libthrift-0.16.0.jar
+export THRIFT_JAR=libthrift-0.19.0.jar
 export SLF_JAR=slf4j-api-2.0.0.jar
 
 function extract_jar {
