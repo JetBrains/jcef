@@ -25,6 +25,14 @@ void setThreadName(std::string name) {
 
 void Log::init(int level) { ourLogLevel = level; }
 
+bool Log::isDebugEnabled() {
+  return ourLogLevel <= LEVEL_DEBUG;
+}
+
+bool Log::isTraceEnabled() {
+  return ourLogLevel <= LEVEL_TRACE;
+}
+
 void Log::log(int level, const char *const format, ...) {
   if (level < ourLogLevel)
     return;
@@ -137,8 +145,8 @@ LogNdc::LogNdc(std::string file, std::string func, int thresholdMcs, bool logSta
 LogNdc::~LogNdc() {
   bool logged = false;
   if (thresholdMcs >= 0) {
-    Duration elapsed = Clock::now() - startTime;
-    const long spentMcs = (long)elapsed.count();
+    Duration elapsedMcs = std::chrono::duration_cast<std::chrono::microseconds>(Clock::now() - startTime);
+    const long spentMcs = (long)elapsedMcs.count();
     if (spentMcs >= thresholdMcs) {
       Log::debug("Finished, spent %d msc.", spentMcs);
       logged = true;

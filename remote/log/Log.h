@@ -14,6 +14,8 @@ const int LEVEL_TRACE = 5;
 class Log {
 public:
   static void init(int level = LEVEL_INFO);
+  static bool isDebugEnabled();
+  static bool isTraceEnabled();
   
   template <class ... Args>
   static void fatal(const char *const format, Args ... args) {

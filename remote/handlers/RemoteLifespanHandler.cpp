@@ -30,6 +30,7 @@ bool RemoteLifespanHandler::OnBeforePopup(
 void RemoteLifespanHandler::OnAfterCreated(CefRefPtr<CefBrowser> browser) {
   LNDCT();
   myBrowser = browser;
+  Log::trace("Created native browser id=%d [bid=%d]", browser->GetIdentifier(), myOwner.getBid());
   myOwner.exec([&](const RpcExecutor::Service& s){
     s->LifeSpanHandler_OnAfterCreated(myOwner.getBid());
   });

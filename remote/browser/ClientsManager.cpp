@@ -40,7 +40,7 @@ namespace {
       extra_info->SetList("router_configs", router_configs);
     }
 
-    Log::debug( "CefBrowserHost::CreateBrowser cid=%d, bid=%d", cid, bid);
+    Log::trace( "CefBrowserHost::CreateBrowser cid=%d, bid=%d", cid, bid);
     bool result = CefBrowserHost::CreateBrowser(windowInfo, clienthandler, url,
                                                 settings, extra_info, nullptr);
     if (!result) {
