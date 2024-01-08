@@ -66,11 +66,11 @@ dependencies {
         "$projectDir/../../../third_party/jogamp/jar/jogl-all.jar",
         "$projectDir/../../../third_party/jogamp/jar/gluegen-rt.jar",
         "$projectDir/../../../third_party/slf4j/slf4j-api-2.0.0.jar",
-        "$projectDir/../../../third_party/thrift/libthrift-0.16.0.jar"
+        "$projectDir/../../../third_party/thrift/libthrift-0.19.0.jar"
     )
     testImplementation files(
         "$projectDir/../../../third_party/junit/junit-platform-console-standalone-1.10.0.jar",
         "$projectDir/../../../third_party/gson/gson-2.10.1.jar",
-        "$projectDir/../../../third_party/thrift/libthrift-0.16.0.jar",
+        "$projectDir/../../../third_party/thrift/libthrift-0.19.0.jar",
         "$projectDir/../../../third_party/jakarta/jakarta.xml.bind-api-2.3.2.jar")
 }
