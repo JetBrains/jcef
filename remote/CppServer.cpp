@@ -28,26 +28,23 @@ using namespace thrift_codegen;
 class ServerCloneFactory : virtual public ServerIfFactory {
  public:
   ~ServerCloneFactory() override = default;
-  ServerIf* getHandler(
-      const ::apache::thrift::TConnectionInfo& connInfo) override {
-    std::shared_ptr<TSocket> sock =
-        std::dynamic_pointer_cast<TSocket>(connInfo.transport);
-    Log::debug("Incoming connection\n");
-    Log::debug("\tSocketInfo: %s", sock->getSocketInfo().c_str());
-    Log::debug("\tPeerHost: %s", sock->getPeerHost().c_str());
-    Log::debug("\tPeerAddress: %s", sock->getPeerAddress().c_str());
-    Log::debug("\tPeerPort: %d", sock->getPeerPort());
+  ServerIf* getHandler(const ::apache::thrift::TConnectionInfo& connInfo) override {
+    std::shared_ptr<TSocket> sock = std::dynamic_pointer_cast<TSocket>(connInfo.transport);
     ServerHandler * serverHandler = new ServerHandler;
-    Log::debug("\tServerHandler: %p\n", serverHandler);
+    Log::trace("Created new ServerHandler: %p\n", serverHandler);
     return serverHandler;
   }
-  void releaseHandler(ServerIf* handler) override { delete handler; }
+  void releaseHandler(ServerIf* handler) override {
+    Log::trace("Release ServerHandler: %p\n", handler);
+    delete handler;
+  }
 };
 
 int main(int argc, char* argv[]) {
   Log::init(LEVEL_TRACE);
   setThreadName("main");
 
+  const Clock::time_point startTime = Clock::now();
 #if defined(OS_MAC)
   if (!CefUtils::doLoadCefLibrary())
     return -1;
@@ -58,13 +55,14 @@ int main(int argc, char* argv[]) {
     return exit_code;
   }
 #endif
-
+  const Clock::time_point t1 = Clock::now();
   const bool success = CefUtils::initializeCef();
   if (!success) {
     Log::error("Cef initialization failed");
     return -2;
   }
 
+  const Clock::time_point t2 = Clock::now();
   boost::filesystem::path pipePath = boost::filesystem::temp_directory_path().append("cef_server_pipe").lexically_normal();
   std::remove(pipePath.c_str());
   std::shared_ptr<TThreadedServer> server = std::make_shared<TThreadedServer>(
@@ -74,9 +72,16 @@ int main(int argc, char* argv[]) {
       std::make_shared<TBufferedTransportFactory>(),
       std::make_shared<TBinaryProtocolFactory>());
 
-  std::thread servThread([=]() {
-    Log::debug("Starting the server...");
+  if (Log::isDebugEnabled()) {
+    const Clock::time_point t3 = Clock::now();
+    Duration d1 = std::chrono::duration_cast<std::chrono::microseconds>(t1 - startTime);
+    Duration d2 = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1);
+    Duration d3 = std::chrono::duration_cast<std::chrono::microseconds>(t3 - t2);
+    Log::debug("Starting the server. Initialization spent ms: load cef %d; init cef %d; open ipc transport %d",
+               (int)d1.count()/1000, (int)d2.count()/1000, (int)d3.count()/1000);
+  }
 
+  std::thread servThread([=]() {
     try {
       server->serve();
     } catch (TException e) {

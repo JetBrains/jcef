@@ -27,8 +27,8 @@ ServerHandler::~ServerHandler() {
   try {
     if (myClientsManager)
       myClientsManager->closeAllBrowsers();
-    if (myService && !myService->isClosed())
-      myService->close();
+    if (myJavaService && !myJavaService->isClosed())
+      myJavaService->close();
     // TODO: probably we should shutdown cef (so AppHandler will update on next intialization)
   } catch (TException e) {
     Log::error("Thrift exception in ~ServerHandler: %s", e.what());
@@ -40,34 +40,36 @@ int32_t ServerHandler::connect(
     const std::vector<std::string>& cmdLineArgs,
     const std::map<std::string, std::string>& settings
 ) {
-  static int s_counter = 0;
-  const int cid = s_counter++;
-  setThreadName(string_format("Client_%d", cid));
-  Log::debug("Connected new client with cid=%d", cid);
-
-  // Connect to client's side (for cef-callbacks execution on java side)
-  if (myService == nullptr) {
-    try {
-      myService = std::make_shared<RpcExecutor>(backwardConnectionPipe);
-      myClientsManager = std::make_shared<ClientsManager>();
-      RemoteAppHandler::instance().setArgs(cmdLineArgs);
-      RemoteAppHandler::instance().setSettings(settings);
-      RemoteAppHandler::instance().setService(myService);
-      // TODO:
-      //  1. compare new args and settings with old (from RemoteAppHandler::instance())
-      //  2. reinit CEF with new args and settings in necessary
-    } catch (TException& tx) {
-      Log::error(tx.what());
-      return -1;
-    }
+  if (myJavaService != nullptr) {
+    Log::debug("Client already connected, other attempts will be ignored.");
+    return -1;
   }
 
-  return cid;
+  static int s_counter = 0;
+  const int counter = s_counter++;
+  setThreadName(string_format("ServerHandler_%d", counter));
+
+  // Connect to client's side (for cef-callbacks execution on java side)
+  try {
+    myJavaService = std::make_shared<RpcExecutor>(backwardConnectionPipe);
+    myClientsManager = std::make_shared<ClientsManager>();
+    RemoteAppHandler::instance().setArgs(cmdLineArgs);
+    RemoteAppHandler::instance().setSettings(settings);
+    RemoteAppHandler::instance().setService(myJavaService);
+    // TODO:
+    //  1. compare new args and settings with old (from RemoteAppHandler::instance())
+    //  2. reinit CEF with new args and settings in necessary
+  } catch (TException& tx) {
+    Log::error(tx.what());
+    return -1;
+  }
+
+  return counter;
 }
 
 int32_t ServerHandler::createBrowser(int cid, const std::string& url) {
-  int32_t result = myClientsManager->createBrowser(cid, myService, myRoutersManager, url);
-  Log::debug("Created remote browser cid=%d, bid=%d", cid, result);
+  int32_t result = myClientsManager->createBrowser(cid, myJavaService, myRoutersManager, url);
+  Log::trace("Created remote browser cid=%d, bid=%d", cid, result);
   return result;
 }
 
@@ -384,7 +386,7 @@ void ServerHandler::Callback_Cancel(const thrift_codegen::RObject& callback) {
 void ServerHandler::MessageRouter_Create(thrift_codegen::RObject& _return,
                                         const std::string& query,
                                         const std::string& cancel) {
-  _return = myRoutersManager->CreateRemoteMessageRouter(myService, query, cancel)->serverId();
+  _return = myRoutersManager->CreateRemoteMessageRouter(myJavaService, query, cancel)->serverId();
 }
 
 void ServerHandler::MessageRouter_Dispose(const thrift_codegen::RObject& msgRouter) {
@@ -468,7 +470,7 @@ void ServerHandler::MessageRouter_AddHandler(
     const thrift_codegen::RObject& msgRouter,
     const thrift_codegen::RObject& handler, bool first) {
   if (CefCurrentlyOn(TID_UI)) {
-    ServerHandler_MessageRouter_AddHandler_Impl(myService, myClientsManager, msgRouter, handler, first);
+    ServerHandler_MessageRouter_AddHandler_Impl(myJavaService, myClientsManager, msgRouter, handler, first);
   } else {
     CefPostTask(TID_UI, base::BindOnce(
         [](std::shared_ptr<RpcExecutor> service,
@@ -478,7 +480,7 @@ void ServerHandler::MessageRouter_AddHandler(
            bool first) {
           ServerHandler_MessageRouter_AddHandler_Impl(service, manager, msgRouter, handler, first);
         },
-        myService, myClientsManager, msgRouter, handler, first));
+            myJavaService, myClientsManager, msgRouter, handler, first));
   }
 }
 

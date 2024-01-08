@@ -23,7 +23,7 @@ RpcExecutor::RpcExecutor() {
 
   myTransport->open();
   const int32_t backwardCid = myService->connect();
-  Log::debug("backward connection to client established, backwardCid=%d", backwardCid);
+  Log::trace("Backward socket connection to client established, backwardCid=%d.", backwardCid);
 }
 
 RpcExecutor::RpcExecutor(std::string pipeName) {
@@ -37,7 +37,7 @@ RpcExecutor::RpcExecutor(std::string pipeName) {
 
   myTransport->open();
   const int32_t backwardCid = myService->connect();
-  Log::debug("backward pipe-connection to client established, backwardCid=%d", backwardCid);
+  Log::trace("Backward pipe connection to client established, backwardCid=%d.", backwardCid);
 }
 
 void RpcExecutor::close() {

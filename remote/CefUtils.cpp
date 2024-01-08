@@ -23,6 +23,23 @@ namespace {
 
 namespace CefUtils {
 #if defined(OS_MAC)
+    boost::filesystem::path getFrameworkPath() {
+      return boost::filesystem::current_path()
+          .append("..")
+          .append("..")
+          .append("..")
+          .append("Chromium Embedded Framework.framework")
+          .lexically_normal();
+    }
+    boost::filesystem::path getLibPath() {
+      return boost::filesystem::current_path()
+              .append("..")
+              .append("..")
+              .append("..")
+              .append("Chromium Embedded Framework.framework")
+              .append("Chromium Embedded Framework")
+              .lexically_normal();
+    }
     bool doLoadCefLibrary() {
       // Load the CEF framework library at runtime instead of linking directly
       // NOTE: can't load directly by custom libPath, getting strange errors:
@@ -31,14 +48,7 @@ namespace CefUtils {
       // Need to put CEF into cef_server.app/Contents/Frameworks
       // TODO: fixme
 
-      boost::filesystem::path libPath =
-          boost::filesystem::current_path()
-              .append("..")
-              .append("..")
-              .append("..")
-              .append("Chromium Embedded Framework.framework")
-              .append("Chromium Embedded Framework")
-              .lexically_normal();
+      boost::filesystem::path libPath = getLibPath();
       if (!cef_load_library(libPath.c_str())) {
         Log::debug("Failed to load the CEF framework by libPath %s", libPath.c_str());
         return false;
@@ -64,7 +74,7 @@ namespace CefUtils {
         CefSettings cefSettings;
         fillSettings(cefSettings, RemoteAppHandler::instance().getSettings());
 #if defined(OS_MAC)
-        boost::filesystem::path framework_path = boost::filesystem::current_path().append("..").append("..").append("..").append("./Chromium Embedded Framework.framework").lexically_normal();
+        boost::filesystem::path framework_path = getFrameworkPath();
         CefString(&cefSettings.framework_dir_path) = framework_path.string();
 #endif
 #if defined(OS_WIN)

@@ -84,7 +84,7 @@ class ServerHandler : public thrift_codegen::ServerIf {
   void QueryCallback_Failure(const thrift_codegen::RObject& qcallback,const int32_t error_code,const std::string& error_message) override;
 
  private:
-  std::shared_ptr<RpcExecutor> myService;
+  std::shared_ptr<RpcExecutor> myJavaService;
   std::shared_ptr<ClientsManager> myClientsManager;
   std::shared_ptr<MessageRoutersManager> myRoutersManager;
 };
