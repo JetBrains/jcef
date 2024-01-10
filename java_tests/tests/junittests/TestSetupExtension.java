@@ -17,6 +17,7 @@ import org.cef.handler.CefAppHandlerAdapter;
 import org.cef.handler.CefLifeSpanHandlerAdapter;
 import org.cef.handler.CefLoadHandlerAdapter;
 import org.cef.misc.CefLog;
+import org.cef.misc.Utils;
 import org.cef.network.CefRequest;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -47,8 +48,8 @@ import java.util.function.Function;
 // This code is based on https://stackoverflow.com/a/51556718.
 public class TestSetupExtension
         implements BeforeAllCallback, ExtensionContext.Store.CloseableResource {
-    private static final boolean SKIP_BASIC_CHECK = Boolean.getBoolean("jcef.tests.skip_basic_check");
-    private static final boolean BASIC_CHECK_WITHOUT_UI = Boolean.getBoolean("jcef.tests.basic_check_without_ui");
+    private static final boolean SKIP_BASIC_CHECK = Utils.getBoolean("jcef.tests.skip_basic_check");
+    private static final boolean BASIC_CHECK_WITHOUT_UI = Utils.getBoolean("jcef.tests.basic_check_without_ui");
     private static final int TIMEOUT = 5;
     private static boolean initialized_ = false;
     private static CountDownLatch stateInitialized_ = new CountDownLatch(1);
