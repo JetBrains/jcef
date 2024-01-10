@@ -4,8 +4,6 @@
 
 package tests.junittests;
 
-import static org.junit.jupiter.api.extension.ExtensionContext.Namespace.GLOBAL;
-
 import com.jetbrains.cef.JCefAppConfig;
 import org.cef.CefApp;
 import org.cef.CefApp.CefAppState;
@@ -14,8 +12,6 @@ import org.cef.CefSettings;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefFrame;
 import org.cef.handler.CefAppHandlerAdapter;
-import org.cef.handler.CefLifeSpanHandlerAdapter;
-import org.cef.handler.CefLoadHandlerAdapter;
 import org.cef.misc.CefLog;
 import org.cef.misc.Utils;
 import org.cef.network.CefRequest;
@@ -25,14 +21,13 @@ import tests.OsrSupport;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
+
+import static org.junit.jupiter.api.extension.ExtensionContext.Namespace.GLOBAL;
 
 // All test cases must install this extension for CEF to be properly initialized
 // and shut down.
@@ -172,6 +167,16 @@ public class TestSetupExtension
     private static void performBasicJcefTesting() {
         CefLog.Info("Sequentially test basic JCEF functionality");
         final long time0 = System.currentTimeMillis();
+        //
+        // 0. Wait CefApp intialization
+        //
+        CountDownLatch onAppInitialization_ = new CountDownLatch(1);
+        CefApp.getInstance().onInitialization(state -> {
+            if (state == CefApp.CefAppState.INITIALIZED) {
+                onAppInitialization_.countDown();
+            }
+        });
+        _wait(onAppInitialization_, 5, "CefApp wasn't initialized");
 
         //
         // 1. Create client (CefApp.initialize will be invoked inside). Then setup client for testing (with use of
