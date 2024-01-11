@@ -4,6 +4,7 @@
 
 package org.cef.browser;
 
+import org.cef.CefBrowserSettings;
 import org.cef.CefClient;
 
 /**
@@ -19,7 +20,7 @@ public class CefBrowserFactory {
     public static CefBrowser create(CefClient client, String url, boolean isOffscreenRendered,
                                     boolean isTransparent, CefRequestContext context) {
         CefRendering rendering = isOffscreenRendered ? CefRendering.OFFSCREEN : CefRendering.DEFAULT;
-        return create(client, url, rendering, isTransparent, context);
+        return create(client, url, rendering, isTransparent, context, null);
     }
 
     /**
@@ -28,11 +29,11 @@ public class CefBrowserFactory {
      * @since api-1.2
      */
     public static CefBrowser create(CefClient client, String url, CefRendering rendering,
-                                    boolean isTransparent, CefRequestContext context) {
+                                    boolean isTransparent, CefRequestContext context, CefBrowserSettings settings) {
         if (rendering == CefRendering.DEFAULT) {
-            return new CefBrowserWr(client, url, context);
+            return new CefBrowserWr(client, url, context, settings);
         } else if (rendering == CefRendering.OFFSCREEN) {
-            return new CefBrowserOsr(client, url, isTransparent, context);
+            return new CefBrowserOsr(client, url, isTransparent, context, settings);
         } else if (rendering instanceof CefRendering.CefRenderingWithHandler) {
             CefRendering.CefRenderingWithHandler renderingWithHandler = (CefRendering.CefRenderingWithHandler) rendering;
             return new CefBrowserOsrWithHandler(client, url, context, renderingWithHandler.getRenderHandler(), renderingWithHandler.getComponent());

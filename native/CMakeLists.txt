@@ -88,8 +88,6 @@ set(JCEF_SRCS
   critical_wait.h
   devtools_message_observer.cpp
   devtools_message_observer.h
-  devtools_method_callback.cpp
-  devtools_method_callback.h
   dialog_handler.cpp
   dialog_handler.h
   display_handler.cpp
@@ -102,6 +100,8 @@ set(JCEF_SRCS
   focus_handler.h
   permission_handler.cpp
   permission_handler.h
+  int_callback.cpp
+  int_callback.h
   jcef_version.h
   jni_scoped_helpers.h
   jni_scoped_helpers.cpp
@@ -278,7 +278,7 @@ if(OS_LINUX)
   COPY_FILES("${JCEF_TARGET}" "${CEF_RESOURCE_FILES}" "${CEF_RESOURCE_DIR}" "${CEF_TARGET_OUT_DIR}")
 
   # TODO(jcef): Eliminate the symlink requirement once we figure out how.
-  # See https://bitbucket.org/chromiumembedded/java-cef/issues/137#comment-20535941
+  # See https://github.com/chromiumembedded/java-cef/issues/137#issuecomment-1465038405
   add_custom_command(
     TARGET ${JCEF_TARGET}
     POST_BUILD
@@ -416,7 +416,7 @@ if(OS_MAC)
               "${JCEF_APP}/Contents/Frameworks/${_helper_output_name}.app"
       VERBATIM
       )
-    endforeach()
+  endforeach()
 endif()
 
 

@@ -5,6 +5,7 @@
 package org.cef.browser;
 
 import org.cef.CefApp;
+import org.cef.CefBrowserSettings;
 import org.cef.CefClient;
 import org.cef.browser.CefDevToolsClient.DevToolsException;
 import org.cef.callback.CefDragData;
@@ -56,17 +57,23 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     private volatile boolean isClosed_ = false;
     private volatile boolean isClosing_ = false;
     private volatile boolean isCreating_ = false;
+    private final CefBrowserSettings settings_;
 
     private boolean isNativeCtxInitialized_ = false;
     private final List<Runnable> delayedActions_ = new ArrayList<>();
 
     protected CefBrowser_N(CefClient client, String url, CefRequestContext context,
-            CefBrowser_N parent, Point inspectAt) {
+            CefBrowser_N parent, Point inspectAt, CefBrowserSettings settings) {
         client_ = client;
         url_ = url;
         request_context_ = context;
         parent_ = parent;
         inspectAt_ = inspectAt;
+
+        if (settings != null)
+            settings_ = settings.clone();
+        else
+            settings_ = new CefBrowserSettings();
 
         CefApp.getInstance().onInitialization(this);
     }
@@ -221,7 +228,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     CompletableFuture<Integer> executeDevToolsMethod(String method, String parametersAsJson) {
         CompletableFuture<Integer> future = new CompletableFuture<>();
 
-        Runnable exec = () -> N_ExecuteDevToolsMethod(method, parametersAsJson, new DevToolsMethodCallback() {
+        Runnable exec = () -> N_ExecuteDevToolsMethod(method, parametersAsJson, new IntCallback() {
             @Override
             public void onComplete(int generatedMessageId) {
                 if (generatedMessageId <= 0) {
@@ -259,7 +266,8 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
             executeNative(() -> {
                 try {
                     if (TRACE_LIFESPAN) CefLog.Debug("CefBrowser_N: %s: started native creation", this);
-                    N_CreateBrowser(clientHandler, windowHandle, url, osr, transparent, canvas, request_context_);
+                    N_CreateBrowser(clientHandler, windowHandle, url, osr, transparent, canvas, request_context_,
+                            settings_);
                 } catch (UnsatisfiedLinkError err) {
                     err.printStackTrace();
                 }
@@ -1062,17 +1070,36 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
        }
    }
 
-    private interface DevToolsMethodCallback {
-        void onComplete(int generatedMessageId);
+    public void setWindowlessFrameRate(int frameRate) {
+        try {
+            N_SetWindowlessFrameRate(frameRate);
+        } catch (UnsatisfiedLinkError ule) {
+            ule.printStackTrace();
+        }
+    }
+
+    public CompletableFuture<Integer> getWindowlessFrameRate() {
+        final CompletableFuture<Integer> future = new CompletableFuture<>();
+        try {
+            N_GetWindowlessFrameRate(future::complete);
+        } catch (UnsatisfiedLinkError ule) {
+            ule.printStackTrace();
+            future.complete(0);
+        }
+        return future;
+    }
+
+    private interface IntCallback {
+        void onComplete(int value);
     }
 
     private final native boolean N_CreateBrowser(CefClientHandler clientHandler, long windowHandle,
             String url, boolean osr, boolean transparent, Component canvas,
-            CefRequestContext context);
+            CefRequestContext context, CefBrowserSettings settings);
     private final native boolean N_CreateDevTools(CefBrowser parent, CefClientHandler clientHandler,
             long windowHandle, boolean osr, boolean transparent, Component canvas, Point inspectAt);
     private final native void N_ExecuteDevToolsMethod(
-            String method, String parametersAsJson, DevToolsMethodCallback callback);
+            String method, String parametersAsJson, IntCallback callback);
     private final native CefRegistration N_AddDevToolsMessageObserver(
             CefDevToolsMessageObserver observer);
     private final native long N_GetWindowHandle(long surfaceHandle);
@@ -1139,4 +1166,6 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     private final native void N_ImeCommitText(String text, CefRange replacementRange, int relativeCursorPos);
     private final native void N_ImeFinishComposingText(boolean keepSelection);
     private final native void N_ImeCancelComposing();
+    private final native void N_SetWindowlessFrameRate(int frameRate);
+    private final native void N_GetWindowlessFrameRate(IntCallback frameRateCallback);
 }
