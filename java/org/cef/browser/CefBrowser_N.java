@@ -6,6 +6,7 @@ package org.cef.browser;
 
 import org.cef.CefApp;
 import org.cef.CefClient;
+import org.cef.browser.CefDevToolsClient.DevToolsException;
 import org.cef.callback.CefDragData;
 import org.cef.callback.CefNativeAdapter;
 import org.cef.callback.CefPdfPrintCallback;
@@ -31,6 +32,7 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+import java.util.concurrent.CompletableFuture;
 
 import javax.swing.SwingUtilities;
 
@@ -49,6 +51,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     private volatile CefBrowser_N parent_ = null;
     private volatile Point inspectAt_ = null;
     private volatile CefBrowser_N devTools_ = null;
+    private volatile CefDevToolsClient devToolsClient_ = null;
     private boolean closeAllowed_ = false;
     private volatile boolean isClosed_ = false;
     private volatile boolean isClosing_ = false;
@@ -165,6 +168,9 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
             parent_.devTools_ = null;
             parent_ = null;
         }
+        if (devToolsClient_ != null) {
+            devToolsClient_.close();
+        }
     }
 
     @Override
@@ -199,6 +205,36 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
             String m1 = new Throwable().getStackTrace()[1].getMethodName();
             CefLog.Error("CefBrowser_N: %s: can't invoke native method '%s' before native context initialized", this, m1);
         }
+    }
+    @Override
+    public synchronized CefDevToolsClient getDevToolsClient() {
+        if (!isPending_ || isClosing_ || isClosed_) {
+            return null;
+        }
+        if (devToolsClient_ == null || devToolsClient_.isClosed()) {
+            devToolsClient_ = new CefDevToolsClient(this);
+        }
+        return devToolsClient_;
+    }
+
+    CompletableFuture<Integer> executeDevToolsMethod(String method, String parametersAsJson) {
+        CompletableFuture<Integer> future = new CompletableFuture<>();
+        N_ExecuteDevToolsMethod(method, parametersAsJson, new DevToolsMethodCallback() {
+            @Override
+            public void onComplete(int generatedMessageId) {
+                if (generatedMessageId <= 0) {
+                    future.completeExceptionally(new DevToolsException(
+                            String.format("Failed to execute DevTools method %s", method)));
+                } else {
+                    future.complete(generatedMessageId);
+                }
+            }
+        });
+        return future;
+    }
+
+    CefRegistration addDevToolsMessageObserver(CefDevToolsMessageObserver observer) {
+        return N_AddDevToolsMessageObserver(observer);
     }
 
     /**
@@ -484,6 +520,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
         return false;
     }
 
+    @Override
     public void viewSource() {
         try {
             checkNativeCtxInitialized();
@@ -494,6 +531,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
         }
     }
 
+    @Override
     public void getSource(CefStringVisitor visitor) {
         try {
             checkNativeCtxInitialized();
@@ -504,6 +542,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
         }
     }
 
+    @Override
     public void getText(CefStringVisitor visitor) {
         try {
             checkNativeCtxInitialized();
@@ -1014,11 +1053,19 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
        }
    }
 
+    private interface DevToolsMethodCallback {
+        void onComplete(int generatedMessageId);
+    }
+
     private final native boolean N_CreateBrowser(CefClientHandler clientHandler, long windowHandle,
             String url, boolean osr, boolean transparent, Component canvas,
             CefRequestContext context);
     private final native boolean N_CreateDevTools(CefBrowser parent, CefClientHandler clientHandler,
             long windowHandle, boolean osr, boolean transparent, Component canvas, Point inspectAt);
+    private final native void N_ExecuteDevToolsMethod(
+            String method, String parametersAsJson, DevToolsMethodCallback callback);
+    private final native CefRegistration N_AddDevToolsMessageObserver(
+            CefDevToolsMessageObserver observer);
     private final native long N_GetWindowHandle(long surfaceHandle);
     private final native boolean N_CanGoBack();
     private final native void N_GoBack();
