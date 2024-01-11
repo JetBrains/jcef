@@ -10,10 +10,20 @@ extern "C" {
 /*
  * Class:     org_cef_browser_CefBrowser_N
  * Method:    N_CreateBrowser
- * Signature: (Lorg/cef/handler/CefClientHandler;JLjava/lang/String;ZZLjava/awt/Component;Lorg/cef/browser/CefRequestContext;)Z
+ * Signature:
+ * (Lorg/cef/handler/CefClientHandler;JLjava/lang/String;ZZLjava/awt/Component;Lorg/cef/browser/CefRequestContext;Lorg/cef/CefBrowserSettings;)Z
  */
-JNIEXPORT jboolean JNICALL Java_org_cef_browser_CefBrowser_1N_N_1CreateBrowser
-  (JNIEnv *, jobject, jobject, jlong, jstring, jboolean, jboolean, jobject, jobject);
+JNIEXPORT jboolean JNICALL
+Java_org_cef_browser_CefBrowser_1N_N_1CreateBrowser(JNIEnv*,
+                                                    jobject,
+                                                    jobject,
+                                                    jlong,
+                                                    jstring,
+                                                    jboolean,
+                                                    jboolean,
+                                                    jobject,
+                                                    jobject,
+                                                    jobject);
 
 /*
  * Class:     org_cef_browser_CefBrowser_N
@@ -27,7 +37,7 @@ JNIEXPORT jboolean JNICALL Java_org_cef_browser_CefBrowser_1N_N_1CreateDevTools
  * Class:     org_cef_browser_CefBrowser_N
  * Method:    N_ExecuteDevToolsMethod
  * Signature:
- * (Ljava/lang/String;Ljava/lang/String;Lorg/cef/browser/CefBrowser_N/DevToolsMethodCallback;)V
+ * (Ljava/lang/String;Ljava/lang/String;Lorg/cef/browser/CefBrowser_N/IntCallback;)V
  */
 JNIEXPORT void JNICALL
 Java_org_cef_browser_CefBrowser_1N_N_1ExecuteDevToolsMethod(JNIEnv*,
@@ -518,6 +528,26 @@ JNIEXPORT void JNICALL Java_org_cef_browser_CefBrowser_1N_N_1ImeFinishComposingT
  */
 JNIEXPORT void JNICALL Java_org_cef_browser_CefBrowser_1N_N_1ImeCancelComposing
   (JNIEnv *, jobject);
+
+/*
+ * Class:     org_cef_browser_CefBrowser_N
+ * Method:    N_SetWindowlessFrameRate
+ * Signature: (I)V
+ */
+JNIEXPORT void JNICALL
+Java_org_cef_browser_CefBrowser_1N_N_1SetWindowlessFrameRate(JNIEnv*,
+                                                             jobject,
+                                                             jint);
+
+/*
+ * Class:     org_cef_browser_CefBrowser_N
+ * Method:    N_GetWindowlessFrameRate
+ * Signature: (Lorg/cef/browser/CefBrowser_N/IntCallback;)V
+ */
+JNIEXPORT void JNICALL
+Java_org_cef_browser_CefBrowser_1N_N_1GetWindowlessFrameRate(JNIEnv*,
+                                                             jobject,
+                                                             jobject);
 
 #ifdef __cplusplus
 }

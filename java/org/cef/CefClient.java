@@ -4,6 +4,7 @@
 
 package org.cef;
 
+import org.cef.browser.*;
 import com.jetbrains.cef.JCefAppConfig;
 import com.jetbrains.cef.JdkEx;
 
@@ -63,6 +64,9 @@ import java.util.Collection;
 import java.util.Vector;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Consumer;
+
+import javax.swing.SwingUtilities;
 
 /**
  * Client that owns a browser and renderer.
@@ -181,7 +185,23 @@ public class CefClient extends CefClientHandler
             throw new IllegalStateException("Can't create browser. CefClient is disposed");
         if (remoteClient != null)
             return remoteClient.createBrowser(url, context, this, rendering);
-        return CefBrowserFactory.create(this, url, rendering, isTransparent, context);
+        return CefBrowserFactory.create(this, url, rendering, isTransparent, context, null);
+    }
+
+    public CefBrowser createBrowser(String url, boolean isOffscreenRendered, boolean isTransparent,
+                                    CefRequestContext context, CefBrowserSettings settings) {
+        if (isDisposed_)
+            throw new IllegalStateException("Can't create browser. CefClient is disposed");
+        return CefBrowserFactory.create(
+                this, url, isOffscreenRendered, isTransparent, context, settings);
+    }
+
+    public CefBrowser createBrowser(String url, boolean isOffscreenRendered, boolean isTransparent,
+                                    CefRequestContext context, CefBrowserSettings settings) {
+        if (isDisposed_)
+            throw new IllegalStateException("Can't create browser. CefClient is disposed");
+        return CefBrowserFactory.create(
+                this, url, isOffscreenRendered, isTransparent, context, settings);
     }
 
     @Override
@@ -1037,6 +1057,15 @@ public class CefClient extends CefClientHandler
         if (realHandler != null)
             realHandler.onPaint(browser, popup, dirtyRects, buffer, width, height);
     }
+
+    @Override
+    public void addOnPaintListener(Consumer<CefPaintEvent> listener) {}
+
+    @Override
+    public void setOnPaintListener(Consumer<CefPaintEvent> listener) {}
+
+    @Override
+    public void removeOnPaintListener(Consumer<CefPaintEvent> listener) {}
 
     @Override
     public boolean startDragging(CefBrowser browser, CefDragData dragData, int mask, int x, int y) {

@@ -16,6 +16,7 @@ import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.GLBuffers;
 
+import org.cef.CefBrowserSettings;
 import org.cef.CefClient;
 import org.cef.OS;
 import org.cef.callback.CefDragData;
@@ -91,13 +92,15 @@ class CefBrowserOsr extends CefBrowser_N implements CefRenderHandler {
     private CopyOnWriteArrayList<Consumer<CefPaintEvent>> onPaintListeners =
             new CopyOnWriteArrayList<>();
 
-    CefBrowserOsr(CefClient client, String url, boolean transparent, CefRequestContext context) {
-        this(client, url, transparent, context, null, null);
+    CefBrowserOsr(CefClient client, String url, boolean transparent, CefRequestContext context,
+            CefBrowserSettings settings) {
+        this(client, url, transparent, context, null, null, settings);
     }
 
     private CefBrowserOsr(CefClient client, String url, boolean transparent,
-            CefRequestContext context, CefBrowserOsr parent, Point inspectAt) {
-        super(client, url, context, parent, inspectAt);
+            CefRequestContext context, CefBrowserOsr parent, Point inspectAt,
+            CefBrowserSettings settings) {
+        super(client, url, context, parent, inspectAt, settings);
         isTransparent_ = transparent;
         renderer_ = new CefRenderer(transparent);
         createGLCanvas();
@@ -124,7 +127,7 @@ class CefBrowserOsr extends CefBrowser_N implements CefRenderHandler {
     protected CefBrowser createDevToolsBrowser(CefClient client, String url,
             CefRequestContext context, CefBrowser parent, Point inspectAt) {
         return new CefBrowserOsr(
-                client, url, isTransparent_, context, this, inspectAt);
+                client, url, isTransparent_, context, this, inspectAt, null);
     }
 
     private synchronized long getWindowHandle() {
