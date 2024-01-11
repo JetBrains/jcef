@@ -25,6 +25,30 @@ JNIEXPORT jboolean JNICALL Java_org_cef_browser_CefBrowser_1N_N_1CreateDevTools
 
 /*
  * Class:     org_cef_browser_CefBrowser_N
+ * Method:    N_ExecuteDevToolsMethod
+ * Signature:
+ * (Ljava/lang/String;Ljava/lang/String;Lorg/cef/browser/CefBrowser_N/DevToolsMethodCallback;)V
+ */
+JNIEXPORT void JNICALL
+Java_org_cef_browser_CefBrowser_1N_N_1ExecuteDevToolsMethod(JNIEnv*,
+                                                            jobject,
+                                                            jstring,
+                                                            jstring,
+                                                            jobject);
+
+/*
+ * Class:     org_cef_browser_CefBrowser_N
+ * Method:    N_AddDevToolsMessageObserver
+ * Signature:
+ * (Lorg/cef/browser/CefDevToolsMessageObserver;)Lorg/cef/browser/CefRegistration;
+ */
+JNIEXPORT jobject JNICALL
+Java_org_cef_browser_CefBrowser_1N_N_1AddDevToolsMessageObserver(JNIEnv*,
+                                                                 jobject,
+                                                                 jobject);
+
+/*
+ * Class:     org_cef_browser_CefBrowser_N
  * Method:    N_GetWindowHandle
  * Signature: (J)J
  */
@@ -495,6 +519,17 @@ JNIEXPORT void JNICALL Java_org_cef_browser_CefBrowser_1N_N_1ImeFinishComposingT
 JNIEXPORT void JNICALL Java_org_cef_browser_CefBrowser_1N_N_1ImeCancelComposing
   (JNIEnv *, jobject);
 
+#ifdef __cplusplus
+}
+#endif
+#endif
+/* Header for class org_cef_browser_CefBrowser_N_DevToolsMethodCallback */
+
+#ifndef _Included_org_cef_browser_CefBrowser_N_DevToolsMethodCallback
+#define _Included_org_cef_browser_CefBrowser_N_DevToolsMethodCallback
+#ifdef __cplusplus
+extern "C" {
+#endif
 #ifdef __cplusplus
 }
 #endif
