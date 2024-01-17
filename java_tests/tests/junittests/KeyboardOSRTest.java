@@ -136,6 +136,7 @@ public class KeyboardOSRTest {
 
             Files.writeString(file.toPath(), jsonString, StandardCharsets.UTF_8);
         }
+        myFrame.closeBrowser();
     }
 
     private static Stream<Scenario> getScenarios() throws IOException {
