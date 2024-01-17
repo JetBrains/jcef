@@ -1984,7 +1984,7 @@
       },
       {
         "type": "keypress",
-        "key": "a",
+        "key": "Unidentified",
         "code": "KeyA",
         "location": "0",
         "altKey": "false",
@@ -5393,7 +5393,7 @@
       },
       {
         "type": "keypress",
-        "key": "a",
+        "key": "Unidentified",
         "code": "KeyA",
         "location": "0",
         "altKey": "false",
@@ -12119,7 +12119,7 @@
       },
       {
         "type": "keypress",
-        "key": "A",
+        "key": "Unidentified",
         "code": "KeyA",
         "location": "0",
         "altKey": "false",
@@ -13691,7 +13691,7 @@
       },
       {
         "type": "keypress",
-        "key": "A",
+        "key": "Unidentified",
         "code": "KeyA",
         "location": "0",
         "altKey": "false",
@@ -30373,7 +30373,7 @@
       },
       {
         "type": "keypress",
-        "key": "å",
+        "key": "Unidentified",
         "code": "KeyA",
         "location": "0",
         "altKey": "true",
@@ -31903,7 +31903,7 @@
       },
       {
         "type": "keypress",
-        "key": "å",
+        "key": "Unidentified",
         "code": "KeyA",
         "location": "0",
         "altKey": "true",
@@ -35514,7 +35514,7 @@
       },
       {
         "type": "keypress",
-        "key": "å",
+        "key": "Unidentified",
         "code": "KeyA",
         "location": "0",
         "altKey": "true",
@@ -37669,7 +37669,7 @@
       },
       {
         "type": "keypress",
-        "key": "å",
+        "key": "Unidentified",
         "code": "KeyA",
         "location": "0",
         "altKey": "true",
