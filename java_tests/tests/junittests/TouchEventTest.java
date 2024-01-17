@@ -146,72 +146,77 @@ public class TouchEventTest {
     @Test
     void eventType() throws InterruptedException, ExecutionException {
         var frame = new TouchTestFrame();
-        frame.awaitLoad();
+        try {
+            frame.awaitLoad();
 
-        frame.sendTouchEvent(createSimpleEvent(0, 10, 10, CefTouchEvent.EventType.PRESSED));
-        Assertions.assertEquals("touchstart", frame.getValue("last_touch_event.type"));
-        Assertions.assertEquals("1", frame.getValue("last_touch_event.touches.length"));
-        Assertions.assertEquals("1", frame.getValue("events_count"));
+            frame.sendTouchEvent(createSimpleEvent(0, 10, 10, CefTouchEvent.EventType.PRESSED));
+            Assertions.assertEquals("touchstart", frame.getValue("last_touch_event.type"));
+            Assertions.assertEquals("1", frame.getValue("last_touch_event.touches.length"));
+            Assertions.assertEquals("1", frame.getValue("events_count"));
 
-        frame.sendTouchEvent(createSimpleEvent(0, 10, 100, CefTouchEvent.EventType.MOVED));
-        Assertions.assertEquals("touchmove", frame.getValue("last_touch_event.type"));
-        Assertions.assertEquals("1", frame.getValue("last_touch_event.touches.length"));
-        Assertions.assertEquals("2", frame.getValue("events_count"));
+            frame.sendTouchEvent(createSimpleEvent(0, 10, 100, CefTouchEvent.EventType.MOVED));
+            Assertions.assertEquals("touchmove", frame.getValue("last_touch_event.type"));
+            Assertions.assertEquals("1", frame.getValue("last_touch_event.touches.length"));
+            Assertions.assertEquals("2", frame.getValue("events_count"));
 
-        frame.sendTouchEvent(createSimpleEvent(1, 50, 10, CefTouchEvent.EventType.PRESSED));
-        Assertions.assertEquals("touchstart", frame.getValue("last_touch_event.type"));
-        Assertions.assertEquals("2", frame.getValue("last_touch_event.touches.length"));
-        Assertions.assertEquals("3", frame.getValue("events_count"));
+            frame.sendTouchEvent(createSimpleEvent(1, 50, 10, CefTouchEvent.EventType.PRESSED));
+            Assertions.assertEquals("touchstart", frame.getValue("last_touch_event.type"));
+            Assertions.assertEquals("2", frame.getValue("last_touch_event.touches.length"));
+            Assertions.assertEquals("3", frame.getValue("events_count"));
 
-        frame.sendTouchEvent(createSimpleEvent(1, 50, 100, CefTouchEvent.EventType.MOVED));
-        Assertions.assertEquals("touchmove", frame.getValue("last_touch_event.type"));
-        Assertions.assertEquals("2", frame.getValue("last_touch_event.touches.length"));
-        Assertions.assertEquals("4", frame.getValue("events_count"));
+            frame.sendTouchEvent(createSimpleEvent(1, 50, 100, CefTouchEvent.EventType.MOVED));
+            Assertions.assertEquals("touchmove", frame.getValue("last_touch_event.type"));
+            Assertions.assertEquals("2", frame.getValue("last_touch_event.touches.length"));
+            Assertions.assertEquals("4", frame.getValue("events_count"));
 
-        frame.sendTouchEvent(createSimpleEvent(0, 10, 100, CefTouchEvent.EventType.RELEASED));
-        Assertions.assertEquals("touchend", frame.getValue("last_touch_event.type"));
-        Assertions.assertEquals("1", frame.getValue("last_touch_event.touches.length"));
-        Assertions.assertEquals("5", frame.getValue("events_count"));
+            frame.sendTouchEvent(createSimpleEvent(0, 10, 100, CefTouchEvent.EventType.RELEASED));
+            Assertions.assertEquals("touchend", frame.getValue("last_touch_event.type"));
+            Assertions.assertEquals("1", frame.getValue("last_touch_event.touches.length"));
+            Assertions.assertEquals("5", frame.getValue("events_count"));
 
-        frame.sendTouchEvent(createSimpleEvent(1, 50, 100, CefTouchEvent.EventType.CANCELLED));
-        Assertions.assertEquals("touchcancel", frame.getValue("last_touch_event.type"));
-        Assertions.assertEquals("0", frame.getValue("last_touch_event.touches.length"));
-        Assertions.assertEquals("6", frame.getValue("events_count"));
-
-        frame.terminateTest();
-        frame.awaitCompletion();
+            frame.sendTouchEvent(createSimpleEvent(1, 50, 100, CefTouchEvent.EventType.CANCELLED));
+            Assertions.assertEquals("touchcancel", frame.getValue("last_touch_event.type"));
+            Assertions.assertEquals("0", frame.getValue("last_touch_event.touches.length"));
+            Assertions.assertEquals("6", frame.getValue("events_count"));
+        } finally {
+            frame.terminateTest();
+            frame.awaitCompletion();
+        }
     }
 
     @Test
     void numericValues() throws InterruptedException, ExecutionException {
         var frame = new TouchTestFrame();
-        frame.awaitLoad();
+        try {
+            frame.awaitLoad();
 
-        frame.sendTouchEvent(new CefTouchEvent(
-                0, // ID
-                10,  // x
-                15,  // y
-                20,  // radiusX
-                25, // radiusX
-                30,  // rotation angle
-                0.5f, // pressure
-                CefTouchEvent.EventType.PRESSED,
-                0, // modifiers
-                CefTouchEvent.PointerType.UNKNOWN)
-        );
+            frame.sendTouchEvent(new CefTouchEvent(
+                    0, // ID
+                    10,  // x
+                    15,  // y
+                    20,  // radiusX
+                    25, // radiusX
+                    30,  // rotation angle
+                    0.5f, // pressure
+                    CefTouchEvent.EventType.PRESSED,
+                    0, // modifiers
+                    CefTouchEvent.PointerType.UNKNOWN)
+            );
 
-        Assertions.assertEquals("touchstart", frame.getValue("last_touch_event.type"));
-        Assertions.assertEquals("1", frame.getValue("last_touch_event.touches.length"));
-        Assertions.assertEquals("10", frame.getValue("last_touch_event.touches[0].screenX"));
-        Assertions.assertEquals("15", frame.getValue("last_touch_event.touches[0].screenY"));
-        Assertions.assertEquals("20", frame.getValue("last_touch_event.touches[0].radiusX"));
-        Assertions.assertEquals("25", frame.getValue("last_touch_event.touches[0].radiusY"));
-        Assertions.assertEquals("0.5", frame.getValue("last_touch_event.touches[0].force"));
-        Assertions.assertEquals("30", frame.getValue("last_touch_event.touches[0].rotationAngle"));
+            Assertions.assertEquals("touchstart", frame.getValue("last_touch_event.type"));
+            Assertions.assertEquals("1", frame.getValue("last_touch_event.touches.length"));
+            Assertions.assertEquals("10", frame.getValue("last_touch_event.touches[0].screenX"));
+            Assertions.assertEquals("15", frame.getValue("last_touch_event.touches[0].screenY"));
+            Assertions.assertEquals("20", frame.getValue("last_touch_event.touches[0].radiusX"));
+            Assertions.assertEquals("25", frame.getValue("last_touch_event.touches[0].radiusY"));
+            Assertions.assertEquals("0.5", frame.getValue("last_touch_event.touches[0].force"));
+            Assertions.assertEquals("30", frame.getValue("last_touch_event.touches[0].rotationAngle"));
 
-        Assertions.assertEquals("1", frame.getValue("events_count"));
+            Assertions.assertEquals("1", frame.getValue("events_count"));
 
-        frame.terminateTest();
-        frame.awaitCompletion();
+        } finally {
+            frame.terminateTest();
+            frame.awaitCompletion();
+        }
     }
 }
