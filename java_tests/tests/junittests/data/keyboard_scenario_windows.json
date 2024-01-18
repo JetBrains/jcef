@@ -40724,16 +40724,6 @@
         "shiftKey": "true"
       },
       {
-        "type": "keypress",
-        "key": "Л",
-        "code": "Escape",
-        "location": "0",
-        "altKey": "false",
-        "ctrlKey": "false",
-        "metaKay": "false",
-        "shiftKey": "true"
-      },
-      {
         "type": "keyup",
         "key": "K",
         "code": "",
