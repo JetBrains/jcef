@@ -20,7 +20,7 @@ class ServerHandler : virtual public ServerIf {
     // Your initialization goes here
   }
 
-  int32_t connect(const int32_t backwardConnectionPort, const std::vector<std::string> & cmdLineArgs, const std::map<std::string, std::string> & settings) {
+  int32_t connect(const std::string& backwardConnectionPipe, const std::vector<std::string> & cmdLineArgs, const std::map<std::string, std::string> & settings) {
     // Your implementation goes here
     printf("connect\n");
   }

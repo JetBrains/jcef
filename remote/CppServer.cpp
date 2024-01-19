@@ -10,6 +10,8 @@
 
 #include "include/cef_app.h"
 
+#include <boost/filesystem.hpp>
+
 using namespace apache::thrift;
 using namespace apache::thrift::protocol;
 using namespace apache::thrift::transport;
@@ -59,9 +61,12 @@ int main(int argc, char* argv[]) {
 
   CefUtils::initializeCef();
 
+  boost::filesystem::path pipePath = boost::filesystem::temp_directory_path().append("cef_server_pipe").lexically_normal();
+  std::remove(pipePath.c_str());
+
   TThreadedServer server(std::make_shared<ServerProcessorFactory>(
                              std::make_shared<ServerCloneFactory>()),
-                         std::make_shared<TServerSocket>(9090),  // port
+                         std::make_shared<TServerSocket>(pipePath.c_str()),
                          std::make_shared<TBufferedTransportFactory>(),
                          std::make_shared<TBinaryProtocolFactory>());
 

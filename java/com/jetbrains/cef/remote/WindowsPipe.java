@@ -3,6 +3,7 @@ package com.jetbrains.cef.remote;
 import java.io.IOException;
 
 class WindowsPipe {
+    private static final String WIN32_PIPE_PREFIX = "\\\\.\\pipe\\";
     public static final int ERROR_IO_PENDING;
     public static final int ERROR_NO_DATA;
     public static final int ERROR_PIPE_CONNECTED;
@@ -22,6 +23,10 @@ class WindowsPipe {
         FILE_FLAG_OVERLAPPED = FILE_FLAG_OVERLAPPED();
         FILE_GENERIC_READ = FILE_GENERIC_READ();
         PIPE_ACCESS_DUPLEX = PIPE_ACCESS_DUPLEX();
+    }
+
+    static String normalizePipePath(String path) {
+        return path.startsWith(WIN32_PIPE_PREFIX) ? path : WIN32_PIPE_PREFIX + path;
     }
     static native long CreateNamedPipe(
             String lpName,

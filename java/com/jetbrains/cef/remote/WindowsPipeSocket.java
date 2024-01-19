@@ -24,7 +24,7 @@ public class WindowsPipeSocket extends Socket {
     }
 
     public WindowsPipeSocket(String pipeName) throws IOException {
-        this(WindowsPipe.OpenFile(pipeName), null);
+        this(WindowsPipe.OpenFile(WindowsPipe.normalizePipePath(pipeName)), null);
     }
 
     @Override

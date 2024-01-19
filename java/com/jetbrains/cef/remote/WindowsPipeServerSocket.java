@@ -11,7 +11,6 @@ import java.util.function.Consumer;
 
 public class WindowsPipeServerSocket extends ServerSocket {
     final static int PIPE_UNLIMITED_INSTANCES = 255;
-    private static final String WIN32_PIPE_PREFIX = "\\\\.\\pipe\\";
     private static final int BUFFER_SIZE = 65535;
     private final LinkedBlockingQueue<Long> myOpenHandles;
     private final LinkedBlockingQueue<Long> myConnectedHandles;
@@ -32,11 +31,7 @@ public class WindowsPipeServerSocket extends ServerSocket {
                     }
                 };
         myMaxInstances = PIPE_UNLIMITED_INSTANCES;
-        if (!path.startsWith(WIN32_PIPE_PREFIX)) {
-            myPath = WIN32_PIPE_PREFIX + path;
-        } else {
-            myPath = path;
-        }
+        myPath = WindowsPipe.normalizePipePath(path);
     }
 
     public void bind(SocketAddress endpoint) throws IOException {

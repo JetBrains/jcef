@@ -5,23 +5,36 @@ import com.jetbrains.cef.remote.thrift_codegen.ClientHandlers;
 import org.apache.thrift.TException;
 import org.apache.thrift.server.TServer;
 import org.apache.thrift.server.TSimpleServer;
-import org.apache.thrift.transport.TServerSocket;
+import org.apache.thrift.transport.TIOStreamTransport;
+import org.apache.thrift.transport.TServerTransport;
+import org.apache.thrift.transport.TTransport;
+import org.apache.thrift.transport.TTransportException;
 import org.cef.CefApp;
 import org.cef.CefSettings;
+import org.cef.OS;
 import org.cef.callback.CefSchemeRegistrar;
 import org.cef.misc.CefLog;
 
+import java.io.*;
+import java.net.Socket;
+import java.net.StandardProtocolFamily;
+import java.net.UnixDomainSocketAddress;
+import java.nio.channels.Channels;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
+import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
 
 public class CefServer {
     private static final int PORT = Integer.getInteger("jcef.remote.port", 9090);
+    private static final String PIPENAME = System.getProperty("jcef.remote.pipename", "client_pipe");
     private static final CefServer INSTANCE = CefApp.isRemoteEnabled() ? new CefServer() : null;
 
     // Fields for cef-handlers execution on java side
     private Thread myClientHandlersThread;
     private TServer myClientHandlersServer;
-    private TServerSocket myClientHandlersTransport;
+    private TServerTransport myClientHandlersTransport;
     private final RpcExecutor myService = new RpcExecutor();
     private final ClientHandlersImpl myClientHandlersImpl = new ClientHandlersImpl(myService, new RemoteApp() {
         @Override
@@ -66,12 +79,74 @@ public class CefServer {
         try {
             // 1. Start server for cef-handlers execution. Open socket
             CefLog.Debug("Initialize CefServer. Open socket.");
-            myService.init(PORT);
+            myService.init("cef_server_pipe");
 
             // 2. Start service for backward rpc calls (from native to java)
             ClientHandlers.Processor processor = new ClientHandlers.Processor(myClientHandlersImpl);
-            int backwardConnectionPort = PORT + 1;
-            myClientHandlersTransport = new TServerSocket(backwardConnectionPort);
+            if (OS.isWindows()) {
+                WindowsPipeServerSocket pipeSocket = new WindowsPipeServerSocket(PIPENAME);
+                myClientHandlersTransport = new TServerTransport() {
+                    @Override
+                    public void listen() {}
+
+                    @Override
+                    public TTransport accept() throws TTransportException {
+                        try {
+                            Socket client = pipeSocket.accept();
+                            return client != null ?
+                                    new TIOStreamTransport(client.getInputStream(), client.getOutputStream()) : null;
+                        } catch (IOException e) {
+                            CefLog.Debug("Exception occurred during pipe listening: %s", e);
+                            throw new TTransportException(TTransportException.UNKNOWN, e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void close() {
+                        try {
+                            pipeSocket.close();
+                        } catch (IOException e) {
+                            CefLog.Error("Exception occurred during pipe closing: %s", e);
+                        }
+                    }
+                };
+            } else {
+                // myClientHandlersTransport = new
+                final Path pipeName = Path.of(System.getProperty("java.io.tmpdir")).resolve("client_pipe");
+
+                new File(pipeName.toString()).delete(); // cleanup file remaining from prev process
+
+                ServerSocketChannel serverChannel = ServerSocketChannel.open(StandardProtocolFamily.UNIX);
+                serverChannel.bind(UnixDomainSocketAddress.of(pipeName));
+
+                myClientHandlersTransport = new TServerTransport() {
+                    @Override
+                    public void listen() {}
+
+                    @Override
+                    public TTransport accept() throws TTransportException {
+                        try {
+                            SocketChannel channel = serverChannel.accept();
+                            InputStream is = new BufferedInputStream(Channels.newInputStream(channel));
+                            OutputStream os = new BufferedOutputStream(Channels.newOutputStream(channel));
+                            return new TIOStreamTransport(is, os);
+                        } catch (IOException e) {
+                            CefLog.Debug("Exception occurred during pipe listening: %s", e);
+                            throw new TTransportException(TTransportException.UNKNOWN, e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void close() {
+                        try {
+                            serverChannel.close();
+                        } catch (IOException e) {
+                            CefLog.Error("Exception occurred during pipe closing: %s", e);
+                        }
+                    }
+                };
+            }
+
             myClientHandlersServer = new TSimpleServer(new TServer.Args(myClientHandlersTransport).processor(processor));
             CefLog.Debug("Starting cef-handlers server.");
             myClientHandlersThread = new Thread(()->{
@@ -85,12 +160,15 @@ public class CefServer {
             // 3. Connect to CefServer
             int[] cid = new int[]{-1};
             myService.exec((s)->{
-                cid[0] = s.connect(backwardConnectionPort, args, settings.toMap());
+                cid[0] = s.connect(PIPENAME, args, settings.toMap());
             });
 
             CefLog.Debug("Connected to CefSever, cid=" + cid[0]);
         } catch (TException x) {
-            CefLog.Error("exception in CefServer.start: %s", x.getMessage());
+            CefLog.Error("TException in CefServer.start: %s", x.getMessage());
+            return false;
+        } catch (IOException e) {
+            CefLog.Error("IOException in CefServer.start: %s", e.getMessage());
             return false;
         }
 
@@ -98,7 +176,7 @@ public class CefServer {
     }
 
     public void stop() {
-        myService.closeSocket();
+        myService.closeTransport();
         if (myClientHandlersTransport != null) {
             myClientHandlersTransport.close();
             myClientHandlersTransport = null;

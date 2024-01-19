@@ -12,6 +12,7 @@
 
 #include "CefUtils.h"
 #include "ServerHandler.h"
+#include "windows/PipeTransportServer.h"
 
 using namespace apache::thrift;
 using namespace apache::thrift::protocol;
@@ -25,15 +26,8 @@ class ServerCloneFactory : virtual public ServerIfFactory {
   ~ServerCloneFactory() override = default;
   ServerIf* getHandler(
       const ::apache::thrift::TConnectionInfo& connInfo) override {
-    std::shared_ptr<TSocket> sock =
-        std::dynamic_pointer_cast<TSocket>(connInfo.transport);
-    Log::debug("Incoming connection\n");
-    Log::debug("\tSocketInfo: %s", sock->getSocketInfo().c_str());
-    Log::debug("\tPeerHost: %s", sock->getPeerHost().c_str());
-    Log::debug("\tPeerAddress: %s", sock->getPeerAddress().c_str());
-    Log::debug("\tPeerPort: %d", sock->getPeerPort());
     auto * serverHandler = new ServerHandler;
-    Log::debug("\tServerHandler: %p\n", serverHandler);
+    Log::debug("\tCreated new ServerHandler: %p\n", serverHandler);
     return serverHandler;
   }
   void releaseHandler(ServerIf* handler) override { delete handler; }
@@ -55,9 +49,10 @@ int main() {
 
   CefUtils::initializeCef();
 
+  std::shared_ptr<PipeTransportServer> transport = std::make_shared<PipeTransportServer>("\\\\.\\pipe\\cef_server_pipe");
   TThreadedServer server(std::make_shared<ServerProcessorFactory>(
                              std::make_shared<ServerCloneFactory>()),
-                         std::make_shared<TServerSocket>(9090),  // port
+                         transport,
                          std::make_shared<TBufferedTransportFactory>(),
                          std::make_shared<TBinaryProtocolFactory>());
 

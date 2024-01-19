@@ -5,6 +5,11 @@
 #include <thrift/transport/TTransportUtils.h>
 
 #include "log/Log.h"
+#ifdef WIN32
+#include "windows/PipeTransport.h"
+#else
+#include <boost/filesystem.hpp>
+#endif
 
 using namespace apache::thrift;
 using namespace apache::thrift::protocol;
@@ -19,6 +24,20 @@ RpcExecutor::RpcExecutor() {
   myTransport->open();
   const int32_t backwardCid = myService->connect();
   Log::debug("backward connection to client established, backwardCid=%d", backwardCid);
+}
+
+RpcExecutor::RpcExecutor(std::string pipeName) {
+#ifdef WIN32
+  myTransport = std::make_shared<PipeTransport>("\\\\.\\pipe\\" + pipeName);
+#else
+  boost::filesystem::path pipePath = boost::filesystem::temp_directory_path().append(pipeName).lexically_normal();
+  myTransport = std::make_shared<TSocket>(pipePath.c_str());
+#endif
+  myService = std::make_shared<ClientHandlersClient>(std::make_shared<TBinaryProtocol>(myTransport));
+
+  myTransport->open();
+  const int32_t backwardCid = myService->connect();
+  Log::debug("backward pipe-connection to client established, backwardCid=%d", backwardCid);
 }
 
 void RpcExecutor::close() {
