@@ -17,6 +17,10 @@ public class SharedMemory {
     final private long myMutex;
 
     static {
+        loadDynamicLib();
+    }
+
+    static void loadDynamicLib() {
         if (ALT_MEM_HELPER_PATH == null || ALT_MEM_HELPER_PATH.isEmpty())
             System.loadLibrary("shared_mem_helper");
         else

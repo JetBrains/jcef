@@ -150,7 +150,13 @@ set(SERVER_SOURCES
 )
 
 if (OS_WINDOWS)
-    list(APPEND SERVER_SOURCES CppServerWin.cpp)
+    list(APPEND SERVER_SOURCES
+        CppServerWin.cpp
+        windows/PipeTransport.cpp
+        windows/PipeTransport.h
+        windows/PipeTransportServer.cpp
+        windows/PipeTransportServer.h
+    )
     add_executable(${EXECUTABLE_NAME} ${SERVER_SOURCES})
     target_link_options(${EXECUTABLE_NAME} PRIVATE "/SUBSYSTEM:console")
 endif ()
@@ -309,6 +315,11 @@ if (OS_MAC)
     endforeach ()
 endif ()
 
-set(shared_mem_helper_SOURCES CefServerHelper.cpp)
+set(shared_mem_helper_SOURCES shared_mem_helper.cpp)
+if (OS_WINDOWS)
+    list(APPEND shared_mem_helper_SOURCES
+        windows/WindowsPipe.cpp
+    )
+endif ()
 add_library(shared_mem_helper SHARED ${shared_mem_helper_SOURCES})
 target_include_directories(shared_mem_helper PUBLIC ${JNI_INCLUDE_DIRS})
