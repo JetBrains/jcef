@@ -36,7 +36,7 @@ ServerHandler::~ServerHandler() {
 }
 
 int32_t ServerHandler::connect(
-    const int32_t backwardConnectionPort,
+    const std::string& backwardConnectionPipe,
     const std::vector<std::string>& cmdLineArgs,
     const std::map<std::string, std::string>& settings
 ) {
@@ -48,7 +48,7 @@ int32_t ServerHandler::connect(
   // Connect to client's side (for cef-callbacks execution on java side)
   if (myService == nullptr) {
     try {
-      myService = std::make_shared<RpcExecutor>();
+      myService = std::make_shared<RpcExecutor>(backwardConnectionPipe);
       myClientsManager = std::make_shared<ClientsManager>();
       RemoteAppHandler::instance().setArgs(cmdLineArgs);
       RemoteAppHandler::instance().setSettings(settings);

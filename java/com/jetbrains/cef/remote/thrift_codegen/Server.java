@@ -11,7 +11,7 @@ public class Server {
 
   public interface Iface {
 
-    public int connect(int backwardConnectionPort, java.util.List<java.lang.String> cmdLineArgs, java.util.Map<java.lang.String,java.lang.String> settings) throws org.apache.thrift.TException;
+    public int connect(java.lang.String backwardConnectionPipe, java.util.List<java.lang.String> cmdLineArgs, java.util.Map<java.lang.String,java.lang.String> settings) throws org.apache.thrift.TException;
 
     public void log(java.lang.String msg) throws org.apache.thrift.TException;
 
@@ -99,7 +99,7 @@ public class Server {
 
   public interface AsyncIface {
 
-    public void connect(int backwardConnectionPort, java.util.List<java.lang.String> cmdLineArgs, java.util.Map<java.lang.String,java.lang.String> settings, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException;
+    public void connect(java.lang.String backwardConnectionPipe, java.util.List<java.lang.String> cmdLineArgs, java.util.Map<java.lang.String,java.lang.String> settings, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException;
 
     public void log(java.lang.String msg, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
@@ -208,16 +208,16 @@ public class Server {
     }
 
     @Override
-    public int connect(int backwardConnectionPort, java.util.List<java.lang.String> cmdLineArgs, java.util.Map<java.lang.String,java.lang.String> settings) throws org.apache.thrift.TException
+    public int connect(java.lang.String backwardConnectionPipe, java.util.List<java.lang.String> cmdLineArgs, java.util.Map<java.lang.String,java.lang.String> settings) throws org.apache.thrift.TException
     {
-      send_connect(backwardConnectionPort, cmdLineArgs, settings);
+      send_connect(backwardConnectionPipe, cmdLineArgs, settings);
       return recv_connect();
     }
 
-    public void send_connect(int backwardConnectionPort, java.util.List<java.lang.String> cmdLineArgs, java.util.Map<java.lang.String,java.lang.String> settings) throws org.apache.thrift.TException
+    public void send_connect(java.lang.String backwardConnectionPipe, java.util.List<java.lang.String> cmdLineArgs, java.util.Map<java.lang.String,java.lang.String> settings) throws org.apache.thrift.TException
     {
       connect_args args = new connect_args();
-      args.setBackwardConnectionPort(backwardConnectionPort);
+      args.setBackwardConnectionPipe(backwardConnectionPipe);
       args.setCmdLineArgs(cmdLineArgs);
       args.setSettings(settings);
       sendBase("connect", args);
@@ -1030,20 +1030,20 @@ public class Server {
     }
 
     @Override
-    public void connect(int backwardConnectionPort, java.util.List<java.lang.String> cmdLineArgs, java.util.Map<java.lang.String,java.lang.String> settings, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException {
+    public void connect(java.lang.String backwardConnectionPipe, java.util.List<java.lang.String> cmdLineArgs, java.util.Map<java.lang.String,java.lang.String> settings, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      connect_call method_call = new connect_call(backwardConnectionPort, cmdLineArgs, settings, resultHandler, this, ___protocolFactory, ___transport);
+      connect_call method_call = new connect_call(backwardConnectionPipe, cmdLineArgs, settings, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
     public static class connect_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.Integer> {
-      private int backwardConnectionPort;
+      private java.lang.String backwardConnectionPipe;
       private java.util.List<java.lang.String> cmdLineArgs;
       private java.util.Map<java.lang.String,java.lang.String> settings;
-      public connect_call(int backwardConnectionPort, java.util.List<java.lang.String> cmdLineArgs, java.util.Map<java.lang.String,java.lang.String> settings, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public connect_call(java.lang.String backwardConnectionPipe, java.util.List<java.lang.String> cmdLineArgs, java.util.Map<java.lang.String,java.lang.String> settings, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
-        this.backwardConnectionPort = backwardConnectionPort;
+        this.backwardConnectionPipe = backwardConnectionPipe;
         this.cmdLineArgs = cmdLineArgs;
         this.settings = settings;
       }
@@ -1052,7 +1052,7 @@ public class Server {
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("connect", org.apache.thrift.protocol.TMessageType.CALL, 0));
         connect_args args = new connect_args();
-        args.setBackwardConnectionPort(backwardConnectionPort);
+        args.setBackwardConnectionPipe(backwardConnectionPipe);
         args.setCmdLineArgs(cmdLineArgs);
         args.setSettings(settings);
         args.write(prot);
@@ -2755,7 +2755,7 @@ public class Server {
       @Override
       public connect_result getResult(I iface, connect_args args) throws org.apache.thrift.TException {
         connect_result result = new connect_result();
-        result.success = iface.connect(args.backwardConnectionPort, args.cmdLineArgs, args.settings);
+        result.success = iface.connect(args.backwardConnectionPipe, args.cmdLineArgs, args.settings);
         result.setSuccessIsSet(true);
         return result;
       }
@@ -4012,7 +4012,7 @@ public class Server {
 
       @Override
       public void start(I iface, connect_args args, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException {
-        iface.connect(args.backwardConnectionPort, args.cmdLineArgs, args.settings,resultHandler);
+        iface.connect(args.backwardConnectionPipe, args.cmdLineArgs, args.settings,resultHandler);
       }
     }
 
@@ -6217,20 +6217,20 @@ public class Server {
   public static class connect_args implements org.apache.thrift.TBase<connect_args, connect_args._Fields>, java.io.Serializable, Cloneable, Comparable<connect_args>   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("connect_args");
 
-    private static final org.apache.thrift.protocol.TField BACKWARD_CONNECTION_PORT_FIELD_DESC = new org.apache.thrift.protocol.TField("backwardConnectionPort", org.apache.thrift.protocol.TType.I32, (short)1);
+    private static final org.apache.thrift.protocol.TField BACKWARD_CONNECTION_PIPE_FIELD_DESC = new org.apache.thrift.protocol.TField("backwardConnectionPipe", org.apache.thrift.protocol.TType.STRING, (short)1);
     private static final org.apache.thrift.protocol.TField CMD_LINE_ARGS_FIELD_DESC = new org.apache.thrift.protocol.TField("cmdLineArgs", org.apache.thrift.protocol.TType.LIST, (short)2);
     private static final org.apache.thrift.protocol.TField SETTINGS_FIELD_DESC = new org.apache.thrift.protocol.TField("settings", org.apache.thrift.protocol.TType.MAP, (short)3);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new connect_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new connect_argsTupleSchemeFactory();
 
-    public int backwardConnectionPort; // required
+    public @org.apache.thrift.annotation.Nullable java.lang.String backwardConnectionPipe; // required
     public @org.apache.thrift.annotation.Nullable java.util.List<java.lang.String> cmdLineArgs; // required
     public @org.apache.thrift.annotation.Nullable java.util.Map<java.lang.String,java.lang.String> settings; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      BACKWARD_CONNECTION_PORT((short)1, "backwardConnectionPort"),
+      BACKWARD_CONNECTION_PIPE((short)1, "backwardConnectionPipe"),
       CMD_LINE_ARGS((short)2, "cmdLineArgs"),
       SETTINGS((short)3, "settings");
 
@@ -6248,8 +6248,8 @@ public class Server {
       @org.apache.thrift.annotation.Nullable
       public static _Fields findByThriftId(int fieldId) {
         switch(fieldId) {
-          case 1: // BACKWARD_CONNECTION_PORT
-            return BACKWARD_CONNECTION_PORT;
+          case 1: // BACKWARD_CONNECTION_PIPE
+            return BACKWARD_CONNECTION_PIPE;
           case 2: // CMD_LINE_ARGS
             return CMD_LINE_ARGS;
           case 3: // SETTINGS
@@ -6297,13 +6297,11 @@ public class Server {
     }
 
     // isset id assignments
-    private static final int __BACKWARDCONNECTIONPORT_ISSET_ID = 0;
-    private byte __isset_bitfield = 0;
     public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.BACKWARD_CONNECTION_PORT, new org.apache.thrift.meta_data.FieldMetaData("backwardConnectionPort", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.BACKWARD_CONNECTION_PIPE, new org.apache.thrift.meta_data.FieldMetaData("backwardConnectionPipe", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       tmpMap.put(_Fields.CMD_LINE_ARGS, new org.apache.thrift.meta_data.FieldMetaData("cmdLineArgs", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
               new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING))));
@@ -6319,13 +6317,12 @@ public class Server {
     }
 
     public connect_args(
-      int backwardConnectionPort,
+      java.lang.String backwardConnectionPipe,
       java.util.List<java.lang.String> cmdLineArgs,
       java.util.Map<java.lang.String,java.lang.String> settings)
     {
       this();
-      this.backwardConnectionPort = backwardConnectionPort;
-      setBackwardConnectionPortIsSet(true);
+      this.backwardConnectionPipe = backwardConnectionPipe;
       this.cmdLineArgs = cmdLineArgs;
       this.settings = settings;
     }
@@ -6334,8 +6331,9 @@ public class Server {
      * Performs a deep copy on <i>other</i>.
      */
     public connect_args(connect_args other) {
-      __isset_bitfield = other.__isset_bitfield;
-      this.backwardConnectionPort = other.backwardConnectionPort;
+      if (other.isSetBackwardConnectionPipe()) {
+        this.backwardConnectionPipe = other.backwardConnectionPipe;
+      }
       if (other.isSetCmdLineArgs()) {
         java.util.List<java.lang.String> __this__cmdLineArgs = new java.util.ArrayList<java.lang.String>(other.cmdLineArgs);
         this.cmdLineArgs = __this__cmdLineArgs;
@@ -6353,33 +6351,34 @@ public class Server {
 
     @Override
     public void clear() {
-      setBackwardConnectionPortIsSet(false);
-      this.backwardConnectionPort = 0;
+      this.backwardConnectionPipe = null;
       this.cmdLineArgs = null;
       this.settings = null;
     }
 
-    public int getBackwardConnectionPort() {
-      return this.backwardConnectionPort;
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.String getBackwardConnectionPipe() {
+      return this.backwardConnectionPipe;
     }
 
-    public connect_args setBackwardConnectionPort(int backwardConnectionPort) {
-      this.backwardConnectionPort = backwardConnectionPort;
-      setBackwardConnectionPortIsSet(true);
+    public connect_args setBackwardConnectionPipe(@org.apache.thrift.annotation.Nullable java.lang.String backwardConnectionPipe) {
+      this.backwardConnectionPipe = backwardConnectionPipe;
       return this;
     }
 
-    public void unsetBackwardConnectionPort() {
-      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __BACKWARDCONNECTIONPORT_ISSET_ID);
+    public void unsetBackwardConnectionPipe() {
+      this.backwardConnectionPipe = null;
     }
 
-    /** Returns true if field backwardConnectionPort is set (has been assigned a value) and false otherwise */
-    public boolean isSetBackwardConnectionPort() {
-      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __BACKWARDCONNECTIONPORT_ISSET_ID);
+    /** Returns true if field backwardConnectionPipe is set (has been assigned a value) and false otherwise */
+    public boolean isSetBackwardConnectionPipe() {
+      return this.backwardConnectionPipe != null;
     }
 
-    public void setBackwardConnectionPortIsSet(boolean value) {
-      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __BACKWARDCONNECTIONPORT_ISSET_ID, value);
+    public void setBackwardConnectionPipeIsSet(boolean value) {
+      if (!value) {
+        this.backwardConnectionPipe = null;
+      }
     }
 
     public int getCmdLineArgsSize() {
@@ -6462,11 +6461,11 @@ public class Server {
     @Override
     public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
       switch (field) {
-      case BACKWARD_CONNECTION_PORT:
+      case BACKWARD_CONNECTION_PIPE:
         if (value == null) {
-          unsetBackwardConnectionPort();
+          unsetBackwardConnectionPipe();
         } else {
-          setBackwardConnectionPort((java.lang.Integer)value);
+          setBackwardConnectionPipe((java.lang.String)value);
         }
         break;
 
@@ -6493,8 +6492,8 @@ public class Server {
     @Override
     public java.lang.Object getFieldValue(_Fields field) {
       switch (field) {
-      case BACKWARD_CONNECTION_PORT:
-        return getBackwardConnectionPort();
+      case BACKWARD_CONNECTION_PIPE:
+        return getBackwardConnectionPipe();
 
       case CMD_LINE_ARGS:
         return getCmdLineArgs();
@@ -6514,8 +6513,8 @@ public class Server {
       }
 
       switch (field) {
-      case BACKWARD_CONNECTION_PORT:
-        return isSetBackwardConnectionPort();
+      case BACKWARD_CONNECTION_PIPE:
+        return isSetBackwardConnectionPipe();
       case CMD_LINE_ARGS:
         return isSetCmdLineArgs();
       case SETTINGS:
@@ -6537,12 +6536,12 @@ public class Server {
       if (this == that)
         return true;
 
-      boolean this_present_backwardConnectionPort = true;
-      boolean that_present_backwardConnectionPort = true;
-      if (this_present_backwardConnectionPort || that_present_backwardConnectionPort) {
-        if (!(this_present_backwardConnectionPort && that_present_backwardConnectionPort))
+      boolean this_present_backwardConnectionPipe = true && this.isSetBackwardConnectionPipe();
+      boolean that_present_backwardConnectionPipe = true && that.isSetBackwardConnectionPipe();
+      if (this_present_backwardConnectionPipe || that_present_backwardConnectionPipe) {
+        if (!(this_present_backwardConnectionPipe && that_present_backwardConnectionPipe))
           return false;
-        if (this.backwardConnectionPort != that.backwardConnectionPort)
+        if (!this.backwardConnectionPipe.equals(that.backwardConnectionPipe))
           return false;
       }
 
@@ -6571,7 +6570,9 @@ public class Server {
     public int hashCode() {
       int hashCode = 1;
 
-      hashCode = hashCode * 8191 + backwardConnectionPort;
+      hashCode = hashCode * 8191 + ((isSetBackwardConnectionPipe()) ? 131071 : 524287);
+      if (isSetBackwardConnectionPipe())
+        hashCode = hashCode * 8191 + backwardConnectionPipe.hashCode();
 
       hashCode = hashCode * 8191 + ((isSetCmdLineArgs()) ? 131071 : 524287);
       if (isSetCmdLineArgs())
@@ -6592,12 +6593,12 @@ public class Server {
 
       int lastComparison = 0;
 
-      lastComparison = java.lang.Boolean.compare(isSetBackwardConnectionPort(), other.isSetBackwardConnectionPort());
+      lastComparison = java.lang.Boolean.compare(isSetBackwardConnectionPipe(), other.isSetBackwardConnectionPipe());
       if (lastComparison != 0) {
         return lastComparison;
       }
-      if (isSetBackwardConnectionPort()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.backwardConnectionPort, other.backwardConnectionPort);
+      if (isSetBackwardConnectionPipe()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.backwardConnectionPipe, other.backwardConnectionPipe);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -6646,8 +6647,12 @@ public class Server {
       java.lang.StringBuilder sb = new java.lang.StringBuilder("connect_args(");
       boolean first = true;
 
-      sb.append("backwardConnectionPort:");
-      sb.append(this.backwardConnectionPort);
+      sb.append("backwardConnectionPipe:");
+      if (this.backwardConnectionPipe == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.backwardConnectionPipe);
+      }
       first = false;
       if (!first) sb.append(", ");
       sb.append("cmdLineArgs:");
@@ -6684,8 +6689,6 @@ public class Server {
 
     private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
       try {
-        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
-        __isset_bitfield = 0;
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
       } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
@@ -6712,10 +6715,10 @@ public class Server {
             break;
           }
           switch (schemeField.id) {
-            case 1: // BACKWARD_CONNECTION_PORT
-              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-                struct.backwardConnectionPort = iprot.readI32();
-                struct.setBackwardConnectionPortIsSet(true);
+            case 1: // BACKWARD_CONNECTION_PIPE
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.backwardConnectionPipe = iprot.readString();
+                struct.setBackwardConnectionPipeIsSet(true);
               } else { 
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
@@ -6774,9 +6777,11 @@ public class Server {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
-        oprot.writeFieldBegin(BACKWARD_CONNECTION_PORT_FIELD_DESC);
-        oprot.writeI32(struct.backwardConnectionPort);
-        oprot.writeFieldEnd();
+        if (struct.backwardConnectionPipe != null) {
+          oprot.writeFieldBegin(BACKWARD_CONNECTION_PIPE_FIELD_DESC);
+          oprot.writeString(struct.backwardConnectionPipe);
+          oprot.writeFieldEnd();
+        }
         if (struct.cmdLineArgs != null) {
           oprot.writeFieldBegin(CMD_LINE_ARGS_FIELD_DESC);
           {
@@ -6821,7 +6826,7 @@ public class Server {
       public void write(org.apache.thrift.protocol.TProtocol prot, connect_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet optionals = new java.util.BitSet();
-        if (struct.isSetBackwardConnectionPort()) {
+        if (struct.isSetBackwardConnectionPipe()) {
           optionals.set(0);
         }
         if (struct.isSetCmdLineArgs()) {
@@ -6831,8 +6836,8 @@ public class Server {
           optionals.set(2);
         }
         oprot.writeBitSet(optionals, 3);
-        if (struct.isSetBackwardConnectionPort()) {
-          oprot.writeI32(struct.backwardConnectionPort);
+        if (struct.isSetBackwardConnectionPipe()) {
+          oprot.writeString(struct.backwardConnectionPipe);
         }
         if (struct.isSetCmdLineArgs()) {
           {
@@ -6860,8 +6865,8 @@ public class Server {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(3);
         if (incoming.get(0)) {
-          struct.backwardConnectionPort = iprot.readI32();
-          struct.setBackwardConnectionPortIsSet(true);
+          struct.backwardConnectionPipe = iprot.readString();
+          struct.setBackwardConnectionPipeIsSet(true);
         }
         if (incoming.get(1)) {
           {

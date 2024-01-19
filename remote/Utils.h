@@ -9,6 +9,7 @@ class RpcExecutor {
  public:
   typedef std::shared_ptr<thrift_codegen::ClientHandlersClient> Service;
   RpcExecutor();
+  RpcExecutor(std::string pipeName);
 
   void close();
   bool isClosed() { return myService == nullptr; }

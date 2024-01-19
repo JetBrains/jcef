@@ -35,9 +35,9 @@ uint32_t Server_connect_args::read(::apache::thrift::protocol::TProtocol* iprot)
     switch (fid)
     {
       case 1:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->backwardConnectionPort);
-          this->__isset.backwardConnectionPort = true;
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->backwardConnectionPipe);
+          this->__isset.backwardConnectionPipe = true;
         } else {
           xfer += iprot->skip(ftype);
         }
@@ -102,8 +102,8 @@ uint32_t Server_connect_args::write(::apache::thrift::protocol::TProtocol* oprot
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
   xfer += oprot->writeStructBegin("Server_connect_args");
 
-  xfer += oprot->writeFieldBegin("backwardConnectionPort", ::apache::thrift::protocol::T_I32, 1);
-  xfer += oprot->writeI32(this->backwardConnectionPort);
+  xfer += oprot->writeFieldBegin("backwardConnectionPipe", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->backwardConnectionPipe);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldBegin("cmdLineArgs", ::apache::thrift::protocol::T_LIST, 2);
@@ -146,8 +146,8 @@ uint32_t Server_connect_pargs::write(::apache::thrift::protocol::TProtocol* opro
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
   xfer += oprot->writeStructBegin("Server_connect_pargs");
 
-  xfer += oprot->writeFieldBegin("backwardConnectionPort", ::apache::thrift::protocol::T_I32, 1);
-  xfer += oprot->writeI32((*(this->backwardConnectionPort)));
+  xfer += oprot->writeFieldBegin("backwardConnectionPipe", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->backwardConnectionPipe)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldBegin("cmdLineArgs", ::apache::thrift::protocol::T_LIST, 2);
@@ -6401,19 +6401,19 @@ uint32_t Server_QueryCallback_Failure_pargs::write(::apache::thrift::protocol::T
   return xfer;
 }
 
-int32_t ServerClient::connect(const int32_t backwardConnectionPort, const std::vector<std::string> & cmdLineArgs, const std::map<std::string, std::string> & settings)
+int32_t ServerClient::connect(const std::string& backwardConnectionPipe, const std::vector<std::string> & cmdLineArgs, const std::map<std::string, std::string> & settings)
 {
-  send_connect(backwardConnectionPort, cmdLineArgs, settings);
+  send_connect(backwardConnectionPipe, cmdLineArgs, settings);
   return recv_connect();
 }
 
-void ServerClient::send_connect(const int32_t backwardConnectionPort, const std::vector<std::string> & cmdLineArgs, const std::map<std::string, std::string> & settings)
+void ServerClient::send_connect(const std::string& backwardConnectionPipe, const std::vector<std::string> & cmdLineArgs, const std::map<std::string, std::string> & settings)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("connect", ::apache::thrift::protocol::T_CALL, cseqid);
 
   Server_connect_pargs args;
-  args.backwardConnectionPort = &backwardConnectionPort;
+  args.backwardConnectionPipe = &backwardConnectionPipe;
   args.cmdLineArgs = &cmdLineArgs;
   args.settings = &settings;
   args.write(oprot_);
@@ -8088,7 +8088,7 @@ void ServerProcessor::process_connect(int32_t seqid, ::apache::thrift::protocol:
 
   Server_connect_result result;
   try {
-    result.success = iface_->connect(args.backwardConnectionPort, args.cmdLineArgs, args.settings);
+    result.success = iface_->connect(args.backwardConnectionPipe, args.cmdLineArgs, args.settings);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != nullptr) {
@@ -9987,20 +9987,20 @@ void ServerProcessor::process_QueryCallback_Failure(int32_t, ::apache::thrift::p
   return processor;
 }
 
-int32_t ServerConcurrentClient::connect(const int32_t backwardConnectionPort, const std::vector<std::string> & cmdLineArgs, const std::map<std::string, std::string> & settings)
+int32_t ServerConcurrentClient::connect(const std::string& backwardConnectionPipe, const std::vector<std::string> & cmdLineArgs, const std::map<std::string, std::string> & settings)
 {
-  int32_t seqid = send_connect(backwardConnectionPort, cmdLineArgs, settings);
+  int32_t seqid = send_connect(backwardConnectionPipe, cmdLineArgs, settings);
   return recv_connect(seqid);
 }
 
-int32_t ServerConcurrentClient::send_connect(const int32_t backwardConnectionPort, const std::vector<std::string> & cmdLineArgs, const std::map<std::string, std::string> & settings)
+int32_t ServerConcurrentClient::send_connect(const std::string& backwardConnectionPipe, const std::vector<std::string> & cmdLineArgs, const std::map<std::string, std::string> & settings)
 {
   int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
   oprot_->writeMessageBegin("connect", ::apache::thrift::protocol::T_CALL, cseqid);
 
   Server_connect_pargs args;
-  args.backwardConnectionPort = &backwardConnectionPort;
+  args.backwardConnectionPipe = &backwardConnectionPipe;
   args.cmdLineArgs = &cmdLineArgs;
   args.settings = &settings;
   args.write(oprot_);

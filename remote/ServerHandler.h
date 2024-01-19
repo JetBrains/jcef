@@ -19,7 +19,7 @@ class ServerHandler : public thrift_codegen::ServerIf {
   //
   // ServerIf
   //
-  int32_t connect(const int32_t backwardConnectionPort,const std::vector<std::string>& cmdLineArgs,const std::map<std::string, std::string>& settings) override;
+  int32_t connect(const std::string& backwardConnectionPipe,const std::vector<std::string>& cmdLineArgs,const std::map<std::string, std::string>& settings) override;
   void log(const std::string& msg) override { Log::info("received message from client: %s", msg.c_str()); }
 
   //
