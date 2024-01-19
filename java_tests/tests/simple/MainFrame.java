@@ -57,8 +57,9 @@ public class MainFrame extends JFrame {
     private final CefApp cefApp_;
     private final CefClient client_;
     private final CefBrowser browser_;
-    private final Component browerUI_;
+    private final Component browserUI_;
     private boolean browserFocus_ = true;
+    private JFrame fullscreenFrame_;
 
     /**
      * To display a simple browser window, it suffices completely to create an
@@ -125,7 +126,7 @@ public class MainFrame extends JFrame {
             browser_ = client_.createBrowser(startURL, useOSR, isTransparent);
         }
 
-        browerUI_ = browser_.getUIComponent();
+        browserUI_ = browser_.getUIComponent();
 
         // (4) For this minimal browser, we need only a text field to enter an URL
         //     we want to navigate to and a CefBrowser window to display the content
@@ -147,6 +148,10 @@ public class MainFrame extends JFrame {
             @Override
             public void onAddressChange(CefBrowser browser, CefFrame frame, String url) {
                 address_.setText(url);
+            }
+            @Override
+            public void OnFullscreenModeChange(CefBrowser browser, boolean fullscreen) {
+                setBrowserFullscreen(fullscreen);
             }
         });
 
@@ -201,7 +206,7 @@ public class MainFrame extends JFrame {
         // (5) All UI components are assigned to the default content pane of this
         //     JFrame and afterwards the frame is made visible to the user.
         getContentPane().add(address_, BorderLayout.NORTH);
-        getContentPane().add(browerUI_, BorderLayout.CENTER);
+        getContentPane().add(browserUI_, BorderLayout.CENTER);
         pack();
         setSize(800, 600);
         setVisible(true);
@@ -270,6 +275,34 @@ public class MainFrame extends JFrame {
                 .collect(Collectors.joining("</td></tr><tr><td style=\"max-width:500px;overflow:scroll;word-wrap:break-word;\">")));
         page.append("</td></tr></table></body></html>");
         return page.toString();
+    }
+
+    public void setBrowserFullscreen(boolean fullscreen) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                if (fullscreen) {
+                    if (fullscreenFrame_ == null) {
+                        fullscreenFrame_ = new JFrame();
+                        fullscreenFrame_.setUndecorated(true);
+                        fullscreenFrame_.setResizable(true);
+                    }
+                    GraphicsConfiguration gc = MainFrame.this.getGraphicsConfiguration();
+                    fullscreenFrame_.setBounds(gc.getBounds());
+                    gc.getDevice().setFullScreenWindow(fullscreenFrame_);
+
+                    getContentPane().remove(browserUI_);
+                    fullscreenFrame_.add(browserUI_);
+                    fullscreenFrame_.setVisible(true);
+                    fullscreenFrame_.validate();
+                } else {
+                    fullscreenFrame_.remove(browserUI_);
+                    fullscreenFrame_.setVisible(false);
+                    getContentPane().add(browserUI_, BorderLayout.CENTER);
+                    getContentPane().validate();
+                }
+            }
+        });
     }
 
     public static void main(String[] args) {
