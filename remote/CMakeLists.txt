@@ -147,6 +147,10 @@ set(SERVER_SOURCES
         browser/ClientsManager.h
         handlers/SharedBufferManager.cpp
         handlers/SharedBufferManager.h
+        MyTPipe.cpp
+        MyTPipe.h
+        MyTPipeServer.cpp
+        MyTPipeServer.h
 )
 
 if (OS_WINDOWS)

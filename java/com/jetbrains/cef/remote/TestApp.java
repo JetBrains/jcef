@@ -4,13 +4,11 @@ import com.jetbrains.cef.remote.thrift_codegen.*;
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.protocol.TProtocol;
-import org.apache.thrift.transport.TIOStreamTransport;
-import org.apache.thrift.transport.TTransport;
-import org.apache.thrift.transport.TTransportException;
-import org.apache.thrift.transport.layered.TFramedTransport;
+import org.apache.thrift.transport.*;
 import org.cef.misc.CefLog;
 
 import java.io.*;
+import java.net.Socket;
 import java.net.StandardProtocolFamily;
 import java.net.UnixDomainSocketAddress;
 import java.nio.channels.Channels;
@@ -310,7 +308,81 @@ public class TestApp {
         }
     }
 
+    private static void testJavaClientWin(boolean recursive) throws TException, IOException {
+        final String pipeName = "\\\\.\\pipe\\server_pipe";
+        CefLog.Debug("Start test java client on pipe '%s'", pipeName);
+
+        Win32NamedPipeSocket pipe = new Win32NamedPipeSocket(pipeName);
+
+        TTransport transport;
+        try {
+            InputStream is = new BufferedInputStream(pipe.getInputStream());
+            OutputStream os = new BufferedOutputStream(pipe.getOutputStream());
+            transport = new TIOStreamTransport(is, os);
+        } catch (TTransportException e) {
+            CefLog.Error(e.toString());
+            throw e;
+        }
+
+        TProtocol protocol = new TBinaryProtocol(transport);
+        Server.Iface serverIface = new Server.Client(protocol);
+        try {
+            if (recursive) // used to test several connections
+                testJavaClient(false);
+            System.out.println(serverIface.connect(recursive ? 77 : 66, null, null));
+        } catch (TException e) {
+            CefLog.Error(e.toString());
+            throw e;
+        }
+
+        pipe.close();
+    }
+
+    private static void testJavaServerWin() throws IOException, TTransportException {
+        // Start service for backward rpc calls (from native to java) over named pipes transport.
+        final String pipeName = "\\\\.\\pipe\\client_pipe";
+        CefLog.Debug("Start test java server on pipe '%s'", pipeName);
+
+        ClientHandlers.Processor processor = new ClientHandlers.Processor(new TestHandlers());
+        Win32NamedPipeServerSocket socketWrapper = new Win32NamedPipeServerSocket(pipeName);
+        TServerTransport transport = new TServerSocket(socketWrapper);
+
+        try {
+            transport.listen();
+        } catch (TTransportException var9) {
+            CefLog.Error("Error occurred during listening: %s", var9);
+            return;
+        }
+
+        while(true) {
+            Socket client = null;
+            TProtocol inputProtocol = null;
+            TProtocol outputProtocol = null;
+
+            try {
+                client = socketWrapper.accept();
+                if (client != null) {
+                    TTransport t = new TIOStreamTransport(client.getInputStream(), client.getOutputStream());
+                    inputProtocol = new TBinaryProtocol(t);
+                    outputProtocol = new TBinaryProtocol(t);
+
+                    while(true) {
+                        processor.process(inputProtocol, outputProtocol);
+                    }
+                }
+            } catch (TTransportException var10) {
+                CefLog.Error("Client Transportation Exception: %s", var10);
+            } catch (TException var11) {
+                CefLog.Error("Thrift error occurred during processing of message: %s", var11);
+            } catch (Exception var12) {
+                CefLog.Error("Error occurred during processing of message: %s", var12);
+            }
+        }
+    }
+
     public static void main(String[] args) throws IOException, TException {
+//        System.load("C:\\Users\\bocha\\projects\\jcef\\cmake-build-debug\\remote\\Debug\\shared_mem_helper.dll");
+        System.load("C:\\Users\\bocha\\projects\\jcef\\cmake-build-release\\remote\\Release\\shared_mem_helper.dll");
         //testJavaClient(true);
         testJavaServer();
     }
