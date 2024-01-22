@@ -63,8 +63,24 @@ public class SharedMemory {
         return wrapNativeMem(myPtr, size);
     }
 
+    public int readInt() {
+        return readInt(myPtr, 0);
+    }
+
+    public int readInt(int offset) {
+        return readInt(myPtr, offset);
+    }
+
+    public int readByte(int offset) {
+        return readByte(myPtr, offset);
+    }
+
     // Helper method (for creating BufferedImage from native raster)
     private static native ByteBuffer wrapNativeMem(long pdata, int length);
+
+    private static native int readInt(long pdata, int offset);
+
+    private static native int readByte(long pdata, int offset);
     
     public static class WithRaster extends SharedMemory {
         private int myWidth;
@@ -79,8 +95,10 @@ public class SharedMemory {
             return wrapNativeMem(getPtr(), myWidth * myHeight * 4);
         }
         public ByteBuffer wrapRects() {
-            return wrapNativeMem(getPtr() + myWidth * myHeight * 4, myDirtyRectsCount * 4 * 4);
+            return wrapNativeMem(getPtr() + getRectsOffset(), myDirtyRectsCount * 4 * 4);
         }
+
+        public int getRectsOffset() { return myWidth * myHeight * 4; }
 
         public int getWidth() {
             return myWidth;
