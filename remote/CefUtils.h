@@ -13,7 +13,8 @@ namespace CefUtils {
   bool doLoadCefLibrary();
 #endif
   bool isCefInitialized();
-  void initializeCef();
+  bool initializeCef();
+  void runCefLoop();
 }
 
 template<typename ... Args>
