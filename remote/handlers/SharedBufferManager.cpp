@@ -14,8 +14,14 @@ SharedBuffer::SharedBuffer(std::string uid, size_t len)
   if (shared_memory_object::remove(uid.c_str()))
     Log::debug("Removed shared mem '%s'", uid.c_str());
   // TODO: check allocation errors, catch and process exceptions
+#ifdef WIN32
+  mySharedSegment = new managed_windows_shared_memory(create_only, uid.c_str(),
+                                              len + additionalBytes);
+#else
   mySharedSegment = new managed_shared_memory(create_only, uid.c_str(),
                                               len + additionalBytes);
+#endif
+
   mySharedMem = mySharedSegment->allocate(len);
   mySharedMemHandle = mySharedSegment->get_handle_from_address(mySharedMem);
 

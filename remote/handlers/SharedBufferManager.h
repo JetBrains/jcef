@@ -1,7 +1,12 @@
 #ifndef JCEF_SHAREDBUFFERMANAGER_H
 #define JCEF_SHAREDBUFFERMANAGER_H
 
+#ifdef WIN32
+#include <boost/interprocess/managed_windows_shared_memory.hpp>
+#else
 #include <boost/interprocess/managed_shared_memory.hpp>
+#endif
+
 #include <boost/interprocess/sync/named_mutex.hpp>
 
 class SharedBuffer {
@@ -22,8 +27,13 @@ class SharedBuffer {
   const std::string myUid;
   const size_t myLen;
 
+#ifdef WIN32
+  boost::interprocess::managed_windows_shared_memory * mySharedSegment = nullptr;
+  boost::interprocess::managed_windows_shared_memory::handle_t mySharedMemHandle{};
+#else
   boost::interprocess::managed_shared_memory * mySharedSegment = nullptr;
   boost::interprocess::managed_shared_memory::handle_t mySharedMemHandle{};
+#endif
   void * mySharedMem = nullptr;
 
   boost::interprocess::named_mutex * myMutex;

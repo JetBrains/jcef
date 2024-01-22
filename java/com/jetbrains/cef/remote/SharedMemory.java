@@ -1,5 +1,6 @@
 package com.jetbrains.cef.remote;
 
+import org.cef.misc.CefLog;
 import org.cef.misc.Utils;
 
 import java.nio.ByteBuffer;
@@ -21,10 +22,14 @@ public class SharedMemory {
     }
 
     static void loadDynamicLib() {
-        if (ALT_MEM_HELPER_PATH == null || ALT_MEM_HELPER_PATH.isEmpty())
-            System.loadLibrary("shared_mem_helper");
-        else
-            System.load(ALT_MEM_HELPER_PATH);
+        try {
+            if (ALT_MEM_HELPER_PATH == null || ALT_MEM_HELPER_PATH.isEmpty())
+                System.loadLibrary("shared_mem_helper");
+            else
+                System.load(ALT_MEM_HELPER_PATH);
+        } catch (UnsatisfiedLinkError e) {
+            CefLog.Error("Can't load shared_mem_helper, exception: %s", e.getMessage());
+        }
     }
 
     public SharedMemory(String sharedMemName, long boostHandle) {
@@ -63,8 +68,24 @@ public class SharedMemory {
         return wrapNativeMem(myPtr, size);
     }
 
+    public int readInt() {
+        return readInt(myPtr, 0);
+    }
+
+    public int readInt(int offset) {
+        return readInt(myPtr, offset);
+    }
+
+    public int readByte(int offset) {
+        return readByte(myPtr, offset);
+    }
+
     // Helper method (for creating BufferedImage from native raster)
     private static native ByteBuffer wrapNativeMem(long pdata, int length);
+
+    private static native int readInt(long pdata, int offset);
+
+    private static native int readByte(long pdata, int offset);
     
     public static class WithRaster extends SharedMemory {
         private int myWidth;
@@ -79,8 +100,10 @@ public class SharedMemory {
             return wrapNativeMem(getPtr(), myWidth * myHeight * 4);
         }
         public ByteBuffer wrapRects() {
-            return wrapNativeMem(getPtr() + myWidth * myHeight * 4, myDirtyRectsCount * 4 * 4);
+            return wrapNativeMem(getPtr() + getRectsOffset(), myDirtyRectsCount * 4 * 4);
         }
+
+        public int getRectsOffset() { return myWidth * myHeight * 4; }
 
         public int getWidth() {
             return myWidth;
