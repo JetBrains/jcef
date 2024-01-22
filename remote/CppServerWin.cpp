@@ -47,23 +47,34 @@ int main() {
     return result;
   }
 
-  CefUtils::initializeCef();
-
-  std::shared_ptr<PipeTransportServer> transport = std::make_shared<PipeTransportServer>("\\\\.\\pipe\\cef_server_pipe");
-  TThreadedServer server(std::make_shared<ServerProcessorFactory>(
-                             std::make_shared<ServerCloneFactory>()),
-                         transport,
-                         std::make_shared<TBufferedTransportFactory>(),
-                         std::make_shared<TBinaryProtocolFactory>());
-
-  Log::debug("Starting the server...");
-  try {
-    server.serve();
-  } catch (const TException& e) {
-    Log::error("Exception in listening thread");
-    Log::error(e.what());
+  const bool success = CefUtils::initializeCef();
+  if (!success) {
+    Log::error("Cef initialization failed");
+    return -2;
   }
 
-  Log::debug("Done, server stopped.");
+  std::shared_ptr<PipeTransportServer> transport = std::make_shared<PipeTransportServer>("\\\\.\\pipe\\cef_server_pipe");
+  std::shared_ptr<TThreadedServer> server = std::make_shared<TThreadedServer>(
+      std::make_shared<ServerProcessorFactory>(
+      std::make_shared<ServerCloneFactory>()),
+      transport,
+      std::make_shared<TBufferedTransportFactory>(),
+      std::make_shared<TBinaryProtocolFactory>());
+
+  std::thread servThread([=]() {
+    Log::debug("Starting the server...");
+
+    try {
+      server->serve();
+    } catch (TException e) {
+      Log::error("Exception in listening thread");
+      Log::error(e.what());
+    }
+
+    Log::debug("Done, server stopped.");
+  });
+
+  CefUtils::runCefLoop();
+  server->stop();
   return 0;
 }

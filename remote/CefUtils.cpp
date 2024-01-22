@@ -17,7 +17,6 @@
 #include "handlers/RemoteAppHandler.h"
 
 namespace {
-    std::thread * g_mainCefThread = nullptr;
     bool g_isInitialized = false;
     void fillSettings(CefSettings & out, const std::map<std::string, std::string>& settings);
 }
@@ -51,48 +50,42 @@ namespace CefUtils {
 
     bool isCefInitialized() { return g_isInitialized; }
 
-    void initializeCef() {
-        if (g_mainCefThread)
-            return;
+    void runCefLoop() {
+        setThreadName("CefMain");
+        g_isInitialized = true;
+        CefRunMessageLoop();
+        Log::debug("Cef going shutdown.");
+        CefShutdown();
+        Log::debug("Shutdown finished.");
+    }
 
-        g_mainCefThread = new std::thread([=]() {
-            setThreadName("CefMain");
-            CefMainArgs main_args;
-            CefSettings cefSettings;
-            fillSettings(cefSettings, RemoteAppHandler::instance().getSettings());
+    bool initializeCef() {
+        CefMainArgs main_args;
+        CefSettings cefSettings;
+        fillSettings(cefSettings, RemoteAppHandler::instance().getSettings());
 #if defined(OS_MAC)
-            boost::filesystem::path framework_path = boost::filesystem::current_path().append("..").append("..").append("..").append("./Chromium Embedded Framework.framework").lexically_normal();
-            CefString(&cefSettings.framework_dir_path) = framework_path.string();
+        boost::filesystem::path framework_path = boost::filesystem::current_path().append("..").append("..").append("..").append("./Chromium Embedded Framework.framework").lexically_normal();
+        CefString(&cefSettings.framework_dir_path) = framework_path.string();
 #endif
 #if defined(OS_WIN)
-          auto installation_root =
-              boost::filesystem::current_path().append("..").lexically_normal();
+      auto installation_root =
+          boost::filesystem::current_path().append("..").lexically_normal();
 
-            boost::filesystem::path resources_dir_path =
-              installation_root.append("lib");
-            boost::filesystem::path framework_dir_path =
-                installation_root.append("bin");
+        boost::filesystem::path resources_dir_path =
+          installation_root.append("lib");
+        boost::filesystem::path framework_dir_path =
+            installation_root.append("bin");
 
-             std::string resources_path = resources_dir_path.string();
-             std::string locales_dir_path =
-                resources_dir_path.append("locales").string();
+         std::string resources_path = resources_dir_path.string();
+         std::string locales_dir_path =
+            resources_dir_path.append("locales").string();
 
-            CefString(&cefSettings.resources_dir_path).FromString(resources_path);
-            CefString(&cefSettings.locales_dir_path).FromString(locales_dir_path);
+        CefString(&cefSettings.resources_dir_path).FromString(resources_path);
+        CefString(&cefSettings.locales_dir_path).FromString(locales_dir_path);
 #endif
-            Log::debug("Start CefInitialize");
-            CefRefPtr<CefApp> app = &RemoteAppHandler::instance();
-            const bool success = CefInitialize(main_args, cefSettings, app, nullptr);
-            if (!success) {
-              Log::error("Cef initialization failed");
-              return;
-            }
-            g_isInitialized = true;
-            CefRunMessageLoop();
-            Log::debug("Cef shutdowns");
-            CefShutdown();
-            Log::debug("Shutdown finished");
-        });
+        Log::debug("Start CefInitialize");
+        CefRefPtr<CefApp> app = &RemoteAppHandler::instance();
+        return CefInitialize(main_args, cefSettings, app, nullptr);
     }
 } // CefUtils
 
