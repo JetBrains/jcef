@@ -148,7 +148,7 @@ public class CefApp extends CefAppHandlerAdapter {
     private static final int INIT_TEST_DELAY_MS = Utils.getInteger("jcef_app_init_test_delay_ms", 0);
 
     // Support for JBR-4430
-    private static final boolean IS_REMOTE_ENABLED = Boolean.getBoolean("jcef.remote.enabled");
+    private static final boolean IS_REMOTE_ENABLED = true;
 
     /**
      * To get an instance of this class, use the method

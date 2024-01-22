@@ -61,7 +61,13 @@ void RpcExecutor::exec(std::function<void(Service)> rpc) {
   try {
     rpc(myService);
   } catch (apache::thrift::TException& tx) {
-    Log::debug("thrift exception occured: %s", tx.what());
+#ifdef WIN32
+      // NOTE: tx.what() returns broken memory pointer in Windows...
+      // Very strange thing, need to debug later.
+      Log::debug("thrift exception occured, %p", tx.what());
+#else
+      Log::debug("thrift exception occured: %s", tx.what());
+#endif
     // TODO: should we call close now ?
   }
 }
