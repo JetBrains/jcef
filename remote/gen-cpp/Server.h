@@ -24,6 +24,7 @@ class ServerIf {
   virtual ~ServerIf() {}
   virtual int32_t connect(const std::string& backwardConnectionPipe, const std::vector<std::string> & cmdLineArgs, const std::map<std::string, std::string> & settings) = 0;
   virtual void log(const std::string& msg) = 0;
+  virtual void echo(std::string& _return, const std::string& msg) = 0;
   virtual int32_t createBrowser(const int32_t cid, const std::string& url) = 0;
   virtual void closeBrowser(const int32_t bid) = 0;
   virtual void Browser_Reload(const int32_t bid) = 0;
@@ -98,6 +99,9 @@ class ServerNull : virtual public ServerIf {
     return _return;
   }
   void log(const std::string& /* msg */) override {
+    return;
+  }
+  void echo(std::string& /* _return */, const std::string& /* msg */) override {
     return;
   }
   int32_t createBrowser(const int32_t /* cid */, const std::string& /* url */) override {
@@ -390,6 +394,112 @@ class Server_log_pargs {
   const std::string* msg;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_echo_args__isset {
+  _Server_echo_args__isset() : msg(false) {}
+  bool msg :1;
+} _Server_echo_args__isset;
+
+class Server_echo_args {
+ public:
+
+  Server_echo_args(const Server_echo_args&);
+  Server_echo_args& operator=(const Server_echo_args&);
+  Server_echo_args() noexcept
+                   : msg() {
+  }
+
+  virtual ~Server_echo_args() noexcept;
+  std::string msg;
+
+  _Server_echo_args__isset __isset;
+
+  void __set_msg(const std::string& val);
+
+  bool operator == (const Server_echo_args & rhs) const
+  {
+    if (!(msg == rhs.msg))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_echo_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_echo_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_echo_pargs {
+ public:
+
+
+  virtual ~Server_echo_pargs() noexcept;
+  const std::string* msg;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_echo_result__isset {
+  _Server_echo_result__isset() : success(false) {}
+  bool success :1;
+} _Server_echo_result__isset;
+
+class Server_echo_result {
+ public:
+
+  Server_echo_result(const Server_echo_result&);
+  Server_echo_result& operator=(const Server_echo_result&);
+  Server_echo_result() noexcept
+                     : success() {
+  }
+
+  virtual ~Server_echo_result() noexcept;
+  std::string success;
+
+  _Server_echo_result__isset __isset;
+
+  void __set_success(const std::string& val);
+
+  bool operator == (const Server_echo_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_echo_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_echo_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_echo_presult__isset {
+  _Server_echo_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_echo_presult__isset;
+
+class Server_echo_presult {
+ public:
+
+
+  virtual ~Server_echo_presult() noexcept;
+  std::string* success;
+
+  _Server_echo_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
 };
 
@@ -3728,6 +3838,9 @@ class ServerClient : virtual public ServerIf {
   int32_t recv_connect();
   void log(const std::string& msg) override;
   void send_log(const std::string& msg);
+  void echo(std::string& _return, const std::string& msg) override;
+  void send_echo(const std::string& msg);
+  void recv_echo(std::string& _return);
   int32_t createBrowser(const int32_t cid, const std::string& url) override;
   void send_createBrowser(const int32_t cid, const std::string& url);
   int32_t recv_createBrowser();
@@ -3846,6 +3959,7 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
   ProcessMap processMap_;
   void process_connect(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_log(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_echo(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_createBrowser(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_closeBrowser(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_Reload(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -3891,6 +4005,7 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
     iface_(iface) {
     processMap_["connect"] = &ServerProcessor::process_connect;
     processMap_["log"] = &ServerProcessor::process_log;
+    processMap_["echo"] = &ServerProcessor::process_echo;
     processMap_["createBrowser"] = &ServerProcessor::process_createBrowser;
     processMap_["closeBrowser"] = &ServerProcessor::process_closeBrowser;
     processMap_["Browser_Reload"] = &ServerProcessor::process_Browser_Reload;
@@ -3975,6 +4090,16 @@ class ServerMultiface : virtual public ServerIf {
       ifaces_[i]->log(msg);
     }
     ifaces_[i]->log(msg);
+  }
+
+  void echo(std::string& _return, const std::string& msg) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->echo(_return, msg);
+    }
+    ifaces_[i]->echo(_return, msg);
+    return;
   }
 
   int32_t createBrowser(const int32_t cid, const std::string& url) override {
@@ -4381,6 +4506,9 @@ class ServerConcurrentClient : virtual public ServerIf {
   int32_t recv_connect(const int32_t seqid);
   void log(const std::string& msg) override;
   void send_log(const std::string& msg);
+  void echo(std::string& _return, const std::string& msg) override;
+  int32_t send_echo(const std::string& msg);
+  void recv_echo(std::string& _return, const int32_t seqid);
   int32_t createBrowser(const int32_t cid, const std::string& url) override;
   int32_t send_createBrowser(const int32_t cid, const std::string& url);
   int32_t recv_createBrowser(const int32_t seqid);
