@@ -30,6 +30,11 @@ class ServerHandler : virtual public ServerIf {
     printf("log\n");
   }
 
+  void echo(std::string& _return, const std::string& msg) {
+    // Your implementation goes here
+    printf("echo\n");
+  }
+
   int32_t createBrowser(const int32_t cid, const std::string& url) {
     // Your implementation goes here
     printf("createBrowser\n");

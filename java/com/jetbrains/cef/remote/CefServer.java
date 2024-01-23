@@ -55,10 +55,13 @@ public class CefServer {
             return false;
 
         // TODO: pass args and settings
+        if (!NativeServerManager.startIfNecessary())
+            return false;
+
         List<String> cefArgs = Collections.emptyList();
         CefSettings settings = new CefSettings();
         if (!INSTANCE.initialize(cefArgs, settings)) {
-            CefLog.Error("Can't initialize client for CefServer");
+            CefLog.Error("Can't initialize client for native server.");
             return false;
         }
         INSTANCE.myIsInitialized = true;
