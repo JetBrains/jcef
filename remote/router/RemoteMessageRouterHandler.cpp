@@ -9,7 +9,7 @@ RemoteMessageRouterHandler::RemoteMessageRouterHandler(
     std::shared_ptr<RpcExecutor> service,
     std::shared_ptr<ClientsManager> manager,
     thrift_codegen::RObject peer)
-    : RemoteJavaObjectBase(
+    : RemoteJavaObject(
           service,
           peer.objId,
           [=](std::shared_ptr<thrift_codegen::ClientHandlersClient> service) {
@@ -38,7 +38,7 @@ bool RemoteMessageRouterHandler::OnQuery(CefRefPtr<CefBrowser> browser,
     Log::error("Can't find remote browser by cef-id %d", browser ? browser->GetIdentifier() : -1);
     return false;
   }
-  thrift_codegen::RObject rcb = RemoteQueryCallback::create(myService, callback);
+  thrift_codegen::RObject rcb = RemoteQueryCallback::create(callback);
   bool handled = myService->exec<bool>([&](RpcExecutor::Service s){
     return s->MessageRouterHandler_onQuery(javaId(), bid, query_id, request, persistent, rcb);
   }, false);

@@ -7,7 +7,7 @@
 class RemoteClientHandler;
 class RemoteDisplayHandler : public CefDisplayHandler {
  public:
-  explicit RemoteDisplayHandler(RemoteClientHandler & owner);
+  explicit RemoteDisplayHandler(int bid, std::shared_ptr<RpcExecutor> service);
   ~RemoteDisplayHandler() override {}
 
   void OnAddressChange(CefRefPtr<CefBrowser> browser,
@@ -25,7 +25,8 @@ class RemoteDisplayHandler : public CefDisplayHandler {
                         int line) override;
 
  protected:
-  RemoteClientHandler & myOwner;
+  const int myBid;
+  std::shared_ptr<RpcExecutor> myService;
 
  private:
   IMPLEMENT_REFCOUNTING(RemoteDisplayHandler);

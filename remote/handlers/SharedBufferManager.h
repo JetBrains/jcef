@@ -42,7 +42,7 @@ class SharedBuffer {
 
 class SharedBufferManager {
  public:
-  SharedBufferManager(int cid, int bid);
+  SharedBufferManager(int bid);
   ~SharedBufferManager();
 
   SharedBuffer & getLockedBuffer(size_t size);

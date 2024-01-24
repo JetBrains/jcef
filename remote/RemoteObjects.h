@@ -50,7 +50,7 @@ class ServerObjectsFactory {
 template <class T>
 class RemoteServerObjectBase {
  public:
-  explicit RemoteServerObjectBase(std::shared_ptr<RpcExecutor> service, int id) : myId(id), myService(service) {}
+  explicit RemoteServerObjectBase(int id) : myId(id) {}
   virtual ~RemoteServerObjectBase() { FACTORY.dispose(myId, false); }
 
   int getId() { return myId; }
@@ -94,7 +94,6 @@ class RemoteServerObjectBase {
  protected:
   const int myId;
   std::recursive_mutex myMutex;
-  std::shared_ptr<RpcExecutor> myService;
 
   // Cache support
   virtual void updateImpl(const std::map<std::string, std::string>&) {}
@@ -106,7 +105,7 @@ class RemoteServerObjectBase {
 template <class T, class D>
 class RemoteServerObject : public RemoteServerObjectBase<T> {
  public:
-  explicit RemoteServerObject(std::shared_ptr<RpcExecutor> service, int id, CefRefPtr<D> delegate) : RemoteServerObjectBase<T>(service, id), myDelegate(delegate.get()) {
+  explicit RemoteServerObject(int id, CefRefPtr<D> delegate) : RemoteServerObjectBase<T>(id), myDelegate(delegate.get()) {
     myDelegate->AddRef();
   }
   ~RemoteServerObject() override {
@@ -120,14 +119,14 @@ class RemoteServerObject : public RemoteServerObjectBase<T> {
 };
 
 template <class T>
-class RemoteJavaObjectBase {
+class RemoteJavaObject {
  public:
-  explicit RemoteJavaObjectBase(std::shared_ptr<RpcExecutor> service, int peerId, std::function<void(RpcExecutor::Service)> disposer)
+  explicit RemoteJavaObject(std::shared_ptr<RpcExecutor> service, int peerId, std::function<void(RpcExecutor::Service)> disposer)
       : myService(service),
         myPeerId(peerId),
         myDisposer(disposer) {}
 
-  virtual ~RemoteJavaObjectBase() {
+  virtual ~RemoteJavaObject() {
     myService->exec([&](RpcExecutor::Service s){
       myDisposer(s);
     });
@@ -144,18 +143,6 @@ class RemoteJavaObjectBase {
   std::recursive_mutex myMutex;
   std::shared_ptr<RpcExecutor> myService;
   std::function<void(RpcExecutor::Service)> myDisposer;
-};
-
-template <class T>
-class RemoteJavaObject : public RemoteJavaObjectBase<T> {
-  typedef RemoteJavaObjectBase<T> base;
- public:
-  explicit RemoteJavaObject(RemoteClientHandler& owner, int peerId, std::function<void(RpcExecutor::Service)> disposer)
-      : RemoteJavaObjectBase<T>(owner.getService(), peerId, disposer),
-        myOwner(owner) {}
-
- protected:
-  RemoteClientHandler & myOwner;
 };
 
 template <class T>

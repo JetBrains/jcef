@@ -5,9 +5,11 @@
 #include "include/cef_request_handler.h"
 
 class RemoteClientHandler;
+class MessageRoutersManager;
+
 class RemoteRequestHandler : public CefRequestHandler {
  public:
-  explicit RemoteRequestHandler(RemoteClientHandler & owner);
+  explicit RemoteRequestHandler(int bid, std::shared_ptr<RpcExecutor> service, std::shared_ptr<MessageRoutersManager> routersManager);
   virtual ~RemoteRequestHandler();
 
   bool OnBeforeBrowse(CefRefPtr<CefBrowser> browser,
@@ -45,7 +47,10 @@ class RemoteRequestHandler : public CefRequestHandler {
                                  TerminationStatus status) override;
 
  private:
-  RemoteClientHandler & myOwner;
+  const int myBid;
+  std::shared_ptr<RpcExecutor> myService;
+  std::shared_ptr<MessageRoutersManager> myRoutersManager;
+
   std::set<int> myCallbacks;
   std::set<int> myAuthCallbacks;
 

@@ -7,7 +7,7 @@
 
 class RemoteResourceRequestHandler : public CefResourceRequestHandler, public RemoteJavaObject<RemoteResourceRequestHandler> {
  public:
-  explicit RemoteResourceRequestHandler(RemoteClientHandler& owner, thrift_codegen::RObject peerd);
+  explicit RemoteResourceRequestHandler(int bid, std::shared_ptr<RpcExecutor> service, thrift_codegen::RObject peerd);
 
   CefRefPtr<CefCookieAccessFilter> GetCookieAccessFilter(
       CefRefPtr<CefBrowser> browser,
@@ -50,6 +50,8 @@ class RemoteResourceRequestHandler : public CefResourceRequestHandler, public Re
                            bool& allow_os_execution) override;
 
  private:
+  const int myBid;
+
   // Persistent java handlers
   bool myCookieAccessFilterReceived = false;
   bool myResourceHandlerReceived = false;

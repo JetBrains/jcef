@@ -14,8 +14,16 @@ namespace {
 // Disable logging until optimized
 #define LNDCT()
 
-RemoteResourceRequestHandler::RemoteResourceRequestHandler(RemoteClientHandler& owner, thrift_codegen::RObject peer)
-    : RemoteJavaObject(owner, peer.objId, [=](std::shared_ptr<thrift_codegen::ClientHandlersClient> service) { service->ResourceRequestHandler_Dispose(peer.objId); }) {}
+RemoteResourceRequestHandler::RemoteResourceRequestHandler(
+    int bid,
+    std::shared_ptr<RpcExecutor> service,
+    thrift_codegen::RObject peer)
+    : RemoteJavaObject(
+          service,
+          peer.objId,
+          [=](std::shared_ptr<thrift_codegen::ClientHandlersClient> service) {
+            service->ResourceRequestHandler_Dispose(peer.objId);
+          }), myBid(bid) {}
 
 CefRefPtr<CefCookieAccessFilter>
 RemoteResourceRequestHandler::GetCookieAccessFilter(
@@ -27,18 +35,18 @@ RemoteResourceRequestHandler::GetCookieAccessFilter(
   if (myCookieAccessFilterReceived)
     return myCookieAccessFilter;
 
-  RemoteRequest * rr = RemoteRequest::create(myOwner.getService(), request);
+  RemoteRequest * rr = RemoteRequest::create(request);
   Holder<RemoteRequest> holder(*rr);
   thrift_codegen::RObject remoteHandler;
   
-  myOwner.exec([&](RpcExecutor::Service s){
-    s->ResourceRequestHandler_GetCookieAccessFilter(remoteHandler, myPeerId, myOwner.getBid(), rr->serverIdWithMap());
+  myService->exec([&](RpcExecutor::Service s){
+    s->ResourceRequestHandler_GetCookieAccessFilter(remoteHandler, myPeerId, myBid, rr->serverIdWithMap());
   });
   myCookieAccessFilterReceived = true;
   if (!remoteHandler.__isset.isPersistent || !remoteHandler.isPersistent)
     Log::error("Non-persistent CookieAccessFilter can cause unstable behaviour and won't be used.");
   else if (remoteHandler.objId != -1)
-    myCookieAccessFilter = new RemoteCookieAccessFilter(myOwner, remoteHandler);
+    myCookieAccessFilter = new RemoteCookieAccessFilter(myBid, myService, remoteHandler);
 
   return myCookieAccessFilter;
 }
@@ -51,11 +59,11 @@ RemoteResourceRequestHandler::OnBeforeResourceLoad(
     CefRefPtr<CefCallback> callback
 ) {
   LNDCT();
-  RemoteRequest * rr = RemoteRequest::create(myOwner.getService(), request);
+  RemoteRequest * rr = RemoteRequest::create(request);
   Holder<RemoteRequest> holder(*rr);
   CefResourceRequestHandler::ReturnValue result = RV_CONTINUE;
-  myOwner.exec([&](RpcExecutor::Service s){
-    bool boolRes = s->ResourceRequestHandler_OnBeforeResourceLoad(myPeerId, myOwner.getBid(), rr->serverIdWithMap());
+  myService->exec([&](RpcExecutor::Service s){
+    bool boolRes = s->ResourceRequestHandler_OnBeforeResourceLoad(myPeerId, myBid, rr->serverIdWithMap());
     result = (boolRes ? RV_CANCEL : RV_CONTINUE);
   });
   return result;
@@ -70,17 +78,17 @@ CefRefPtr<CefResourceHandler> RemoteResourceRequestHandler::GetResourceHandler(
   if (myResourceHandlerReceived)
     return myResourceHandler;
 
-  RemoteRequest * rr = RemoteRequest::create(myOwner.getService(), request);
+  RemoteRequest * rr = RemoteRequest::create(request);
   Holder<RemoteRequest> holder(*rr);
   thrift_codegen::RObject remoteHandler;
-  myOwner.exec([&](RpcExecutor::Service s){
-    s->ResourceRequestHandler_GetResourceHandler(remoteHandler, myPeerId, myOwner.getBid(), rr->serverIdWithMap());
+  myService->exec([&](RpcExecutor::Service s){
+    s->ResourceRequestHandler_GetResourceHandler(remoteHandler, myPeerId, myBid, rr->serverIdWithMap());
   });
   myResourceHandlerReceived = true;
   if (!remoteHandler.__isset.isPersistent || !remoteHandler.isPersistent)
     Log::error("Non-persistent ResourceHandler can cause unstable behaviour and won't be used.");
   else if (remoteHandler.objId != -1) {
-    myResourceHandler = new RemoteResourceHandler(myOwner, remoteHandler);
+    myResourceHandler = new RemoteResourceHandler(myBid, myService, remoteHandler);
   }
   return myResourceHandler;
 }
@@ -93,13 +101,13 @@ void RemoteResourceRequestHandler::OnResourceRedirect(
     CefString& new_url
 ) {
   LNDCT();
-  RemoteRequest * rr = RemoteRequest::create(myOwner.getService(), request);
+  RemoteRequest * rr = RemoteRequest::create(request);
   Holder<RemoteRequest> holder(*rr);
-  RemoteResponse * rresp = RemoteResponse::create(myOwner.getService(), response);
+  RemoteResponse * rresp = RemoteResponse::create(response);
   Holder<RemoteResponse> holderResp(*rresp);
   std::string result;
-  myOwner.exec([&](RpcExecutor::Service s){
-    s->ResourceRequestHandler_OnResourceRedirect(result, myPeerId, myOwner.getBid(), rr->serverIdWithMap(),
+  myService->exec([&](RpcExecutor::Service s){
+    s->ResourceRequestHandler_OnResourceRedirect(result, myPeerId, myBid, rr->serverIdWithMap(),
                                                  rresp->serverIdWithMap(), new_url.ToString());
   });
   CefString tmp(result);
@@ -113,12 +121,12 @@ bool RemoteResourceRequestHandler::OnResourceResponse(
     CefRefPtr<CefResponse> response
 ) {
   LNDCT();
-  RemoteRequest * rr = RemoteRequest::create(myOwner.getService(), request);
+  RemoteRequest * rr = RemoteRequest::create(request);
   Holder<RemoteRequest> holder(*rr);
-  RemoteResponse * rresp = RemoteResponse::create(myOwner.getService(), response);
+  RemoteResponse * rresp = RemoteResponse::create(response);
   Holder<RemoteResponse> holderResp(*rresp);
-  return myOwner.exec<bool>([&](RpcExecutor::Service s){
-    return s->ResourceRequestHandler_OnResourceResponse(myPeerId, myOwner.getBid(), rr->serverIdWithMap(),
+  return myService->exec<bool>([&](RpcExecutor::Service s){
+    return s->ResourceRequestHandler_OnResourceResponse(myPeerId, myBid, rr->serverIdWithMap(),
                                                           rresp->serverIdWithMap());
   }, false);
 }
@@ -132,12 +140,12 @@ void RemoteResourceRequestHandler::OnResourceLoadComplete(
     int64_t received_content_length
 ) {
   LNDCT();
-  RemoteRequest * rr = RemoteRequest::create(myOwner.getService(), request);
+  RemoteRequest * rr = RemoteRequest::create(request);
   Holder<RemoteRequest> holder(*rr);
-  RemoteResponse * rresp = RemoteResponse::create(myOwner.getService(), response);
+  RemoteResponse * rresp = RemoteResponse::create(response);
   Holder<RemoteResponse> holderResp(*rresp);
-  myOwner.exec([&](RpcExecutor::Service s){
-    s->ResourceRequestHandler_OnResourceLoadComplete(myPeerId, myOwner.getBid(), rr->serverIdWithMap(),
+  myService->exec([&](RpcExecutor::Service s){
+    s->ResourceRequestHandler_OnResourceLoadComplete(myPeerId, myBid, rr->serverIdWithMap(),
                                                      rresp->serverIdWithMap(), status2str(status), received_content_length);
   });
 }
@@ -148,10 +156,10 @@ void RemoteResourceRequestHandler::OnProtocolExecution(
     CefRefPtr<CefRequest> request,
     bool& allow_os_execution) {
   LNDCT();
-  RemoteRequest * rr = RemoteRequest::create(myOwner.getService(), request);
+  RemoteRequest * rr = RemoteRequest::create(request);
   Holder<RemoteRequest> holder(*rr);
-  myOwner.exec([&](RpcExecutor::Service s){
-    allow_os_execution = s->ResourceRequestHandler_OnProtocolExecution(myPeerId, myOwner.getBid(), rr->serverIdWithMap(), allow_os_execution);
+  myService->exec([&](RpcExecutor::Service s){
+    allow_os_execution = s->ResourceRequestHandler_OnProtocolExecution(myPeerId, myBid, rr->serverIdWithMap(), allow_os_execution);
   });
 }
 

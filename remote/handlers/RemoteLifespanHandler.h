@@ -5,9 +5,12 @@
 #include "include/cef_life_span_handler.h"
 
 class RemoteClientHandler;
+class RpcExecutor;
+class MessageRoutersManager;
+
 class RemoteLifespanHandler : public CefLifeSpanHandler {
  public:
-  explicit RemoteLifespanHandler(RemoteClientHandler & owner);
+  explicit RemoteLifespanHandler(int bid, std::shared_ptr<RpcExecutor> service, std::shared_ptr<MessageRoutersManager> routersManager);
   CefRefPtr<CefBrowser> getBrowser();
   bool OnBeforePopup(CefRefPtr<CefBrowser> browser,
                      CefRefPtr<CefFrame> frame,
@@ -26,7 +29,9 @@ class RemoteLifespanHandler : public CefLifeSpanHandler {
   void OnBeforeClose(CefRefPtr<CefBrowser> browser) override;
 
  private:
-  RemoteClientHandler & myOwner;
+  const int myBid;
+  std::shared_ptr<RpcExecutor> myService;
+  std::shared_ptr<MessageRoutersManager> myRoutersManager;
   CefRefPtr<CefBrowser> myBrowser = nullptr;
 
   IMPLEMENT_REFCOUNTING(RemoteLifespanHandler);

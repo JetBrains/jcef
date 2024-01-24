@@ -6,7 +6,7 @@
 
 class RemoteCookieAccessFilter : public CefCookieAccessFilter, public RemoteJavaObject<RemoteCookieAccessFilter> {
  public:
-  explicit RemoteCookieAccessFilter(RemoteClientHandler& owner, thrift_codegen::RObject peer);
+  explicit RemoteCookieAccessFilter(int bid, std::shared_ptr<RpcExecutor> service, thrift_codegen::RObject peer);
 
   bool CanSendCookie(CefRefPtr<CefBrowser> browser,
                      CefRefPtr<CefFrame> frame,
@@ -20,6 +20,8 @@ class RemoteCookieAccessFilter : public CefCookieAccessFilter, public RemoteJava
                      const CefCookie& cookie) override;
 
  private:
+  const int myBid;
+
   IMPLEMENT_REFCOUNTING(RemoteCookieAccessFilter);
 };
 

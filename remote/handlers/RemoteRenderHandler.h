@@ -5,11 +5,13 @@
 #include "SharedBufferManager.h"
 
 class RemoteClientHandler;
+class RpcExecutor;
+
 class RemoteRenderHandler : public CefRenderHandler {
 public:
- explicit RemoteRenderHandler(RemoteClientHandler & owner);
+  explicit RemoteRenderHandler(int bid, std::shared_ptr<RpcExecutor> service);
 
- bool GetRootScreenRect(CefRefPtr<CefBrowser> browser,
+  bool GetRootScreenRect(CefRefPtr<CefBrowser> browser,
                                    CefRect &rect) override;
 
   void GetViewRect(CefRefPtr<CefBrowser> browser,
@@ -46,7 +48,8 @@ public:
                                 DragOperation operation) override;
 
 protected:
-  RemoteClientHandler & myOwner;
+  const int myBid;
+  std::shared_ptr<RpcExecutor> myService;
   SharedBufferManager myBufferManager;
 
 private:

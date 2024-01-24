@@ -16,7 +16,7 @@ using namespace boost::interprocess;
 // Disable logging until optimized
 #define LNDCT()
 
-RemoteRenderHandler::RemoteRenderHandler(RemoteClientHandler & owner) : myOwner(owner), myBufferManager(owner.getCid(), owner.getBid()) {}
+RemoteRenderHandler::RemoteRenderHandler(int bid, std::shared_ptr<RpcExecutor> service) : myBid(bid), myService(service), myBufferManager(bid) {}
 
 bool RemoteRenderHandler::GetRootScreenRect(CefRefPtr<CefBrowser> browser,
                                       CefRect& rect) {
@@ -36,8 +36,8 @@ void RemoteRenderHandler::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& re
     fillDummy(rect);
     Rect result;
     result.w = -1; // invalidate
-    myOwner.exec([&](const RpcExecutor::Service& s){
-      s->RenderHandler_GetViewRect(result, myOwner.getBid());
+    myService->exec([&](const RpcExecutor::Service& s){
+      s->RenderHandler_GetViewRect(result, myBid);
     });
     if (result.w < 0) return;
 
@@ -84,8 +84,8 @@ bool RemoteRenderHandler::GetScreenInfo(CefRefPtr<CefBrowser> browser,
     fillDummy(screen_info);
     ScreenInfo result;
     result.depth = -1;// invalidate
-    myOwner.exec([&](const RpcExecutor::Service& s){
-      s->RenderHandler_GetScreenInfo(result, myOwner.getBid());
+    myService->exec([&](const RpcExecutor::Service& s){
+      s->RenderHandler_GetScreenInfo(result, myBid);
     });
     if (result.depth == -1) return false;
 
@@ -114,8 +114,8 @@ bool RemoteRenderHandler::GetScreenPoint(CefRefPtr<CefBrowser> browser,
     LNDCT();
     Point result;
     result.x = INT32_MIN;// invalidate
-    myOwner.exec([&](const RpcExecutor::Service& s){
-      s->RenderHandler_GetScreenPoint(result, myOwner.getBid(), viewX, viewY);
+    myService->exec([&](const RpcExecutor::Service& s){
+      s->RenderHandler_GetScreenPoint(result, myBid, viewX, viewY);
     });
     if (result.x == INT32_MIN) return false;
 
@@ -186,8 +186,8 @@ void RemoteRenderHandler::OnPaint(CefRefPtr<CefBrowser> browser,
 
     buff.unlock();
 
-    myOwner.exec([&](const RpcExecutor::Service& s){
-      s->RenderHandler_OnPaint(myOwner.getBid(), type != PET_VIEW, static_cast<int>(dirtyRects.size()),
+    myService->exec([&](const RpcExecutor::Service& s){
+      s->RenderHandler_OnPaint(myBid, type != PET_VIEW, static_cast<int>(dirtyRects.size()),
                  buff.uid(), buff.handle(),
                  width, height);
     });

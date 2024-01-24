@@ -19,13 +19,13 @@ RemoteClientHandler::RemoteClientHandler(
       myBid(bid),
       myService(std::move(service)),
       myRoutersManager(std::move(routersManager)),
-      myRemoteRenderHandler(new RemoteRenderHandler(*this)),
-      myRemoteLisfespanHandler(new RemoteLifespanHandler(*this)),
-      myRemoteLoadHandler(new RemoteLoadHandler(*this)),
-      myRemoteDisplayHandler(new RemoteDisplayHandler(*this)),
-      myRemoteRequestHandler(new RemoteRequestHandler(*this)),
-      myRemoteKeyboardHandler(new RemoteKeyboardHandler(*this)),
-      myRemoteFocusHandler(new RemoteFocusHandler(*this))
+      myRemoteRenderHandler(new RemoteRenderHandler(bid, service)),
+      myRemoteLisfespanHandler(new RemoteLifespanHandler(bid, service, routersManager)),
+      myRemoteLoadHandler(new RemoteLoadHandler(bid, service)),
+      myRemoteDisplayHandler(new RemoteDisplayHandler(bid, service)),
+      myRemoteRequestHandler(new RemoteRequestHandler(bid, service, routersManager)),
+      myRemoteKeyboardHandler(new RemoteKeyboardHandler(bid, service)),
+      myRemoteFocusHandler(new RemoteFocusHandler(bid, service))
 {}
 
 CefRefPtr<CefContextMenuHandler> RemoteClientHandler::GetContextMenuHandler() {

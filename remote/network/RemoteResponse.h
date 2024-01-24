@@ -11,10 +11,10 @@ class RemoteResponse : public virtual CefBaseRefCounted, public RemoteServerObje
   void updateImpl(const std::map<std::string, std::string>& requestInfo) override;
   std::map<std::string, std::string> toMapImpl() override;
 
-  static RemoteResponse * create(std::shared_ptr<RpcExecutor> service, CefRefPtr<CefResponse> delegate);
+  static RemoteResponse * create(CefRefPtr<CefResponse> delegate);
 
  private:
-  explicit RemoteResponse(std::shared_ptr<RpcExecutor> service, CefRefPtr<CefResponse> delegate, int id);
+  explicit RemoteResponse(CefRefPtr<CefResponse> delegate, int id);
   IMPLEMENT_REFCOUNTING(RemoteResponse);
 };
 
