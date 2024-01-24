@@ -2,13 +2,13 @@
 #include "RemoteClientHandler.h"
 #include "../CefUtils.h"
 
-RemoteFocusHandler::RemoteFocusHandler(RemoteClientHandler & owner) : myOwner(owner) {}
+RemoteFocusHandler::RemoteFocusHandler(int bid, std::shared_ptr<RpcExecutor> service) : myBid(bid), myService(service) {}
 
 // NOTE: all RemoteFocusHandler methods will be called on the UI thread.
 
 void RemoteFocusHandler::OnTakeFocus(CefRefPtr<CefBrowser> browser, bool next) {
-  myOwner.exec([&](const RpcExecutor::Service& s){
-    s->FocusHandler_OnTakeFocus(myOwner.getBid(), next);
+  myService->exec([&](const RpcExecutor::Service& s){
+    s->FocusHandler_OnTakeFocus(myBid, next);
   });
 }
 
@@ -23,13 +23,13 @@ std::string source2string(CefFocusHandler::FocusSource source) {
 }
 
 bool RemoteFocusHandler::OnSetFocus(CefRefPtr<CefBrowser> browser, FocusSource source) {
-  return myOwner.exec<bool>([&](const RpcExecutor::Service& s){
-    return s->FocusHandler_OnSetFocus(myOwner.getBid(), source2string(source));
+  return myService->exec<bool>([&](const RpcExecutor::Service& s){
+    return s->FocusHandler_OnSetFocus(myBid, source2string(source));
   }, false);
 }
 
 void RemoteFocusHandler::OnGotFocus(CefRefPtr<CefBrowser> browser) {
-  myOwner.exec([&](const RpcExecutor::Service& s){
-    s->FocusHandler_OnGotFocus(myOwner.getBid());
+  myService->exec([&](const RpcExecutor::Service& s){
+    s->FocusHandler_OnGotFocus(myBid);
   });
 }

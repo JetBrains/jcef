@@ -11,9 +11,16 @@ namespace {
 // Disable logging until optimized
 #define LNDCT()
 
-RemoteCookieAccessFilter::RemoteCookieAccessFilter(RemoteClientHandler& owner, thrift_codegen::RObject peer)
-    : RemoteJavaObject<RemoteCookieAccessFilter>(owner, peer.objId,
-    [=](std::shared_ptr<thrift_codegen::ClientHandlersClient> service) { service->CookieAccessFilter_Dispose(peer.objId); }) {}
+RemoteCookieAccessFilter::RemoteCookieAccessFilter(
+    int bid,
+    std::shared_ptr<RpcExecutor> service,
+    thrift_codegen::RObject peer)
+    : RemoteJavaObject<RemoteCookieAccessFilter>(
+          service,
+          peer.objId,
+          [=](std::shared_ptr<thrift_codegen::ClientHandlersClient> service) {
+            service->CookieAccessFilter_Dispose(peer.objId);
+          }), myBid(bid) {}
 
 bool RemoteCookieAccessFilter::CanSendCookie(CefRefPtr<CefBrowser> browser,
                                              CefRefPtr<CefFrame> frame,
@@ -21,10 +28,10 @@ bool RemoteCookieAccessFilter::CanSendCookie(CefRefPtr<CefBrowser> browser,
                                              const CefCookie& cookie
 ) {
   LNDCT();
-  RemoteRequest * rr = RemoteRequest::create(myOwner.getService(), request);
+  RemoteRequest * rr = RemoteRequest::create(request);
   Holder<RemoteRequest> holder(*rr);
-  return myOwner.exec<bool>([&](RpcExecutor::Service s){
-    return s->CookieAccessFilter_CanSendCookie(myPeerId, myOwner.getBid(), rr->serverIdWithMap(), cookie2list(cookie));
+  return myService->exec<bool>([&](RpcExecutor::Service s){
+    return s->CookieAccessFilter_CanSendCookie(myPeerId, myBid, rr->serverIdWithMap(), cookie2list(cookie));
   }, true);
 }
 
@@ -35,12 +42,12 @@ bool RemoteCookieAccessFilter::CanSaveCookie(CefRefPtr<CefBrowser> browser,
                                              const CefCookie& cookie
 ) {
   LNDCT();
-  RemoteRequest * rreq = RemoteRequest::create(myOwner.getService(), request);
+  RemoteRequest * rreq = RemoteRequest::create(request);
   Holder<RemoteRequest> holderReq(*rreq);
-  RemoteResponse * rresp = RemoteResponse::create(myOwner.getService(), response);
+  RemoteResponse * rresp = RemoteResponse::create(response);
   Holder<RemoteResponse> holderResp(*rresp);
-  return myOwner.exec<bool>([&](RpcExecutor::Service s){
-    return s->CookieAccessFilter_CanSaveCookie(myPeerId, myOwner.getBid(), rreq->serverIdWithMap(),
+  return myService->exec<bool>([&](RpcExecutor::Service s){
+    return s->CookieAccessFilter_CanSaveCookie(myPeerId, myBid, rreq->serverIdWithMap(),
                                                  rresp->serverIdWithMap(), cookie2list(cookie));
   }, true);
 }

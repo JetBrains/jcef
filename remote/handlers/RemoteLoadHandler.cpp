@@ -2,16 +2,16 @@
 #include "../log/Log.h"
 #include "RemoteClientHandler.h"
 
-RemoteLoadHandler::RemoteLoadHandler(RemoteClientHandler & owner) : myOwner(owner) {}
+RemoteLoadHandler::RemoteLoadHandler(int bid, std::shared_ptr<RpcExecutor> service) : myBid(bid), myService(service) {}
 
 void RemoteLoadHandler::OnLoadingStateChange(CefRefPtr<CefBrowser> browser,
                           bool isLoading,
                           bool canGoBack,
                           bool canGoForward) {
   LNDCT();
-  myOwner.exec([&](const RpcExecutor::Service& s){
+  myService->exec([&](const RpcExecutor::Service& s){
     s->LoadHandler_OnLoadingStateChange(
-        myOwner.getBid(),
+        myBid,
         isLoading, canGoBack, canGoForward
     );
   });
@@ -21,8 +21,8 @@ void RemoteLoadHandler::OnLoadStart(CefRefPtr<CefBrowser> browser,
                  CefRefPtr<CefFrame> frame,
                  CefLoadHandler::TransitionType transition_type) {
   LNDCT();
-  myOwner.exec([&](const RpcExecutor::Service& s){
-    s->LoadHandler_OnLoadStart(myOwner.getBid(), transition_type);
+  myService->exec([&](const RpcExecutor::Service& s){
+    s->LoadHandler_OnLoadStart(myBid, transition_type);
   });
 }
 
@@ -30,8 +30,8 @@ void RemoteLoadHandler::OnLoadEnd(CefRefPtr<CefBrowser> browser,
                CefRefPtr<CefFrame> frame,
                int httpStatusCode) {
   LNDCT();
-  myOwner.exec([&](const RpcExecutor::Service& s){
-    s->LoadHandler_OnLoadEnd(myOwner.getBid(), httpStatusCode);
+  myService->exec([&](const RpcExecutor::Service& s){
+    s->LoadHandler_OnLoadEnd(myBid, httpStatusCode);
   });
 }
 
@@ -41,7 +41,7 @@ void RemoteLoadHandler::OnLoadError(CefRefPtr<CefBrowser> browser,
                  const CefString& errorText,
                  const CefString& failedUrl) {
   LNDCT();
-  myOwner.exec([&](const RpcExecutor::Service& s){
-    s->LoadHandler_OnLoadError(myOwner.getBid(), errorCode, errorText.ToString(), failedUrl.ToString());
+  myService->exec([&](const RpcExecutor::Service& s){
+    s->LoadHandler_OnLoadError(myBid, errorCode, errorText.ToString(), failedUrl.ToString());
   });
 }

@@ -3,9 +3,16 @@
 #include "../handlers/RemoteClientHandler.h"
 #include "../log/Log.h"
 
-RemoteResourceHandler::RemoteResourceHandler(RemoteClientHandler& owner, thrift_codegen::RObject peer)
-    : RemoteJavaObject(owner, peer.objId,
-        [=](std::shared_ptr<thrift_codegen::ClientHandlersClient> service) { service->ResourceHandler_Dispose(peer.objId); }) {}
+RemoteResourceHandler::RemoteResourceHandler(
+    int bid,
+    std::shared_ptr<RpcExecutor> service,
+    thrift_codegen::RObject peer)
+    : RemoteJavaObject(
+          service,
+          peer.objId,
+          [=](std::shared_ptr<thrift_codegen::ClientHandlersClient> service) {
+            service->ResourceHandler_Dispose(peer.objId);
+          }), myBid(bid) {}
 
 bool RemoteResourceHandler::Open(CefRefPtr<CefRequest> request,
                                  bool& handle_request,

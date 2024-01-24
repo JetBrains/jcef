@@ -22,6 +22,8 @@ class RemoteMessageRouter : public RemoteServerObject<RemoteMessageRouter, CefMe
   std::shared_ptr<RemoteMessageRouterHandler> FindRemoteHandler(int objId);
 
  private:
+  std::shared_ptr<RpcExecutor> myService;
+
   CefMessageRouterConfig myConfig;
   std::map<int, std::shared_ptr<RemoteMessageRouterHandler>> myHandlers;
   std::recursive_mutex myMutex;

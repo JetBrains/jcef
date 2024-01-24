@@ -4,7 +4,7 @@
 #include "../gen-cpp/shared_types.h"
 #include "../CefUtils.h"
 
-RemoteKeyboardHandler::RemoteKeyboardHandler(RemoteClientHandler & owner) : myOwner(owner) {}
+RemoteKeyboardHandler::RemoteKeyboardHandler(int bid, std::shared_ptr<RpcExecutor> service) : myBid(bid), myService(service) {}
 
 namespace {
   std::string type2str(cef_key_event_type_t type) {
@@ -37,8 +37,8 @@ bool RemoteKeyboardHandler::OnPreKeyEvent(CefRefPtr<CefBrowser> browser,
                    bool* is_keyboard_shortcut) {
   thrift_codegen::KeyEvent keyEvent;
   fillKeyEvent(keyEvent, event);
-  return myOwner.exec<bool>([&](const RpcExecutor::Service& s){
-    return s->KeyboardHandler_OnPreKeyEvent(myOwner.getBid(), keyEvent);
+  return myService->exec<bool>([&](const RpcExecutor::Service& s){
+    return s->KeyboardHandler_OnPreKeyEvent(myBid, keyEvent);
   },false);
 }
 
@@ -47,7 +47,7 @@ bool RemoteKeyboardHandler::OnKeyEvent(CefRefPtr<CefBrowser> browser,
                 CefEventHandle os_event) {
   thrift_codegen::KeyEvent keyEvent;
   fillKeyEvent(keyEvent, event);
-  return myOwner.exec<bool>([&](const RpcExecutor::Service& s){
-    return s->KeyboardHandler_OnKeyEvent(myOwner.getBid(), keyEvent);
+  return myService->exec<bool>([&](const RpcExecutor::Service& s){
+    return s->KeyboardHandler_OnKeyEvent(myBid, keyEvent);
   },false);
 }

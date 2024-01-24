@@ -2,9 +2,9 @@
 
 #include <utility>
 
-RemoteCallback::RemoteCallback(std::shared_ptr<RpcExecutor> service, CefRefPtr<CefCallback> delegate, int id)
-    : RemoteServerObject<RemoteCallback, CefCallback>(std::move(service), id, std::move(delegate)) {}
+RemoteCallback::RemoteCallback(CefRefPtr<CefCallback> delegate, int id)
+    : RemoteServerObject<RemoteCallback, CefCallback>(id, std::move(delegate)) {}
 
-thrift_codegen::RObject RemoteCallback::create(std::shared_ptr<RpcExecutor> service, CefRefPtr<CefCallback> delegate) {
-  return FACTORY.create([&](int id) -> RemoteCallback* {return new RemoteCallback(service, delegate, id);})->serverId();
+thrift_codegen::RObject RemoteCallback::create(CefRefPtr<CefCallback> delegate) {
+  return FACTORY.create([&](int id) -> RemoteCallback* {return new RemoteCallback(delegate, id);})->serverId();
 }

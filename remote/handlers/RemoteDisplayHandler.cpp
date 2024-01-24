@@ -2,38 +2,38 @@
 #include "RemoteClientHandler.h"
 #include "../log/Log.h"
 
-RemoteDisplayHandler::RemoteDisplayHandler(RemoteClientHandler & owner)
-    : myOwner(owner) {}
+RemoteDisplayHandler::RemoteDisplayHandler(int bid, std::shared_ptr<RpcExecutor> service)
+    : myBid(bid), myService(service) {}
 
 void RemoteDisplayHandler::OnAddressChange(CefRefPtr<CefBrowser> browser,
                      CefRefPtr<CefFrame> frame,
                      const CefString& url) {
   LNDCT();
-  myOwner.exec([&](const RpcExecutor::Service& s){
-    s->DisplayHandler_OnAddressChange(myOwner.getBid(), url.ToString());
+  myService->exec([&](const RpcExecutor::Service& s){
+    s->DisplayHandler_OnAddressChange(myBid, url.ToString());
   });
 }
 
 void RemoteDisplayHandler::OnTitleChange(CefRefPtr<CefBrowser> browser,
                    const CefString& title) {
   LNDCT();
-  myOwner.exec([&](const RpcExecutor::Service& s){
-    s->DisplayHandler_OnTitleChange(myOwner.getBid(), title.ToString());
+  myService->exec([&](const RpcExecutor::Service& s){
+    s->DisplayHandler_OnTitleChange(myBid, title.ToString());
   });
 }
 
 bool RemoteDisplayHandler::OnTooltip(CefRefPtr<CefBrowser> browser, CefString& text) {
   LNDCT();
-  return myOwner.exec<bool>([&](const RpcExecutor::Service& s){
-    return s->DisplayHandler_OnTooltip(myOwner.getBid(), text.ToString());
+  return myService->exec<bool>([&](const RpcExecutor::Service& s){
+    return s->DisplayHandler_OnTooltip(myBid, text.ToString());
   }, false);
 }
 
 void RemoteDisplayHandler::OnStatusMessage(CefRefPtr<CefBrowser> browser,
                      const CefString& value) {
   LNDCT();
-  myOwner.exec([&](const RpcExecutor::Service& s){
-    s->DisplayHandler_OnStatusMessage(myOwner.getBid(), value.ToString());
+  myService->exec([&](const RpcExecutor::Service& s){
+    s->DisplayHandler_OnStatusMessage(myBid, value.ToString());
   });
 }
 
@@ -43,7 +43,7 @@ bool RemoteDisplayHandler::OnConsoleMessage(CefRefPtr<CefBrowser> browser,
                       const CefString& source,
                       int line) {
   LNDCT();
-  return myOwner.exec<bool>([&](const RpcExecutor::Service& s){
-    return s->DisplayHandler_OnConsoleMessage(myOwner.getBid(), level, message.ToString(), source.ToString(), line);
+  return myService->exec<bool>([&](const RpcExecutor::Service& s){
+    return s->DisplayHandler_OnConsoleMessage(myBid, level, message.ToString(), source.ToString(), line);
   }, false);
 }

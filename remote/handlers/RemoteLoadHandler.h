@@ -5,9 +5,11 @@
 #include "include/cef_load_handler.h"
 
 class RemoteClientHandler;
+class RpcExecutor;
+
 class RemoteLoadHandler : public CefLoadHandler {
  public:
-  explicit RemoteLoadHandler(RemoteClientHandler & owner);
+  explicit RemoteLoadHandler(int bid, std::shared_ptr<RpcExecutor> service);
 
   void OnLoadingStateChange(CefRefPtr<CefBrowser> browser,
                             bool isLoading,
@@ -29,7 +31,8 @@ class RemoteLoadHandler : public CefLoadHandler {
                    const CefString& failedUrl) override;
 
  protected:
-  RemoteClientHandler & myOwner;
+  const int myBid;
+  std::shared_ptr<RpcExecutor> myService;
 
  private:
   IMPLEMENT_REFCOUNTING(RemoteLoadHandler);

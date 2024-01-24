@@ -6,7 +6,7 @@
 
 class RemoteResourceHandler : public CefResourceHandler, public RemoteJavaObject<RemoteResourceHandler> {
  public:
-  explicit RemoteResourceHandler(RemoteClientHandler& owner, thrift_codegen::RObject peer);
+  explicit RemoteResourceHandler(int bid, std::shared_ptr<RpcExecutor> service, thrift_codegen::RObject peer);
 
   bool Open(CefRefPtr<CefRequest> request,
             bool& handle_request,
@@ -30,6 +30,8 @@ class RemoteResourceHandler : public CefResourceHandler, public RemoteJavaObject
   void Cancel() override;
 
  private:
+  const int myBid;
+
   IMPLEMENT_REFCOUNTING(RemoteResourceHandler);
 };
 
