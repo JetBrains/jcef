@@ -85,6 +85,7 @@ class ServerHandler : public thrift_codegen::ServerIf {
 
  private:
   std::shared_ptr<RpcExecutor> myJavaService;
+  std::shared_ptr<RpcExecutor> myJavaServiceIO;
   std::shared_ptr<ClientsManager> myClientsManager;
   std::shared_ptr<MessageRoutersManager> myRoutersManager;
 };

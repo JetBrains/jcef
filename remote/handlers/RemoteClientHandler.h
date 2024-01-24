@@ -11,9 +11,14 @@ class ServerHandler;
 
 class RemoteClientHandler : public CefClient {
 public:
-    explicit RemoteClientHandler(std::shared_ptr<MessageRoutersManager> routersManager, std::shared_ptr<RpcExecutor> service, int cid, int bid);
+ explicit RemoteClientHandler(
+     std::shared_ptr<MessageRoutersManager> routersManager,
+     std::shared_ptr<RpcExecutor> service,
+     std::shared_ptr<RpcExecutor> serviceIO,
+     int cid,
+     int bid);
 
-    CefRefPtr<CefContextMenuHandler> GetContextMenuHandler() override;
+ CefRefPtr<CefContextMenuHandler> GetContextMenuHandler() override;
     CefRefPtr<CefDialogHandler> GetDialogHandler() override;
     CefRefPtr<CefDisplayHandler> GetDisplayHandler() override;
     CefRefPtr<CefDownloadHandler> GetDownloadHandler() override;

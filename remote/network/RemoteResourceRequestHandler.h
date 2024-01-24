@@ -5,10 +5,12 @@
 #include "RemoteCookieAccessFilter.h"
 #include "include/cef_request_handler.h"
 
+// All methods of this class will be called on the IO thread.
 class RemoteResourceRequestHandler : public CefResourceRequestHandler, public RemoteJavaObject<RemoteResourceRequestHandler> {
  public:
-  explicit RemoteResourceRequestHandler(int bid, std::shared_ptr<RpcExecutor> service, thrift_codegen::RObject peerd);
+  explicit RemoteResourceRequestHandler(int bid, std::shared_ptr<RpcExecutor> serviceIO, thrift_codegen::RObject peerd);
 
+  // All methods of this 'sub-class' will be called on the IO thread.
   CefRefPtr<CefCookieAccessFilter> GetCookieAccessFilter(
       CefRefPtr<CefBrowser> browser,
       CefRefPtr<CefFrame> frame,
@@ -19,6 +21,7 @@ class RemoteResourceRequestHandler : public CefResourceRequestHandler, public Re
                                    CefRefPtr<CefRequest> request,
                                    CefRefPtr<CefCallback> callback) override;
 
+  // All methods of this 'sub-class' will be called on the IO thread.
   CefRefPtr<CefResourceHandler> GetResourceHandler(
       CefRefPtr<CefBrowser> browser,
       CefRefPtr<CefFrame> frame,

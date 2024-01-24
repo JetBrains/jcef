@@ -17,8 +17,9 @@ namespace {
 RemoteRequestHandler::RemoteRequestHandler(
     int bid,
     std::shared_ptr<RpcExecutor> service,
+    std::shared_ptr<RpcExecutor> serviceIO,
     std::shared_ptr<MessageRoutersManager> routersManager)
-    : myBid(bid), myService(service), myRoutersManager(routersManager) {}
+    : myBid(bid), myService(service), myServiceIO(serviceIO), myRoutersManager(routersManager) {}
 
 RemoteRequestHandler::~RemoteRequestHandler() {
   // simple protection for leaking via callbacks
@@ -57,6 +58,8 @@ bool RemoteRequestHandler::OnOpenURLFromTab(CefRefPtr<CefBrowser> browser,
   }, false);
 }
 
+// Called on the browser process IO thread before a resource request is
+// initiated.
 CefRefPtr<CefResourceRequestHandler> RemoteRequestHandler::GetResourceRequestHandler(
     CefRefPtr<CefBrowser> browser,
     CefRefPtr<CefFrame> frame,
@@ -74,7 +77,7 @@ CefRefPtr<CefResourceRequestHandler> RemoteRequestHandler::GetResourceRequestHan
     Holder<RemoteRequest> holder(*rr);
     thrift_codegen::RObject peer;
     peer.__set_objId(-1);
-    myService->exec([&](RpcExecutor::Service s){
+    myServiceIO->exec([&](RpcExecutor::Service s){
       s->RequestHandler_GetResourceRequestHandler(
           peer, myBid, rr->serverIdWithMap(), is_navigation, is_download, request_initiator.ToString());
     });
@@ -82,7 +85,7 @@ CefRefPtr<CefResourceRequestHandler> RemoteRequestHandler::GetResourceRequestHan
     if (!peer.__isset.isPersistent || !peer.isPersistent)
       Log::error("Non-persistent ResourceRequestHandler can cause unstable behaviour and won't be used.");
     else if (peer.objId != -1) {
-      myResourceRequestHandler = new RemoteResourceRequestHandler(myBid, myService, peer);
+      myResourceRequestHandler = new RemoteResourceRequestHandler(myBid, myServiceIO, peer);
       myDisableDefaultHandling = peer.__isset.isDisableDefaultHandling &&
                                  peer.isDisableDefaultHandling;
     }
@@ -92,6 +95,7 @@ CefRefPtr<CefResourceRequestHandler> RemoteRequestHandler::GetResourceRequestHan
   return myResourceRequestHandler;
 }
 
+// Called on the browser process IO thread.
 bool RemoteRequestHandler::GetAuthCredentials(CefRefPtr<CefBrowser> browser,
                         const CefString& origin_url,
                         bool isProxy,

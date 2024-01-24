@@ -16,6 +16,7 @@ class RemoteMessageRouterHandler : public CefMessageRouterBrowserSide::Handler, 
   explicit RemoteMessageRouterHandler(std::shared_ptr<RpcExecutor> service, std::shared_ptr<ClientsManager> manager, thrift_codegen::RObject peer);
   ~RemoteMessageRouterHandler() override;
 
+  // All methods will be executed on the browser process UI thread.
   virtual bool OnQuery(CefRefPtr<CefBrowser> browser,
                        CefRefPtr<CefFrame> frame,
                        int64_t query_id,

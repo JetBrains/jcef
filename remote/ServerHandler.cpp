@@ -52,6 +52,7 @@ int32_t ServerHandler::connect(
   // Connect to client's side (for cef-callbacks execution on java side)
   try {
     myJavaService = std::make_shared<RpcExecutor>(backwardConnectionPipe);
+    myJavaServiceIO = std::make_shared<RpcExecutor>(backwardConnectionPipe);
     myClientsManager = std::make_shared<ClientsManager>();
     RemoteAppHandler::instance().setArgs(cmdLineArgs);
     RemoteAppHandler::instance().setSettings(settings);
@@ -68,9 +69,9 @@ int32_t ServerHandler::connect(
 }
 
 int32_t ServerHandler::createBrowser(int cid, const std::string& url) {
-  int32_t result = myClientsManager->createBrowser(cid, myJavaService, myRoutersManager, url);
-  Log::trace("Created remote browser cid=%d, bid=%d", cid, result);
-  return result;
+  int32_t bid = myClientsManager->createBrowser(cid, myJavaService, myJavaServiceIO, myRoutersManager, url);
+  Log::trace("Created remote browser cid=%d, bid=%d", cid, bid);
+  return bid;
 }
 
 void ServerHandler::closeBrowser(const int32_t bid) {

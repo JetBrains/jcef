@@ -11,6 +11,9 @@ class RemoteLoadHandler : public CefLoadHandler {
  public:
   explicit RemoteLoadHandler(int bid, std::shared_ptr<RpcExecutor> service);
 
+  //
+  // All next methods will be called on the UI thread
+  //
   void OnLoadingStateChange(CefRefPtr<CefBrowser> browser,
                             bool isLoading,
                             bool canGoBack,

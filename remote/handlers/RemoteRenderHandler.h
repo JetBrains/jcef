@@ -7,6 +7,7 @@
 class RemoteClientHandler;
 class RpcExecutor;
 
+// The methods of this class will be called on the UI thread.
 class RemoteRenderHandler : public CefRenderHandler {
 public:
   explicit RemoteRenderHandler(int bid, std::shared_ptr<RpcExecutor> service);

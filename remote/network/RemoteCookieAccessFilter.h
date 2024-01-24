@@ -4,6 +4,7 @@
 #include "../RemoteObjects.h"
 #include "include/cef_resource_request_handler.h"
 
+// All methods of this class will be called on the IO thread.
 class RemoteCookieAccessFilter : public CefCookieAccessFilter, public RemoteJavaObject<RemoteCookieAccessFilter> {
  public:
   explicit RemoteCookieAccessFilter(int bid, std::shared_ptr<RpcExecutor> service, thrift_codegen::RObject peer);

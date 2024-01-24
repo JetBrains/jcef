@@ -5,6 +5,8 @@
 #include "include/cef_display_handler.h"
 
 class RemoteClientHandler;
+
+// The methods of this class will be called on the UI thread.
 class RemoteDisplayHandler : public CefDisplayHandler {
  public:
   explicit RemoteDisplayHandler(int bid, std::shared_ptr<RpcExecutor> service);

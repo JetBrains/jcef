@@ -1,10 +1,9 @@
 package com.jetbrains.cef.remote;
 
-
 import com.jetbrains.cef.remote.thrift_codegen.ClientHandlers;
 import org.apache.thrift.TException;
 import org.apache.thrift.server.TServer;
-import org.apache.thrift.server.TSimpleServer;
+import org.apache.thrift.server.TThreadPoolServer;
 import org.apache.thrift.transport.TIOStreamTransport;
 import org.apache.thrift.transport.TServerTransport;
 import org.apache.thrift.transport.TTransport;
@@ -25,6 +24,8 @@ import java.nio.channels.SocketChannel;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class CefServer {
     private static final int PORT = Integer.getInteger("jcef.remote.port", 9090);
@@ -150,14 +151,19 @@ public class CefServer {
                 };
             }
 
-            myClientHandlersServer = new TSimpleServer(new TServer.Args(myClientHandlersTransport).processor(processor));
-            CefLog.Debug("Starting cef-handlers server.");
-            myClientHandlersThread = new Thread(()->{
-                // Use this for a multithreaded server
-                // TServer server = new TThreadPoolServer(new TThreadPoolServer.Args(serverTransport).processor(processor));
-                myClientHandlersServer.serve();
-            });
-            myClientHandlersThread.setName("CefHandlers-thread");
+            TThreadPoolServer.Args serverArgs = new TThreadPoolServer.Args(myClientHandlersTransport)
+                .processor(processor).executorService(new ThreadPoolExecutor(2, 10, 60L, TimeUnit.SECONDS, new SynchronousQueue(), new ThreadFactory() {
+                    final AtomicLong count = new AtomicLong();
+                    public Thread newThread(Runnable r) {
+                        Thread thread = new Thread(r);
+                        thread.setDaemon(true);
+                        thread.setName(String.format("CefHandlers-execution-%d", this.count.getAndIncrement()));
+                        return thread;
+                    }
+                }));
+            myClientHandlersServer = new TThreadPoolServer(serverArgs);
+            myClientHandlersThread = new Thread(()-> myClientHandlersServer.serve());
+            myClientHandlersThread.setName("CefHandlers-listening");
             myClientHandlersThread.start();
 
             // 3. Connect to CefServer
