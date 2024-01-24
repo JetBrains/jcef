@@ -618,17 +618,6 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     }
 
     @Override
-    public void setWindowlessFrameRate(int frameRate) {
-        try {
-            checkNativeCtxInitialized();
-            if (isNativeCtxInitialized_)
-                N_SetWindowlessFrameRate(frameRate);
-        } catch (UnsatisfiedLinkError ule) {
-            ule.printStackTrace();
-        }
-    }
-
-    @Override
     public double getZoomLevel() {
         try {
             checkNativeCtxInitialized();
@@ -1059,7 +1048,6 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     private final native void N_Close(boolean force);
     private final native void N_SetFocus(boolean enable);
     private final native void N_SetWindowVisibility(boolean visible);
-    private final native void N_SetWindowlessFrameRate(int framerate);
     private final native double N_GetZoomLevel();
     private final native void N_SetZoomLevel(double zoomLevel);
     private final native void N_RunFileDialog(FileDialogMode mode, String title,
