@@ -16,7 +16,11 @@ class ClientsManager {
   ClientsManager();
 
   // Returns bid
-  int createBrowser(int cid/*id from java*/, std::shared_ptr<RpcExecutor> service, std::shared_ptr<MessageRoutersManager> routersManager, const std::string& url);
+  int createBrowser(int cid /*id from java*/,
+                    std::shared_ptr<RpcExecutor> service,
+                    std::shared_ptr<RpcExecutor> serviceIO,
+                    std::shared_ptr<MessageRoutersManager> routersManager,
+                    const std::string& url);
   void closeBrowser(const int32_t bid);
   void closeAllBrowsers();
 

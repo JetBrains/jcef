@@ -13,17 +13,18 @@
 RemoteClientHandler::RemoteClientHandler(
     std::shared_ptr<MessageRoutersManager> routersManager,
     std::shared_ptr<RpcExecutor> service,
+    std::shared_ptr<RpcExecutor> serviceIO,
     int cid,
     int bid)
     : myCid(cid),
       myBid(bid),
-      myService(std::move(service)),
-      myRoutersManager(std::move(routersManager)),
+      myService(service),
+      myRoutersManager(routersManager),
       myRemoteRenderHandler(new RemoteRenderHandler(bid, service)),
       myRemoteLisfespanHandler(new RemoteLifespanHandler(bid, service, routersManager)),
       myRemoteLoadHandler(new RemoteLoadHandler(bid, service)),
       myRemoteDisplayHandler(new RemoteDisplayHandler(bid, service)),
-      myRemoteRequestHandler(new RemoteRequestHandler(bid, service, routersManager)),
+      myRemoteRequestHandler(new RemoteRequestHandler(bid, service, serviceIO, routersManager)),
       myRemoteKeyboardHandler(new RemoteKeyboardHandler(bid, service)),
       myRemoteFocusHandler(new RemoteFocusHandler(bid, service))
 {}

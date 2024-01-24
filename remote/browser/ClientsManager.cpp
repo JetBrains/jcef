@@ -50,7 +50,13 @@ namespace {
   }
 }
 
-int ClientsManager::createBrowser(int cid, std::shared_ptr<RpcExecutor> service, std::shared_ptr<MessageRoutersManager> routersManager, const std::string& url) {
+int ClientsManager::createBrowser(
+    int cid,
+    std::shared_ptr<RpcExecutor> service,
+    std::shared_ptr<RpcExecutor> serviceIO,
+    std::shared_ptr<MessageRoutersManager> routersManager,
+    const std::string& url
+) {
   if (!CefUtils::isCefInitialized()) {
     Log::warn( "Can't create browser with cid=%d, need wait for cef initialization", cid);
     // TODO: return wrapper and schedule browser creation after initialization
@@ -68,7 +74,7 @@ int ClientsManager::createBrowser(int cid, std::shared_ptr<RpcExecutor> service,
         break;
       }
 
-    clienthandler = new RemoteClientHandler(routersManager, service, cid, bid);
+    clienthandler = new RemoteClientHandler(routersManager, service, serviceIO, cid, bid);
     if (bid >= 0 && bid < myRemoteClients->size())
       (*myRemoteClients)[bid] = clienthandler;
     else

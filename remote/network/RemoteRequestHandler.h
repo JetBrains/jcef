@@ -9,19 +9,30 @@ class MessageRoutersManager;
 
 class RemoteRequestHandler : public CefRequestHandler {
  public:
-  explicit RemoteRequestHandler(int bid, std::shared_ptr<RpcExecutor> service, std::shared_ptr<MessageRoutersManager> routersManager);
+  explicit RemoteRequestHandler(
+      int bid,
+      std::shared_ptr<RpcExecutor> service,
+      std::shared_ptr<RpcExecutor> serviceIO,
+      std::shared_ptr<MessageRoutersManager> routersManager);
   virtual ~RemoteRequestHandler();
 
+  // Called on the UI thread before browser navigation.
   bool OnBeforeBrowse(CefRefPtr<CefBrowser> browser,
                       CefRefPtr<CefFrame> frame,
                       CefRefPtr<CefRequest> request,
                       bool user_gesture,
                       bool is_redirect) override;
+
+  // Called on the UI thread before OnBeforeBrowse in certain limited cases
+  // where navigating a new or different browser might be desirable.
   bool OnOpenURLFromTab(CefRefPtr<CefBrowser> browser,
                         CefRefPtr<CefFrame> frame,
                         const CefString& target_url,
                         WindowOpenDisposition target_disposition,
                         bool user_gesture) override;
+
+  // Called on the browser process IO thread before a resource request is
+  // initiated.
   CefRefPtr<CefResourceRequestHandler> GetResourceRequestHandler(
       CefRefPtr<CefBrowser> browser,
       CefRefPtr<CefFrame> frame,
@@ -30,6 +41,9 @@ class RemoteRequestHandler : public CefRequestHandler {
       bool is_download,
       const CefString& request_initiator,
       bool& disable_default_handling) override;
+
+  // Called on the IO thread when the browser needs credentials from the user.
+  // |origin_url| is the origin making this authentication request.
   bool GetAuthCredentials(CefRefPtr<CefBrowser> browser,
                           const CefString& origin_url,
                           bool isProxy,
@@ -38,17 +52,25 @@ class RemoteRequestHandler : public CefRequestHandler {
                           const CefString& realm,
                           const CefString& scheme,
                           CefRefPtr<CefAuthCallback> callback) override;
+
+  // Called on the UI thread to handle requests for URLs with an invalid
+  // SSL certificate.
   bool OnCertificateError(CefRefPtr<CefBrowser> browser,
                           cef_errorcode_t cert_error,
                           const CefString& request_url,
                           CefRefPtr<CefSSLInfo> ssl_info,
                           CefRefPtr<CefCallback> callback) override;
+
+  // Called on the browser process UI thread when the render process
+  // terminates unexpectedly.
   void OnRenderProcessTerminated(CefRefPtr<CefBrowser> browser,
                                  TerminationStatus status) override;
 
  private:
   const int myBid;
   std::shared_ptr<RpcExecutor> myService;
+  std::shared_ptr<RpcExecutor> myServiceIO;
+
   std::shared_ptr<MessageRoutersManager> myRoutersManager;
 
   std::set<int> myCallbacks;

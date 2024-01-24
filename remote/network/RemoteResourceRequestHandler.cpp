@@ -16,10 +16,10 @@ namespace {
 
 RemoteResourceRequestHandler::RemoteResourceRequestHandler(
     int bid,
-    std::shared_ptr<RpcExecutor> service,
+    std::shared_ptr<RpcExecutor> serviceIO,
     thrift_codegen::RObject peer)
     : RemoteJavaObject(
-          service,
+          serviceIO,
           peer.objId,
           [=](std::shared_ptr<thrift_codegen::ClientHandlersClient> service) {
             service->ResourceRequestHandler_Dispose(peer.objId);

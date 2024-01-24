@@ -12,6 +12,9 @@ class RemoteLifespanHandler : public CefLifeSpanHandler {
  public:
   explicit RemoteLifespanHandler(int bid, std::shared_ptr<RpcExecutor> service, std::shared_ptr<MessageRoutersManager> routersManager);
   CefRefPtr<CefBrowser> getBrowser();
+  //
+  // All next methods will be called on the UI thread
+  //
   bool OnBeforePopup(CefRefPtr<CefBrowser> browser,
                      CefRefPtr<CefFrame> frame,
                      const CefString& target_url,
