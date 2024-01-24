@@ -10,10 +10,10 @@ extern "C" {
 /*
  * Class:     org_cef_browser_CefBrowser_N
  * Method:    N_CreateBrowser
- * Signature: (Lorg/cef/handler/CefClientHandler;JLjava/lang/String;ZZLjava/awt/Component;Lorg/cef/browser/CefRequestContext;I)Z
+ * Signature: (Lorg/cef/handler/CefClientHandler;JLjava/lang/String;ZZLjava/awt/Component;Lorg/cef/browser/CefRequestContext;)Z
  */
 JNIEXPORT jboolean JNICALL Java_org_cef_browser_CefBrowser_1N_N_1CreateBrowser
-  (JNIEnv *, jobject, jobject, jlong, jstring, jboolean, jboolean, jobject, jobject, jint);
+  (JNIEnv *, jobject, jobject, jlong, jstring, jboolean, jboolean, jobject, jobject);
 
 /*
  * Class:     org_cef_browser_CefBrowser_N
