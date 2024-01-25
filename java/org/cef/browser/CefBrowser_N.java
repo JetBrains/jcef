@@ -206,6 +206,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
             CefLog.Error("CefBrowser_N: %s: can't invoke native method '%s' before native context initialized", this, m1);
         }
     }
+
     @Override
     public synchronized CefDevToolsClient getDevToolsClient() {
         if (!isPending_ || isClosing_ || isClosed_) {
@@ -219,7 +220,8 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
 
     CompletableFuture<Integer> executeDevToolsMethod(String method, String parametersAsJson) {
         CompletableFuture<Integer> future = new CompletableFuture<>();
-        N_ExecuteDevToolsMethod(method, parametersAsJson, new DevToolsMethodCallback() {
+
+        Runnable exec = () -> N_ExecuteDevToolsMethod(method, parametersAsJson, new DevToolsMethodCallback() {
             @Override
             public void onComplete(int generatedMessageId) {
                 if (generatedMessageId <= 0) {
@@ -230,6 +232,13 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
                 }
             }
         });
+
+        if (isNativeCtxInitialized_) {
+            exec.run();
+        } else {
+            executeNative(exec, String.format("executeDevToolsMethod: %s(%s)", method, parametersAsJson));
+        }
+
         return future;
     }
 
