@@ -77,19 +77,25 @@ public interface CefRenderHandler {
      * Add provided listener.
      * @param listener Code that gets executed after a frame was rendered.
      */
-    public void addOnPaintListener(Consumer<CefPaintEvent> listener);
+    default public void addOnPaintListener(Consumer<CefPaintEvent> listener) {
+
+    }
 
     /**
      * Remove existing listeners and replace with provided listener.
      * @param listener Code that gets executed after a frame was rendered.
      */
-    public void setOnPaintListener(Consumer<CefPaintEvent> listener);
+    default public void setOnPaintListener(Consumer<CefPaintEvent> listener) {
+
+    }
 
     /**
      * Remove provided listener.
      * @param listener Code that gets executed after a frame was rendered.
      */
-    public void removeOnPaintListener(Consumer<CefPaintEvent> listener);
+    default public void removeOnPaintListener(Consumer<CefPaintEvent> listener) {
+
+    }
 
     /**
      * Handle cursor changes.

@@ -2,6 +2,7 @@ package com.jetbrains.cef.remote;
 
 import org.cef.CefClient;
 import org.cef.browser.CefBrowser;
+import org.cef.browser.CefDevToolsClient;
 import org.cef.browser.CefFrame;
 import org.cef.browser.CefRequestContext;
 import org.cef.callback.CefPdfPrintCallback;
@@ -342,6 +343,11 @@ public class RemoteBrowser implements CefBrowser {
 
     @Override
     public CefBrowser getDevTools(Point inspectAt) {
+        return null;
+    }
+
+    @Override
+    public CefDevToolsClient getDevToolsClient() {
         return null;
     }
 
