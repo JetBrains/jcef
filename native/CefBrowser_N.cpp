@@ -100,8 +100,7 @@ struct JNIObjectsForCreate {
 void create(std::shared_ptr<JNIObjectsForCreate> objs,
             jlong windowHandle,
             jboolean osr,
-            jboolean transparent,
-            jint frameRate) {
+            jboolean transparent) {
   ScopedJNIEnv env;
   CefRefPtr<ClientHandler> clientHandler = GetCefFromJNIObject_sync<ClientHandler>(
       env, objs->jclientHandler, "CefClientHandler");
@@ -157,7 +156,6 @@ void create(std::shared_ptr<JNIObjectsForCreate> objs,
   }
 
   CefBrowserSettings settings;
-  settings.windowless_frame_rate = frameRate;
 
   /* [tav] do not override CefSettings.background_color
   if (transparent == JNI_FALSE) {
@@ -341,8 +339,7 @@ Java_org_cef_browser_CefBrowser_1N_N_1CreateBrowser(JNIEnv* env,
                                                     jboolean osr,
                                                     jboolean transparent,
                                                     jobject canvas,
-                                                    jobject jcontext,
-                                                    jint frameRate) {
+                                                    jobject jcontext) {
   std::shared_ptr<JNIObjectsForCreate> objs(new JNIObjectsForCreate(
       env, jbrowser, nullptr, jclientHandler, url, canvas, jcontext, nullptr));
 
@@ -354,12 +351,12 @@ Java_org_cef_browser_CefBrowser_1N_N_1CreateBrowser(JNIEnv* env,
 
   if (testDelaySec > 0) {
     CefPostDelayedTask(TID_UI,
-                base::BindOnce(&create, objs, windowHandle, osr, transparent, frameRate), testDelaySec*1000l);
+                base::BindOnce(&create, objs, windowHandle, osr, transparent), testDelaySec*1000l);
   } else if (CefCurrentlyOn(TID_UI)) {
-    create(objs, windowHandle, osr, transparent, frameRate);
+    create(objs, windowHandle, osr, transparent);
   } else {
     CefPostTask(TID_UI,
-                base::BindOnce(&create, objs, windowHandle, osr, transparent, frameRate));
+                base::BindOnce(&create, objs, windowHandle, osr, transparent));
   }
   return JNI_FALSE;  // set asynchronously
 }
@@ -378,10 +375,10 @@ Java_org_cef_browser_CefBrowser_1N_N_1CreateDevTools(JNIEnv* env,
       new JNIObjectsForCreate(env, jbrowser, jparent, jclientHandler, nullptr,
                               canvas, nullptr, inspect));
   if (CefCurrentlyOn(TID_UI)) {
-    create(objs, windowHandle, osr, transparent, 0);
+    create(objs, windowHandle, osr, transparent);
   } else {
     CefPostTask(TID_UI,
-                base::BindOnce(&create, objs, windowHandle, osr, transparent, 0));
+                base::BindOnce(&create, objs, windowHandle, osr, transparent));
   }
   return JNI_FALSE;  // set asynchronously
 }

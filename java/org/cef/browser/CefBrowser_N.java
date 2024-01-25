@@ -48,7 +48,6 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     private CefRequestContext request_context_;
     private volatile CefBrowser_N parent_ = null;
     private volatile Point inspectAt_ = null;
-    private volatile int frameRate_ = 0;
     private volatile CefBrowser_N devTools_ = null;
     private boolean closeAllowed_ = false;
     private volatile boolean isClosed_ = false;
@@ -79,10 +78,6 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
 
     protected Point getInspectAt() {
         return inspectAt_;
-    }
-
-    protected int getFrameRate() {
-        return frameRate_;
     }
 
     @Override
@@ -210,7 +205,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
      * Create a new browser.
      */
     protected void createBrowser(CefClientHandler clientHandler, long windowHandle, String url,
-            boolean osr, boolean transparent, Component canvas, int frameRate) {
+            boolean osr, boolean transparent, Component canvas) {
         if (isClosing_ || isClosed_ || isCreating_)
             return;
 
@@ -219,7 +214,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
             executeNative(() -> {
                 try {
                     if (TRACE_LIFESPAN) CefLog.Debug("CefBrowser_N: %s: started native creation", this);
-                    N_CreateBrowser(clientHandler, windowHandle, url, osr, transparent, canvas, request_context_, frameRate);
+                    N_CreateBrowser(clientHandler, windowHandle, url, osr, transparent, canvas, request_context_);
                 } catch (UnsatisfiedLinkError err) {
                     err.printStackTrace();
                 }
@@ -628,7 +623,6 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
             checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
                 N_SetWindowlessFrameRate(frameRate);
-            this.frameRate_ = frameRate;
         } catch (UnsatisfiedLinkError ule) {
             ule.printStackTrace();
         }
@@ -1033,7 +1027,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
 
     private final native boolean N_CreateBrowser(CefClientHandler clientHandler, long windowHandle,
             String url, boolean osr, boolean transparent, Component canvas,
-            CefRequestContext context, int frameRate);
+            CefRequestContext context);
     private final native boolean N_CreateDevTools(CefBrowser parent, CefClientHandler clientHandler,
             long windowHandle, boolean osr, boolean transparent, Component canvas, Point inspectAt);
     private final native long N_GetWindowHandle(long surfaceHandle);
