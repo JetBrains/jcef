@@ -234,14 +234,6 @@ public class CefSettings {
     public boolean cookieable_schemes_exclude_defaults = false;
     public boolean no_sandbox = !Boolean.getBoolean("jcef.use_sandbox");
 
-    /**
-     * Defines the frequency of calling {@link CefApp#doMessageLoopWork(long)} in EDT on macOS and Linux.
-     * <p>
-     * Affects the CEF message loop delay.
-     * message_loop_delay_ms = 1000 / frameRateLimit.
-     */
-    public int frameRateLimit = Integer.getInteger("jcef.frameRateLimit", 30);
-
     public CefSettings() {}
 
     @Override
@@ -267,7 +259,6 @@ public class CefSettings {
         tmp.cookieable_schemes_list = cookieable_schemes_list;
         tmp.cookieable_schemes_exclude_defaults = cookieable_schemes_exclude_defaults;
         tmp.no_sandbox = no_sandbox;
-        tmp.frameRateLimit = frameRateLimit;
         return tmp;
     }
     
@@ -292,8 +283,7 @@ public class CefSettings {
         if (background_color != null) sb.append("background_color=" + background_color.clone() + ", ");
         sb.append("cookieable_schemes_list=" + cookieable_schemes_list + ", ");
         sb.append("cookieable_schemes_exclude_defaults=" + cookieable_schemes_exclude_defaults + ", ");
-        sb.append("no_sandbox=" + no_sandbox + ", ");
-        sb.append("fps_limit=" + frameRateLimit);
+        sb.append("no_sandbox=" + no_sandbox);
         return sb.toString();
     }
 
