@@ -147,6 +147,11 @@ public class CefDevToolsClient implements AutoCloseable {
             this.json_ = json;
         }
 
+        public DevToolsException(String message, String json, Throwable throwable) {
+            super(message, throwable);
+            this.json_ = json;
+        }
+
         @Override
         public String getMessage() {
             String message = super.getMessage();

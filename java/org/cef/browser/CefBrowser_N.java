@@ -228,23 +228,21 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     CompletableFuture<Integer> executeDevToolsMethod(String method, String parametersAsJson) {
         CompletableFuture<Integer> future = new CompletableFuture<>();
 
-        Runnable exec = () -> N_ExecuteDevToolsMethod(method, parametersAsJson, new IntCallback() {
-            @Override
-            public void onComplete(int generatedMessageId) {
-                if (generatedMessageId <= 0) {
-                    future.completeExceptionally(new DevToolsException(
-                            String.format("Failed to execute DevTools method %s", method)));
-                } else {
-                    future.complete(generatedMessageId);
-                }
+        executeNative(() -> {
+            try {
+                N_ExecuteDevToolsMethod(method, parametersAsJson, generatedMessageId -> {
+                    if (generatedMessageId <= 0) {
+                        future.completeExceptionally(new DevToolsException(
+                                String.format("Failed to execute DevTools method %s", method)));
+                    } else {
+                        future.complete(generatedMessageId);
+                    }
+                });
+            } catch (UnsatisfiedLinkError error) {
+                future.completeExceptionally(new DevToolsException(
+                        String.format("Failed to execute DevTools method %s", method), parametersAsJson, error));
             }
-        });
-
-        if (isNativeCtxInitialized_) {
-            exec.run();
-        } else {
-            executeNative(exec, String.format("executeDevToolsMethod: %s(%s)", method, parametersAsJson));
-        }
+        }, String.format("executeDevToolsMethod: %s(%s)", method, parametersAsJson));
 
         return future;
     }
@@ -1071,21 +1069,27 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
    }
 
     public void setWindowlessFrameRate(int frameRate) {
-        try {
-            N_SetWindowlessFrameRate(frameRate);
-        } catch (UnsatisfiedLinkError ule) {
-            ule.printStackTrace();
-        }
+        executeNative(() -> {
+            try {
+                N_SetWindowlessFrameRate(frameRate);
+            } catch (UnsatisfiedLinkError error) {
+                error.printStackTrace();
+            }
+        }, "setWindowlessFrameRate: " + frameRate);
     }
 
     public CompletableFuture<Integer> getWindowlessFrameRate() {
         final CompletableFuture<Integer> future = new CompletableFuture<>();
-        try {
-            N_GetWindowlessFrameRate(future::complete);
-        } catch (UnsatisfiedLinkError ule) {
-            ule.printStackTrace();
-            future.complete(0);
-        }
+
+        executeNative(() -> {
+            try {
+                N_GetWindowlessFrameRate(future::complete);
+            } catch (UnsatisfiedLinkError error) {
+                error.printStackTrace();
+                future.completeExceptionally(error);
+            }
+        }, "getWindowlessFrameRate");
+
         return future;
     }
 

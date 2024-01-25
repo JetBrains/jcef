@@ -437,6 +437,16 @@ public class RemoteBrowser implements CefBrowser {
     }
 
     @Override
+    public void setWindowlessFrameRate(int frameRate) {
+
+    }
+
+    @Override
+    public CompletableFuture<Integer> getWindowlessFrameRate() {
+        return null;
+    }
+
+    @Override
     public String toString() {
         return "RemoteBrowser_" + myBid;
     }

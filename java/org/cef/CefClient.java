@@ -66,8 +66,6 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
-import javax.swing.SwingUtilities;
-
 /**
  * Client that owns a browser and renderer.
  */
@@ -175,6 +173,12 @@ public class CefClient extends CefClientHandler
         return createBrowser(url, isOffscreenRendered ? CefRendering.OFFSCREEN : CefRendering.DEFAULT, isTransparent, context);
     }
 
+    @Deprecated
+    public CefBrowser createBrowser(String url, boolean isOffscreenRendered, boolean isTransparent,
+                                    CefRequestContext context, CefBrowserSettings settings) {
+        return createBrowser(url, isOffscreenRendered ? CefRendering.OFFSCREEN : CefRendering.DEFAULT, isTransparent, context, settings);
+    }
+
     public CefBrowser createBrowser(String url, CefRendering rendering, boolean isTransparent) {
         return createBrowser(url, rendering, isTransparent, null);
     }
@@ -188,20 +192,15 @@ public class CefClient extends CefClientHandler
         return CefBrowserFactory.create(this, url, rendering, isTransparent, context, null);
     }
 
-    public CefBrowser createBrowser(String url, boolean isOffscreenRendered, boolean isTransparent,
+    public CefBrowser createBrowser(String url, CefRendering rendering, boolean isTransparent,
                                     CefRequestContext context, CefBrowserSettings settings) {
         if (isDisposed_)
             throw new IllegalStateException("Can't create browser. CefClient is disposed");
+        // TODO: add CefBrowserSettings to RemoteClient#createBrowser
+        if (remoteClient != null)
+            return remoteClient.createBrowser(url, context, this, rendering);
         return CefBrowserFactory.create(
-                this, url, isOffscreenRendered, isTransparent, context, settings);
-    }
-
-    public CefBrowser createBrowser(String url, boolean isOffscreenRendered, boolean isTransparent,
-                                    CefRequestContext context, CefBrowserSettings settings) {
-        if (isDisposed_)
-            throw new IllegalStateException("Can't create browser. CefClient is disposed");
-        return CefBrowserFactory.create(
-                this, url, isOffscreenRendered, isTransparent, context, settings);
+                this, url, rendering, isTransparent, context, settings);
     }
 
     @Override

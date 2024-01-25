@@ -29,6 +29,16 @@ public class CefBrowserFactory {
      * @since api-1.2
      */
     public static CefBrowser create(CefClient client, String url, CefRendering rendering,
+                                    boolean isTransparent, CefRequestContext context) {
+        return create(client, url, rendering, isTransparent, context, null);
+    }
+
+    /**
+     * Returns {@link CefBrowser} based on {@link CefRendering} passed.
+     *
+     * @since api-1.14
+     */
+    public static CefBrowser create(CefClient client, String url, CefRendering rendering,
                                     boolean isTransparent, CefRequestContext context, CefBrowserSettings settings) {
         if (rendering == CefRendering.DEFAULT) {
             return new CefBrowserWr(client, url, context, settings);
@@ -36,7 +46,7 @@ public class CefBrowserFactory {
             return new CefBrowserOsr(client, url, isTransparent, context, settings);
         } else if (rendering instanceof CefRendering.CefRenderingWithHandler) {
             CefRendering.CefRenderingWithHandler renderingWithHandler = (CefRendering.CefRenderingWithHandler) rendering;
-            return new CefBrowserOsrWithHandler(client, url, context, renderingWithHandler.getRenderHandler(), renderingWithHandler.getComponent());
+            return new CefBrowserOsrWithHandler(client, url, context, renderingWithHandler.getRenderHandler(), renderingWithHandler.getComponent(), settings);
         }
         throw new IllegalArgumentException(rendering.toString());
     }
