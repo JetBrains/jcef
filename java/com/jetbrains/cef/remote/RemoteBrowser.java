@@ -296,11 +296,6 @@ public class RemoteBrowser implements CefBrowser {
     }
 
     @Override
-    public void setWindowlessFrameRate(int frameRate) {
-        CefLog.Error("setWindowlessFrameRate is not implemented.");
-    }
-
-    @Override
     public double getZoomLevel() {
         return 0;
     }
