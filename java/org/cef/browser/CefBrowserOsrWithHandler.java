@@ -1,5 +1,6 @@
 package org.cef.browser;
 
+import org.cef.CefBrowserSettings;
 import org.cef.CefClient;
 import org.cef.handler.CefClientHandler;
 import org.cef.handler.CefRenderHandler;
@@ -32,6 +33,10 @@ public class CefBrowserOsrWithHandler extends CefBrowser_N  {
         this(client, url, context, renderHandler, component, null, null);
     }
 
+    public CefBrowserOsrWithHandler(CefClient client, String url, CefRequestContext context, CefRenderHandler renderHandler, Component component, CefBrowserSettings settings) {
+        this(client, url, context, renderHandler, component, null, null, settings);
+    }
+
     /**
      * Creates a DevTools browser for the provided parent.
      */
@@ -43,7 +48,19 @@ public class CefBrowserOsrWithHandler extends CefBrowser_N  {
                                     CefBrowser parent,
                                     Point inspectAt)
     {
-        super(client, url, context, (CefBrowser_N)parent, inspectAt);
+        this(client, url, context, renderHandler, component, null, null, null);
+    }
+
+    public CefBrowserOsrWithHandler(CefClient client,
+                                    String url,
+                                    CefRequestContext context,
+                                    CefRenderHandler renderHandler,
+                                    Component component,
+                                    CefBrowser parent,
+                                    Point inspectAt,
+                                    CefBrowserSettings settings)
+    {
+        super(client, url, context, (CefBrowser_N)parent, inspectAt, settings);
         assert renderHandler != null : "Handler can't be null";
         this.renderHandler_ = renderHandler;
         this.component_ = component;
