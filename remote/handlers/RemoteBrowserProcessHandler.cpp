@@ -4,17 +4,35 @@
 
 #define LNDCT()
 
-RemoteBrowserProcessHandler::RemoteBrowserProcessHandler() : myService(nullptr) {}
+RemoteBrowserProcessHandler::RemoteBrowserProcessHandler() : myService(nullptr), myCreationTime(Clock::now()) {}
 
 RemoteBrowserProcessHandler::~RemoteBrowserProcessHandler() {
   MessageRoutersManager::ClearAllConfigs();
 }
 
+void RemoteBrowserProcessHandler::setService(std::shared_ptr<RpcExecutor> service) {
+  Lock lock(myMutex);
+  myService = service;
+  if (myService && myIsContextInitialized) {
+    // Service was created after OnContextInitialized happened, so notify client immediately.
+    myService->exec([&](const RpcExecutor::Service& s) {
+      s->AppHandler_OnContextInitialized();
+    });
+  }
+}
+
 void RemoteBrowserProcessHandler::OnContextInitialized() {
   LNDCT();
-  auto service = myService;
-  if (service)
-    service->exec([&](const RpcExecutor::Service& s){
+
+  if (Log::isTraceEnabled()) {
+    Duration dur = std::chrono::duration_cast<std::chrono::microseconds>(Clock::now() - myCreationTime);
+    Log::trace("Native CEF context initialization spent %d ms.", (int)dur.count()/1000);
+  }
+
+  Lock lock(myMutex);
+  myIsContextInitialized = true;
+  if (myService)
+    myService->exec([&](const RpcExecutor::Service& s){
       s->AppHandler_OnContextInitialized();
     });
 }

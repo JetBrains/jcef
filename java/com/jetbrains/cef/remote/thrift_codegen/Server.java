@@ -11,7 +11,7 @@ public class Server {
 
   public interface Iface {
 
-    public int connect(java.lang.String backwardConnectionPipe, java.util.List<java.lang.String> cmdLineArgs, java.util.Map<java.lang.String,java.lang.String> settings) throws org.apache.thrift.TException;
+    public int connect(java.lang.String backwardConnectionPipe) throws org.apache.thrift.TException;
 
     public void log(java.lang.String msg) throws org.apache.thrift.TException;
 
@@ -101,7 +101,7 @@ public class Server {
 
   public interface AsyncIface {
 
-    public void connect(java.lang.String backwardConnectionPipe, java.util.List<java.lang.String> cmdLineArgs, java.util.Map<java.lang.String,java.lang.String> settings, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException;
+    public void connect(java.lang.String backwardConnectionPipe, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException;
 
     public void log(java.lang.String msg, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
@@ -212,18 +212,16 @@ public class Server {
     }
 
     @Override
-    public int connect(java.lang.String backwardConnectionPipe, java.util.List<java.lang.String> cmdLineArgs, java.util.Map<java.lang.String,java.lang.String> settings) throws org.apache.thrift.TException
+    public int connect(java.lang.String backwardConnectionPipe) throws org.apache.thrift.TException
     {
-      send_connect(backwardConnectionPipe, cmdLineArgs, settings);
+      send_connect(backwardConnectionPipe);
       return recv_connect();
     }
 
-    public void send_connect(java.lang.String backwardConnectionPipe, java.util.List<java.lang.String> cmdLineArgs, java.util.Map<java.lang.String,java.lang.String> settings) throws org.apache.thrift.TException
+    public void send_connect(java.lang.String backwardConnectionPipe) throws org.apache.thrift.TException
     {
       connect_args args = new connect_args();
       args.setBackwardConnectionPipe(backwardConnectionPipe);
-      args.setCmdLineArgs(cmdLineArgs);
-      args.setSettings(settings);
       sendBase("connect", args);
     }
 
@@ -1058,22 +1056,18 @@ public class Server {
     }
 
     @Override
-    public void connect(java.lang.String backwardConnectionPipe, java.util.List<java.lang.String> cmdLineArgs, java.util.Map<java.lang.String,java.lang.String> settings, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException {
+    public void connect(java.lang.String backwardConnectionPipe, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      connect_call method_call = new connect_call(backwardConnectionPipe, cmdLineArgs, settings, resultHandler, this, ___protocolFactory, ___transport);
+      connect_call method_call = new connect_call(backwardConnectionPipe, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
     public static class connect_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.Integer> {
       private java.lang.String backwardConnectionPipe;
-      private java.util.List<java.lang.String> cmdLineArgs;
-      private java.util.Map<java.lang.String,java.lang.String> settings;
-      public connect_call(java.lang.String backwardConnectionPipe, java.util.List<java.lang.String> cmdLineArgs, java.util.Map<java.lang.String,java.lang.String> settings, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public connect_call(java.lang.String backwardConnectionPipe, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.backwardConnectionPipe = backwardConnectionPipe;
-        this.cmdLineArgs = cmdLineArgs;
-        this.settings = settings;
       }
 
       @Override
@@ -1081,8 +1075,6 @@ public class Server {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("connect", org.apache.thrift.protocol.TMessageType.CALL, 0));
         connect_args args = new connect_args();
         args.setBackwardConnectionPipe(backwardConnectionPipe);
-        args.setCmdLineArgs(cmdLineArgs);
-        args.setSettings(settings);
         args.write(prot);
         prot.writeMessageEnd();
       }
@@ -2819,7 +2811,7 @@ public class Server {
       @Override
       public connect_result getResult(I iface, connect_args args) throws org.apache.thrift.TException {
         connect_result result = new connect_result();
-        result.success = iface.connect(args.backwardConnectionPipe, args.cmdLineArgs, args.settings);
+        result.success = iface.connect(args.backwardConnectionPipe);
         result.setSuccessIsSet(true);
         return result;
       }
@@ -4105,7 +4097,7 @@ public class Server {
 
       @Override
       public void start(I iface, connect_args args, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException {
-        iface.connect(args.backwardConnectionPipe, args.cmdLineArgs, args.settings,resultHandler);
+        iface.connect(args.backwardConnectionPipe,resultHandler);
       }
     }
 
@@ -6378,21 +6370,15 @@ public class Server {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("connect_args");
 
     private static final org.apache.thrift.protocol.TField BACKWARD_CONNECTION_PIPE_FIELD_DESC = new org.apache.thrift.protocol.TField("backwardConnectionPipe", org.apache.thrift.protocol.TType.STRING, (short)1);
-    private static final org.apache.thrift.protocol.TField CMD_LINE_ARGS_FIELD_DESC = new org.apache.thrift.protocol.TField("cmdLineArgs", org.apache.thrift.protocol.TType.LIST, (short)2);
-    private static final org.apache.thrift.protocol.TField SETTINGS_FIELD_DESC = new org.apache.thrift.protocol.TField("settings", org.apache.thrift.protocol.TType.MAP, (short)3);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new connect_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new connect_argsTupleSchemeFactory();
 
     public @org.apache.thrift.annotation.Nullable java.lang.String backwardConnectionPipe; // required
-    public @org.apache.thrift.annotation.Nullable java.util.List<java.lang.String> cmdLineArgs; // required
-    public @org.apache.thrift.annotation.Nullable java.util.Map<java.lang.String,java.lang.String> settings; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      BACKWARD_CONNECTION_PIPE((short)1, "backwardConnectionPipe"),
-      CMD_LINE_ARGS((short)2, "cmdLineArgs"),
-      SETTINGS((short)3, "settings");
+      BACKWARD_CONNECTION_PIPE((short)1, "backwardConnectionPipe");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -6410,10 +6396,6 @@ public class Server {
         switch(fieldId) {
           case 1: // BACKWARD_CONNECTION_PIPE
             return BACKWARD_CONNECTION_PIPE;
-          case 2: // CMD_LINE_ARGS
-            return CMD_LINE_ARGS;
-          case 3: // SETTINGS
-            return SETTINGS;
           default:
             return null;
         }
@@ -6462,13 +6444,6 @@ public class Server {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.BACKWARD_CONNECTION_PIPE, new org.apache.thrift.meta_data.FieldMetaData("backwardConnectionPipe", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-      tmpMap.put(_Fields.CMD_LINE_ARGS, new org.apache.thrift.meta_data.FieldMetaData("cmdLineArgs", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
-              new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING))));
-      tmpMap.put(_Fields.SETTINGS, new org.apache.thrift.meta_data.FieldMetaData("settings", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.MapMetaData(org.apache.thrift.protocol.TType.MAP, 
-              new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING), 
-              new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING))));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(connect_args.class, metaDataMap);
     }
@@ -6477,14 +6452,10 @@ public class Server {
     }
 
     public connect_args(
-      java.lang.String backwardConnectionPipe,
-      java.util.List<java.lang.String> cmdLineArgs,
-      java.util.Map<java.lang.String,java.lang.String> settings)
+      java.lang.String backwardConnectionPipe)
     {
       this();
       this.backwardConnectionPipe = backwardConnectionPipe;
-      this.cmdLineArgs = cmdLineArgs;
-      this.settings = settings;
     }
 
     /**
@@ -6493,14 +6464,6 @@ public class Server {
     public connect_args(connect_args other) {
       if (other.isSetBackwardConnectionPipe()) {
         this.backwardConnectionPipe = other.backwardConnectionPipe;
-      }
-      if (other.isSetCmdLineArgs()) {
-        java.util.List<java.lang.String> __this__cmdLineArgs = new java.util.ArrayList<java.lang.String>(other.cmdLineArgs);
-        this.cmdLineArgs = __this__cmdLineArgs;
-      }
-      if (other.isSetSettings()) {
-        java.util.Map<java.lang.String,java.lang.String> __this__settings = new java.util.HashMap<java.lang.String,java.lang.String>(other.settings);
-        this.settings = __this__settings;
       }
     }
 
@@ -6512,8 +6475,6 @@ public class Server {
     @Override
     public void clear() {
       this.backwardConnectionPipe = null;
-      this.cmdLineArgs = null;
-      this.settings = null;
     }
 
     @org.apache.thrift.annotation.Nullable
@@ -6541,83 +6502,6 @@ public class Server {
       }
     }
 
-    public int getCmdLineArgsSize() {
-      return (this.cmdLineArgs == null) ? 0 : this.cmdLineArgs.size();
-    }
-
-    @org.apache.thrift.annotation.Nullable
-    public java.util.Iterator<java.lang.String> getCmdLineArgsIterator() {
-      return (this.cmdLineArgs == null) ? null : this.cmdLineArgs.iterator();
-    }
-
-    public void addToCmdLineArgs(java.lang.String elem) {
-      if (this.cmdLineArgs == null) {
-        this.cmdLineArgs = new java.util.ArrayList<java.lang.String>();
-      }
-      this.cmdLineArgs.add(elem);
-    }
-
-    @org.apache.thrift.annotation.Nullable
-    public java.util.List<java.lang.String> getCmdLineArgs() {
-      return this.cmdLineArgs;
-    }
-
-    public connect_args setCmdLineArgs(@org.apache.thrift.annotation.Nullable java.util.List<java.lang.String> cmdLineArgs) {
-      this.cmdLineArgs = cmdLineArgs;
-      return this;
-    }
-
-    public void unsetCmdLineArgs() {
-      this.cmdLineArgs = null;
-    }
-
-    /** Returns true if field cmdLineArgs is set (has been assigned a value) and false otherwise */
-    public boolean isSetCmdLineArgs() {
-      return this.cmdLineArgs != null;
-    }
-
-    public void setCmdLineArgsIsSet(boolean value) {
-      if (!value) {
-        this.cmdLineArgs = null;
-      }
-    }
-
-    public int getSettingsSize() {
-      return (this.settings == null) ? 0 : this.settings.size();
-    }
-
-    public void putToSettings(java.lang.String key, java.lang.String val) {
-      if (this.settings == null) {
-        this.settings = new java.util.HashMap<java.lang.String,java.lang.String>();
-      }
-      this.settings.put(key, val);
-    }
-
-    @org.apache.thrift.annotation.Nullable
-    public java.util.Map<java.lang.String,java.lang.String> getSettings() {
-      return this.settings;
-    }
-
-    public connect_args setSettings(@org.apache.thrift.annotation.Nullable java.util.Map<java.lang.String,java.lang.String> settings) {
-      this.settings = settings;
-      return this;
-    }
-
-    public void unsetSettings() {
-      this.settings = null;
-    }
-
-    /** Returns true if field settings is set (has been assigned a value) and false otherwise */
-    public boolean isSetSettings() {
-      return this.settings != null;
-    }
-
-    public void setSettingsIsSet(boolean value) {
-      if (!value) {
-        this.settings = null;
-      }
-    }
-
     @Override
     public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
       switch (field) {
@@ -6626,22 +6510,6 @@ public class Server {
           unsetBackwardConnectionPipe();
         } else {
           setBackwardConnectionPipe((java.lang.String)value);
-        }
-        break;
-
-      case CMD_LINE_ARGS:
-        if (value == null) {
-          unsetCmdLineArgs();
-        } else {
-          setCmdLineArgs((java.util.List<java.lang.String>)value);
-        }
-        break;
-
-      case SETTINGS:
-        if (value == null) {
-          unsetSettings();
-        } else {
-          setSettings((java.util.Map<java.lang.String,java.lang.String>)value);
         }
         break;
 
@@ -6654,12 +6522,6 @@ public class Server {
       switch (field) {
       case BACKWARD_CONNECTION_PIPE:
         return getBackwardConnectionPipe();
-
-      case CMD_LINE_ARGS:
-        return getCmdLineArgs();
-
-      case SETTINGS:
-        return getSettings();
 
       }
       throw new java.lang.IllegalStateException();
@@ -6675,10 +6537,6 @@ public class Server {
       switch (field) {
       case BACKWARD_CONNECTION_PIPE:
         return isSetBackwardConnectionPipe();
-      case CMD_LINE_ARGS:
-        return isSetCmdLineArgs();
-      case SETTINGS:
-        return isSetSettings();
       }
       throw new java.lang.IllegalStateException();
     }
@@ -6705,24 +6563,6 @@ public class Server {
           return false;
       }
 
-      boolean this_present_cmdLineArgs = true && this.isSetCmdLineArgs();
-      boolean that_present_cmdLineArgs = true && that.isSetCmdLineArgs();
-      if (this_present_cmdLineArgs || that_present_cmdLineArgs) {
-        if (!(this_present_cmdLineArgs && that_present_cmdLineArgs))
-          return false;
-        if (!this.cmdLineArgs.equals(that.cmdLineArgs))
-          return false;
-      }
-
-      boolean this_present_settings = true && this.isSetSettings();
-      boolean that_present_settings = true && that.isSetSettings();
-      if (this_present_settings || that_present_settings) {
-        if (!(this_present_settings && that_present_settings))
-          return false;
-        if (!this.settings.equals(that.settings))
-          return false;
-      }
-
       return true;
     }
 
@@ -6733,14 +6573,6 @@ public class Server {
       hashCode = hashCode * 8191 + ((isSetBackwardConnectionPipe()) ? 131071 : 524287);
       if (isSetBackwardConnectionPipe())
         hashCode = hashCode * 8191 + backwardConnectionPipe.hashCode();
-
-      hashCode = hashCode * 8191 + ((isSetCmdLineArgs()) ? 131071 : 524287);
-      if (isSetCmdLineArgs())
-        hashCode = hashCode * 8191 + cmdLineArgs.hashCode();
-
-      hashCode = hashCode * 8191 + ((isSetSettings()) ? 131071 : 524287);
-      if (isSetSettings())
-        hashCode = hashCode * 8191 + settings.hashCode();
 
       return hashCode;
     }
@@ -6759,26 +6591,6 @@ public class Server {
       }
       if (isSetBackwardConnectionPipe()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.backwardConnectionPipe, other.backwardConnectionPipe);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
-      lastComparison = java.lang.Boolean.compare(isSetCmdLineArgs(), other.isSetCmdLineArgs());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetCmdLineArgs()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.cmdLineArgs, other.cmdLineArgs);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
-      lastComparison = java.lang.Boolean.compare(isSetSettings(), other.isSetSettings());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetSettings()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.settings, other.settings);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -6812,22 +6624,6 @@ public class Server {
         sb.append("null");
       } else {
         sb.append(this.backwardConnectionPipe);
-      }
-      first = false;
-      if (!first) sb.append(", ");
-      sb.append("cmdLineArgs:");
-      if (this.cmdLineArgs == null) {
-        sb.append("null");
-      } else {
-        sb.append(this.cmdLineArgs);
-      }
-      first = false;
-      if (!first) sb.append(", ");
-      sb.append("settings:");
-      if (this.settings == null) {
-        sb.append("null");
-      } else {
-        sb.append(this.settings);
       }
       first = false;
       sb.append(")");
@@ -6883,44 +6679,6 @@ public class Server {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 2: // CMD_LINE_ARGS
-              if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
-                {
-                  org.apache.thrift.protocol.TList _list0 = iprot.readListBegin();
-                  struct.cmdLineArgs = new java.util.ArrayList<java.lang.String>(_list0.size);
-                  @org.apache.thrift.annotation.Nullable java.lang.String _elem1;
-                  for (int _i2 = 0; _i2 < _list0.size; ++_i2)
-                  {
-                    _elem1 = iprot.readString();
-                    struct.cmdLineArgs.add(_elem1);
-                  }
-                  iprot.readListEnd();
-                }
-                struct.setCmdLineArgsIsSet(true);
-              } else { 
-                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
-            case 3: // SETTINGS
-              if (schemeField.type == org.apache.thrift.protocol.TType.MAP) {
-                {
-                  org.apache.thrift.protocol.TMap _map3 = iprot.readMapBegin();
-                  struct.settings = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map3.size);
-                  @org.apache.thrift.annotation.Nullable java.lang.String _key4;
-                  @org.apache.thrift.annotation.Nullable java.lang.String _val5;
-                  for (int _i6 = 0; _i6 < _map3.size; ++_i6)
-                  {
-                    _key4 = iprot.readString();
-                    _val5 = iprot.readString();
-                    struct.settings.put(_key4, _val5);
-                  }
-                  iprot.readMapEnd();
-                }
-                struct.setSettingsIsSet(true);
-              } else { 
-                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
             default:
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
           }
@@ -6940,31 +6698,6 @@ public class Server {
         if (struct.backwardConnectionPipe != null) {
           oprot.writeFieldBegin(BACKWARD_CONNECTION_PIPE_FIELD_DESC);
           oprot.writeString(struct.backwardConnectionPipe);
-          oprot.writeFieldEnd();
-        }
-        if (struct.cmdLineArgs != null) {
-          oprot.writeFieldBegin(CMD_LINE_ARGS_FIELD_DESC);
-          {
-            oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, struct.cmdLineArgs.size()));
-            for (java.lang.String _iter7 : struct.cmdLineArgs)
-            {
-              oprot.writeString(_iter7);
-            }
-            oprot.writeListEnd();
-          }
-          oprot.writeFieldEnd();
-        }
-        if (struct.settings != null) {
-          oprot.writeFieldBegin(SETTINGS_FIELD_DESC);
-          {
-            oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING, struct.settings.size()));
-            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter8 : struct.settings.entrySet())
-            {
-              oprot.writeString(_iter8.getKey());
-              oprot.writeString(_iter8.getValue());
-            }
-            oprot.writeMapEnd();
-          }
           oprot.writeFieldEnd();
         }
         oprot.writeFieldStop();
@@ -6989,72 +6722,19 @@ public class Server {
         if (struct.isSetBackwardConnectionPipe()) {
           optionals.set(0);
         }
-        if (struct.isSetCmdLineArgs()) {
-          optionals.set(1);
-        }
-        if (struct.isSetSettings()) {
-          optionals.set(2);
-        }
-        oprot.writeBitSet(optionals, 3);
+        oprot.writeBitSet(optionals, 1);
         if (struct.isSetBackwardConnectionPipe()) {
           oprot.writeString(struct.backwardConnectionPipe);
-        }
-        if (struct.isSetCmdLineArgs()) {
-          {
-            oprot.writeI32(struct.cmdLineArgs.size());
-            for (java.lang.String _iter9 : struct.cmdLineArgs)
-            {
-              oprot.writeString(_iter9);
-            }
-          }
-        }
-        if (struct.isSetSettings()) {
-          {
-            oprot.writeI32(struct.settings.size());
-            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter10 : struct.settings.entrySet())
-            {
-              oprot.writeString(_iter10.getKey());
-              oprot.writeString(_iter10.getValue());
-            }
-          }
         }
       }
 
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, connect_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(3);
+        java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
           struct.backwardConnectionPipe = iprot.readString();
           struct.setBackwardConnectionPipeIsSet(true);
-        }
-        if (incoming.get(1)) {
-          {
-            org.apache.thrift.protocol.TList _list11 = iprot.readListBegin(org.apache.thrift.protocol.TType.STRING);
-            struct.cmdLineArgs = new java.util.ArrayList<java.lang.String>(_list11.size);
-            @org.apache.thrift.annotation.Nullable java.lang.String _elem12;
-            for (int _i13 = 0; _i13 < _list11.size; ++_i13)
-            {
-              _elem12 = iprot.readString();
-              struct.cmdLineArgs.add(_elem12);
-            }
-          }
-          struct.setCmdLineArgsIsSet(true);
-        }
-        if (incoming.get(2)) {
-          {
-            org.apache.thrift.protocol.TMap _map14 = iprot.readMapBegin(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING); 
-            struct.settings = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map14.size);
-            @org.apache.thrift.annotation.Nullable java.lang.String _key15;
-            @org.apache.thrift.annotation.Nullable java.lang.String _val16;
-            for (int _i17 = 0; _i17 < _map14.size; ++_i17)
-            {
-              _key15 = iprot.readString();
-              _val16 = iprot.readString();
-              struct.settings.put(_key15, _val16);
-            }
-          }
-          struct.setSettingsIsSet(true);
         }
       }
     }
@@ -20489,15 +20169,15 @@ public class Server {
             case 0: // SUCCESS
               if (schemeField.type == org.apache.thrift.protocol.TType.MAP) {
                 {
-                  org.apache.thrift.protocol.TMap _map18 = iprot.readMapBegin();
-                  struct.success = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map18.size);
-                  @org.apache.thrift.annotation.Nullable java.lang.String _key19;
-                  @org.apache.thrift.annotation.Nullable java.lang.String _val20;
-                  for (int _i21 = 0; _i21 < _map18.size; ++_i21)
+                  org.apache.thrift.protocol.TMap _map0 = iprot.readMapBegin();
+                  struct.success = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map0.size);
+                  @org.apache.thrift.annotation.Nullable java.lang.String _key1;
+                  @org.apache.thrift.annotation.Nullable java.lang.String _val2;
+                  for (int _i3 = 0; _i3 < _map0.size; ++_i3)
                   {
-                    _key19 = iprot.readString();
-                    _val20 = iprot.readString();
-                    struct.success.put(_key19, _val20);
+                    _key1 = iprot.readString();
+                    _val2 = iprot.readString();
+                    struct.success.put(_key1, _val2);
                   }
                   iprot.readMapEnd();
                 }
@@ -20526,10 +20206,10 @@ public class Server {
           oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
           {
             oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING, struct.success.size()));
-            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter22 : struct.success.entrySet())
+            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter4 : struct.success.entrySet())
             {
-              oprot.writeString(_iter22.getKey());
-              oprot.writeString(_iter22.getValue());
+              oprot.writeString(_iter4.getKey());
+              oprot.writeString(_iter4.getValue());
             }
             oprot.writeMapEnd();
           }
@@ -20561,10 +20241,10 @@ public class Server {
         if (struct.isSetSuccess()) {
           {
             oprot.writeI32(struct.success.size());
-            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter23 : struct.success.entrySet())
+            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter5 : struct.success.entrySet())
             {
-              oprot.writeString(_iter23.getKey());
-              oprot.writeString(_iter23.getValue());
+              oprot.writeString(_iter5.getKey());
+              oprot.writeString(_iter5.getValue());
             }
           }
         }
@@ -20576,15 +20256,15 @@ public class Server {
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
           {
-            org.apache.thrift.protocol.TMap _map24 = iprot.readMapBegin(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING); 
-            struct.success = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map24.size);
-            @org.apache.thrift.annotation.Nullable java.lang.String _key25;
-            @org.apache.thrift.annotation.Nullable java.lang.String _val26;
-            for (int _i27 = 0; _i27 < _map24.size; ++_i27)
+            org.apache.thrift.protocol.TMap _map6 = iprot.readMapBegin(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING); 
+            struct.success = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map6.size);
+            @org.apache.thrift.annotation.Nullable java.lang.String _key7;
+            @org.apache.thrift.annotation.Nullable java.lang.String _val8;
+            for (int _i9 = 0; _i9 < _map6.size; ++_i9)
             {
-              _key25 = iprot.readString();
-              _val26 = iprot.readString();
-              struct.success.put(_key25, _val26);
+              _key7 = iprot.readString();
+              _val8 = iprot.readString();
+              struct.success.put(_key7, _val8);
             }
           }
           struct.setSuccessIsSet(true);
@@ -21014,15 +20694,15 @@ public class Server {
             case 2: // HEADER_MAP
               if (schemeField.type == org.apache.thrift.protocol.TType.MAP) {
                 {
-                  org.apache.thrift.protocol.TMap _map28 = iprot.readMapBegin();
-                  struct.headerMap = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map28.size);
-                  @org.apache.thrift.annotation.Nullable java.lang.String _key29;
-                  @org.apache.thrift.annotation.Nullable java.lang.String _val30;
-                  for (int _i31 = 0; _i31 < _map28.size; ++_i31)
+                  org.apache.thrift.protocol.TMap _map10 = iprot.readMapBegin();
+                  struct.headerMap = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map10.size);
+                  @org.apache.thrift.annotation.Nullable java.lang.String _key11;
+                  @org.apache.thrift.annotation.Nullable java.lang.String _val12;
+                  for (int _i13 = 0; _i13 < _map10.size; ++_i13)
                   {
-                    _key29 = iprot.readString();
-                    _val30 = iprot.readString();
-                    struct.headerMap.put(_key29, _val30);
+                    _key11 = iprot.readString();
+                    _val12 = iprot.readString();
+                    struct.headerMap.put(_key11, _val12);
                   }
                   iprot.readMapEnd();
                 }
@@ -21056,10 +20736,10 @@ public class Server {
           oprot.writeFieldBegin(HEADER_MAP_FIELD_DESC);
           {
             oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING, struct.headerMap.size()));
-            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter32 : struct.headerMap.entrySet())
+            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter14 : struct.headerMap.entrySet())
             {
-              oprot.writeString(_iter32.getKey());
-              oprot.writeString(_iter32.getValue());
+              oprot.writeString(_iter14.getKey());
+              oprot.writeString(_iter14.getValue());
             }
             oprot.writeMapEnd();
           }
@@ -21097,10 +20777,10 @@ public class Server {
         if (struct.isSetHeaderMap()) {
           {
             oprot.writeI32(struct.headerMap.size());
-            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter33 : struct.headerMap.entrySet())
+            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter15 : struct.headerMap.entrySet())
             {
-              oprot.writeString(_iter33.getKey());
-              oprot.writeString(_iter33.getValue());
+              oprot.writeString(_iter15.getKey());
+              oprot.writeString(_iter15.getValue());
             }
           }
         }
@@ -21117,15 +20797,15 @@ public class Server {
         }
         if (incoming.get(1)) {
           {
-            org.apache.thrift.protocol.TMap _map34 = iprot.readMapBegin(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING); 
-            struct.headerMap = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map34.size);
-            @org.apache.thrift.annotation.Nullable java.lang.String _key35;
-            @org.apache.thrift.annotation.Nullable java.lang.String _val36;
-            for (int _i37 = 0; _i37 < _map34.size; ++_i37)
+            org.apache.thrift.protocol.TMap _map16 = iprot.readMapBegin(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING); 
+            struct.headerMap = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map16.size);
+            @org.apache.thrift.annotation.Nullable java.lang.String _key17;
+            @org.apache.thrift.annotation.Nullable java.lang.String _val18;
+            for (int _i19 = 0; _i19 < _map16.size; ++_i19)
             {
-              _key35 = iprot.readString();
-              _val36 = iprot.readString();
-              struct.headerMap.put(_key35, _val36);
+              _key17 = iprot.readString();
+              _val18 = iprot.readString();
+              struct.headerMap.put(_key17, _val18);
             }
           }
           struct.setHeaderMapIsSet(true);
@@ -22094,15 +21774,15 @@ public class Server {
             case 5: // HEADER_MAP
               if (schemeField.type == org.apache.thrift.protocol.TType.MAP) {
                 {
-                  org.apache.thrift.protocol.TMap _map38 = iprot.readMapBegin();
-                  struct.headerMap = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map38.size);
-                  @org.apache.thrift.annotation.Nullable java.lang.String _key39;
-                  @org.apache.thrift.annotation.Nullable java.lang.String _val40;
-                  for (int _i41 = 0; _i41 < _map38.size; ++_i41)
+                  org.apache.thrift.protocol.TMap _map20 = iprot.readMapBegin();
+                  struct.headerMap = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map20.size);
+                  @org.apache.thrift.annotation.Nullable java.lang.String _key21;
+                  @org.apache.thrift.annotation.Nullable java.lang.String _val22;
+                  for (int _i23 = 0; _i23 < _map20.size; ++_i23)
                   {
-                    _key39 = iprot.readString();
-                    _val40 = iprot.readString();
-                    struct.headerMap.put(_key39, _val40);
+                    _key21 = iprot.readString();
+                    _val22 = iprot.readString();
+                    struct.headerMap.put(_key21, _val22);
                   }
                   iprot.readMapEnd();
                 }
@@ -22151,10 +21831,10 @@ public class Server {
           oprot.writeFieldBegin(HEADER_MAP_FIELD_DESC);
           {
             oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING, struct.headerMap.size()));
-            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter42 : struct.headerMap.entrySet())
+            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter24 : struct.headerMap.entrySet())
             {
-              oprot.writeString(_iter42.getKey());
-              oprot.writeString(_iter42.getValue());
+              oprot.writeString(_iter24.getKey());
+              oprot.writeString(_iter24.getValue());
             }
             oprot.writeMapEnd();
           }
@@ -22210,10 +21890,10 @@ public class Server {
         if (struct.isSetHeaderMap()) {
           {
             oprot.writeI32(struct.headerMap.size());
-            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter43 : struct.headerMap.entrySet())
+            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter25 : struct.headerMap.entrySet())
             {
-              oprot.writeString(_iter43.getKey());
-              oprot.writeString(_iter43.getValue());
+              oprot.writeString(_iter25.getKey());
+              oprot.writeString(_iter25.getValue());
             }
           }
         }
@@ -22243,15 +21923,15 @@ public class Server {
         }
         if (incoming.get(4)) {
           {
-            org.apache.thrift.protocol.TMap _map44 = iprot.readMapBegin(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING); 
-            struct.headerMap = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map44.size);
-            @org.apache.thrift.annotation.Nullable java.lang.String _key45;
-            @org.apache.thrift.annotation.Nullable java.lang.String _val46;
-            for (int _i47 = 0; _i47 < _map44.size; ++_i47)
+            org.apache.thrift.protocol.TMap _map26 = iprot.readMapBegin(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING); 
+            struct.headerMap = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map26.size);
+            @org.apache.thrift.annotation.Nullable java.lang.String _key27;
+            @org.apache.thrift.annotation.Nullable java.lang.String _val28;
+            for (int _i29 = 0; _i29 < _map26.size; ++_i29)
             {
-              _key45 = iprot.readString();
-              _val46 = iprot.readString();
-              struct.headerMap.put(_key45, _val46);
+              _key27 = iprot.readString();
+              _val28 = iprot.readString();
+              struct.headerMap.put(_key27, _val28);
             }
           }
           struct.setHeaderMapIsSet(true);
@@ -25710,15 +25390,15 @@ public class Server {
             case 0: // SUCCESS
               if (schemeField.type == org.apache.thrift.protocol.TType.MAP) {
                 {
-                  org.apache.thrift.protocol.TMap _map48 = iprot.readMapBegin();
-                  struct.success = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map48.size);
-                  @org.apache.thrift.annotation.Nullable java.lang.String _key49;
-                  @org.apache.thrift.annotation.Nullable java.lang.String _val50;
-                  for (int _i51 = 0; _i51 < _map48.size; ++_i51)
+                  org.apache.thrift.protocol.TMap _map30 = iprot.readMapBegin();
+                  struct.success = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map30.size);
+                  @org.apache.thrift.annotation.Nullable java.lang.String _key31;
+                  @org.apache.thrift.annotation.Nullable java.lang.String _val32;
+                  for (int _i33 = 0; _i33 < _map30.size; ++_i33)
                   {
-                    _key49 = iprot.readString();
-                    _val50 = iprot.readString();
-                    struct.success.put(_key49, _val50);
+                    _key31 = iprot.readString();
+                    _val32 = iprot.readString();
+                    struct.success.put(_key31, _val32);
                   }
                   iprot.readMapEnd();
                 }
@@ -25747,10 +25427,10 @@ public class Server {
           oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
           {
             oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING, struct.success.size()));
-            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter52 : struct.success.entrySet())
+            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter34 : struct.success.entrySet())
             {
-              oprot.writeString(_iter52.getKey());
-              oprot.writeString(_iter52.getValue());
+              oprot.writeString(_iter34.getKey());
+              oprot.writeString(_iter34.getValue());
             }
             oprot.writeMapEnd();
           }
@@ -25782,10 +25462,10 @@ public class Server {
         if (struct.isSetSuccess()) {
           {
             oprot.writeI32(struct.success.size());
-            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter53 : struct.success.entrySet())
+            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter35 : struct.success.entrySet())
             {
-              oprot.writeString(_iter53.getKey());
-              oprot.writeString(_iter53.getValue());
+              oprot.writeString(_iter35.getKey());
+              oprot.writeString(_iter35.getValue());
             }
           }
         }
@@ -25797,15 +25477,15 @@ public class Server {
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
           {
-            org.apache.thrift.protocol.TMap _map54 = iprot.readMapBegin(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING); 
-            struct.success = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map54.size);
-            @org.apache.thrift.annotation.Nullable java.lang.String _key55;
-            @org.apache.thrift.annotation.Nullable java.lang.String _val56;
-            for (int _i57 = 0; _i57 < _map54.size; ++_i57)
+            org.apache.thrift.protocol.TMap _map36 = iprot.readMapBegin(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING); 
+            struct.success = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map36.size);
+            @org.apache.thrift.annotation.Nullable java.lang.String _key37;
+            @org.apache.thrift.annotation.Nullable java.lang.String _val38;
+            for (int _i39 = 0; _i39 < _map36.size; ++_i39)
             {
-              _key55 = iprot.readString();
-              _val56 = iprot.readString();
-              struct.success.put(_key55, _val56);
+              _key37 = iprot.readString();
+              _val38 = iprot.readString();
+              struct.success.put(_key37, _val38);
             }
           }
           struct.setSuccessIsSet(true);
@@ -26235,15 +25915,15 @@ public class Server {
             case 2: // HEADER_MAP
               if (schemeField.type == org.apache.thrift.protocol.TType.MAP) {
                 {
-                  org.apache.thrift.protocol.TMap _map58 = iprot.readMapBegin();
-                  struct.headerMap = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map58.size);
-                  @org.apache.thrift.annotation.Nullable java.lang.String _key59;
-                  @org.apache.thrift.annotation.Nullable java.lang.String _val60;
-                  for (int _i61 = 0; _i61 < _map58.size; ++_i61)
+                  org.apache.thrift.protocol.TMap _map40 = iprot.readMapBegin();
+                  struct.headerMap = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map40.size);
+                  @org.apache.thrift.annotation.Nullable java.lang.String _key41;
+                  @org.apache.thrift.annotation.Nullable java.lang.String _val42;
+                  for (int _i43 = 0; _i43 < _map40.size; ++_i43)
                   {
-                    _key59 = iprot.readString();
-                    _val60 = iprot.readString();
-                    struct.headerMap.put(_key59, _val60);
+                    _key41 = iprot.readString();
+                    _val42 = iprot.readString();
+                    struct.headerMap.put(_key41, _val42);
                   }
                   iprot.readMapEnd();
                 }
@@ -26277,10 +25957,10 @@ public class Server {
           oprot.writeFieldBegin(HEADER_MAP_FIELD_DESC);
           {
             oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING, struct.headerMap.size()));
-            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter62 : struct.headerMap.entrySet())
+            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter44 : struct.headerMap.entrySet())
             {
-              oprot.writeString(_iter62.getKey());
-              oprot.writeString(_iter62.getValue());
+              oprot.writeString(_iter44.getKey());
+              oprot.writeString(_iter44.getValue());
             }
             oprot.writeMapEnd();
           }
@@ -26318,10 +25998,10 @@ public class Server {
         if (struct.isSetHeaderMap()) {
           {
             oprot.writeI32(struct.headerMap.size());
-            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter63 : struct.headerMap.entrySet())
+            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter45 : struct.headerMap.entrySet())
             {
-              oprot.writeString(_iter63.getKey());
-              oprot.writeString(_iter63.getValue());
+              oprot.writeString(_iter45.getKey());
+              oprot.writeString(_iter45.getValue());
             }
           }
         }
@@ -26338,15 +26018,15 @@ public class Server {
         }
         if (incoming.get(1)) {
           {
-            org.apache.thrift.protocol.TMap _map64 = iprot.readMapBegin(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING); 
-            struct.headerMap = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map64.size);
-            @org.apache.thrift.annotation.Nullable java.lang.String _key65;
-            @org.apache.thrift.annotation.Nullable java.lang.String _val66;
-            for (int _i67 = 0; _i67 < _map64.size; ++_i67)
+            org.apache.thrift.protocol.TMap _map46 = iprot.readMapBegin(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING); 
+            struct.headerMap = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map46.size);
+            @org.apache.thrift.annotation.Nullable java.lang.String _key47;
+            @org.apache.thrift.annotation.Nullable java.lang.String _val48;
+            for (int _i49 = 0; _i49 < _map46.size; ++_i49)
             {
-              _key65 = iprot.readString();
-              _val66 = iprot.readString();
-              struct.headerMap.put(_key65, _val66);
+              _key47 = iprot.readString();
+              _val48 = iprot.readString();
+              struct.headerMap.put(_key47, _val48);
             }
           }
           struct.setHeaderMapIsSet(true);

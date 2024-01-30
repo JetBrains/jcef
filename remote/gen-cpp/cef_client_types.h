@@ -22,56 +22,11 @@
 
 namespace thrift_codegen {
 
-class CustomScheme;
-
 class Point;
 
 class Rect;
 
 class ScreenInfo;
-
-
-class CustomScheme : public virtual ::apache::thrift::TBase {
- public:
-
-  CustomScheme(const CustomScheme&);
-  CustomScheme& operator=(const CustomScheme&);
-  CustomScheme() noexcept
-               : schemeName(),
-                 options(0) {
-  }
-
-  virtual ~CustomScheme() noexcept;
-  std::string schemeName;
-  int32_t options;
-
-  void __set_schemeName(const std::string& val);
-
-  void __set_options(const int32_t val);
-
-  bool operator == (const CustomScheme & rhs) const
-  {
-    if (!(schemeName == rhs.schemeName))
-      return false;
-    if (!(options == rhs.options))
-      return false;
-    return true;
-  }
-  bool operator != (const CustomScheme &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const CustomScheme & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
-};
-
-void swap(CustomScheme &a, CustomScheme &b);
-
-std::ostream& operator<<(std::ostream& out, const CustomScheme& obj);
 
 
 class Point : public virtual ::apache::thrift::TBase {

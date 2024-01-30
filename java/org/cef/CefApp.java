@@ -172,7 +172,7 @@ public class CefApp extends CefAppHandlerAdapter {
             // execute successfully)
             // TODO: ensure and make all initialization steps in single bg thread.
             if (IS_REMOTE_ENABLED) {
-                if (CefServer.initialize()) {
+                if (CefServer.initialize(appHandler_, settings_)) {
                     CefLog.Debug("CefApp: native CefServer is initialized.");
                     setState(CefAppState.INITIALIZED);
                     synchronized (initializationListeners_) {
@@ -303,7 +303,7 @@ public class CefApp extends CefAppHandlerAdapter {
     public final CefVersion getVersion() {
         if (isRemoteEnabled()) {
             // TODO: request from server
-            CefVersion result = new CefVersion(0, "0", 0, 0, 0, 0, 0, 0, 0, 0) {
+            return new CefVersion(0, "0", 0, 0, 0, 0, 0, 0, 0, 0) {
                 @Override
                 public String toString() {
                     return "remote " + JCefAppConfig.getVersion();

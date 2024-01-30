@@ -14,121 +14,6 @@
 namespace thrift_codegen {
 
 
-CustomScheme::~CustomScheme() noexcept {
-}
-
-
-void CustomScheme::__set_schemeName(const std::string& val) {
-  this->schemeName = val;
-}
-
-void CustomScheme::__set_options(const int32_t val) {
-  this->options = val;
-}
-std::ostream& operator<<(std::ostream& out, const CustomScheme& obj)
-{
-  obj.printTo(out);
-  return out;
-}
-
-
-uint32_t CustomScheme::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-  bool isset_schemeName = false;
-  bool isset_options = false;
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 1:
-        if (ftype == ::apache::thrift::protocol::T_STRING) {
-          xfer += iprot->readString(this->schemeName);
-          isset_schemeName = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 2:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->options);
-          isset_options = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      default:
-        xfer += iprot->skip(ftype);
-        break;
-    }
-    xfer += iprot->readFieldEnd();
-  }
-
-  xfer += iprot->readStructEnd();
-
-  if (!isset_schemeName)
-    throw TProtocolException(TProtocolException::INVALID_DATA);
-  if (!isset_options)
-    throw TProtocolException(TProtocolException::INVALID_DATA);
-  return xfer;
-}
-
-uint32_t CustomScheme::write(::apache::thrift::protocol::TProtocol* oprot) const {
-  uint32_t xfer = 0;
-  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("CustomScheme");
-
-  xfer += oprot->writeFieldBegin("schemeName", ::apache::thrift::protocol::T_STRING, 1);
-  xfer += oprot->writeString(this->schemeName);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("options", ::apache::thrift::protocol::T_I32, 2);
-  xfer += oprot->writeI32(this->options);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  return xfer;
-}
-
-void swap(CustomScheme &a, CustomScheme &b) {
-  using ::std::swap;
-  swap(a.schemeName, b.schemeName);
-  swap(a.options, b.options);
-}
-
-CustomScheme::CustomScheme(const CustomScheme& other0) {
-  schemeName = other0.schemeName;
-  options = other0.options;
-}
-CustomScheme& CustomScheme::operator=(const CustomScheme& other1) {
-  schemeName = other1.schemeName;
-  options = other1.options;
-  return *this;
-}
-void CustomScheme::printTo(std::ostream& out) const {
-  using ::apache::thrift::to_string;
-  out << "CustomScheme(";
-  out << "schemeName=" << to_string(schemeName);
-  out << ", " << "options=" << to_string(options);
-  out << ")";
-}
-
-
 Point::~Point() noexcept {
 }
 
@@ -226,13 +111,13 @@ void swap(Point &a, Point &b) {
   swap(a.y, b.y);
 }
 
-Point::Point(const Point& other2) noexcept {
-  x = other2.x;
-  y = other2.y;
+Point::Point(const Point& other0) noexcept {
+  x = other0.x;
+  y = other0.y;
 }
-Point& Point::operator=(const Point& other3) noexcept {
-  x = other3.x;
-  y = other3.y;
+Point& Point::operator=(const Point& other1) noexcept {
+  x = other1.x;
+  y = other1.y;
   return *this;
 }
 void Point::printTo(std::ostream& out) const {
@@ -381,17 +266,17 @@ void swap(Rect &a, Rect &b) {
   swap(a.h, b.h);
 }
 
-Rect::Rect(const Rect& other4) noexcept {
-  x = other4.x;
-  y = other4.y;
-  w = other4.w;
-  h = other4.h;
+Rect::Rect(const Rect& other2) noexcept {
+  x = other2.x;
+  y = other2.y;
+  w = other2.w;
+  h = other2.h;
 }
-Rect& Rect::operator=(const Rect& other5) noexcept {
-  x = other5.x;
-  y = other5.y;
-  w = other5.w;
-  h = other5.h;
+Rect& Rect::operator=(const Rect& other3) noexcept {
+  x = other3.x;
+  y = other3.y;
+  w = other3.w;
+  h = other3.h;
   return *this;
 }
 void Rect::printTo(std::ostream& out) const {
@@ -582,21 +467,21 @@ void swap(ScreenInfo &a, ScreenInfo &b) {
   swap(a.available_rect, b.available_rect);
 }
 
-ScreenInfo::ScreenInfo(const ScreenInfo& other6) noexcept {
-  device_scale_factor = other6.device_scale_factor;
-  depth = other6.depth;
-  depth_per_component = other6.depth_per_component;
-  is_monochrome = other6.is_monochrome;
-  rect = other6.rect;
-  available_rect = other6.available_rect;
+ScreenInfo::ScreenInfo(const ScreenInfo& other4) noexcept {
+  device_scale_factor = other4.device_scale_factor;
+  depth = other4.depth;
+  depth_per_component = other4.depth_per_component;
+  is_monochrome = other4.is_monochrome;
+  rect = other4.rect;
+  available_rect = other4.available_rect;
 }
-ScreenInfo& ScreenInfo::operator=(const ScreenInfo& other7) noexcept {
-  device_scale_factor = other7.device_scale_factor;
-  depth = other7.depth;
-  depth_per_component = other7.depth_per_component;
-  is_monochrome = other7.is_monochrome;
-  rect = other7.rect;
-  available_rect = other7.available_rect;
+ScreenInfo& ScreenInfo::operator=(const ScreenInfo& other5) noexcept {
+  device_scale_factor = other5.device_scale_factor;
+  depth = other5.depth;
+  depth_per_component = other5.depth_per_component;
+  is_monochrome = other5.is_monochrome;
+  rect = other5.rect;
+  available_rect = other5.available_rect;
   return *this;
 }
 void ScreenInfo::printTo(std::ostream& out) const {

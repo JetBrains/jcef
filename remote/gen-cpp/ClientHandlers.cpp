@@ -254,204 +254,6 @@ uint32_t ClientHandlers_log_pargs::write(::apache::thrift::protocol::TProtocol* 
 }
 
 
-ClientHandlers_AppHandler_GetRegisteredCustomSchemes_args::~ClientHandlers_AppHandler_GetRegisteredCustomSchemes_args() noexcept {
-}
-
-
-uint32_t ClientHandlers_AppHandler_GetRegisteredCustomSchemes_args::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    xfer += iprot->skip(ftype);
-    xfer += iprot->readFieldEnd();
-  }
-
-  xfer += iprot->readStructEnd();
-
-  return xfer;
-}
-
-uint32_t ClientHandlers_AppHandler_GetRegisteredCustomSchemes_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
-  uint32_t xfer = 0;
-  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("ClientHandlers_AppHandler_GetRegisteredCustomSchemes_args");
-
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  return xfer;
-}
-
-
-ClientHandlers_AppHandler_GetRegisteredCustomSchemes_pargs::~ClientHandlers_AppHandler_GetRegisteredCustomSchemes_pargs() noexcept {
-}
-
-
-uint32_t ClientHandlers_AppHandler_GetRegisteredCustomSchemes_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
-  uint32_t xfer = 0;
-  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("ClientHandlers_AppHandler_GetRegisteredCustomSchemes_pargs");
-
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  return xfer;
-}
-
-
-ClientHandlers_AppHandler_GetRegisteredCustomSchemes_result::~ClientHandlers_AppHandler_GetRegisteredCustomSchemes_result() noexcept {
-}
-
-
-uint32_t ClientHandlers_AppHandler_GetRegisteredCustomSchemes_result::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 0:
-        if (ftype == ::apache::thrift::protocol::T_LIST) {
-          {
-            this->success.clear();
-            uint32_t _size8;
-            ::apache::thrift::protocol::TType _etype11;
-            xfer += iprot->readListBegin(_etype11, _size8);
-            this->success.resize(_size8);
-            uint32_t _i12;
-            for (_i12 = 0; _i12 < _size8; ++_i12)
-            {
-              xfer += this->success[_i12].read(iprot);
-            }
-            xfer += iprot->readListEnd();
-          }
-          this->__isset.success = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      default:
-        xfer += iprot->skip(ftype);
-        break;
-    }
-    xfer += iprot->readFieldEnd();
-  }
-
-  xfer += iprot->readStructEnd();
-
-  return xfer;
-}
-
-uint32_t ClientHandlers_AppHandler_GetRegisteredCustomSchemes_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
-
-  uint32_t xfer = 0;
-
-  xfer += oprot->writeStructBegin("ClientHandlers_AppHandler_GetRegisteredCustomSchemes_result");
-
-  if (this->__isset.success) {
-    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_LIST, 0);
-    {
-      xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->success.size()));
-      std::vector<CustomScheme> ::const_iterator _iter13;
-      for (_iter13 = this->success.begin(); _iter13 != this->success.end(); ++_iter13)
-      {
-        xfer += (*_iter13).write(oprot);
-      }
-      xfer += oprot->writeListEnd();
-    }
-    xfer += oprot->writeFieldEnd();
-  }
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  return xfer;
-}
-
-
-ClientHandlers_AppHandler_GetRegisteredCustomSchemes_presult::~ClientHandlers_AppHandler_GetRegisteredCustomSchemes_presult() noexcept {
-}
-
-
-uint32_t ClientHandlers_AppHandler_GetRegisteredCustomSchemes_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 0:
-        if (ftype == ::apache::thrift::protocol::T_LIST) {
-          {
-            (*(this->success)).clear();
-            uint32_t _size14;
-            ::apache::thrift::protocol::TType _etype17;
-            xfer += iprot->readListBegin(_etype17, _size14);
-            (*(this->success)).resize(_size14);
-            uint32_t _i18;
-            for (_i18 = 0; _i18 < _size14; ++_i18)
-            {
-              xfer += (*(this->success))[_i18].read(iprot);
-            }
-            xfer += iprot->readListEnd();
-          }
-          this->__isset.success = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      default:
-        xfer += iprot->skip(ftype);
-        break;
-    }
-    xfer += iprot->readFieldEnd();
-  }
-
-  xfer += iprot->readStructEnd();
-
-  return xfer;
-}
-
-
 ClientHandlers_AppHandler_OnContextInitialized_args::~ClientHandlers_AppHandler_OnContextInitialized_args() noexcept {
 }
 
@@ -506,83 +308,6 @@ uint32_t ClientHandlers_AppHandler_OnContextInitialized_pargs::write(::apache::t
 
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
-  return xfer;
-}
-
-
-ClientHandlers_AppHandler_OnContextInitialized_result::~ClientHandlers_AppHandler_OnContextInitialized_result() noexcept {
-}
-
-
-uint32_t ClientHandlers_AppHandler_OnContextInitialized_result::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    xfer += iprot->skip(ftype);
-    xfer += iprot->readFieldEnd();
-  }
-
-  xfer += iprot->readStructEnd();
-
-  return xfer;
-}
-
-uint32_t ClientHandlers_AppHandler_OnContextInitialized_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
-
-  uint32_t xfer = 0;
-
-  xfer += oprot->writeStructBegin("ClientHandlers_AppHandler_OnContextInitialized_result");
-
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  return xfer;
-}
-
-
-ClientHandlers_AppHandler_OnContextInitialized_presult::~ClientHandlers_AppHandler_OnContextInitialized_presult() noexcept {
-}
-
-
-uint32_t ClientHandlers_AppHandler_OnContextInitialized_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    xfer += iprot->skip(ftype);
-    xfer += iprot->readFieldEnd();
-  }
-
-  xfer += iprot->readStructEnd();
-
   return xfer;
 }
 
@@ -5758,14 +5483,14 @@ uint32_t ClientHandlers_CookieAccessFilter_CanSendCookie_args::read(::apache::th
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->cookie.clear();
-            uint32_t _size19;
-            ::apache::thrift::protocol::TType _etype22;
-            xfer += iprot->readListBegin(_etype22, _size19);
-            this->cookie.resize(_size19);
-            uint32_t _i23;
-            for (_i23 = 0; _i23 < _size19; ++_i23)
+            uint32_t _size6;
+            ::apache::thrift::protocol::TType _etype9;
+            xfer += iprot->readListBegin(_etype9, _size6);
+            this->cookie.resize(_size6);
+            uint32_t _i10;
+            for (_i10 = 0; _i10 < _size6; ++_i10)
             {
-              xfer += iprot->readString(this->cookie[_i23]);
+              xfer += iprot->readString(this->cookie[_i10]);
             }
             xfer += iprot->readListEnd();
           }
@@ -5806,10 +5531,10 @@ uint32_t ClientHandlers_CookieAccessFilter_CanSendCookie_args::write(::apache::t
   xfer += oprot->writeFieldBegin("cookie", ::apache::thrift::protocol::T_LIST, 4);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->cookie.size()));
-    std::vector<std::string> ::const_iterator _iter24;
-    for (_iter24 = this->cookie.begin(); _iter24 != this->cookie.end(); ++_iter24)
+    std::vector<std::string> ::const_iterator _iter11;
+    for (_iter11 = this->cookie.begin(); _iter11 != this->cookie.end(); ++_iter11)
     {
-      xfer += oprot->writeString((*_iter24));
+      xfer += oprot->writeString((*_iter11));
     }
     xfer += oprot->writeListEnd();
   }
@@ -5845,10 +5570,10 @@ uint32_t ClientHandlers_CookieAccessFilter_CanSendCookie_pargs::write(::apache::
   xfer += oprot->writeFieldBegin("cookie", ::apache::thrift::protocol::T_LIST, 4);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*(this->cookie)).size()));
-    std::vector<std::string> ::const_iterator _iter25;
-    for (_iter25 = (*(this->cookie)).begin(); _iter25 != (*(this->cookie)).end(); ++_iter25)
+    std::vector<std::string> ::const_iterator _iter12;
+    for (_iter12 = (*(this->cookie)).begin(); _iter12 != (*(this->cookie)).end(); ++_iter12)
     {
-      xfer += oprot->writeString((*_iter25));
+      xfer += oprot->writeString((*_iter12));
     }
     xfer += oprot->writeListEnd();
   }
@@ -6029,14 +5754,14 @@ uint32_t ClientHandlers_CookieAccessFilter_CanSaveCookie_args::read(::apache::th
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->cookie.clear();
-            uint32_t _size26;
-            ::apache::thrift::protocol::TType _etype29;
-            xfer += iprot->readListBegin(_etype29, _size26);
-            this->cookie.resize(_size26);
-            uint32_t _i30;
-            for (_i30 = 0; _i30 < _size26; ++_i30)
+            uint32_t _size13;
+            ::apache::thrift::protocol::TType _etype16;
+            xfer += iprot->readListBegin(_etype16, _size13);
+            this->cookie.resize(_size13);
+            uint32_t _i17;
+            for (_i17 = 0; _i17 < _size13; ++_i17)
             {
-              xfer += iprot->readString(this->cookie[_i30]);
+              xfer += iprot->readString(this->cookie[_i17]);
             }
             xfer += iprot->readListEnd();
           }
@@ -6081,10 +5806,10 @@ uint32_t ClientHandlers_CookieAccessFilter_CanSaveCookie_args::write(::apache::t
   xfer += oprot->writeFieldBegin("cookie", ::apache::thrift::protocol::T_LIST, 5);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->cookie.size()));
-    std::vector<std::string> ::const_iterator _iter31;
-    for (_iter31 = this->cookie.begin(); _iter31 != this->cookie.end(); ++_iter31)
+    std::vector<std::string> ::const_iterator _iter18;
+    for (_iter18 = this->cookie.begin(); _iter18 != this->cookie.end(); ++_iter18)
     {
-      xfer += oprot->writeString((*_iter31));
+      xfer += oprot->writeString((*_iter18));
     }
     xfer += oprot->writeListEnd();
   }
@@ -6124,10 +5849,10 @@ uint32_t ClientHandlers_CookieAccessFilter_CanSaveCookie_pargs::write(::apache::
   xfer += oprot->writeFieldBegin("cookie", ::apache::thrift::protocol::T_LIST, 5);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*(this->cookie)).size()));
-    std::vector<std::string> ::const_iterator _iter32;
-    for (_iter32 = (*(this->cookie)).begin(); _iter32 != (*(this->cookie)).end(); ++_iter32)
+    std::vector<std::string> ::const_iterator _iter19;
+    for (_iter19 = (*(this->cookie)).begin(); _iter19 != (*(this->cookie)).end(); ++_iter19)
     {
-      xfer += oprot->writeString((*_iter32));
+      xfer += oprot->writeString((*_iter19));
     }
     xfer += oprot->writeListEnd();
   }
@@ -8174,73 +7899,15 @@ void ClientHandlersClient::send_log(const std::string& msg)
   oprot_->getTransport()->flush();
 }
 
-void ClientHandlersClient::AppHandler_GetRegisteredCustomSchemes(std::vector<CustomScheme> & _return)
-{
-  send_AppHandler_GetRegisteredCustomSchemes();
-  recv_AppHandler_GetRegisteredCustomSchemes(_return);
-}
-
-void ClientHandlersClient::send_AppHandler_GetRegisteredCustomSchemes()
-{
-  int32_t cseqid = 0;
-  oprot_->writeMessageBegin("AppHandler_GetRegisteredCustomSchemes", ::apache::thrift::protocol::T_CALL, cseqid);
-
-  ClientHandlers_AppHandler_GetRegisteredCustomSchemes_pargs args;
-  args.write(oprot_);
-
-  oprot_->writeMessageEnd();
-  oprot_->getTransport()->writeEnd();
-  oprot_->getTransport()->flush();
-}
-
-void ClientHandlersClient::recv_AppHandler_GetRegisteredCustomSchemes(std::vector<CustomScheme> & _return)
-{
-
-  int32_t rseqid = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TMessageType mtype;
-
-  iprot_->readMessageBegin(fname, mtype, rseqid);
-  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
-    ::apache::thrift::TApplicationException x;
-    x.read(iprot_);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-    throw x;
-  }
-  if (mtype != ::apache::thrift::protocol::T_REPLY) {
-    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-  }
-  if (fname.compare("AppHandler_GetRegisteredCustomSchemes") != 0) {
-    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-  }
-  ClientHandlers_AppHandler_GetRegisteredCustomSchemes_presult result;
-  result.success = &_return;
-  result.read(iprot_);
-  iprot_->readMessageEnd();
-  iprot_->getTransport()->readEnd();
-
-  if (result.__isset.success) {
-    // _return pointer has now been filled
-    return;
-  }
-  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "AppHandler_GetRegisteredCustomSchemes failed: unknown result");
-}
-
 void ClientHandlersClient::AppHandler_OnContextInitialized()
 {
   send_AppHandler_OnContextInitialized();
-  recv_AppHandler_OnContextInitialized();
 }
 
 void ClientHandlersClient::send_AppHandler_OnContextInitialized()
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("AppHandler_OnContextInitialized", ::apache::thrift::protocol::T_CALL, cseqid);
+  oprot_->writeMessageBegin("AppHandler_OnContextInitialized", ::apache::thrift::protocol::T_ONEWAY, cseqid);
 
   ClientHandlers_AppHandler_OnContextInitialized_pargs args;
   args.write(oprot_);
@@ -8248,39 +7915,6 @@ void ClientHandlersClient::send_AppHandler_OnContextInitialized()
   oprot_->writeMessageEnd();
   oprot_->getTransport()->writeEnd();
   oprot_->getTransport()->flush();
-}
-
-void ClientHandlersClient::recv_AppHandler_OnContextInitialized()
-{
-
-  int32_t rseqid = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TMessageType mtype;
-
-  iprot_->readMessageBegin(fname, mtype, rseqid);
-  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
-    ::apache::thrift::TApplicationException x;
-    x.read(iprot_);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-    throw x;
-  }
-  if (mtype != ::apache::thrift::protocol::T_REPLY) {
-    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-  }
-  if (fname.compare("AppHandler_OnContextInitialized") != 0) {
-    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-  }
-  ClientHandlers_AppHandler_OnContextInitialized_presult result;
-  result.read(iprot_);
-  iprot_->readMessageEnd();
-  iprot_->getTransport()->readEnd();
-
-  return;
 }
 
 void ClientHandlersClient::RenderHandler_GetViewRect(Rect& _return, const int32_t bid)
@@ -10282,61 +9916,7 @@ void ClientHandlersProcessor::process_log(int32_t, ::apache::thrift::protocol::T
   return;
 }
 
-void ClientHandlersProcessor::process_AppHandler_GetRegisteredCustomSchemes(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
-{
-  void* ctx = nullptr;
-  if (this->eventHandler_.get() != nullptr) {
-    ctx = this->eventHandler_->getContext("ClientHandlers.AppHandler_GetRegisteredCustomSchemes", callContext);
-  }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ClientHandlers.AppHandler_GetRegisteredCustomSchemes");
-
-  if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->preRead(ctx, "ClientHandlers.AppHandler_GetRegisteredCustomSchemes");
-  }
-
-  ClientHandlers_AppHandler_GetRegisteredCustomSchemes_args args;
-  args.read(iprot);
-  iprot->readMessageEnd();
-  uint32_t bytes = iprot->getTransport()->readEnd();
-
-  if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->postRead(ctx, "ClientHandlers.AppHandler_GetRegisteredCustomSchemes", bytes);
-  }
-
-  ClientHandlers_AppHandler_GetRegisteredCustomSchemes_result result;
-  try {
-    iface_->AppHandler_GetRegisteredCustomSchemes(result.success);
-    result.__isset.success = true;
-  } catch (const std::exception& e) {
-    if (this->eventHandler_.get() != nullptr) {
-      this->eventHandler_->handlerError(ctx, "ClientHandlers.AppHandler_GetRegisteredCustomSchemes");
-    }
-
-    ::apache::thrift::TApplicationException x(e.what());
-    oprot->writeMessageBegin("AppHandler_GetRegisteredCustomSchemes", ::apache::thrift::protocol::T_EXCEPTION, seqid);
-    x.write(oprot);
-    oprot->writeMessageEnd();
-    oprot->getTransport()->writeEnd();
-    oprot->getTransport()->flush();
-    return;
-  }
-
-  if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->preWrite(ctx, "ClientHandlers.AppHandler_GetRegisteredCustomSchemes");
-  }
-
-  oprot->writeMessageBegin("AppHandler_GetRegisteredCustomSchemes", ::apache::thrift::protocol::T_REPLY, seqid);
-  result.write(oprot);
-  oprot->writeMessageEnd();
-  bytes = oprot->getTransport()->writeEnd();
-  oprot->getTransport()->flush();
-
-  if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->postWrite(ctx, "ClientHandlers.AppHandler_GetRegisteredCustomSchemes", bytes);
-  }
-}
-
-void ClientHandlersProcessor::process_AppHandler_OnContextInitialized(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+void ClientHandlersProcessor::process_AppHandler_OnContextInitialized(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
 {
   void* ctx = nullptr;
   if (this->eventHandler_.get() != nullptr) {
@@ -10357,36 +9937,20 @@ void ClientHandlersProcessor::process_AppHandler_OnContextInitialized(int32_t se
     this->eventHandler_->postRead(ctx, "ClientHandlers.AppHandler_OnContextInitialized", bytes);
   }
 
-  ClientHandlers_AppHandler_OnContextInitialized_result result;
   try {
     iface_->AppHandler_OnContextInitialized();
-  } catch (const std::exception& e) {
+  } catch (const std::exception&) {
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "ClientHandlers.AppHandler_OnContextInitialized");
     }
-
-    ::apache::thrift::TApplicationException x(e.what());
-    oprot->writeMessageBegin("AppHandler_OnContextInitialized", ::apache::thrift::protocol::T_EXCEPTION, seqid);
-    x.write(oprot);
-    oprot->writeMessageEnd();
-    oprot->getTransport()->writeEnd();
-    oprot->getTransport()->flush();
     return;
   }
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->preWrite(ctx, "ClientHandlers.AppHandler_OnContextInitialized");
+    this->eventHandler_->asyncComplete(ctx, "ClientHandlers.AppHandler_OnContextInitialized");
   }
 
-  oprot->writeMessageBegin("AppHandler_OnContextInitialized", ::apache::thrift::protocol::T_REPLY, seqid);
-  result.write(oprot);
-  oprot->writeMessageEnd();
-  bytes = oprot->getTransport()->writeEnd();
-  oprot->getTransport()->flush();
-
-  if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->postWrite(ctx, "ClientHandlers.AppHandler_OnContextInitialized", bytes);
-  }
+  return;
 }
 
 void ClientHandlersProcessor::process_RenderHandler_GetViewRect(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
@@ -12495,100 +12059,16 @@ void ClientHandlersConcurrentClient::send_log(const std::string& msg)
   sentry.commit();
 }
 
-void ClientHandlersConcurrentClient::AppHandler_GetRegisteredCustomSchemes(std::vector<CustomScheme> & _return)
-{
-  int32_t seqid = send_AppHandler_GetRegisteredCustomSchemes();
-  recv_AppHandler_GetRegisteredCustomSchemes(_return, seqid);
-}
-
-int32_t ClientHandlersConcurrentClient::send_AppHandler_GetRegisteredCustomSchemes()
-{
-  int32_t cseqid = this->sync_->generateSeqId();
-  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
-  oprot_->writeMessageBegin("AppHandler_GetRegisteredCustomSchemes", ::apache::thrift::protocol::T_CALL, cseqid);
-
-  ClientHandlers_AppHandler_GetRegisteredCustomSchemes_pargs args;
-  args.write(oprot_);
-
-  oprot_->writeMessageEnd();
-  oprot_->getTransport()->writeEnd();
-  oprot_->getTransport()->flush();
-
-  sentry.commit();
-  return cseqid;
-}
-
-void ClientHandlersConcurrentClient::recv_AppHandler_GetRegisteredCustomSchemes(std::vector<CustomScheme> & _return, const int32_t seqid)
-{
-
-  int32_t rseqid = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TMessageType mtype;
-
-  // the read mutex gets dropped and reacquired as part of waitForWork()
-  // The destructor of this sentry wakes up other clients
-  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
-
-  while(true) {
-    if(!this->sync_->getPending(fname, mtype, rseqid)) {
-      iprot_->readMessageBegin(fname, mtype, rseqid);
-    }
-    if(seqid == rseqid) {
-      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
-        ::apache::thrift::TApplicationException x;
-        x.read(iprot_);
-        iprot_->readMessageEnd();
-        iprot_->getTransport()->readEnd();
-        sentry.commit();
-        throw x;
-      }
-      if (mtype != ::apache::thrift::protocol::T_REPLY) {
-        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-        iprot_->readMessageEnd();
-        iprot_->getTransport()->readEnd();
-      }
-      if (fname.compare("AppHandler_GetRegisteredCustomSchemes") != 0) {
-        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-        iprot_->readMessageEnd();
-        iprot_->getTransport()->readEnd();
-
-        // in a bad state, don't commit
-        using ::apache::thrift::protocol::TProtocolException;
-        throw TProtocolException(TProtocolException::INVALID_DATA);
-      }
-      ClientHandlers_AppHandler_GetRegisteredCustomSchemes_presult result;
-      result.success = &_return;
-      result.read(iprot_);
-      iprot_->readMessageEnd();
-      iprot_->getTransport()->readEnd();
-
-      if (result.__isset.success) {
-        // _return pointer has now been filled
-        sentry.commit();
-        return;
-      }
-      // in a bad state, don't commit
-      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "AppHandler_GetRegisteredCustomSchemes failed: unknown result");
-    }
-    // seqid != rseqid
-    this->sync_->updatePending(fname, mtype, rseqid);
-
-    // this will temporarily unlock the readMutex, and let other clients get work done
-    this->sync_->waitForWork(seqid);
-  } // end while(true)
-}
-
 void ClientHandlersConcurrentClient::AppHandler_OnContextInitialized()
 {
-  int32_t seqid = send_AppHandler_OnContextInitialized();
-  recv_AppHandler_OnContextInitialized(seqid);
+  send_AppHandler_OnContextInitialized();
 }
 
-int32_t ClientHandlersConcurrentClient::send_AppHandler_OnContextInitialized()
+void ClientHandlersConcurrentClient::send_AppHandler_OnContextInitialized()
 {
-  int32_t cseqid = this->sync_->generateSeqId();
+  int32_t cseqid = 0;
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
-  oprot_->writeMessageBegin("AppHandler_OnContextInitialized", ::apache::thrift::protocol::T_CALL, cseqid);
+  oprot_->writeMessageBegin("AppHandler_OnContextInitialized", ::apache::thrift::protocol::T_ONEWAY, cseqid);
 
   ClientHandlers_AppHandler_OnContextInitialized_pargs args;
   args.write(oprot_);
@@ -12598,61 +12078,6 @@ int32_t ClientHandlersConcurrentClient::send_AppHandler_OnContextInitialized()
   oprot_->getTransport()->flush();
 
   sentry.commit();
-  return cseqid;
-}
-
-void ClientHandlersConcurrentClient::recv_AppHandler_OnContextInitialized(const int32_t seqid)
-{
-
-  int32_t rseqid = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TMessageType mtype;
-
-  // the read mutex gets dropped and reacquired as part of waitForWork()
-  // The destructor of this sentry wakes up other clients
-  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
-
-  while(true) {
-    if(!this->sync_->getPending(fname, mtype, rseqid)) {
-      iprot_->readMessageBegin(fname, mtype, rseqid);
-    }
-    if(seqid == rseqid) {
-      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
-        ::apache::thrift::TApplicationException x;
-        x.read(iprot_);
-        iprot_->readMessageEnd();
-        iprot_->getTransport()->readEnd();
-        sentry.commit();
-        throw x;
-      }
-      if (mtype != ::apache::thrift::protocol::T_REPLY) {
-        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-        iprot_->readMessageEnd();
-        iprot_->getTransport()->readEnd();
-      }
-      if (fname.compare("AppHandler_OnContextInitialized") != 0) {
-        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-        iprot_->readMessageEnd();
-        iprot_->getTransport()->readEnd();
-
-        // in a bad state, don't commit
-        using ::apache::thrift::protocol::TProtocolException;
-        throw TProtocolException(TProtocolException::INVALID_DATA);
-      }
-      ClientHandlers_AppHandler_OnContextInitialized_presult result;
-      result.read(iprot_);
-      iprot_->readMessageEnd();
-      iprot_->getTransport()->readEnd();
-
-      sentry.commit();
-      return;
-    }
-    // seqid != rseqid
-    this->sync_->updatePending(fname, mtype, rseqid);
-
-    // this will temporarily unlock the readMutex, and let other clients get work done
-    this->sync_->waitForWork(seqid);
-  } // end while(true)
 }
 
 void ClientHandlersConcurrentClient::RenderHandler_GetViewRect(Rect& _return, const int32_t bid)

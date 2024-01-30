@@ -5,16 +5,30 @@
 
 using namespace thrift_codegen;
 
-RemoteAppHandler& RemoteAppHandler::instance() {
-  static RemoteAppHandler sInstance;
+RemoteAppHandler* RemoteAppHandler::sInstance = nullptr;
+
+RemoteAppHandler* RemoteAppHandler::instance() {
   return sInstance;
 }
 
-RemoteAppHandler::RemoteAppHandler() : myArgs(), mySettings(), myService(nullptr), myBrowserProcessHandler(new RemoteBrowserProcessHandler()) {}
+void RemoteAppHandler::initialize(
+    std::vector<std::string> switches, CefSettings settings, std::vector<std::pair<std::string, int>> schemes) {
+  sInstance = new RemoteAppHandler(switches, settings, schemes);
+}
+
+RemoteAppHandler::RemoteAppHandler(
+    std::vector<std::string> switches,
+    CefSettings settings,
+    std::vector<std::pair<std::string, int>> schemes)
+    : myArgs(switches),
+      mySettings(settings),
+      mySchemes(schemes),
+      myBrowserProcessHandler(new RemoteBrowserProcessHandler()) {}
 
 void RemoteAppHandler::OnBeforeCommandLineProcessing(
     const CefString& process_type,
-    CefRefPtr<CefCommandLine> command_line) {
+    CefRefPtr<CefCommandLine> command_line
+) {
   LNDCT();
   if (!process_type.empty())
     return;
@@ -81,8 +95,7 @@ void RemoteAppHandler::OnBeforeCommandLineProcessing(
     command_line->AppendSwitch("use-mock-keychain");
 #endif  // defined(OS_MAC)
 
-    if ((mySettings.count("cache_path") == 0 || mySettings.at("cache_path").empty())
-        && !command_line->HasSwitch("disable-gpu-shader-disk-cache")) {
+    if (mySettings.cache_path.length <= 0 && !command_line->HasSwitch("disable-gpu-shader-disk-cache")) {
       // Don't create a "GPUCache" directory when cache_path is unspecified.
       command_line->AppendSwitch("disable-gpu-shader-disk-cache");
     }
@@ -92,35 +105,26 @@ void RemoteAppHandler::OnBeforeCommandLineProcessing(
 void RemoteAppHandler::OnRegisterCustomSchemes(
     CefRawPtr<CefSchemeRegistrar> registrar) {
   LNDCT();
-  auto service = myService;
-  if (!service) {
-    Log::info("Skipped custome schemes processing because service is null.");
-    return;
-  }
-  std::vector<CustomScheme> result;
-  service->exec([&](const RpcExecutor::Service& s){
-    s->AppHandler_GetRegisteredCustomSchemes(result);
-  });
 
   Log::debug("Additional schemes:");
-  for (const auto& cs: result) {
+  for (const auto& cs: mySchemes) {
     int options = 0;
-    if (cs.options & (1 << 0))
+    if (cs.second & (1 << 0))
       options |= CEF_SCHEME_OPTION_STANDARD;
-    if (cs.options & (1 << 1))
+    if (cs.second & (1 << 1))
       options |= CEF_SCHEME_OPTION_LOCAL;
-    if (cs.options & (1 << 2))
+    if (cs.second & (1 << 2))
       options |= CEF_SCHEME_OPTION_DISPLAY_ISOLATED;
-    if (cs.options & (1 << 3))
+    if (cs.second & (1 << 3))
       options |= CEF_SCHEME_OPTION_SECURE;
-    if (cs.options & (1 << 4))
+    if (cs.second & (1 << 4))
       options |= CEF_SCHEME_OPTION_CORS_ENABLED;
-    if (cs.options & (1 << 5))
+    if (cs.second & (1 << 5))
       options |= CEF_SCHEME_OPTION_CSP_BYPASSING;
-    if (cs.options & (1 << 6))
+    if (cs.second & (1 << 6))
       options |= CEF_SCHEME_OPTION_FETCH_ENABLED;
 
-    registrar->AddCustomScheme(cs.schemeName, options);
-    Log::debug("%s [%d:%d]", cs.schemeName.c_str(), cs.options, options);
+    registrar->AddCustomScheme(cs.first, options);
+    Log::debug("%s [%d:%d]", cs.first.c_str(), cs.second, options);
   }
 }

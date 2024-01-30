@@ -35,14 +35,17 @@ import java.util.concurrent.ConcurrentHashMap;
 //
 public class ClientHandlersImpl implements ClientHandlers.Iface, RemoteClient.BrowserTracker {
     private final Map<Integer, RemoteBrowser> myBid2RemoteBrowser = new ConcurrentHashMap<>();
-    private final RemoteApp myRemoteApp;
+    private CefAppHandler myAppHandler;
     private final RpcExecutor myServer;
 
     private static final CefFrame NULL_FRAME = new RemoteFrame();
 
-    public ClientHandlersImpl(RpcExecutor server, RemoteApp remoteApp) {
-        myRemoteApp = remoteApp;
+    public ClientHandlersImpl(RpcExecutor server) {
         myServer = server;
+    }
+
+    public void setAppHandler(CefAppHandler pppHandler) {
+        myAppHandler = pppHandler;
     }
 
     @Override
@@ -87,13 +90,8 @@ public class ClientHandlersImpl implements ClientHandlers.Iface, RemoteClient.Br
     @Override
     public void AppHandler_OnContextInitialized() {
         CefLog.Debug("AppHandler_OnContextInitialized: ");
-        myRemoteApp.onContextInitialized();
-    }
-
-    @Override
-    public List<CustomScheme> AppHandler_GetRegisteredCustomSchemes() {
-        CefLog.Debug("AppHandler_GetRegisteredCustomSchemes: ");
-        return myRemoteApp.getAllRegisteredCustomSchemes();
+        if (myAppHandler != null)
+            myAppHandler.onContextInitialized();
     }
 
     //

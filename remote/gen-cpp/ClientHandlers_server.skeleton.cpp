@@ -30,11 +30,6 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
     printf("log\n");
   }
 
-  void AppHandler_GetRegisteredCustomSchemes(std::vector<CustomScheme> & _return) {
-    // Your implementation goes here
-    printf("AppHandler_GetRegisteredCustomSchemes\n");
-  }
-
   void AppHandler_OnContextInitialized() {
     // Your implementation goes here
     printf("AppHandler_OnContextInitialized\n");

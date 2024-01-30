@@ -20,7 +20,7 @@ namespace cpp thrift_codegen
 namespace java com.jetbrains.cef.remote.thrift_codegen
 
 service Server {
-    i32 connect(1: string backwardConnectionPipe, 2: list<string> cmdLineArgs, 3: map<string, string> settings),
+    i32 connect(1: string backwardConnectionPipe),
     oneway void log(1: string msg),
     string echo(1: string msg),
     //

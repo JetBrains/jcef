@@ -47,7 +47,7 @@ public:
     // Convenience methods
     template<typename T>
     T exec(std::function<T(RpcExecutor::Service)> rpc, T defVal) {
-      return myService->exec(rpc, defVal);
+      return myService->exec(std::move(rpc), defVal);
     }
     void exec(std::function<void(RpcExecutor::Service)> rpc) { myService->exec(std::move(rpc)); }
 

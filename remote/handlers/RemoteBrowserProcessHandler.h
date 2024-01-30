@@ -17,10 +17,13 @@ class RemoteBrowserProcessHandler : public CefBrowserProcessHandler {
   // TODO: add IsContextInitialized, because OnContextInitialized() is called once (when
   // server starts first time) and client should be able to detect this case.
 
-  void setService(std::shared_ptr<RpcExecutor> service) { myService = std::move(service); }
+  void setService(std::shared_ptr<RpcExecutor> service);
 
  private:
   std::shared_ptr<RpcExecutor> myService;
+  std::recursive_mutex myMutex;
+  const Clock::time_point myCreationTime; // just for logging
+  bool myIsContextInitialized = false;
   IMPLEMENT_REFCOUNTING(RemoteBrowserProcessHandler);
 };
 #endif  // JCEF_REMOTEBROWSERPROCESSHANDLER_H

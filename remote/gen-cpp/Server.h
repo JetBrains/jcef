@@ -22,7 +22,7 @@ namespace thrift_codegen {
 class ServerIf {
  public:
   virtual ~ServerIf() {}
-  virtual int32_t connect(const std::string& backwardConnectionPipe, const std::vector<std::string> & cmdLineArgs, const std::map<std::string, std::string> & settings) = 0;
+  virtual int32_t connect(const std::string& backwardConnectionPipe) = 0;
   virtual void log(const std::string& msg) = 0;
   virtual void echo(std::string& _return, const std::string& msg) = 0;
   virtual int32_t createBrowser(const int32_t cid, const std::string& url) = 0;
@@ -94,7 +94,7 @@ class ServerIfSingletonFactory : virtual public ServerIfFactory {
 class ServerNull : virtual public ServerIf {
  public:
   virtual ~ServerNull() {}
-  int32_t connect(const std::string& /* backwardConnectionPipe */, const std::vector<std::string> & /* cmdLineArgs */, const std::map<std::string, std::string> & /* settings */) override {
+  int32_t connect(const std::string& /* backwardConnectionPipe */) override {
     int32_t _return = 0;
     return _return;
   }
@@ -228,10 +228,8 @@ class ServerNull : virtual public ServerIf {
 };
 
 typedef struct _Server_connect_args__isset {
-  _Server_connect_args__isset() : backwardConnectionPipe(false), cmdLineArgs(false), settings(false) {}
+  _Server_connect_args__isset() : backwardConnectionPipe(false) {}
   bool backwardConnectionPipe :1;
-  bool cmdLineArgs :1;
-  bool settings :1;
 } _Server_connect_args__isset;
 
 class Server_connect_args {
@@ -245,24 +243,14 @@ class Server_connect_args {
 
   virtual ~Server_connect_args() noexcept;
   std::string backwardConnectionPipe;
-  std::vector<std::string>  cmdLineArgs;
-  std::map<std::string, std::string>  settings;
 
   _Server_connect_args__isset __isset;
 
   void __set_backwardConnectionPipe(const std::string& val);
 
-  void __set_cmdLineArgs(const std::vector<std::string> & val);
-
-  void __set_settings(const std::map<std::string, std::string> & val);
-
   bool operator == (const Server_connect_args & rhs) const
   {
     if (!(backwardConnectionPipe == rhs.backwardConnectionPipe))
-      return false;
-    if (!(cmdLineArgs == rhs.cmdLineArgs))
-      return false;
-    if (!(settings == rhs.settings))
       return false;
     return true;
   }
@@ -284,8 +272,6 @@ class Server_connect_pargs {
 
   virtual ~Server_connect_pargs() noexcept;
   const std::string* backwardConnectionPipe;
-  const std::vector<std::string> * cmdLineArgs;
-  const std::map<std::string, std::string> * settings;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -3833,8 +3819,8 @@ class ServerClient : virtual public ServerIf {
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> getOutputProtocol() {
     return poprot_;
   }
-  int32_t connect(const std::string& backwardConnectionPipe, const std::vector<std::string> & cmdLineArgs, const std::map<std::string, std::string> & settings) override;
-  void send_connect(const std::string& backwardConnectionPipe, const std::vector<std::string> & cmdLineArgs, const std::map<std::string, std::string> & settings);
+  int32_t connect(const std::string& backwardConnectionPipe) override;
+  void send_connect(const std::string& backwardConnectionPipe);
   int32_t recv_connect();
   void log(const std::string& msg) override;
   void send_log(const std::string& msg);
@@ -4074,13 +4060,13 @@ class ServerMultiface : virtual public ServerIf {
     ifaces_.push_back(iface);
   }
  public:
-  int32_t connect(const std::string& backwardConnectionPipe, const std::vector<std::string> & cmdLineArgs, const std::map<std::string, std::string> & settings) override {
+  int32_t connect(const std::string& backwardConnectionPipe) override {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->connect(backwardConnectionPipe, cmdLineArgs, settings);
+      ifaces_[i]->connect(backwardConnectionPipe);
     }
-    return ifaces_[i]->connect(backwardConnectionPipe, cmdLineArgs, settings);
+    return ifaces_[i]->connect(backwardConnectionPipe);
   }
 
   void log(const std::string& msg) override {
@@ -4501,8 +4487,8 @@ class ServerConcurrentClient : virtual public ServerIf {
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> getOutputProtocol() {
     return poprot_;
   }
-  int32_t connect(const std::string& backwardConnectionPipe, const std::vector<std::string> & cmdLineArgs, const std::map<std::string, std::string> & settings) override;
-  int32_t send_connect(const std::string& backwardConnectionPipe, const std::vector<std::string> & cmdLineArgs, const std::map<std::string, std::string> & settings);
+  int32_t connect(const std::string& backwardConnectionPipe) override;
+  int32_t send_connect(const std::string& backwardConnectionPipe);
   int32_t recv_connect(const int32_t seqid);
   void log(const std::string& msg) override;
   void send_log(const std::string& msg);

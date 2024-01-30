@@ -43,26 +43,21 @@ class ServerCloneFactory : virtual public ServerIfFactory {
 int main(int argc, char* argv[]) {
   Log::init(LEVEL_TRACE);
   setThreadName("main");
-
-  const Clock::time_point startTime = Clock::now();
-#if defined(OS_MAC)
-  if (!CefUtils::doLoadCefLibrary())
-    return -1;
-#elif defined(OS_LINUX)
+#if defined(OS_LINUX)
   CefMainArgs main_args(argc, argv);
   int exit_code = CefExecuteProcess(main_args, nullptr, nullptr);
   if (exit_code >= 0) {
     return exit_code;
   }
 #endif
-  const Clock::time_point t1 = Clock::now();
-  const bool success = CefUtils::initializeCef();
+  const Clock::time_point startTime = Clock::now();
+
+  const bool success = CefUtils::initializeCef(argc, argv);
   if (!success) {
     Log::error("Cef initialization failed");
     return -2;
   }
 
-  const Clock::time_point t2 = Clock::now();
   boost::filesystem::path pipePath = boost::filesystem::temp_directory_path().append("cef_server_pipe").lexically_normal();
   std::remove(pipePath.c_str());
   std::shared_ptr<TThreadedServer> server = std::make_shared<TThreadedServer>(
@@ -73,12 +68,9 @@ int main(int argc, char* argv[]) {
       std::make_shared<TBinaryProtocolFactory>());
 
   if (Log::isDebugEnabled()) {
-    const Clock::time_point t3 = Clock::now();
-    Duration d1 = std::chrono::duration_cast<std::chrono::microseconds>(t1 - startTime);
-    Duration d2 = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1);
-    Duration d3 = std::chrono::duration_cast<std::chrono::microseconds>(t3 - t2);
-    Log::debug("Starting the server. Initialization spent ms: load cef %d; init cef %d; open ipc transport %d",
-               (int)d1.count()/1000, (int)d2.count()/1000, (int)d3.count()/1000);
+    const Clock::time_point endTime = Clock::now();
+    Duration d2 = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
+    Log::debug("Starting the server. Initialization spent %d ms", (int)d2.count()/1000);
   }
 
   std::thread servThread([=]() {
