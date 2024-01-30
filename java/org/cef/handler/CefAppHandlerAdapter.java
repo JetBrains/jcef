@@ -10,6 +10,8 @@ import org.cef.callback.CefCommandLine;
 import org.cef.callback.CefSchemeRegistrar;
 import org.cef.misc.CefLog;
 
+import java.util.Arrays;
+
 /**
  * An abstract adapter class for managing app handler events.
  * The methods in this class are using a default implementation.
@@ -24,6 +26,10 @@ public abstract class CefAppHandlerAdapter implements CefAppHandler {
 
     public void updateArgs(String[] args) {
         args_ = args;
+    }
+
+    public String[] getArgs() {
+        return args_ == null ? null : Arrays.copyOf(args_, args_.length);
     }
 
     @Override

@@ -8,11 +8,8 @@ import com.jetbrains.cef.remote.CefServer;
 import com.jetbrains.cef.remote.RemoteBrowser;
 import com.jetbrains.cef.remote.RemoteClient;
 import com.jetbrains.cef.remote.router.RemoteMessageRouter;
-import com.jetbrains.cef.remote.router.RemoteMessageRouterImpl;
-import org.cef.CefApp;
 import org.cef.CefSettings;
 import org.cef.browser.CefMessageRouter;
-import org.cef.callback.CefCommandLine;
 import org.cef.callback.CefSchemeRegistrar;
 import org.cef.handler.CefAppHandler;
 import org.cef.handler.CefAppHandlerAdapter;
@@ -30,7 +27,22 @@ public class TestApp extends JFrame {
 
     public static void main(String[] args) {
         CefLog.init(null, CefSettings.LogSeverity.LOGSEVERITY_VERBOSE);
-        CefServer.initialize();
+        args = new String[] {
+            "--disable-gpu-process-crash-limit",
+            "--use-mock-keychain"}; // just for test
+        CefAppHandler appHandler = new CefAppHandlerAdapter(args) {
+            @Override
+            public void onRegisterCustomSchemes(CefSchemeRegistrar registrar) {
+                // just for test
+                registrar.addCustomScheme("TestScheme76", true, false, false, false, true, true, false);
+            }
+
+            @Override
+            public void onContextInitialized() {
+                CefLog.Info("onContextInitialized");
+            }
+        };
+        CefServer.initialize(appHandler, new CefSettings());
         CefServer server = CefServer.instance();
         if (server == null || !server.isInitialized())
             return;

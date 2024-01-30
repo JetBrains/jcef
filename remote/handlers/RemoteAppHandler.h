@@ -6,23 +6,13 @@
 
 class RemoteAppHandler : public CefApp {
  public:
-  static RemoteAppHandler& instance();
+  static RemoteAppHandler* instance();
+  static void initialize(
+      std::vector<std::string> switches, CefSettings settings, std::vector<std::pair<std::string, int>> schemes);
 
   void setService(std::shared_ptr<RpcExecutor> service) {
-    myService = service;
     myBrowserProcessHandler->setService(service);
   }
-  void setArgs(const std::vector<std::string> & args) {
-    myArgs.clear();
-    myArgs.assign(args.begin(), args.end());
-  }
-  void setSettings(const std::map<std::string, std::string>& settings) {
-    mySettings.clear();
-    mySettings.insert(settings.begin(), settings.end());
-  }
-
-  const std::vector<std::string>& getArgs() const { return myArgs; }
-  const std::map<std::string, std::string>& getSettings() const { return mySettings; }
 
   // Similar to jcef::ClientApp implementation.
   void OnBeforeCommandLineProcessing(
@@ -35,12 +25,14 @@ class RemoteAppHandler : public CefApp {
 
  private:
   std::vector<std::string> myArgs;
-  std::map<std::string, std::string> mySettings;
-  std::shared_ptr<RpcExecutor> myService;
+  CefSettings mySettings;
+  std::vector<std::pair<std::string, int>> mySchemes;
+
   CefRefPtr<RemoteBrowserProcessHandler> myBrowserProcessHandler;
 
-  explicit RemoteAppHandler();
+  explicit RemoteAppHandler(std::vector<std::string> switches, CefSettings settings, std::vector<std::pair<std::string, int>> schemes);
 
+  static RemoteAppHandler * sInstance;
   IMPLEMENT_REFCOUNTING(RemoteAppHandler);
 };
 

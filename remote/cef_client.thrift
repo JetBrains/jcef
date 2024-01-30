@@ -19,11 +19,6 @@ include "shared.thrift"
 namespace cpp thrift_codegen
 namespace java com.jetbrains.cef.remote.thrift_codegen
 
-struct CustomScheme {
-    1: required string schemeName,
-    2: required i32 options,
-}
-
 struct Point {
     1: required i32 x,
     2: required i32 y,
@@ -51,8 +46,7 @@ service ClientHandlers {
     //
     // CefAppHandler
     //
-    list<CustomScheme> AppHandler_GetRegisteredCustomSchemes(),
-    void AppHandler_OnContextInitialized(),
+    oneway void AppHandler_OnContextInitialized(),
     //
     // CefRenderHandler
     //

@@ -33,7 +33,7 @@ class ServerCloneFactory : virtual public ServerIfFactory {
   void releaseHandler(ServerIf* handler) override { delete handler; }
 };
 
-int main() {
+int main(int argc, char* argv[]) {
   HINSTANCE hi = GetModuleHandle (0);
 
   Log::init(LEVEL_TRACE);
@@ -47,7 +47,7 @@ int main() {
     return result;
   }
 
-  const bool success = CefUtils::initializeCef();
+  const bool success = CefUtils::initializeCef(argc, argv);
   if (!success) {
     Log::error("Cef initialization failed");
     return -2;

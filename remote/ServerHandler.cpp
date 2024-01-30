@@ -35,11 +35,7 @@ ServerHandler::~ServerHandler() {
   }
 }
 
-int32_t ServerHandler::connect(
-    const std::string& backwardConnectionPipe,
-    const std::vector<std::string>& cmdLineArgs,
-    const std::map<std::string, std::string>& settings
-) {
+int32_t ServerHandler::connect(const std::string& backwardConnectionPipe) {
   if (myJavaService != nullptr) {
     Log::debug("Client already connected, other attempts will be ignored.");
     return -1;
@@ -54,9 +50,7 @@ int32_t ServerHandler::connect(
     myJavaService = std::make_shared<RpcExecutor>(backwardConnectionPipe);
     myJavaServiceIO = std::make_shared<RpcExecutor>(backwardConnectionPipe);
     myClientsManager = std::make_shared<ClientsManager>();
-    RemoteAppHandler::instance().setArgs(cmdLineArgs);
-    RemoteAppHandler::instance().setSettings(settings);
-    RemoteAppHandler::instance().setService(myJavaService);
+    RemoteAppHandler::instance()->setService(myJavaService);
     // TODO:
     //  1. compare new args and settings with old (from RemoteAppHandler::instance())
     //  2. reinit CEF with new args and settings in necessary

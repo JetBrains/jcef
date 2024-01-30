@@ -24,7 +24,6 @@ class ClientHandlersIf {
   virtual ~ClientHandlersIf() {}
   virtual int32_t connect() = 0;
   virtual void log(const std::string& msg) = 0;
-  virtual void AppHandler_GetRegisteredCustomSchemes(std::vector<CustomScheme> & _return) = 0;
   virtual void AppHandler_OnContextInitialized() = 0;
   virtual void RenderHandler_GetViewRect(Rect& _return, const int32_t bid) = 0;
   virtual void RenderHandler_GetScreenInfo(ScreenInfo& _return, const int32_t bid) = 0;
@@ -102,9 +101,6 @@ class ClientHandlersNull : virtual public ClientHandlersIf {
     return _return;
   }
   void log(const std::string& /* msg */) override {
-    return;
-  }
-  void AppHandler_GetRegisteredCustomSchemes(std::vector<CustomScheme> & /* _return */) override {
     return;
   }
   void AppHandler_OnContextInitialized() override {
@@ -399,98 +395,6 @@ class ClientHandlers_log_pargs {
 };
 
 
-class ClientHandlers_AppHandler_GetRegisteredCustomSchemes_args {
- public:
-
-  ClientHandlers_AppHandler_GetRegisteredCustomSchemes_args(const ClientHandlers_AppHandler_GetRegisteredCustomSchemes_args&) noexcept;
-  ClientHandlers_AppHandler_GetRegisteredCustomSchemes_args& operator=(const ClientHandlers_AppHandler_GetRegisteredCustomSchemes_args&) noexcept;
-  ClientHandlers_AppHandler_GetRegisteredCustomSchemes_args() noexcept {
-  }
-
-  virtual ~ClientHandlers_AppHandler_GetRegisteredCustomSchemes_args() noexcept;
-
-  bool operator == (const ClientHandlers_AppHandler_GetRegisteredCustomSchemes_args & /* rhs */) const
-  {
-    return true;
-  }
-  bool operator != (const ClientHandlers_AppHandler_GetRegisteredCustomSchemes_args &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const ClientHandlers_AppHandler_GetRegisteredCustomSchemes_args & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-
-class ClientHandlers_AppHandler_GetRegisteredCustomSchemes_pargs {
- public:
-
-
-  virtual ~ClientHandlers_AppHandler_GetRegisteredCustomSchemes_pargs() noexcept;
-
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-typedef struct _ClientHandlers_AppHandler_GetRegisteredCustomSchemes_result__isset {
-  _ClientHandlers_AppHandler_GetRegisteredCustomSchemes_result__isset() : success(false) {}
-  bool success :1;
-} _ClientHandlers_AppHandler_GetRegisteredCustomSchemes_result__isset;
-
-class ClientHandlers_AppHandler_GetRegisteredCustomSchemes_result {
- public:
-
-  ClientHandlers_AppHandler_GetRegisteredCustomSchemes_result(const ClientHandlers_AppHandler_GetRegisteredCustomSchemes_result&);
-  ClientHandlers_AppHandler_GetRegisteredCustomSchemes_result& operator=(const ClientHandlers_AppHandler_GetRegisteredCustomSchemes_result&);
-  ClientHandlers_AppHandler_GetRegisteredCustomSchemes_result() noexcept {
-  }
-
-  virtual ~ClientHandlers_AppHandler_GetRegisteredCustomSchemes_result() noexcept;
-  std::vector<CustomScheme>  success;
-
-  _ClientHandlers_AppHandler_GetRegisteredCustomSchemes_result__isset __isset;
-
-  void __set_success(const std::vector<CustomScheme> & val);
-
-  bool operator == (const ClientHandlers_AppHandler_GetRegisteredCustomSchemes_result & rhs) const
-  {
-    if (!(success == rhs.success))
-      return false;
-    return true;
-  }
-  bool operator != (const ClientHandlers_AppHandler_GetRegisteredCustomSchemes_result &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const ClientHandlers_AppHandler_GetRegisteredCustomSchemes_result & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-typedef struct _ClientHandlers_AppHandler_GetRegisteredCustomSchemes_presult__isset {
-  _ClientHandlers_AppHandler_GetRegisteredCustomSchemes_presult__isset() : success(false) {}
-  bool success :1;
-} _ClientHandlers_AppHandler_GetRegisteredCustomSchemes_presult__isset;
-
-class ClientHandlers_AppHandler_GetRegisteredCustomSchemes_presult {
- public:
-
-
-  virtual ~ClientHandlers_AppHandler_GetRegisteredCustomSchemes_presult() noexcept;
-  std::vector<CustomScheme> * success;
-
-  _ClientHandlers_AppHandler_GetRegisteredCustomSchemes_presult__isset __isset;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-
-};
-
-
 class ClientHandlers_AppHandler_OnContextInitialized_args {
  public:
 
@@ -524,43 +428,6 @@ class ClientHandlers_AppHandler_OnContextInitialized_pargs {
   virtual ~ClientHandlers_AppHandler_OnContextInitialized_pargs() noexcept;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-
-class ClientHandlers_AppHandler_OnContextInitialized_result {
- public:
-
-  ClientHandlers_AppHandler_OnContextInitialized_result(const ClientHandlers_AppHandler_OnContextInitialized_result&) noexcept;
-  ClientHandlers_AppHandler_OnContextInitialized_result& operator=(const ClientHandlers_AppHandler_OnContextInitialized_result&) noexcept;
-  ClientHandlers_AppHandler_OnContextInitialized_result() noexcept {
-  }
-
-  virtual ~ClientHandlers_AppHandler_OnContextInitialized_result() noexcept;
-
-  bool operator == (const ClientHandlers_AppHandler_OnContextInitialized_result & /* rhs */) const
-  {
-    return true;
-  }
-  bool operator != (const ClientHandlers_AppHandler_OnContextInitialized_result &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const ClientHandlers_AppHandler_OnContextInitialized_result & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-
-class ClientHandlers_AppHandler_OnContextInitialized_presult {
- public:
-
-
-  virtual ~ClientHandlers_AppHandler_OnContextInitialized_presult() noexcept;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
 };
 
@@ -4777,12 +4644,8 @@ class ClientHandlersClient : virtual public ClientHandlersIf {
   int32_t recv_connect();
   void log(const std::string& msg) override;
   void send_log(const std::string& msg);
-  void AppHandler_GetRegisteredCustomSchemes(std::vector<CustomScheme> & _return) override;
-  void send_AppHandler_GetRegisteredCustomSchemes();
-  void recv_AppHandler_GetRegisteredCustomSchemes(std::vector<CustomScheme> & _return);
   void AppHandler_OnContextInitialized() override;
   void send_AppHandler_OnContextInitialized();
-  void recv_AppHandler_OnContextInitialized();
   void RenderHandler_GetViewRect(Rect& _return, const int32_t bid) override;
   void send_RenderHandler_GetViewRect(const int32_t bid);
   void recv_RenderHandler_GetViewRect(Rect& _return);
@@ -4910,7 +4773,6 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
   ProcessMap processMap_;
   void process_connect(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_log(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
-  void process_AppHandler_GetRegisteredCustomSchemes(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_AppHandler_OnContextInitialized(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_RenderHandler_GetViewRect(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_RenderHandler_GetScreenInfo(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -4959,7 +4821,6 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
     iface_(iface) {
     processMap_["connect"] = &ClientHandlersProcessor::process_connect;
     processMap_["log"] = &ClientHandlersProcessor::process_log;
-    processMap_["AppHandler_GetRegisteredCustomSchemes"] = &ClientHandlersProcessor::process_AppHandler_GetRegisteredCustomSchemes;
     processMap_["AppHandler_OnContextInitialized"] = &ClientHandlersProcessor::process_AppHandler_OnContextInitialized;
     processMap_["RenderHandler_GetViewRect"] = &ClientHandlersProcessor::process_RenderHandler_GetViewRect;
     processMap_["RenderHandler_GetScreenInfo"] = &ClientHandlersProcessor::process_RenderHandler_GetScreenInfo;
@@ -5047,16 +4908,6 @@ class ClientHandlersMultiface : virtual public ClientHandlersIf {
       ifaces_[i]->log(msg);
     }
     ifaces_[i]->log(msg);
-  }
-
-  void AppHandler_GetRegisteredCustomSchemes(std::vector<CustomScheme> & _return) override {
-    size_t sz = ifaces_.size();
-    size_t i = 0;
-    for (; i < (sz - 1); ++i) {
-      ifaces_[i]->AppHandler_GetRegisteredCustomSchemes(_return);
-    }
-    ifaces_[i]->AppHandler_GetRegisteredCustomSchemes(_return);
-    return;
   }
 
   void AppHandler_OnContextInitialized() override {
@@ -5490,12 +5341,8 @@ class ClientHandlersConcurrentClient : virtual public ClientHandlersIf {
   int32_t recv_connect(const int32_t seqid);
   void log(const std::string& msg) override;
   void send_log(const std::string& msg);
-  void AppHandler_GetRegisteredCustomSchemes(std::vector<CustomScheme> & _return) override;
-  int32_t send_AppHandler_GetRegisteredCustomSchemes();
-  void recv_AppHandler_GetRegisteredCustomSchemes(std::vector<CustomScheme> & _return, const int32_t seqid);
   void AppHandler_OnContextInitialized() override;
-  int32_t send_AppHandler_OnContextInitialized();
-  void recv_AppHandler_OnContextInitialized(const int32_t seqid);
+  void send_AppHandler_OnContextInitialized();
   void RenderHandler_GetViewRect(Rect& _return, const int32_t bid) override;
   int32_t send_RenderHandler_GetViewRect(const int32_t bid);
   void recv_RenderHandler_GetViewRect(Rect& _return, const int32_t seqid);
