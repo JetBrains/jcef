@@ -3,7 +3,7 @@
 
 #include <memory>
 #include <mutex>
-#include <vector>
+#include <map>
 #include "include/cef_base.h"
 
 class RemoteClientHandler;
@@ -27,12 +27,9 @@ class ClientsManager {
   CefRefPtr<CefBrowser> getCefBrowser(int bid);
   int findRemoteBrowser(CefRefPtr<CefBrowser> browser);
 
-  CefRefPtr<RemoteClientHandler> getClient(int bid);
-  void disposeClient(int bid);
-
  private:
   std::recursive_mutex myMutex;
-  std::shared_ptr<std::vector<CefRefPtr<RemoteClientHandler>>> myRemoteClients;
+  std::map<int, CefRefPtr<RemoteClientHandler>> myRemoteClients;
 };
 
 #endif  // JCEF_CLIENTSMANAGER_H

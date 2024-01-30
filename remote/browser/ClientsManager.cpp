@@ -6,19 +6,7 @@
 #include "include/cef_task.h"
 #include "include/wrapper/cef_closure_task.h"
 
-ClientsManager::ClientsManager() : myRemoteClients(std::make_shared<std::vector<CefRefPtr<RemoteClientHandler>>>()) {}
-
-CefRefPtr<RemoteClientHandler> ClientsManager::getClient(int bid) {
-  Lock lock(myMutex);
-  return bid >= myRemoteClients->size() ? nullptr : (*myRemoteClients)[bid];
-}
-
-void ClientsManager::disposeClient(int bid) {
-  Lock lock(myMutex);
-  if (bid >= myRemoteClients->size())
-    return;
-  (*myRemoteClients)[bid] = nullptr;
-}
+ClientsManager::ClientsManager() : myRemoteClients() {}
 
 namespace {
   void createBrowserImpl(
@@ -57,33 +45,19 @@ int ClientsManager::createBrowser(
     std::shared_ptr<MessageRoutersManager> routersManager,
     const std::string& url
 ) {
-  if (!CefUtils::isCefInitialized()) {
-    Log::warn( "Can't create browser with cid=%d, need wait for cef initialization", cid);
-    // TODO: return wrapper and schedule browser creation after initialization
-    return -2;
-  }
-
   int bid;
   CefRefPtr<RemoteClientHandler> clienthandler;
   {
     Lock lock(myMutex);
-    bid = static_cast<int>(myRemoteClients->size());
-    for (int c = 0, cEnd = static_cast<int>(myRemoteClients->size()); c < cEnd; ++c)
-      if ((*myRemoteClients)[c] != nullptr) {
-        bid = c;
-        break;
-      }
-
+    static int sBid = 0;
+    bid = sBid++;
     clienthandler = new RemoteClientHandler(routersManager, service, serviceIO, cid, bid);
-    if (bid >= 0 && bid < myRemoteClients->size())
-      (*myRemoteClients)[bid] = clienthandler;
-    else
-      myRemoteClients->push_back(clienthandler);
+    myRemoteClients[bid] = clienthandler;
   }
 
   std::function<void()> onFailed = [=](){
-    disposeClient(bid);
-    // TODO: notify client
+    Lock lock(myMutex);
+    myRemoteClients.erase(bid);
   };
   if (CefCurrentlyOn(TID_UI)) {
     createBrowserImpl(cid, bid, clienthandler, url, onFailed);
@@ -96,7 +70,8 @@ int ClientsManager::createBrowser(
 }
 
 CefRefPtr<CefBrowser> ClientsManager::getCefBrowser(int bid) {
-  CefRefPtr<RemoteClientHandler> client = getClient(bid);
+  Lock lock(myMutex);
+  CefRefPtr<RemoteClientHandler> client = myRemoteClients[bid];
   if (!client) {
     Log::error("getCefBrowser: can't find client by bid %d", bid);
     return nullptr;
@@ -111,12 +86,12 @@ int ClientsManager::findRemoteBrowser(CefRefPtr<CefBrowser> browser) {
     return -1;
 
   Lock lock(myMutex);
-  for (int c = 0, cEnd = static_cast<int>(myRemoteClients->size()); c < cEnd; ++c) {
-    CefRefPtr<RemoteClientHandler> client = (*myRemoteClients)[c];
+  for (auto const& rc : myRemoteClients) {
+    CefRefPtr<RemoteClientHandler> client = rc.second;
     if (client) {
       CefRefPtr<CefBrowser> clientBrowser = ((RemoteLifespanHandler *)(client->GetLifeSpanHandler()).get())->getBrowser();
       if (clientBrowser && clientBrowser->GetIdentifier() == browser->GetIdentifier())
-        return c;
+        return rc.first;
     }
   }
 
@@ -124,22 +99,29 @@ int ClientsManager::findRemoteBrowser(CefRefPtr<CefBrowser> browser) {
 }
 
 void ClientsManager::closeBrowser(const int32_t bid) {
-  CefRefPtr<RemoteClientHandler> client = getClient(bid);
+  Lock lock(myMutex);
+  CefRefPtr<RemoteClientHandler> client = myRemoteClients[bid];
   if (!client) {
     // already closed
     return;
   }
 
-  auto browser = getCefBrowser(bid);
+  RemoteLifespanHandler * rsh = (RemoteLifespanHandler *)(client->GetLifeSpanHandler()).get();
+  auto browser = rsh->getBrowser();
   if (browser != nullptr)
     browser->GetHost()->CloseBrowser(true);
 
-  disposeClient(bid);
+  myRemoteClients.erase(bid);
 }
 
 void ClientsManager::closeAllBrowsers() {
   Lock lock(myMutex);
-  for (int bid = 0; bid < myRemoteClients->size(); ++bid)
+  std::vector<int> toRemove;
+  for (auto const& rc : myRemoteClients)
+    toRemove.push_back(rc.first);
+
+  for (auto const& bid : toRemove)
     closeBrowser(bid);
-  myRemoteClients->clear();
+
+  myRemoteClients.clear();
 }
