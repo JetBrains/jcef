@@ -1069,26 +1069,28 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
    }
 
     public void setWindowlessFrameRate(int frameRate) {
-        executeNative(() -> {
-            try {
+        try {
+            checkNativeCtxInitialized();
+            if (isNativeCtxInitialized_)
                 N_SetWindowlessFrameRate(frameRate);
-            } catch (UnsatisfiedLinkError error) {
-                error.printStackTrace();
-            }
-        }, "setWindowlessFrameRate: " + frameRate);
+        } catch (UnsatisfiedLinkError ule) {
+            ule.printStackTrace();
+        }
     }
 
     public CompletableFuture<Integer> getWindowlessFrameRate() {
         final CompletableFuture<Integer> future = new CompletableFuture<>();
-
-        executeNative(() -> {
-            try {
+        try {
+            checkNativeCtxInitialized();
+            if (isNativeCtxInitialized_) {
                 N_GetWindowlessFrameRate(future::complete);
-            } catch (UnsatisfiedLinkError error) {
-                error.printStackTrace();
-                future.completeExceptionally(error);
+            } else {
+                future.completeExceptionally(new RuntimeException("The browser is not initialized yet"));
             }
-        }, "getWindowlessFrameRate");
+        } catch (UnsatisfiedLinkError ule) {
+            ule.printStackTrace();
+            future.completeExceptionally(ule);
+        }
 
         return future;
     }
