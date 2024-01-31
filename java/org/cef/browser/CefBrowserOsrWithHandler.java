@@ -48,7 +48,7 @@ public class CefBrowserOsrWithHandler extends CefBrowser_N  {
                                     CefBrowser parent,
                                     Point inspectAt)
     {
-        this(client, url, context, renderHandler, component, null, null, null);
+        this(client, url, context, renderHandler, component, parent, inspectAt, null);
     }
 
     public CefBrowserOsrWithHandler(CefClient client,
