@@ -166,7 +166,7 @@ if (OS_WINDOWS)
 endif ()
 
 if (OS_MAC)
-    list(APPEND SERVER_SOURCES CppServer.cpp)
+    list(APPEND SERVER_SOURCES CppServer.cpp mac/MacApplication.mm)
     add_executable(${EXECUTABLE_NAME} MACOSX_BUNDLE ${SERVER_SOURCES})
 endif ()
 
