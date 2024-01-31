@@ -40,6 +40,10 @@ class ServerCloneFactory : virtual public ServerIfFactory {
   }
 };
 
+#ifdef OS_MAC
+extern void initMacApplication();
+#endif
+
 int main(int argc, char* argv[]) {
   Log::init(LEVEL_TRACE);
   setThreadName("main");
@@ -49,6 +53,8 @@ int main(int argc, char* argv[]) {
   if (exit_code >= 0) {
     return exit_code;
   }
+#elif OS_MAC
+  initMacApplication();
 #endif
   const Clock::time_point startTime = Clock::now();
 
