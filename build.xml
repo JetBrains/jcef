@@ -72,6 +72,7 @@
     <fileset dir="third_party/gson" includes="gson-2.10.1.jar"/>
     <fileset dir="third_party/junit" includes="junit-platform-console-standalone-1.10.0.jar"/>
     <fileset dir="third_party/jakarta" includes="jakarta.xml.bind-api-2.3.2.jar"/>
+    <fileset dir="third_party/jbrapi" includes="jbr-api-17.1.10.0.jar"/>
     <fileset dir="${out.path}" includes="jcef.jar"/>
   </path>
 

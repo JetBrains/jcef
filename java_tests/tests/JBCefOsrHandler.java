@@ -1,6 +1,7 @@
 package tests;
 // Copyright 2000-2021 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 
+import com.jetbrains.JBR;
 import com.jetbrains.cef.JCefAppConfig;
 import com.jetbrains.cef.remote.SharedMemory;
 import org.cef.browser.CefBrowser;
@@ -195,20 +196,20 @@ public class JBCefOsrHandler implements CefNativeRenderHandler {
         if (volatileImage == null || volatileImage.getWidth() != scaledW || volatileImage.getHeight() != scaledH) {
             try {
                 volatileImage = myComponent.getGraphicsConfiguration().createCompatibleVolatileImage(scaledW, scaledH, null, Transparency.TRANSLUCENT);
-                if (!RasterProcessor.isFastLoadingAvailable())
+                if (!JBR.isNativeRasterLoaderSupported())
                     bufImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB_PRE);
             } catch (AWTException e) {
                 throw new RuntimeException(e);
             }
-            dirtyRectsCount = 0; // will cause full raster loading
+            mem.setDirtyRectsCount(0);// will cause full raster loading
         }
         long midMs = System.currentTimeMillis();
 
-        if (RasterProcessor.isFastLoadingAvailable()) {
-            RasterProcessor.loadFast(volatileImage, mem);
+        if (JBR.isNativeRasterLoaderSupported()) {
+            JBR.getNativeRasterLoader().loadNativeRaster(volatileImage, mem.getPtr(), mem.getWidth(), mem.getHeight(), mem.getPtr() + mem.getWidth()*mem.getHeight()*4, mem.getDirtyRectsCount());
         } else {
             // load buffered
-            RasterProcessor.loadBuffered(bufImage, mem);
+            loadBuffered(bufImage, mem);
 
             // draw buffered onto volatile
             Graphics2D viGr = (Graphics2D)volatileImage.getGraphics().create();
@@ -439,83 +440,48 @@ public class JBCefOsrHandler implements CefNativeRenderHandler {
         return initLatch.await(5, TimeUnit.SECONDS);
     }
 
-    public static class RasterProcessor {
-        private static Method mLoadMethodHandle;
+    public static void loadBuffered(BufferedImage bufImage, SharedMemory.WithRaster mem) {
+        final int width = mem.getWidth();
+        final int height = mem.getHeight();
+        final int rectsCount = mem.getDirtyRectsCount();
 
-        static {
-            try {
-                //noinspection JavaReflectionMemberAccess
-                mLoadMethodHandle = Image.class.getDeclaredMethod("loadNativeRasterWithRects", long.class, int.class, int.class, long.class, int.class);
-            } catch (NoSuchMethodException ignore) {
-                mLoadMethodHandle = null;
-                CefLog.Info("Java runtime doesn't support fast volatile image loading.");
+        ByteBuffer buffer = mem.wrapRaster();
+        int[] dst = ((DataBufferInt)bufImage.getRaster().getDataBuffer()).getData();
+        IntBuffer src = buffer.order(ByteOrder.LITTLE_ENDIAN).asIntBuffer();
+
+        Rectangle[] dirtyRects = new Rectangle[]{new Rectangle(0, 0, width, height)};
+        if (rectsCount > 0) {
+            ByteBuffer rectsMem = mem.wrapRects();
+            IntBuffer rects = rectsMem.order(ByteOrder.LITTLE_ENDIAN).asIntBuffer();
+            for (int c = 0; c < rectsCount; ++c) {
+                int pos = c*4;
+                Rectangle r = new Rectangle();
+                r.x = rects.get(pos++);
+                r.y = rects.get(pos++);
+                r.width = rects.get(pos++);
+                r.height = rects.get(pos++);
+                dirtyRects[c] = r;
             }
         }
 
-        public static void loadFast(VolatileImage volatileImage, SharedMemory.WithRaster mem) {
-            if (!isFastLoadingAvailable())
-                return;
-
-            try {
-                // TODO: use jbr API
-                mLoadMethodHandle.invoke(volatileImage, mem.getPtr(), mem.getWidth(), mem.getHeight(), mem.getPtr() + mem.getWidth()*mem.getHeight()*4, mem.getDirtyRectsCount());
-            } catch (IllegalAccessException | InvocationTargetException ignore) {
-            }
-        }
-
-        public static void loadBuffered(BufferedImage bufImage, SharedMemory.WithRaster mem) {
-            final long pRaster = mem.getPtr();
-            final int width = mem.getWidth();
-            final int height = mem.getHeight();
-            final int rectsCount = mem.getDirtyRectsCount();
-
-            ByteBuffer buffer = mem.wrapRaster();
-            int[] dst = ((DataBufferInt)bufImage.getRaster().getDataBuffer()).getData();
-            IntBuffer src = buffer.order(ByteOrder.LITTLE_ENDIAN).asIntBuffer();
-
-            Rectangle[] dirtyRects = new Rectangle[]{new Rectangle(0, 0, width, height)};
-            if (rectsCount > 0) {
-                ByteBuffer rectsMem = mem.wrapRects();
-                IntBuffer rects = rectsMem.order(ByteOrder.LITTLE_ENDIAN).asIntBuffer();
-                for (int c = 0; c < rectsCount; ++c) {
-                    int pos = c*4;
-                    Rectangle r = new Rectangle();
-                    r.x = rects.get(pos++);
-                    r.y = rects.get(pos++);
-                    r.width = rects.get(pos++);
-                    r.height = rects.get(pos++);
-                    r.y = height - (r.y + r.height); // flip
-                    dirtyRects[c] = r;
+        for (Rectangle rect : dirtyRects) {
+            if (rect.width < width) {
+                for (int line = rect.y; line < rect.y + rect.height; line++) {
+                    int offset = line*width + rect.x;
+                    src.position(offset).get(dst, offset, rect.width);
                 }
             }
-
-            // flip image here
-            // TODO: consider to optimize
-            for (Rectangle rect : dirtyRects) {
-                if (rect.width < width) {
-                    for (int line = rect.y; line < rect.y + rect.height; line++) {
-                        int srcOffset = line*width + rect.x;
-                        int dstOffset = (height - line - 1)*width + rect.x;
-                        src.position(srcOffset).get(dst, dstOffset, rect.width);
-                    }
-                }
-                else { // optimized for a buffer wide dirty rect
-                    for (int y = rect.y; y < rect.y + rect.height; ++y)
-                        src.position(y*width).get(dst, (height - y - 1)*width, width);
-                }
+            else { // optimized for a buffer wide dirty rect
+                int offset = rect.y*width;
+                src.position(offset).get(dst, offset, width*rect.height);
             }
-
-            // draw debug
-//            Graphics2D g = bufImage.createGraphics();
-//            g.setColor(Color.RED);
-//            for (Rectangle r : dirtyRects)
-//                g.drawRect(r.x, r.y, r.width, r.height);
-//            g.dispose();
         }
 
-        public static boolean isFastLoadingAvailable() {
-            // TODO: use jbr API
-            return mLoadMethodHandle != null;
-        }
+//         // draw debug
+//         Graphics2D g = bufImage.createGraphics();
+//         g.setColor(Color.RED);
+//         for (Rectangle r : dirtyRects)
+//             g.drawRect(r.x, r.y, r.width, r.height);
+//         g.dispose();
     }
 }
