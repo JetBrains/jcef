@@ -129,4 +129,5 @@ service ClientHandlers {
     //
     bool MessageRouterHandler_onQuery(1: shared.RObject handler, 2: i32 bid, 3: i64 queryId, 4: string request, 5: bool persistent, 6: shared.RObject queryCallback),
     oneway void MessageRouterHandler_onQueryCanceled(1: shared.RObject handler, 2: i32 bid, 3: i64 queryId),
+    oneway void MessageRouterHandler_Dispose(1: i32 handler),
 }

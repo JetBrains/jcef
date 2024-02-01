@@ -18,6 +18,7 @@ import org.cef.handler.*;
 import org.cef.misc.BoolRef;
 import org.cef.misc.CefLog;
 import org.cef.misc.StringRef;
+import org.cef.misc.Utils;
 import org.cef.network.CefCookie;
 import org.cef.network.CefRequest;
 import org.cef.network.CefURLRequest;
@@ -34,6 +35,7 @@ import java.util.concurrent.ConcurrentHashMap;
 // Service for rpc from native to java
 //
 public class ClientHandlersImpl implements ClientHandlers.Iface {
+    private static final boolean TRACE_REMOTE_FIND_BID = Utils.getBoolean("TRACE_REMOTE_FIND_BID");
     private final Map<Integer, RemoteBrowser> myBid2RemoteBrowser;
     private CefAppHandler myAppHandler;
     private final RpcExecutor myService;
@@ -52,7 +54,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     private RemoteBrowser getRemoteBrowser(int bid) {
         RemoteBrowser browser = myBid2RemoteBrowser.get(bid);
         if (browser == null) {
-            CefLog.Error("Can't find remote browser with bid=%d.", bid);
+            if (TRACE_REMOTE_FIND_BID) CefLog.Debug("Can't find remote browser with bid=%d.", bid);
             return null;
         }
         return browser;
@@ -648,5 +650,10 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         if (rmrh == null) return;
 
         rmrh.getDelegate().onQueryCanceled(getRemoteBrowser(bid), NULL_FRAME, queryId);
+    }
+
+    @Override
+    public void MessageRouterHandler_Dispose(int handler) throws TException {
+        RemoteMessageRouterHandler.FACTORY.dispose(handler);
     }
 }
