@@ -13,7 +13,7 @@ RemoteMessageRouterHandler::RemoteMessageRouterHandler(
           service,
           peer.objId,
           [=](std::shared_ptr<thrift_codegen::ClientHandlersClient> service) {
-            service->ResourceRequestHandler_Dispose(peer.objId);
+            service->MessageRouterHandler_Dispose(peer.objId);
           }),
       myClientsManager(manager) {
   TRACE();
