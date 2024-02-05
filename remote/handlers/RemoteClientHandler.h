@@ -16,7 +16,8 @@ public:
      std::shared_ptr<RpcExecutor> service,
      std::shared_ptr<RpcExecutor> serviceIO,
      int cid,
-     int bid);
+     int bid,
+     std::function<void(int)> onClosedCallback);
 
  CefRefPtr<CefContextMenuHandler> GetContextMenuHandler() override;
     CefRefPtr<CefDialogHandler> GetDialogHandler() override;
@@ -41,8 +42,13 @@ public:
 
     int getBid() const { return myBid; }
     int getCid() const { return myCid; }
+
+    void closeBrowser();
+    bool isClosing() const { return myIsClosing; }
+
     std::shared_ptr<RpcExecutor> getService() { return myService; }
     std::shared_ptr<MessageRoutersManager> getRoutersManager() { return myRoutersManager; }
+    CefRefPtr<CefBrowser> getCefBrowser();
 
     // Convenience methods
     template<typename T>
@@ -64,6 +70,8 @@ public:
     const CefRefPtr<CefRequestHandler> myRemoteRequestHandler;
     const CefRefPtr<CefKeyboardHandler> myRemoteKeyboardHandler;
     const CefRefPtr<CefFocusHandler> myRemoteFocusHandler;
+
+    bool myIsClosing = false;
 
     IMPLEMENT_REFCOUNTING(RemoteClientHandler);
 };

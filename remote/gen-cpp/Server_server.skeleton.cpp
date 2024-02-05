@@ -35,6 +35,16 @@ class ServerHandler : virtual public ServerIf {
     printf("echo\n");
   }
 
+  void version(std::string& _return) {
+    // Your implementation goes here
+    printf("version\n");
+  }
+
+  void stop() {
+    // Your implementation goes here
+    printf("stop\n");
+  }
+
   int32_t createBrowser(const int32_t cid, const std::string& url) {
     // Your implementation goes here
     printf("createBrowser\n");

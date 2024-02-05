@@ -23,6 +23,9 @@ service Server {
     i32 connect(1: string backwardConnectionPipe),
     oneway void log(1: string msg),
     string echo(1: string msg),
+    string version(),
+    oneway void stop(),
+
     //
     // CefBrowser
     //

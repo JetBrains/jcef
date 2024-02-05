@@ -2,8 +2,10 @@
 
 #include <thread>
 
-#include "handlers/RemoteAppHandler.h"
+#include "include/cef_version.h"
+
 #include "handlers/RemoteLifespanHandler.h"
+#include "handlers/app/RemoteAppHandler.h"
 #include "network/RemotePostData.h"
 #include "network/RemoteRequest.h"
 #include "network/RemoteResponse.h"
@@ -19,19 +21,23 @@
 #include "router/RemoteMessageRouterHandler.h"
 #include "router/RemoteQueryCallback.h"
 
+
 using namespace apache::thrift;
 
 ServerHandler::ServerHandler() : myRoutersManager(std::make_shared<MessageRoutersManager>()) {}
 
 ServerHandler::~ServerHandler() {
+  dispose(false);
+}
+
+void ServerHandler::dispose(bool doShutdownIfEmpty) {
   try {
     if (myClientsManager)
-      myClientsManager->closeAllBrowsers();
+      myClientsManager->closeAllBrowsers(doShutdownIfEmpty);
     if (myJavaService && !myJavaService->isClosed())
       myJavaService->close();
-    // TODO: probably we should shutdown cef (so AppHandler will update on next intialization)
   } catch (TException e) {
-    Log::error("Thrift exception in ~ServerHandler: %s", e.what());
+    Log::error("Thrift exception in ServerHandler::dispose: %s", e.what());
   }
 }
 
@@ -71,6 +77,19 @@ int32_t ServerHandler::createBrowser(int cid, const std::string& url) {
 void ServerHandler::closeBrowser(const int32_t bid) {
   Log::debug("Close remote browser bid=%d", bid);
   myClientsManager->closeBrowser(bid);
+}
+
+void ServerHandler::stop() {
+  dispose(true);
+}
+
+void ServerHandler::version(std::string& _return) {
+  _return.assign(string_format("%d.%d.%d.%d",
+    cef_version_info(0),   // CEF_VERSION_MAJOR
+    cef_version_info(1),   // CEF_VERSION_MINOR
+    cef_version_info(2),   // CEF_VERSION_PATCH
+    cef_version_info(3)   // CEF_COMMIT_NUMBER
+  ));
 }
 
 #define GET_BROWSER_OR_RETURN()                          \

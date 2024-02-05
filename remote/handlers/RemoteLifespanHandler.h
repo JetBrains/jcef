@@ -10,7 +10,7 @@ class MessageRoutersManager;
 
 class RemoteLifespanHandler : public CefLifeSpanHandler {
  public:
-  explicit RemoteLifespanHandler(int bid, std::shared_ptr<RpcExecutor> service, std::shared_ptr<MessageRoutersManager> routersManager);
+  explicit RemoteLifespanHandler(int bid, std::shared_ptr<RpcExecutor> service, std::shared_ptr<MessageRoutersManager> routersManager, std::function<void(int)> onCloseCallback);
   CefRefPtr<CefBrowser> getBrowser();
   //
   // All next methods will be called on the UI thread
@@ -33,6 +33,7 @@ class RemoteLifespanHandler : public CefLifeSpanHandler {
 
  private:
   const int myBid;
+  const std::function<void(int)> myOnClosedCallback;
   std::shared_ptr<RpcExecutor> myService;
   std::shared_ptr<MessageRoutersManager> myRoutersManager;
   CefRefPtr<CefBrowser> myBrowser = nullptr;

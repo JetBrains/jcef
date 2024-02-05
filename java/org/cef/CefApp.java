@@ -4,7 +4,6 @@
 
 package org.cef;
 
-import com.jetbrains.cef.JCefAppConfig;
 import com.jetbrains.cef.remote.CefServer;
 import org.cef.callback.CefSchemeHandlerFactory;
 import org.cef.handler.CefAppHandler;
@@ -172,7 +171,7 @@ public class CefApp extends CefAppHandlerAdapter {
             // execute successfully)
             // TODO: ensure and make all initialization steps in single bg thread.
             if (IS_REMOTE_ENABLED) {
-                if (CefServer.initialize(appHandler_, settings_)) {
+                if (CefServer.connect(appHandler_, settings_)) {
                     CefLog.Debug("CefApp: native CefServer is initialized.");
                     setState(CefAppState.INITIALIZED);
                     synchronized (initializationListeners_) {
@@ -301,16 +300,16 @@ public class CefApp extends CefAppHandlerAdapter {
     }
 
     public final CefVersion getVersion() {
-        if (isRemoteEnabled()) {
-            // TODO: request from server
+        if (IS_REMOTE_ENABLED) {
+            // TODO: request remaining params from server
             return new CefVersion(0, "0", 0, 0, 0, 0, 0, 0, 0, 0) {
                 @Override
                 public String toString() {
-                    return "remote " + JCefAppConfig.getVersion();
+                    return "remote_" + CefServer.getVersion();
                 }
                 @Override
                 public String getJcefVersion() {
-                    return "remote " + JCefAppConfig.getVersion();
+                    return "remote_" + CefServer.getVersion();
                 }
             };
         }
@@ -370,7 +369,8 @@ public class CefApp extends CefAppHandlerAdapter {
                 // (3) Shutdown sequence. Close all clients and continue.
                 setState(CefAppState.SHUTTING_DOWN);
                 if (clients_.isEmpty()) {
-                    scheduleNativeShutdown();
+                    if (!IS_REMOTE_ENABLED)
+                        scheduleNativeShutdown();
                 } else {
                     // shutdown() will be called from clientWasDisposed() when the last
                     // client is gone.
@@ -382,6 +382,10 @@ public class CefApp extends CefAppHandlerAdapter {
                         c.dispose();
                     }
                 }
+
+                if (IS_REMOTE_ENABLED)
+                    CefServer.instance().disconnect();
+
                 break;
 
             case NONE:
@@ -428,7 +432,9 @@ public class CefApp extends CefAppHandlerAdapter {
      */
     public boolean registerSchemeHandlerFactory(String schemeName, String domainName, CefSchemeHandlerFactory factory) {
         onInitialization(state -> {
-            if (!N_RegisterSchemeHandlerFactory(schemeName, domainName, factory))
+            if (IS_REMOTE_ENABLED) {
+                CefLog.Error("Unimplemented registration of scheme handler factory, will be skipped [%s:%s]", schemeName, domainName);
+            } else if (!N_RegisterSchemeHandlerFactory(schemeName, domainName, factory))
                 CefLog.Error("Can't register scheme [%s:%s]", schemeName, domainName);
         });
         return true;
@@ -441,6 +447,10 @@ public class CefApp extends CefAppHandlerAdapter {
     public boolean clearSchemeHandlerFactories() {
         if (!isInitialized_)
             return false;
+        if (IS_REMOTE_ENABLED) {
+            CefLog.Error("Unimplemented clearing of scheme handler factories");
+            return false;
+        }
         return N_ClearSchemeHandlerFactories();
     }
 
@@ -457,6 +467,9 @@ public class CefApp extends CefAppHandlerAdapter {
             initializationListeners_.remove(client);
         }
         CefLog.Debug("CefApp: client was disposed: %s [clients count %d]", client, clients_.size());
+        if (IS_REMOTE_ENABLED)
+            return; // nothing to do, everything is done in setState
+
         if (clients_.isEmpty() && getState().compareTo(CefAppState.SHUTTING_DOWN) >= 0) {
             // Shutdown native system.
             scheduleNativeShutdown();
@@ -526,6 +539,10 @@ public class CefApp extends CefAppHandlerAdapter {
      * Windows with windowed rendering.
      */
     public final void doMessageLoopWork(final long delay_ms) {
+        if (IS_REMOTE_ENABLED) {
+            CefLog.Error("doMessageLoopWork musn't be called in remote mode.");
+            return;
+        }
         // Execute on the AWT event dispatching thread.
         SwingUtilities.invokeLater(new Runnable() {
             @Override

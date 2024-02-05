@@ -80,6 +80,7 @@ int main(int argc, char* argv[]) {
   }
 
   std::thread servThread([=]() {
+    setThreadName("ServerListener");
     try {
       server->serve();
     } catch (TException e) {
@@ -92,5 +93,6 @@ int main(int argc, char* argv[]) {
 
   CefUtils::runCefLoop();
   server->stop();
+  servThread.join();
   return 0;
 }

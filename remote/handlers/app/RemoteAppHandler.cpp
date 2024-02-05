@@ -1,5 +1,5 @@
 #include "RemoteAppHandler.h"
-#include "../log/Log.h"
+#include "../../log/Log.h"
 
 #define LNDCT()
 

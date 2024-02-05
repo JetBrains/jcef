@@ -37,6 +37,7 @@ public class RemoteBrowser implements CefBrowser {
     private Component myComponent;
     private CefNativeRenderHandler myRender;
 
+    private volatile boolean myIsNativeBrowserCreationStarted = false;
     private volatile boolean myIsNativeBrowserCreated = false;
     private volatile boolean myIsClosing = false;
     private volatile boolean myIsClosed = false;
@@ -53,6 +54,7 @@ public class RemoteBrowser implements CefBrowser {
     public int getCid() { return myOwner.getCid(); }
     public RemoteClient getOwner() { return myOwner; }
 
+    public boolean isNativeBrowserCreationStarted() { return myIsNativeBrowserCreationStarted; }
     public boolean isNativeBrowserCreated() { return myIsNativeBrowserCreated; }
     public int getNativeBrowserIdentifier() { return myNativeBrowserIdentifier; }
 
@@ -69,6 +71,7 @@ public class RemoteBrowser implements CefBrowser {
 
     @Override
     public void createImmediately() {
+        myIsNativeBrowserCreationStarted = true;
         myService.exec((s)->{
             myBid = s.createBrowser(myOwner.getCid(), myUrl);
         });
