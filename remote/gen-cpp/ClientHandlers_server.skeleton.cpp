@@ -60,7 +60,7 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
     printf("LifeSpanHandler_OnBeforePopup\n");
   }
 
-  void LifeSpanHandler_OnAfterCreated(const int32_t bid) {
+  void LifeSpanHandler_OnAfterCreated(const int32_t bid, const int32_t nativeBrowserIdentifier) {
     // Your implementation goes here
     printf("LifeSpanHandler_OnAfterCreated\n");
   }
@@ -243,6 +243,11 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
   void MessageRouterHandler_onQueryCanceled(const  ::thrift_codegen::RObject& handler, const int32_t bid, const int64_t queryId) {
     // Your implementation goes here
     printf("MessageRouterHandler_onQueryCanceled\n");
+  }
+
+  void MessageRouterHandler_Dispose(const int32_t handler) {
+    // Your implementation goes here
+    printf("MessageRouterHandler_Dispose\n");
   }
 
 };

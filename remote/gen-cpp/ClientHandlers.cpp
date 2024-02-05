@@ -1425,6 +1425,14 @@ uint32_t ClientHandlers_LifeSpanHandler_OnAfterCreated_args::read(::apache::thri
           xfer += iprot->skip(ftype);
         }
         break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->nativeBrowserIdentifier);
+          this->__isset.nativeBrowserIdentifier = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -1446,6 +1454,10 @@ uint32_t ClientHandlers_LifeSpanHandler_OnAfterCreated_args::write(::apache::thr
   xfer += oprot->writeI32(this->bid);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("nativeBrowserIdentifier", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32(this->nativeBrowserIdentifier);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -1463,6 +1475,10 @@ uint32_t ClientHandlers_LifeSpanHandler_OnAfterCreated_pargs::write(::apache::th
 
   xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
   xfer += oprot->writeI32((*(this->bid)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("nativeBrowserIdentifier", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32((*(this->nativeBrowserIdentifier)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -7823,6 +7839,85 @@ uint32_t ClientHandlers_MessageRouterHandler_onQueryCanceled_pargs::write(::apac
   return xfer;
 }
 
+
+ClientHandlers_MessageRouterHandler_Dispose_args::~ClientHandlers_MessageRouterHandler_Dispose_args() noexcept {
+}
+
+
+uint32_t ClientHandlers_MessageRouterHandler_Dispose_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->handler);
+          this->__isset.handler = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_MessageRouterHandler_Dispose_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_MessageRouterHandler_Dispose_args");
+
+  xfer += oprot->writeFieldBegin("handler", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->handler);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_MessageRouterHandler_Dispose_pargs::~ClientHandlers_MessageRouterHandler_Dispose_pargs() noexcept {
+}
+
+
+uint32_t ClientHandlers_MessageRouterHandler_Dispose_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_MessageRouterHandler_Dispose_pargs");
+
+  xfer += oprot->writeFieldBegin("handler", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->handler)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
 int32_t ClientHandlersClient::connect()
 {
   send_connect();
@@ -8213,18 +8308,19 @@ bool ClientHandlersClient::recv_LifeSpanHandler_OnBeforePopup()
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "LifeSpanHandler_OnBeforePopup failed: unknown result");
 }
 
-void ClientHandlersClient::LifeSpanHandler_OnAfterCreated(const int32_t bid)
+void ClientHandlersClient::LifeSpanHandler_OnAfterCreated(const int32_t bid, const int32_t nativeBrowserIdentifier)
 {
-  send_LifeSpanHandler_OnAfterCreated(bid);
+  send_LifeSpanHandler_OnAfterCreated(bid, nativeBrowserIdentifier);
 }
 
-void ClientHandlersClient::send_LifeSpanHandler_OnAfterCreated(const int32_t bid)
+void ClientHandlersClient::send_LifeSpanHandler_OnAfterCreated(const int32_t bid, const int32_t nativeBrowserIdentifier)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("LifeSpanHandler_OnAfterCreated", ::apache::thrift::protocol::T_ONEWAY, cseqid);
 
   ClientHandlers_LifeSpanHandler_OnAfterCreated_pargs args;
   args.bid = &bid;
+  args.nativeBrowserIdentifier = &nativeBrowserIdentifier;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -9806,6 +9902,25 @@ void ClientHandlersClient::send_MessageRouterHandler_onQueryCanceled(const  ::th
   oprot_->getTransport()->flush();
 }
 
+void ClientHandlersClient::MessageRouterHandler_Dispose(const int32_t handler)
+{
+  send_MessageRouterHandler_Dispose(handler);
+}
+
+void ClientHandlersClient::send_MessageRouterHandler_Dispose(const int32_t handler)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("MessageRouterHandler_Dispose", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  ClientHandlers_MessageRouterHandler_Dispose_pargs args;
+  args.handler = &handler;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
 bool ClientHandlersProcessor::dispatchCall(::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, const std::string& fname, int32_t seqid, void* callContext) {
   ProcessMap::iterator pfn;
   pfn = processMap_.find(fname);
@@ -10244,7 +10359,7 @@ void ClientHandlersProcessor::process_LifeSpanHandler_OnAfterCreated(int32_t, ::
   }
 
   try {
-    iface_->LifeSpanHandler_OnAfterCreated(args.bid);
+    iface_->LifeSpanHandler_OnAfterCreated(args.bid, args.nativeBrowserIdentifier);
   } catch (const std::exception&) {
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "ClientHandlers.LifeSpanHandler_OnAfterCreated");
@@ -11947,6 +12062,43 @@ void ClientHandlersProcessor::process_MessageRouterHandler_onQueryCanceled(int32
   return;
 }
 
+void ClientHandlersProcessor::process_MessageRouterHandler_Dispose(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("ClientHandlers.MessageRouterHandler_Dispose", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ClientHandlers.MessageRouterHandler_Dispose");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "ClientHandlers.MessageRouterHandler_Dispose");
+  }
+
+  ClientHandlers_MessageRouterHandler_Dispose_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "ClientHandlers.MessageRouterHandler_Dispose", bytes);
+  }
+
+  try {
+    iface_->MessageRouterHandler_Dispose(args.handler);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "ClientHandlers.MessageRouterHandler_Dispose");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "ClientHandlers.MessageRouterHandler_Dispose");
+  }
+
+  return;
+}
+
 ::std::shared_ptr< ::apache::thrift::TProcessor > ClientHandlersProcessorFactory::getProcessor(const ::apache::thrift::TConnectionInfo& connInfo) {
   ::apache::thrift::ReleaseHandler< ClientHandlersIfFactory > cleanup(handlerFactory_);
   ::std::shared_ptr< ClientHandlersIf > handler(handlerFactory_->getHandler(connInfo), cleanup);
@@ -12505,12 +12657,12 @@ bool ClientHandlersConcurrentClient::recv_LifeSpanHandler_OnBeforePopup(const in
   } // end while(true)
 }
 
-void ClientHandlersConcurrentClient::LifeSpanHandler_OnAfterCreated(const int32_t bid)
+void ClientHandlersConcurrentClient::LifeSpanHandler_OnAfterCreated(const int32_t bid, const int32_t nativeBrowserIdentifier)
 {
-  send_LifeSpanHandler_OnAfterCreated(bid);
+  send_LifeSpanHandler_OnAfterCreated(bid, nativeBrowserIdentifier);
 }
 
-void ClientHandlersConcurrentClient::send_LifeSpanHandler_OnAfterCreated(const int32_t bid)
+void ClientHandlersConcurrentClient::send_LifeSpanHandler_OnAfterCreated(const int32_t bid, const int32_t nativeBrowserIdentifier)
 {
   int32_t cseqid = 0;
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
@@ -12518,6 +12670,7 @@ void ClientHandlersConcurrentClient::send_LifeSpanHandler_OnAfterCreated(const i
 
   ClientHandlers_LifeSpanHandler_OnAfterCreated_pargs args;
   args.bid = &bid;
+  args.nativeBrowserIdentifier = &nativeBrowserIdentifier;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -14682,6 +14835,28 @@ void ClientHandlersConcurrentClient::send_MessageRouterHandler_onQueryCanceled(c
   args.handler = &handler;
   args.bid = &bid;
   args.queryId = &queryId;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
+void ClientHandlersConcurrentClient::MessageRouterHandler_Dispose(const int32_t handler)
+{
+  send_MessageRouterHandler_Dispose(handler);
+}
+
+void ClientHandlersConcurrentClient::send_MessageRouterHandler_Dispose(const int32_t handler)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("MessageRouterHandler_Dispose", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  ClientHandlers_MessageRouterHandler_Dispose_pargs args;
+  args.handler = &handler;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();

@@ -36,7 +36,7 @@ void RemoteLifespanHandler::OnAfterCreated(CefRefPtr<CefBrowser> browser) {
   myBrowser = browser;
   Log::trace("Created native browser id=%d [bid=%d]", browser->GetIdentifier(), myBid);
   myService->exec([&](const RpcExecutor::Service& s){
-    s->LifeSpanHandler_OnAfterCreated(myBid);
+    s->LifeSpanHandler_OnAfterCreated(myBid, browser->GetIdentifier());
   });
 }
 

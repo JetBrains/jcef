@@ -66,7 +66,7 @@ service ClientHandlers {
     // CefLifeSpanHandler
     //
     bool LifeSpanHandler_OnBeforePopup(1: i32 bid, 2: string url, 3: string frameName, 4: bool gesture),                                                                                            // TODO: add other params
-    oneway void LifeSpanHandler_OnAfterCreated(1: i32 bid),
+    oneway void LifeSpanHandler_OnAfterCreated(1: i32 bid, 2: i32 nativeBrowserIdentifier),
     bool LifeSpanHandler_DoClose(1: i32 bid),
     oneway void LifeSpanHandler_OnBeforeClose(1: i32 bid),
     //
