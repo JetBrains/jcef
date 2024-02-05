@@ -40,8 +40,6 @@ int main(int argc, char* argv[]) {
   setThreadName("main");
   CefMainArgs main_args(hi);
 
-  Log::debug("Starting the process...");
-
   const int result = CefExecuteProcess(main_args, nullptr, nullptr);
   if (result >= 0) {
     return result;

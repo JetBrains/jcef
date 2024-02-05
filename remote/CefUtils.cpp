@@ -11,7 +11,7 @@
 
 #include "log/Log.h"
 
-#include "handlers/RemoteAppHandler.h"
+#include "handlers/app/RemoteAppHandler.h"
 
 namespace {
     bool g_isInitialized = false;
@@ -140,6 +140,7 @@ namespace CefUtils {
       }
 
       settings.windowless_rendering_enabled = true;
+      settings.multi_threaded_message_loop = false;
       settings.log_severity = LOGSEVERITY_INFO; // TODO: remove hardcoded
       settings.no_sandbox = true; // TODO: support sandbox
 

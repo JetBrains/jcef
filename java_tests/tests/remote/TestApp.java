@@ -4,13 +4,14 @@
 
 package tests.remote;
 
+import com.jetbrains.cef.JCefAppConfig;
 import com.jetbrains.cef.remote.CefServer;
-import com.jetbrains.cef.remote.RemoteBrowser;
-import com.jetbrains.cef.remote.RemoteClient;
-import com.jetbrains.cef.remote.router.RemoteMessageRouter;
+import org.cef.CefApp;
+import org.cef.CefClient;
 import org.cef.CefSettings;
+import org.cef.browser.CefBrowser;
 import org.cef.browser.CefMessageRouter;
-import org.cef.callback.CefSchemeRegistrar;
+import org.cef.browser.CefRendering;
 import org.cef.handler.CefAppHandler;
 import org.cef.handler.CefAppHandlerAdapter;
 import org.cef.misc.CefLog;
@@ -21,31 +22,43 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 public class TestApp extends JFrame {
     private static final String ourStartURL = "www.google.com";
+    private static final boolean IS_REMOTE = isRemoteEnabled();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         CefLog.init(null, CefSettings.LogSeverity.LOGSEVERITY_VERBOSE);
-        args = new String[] {
-            "--disable-gpu-process-crash-limit",
-            "--use-mock-keychain"}; // just for test
-        CefAppHandler appHandler = new CefAppHandlerAdapter(args) {
-            @Override
-            public void onRegisterCustomSchemes(CefSchemeRegistrar registrar) {
-                // just for test
-                registrar.addCustomScheme("TestScheme76", true, false, false, false, true, true, false);
-            }
 
-            @Override
-            public void onContextInitialized() {
-                CefLog.Info("onContextInitialized");
+        JCefAppConfig config = JCefAppConfig.getInstance();
+        List<String> appArgs = new ArrayList<>(Arrays.asList(args));
+        appArgs.addAll(config.getAppArgsAsList());
+        args = appArgs.toArray(new String[0]);
+
+        CefAppHandler appHandler = new CefAppHandlerAdapter(args) {};
+        CefApp.addAppHandler(appHandler);
+        CefApp.startup(null);
+        CefApp app = CefApp.getInstance(config.getCefSettings());
+        CountDownLatch latch = new CountDownLatch(1);
+        app.onInitialization(s -> latch.countDown());
+        if (IS_REMOTE) {
+            CefServer server = CefServer.instance();
+            if (!server.isConnected()) {
+                CefLog.Debug("Not connected now, wait a little...");
+                latch.await(10, TimeUnit.SECONDS);
             }
-        };
-        CefServer.initialize(appHandler, new CefSettings());
-        CefServer server = CefServer.instance();
-        if (server == null || !server.isInitialized())
-            return;
+            if (!server.isConnected()) {
+                CefLog.Error("Not connected.");
+                return;
+            }
+        }
 
         SwingUtilities.invokeLater(()->{
             createFrame(ourStartURL);
@@ -53,34 +66,35 @@ public class TestApp extends JFrame {
     }
 
     public static JFrame createFrame(String url) {
-        CefServer server = CefServer.instance();
-        RemoteClient client = server.createClient();
+        JFrame frame = new JFrame("Test out of process CEF");
+
+        CefClient client = CefApp.getInstance().createClient();
 
         JBCefOsrComponent osrComponent = new JBCefOsrComponent();
         JBCefOsrHandler osrHandler = new JBCefOsrHandler(osrComponent, null);
 
         client.addLifeSpanHandler(new TestLifeSpanHandler());
         client.addLoadHandler(new TestLoadHandler());
-        client.addDisplayHandler(new TestDisplayHandler());
+        client.addDisplayHandler(new TestDisplayHandler() {
+            @Override
+            public void onTitleChange(CefBrowser browser, String title) {
+                frame.setTitle(title);
+            }
+        });
         client.addRequestHandler(new TestRequestHandler());
 
         String qFunc = "testRemoteQuery";
         String qFuncCancel = "testRemoteQueryCancel";
         CefMessageRouter.CefMessageRouterConfig config = new CefMessageRouter.CefMessageRouterConfig(qFunc, qFuncCancel);
-        RemoteMessageRouter testRouter = new RemoteMessageRouter(config);
+        CefMessageRouter testRouter = CefMessageRouter.create(config);
 
         testRouter.addHandler(new TestMessageRouterHandler(), true);
         client.addMessageRouter(testRouter);
-        RemoteBrowser browser = client.createBrowser(url,null, null, osrHandler, osrComponent);
+        CefBrowser browser = client.createBrowser(url, new CefRendering.CefRenderingWithHandler(osrHandler, osrComponent), true);
         browser.createImmediately();
-        if (browser == null) {
-            CefLog.Error("can't create remote browser");
-            return null;
-        }
 
         osrComponent.setBrowser(browser);
 
-        JFrame frame = new JFrame("Test out of process CEF");
         JTextField address_ = new JTextField(url, 100);
         address_.addActionListener(event -> {
             browser.loadURL(address_.getText());
@@ -97,10 +111,25 @@ public class TestApp extends JFrame {
                 frame.dispose();
                 browser.close(true);
                 client.dispose();
-                server.stop();
+                CefApp.getInstance().dispose();
             }
         });
 
         return frame;
+    }
+
+    protected static boolean isRemoteEnabled() {
+        try {
+            // Temporary use reflection to test with old jcef
+            Method m = CefApp.class.getMethod("isRemoteEnabled");
+            return (boolean)m.invoke(CefApp.class);
+        }
+        catch (NoSuchMethodException e) {
+        }
+        catch (InvocationTargetException e) {
+        }
+        catch (IllegalAccessException e) {
+        }
+        return false;
     }
 }

@@ -1,6 +1,6 @@
 #include "RemoteBrowserProcessHandler.h"
-#include "../log/Log.h"
-#include "../router/MessageRoutersManager.h"
+#include "../../log/Log.h"
+#include "../../router/MessageRoutersManager.h"
 
 #define LNDCT()
 

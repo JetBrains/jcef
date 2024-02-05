@@ -26,28 +26,28 @@ public class CefServer {
     private final Map<Integer, RemoteBrowser> myBid2Browser = new ConcurrentHashMap<>();
     private final ClientHandlersImpl myClientHandlersImpl = new ClientHandlersImpl(myService, myBid2Browser);
 
-    private volatile boolean myIsInitialized = false;
+    private volatile boolean myIsConnected = false;
 
     // Connects to CefServer and start cef-handlers service.
     // Should be executed in bg thread.
-    public static boolean initialize(CefAppHandler appHandler, CefSettings settings) {
+    public static boolean connect(CefAppHandler appHandler, CefSettings settings) {
         if (!CefApp.isRemoteEnabled())
             return false;
 
         if (!NativeServerManager.startIfNecessary(appHandler, settings))
             return false;
 
-        if (!INSTANCE.initialize(appHandler)) {
+        if (!INSTANCE.connect(appHandler::onContextInitialized)) {
             CefLog.Error("Can't initialize client for native server.");
             return false;
         }
-        INSTANCE.myIsInitialized = true;
+        INSTANCE.myIsConnected = true;
         return true;
     }
 
     public static CefServer instance() { return INSTANCE; }
 
-    public boolean isInitialized() { return myIsInitialized; }
+    public boolean isConnected() { return myIsConnected; }
 
     public RpcExecutor getService() { return myService; }
 
@@ -55,9 +55,15 @@ public class CefServer {
         return new RemoteClient(myService, myBid2Browser);
     }
 
-    private boolean initialize(CefAppHandler appHandler) {
+    public static String getVersion() {
+        if (CefApp.isRemoteEnabled() && INSTANCE.myIsConnected)
+            return INSTANCE.myService.execObj(r->r.version());
+        return "unknown(not connected)";
+    }
+
+    private boolean connect(Runnable onContextInitialized) {
         try {
-            myClientHandlersImpl.setAppHandler(appHandler);
+            myClientHandlersImpl.setOnContextInitialized(onContextInitialized);
 
             // 1. Start server for cef-handlers execution. Open socket
             CefLog.Debug("Initialize CefServer. Open socket.");
@@ -71,9 +77,9 @@ public class CefServer {
                 .processor(processor).executorService(new ThreadPoolExecutor(2, 10, 60L, TimeUnit.SECONDS, new SynchronousQueue(), new ThreadFactory() {
                     final AtomicLong count = new AtomicLong();
                     public Thread newThread(Runnable r) {
-                        Thread thread = new Thread(r);
+                        final String name = String.format("CefHandlers-execution-%d", this.count.getAndIncrement());
+                        Thread thread = new Thread(r, name);
                         thread.setDaemon(true);
-                        thread.setName(String.format("CefHandlers-execution-%d", this.count.getAndIncrement()));
                         return thread;
                     }
                 }));
@@ -103,8 +109,13 @@ public class CefServer {
         return true;
     }
 
-    public void stop() {
+    public void disconnect() {
+        CefLog.Debug("Disconnect from native server and stop it.");
+        myIsConnected = false;
+
+        myService.exec(s->s.stop());
         myService.closeTransport();
+
         if (myClientHandlersTransport != null) {
             myClientHandlersTransport.close();
             myClientHandlersTransport = null;

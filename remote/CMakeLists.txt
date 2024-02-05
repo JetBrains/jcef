@@ -108,10 +108,10 @@ set(SERVER_SOURCES
         handlers/RemoteLifespanHandler.h
         handlers/RemoteLoadHandler.cpp
         handlers/RemoteLoadHandler.h
-        handlers/RemoteAppHandler.cpp
-        handlers/RemoteAppHandler.h
-        handlers/RemoteBrowserProcessHandler.cpp
-        handlers/RemoteBrowserProcessHandler.h
+        handlers/app/RemoteAppHandler.cpp
+        handlers/app/RemoteAppHandler.h
+        handlers/app/RemoteBrowserProcessHandler.cpp
+        handlers/app/RemoteBrowserProcessHandler.h
         handlers/RemoteDisplayHandler.cpp
         handlers/RemoteDisplayHandler.h
         RemoteObjects.h

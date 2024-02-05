@@ -15,13 +15,14 @@ RemoteClientHandler::RemoteClientHandler(
     std::shared_ptr<RpcExecutor> service,
     std::shared_ptr<RpcExecutor> serviceIO,
     int cid,
-    int bid)
+    int bid,
+    std::function<void(int)> onClosedCallback)
     : myCid(cid),
       myBid(bid),
       myService(service),
       myRoutersManager(routersManager),
       myRemoteRenderHandler(new RemoteRenderHandler(bid, service)),
-      myRemoteLisfespanHandler(new RemoteLifespanHandler(bid, service, routersManager)),
+      myRemoteLisfespanHandler(new RemoteLifespanHandler(bid, service, routersManager, onClosedCallback)),
       myRemoteLoadHandler(new RemoteLoadHandler(bid, service)),
       myRemoteDisplayHandler(new RemoteDisplayHandler(bid, service)),
       myRemoteRequestHandler(new RemoteRequestHandler(bid, service, serviceIO, routersManager)),
@@ -106,3 +107,18 @@ bool RemoteClientHandler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser
     return false;
 }
 
+CefRefPtr<CefBrowser> RemoteClientHandler::getCefBrowser() {
+  return ((RemoteLifespanHandler *)(myRemoteLisfespanHandler.get()))->getBrowser();
+}
+
+void RemoteClientHandler::closeBrowser() {
+  if (myIsClosing)
+    return;
+
+  Log::trace("Scheduled closing native browser, bid=%d", myBid);
+  myIsClosing = true;
+  RemoteLifespanHandler * rlf = (RemoteLifespanHandler *)(myRemoteLisfespanHandler.get());
+  auto browser = rlf->getBrowser();
+  if (browser != nullptr)
+    browser->GetHost()->CloseBrowser(true);
+}

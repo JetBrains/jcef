@@ -143,9 +143,13 @@ public class CefClient extends CefClientHandler
     public void dispose() {
         if (TRACE_LIFESPAN) CefLog.Debug("CefClient: dispose client %s [remote=%s]", this, remoteClient);
         isDisposed_ = true;
-        if (remoteClient != null)
+        if (remoteClient != null) {
+            // NOTE: super.dispose() shouldn't be called here
             remoteClient.dispose();
-        else
+            CefApp app = CefApp.getInstanceIfAny();
+            if (app != null) app.clientWasDisposed(this);
+            if (onDisposed_ != null) onDisposed_.run();
+        } else
             cleanupBrowser(-1);
     }
 

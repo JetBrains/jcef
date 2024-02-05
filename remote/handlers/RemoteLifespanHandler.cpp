@@ -6,8 +6,9 @@
 RemoteLifespanHandler::RemoteLifespanHandler(
     int bid,
     std::shared_ptr<RpcExecutor> service,
-    std::shared_ptr<MessageRoutersManager> routersManager)
-    : myBid(bid), myService(service), myRoutersManager(routersManager) {}
+    std::shared_ptr<MessageRoutersManager> routersManager,
+    std::function<void(int)> onCloseCallback)
+    : myBid(bid), myOnClosedCallback(onCloseCallback), myService(service), myRoutersManager(routersManager) {}
 
 bool RemoteLifespanHandler::OnBeforePopup(
     CefRefPtr<CefBrowser> browser,
@@ -42,7 +43,6 @@ void RemoteLifespanHandler::OnAfterCreated(CefRefPtr<CefBrowser> browser) {
 
 bool RemoteLifespanHandler::DoClose(CefRefPtr<CefBrowser> browser) {
   LNDCT();
-  myBrowser = nullptr;
   return myService->exec<bool>([&](const RpcExecutor::Service& s){
     return s->LifeSpanHandler_DoClose(myBid);
   }, false);
@@ -50,10 +50,13 @@ bool RemoteLifespanHandler::DoClose(CefRefPtr<CefBrowser> browser) {
 
 void RemoteLifespanHandler::OnBeforeClose(CefRefPtr<CefBrowser> browser) {
   LNDCT();
+  myBrowser = nullptr;
+  myOnClosedCallback(myBid);
   myRoutersManager->OnBeforeClose(browser);
   myService->exec([&](const RpcExecutor::Service& s){
     s->LifeSpanHandler_OnBeforeClose(myBid);
   });
+  Log::trace("Destroyed native browser, bid=%d", myBid);
 }
 
 CefRefPtr<CefBrowser> RemoteLifespanHandler::getBrowser() {

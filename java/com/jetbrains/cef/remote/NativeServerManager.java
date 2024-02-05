@@ -1,10 +1,8 @@
 package com.jetbrains.cef.remote;
 
-import com.jetbrains.cef.remote.thrift_codegen.CustomScheme;
 import org.apache.thrift.transport.TTransportException;
 import org.cef.CefSettings;
 import org.cef.OS;
-import org.cef.callback.CefCommandLine;
 import org.cef.callback.CefSchemeRegistrar;
 import org.cef.handler.CefAppHandler;
 import org.cef.handler.CefAppHandlerAdapter;
@@ -16,15 +14,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 public class NativeServerManager {
     private static final String ALT_CEF_SERVER_PATH = Utils.getString("ALT_CEF_SERVER_PATH");
     private static final String CEF_SERVER_PIPE = Utils.getString("ALT_CEF_SERVER_PIPE", "cef_server_pipe");
-    private static final long WAIT_SERVER_TIMEOUT = Utils.getInteger("WAIT_SERVER_TIMEOUT_MS", 5000)*1000000l;
+    private static final long WAIT_SERVER_TIMEOUT = Utils.getInteger("WAIT_SERVER_TIMEOUT_MS", 15000)*1000000l;
 
     private static Process ourNativeServerProcess = null;
 
@@ -101,10 +96,18 @@ public class NativeServerManager {
             if (!result)
                 CefLog.Debug("cef_server is running, but echo is incorrect: '%s' (original '%s')", echoMsg, testMsg);
             return result;
+        } catch (TTransportException e) {}
+        return false;
+    }
+
+    private static void stopRunning() {
+        try {
+            RpcExecutor test = new RpcExecutor(CEF_SERVER_PIPE);
+            test.exec(s -> s.stop());
+            test.closeTransport();
         } catch (TTransportException e) {
             CefLog.Debug("cef_server ins't running, exception: %s", e.getMessage());
         }
-        return false;
     }
 
     private static boolean startNativeServer(String paramsPath) {
@@ -151,10 +154,11 @@ public class NativeServerManager {
         boolean success = false;
         do {
             try {
-                Thread.sleep(500);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
+            CefLog.Debug("Waiting for server...");
             success = isRunning();
         } while (!success && (System.nanoTime() - startNs < WAIT_SERVER_TIMEOUT));
 

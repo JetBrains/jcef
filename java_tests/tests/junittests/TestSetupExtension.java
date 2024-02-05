@@ -38,6 +38,7 @@ import static org.junit.jupiter.api.extension.ExtensionContext.Namespace.GLOBAL;
 // This code is based on https://stackoverflow.com/a/51556718.
 public class TestSetupExtension
         implements BeforeAllCallback, ExtensionContext.Store.CloseableResource {
+    private static final boolean WAIT_FOR_CEFAPP_INIT = Utils.getBoolean("WAIT_FOR_CEFAPP_INIT");
     private static final int TIMEOUT = 5;
     private static boolean initialized_ = false;
     private static CountDownLatch stateTerminated_ = new CountDownLatch(1);
@@ -140,7 +141,23 @@ public class TestSetupExtension
         CefLog.Info("args: %s", Arrays.toString(argsArr));
 
         // Initialize the singleton CefApp instance.
-        CefApp.getInstance(settings);
+        CefApp app = CefApp.getInstance(settings);
+
+        if (WAIT_FOR_CEFAPP_INIT) {
+            // Wait for initialization
+            CountDownLatch latch = new CountDownLatch(1);
+            app.onInitialization(s -> latch.countDown());
+            final int timeout = 10;
+            try {
+                latch.await(timeout, TimeUnit.SECONDS);
+            } catch (InterruptedException e) {
+                CefLog.Error("InterruptedException: %s", e.getMessage());
+            }
+            if (latch.getCount() > 0) {
+                CefLog.Error("CefApp wasn't initialized in %d seconds. Terminate tests.", timeout);
+                throw new RuntimeException("CefApp wasn't initialized in " + timeout + " seconds.");
+            }
+        }
     }
 
     // Executed after all tests have completed.

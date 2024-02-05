@@ -37,7 +37,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ClientHandlersImpl implements ClientHandlers.Iface {
     private static final boolean TRACE_REMOTE_FIND_BID = Utils.getBoolean("TRACE_REMOTE_FIND_BID");
     private final Map<Integer, RemoteBrowser> myBid2RemoteBrowser;
-    private CefAppHandler myAppHandler;
+    private Runnable myOnContextInitialized;
     private final RpcExecutor myService;
 
     private static final CefFrame NULL_FRAME = new RemoteFrame();
@@ -47,8 +47,8 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         myBid2RemoteBrowser = bid2RemoteBrowser;
     }
 
-    public void setAppHandler(CefAppHandler pppHandler) {
-        myAppHandler = pppHandler;
+    public void setOnContextInitialized(Runnable onContextInitialized) {
+        myOnContextInitialized = onContextInitialized;
     }
 
     private RemoteBrowser getRemoteBrowser(int bid) {
@@ -76,9 +76,11 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
 
     @Override
     public void AppHandler_OnContextInitialized() {
+        // Called on the server process UI thread immediately after the CEF context
+        // has been initialized.
         CefLog.Debug("AppHandler_OnContextInitialized: ");
-        if (myAppHandler != null)
-            myAppHandler.onContextInitialized();
+        if (myOnContextInitialized != null)
+            myOnContextInitialized.run();
     }
 
     //
