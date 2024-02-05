@@ -51,28 +51,13 @@ void RpcExecutor::close() {
 }
 
 void RpcExecutor::exec(std::function<void(Service)> rpc) {
-  const Clock::time_point start = Clock::now();
   Lock lock(myMutex);
 
-  const Clock::time_point t0 = Clock::now();
-  Duration d = std::chrono::duration_cast<std::chrono::microseconds>(t0 - start);
-  if ((long)d.count() > 10) {
-    const char * func = rpc.target_type().name();
-    Log::debug("\twait for rpc mutex %d mcs, func %s", (int)d.count(), func);
-  }
   if (myService == nullptr) {
     //Log::debug("null remote service");
     return;
   }
 
-  RunInDtor tmp([&](){
-    const Clock::time_point end = Clock::now();
-    Duration d = std::chrono::duration_cast<std::chrono::microseconds>(end - t0);
-    if ((long)d.count() > 10) {
-      const char * func = rpc.target_type().name();
-      Log::debug("\thold rpc mutex %d mcs, func %s", (int)d.count(), func);
-    }
-  });
   try {
     rpc(myService);
   } catch (apache::thrift::TException& tx) {
@@ -86,11 +71,3 @@ void RpcExecutor::exec(std::function<void(Service)> rpc) {
     // TODO: should we call close now ?
   }
 }
-
-
-RunInDtor::RunInDtor(std::function<void()> runnable) : myRunnable(runnable) {}
-
-RunInDtor::~RunInDtor() {
-  myRunnable();
-}
-
