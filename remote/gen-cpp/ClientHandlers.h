@@ -30,7 +30,7 @@ class ClientHandlersIf {
   virtual void RenderHandler_GetScreenPoint(Point& _return, const int32_t bid, const int32_t viewX, const int32_t viewY) = 0;
   virtual void RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const int32_t width, const int32_t height) = 0;
   virtual bool LifeSpanHandler_OnBeforePopup(const int32_t bid, const std::string& url, const std::string& frameName, const bool gesture) = 0;
-  virtual void LifeSpanHandler_OnAfterCreated(const int32_t bid) = 0;
+  virtual void LifeSpanHandler_OnAfterCreated(const int32_t bid, const int32_t nativeBrowserIdentifier) = 0;
   virtual bool LifeSpanHandler_DoClose(const int32_t bid) = 0;
   virtual void LifeSpanHandler_OnBeforeClose(const int32_t bid) = 0;
   virtual void LoadHandler_OnLoadingStateChange(const int32_t bid, const bool isLoading, const bool canGoBack, const bool canGoForward) = 0;
@@ -67,6 +67,7 @@ class ClientHandlersIf {
   virtual bool ResourceRequestHandler_OnProtocolExecution(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const bool allowOsExecution) = 0;
   virtual bool MessageRouterHandler_onQuery(const  ::thrift_codegen::RObject& handler, const int32_t bid, const int64_t queryId, const std::string& request, const bool persistent, const  ::thrift_codegen::RObject& queryCallback) = 0;
   virtual void MessageRouterHandler_onQueryCanceled(const  ::thrift_codegen::RObject& handler, const int32_t bid, const int64_t queryId) = 0;
+  virtual void MessageRouterHandler_Dispose(const int32_t handler) = 0;
 };
 
 class ClientHandlersIfFactory {
@@ -122,7 +123,7 @@ class ClientHandlersNull : virtual public ClientHandlersIf {
     bool _return = false;
     return _return;
   }
-  void LifeSpanHandler_OnAfterCreated(const int32_t /* bid */) override {
+  void LifeSpanHandler_OnAfterCreated(const int32_t /* bid */, const int32_t /* nativeBrowserIdentifier */) override {
     return;
   }
   bool LifeSpanHandler_DoClose(const int32_t /* bid */) override {
@@ -247,6 +248,9 @@ class ClientHandlersNull : virtual public ClientHandlersIf {
     return _return;
   }
   void MessageRouterHandler_onQueryCanceled(const  ::thrift_codegen::RObject& /* handler */, const int32_t /* bid */, const int64_t /* queryId */) override {
+    return;
+  }
+  void MessageRouterHandler_Dispose(const int32_t /* handler */) override {
     return;
   }
 };
@@ -1028,8 +1032,9 @@ class ClientHandlers_LifeSpanHandler_OnBeforePopup_presult {
 };
 
 typedef struct _ClientHandlers_LifeSpanHandler_OnAfterCreated_args__isset {
-  _ClientHandlers_LifeSpanHandler_OnAfterCreated_args__isset() : bid(false) {}
+  _ClientHandlers_LifeSpanHandler_OnAfterCreated_args__isset() : bid(false), nativeBrowserIdentifier(false) {}
   bool bid :1;
+  bool nativeBrowserIdentifier :1;
 } _ClientHandlers_LifeSpanHandler_OnAfterCreated_args__isset;
 
 class ClientHandlers_LifeSpanHandler_OnAfterCreated_args {
@@ -1038,19 +1043,25 @@ class ClientHandlers_LifeSpanHandler_OnAfterCreated_args {
   ClientHandlers_LifeSpanHandler_OnAfterCreated_args(const ClientHandlers_LifeSpanHandler_OnAfterCreated_args&) noexcept;
   ClientHandlers_LifeSpanHandler_OnAfterCreated_args& operator=(const ClientHandlers_LifeSpanHandler_OnAfterCreated_args&) noexcept;
   ClientHandlers_LifeSpanHandler_OnAfterCreated_args() noexcept
-                                                     : bid(0) {
+                                                     : bid(0),
+                                                       nativeBrowserIdentifier(0) {
   }
 
   virtual ~ClientHandlers_LifeSpanHandler_OnAfterCreated_args() noexcept;
   int32_t bid;
+  int32_t nativeBrowserIdentifier;
 
   _ClientHandlers_LifeSpanHandler_OnAfterCreated_args__isset __isset;
 
   void __set_bid(const int32_t val);
 
+  void __set_nativeBrowserIdentifier(const int32_t val);
+
   bool operator == (const ClientHandlers_LifeSpanHandler_OnAfterCreated_args & rhs) const
   {
     if (!(bid == rhs.bid))
+      return false;
+    if (!(nativeBrowserIdentifier == rhs.nativeBrowserIdentifier))
       return false;
     return true;
   }
@@ -1072,6 +1083,7 @@ class ClientHandlers_LifeSpanHandler_OnAfterCreated_pargs {
 
   virtual ~ClientHandlers_LifeSpanHandler_OnAfterCreated_pargs() noexcept;
   const int32_t* bid;
+  const int32_t* nativeBrowserIdentifier;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -4614,6 +4626,56 @@ class ClientHandlers_MessageRouterHandler_onQueryCanceled_pargs {
 
 };
 
+typedef struct _ClientHandlers_MessageRouterHandler_Dispose_args__isset {
+  _ClientHandlers_MessageRouterHandler_Dispose_args__isset() : handler(false) {}
+  bool handler :1;
+} _ClientHandlers_MessageRouterHandler_Dispose_args__isset;
+
+class ClientHandlers_MessageRouterHandler_Dispose_args {
+ public:
+
+  ClientHandlers_MessageRouterHandler_Dispose_args(const ClientHandlers_MessageRouterHandler_Dispose_args&) noexcept;
+  ClientHandlers_MessageRouterHandler_Dispose_args& operator=(const ClientHandlers_MessageRouterHandler_Dispose_args&) noexcept;
+  ClientHandlers_MessageRouterHandler_Dispose_args() noexcept
+                                                   : handler(0) {
+  }
+
+  virtual ~ClientHandlers_MessageRouterHandler_Dispose_args() noexcept;
+  int32_t handler;
+
+  _ClientHandlers_MessageRouterHandler_Dispose_args__isset __isset;
+
+  void __set_handler(const int32_t val);
+
+  bool operator == (const ClientHandlers_MessageRouterHandler_Dispose_args & rhs) const
+  {
+    if (!(handler == rhs.handler))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_MessageRouterHandler_Dispose_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_MessageRouterHandler_Dispose_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_MessageRouterHandler_Dispose_pargs {
+ public:
+
+
+  virtual ~ClientHandlers_MessageRouterHandler_Dispose_pargs() noexcept;
+  const int32_t* handler;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
 class ClientHandlersClient : virtual public ClientHandlersIf {
  public:
   ClientHandlersClient(std::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
@@ -4661,8 +4723,8 @@ class ClientHandlersClient : virtual public ClientHandlersIf {
   bool LifeSpanHandler_OnBeforePopup(const int32_t bid, const std::string& url, const std::string& frameName, const bool gesture) override;
   void send_LifeSpanHandler_OnBeforePopup(const int32_t bid, const std::string& url, const std::string& frameName, const bool gesture);
   bool recv_LifeSpanHandler_OnBeforePopup();
-  void LifeSpanHandler_OnAfterCreated(const int32_t bid) override;
-  void send_LifeSpanHandler_OnAfterCreated(const int32_t bid);
+  void LifeSpanHandler_OnAfterCreated(const int32_t bid, const int32_t nativeBrowserIdentifier) override;
+  void send_LifeSpanHandler_OnAfterCreated(const int32_t bid, const int32_t nativeBrowserIdentifier);
   bool LifeSpanHandler_DoClose(const int32_t bid) override;
   void send_LifeSpanHandler_DoClose(const int32_t bid);
   bool recv_LifeSpanHandler_DoClose();
@@ -4756,6 +4818,8 @@ class ClientHandlersClient : virtual public ClientHandlersIf {
   bool recv_MessageRouterHandler_onQuery();
   void MessageRouterHandler_onQueryCanceled(const  ::thrift_codegen::RObject& handler, const int32_t bid, const int64_t queryId) override;
   void send_MessageRouterHandler_onQueryCanceled(const  ::thrift_codegen::RObject& handler, const int32_t bid, const int64_t queryId);
+  void MessageRouterHandler_Dispose(const int32_t handler) override;
+  void send_MessageRouterHandler_Dispose(const int32_t handler);
  protected:
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -4816,6 +4880,7 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_ResourceRequestHandler_OnProtocolExecution(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_MessageRouterHandler_onQuery(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_MessageRouterHandler_onQueryCanceled(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_MessageRouterHandler_Dispose(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   ClientHandlersProcessor(::std::shared_ptr<ClientHandlersIf> iface) :
     iface_(iface) {
@@ -4864,6 +4929,7 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["ResourceRequestHandler_OnProtocolExecution"] = &ClientHandlersProcessor::process_ResourceRequestHandler_OnProtocolExecution;
     processMap_["MessageRouterHandler_onQuery"] = &ClientHandlersProcessor::process_MessageRouterHandler_onQuery;
     processMap_["MessageRouterHandler_onQueryCanceled"] = &ClientHandlersProcessor::process_MessageRouterHandler_onQueryCanceled;
+    processMap_["MessageRouterHandler_Dispose"] = &ClientHandlersProcessor::process_MessageRouterHandler_Dispose;
   }
 
   virtual ~ClientHandlersProcessor() {}
@@ -4967,13 +5033,13 @@ class ClientHandlersMultiface : virtual public ClientHandlersIf {
     return ifaces_[i]->LifeSpanHandler_OnBeforePopup(bid, url, frameName, gesture);
   }
 
-  void LifeSpanHandler_OnAfterCreated(const int32_t bid) override {
+  void LifeSpanHandler_OnAfterCreated(const int32_t bid, const int32_t nativeBrowserIdentifier) override {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->LifeSpanHandler_OnAfterCreated(bid);
+      ifaces_[i]->LifeSpanHandler_OnAfterCreated(bid, nativeBrowserIdentifier);
     }
-    ifaces_[i]->LifeSpanHandler_OnAfterCreated(bid);
+    ifaces_[i]->LifeSpanHandler_OnAfterCreated(bid, nativeBrowserIdentifier);
   }
 
   bool LifeSpanHandler_DoClose(const int32_t bid) override {
@@ -5304,6 +5370,15 @@ class ClientHandlersMultiface : virtual public ClientHandlersIf {
     ifaces_[i]->MessageRouterHandler_onQueryCanceled(handler, bid, queryId);
   }
 
+  void MessageRouterHandler_Dispose(const int32_t handler) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->MessageRouterHandler_Dispose(handler);
+    }
+    ifaces_[i]->MessageRouterHandler_Dispose(handler);
+  }
+
 };
 
 // The 'concurrent' client is a thread safe client that correctly handles
@@ -5358,8 +5433,8 @@ class ClientHandlersConcurrentClient : virtual public ClientHandlersIf {
   bool LifeSpanHandler_OnBeforePopup(const int32_t bid, const std::string& url, const std::string& frameName, const bool gesture) override;
   int32_t send_LifeSpanHandler_OnBeforePopup(const int32_t bid, const std::string& url, const std::string& frameName, const bool gesture);
   bool recv_LifeSpanHandler_OnBeforePopup(const int32_t seqid);
-  void LifeSpanHandler_OnAfterCreated(const int32_t bid) override;
-  void send_LifeSpanHandler_OnAfterCreated(const int32_t bid);
+  void LifeSpanHandler_OnAfterCreated(const int32_t bid, const int32_t nativeBrowserIdentifier) override;
+  void send_LifeSpanHandler_OnAfterCreated(const int32_t bid, const int32_t nativeBrowserIdentifier);
   bool LifeSpanHandler_DoClose(const int32_t bid) override;
   int32_t send_LifeSpanHandler_DoClose(const int32_t bid);
   bool recv_LifeSpanHandler_DoClose(const int32_t seqid);
@@ -5453,6 +5528,8 @@ class ClientHandlersConcurrentClient : virtual public ClientHandlersIf {
   bool recv_MessageRouterHandler_onQuery(const int32_t seqid);
   void MessageRouterHandler_onQueryCanceled(const  ::thrift_codegen::RObject& handler, const int32_t bid, const int64_t queryId) override;
   void send_MessageRouterHandler_onQueryCanceled(const  ::thrift_codegen::RObject& handler, const int32_t bid, const int64_t queryId);
+  void MessageRouterHandler_Dispose(const int32_t handler) override;
+  void send_MessageRouterHandler_Dispose(const int32_t handler);
  protected:
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;

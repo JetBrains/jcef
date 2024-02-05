@@ -11,10 +11,8 @@ import org.cef.handler.CefAppHandler;
 import org.cef.misc.CefLog;
 
 import java.io.IOException;
-import java.util.concurrent.SynchronousQueue;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.Map;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class CefServer {
@@ -25,7 +23,9 @@ public class CefServer {
     private TServer myClientHandlersServer;
     private TServerTransport myClientHandlersTransport;
     private final RpcExecutor myService = new RpcExecutor();
-    private final ClientHandlersImpl myClientHandlersImpl = new ClientHandlersImpl(myService);
+    private final Map<Integer, RemoteBrowser> myBid2Browser = new ConcurrentHashMap<>();
+    private final ClientHandlersImpl myClientHandlersImpl = new ClientHandlersImpl(myService, myBid2Browser);
+
     private volatile boolean myIsInitialized = false;
 
     // Connects to CefServer and start cef-handlers service.
@@ -52,7 +52,7 @@ public class CefServer {
     public RpcExecutor getService() { return myService; }
 
     public RemoteClient createClient() {
-        return new RemoteClient(myService, myClientHandlersImpl);
+        return new RemoteClient(myService, myBid2Browser);
     }
 
     private boolean initialize(CefAppHandler appHandler) {

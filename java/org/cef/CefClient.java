@@ -187,14 +187,14 @@ public class CefClient extends CefClientHandler
     @Override
     protected CefBrowser getBrowser(int identifier) {
         if (remoteClient != null)
-            return remoteClient.getRemoteBrowser();
+            return remoteClient.getRemoteBrowser(identifier);
         return browser_.get(identifier);
     }
 
     @Override
     protected Object[] getAllBrowser() {
         if (remoteClient != null)
-            return new Object[]{remoteClient.getRemoteBrowser()};
+            return remoteClient.getAllBrowsers();
         return browser_.values().stream().filter(browser -> !browser.isClosing()).toArray();
     }
 
@@ -263,8 +263,10 @@ public class CefClient extends CefClientHandler
 
     @Override
     protected CefLifeSpanHandler getLifeSpanHandler() {
-        if (remoteClient != null)
-            return remoteClient.getLifeSpanHandler();
+        if (remoteClient != null) {
+            CefLog.Error("CefClient.getLifeSpanHandler mustn't be called in remote mode.");
+            return null;
+        }
         return this;
     }
 
@@ -284,8 +286,10 @@ public class CefClient extends CefClientHandler
 
     @Override
     protected CefRenderHandler getRenderHandler() {
-        if (remoteClient != null)
-            return remoteClient.getRenderHandler();
+        if (remoteClient != null) {
+            CefLog.Error("CefClient.getRenderHandler mustn't be called in remote mode.");
+            return null;
+        }
         return this;
     }
 
