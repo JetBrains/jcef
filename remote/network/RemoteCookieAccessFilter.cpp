@@ -22,6 +22,14 @@ RemoteCookieAccessFilter::RemoteCookieAccessFilter(
             service->CookieAccessFilter_Dispose(peer.objId);
           }), myBid(bid) {}
 
+///
+/// Called on the IO thread before a resource request is sent. The |browser|
+/// and |frame| values represent the source of the request, and may be NULL
+/// for requests originating from service workers or CefURLRequest. |request|
+/// cannot be modified in this callback. Return true if the specified cookie
+/// can be sent with the request or false otherwise.
+///
+/*--cef(optional_param=browser,optional_param=frame)--*/
 bool RemoteCookieAccessFilter::CanSendCookie(CefRefPtr<CefBrowser> browser,
                                              CefRefPtr<CefFrame> frame,
                                              CefRefPtr<CefRequest> request,
@@ -35,6 +43,15 @@ bool RemoteCookieAccessFilter::CanSendCookie(CefRefPtr<CefBrowser> browser,
   }, true);
 }
 
+///
+/// Called on the IO thread after a resource response is received. The
+/// |browser| and |frame| values represent the source of the request, and may
+/// be NULL for requests originating from service workers or CefURLRequest.
+/// |request| cannot be modified in this callback. Return true if the
+/// specified cookie returned with the response can be saved or false
+/// otherwise.
+///
+/*--cef(optional_param=browser,optional_param=frame)--*/
 bool RemoteCookieAccessFilter::CanSaveCookie(CefRefPtr<CefBrowser> browser,
                                              CefRefPtr<CefFrame> frame,
                                              CefRefPtr<CefRequest> request,

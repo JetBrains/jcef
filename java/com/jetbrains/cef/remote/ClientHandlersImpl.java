@@ -376,6 +376,19 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     // CefRequestHandler
     //
 
+    ///
+    /// Called on the UI thread before browser navigation. Return true to cancel
+    /// the navigation or false to allow the navigation to proceed. The |request|
+    /// object cannot be modified in this callback.
+    /// CefLoadHandler::OnLoadingStateChange will be called twice in all cases.
+    /// If the navigation is allowed CefLoadHandler::OnLoadStart and
+    /// CefLoadHandler::OnLoadEnd will be called. If the navigation is canceled
+    /// CefLoadHandler::OnLoadError will be called with an |errorCode| value of
+    /// ERR_ABORTED. The |user_gesture| value will be true if the browser
+    /// navigated via explicit user gesture (e.g. clicking a link) or false if it
+    /// navigated automatically (e.g. via the DomContentLoaded event).
+    ///
+    /*--cef()--*/
     @Override
     public boolean RequestHandler_OnBeforeBrowse(int bid, RObject request, boolean user_gesture, boolean is_redirect) {
         RemoteBrowser browser = getRemoteBrowser(bid);
@@ -391,6 +404,21 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
 
     private static final RObject INVALID = new RObject(-1);
 
+    ///
+    /// Called on the browser process IO thread before a resource request is
+    /// initiated. The |browser| and |frame| values represent the source of the
+    /// request. |request| represents the request contents and cannot be modified
+    /// in this callback. |is_navigation| will be true if the resource request is
+    /// a navigation. |is_download| will be true if the resource request is a
+    /// download. |request_initiator| is the origin (scheme + domain) of the page
+    /// that initiated the request. Set |disable_default_handling| to true to
+    /// disable default handling of the request, in which case it will need to be
+    /// handled via CefResourceRequestHandler::GetResourceHandler or it will be
+    /// canceled. To allow the resource load to proceed with default handling
+    /// return NULL. To specify a handler for the resource return a
+    /// CefResourceRequestHandler object. If this callback returns NULL the same
+    /// method will be called on the associated CefRequestContextHandler, if any.
+    ///
     @Override
     public RObject RequestHandler_GetResourceRequestHandler(int bid, RObject request, boolean isNavigation, boolean isDownload, String requestInitiator) {
         RemoteBrowser browser = getRemoteBrowser(bid);
@@ -408,6 +436,14 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         return resultHandler.thriftId(disableDefaultHandling.get() ? 1 : 0);
     }
 
+    ///
+    /// Called on the IO thread before a resource request is loaded. The |browser|
+    /// and |frame| values represent the source of the request, and may be NULL
+    /// for requests originating from service workers or CefURLRequest. To
+    /// optionally filter cookies for the request return a CefCookieAccessFilter
+    /// object. The |request| object cannot not be modified in this callback.
+    ///
+    /*--cef(optional_param=browser,optional_param=frame)--*/
     @Override
     public RObject ResourceRequestHandler_GetCookieAccessFilter(int rrHandler, int bid, RObject request) {
         RemoteResourceRequestHandler rrrh = RemoteResourceRequestHandler.FACTORY.get(rrHandler);
@@ -452,6 +488,14 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         }
     }
 
+    ///
+    /// Called on the IO thread before a resource request is sent. The |browser|
+    /// and |frame| values represent the source of the request, and may be NULL
+    /// for requests originating from service workers or CefURLRequest. |request|
+    /// cannot be modified in this callback. Return true if the specified cookie
+    /// can be sent with the request or false otherwise.
+    ///
+    /*--cef(optional_param=browser,optional_param=frame)--*/
     @Override
     public boolean CookieAccessFilter_CanSendCookie(int filter, int bid, RObject request, List<String> cookie)  {
         RemoteCookieAccessFilter f = RemoteCookieAccessFilter.FACTORY.get(filter);
@@ -462,6 +506,14 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         return result;
     }
 
+    ///
+    /// Called on the IO thread after a resource response is received. The
+    /// |browser| and |frame| values represent the source of the request, and may
+    /// be NULL for requests originating from service workers or CefURLRequest.
+    /// |request| cannot be modified in this callback. Return true if the
+    /// specified cookie returned with the response can be saved or false
+    /// otherwise.
+    ///
     @Override
     public boolean CookieAccessFilter_CanSaveCookie(int filter, int bid, RObject request, RObject response, List<String> cookie)  {
         RemoteCookieAccessFilter f = RemoteCookieAccessFilter.FACTORY.get(filter);
@@ -470,6 +522,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         RemoteRequestImpl rreq = new RemoteRequestImpl(myService, request);
         RemoteResponseImpl rresp = new RemoteResponseImpl(myService, response);
         boolean result = f.getDelegate().canSaveCookie(getRemoteBrowser(bid), NULL_FRAME, new RemoteRequest(rreq), new RemoteResponse(rresp), cookieFromList(cookie));
+        rresp.flush(); // |request| cannot be modified in this callback
         return result;
     }
 
@@ -536,6 +589,18 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         rh.onRenderProcessTerminated(browser, s);
     }
 
+    ///
+    /// Called on the IO thread before a resource request is loaded. The |browser|
+    /// and |frame| values represent the source of the request, and may be NULL
+    /// for requests originating from service workers or CefURLRequest. To
+    /// redirect or change the resource load optionally modify |request|.
+    /// Modification of the request URL will be treated as a redirect. Return
+    /// RV_CONTINUE to continue the request immediately. Return RV_CONTINUE_ASYNC
+    /// and call CefCallback methods at a later time to continue or cancel the
+    /// request asynchronously. Return RV_CANCEL to cancel the request
+    /// immediately.
+    ///
+    /*--cef(optional_param=browser,optional_param=frame, default_retval=RV_CONTINUE)--*/
     @Override
     public boolean ResourceRequestHandler_OnBeforeResourceLoad(int rrHandler, int bid, RObject request) {
         RemoteResourceRequestHandler rrrh = RemoteResourceRequestHandler.FACTORY.get(rrHandler);
@@ -543,9 +608,19 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
 
         RemoteRequestImpl rr = new RemoteRequestImpl(myService, request);
         boolean result = rrrh.getDelegate().onBeforeResourceLoad(getRemoteBrowser(bid), NULL_FRAME, new RemoteRequest(rr));
+        rr.flush();
         return result;
     }
 
+    ///
+    /// Called on the IO thread before a resource is loaded. The |browser| and
+    /// |frame| values represent the source of the request, and may be NULL for
+    /// requests originating from service workers or CefURLRequest. To allow the
+    /// resource to load using the default network loader return NULL. To specify
+    /// a handler for the resource return a CefResourceHandler object. The
+    /// |request| object cannot not be modified in this callback.
+    ///
+    /*--cef(optional_param=browser,optional_param=frame)--*/
     @Override
     public RObject ResourceRequestHandler_GetResourceHandler(int rrHandler, int bid, RObject request) {
         RemoteResourceRequestHandler rrrh = RemoteResourceRequestHandler.FACTORY.get(rrHandler);
@@ -559,6 +634,15 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         return result.thriftId();
     }
 
+    ///
+    /// Begin processing the request. To handle the request return true and call
+    /// CefCallback::Continue() once the response header information is available
+    /// (CefCallback::Continue() can also be called from inside this method if
+    /// header information is available immediately). To cancel the request return
+    /// false.
+    ///
+    /// WARNING: This method is deprecated. Use Open instead.
+    ///
     @Override
     public boolean ResourceHandler_ProcessRequest(int resourceHandler, RObject request, RObject callback) throws TException {
         RemoteResourceHandler rrh = RemoteResourceHandler.FACTORY.find(resourceHandler);
@@ -569,9 +653,26 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
 
         RemoteRequestImpl rr = new RemoteRequestImpl(myService, request);
         CefCallback cb = new RemoteCallback(myService, callback);
-        return handler.processRequest(new RemoteRequest(rr), cb);
-    }
+        boolean result = handler.processRequest(new RemoteRequest(rr), cb);
+        rr.flush();
+        return result;
+     }
 
+    ///
+    /// Retrieve response header information. If the response length is not known
+    /// set |response_length| to -1 and ReadResponse() will be called until it
+    /// returns false. If the response length is known set |response_length|
+    /// to a positive value and ReadResponse() will be called until it returns
+    /// false or the specified number of bytes have been read. Use the |response|
+    /// object to set the mime type, http status code and other optional header
+    /// values. To redirect the request to a new URL set |redirectUrl| to the new
+    /// URL. |redirectUrl| can be either a relative or fully qualified URL.
+    /// It is also possible to set |response| to a redirect http status code
+    /// and pass the new URL via a Location header. Likewise with |redirectUrl| it
+    /// is valid to set a relative or fully qualified URL as the Location header
+    /// value. If an error occured while setting up the request you can call
+    /// SetError() on |response| to indicate the error condition.
+    ///
     @Override
     public ResponseHeaders ResourceHandler_GetResponseHeaders(int resourceHandler, RObject response) throws TException {
         RemoteResourceHandler rrh = RemoteResourceHandler.FACTORY.find(resourceHandler);
@@ -634,6 +735,17 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
             handler.cancel();
     }
 
+    ///
+    /// Called on the IO thread when a resource load is redirected. The |browser|
+    /// and |frame| values represent the source of the request, and may be NULL
+    /// for requests originating from service workers or CefURLRequest. The
+    /// |request| parameter will contain the old URL and other request-related
+    /// information. The |response| parameter will contain the response that
+    /// resulted in the redirect. The |new_url| parameter will contain the new URL
+    /// and can be changed if desired. The |request| and |response| objects cannot
+    /// be modified in this callback.
+    ///
+    /*--cef(optional_param=browser,optional_param=frame)--*/
     @Override
     public String ResourceRequestHandler_OnResourceRedirect(int rrHandler, int bid, RObject request, RObject response, String new_url) {
         RemoteResourceRequestHandler rrrh = RemoteResourceRequestHandler.FACTORY.get(rrHandler);
@@ -646,6 +758,20 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         return sref.get();
     }
 
+    ///
+    /// Called on the IO thread when a resource response is received. The
+    /// |browser| and |frame| values represent the source of the request, and may
+    /// be NULL for requests originating from service workers or CefURLRequest. To
+    /// allow the resource load to proceed without modification return false. To
+    /// redirect or retry the resource load optionally modify |request| and return
+    /// true. Modification of the request URL will be treated as a redirect.
+    /// Requests handled using the default network loader cannot be redirected in
+    /// this callback. The |response| object cannot be modified in this callback.
+    ///
+    /// WARNING: Redirecting using this method is deprecated. Use
+    /// OnBeforeResourceLoad or GetResourceHandler to perform redirects.
+    ///
+    /*--cef(optional_param=browser,optional_param=frame)--*/
     @Override
     public boolean ResourceRequestHandler_OnResourceResponse(int rrHandler, int bid, RObject request, RObject response) {
         RemoteResourceRequestHandler rrrh = RemoteResourceRequestHandler.FACTORY.get(rrHandler);
@@ -654,9 +780,27 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         RemoteRequestImpl rreq = new RemoteRequestImpl(myService, request);
         RemoteResponseImpl rresp = new RemoteResponseImpl(myService, response);
         boolean result = rrrh.getDelegate().onResourceResponse(getRemoteBrowser(bid), NULL_FRAME, new RemoteRequest(rreq), new RemoteResponse(rresp));
+        rreq.flush(); // |response| object cannot be modified in this callback.
         return result;
     }
 
+    ///
+    /// Called on the IO thread when a resource load has completed. The |browser|
+    /// and |frame| values represent the source of the request, and may be NULL
+    /// for requests originating from service workers or CefURLRequest. |request|
+    /// and |response| represent the request and response respectively and cannot
+    /// be modified in this callback. |status| indicates the load completion
+    /// status. |received_content_length| is the number of response bytes actually
+    /// read. This method will be called for all requests, including requests that
+    /// are aborted due to CEF shutdown or destruction of the associated browser.
+    /// In cases where the associated browser is destroyed this callback may
+    /// arrive after the CefLifeSpanHandler::OnBeforeClose callback for that
+    /// browser. The CefFrame::IsValid method can be used to test for this
+    /// situation, and care should be taken not to call |browser| or |frame|
+    /// methods that modify state (like LoadURL, SendProcessMessage, etc.) if the
+    /// frame is invalid.
+    ///
+    /*--cef(optional_param=browser,optional_param=frame)--*/
     @Override
     public void ResourceRequestHandler_OnResourceLoadComplete(int rrHandler, int bid, RObject request, RObject response, String status, long receivedContentLength) {
         RemoteResourceRequestHandler rrrh = RemoteResourceRequestHandler.FACTORY.get(rrHandler);
@@ -675,6 +819,17 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         rrrh.getDelegate().onResourceLoadComplete(getRemoteBrowser(bid), NULL_FRAME, new RemoteRequest(rreq), new RemoteResponse(rresp), s, receivedContentLength);
     }
 
+    ///
+    /// Called on the IO thread to handle requests for URLs with an unknown
+    /// protocol component. The |browser| and |frame| values represent the source
+    /// of the request, and may be NULL for requests originating from service
+    /// workers or CefURLRequest. |request| cannot be modified in this callback.
+    /// Set |allow_os_execution| to true to attempt execution via the registered
+    /// OS protocol handler, if any. SECURITY WARNING: YOU SHOULD USE THIS METHOD
+    /// TO ENFORCE RESTRICTIONS BASED ON SCHEME, HOST OR OTHER URL ANALYSIS BEFORE
+    /// ALLOWING OS EXECUTION.
+    ///
+    /*--cef(optional_param=browser,optional_param=frame)--*/
     @Override
     public boolean ResourceRequestHandler_OnProtocolExecution(int rrHandler, int bid, RObject request, boolean allowOsExecution) {
         RemoteResourceRequestHandler rrrh = RemoteResourceRequestHandler.FACTORY.get(rrHandler);

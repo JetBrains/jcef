@@ -26,6 +26,16 @@ RemoteMessageRouterHandler::~RemoteMessageRouterHandler() {
     RemoteQueryCallback::dispose(cb);
 }
 
+///
+/// Executed when a new query is received. |query_id| uniquely identifies
+/// the query for the life span of the router. Return true to handle the
+/// query or false to propagate the query to other registered handlers, if
+/// any. If no handlers return true from this method then the query will be
+/// automatically canceled with an error code of -1 delivered to the
+/// JavaScript onFailure callback. If this method returns true then a
+/// Callback method must be executed either in this method or asynchronously
+/// to complete the query.
+///
 bool RemoteMessageRouterHandler::OnQuery(CefRefPtr<CefBrowser> browser,
                      CefRefPtr<CefFrame> frame,
                      int64_t query_id,
@@ -45,7 +55,7 @@ bool RemoteMessageRouterHandler::OnQuery(CefRefPtr<CefBrowser> browser,
   if (!handled) // NOTE: must delete callback when onQuery returns false
     RemoteQueryCallback::dispose(rcb.objId);
   else
-    myCallbacks.insert(rcb.objId);
+    myCallbacks.insert(rcb.objId); // Callback will be disposed with RemoteMessageRouterHandler (just for insurance)
   return handled;
 }
 
