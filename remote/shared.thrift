@@ -3,9 +3,19 @@ namespace java com.jetbrains.cef.remote.thrift_codegen
 
 struct RObject {
     1: required i32 objId,
-    2: optional bool isPersistent,
-    3: optional bool isDisableDefaultHandling,
-    4: optional map<string, string> objInfo,
+    2: optional i32 flags,
+    3: optional map<string, string> objInfo,
+}
+
+struct ResponseHeaders {
+    1: optional i32 length,
+    2: optional string redirectUrl,
+}
+
+struct ResponseData {
+    1: optional bool continueRead,
+    2: optional binary data,
+    3: optional i32 bytes_read
 }
 
 struct PostDataElement {

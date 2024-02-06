@@ -7,13 +7,12 @@ import org.cef.callback.CefCallback;
 import org.cef.handler.CefLoadHandler;
 import org.cef.handler.CefRequestHandler;
 import org.cef.handler.CefResourceRequestHandler;
-import org.cef.handler.PersistentHandler;
 import org.cef.misc.BoolRef;
 import org.cef.misc.CefLog;
 import org.cef.network.CefRequest;
 import org.cef.security.CefSSLInfo;
 
-public class TestRequestHandler implements CefRequestHandler, PersistentHandler {
+public class TestRequestHandler implements CefRequestHandler {
     @Override
     public boolean onBeforeBrowse(CefBrowser browser, CefFrame frame, CefRequest request, boolean user_gesture, boolean is_redirect) {
         CefLog.Info("onBeforeBrowse " + browser + ", user_gesture=" + user_gesture);

@@ -61,6 +61,10 @@ class ClientHandlersIf {
   virtual bool ResourceRequestHandler_OnBeforeResourceLoad(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request) = 0;
   virtual void ResourceRequestHandler_GetResourceHandler( ::thrift_codegen::RObject& _return, const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request) = 0;
   virtual void ResourceHandler_Dispose(const int32_t resourceHandler) = 0;
+  virtual bool ResourceHandler_ProcessRequest(const int32_t resourceHandler, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& callback) = 0;
+  virtual void ResourceHandler_GetResponseHeaders( ::thrift_codegen::ResponseHeaders& _return, const int32_t resourceHandler, const  ::thrift_codegen::RObject& response) = 0;
+  virtual void ResourceHandler_ReadResponse( ::thrift_codegen::ResponseData& _return, const int32_t resourceHandler, const int32_t bytes_to_read, const  ::thrift_codegen::RObject& callback) = 0;
+  virtual void ResourceHandler_Cancel(const int32_t resourceHandler) = 0;
   virtual void ResourceRequestHandler_OnResourceRedirect(std::string& _return, const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& response, const std::string& new_url) = 0;
   virtual bool ResourceRequestHandler_OnResourceResponse(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& response) = 0;
   virtual void ResourceRequestHandler_OnResourceLoadComplete(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& response, const std::string& status, const int64_t receivedContentLength) = 0;
@@ -227,6 +231,19 @@ class ClientHandlersNull : virtual public ClientHandlersIf {
     return;
   }
   void ResourceHandler_Dispose(const int32_t /* resourceHandler */) override {
+    return;
+  }
+  bool ResourceHandler_ProcessRequest(const int32_t /* resourceHandler */, const  ::thrift_codegen::RObject& /* request */, const  ::thrift_codegen::RObject& /* callback */) override {
+    bool _return = false;
+    return _return;
+  }
+  void ResourceHandler_GetResponseHeaders( ::thrift_codegen::ResponseHeaders& /* _return */, const int32_t /* resourceHandler */, const  ::thrift_codegen::RObject& /* response */) override {
+    return;
+  }
+  void ResourceHandler_ReadResponse( ::thrift_codegen::ResponseData& /* _return */, const int32_t /* resourceHandler */, const int32_t /* bytes_to_read */, const  ::thrift_codegen::RObject& /* callback */) override {
+    return;
+  }
+  void ResourceHandler_Cancel(const int32_t /* resourceHandler */) override {
     return;
   }
   void ResourceRequestHandler_OnResourceRedirect(std::string& /* _return */, const int32_t /* rrHandler */, const int32_t /* bid */, const  ::thrift_codegen::RObject& /* request */, const  ::thrift_codegen::RObject& /* response */, const std::string& /* new_url */) override {
@@ -3899,6 +3916,408 @@ class ClientHandlers_ResourceHandler_Dispose_pargs {
 
 };
 
+typedef struct _ClientHandlers_ResourceHandler_ProcessRequest_args__isset {
+  _ClientHandlers_ResourceHandler_ProcessRequest_args__isset() : resourceHandler(false), request(false), callback(false) {}
+  bool resourceHandler :1;
+  bool request :1;
+  bool callback :1;
+} _ClientHandlers_ResourceHandler_ProcessRequest_args__isset;
+
+class ClientHandlers_ResourceHandler_ProcessRequest_args {
+ public:
+
+  ClientHandlers_ResourceHandler_ProcessRequest_args(const ClientHandlers_ResourceHandler_ProcessRequest_args&);
+  ClientHandlers_ResourceHandler_ProcessRequest_args& operator=(const ClientHandlers_ResourceHandler_ProcessRequest_args&);
+  ClientHandlers_ResourceHandler_ProcessRequest_args() noexcept
+                                                     : resourceHandler(0) {
+  }
+
+  virtual ~ClientHandlers_ResourceHandler_ProcessRequest_args() noexcept;
+  int32_t resourceHandler;
+   ::thrift_codegen::RObject request;
+   ::thrift_codegen::RObject callback;
+
+  _ClientHandlers_ResourceHandler_ProcessRequest_args__isset __isset;
+
+  void __set_resourceHandler(const int32_t val);
+
+  void __set_request(const  ::thrift_codegen::RObject& val);
+
+  void __set_callback(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const ClientHandlers_ResourceHandler_ProcessRequest_args & rhs) const
+  {
+    if (!(resourceHandler == rhs.resourceHandler))
+      return false;
+    if (!(request == rhs.request))
+      return false;
+    if (!(callback == rhs.callback))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_ResourceHandler_ProcessRequest_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_ResourceHandler_ProcessRequest_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_ResourceHandler_ProcessRequest_pargs {
+ public:
+
+
+  virtual ~ClientHandlers_ResourceHandler_ProcessRequest_pargs() noexcept;
+  const int32_t* resourceHandler;
+  const  ::thrift_codegen::RObject* request;
+  const  ::thrift_codegen::RObject* callback;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_ResourceHandler_ProcessRequest_result__isset {
+  _ClientHandlers_ResourceHandler_ProcessRequest_result__isset() : success(false) {}
+  bool success :1;
+} _ClientHandlers_ResourceHandler_ProcessRequest_result__isset;
+
+class ClientHandlers_ResourceHandler_ProcessRequest_result {
+ public:
+
+  ClientHandlers_ResourceHandler_ProcessRequest_result(const ClientHandlers_ResourceHandler_ProcessRequest_result&) noexcept;
+  ClientHandlers_ResourceHandler_ProcessRequest_result& operator=(const ClientHandlers_ResourceHandler_ProcessRequest_result&) noexcept;
+  ClientHandlers_ResourceHandler_ProcessRequest_result() noexcept
+                                                       : success(0) {
+  }
+
+  virtual ~ClientHandlers_ResourceHandler_ProcessRequest_result() noexcept;
+  bool success;
+
+  _ClientHandlers_ResourceHandler_ProcessRequest_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const ClientHandlers_ResourceHandler_ProcessRequest_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_ResourceHandler_ProcessRequest_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_ResourceHandler_ProcessRequest_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_ResourceHandler_ProcessRequest_presult__isset {
+  _ClientHandlers_ResourceHandler_ProcessRequest_presult__isset() : success(false) {}
+  bool success :1;
+} _ClientHandlers_ResourceHandler_ProcessRequest_presult__isset;
+
+class ClientHandlers_ResourceHandler_ProcessRequest_presult {
+ public:
+
+
+  virtual ~ClientHandlers_ResourceHandler_ProcessRequest_presult() noexcept;
+  bool* success;
+
+  _ClientHandlers_ResourceHandler_ProcessRequest_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _ClientHandlers_ResourceHandler_GetResponseHeaders_args__isset {
+  _ClientHandlers_ResourceHandler_GetResponseHeaders_args__isset() : resourceHandler(false), response(false) {}
+  bool resourceHandler :1;
+  bool response :1;
+} _ClientHandlers_ResourceHandler_GetResponseHeaders_args__isset;
+
+class ClientHandlers_ResourceHandler_GetResponseHeaders_args {
+ public:
+
+  ClientHandlers_ResourceHandler_GetResponseHeaders_args(const ClientHandlers_ResourceHandler_GetResponseHeaders_args&);
+  ClientHandlers_ResourceHandler_GetResponseHeaders_args& operator=(const ClientHandlers_ResourceHandler_GetResponseHeaders_args&);
+  ClientHandlers_ResourceHandler_GetResponseHeaders_args() noexcept
+                                                         : resourceHandler(0) {
+  }
+
+  virtual ~ClientHandlers_ResourceHandler_GetResponseHeaders_args() noexcept;
+  int32_t resourceHandler;
+   ::thrift_codegen::RObject response;
+
+  _ClientHandlers_ResourceHandler_GetResponseHeaders_args__isset __isset;
+
+  void __set_resourceHandler(const int32_t val);
+
+  void __set_response(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const ClientHandlers_ResourceHandler_GetResponseHeaders_args & rhs) const
+  {
+    if (!(resourceHandler == rhs.resourceHandler))
+      return false;
+    if (!(response == rhs.response))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_ResourceHandler_GetResponseHeaders_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_ResourceHandler_GetResponseHeaders_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_ResourceHandler_GetResponseHeaders_pargs {
+ public:
+
+
+  virtual ~ClientHandlers_ResourceHandler_GetResponseHeaders_pargs() noexcept;
+  const int32_t* resourceHandler;
+  const  ::thrift_codegen::RObject* response;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_ResourceHandler_GetResponseHeaders_result__isset {
+  _ClientHandlers_ResourceHandler_GetResponseHeaders_result__isset() : success(false) {}
+  bool success :1;
+} _ClientHandlers_ResourceHandler_GetResponseHeaders_result__isset;
+
+class ClientHandlers_ResourceHandler_GetResponseHeaders_result {
+ public:
+
+  ClientHandlers_ResourceHandler_GetResponseHeaders_result(const ClientHandlers_ResourceHandler_GetResponseHeaders_result&);
+  ClientHandlers_ResourceHandler_GetResponseHeaders_result& operator=(const ClientHandlers_ResourceHandler_GetResponseHeaders_result&);
+  ClientHandlers_ResourceHandler_GetResponseHeaders_result() noexcept {
+  }
+
+  virtual ~ClientHandlers_ResourceHandler_GetResponseHeaders_result() noexcept;
+   ::thrift_codegen::ResponseHeaders success;
+
+  _ClientHandlers_ResourceHandler_GetResponseHeaders_result__isset __isset;
+
+  void __set_success(const  ::thrift_codegen::ResponseHeaders& val);
+
+  bool operator == (const ClientHandlers_ResourceHandler_GetResponseHeaders_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_ResourceHandler_GetResponseHeaders_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_ResourceHandler_GetResponseHeaders_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_ResourceHandler_GetResponseHeaders_presult__isset {
+  _ClientHandlers_ResourceHandler_GetResponseHeaders_presult__isset() : success(false) {}
+  bool success :1;
+} _ClientHandlers_ResourceHandler_GetResponseHeaders_presult__isset;
+
+class ClientHandlers_ResourceHandler_GetResponseHeaders_presult {
+ public:
+
+
+  virtual ~ClientHandlers_ResourceHandler_GetResponseHeaders_presult() noexcept;
+   ::thrift_codegen::ResponseHeaders* success;
+
+  _ClientHandlers_ResourceHandler_GetResponseHeaders_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _ClientHandlers_ResourceHandler_ReadResponse_args__isset {
+  _ClientHandlers_ResourceHandler_ReadResponse_args__isset() : resourceHandler(false), bytes_to_read(false), callback(false) {}
+  bool resourceHandler :1;
+  bool bytes_to_read :1;
+  bool callback :1;
+} _ClientHandlers_ResourceHandler_ReadResponse_args__isset;
+
+class ClientHandlers_ResourceHandler_ReadResponse_args {
+ public:
+
+  ClientHandlers_ResourceHandler_ReadResponse_args(const ClientHandlers_ResourceHandler_ReadResponse_args&);
+  ClientHandlers_ResourceHandler_ReadResponse_args& operator=(const ClientHandlers_ResourceHandler_ReadResponse_args&);
+  ClientHandlers_ResourceHandler_ReadResponse_args() noexcept
+                                                   : resourceHandler(0),
+                                                     bytes_to_read(0) {
+  }
+
+  virtual ~ClientHandlers_ResourceHandler_ReadResponse_args() noexcept;
+  int32_t resourceHandler;
+  int32_t bytes_to_read;
+   ::thrift_codegen::RObject callback;
+
+  _ClientHandlers_ResourceHandler_ReadResponse_args__isset __isset;
+
+  void __set_resourceHandler(const int32_t val);
+
+  void __set_bytes_to_read(const int32_t val);
+
+  void __set_callback(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const ClientHandlers_ResourceHandler_ReadResponse_args & rhs) const
+  {
+    if (!(resourceHandler == rhs.resourceHandler))
+      return false;
+    if (!(bytes_to_read == rhs.bytes_to_read))
+      return false;
+    if (!(callback == rhs.callback))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_ResourceHandler_ReadResponse_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_ResourceHandler_ReadResponse_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_ResourceHandler_ReadResponse_pargs {
+ public:
+
+
+  virtual ~ClientHandlers_ResourceHandler_ReadResponse_pargs() noexcept;
+  const int32_t* resourceHandler;
+  const int32_t* bytes_to_read;
+  const  ::thrift_codegen::RObject* callback;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_ResourceHandler_ReadResponse_result__isset {
+  _ClientHandlers_ResourceHandler_ReadResponse_result__isset() : success(false) {}
+  bool success :1;
+} _ClientHandlers_ResourceHandler_ReadResponse_result__isset;
+
+class ClientHandlers_ResourceHandler_ReadResponse_result {
+ public:
+
+  ClientHandlers_ResourceHandler_ReadResponse_result(const ClientHandlers_ResourceHandler_ReadResponse_result&);
+  ClientHandlers_ResourceHandler_ReadResponse_result& operator=(const ClientHandlers_ResourceHandler_ReadResponse_result&);
+  ClientHandlers_ResourceHandler_ReadResponse_result() noexcept {
+  }
+
+  virtual ~ClientHandlers_ResourceHandler_ReadResponse_result() noexcept;
+   ::thrift_codegen::ResponseData success;
+
+  _ClientHandlers_ResourceHandler_ReadResponse_result__isset __isset;
+
+  void __set_success(const  ::thrift_codegen::ResponseData& val);
+
+  bool operator == (const ClientHandlers_ResourceHandler_ReadResponse_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_ResourceHandler_ReadResponse_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_ResourceHandler_ReadResponse_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_ResourceHandler_ReadResponse_presult__isset {
+  _ClientHandlers_ResourceHandler_ReadResponse_presult__isset() : success(false) {}
+  bool success :1;
+} _ClientHandlers_ResourceHandler_ReadResponse_presult__isset;
+
+class ClientHandlers_ResourceHandler_ReadResponse_presult {
+ public:
+
+
+  virtual ~ClientHandlers_ResourceHandler_ReadResponse_presult() noexcept;
+   ::thrift_codegen::ResponseData* success;
+
+  _ClientHandlers_ResourceHandler_ReadResponse_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _ClientHandlers_ResourceHandler_Cancel_args__isset {
+  _ClientHandlers_ResourceHandler_Cancel_args__isset() : resourceHandler(false) {}
+  bool resourceHandler :1;
+} _ClientHandlers_ResourceHandler_Cancel_args__isset;
+
+class ClientHandlers_ResourceHandler_Cancel_args {
+ public:
+
+  ClientHandlers_ResourceHandler_Cancel_args(const ClientHandlers_ResourceHandler_Cancel_args&) noexcept;
+  ClientHandlers_ResourceHandler_Cancel_args& operator=(const ClientHandlers_ResourceHandler_Cancel_args&) noexcept;
+  ClientHandlers_ResourceHandler_Cancel_args() noexcept
+                                             : resourceHandler(0) {
+  }
+
+  virtual ~ClientHandlers_ResourceHandler_Cancel_args() noexcept;
+  int32_t resourceHandler;
+
+  _ClientHandlers_ResourceHandler_Cancel_args__isset __isset;
+
+  void __set_resourceHandler(const int32_t val);
+
+  bool operator == (const ClientHandlers_ResourceHandler_Cancel_args & rhs) const
+  {
+    if (!(resourceHandler == rhs.resourceHandler))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_ResourceHandler_Cancel_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_ResourceHandler_Cancel_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_ResourceHandler_Cancel_pargs {
+ public:
+
+
+  virtual ~ClientHandlers_ResourceHandler_Cancel_pargs() noexcept;
+  const int32_t* resourceHandler;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
 typedef struct _ClientHandlers_ResourceRequestHandler_OnResourceRedirect_args__isset {
   _ClientHandlers_ResourceRequestHandler_OnResourceRedirect_args__isset() : rrHandler(false), bid(false), request(false), response(false), new_url(false) {}
   bool rrHandler :1;
@@ -4801,6 +5220,17 @@ class ClientHandlersClient : virtual public ClientHandlersIf {
   void recv_ResourceRequestHandler_GetResourceHandler( ::thrift_codegen::RObject& _return);
   void ResourceHandler_Dispose(const int32_t resourceHandler) override;
   void send_ResourceHandler_Dispose(const int32_t resourceHandler);
+  bool ResourceHandler_ProcessRequest(const int32_t resourceHandler, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& callback) override;
+  void send_ResourceHandler_ProcessRequest(const int32_t resourceHandler, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& callback);
+  bool recv_ResourceHandler_ProcessRequest();
+  void ResourceHandler_GetResponseHeaders( ::thrift_codegen::ResponseHeaders& _return, const int32_t resourceHandler, const  ::thrift_codegen::RObject& response) override;
+  void send_ResourceHandler_GetResponseHeaders(const int32_t resourceHandler, const  ::thrift_codegen::RObject& response);
+  void recv_ResourceHandler_GetResponseHeaders( ::thrift_codegen::ResponseHeaders& _return);
+  void ResourceHandler_ReadResponse( ::thrift_codegen::ResponseData& _return, const int32_t resourceHandler, const int32_t bytes_to_read, const  ::thrift_codegen::RObject& callback) override;
+  void send_ResourceHandler_ReadResponse(const int32_t resourceHandler, const int32_t bytes_to_read, const  ::thrift_codegen::RObject& callback);
+  void recv_ResourceHandler_ReadResponse( ::thrift_codegen::ResponseData& _return);
+  void ResourceHandler_Cancel(const int32_t resourceHandler) override;
+  void send_ResourceHandler_Cancel(const int32_t resourceHandler);
   void ResourceRequestHandler_OnResourceRedirect(std::string& _return, const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& response, const std::string& new_url) override;
   void send_ResourceRequestHandler_OnResourceRedirect(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& response, const std::string& new_url);
   void recv_ResourceRequestHandler_OnResourceRedirect(std::string& _return);
@@ -4874,6 +5304,10 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_ResourceRequestHandler_OnBeforeResourceLoad(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_ResourceRequestHandler_GetResourceHandler(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_ResourceHandler_Dispose(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_ResourceHandler_ProcessRequest(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_ResourceHandler_GetResponseHeaders(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_ResourceHandler_ReadResponse(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_ResourceHandler_Cancel(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_ResourceRequestHandler_OnResourceRedirect(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_ResourceRequestHandler_OnResourceResponse(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_ResourceRequestHandler_OnResourceLoadComplete(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -4923,6 +5357,10 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["ResourceRequestHandler_OnBeforeResourceLoad"] = &ClientHandlersProcessor::process_ResourceRequestHandler_OnBeforeResourceLoad;
     processMap_["ResourceRequestHandler_GetResourceHandler"] = &ClientHandlersProcessor::process_ResourceRequestHandler_GetResourceHandler;
     processMap_["ResourceHandler_Dispose"] = &ClientHandlersProcessor::process_ResourceHandler_Dispose;
+    processMap_["ResourceHandler_ProcessRequest"] = &ClientHandlersProcessor::process_ResourceHandler_ProcessRequest;
+    processMap_["ResourceHandler_GetResponseHeaders"] = &ClientHandlersProcessor::process_ResourceHandler_GetResponseHeaders;
+    processMap_["ResourceHandler_ReadResponse"] = &ClientHandlersProcessor::process_ResourceHandler_ReadResponse;
+    processMap_["ResourceHandler_Cancel"] = &ClientHandlersProcessor::process_ResourceHandler_Cancel;
     processMap_["ResourceRequestHandler_OnResourceRedirect"] = &ClientHandlersProcessor::process_ResourceRequestHandler_OnResourceRedirect;
     processMap_["ResourceRequestHandler_OnResourceResponse"] = &ClientHandlersProcessor::process_ResourceRequestHandler_OnResourceResponse;
     processMap_["ResourceRequestHandler_OnResourceLoadComplete"] = &ClientHandlersProcessor::process_ResourceRequestHandler_OnResourceLoadComplete;
@@ -5315,6 +5753,44 @@ class ClientHandlersMultiface : virtual public ClientHandlersIf {
     ifaces_[i]->ResourceHandler_Dispose(resourceHandler);
   }
 
+  bool ResourceHandler_ProcessRequest(const int32_t resourceHandler, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& callback) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->ResourceHandler_ProcessRequest(resourceHandler, request, callback);
+    }
+    return ifaces_[i]->ResourceHandler_ProcessRequest(resourceHandler, request, callback);
+  }
+
+  void ResourceHandler_GetResponseHeaders( ::thrift_codegen::ResponseHeaders& _return, const int32_t resourceHandler, const  ::thrift_codegen::RObject& response) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->ResourceHandler_GetResponseHeaders(_return, resourceHandler, response);
+    }
+    ifaces_[i]->ResourceHandler_GetResponseHeaders(_return, resourceHandler, response);
+    return;
+  }
+
+  void ResourceHandler_ReadResponse( ::thrift_codegen::ResponseData& _return, const int32_t resourceHandler, const int32_t bytes_to_read, const  ::thrift_codegen::RObject& callback) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->ResourceHandler_ReadResponse(_return, resourceHandler, bytes_to_read, callback);
+    }
+    ifaces_[i]->ResourceHandler_ReadResponse(_return, resourceHandler, bytes_to_read, callback);
+    return;
+  }
+
+  void ResourceHandler_Cancel(const int32_t resourceHandler) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->ResourceHandler_Cancel(resourceHandler);
+    }
+    ifaces_[i]->ResourceHandler_Cancel(resourceHandler);
+  }
+
   void ResourceRequestHandler_OnResourceRedirect(std::string& _return, const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& response, const std::string& new_url) override {
     size_t sz = ifaces_.size();
     size_t i = 0;
@@ -5511,6 +5987,17 @@ class ClientHandlersConcurrentClient : virtual public ClientHandlersIf {
   void recv_ResourceRequestHandler_GetResourceHandler( ::thrift_codegen::RObject& _return, const int32_t seqid);
   void ResourceHandler_Dispose(const int32_t resourceHandler) override;
   void send_ResourceHandler_Dispose(const int32_t resourceHandler);
+  bool ResourceHandler_ProcessRequest(const int32_t resourceHandler, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& callback) override;
+  int32_t send_ResourceHandler_ProcessRequest(const int32_t resourceHandler, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& callback);
+  bool recv_ResourceHandler_ProcessRequest(const int32_t seqid);
+  void ResourceHandler_GetResponseHeaders( ::thrift_codegen::ResponseHeaders& _return, const int32_t resourceHandler, const  ::thrift_codegen::RObject& response) override;
+  int32_t send_ResourceHandler_GetResponseHeaders(const int32_t resourceHandler, const  ::thrift_codegen::RObject& response);
+  void recv_ResourceHandler_GetResponseHeaders( ::thrift_codegen::ResponseHeaders& _return, const int32_t seqid);
+  void ResourceHandler_ReadResponse( ::thrift_codegen::ResponseData& _return, const int32_t resourceHandler, const int32_t bytes_to_read, const  ::thrift_codegen::RObject& callback) override;
+  int32_t send_ResourceHandler_ReadResponse(const int32_t resourceHandler, const int32_t bytes_to_read, const  ::thrift_codegen::RObject& callback);
+  void recv_ResourceHandler_ReadResponse( ::thrift_codegen::ResponseData& _return, const int32_t seqid);
+  void ResourceHandler_Cancel(const int32_t resourceHandler) override;
+  void send_ResourceHandler_Cancel(const int32_t resourceHandler);
   void ResourceRequestHandler_OnResourceRedirect(std::string& _return, const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& response, const std::string& new_url) override;
   int32_t send_ResourceRequestHandler_OnResourceRedirect(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& response, const std::string& new_url);
   void recv_ResourceRequestHandler_OnResourceRedirect(std::string& _return, const int32_t seqid);

@@ -72,27 +72,17 @@ CefRefPtr<CefResourceRequestHandler> RemoteRequestHandler::GetResourceRequestHan
   // Called on the browser process IO thread before a resource request is initiated.
   LogNdc ndc(__FILE_NAME__, __FUNCTION__, 500, false, false, "ChromeIO");
 
-  if (!myResourceRequestHandlerReceived) {
-    RemoteRequest * rr = RemoteRequest::create(request);
-    Holder<RemoteRequest> holder(*rr);
-    thrift_codegen::RObject peer;
-    peer.__set_objId(-1);
-    myServiceIO->exec([&](RpcExecutor::Service s){
-      s->RequestHandler_GetResourceRequestHandler(
-          peer, myBid, rr->serverIdWithMap(), is_navigation, is_download, request_initiator.ToString());
-    });
-    myResourceRequestHandlerReceived = true;
-    if (!peer.__isset.isPersistent || !peer.isPersistent)
-      Log::error("Non-persistent ResourceRequestHandler can cause unstable behaviour and won't be used.");
-    else if (peer.objId != -1) {
-      myResourceRequestHandler = new RemoteResourceRequestHandler(myBid, myServiceIO, peer);
-      myDisableDefaultHandling = peer.__isset.isDisableDefaultHandling &&
-                                 peer.isDisableDefaultHandling;
-    }
-  }
+  RemoteRequest * rr = RemoteRequest::create(request);
+  Holder<RemoteRequest> holder(*rr);
+  thrift_codegen::RObject peer;
+  peer.__set_objId(-1);
+  myServiceIO->exec([&](RpcExecutor::Service s){
+    s->RequestHandler_GetResourceRequestHandler(
+        peer, myBid, rr->serverIdWithMap(), is_navigation, is_download, request_initiator.ToString());
+  });
 
-  disable_default_handling = myDisableDefaultHandling;
-  return myResourceRequestHandler;
+  disable_default_handling = peer.__isset.flags ? peer.flags != 0 : false;
+  return peer.objId != -1 ? new RemoteResourceRequestHandler(myBid, myServiceIO, peer) : nullptr;
 }
 
 // Called on the browser process IO thread.

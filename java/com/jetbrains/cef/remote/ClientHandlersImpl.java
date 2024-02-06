@@ -15,21 +15,18 @@ import org.cef.browser.CefFrame;
 import org.cef.callback.CefAuthCallback;
 import org.cef.callback.CefCallback;
 import org.cef.handler.*;
-import org.cef.misc.BoolRef;
-import org.cef.misc.CefLog;
-import org.cef.misc.StringRef;
-import org.cef.misc.Utils;
+import org.cef.misc.*;
 import org.cef.network.CefCookie;
 import org.cef.network.CefRequest;
 import org.cef.network.CefURLRequest;
 import org.cef.security.CefSSLInfo;
 
 import java.awt.*;
+import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 //
 // Service for rpc from native to java
@@ -392,49 +389,37 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         return result;
     }
 
-    private static final RObject INVALID_PERSISTENT = new RObject(-1).setIsPersistent(true);
+    private static final RObject INVALID = new RObject(-1);
 
     @Override
     public RObject RequestHandler_GetResourceRequestHandler(int bid, RObject request, boolean isNavigation, boolean isDownload, String requestInitiator) {
         RemoteBrowser browser = getRemoteBrowser(bid);
-        if (browser == null) return INVALID_PERSISTENT;
+        if (browser == null) return INVALID;
 
         CefRequestHandler rh = browser.getOwner().getRequestHandler();
-        if (rh == null) return INVALID_PERSISTENT;
+        if (rh == null) return INVALID;
 
         RemoteRequestImpl rr = new RemoteRequestImpl(myService, request);
         BoolRef disableDefaultHandling = new BoolRef(false);
         CefResourceRequestHandler handler = rh.getResourceRequestHandler(browser, NULL_FRAME, new RemoteRequest(rr), isNavigation, isDownload, requestInitiator, disableDefaultHandling);
-        if (handler == null) return INVALID_PERSISTENT;
-
-        boolean isPersistent = handler instanceof PersistentHandler;
-        if (!isPersistent) {
-            CefLog.Error("Non-persistent CefResourceRequestHandler can cause unstable behaviour and will not be used. Please use PersistentHandler.");
-            return INVALID_PERSISTENT;
-        }
+        if (handler == null) return INVALID;
 
         RemoteResourceRequestHandler resultHandler = RemoteResourceRequestHandler.create(handler);
-        return resultHandler.thriftId(true, disableDefaultHandling.get());
+        return resultHandler.thriftId(disableDefaultHandling.get() ? 1 : 0);
     }
 
     @Override
     public RObject ResourceRequestHandler_GetCookieAccessFilter(int rrHandler, int bid, RObject request) {
         RemoteResourceRequestHandler rrrh = RemoteResourceRequestHandler.FACTORY.get(rrHandler);
-        if (rrrh == null) return INVALID_PERSISTENT;
+        if (rrrh == null) return INVALID;
 
         CefResourceRequestHandler handler = rrrh.getDelegate();
         RemoteRequestImpl rr = new RemoteRequestImpl(myService, request);
         CefCookieAccessFilter filter = handler.getCookieAccessFilter(getRemoteBrowser(bid), NULL_FRAME, new RemoteRequest(rr));
-        if (handler == null) return INVALID_PERSISTENT;
-
-        boolean isPersistent = handler instanceof PersistentHandler;
-        if (!isPersistent) {
-            CefLog.Error("Non-persistent CefCookieAccessFilter can cause unstable behaviour and will not be used. Please use PersistentHandler.");
-            return INVALID_PERSISTENT;
-        }
+        if (handler == null) return INVALID;
 
         RemoteCookieAccessFilter resultHandler = RemoteCookieAccessFilter.create(filter);
-        return resultHandler.thriftId(true);
+        return resultHandler.thriftId();
     }
 
     @Override
@@ -564,20 +549,89 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     @Override
     public RObject ResourceRequestHandler_GetResourceHandler(int rrHandler, int bid, RObject request) {
         RemoteResourceRequestHandler rrrh = RemoteResourceRequestHandler.FACTORY.get(rrHandler);
-        if (rrrh == null) return INVALID_PERSISTENT;
+        if (rrrh == null) return INVALID;
 
         RemoteRequestImpl rr = new RemoteRequestImpl(myService, request);
         CefResourceHandler handler = rrrh.getDelegate().getResourceHandler(getRemoteBrowser(bid), NULL_FRAME, new RemoteRequest(rr));
-        if (handler == null) return INVALID_PERSISTENT;
-
-        boolean isPersistent = handler instanceof PersistentHandler;
-        if (!isPersistent) {
-            CefLog.Error("Non-persistent CefResourceHandler can cause unstable behaviour and will not be used. Please use PersistentHandler.");
-            return INVALID_PERSISTENT;
-        }
+        if (handler == null) return INVALID;
 
         RemoteResourceHandler result = RemoteResourceHandler.create(handler);
-        return result.thriftId(true);
+        return result.thriftId();
+    }
+
+    @Override
+    public boolean ResourceHandler_ProcessRequest(int resourceHandler, RObject request, RObject callback) throws TException {
+        RemoteResourceHandler rrh = RemoteResourceHandler.FACTORY.find(resourceHandler);
+        if (rrh == null) return false;
+
+        CefResourceHandler handler = rrh.getDelegate();
+        if (handler == null) return false;
+
+        RemoteRequestImpl rr = new RemoteRequestImpl(myService, request);
+        CefCallback cb = new RemoteCallback(myService, callback);
+        return handler.processRequest(new RemoteRequest(rr), cb);
+    }
+
+    @Override
+    public ResponseHeaders ResourceHandler_GetResponseHeaders(int resourceHandler, RObject response) throws TException {
+        RemoteResourceHandler rrh = RemoteResourceHandler.FACTORY.find(resourceHandler);
+        if (rrh == null) return null;
+
+        CefResourceHandler handler = rrh.getDelegate();
+        if (handler == null) return null;
+
+        RemoteResponseImpl rr = new RemoteResponseImpl(myService, response);
+        IntRef respLen = new IntRef();
+        StringRef redirectUrlRef = new StringRef();
+        handler.getResponseHeaders(new RemoteResponse(rr), respLen, redirectUrlRef);
+        rr.flush();
+        ResponseHeaders result = new ResponseHeaders();
+        result.setLength(respLen.get());
+        if (redirectUrlRef.get() != null)
+            result.setRedirectUrl(redirectUrlRef.get());
+        return result;
+    }
+
+    @Override
+    public ResponseData ResourceHandler_ReadResponse(int resourceHandler, int bytes_to_read, RObject callback) throws TException {
+        if (bytes_to_read <= 0) return new ResponseData();
+        if (bytes_to_read > 256*1024)
+            CefLog.Error("ResourceHandler_ReadResponse: too much bytes to read %d. Need to implement via shared memory.", bytes_to_read);
+
+        RemoteResourceHandler rrh = RemoteResourceHandler.FACTORY.find(resourceHandler);
+        if (rrh == null) return null;
+
+        CefResourceHandler handler = rrh.getDelegate();
+        if (handler == null) return null;
+
+        CefCallback cb = new RemoteCallback(myService, callback);
+
+        byte[] buf = new byte[bytes_to_read];
+        IntRef bytesRead = new IntRef();
+        /**
+         * Read response data. If data is available immediately copy up to |bytesToRead| bytes into
+         * |dataOut|, set |bytesRead| to the number of bytes copied, and return true. To read the data
+         * at a later time set |bytesRead| to 0, return true and call CefCallback.Continue() when the
+         * data is available. To indicate response completion return false.
+         * @return True if more data is or will be available.
+         */
+        final boolean continueRead = handler.readResponse(buf, bytes_to_read, bytesRead, cb);
+        final int read = bytesRead.get();
+        ResponseData result = new ResponseData();
+        result.setContinueRead(continueRead);
+        result.setBytes_read(read);
+        result.setData(ByteBuffer.wrap(buf, 0, read));
+        return result;
+    }
+
+    @Override
+    public void ResourceHandler_Cancel(int resourceHandler) throws TException {
+        RemoteResourceHandler rrh = RemoteResourceHandler.FACTORY.find(resourceHandler);
+        if (rrh == null) return;
+
+        CefResourceHandler handler = rrh.getDelegate();
+        if (handler != null)
+            handler.cancel();
     }
 
     @Override

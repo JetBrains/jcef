@@ -11,24 +11,21 @@ public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields
   private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("RObject");
 
   private static final org.apache.thrift.protocol.TField OBJ_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("objId", org.apache.thrift.protocol.TType.I32, (short)1);
-  private static final org.apache.thrift.protocol.TField IS_PERSISTENT_FIELD_DESC = new org.apache.thrift.protocol.TField("isPersistent", org.apache.thrift.protocol.TType.BOOL, (short)2);
-  private static final org.apache.thrift.protocol.TField IS_DISABLE_DEFAULT_HANDLING_FIELD_DESC = new org.apache.thrift.protocol.TField("isDisableDefaultHandling", org.apache.thrift.protocol.TType.BOOL, (short)3);
-  private static final org.apache.thrift.protocol.TField OBJ_INFO_FIELD_DESC = new org.apache.thrift.protocol.TField("objInfo", org.apache.thrift.protocol.TType.MAP, (short)4);
+  private static final org.apache.thrift.protocol.TField FLAGS_FIELD_DESC = new org.apache.thrift.protocol.TField("flags", org.apache.thrift.protocol.TType.I32, (short)2);
+  private static final org.apache.thrift.protocol.TField OBJ_INFO_FIELD_DESC = new org.apache.thrift.protocol.TField("objInfo", org.apache.thrift.protocol.TType.MAP, (short)3);
 
   private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RObjectStandardSchemeFactory();
   private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RObjectTupleSchemeFactory();
 
   public int objId; // required
-  public boolean isPersistent; // optional
-  public boolean isDisableDefaultHandling; // optional
+  public int flags; // optional
   public @org.apache.thrift.annotation.Nullable java.util.Map<java.lang.String,java.lang.String> objInfo; // optional
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
     OBJ_ID((short)1, "objId"),
-    IS_PERSISTENT((short)2, "isPersistent"),
-    IS_DISABLE_DEFAULT_HANDLING((short)3, "isDisableDefaultHandling"),
-    OBJ_INFO((short)4, "objInfo");
+    FLAGS((short)2, "flags"),
+    OBJ_INFO((short)3, "objInfo");
 
     private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -46,11 +43,9 @@ public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields
       switch(fieldId) {
         case 1: // OBJ_ID
           return OBJ_ID;
-        case 2: // IS_PERSISTENT
-          return IS_PERSISTENT;
-        case 3: // IS_DISABLE_DEFAULT_HANDLING
-          return IS_DISABLE_DEFAULT_HANDLING;
-        case 4: // OBJ_INFO
+        case 2: // FLAGS
+          return FLAGS;
+        case 3: // OBJ_INFO
           return OBJ_INFO;
         default:
           return null;
@@ -96,19 +91,16 @@ public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields
 
   // isset id assignments
   private static final int __OBJID_ISSET_ID = 0;
-  private static final int __ISPERSISTENT_ISSET_ID = 1;
-  private static final int __ISDISABLEDEFAULTHANDLING_ISSET_ID = 2;
+  private static final int __FLAGS_ISSET_ID = 1;
   private byte __isset_bitfield = 0;
-  private static final _Fields optionals[] = {_Fields.IS_PERSISTENT,_Fields.IS_DISABLE_DEFAULT_HANDLING,_Fields.OBJ_INFO};
+  private static final _Fields optionals[] = {_Fields.FLAGS,_Fields.OBJ_INFO};
   public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
     java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
     tmpMap.put(_Fields.OBJ_ID, new org.apache.thrift.meta_data.FieldMetaData("objId", org.apache.thrift.TFieldRequirementType.REQUIRED, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
-    tmpMap.put(_Fields.IS_PERSISTENT, new org.apache.thrift.meta_data.FieldMetaData("isPersistent", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
-    tmpMap.put(_Fields.IS_DISABLE_DEFAULT_HANDLING, new org.apache.thrift.meta_data.FieldMetaData("isDisableDefaultHandling", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
+    tmpMap.put(_Fields.FLAGS, new org.apache.thrift.meta_data.FieldMetaData("flags", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
     tmpMap.put(_Fields.OBJ_INFO, new org.apache.thrift.meta_data.FieldMetaData("objInfo", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
         new org.apache.thrift.meta_data.MapMetaData(org.apache.thrift.protocol.TType.MAP, 
             new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING), 
@@ -134,8 +126,7 @@ public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields
   public RObject(RObject other) {
     __isset_bitfield = other.__isset_bitfield;
     this.objId = other.objId;
-    this.isPersistent = other.isPersistent;
-    this.isDisableDefaultHandling = other.isDisableDefaultHandling;
+    this.flags = other.flags;
     if (other.isSetObjInfo()) {
       java.util.Map<java.lang.String,java.lang.String> __this__objInfo = new java.util.HashMap<java.lang.String,java.lang.String>(other.objInfo);
       this.objInfo = __this__objInfo;
@@ -151,10 +142,8 @@ public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields
   public void clear() {
     setObjIdIsSet(false);
     this.objId = 0;
-    setIsPersistentIsSet(false);
-    this.isPersistent = false;
-    setIsDisableDefaultHandlingIsSet(false);
-    this.isDisableDefaultHandling = false;
+    setFlagsIsSet(false);
+    this.flags = 0;
     this.objInfo = null;
   }
 
@@ -181,50 +170,27 @@ public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields
     __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __OBJID_ISSET_ID, value);
   }
 
-  public boolean isIsPersistent() {
-    return this.isPersistent;
+  public int getFlags() {
+    return this.flags;
   }
 
-  public RObject setIsPersistent(boolean isPersistent) {
-    this.isPersistent = isPersistent;
-    setIsPersistentIsSet(true);
+  public RObject setFlags(int flags) {
+    this.flags = flags;
+    setFlagsIsSet(true);
     return this;
   }
 
-  public void unsetIsPersistent() {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __ISPERSISTENT_ISSET_ID);
+  public void unsetFlags() {
+    __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __FLAGS_ISSET_ID);
   }
 
-  /** Returns true if field isPersistent is set (has been assigned a value) and false otherwise */
-  public boolean isSetIsPersistent() {
-    return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __ISPERSISTENT_ISSET_ID);
+  /** Returns true if field flags is set (has been assigned a value) and false otherwise */
+  public boolean isSetFlags() {
+    return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __FLAGS_ISSET_ID);
   }
 
-  public void setIsPersistentIsSet(boolean value) {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __ISPERSISTENT_ISSET_ID, value);
-  }
-
-  public boolean isIsDisableDefaultHandling() {
-    return this.isDisableDefaultHandling;
-  }
-
-  public RObject setIsDisableDefaultHandling(boolean isDisableDefaultHandling) {
-    this.isDisableDefaultHandling = isDisableDefaultHandling;
-    setIsDisableDefaultHandlingIsSet(true);
-    return this;
-  }
-
-  public void unsetIsDisableDefaultHandling() {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __ISDISABLEDEFAULTHANDLING_ISSET_ID);
-  }
-
-  /** Returns true if field isDisableDefaultHandling is set (has been assigned a value) and false otherwise */
-  public boolean isSetIsDisableDefaultHandling() {
-    return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __ISDISABLEDEFAULTHANDLING_ISSET_ID);
-  }
-
-  public void setIsDisableDefaultHandlingIsSet(boolean value) {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __ISDISABLEDEFAULTHANDLING_ISSET_ID, value);
+  public void setFlagsIsSet(boolean value) {
+    __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __FLAGS_ISSET_ID, value);
   }
 
   public int getObjInfoSize() {
@@ -274,19 +240,11 @@ public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields
       }
       break;
 
-    case IS_PERSISTENT:
+    case FLAGS:
       if (value == null) {
-        unsetIsPersistent();
+        unsetFlags();
       } else {
-        setIsPersistent((java.lang.Boolean)value);
-      }
-      break;
-
-    case IS_DISABLE_DEFAULT_HANDLING:
-      if (value == null) {
-        unsetIsDisableDefaultHandling();
-      } else {
-        setIsDisableDefaultHandling((java.lang.Boolean)value);
+        setFlags((java.lang.Integer)value);
       }
       break;
 
@@ -308,11 +266,8 @@ public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields
     case OBJ_ID:
       return getObjId();
 
-    case IS_PERSISTENT:
-      return isIsPersistent();
-
-    case IS_DISABLE_DEFAULT_HANDLING:
-      return isIsDisableDefaultHandling();
+    case FLAGS:
+      return getFlags();
 
     case OBJ_INFO:
       return getObjInfo();
@@ -331,10 +286,8 @@ public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields
     switch (field) {
     case OBJ_ID:
       return isSetObjId();
-    case IS_PERSISTENT:
-      return isSetIsPersistent();
-    case IS_DISABLE_DEFAULT_HANDLING:
-      return isSetIsDisableDefaultHandling();
+    case FLAGS:
+      return isSetFlags();
     case OBJ_INFO:
       return isSetObjInfo();
     }
@@ -363,21 +316,12 @@ public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields
         return false;
     }
 
-    boolean this_present_isPersistent = true && this.isSetIsPersistent();
-    boolean that_present_isPersistent = true && that.isSetIsPersistent();
-    if (this_present_isPersistent || that_present_isPersistent) {
-      if (!(this_present_isPersistent && that_present_isPersistent))
+    boolean this_present_flags = true && this.isSetFlags();
+    boolean that_present_flags = true && that.isSetFlags();
+    if (this_present_flags || that_present_flags) {
+      if (!(this_present_flags && that_present_flags))
         return false;
-      if (this.isPersistent != that.isPersistent)
-        return false;
-    }
-
-    boolean this_present_isDisableDefaultHandling = true && this.isSetIsDisableDefaultHandling();
-    boolean that_present_isDisableDefaultHandling = true && that.isSetIsDisableDefaultHandling();
-    if (this_present_isDisableDefaultHandling || that_present_isDisableDefaultHandling) {
-      if (!(this_present_isDisableDefaultHandling && that_present_isDisableDefaultHandling))
-        return false;
-      if (this.isDisableDefaultHandling != that.isDisableDefaultHandling)
+      if (this.flags != that.flags)
         return false;
     }
 
@@ -399,13 +343,9 @@ public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields
 
     hashCode = hashCode * 8191 + objId;
 
-    hashCode = hashCode * 8191 + ((isSetIsPersistent()) ? 131071 : 524287);
-    if (isSetIsPersistent())
-      hashCode = hashCode * 8191 + ((isPersistent) ? 131071 : 524287);
-
-    hashCode = hashCode * 8191 + ((isSetIsDisableDefaultHandling()) ? 131071 : 524287);
-    if (isSetIsDisableDefaultHandling())
-      hashCode = hashCode * 8191 + ((isDisableDefaultHandling) ? 131071 : 524287);
+    hashCode = hashCode * 8191 + ((isSetFlags()) ? 131071 : 524287);
+    if (isSetFlags())
+      hashCode = hashCode * 8191 + flags;
 
     hashCode = hashCode * 8191 + ((isSetObjInfo()) ? 131071 : 524287);
     if (isSetObjInfo())
@@ -432,22 +372,12 @@ public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields
         return lastComparison;
       }
     }
-    lastComparison = java.lang.Boolean.compare(isSetIsPersistent(), other.isSetIsPersistent());
+    lastComparison = java.lang.Boolean.compare(isSetFlags(), other.isSetFlags());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetIsPersistent()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.isPersistent, other.isPersistent);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
-    lastComparison = java.lang.Boolean.compare(isSetIsDisableDefaultHandling(), other.isSetIsDisableDefaultHandling());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    if (isSetIsDisableDefaultHandling()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.isDisableDefaultHandling, other.isDisableDefaultHandling);
+    if (isSetFlags()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.flags, other.flags);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -489,16 +419,10 @@ public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields
     sb.append("objId:");
     sb.append(this.objId);
     first = false;
-    if (isSetIsPersistent()) {
+    if (isSetFlags()) {
       if (!first) sb.append(", ");
-      sb.append("isPersistent:");
-      sb.append(this.isPersistent);
-      first = false;
-    }
-    if (isSetIsDisableDefaultHandling()) {
-      if (!first) sb.append(", ");
-      sb.append("isDisableDefaultHandling:");
-      sb.append(this.isDisableDefaultHandling);
+      sb.append("flags:");
+      sb.append(this.flags);
       first = false;
     }
     if (isSetObjInfo()) {
@@ -567,23 +491,15 @@ public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 2: // IS_PERSISTENT
-            if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
-              struct.isPersistent = iprot.readBool();
-              struct.setIsPersistentIsSet(true);
+          case 2: // FLAGS
+            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+              struct.flags = iprot.readI32();
+              struct.setFlagsIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 3: // IS_DISABLE_DEFAULT_HANDLING
-            if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
-              struct.isDisableDefaultHandling = iprot.readBool();
-              struct.setIsDisableDefaultHandlingIsSet(true);
-            } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-            }
-            break;
-          case 4: // OBJ_INFO
+          case 3: // OBJ_INFO
             if (schemeField.type == org.apache.thrift.protocol.TType.MAP) {
               {
                 org.apache.thrift.protocol.TMap _map0 = iprot.readMapBegin();
@@ -625,14 +541,9 @@ public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields
       oprot.writeFieldBegin(OBJ_ID_FIELD_DESC);
       oprot.writeI32(struct.objId);
       oprot.writeFieldEnd();
-      if (struct.isSetIsPersistent()) {
-        oprot.writeFieldBegin(IS_PERSISTENT_FIELD_DESC);
-        oprot.writeBool(struct.isPersistent);
-        oprot.writeFieldEnd();
-      }
-      if (struct.isSetIsDisableDefaultHandling()) {
-        oprot.writeFieldBegin(IS_DISABLE_DEFAULT_HANDLING_FIELD_DESC);
-        oprot.writeBool(struct.isDisableDefaultHandling);
+      if (struct.isSetFlags()) {
+        oprot.writeFieldBegin(FLAGS_FIELD_DESC);
+        oprot.writeI32(struct.flags);
         oprot.writeFieldEnd();
       }
       if (struct.objInfo != null) {
@@ -670,21 +581,15 @@ public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields
       org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
       oprot.writeI32(struct.objId);
       java.util.BitSet optionals = new java.util.BitSet();
-      if (struct.isSetIsPersistent()) {
+      if (struct.isSetFlags()) {
         optionals.set(0);
       }
-      if (struct.isSetIsDisableDefaultHandling()) {
+      if (struct.isSetObjInfo()) {
         optionals.set(1);
       }
-      if (struct.isSetObjInfo()) {
-        optionals.set(2);
-      }
-      oprot.writeBitSet(optionals, 3);
-      if (struct.isSetIsPersistent()) {
-        oprot.writeBool(struct.isPersistent);
-      }
-      if (struct.isSetIsDisableDefaultHandling()) {
-        oprot.writeBool(struct.isDisableDefaultHandling);
+      oprot.writeBitSet(optionals, 2);
+      if (struct.isSetFlags()) {
+        oprot.writeI32(struct.flags);
       }
       if (struct.isSetObjInfo()) {
         {
@@ -703,16 +608,12 @@ public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields
       org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
       struct.objId = iprot.readI32();
       struct.setObjIdIsSet(true);
-      java.util.BitSet incoming = iprot.readBitSet(3);
+      java.util.BitSet incoming = iprot.readBitSet(2);
       if (incoming.get(0)) {
-        struct.isPersistent = iprot.readBool();
-        struct.setIsPersistentIsSet(true);
+        struct.flags = iprot.readI32();
+        struct.setFlagsIsSet(true);
       }
       if (incoming.get(1)) {
-        struct.isDisableDefaultHandling = iprot.readBool();
-        struct.setIsDisableDefaultHandlingIsSet(true);
-      }
-      if (incoming.get(2)) {
         {
           org.apache.thrift.protocol.TMap _map6 = iprot.readMapBegin(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING); 
           struct.objInfo = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map6.size);
