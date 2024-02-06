@@ -62,6 +62,6 @@ void RpcExecutor::exec(std::function<void(Service)> rpc) {
     rpc(myService);
   } catch (apache::thrift::TException& tx) {
     Log::debug("thrift exception occured: %s", tx.what());
-    // TODO: should we call close now ?
+    close();
   }
 }
