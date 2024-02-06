@@ -31,11 +31,16 @@ public class TestRequestHandler implements CefRequestHandler {
         return false;
     }
 
+    private final String testContent_ =
+            "<html><head><title>Test Title</title></head><body>Test!</body></html>";
+
     @Override
     public CefResourceRequestHandler getResourceRequestHandler(CefBrowser browser, CefFrame frame, CefRequest request, boolean isNavigation, boolean isDownload, String requestInitiator, BoolRef disableDefaultHandling) {
         CefLog.Info("getResourceRequestHandler " + browser + ", " + requestInitiator);
         CefLog.Info("\trequest:" + request);
-        return new TestResourceRequestHandler();
+        TestResourceRequestHandler result = new TestResourceRequestHandler();
+        result.addResource(request.getURL(), testContent_, "text/html");
+        return result;
     }
 
     @Override
