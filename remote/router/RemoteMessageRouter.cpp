@@ -3,13 +3,12 @@
 #include "../CefUtils.h"
 
 // remove to enable tracing
-//#define TRACE()
+#define TRACE()
 
 RemoteMessageRouter::RemoteMessageRouter(std::shared_ptr<RpcExecutor> service, int id, CefRefPtr<CefMessageRouter> delegate, CefMessageRouterConfig config)
-    : RemoteServerObject<RemoteMessageRouter, CefMessageRouter>(id, delegate), myService(service), myConfig(config) {
-#ifdef TRACE
-    LogNdc ndc(string_format("Create router <%s | %s>", config.js_query_function.ToString().c_str(), config.js_cancel_function.ToString().c_str()), "", 0, true);
-#endif
+    : RemoteServerObject<RemoteMessageRouter, CefMessageRouter>(id, delegate), myService(service), myConfig(config)
+{
+    // LogNdc ndc(string_format("Create router <%s | %s>", config.js_query_function.ToString().c_str(), config.js_cancel_function.ToString().c_str()), "", 0, true);
 }
 
 RemoteMessageRouter * RemoteMessageRouter::create(std::shared_ptr<RpcExecutor> service, CefRefPtr<CefMessageRouter> delegate, CefMessageRouterConfig config) {

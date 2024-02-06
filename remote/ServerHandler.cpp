@@ -70,12 +70,11 @@ int32_t ServerHandler::connect(const std::string& backwardConnectionPipe) {
 
 int32_t ServerHandler::createBrowser(int cid, const std::string& url) {
   int32_t bid = myClientsManager->createBrowser(cid, myJavaService, myJavaServiceIO, myRoutersManager, url);
-  Log::trace("Created remote browser cid=%d, bid=%d", cid, bid);
+  Log::trace("Created remote browser cid=%d, bid=%d (started native creation)", cid, bid);
   return bid;
 }
 
 void ServerHandler::closeBrowser(const int32_t bid) {
-  Log::debug("Close remote browser bid=%d", bid);
   myClientsManager->closeBrowser(bid);
 }
 

@@ -9,7 +9,6 @@
 class RemoteResourceRequestHandler : public CefResourceRequestHandler, public RemoteJavaObject<RemoteResourceRequestHandler> {
  public:
   explicit RemoteResourceRequestHandler(int bid, std::shared_ptr<RpcExecutor> serviceIO, thrift_codegen::RObject peerd);
-  ~RemoteResourceRequestHandler() { Log::trace("Disposed RemoteResourceRequestHandler %d", myBid); }
 
   // All methods of this 'sub-class' will be called on the IO thread.
   CefRefPtr<CefCookieAccessFilter> GetCookieAccessFilter(
