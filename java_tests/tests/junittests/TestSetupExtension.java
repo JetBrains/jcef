@@ -154,7 +154,7 @@ public class TestSetupExtension
             CefLog.Info("TestSetupExtension.close");
         }
 
-        if (!Boolean.getBoolean("jcef.junittests.isGradleLauncher")) { // due to https://issues.gradle.org/browse/GRADLE-1903
+        if (false && !Boolean.getBoolean("jcef.junittests.isGradleLauncher")) { // due to https://issues.gradle.org/browse/GRADLE-1903
             CefApp.getInstance().dispose();
 
             // Wait for CEF shutdown to complete.

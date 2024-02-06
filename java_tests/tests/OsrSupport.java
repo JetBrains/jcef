@@ -7,7 +7,7 @@ import org.cef.handler.CefRenderHandler;
 
 public class OsrSupport {
     public static boolean isEnabled() {
-        return Boolean.getBoolean("jcef.tests.osr");
+        return true || Boolean.getBoolean("jcef.tests.osr");
     }
 
     public static CefBrowser createBrowser(CefClient client, String startURL) {

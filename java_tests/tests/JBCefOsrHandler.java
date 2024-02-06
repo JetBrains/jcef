@@ -7,6 +7,7 @@ import com.jetbrains.cef.remote.SharedMemory;
 import org.cef.browser.CefBrowser;
 import org.cef.callback.CefDragData;
 import org.cef.handler.CefNativeRenderHandler;
+import org.cef.handler.CefRenderHandler;
 import org.cef.handler.CefScreenInfo;
 import org.cef.misc.CefLog;
 import org.cef.misc.CefRange;
@@ -41,6 +42,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * @author tav
  */
 public class JBCefOsrHandler implements CefNativeRenderHandler {
+//public class JBCefOsrHandler implements CefRenderHandler {
     private static final int CLEAN_CACHE_SIZE = Integer.getInteger("jcef.remote.tests.clean_cache_size", 4);
     private static final int CLEAN_CACHE_TIME_MS = Integer.getInteger("jcef.remote.tests.clean_cache_time_ms", 10*1000); // 10 sec
 
@@ -105,10 +107,10 @@ public class JBCefOsrHandler implements CefNativeRenderHandler {
 
         myFpsMeter = JBCefFpsMeter.register(this.toString());
         myFpsMeter.registerComponent(myComponent);
-        myFpsMeter.setActive(true);
+        //myFpsMeter.setActive(true);
     }
 
-    @Override
+    //@Override
     public void disposeNativeResources() {
         for (SharedMemory.WithRaster mem: mySharedMemCache.values())
             mem.close();
@@ -171,7 +173,7 @@ public class JBCefOsrHandler implements CefNativeRenderHandler {
 
     }
 
-    @Override
+    //@Override
     public void onPaintWithSharedMem(CefBrowser browser, boolean popup, int dirtyRectsCount, String sharedMemName, long sharedMemHandle, int width, int height) {
         // TODO: support popups
         long startMs = System.currentTimeMillis();

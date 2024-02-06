@@ -46,7 +46,7 @@ import javax.swing.*;
 class TestFrame extends JFrame implements CefLifeSpanHandler, CefLoadHandler, CefRequestHandler,
                                           CefResourceRequestHandler {
     private static final long serialVersionUID = -5570653778104813836L;
-    private static final int TIMEOUT = 5;
+    private static final int TIMEOUT = 500;
     private boolean isClosed_ = false;
     private CountDownLatch countdown_ = new CountDownLatch(1);
 
