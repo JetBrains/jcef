@@ -7,11 +7,10 @@
 // Created when processing MessageRouterHandler::OnQuery and passed into java
 // Disposed when java side calls some of callback's methods (or manually from java side)
 class RemoteQueryCallback  : public virtual CefBaseRefCounted, public RemoteServerObject<RemoteQueryCallback, CefMessageRouterBrowserSide::Callback> {
- public:
-  static thrift_codegen::RObject create(CefRefPtr<CefMessageRouterBrowserSide::Callback> delegate);
-  
  private:
-  explicit RemoteQueryCallback(CefRefPtr<CefMessageRouterBrowserSide::Callback> delegate, int id);
+  explicit RemoteQueryCallback(CefRefPtr<CefMessageRouterBrowserSide::Callback> delegate, int id)
+      : RemoteServerObject<RemoteQueryCallback, CefMessageRouterBrowserSide::Callback>(id, delegate) {}
+  template <class T, class D> friend class ::RemoteServerObject;
   IMPLEMENT_REFCOUNTING(RemoteQueryCallback);
 };
 

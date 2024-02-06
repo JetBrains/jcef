@@ -131,9 +131,7 @@ set(SERVER_SOURCES
         network/RemotePostData.h
         network/RemotePostDataElement.cpp
         network/RemotePostDataElement.h
-        callback/RemoteCallback.cpp
         callback/RemoteCallback.h
-        callback/RemoteAuthCallback.cpp
         callback/RemoteAuthCallback.h
         router/RemoteMessageRouter.cpp
         router/RemoteMessageRouter.h
@@ -141,7 +139,6 @@ set(SERVER_SOURCES
         router/MessageRoutersManager.h
         router/RemoteMessageRouterHandler.cpp
         router/RemoteMessageRouterHandler.h
-        router/RemoteQueryCallback.cpp
         router/RemoteQueryCallback.h
         browser/ClientsManager.cpp
         browser/ClientsManager.h

@@ -47,6 +47,9 @@ class ServerObjectsFactory {
   std::recursive_mutex MUTEX;
 };
 
+template <class T, class D>
+class RemoteServerObjectHolder;
+
 template <class T>
 class RemoteServerObjectBase {
  public:
@@ -61,23 +64,6 @@ class RemoteServerObjectBase {
     return robj;
   }
 
-  thrift_codegen::RObject serverIdWithMap() {
-    thrift_codegen::RObject robj;
-    robj.__set_objId(myId);
-    robj.__set_objInfo(toMap());
-    return robj;
-  }
-
-  // Cache support
-  void update(const std::map<std::string, std::string>& info) {
-      Lock lock(myMutex);
-      updateImpl(info);
-  }
-  std::map<std::string, std::string> toMap() {
-      Lock lock(myMutex);
-      return toMapImpl();
-  }
-
   static T* find(int id) {
     return FACTORY.find(id);
   }
@@ -89,15 +75,11 @@ class RemoteServerObjectBase {
     return result;
   }
 
+  static T* create(std::function<T*(int)> creator) { return FACTORY.create(creator); }
   static void dispose(int id) { FACTORY.dispose(id, true); }
 
  protected:
   const int myId;
-  std::recursive_mutex myMutex;
-
-  // Cache support
-  virtual void updateImpl(const std::map<std::string, std::string>&) {}
-  virtual std::map<std::string, std::string> toMapImpl() { return std::map<std::string, std::string>(); }
 
   static ServerObjectsFactory<T> FACTORY;
 };
@@ -105,6 +87,8 @@ class RemoteServerObjectBase {
 template <class T, class D>
 class RemoteServerObject : public RemoteServerObjectBase<T> {
  public:
+  typedef RemoteServerObjectHolder<T, D> Holder;
+
   explicit RemoteServerObject(int id, CefRefPtr<D> delegate) : RemoteServerObjectBase<T>(id), myDelegate(delegate.get()) {
     myDelegate->AddRef();
   }
@@ -114,8 +98,41 @@ class RemoteServerObject : public RemoteServerObjectBase<T> {
 
   D& getDelegate() { return *myDelegate; }
 
+  static T* wrapDelegate(CefRefPtr<D> delegate) {
+    return RemoteServerObjectBase<T>::create([&](int id) -> T* {return new T(delegate, id);});
+  }
+
  protected:
   D* myDelegate;
+};
+
+template <class T, class D>
+class RemoteServerObjectUpdatable : public RemoteServerObject<T, D> {
+ public:
+  explicit RemoteServerObjectUpdatable(int id, CefRefPtr<D> delegate) : RemoteServerObject<T, D>(id, delegate) {}
+  ~RemoteServerObjectUpdatable() override {}
+
+  thrift_codegen::RObject serverIdWithMap() {
+    thrift_codegen::RObject robj;
+    robj.__set_objId(RemoteServerObject<T, D>::myId);
+    robj.__set_objInfo(toMap());
+    return robj;
+  }
+
+  void update(const std::map<std::string, std::string>& info) {
+    Lock lock(myMutex);
+    updateImpl(info);
+  }
+  std::map<std::string, std::string> toMap() {
+    Lock lock(myMutex);
+    return toMapImpl();
+  }
+
+ protected:
+  // Cache support
+  std::recursive_mutex myMutex;
+  virtual void updateImpl(const std::map<std::string, std::string>&) {}
+  virtual std::map<std::string, std::string> toMapImpl() { return std::map<std::string, std::string>(); }
 };
 
 template <class T>
@@ -145,14 +162,20 @@ class RemoteJavaObject {
   std::function<void(RpcExecutor::Service)> myDisposer;
 };
 
-template <class T>
-class Holder {
+template <class T, class D>
+class RemoteServerObjectHolder {
  public:
-  explicit Holder(RemoteServerObjectBase<T>& obj) : myObj(obj) {}
-  ~Holder() { RemoteServerObjectBase<T>::dispose(myObj.getId()); }
+  explicit RemoteServerObjectHolder(CefRefPtr<D>& delegate) {
+    myRemoteObj = RemoteServerObjectBase<T>::create([&](int id) -> T* {return new T(delegate, id);});
+  }
+  ~RemoteServerObjectHolder() {
+    RemoteServerObject<T, D>::dispose(myRemoteObj->getId());
+  }
+
+  T * get() { return myRemoteObj; }
 
  private:
-  RemoteServerObjectBase<T>& myObj;
+  T* myRemoteObj = nullptr;
 };
 
 template <typename T>

@@ -48,14 +48,14 @@ bool RemoteMessageRouterHandler::OnQuery(CefRefPtr<CefBrowser> browser,
     Log::error("Can't find remote browser by cef-id %d", browser ? browser->GetIdentifier() : -1);
     return false;
   }
-  thrift_codegen::RObject rcb = RemoteQueryCallback::create(callback);
+  RemoteQueryCallback* rcb = RemoteQueryCallback::wrapDelegate(callback);
   bool handled = myService->exec<bool>([&](RpcExecutor::Service s){
-    return s->MessageRouterHandler_onQuery(javaId(), bid, query_id, request, persistent, rcb);
+    return s->MessageRouterHandler_onQuery(javaId(), bid, query_id, request, persistent, rcb->serverId());
   }, false);
   if (!handled) // NOTE: must delete callback when onQuery returns false
-    RemoteQueryCallback::dispose(rcb.objId);
+    RemoteQueryCallback::dispose(rcb->getId());
   else
-    myCallbacks.insert(rcb.objId); // Callback will be disposed with RemoteMessageRouterHandler (just for insurance)
+    myCallbacks.insert(rcb->getId()); // Callback will be disposed with RemoteMessageRouterHandler (just for insurance)
   return handled;
 }
 
