@@ -3,6 +3,7 @@
 // can be found in the LICENSE file.
 package tests.junittests;
 
+import org.cef.CefApp;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefFrame;
 import org.cef.callback.CefCallback;
@@ -16,6 +17,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 class SelfSignedSSLTest {
     @Test
     void certificateAccepted() {
+        // TODO: enable when implemented
+        if (CefApp.isRemoteEnabled())
+            return;
+
         var frame = new TestFrame() {
             public CefSSLInfo sslInfo = null;
 
@@ -48,6 +53,10 @@ class SelfSignedSSLTest {
 
     @Test
     void certificateRejected() {
+        // TODO: enable when implemented
+        if (CefApp.isRemoteEnabled())
+            return;
+
         var frame = new TestFrame() {
             boolean isOnCertificateErrorCalled = false;
             boolean isOnLoadErrorCalled = false;

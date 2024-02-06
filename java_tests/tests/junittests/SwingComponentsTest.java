@@ -1,5 +1,6 @@
 package tests.junittests;
 
+import org.cef.CefApp;
 import org.cef.misc.CefLog;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
@@ -30,6 +31,10 @@ public class SwingComponentsTest {
 
     @Test
     public void testRobot() throws InvocationTargetException, InterruptedException {
+        // TODO: enable when implemented
+        if (CefApp.isRemoteEnabled())
+            return;
+
         // debug helper for JBR-4649
         CefLog.Info("Start SwingComponentsTest.testRobot");
         for (int c = 0; c < 3; ++c) {
@@ -128,6 +133,10 @@ public class SwingComponentsTest {
 
     @Test
     public void testMouseListener() throws InvocationTargetException, InterruptedException {
+        // TODO: enable when implemented
+        if (CefApp.isRemoteEnabled())
+            return;
+
         // reproducer for JBR-4884
         CefLog.Info("Start SwingComponentsTest.testMouseListener, mode = %s", OsrSupport.isEnabled() ? "OSR" : "Window");
         try {
@@ -148,6 +157,10 @@ public class SwingComponentsTest {
 
     @Test
     public void testMouseListenerWithHideAndShow() throws InvocationTargetException, InterruptedException {
+        // TODO: enable when implemented
+        if (CefApp.isRemoteEnabled())
+            return;
+
         // reproducer for JBR-4884
         CefLog.Info("Start SwingComponentsTest.testMouseListenerWithHideAndShow, mode = %s", OsrSupport.isEnabled() ? "OSR" : "Window");
         try {
@@ -227,6 +240,10 @@ public class SwingComponentsTest {
     @Test
     @Disabled("Reproducer for JBR-4833")
     public void testPaintOccured() {
+        // TODO: enable when implemented
+        if (CefApp.isRemoteEnabled())
+            return;
+
         for (int c = 0; c < 10; ++c) {
             try {
                 CountDownLatch paintLatch = new CountDownLatch(1);

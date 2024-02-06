@@ -1,5 +1,6 @@
 package tests.junittests;
 
+import org.cef.CefApp;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefFrame;
 import org.cef.browser.CefMessageRouter;
@@ -61,6 +62,10 @@ public class TouchEventTest {
 
         @Override
         protected void setupTest() {
+            // TODO: enable when implemented
+            if (CefApp.isRemoteEnabled())
+                return;
+
             final String PAGE_URL = "https://some.url/";
             addResource(PAGE_URL, HTML_PAGE, "text/html");
 
@@ -154,6 +159,10 @@ public class TouchEventTest {
 
     @Test
     void eventType() throws InterruptedException, ExecutionException {
+        // TODO: enable when implemented
+        if (CefApp.isRemoteEnabled())
+            return;
+
         var frame = new TouchTestFrame();
         try {
             frame.awaitLoad();
@@ -195,6 +204,10 @@ public class TouchEventTest {
 
     @Test
     void numericValues() throws InterruptedException, ExecutionException {
+        // TODO: enable when implemented
+        if (CefApp.isRemoteEnabled())
+            return;
+
         var frame = new TouchTestFrame();
         try {
             frame.awaitLoad();

@@ -3,6 +3,7 @@ package tests.junittests;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import org.cef.CefApp;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefFrame;
 import org.cef.browser.CefMessageRouter;
@@ -121,12 +122,20 @@ public class KeyboardOSRTest {
 
     @BeforeAll
     public static void before() throws InterruptedException {
+        // TODO: enable when implemented
+        if (CefApp.isRemoteEnabled())
+            return;
+
         myFrame = new MyFrame();
         myFrame.awaitLoad();
     }
 
     @AfterAll
     public static void after() throws IOException, InterruptedException {
+        // TODO: enable when implemented
+        if (CefApp.isRemoteEnabled())
+            return;
+
         File file = getScenarioFile();
         if (UPDATE_REFERENCE && file != null) {
             String jsonString = new GsonBuilder()
@@ -178,6 +187,10 @@ public class KeyboardOSRTest {
     @ParameterizedTest
     @MethodSource("getScenarios")
     void doTest(Scenario scenario) throws InterruptedException {
+        // TODO: enable when implemented
+        if (CefApp.isRemoteEnabled())
+            return;
+
         System.err.println("Testing '" + scenario.name + "'");
         eventsWaiter.setup();
         for (Scenario.EventDataJava data : scenario.eventsJava) {

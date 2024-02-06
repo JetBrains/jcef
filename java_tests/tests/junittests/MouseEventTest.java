@@ -1,5 +1,6 @@
 package tests.junittests;// Copyright 2000-2020 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 
+import org.cef.CefApp;
 import org.cef.misc.CefLog;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -22,6 +23,10 @@ import java.util.function.Function;
 public class MouseEventTest {
     @Test
     public void test() throws InvocationTargetException, InterruptedException {
+        // TODO: enable when implemented
+        if (CefApp.isRemoteEnabled())
+            return;
+
         CefLog.Info("Start basic mouse events test");
         doTest(scenario -> {
             scenario.doMouseActions();
@@ -30,6 +35,10 @@ public class MouseEventTest {
 
     @Test
     public void testWithAwaitBrowserCreation() throws InvocationTargetException, InterruptedException {
+        // TODO: enable when implemented
+        if (CefApp.isRemoteEnabled())
+            return;
+
         // debug helper for JBR-4649
         CefLog.Info("Start basic mouse events test");
         System.setProperty("jcef.trace.mouseeventscenario.all_awt_mouse_events", "true");
@@ -45,6 +54,10 @@ public class MouseEventTest {
 
     @Test
     public void hideAndShowBrowserTest() throws InvocationTargetException, InterruptedException {
+        // TODO: enable when implemented
+        if (CefApp.isRemoteEnabled())
+            return;
+
         CefLog.Info("Start hideAndShowBrowserTest");
         doTest(scenario -> {
             scenario.mouseMove(scenario.getBrowserFrame().getFrameCenter());
