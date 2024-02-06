@@ -6,11 +6,9 @@
 #include "include/cef_callback.h"
 
 class RemoteCallback : public virtual CefBaseRefCounted, public RemoteServerObject<RemoteCallback, CefCallback> {
- public:
-  static thrift_codegen::RObject create(CefRefPtr<CefCallback> delegate);
-
  private:
-  explicit RemoteCallback(CefRefPtr<CefCallback> delegate, int id);
+  explicit RemoteCallback(CefRefPtr<CefCallback> delegate, int id) : RemoteServerObject<RemoteCallback, CefCallback>(id, delegate) {}
+  template <class T, class D> friend class RemoteServerObject;
   IMPLEMENT_REFCOUNTING(RemoteCallback);
 };
 

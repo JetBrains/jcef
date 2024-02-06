@@ -37,16 +37,15 @@ RemoteResourceHandler::~RemoteResourceHandler() {
 bool RemoteResourceHandler::ProcessRequest(CefRefPtr<CefRequest> request,
                                            CefRefPtr<CefCallback> callback) {
   LNDCT();
-  RemoteRequest * rr = RemoteRequest::create(request);
-  Holder<RemoteRequest> holder(*rr);
-  thrift_codegen::RObject rc = RemoteCallback::create(callback);
+  RemoteRequest::Holder req(request);
+  RemoteCallback * rc = RemoteCallback::wrapDelegate(callback);
   const bool handled = myService->exec<bool>([&](RpcExecutor::Service s){
-    return s->ResourceHandler_ProcessRequest(myPeerId, rr->serverId(), rc);
+    return s->ResourceHandler_ProcessRequest(myPeerId, req.get()->serverId(), rc->serverId());
   }, false);
   if (!handled)
-    RemoteCallback::dispose(rc.objId);
+    RemoteCallback::dispose(rc->getId());
   else
-    myCallbacks.insert(rc.objId);
+    myCallbacks.insert(rc->getId());
   return handled;
 }
 
@@ -69,11 +68,10 @@ void RemoteResourceHandler::GetResponseHeaders(CefRefPtr<CefResponse> response,
                                                int64_t& response_length,
                                                CefString& redirectUrl) {
   LNDCT();
-  RemoteResponse * rr = RemoteResponse::create(response);
-  Holder<RemoteResponse> holder(*rr);
+  RemoteResponse::Holder resp(response);
   thrift_codegen::ResponseHeaders _return;
   myService->exec([&](RpcExecutor::Service s){
-    s->ResourceHandler_GetResponseHeaders(_return, myPeerId, rr->serverId());
+    s->ResourceHandler_GetResponseHeaders(_return, myPeerId, resp.get()->serverId());
   });
   response_length = _return.length;
   if (_return.__isset.redirectUrl)
@@ -89,16 +87,16 @@ bool RemoteResourceHandler::ReadResponse(void* data_out,
                                          int bytes_to_read,
                                          int& bytes_read,
                                          CefRefPtr<CefCallback> callback) {
-  thrift_codegen::RObject rc = RemoteCallback::create(callback);
+  RemoteCallback* rc = RemoteCallback::wrapDelegate(callback);
   thrift_codegen::ResponseData _return;
   _return.bytes_read = 0;
   myService->exec([&](RpcExecutor::Service s){
-    s->ResourceHandler_ReadResponse(_return, myPeerId, bytes_to_read, rc);
+    s->ResourceHandler_ReadResponse(_return, myPeerId, bytes_to_read, rc->serverId());
   });
   if (!_return.continueRead)
-    RemoteCallback::dispose(rc.objId);
+    RemoteCallback::dispose(rc->getId());
   else
-    myCallbacks.insert(rc.objId);
+    myCallbacks.insert(rc->getId());
   bytes_read = _return.bytes_read;
   if (bytes_read > 0)
     memcpy(data_out, _return.data.c_str(), _return.data.size());

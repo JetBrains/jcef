@@ -40,12 +40,11 @@ CefRefPtr<CefCookieAccessFilter> RemoteResourceRequestHandler::GetCookieAccessFi
 ) {
   LNDCT();
 
-  RemoteRequest * rr = RemoteRequest::create(request);
-  Holder<RemoteRequest> holder(*rr);
+  RemoteRequest::Holder req(request);
   thrift_codegen::RObject remoteHandler;
   
   myService->exec([&](RpcExecutor::Service s){
-    s->ResourceRequestHandler_GetCookieAccessFilter(remoteHandler, myPeerId, myBid, rr->serverIdWithMap());
+    s->ResourceRequestHandler_GetCookieAccessFilter(remoteHandler, myPeerId, myBid, req.get()->serverIdWithMap());
   });
   return remoteHandler.objId != -1 ? new RemoteCookieAccessFilter(myBid, myService, remoteHandler) : nullptr;
 }
@@ -69,11 +68,10 @@ CefResourceRequestHandler::ReturnValue RemoteResourceRequestHandler::OnBeforeRes
     CefRefPtr<CefCallback> callback
 ) {
   LNDCT();
-  RemoteRequest * rr = RemoteRequest::create(request);
-  Holder<RemoteRequest> holder(*rr);
+  RemoteRequest::Holder req(request);
   CefResourceRequestHandler::ReturnValue result = RV_CONTINUE;
   myService->exec([&](RpcExecutor::Service s){
-    bool boolRes = s->ResourceRequestHandler_OnBeforeResourceLoad(myPeerId, myBid, rr->serverIdWithMap());
+    bool boolRes = s->ResourceRequestHandler_OnBeforeResourceLoad(myPeerId, myBid, req.get()->serverIdWithMap());
     result = (boolRes ? RV_CANCEL : RV_CONTINUE);
   });
   return result;
@@ -95,11 +93,10 @@ CefRefPtr<CefResourceHandler> RemoteResourceRequestHandler::GetResourceHandler(
 ) {
   LNDCT();
 
-  RemoteRequest * rr = RemoteRequest::create(request);
-  Holder<RemoteRequest> holder(*rr);
+  RemoteRequest::Holder req(request);
   thrift_codegen::RObject remoteHandler;
   myService->exec([&](RpcExecutor::Service s){
-    s->ResourceRequestHandler_GetResourceHandler(remoteHandler, myPeerId, myBid, rr->serverIdWithMap());
+    s->ResourceRequestHandler_GetResourceHandler(remoteHandler, myPeerId, myBid, req.get()->serverIdWithMap());
   });
   return remoteHandler.objId != -1 ? new RemoteResourceHandler(myBid, myService, remoteHandler) : nullptr;
 }
@@ -123,14 +120,12 @@ void RemoteResourceRequestHandler::OnResourceRedirect(
     CefString& new_url
 ) {
   LNDCT();
-  RemoteRequest * rr = RemoteRequest::create(request);
-  Holder<RemoteRequest> holder(*rr);
-  RemoteResponse * rresp = RemoteResponse::create(response);
-  Holder<RemoteResponse> holderResp(*rresp);
+  RemoteRequest::Holder req(request);
+  RemoteResponse::Holder resp(response);
   std::string result;
   myService->exec([&](RpcExecutor::Service s){
-    s->ResourceRequestHandler_OnResourceRedirect(result, myPeerId, myBid, rr->serverIdWithMap(),
-                                                 rresp->serverIdWithMap(), new_url.ToString());
+    s->ResourceRequestHandler_OnResourceRedirect(result, myPeerId, myBid, req.get()->serverIdWithMap(),
+                                                 resp.get()->serverIdWithMap(), new_url.ToString());
   });
   CefString tmp(result);
   new_url.swap(tmp);
@@ -157,13 +152,11 @@ bool RemoteResourceRequestHandler::OnResourceResponse(
     CefRefPtr<CefResponse> response
 ) {
   LNDCT();
-  RemoteRequest * rr = RemoteRequest::create(request);
-  Holder<RemoteRequest> holder(*rr);
-  RemoteResponse * rresp = RemoteResponse::create(response);
-  Holder<RemoteResponse> holderResp(*rresp);
+  RemoteRequest::Holder req(request);
+  RemoteResponse::Holder resp(response);
   return myService->exec<bool>([&](RpcExecutor::Service s){
-    return s->ResourceRequestHandler_OnResourceResponse(myPeerId, myBid, rr->serverIdWithMap(),
-                                                          rresp->serverIdWithMap());
+    return s->ResourceRequestHandler_OnResourceResponse(myPeerId, myBid, req.get()->serverIdWithMap(),
+                                                        resp.get()->serverIdWithMap());
   }, false);
 }
 
@@ -193,13 +186,11 @@ void RemoteResourceRequestHandler::OnResourceLoadComplete(
     int64_t received_content_length
 ) {
   LNDCT();
-  RemoteRequest * rr = RemoteRequest::create(request);
-  Holder<RemoteRequest> holder(*rr);
-  RemoteResponse * rresp = RemoteResponse::create(response);
-  Holder<RemoteResponse> holderResp(*rresp);
+  RemoteRequest::Holder req(request);
+  RemoteResponse::Holder resp(response);
   myService->exec([&](RpcExecutor::Service s){
-    s->ResourceRequestHandler_OnResourceLoadComplete(myPeerId, myBid, rr->serverIdWithMap(),
-                                                     rresp->serverIdWithMap(), status2str(status), received_content_length);
+    s->ResourceRequestHandler_OnResourceLoadComplete(myPeerId, myBid, req.get()->serverIdWithMap(),
+                                                     resp.get()->serverIdWithMap(), status2str(status), received_content_length);
   });
 }
 
@@ -220,10 +211,9 @@ void RemoteResourceRequestHandler::OnProtocolExecution(
     CefRefPtr<CefRequest> request,
     bool& allow_os_execution) {
   LNDCT();
-  RemoteRequest * rr = RemoteRequest::create(request);
-  Holder<RemoteRequest> holder(*rr);
+  RemoteRequest::Holder req(request);
   myService->exec([&](RpcExecutor::Service s){
-    allow_os_execution = s->ResourceRequestHandler_OnProtocolExecution(myPeerId, myBid, rr->serverIdWithMap(), allow_os_execution);
+    allow_os_execution = s->ResourceRequestHandler_OnProtocolExecution(myPeerId, myBid, req.get()->serverIdWithMap(), allow_os_execution);
   });
 }
 

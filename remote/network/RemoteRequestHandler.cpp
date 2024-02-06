@@ -52,10 +52,9 @@ bool RemoteRequestHandler::OnBeforeBrowse(CefRefPtr<CefBrowser> browser,
   // Forward request to ClientHandler to make the message_router_ happy.
   myRoutersManager->OnBeforeBrowse(browser, frame);
 
-  RemoteRequest * rr = RemoteRequest::create(request);
-  Holder<RemoteRequest> holder(*rr);
+  RemoteRequest::Holder req(request);
   return myService->exec<bool>([&](RpcExecutor::Service s){
-    return s->RequestHandler_OnBeforeBrowse(myBid, rr->serverIdWithMap(), user_gesture, is_redirect);
+    return s->RequestHandler_OnBeforeBrowse(myBid, req.get()->serverIdWithMap(), user_gesture, is_redirect);
   }, false);
 }
 
@@ -98,13 +97,12 @@ CefRefPtr<CefResourceRequestHandler> RemoteRequestHandler::GetResourceRequestHan
   // Called on the browser process IO thread before a resource request is initiated.
   LogNdc ndc(__FILE_NAME__, __FUNCTION__, 500, false, false, "ChromeIO");
 
-  RemoteRequest * rr = RemoteRequest::create(request);
-  Holder<RemoteRequest> holder(*rr);
+  RemoteRequest::Holder req(request);
   thrift_codegen::RObject peer;
   peer.__set_objId(-1);
   myServiceIO->exec([&](RpcExecutor::Service s){
     s->RequestHandler_GetResourceRequestHandler(
-        peer, myBid, rr->serverIdWithMap(), is_navigation, is_download, request_initiator.ToString());
+        peer, myBid, req.get()->serverIdWithMap(), is_navigation, is_download, request_initiator.ToString());
   });
 
   disable_default_handling = peer.__isset.flags ? peer.flags != 0 : false;
@@ -134,7 +132,7 @@ bool RemoteRequestHandler::GetAuthCredentials(CefRefPtr<CefBrowser> browser,
                         CefRefPtr<CefAuthCallback> callback
 ) {
   LNDCT();
-  thrift_codegen::RObject rc = RemoteAuthCallback::create(callback);
+  thrift_codegen::RObject rc = RemoteAuthCallback::wrapDelegate(callback)->serverId();
   const bool handled = myServiceIO->exec<bool>([&](RpcExecutor::Service s){
       return s->RequestHandler_GetAuthCredentials(myBid, origin_url.ToString(), isProxy, host.ToString(), port, realm.ToString(), scheme.ToString(), rc);
   }, false);
@@ -161,16 +159,16 @@ bool RemoteRequestHandler::OnCertificateError(CefRefPtr<CefBrowser> browser,
                         CefRefPtr<CefCallback> callback
 ) {
   LNDCT();
-  thrift_codegen::RObject rc = RemoteCallback::create(callback);
+  RemoteCallback* rc = RemoteCallback::wrapDelegate(callback);
   thrift_codegen::RObject sslInfo;
   sslInfo.__set_objId(-1); // TODO: implement ssl_info
   const bool handled = myService->exec<bool>([&](RpcExecutor::Service s){
-      return s->RequestHandler_OnCertificateError(myBid, err2str(cert_error), request_url, sslInfo, rc);
+      return s->RequestHandler_OnCertificateError(myBid, err2str(cert_error), request_url, sslInfo, rc->serverId());
   }, false);
   if (!handled)
-    RemoteCallback::dispose(rc.objId);
+    RemoteCallback::dispose(rc->getId());
   else
-    myCallbacks.insert(rc.objId); // Callback will be disposed with RemoteRequestHandler (just for insurance)
+    myCallbacks.insert(rc->getId()); // Callback will be disposed with RemoteRequestHandler (just for insurance)
   return handled;
 }
 
