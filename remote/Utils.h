@@ -32,7 +32,7 @@ class RpcExecutor {
 #else
       Log::debug("thrift exception occured: %s", tx.what());
 #endif
-      // TODO: should we call close now ?
+      close();
     }
     return defVal;
   }

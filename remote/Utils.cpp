@@ -68,6 +68,6 @@ void RpcExecutor::exec(std::function<void(Service)> rpc) {
 #else
       Log::debug("thrift exception occured: %s", tx.what());
 #endif
-    // TODO: should we call close now ?
+    close();
   }
 }
