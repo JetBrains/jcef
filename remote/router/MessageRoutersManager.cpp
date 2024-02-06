@@ -2,7 +2,10 @@
 #include "RemoteMessageRouter.h"
 
 // remove to enable tracing
+#ifdef TRACE
+#undef TRACE
 #define TRACE()
+#endif
 
 MessageRoutersManager::~MessageRoutersManager() {
   base::AutoLock lockR(myRoutersLock);

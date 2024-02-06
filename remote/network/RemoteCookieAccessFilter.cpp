@@ -9,7 +9,10 @@ namespace {
 }
 
 // Disable logging until optimized
+#ifdef LNDCT
+#undef LNDCT
 #define LNDCT()
+#endif
 
 RemoteCookieAccessFilter::RemoteCookieAccessFilter(
     int bid,

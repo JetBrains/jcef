@@ -3,7 +3,10 @@
 #include "../browser/ClientsManager.h"
 
 // remove to enable tracing
-//#define TRACE()
+#ifdef TRACE
+#undef TRACE
+#define TRACE()
+#endif
 
 RemoteMessageRouterHandler::RemoteMessageRouterHandler(
     std::shared_ptr<RpcExecutor> service,
@@ -17,11 +20,11 @@ RemoteMessageRouterHandler::RemoteMessageRouterHandler(
           }),
       myClientsManager(manager) {
   TRACE();
-  Log::trace("new RouterHandler: peerId=%d", peer.objId);
+  //Log::trace("new RouterHandler: peerId=%d", peer.objId);
 }
 
 RemoteMessageRouterHandler::~RemoteMessageRouterHandler() {
-  Log::trace("delete RouterHandler: peerId=%d", myPeerId);
+  //Log::trace("delete RouterHandler: peerId=%d", myPeerId);
   for (auto cb: myCallbacks) // simple protection for leaking via callbacks
     RemoteQueryCallback::dispose(cb);
 }

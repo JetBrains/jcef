@@ -18,7 +18,7 @@ RemoteResourceHandler::RemoteResourceHandler(
           }), myBid(bid) {}
 
 RemoteResourceHandler::~RemoteResourceHandler() {
-  Log::trace("Disposed RemoteResourceHandler %d", myBid);
+  // Log::trace("Disposed RemoteResourceHandler %d", myBid);
   // simple protection for leaking via callbacks
   for (auto c: myCallbacks)
     RemoteCallback::dispose(c);

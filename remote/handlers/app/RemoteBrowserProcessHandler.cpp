@@ -2,7 +2,10 @@
 #include "../../log/Log.h"
 #include "../../router/MessageRoutersManager.h"
 
+#ifdef LNDCT
+#undef LNDCT
 #define LNDCT()
+#endif
 
 RemoteBrowserProcessHandler::RemoteBrowserProcessHandler() : myService(nullptr), myCreationTime(Clock::now()) {}
 

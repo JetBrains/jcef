@@ -12,7 +12,10 @@ namespace {
 }
 
 // Disable logging until optimized
+#ifdef LNDCT
+#undef LNDCT
 #define LNDCT()
+#endif
 
 RemoteResourceRequestHandler::RemoteResourceRequestHandler(
     int bid,

@@ -67,7 +67,7 @@ public class RemoteMessageRouterImpl extends RemoteServerObject {
     // Disposes handler ref in removeHandler (or when router finalizes, see disposeOnServerImpl)
     public boolean addHandler(CefMessageRouterHandler handler, boolean first) {
         RemoteMessageRouterHandler rhandler = RemoteMessageRouterHandler.create(handler);
-        CefLog.Debug("%s add handler %s [%d]", this, rhandler, rhandler.getId());
+        //CefLog.Debug("%s add handler %s [%d]", this, rhandler, rhandler.getId());
         synchronized (myHandlers) {
             myHandlers.add(rhandler);
         }

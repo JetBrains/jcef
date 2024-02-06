@@ -29,7 +29,7 @@ namespace {
       extra_info->SetList("router_configs", router_configs);
     }
 
-    Log::trace( "CefBrowserHost::CreateBrowser cid=%d, bid=%d", cid, bid);
+    //Log::trace( "CefBrowserHost::CreateBrowser cid=%d, bid=%d", cid, bid);
     bool result = CefBrowserHost::CreateBrowser(windowInfo, clienthandler, url,
                                                 settings, extra_info, nullptr);
     if (!result) {
@@ -70,7 +70,6 @@ int ClientsManager::createBrowser(
     CefPostTask(TID_UI, base::BindOnce(&createBrowserImpl, cid, bid, clienthandler, url, remove));
   }
 
-  Log::debug("Started native CefBrowser creation, cid=%d, bid=%d", cid, bid);
   return bid;
 }
 
@@ -91,7 +90,7 @@ int ClientsManager::findRemoteBrowser(CefRefPtr<CefBrowser> browser) {
 void ClientsManager::closeBrowser(const int32_t bid) {
   CefRefPtr<RemoteClientHandler> client = myRemoteClients->get(bid);
   if (!client) {
-    // already closed
+    Log::error("Remote browser is already closed, bid=%d", bid);
     return;
   }
 

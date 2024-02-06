@@ -1,7 +1,10 @@
 #include "RemoteAppHandler.h"
 #include "../../log/Log.h"
 
+#ifdef LNDCT
+#undef LNDCT
 #define LNDCT()
+#endif
 
 using namespace thrift_codegen;
 

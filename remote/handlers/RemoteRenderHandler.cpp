@@ -14,7 +14,10 @@ using namespace boost::interprocess;
 // Need to perform all calculations on server. Client should regularly update data on server.
 
 // Disable logging until optimized
+#ifdef LNDCT
+#undef LNDCT
 #define LNDCT()
+#endif
 
 RemoteRenderHandler::RemoteRenderHandler(int bid, std::shared_ptr<RpcExecutor> service) : myBid(bid), myService(service), myBufferManager(bid) {}
 
