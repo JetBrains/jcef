@@ -24,6 +24,16 @@ RemoteResourceHandler::~RemoteResourceHandler() {
     RemoteCallback::dispose(c);
 }
 
+///
+/// Begin processing the request. To handle the request return true and call
+/// CefCallback::Continue() once the response header information is available
+/// (CefCallback::Continue() can also be called from inside this method if
+/// header information is available immediately). To cancel the request return
+/// false.
+///
+/// WARNING: This method is deprecated. Use Open instead.
+///
+/*--cef()--*/
 bool RemoteResourceHandler::ProcessRequest(CefRefPtr<CefRequest> request,
                                            CefRefPtr<CefCallback> callback) {
   LNDCT();
@@ -40,17 +50,21 @@ bool RemoteResourceHandler::ProcessRequest(CefRefPtr<CefRequest> request,
   return handled;
 }
 
-/**
-     * Retrieve response header information. If the response length is not known set
-     * |responseLength| to -1 and readResponse() will be called until it returns false. If the
-     * response length is known set |responseLength| to a positive value and readResponse() will be
-     * called until it returns false or the specified number of bytes have been read. Use the
-     * |response| object to set the mime type, http status code and other optional header values.
-     * @param response The request response that should be returned. Instance only valid within the
-     *         scope of this method.
-     * @param responseLength Optionally set the response length if known.
-     * @param redirectUrl Optionally redirect the request to a new URL.
- */
+///
+/// Retrieve response header information. If the response length is not known
+/// set |response_length| to -1 and ReadResponse() will be called until it
+/// returns false. If the response length is known set |response_length|
+/// to a positive value and ReadResponse() will be called until it returns
+/// false or the specified number of bytes have been read. Use the |response|
+/// object to set the mime type, http status code and other optional header
+/// values. To redirect the request to a new URL set |redirectUrl| to the new
+/// URL. |redirectUrl| can be either a relative or fully qualified URL.
+/// It is also possible to set |response| to a redirect http status code
+/// and pass the new URL via a Location header. Likewise with |redirectUrl| it
+/// is valid to set a relative or fully qualified URL as the Location header
+/// value. If an error occured while setting up the request you can call
+/// SetError() on |response| to indicate the error condition.
+///
 void RemoteResourceHandler::GetResponseHeaders(CefRefPtr<CefResponse> response,
                                                int64_t& response_length,
                                                CefString& redirectUrl) {
