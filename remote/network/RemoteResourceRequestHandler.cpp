@@ -32,8 +32,6 @@ RemoteResourceRequestHandler::GetCookieAccessFilter(
     CefRefPtr<CefRequest> request
 ) {
   LNDCT();
-  if (myCookieAccessFilterReceived)
-    return myCookieAccessFilter;
 
   RemoteRequest * rr = RemoteRequest::create(request);
   Holder<RemoteRequest> holder(*rr);
@@ -42,13 +40,7 @@ RemoteResourceRequestHandler::GetCookieAccessFilter(
   myService->exec([&](RpcExecutor::Service s){
     s->ResourceRequestHandler_GetCookieAccessFilter(remoteHandler, myPeerId, myBid, rr->serverIdWithMap());
   });
-  myCookieAccessFilterReceived = true;
-  if (!remoteHandler.__isset.isPersistent || !remoteHandler.isPersistent)
-    Log::error("Non-persistent CookieAccessFilter can cause unstable behaviour and won't be used.");
-  else if (remoteHandler.objId != -1)
-    myCookieAccessFilter = new RemoteCookieAccessFilter(myBid, myService, remoteHandler);
-
-  return myCookieAccessFilter;
+  return remoteHandler.objId != -1 ? new RemoteCookieAccessFilter(myBid, myService, remoteHandler) : nullptr;
 }
 
 CefResourceRequestHandler::ReturnValue
@@ -75,8 +67,6 @@ CefRefPtr<CefResourceHandler> RemoteResourceRequestHandler::GetResourceHandler(
     CefRefPtr<CefRequest> request
 ) {
   LNDCT();
-  if (myResourceHandlerReceived)
-    return myResourceHandler;
 
   RemoteRequest * rr = RemoteRequest::create(request);
   Holder<RemoteRequest> holder(*rr);
@@ -84,13 +74,7 @@ CefRefPtr<CefResourceHandler> RemoteResourceRequestHandler::GetResourceHandler(
   myService->exec([&](RpcExecutor::Service s){
     s->ResourceRequestHandler_GetResourceHandler(remoteHandler, myPeerId, myBid, rr->serverIdWithMap());
   });
-  myResourceHandlerReceived = true;
-  if (!remoteHandler.__isset.isPersistent || !remoteHandler.isPersistent)
-    Log::error("Non-persistent ResourceHandler can cause unstable behaviour and won't be used.");
-  else if (remoteHandler.objId != -1) {
-    myResourceHandler = new RemoteResourceHandler(myBid, myService, remoteHandler);
-  }
-  return myResourceHandler;
+  return remoteHandler.objId != -1 ? new RemoteResourceHandler(myBid, myService, remoteHandler) : nullptr;
 }
 
 void RemoteResourceRequestHandler::OnResourceRedirect(

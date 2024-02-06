@@ -8,6 +8,7 @@
 class RemoteCookieAccessFilter : public CefCookieAccessFilter, public RemoteJavaObject<RemoteCookieAccessFilter> {
  public:
   explicit RemoteCookieAccessFilter(int bid, std::shared_ptr<RpcExecutor> service, thrift_codegen::RObject peer);
+  ~RemoteCookieAccessFilter() { Log::trace("Disposed RemoteCookieAccessFilter %d", myBid); }
 
   bool CanSendCookie(CefRefPtr<CefBrowser> browser,
                      CefRefPtr<CefFrame> frame,

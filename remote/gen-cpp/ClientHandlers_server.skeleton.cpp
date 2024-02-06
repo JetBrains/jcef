@@ -215,6 +215,26 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
     printf("ResourceHandler_Dispose\n");
   }
 
+  bool ResourceHandler_ProcessRequest(const int32_t resourceHandler, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& callback) {
+    // Your implementation goes here
+    printf("ResourceHandler_ProcessRequest\n");
+  }
+
+  void ResourceHandler_GetResponseHeaders( ::thrift_codegen::ResponseHeaders& _return, const int32_t resourceHandler, const  ::thrift_codegen::RObject& response) {
+    // Your implementation goes here
+    printf("ResourceHandler_GetResponseHeaders\n");
+  }
+
+  void ResourceHandler_ReadResponse( ::thrift_codegen::ResponseData& _return, const int32_t resourceHandler, const int32_t bytes_to_read, const  ::thrift_codegen::RObject& callback) {
+    // Your implementation goes here
+    printf("ResourceHandler_ReadResponse\n");
+  }
+
+  void ResourceHandler_Cancel(const int32_t resourceHandler) {
+    // Your implementation goes here
+    printf("ResourceHandler_Cancel\n");
+  }
+
   void ResourceRequestHandler_OnResourceRedirect(std::string& _return, const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& response, const std::string& new_url) {
     // Your implementation goes here
     printf("ResourceRequestHandler_OnResourceRedirect\n");

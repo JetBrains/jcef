@@ -98,32 +98,29 @@ service ClientHandlers {
     //
     // CefRequestHandler
     //
-    bool RequestHandler_OnBeforeBrowse(1: i32 bid, 2: shared.RObject request, 3: bool user_gesture, 4: bool is_redirect),
-    bool RequestHandler_OnOpenURLFromTab(1: i32 bid, 2: string target_url, 3: bool user_gesture),
-    bool RequestHandler_GetAuthCredentials(1: i32 bid, 2: string origin_url, 3: bool isProxy, 4: string host, 5: i32 port, 6: string realm, 7: string scheme, 8: shared.RObject authCallback),
-    bool RequestHandler_OnCertificateError(1: i32 bid, 2: string cert_error, 3: string request_url, 4: shared.RObject sslInfo, 5: shared.RObject callback),
-    oneway void RequestHandler_OnRenderProcessTerminated(1: i32 bid, 2: string status),
+    bool           RequestHandler_OnBeforeBrowse(1: i32 bid, 2: shared.RObject request, 3: bool user_gesture, 4: bool is_redirect),
+    bool           RequestHandler_OnOpenURLFromTab(1: i32 bid, 2: string target_url, 3: bool user_gesture),
+    bool           RequestHandler_GetAuthCredentials(1: i32 bid, 2: string origin_url, 3: bool isProxy, 4: string host, 5: i32 port, 6: string realm, 7: string scheme, 8: shared.RObject authCallback),
+    bool           RequestHandler_OnCertificateError(1: i32 bid, 2: string cert_error, 3: string request_url, 4: shared.RObject sslInfo, 5: shared.RObject callback),
+    oneway void    RequestHandler_OnRenderProcessTerminated(1: i32 bid, 2: string status),
     shared.RObject RequestHandler_GetResourceRequestHandler(1: i32 bid, 2: shared.RObject request, 3: bool isNavigation, 4: bool isDownload, 5: string requestInitiator),
-    oneway void ResourceRequestHandler_Dispose(1: i32 rrHandler),
-    shared.RObject ResourceRequestHandler_GetCookieAccessFilter(1: i32 rrHandler, 2: i32 bid, 3: shared.RObject request),
-    oneway void CookieAccessFilter_Dispose(1: i32 filter),
-    bool CookieAccessFilter_CanSendCookie(1: i32 filter, 2: i32 bid, 3: shared.RObject request, 4: list<string> cookie),
-    bool CookieAccessFilter_CanSaveCookie(1: i32 filter, 2: i32 bid, 3: shared.RObject request, 4: shared.RObject response, 5: list<string> cookie),
-    bool ResourceRequestHandler_OnBeforeResourceLoad(1: i32 rrHandler, 2: i32 bid, 3: shared.RObject request),
-    shared.RObject ResourceRequestHandler_GetResourceHandler(1: i32 rrHandler, 2: i32 bid, 3: shared.RObject request),
-    oneway void ResourceHandler_Dispose(1: i32 resourceHandler),
-    // TODO: implement
-    //bool ResourceHandler_Open(1:i32 resourceHandler, 2:shared.RObject request, bool& handle_request, shared.RObject callback)
-    //bool ResourceHandler_ProcessRequest(1:i32 resourceHandler, 2:shared.RObject request, shared.RObject callback)
-    //string ResourceHandler_GetResponseHeaders(1:i32 resourceHandler, 2:shared.RObject response, int64& response_length, string redirectUrl)
-    //bool ResourceHandler_Skip(int64 bytes_to_skip, int64& bytes_skipped, CefRefPtr<CefResourceSkipCallback> callback)
-    //bool ResourceHandler_Read(void* data_out, int bytes_to_read, int& bytes_read, CefRefPtr<CefResourceReadCallback> callback)
-    //bool ResourceHandler_ReadResponse(void* data_out, int bytes_to_read, int& bytes_read, shared.RObject callback)
-    //void ResourceHandler_Cancel()
-    string ResourceRequestHandler_OnResourceRedirect(1: i32 rrHandler, 2: i32 bid, 3: shared.RObject request, 4: shared.RObject response, 5: string new_url),
-    bool ResourceRequestHandler_OnResourceResponse(1: i32 rrHandler, 2: i32 bid, 3: shared.RObject request, 4: shared.RObject response),
-    void ResourceRequestHandler_OnResourceLoadComplete(1: i32 rrHandler, 2: i32 bid, 3: shared.RObject request, 4: shared.RObject response, 5: string status, 6: i64 receivedContentLength),
-    bool ResourceRequestHandler_OnProtocolExecution(1: i32 rrHandler, 2: i32 bid, 3: shared.RObject request, 4: bool allowOsExecution),
+    oneway void       ResourceRequestHandler_Dispose(1: i32 rrHandler),
+    shared.RObject    ResourceRequestHandler_GetCookieAccessFilter(1: i32 rrHandler, 2: i32 bid, 3: shared.RObject request),
+    oneway void           CookieAccessFilter_Dispose(1: i32 filter),
+    bool                  CookieAccessFilter_CanSendCookie(1: i32 filter, 2: i32 bid, 3: shared.RObject request, 4: list<string> cookie),
+    bool                  CookieAccessFilter_CanSaveCookie(1: i32 filter, 2: i32 bid, 3: shared.RObject request, 4: shared.RObject response, 5: list<string> cookie),
+    bool              ResourceRequestHandler_OnBeforeResourceLoad(1: i32 rrHandler, 2: i32 bid, 3: shared.RObject request),
+    shared.RObject    ResourceRequestHandler_GetResourceHandler(1: i32 rrHandler, 2: i32 bid, 3: shared.RObject request),
+    oneway void            ResourceHandler_Dispose(1: i32 resourceHandler),
+    bool                   ResourceHandler_ProcessRequest(1:i32 resourceHandler, 2:shared.RObject request, 3:shared.RObject callback)
+    shared.ResponseHeaders ResourceHandler_GetResponseHeaders(1:i32 resourceHandler, 2:shared.RObject response)
+    shared.ResponseData    ResourceHandler_ReadResponse(1:i32 resourceHandler, 2:i32 bytes_to_read, 3:shared.RObject callback)
+    oneway void            ResourceHandler_Cancel(1:i32 resourceHandler)
+    string            ResourceRequestHandler_OnResourceRedirect(1: i32 rrHandler, 2: i32 bid, 3: shared.RObject request, 4: shared.RObject response, 5: string new_url),
+    bool              ResourceRequestHandler_OnResourceResponse(1: i32 rrHandler, 2: i32 bid, 3: shared.RObject request, 4: shared.RObject response),
+    void              ResourceRequestHandler_OnResourceLoadComplete(1: i32 rrHandler, 2: i32 bid, 3: shared.RObject request, 4: shared.RObject response, 5: string status, 6: i64 receivedContentLength),
+    bool              ResourceRequestHandler_OnProtocolExecution(1: i32 rrHandler, 2: i32 bid, 3: shared.RObject request, 4: bool allowOsExecution),
+
     //
     // CefMessageRouter
     //

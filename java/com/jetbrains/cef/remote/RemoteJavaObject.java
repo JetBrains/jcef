@@ -18,15 +18,13 @@ public class RemoteJavaObject<T> {
     public int getId() { return myId; }
     public T getDelegate() { return myDelegate; }
 
-    public RObject thriftId(boolean isPersistent) {
-        return thriftId(isPersistent, false);
-    }
-    public RObject thriftId(boolean isPersistent, boolean isDisableDefalultHandling) {
+    public RObject thriftId() {
         RObject result = new RObject(myId);
-        if (isPersistent)
-            result.setIsPersistent(true);
-        if (isDisableDefalultHandling)
-            result.setIsDisableDefaultHandling(true);
+        return result;
+    }
+    public RObject thriftId(int flags) {
+        RObject result = new RObject(myId);
+        result.setFlags(flags);
         return result;
     }
 }

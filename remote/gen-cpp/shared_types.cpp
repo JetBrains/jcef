@@ -22,14 +22,9 @@ void RObject::__set_objId(const int32_t val) {
   this->objId = val;
 }
 
-void RObject::__set_isPersistent(const bool val) {
-  this->isPersistent = val;
-__isset.isPersistent = true;
-}
-
-void RObject::__set_isDisableDefaultHandling(const bool val) {
-  this->isDisableDefaultHandling = val;
-__isset.isDisableDefaultHandling = true;
+void RObject::__set_flags(const int32_t val) {
+  this->flags = val;
+__isset.flags = true;
 }
 
 void RObject::__set_objInfo(const std::map<std::string, std::string> & val) {
@@ -74,22 +69,14 @@ uint32_t RObject::read(::apache::thrift::protocol::TProtocol* iprot) {
         }
         break;
       case 2:
-        if (ftype == ::apache::thrift::protocol::T_BOOL) {
-          xfer += iprot->readBool(this->isPersistent);
-          this->__isset.isPersistent = true;
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->flags);
+          this->__isset.flags = true;
         } else {
           xfer += iprot->skip(ftype);
         }
         break;
       case 3:
-        if (ftype == ::apache::thrift::protocol::T_BOOL) {
-          xfer += iprot->readBool(this->isDisableDefaultHandling);
-          this->__isset.isDisableDefaultHandling = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 4:
         if (ftype == ::apache::thrift::protocol::T_MAP) {
           {
             this->objInfo.clear();
@@ -135,18 +122,13 @@ uint32_t RObject::write(::apache::thrift::protocol::TProtocol* oprot) const {
   xfer += oprot->writeI32(this->objId);
   xfer += oprot->writeFieldEnd();
 
-  if (this->__isset.isPersistent) {
-    xfer += oprot->writeFieldBegin("isPersistent", ::apache::thrift::protocol::T_BOOL, 2);
-    xfer += oprot->writeBool(this->isPersistent);
-    xfer += oprot->writeFieldEnd();
-  }
-  if (this->__isset.isDisableDefaultHandling) {
-    xfer += oprot->writeFieldBegin("isDisableDefaultHandling", ::apache::thrift::protocol::T_BOOL, 3);
-    xfer += oprot->writeBool(this->isDisableDefaultHandling);
+  if (this->__isset.flags) {
+    xfer += oprot->writeFieldBegin("flags", ::apache::thrift::protocol::T_I32, 2);
+    xfer += oprot->writeI32(this->flags);
     xfer += oprot->writeFieldEnd();
   }
   if (this->__isset.objInfo) {
-    xfer += oprot->writeFieldBegin("objInfo", ::apache::thrift::protocol::T_MAP, 4);
+    xfer += oprot->writeFieldBegin("objInfo", ::apache::thrift::protocol::T_MAP, 3);
     {
       xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->objInfo.size()));
       std::map<std::string, std::string> ::const_iterator _iter7;
@@ -167,23 +149,20 @@ uint32_t RObject::write(::apache::thrift::protocol::TProtocol* oprot) const {
 void swap(RObject &a, RObject &b) {
   using ::std::swap;
   swap(a.objId, b.objId);
-  swap(a.isPersistent, b.isPersistent);
-  swap(a.isDisableDefaultHandling, b.isDisableDefaultHandling);
+  swap(a.flags, b.flags);
   swap(a.objInfo, b.objInfo);
   swap(a.__isset, b.__isset);
 }
 
 RObject::RObject(const RObject& other8) {
   objId = other8.objId;
-  isPersistent = other8.isPersistent;
-  isDisableDefaultHandling = other8.isDisableDefaultHandling;
+  flags = other8.flags;
   objInfo = other8.objInfo;
   __isset = other8.__isset;
 }
 RObject& RObject::operator=(const RObject& other9) {
   objId = other9.objId;
-  isPersistent = other9.isPersistent;
-  isDisableDefaultHandling = other9.isDisableDefaultHandling;
+  flags = other9.flags;
   objInfo = other9.objInfo;
   __isset = other9.__isset;
   return *this;
@@ -192,9 +171,262 @@ void RObject::printTo(std::ostream& out) const {
   using ::apache::thrift::to_string;
   out << "RObject(";
   out << "objId=" << to_string(objId);
-  out << ", " << "isPersistent="; (__isset.isPersistent ? (out << to_string(isPersistent)) : (out << "<null>"));
-  out << ", " << "isDisableDefaultHandling="; (__isset.isDisableDefaultHandling ? (out << to_string(isDisableDefaultHandling)) : (out << "<null>"));
+  out << ", " << "flags="; (__isset.flags ? (out << to_string(flags)) : (out << "<null>"));
   out << ", " << "objInfo="; (__isset.objInfo ? (out << to_string(objInfo)) : (out << "<null>"));
+  out << ")";
+}
+
+
+ResponseHeaders::~ResponseHeaders() noexcept {
+}
+
+
+void ResponseHeaders::__set_length(const int32_t val) {
+  this->length = val;
+__isset.length = true;
+}
+
+void ResponseHeaders::__set_redirectUrl(const std::string& val) {
+  this->redirectUrl = val;
+__isset.redirectUrl = true;
+}
+std::ostream& operator<<(std::ostream& out, const ResponseHeaders& obj)
+{
+  obj.printTo(out);
+  return out;
+}
+
+
+uint32_t ResponseHeaders::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->length);
+          this->__isset.length = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->redirectUrl);
+          this->__isset.redirectUrl = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ResponseHeaders::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ResponseHeaders");
+
+  if (this->__isset.length) {
+    xfer += oprot->writeFieldBegin("length", ::apache::thrift::protocol::T_I32, 1);
+    xfer += oprot->writeI32(this->length);
+    xfer += oprot->writeFieldEnd();
+  }
+  if (this->__isset.redirectUrl) {
+    xfer += oprot->writeFieldBegin("redirectUrl", ::apache::thrift::protocol::T_STRING, 2);
+    xfer += oprot->writeString(this->redirectUrl);
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+void swap(ResponseHeaders &a, ResponseHeaders &b) {
+  using ::std::swap;
+  swap(a.length, b.length);
+  swap(a.redirectUrl, b.redirectUrl);
+  swap(a.__isset, b.__isset);
+}
+
+ResponseHeaders::ResponseHeaders(const ResponseHeaders& other10) {
+  length = other10.length;
+  redirectUrl = other10.redirectUrl;
+  __isset = other10.__isset;
+}
+ResponseHeaders& ResponseHeaders::operator=(const ResponseHeaders& other11) {
+  length = other11.length;
+  redirectUrl = other11.redirectUrl;
+  __isset = other11.__isset;
+  return *this;
+}
+void ResponseHeaders::printTo(std::ostream& out) const {
+  using ::apache::thrift::to_string;
+  out << "ResponseHeaders(";
+  out << "length="; (__isset.length ? (out << to_string(length)) : (out << "<null>"));
+  out << ", " << "redirectUrl="; (__isset.redirectUrl ? (out << to_string(redirectUrl)) : (out << "<null>"));
+  out << ")";
+}
+
+
+ResponseData::~ResponseData() noexcept {
+}
+
+
+void ResponseData::__set_continueRead(const bool val) {
+  this->continueRead = val;
+__isset.continueRead = true;
+}
+
+void ResponseData::__set_data(const std::string& val) {
+  this->data = val;
+__isset.data = true;
+}
+
+void ResponseData::__set_bytes_read(const int32_t val) {
+  this->bytes_read = val;
+__isset.bytes_read = true;
+}
+std::ostream& operator<<(std::ostream& out, const ResponseData& obj)
+{
+  obj.printTo(out);
+  return out;
+}
+
+
+uint32_t ResponseData::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->continueRead);
+          this->__isset.continueRead = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readBinary(this->data);
+          this->__isset.data = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->bytes_read);
+          this->__isset.bytes_read = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ResponseData::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ResponseData");
+
+  if (this->__isset.continueRead) {
+    xfer += oprot->writeFieldBegin("continueRead", ::apache::thrift::protocol::T_BOOL, 1);
+    xfer += oprot->writeBool(this->continueRead);
+    xfer += oprot->writeFieldEnd();
+  }
+  if (this->__isset.data) {
+    xfer += oprot->writeFieldBegin("data", ::apache::thrift::protocol::T_STRING, 2);
+    xfer += oprot->writeBinary(this->data);
+    xfer += oprot->writeFieldEnd();
+  }
+  if (this->__isset.bytes_read) {
+    xfer += oprot->writeFieldBegin("bytes_read", ::apache::thrift::protocol::T_I32, 3);
+    xfer += oprot->writeI32(this->bytes_read);
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+void swap(ResponseData &a, ResponseData &b) {
+  using ::std::swap;
+  swap(a.continueRead, b.continueRead);
+  swap(a.data, b.data);
+  swap(a.bytes_read, b.bytes_read);
+  swap(a.__isset, b.__isset);
+}
+
+ResponseData::ResponseData(const ResponseData& other12) {
+  continueRead = other12.continueRead;
+  data = other12.data;
+  bytes_read = other12.bytes_read;
+  __isset = other12.__isset;
+}
+ResponseData& ResponseData::operator=(const ResponseData& other13) {
+  continueRead = other13.continueRead;
+  data = other13.data;
+  bytes_read = other13.bytes_read;
+  __isset = other13.__isset;
+  return *this;
+}
+void ResponseData::printTo(std::ostream& out) const {
+  using ::apache::thrift::to_string;
+  out << "ResponseData(";
+  out << "continueRead="; (__isset.continueRead ? (out << to_string(continueRead)) : (out << "<null>"));
+  out << ", " << "data="; (__isset.data ? (out << to_string(data)) : (out << "<null>"));
+  out << ", " << "bytes_read="; (__isset.bytes_read ? (out << to_string(bytes_read)) : (out << "<null>"));
   out << ")";
 }
 
@@ -315,17 +547,17 @@ void swap(PostDataElement &a, PostDataElement &b) {
   swap(a.__isset, b.__isset);
 }
 
-PostDataElement::PostDataElement(const PostDataElement& other10) {
-  isReadOnly = other10.isReadOnly;
-  file = other10.file;
-  bytes = other10.bytes;
-  __isset = other10.__isset;
+PostDataElement::PostDataElement(const PostDataElement& other14) {
+  isReadOnly = other14.isReadOnly;
+  file = other14.file;
+  bytes = other14.bytes;
+  __isset = other14.__isset;
 }
-PostDataElement& PostDataElement::operator=(const PostDataElement& other11) {
-  isReadOnly = other11.isReadOnly;
-  file = other11.file;
-  bytes = other11.bytes;
-  __isset = other11.__isset;
+PostDataElement& PostDataElement::operator=(const PostDataElement& other15) {
+  isReadOnly = other15.isReadOnly;
+  file = other15.file;
+  bytes = other15.bytes;
+  __isset = other15.__isset;
   return *this;
 }
 void PostDataElement::printTo(std::ostream& out) const {
@@ -404,14 +636,14 @@ uint32_t PostData::read(::apache::thrift::protocol::TProtocol* iprot) {
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->elements.clear();
-            uint32_t _size12;
-            ::apache::thrift::protocol::TType _etype15;
-            xfer += iprot->readListBegin(_etype15, _size12);
-            this->elements.resize(_size12);
-            uint32_t _i16;
-            for (_i16 = 0; _i16 < _size12; ++_i16)
+            uint32_t _size16;
+            ::apache::thrift::protocol::TType _etype19;
+            xfer += iprot->readListBegin(_etype19, _size16);
+            this->elements.resize(_size16);
+            uint32_t _i20;
+            for (_i20 = 0; _i20 < _size16; ++_i20)
             {
-              xfer += this->elements[_i16].read(iprot);
+              xfer += this->elements[_i20].read(iprot);
             }
             xfer += iprot->readListEnd();
           }
@@ -453,10 +685,10 @@ uint32_t PostData::write(::apache::thrift::protocol::TProtocol* oprot) const {
     xfer += oprot->writeFieldBegin("elements", ::apache::thrift::protocol::T_LIST, 3);
     {
       xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->elements.size()));
-      std::vector<PostDataElement> ::const_iterator _iter17;
-      for (_iter17 = this->elements.begin(); _iter17 != this->elements.end(); ++_iter17)
+      std::vector<PostDataElement> ::const_iterator _iter21;
+      for (_iter21 = this->elements.begin(); _iter21 != this->elements.end(); ++_iter21)
       {
-        xfer += (*_iter17).write(oprot);
+        xfer += (*_iter21).write(oprot);
       }
       xfer += oprot->writeListEnd();
     }
@@ -475,17 +707,17 @@ void swap(PostData &a, PostData &b) {
   swap(a.__isset, b.__isset);
 }
 
-PostData::PostData(const PostData& other18) {
-  isReadOnly = other18.isReadOnly;
-  hasExcludedElements = other18.hasExcludedElements;
-  elements = other18.elements;
-  __isset = other18.__isset;
+PostData::PostData(const PostData& other22) {
+  isReadOnly = other22.isReadOnly;
+  hasExcludedElements = other22.hasExcludedElements;
+  elements = other22.elements;
+  __isset = other22.__isset;
 }
-PostData& PostData::operator=(const PostData& other19) {
-  isReadOnly = other19.isReadOnly;
-  hasExcludedElements = other19.hasExcludedElements;
-  elements = other19.elements;
-  __isset = other19.__isset;
+PostData& PostData::operator=(const PostData& other23) {
+  isReadOnly = other23.isReadOnly;
+  hasExcludedElements = other23.hasExcludedElements;
+  elements = other23.elements;
+  __isset = other23.__isset;
   return *this;
 }
 void PostData::printTo(std::ostream& out) const {
@@ -715,25 +947,25 @@ void swap(KeyEvent &a, KeyEvent &b) {
   swap(a.focus_on_editable_field, b.focus_on_editable_field);
 }
 
-KeyEvent::KeyEvent(const KeyEvent& other20) {
-  type = other20.type;
-  modifiers = other20.modifiers;
-  windows_key_code = other20.windows_key_code;
-  native_key_code = other20.native_key_code;
-  is_system_key = other20.is_system_key;
-  character = other20.character;
-  unmodified_character = other20.unmodified_character;
-  focus_on_editable_field = other20.focus_on_editable_field;
+KeyEvent::KeyEvent(const KeyEvent& other24) {
+  type = other24.type;
+  modifiers = other24.modifiers;
+  windows_key_code = other24.windows_key_code;
+  native_key_code = other24.native_key_code;
+  is_system_key = other24.is_system_key;
+  character = other24.character;
+  unmodified_character = other24.unmodified_character;
+  focus_on_editable_field = other24.focus_on_editable_field;
 }
-KeyEvent& KeyEvent::operator=(const KeyEvent& other21) {
-  type = other21.type;
-  modifiers = other21.modifiers;
-  windows_key_code = other21.windows_key_code;
-  native_key_code = other21.native_key_code;
-  is_system_key = other21.is_system_key;
-  character = other21.character;
-  unmodified_character = other21.unmodified_character;
-  focus_on_editable_field = other21.focus_on_editable_field;
+KeyEvent& KeyEvent::operator=(const KeyEvent& other25) {
+  type = other25.type;
+  modifiers = other25.modifiers;
+  windows_key_code = other25.windows_key_code;
+  native_key_code = other25.native_key_code;
+  is_system_key = other25.is_system_key;
+  character = other25.character;
+  unmodified_character = other25.unmodified_character;
+  focus_on_editable_field = other25.focus_on_editable_field;
   return *this;
 }
 void KeyEvent::printTo(std::ostream& out) const {

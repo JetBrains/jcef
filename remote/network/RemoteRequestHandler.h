@@ -76,11 +76,6 @@ class RemoteRequestHandler : public CefRequestHandler {
   std::set<int> myCallbacks;
   std::set<int> myAuthCallbacks;
 
-  // Persistent java handler
-  bool myResourceRequestHandlerReceived = false;
-  bool myDisableDefaultHandling = false;
-  CefRefPtr<CefResourceRequestHandler> myResourceRequestHandler;
-
   IMPLEMENT_REFCOUNTING(RemoteRequestHandler);
 };
 

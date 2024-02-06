@@ -7,22 +7,13 @@
 class RemoteResourceHandler : public CefResourceHandler, public RemoteJavaObject<RemoteResourceHandler> {
  public:
   explicit RemoteResourceHandler(int bid, std::shared_ptr<RpcExecutor> service, thrift_codegen::RObject peer);
+  ~RemoteResourceHandler();
 
-  bool Open(CefRefPtr<CefRequest> request,
-            bool& handle_request,
-            CefRefPtr<CefCallback> callback) override;
   bool ProcessRequest(CefRefPtr<CefRequest> request,
                       CefRefPtr<CefCallback> callback) override;
   void GetResponseHeaders(CefRefPtr<CefResponse> response,
                           int64_t& response_length,
                           CefString& redirectUrl) override;
-  bool Skip(int64_t bytes_to_skip,
-            int64_t& bytes_skipped,
-            CefRefPtr<CefResourceSkipCallback> callback) override;
-  bool Read(void* data_out,
-            int bytes_to_read,
-            int& bytes_read,
-            CefRefPtr<CefResourceReadCallback> callback) override;
   bool ReadResponse(void* data_out,
                     int bytes_to_read,
                     int& bytes_read,
@@ -31,7 +22,7 @@ class RemoteResourceHandler : public CefResourceHandler, public RemoteJavaObject
 
  private:
   const int myBid;
-
+  std::set<int> myCallbacks;
   IMPLEMENT_REFCOUNTING(RemoteResourceHandler);
 };
 

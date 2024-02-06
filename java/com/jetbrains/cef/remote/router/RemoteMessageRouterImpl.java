@@ -71,7 +71,7 @@ public class RemoteMessageRouterImpl extends RemoteServerObject {
         synchronized (myHandlers) {
             myHandlers.add(rhandler);
         }
-        myServer.exec((s)->s.MessageRouter_AddHandler(thriftId(), rhandler.thriftId(true), first));
+        myServer.exec((s)->s.MessageRouter_AddHandler(thriftId(), rhandler.thriftId(), first));
         return true;
     }
 
@@ -85,7 +85,7 @@ public class RemoteMessageRouterImpl extends RemoteServerObject {
             boolean removed = myHandlers.remove(rhandler);
             if (!removed) CefLog.Error("RemoteMessageRouterHandler %s wasn't found in myHandlers list");
         }
-        myServer.exec((s)->s.MessageRouter_RemoveHandler(thriftId(), rhandler.thriftId(true)));
+        myServer.exec((s)->s.MessageRouter_RemoveHandler(thriftId(), rhandler.thriftId()));
         RemoteMessageRouterHandler.FACTORY.dispose(rhandler.getId());
         return true;
     }
@@ -99,7 +99,7 @@ public class RemoteMessageRouterImpl extends RemoteServerObject {
             CefLog.Error("Can't cancelPending on non-remote browser " + browser);
         else {
             int bid = browser == null ? -1 : ((RemoteBrowser)browser).getBid();
-            myServer.exec((s) -> s.MessageRouter_CancelPending(thriftId(), bid, rhandler.thriftId(true)));
+            myServer.exec((s) -> s.MessageRouter_CancelPending(thriftId(), bid, rhandler.thriftId()));
         }
     }
 
