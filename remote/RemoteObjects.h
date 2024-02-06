@@ -13,37 +13,30 @@ class ServerObjectsFactory {
   T* create(std::function<T*(int)> creator) {
     Lock lock(MUTEX);
 
-    int freeIndex = 0;
-    while (freeIndex < INSTANCES.size() && INSTANCES[freeIndex] != nullptr)
-      ++freeIndex;
-
-    T* result = creator(freeIndex);
-    if (freeIndex == INSTANCES.size())
-      INSTANCES.push_back(result);
-    else
-      INSTANCES[freeIndex] = result;
-
+    static int id = 0;
+    const int newId = id++;
+    T* result = creator(newId);
+    INSTANCES[newId] = result;
     return result;
   }
 
   T* find(int id) {
     Lock lock(MUTEX);
-    return id >= INSTANCES.size() ? nullptr : INSTANCES[id];
+    return INSTANCES[id];
   }
 
   void dispose(int id, bool doDelete) {
     Lock lock(MUTEX);
-    if (id >= INSTANCES.size()) return ; // simple protection
     T* r = INSTANCES[id];
     if (r != nullptr) {
       if (doDelete)
         delete r;
-      INSTANCES[id] = nullptr;
+      INSTANCES.erase(id);
     }
   }
 
  private:
-  std::vector<T*> INSTANCES;
+  std::map<int, T*> INSTANCES;
   std::recursive_mutex MUTEX;
 };
 
