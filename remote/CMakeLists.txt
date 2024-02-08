@@ -178,12 +178,13 @@ target_include_directories(${EXECUTABLE_NAME} PRIVATE ${CEF_INCLUDE_PATH})
 
 if (OS_WINDOWS)
     add_logical_target("libcef_lib" "${CEF_LIB_DEBUG}" "${CEF_LIB_RELEASE}")
-    target_link_libraries(${EXECUTABLE_NAME} libcef_lib ${Boost_FILESYSTEM_LIBRARY})
+    target_link_libraries(${EXECUTABLE_NAME} libcef_lib)
 endif ()
 
-target_link_libraries(${EXECUTABLE_NAME} ${CEF_STANDARD_LIBS} thrift_codegen)
+target_link_libraries(${EXECUTABLE_NAME} ${CEF_STANDARD_LIBS} thrift_codegen ${Boost_FILESYSTEM_LIBRARY})
+
 if (OS_MAC)
-    target_link_libraries(${EXECUTABLE_NAME} thrift::thrift ${Boost_FILESYSTEM_LIBRARY})
+    target_link_libraries(${EXECUTABLE_NAME} thrift::thrift)
 endif ()
 
 if (OS_WINDOWS)
@@ -321,6 +322,9 @@ if (OS_WINDOWS)
     list(APPEND shared_mem_helper_SOURCES
         windows/WindowsPipe.cpp
     )
+endif ()
+if (OS_LINUX)
+    TARGET_LINK_LIBRARIES(shared_mem_helper rt)
 endif ()
 add_library(shared_mem_helper SHARED ${shared_mem_helper_SOURCES})
 target_include_directories(shared_mem_helper PUBLIC ${JNI_INCLUDE_DIRS})

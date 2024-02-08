@@ -8,7 +8,7 @@
 #include "ServerHandler.h"
 #include "log/Log.h"
 
-#include "include/cef_app.h"
+#include "handlers/app/HelperApp.h"
 
 #include <boost/filesystem.hpp>
 
@@ -53,8 +53,11 @@ int main(int argc, char* argv[]) {
   CefRefPtr<CefCommandLine> command_line = CefCommandLine::CreateCommandLine();
   command_line->InitFromArgv(argc, argv);
   const std::string& process_type = command_line->GetSwitchValue("type");
-  if (process_type == "renderer")
+  if (process_type == "renderer" || process_type == "zygote")
     app = new HelperApp();
+  // On Linux the zygote process is used to spawn other process types. Since
+  // we don't know what type of process it will be give it the renderer
+  // client.
 
   int exit_code = CefExecuteProcess(main_args, app, nullptr);
   if (exit_code >= 0) {

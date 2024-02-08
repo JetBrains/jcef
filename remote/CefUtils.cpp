@@ -14,10 +14,6 @@
 
 #include "handlers/app/RemoteAppHandler.h"
 
-namespace {
-    bool g_isInitialized = false;
-}
-
 namespace CefUtils {
 #if defined(OS_MAC)
     std::string g_pathFrameworkDir = "";
@@ -109,11 +105,8 @@ namespace CefUtils {
     }
 #endif
 
-    bool isCefInitialized() { return g_isInitialized; }
-
     void runCefLoop() {
         setThreadName("CefMain");
-        g_isInitialized = true;
         CefRunMessageLoop();
         Log::debug("Cef going shutdown.");
         CefShutdown();
