@@ -6,13 +6,12 @@
 #include "include/cef_app.h"
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/server/TThreadedServer.h>
-#include <thrift/transport/TServerSocket.h>
-#include <thrift/transport/TSocket.h>
 #include <thrift/transport/TTransportUtils.h>
 
 #include "CefUtils.h"
 #include "ServerHandler.h"
 #include "windows/PipeTransportServer.h"
+#include "handlers/app/HelperApp.h"
 
 using namespace apache::thrift;
 using namespace apache::thrift::protocol;
@@ -40,7 +39,15 @@ int main(int argc, char* argv[]) {
   setThreadName("main");
   CefMainArgs main_args(hi);
 
-  const int result = CefExecuteProcess(main_args, nullptr, nullptr);
+  CefRefPtr<CefCommandLine> command_line = CefCommandLine::CreateCommandLine();
+  command_line->InitFromString(::GetCommandLineW());
+
+  CefRefPtr<CefApp> app = nullptr;
+  const std::string& process_type = command_line->GetSwitchValue("type");
+  if (process_type == "renderer")
+    app = new HelperApp();
+
+  const int result = CefExecuteProcess(main_args, app, nullptr);
   if (result >= 0) {
     return result;
   }

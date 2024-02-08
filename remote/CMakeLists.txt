@@ -148,6 +148,8 @@ set(SERVER_SOURCES
         handlers/RemoteKeyboardHandler.h
         handlers/RemoteFocusHandler.cpp
         handlers/RemoteFocusHandler.h
+        handlers/app/HelperApp.cpp
+        handlers/app/HelperApp.h
 )
 
 if (OS_WINDOWS)
@@ -176,12 +178,13 @@ target_include_directories(${EXECUTABLE_NAME} PRIVATE ${CEF_INCLUDE_PATH})
 
 if (OS_WINDOWS)
     add_logical_target("libcef_lib" "${CEF_LIB_DEBUG}" "${CEF_LIB_RELEASE}")
-    target_link_libraries(${EXECUTABLE_NAME} libcef_lib ${Boost_FILESYSTEM_LIBRARY})
+    target_link_libraries(${EXECUTABLE_NAME} libcef_lib)
 endif ()
 
-target_link_libraries(${EXECUTABLE_NAME} ${CEF_STANDARD_LIBS} thrift_codegen)
+target_link_libraries(${EXECUTABLE_NAME} ${CEF_STANDARD_LIBS} thrift_codegen ${Boost_FILESYSTEM_LIBRARY})
+
 if (OS_MAC)
-    target_link_libraries(${EXECUTABLE_NAME} thrift::thrift ${Boost_FILESYSTEM_LIBRARY})
+    target_link_libraries(${EXECUTABLE_NAME} thrift::thrift)
 endif ()
 
 if (OS_WINDOWS)
@@ -252,9 +255,7 @@ if (OS_MAC)
     set(CEF_HELPER_TARGET "${EXECUTABLE_NAME}_Helper")
     set(CEF_HELPER_OUTPUT_NAME "${EXECUTABLE_NAME} Helper")
 
-    set(CEFSIMPLE_HELPER_SRCS_MAC
-            process_helper_mac.cc
-            )
+    set(CEFSIMPLE_HELPER_SRCS_MAC mac/process_helper_mac.cc handlers/app/HelperApp.cpp)
 
     list(APPEND HELPER_EXTRA_COMPILER_FLAGS
             -fexceptions
@@ -324,3 +325,6 @@ if (OS_WINDOWS)
 endif ()
 add_library(shared_mem_helper SHARED ${shared_mem_helper_SOURCES})
 target_include_directories(shared_mem_helper PUBLIC ${JNI_INCLUDE_DIRS})
+if (OS_LINUX)
+    target_link_libraries(shared_mem_helper rt)
+endif ()

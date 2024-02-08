@@ -13,7 +13,6 @@ namespace CefUtils {
 #if defined(OS_MAC)
   bool doLoadCefLibrary();
 #endif
-  bool isCefInitialized();
   bool initializeCef(
       std::vector<std::string> switches,
       CefSettings settings,
