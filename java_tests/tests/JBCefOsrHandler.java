@@ -198,7 +198,7 @@ public class JBCefOsrHandler implements CefNativeRenderHandler {
         if (volatileImage == null || volatileImage.getWidth() != scaledW || volatileImage.getHeight() != scaledH) {
             try {
                 volatileImage = myComponent.getGraphicsConfiguration().createCompatibleVolatileImage(scaledW, scaledH, null, Transparency.TRANSLUCENT);
-                if (!JBR.isNativeRasterLoaderSupported())
+                if (true || !JBR.isNativeRasterLoaderSupported())
                     bufImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB_PRE);
             } catch (AWTException e) {
                 throw new RuntimeException(e);
@@ -207,7 +207,7 @@ public class JBCefOsrHandler implements CefNativeRenderHandler {
         }
         long midMs = System.currentTimeMillis();
 
-        if (JBR.isNativeRasterLoaderSupported()) {
+        if (false && JBR.isNativeRasterLoaderSupported()) {
             JBR.getNativeRasterLoader().loadNativeRaster(volatileImage, mem.getPtr(), mem.getWidth(), mem.getHeight(), mem.getPtr() + mem.getWidth()*mem.getHeight()*4, mem.getDirtyRectsCount());
         } else {
             // load buffered
