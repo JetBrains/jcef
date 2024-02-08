@@ -1,5 +1,6 @@
 package com.jetbrains.cef.remote;
 
+import org.cef.misc.CefLog;
 import org.cef.misc.Utils;
 
 import java.nio.ByteBuffer;
@@ -21,10 +22,14 @@ public class SharedMemory {
     }
 
     static void loadDynamicLib() {
-        if (ALT_MEM_HELPER_PATH == null || ALT_MEM_HELPER_PATH.isEmpty())
-            System.loadLibrary("shared_mem_helper");
-        else
-            System.load(ALT_MEM_HELPER_PATH);
+        try {
+            if (ALT_MEM_HELPER_PATH == null || ALT_MEM_HELPER_PATH.isEmpty())
+                System.loadLibrary("shared_mem_helper");
+            else
+                System.load(ALT_MEM_HELPER_PATH);
+        } catch (UnsatisfiedLinkError e) {
+            CefLog.Error("Can't load shared_mem_helper, exception: %s", e.getMessage());
+        }
     }
 
     public SharedMemory(String sharedMemName, long boostHandle) {
