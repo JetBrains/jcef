@@ -144,6 +144,11 @@ case "$OS" in
   cp -R "$OUT_REMOTE_DIR"/libshared_mem_helper.so lib
   cp -R "$OUT_REMOTE_DIR"/cef_server lib
 
+  echo "*** create cef_server bundle..."
+  rm -rf ../cef_server && mkdir ../cef_server
+  cp -R "$OUT_REMOTE_DIR"/* ../cef_server
+  find ../cef_server -name "*.log" -type f -delete
+
   echo "*** find patched libcef.so..."
   if [ -z "${PATCHED_LIBCEF_DIR:-}" ]; then
     echo "warning: PATCHED_LIBCEF_DIR is not set, then using current dir ($(pwd))"
