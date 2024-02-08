@@ -5,8 +5,9 @@
 #include <fstream>
 
 #if defined(OS_MAC)
-#include "include/cef_command_line.h"
 #include "include/wrapper/cef_library_loader.h"
+#include <dirent.h>
+#include <errno.h>
 #endif
 
 #include "log/Log.h"
@@ -19,34 +20,89 @@ namespace {
 
 namespace CefUtils {
 #if defined(OS_MAC)
-    boost::filesystem::path getFrameworkPath() {
-      return boost::filesystem::current_path()
-          .append("..")
-          .append("..")
-          .append("..")
-          .append("Chromium Embedded Framework.framework")
-          .lexically_normal();
+    std::string g_pathFrameworkDir = "";
+    std::string g_pathFramework = "";
+    bool isDirExist(const char* pathname) {
+      DIR* dir = opendir(pathname);
+      if (dir) {
+        closedir(dir);
+        return true;
+      }
+      if (ENOENT != errno)
+        Log::error("opendir() failed, err=%d", errno);
+      return false;
     }
-    boost::filesystem::path getLibPath() {
-      return boost::filesystem::current_path()
-              .append("..")
-              .append("..")
-              .append("..")
-              .append("Chromium Embedded Framework.framework")
-              .append("Chromium Embedded Framework")
-              .lexically_normal();
+    bool isFileExist(const char* pathname) {
+      if (FILE *file = fopen(pathname, "r")) {
+        fclose(file);
+        return true;
+      }
+      return false;
     }
-    bool doLoadCefLibrary() {
-      // Load the CEF framework library at runtime instead of linking directly
-      // NOTE: can't load directly by custom libPath, getting strange errors:
-      //[0314/193420.234812:ERROR:icu_util.cc(178)] icudtl.dat not found in bundle
-      //[0314/193420.235447:ERROR:icu_util.cc(240)] Invalid file descriptor to ICU data received.
-      // Need to put CEF into cef_server.app/Contents/Frameworks
-      // TODO: fixme
+    bool findFramework() {
+      if (!g_pathFramework.empty())
+        return true;
 
-      boost::filesystem::path libPath = getLibPath();
-      if (!cef_load_library(libPath.c_str())) {
-        Log::debug("Failed to load the CEF framework by libPath %s", libPath.c_str());
+      // 1. check env var
+      char * val = getenv("ALT_CEF_FRAMEWORK_DIR");
+      if (val != NULL && isDirExist(val)) {
+        std::string path = string_format("%s/%s", val, "Chromium Embedded Framework");
+        if (isFileExist(path.c_str())) {
+          g_pathFrameworkDir = val;
+          g_pathFramework = path;
+          Log::debug("Will be used alt CEF framework path '%s'", g_pathFramework.c_str());
+          return true;
+        }
+        Log::warn("Alt CEF framework path '%s' doesn't contain subfolder 'Chromium Embedded Framework'", g_pathFramework.c_str());
+      }
+
+     // 2. check JBR-case location
+      boost::filesystem::path path = boost::filesystem::current_path()
+                                         .append("..")
+                                         .append("..")
+                                         .append("..")
+                                         .append("Chromium Embedded Framework.framework")
+                                         .append("Chromium Embedded Framework")
+                                         .lexically_normal();
+      if (isFileExist(path.c_str())) {
+        g_pathFrameworkDir = boost::filesystem::current_path()
+                                 .append("..")
+                                 .append("..")
+                                 .append("..")
+                                 .append("Chromium Embedded Framework.framework")
+                                 .lexically_normal().string();
+        g_pathFramework = path.string();
+        Log::trace("Will be used CEF framework from JBR, path '%s'", g_pathFramework.c_str());
+        return true;
+      }
+
+      // 3. check server-bundle location
+      path = boost::filesystem::current_path()
+                 .append("..")
+                 .append("Frameworks")
+                 .append("Chromium Embedded Framework.framework")
+                 .append("Chromium Embedded Framework")
+                 .lexically_normal();
+      if (isFileExist(path.c_str())) {
+        g_pathFrameworkDir = boost::filesystem::current_path()
+                                 .append("..")
+                                 .append("Frameworks")
+                                 .append("Chromium Embedded Framework.framework")
+                                 .lexically_normal().string();
+        g_pathFramework = path.string();
+        Log::trace("Will be used CEF framework from bundle, path '%s'", g_pathFramework.c_str());
+        return true;
+      }
+
+      Log::error("Can't find CEF framework.");
+      return false;
+    }
+
+    bool doLoadCefLibrary() {
+      if (!findFramework())
+        return false;
+      if (!cef_load_library(g_pathFramework.c_str())) {
+        Log::debug("Failed to load the CEF framework by path %s", g_pathFramework.c_str());
         return false;
       }
       return true;
@@ -165,8 +221,7 @@ namespace CefUtils {
     ) {
         CefMainArgs main_args;
 #if defined(OS_MAC)
-        boost::filesystem::path framework_path = getFrameworkPath();
-        CefString(&settings.framework_dir_path) = framework_path.string();
+        CefString(&settings.framework_dir_path) = g_pathFrameworkDir;
 #endif
 #if defined(OS_WIN)
       auto installation_root =
