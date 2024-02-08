@@ -3,6 +3,7 @@
 
 #include <thrift/Thrift.h>
 #include "include/cef_life_span_handler.h"
+#include <functional>
 
 class RemoteClientHandler;
 class RpcExecutor;
