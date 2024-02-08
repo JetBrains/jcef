@@ -5,8 +5,10 @@ call set_env.bat || goto:__exit
 
 if "%TARGET_ARCH%" == "arm64" (
     set ARTIFACT_DIR=jcef_win_aarch64
+    set ARTIFACT_SERVER=cef_server_win_aarch64
 ) else (
     set ARTIFACT_DIR=jcef_win_x64
+    set ARTIFACT_SERVER=cef_server_x64
 )
 
 if exist "%JCEF_ROOT_DIR%\%ARTIFACT_DIR%" (
@@ -38,7 +40,15 @@ echo *** create bundle...
 mkdir "%ARTIFACT_DIR%" || goto:__exit
 move jmods "%ARTIFACT_DIR%" || goto:__exit
 
-rem create jcef.version file
+echo *** create cef_server bundle...
+if exist "%JCEF_ROOT_DIR%\%ARTIFACT_SERVER%.tar.gz" (
+    echo *** delete "%JCEF_ROOT_DIR%\%ARTIFACT_SERVER%.tar.gz"...
+    del /f /q "%JCEF_ROOT_DIR%\%ARTIFACT_SERVER%.tar.gz"
+)
+
+bash -c "tar -cvzf $ARTIFACT_SERVER.tar.gz -C cef_server $(ls cef_server)" || goto:__exit
+rmdir /s /q cef_server || goto:__exit
+
 echo *** create jcef.version...
 grep "#define JCEF_VERSION" "%JCEF_ROOT_DIR%"\native\jcef_version.h > "%JCEF_ROOT_DIR%"\jcef.version
 sed 's/#define JCEF_VERSION /JCEF_VERSION=/g' "%JCEF_ROOT_DIR%"\jcef.version > "%ARTIFACT_DIR%"\jcef.version
