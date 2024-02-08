@@ -49,7 +49,14 @@ int main(int argc, char* argv[]) {
   setThreadName("main");
 #if defined(OS_LINUX)
   CefMainArgs main_args(argc, argv);
-  int exit_code = CefExecuteProcess(main_args, nullptr, nullptr);
+  CefRefPtr<CefApp> app = nullptr;
+  CefRefPtr<CefCommandLine> command_line = CefCommandLine::CreateCommandLine();
+  command_line->InitFromArgv(argc, argv);
+  const std::string& process_type = command_line->GetSwitchValue("type");
+  if (process_type == "renderer")
+    app = new HelperApp();
+
+  int exit_code = CefExecuteProcess(main_args, app, nullptr);
   if (exit_code >= 0) {
     return exit_code;
   }

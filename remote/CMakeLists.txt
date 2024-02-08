@@ -148,6 +148,8 @@ set(SERVER_SOURCES
         handlers/RemoteKeyboardHandler.h
         handlers/RemoteFocusHandler.cpp
         handlers/RemoteFocusHandler.h
+        handlers/app/HelperApp.cpp
+        handlers/app/HelperApp.h
 )
 
 if (OS_WINDOWS)
@@ -252,9 +254,7 @@ if (OS_MAC)
     set(CEF_HELPER_TARGET "${EXECUTABLE_NAME}_Helper")
     set(CEF_HELPER_OUTPUT_NAME "${EXECUTABLE_NAME} Helper")
 
-    set(CEFSIMPLE_HELPER_SRCS_MAC
-            process_helper_mac.cc
-            )
+    set(CEFSIMPLE_HELPER_SRCS_MAC mac/process_helper_mac.cc)
 
     list(APPEND HELPER_EXTRA_COMPILER_FLAGS
             -fexceptions
