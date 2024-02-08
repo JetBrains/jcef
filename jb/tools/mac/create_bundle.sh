@@ -22,6 +22,7 @@ export -f clean
 
 RELEASE_PATH="$JCEF_ROOT_DIR"/jcef_build/native/${CEF_BUILD_TYPE}
 ARTIFACT=jcef_mac_${TARGET_ARCH}
+ARTIFACT_SERVER=cef_server_mac_${TARGET_ARCH}
 
 clean arm64
 clean x86_64
@@ -43,7 +44,13 @@ mv jmods "$ARTIFACT"/
 cp -R "$RELEASE_PATH"/jcef_app.app/Contents/Frameworks "$ARTIFACT"/
 cp -R "$RELEASE_PATH"/../../remote/"$CEF_BUILD_TYPE"/cef_server.app "$ARTIFACT"/Frameworks/
 
-# create jcef.version file
+echo "*** copy cef_server binaries..."
+rm -rf "$ARTIFACT_SERVER" && mkdir "$ARTIFACT_SERVER"
+cp -r "$RELEASE_PATH"/../../remote/"$CEF_BUILD_TYPE"/cef_server.app "$ARTIFACT_SERVER/"
+cp "$RELEASE_PATH"/../../remote/"$CEF_BUILD_TYPE"/libshared_mem_helper.dylib "$ARTIFACT_SERVER"
+cp -r "${RELEASE_PATH}/jcef_app.app/Contents/Frameworks/Chromium Embedded Framework.framework" "$ARTIFACT_SERVER"/cef_server.app/Contents/Frameworks
+
+echo "*** create jcef.version file..."
 bash "$JB_TOOLS_DIR"/common/create_version_file.sh $ARTIFACT
 
 echo "*** create archive..."
@@ -51,6 +58,12 @@ echo "*** create archive..."
 tar -cvzf "$ARTIFACT.tar.gz" -C "$ARTIFACT" $(ls "$ARTIFACT")
 rm -rf "$ARTIFACT"
 ls -lah "$ARTIFACT.tar.gz"
+
+echo "*** create cef_server archive..."
+tar -cvzf "$ARTIFACT_SERVER.tar.gz" -C "$ARTIFACT_SERVER" $(ls "$ARTIFACT_SERVER")
+rm -rf "$ARTIFACT_SERVER"
+ls -lah "$ARTIFACT_SERVER.tar.gz"
+
 cp "$OUT_CLS_DIR"/jcef-tests.jar .
 
 if [ "$TARGET_ARCH" == "x86_64" ]; then

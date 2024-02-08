@@ -15,8 +15,14 @@ function clean {
 }
 
 case "$TARGET_ARCH" in
-arm64) ARTIFACT=jcef_linux_aarch64 ;;
-x86_64) ARTIFACT=jcef_linux_x64 ;;
+arm64)
+  ARTIFACT=jcef_linux_aarch64
+  ARTIFACT_SERVER=cef_server_linux_aarch64
+  ;;
+x86_64)
+  ARTIFACT=jcef_linux_x64
+  ARTIFACT_SERVER=cef_server_linux_x64
+  ;;
 *) echo "Incorrect TARGET_ARCH: $TARGET_ARCH" && exit 1 ;;
 esac
 
@@ -43,6 +49,12 @@ echo "*** create archive..."
 tar -cvzf "$ARTIFACT.tar.gz" -C "$ARTIFACT" $(ls "$ARTIFACT")
 rm -rf "$ARTIFACT"
 ls -lah "$ARTIFACT.tar.gz"
+
+echo "*** create cef_server archive..."
+tar -cvzf "$ARTIFACT_SERVER.tar.gz" -C "cef_server" $(ls "cef_server")
+rm -rf "cef_server"
+ls -lah "$ARTIFACT_SERVER.tar.gz"
+
 cp "$OUT_CLS_DIR"/jcef-tests.jar .
 
 echo "*** SUCCESSFUL"

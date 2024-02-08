@@ -110,6 +110,7 @@ case "$OS" in
 
   mkdir lib
   for resource in $(ls "$OUT_NATIVE_DIR" | grep -v '\.dat\|\.exe\|\.bin\|\.exp\|\.lib'); do
+    # TODO: remove resource dups
     cp -R "$OUT_NATIVE_DIR"/"$resource" lib
   done
 
@@ -121,6 +122,11 @@ case "$OS" in
 
   "$JAVA_HOME"/bin/jmod create --module-path . --class-path jcef.jar --cmds bin --libs lib jcef.jmod
   rm -rf jcef.jar bin lib
+
+  rm -rf ../cef_server && mkdir ../cef_server
+  cp -R "$OUT_REMOTE_DIR"/bin ../cef_server
+  cp -R "$OUT_REMOTE_DIR"/lib ../cef_server
+  cp "$OUT_REMOTE_DIR"/shared_mem_helper.dll ../cef_server
   ;;
 
 "macosx")
@@ -137,6 +143,11 @@ case "$OS" in
   cp -R "$OUT_NATIVE_DIR"/* lib
   cp -R "$OUT_REMOTE_DIR"/libshared_mem_helper.so lib
   cp -R "$OUT_REMOTE_DIR"/cef_server lib
+
+  echo "*** create cef_server bundle..."
+  rm -rf ../cef_server && mkdir ../cef_server
+  cp -R "$OUT_REMOTE_DIR"/* ../cef_server
+  find ../cef_server -name "*.log" -type f -delete
 
   echo "*** find patched libcef.so..."
   if [ -z "${PATCHED_LIBCEF_DIR:-}" ]; then
