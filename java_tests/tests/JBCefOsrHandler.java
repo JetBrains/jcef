@@ -197,6 +197,9 @@ public class JBCefOsrHandler implements CefNativeRenderHandler {
         final int scaledH = (int)(height / jreScale);
         if (volatileImage == null || volatileImage.getWidth() != scaledW || volatileImage.getHeight() != scaledH) {
             try {
+                if (myComponent.getGraphicsConfiguration() == null)
+                    return; // TODO: hold more carefully
+
                 volatileImage = myComponent.getGraphicsConfiguration().createCompatibleVolatileImage(scaledW, scaledH, null, Transparency.TRANSLUCENT);
                 if (true || !JBR.isNativeRasterLoaderSupported())
                     bufImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB_PRE);
