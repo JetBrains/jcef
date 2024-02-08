@@ -1,10 +1,8 @@
 package com.jetbrains.cef.remote;
 
-import com.jetbrains.cef.remote.thrift_codegen.CustomScheme;
 import org.apache.thrift.transport.TTransportException;
 import org.cef.CefSettings;
 import org.cef.OS;
-import org.cef.callback.CefCommandLine;
 import org.cef.callback.CefSchemeRegistrar;
 import org.cef.handler.CefAppHandler;
 import org.cef.handler.CefAppHandlerAdapter;
@@ -16,10 +14,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 public class NativeServerManager {
     private static final String ALT_CEF_SERVER_PATH = Utils.getString("ALT_CEF_SERVER_PATH");
