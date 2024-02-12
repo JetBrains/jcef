@@ -9,6 +9,7 @@ import org.cef.CefApp;
 import org.cef.CefApp.CefAppState;
 import org.cef.CefClient;
 import org.cef.CefSettings;
+import org.cef.OS;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefFrame;
 import org.cef.handler.CefAppHandlerAdapter;
@@ -91,6 +92,9 @@ public class TestSetupExtension
         String[] appArgs = config.getAppArgs();
         List<String> args = new ArrayList<>();
         args.addAll(Arrays.asList(appArgs));
+
+        if (OS.isLinux())
+            args.add("--password-store=basic");
 
         String extraArgsProp = Utils.getString("JCEF_TESTS_EXTRA_ARGS", "");
         if (!extraArgsProp.isEmpty()) {
