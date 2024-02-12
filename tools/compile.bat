@@ -19,8 +19,6 @@ goto end
 )
 
 set OUT_PATH=out\%1
-set OUT_NATIVE_PATH=jcef_build\native\%2
-set BUNDLE_NATIVES_PATH=%cd%
 set CLS_PATH=".\third_party\jogamp\jar\*;.\third_party\junit\*;.\java"
 
 if not exist %OUT_PATH% mkdir %OUT_PATH%

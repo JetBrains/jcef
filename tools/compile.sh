@@ -13,9 +13,6 @@ elif [ -z "${2:-}" ]; then
 else
   DIR="$JCEF_ROOT_DIR"
   export OUT_PATH="${DIR}/out/$1"
-  export OUT_NATIVE_PATH="${DIR}/jcef_build/native/$2"
-  # pass path to downloaded natives into ant-script
-  export BUNDLE_NATIVES_PATH="$JCEF_ROOT_DIR"
 
   JAVA_PATH="${DIR}/java"
   export CLS_PATH="${DIR}/third_party/jogamp/jar/*:${DIR}/third_party/junit/*:${JAVA_PATH}"
