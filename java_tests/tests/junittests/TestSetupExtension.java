@@ -7,21 +7,15 @@ package tests.junittests;
 import com.jetbrains.cef.JCefAppConfig;
 import org.cef.CefApp;
 import org.cef.CefApp.CefAppState;
-import org.cef.CefClient;
 import org.cef.CefSettings;
 import org.cef.OS;
-import org.cef.browser.CefBrowser;
-import org.cef.browser.CefFrame;
 import org.cef.handler.CefAppHandlerAdapter;
 import org.cef.misc.CefLog;
 import org.cef.misc.Utils;
-import org.cef.network.CefRequest;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import tests.OsrSupport;
 
-import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -95,6 +89,15 @@ public class TestSetupExtension
 
         if (OS.isLinux())
             args.add("--password-store=basic");
+
+        if (Utils.getBoolean("JCEF_TESTS_DISABLE_GPU")) {
+            CefLog.Info("Disable GPU in tests.");
+            args.add("--disable-gpu");
+            args.add("--disable-gpu-compositing");
+            args.add("--disable-gpu-vsync");
+            args.add("--disable-software-rasterizer");
+            args.add("--disable-extensions");
+        }
 
         String extraArgsProp = Utils.getString("JCEF_TESTS_EXTRA_ARGS", "");
         if (!extraArgsProp.isEmpty()) {
