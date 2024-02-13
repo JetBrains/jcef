@@ -240,7 +240,9 @@ class TestFrame extends JFrame implements CefLifeSpanHandler, CefLoadHandler, Ce
 
     @Override
     public void onLoadError(CefBrowser browser, CefFrame frame, ErrorCode errorCode,
-            String errorText, String failedUrl) {}
+            String errorText, String failedUrl) {
+        if (debugPrint()) CefLog.Info("onLoadError id=%d, code=%s, errText=%s, failedUrl=%s", browser.getIdentifier(), errorCode, errorText, failedUrl);
+    }
 
     // CefRequestHandler methods:
 
