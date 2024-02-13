@@ -1,5 +1,6 @@
 package tests.junittests;// Copyright 2000-2020 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 
+import org.cef.CefApp;
 import org.cef.misc.CefLog;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -23,11 +24,11 @@ import java.util.function.Function;
 public class MouseEventTest {
     @Test
     public void test() throws InvocationTargetException, InterruptedException {
-        if (OsrSupport.isEnabled()) {
+        if (OsrSupport.isEnabled() || CefApp.isRemoteEnabled()) {
             // Disable test because it is designed for windowed mode (it will be executed in windowed test-config):
             // all mouse events are processed by swing, native browser is notified via sendMouseEvent (and mouse-callbacks
             // will not be used).
-            CefLog.Info("Skip MouseEventTest because of OSR mode");
+            CefLog.Info("Skip MouseEventTest because of OSR/remote mode");
             return;
         }
         CefLog.Info("Start basic mouse events test");
@@ -38,8 +39,8 @@ public class MouseEventTest {
 
     @Test
     public void testWithAwaitBrowserCreation() throws InvocationTargetException, InterruptedException {
-        if (OsrSupport.isEnabled()) {
-            CefLog.Info("Skip MouseEventTest.testWithAwaitBrowserCreation because of OSR mode");
+        if (OsrSupport.isEnabled() || CefApp.isRemoteEnabled()) {
+            CefLog.Info("Skip MouseEventTest.testWithAwaitBrowserCreation because of OSR/remote mode");
             return;
         }
         // debug helper for JBR-4649
@@ -57,8 +58,8 @@ public class MouseEventTest {
 
     @Test
     public void hideAndShowBrowserTest() throws InvocationTargetException, InterruptedException {
-        if (OsrSupport.isEnabled()) {
-            CefLog.Info("Skip MouseEventTest.hideAndShowBrowserTest because of OSR mode");
+        if (OsrSupport.isEnabled() || CefApp.isRemoteEnabled()) {
+            CefLog.Info("Skip MouseEventTest.hideAndShowBrowserTest because of OSR/remote mode");
             return;
         }
         CefLog.Info("Start hideAndShowBrowserTest");

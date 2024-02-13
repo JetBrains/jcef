@@ -1,5 +1,6 @@
 package tests.junittests;
 
+import org.cef.CefApp;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -10,6 +11,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class StringTest {
     @Test
     void testJava2NativeStringConversion() {
+        if (CefApp.isRemoteEnabled())
+            return;
+
         String s = null;
         String s2 = convertString(s);
         assertTrue(s2 == null || s2.isEmpty());

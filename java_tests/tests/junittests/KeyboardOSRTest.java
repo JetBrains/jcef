@@ -3,6 +3,7 @@ package tests.junittests;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import org.cef.CefApp;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefFrame;
 import org.cef.browser.CefMessageRouter;
@@ -123,7 +124,7 @@ public class KeyboardOSRTest {
 
     @BeforeAll
     public static void before() throws InterruptedException {
-        if (!OsrSupport.isEnabled()) {
+        if (!OsrSupport.isEnabled() && !CefApp.isRemoteEnabled()) {
             // Disable test because it is designed for OSR (it will be executed in OSR test-config)
             CefLog.Info("Skip KeyboardOSRTest because of Windowed mode");
             return;
@@ -135,7 +136,7 @@ public class KeyboardOSRTest {
 
     @AfterAll
     public static void after() throws IOException, InterruptedException {
-        if (!OsrSupport.isEnabled())
+        if (!OsrSupport.isEnabled()  && !CefApp.isRemoteEnabled())
             return;
 
         File file = getScenarioFile();
@@ -189,7 +190,7 @@ public class KeyboardOSRTest {
     @ParameterizedTest
     @MethodSource("getScenarios")
     void doTest(Scenario scenario) throws InterruptedException {
-        if (!OsrSupport.isEnabled())
+        if (!OsrSupport.isEnabled() && !CefApp.isRemoteEnabled())
             return;
 
         System.err.println("Testing '" + scenario.name + "'");

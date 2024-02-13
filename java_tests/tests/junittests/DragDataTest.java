@@ -9,7 +9,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.cef.CefApp;
 import org.cef.callback.CefDragData;
+import org.cef.misc.CefLog;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -20,6 +22,11 @@ import java.util.Vector;
 class DragDataTest {
     @Test
     void createEmpty() {
+        if (CefApp.isRemoteEnabled()) {
+            CefLog.Info("Skip DragDataTest.createEmpty in remote mode.");
+            return;
+        }
+
         CefDragData dragData = CefDragData.create();
         assertNotNull(dragData);
         assertFalse(dragData.isReadOnly());
@@ -44,6 +51,11 @@ class DragDataTest {
 
     @Test
     void createLink() {
+        if (CefApp.isRemoteEnabled()) {
+            CefLog.Info("Skip DragDataTest.createLink in remote mode.");
+            return;
+        }
+
         CefDragData dragData = CefDragData.create();
         assertNotNull(dragData);
         assertFalse(dragData.isReadOnly());
@@ -70,6 +82,11 @@ class DragDataTest {
 
     @Test
     void createFile() {
+        if (CefApp.isRemoteEnabled()) {
+            CefLog.Info("Skip DragDataTest.createFile in remote mode.");
+            return;
+        }
+
         CefDragData dragData = CefDragData.create();
         assertNotNull(dragData);
         assertFalse(dragData.isReadOnly());
@@ -99,6 +116,11 @@ class DragDataTest {
 
     @Test
     void createFragment() {
+        if (CefApp.isRemoteEnabled()) {
+            CefLog.Info("Skip DragDataTest.createFragment in remote mode.");
+            return;
+        }
+
         CefDragData dragData = CefDragData.create();
         assertNotNull(dragData);
         assertFalse(dragData.isReadOnly());
@@ -125,6 +147,10 @@ class DragDataTest {
 
     @Test
     void cloneObject() {
+        if (CefApp.isRemoteEnabled()) {
+            CefLog.Info("Skip DragDataTest.cloneObject in remote mode.");
+            return;
+        }
         CefDragData dragData = CefDragData.create();
         assertNotNull(dragData);
         assertFalse(dragData.isReadOnly());
@@ -150,6 +176,11 @@ class DragDataTest {
 
     @Test
     void disposeObject() {
+        if (CefApp.isRemoteEnabled()) {
+            CefLog.Info("Skip DragDataTest.disposeObject in remote mode.");
+            return;
+        }
+
         CefDragData dragData = CefDragData.create();
         assertNotNull(dragData);
         assertFalse(dragData.isReadOnly());
