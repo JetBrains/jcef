@@ -13,6 +13,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+// This test originally was used to debug JBR-4649 (and connected mouse problems).
+// Now it's obsolete, disabled to speedup tests execution time.
+@Disabled
 public class SwingComponentsTest {
     public static CountDownLatch latch;
 

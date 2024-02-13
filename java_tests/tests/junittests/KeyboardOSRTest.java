@@ -8,6 +8,7 @@ import org.cef.browser.CefFrame;
 import org.cef.browser.CefMessageRouter;
 import org.cef.callback.CefQueryCallback;
 import org.cef.handler.CefMessageRouterHandlerAdapter;
+import org.cef.misc.CefLog;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import tests.JBCefOsrHandler;
+import tests.OsrSupport;
 import tests.keyboard.Scenario;
 
 import java.io.File;
@@ -121,12 +123,21 @@ public class KeyboardOSRTest {
 
     @BeforeAll
     public static void before() throws InterruptedException {
+        if (!OsrSupport.isEnabled()) {
+            // Disable test because it is designed for OSR (it will be executed in OSR test-config)
+            CefLog.Info("Skip KeyboardOSRTest because of Windowed mode");
+            return;
+        }
+
         myFrame = new MyFrame();
         myFrame.awaitLoad();
     }
 
     @AfterAll
     public static void after() throws IOException, InterruptedException {
+        if (!OsrSupport.isEnabled())
+            return;
+
         File file = getScenarioFile();
         if (UPDATE_REFERENCE && file != null) {
             String jsonString = new GsonBuilder()
@@ -178,6 +189,9 @@ public class KeyboardOSRTest {
     @ParameterizedTest
     @MethodSource("getScenarios")
     void doTest(Scenario scenario) throws InterruptedException {
+        if (!OsrSupport.isEnabled())
+            return;
+
         System.err.println("Testing '" + scenario.name + "'");
         eventsWaiter.setup();
         for (Scenario.EventDataJava data : scenario.eventsJava) {
@@ -215,10 +229,7 @@ public class KeyboardOSRTest {
 
 
             addResource(PAGE_URL, PAGE_HTML, "text/html");
-            String isOsr = System.getProperty("jcef.tests.osr");
-            System.setProperty("jcef.tests.osr", "true");
             createBrowser(PAGE_URL);
-            System.setProperty("jcef.tests.osr", isOsr);
         }
 
         @Override

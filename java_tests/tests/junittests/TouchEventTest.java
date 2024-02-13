@@ -7,10 +7,12 @@ import org.cef.browser.CefMessageRouter.CefMessageRouterConfig;
 import org.cef.callback.CefQueryCallback;
 import org.cef.handler.CefMessageRouterHandlerAdapter;
 import org.cef.input.CefTouchEvent;
+import org.cef.misc.CefLog;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import tests.JBCefOsrHandler;
+import tests.OsrSupport;
 
 import javax.swing.*;
 import java.util.concurrent.CompletableFuture;
@@ -96,10 +98,7 @@ public class TouchEventTest {
                 client_.addMessageRouter(router);
             }
 
-            String isOsr = System.getProperty("jcef.tests.osr");
-            System.setProperty("jcef.tests.osr", "true");
             createBrowser(PAGE_URL);
-            System.setProperty("jcef.tests.osr", isOsr);
         }
 
         @Override
@@ -154,6 +153,12 @@ public class TouchEventTest {
 
     @Test
     void eventType() throws InterruptedException, ExecutionException {
+        if (!OsrSupport.isEnabled()) {
+            // Disable test because it is designed for OSR (it will be executed in OSR test-config)
+            CefLog.Info("Skip TouchEventTest.eventType because of Windowed mode");
+            return;
+        }
+
         var frame = new TouchTestFrame();
         try {
             frame.awaitLoad();
@@ -195,6 +200,11 @@ public class TouchEventTest {
 
     @Test
     void numericValues() throws InterruptedException, ExecutionException {
+        if (!OsrSupport.isEnabled()) {
+            CefLog.Info("Skip TouchEventTest.numericValues because of Windowed mode");
+            return;
+        }
+
         var frame = new TouchTestFrame();
         try {
             frame.awaitLoad();

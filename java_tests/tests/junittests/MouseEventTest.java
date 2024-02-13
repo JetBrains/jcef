@@ -4,6 +4,7 @@ import org.cef.misc.CefLog;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import tests.OsrSupport;
 
 import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
@@ -22,6 +23,13 @@ import java.util.function.Function;
 public class MouseEventTest {
     @Test
     public void test() throws InvocationTargetException, InterruptedException {
+        if (OsrSupport.isEnabled()) {
+            // Disable test because it is designed for windowed mode (it will be executed in windowed test-config):
+            // all mouse events are processed by swing, native browser is notified via sendMouseEvent (and mouse-callbacks
+            // will not be used).
+            CefLog.Info("Skip MouseEventTest because of OSR mode");
+            return;
+        }
         CefLog.Info("Start basic mouse events test");
         doTest(scenario -> {
             scenario.doMouseActions();
@@ -30,6 +38,10 @@ public class MouseEventTest {
 
     @Test
     public void testWithAwaitBrowserCreation() throws InvocationTargetException, InterruptedException {
+        if (OsrSupport.isEnabled()) {
+            CefLog.Info("Skip MouseEventTest.testWithAwaitBrowserCreation because of OSR mode");
+            return;
+        }
         // debug helper for JBR-4649
         CefLog.Info("Start basic mouse events test");
         System.setProperty("jcef.trace.mouseeventscenario.all_awt_mouse_events", "true");
@@ -45,6 +57,10 @@ public class MouseEventTest {
 
     @Test
     public void hideAndShowBrowserTest() throws InvocationTargetException, InterruptedException {
+        if (OsrSupport.isEnabled()) {
+            CefLog.Info("Skip MouseEventTest.hideAndShowBrowserTest because of OSR mode");
+            return;
+        }
         CefLog.Info("Start hideAndShowBrowserTest");
         doTest(scenario -> {
             scenario.mouseMove(scenario.getBrowserFrame().getFrameCenter());

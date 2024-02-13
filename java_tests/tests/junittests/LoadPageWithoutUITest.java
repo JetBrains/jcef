@@ -77,9 +77,14 @@ public class LoadPageWithoutUITest {
 
     @Test
     public void test() throws InvocationTargetException, InterruptedException {
-        if ("linux".equalsIgnoreCase(System.getProperty("os.name"))
-            && !OsrSupport.isEnabled()
-        ) {
+        if (OsrSupport.isEnabled()) {
+            // Disable test because it has no sense for OSR: native browser doesn't know anything about
+            // swing window visibility (it will always render page until browser closed).
+            CefLog.Info("Skip LoadPageWithoutUITest because of OSR mode.");
+            return;
+        }
+
+        if ("linux".equalsIgnoreCase(System.getProperty("os.name"))) {
             // Disable test because it can cause unstable jcef behaviour.
             // Details in: https://youtrack.jetbrains.com/issue/JBR-5200/Intermittent-LoadPageWithoutUITest-failures#focus=Comments-27-6798853.0-0
             CefLog.Info("Skip LoadPageWithoutUITest because of JBR-5200");
