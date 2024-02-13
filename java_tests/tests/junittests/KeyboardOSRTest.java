@@ -17,12 +17,12 @@ import org.junit.jupiter.params.provider.MethodSource;
 import tests.JBCefOsrHandler;
 import tests.keyboard.Scenario;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Type;
-import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -52,29 +52,27 @@ import java.util.stream.Stream;
  * 4. KEY_RELEASED - A
  * 5. KEY_RELEASED - Shift
  * <p>
- * During recording a scenario keep an eye on Composition events list. Once all keys are released it must be empty. If
+ * During recording a scenario, keep an eye on a Composition events list. Once all keys are released, it must be empty. If
  * it's not the case, it means that the composed scenario is not valid and can't be added to the list. The compositions
  * might be reset to continue. For some keys it's not possible to record a valid scenario.
  * <p>
- * Once a scenario is ready it might be saved as a JSON file and used in this test.
+ * Once a scenario is ready, it might be saved as a JSON file and used in this test.
  * <p>
  * Warning. Please be carefully with editing the JSON file with IDEA especially on Windows. It can easily spoil it.
- * The contains not escaped unicode.
+ * It contains not escaped unicode.
  * <p>
  * <strong>Update references</strong>
- * After making new scenarios or making changes the test references must be updated. On order to it put the path to the
- * corresponding scenarios file to `KEYBOARD_TEST_OUTPUT_FILE` environment variable and run the test.
+ * After making new scenarios or making changes, the test references must be updated. To do this, put the path to the
+ * corresponding scenarios file into `KEYBOARD_TEST_OUTPUT_FILE` environment variable and run the test.
  * E.g. `KEYBOARD_TEST_OUTPUT_FILE=/home/user/jcef-kb/java_tests/tests/junittests/data/keyboard_scenario_linux.json`
- * The file get
- * updated and the change might review via git diff.
+ * The file get updated, and the change might be reviewed via git diff.
  */
 @ExtendWith(TestSetupExtension.class)
 public class KeyboardOSRTest {
     static final String PAGE_URL = "https://some.url/";
     private static final String KEY_EVENT_CALLBACK_NAME = "_cef_on_key_event";
     private static final List<Scenario> outputScenarios = new ArrayList<>();
-    private static final String KEYBOARD_TEST_OUTPUT_FILE = System.getenv("KEYBOARD_TEST_OUTPUT_FILE");
-    private static final boolean UPDATE_REFERENCE = KEYBOARD_TEST_OUTPUT_FILE != null && !KEYBOARD_TEST_OUTPUT_FILE.isEmpty();
+    private static final String KEYBOARD_TEST_OUTPUT_FILE_NAME = System.getenv("KEYBOARD_TEST_OUTPUT_FILE");
 
     // language=HTML
     final static String PAGE_HTML = "<!DOCTYPE html>\n" +
@@ -127,24 +125,19 @@ public class KeyboardOSRTest {
 
     @AfterAll
     public static void after() throws IOException, InterruptedException {
-        File file = getScenarioFile();
-        if (UPDATE_REFERENCE && file != null) {
+        if (KEYBOARD_TEST_OUTPUT_FILE_NAME != null) {
             String jsonString = new GsonBuilder()
                     .setPrettyPrinting()
                     .create()
                     .toJson(outputScenarios.toArray());
 
-            Files.writeString(file.toPath(), jsonString, StandardCharsets.UTF_8);
+            Files.writeString(Path.of(KEYBOARD_TEST_OUTPUT_FILE_NAME), jsonString, StandardCharsets.UTF_8);
         }
         myFrame.closeBrowser();
     }
 
     private static Stream<Scenario> getScenarios() throws IOException {
-        File file = getScenarioFile();
-        if (file == null) {
-            return Stream.empty();
-        }
-        String jsonText = Files.readString(file.toPath(), StandardCharsets.UTF_8);
+        String jsonText = getScenariosJson();
 
         Type typeToken = new TypeToken<ArrayList<Scenario>>() {
         }.getType();
@@ -152,9 +145,9 @@ public class KeyboardOSRTest {
         return scenarios.stream().filter(scenario -> !Objects.requireNonNullElse(scenario.comments, "").toLowerCase().contains("disable"));
     }
 
-    private static File getScenarioFile() {
-        if (KEYBOARD_TEST_OUTPUT_FILE != null) {
-            return new File(KEYBOARD_TEST_OUTPUT_FILE);
+    private static String getScenariosJson() throws IOException {
+        if (KEYBOARD_TEST_OUTPUT_FILE_NAME != null && !KEYBOARD_TEST_OUTPUT_FILE_NAME.isEmpty()) {
+            return Files.readString(Path.of(KEYBOARD_TEST_OUTPUT_FILE_NAME), StandardCharsets.UTF_8) ;
         }
         String scenarioPath;
         String osName = System.getProperty("os.name", "").toLowerCase();
@@ -165,13 +158,16 @@ public class KeyboardOSRTest {
         } else if (osName.startsWith("linux")) {
             scenarioPath = "data/keyboard_scenario_linux.json";
         } else {
-            return null;
+            throw new RuntimeException("Unknown OS: '" + osName + "'");
         }
 
-        try {
-            return new File(Objects.requireNonNull(KeyboardOSRTest.class.getResource(scenarioPath)).toURI());
-        } catch (URISyntaxException e) {
-            return null;
+        try (InputStream stream = KeyboardOSRTest.class.getResourceAsStream(scenarioPath)) {
+            if (stream == null) {
+                throw new RuntimeException("Failed to get resource: '" + scenarioPath + "'");
+            }
+            return new String(stream.readAllBytes(), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -187,7 +183,7 @@ public class KeyboardOSRTest {
         }
         List<Scenario.EventDataJS> eventsJS = eventsWaiter.get();
 
-        if (!UPDATE_REFERENCE) {
+        if (KEYBOARD_TEST_OUTPUT_FILE_NAME == null) {
             Assertions.assertFalse(eventsJS.isEmpty());
             Assertions.assertEquals(scenario.eventsJSExpected, eventsJS);
         }
@@ -258,10 +254,10 @@ public class KeyboardOSRTest {
             lock.lock();
             while (!isReady()) {
                 if (!scenarioFinished.await(500, TimeUnit.MILLISECONDS)) {
-                    if (UPDATE_REFERENCE) {
-                        System.err.println("The received scenario events are incomplete: " + events);
-                    } else {
+                    if (KEYBOARD_TEST_OUTPUT_FILE_NAME == null) {
                         Assertions.fail("The received scenario events are incomplete: " + events);
+                    } else {
+                        System.err.println("The received scenario events are incomplete: " + events);
                     }
                     break;
                 }
