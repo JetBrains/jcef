@@ -18,7 +18,6 @@ import java.util.Map;
 
 public class NativeServerManager {
     private static final String ALT_CEF_SERVER_PATH = Utils.getString("ALT_CEF_SERVER_PATH");
-    private static final String CEF_SERVER_PIPE = Utils.getString("ALT_CEF_SERVER_PIPE", "cef_server_pipe");
 
     private static Process ourNativeServerProcess = null;
 
@@ -87,7 +86,7 @@ public class NativeServerManager {
 
     public static boolean isRunning() {
         try {
-            RpcExecutor test = new RpcExecutor(CEF_SERVER_PIPE);
+            RpcExecutor test = new RpcExecutor(ThriftTransport.PIPENAME_CEF_SERVER);
             String testMsg = "test_message786";
             String echoMsg = test.execObj(s -> s.echo(testMsg));
             test.closeTransport();
@@ -101,7 +100,7 @@ public class NativeServerManager {
 
     public static void stopRunning() {
         try {
-            RpcExecutor test = new RpcExecutor(CEF_SERVER_PIPE);
+            RpcExecutor test = new RpcExecutor(ThriftTransport.PIPENAME_CEF_SERVER);
             test.exec(s -> s.stop());
             test.closeTransport();
         } catch (TTransportException e) {
@@ -109,10 +108,23 @@ public class NativeServerManager {
         }
     }
 
+    private static String getServerState() {
+        try {
+            RpcExecutor test = new RpcExecutor(ThriftTransport.PIPENAME_CEF_SERVER);
+            String state = test.execObj(s -> s.state());
+            test.closeTransport();
+            return state;
+        } catch (TTransportException e) {
+            return "stopped";
+        }
+    }
+
     // returns true when server was stopped successfully
     public static boolean stopAndWait(long timeoutNs) {
-        if (!isRunning())
+        if (!isRunning()) {
+            ourNativeServerProcess = null;
             return true;
+        }
 
         CefLog.Debug("Stop running cef_server instance.");
         stopRunning();
@@ -123,20 +135,22 @@ public class NativeServerManager {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {}
-            CefLog.Debug("Waiting for server stopping....");
+            CefLog.Debug("Waiting for server stopping... State: %s", getServerState());
             success = !isRunning();
         } while (!success && (System.nanoTime() - startNs < timeoutNs));
         if (!success) {
             CefLog.Error("Can't stop server in %d ms.", (System.nanoTime() - startNs)/1000000);
             return false;
         }
+        ourNativeServerProcess = null;
         return true;
     }
 
     // returns true when server was started successfully
     private static boolean startNativeServer(String paramsPath, long timeoutNs) {
         if (ourNativeServerProcess != null)
-            return true;
+            CefLog.Debug("Handle of server process will be overwritten.");
+        ourNativeServerProcess = null;
 
         File serverExe;
         if (ALT_CEF_SERVER_PATH == null || ALT_CEF_SERVER_PATH.isEmpty()) {

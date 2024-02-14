@@ -24,6 +24,7 @@ service Server {
     oneway void log(1: string msg),
     string echo(1: string msg),
     string version(),
+    string state(),
     oneway void stop(),
 
     //

@@ -1,6 +1,5 @@
 #include "ClientsManager.h"
-#include "../CefUtils.h"
-#include "../handlers/RemoteClientHandler.h"
+#include "../ServerHandler.h"
 #include "../handlers/RemoteLifespanHandler.h"
 #include "include/base/cef_callback.h"
 #include "include/cef_task.h"
@@ -97,8 +96,8 @@ void ClientsManager::closeBrowser(const int32_t bid) {
   client->closeBrowser();
 }
 
-void ClientsManager::closeAllBrowsers(bool doShutdownIfEmpty) {
-  myRemoteClients->closeAll(doShutdownIfEmpty);
+void ClientsManager::closeAllBrowsers() {
+  myRemoteClients->closeAll();
 }
 
 CefRefPtr<RemoteClientHandler> ClientsManager::ClientsStorage::get(int bid) {
@@ -106,14 +105,26 @@ CefRefPtr<RemoteClientHandler> ClientsManager::ClientsStorage::get(int bid) {
   return myBid2Client[bid];
 }
 
-void ClientsManager::ClientsStorage::closeAll(bool doShutdownIfEmpty) {
-  Lock lock(myMutex);
-  if (doShutdownIfEmpty) {
+void ClientsManager::ClientsStorage::checkShuttingDown() {
+  if (ServerHandler::isShuttingDown()) {
+    Lock lock(myMutex);
     if (myBid2Client.empty())
-      CefPostTask(TID_UI, base::BindOnce(CefQuitMessageLoop));
-    else
-      myDoShutdownIfEmpty = true;
+      ServerHandler::setStateShutdown();
+    else {
+      std::stringstream ss("remain browsers: ");
+      for (auto const& rc : myBid2Client) {
+        CefRefPtr<RemoteClientHandler> client = myBid2Client[rc.first];
+        if (client) ss << client->getBid() << ", ";
+      }
+      ServerHandler::setStateDesc("shutting down (" + ss.str() + ")");
+      Log::debug("Shutting down, wait closing %s", ss.str().c_str());
+    }
   }
+}
+
+void ClientsManager::ClientsStorage::closeAll() {
+  Lock lock(myMutex);
+  checkShuttingDown();
   for (auto const& rc : myBid2Client) {
     CefRefPtr<RemoteClientHandler> client = myBid2Client[rc.first];
     if (client)
@@ -129,10 +140,7 @@ void ClientsManager::ClientsStorage::set(int bid, CefRefPtr<RemoteClientHandler>
 void ClientsManager::ClientsStorage::erase(int bid) {
   Lock lock(myMutex);
   myBid2Client.erase(bid);
-  if (myDoShutdownIfEmpty && myBid2Client.empty()) {
-    CefPostTask(TID_UI, base::BindOnce(CefQuitMessageLoop));
-    Log::debug("Scheduled CEF shutdown.");
-  }
+  checkShuttingDown();
 }
 
 int ClientsManager::ClientsStorage::findRemoteBrowser(CefRefPtr<CefBrowser> browser) {

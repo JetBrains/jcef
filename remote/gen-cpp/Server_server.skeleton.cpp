@@ -40,6 +40,11 @@ class ServerHandler : virtual public ServerIf {
     printf("version\n");
   }
 
+  void state(std::string& _return) {
+    // Your implementation goes here
+    printf("state\n");
+  }
+
   void stop() {
     // Your implementation goes here
     printf("stop\n");

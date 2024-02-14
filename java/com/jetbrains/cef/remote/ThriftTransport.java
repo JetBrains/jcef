@@ -6,6 +6,7 @@ import org.apache.thrift.transport.TTransport;
 import org.apache.thrift.transport.TTransportException;
 import org.cef.OS;
 import org.cef.misc.CefLog;
+import org.cef.misc.Utils;
 
 import java.io.*;
 import java.net.Socket;
@@ -18,11 +19,12 @@ import java.nio.file.Path;
 
 class ThriftTransport {
     protected static final int PORT = Integer.getInteger("jcef.remote.port", 9090);
-    protected static final String PIPENAME = System.getProperty("jcef.remote.pipename", "client_pipe");
+    protected static final String PIPENAME_JAVA_HANDLERS = Utils.getString("ALT_JAVA_HANDLERS_PIPE", "client_pipe");
+    protected static final String PIPENAME_CEF_SERVER = Utils.getString("ALT_CEF_SERVER_PIPE", "cef_server_pipe");
 
     static TServerTransport createServerTransport() throws IOException {
         if (OS.isWindows()) {
-            WindowsPipeServerSocket pipeSocket = new WindowsPipeServerSocket(PIPENAME);
+            WindowsPipeServerSocket pipeSocket = new WindowsPipeServerSocket(PIPENAME_JAVA_HANDLERS);
             return new TServerTransport() {
                 @Override
                 public void listen() {}

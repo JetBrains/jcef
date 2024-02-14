@@ -24,16 +24,19 @@
 
 using namespace apache::thrift;
 
+std::string ServerHandler::STATE_DESC = "New";
+ServerHandler::ServerState ServerHandler::STATE = ServerHandler::SS_NEW;
+
 ServerHandler::ServerHandler() : myRoutersManager(std::make_shared<MessageRoutersManager>()) {}
 
 ServerHandler::~ServerHandler() {
-  dispose(false);
+  dispose();
 }
 
-void ServerHandler::dispose(bool doShutdownIfEmpty) {
+void ServerHandler::dispose() {
   try {
     if (myClientsManager)
-      myClientsManager->closeAllBrowsers(doShutdownIfEmpty);
+      myClientsManager->closeAllBrowsers();
     if (myJavaService && !myJavaService->isClosed())
       myJavaService->close();
   } catch (TException e) {
@@ -79,7 +82,21 @@ void ServerHandler::closeBrowser(const int32_t bid) {
 }
 
 void ServerHandler::stop() {
-  dispose(true);
+  Log::debug("ServerHandler %p asked to stop server.", this);
+  setState(SS_SHUTTING_DOWN, "shutting down (start)");
+  if (!myClientsManager) // client wasn't connected
+    setStateShutdown();
+  dispose();
+}
+
+void ServerHandler::setStateShutdown() {
+  ServerHandler::setState(ServerHandler::SS_SHUTDOWN, "quit cef msg loop");
+  CefPostTask(TID_UI, base::BindOnce(CefQuitMessageLoop));
+  Log::debug("Scheduled CEF shutdown.");
+}
+
+void ServerHandler::state(std::string& _return) {
+  _return = STATE_DESC;
 }
 
 void ServerHandler::version(std::string& _return) {

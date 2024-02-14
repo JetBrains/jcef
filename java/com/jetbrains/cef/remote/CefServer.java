@@ -39,6 +39,10 @@ public class CefServer {
         if (!NativeServerManager.startIfNecessary(appHandler, settings, waitTimeoutNs))
             return false;
 
+        if (!NativeServerManager.isRunning()) {
+            CefLog.Error("Native server is still down.");
+            return false;
+        }
         if (!INSTANCE.connect(appHandler::onContextInitialized)) {
             CefLog.Error("Can't initialize client for native server.");
             return false;
@@ -67,9 +71,9 @@ public class CefServer {
         try {
             myClientHandlersImpl.setOnContextInitialized(onContextInitialized);
 
-            // 1. Start server for cef-handlers execution. Open socket
-            CefLog.Debug("Initialize CefServer. Open socket.");
-            myService.init("cef_server_pipe");
+            // 1. Start server for cef-handlers execution. Open transport for rpc-handlers
+            CefLog.Debug("Initialize CefServer. Open transport for rpc-handlers.");
+            myService.init(ThriftTransport.PIPENAME_CEF_SERVER);
 
             // 2. Start service for backward rpc calls (from native to java)
             ClientHandlers.Processor processor = new ClientHandlers.Processor(myClientHandlersImpl);
@@ -93,7 +97,7 @@ public class CefServer {
             // 3. Connect to CefServer
             int[] cid = new int[]{-1};
             myService.exec((s)->{
-                cid[0] = s.connect(ThriftTransport.PIPENAME);
+                cid[0] = s.connect(ThriftTransport.PIPENAME_JAVA_HANDLERS);
             });
 
             CefLog.Debug("Connected to CefSever, cid=" + cid[0]);

@@ -23,6 +23,7 @@ class ServerHandler : public thrift_codegen::ServerIf {
   void log(const std::string& msg) override { Log::info("received message from client: %s", msg.c_str()); }
   void echo(std::string& _return, const std::string& msg) override { _return.assign(msg); }
   void stop() override;
+  void state(std::string& _return) override;
   void version(std::string& _return) override;
 
   //
@@ -85,13 +86,25 @@ class ServerHandler : public thrift_codegen::ServerIf {
   void QueryCallback_Success(const thrift_codegen::RObject& qcallback,const std::string& response) override;
   void QueryCallback_Failure(const thrift_codegen::RObject& qcallback,const int32_t error_code,const std::string& error_message) override;
 
+  enum ServerState {
+    SS_NEW,
+    SS_SHUTTING_DOWN,
+    SS_SHUTDOWN
+  };
+  static void setState(ServerState state, std::string desc) { STATE = state; STATE_DESC = desc; }
+  static void setStateDesc(std::string desc) { STATE_DESC = desc; }
+  static bool isShuttingDown() { return STATE == SS_SHUTTING_DOWN; }
+  static void setStateShutdown();
  private:
   std::shared_ptr<RpcExecutor> myJavaService;
   std::shared_ptr<RpcExecutor> myJavaServiceIO;
   std::shared_ptr<ClientsManager> myClientsManager;
   std::shared_ptr<MessageRoutersManager> myRoutersManager;
 
-  void dispose(bool doShutdownIfEmpty);
+  void dispose();
+
+  static std::string STATE_DESC;
+  static ServerState STATE;
 };
 
 #endif  // JCEF_SERVERHANDLER_H
