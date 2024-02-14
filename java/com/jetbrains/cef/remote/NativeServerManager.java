@@ -1,5 +1,6 @@
 package com.jetbrains.cef.remote;
 
+import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TTransportException;
 import org.cef.CefSettings;
 import org.cef.OS;
@@ -9,10 +10,10 @@ import org.cef.handler.CefAppHandlerAdapter;
 import org.cef.misc.CefLog;
 import org.cef.misc.Utils;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
+import java.io.*;
+import java.net.StandardProtocolFamily;
+import java.net.UnixDomainSocketAddress;
+import java.nio.channels.SocketChannel;
 import java.nio.file.Path;
 import java.util.Map;
 
@@ -40,7 +41,8 @@ public class NativeServerManager {
         }
 
         // 1. command line args
-        ps.printf("[COMMAND_LINE]:\n");
+        final String sectionCmdLine = "[COMMAND_LINE]:";
+        ps.printf("%s\n", sectionCmdLine);
         if (appHandler instanceof CefAppHandlerAdapter) {
             CefAppHandlerAdapter h = (CefAppHandlerAdapter)appHandler;
             String[] commandLineArgs = h.getArgs();
@@ -78,15 +80,71 @@ public class NativeServerManager {
             };
             appHandler.onRegisterCustomSchemes(collector);
         }
+
         ps.flush();
         ps.close();
+
+        // Ensure file written
+        BufferedReader reader;
+        try {
+            reader = new BufferedReader(new FileReader(f));
+            String line = reader.readLine();
+            if (line == null || line.isEmpty() || !line.contains(sectionCmdLine)) {
+                CefLog.Error("Write errors (when write temp file with server params), was written:");
+                while (line != null) {
+                    CefLog.Error("\t%s", line);
+                    line = reader.readLine();
+                }
+            }
+            reader.close();
+        } catch (IOException e) {
+            CefLog.Error("Can't read temp file with server params: %s", e.getMessage());
+        }
 
         return startNativeServer(f.getAbsolutePath(), timeoutNs);
     }
 
     public static boolean isRunning() {
+        return isRunning(false);
+    }
+
+    public static boolean isRunning(boolean withDebug) {
         try {
-            RpcExecutor test = new RpcExecutor(ThriftTransport.PIPENAME_CEF_SERVER);
+            if (ThriftTransport.USE_TCP) {
+                TServerSocket serverSocket = null;
+                try {
+                    serverSocket = new TServerSocket(ThriftTransport.PORT_CEF_SERVER);
+                } catch (TTransportException e) {
+                    if (withDebug)
+                        CefLog.Debug("isRunning: tcp-port %d, TTransportException occurred: %s", ThriftTransport.PORT_CEF_SERVER, e.getMessage());
+                    // Socket is busy => server is running
+                    return true;
+                }
+                serverSocket.close();
+                return false;
+            }
+
+            UnixDomainSocketAddress socketAddress = UnixDomainSocketAddress.of(ThriftTransport.getServerPipe());
+            try {
+                SocketChannel channel = SocketChannel.open(StandardProtocolFamily.UNIX);
+                channel.connect(socketAddress);
+                channel.close();
+                // Successfully connected to server pipe => server is running
+                return true;
+            } catch (IOException e) {
+                if (withDebug)
+                    CefLog.Debug("isRunning: pipe '%s', IOException occurred: %s", e.getMessage(), ThriftTransport.getServerPipe());
+                return false;
+            }
+        } catch (Throwable e) {
+            CefLog.Error("isRunning: exception %s", e.getMessage());
+        }
+        return false;
+    }
+
+    public static boolean isRunningOld(boolean withDebug) {
+        try {
+            RpcExecutor test = new RpcExecutor().openTransport();
             String testMsg = "test_message786";
             String echoMsg = test.execObj(s -> s.echo(testMsg));
             test.closeTransport();
@@ -94,13 +152,17 @@ public class NativeServerManager {
             if (!result)
                 CefLog.Debug("cef_server is running, but echo is incorrect: '%s' (original '%s')", echoMsg, testMsg);
             return result;
-        } catch (TTransportException e) {}
+        } catch (TTransportException e) {
+            if (withDebug)
+                CefLog.Debug("isRunning: TTransportException occurred: %s", e.getMessage());
+        }
         return false;
     }
 
     public static void stopRunning() {
         try {
-            RpcExecutor test = new RpcExecutor(ThriftTransport.PIPENAME_CEF_SERVER);
+            RpcExecutor test = new RpcExecutor().openTransport();
+            test.openTransport();
             test.exec(s -> s.stop());
             test.closeTransport();
         } catch (TTransportException e) {
@@ -110,7 +172,7 @@ public class NativeServerManager {
 
     private static String getServerState() {
         try {
-            RpcExecutor test = new RpcExecutor(ThriftTransport.PIPENAME_CEF_SERVER);
+            RpcExecutor test = new RpcExecutor().openTransport();
             String state = test.execObj(s -> s.state());
             test.closeTransport();
             return state;
@@ -174,10 +236,21 @@ public class NativeServerManager {
             return false;
         }
 
-
         ProcessBuilder builder = new ProcessBuilder(serverExe.getAbsolutePath());
         builder.directory(serverExe.getParentFile());
-        builder.command().add(paramsPath);
+        if (ThriftTransport.USE_TCP) {
+            CefLog.Debug("\tUse tcp-port %d", ThriftTransport.PORT_CEF_SERVER);
+            builder.command().add(String.format("--port=%d", ThriftTransport.PORT_CEF_SERVER));
+        } else {
+            CefLog.Debug("\tUse pipe %s", ThriftTransport.getServerPipe());
+            builder.command().add(String.format("--pipe=%s", ThriftTransport.getServerPipe()));
+        }
+        final String serverLog = Utils.getString("CEF_SERVER_LOG_PATH");
+        if (serverLog != null && !serverLog.isEmpty()) {
+            CefLog.Debug("\tLog file %s", serverLog);
+            builder.command().add(String.format("--logfile=%s", serverLog.trim()));
+        }
+        builder.command().add(String.format("--params=%s", paramsPath));
         builder.redirectOutput(ProcessBuilder.Redirect.INHERIT);
         builder.redirectError(ProcessBuilder.Redirect.INHERIT);
         try {
@@ -200,11 +273,13 @@ public class NativeServerManager {
             success = isRunning();
         } while (!success && (System.nanoTime() - startNs < timeoutNs));
 
-        if (!success) {
+        if (!isRunning(true)) {
             if (ourNativeServerProcess.isAlive())
                 CefLog.Error("Native cef_server was started but client can't connect.");
-            else
+            else {
                 CefLog.Error("Can't start native cef_server, process is dead.");
+                ourNativeServerProcess = null;
+            }
         }
         return success;
     }

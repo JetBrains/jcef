@@ -14,6 +14,8 @@ namespace {
   thread_local std::string ourThreadName;
   const std::string ourNdcSeparator = " | ";
   int ourLogLevel = LEVEL_INFO;
+  FILE * ourLogFile = nullptr;
+  bool ourDoFlush = false;
   bool ourAddNewLine = true;
   bool ourPureMsg = false;
   const std::string ourFinishedMsg = "Finished.";
@@ -23,7 +25,30 @@ void setThreadName(std::string name) {
   ourThreadName.assign(name);
 }
 
-void Log::init(int level) { ourLogLevel = level; }
+void Log::init(int level, std::string logfile) {
+  if (!logfile.empty()) {
+    FILE* flog = fopen(logfile.c_str(), "a");
+    if (flog != nullptr) {
+      fprintf(stdout, "Log will be written in file '%s'\n", logfile.c_str());
+      init(level, flog);
+    } else {
+      fprintf(stderr,
+              "Can't open log file '%s', will be used default (stderr)\n",
+              logfile.c_str());
+      init(level);
+    }
+  } else
+    init(level);
+}
+
+void Log::init(int level, FILE* logFile) {
+  ourLogLevel = level;
+  if (logFile != nullptr) {
+    ourDoFlush = true;
+    ourLogFile = logFile;
+  } else
+    ourLogFile = stderr;
+}
 
 bool Log::isDebugEnabled() {
   return ourLogLevel <= LEVEL_DEBUG;
@@ -79,11 +104,13 @@ void Log::log(int level, const char *const format, ...) {
 
   const char * end = ourAddNewLine ? "\n" : "";
   if (ourPureMsg)
-    fprintf(stderr, "%s%s", msg.c_str(), end);
+    fprintf(ourLogFile, "%s%s", msg.c_str(), end);
   else if (ndc.empty())
-    fprintf(stderr, "%s [%s] %s%s", timeBuf, ourThreadName.c_str(), msg.c_str(), end);
+    fprintf(ourLogFile, "%s [%s] %s%s", timeBuf, ourThreadName.c_str(), msg.c_str(), end);
   else
-    fprintf(stderr, "%s [%s %s] %s%s", timeBuf, ourThreadName.c_str(), ndc.c_str(), msg.c_str(), end);
+    fprintf(ourLogFile, "%s [%s %s] %s%s", timeBuf, ourThreadName.c_str(), ndc.c_str(), msg.c_str(), end);
+  if (ourDoFlush)
+    fflush(ourLogFile);
 }
 
 Measurer::Measurer(const std::string & msg):

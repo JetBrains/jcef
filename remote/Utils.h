@@ -8,7 +8,7 @@
 class RpcExecutor {
  public:
   typedef std::shared_ptr<thrift_codegen::ClientHandlersClient> Service;
-  RpcExecutor();
+  RpcExecutor(int port);
   RpcExecutor(std::string pipeName);
 
   void close();
@@ -40,5 +40,23 @@ class RpcExecutor {
 };
 
 typedef std::unique_lock<std::recursive_mutex> Lock;
+
+class CommandLineArgs {
+ public:
+  CommandLineArgs(int argc, char* argv[]);
+
+  bool useTcp() { return myUseTcp; }
+  int getPort() { return myPort; }
+  std::string getPipe() { return myPathPipe; }
+  std::string getLogFile() { return myPathLogFile; }
+  std::string getParamsFile() { return myPathParamsFile; }
+
+ private:
+  bool myUseTcp = false;
+  int myPort = -1;
+  std::string myPathPipe;
+  std::string myPathLogFile;
+  std::string myPathParamsFile;
+};
 
 #endif  // JCEF_UTILS_H

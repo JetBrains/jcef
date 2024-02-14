@@ -19,7 +19,6 @@ namespace CefUtils {
       std::vector<std::pair<std::string, int>> schemes
   );
   bool initializeCef(std::string paramsFilePath);
-  bool initializeCef(int argc, char* argv[]);
   void runCefLoop();
 
   bool parseSetting(CefSettings & out, const std::string & settingLine);

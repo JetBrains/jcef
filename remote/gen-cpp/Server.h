@@ -23,6 +23,7 @@ class ServerIf {
  public:
   virtual ~ServerIf() {}
   virtual int32_t connect(const std::string& backwardConnectionPipe) = 0;
+  virtual int32_t connectTcp(const int32_t backwardConnectionPort) = 0;
   virtual void log(const std::string& msg) = 0;
   virtual void echo(std::string& _return, const std::string& msg) = 0;
   virtual void version(std::string& _return) = 0;
@@ -98,6 +99,10 @@ class ServerNull : virtual public ServerIf {
  public:
   virtual ~ServerNull() {}
   int32_t connect(const std::string& /* backwardConnectionPipe */) override {
+    int32_t _return = 0;
+    return _return;
+  }
+  int32_t connectTcp(const int32_t /* backwardConnectionPort */) override {
     int32_t _return = 0;
     return _return;
   }
@@ -340,6 +345,112 @@ class Server_connect_presult {
   int32_t* success;
 
   _Server_connect_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_connectTcp_args__isset {
+  _Server_connectTcp_args__isset() : backwardConnectionPort(false) {}
+  bool backwardConnectionPort :1;
+} _Server_connectTcp_args__isset;
+
+class Server_connectTcp_args {
+ public:
+
+  Server_connectTcp_args(const Server_connectTcp_args&) noexcept;
+  Server_connectTcp_args& operator=(const Server_connectTcp_args&) noexcept;
+  Server_connectTcp_args() noexcept
+                         : backwardConnectionPort(0) {
+  }
+
+  virtual ~Server_connectTcp_args() noexcept;
+  int32_t backwardConnectionPort;
+
+  _Server_connectTcp_args__isset __isset;
+
+  void __set_backwardConnectionPort(const int32_t val);
+
+  bool operator == (const Server_connectTcp_args & rhs) const
+  {
+    if (!(backwardConnectionPort == rhs.backwardConnectionPort))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_connectTcp_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_connectTcp_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_connectTcp_pargs {
+ public:
+
+
+  virtual ~Server_connectTcp_pargs() noexcept;
+  const int32_t* backwardConnectionPort;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_connectTcp_result__isset {
+  _Server_connectTcp_result__isset() : success(false) {}
+  bool success :1;
+} _Server_connectTcp_result__isset;
+
+class Server_connectTcp_result {
+ public:
+
+  Server_connectTcp_result(const Server_connectTcp_result&) noexcept;
+  Server_connectTcp_result& operator=(const Server_connectTcp_result&) noexcept;
+  Server_connectTcp_result() noexcept
+                           : success(0) {
+  }
+
+  virtual ~Server_connectTcp_result() noexcept;
+  int32_t success;
+
+  _Server_connectTcp_result__isset __isset;
+
+  void __set_success(const int32_t val);
+
+  bool operator == (const Server_connectTcp_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_connectTcp_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_connectTcp_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_connectTcp_presult__isset {
+  _Server_connectTcp_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_connectTcp_presult__isset;
+
+class Server_connectTcp_presult {
+ public:
+
+
+  virtual ~Server_connectTcp_presult() noexcept;
+  int32_t* success;
+
+  _Server_connectTcp_presult__isset __isset;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
@@ -4057,6 +4168,9 @@ class ServerClient : virtual public ServerIf {
   int32_t connect(const std::string& backwardConnectionPipe) override;
   void send_connect(const std::string& backwardConnectionPipe);
   int32_t recv_connect();
+  int32_t connectTcp(const int32_t backwardConnectionPort) override;
+  void send_connectTcp(const int32_t backwardConnectionPort);
+  int32_t recv_connectTcp();
   void log(const std::string& msg) override;
   void send_log(const std::string& msg);
   void echo(std::string& _return, const std::string& msg) override;
@@ -4187,6 +4301,7 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
   typedef std::map<std::string, ProcessFunction> ProcessMap;
   ProcessMap processMap_;
   void process_connect(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_connectTcp(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_log(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_echo(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_version(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -4236,6 +4351,7 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
   ServerProcessor(::std::shared_ptr<ServerIf> iface) :
     iface_(iface) {
     processMap_["connect"] = &ServerProcessor::process_connect;
+    processMap_["connectTcp"] = &ServerProcessor::process_connectTcp;
     processMap_["log"] = &ServerProcessor::process_log;
     processMap_["echo"] = &ServerProcessor::process_echo;
     processMap_["version"] = &ServerProcessor::process_version;
@@ -4316,6 +4432,15 @@ class ServerMultiface : virtual public ServerIf {
       ifaces_[i]->connect(backwardConnectionPipe);
     }
     return ifaces_[i]->connect(backwardConnectionPipe);
+  }
+
+  int32_t connectTcp(const int32_t backwardConnectionPort) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->connectTcp(backwardConnectionPort);
+    }
+    return ifaces_[i]->connectTcp(backwardConnectionPort);
   }
 
   void log(const std::string& msg) override {
@@ -4768,6 +4893,9 @@ class ServerConcurrentClient : virtual public ServerIf {
   int32_t connect(const std::string& backwardConnectionPipe) override;
   int32_t send_connect(const std::string& backwardConnectionPipe);
   int32_t recv_connect(const int32_t seqid);
+  int32_t connectTcp(const int32_t backwardConnectionPort) override;
+  int32_t send_connectTcp(const int32_t backwardConnectionPort);
+  int32_t recv_connectTcp(const int32_t seqid);
   void log(const std::string& msg) override;
   void send_log(const std::string& msg);
   void echo(std::string& _return, const std::string& msg) override;

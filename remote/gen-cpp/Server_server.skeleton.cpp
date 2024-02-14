@@ -25,6 +25,11 @@ class ServerHandler : virtual public ServerIf {
     printf("connect\n");
   }
 
+  int32_t connectTcp(const int32_t backwardConnectionPort) {
+    // Your implementation goes here
+    printf("connectTcp\n");
+  }
+
   void log(const std::string& msg) {
     // Your implementation goes here
     printf("log\n");

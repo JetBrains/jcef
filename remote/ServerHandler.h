@@ -20,6 +20,7 @@ class ServerHandler : public thrift_codegen::ServerIf {
   // ServerIf
   //
   int32_t connect(const std::string& backwardConnectionPipe) override;
+  int32_t connectTcp(int backwardConnectionPort) override;
   void log(const std::string& msg) override { Log::info("received message from client: %s", msg.c_str()); }
   void echo(std::string& _return, const std::string& msg) override { _return.assign(msg); }
   void stop() override;

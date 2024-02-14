@@ -17,21 +17,20 @@ using namespace apache::thrift::transport;
 
 using namespace thrift_codegen;
 
-RpcExecutor::RpcExecutor() {
-  myTransport = std::make_shared<TBufferedTransport>(std::make_shared<TSocket>("localhost", 9091));
+RpcExecutor::RpcExecutor(int port) {
+  myTransport = std::make_shared<TBufferedTransport>(std::make_shared<TSocket>("localhost", port));
   myService = std::make_shared<ClientHandlersClient>(std::make_shared<TBinaryProtocol>(myTransport));
 
   myTransport->open();
   const int32_t backwardCid = myService->connect();
-  Log::trace("Backward socket connection to client established, backwardCid=%d.", backwardCid);
+  Log::trace("Backward tcp connection to client established, backwardCid=%d.", backwardCid);
 }
 
 RpcExecutor::RpcExecutor(std::string pipeName) {
 #ifdef WIN32
   myTransport = std::make_shared<PipeTransport>("\\\\.\\pipe\\" + pipeName);
 #else
-  boost::filesystem::path pipePath = boost::filesystem::temp_directory_path().append(pipeName).lexically_normal();
-  myTransport = std::make_shared<TSocket>(pipePath.c_str());
+  myTransport = std::make_shared<TSocket>(pipeName.c_str());
 #endif
   myService = std::make_shared<ClientHandlersClient>(std::make_shared<TBinaryProtocol>(myTransport));
 
@@ -63,5 +62,27 @@ void RpcExecutor::exec(std::function<void(Service)> rpc) {
   } catch (apache::thrift::TException& tx) {
     Log::debug("thrift exception occured: %s", tx.what());
     close();
+  }
+}
+
+CommandLineArgs::CommandLineArgs(int argc, char* argv[]) {
+  for (int c = 0; c < argc; ++c) {
+    const char * arg = argv[c];
+    if (arg == nullptr)
+      continue;
+
+    std::string str(arg);
+    size_t tokenPos;
+    if ((tokenPos = str.find("--port=")) != str.npos) {
+      std::string val = str.substr(tokenPos + 7);
+      myPort = std::stoi(val);
+      myUseTcp = true;
+    } else if ((tokenPos = str.find("--pipe=")) != str.npos) {
+      myPathPipe = str.substr(tokenPos + 7);
+    } else if ((tokenPos = str.find("--logfile=")) != str.npos) {
+      myPathLogFile = str.substr(tokenPos + 10);
+    } else if ((tokenPos = str.find("--params=")) != str.npos) {
+      myPathParamsFile = str.substr(tokenPos + 9);
+    }
   }
 }

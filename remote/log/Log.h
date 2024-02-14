@@ -13,7 +13,7 @@ const int LEVEL_TRACE = 5;
 
 class Log {
 public:
-  static void init(int level = LEVEL_INFO);
+  static void init(int level, std::string logfile);
   static bool isDebugEnabled();
   static bool isTraceEnabled();
   
@@ -43,6 +43,9 @@ public:
   }
 
   static void log(int level, const char *const format, ...);
+
+ private:
+  static void init(int level, FILE* logFile = nullptr);
 };
 
 typedef std::chrono::high_resolution_clock Clock;

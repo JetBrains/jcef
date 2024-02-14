@@ -7,6 +7,7 @@
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/server/TThreadedServer.h>
 #include <thrift/transport/TTransportUtils.h>
+#include <thrift/transport/TServerSocket.h>
 
 #include "CefUtils.h"
 #include "ServerHandler.h"
@@ -35,7 +36,8 @@ class ServerCloneFactory : virtual public ServerIfFactory {
 int main(int argc, char* argv[]) {
   HINSTANCE hi = GetModuleHandle (0);
 
-  Log::init(LEVEL_TRACE);
+  CommandLineArgs cmdArgs(argc, argv);
+  Log::init(LEVEL_TRACE, cmdArgs.getLogFile());
   setThreadName("main");
   CefMainArgs main_args(hi);
 
@@ -52,17 +54,25 @@ int main(int argc, char* argv[]) {
     return result;
   }
 
-  const bool success = CefUtils::initializeCef(argc, argv);
+  const bool success = CefUtils::initializeCef(cmdArgs.getParamsFile());
   if (!success) {
     Log::error("Cef initialization failed");
     return -2;
   }
 
-  std::shared_ptr<PipeTransportServer> transport = std::make_shared<PipeTransportServer>("\\\\.\\pipe\\cef_server_pipe");
+  std::shared_ptr<TServerTransport> serverTransport;
+  if (cmdArgs.useTcp()) {
+    Log::info("TCP transport will be used, port=%d", cmdArgs.getPort());
+    serverTransport = std::make_shared<TServerSocket>(cmdArgs.getPort());
+  } else {
+    Log::info("Pipe transport will be used, path=%s", cmdArgs.getPipe().c_str());
+    serverTransport = std::make_shared<PipeTransportServer>("\\\\.\\pipe\\cef_server_pipe");
+  }
+
   std::shared_ptr<TThreadedServer> server = std::make_shared<TThreadedServer>(
       std::make_shared<ServerProcessorFactory>(
       std::make_shared<ServerCloneFactory>()),
-      transport,
+      serverTransport,
       std::make_shared<TBufferedTransportFactory>(),
       std::make_shared<TBinaryProtocolFactory>());
 

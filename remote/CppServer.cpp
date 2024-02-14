@@ -45,7 +45,9 @@ extern void initMacApplication();
 #endif
 
 int main(int argc, char* argv[]) {
-  Log::init(LEVEL_TRACE);
+  CommandLineArgs cmdArgs(argc, argv);
+  Log::init(LEVEL_TRACE, cmdArgs.getLogFile());
+
   setThreadName("main");
 #if defined(OS_LINUX)
   CefMainArgs main_args(argc, argv);
@@ -68,18 +70,30 @@ int main(int argc, char* argv[]) {
 #endif
   const Clock::time_point startTime = Clock::now();
 
-  const bool success = CefUtils::initializeCef(argc, argv);
+  const bool success = CefUtils::initializeCef(cmdArgs.getParamsFile());
   if (!success) {
     Log::error("Cef initialization failed");
     return -2;
   }
 
-  boost::filesystem::path pipePath = boost::filesystem::temp_directory_path().append("cef_server_pipe").lexically_normal();
-  std::remove(pipePath.c_str());
+  std::shared_ptr<TServerTransport> serverTransport;
+  if (cmdArgs.useTcp()) {
+    Log::info("TCP transport will be used, port=%d", cmdArgs.getPort());
+    serverTransport = std::make_shared<TServerSocket>(cmdArgs.getPort());
+  } else {
+    const std::string pipePath = cmdArgs.getPipe();
+    if (pipePath.empty()) {
+      Log::error("Pipe path is empty, exit.");
+      return -3;
+    }
+    std::remove(pipePath.c_str());
+    Log::info("Pipe transport will be used, path=%s", cmdArgs.getPipe().c_str());
+    serverTransport = std::make_shared<TServerSocket>(cmdArgs.getPipe().c_str());
+  }
   std::shared_ptr<TThreadedServer> server = std::make_shared<TThreadedServer>(
       std::make_shared<ServerProcessorFactory>(
       std::make_shared<ServerCloneFactory>()),
-      std::make_shared<TServerSocket>(pipePath.c_str()),
+      serverTransport,
       std::make_shared<TBufferedTransportFactory>(),
       std::make_shared<TBinaryProtocolFactory>());
 
@@ -92,17 +106,19 @@ int main(int argc, char* argv[]) {
   std::thread servThread([=]() {
     setThreadName("ServerListener");
     try {
+      Log::debug("Start listening incoming connections."); // TODO: remove
       server->serve();
     } catch (TException e) {
       Log::error("Exception in listening thread");
       Log::error(e.what());
     }
-
     Log::debug("Done, server stopped.");
   });
 
   CefUtils::runCefLoop();
+  Log::debug("Finished message loop.");
   server->stop();
   servThread.join();
+  Log::debug("Buy!");
   return 0;
 }

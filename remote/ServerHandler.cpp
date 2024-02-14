@@ -71,6 +71,30 @@ int32_t ServerHandler::connect(const std::string& backwardConnectionPipe) {
   return counter;
 }
 
+int32_t ServerHandler::connectTcp(int backwardConnectionPort) {
+  if (myJavaService != nullptr) {
+    Log::debug("Client already connected (tcp), other attempts will be ignored.");
+    return -1;
+  }
+
+  static int s_counter = 0;
+  const int counter = s_counter++;
+  setThreadName(string_format("ServerHandler_%d", counter));
+
+  // Connect to client's side (for cef-callbacks execution on java side)
+  try {
+    myJavaService = std::make_shared<RpcExecutor>(backwardConnectionPort);
+    myJavaServiceIO = std::make_shared<RpcExecutor>(backwardConnectionPort);
+    myClientsManager = std::make_shared<ClientsManager>();
+    RemoteAppHandler::instance()->setService(myJavaService);
+  } catch (TException& tx) {
+    Log::error(tx.what());
+    return -1;
+  }
+
+  return counter;
+}
+
 int32_t ServerHandler::createBrowser(int cid, const std::string& url) {
   int32_t bid = myClientsManager->createBrowser(cid, myJavaService, myJavaServiceIO, myRoutersManager, url);
   Log::trace("Created remote browser cid=%d, bid=%d (started native creation)", cid, bid);

@@ -11,7 +11,6 @@ import org.cef.handler.CefAppHandler;
 import org.cef.misc.CefLog;
 import org.cef.misc.Utils;
 
-import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicLong;
@@ -23,9 +22,9 @@ public class CefServer {
     private Thread myClientHandlersThread;
     private TServer myClientHandlersServer;
     private TServerTransport myClientHandlersTransport;
-    private final RpcExecutor myService = new RpcExecutor();
+    private final RpcExecutor myRpc = new RpcExecutor();
     private final Map<Integer, RemoteBrowser> myBid2Browser = new ConcurrentHashMap<>();
-    private final ClientHandlersImpl myClientHandlersImpl = new ClientHandlersImpl(myService, myBid2Browser);
+    private final ClientHandlersImpl myClientHandlersImpl = new ClientHandlersImpl(myRpc, myBid2Browser);
 
     private volatile boolean myIsConnected = false;
 
@@ -55,29 +54,43 @@ public class CefServer {
 
     public boolean isConnected() { return myIsConnected; }
 
-    public RpcExecutor getService() { return myService; }
+    public RpcExecutor getService() { return myRpc; }
 
     public RemoteClient createClient() {
-        return new RemoteClient(myService, myBid2Browser);
+        return new RemoteClient(myRpc, myBid2Browser);
     }
 
     public static String getVersion() {
         if (CefApp.isRemoteEnabled() && INSTANCE.myIsConnected)
-            return INSTANCE.myService.execObj(r->r.version());
+            return INSTANCE.myRpc.execObj(r->r.version());
         return "unknown(not connected)";
     }
 
     private boolean connect(Runnable onContextInitialized) {
-        try {
-            myClientHandlersImpl.setOnContextInitialized(onContextInitialized);
+        myClientHandlersImpl.setOnContextInitialized(onContextInitialized);
 
+        try {
             // 1. Start server for cef-handlers execution. Open transport for rpc-handlers
-            CefLog.Debug("Initialize CefServer. Open transport for rpc-handlers.");
-            myService.init(ThriftTransport.PIPENAME_CEF_SERVER);
+            try {
+                CefLog.Debug("Initialize CefServer, open server transport.");
+                myRpc.openTransport();
+            } catch (TException x) {
+                CefLog.Error("TException when opening server %s : %s", ThriftTransport.USE_TCP ? "tcp-socket" : "pipe", x.getMessage());
+                return false;
+            }
 
             // 2. Start service for backward rpc calls (from native to java)
             ClientHandlers.Processor processor = new ClientHandlers.Processor(myClientHandlersImpl);
-            myClientHandlersTransport = ThriftTransport.createServerTransport();
+            try {
+                myClientHandlersTransport = ThriftTransport.createServerTransport();
+            } catch (Exception e) {
+                CefLog.Error("Exception when opening client %s : %s", ThriftTransport.USE_TCP ? "tcp-socket" : "pipe", e.getMessage());
+                if (ThriftTransport.USE_TCP)
+                    CefLog.Error("Port : %d", ThriftTransport.PORT_JAVA_HANDLERS);
+                else
+                    CefLog.Error("Pipe : %s", ThriftTransport.getJavaHandlersPipe());
+                return false;
+            }
 
             TThreadPoolServer.Args serverArgs = new TThreadPoolServer.Args(myClientHandlersTransport)
                 .processor(processor).executorService(new ThreadPoolExecutor(2, 10, 60L, TimeUnit.SECONDS, new SynchronousQueue(), new ThreadFactory() {
@@ -96,19 +109,16 @@ public class CefServer {
 
             // 3. Connect to CefServer
             int[] cid = new int[]{-1};
-            myService.exec((s)->{
-                cid[0] = s.connect(ThriftTransport.PIPENAME_JAVA_HANDLERS);
+            myRpc.exec((s)->{
+                if (ThriftTransport.USE_TCP)
+                    cid[0] = s.connectTcp(ThriftTransport.PORT_JAVA_HANDLERS);
+                else
+                    cid[0] = s.connect(ThriftTransport.getJavaHandlersPipe().toString());
             });
 
             CefLog.Debug("Connected to CefSever, cid=" + cid[0]);
-        } catch (TException x) {
-            CefLog.Error("TException in CefServer.start: %s", x.getMessage());
-            return false;
-        } catch (IOException e) {
-            CefLog.Error("IOException in CefServer.start: %s", e.getMessage());
-            return false;
-        } catch (RuntimeException e) {
-            CefLog.Error("RuntimeException in CefServer.start: %s", e.getMessage());
+        } catch (Throwable e) {
+            CefLog.Error("RuntimeException in CefServer.connect: %s", e.getMessage());
             return false;
         }
 
@@ -119,8 +129,8 @@ public class CefServer {
         CefLog.Debug("Disconnect from native server and stop it.");
         myIsConnected = false;
 
-        myService.exec(s->s.stop());
-        myService.closeTransport();
+        myRpc.exec(s->s.stop());
+        myRpc.closeTransport();
 
         if (myClientHandlersTransport != null) {
             myClientHandlersTransport.close();

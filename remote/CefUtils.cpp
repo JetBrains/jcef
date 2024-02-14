@@ -113,24 +113,6 @@ namespace CefUtils {
         Log::debug("Shutdown finished.");
     }
 
-    bool initializeCef(int argc, char* argv[]) {
-      std::string paramsFilePath;
-      if (argc > 1) {
-        paramsFilePath.assign(argv[1]);
-        Log::info("Use params file %s", paramsFilePath.c_str());
-      } else {
-        // Parse file with params
-        boost::filesystem::path settingsPath =
-            boost::filesystem::temp_directory_path()
-                .append("cef_server_params.txt")
-                .lexically_normal();
-        paramsFilePath.assign(settingsPath.string());
-        Log::info("Use default params file %s", paramsFilePath.c_str());
-      }
-
-      return initializeCef(paramsFilePath);
-    }
-
     bool initializeCef(std::string paramsFilePath) {
       bool collectCmdSwitches = false;
       bool collectSettings = false;
@@ -172,7 +154,8 @@ namespace CefUtils {
             }
           }
         }
-      }
+      } else
+        Log::debug("Params file is empty.");
 
       if (Log::isTraceEnabled()) {
         Log::trace("Command line switches:");

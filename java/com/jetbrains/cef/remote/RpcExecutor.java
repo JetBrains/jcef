@@ -24,9 +24,16 @@ public class RpcExecutor {
     private Server.Iface myServer;
 
     public RpcExecutor() {}
-    public RpcExecutor(String pipeName) throws TTransportException { init(pipeName); }
 
-    public void init(int port) throws TTransportException {
+    public RpcExecutor openTransport() throws TTransportException {
+        if (ThriftTransport.USE_TCP)
+            initTcp(ThriftTransport.PORT_CEF_SERVER);
+        else
+            initPipe(ThriftTransport.getServerPipe().toString());
+        return this;
+    }
+
+    private void initTcp(int port) throws TTransportException {
         try {
             myTransport = new TSocket("localhost", port);
             myTransport.open();
@@ -38,7 +45,7 @@ public class RpcExecutor {
         }
     }
 
-    public void init(String pipeName) throws TTransportException {
+    private void initPipe(String pipeName) throws TTransportException {
         try {
             myTransport = openPipeTransport(pipeName);
             myProtocol = new TBinaryProtocol(myTransport);
@@ -58,9 +65,8 @@ public class RpcExecutor {
                 is = pipe.getInputStream();
                 os = pipe.getOutputStream();
             } else {
-                final Path pipePath = Path.of(System.getProperty("java.io.tmpdir")).resolve(pipeName);
                 SocketChannel channel = SocketChannel.open(StandardProtocolFamily.UNIX);
-                UnixDomainSocketAddress socketAddress = UnixDomainSocketAddress.of(pipePath);
+                UnixDomainSocketAddress socketAddress = UnixDomainSocketAddress.of(pipeName);
                 channel.connect(socketAddress);
                 is = Channels.newInputStream(channel);
                 os = Channels.newOutputStream(channel);
