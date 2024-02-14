@@ -1,5 +1,6 @@
 package tests.basic;
 
+import com.jetbrains.cef.remote.NativeServerManager;
 import org.cef.CefApp;
 import org.cef.CefClient;
 import org.cef.CefSettings;
@@ -29,6 +30,25 @@ public class BasicJcefTest {
             return;
 
         final long start = System.currentTimeMillis();
+        if (CefApp.isRemoteEnabled()) {
+            CefLog.init(Utils.getString("JCEF_TESTS_LOG_FILE"), CefSettings.LogSeverity.LOGSEVERITY_VERBOSE);
+            final long waitTimeoutNs = Utils.getInteger("WAIT_SERVER_TIMEOUT_MS", 25000)*1000000l; // 25 sec
+            CefLog.Info("Test NativeServerManager (timeout=%d ms).", waitTimeoutNs/1000000);
+            if (NativeServerManager.isRunning()) {
+                boolean success = NativeServerManager.stopAndWait(waitTimeoutNs);
+                if (!success)
+                    throw new RuntimeException("Can't stop old server instance.");
+            }
+            // cef_server isn't running now, try to start.
+            CefLog.Info("Start new cef_server instance.");
+            boolean success = NativeServerManager.startIfNecessary(null, null, waitTimeoutNs);
+            if (!success)
+                throw new RuntimeException("Can't start new server instance.");
+
+            success = NativeServerManager.stopAndWait(waitTimeoutNs);
+            if (!success)
+                throw new RuntimeException("Can't stop new server instance.");
+        }
         TestSetupExtension.initializeCef();
 
         //

@@ -19,12 +19,11 @@ import java.util.Map;
 public class NativeServerManager {
     private static final String ALT_CEF_SERVER_PATH = Utils.getString("ALT_CEF_SERVER_PATH");
     private static final String CEF_SERVER_PIPE = Utils.getString("ALT_CEF_SERVER_PIPE", "cef_server_pipe");
-    private static final long WAIT_SERVER_TIMEOUT = Utils.getInteger("WAIT_SERVER_TIMEOUT_MS", 15000)*1000000l;
 
     private static Process ourNativeServerProcess = null;
 
     // Should be called in bg thread
-    public static boolean startIfNecessary(CefAppHandler appHandler, CefSettings settings) {
+    public static boolean startIfNecessary(CefAppHandler appHandler, CefSettings settings, long timeoutNs) {
         // TODO: check that server runs with the same args and restart it if necessary.
         if (isRunning())
             return true;
@@ -49,7 +48,7 @@ public class NativeServerManager {
             if (commandLineArgs != null && commandLineArgs.length > 0)
                 for (String arg: commandLineArgs)
                     ps.printf("%s\n", arg);
-        } else
+        } else if (appHandler != null)
             CefLog.Error("Unsupported class of CefAppHandler %s. Overridden command-line arguments will be ignored.", CefAppHandler.class);
 
         // 2. settings
@@ -83,10 +82,10 @@ public class NativeServerManager {
         ps.flush();
         ps.close();
 
-        return startNativeServer(f.getAbsolutePath());
+        return startNativeServer(f.getAbsolutePath(), timeoutNs);
     }
 
-    private static boolean isRunning() {
+    public static boolean isRunning() {
         try {
             RpcExecutor test = new RpcExecutor(CEF_SERVER_PIPE);
             String testMsg = "test_message786";
@@ -100,7 +99,7 @@ public class NativeServerManager {
         return false;
     }
 
-    private static void stopRunning() {
+    public static void stopRunning() {
         try {
             RpcExecutor test = new RpcExecutor(CEF_SERVER_PIPE);
             test.exec(s -> s.stop());
@@ -110,7 +109,32 @@ public class NativeServerManager {
         }
     }
 
-    private static boolean startNativeServer(String paramsPath) {
+    // returns true when server was stopped successfully
+    public static boolean stopAndWait(long timeoutNs) {
+        if (!isRunning())
+            return true;
+
+        CefLog.Debug("Stop running cef_server instance.");
+        stopRunning();
+        // Wait for stopping
+        final long startNs = System.nanoTime();
+        boolean success = false;
+        do {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {}
+            CefLog.Debug("Waiting for server stopping....");
+            success = !isRunning();
+        } while (!success && (System.nanoTime() - startNs < timeoutNs));
+        if (!success) {
+            CefLog.Error("Can't stop server in %d ms.", (System.nanoTime() - startNs)/1000000);
+            return false;
+        }
+        return true;
+    }
+
+    // returns true when server was started successfully
+    private static boolean startNativeServer(String paramsPath, long timeoutNs) {
         if (ourNativeServerProcess != null)
             return true;
 
@@ -154,13 +178,13 @@ public class NativeServerManager {
         boolean success = false;
         do {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
             CefLog.Debug("Waiting for server...");
             success = isRunning();
-        } while (!success && (System.nanoTime() - startNs < WAIT_SERVER_TIMEOUT));
+        } while (!success && (System.nanoTime() - startNs < timeoutNs));
 
         if (!success) {
             if (ourNativeServerProcess.isAlive())

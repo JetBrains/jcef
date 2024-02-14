@@ -9,6 +9,7 @@ import org.cef.CefApp;
 import org.cef.CefSettings;
 import org.cef.handler.CefAppHandler;
 import org.cef.misc.CefLog;
+import org.cef.misc.Utils;
 
 import java.io.IOException;
 import java.util.Map;
@@ -34,7 +35,8 @@ public class CefServer {
         if (!CefApp.isRemoteEnabled())
             return false;
 
-        if (!NativeServerManager.startIfNecessary(appHandler, settings))
+        final long waitTimeoutNs = Utils.getInteger("WAIT_SERVER_TIMEOUT_MS", 15000)*1000000l;
+        if (!NativeServerManager.startIfNecessary(appHandler, settings, waitTimeoutNs))
             return false;
 
         if (!INSTANCE.connect(appHandler::onContextInitialized)) {
