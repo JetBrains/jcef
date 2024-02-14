@@ -60,6 +60,8 @@ rm -rf "$ARTIFACT"
 ls -lah "$ARTIFACT.tar.gz"
 
 echo "*** create cef_server archive..."
+cp third_party/thrift/libthrift-0.19.0.jar $ARTIFACT_SERVER
+cp third_party/slf4j/slf4j-api-2.0.0.jar $ARTIFACT_SERVER
 tar -cvzf "$ARTIFACT_SERVER.tar.gz" -C "$ARTIFACT_SERVER" $(ls "$ARTIFACT_SERVER")
 rm -rf "$ARTIFACT_SERVER"
 ls -lah "$ARTIFACT_SERVER.tar.gz"
