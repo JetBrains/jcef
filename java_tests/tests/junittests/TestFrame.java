@@ -230,7 +230,9 @@ class TestFrame extends JFrame implements CefLifeSpanHandler, CefLoadHandler, Ce
 
     @Override
     public void onLoadingStateChange(
-            CefBrowser browser, boolean isLoading, boolean canGoBack, boolean canGoForward) {}
+            CefBrowser browser, boolean isLoading, boolean canGoBack, boolean canGoForward) {
+        if (debugPrint()) CefLog.Info("onLoadingStateChange id=%d, isLoading=%s", browser.getIdentifier(), String.valueOf(isLoading));
+    }
 
     @Override
     public void onLoadStart(CefBrowser browser, CefFrame frame, TransitionType transitionType) {}
