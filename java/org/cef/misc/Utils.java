@@ -16,6 +16,17 @@ public class Utils {
         return sval.trim().toLowerCase().equals("true");
     }
 
+    public static boolean getBoolean(String varName, boolean defVal) {
+        String val = System.getProperty(varName);
+        if (val == null) {
+            val = System.getenv(varName);
+            if (val == null || val.isEmpty())
+                return defVal;
+        }
+
+        return val.trim().equalsIgnoreCase("true");
+    }
+
     public static int getInteger(String varName, int defaultVal) {
         int valFromSystem = Integer.getInteger(varName, defaultVal);
         if (valFromSystem != defaultVal)
