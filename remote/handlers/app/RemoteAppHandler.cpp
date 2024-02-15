@@ -66,7 +66,7 @@ void RemoteAppHandler::OnBeforeCommandLineProcessing(
           // Switches can optionally have a value specified using the '=' delimiter
           // (e.g. "-switch=value").
           int eqPos = static_cast<int>(arg.find("="));
-          std::string s0 = arg.substr(switchCnt, eqPos);
+          std::string s0 = arg.substr(switchCnt, eqPos - switchCnt);
           if (eqPos > 0) {
             std::string s1 = arg.substr(eqPos + 1);
             command_line->AppendSwitchWithValue(s0, s1);
