@@ -171,6 +171,7 @@ public class CefApp extends CefAppHandlerAdapter {
             // execute successfully)
             // TODO: ensure and make all initialization steps in single bg thread.
             if (IS_REMOTE_ENABLED) {
+                CefLog.Info("Running on test branch!");
                 if (CefServer.connect(appHandler_, settings_)) {
                     CefLog.Debug("CefApp: native CefServer is initialized.");
                     setState(CefAppState.INITIALIZED);
