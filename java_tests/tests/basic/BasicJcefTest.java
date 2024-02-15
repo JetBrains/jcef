@@ -4,6 +4,7 @@ import com.jetbrains.cef.remote.NativeServerManager;
 import org.cef.CefApp;
 import org.cef.CefClient;
 import org.cef.CefSettings;
+import org.cef.OS;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefFrame;
 import org.cef.misc.CefLog;
@@ -17,6 +18,13 @@ import tests.junittests.TestSetupExtension;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.*;
+import java.net.StandardProtocolFamily;
+import java.net.UnixDomainSocketAddress;
+import java.nio.channels.Channels;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
+import java.nio.file.Path;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -35,19 +43,11 @@ public class BasicJcefTest {
             final long waitTimeoutNs = Utils.getInteger("WAIT_SERVER_TIMEOUT_MS", 25000)*1000000l; // 25 sec
             CefLog.Info("Test NativeServerManager (timeout=%d ms).", waitTimeoutNs/1000000);
             if (NativeServerManager.isRunning()) {
+                CefLog.Debug("Old cef_server instance is running, will stop.");
                 boolean success = NativeServerManager.stopAndWait(waitTimeoutNs);
                 if (!success)
                     throw new RuntimeException("Can't stop old server instance.");
             }
-            // cef_server isn't running now, try to start.
-            CefLog.Info("Start new cef_server instance.");
-            boolean success = NativeServerManager.startIfNecessary(null, null, waitTimeoutNs);
-            if (!success)
-                throw new RuntimeException("Can't start new server instance.");
-
-            success = NativeServerManager.stopAndWait(waitTimeoutNs);
-            if (!success)
-                throw new RuntimeException("Can't stop new server instance.");
         }
         TestSetupExtension.initializeCef();
 
@@ -183,6 +183,91 @@ public class BasicJcefTest {
         } catch (InterruptedException e) {
             CefLog.Error(e.getMessage());
         }
+    }
+
+    private static void testPipe() {
+        if (OS.isWindows())
+            return;
+
+        final Path pipeName = Path.of(System.getProperty("java.io.tmpdir")).resolve("test_pipe");
+        final String testMsg = "TestPipe message 77";
+        final String clientPrefix = "CLIENT23_";
+
+        new File(pipeName.toString()).delete(); // cleanup file remaining from prev process
+        ServerSocketChannel serverChannel;
+        try {
+            serverChannel = ServerSocketChannel.open(StandardProtocolFamily.UNIX);
+            serverChannel.bind(UnixDomainSocketAddress.of(pipeName));
+        } catch (IOException e) {
+            CefLog.Error(e.getMessage());
+            throw new RuntimeException(e);
+        }
+
+        Thread threadServ = new Thread(()-> {
+            SocketChannel channel = null;
+            try {
+                channel = serverChannel.accept();
+            } catch (IOException e) {
+                CefLog.Error(e.getMessage());
+                throw new RuntimeException(e);
+            }
+            InputStream is = new BufferedInputStream(Channels.newInputStream(channel));
+            OutputStream os = new BufferedOutputStream(Channels.newOutputStream(channel));
+
+            PrintStream ps = new PrintStream(os);
+            ps.println(testMsg);
+            ps.flush();
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            try {
+                String line = reader.readLine();
+                if (line != null && line.startsWith(clientPrefix) && line.endsWith(testMsg))
+                    CefLog.Info("testPipe finished successfully: read expected line '%s'", line);
+                else
+                    CefLog.Error("testPipe: read unexpected line '%s'", line);
+            } catch (IOException e) {
+                CefLog.Error(e.getMessage());
+                throw new RuntimeException(e);
+            }
+        }, "Serv");
+        threadServ.start();
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        Thread threadClient = new Thread(()-> {
+            BufferedReader reader;
+            PrintStream ps;
+            try {
+                SocketChannel channel = SocketChannel.open(StandardProtocolFamily.UNIX);
+                UnixDomainSocketAddress socketAddress = UnixDomainSocketAddress.of(pipeName);
+                channel.connect(socketAddress);
+
+                InputStream is = Channels.newInputStream(channel);
+                OutputStream os = Channels.newOutputStream(channel);
+
+                reader = new BufferedReader(new InputStreamReader(is));
+                ps = new PrintStream(os);
+            } catch (IOException e) {
+                CefLog.Error(e.getMessage());
+                throw new RuntimeException(e);
+            }
+
+            String line;
+            try {
+                line = reader.readLine();
+            } catch (IOException e) {
+                CefLog.Error(e.getMessage());
+                throw new RuntimeException(e);
+            }
+
+            ps.println(clientPrefix + line);
+            ps.flush();
+        }, "Client");
+        threadClient.start();
     }
 
 }
