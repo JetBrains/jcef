@@ -38,7 +38,7 @@ import static org.junit.jupiter.api.extension.ExtensionContext.Namespace.GLOBAL;
 // This code is based on https://stackoverflow.com/a/51556718.
 public class TestSetupExtension
         implements BeforeAllCallback, ExtensionContext.Store.CloseableResource {
-    private static final boolean WAIT_FOR_CEFAPP_INIT = Utils.getBoolean("WAIT_FOR_CEFAPP_INIT");
+    private static final boolean WAIT_FOR_CEFAPP_INIT = Utils.getBoolean("WAIT_FOR_CEFAPP_INIT", true);
     private static final int TIMEOUT = 5;
     private static boolean initialized_ = false;
     private static CountDownLatch stateTerminated_ = new CountDownLatch(1);
