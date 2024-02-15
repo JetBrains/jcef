@@ -21,12 +21,16 @@ class ThriftTransport {
     private static final String PIPENAME_JAVA_HANDLERS = Utils.getString("ALT_JAVA_HANDLERS_PIPE", "client_pipe");
     private static final String PIPENAME_CEF_SERVER = Utils.getString("ALT_CEF_SERVER_PIPE", "cef_server_pipe");
 
-    static Path getJavaHandlersPipe() {
-        return Path.of(System.getProperty("java.io.tmpdir")).resolve(PIPENAME_JAVA_HANDLERS);
+    static String getJavaHandlersPipe() {
+        if (OS.isWindows())
+            return PIPENAME_JAVA_HANDLERS;
+        return Path.of(System.getProperty("java.io.tmpdir")).resolve(PIPENAME_JAVA_HANDLERS).toString();
     }
 
-    static Path getServerPipe() {
-        return Path.of(System.getProperty("java.io.tmpdir")).resolve(PIPENAME_CEF_SERVER);
+    static String getServerPipe() {
+        if (OS.isWindows())
+            return PIPENAME_CEF_SERVER;
+        return Path.of(System.getProperty("java.io.tmpdir")).resolve(PIPENAME_CEF_SERVER).toString();
     }
 
     static TServerTransport createServerTransport() throws Exception {
@@ -34,7 +38,7 @@ class ThriftTransport {
             return new TServerSocket(PORT_JAVA_HANDLERS);
 
         if (OS.isWindows()) {
-            WindowsPipeServerSocket pipeSocket = new WindowsPipeServerSocket(PIPENAME_JAVA_HANDLERS);
+            WindowsPipeServerSocket pipeSocket = new WindowsPipeServerSocket(getJavaHandlersPipe());
             return new TServerTransport() {
                 @Override
                 public void listen() {}
@@ -64,12 +68,12 @@ class ThriftTransport {
 
         // Linux or OSX
 
-        final Path pipeName = getJavaHandlersPipe();
+        final String pipePath = getJavaHandlersPipe();
 
-        new File(pipeName.toString()).delete(); // cleanup file remaining from prev process
+        new File(pipePath).delete(); // cleanup file remaining from prev process
 
         ServerSocketChannel serverChannel = ServerSocketChannel.open(StandardProtocolFamily.UNIX);
-        serverChannel.bind(UnixDomainSocketAddress.of(pipeName));
+        serverChannel.bind(UnixDomainSocketAddress.of(pipePath));
 
         return new TServerTransport() {
             @Override

@@ -113,7 +113,7 @@ public class CefServer {
                 if (ThriftTransport.USE_TCP)
                     cid[0] = s.connectTcp(ThriftTransport.PORT_JAVA_HANDLERS);
                 else
-                    cid[0] = s.connect(ThriftTransport.getJavaHandlersPipe().toString());
+                    cid[0] = s.connect(ThriftTransport.getJavaHandlersPipe());
             });
 
             CefLog.Debug("Connected to CefSever, cid=" + cid[0]);
