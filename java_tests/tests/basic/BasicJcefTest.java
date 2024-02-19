@@ -31,12 +31,27 @@ import java.util.concurrent.TimeUnit;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class BasicJcefTest {
     private static final boolean SKIP_BASIC_CHECK = Utils.getBoolean("JCEF_TESTS_SKIP_BASIC_CHECK");
+    private static final int RESTRICT_EXECUTION_TIME_SEC = Utils.getInteger("RESTRICT_EXECUTION_TIME_SEC", 90);
     private static final boolean BASIC_CHECK_WITHOUT_UI = Utils.getBoolean("JCEF_TESTS_BASIC_CHECK_WITHOUT_UI");
     private static final long WAIT_TIMEOUT_NS = Utils.getInteger("WAIT_SERVER_TIMEOUT_MS", 25000)*1000000l; // 25 sec
     private static final String TCP_KEY = "CEF_SERVER_USE_TCP";
+    private static CountDownLatch TIMER_LATCH = new CountDownLatch(1);
 
     static {
         CefLog.init(Utils.getString("JCEF_TESTS_LOG_FILE"), CefSettings.LogSeverity.LOGSEVERITY_VERBOSE);
+        if (RESTRICT_EXECUTION_TIME_SEC > 0)
+            new Thread(()->{
+                CefLog.Info("Start duration timer for %d sec", RESTRICT_EXECUTION_TIME_SEC);
+                try {
+                    TIMER_LATCH.await(RESTRICT_EXECUTION_TIME_SEC, TimeUnit.SECONDS);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                if (TIMER_LATCH.getCount() > 0) {
+                    CefLog.Error("Test duration timer is finished, exit test.");
+                    System.exit(100);
+                }
+            },"ExecTimer").start();
     }
 
     @Test
@@ -264,6 +279,7 @@ public class BasicJcefTest {
         }
 
         CefLog.Info("Basic checks spent %d ms", System.currentTimeMillis() - time0);
+        TIMER_LATCH.countDown();
     }
 
     private static void _wait(CountDownLatch latch, int timeoutSec, String errorDesc) {
