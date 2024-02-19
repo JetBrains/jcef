@@ -26,7 +26,7 @@ public class RpcExecutor {
     public RpcExecutor() {}
 
     public RpcExecutor openTransport() throws TTransportException {
-        if (ThriftTransport.USE_TCP)
+        if (ThriftTransport.isTcp())
             initTcp(ThriftTransport.PORT_CEF_SERVER);
         else
             initPipe(ThriftTransport.getServerPipe().toString());
@@ -91,6 +91,20 @@ public class RpcExecutor {
     }
 
     synchronized
+    public int connect() {
+        if (myTransport == null)
+            return -1;
+        try {
+            return ThriftTransport.isTcp() ?
+                    myServer.connectTcp(ThriftTransport.PORT_JAVA_HANDLERS) :
+                    myServer.connect(ThriftTransport.getJavaHandlersPipe());
+        } catch (TException e) {
+            onThriftException(e);
+        }
+        return -1;
+    }
+
+    synchronized
     public void exec(Rpc r) {
         if (myTransport == null)
             return;
@@ -114,7 +128,7 @@ public class RpcExecutor {
     }
 
     synchronized
-    void closeTransport() {
+    public void closeTransport() {
         if (myTransport != null) {
             myTransport.close();
             myTransport = null;

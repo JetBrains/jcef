@@ -10,7 +10,7 @@ import org.cef.browser.CefFrame;
 import org.cef.misc.CefLog;
 import org.cef.misc.Utils;
 import org.cef.network.CefRequest;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import tests.OsrSupport;
 import tests.junittests.LoggingLifeSpanHandler;
 import tests.junittests.LoggingLoadHandler;
@@ -28,27 +28,103 @@ import java.nio.file.Path;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class BasicJcefTest {
     private static final boolean SKIP_BASIC_CHECK = Utils.getBoolean("JCEF_TESTS_SKIP_BASIC_CHECK");
     private static final boolean BASIC_CHECK_WITHOUT_UI = Utils.getBoolean("JCEF_TESTS_BASIC_CHECK_WITHOUT_UI");
+    private static final long WAIT_TIMEOUT_NS = Utils.getInteger("WAIT_SERVER_TIMEOUT_MS", 25000)*1000000l; // 25 sec
+    private static final String TCP_KEY = "CEF_SERVER_USE_TCP";
+
+    static {
+        CefLog.init(Utils.getString("JCEF_TESTS_LOG_FILE"), CefSettings.LogSeverity.LOGSEVERITY_VERBOSE);
+    }
 
     @Test
-    void test() {
+    @Order(1)
+    void testServerManagerPipe() {
+        if (SKIP_BASIC_CHECK || !CefApp.isRemoteEnabled())
+            return;
+
+        final String isTcpPrev = System.getProperty(TCP_KEY);
+        System.setProperty(TCP_KEY, "false");
+        try {
+            CefLog.Info("Test NativeServerManager with PIPE transport (timeout=%d ms).", WAIT_TIMEOUT_NS / 1000000);
+
+            if (NativeServerManager.isRunning()) {
+                CefLog.Info("Old cef_server instance is running, will stop.");
+                boolean success = NativeServerManager.stopAndWait(WAIT_TIMEOUT_NS);
+                if (!success)
+                    throw new AssertionError("Can't stop old server instance.");
+            }
+
+            testServerManagerImpl(WAIT_TIMEOUT_NS);
+        } finally {
+            if (isTcpPrev != null && !isTcpPrev.isEmpty())
+                System.setProperty(TCP_KEY, isTcpPrev);
+            else
+                System.clearProperty(TCP_KEY);
+        }
+    }
+
+    @Test
+    @Order(2)
+    void testServerManagerTcp() {
+        if (SKIP_BASIC_CHECK || !CefApp.isRemoteEnabled())
+            return;
+
+        final String isTcpPrev = System.getProperty(TCP_KEY);
+        System.setProperty(TCP_KEY, "true");
+        try {
+            CefLog.Info("Test NativeServerManager with TCP transport (timeout=%d ms).", WAIT_TIMEOUT_NS / 1000000);
+
+            if (NativeServerManager.isRunning()) {
+                CefLog.Info("Old cef_server instance is running, will stop.");
+                boolean success = NativeServerManager.stopAndWait(WAIT_TIMEOUT_NS);
+                if (!success)
+                    throw new AssertionError("Can't stop old server instance.");
+            }
+
+            testServerManagerImpl(WAIT_TIMEOUT_NS);
+        } finally {
+            if (isTcpPrev != null && !isTcpPrev.isEmpty())
+                System.setProperty(TCP_KEY, isTcpPrev);
+            else
+                System.clearProperty(TCP_KEY);
+        }
+    }
+
+    void testServerManagerImpl(long waitTimeoutNs) {
+        CefLog.Info("Start new instance of cef_server");
+        NativeServerManager.startIfNecessary(null, null, waitTimeoutNs);
+        if (!NativeServerManager.isProcessAlive())
+            throw new AssertionError("Server process is dead.");
+        if (!NativeServerManager.isRunning(true))
+            throw new AssertionError("Server isn't running.");
+
+        CefLog.Info("Server is running, try to stop it now.");
+        final boolean stopped = NativeServerManager.stopAndWait(waitTimeoutNs);
+        if (!stopped) {
+            CefLog.Debug("Can't stop server, additional debug:");
+            if (NativeServerManager.isProcessAlive())
+                CefLog.Debug("\t server process is alive.");
+            CefLog.Debug("\t isRunning returns %s.", String.valueOf(NativeServerManager.isRunning(true)));
+            throw new AssertionError("Can't stop server.");
+        }
+        if (NativeServerManager.isProcessAlive())
+            throw new AssertionError("Server process is alive.");
+        if (NativeServerManager.isRunning(true))
+            throw new AssertionError("Server is still running.");
+
+        CefLog.Info("Server was successfully stopped.");
+    }
+
+    @Test
+    @Order(3)
+    void testBrowserCreation() {
         if (SKIP_BASIC_CHECK)
             return;
 
         final long start = System.currentTimeMillis();
-        if (CefApp.isRemoteEnabled()) {
-            CefLog.init(Utils.getString("JCEF_TESTS_LOG_FILE"), CefSettings.LogSeverity.LOGSEVERITY_VERBOSE);
-            final long waitTimeoutNs = Utils.getInteger("WAIT_SERVER_TIMEOUT_MS", 25000)*1000000l; // 25 sec
-            CefLog.Info("Test NativeServerManager (timeout=%d ms).", waitTimeoutNs/1000000);
-            if (NativeServerManager.isRunning()) {
-                CefLog.Debug("Old cef_server instance is running, will stop.");
-                boolean success = NativeServerManager.stopAndWait(waitTimeoutNs);
-                if (!success)
-                    throw new RuntimeException("Can't stop old server instance.");
-            }
-        }
         TestSetupExtension.initializeCef();
 
         //
@@ -171,6 +247,22 @@ public class BasicJcefTest {
         if (frame[0] != null)
             frame[0].dispose();
 
+        CefApp.getInstance().dispose();
+        if (CefApp.isRemoteEnabled()) {
+            // Ensure that server process is stopped
+            final long startNs = System.nanoTime();
+            boolean stopped;
+            do {
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {}
+                CefLog.Debug("Waiting for server stopping... State: %s", NativeServerManager.getServerState());
+                stopped = !NativeServerManager.isRunning();
+            } while (!stopped && (System.nanoTime() - startNs < WAIT_TIMEOUT_NS));
+            if (!stopped)
+                CefLog.Error("Can't stop server in %d ms.", (System.nanoTime() - startNs)/1000000);
+        }
+
         CefLog.Info("Basic checks spent %d ms", System.currentTimeMillis() - time0);
     }
 
@@ -270,4 +362,6 @@ public class BasicJcefTest {
         threadClient.start();
     }
 
+    public static void main(String[] args) {
+    }
 }
