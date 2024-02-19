@@ -91,6 +91,7 @@ set(EXECUTABLE_NAME "cef_server")
 set(PRODUCT_NAME "cef_server")
 
 set(SERVER_SOURCES
+        main.cpp
         CefUtils.cpp
         CefUtils.h
         browser/KeyEventProcessing.cpp
@@ -154,7 +155,6 @@ set(SERVER_SOURCES
 
 if (OS_WINDOWS)
     list(APPEND SERVER_SOURCES
-        CppServerWin.cpp
         windows/PipeTransport.cpp
         windows/PipeTransport.h
         windows/PipeTransportServer.cpp
@@ -165,12 +165,11 @@ if (OS_WINDOWS)
 endif ()
 
 if (OS_MAC)
-    list(APPEND SERVER_SOURCES CppServer.cpp mac/MacApplication.mm)
+    list(APPEND SERVER_SOURCES mac/MacApplication.mm)
     add_executable(${EXECUTABLE_NAME} MACOSX_BUNDLE ${SERVER_SOURCES})
 endif ()
 
 if (OS_LINUX)
-    list(APPEND SERVER_SOURCES CppServer.cpp)
     add_executable(${EXECUTABLE_NAME} ${SERVER_SOURCES})
 endif ()
 

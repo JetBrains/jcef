@@ -1,3 +1,9 @@
+#ifdef WIN32
+#include <windows.h>
+#include "windows/PipeTransportServer.h"
+#include "include/cef_app.h"
+#endif //WIN32
+
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/server/TThreadedServer.h>
 #include <thrift/transport/TServerSocket.h>
@@ -9,8 +15,6 @@
 #include "log/Log.h"
 
 #include "handlers/app/HelperApp.h"
-
-#include <boost/filesystem.hpp>
 
 using namespace apache::thrift;
 using namespace apache::thrift::protocol;
@@ -31,11 +35,11 @@ class ServerCloneFactory : virtual public ServerIfFactory {
   ServerIf* getHandler(const ::apache::thrift::TConnectionInfo& connInfo) override {
     std::shared_ptr<TSocket> sock = std::dynamic_pointer_cast<TSocket>(connInfo.transport);
     ServerHandler * serverHandler = new ServerHandler;
-    Log::trace("Created new ServerHandler: %p\n", serverHandler);
+    Log::trace("Created new ServerHandler: %p", serverHandler);
     return serverHandler;
   }
   void releaseHandler(ServerIf* handler) override {
-    Log::trace("Release ServerHandler: %p\n", handler);
+    Log::trace("Release ServerHandler: %p", handler);
     delete handler;
   }
 };
@@ -50,7 +54,6 @@ int main(int argc, char* argv[]) {
 
   setThreadName("main");
 #if defined(OS_LINUX)
-  CefMainArgs main_args(argc, argv);
   CefRefPtr<CefApp> app = nullptr;
   CefRefPtr<CefCommandLine> command_line = CefCommandLine::CreateCommandLine();
   command_line->InitFromArgv(argc, argv);
@@ -61,9 +64,23 @@ int main(int argc, char* argv[]) {
   // we don't know what type of process it will be give it the renderer
   // client.
 
+  CefMainArgs main_args(argc, argv);
   int exit_code = CefExecuteProcess(main_args, app, nullptr);
   if (exit_code >= 0) {
     return exit_code;
+  }
+#elif WIN32
+  CefRefPtr<CefApp> app = nullptr;
+  CefRefPtr<CefCommandLine> command_line = CefCommandLine::CreateCommandLine();
+  command_line->InitFromString(::GetCommandLineW());
+  const std::string& process_type = command_line->GetSwitchValue("type");
+  if (process_type == "renderer")
+    app = new HelperApp();
+
+  CefMainArgs main_args(GetModuleHandle(0));
+  const int result = CefExecuteProcess(main_args, app, nullptr);
+  if (result >= 0) {
+    return result;
   }
 #elif OS_MAC
   initMacApplication();
@@ -86,9 +103,13 @@ int main(int argc, char* argv[]) {
       Log::error("Pipe path is empty, exit.");
       return -3;
     }
-    std::remove(pipePath.c_str());
     Log::info("Pipe transport will be used, path=%s", cmdArgs.getPipe().c_str());
+#ifdef WIN32
+    serverTransport = std::make_shared<PipeTransportServer>("\\\\.\\pipe\\cef_server_pipe");
+#else
+    std::remove(pipePath.c_str());
     serverTransport = std::make_shared<TServerSocket>(cmdArgs.getPipe().c_str());
+#endif //WIN32
   }
   std::shared_ptr<TThreadedServer> server = std::make_shared<TThreadedServer>(
       std::make_shared<ServerProcessorFactory>(

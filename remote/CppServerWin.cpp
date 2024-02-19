@@ -65,8 +65,11 @@ int main(int argc, char* argv[]) {
     Log::info("TCP transport will be used, port=%d", cmdArgs.getPort());
     serverTransport = std::make_shared<TServerSocket>(cmdArgs.getPort());
   } else {
+#ifdef WIN32
+#else
     Log::info("Pipe transport will be used, path=%s", cmdArgs.getPipe().c_str());
     serverTransport = std::make_shared<PipeTransportServer>("\\\\.\\pipe\\cef_server_pipe");
+#endif //WIN32
   }
 
   std::shared_ptr<TThreadedServer> server = std::make_shared<TThreadedServer>(
