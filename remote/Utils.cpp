@@ -83,6 +83,8 @@ CommandLineArgs::CommandLineArgs(int argc, char* argv[]) {
       myPathLogFile = str.substr(tokenPos + 10);
     } else if ((tokenPos = str.find("--params=")) != str.npos) {
       myPathParamsFile = str.substr(tokenPos + 9);
+    } else if (str.find("--testmode") != str.npos) {
+      myIsTestMode = true;
     }
   }
 }

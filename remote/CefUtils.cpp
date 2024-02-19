@@ -10,6 +10,10 @@
 #include <errno.h>
 #endif
 
+#if defined(OS_LINUX)
+#include <X11/Xlib.h>
+#endif
+
 #include "log/Log.h"
 
 #include "handlers/app/RemoteAppHandler.h"
@@ -173,6 +177,7 @@ namespace CefUtils {
 
       settings.windowless_rendering_enabled = true;
       settings.multi_threaded_message_loop = false;
+      settings.external_message_pump = false;
       settings.log_severity = LOGSEVERITY_INFO; // TODO: remove hardcoded
       settings.no_sandbox = true; // TODO: support sandbox
 
@@ -198,8 +203,7 @@ namespace CefUtils {
         CefMainArgs main_args;
 #if defined(OS_MAC)
         CefString(&settings.framework_dir_path) = g_pathFrameworkDir;
-#endif
-#if defined(OS_WIN)
+#elif defined(OS_WIN)
       auto installation_root =
           boost::filesystem::current_path().append("..").lexically_normal();
 
@@ -214,6 +218,8 @@ namespace CefUtils {
 
         CefString(&settings.resources_dir_path).FromString(resources_path);
         CefString(&settings.locales_dir_path).FromString(locales_dir_path);
+#elif defined(OS_LINUX)
+        XInitThreads();
 #endif
         RemoteAppHandler::initialize(switches, settings, schemes);
         CefRefPtr<CefApp> app = RemoteAppHandler::instance();
