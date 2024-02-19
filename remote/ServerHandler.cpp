@@ -27,7 +27,10 @@ using namespace apache::thrift;
 std::string ServerHandler::STATE_DESC = "New";
 ServerHandler::ServerState ServerHandler::STATE = ServerHandler::SS_NEW;
 
-ServerHandler::ServerHandler() : myRoutersManager(std::make_shared<MessageRoutersManager>()) {}
+ServerHandler::ServerHandler()
+    : myRoutersManager(std::make_shared<MessageRoutersManager>()),
+      myClientsManager(std::make_shared<ClientsManager>())
+{}
 
 ServerHandler::~ServerHandler() {
   dispose();
@@ -35,8 +38,7 @@ ServerHandler::~ServerHandler() {
 
 void ServerHandler::dispose() {
   try {
-    if (myClientsManager)
-      myClientsManager->closeAllBrowsers();
+    myClientsManager->closeAllBrowsers();
     if (myJavaService && !myJavaService->isClosed())
       myJavaService->close();
   } catch (TException e) {
@@ -58,7 +60,6 @@ int32_t ServerHandler::connect(const std::string& backwardConnectionPipe) {
   try {
     myJavaService = std::make_shared<RpcExecutor>(backwardConnectionPipe);
     myJavaServiceIO = std::make_shared<RpcExecutor>(backwardConnectionPipe);
-    myClientsManager = std::make_shared<ClientsManager>();
     RemoteAppHandler::instance()->setService(myJavaService);
     // TODO:
     //  1. compare new args and settings with old (from RemoteAppHandler::instance())
@@ -85,7 +86,6 @@ int32_t ServerHandler::connectTcp(int backwardConnectionPort) {
   try {
     myJavaService = std::make_shared<RpcExecutor>(backwardConnectionPort);
     myJavaServiceIO = std::make_shared<RpcExecutor>(backwardConnectionPort);
-    myClientsManager = std::make_shared<ClientsManager>();
     RemoteAppHandler::instance()->setService(myJavaService);
   } catch (TException& tx) {
     Log::error(tx.what());
@@ -108,8 +108,6 @@ void ServerHandler::closeBrowser(const int32_t bid) {
 void ServerHandler::stop() {
   Log::debug("ServerHandler %p asked to stop server.", this);
   setState(SS_SHUTTING_DOWN, "shutting down (start)");
-  if (!myClientsManager) // client wasn't connected
-    setStateShutdown();
   dispose();
 }
 
