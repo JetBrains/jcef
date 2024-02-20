@@ -98,17 +98,20 @@ int main(int argc, char* argv[]) {
     Log::info("TCP transport will be used, port=%d", cmdArgs.getPort());
     serverTransport = std::make_shared<TServerSocket>(cmdArgs.getPort());
   } else {
-    const std::string pipePath = cmdArgs.getPipe();
+    std::string pipePath = cmdArgs.getPipe();
     if (pipePath.empty()) {
       Log::error("Pipe path is empty, exit.");
       return -3;
     }
-    Log::info("Pipe transport will be used, path=%s", cmdArgs.getPipe().c_str());
 #ifdef WIN32
-    serverTransport = std::make_shared<PipeTransportServer>("\\\\.\\pipe\\cef_server_pipe");
+    if (pipePath.rfind("\\\\.\\pipe\\", 0) != 0)
+      pipePath = "\\\\.\\pipe\\" + pipePath;
+    Log::info("Windows-pipe transport will be used, path=%s", pipePath.c_str());
+    serverTransport = std::make_shared<PipeTransportServer>(pipePath);
 #else
+    Log::info("Pipe transport will be used, path=%s", pipePath.c_str());
     std::remove(pipePath.c_str());
-    serverTransport = std::make_shared<TServerSocket>(cmdArgs.getPipe().c_str());
+    serverTransport = std::make_shared<TServerSocket>(pipePath.c_str());
 #endif //WIN32
   }
   std::shared_ptr<TThreadedServer> server = std::make_shared<TThreadedServer>(
