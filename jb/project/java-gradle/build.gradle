@@ -24,9 +24,17 @@ sourceSets.test.java.srcDirs = ['../../../java_tests']
 sourceSets.test.resources.srcDirs = ['../../../java_tests/tests/junittests/data']
 sourceSets.test.output.resourcesDir = 'build/classes/java/test/tests/junittests/data'
 
+def separator = ":"
+def mpaths = "$projectDir/../../../third_party/jogamp/jar" +
+        separator + "$projectDir/../../../third_party/thrift" +
+        separator + "$projectDir/../../../third_party/slf4j" +
+        separator + "$projectDir/../../../third_party/jogamp/jar/gluegen-rt.jar" +
+        separator + "$projectDir/../../../third_party/thrift/libthrift-0.19.0.jar" +
+        separator + "$projectDir/../../../third_party/slf4j/slf4j-api-2.0.0.jar" +
+        separator + "$projectDir/../../../third_party/jogamp/jar/jogl-all.jar"
 compileJava.options.compilerArgs += [
-    '--module-path', "$projectDir/../../../third_party/jogamp/jar",
-    '--add-modules', 'jogl.all,gluegen.rt',
+    '--module-path', mpaths,
+    '--add-modules', 'jogl.all,gluegen.rt,org.slf4j,org.apache.thrift',
     '--add-exports', 'jogl.all/com.jogamp.nativewindow=jcef',
     '--add-exports', 'jogl.all/com.jogamp.opengl.awt=jcef',
     '--add-exports', 'jogl.all/com.jogamp.opengl=jcef',
@@ -48,6 +56,7 @@ if (OperatingSystem.current().isWindows() && project.hasProperty('jbr_win')) {
 test {
     useJUnitPlatform()
     include 'tests/junittests/**'
+    include 'tests/basic/**'
 
     failFast = true
     jvmArgs = ['-Djcef.junittests.isGradleLauncher=true',
