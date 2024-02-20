@@ -12,7 +12,7 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.nio.file.Path;
 
-class ThriftTransport {
+public class ThriftTransport {
     private static int PORT_CEF_SERVER = Utils.getInteger("ALT_CEF_SERVER_PORT", -1);
     private static int PORT_JAVA_HANDLERS = Utils.getInteger("ALT_JAVA_HANDLERS_PORT", -1);
     private static final String PIPENAME_JAVA_HANDLERS = Utils.getString("ALT_JAVA_HANDLERS_PIPE", "client_pipe");
@@ -65,7 +65,7 @@ class ThriftTransport {
         return -1;
     }
 
-    static TServerTransport createServerTransport() throws Exception {
+    public static TServerTransport createServerTransport() throws Exception {
         if (isTcp())
             return new TServerSocket(getJavaHandlersPort());
 

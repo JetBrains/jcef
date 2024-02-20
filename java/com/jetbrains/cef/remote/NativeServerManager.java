@@ -289,6 +289,7 @@ public class NativeServerManager {
         }
 
         ProcessBuilder builder = new ProcessBuilder(serverExe.getAbsolutePath());
+        CefLog.Debug("\tWorking dir %s", serverExe.getParentFile());
         builder.directory(serverExe.getParentFile());
         if (ThriftTransport.isTcp()) {
             CefLog.Debug("\tUse tcp-port %d", ThriftTransport.getServerPort());
