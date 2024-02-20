@@ -1,5 +1,6 @@
 package tests.basic;
 
+import com.jetbrains.cef.JCefAppConfig;
 import com.jetbrains.cef.remote.NativeServerManager;
 import org.cef.CefApp;
 import org.cef.CefClient;
@@ -7,6 +8,7 @@ import org.cef.CefSettings;
 import org.cef.OS;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefFrame;
+import org.cef.handler.CefAppHandlerAdapter;
 import org.cef.misc.CefLog;
 import org.cef.misc.Utils;
 import org.cef.network.CefRequest;
@@ -25,6 +27,7 @@ import java.nio.channels.Channels;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -110,7 +113,15 @@ public class BasicJcefTest {
 
     void testServerManagerImpl(long waitTimeoutNs) {
         CefLog.Info("Start new instance of cef_server");
-        NativeServerManager.startIfNecessary(null, null, waitTimeoutNs);
+        JCefAppConfig config = JCefAppConfig.getInstance();
+        List<String> appArgs = config.getAppArgsAsList();
+        if (OS.isLinux())
+            appArgs.add("--password-store=basic");
+        CefSettings settings = config.getCefSettings();
+        settings.windowless_rendering_enabled = true;
+        settings.log_severity = CefSettings.LogSeverity.LOGSEVERITY_VERBOSE;
+        settings.no_sandbox = true;
+        NativeServerManager.startIfNecessary(new CefAppHandlerAdapter(appArgs.toArray(new String[0])){}, settings, waitTimeoutNs);
         if (!NativeServerManager.isProcessAlive())
             throw new AssertionError("Server process is dead.");
         if (!NativeServerManager.isRunning(true))
