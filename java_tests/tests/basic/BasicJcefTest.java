@@ -466,5 +466,6 @@ public class BasicJcefTest {
     }
 
     public static void main(String[] args) {
+        new BasicJcefTest().testServerManagerPipe();
     }
 }
