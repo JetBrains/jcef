@@ -136,6 +136,29 @@ int main(int argc, char* argv[]) {
     Log::debug("Done, server stopped.");
   });
 
+  std::thread testThread;
+  if (cmdArgs.isTestMode()) {
+    const int timeoutSec = 30;
+    Log::info("Server will be started in test mode, exit timeout = %d sec.", timeoutSec);
+    testThread = std::thread([&]() {
+      setThreadName("TestMonitor");
+      std::chrono::time_point startTime(Clock::now());
+      std::chrono::duration<float, std::milli> elapsed;
+      std::chrono::duration<float, std::milli> timeout(timeoutSec*1000);
+      while ((elapsed = (Clock::now() - startTime)) < timeout) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        const int remainMs = (timeout - elapsed).count();
+        Log::debug("\t will exit in %d sec...", remainMs);
+      }
+
+      Log::info("Timeout elapsed, do exit.");
+      ServerHandler::setStateShutdown();
+      std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+      Log::info("Buy!");
+      std::exit(0);
+    });
+  }
+
   CefUtils::runCefLoop();
   Log::debug("Finished message loop.");
   server->stop();

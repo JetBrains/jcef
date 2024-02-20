@@ -51,6 +51,7 @@ class CommandLineArgs {
   std::string getPipe() { return myPathPipe; }
   std::string getLogFile() { return myPathLogFile; }
   std::string getParamsFile() { return myPathParamsFile; }
+  bool isTestMode() { return myIsTestMode; }
 
  private:
   bool myUseTcp = false;
@@ -58,6 +59,7 @@ class CommandLineArgs {
   std::string myPathPipe;
   std::string myPathLogFile;
   std::string myPathParamsFile;
+  bool myIsTestMode = false;
 };
 
 #endif  // JCEF_UTILS_H
