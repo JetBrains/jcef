@@ -6,17 +6,15 @@ import org.cef.misc.CefLog;
 import org.cef.misc.Utils;
 
 import java.io.*;
-import java.net.Socket;
-import java.net.StandardProtocolFamily;
-import java.net.UnixDomainSocketAddress;
+import java.net.*;
 import java.nio.channels.Channels;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.nio.file.Path;
 
 class ThriftTransport {
-    protected static final int PORT_CEF_SERVER = Utils.getInteger("ALT_CEF_SERVER_PORT", 9090);
-    protected static final int PORT_JAVA_HANDLERS = Utils.getInteger("ALT_JAVA_HANDLERS_PORT", 9091);
+    private static int PORT_CEF_SERVER = Utils.getInteger("ALT_CEF_SERVER_PORT", -1);
+    private static int PORT_JAVA_HANDLERS = Utils.getInteger("ALT_JAVA_HANDLERS_PORT", -1);
     private static final String PIPENAME_JAVA_HANDLERS = Utils.getString("ALT_JAVA_HANDLERS_PIPE", "client_pipe");
     private static final String PIPENAME_CEF_SERVER = Utils.getString("ALT_CEF_SERVER_PIPE", "cef_server_pipe");
 
@@ -33,10 +31,43 @@ class ThriftTransport {
     }
 
     static boolean isTcp() { return Utils.getBoolean("CEF_SERVER_USE_TCP"); }
+    static int getServerPort() {
+        if (PORT_CEF_SERVER == -1) {
+            PORT_CEF_SERVER = findFreePort();
+            if (PORT_CEF_SERVER == -1)
+                CefLog.Error("Can't find free tcp-port for server.");
+            else
+                CefLog.Info("Found free tcp-port %d for server.", PORT_CEF_SERVER);
+        }
+        return PORT_CEF_SERVER;
+    }
+    static int getJavaHandlersPort() {
+        if (PORT_JAVA_HANDLERS == -1) {
+            PORT_JAVA_HANDLERS = findFreePort();
+            if (PORT_JAVA_HANDLERS == -1)
+                CefLog.Error("Can't find free tcp-port for java-handlers.");
+            else
+                CefLog.Info("Found free tcp-port %d for java-handlers.", PORT_JAVA_HANDLERS);
+        }
+        return PORT_JAVA_HANDLERS;
+    }
+
+    static int findFreePort() { return findFreePort(6188, 7777); }
+
+    static int findFreePort(int from, int to) {
+        for (int port = from; port < to; ++port) {
+            try {
+                ServerSocket ss = new ServerSocket(port);
+                ss.close();
+                return port;
+            } catch (IOException e) {}
+        }
+        return -1;
+    }
 
     static TServerTransport createServerTransport() throws Exception {
         if (isTcp())
-            return new TServerSocket(PORT_JAVA_HANDLERS);
+            return new TServerSocket(getJavaHandlersPort());
 
         if (OS.isWindows()) {
             WindowsPipeServerSocket pipeSocket = new WindowsPipeServerSocket(getJavaHandlersPipe());
