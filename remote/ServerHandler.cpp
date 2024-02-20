@@ -30,7 +30,11 @@ ServerHandler::ServerState ServerHandler::STATE = ServerHandler::SS_NEW;
 ServerHandler::ServerHandler()
     : myRoutersManager(std::make_shared<MessageRoutersManager>()),
       myClientsManager(std::make_shared<ClientsManager>())
-{}
+{
+  // TODO: remove
+  myJavaService = std::make_shared<RpcExecutor>();
+  myJavaServiceIO = std::make_shared<RpcExecutor>();
+}
 
 ServerHandler::~ServerHandler() {
   dispose();
@@ -47,10 +51,10 @@ void ServerHandler::dispose() {
 }
 
 int32_t ServerHandler::connect(const std::string& backwardConnectionPipe) {
-  if (myJavaService != nullptr) {
-    Log::debug("Client already connected, other attempts will be ignored.");
-    return -1;
-  }
+//  if (myJavaService != nullptr) {
+//    Log::debug("Client already connected, other attempts will be ignored.");
+//    return -1;
+//  }
 
   static int s_counter = 0;
   const int counter = s_counter++;

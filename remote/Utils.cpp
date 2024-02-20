@@ -17,6 +17,10 @@ using namespace apache::thrift::transport;
 
 using namespace thrift_codegen;
 
+RpcExecutor::RpcExecutor() {
+  Log::trace("Created dummy RpcExecutor.");
+}
+
 RpcExecutor::RpcExecutor(int port) {
   myTransport = std::make_shared<TBufferedTransport>(std::make_shared<TSocket>("localhost", port));
   myService = std::make_shared<ClientHandlersClient>(std::make_shared<TBinaryProtocol>(myTransport));

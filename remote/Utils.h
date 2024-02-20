@@ -8,6 +8,7 @@
 class RpcExecutor {
  public:
   typedef std::shared_ptr<thrift_codegen::ClientHandlersClient> Service;
+  RpcExecutor();
   RpcExecutor(int port);
   RpcExecutor(std::string pipeName);
 
