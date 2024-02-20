@@ -2,6 +2,7 @@ package com.jetbrains.cef.remote;
 
 import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TSocket;
+import org.apache.thrift.transport.TTransport;
 import org.apache.thrift.transport.TTransportException;
 import org.cef.CefSettings;
 import org.cef.OS;
@@ -114,15 +115,15 @@ public class NativeServerManager {
         try {
             if (ThriftTransport.isTcp()) {
                 try {
-                    TSocket socket = new TSocket("localhost", ThriftTransport.PORT_CEF_SERVER);
+                    TSocket socket = new TSocket("localhost", ThriftTransport.getServerPort());
                     socket.open();
                     socket.close();
                     if (withDebug)
-                        CefLog.Debug("isConnectable: tcp-port %d, opened and connected.", ThriftTransport.PORT_CEF_SERVER);
+                        CefLog.Debug("isConnectable: tcp-port %d, opened and connected.", ThriftTransport.getServerPort());
                     return true;
                 } catch (TTransportException e) {
                     if (withDebug)
-                        CefLog.Debug("isConnectable: tcp-port %d, TTransportException occurred: %s", ThriftTransport.PORT_CEF_SERVER, e.getMessage());
+                        CefLog.Debug("isConnectable: tcp-port %d, TTransportException occurred: %s", ThriftTransport.getServerPort(), e.getMessage());
                 }
                 return false;
             }
@@ -156,14 +157,14 @@ public class NativeServerManager {
             if (ThriftTransport.isTcp()) {
                 TServerSocket serverSocket = null;
                 try {
-                    serverSocket = new TServerSocket(ThriftTransport.PORT_CEF_SERVER);
+                    serverSocket = new TServerSocket(ThriftTransport.getServerPort());
                 } catch (TTransportException e) {
                     if (withDebug)
-                        CefLog.Debug("isServerTransportBusy: tcp-port %d, TTransportException occurred: %s", ThriftTransport.PORT_CEF_SERVER, e.getMessage());
+                        CefLog.Debug("isServerTransportBusy: tcp-port %d, TTransportException occurred: %s", ThriftTransport.getServerPort(), e.getMessage());
                     return true;
                 }
                 if (withDebug)
-                    CefLog.Debug("isServerTransportBusy: tcp-port %d, opened and connected.", ThriftTransport.PORT_CEF_SERVER);
+                    CefLog.Debug("isServerTransportBusy: tcp-port %d, opened and connected.", ThriftTransport.getServerPort());
                 serverSocket.close();
             }
         } catch (Throwable e) {
@@ -288,8 +289,8 @@ public class NativeServerManager {
         CefLog.Debug("\tWorking dir %s", serverExe.getParentFile());
         builder.directory(serverExe.getParentFile());
         if (ThriftTransport.isTcp()) {
-            CefLog.Debug("\tUse tcp-port %d", ThriftTransport.PORT_CEF_SERVER);
-            builder.command().add(String.format("--port=%d", ThriftTransport.PORT_CEF_SERVER));
+            CefLog.Debug("\tUse tcp-port %d", ThriftTransport.getServerPort());
+            builder.command().add(String.format("--port=%d", ThriftTransport.getServerPort()));
         } else {
             CefLog.Debug("\tUse pipe %s", ThriftTransport.getServerPipe());
             builder.command().add(String.format("--pipe=%s", ThriftTransport.getServerPipe()));

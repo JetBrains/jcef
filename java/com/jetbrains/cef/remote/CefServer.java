@@ -86,7 +86,7 @@ public class CefServer {
             } catch (Exception e) {
                 CefLog.Error("Exception when opening client %s : %s", ThriftTransport.isTcp() ? "tcp-socket" : "pipe", e.getMessage());
                 if (ThriftTransport.isTcp())
-                    CefLog.Error("Port : %d", ThriftTransport.PORT_JAVA_HANDLERS);
+                    CefLog.Error("Port : %d", ThriftTransport.getJavaHandlersPort());
                 else
                     CefLog.Error("Pipe : %s", ThriftTransport.getJavaHandlersPipe());
                 return false;

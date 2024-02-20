@@ -27,7 +27,7 @@ public class RpcExecutor {
 
     public RpcExecutor openTransport() throws TTransportException {
         if (ThriftTransport.isTcp())
-            initTcp(ThriftTransport.PORT_CEF_SERVER);
+            initTcp(ThriftTransport.getServerPort());
         else
             initPipe(ThriftTransport.getServerPipe().toString());
         return this;
@@ -96,7 +96,7 @@ public class RpcExecutor {
             return -1;
         try {
             return ThriftTransport.isTcp() ?
-                    myServer.connectTcp(ThriftTransport.PORT_JAVA_HANDLERS) :
+                    myServer.connectTcp(ThriftTransport.getJavaHandlersPort()) :
                     myServer.connect(ThriftTransport.getJavaHandlersPipe());
         } catch (TException e) {
             onThriftException(e);
