@@ -18,7 +18,7 @@ using namespace apache::thrift::transport;
 using namespace thrift_codegen;
 
 RpcExecutor::RpcExecutor() {
-  Log::trace("Created dummy RpcExecutor.");
+  //Log::trace("Created dummy RpcExecutor.");
 }
 
 RpcExecutor::RpcExecutor(int port) {
