@@ -50,15 +50,15 @@ void pseudo_sync_write(HANDLE pipe, HANDLE event, const uint8_t* buf, uint32_t l
     BOOL result = ::WriteFile(pipe, buf + written, len - written, nullptr, &tempOverlap);
 
     if (result == FALSE && ::GetLastError() != ERROR_IO_PENDING) {
-      GlobalOutput.perror("PipeTransport ::WriteFile errored GLE=", ::GetLastError());
-      throw TTransportException(TTransportException::UNKNOWN, "PipeTransport: write failed");
+      DWORD err = ::GetLastError();
+      throw TTransportException(TTransportException::UNKNOWN, "PipeTransport: WriteFile failed, err: " + TOutput::strerror_s(err));
     }
 
     DWORD bytes = 0;
     result = ::GetOverlappedResult(pipe, &tempOverlap, &bytes, TRUE);
     if (!result) {
-      GlobalOutput.perror("PipeTransport ::GetOverlappedResult errored GLE=", ::GetLastError());
-      throw TTransportException(TTransportException::UNKNOWN, "PipeTransport: GetOverlappedResult failed");
+      DWORD err = ::GetLastError();
+      throw TTransportException(TTransportException::UNKNOWN, "PipeTransport: GetOverlappedResult failed, err: " + TOutput::strerror_s(err));
     }
     written += bytes;
   }
@@ -73,8 +73,7 @@ uint32_t pseudo_sync_read(HANDLE pipe, HANDLE event, uint8_t* buf, uint32_t len)
 
   int err = ::GetLastError();
   if (result == FALSE && err != ERROR_IO_PENDING) {
-    GlobalOutput.perror("PipeTransport ::ReadFile errored GLE=", err);
-    throw TTransportException(TTransportException::UNKNOWN, "PipeTransport: read failed");
+    throw TTransportException(TTransportException::UNKNOWN, "PipeTransport: ReadFile failed, err: " + TOutput::strerror_s(err));
   }
 
   DWORD bytes = 0;
@@ -82,9 +81,8 @@ uint32_t pseudo_sync_read(HANDLE pipe, HANDLE event, uint8_t* buf, uint32_t len)
   if (!result) {
     err = ::GetLastError();
     if (err == ERROR_BROKEN_PIPE)
-      throw TTransportException(TTransportException::END_OF_FILE, "PipeTransport: GetOverlappedResult failed, ERROR_BROKEN_PIPE");
-    GlobalOutput.perror("PipeTransport ::GetOverlappedResult errored GLE=", err);
-    throw TTransportException(TTransportException::UNKNOWN, "PipeTransport: GetOverlappedResult failed", err);
+      throw TTransportException(TTransportException::END_OF_FILE, "PipeTransport: GetOverlappedResult failed, err: broken pipe");
+    throw TTransportException(TTransportException::UNKNOWN, "PipeTransport: GetOverlappedResult failed, err: " + TOutput::strerror_s(err));
   }
   return bytes;
 }
@@ -143,14 +141,14 @@ void PipeTransport::open() {
       break; // success!
 
     if (::GetLastError() != ERROR_PIPE_BUSY) {
-      GlobalOutput.perror("PipeTransport::open ::CreateFile errored GLE=", ::GetLastError());
-      throw TTransportException(TTransportException::NOT_OPEN, "Unable to open pipe");
+      int err = ::GetLastError();
+      throw TTransportException(TTransportException::NOT_OPEN, "PipeTransport::open CreateFile failed, err: " + TOutput::strerror_s(err));
     }
   } while (::WaitNamedPipeA(pipename_.c_str(), TimeoutSeconds_ * 1000));
 
   if (hPipe.h == INVALID_HANDLE_VALUE) {
-    GlobalOutput.perror("PipeTransport::open ::CreateFile errored GLE=", ::GetLastError());
-    throw TTransportException(TTransportException::NOT_OPEN, "Unable to open pipe");
+    int err = ::GetLastError();
+    throw TTransportException(TTransportException::NOT_OPEN, "PipeTransport::open CreateFile failed, err: " + TOutput::strerror_s(err));
   }
 
   impl_.reset(new WindowsNamedPipeImpl(hPipe));
@@ -163,13 +161,13 @@ void PipeTransport::close() {
 uint32_t PipeTransport::read(uint8_t* buf, uint32_t len) {
   checkReadBytesAvailable(len);
   if (!isOpen())
-    throw TTransportException(TTransportException::NOT_OPEN, "Called read on non-open pipe");
+    throw TTransportException(TTransportException::NOT_OPEN, "PipeTransport::read, called read on non-open pipe.");
   return impl_->read(buf, len);
 }
 
 void PipeTransport::write(const uint8_t* buf, uint32_t len) {
   if (!isOpen())
-    throw TTransportException(TTransportException::NOT_OPEN, "Called write on non-open pipe");
+    throw TTransportException(TTransportException::NOT_OPEN, "PipeTransport::write, called write on non-open pipe.");
   impl_->write(buf, len);
 }
 
