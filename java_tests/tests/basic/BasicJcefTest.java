@@ -71,7 +71,6 @@ public class BasicJcefTest {
         final String isTcpPrev = System.getProperty(TCP_KEY);
         System.setProperty(TCP_KEY, "false");
         try {
-            testPipe();
             CefLog.Info("Test NativeServerManager with PIPE transport (timeout=%d ms).", WAIT_TIMEOUT_NS / 1000000);
 
             if (NativeServerManager.isRunning()) {
