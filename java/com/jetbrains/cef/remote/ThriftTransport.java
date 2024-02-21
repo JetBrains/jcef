@@ -24,7 +24,7 @@ public class ThriftTransport {
         return Path.of(System.getProperty("java.io.tmpdir")).resolve(PIPENAME_JAVA_HANDLERS).toString();
     }
 
-    static String getServerPipe() {
+    public static String getServerPipe() {
         if (OS.isWindows())
             return PIPENAME_CEF_SERVER;
         return Path.of(System.getProperty("java.io.tmpdir")).resolve(PIPENAME_CEF_SERVER).toString();
@@ -133,5 +133,43 @@ public class ThriftTransport {
                 }
             }
         };
+    }
+
+    public static TIOStreamTransport openPipeTransport(String pipeName) throws TTransportException {
+        try {
+            InputStream is;
+            OutputStream os;
+            final Runnable closer;
+            if (OS.isWindows()) {
+                WindowsPipeSocket pipe = new WindowsPipeSocket(pipeName);
+                is = pipe.getInputStream();
+                os = pipe.getOutputStream();
+                closer = ()->{
+                    try {
+                        pipe.close();
+                    } catch (IOException e) {}
+                };
+            } else {
+                SocketChannel channel = SocketChannel.open(StandardProtocolFamily.UNIX);
+                UnixDomainSocketAddress socketAddress = UnixDomainSocketAddress.of(pipeName);
+                channel.connect(socketAddress);
+                is = Channels.newInputStream(channel);
+                os = Channels.newOutputStream(channel);
+                closer = ()->{
+                    try {
+                        channel.close();
+                    } catch (IOException e) {}
+                };
+            }
+
+            return new TIOStreamTransport(is, os) {
+                @Override
+                public void close() {
+                    closer.run();
+                }
+            };
+        } catch (IOException e) {
+            throw new TTransportException(e.getMessage());
+        }
     }
 }
