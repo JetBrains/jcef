@@ -189,22 +189,25 @@ public class NativeServerManager {
             if (!isConnectable(withDebug))
                 return false;
 
-            // Successfully connected to server transport => server seems to be running. Let's check an echo.
+            // Successfully connected to server transport => server seems to be running. Let's connect and check an echo.
+            RpcExecutor test;
             try {
-                RpcExecutor test = new RpcExecutor().openTransport();
-                String testMsg = "test_message786";
-                String echoMsg = test.execObj(s -> s.echo(testMsg));
-                test.closeTransport();
-                final boolean result = echoMsg != null && echoMsg.equals(testMsg);
-                if (!result)
-                    CefLog.Error("isRunning: cef_server seems to be running, but echo is incorrect: '%s' (original '%s')", echoMsg, testMsg);
-                else if (withDebug)
-                    CefLog.Debug("isRunning: cef_server is running and echo is correct.");
-                return result;
+                test = new RpcExecutor();
+                test.openTransport();
             } catch (TTransportException e) {
                 if (withDebug)
-                    CefLog.Debug("isRunning: TTransportException occurred when test server echo: %s", e.getMessage());
+                    CefLog.Debug("isRunning: TTransportException occurred when open server transport: %s", e.getMessage());
+                return false;
             }
+            String testMsg = "test_message786";
+            String echoMsg = test.execObj(s -> s.echo(testMsg));
+            test.closeTransport();
+            final boolean result = echoMsg != null && echoMsg.equals(testMsg);
+            if (!result)
+                CefLog.Error("isRunning: cef_server seems to be running, but echo is incorrect: '%s' (original '%s')", echoMsg, testMsg);
+            else if (withDebug)
+                CefLog.Debug("isRunning: cef_server is running and echo is correct.");
+            return result;
         } catch (Throwable e) {
             CefLog.Error("isRunning: exception %s", e.getMessage());
         }
