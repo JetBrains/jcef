@@ -72,14 +72,6 @@ public class BasicJcefTest {
         System.setProperty(TCP_KEY, "false");
         try {
             CefLog.Info("Test NativeServerManager with PIPE transport (timeout=%d ms).", WAIT_TIMEOUT_NS / 1000000);
-
-            if (NativeServerManager.isRunning()) {
-                CefLog.Info("Old cef_server instance is running, will stop.");
-                boolean success = NativeServerManager.stopAndWait(WAIT_TIMEOUT_NS);
-                if (!success)
-                    throw new AssertionError("Can't stop old server instance.");
-            }
-
             testServerManagerImpl(WAIT_TIMEOUT_NS);
         } finally {
             if (isTcpPrev != null && !isTcpPrev.isEmpty())
@@ -99,14 +91,6 @@ public class BasicJcefTest {
         System.setProperty(TCP_KEY, "true");
         try {
             CefLog.Info("Test NativeServerManager with TCP transport (timeout=%d ms).", WAIT_TIMEOUT_NS / 1000000);
-
-            if (NativeServerManager.isRunning()) {
-                CefLog.Info("Old cef_server instance is running, will stop.");
-                boolean success = NativeServerManager.stopAndWait(WAIT_TIMEOUT_NS);
-                if (!success)
-                    throw new AssertionError("Can't stop old server instance.");
-            }
-
             testServerManagerImpl(WAIT_TIMEOUT_NS);
         } finally {
             if (isTcpPrev != null && !isTcpPrev.isEmpty())
@@ -117,6 +101,13 @@ public class BasicJcefTest {
     }
 
     void testServerManagerImpl(long waitTimeoutNs) {
+        if (NativeServerManager.isRunning()) {
+            CefLog.Info("Old cef_server instance is running, will stop.");
+            boolean success = NativeServerManager.stopAndWait(waitTimeoutNs);
+            if (!success)
+                throw new AssertionError("Can't stop old server instance.");
+        }
+
         CefLog.Info("Start new instance of cef_server");
         JCefAppConfig config = JCefAppConfig.getInstance();
         List<String> appArgs = config.getAppArgsAsList();
@@ -126,7 +117,9 @@ public class BasicJcefTest {
         settings.windowless_rendering_enabled = true;
         settings.log_severity = CefSettings.LogSeverity.LOGSEVERITY_VERBOSE;
         settings.no_sandbox = true;
-        NativeServerManager.startIfNecessary(new CefAppHandlerAdapter(appArgs.toArray(new String[0])){}, settings, waitTimeoutNs);
+        boolean started = NativeServerManager.startIfNecessary(new CefAppHandlerAdapter(appArgs.toArray(new String[0])){}, settings, waitTimeoutNs);
+        if (!started)
+            throw new AssertionError("Can't start server.");
         if (!NativeServerManager.isProcessAlive())
             throw new AssertionError("Server process is dead.");
         if (!NativeServerManager.isRunning(true))
