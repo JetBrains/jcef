@@ -45,7 +45,7 @@ void ServerHandler::dispose() {
     myClientsManager->closeAllBrowsers();
     if (myJavaService && !myJavaService->isClosed())
       myJavaService->close();
-  } catch (TException e) {
+  } catch (TException& e) {
     Log::error("Thrift exception in ServerHandler::dispose: %s", e.what());
   }
 }
