@@ -47,35 +47,12 @@ public class RpcExecutor {
 
     private void initPipe(String pipeName) throws TTransportException {
         try {
-            myTransport = openPipeTransport(pipeName);
+            myTransport = ThriftTransport.openPipeTransport(pipeName);
             myProtocol = new TBinaryProtocol(myTransport);
             myServer = new Server.Client(myProtocol);
         } catch (TTransportException e) {
             myTransport = null;
             throw e;
-        }
-    }
-
-    public static TIOStreamTransport openPipeTransport(String pipeName) throws TTransportException {
-        try {
-            InputStream is;
-            OutputStream os;
-            if (OS.isWindows()) {
-                WindowsPipeSocket pipe = new WindowsPipeSocket(pipeName);
-                is = pipe.getInputStream();
-                os = pipe.getOutputStream();
-            } else {
-                SocketChannel channel = SocketChannel.open(StandardProtocolFamily.UNIX);
-                UnixDomainSocketAddress socketAddress = UnixDomainSocketAddress.of(pipeName);
-                channel.connect(socketAddress);
-                is = Channels.newInputStream(channel);
-                os = Channels.newOutputStream(channel);
-            }
-            // TODO: should we use new BufferedInputStream(is/os) ?
-
-            return new TIOStreamTransport(is, os);
-        } catch (IOException e) {
-            throw new TTransportException(e.getMessage());
         }
     }
 
