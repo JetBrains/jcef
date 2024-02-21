@@ -160,8 +160,7 @@ void WindowsNamedPipeServer::initiateNamedConnect(const TAutoCrit &lockProof) {
   if (stopping_)
     return;
   if (!createNamedPipe(lockProof)) {
-    GlobalOutput.perror("PipeTransportServer CreateNamedPipe failed, GLE=", GetLastError());
-    throw TTransportException(TTransportException::NOT_OPEN, " PipeTransportServer CreateNamedPipe failed");
+    throw TTransportException(TTransportException::NOT_OPEN, "PipeTransportServer CreateNamedPipe failed");
   }
 
   // The prior connection has been handled, so close the gate
@@ -174,7 +173,6 @@ void WindowsNamedPipeServer::initiateNamedConnect(const TAutoCrit &lockProof) {
   // function returns a nonzero value. If the function returns
   // zero, GetLastError should return ERROR_PIPE_CONNECTED.
   if (connectOverlap_.success) {
-    GlobalOutput.printf("Client connected.");
     cached_client_.reset(new PipeTransport(Pipe_));
     // make sure people know that a connection is ready
     SetEvent(listen_event_.h);
@@ -184,7 +182,6 @@ void WindowsNamedPipeServer::initiateNamedConnect(const TAutoCrit &lockProof) {
   DWORD dwErr = connectOverlap_.last_error;
   switch (dwErr) {
     case ERROR_PIPE_CONNECTED:
-      GlobalOutput.printf("Client connected.");
       cached_client_.reset(new PipeTransport(Pipe_));
       // make sure people know that a connection is ready
       SetEvent(listen_event_.h);
@@ -192,9 +189,7 @@ void WindowsNamedPipeServer::initiateNamedConnect(const TAutoCrit &lockProof) {
     case ERROR_IO_PENDING:
       return; // acceptImpl will do the appropriate WaitForMultipleObjects
     default:
-      GlobalOutput.perror("PipeTransportServer ConnectNamedPipe failed, GLE=", dwErr);
-      throw TTransportException(TTransportException::NOT_OPEN,
-                                " PipeTransportServer ConnectNamedPipe failed");
+      throw TTransportException(TTransportException::NOT_OPEN, "PipeTransportServer ConnectNamedPipe failed, err: " + TOutput::strerror_s(dwErr));
   }
 }
 
@@ -213,8 +208,7 @@ shared_ptr<TTransport> WindowsNamedPipeServer::acceptImpl() {
   }
 
   if (Pipe_.h == INVALID_HANDLE_VALUE) {
-    throw TTransportException(TTransportException::NOT_OPEN,
-                              "WindowsNamedPipeServer: someone called accept on a closed pipe server");
+    throw TTransportException(TTransportException::NOT_OPEN, "WindowsNamedPipeServer: someone called accept on a closed pipe server.");
   }
 
   DWORD dwDummy = 0;
@@ -237,24 +231,21 @@ shared_ptr<TTransport> WindowsNamedPipeServer::acceptImpl() {
         throw;
       }
 
-      GlobalOutput.perror("Client connection failed. TTransportExceptionType=", ttx.getType());
       // kick off the next connection before throwing
       initiateNamedConnect(lock);
       throw TTransportException(TTransportException::CLIENT_DISCONNECT, ttx.what());
     }
-    GlobalOutput.printf("Client connected.");
     // kick off the next connection before returning
     initiateNamedConnect(lock);
     return client; // success!
   }
   // if we got here, then we are in an error / shutdown case
   DWORD gle = GetLastError(); // save error before doing cleanup
-  GlobalOutput.perror("PipeTransportServer ConnectNamedPipe GLE=", gle);
   if(gle == ERROR_OPERATION_ABORTED) {
     TAutoCrit lock(pipe_protect_);    	// Needed to insure concurrent thread to be out of interrupt.
-    throw TTransportException(TTransportException::INTERRUPTED, "PipeTransportServer: server interupted");
+    throw TTransportException(TTransportException::INTERRUPTED, "PipeTransportServer: server interrupted, err: " + TOutput::strerror_s(gle));
   }
-  throw TTransportException(TTransportException::NOT_OPEN, "PipeTransportServer: client connection failed");
+  throw TTransportException(TTransportException::NOT_OPEN, "PipeTransportServer: client connection failed, err: " + TOutput::strerror_s(gle));
 }
 
 void PipeTransportServer::interrupt() {
@@ -274,11 +265,7 @@ bool WindowsNamedPipeServer::createNamedPipe(const TAutoCrit& /*lockProof*/) {
   if (!ConvertStringSecurityDescriptorToSecurityDescriptorA(securityDescriptor_.c_str(),
                                                             SDDL_REVISION_1, &psd, &size)) {
     DWORD lastError = GetLastError();
-    GlobalOutput.perror("PipeTransportServer::ConvertStringSecurityDescriptorToSecurityDescriptorA() GLE=",
-                        lastError);
-    throw TTransportException(
-        TTransportException::NOT_OPEN,
-        "PipeTransportServer::ConvertStringSecurityDescriptorToSecurityDescriptorA() failed", lastError);
+    throw TTransportException(TTransportException::NOT_OPEN, "PipeTransportServer::ConvertStringSecurityDescriptorToSecurityDescriptorA() failed, err:" + TOutput::strerror_s(lastError));
   }
 
   SECURITY_ATTRIBUTES sa;
@@ -304,9 +291,7 @@ bool WindowsNamedPipeServer::createNamedPipe(const TAutoCrit& /*lockProof*/) {
 
   if (hPipe.h == INVALID_HANDLE_VALUE) {
     Pipe_.reset();
-    GlobalOutput.perror("PipeTransportServer::TCreateNamedPipe() GLE=", lastError);
-    throw TTransportException(TTransportException::NOT_OPEN, "TCreateNamedPipe() failed",
-                              lastError);
+    throw TTransportException(TTransportException::NOT_OPEN, "TCreateNamedPipe() failed, err: " + TOutput::strerror_s(lastError));
   }
 
   Pipe_.reset(hPipe.release());
