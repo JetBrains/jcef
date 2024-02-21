@@ -192,8 +192,7 @@ public class NativeServerManager {
             // Successfully connected to server transport => server seems to be running. Let's connect and check an echo.
             RpcExecutor test;
             try {
-                test = new RpcExecutor();
-                test.openTransport();
+                test = new RpcExecutor().openTransport();
             } catch (TTransportException e) {
                 if (withDebug)
                     CefLog.Debug("isRunning: TTransportException occurred when open server transport: %s", e.getMessage());
@@ -217,7 +216,6 @@ public class NativeServerManager {
     public static void stopRunning() {
         try {
             RpcExecutor test = new RpcExecutor().openTransport();
-            test.openTransport();
             test.exec(s -> s.stop());
             test.closeTransport();
         } catch (TTransportException e) {
