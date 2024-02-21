@@ -25,6 +25,9 @@
 #include "temp_window.h"
 #include "window_handler.h"
 
+#include <chrono>
+#include <thread>
+
 namespace {
 
 static std::set<CefWindowHandle> g_browsers_;
@@ -286,9 +289,25 @@ bool isBrowserExists(CefWindowHandle handle) {
     fprintf(stderr, "\tParsed workCount=%d from str=%s\n", (int)workCount, sval);
   }
 
+  int workPause = 0;
+  sval = getenv("CEF_SHUTDOWN_WORK_PAUSE");
+  if (sval != nullptr) {
+    workPause = atoi(sval);
+    if (workPause < 0)
+      workPause = 0;
+    if (workPause > 1000)
+      workPause = 1000;
+    fprintf(stderr, "\tParsed workPause=%d from str=%s\n", (int)workPause, sval);
+  }
+
   // Pump CefDoMessageLoopWork a few times before shutting down.
-  for (int i = 0; i < workCount; ++i)
+  for (int i = 0; i < workCount; ++i) {
+    if (workPause > 0)
+      std::this_thread::sleep_for(std::chrono::milliseconds(workPause));
     CefDoMessageLoopWork();
+    if (i % 10 == 0)
+      fprintf(stderr, "\nCefDoMessageLoopWork\n");
+  }
 
   fprintf(stderr, "Going call CefShutdown\n");
   g_before_shutdown = true;

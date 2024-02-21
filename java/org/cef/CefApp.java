@@ -524,6 +524,15 @@ public class CefApp extends CefAppHandlerAdapter {
             // Can execute on any thread
             CefLog.Info("shutdown CEF on " + Thread.currentThread());
 
+            int sleepBeforeShutdown = Utils.getInteger("JCEF_SLEEP_BEFORE_SHUTDOWN", 0);
+            if (sleepBeforeShutdown > 0) {
+                try {
+                    CefLog.Info("\t test sleep for " + sleepBeforeShutdown + " ms.");
+                    Thread.sleep(sleepBeforeShutdown);
+                } catch (InterruptedException e) {
+                }
+            }
+
             // Shutdown native CEF.
             N_Shutdown();
 
