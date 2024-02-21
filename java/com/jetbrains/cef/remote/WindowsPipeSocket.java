@@ -25,6 +25,11 @@ public class WindowsPipeSocket extends Socket {
 
     public WindowsPipeSocket(String pipeName) throws IOException {
         this(WindowsPipe.OpenFile(WindowsPipe.normalizePipePath(pipeName)), null);
+        try {
+            Thread.sleep(1);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
