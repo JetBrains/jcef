@@ -361,7 +361,7 @@ public class CefApp extends CefAppHandlerAdapter {
             case NEW:
                 // Nothing to do inspite of invalidating the state
                 setState(CefAppState.TERMINATED);
-                CefApp.self = null;
+                //CefApp.self = null;
                 break;
 
             case INITIALIZING:
@@ -529,7 +529,7 @@ public class CefApp extends CefAppHandlerAdapter {
 
             synchronized (this) {
                 setState(CefAppState.TERMINATED);
-                CefApp.self = null;
+                //CefApp.self = null;
             }
         }, "CEF-shutdown-thread").start();
     }
