@@ -48,6 +48,45 @@ class ServerCloneFactory : virtual public ServerIfFactory {
 extern void initMacApplication();
 #endif
 
+class MyServerProcessor : public ServerProcessor {
+ public:
+  MyServerProcessor(::std::shared_ptr<ServerIf> iface) : ServerProcessor(iface) {}
+
+  bool process(std::shared_ptr<protocol::TProtocol> in,
+               std::shared_ptr<protocol::TProtocol> out,
+               void* connectionContext) override {
+    std::string fname;
+    protocol::TMessageType mtype;
+    int32_t seqid;
+    in->readMessageBegin(fname, mtype, seqid);
+
+    if (mtype != protocol::T_CALL && mtype != protocol::T_ONEWAY) {
+      Log::error("received invalid message type %d from client", mtype);
+      return false;
+    }
+
+    //Log::trace("\t process %s", fname.c_str());
+    return dispatchCall(in.get(), out.get(), fname, seqid, connectionContext);
+  }
+};
+
+class MyServerProcessorFactory : public ::apache::thrift::TProcessorFactory {
+ public:
+  MyServerProcessorFactory(const ::std::shared_ptr< ServerIfFactory >& handlerFactory) noexcept :
+        handlerFactory_(handlerFactory) {}
+
+
+  ::std::shared_ptr< ::apache::thrift::TProcessor > getProcessor(const ::apache::thrift::TConnectionInfo& connInfo) override {
+    ::apache::thrift::ReleaseHandler< ServerIfFactory > cleanup(handlerFactory_);
+    ::std::shared_ptr< ServerIf > handler(handlerFactory_->getHandler(connInfo), cleanup);
+    ::std::shared_ptr< ::apache::thrift::TProcessor > processor(new MyServerProcessor(handler));
+    return processor;
+  }
+
+ protected:
+  ::std::shared_ptr< ServerIfFactory > handlerFactory_;
+};
+
 int main(int argc, char* argv[]) {
   CommandLineArgs cmdArgs(argc, argv);
   Log::init(LEVEL_TRACE, cmdArgs.getLogFile());
@@ -115,7 +154,7 @@ int main(int argc, char* argv[]) {
 #endif //WIN32
   }
   std::shared_ptr<TThreadedServer> server = std::make_shared<TThreadedServer>(
-      std::make_shared<ServerProcessorFactory>(
+      std::make_shared<MyServerProcessorFactory>(
       std::make_shared<ServerCloneFactory>()),
       serverTransport,
       std::make_shared<TBufferedTransportFactory>(),
@@ -132,9 +171,11 @@ int main(int argc, char* argv[]) {
     try {
       Log::debug("Start listening incoming connections."); // TODO: remove
       server->serve();
-    } catch (TException e) {
+    } catch (TException& e) {
       Log::error("Exception in listening thread");
       Log::error(e.what());
+    } catch (...) {
+      Log::error("Unknown exception in listening thread");
     }
     Log::debug("Done, server stopped.");
   });
