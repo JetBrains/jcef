@@ -274,13 +274,28 @@ bool isBrowserExists(CefWindowHandle handle) {
 }
 
 + (void)shutdown {
+  // TODO: set 10 by default
+  int workCount = 0;
+  const char* sval = getenv("CEF_SHUTDOWN_WORK_COUNT");
+  if (sval != nullptr) {
+    workCount = atoi(sval);
+    if (workCount < 0)
+      workCount = 0;
+    if (workCount > 1000)
+      workCount = 1000;
+    fprintf(stderr, "\tParsed workCount=%d from str=%s\n", (int)workCount, sval);
+  }
+
   // Pump CefDoMessageLoopWork a few times before shutting down.
-  for (int i = 0; i < 10; ++i)
+  for (int i = 0; i < workCount; ++i)
     CefDoMessageLoopWork();
 
+  fprintf(stderr, "Going call CefShutdown\n");
   g_before_shutdown = true;
 
   CefShutdown();
+
+  fprintf(stderr, "Successfully finished CefShutdown\n");
 
   g_after_shutdown = true;
   g_client_app_ = nullptr;
