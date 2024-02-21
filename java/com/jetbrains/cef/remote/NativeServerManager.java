@@ -238,11 +238,6 @@ public class NativeServerManager {
 
     // returns true when server was stopped successfully
     public static boolean stopAndWait(long timeoutNs) {
-        if (!isRunning()) {
-            ourNativeServerProcess = null;
-            return true;
-        }
-
         CefLog.Debug("Stop running cef_server instance.");
         stopRunning();
         // Wait for stopping
