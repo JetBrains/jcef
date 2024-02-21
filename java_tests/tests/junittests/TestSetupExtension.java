@@ -116,7 +116,7 @@ public class TestSetupExtension
             settings.remote_debugging_port = Integer.parseInt(debugPort);
             args.add("--remote-allow-origins=*");
         }
-        settings.log_severity = CefSettings.LogSeverity.LOGSEVERITY_VERBOSE;
+        settings.log_severity = CefSettings.LogSeverity.LOGSEVERITY_INFO;
         settings.log_file = Utils.getString("JCEF_TESTS_LOG_FILE");
         boolean envSandboxed = Utils.getBoolean("JCEF_TESTS_SANDBOX_ENABLED");
         settings.no_sandbox = !envSandboxed;
