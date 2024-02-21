@@ -151,6 +151,9 @@ public class BasicJcefTest {
         if (frame[0] != null)
             frame[0].dispose();
 
+        // dispose CefApp
+        TestSetupExtension.shutdonwCef();
+
         CefLog.Info("Basic checks spent %d ms", System.currentTimeMillis() - time0);
     }
 
@@ -165,4 +168,7 @@ public class BasicJcefTest {
         }
     }
 
+    public static void main(String[] args) {
+        new BasicJcefTest().test();
+    }
 }
