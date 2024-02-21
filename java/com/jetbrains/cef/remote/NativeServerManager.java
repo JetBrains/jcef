@@ -127,9 +127,15 @@ public class NativeServerManager {
                 }
                 return false;
             }
-
-            UnixDomainSocketAddress socketAddress = UnixDomainSocketAddress.of(ThriftTransport.getServerPipe());
             try {
+                if (OS.isWindows()) {
+                    WindowsPipeSocket pipe = new WindowsPipeSocket(ThriftTransport.getServerPipe());
+                    pipe.close();
+                    if (withDebug)
+                        CefLog.Debug("isConnectable: win-pipe '%s', opened and connected.", ThriftTransport.getServerPipe());
+                    return true;
+                }
+                UnixDomainSocketAddress socketAddress = UnixDomainSocketAddress.of(ThriftTransport.getServerPipe());
                 SocketChannel channel = SocketChannel.open(StandardProtocolFamily.UNIX);
                 channel.connect(socketAddress);
                 channel.close();
@@ -186,11 +192,6 @@ public class NativeServerManager {
             // Successfully connected to server transport => server seems to be running. Let's check an echo.
             try {
                 RpcExecutor test = new RpcExecutor().openTransport();
-                TTransport transport = test.getTransport();
-                if (transport instanceof TSocket) {
-                    TSocket socket = (TSocket)transport;
-                    socket.setTimeout(5000);
-                }
                 String testMsg = "test_message786";
                 String echoMsg = test.execObj(s -> s.echo(testMsg));
                 test.closeTransport();
