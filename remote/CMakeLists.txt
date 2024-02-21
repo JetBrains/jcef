@@ -191,7 +191,10 @@ if (OS_WINDOWS)
     target_compile_options(${EXECUTABLE_NAME} PRIVATE $<$<CONFIG:Debug>:/MTd;/RTC1;/Od ${CEF_CXX_COMPILER_FLAGS_DEBUG}>)
     target_compile_options(${EXECUTABLE_NAME} PRIVATE $<$<CONFIG:Release>:/MT;/O2;/Ob2;/GF ${CEF_CXX_COMPILER_FLAGS_RELEASE}>)
 
-    target_compile_definitions(${EXECUTABLE_NAME} PRIVATE ${CEF_COMPILER_DEFINES})
+    list(TRANSFORM CEF_COMPILER_DEFINES REPLACE "_HAS_EXCEPTIONS=0" "_HAS_EXCEPTIONS=1" OUTPUT_VARIABLE CEF_SERVER_COMPILER_DEFINES)
+    message(STATUS "Added exception preprocessor definition. List of all defines: ${CEF_SERVER_COMPILER_DEFINES}")
+
+    target_compile_definitions(${EXECUTABLE_NAME} PRIVATE ${CEF_SERVER_COMPILER_DEFINES})
     target_compile_definitions(${EXECUTABLE_NAME} PRIVATE $<$<CONFIG:Debug>:${CEF_COMPILER_DEFINES_DEBUG}>)
     target_compile_definitions(${EXECUTABLE_NAME} PRIVATE $<$<CONFIG:Release>:${CEF_COMPILER_DEFINES_RELEASE}>)
 
