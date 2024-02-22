@@ -41,26 +41,15 @@ class RpcExecutor {
 
 typedef std::unique_lock<std::recursive_mutex> Lock;
 
-class CommandLineArgs {
- public:
-  CommandLineArgs(int argc, char* argv[]);
-
-  bool useTcp() const { return myUseTcp; }
-  int getPort() const { return myPort; }
-  std::string getPipe() const { return myPathPipe; }
-  std::string getLogFile() const { return myPathLogFile; }
-  std::string getParamsFile() const { return myPathParamsFile; }
-  bool isTestMode() const { return myIsTestMode; }
-  int getLogLevel() const { return myLogLevel; }
-
- private:
-  bool myUseTcp = false;
-  int myPort = -1;
-  std::string myPathPipe;
-  std::string myPathLogFile;
-  std::string myPathParamsFile;
-  bool myIsTestMode = false;
-  int myLogLevel = -1;
-};
+template<typename ... Args>
+std::string string_format( const std::string& format, Args ... args )
+{
+  int size_s = std::snprintf( nullptr, 0, format.c_str(), args ... ) + 1;
+  if( size_s <= 0 ){ throw std::runtime_error( "Error during formatting." ); }
+  auto size = static_cast<size_t>( size_s );
+  std::unique_ptr<char[]> buf( new char[ size ] );
+  std::snprintf( buf.get(), size, format.c_str(), args ... );
+  return std::string( buf.get(), buf.get() + size - 1 );
+}
 
 #endif  // JCEF_UTILS_H

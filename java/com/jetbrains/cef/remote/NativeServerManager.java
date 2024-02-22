@@ -2,7 +2,6 @@ package com.jetbrains.cef.remote;
 
 import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TSocket;
-import org.apache.thrift.transport.TTransport;
 import org.apache.thrift.transport.TTransportException;
 import org.cef.CefSettings;
 import org.cef.OS;
@@ -18,6 +17,7 @@ import java.net.UnixDomainSocketAddress;
 import java.nio.channels.SocketChannel;
 import java.nio.file.Path;
 import java.util.Map;
+import java.util.function.BooleanSupplier;
 
 public class NativeServerManager {
     private static final String ALT_CEF_SERVER_PATH = Utils.getString("ALT_CEF_SERVER_PATH");
@@ -25,16 +25,12 @@ public class NativeServerManager {
     private static Process ourNativeServerProcess = null;
 
     // Should be called in bg thread
-    public static boolean startIfNecessary(CefAppHandler appHandler, CefSettings settings, long timeoutNs) {
-        // TODO: check that server runs with the same args and restart it if necessary.
-        if (isRunning())
-            return true;
-
+    public static boolean startProcessAndWait(CefAppHandler appHandler, CefSettings settings, long timeoutMs) {
         final Path pipeName = Path.of(System.getProperty("java.io.tmpdir")).resolve("cef_server_params.txt");
         File f = new File(pipeName.toString());
-        f.delete();
         PrintStream ps;
         try {
+            new FileOutputStream(f).close(); // delete the content of the file
             f.createNewFile();
             ps = new PrintStream(new FileOutputStream(f, false));
         } catch (IOException e) {
@@ -103,7 +99,7 @@ public class NativeServerManager {
             CefLog.Error("Can't read temp file with server params: %s", e.getMessage());
         }
 
-        return startNativeServer(f.getAbsolutePath(), timeoutNs);
+        return startProcessAndWait(f.getAbsolutePath(), timeoutMs);
     }
 
     public static boolean isProcessAlive() {
@@ -213,16 +209,6 @@ public class NativeServerManager {
         return false;
     }
 
-    public static void stopRunning() {
-        try {
-            RpcExecutor test = new RpcExecutor().openTransport();
-            test.exec(s -> s.stop());
-            test.closeTransport();
-        } catch (TTransportException e) {
-            CefLog.Debug("cef_server ins't running, exception: %s", e.getMessage());
-        }
-    }
-
     public static String getServerState() {
         try {
             RpcExecutor test = new RpcExecutor().openTransport();
@@ -235,30 +221,55 @@ public class NativeServerManager {
     }
 
     // returns true when server was stopped successfully
-    public static boolean stopAndWait(long timeoutNs) {
+    public static boolean stopAndWait(long timeoutMs) {
         CefLog.Debug("Stop running cef_server instance.");
-        stopRunning();
+        try {
+            RpcExecutor test = new RpcExecutor().openTransport();
+            String state = test.execObj(s -> s.state());
+            CefLog.Debug("Server state before stop: %s", state);
+            test.exec(s -> s.stop());
+            test.closeTransport();
+        } catch (TTransportException e) {
+            CefLog.Debug("Exception when trying to stop server, err: %s", e.getMessage());
+        }
+
         // Wait for stopping
-        final long startNs = System.nanoTime();
-        boolean stopped = false;
-        do {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {}
-            CefLog.Debug("Waiting for server stopping... State: %s", getServerState());
-            stopped = !isRunning();
-        } while (!stopped && (System.nanoTime() - startNs < timeoutNs));
+        boolean stopped = waitForStopped(timeoutMs);
         if (!stopped) {
-            CefLog.Error("Can't stop server in %d ms (process is %s)",
-                    (System.nanoTime() - startNs) / 1000000, isProcessAlive() ? "alive" : "dead");
+            CefLog.Error("Can't stop server in %d ms (process is %s)", timeoutMs, isProcessAlive() ? "alive" : "dead");
+            CefLog.Debug("Server state: %s", getServerState());
             return false;
         }
         ourNativeServerProcess = null;
         return true;
     }
 
+    public static boolean waitForRunning(long timeoutMs) {
+        return waitFor(NativeServerManager::isRunning, timeoutMs, "starting");
+    }
+
+    public static boolean waitForStopped(long timeoutMs) {
+        return waitFor(()->!isRunning(), timeoutMs, "stopping");
+    }
+
+    private static boolean waitFor(BooleanSupplier checker, long timeoutMs, String hint) {
+        final long startNs = System.nanoTime();
+        boolean success;
+        do {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            CefLog.Debug("Waiting for server %s", hint);
+            success = checker.getAsBoolean();
+        } while (!success && (System.nanoTime() - startNs < timeoutMs*1000000));
+
+        return success;
+    }
+
     // returns true when server was started successfully
-    private static boolean startNativeServer(String paramsPath, long timeoutNs) {
+    private static boolean startProcessAndWait(String paramsPath, long timeoutMs) {
         if (ourNativeServerProcess != null)
             CefLog.Debug("Handle of server process will be overwritten.");
         ourNativeServerProcess = null;
@@ -277,7 +288,7 @@ public class NativeServerManager {
                 serverExe = new File(new File(javabin.getParentFile(), "bin"), "cef_server.exe");
             }
         } else
-            serverExe = new File(ALT_CEF_SERVER_PATH);
+            serverExe = new File(ALT_CEF_SERVER_PATH.trim());
 
         CefLog.Debug("Start native cef_server, path='%s', params path='%s'", serverExe.getAbsolutePath(), paramsPath);
         if (!serverExe.exists()) {
@@ -310,20 +321,9 @@ public class NativeServerManager {
             return false;
         }
 
-        // Check native server
-        final long startNs = System.nanoTime();
-        boolean success = false;
-        do {
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            CefLog.Debug("Waiting for server...");
-            success = isRunning();
-        } while (!success && (System.nanoTime() - startNs < timeoutNs));
-
-        if (!success && !(success = isRunning(true))) {
+        // Wait for native server
+        boolean running = waitForRunning(timeoutMs);
+        if (!running && !(running = isRunning(true))) {
             if (ourNativeServerProcess.isAlive())
                 CefLog.Error("Native cef_server was started but client can't connect.");
             else {
@@ -331,6 +331,6 @@ public class NativeServerManager {
                 ourNativeServerProcess = null;
             }
         }
-        return success;
+        return running;
     }
 }

@@ -4,6 +4,8 @@
 #include <boost/filesystem.hpp>
 #include <fstream>
 
+#include "ServerState.h"
+
 #if defined(OS_MAC)
 #include "include/wrapper/cef_library_loader.h"
 #include <dirent.h>
@@ -117,7 +119,40 @@ namespace CefUtils {
         Log::debug("Shutdown finished.");
     }
 
-    bool initializeCef(const CommandLineArgs & cmdArgs) {
+    bool initializeCef(
+        std::vector<std::string> switches,
+        CefSettings& settings,
+        std::vector<std::pair<std::string, int>> schemes
+    ) {
+        CefMainArgs main_args;
+#if defined(OS_MAC)
+        CefString(&settings.framework_dir_path) = g_pathFrameworkDir;
+#elif defined(OS_WIN)
+      auto installation_root =
+          boost::filesystem::current_path().append("..").lexically_normal();
+
+        boost::filesystem::path resources_dir_path =
+          installation_root.append("lib");
+        boost::filesystem::path framework_dir_path =
+            installation_root.append("bin");
+
+         std::string resources_path = resources_dir_path.string();
+         std::string locales_dir_path =
+            resources_dir_path.append("locales").string();
+
+        CefString(&settings.resources_dir_path).FromString(resources_path);
+        CefString(&settings.locales_dir_path).FromString(locales_dir_path);
+#elif defined(OS_LINUX)
+        XInitThreads();
+#endif
+        RemoteAppHandler::initialize(switches, settings, schemes);
+        CefRefPtr<CefApp> app = RemoteAppHandler::instance();
+        Log::debug("Start CefInitialize");
+        return CefInitialize(main_args, settings, app, nullptr);
+    }
+
+    bool initializeCef() {
+      const CommandLineArgs& cmdArgs = ServerState::instance().getCmdArgs();
       std::string paramsFilePath = cmdArgs.getParamsFile();
       bool collectCmdSwitches = false;
       bool collectSettings = false;
@@ -205,38 +240,6 @@ namespace CefUtils {
       }
 #endif
       return initializeCef(cmdlineSwitches, settings, schemes);
-    }
-
-    bool initializeCef(
-        std::vector<std::string> switches,
-        CefSettings& settings,
-        std::vector<std::pair<std::string, int>> schemes
-    ) {
-        CefMainArgs main_args;
-#if defined(OS_MAC)
-        CefString(&settings.framework_dir_path) = g_pathFrameworkDir;
-#elif defined(OS_WIN)
-      auto installation_root =
-          boost::filesystem::current_path().append("..").lexically_normal();
-
-        boost::filesystem::path resources_dir_path =
-          installation_root.append("lib");
-        boost::filesystem::path framework_dir_path =
-            installation_root.append("bin");
-
-         std::string resources_path = resources_dir_path.string();
-         std::string locales_dir_path =
-            resources_dir_path.append("locales").string();
-
-        CefString(&settings.resources_dir_path).FromString(resources_path);
-        CefString(&settings.locales_dir_path).FromString(locales_dir_path);
-#elif defined(OS_LINUX)
-        XInitThreads();
-#endif
-        RemoteAppHandler::initialize(switches, settings, schemes);
-        CefRefPtr<CefApp> app = RemoteAppHandler::instance();
-        Log::debug("Start CefInitialize");
-        return CefInitialize(main_args, settings, app, nullptr);
     }
 
   bool parseSetting(CefSettings & out, const std::string & settingLine) {

@@ -1,16 +1,12 @@
 #include "ServerHandler.h"
 
-#include <thread>
-
 #include "include/cef_version.h"
 
-#include "handlers/RemoteLifespanHandler.h"
 #include "handlers/app/RemoteAppHandler.h"
 #include "network/RemotePostData.h"
 #include "network/RemoteRequest.h"
 #include "network/RemoteResponse.h"
 
-#include "CefUtils.h"
 #include "RemoteObjects.h"
 #include "callback/RemoteAuthCallback.h"
 #include "callback/RemoteCallback.h"
@@ -21,11 +17,9 @@
 #include "router/RemoteMessageRouterHandler.h"
 #include "router/RemoteQueryCallback.h"
 
+#include "ServerState.h"
 
 using namespace apache::thrift;
-
-std::string ServerHandler::STATE_DESC = "New";
-ServerHandler::ServerState ServerHandler::STATE = ServerHandler::SS_NEW;
 
 ServerHandler::ServerHandler()
     : myRoutersManager(std::make_shared<MessageRoutersManager>()),
@@ -33,66 +27,78 @@ ServerHandler::ServerHandler()
 {}
 
 ServerHandler::~ServerHandler() {
-  dispose();
+  close();
+  closeBackwardTransport();
 }
 
-void ServerHandler::dispose() {
+void ServerHandler::close() {
+  if (myIsClosed)
+    return;
+
+  myIsClosed = true;
+  std::string remaining = myClientsManager->closeAllBrowsers();
+  ServerState::instance().onServerHandlerClosed(*this, remaining);
   try {
-    myClientsManager->closeAllBrowsers();
-    if (myJavaService && !myJavaService->isClosed())
-      myJavaService->close();
+    // NOTE: if some browser wasn't closed than client won't receive onBeforeClose callback
+    // if we close transport here. So do it in destructor.
+    if (remaining.empty())
+      closeBackwardTransport();
   } catch (TException& e) {
-    Log::error("Thrift exception in ServerHandler::dispose: %s", e.what());
+    Log::error("Thrift exception in ServerHandler::close: %s", e.what());
   }
 }
 
-int32_t ServerHandler::connect(const std::string& backwardConnectionPipe) {
-  if (myJavaService != nullptr) {
-    Log::debug("Client already connected, other attempts will be ignored.");
-    return -1;
-  }
+void ServerHandler::closeBackwardTransport() {
+  if (myJavaService && !myJavaService->isClosed())
+    myJavaService->close();
+  if (myJavaServiceIO && !myJavaServiceIO->isClosed())
+    myJavaServiceIO->close();
+}
 
+int ServerHandler::connectImpl(std::function<void()> openBackwardTransport) {
   static int s_counter = 0;
   const int counter = s_counter++;
   setThreadName(string_format("ServerHandler_%d", counter));
 
   // Connect to client's side (for cef-callbacks execution on java side)
   try {
+    openBackwardTransport();
+    RemoteAppHandler::instance()->setService(myJavaService);
+  } catch (TException& tx) {
+    Log::error(tx.what());
+    closeBackwardTransport();
+    return -1;
+  }
+
+  return counter;
+}
+
+int32_t ServerHandler::connect(const std::string& backwardConnectionPipe, bool isMaster) {
+  if (myJavaService != nullptr) {
+    Log::error("Client already connected, other attempts will be ignored.");
+    return -1;
+  }
+
+  myIsMaster = isMaster;
+
+  return connectImpl([&](){
     myJavaService = std::make_shared<RpcExecutor>(backwardConnectionPipe);
     myJavaServiceIO = std::make_shared<RpcExecutor>(backwardConnectionPipe);
-    RemoteAppHandler::instance()->setService(myJavaService);
-    // TODO:
-    //  1. compare new args and settings with old (from RemoteAppHandler::instance())
-    //  2. reinit CEF with new args and settings in necessary
-  } catch (TException& tx) {
-    Log::error(tx.what());
-    return -1;
-  }
-
-  return counter;
+  });
 }
 
-int32_t ServerHandler::connectTcp(int backwardConnectionPort) {
+int32_t ServerHandler::connectTcp(int backwardConnectionPort, bool isMaster) {
   if (myJavaService != nullptr) {
-    Log::debug("Client already connected (tcp), other attempts will be ignored.");
+    Log::error("Client already connected (tcp), other attempts will be ignored.");
     return -1;
   }
 
-  static int s_counter = 0;
-  const int counter = s_counter++;
-  setThreadName(string_format("ServerHandler_%d", counter));
+  myIsMaster = isMaster;
 
-  // Connect to client's side (for cef-callbacks execution on java side)
-  try {
+  return connectImpl([&](){
     myJavaService = std::make_shared<RpcExecutor>(backwardConnectionPort);
     myJavaServiceIO = std::make_shared<RpcExecutor>(backwardConnectionPort);
-    RemoteAppHandler::instance()->setService(myJavaService);
-  } catch (TException& tx) {
-    Log::error(tx.what());
-    return -1;
-  }
-
-  return counter;
+  });
 }
 
 int32_t ServerHandler::createBrowser(int cid, const std::string& url) {
@@ -107,18 +113,12 @@ void ServerHandler::closeBrowser(const int32_t bid) {
 
 void ServerHandler::stop() {
   Log::debug("ServerHandler %p asked to stop server.", this);
-  setState(SS_SHUTTING_DOWN, "shutting down (start)");
-  dispose();
-}
-
-void ServerHandler::setStateShutdown() {
-  ServerHandler::setState(ServerHandler::SS_SHUTDOWN, "quit cef msg loop");
-  CefPostTask(TID_UI, base::BindOnce(CefQuitMessageLoop));
-  Log::debug("Scheduled CEF shutdown.");
+  ServerState::instance().startShuttingDown();
+  close();
 }
 
 void ServerHandler::state(std::string& _return) {
-  _return = STATE_DESC;
+  _return = ServerState::instance().getStateDesc();
 }
 
 void ServerHandler::version(std::string& _return) {

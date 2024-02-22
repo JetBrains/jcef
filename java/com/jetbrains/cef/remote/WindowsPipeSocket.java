@@ -1,5 +1,7 @@
 package com.jetbrains.cef.remote;
 
+import org.cef.misc.Utils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -7,6 +9,7 @@ import java.net.Socket;
 import java.util.function.Consumer;
 
 public class WindowsPipeSocket extends Socket {
+    private static final int TRANSPORT_OPEN_COOLDOWN_MS = Utils.getInteger("JCEF_TRANSPORT_OPEN_COOLDOWN_MS", 3);
     private final long myHandle;
     private final Consumer<Long> myCloseCallback;
     private final InputStream myIn;
@@ -25,10 +28,10 @@ public class WindowsPipeSocket extends Socket {
 
     public WindowsPipeSocket(String pipeName) throws IOException {
         this(WindowsPipe.OpenFile(WindowsPipe.normalizePipePath(pipeName)), null);
-        try {
-            Thread.sleep(1);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+        if (TRANSPORT_OPEN_COOLDOWN_MS > 0) {
+            try {
+                Thread.sleep(TRANSPORT_OPEN_COOLDOWN_MS);
+            } catch (InterruptedException e) {}
         }
     }
 

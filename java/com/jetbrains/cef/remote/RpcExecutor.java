@@ -4,19 +4,14 @@ import com.jetbrains.cef.remote.thrift_codegen.Server;
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.protocol.TProtocol;
-import org.apache.thrift.transport.TIOStreamTransport;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
 import org.apache.thrift.transport.TTransportException;
-import org.cef.OS;
 import org.cef.misc.CefLog;
+import org.cef.misc.Utils;
 
-import java.io.*;
-import java.net.StandardProtocolFamily;
-import java.net.UnixDomainSocketAddress;
-import java.nio.channels.Channels;
-import java.nio.channels.SocketChannel;
-import java.nio.file.Path;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 public class RpcExecutor {
     private TTransport myTransport;
@@ -46,14 +41,9 @@ public class RpcExecutor {
     }
 
     private void initPipe(String pipeName) throws TTransportException {
-        try {
-            myTransport = ThriftTransport.openPipeTransport(pipeName);
-            myProtocol = new TBinaryProtocol(myTransport);
-            myServer = new Server.Client(myProtocol);
-        } catch (TTransportException e) {
-            myTransport = null;
-            throw e;
-        }
+        myTransport = ThriftTransport.openPipeTransport(pipeName);
+        myProtocol = new TBinaryProtocol(myTransport);
+        myServer = new Server.Client(myProtocol);
     }
 
     public interface Rpc {
@@ -68,13 +58,13 @@ public class RpcExecutor {
     }
 
     synchronized
-    public int connect() {
+    public int connect(boolean asMaster) {
         if (myTransport == null)
             return -1;
         try {
             return ThriftTransport.isTcp() ?
-                    myServer.connectTcp(ThriftTransport.getJavaHandlersPort()) :
-                    myServer.connect(ThriftTransport.getJavaHandlersPipe());
+                    myServer.connectTcp(ThriftTransport.getJavaHandlersPort(), asMaster) :
+                    myServer.connect(ThriftTransport.getJavaHandlersPipe(), asMaster);
         } catch (TException e) {
             onThriftException(e);
         }

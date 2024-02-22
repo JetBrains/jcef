@@ -22,7 +22,9 @@ class ClientsManager {
                     std::shared_ptr<MessageRoutersManager> routersManager,
                     const std::string& url);
   void closeBrowser(const int32_t bid);
-  void closeAllBrowsers();
+
+  // returns short description of remaining browsers (or empty string when empty browsers set)
+  std::string closeAllBrowsers();
 
   CefRefPtr<CefBrowser> getCefBrowser(int bid);
   int findRemoteBrowser(CefRefPtr<CefBrowser> browser); // returns bid
@@ -36,13 +38,14 @@ class ClientsManager {
     void erase(int bid);
     int findRemoteBrowser(CefRefPtr<CefBrowser> browser); // returns bid
 
-    void closeAll();
+    // returns short description of remaining browsers (or empty string when empty browsers set)
+    std::string closeAll();
 
     std::recursive_mutex myMutex;
    private:
     std::map<int, CefRefPtr<RemoteClientHandler>> myBid2Client;
 
-    void checkShuttingDown();
+    std::string enumClients();
   };
 
   std::shared_ptr<ClientsStorage> myRemoteClients;

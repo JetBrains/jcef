@@ -44,7 +44,11 @@ void RpcExecutor::close() {
 
   if (myService != nullptr) {
     myService = nullptr;
-    myTransport->close();
+    try {
+      myTransport->close();
+    } catch (const TException& e) {
+      Log::error("Exception during rpc-executor transport closing, err: %s", e.what());
+    }
     myTransport = nullptr;
   }
 }
@@ -62,36 +66,5 @@ void RpcExecutor::exec(std::function<void(Service)> rpc) {
   } catch (apache::thrift::TException& tx) {
     Log::debug("thrift exception occured: %s", tx.what());
     close();
-  }
-}
-
-CommandLineArgs::CommandLineArgs(int argc, char* argv[]) {
-  for (int c = 0; c < argc; ++c) {
-    const char * arg = argv[c];
-    if (arg == nullptr)
-      continue;
-
-    // NOTE: these switches don't conflict with chromium one.
-    // See https://peter.sh/experiments/chromium-command-line-switches/
-    std::string str(arg);
-    size_t tokenPos;
-    if ((tokenPos = str.find("--port=")) != str.npos) {
-      std::string val = str.substr(tokenPos + 7);
-      myPort = std::stoi(val);
-      myUseTcp = true;
-    } else if ((tokenPos = str.find("--pipe=")) != str.npos) {
-      myPathPipe = str.substr(tokenPos + 7);
-    } else if ((tokenPos = str.find("--logfile=")) != str.npos) {
-      myPathLogFile = str.substr(tokenPos + 10);
-    } else if ((tokenPos = str.find("--loglevel=")) != str.npos) {
-      std::string sval = str.substr(tokenPos + 11);
-      myLogLevel = std::stoi(sval);
-      if (myLogLevel < LEVEL_TRACE - 5) myLogLevel = LEVEL_TRACE - 5;
-      if (myLogLevel > LEVEL_FATAL) myLogLevel = LEVEL_FATAL;
-    } else if ((tokenPos = str.find("--params=")) != str.npos) {
-      myPathParamsFile = str.substr(tokenPos + 9);
-    } else if (str.find("--testmode") != str.npos) {
-      myIsTestMode = true;
-    }
   }
 }

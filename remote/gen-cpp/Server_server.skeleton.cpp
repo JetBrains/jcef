@@ -20,12 +20,12 @@ class ServerHandler : virtual public ServerIf {
     // Your initialization goes here
   }
 
-  int32_t connect(const std::string& backwardConnectionPipe) {
+  int32_t connect(const std::string& backwardConnectionPipe, const bool isMaster) {
     // Your implementation goes here
     printf("connect\n");
   }
 
-  int32_t connectTcp(const int32_t backwardConnectionPort) {
+  int32_t connectTcp(const int32_t backwardConnectionPort, const bool isMaster) {
     // Your implementation goes here
     printf("connectTcp\n");
   }

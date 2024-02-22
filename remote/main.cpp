@@ -12,6 +12,7 @@
 
 #include "CefUtils.h"
 #include "ServerHandler.h"
+#include "ServerState.h"
 #include "log/Log.h"
 
 #include "handlers/app/HelperApp.h"
@@ -22,27 +23,6 @@ using namespace apache::thrift::transport;
 using namespace apache::thrift::server;
 
 using namespace thrift_codegen;
-
-/*
-  ServerIfFactory is code generated.
-  ServerCloneFactory is useful for getting access to the server side of the
-  transport.  It is also useful for making per-connection state.  Without this
-  CloneFactory, all connections will end up sharing the same handler instance.
-*/
-class ServerCloneFactory : virtual public ServerIfFactory {
- public:
-  ~ServerCloneFactory() override = default;
-  ServerIf* getHandler(const ::apache::thrift::TConnectionInfo& connInfo) override {
-    std::shared_ptr<TSocket> sock = std::dynamic_pointer_cast<TSocket>(connInfo.transport);
-    ServerHandler * serverHandler = new ServerHandler;
-    Log::trace("Created new ServerHandler: %p", serverHandler);
-    return serverHandler;
-  }
-  void releaseHandler(ServerIf* handler) override {
-    Log::trace("Release ServerHandler: %p", handler);
-    delete handler;
-  }
-};
 
 #ifdef OS_MAC
 extern void initMacApplication();
@@ -75,7 +55,6 @@ class MyServerProcessorFactory : public ::apache::thrift::TProcessorFactory {
   MyServerProcessorFactory(const ::std::shared_ptr< ServerIfFactory >& handlerFactory) noexcept :
         handlerFactory_(handlerFactory) {}
 
-
   ::std::shared_ptr< ::apache::thrift::TProcessor > getProcessor(const ::apache::thrift::TConnectionInfo& connInfo) override {
     ::apache::thrift::ReleaseHandler< ServerIfFactory > cleanup(handlerFactory_);
     ::std::shared_ptr< ServerIf > handler(handlerFactory_->getHandler(connInfo), cleanup);
@@ -88,8 +67,7 @@ class MyServerProcessorFactory : public ::apache::thrift::TProcessorFactory {
 };
 
 int main(int argc, char* argv[]) {
-  CommandLineArgs cmdArgs(argc, argv);
-  Log::init(cmdArgs.getLogLevel(), cmdArgs.getLogFile());
+  ServerState::instance().init(argc, argv);
 
   setThreadName("main");
 #if defined(OS_LINUX)
@@ -126,12 +104,13 @@ int main(int argc, char* argv[]) {
 #endif
   const Clock::time_point startTime = Clock::now();
 
-  const bool success = CefUtils::initializeCef(cmdArgs);
+  const bool success = CefUtils::initializeCef();
   if (!success) {
     Log::error("Cef initialization failed");
     return -2;
   }
 
+  const CommandLineArgs& cmdArgs = ServerState::instance().getCmdArgs();
   std::shared_ptr<TServerTransport> serverTransport;
   if (cmdArgs.useTcp()) {
     Log::info("TCP transport will be used, port=%d", cmdArgs.getPort());
@@ -153,9 +132,10 @@ int main(int argc, char* argv[]) {
     serverTransport = std::make_shared<TServerSocket>(pipePath.c_str());
 #endif //WIN32
   }
+  std::shared_ptr<ServerHandlerFactory> handlersFactory = ServerState::instance().getServerHandlerFactory();
+  std::shared_ptr<apache::thrift::TProcessorFactory> processorFactory = std::make_shared<MyServerProcessorFactory>(handlersFactory);
   std::shared_ptr<TThreadedServer> server = std::make_shared<TThreadedServer>(
-      std::make_shared<MyServerProcessorFactory>(
-      std::make_shared<ServerCloneFactory>()),
+      processorFactory,
       serverTransport,
       std::make_shared<TBufferedTransportFactory>(),
       std::make_shared<TBinaryProtocolFactory>());
@@ -194,11 +174,8 @@ int main(int argc, char* argv[]) {
         Log::debug("\t will exit in %d sec...", remainMs);
       }
 
-      Log::info("Timeout elapsed, do exit.");
-      ServerHandler::setStateShutdown();
-      std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-      Log::info("Buy!");
-      std::exit(0);
+      Log::info("Timeout elapsed, do hard exit.");
+      ServerState::shutdownHard();
     });
   }
 

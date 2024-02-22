@@ -11,9 +11,9 @@ public class Server {
 
   public interface Iface {
 
-    public int connect(java.lang.String backwardConnectionPipe) throws org.apache.thrift.TException;
+    public int connect(java.lang.String backwardConnectionPipe, boolean isMaster) throws org.apache.thrift.TException;
 
-    public int connectTcp(int backwardConnectionPort) throws org.apache.thrift.TException;
+    public int connectTcp(int backwardConnectionPort, boolean isMaster) throws org.apache.thrift.TException;
 
     public void log(java.lang.String msg) throws org.apache.thrift.TException;
 
@@ -109,9 +109,9 @@ public class Server {
 
   public interface AsyncIface {
 
-    public void connect(java.lang.String backwardConnectionPipe, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException;
+    public void connect(java.lang.String backwardConnectionPipe, boolean isMaster, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException;
 
-    public void connectTcp(int backwardConnectionPort, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException;
+    public void connectTcp(int backwardConnectionPort, boolean isMaster, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException;
 
     public void log(java.lang.String msg, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
@@ -228,16 +228,17 @@ public class Server {
     }
 
     @Override
-    public int connect(java.lang.String backwardConnectionPipe) throws org.apache.thrift.TException
+    public int connect(java.lang.String backwardConnectionPipe, boolean isMaster) throws org.apache.thrift.TException
     {
-      send_connect(backwardConnectionPipe);
+      send_connect(backwardConnectionPipe, isMaster);
       return recv_connect();
     }
 
-    public void send_connect(java.lang.String backwardConnectionPipe) throws org.apache.thrift.TException
+    public void send_connect(java.lang.String backwardConnectionPipe, boolean isMaster) throws org.apache.thrift.TException
     {
       connect_args args = new connect_args();
       args.setBackwardConnectionPipe(backwardConnectionPipe);
+      args.setIsMaster(isMaster);
       sendBase("connect", args);
     }
 
@@ -252,16 +253,17 @@ public class Server {
     }
 
     @Override
-    public int connectTcp(int backwardConnectionPort) throws org.apache.thrift.TException
+    public int connectTcp(int backwardConnectionPort, boolean isMaster) throws org.apache.thrift.TException
     {
-      send_connectTcp(backwardConnectionPort);
+      send_connectTcp(backwardConnectionPort, isMaster);
       return recv_connectTcp();
     }
 
-    public void send_connectTcp(int backwardConnectionPort) throws org.apache.thrift.TException
+    public void send_connectTcp(int backwardConnectionPort, boolean isMaster) throws org.apache.thrift.TException
     {
       connectTcp_args args = new connectTcp_args();
       args.setBackwardConnectionPort(backwardConnectionPort);
+      args.setIsMaster(isMaster);
       sendBase("connectTcp", args);
     }
 
@@ -1154,18 +1156,20 @@ public class Server {
     }
 
     @Override
-    public void connect(java.lang.String backwardConnectionPipe, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException {
+    public void connect(java.lang.String backwardConnectionPipe, boolean isMaster, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      connect_call method_call = new connect_call(backwardConnectionPipe, resultHandler, this, ___protocolFactory, ___transport);
+      connect_call method_call = new connect_call(backwardConnectionPipe, isMaster, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
     public static class connect_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.Integer> {
       private java.lang.String backwardConnectionPipe;
-      public connect_call(java.lang.String backwardConnectionPipe, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private boolean isMaster;
+      public connect_call(java.lang.String backwardConnectionPipe, boolean isMaster, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.backwardConnectionPipe = backwardConnectionPipe;
+        this.isMaster = isMaster;
       }
 
       @Override
@@ -1173,6 +1177,7 @@ public class Server {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("connect", org.apache.thrift.protocol.TMessageType.CALL, 0));
         connect_args args = new connect_args();
         args.setBackwardConnectionPipe(backwardConnectionPipe);
+        args.setIsMaster(isMaster);
         args.write(prot);
         prot.writeMessageEnd();
       }
@@ -1189,18 +1194,20 @@ public class Server {
     }
 
     @Override
-    public void connectTcp(int backwardConnectionPort, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException {
+    public void connectTcp(int backwardConnectionPort, boolean isMaster, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      connectTcp_call method_call = new connectTcp_call(backwardConnectionPort, resultHandler, this, ___protocolFactory, ___transport);
+      connectTcp_call method_call = new connectTcp_call(backwardConnectionPort, isMaster, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
     public static class connectTcp_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.Integer> {
       private int backwardConnectionPort;
-      public connectTcp_call(int backwardConnectionPort, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private boolean isMaster;
+      public connectTcp_call(int backwardConnectionPort, boolean isMaster, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.backwardConnectionPort = backwardConnectionPort;
+        this.isMaster = isMaster;
       }
 
       @Override
@@ -1208,6 +1215,7 @@ public class Server {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("connectTcp", org.apache.thrift.protocol.TMessageType.CALL, 0));
         connectTcp_args args = new connectTcp_args();
         args.setBackwardConnectionPort(backwardConnectionPort);
+        args.setIsMaster(isMaster);
         args.write(prot);
         prot.writeMessageEnd();
       }
@@ -3044,7 +3052,7 @@ public class Server {
       @Override
       public connect_result getResult(I iface, connect_args args) throws org.apache.thrift.TException {
         connect_result result = new connect_result();
-        result.success = iface.connect(args.backwardConnectionPipe);
+        result.success = iface.connect(args.backwardConnectionPipe, args.isMaster);
         result.setSuccessIsSet(true);
         return result;
       }
@@ -3073,7 +3081,7 @@ public class Server {
       @Override
       public connectTcp_result getResult(I iface, connectTcp_args args) throws org.apache.thrift.TException {
         connectTcp_result result = new connectTcp_result();
-        result.success = iface.connectTcp(args.backwardConnectionPort);
+        result.success = iface.connectTcp(args.backwardConnectionPort, args.isMaster);
         result.setSuccessIsSet(true);
         return result;
       }
@@ -4446,7 +4454,7 @@ public class Server {
 
       @Override
       public void start(I iface, connect_args args, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException {
-        iface.connect(args.backwardConnectionPipe,resultHandler);
+        iface.connect(args.backwardConnectionPipe, args.isMaster,resultHandler);
       }
     }
 
@@ -4514,7 +4522,7 @@ public class Server {
 
       @Override
       public void start(I iface, connectTcp_args args, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException {
-        iface.connectTcp(args.backwardConnectionPort,resultHandler);
+        iface.connectTcp(args.backwardConnectionPort, args.isMaster,resultHandler);
       }
     }
 
@@ -6961,15 +6969,18 @@ public class Server {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("connect_args");
 
     private static final org.apache.thrift.protocol.TField BACKWARD_CONNECTION_PIPE_FIELD_DESC = new org.apache.thrift.protocol.TField("backwardConnectionPipe", org.apache.thrift.protocol.TType.STRING, (short)1);
+    private static final org.apache.thrift.protocol.TField IS_MASTER_FIELD_DESC = new org.apache.thrift.protocol.TField("isMaster", org.apache.thrift.protocol.TType.BOOL, (short)2);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new connect_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new connect_argsTupleSchemeFactory();
 
     public @org.apache.thrift.annotation.Nullable java.lang.String backwardConnectionPipe; // required
+    public boolean isMaster; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      BACKWARD_CONNECTION_PIPE((short)1, "backwardConnectionPipe");
+      BACKWARD_CONNECTION_PIPE((short)1, "backwardConnectionPipe"),
+      IS_MASTER((short)2, "isMaster");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -6987,6 +6998,8 @@ public class Server {
         switch(fieldId) {
           case 1: // BACKWARD_CONNECTION_PIPE
             return BACKWARD_CONNECTION_PIPE;
+          case 2: // IS_MASTER
+            return IS_MASTER;
           default:
             return null;
         }
@@ -7030,11 +7043,15 @@ public class Server {
     }
 
     // isset id assignments
+    private static final int __ISMASTER_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
     public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.BACKWARD_CONNECTION_PIPE, new org.apache.thrift.meta_data.FieldMetaData("backwardConnectionPipe", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.IS_MASTER, new org.apache.thrift.meta_data.FieldMetaData("isMaster", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(connect_args.class, metaDataMap);
     }
@@ -7043,19 +7060,24 @@ public class Server {
     }
 
     public connect_args(
-      java.lang.String backwardConnectionPipe)
+      java.lang.String backwardConnectionPipe,
+      boolean isMaster)
     {
       this();
       this.backwardConnectionPipe = backwardConnectionPipe;
+      this.isMaster = isMaster;
+      setIsMasterIsSet(true);
     }
 
     /**
      * Performs a deep copy on <i>other</i>.
      */
     public connect_args(connect_args other) {
+      __isset_bitfield = other.__isset_bitfield;
       if (other.isSetBackwardConnectionPipe()) {
         this.backwardConnectionPipe = other.backwardConnectionPipe;
       }
+      this.isMaster = other.isMaster;
     }
 
     @Override
@@ -7066,6 +7088,8 @@ public class Server {
     @Override
     public void clear() {
       this.backwardConnectionPipe = null;
+      setIsMasterIsSet(false);
+      this.isMaster = false;
     }
 
     @org.apache.thrift.annotation.Nullable
@@ -7093,6 +7117,29 @@ public class Server {
       }
     }
 
+    public boolean isIsMaster() {
+      return this.isMaster;
+    }
+
+    public connect_args setIsMaster(boolean isMaster) {
+      this.isMaster = isMaster;
+      setIsMasterIsSet(true);
+      return this;
+    }
+
+    public void unsetIsMaster() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __ISMASTER_ISSET_ID);
+    }
+
+    /** Returns true if field isMaster is set (has been assigned a value) and false otherwise */
+    public boolean isSetIsMaster() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __ISMASTER_ISSET_ID);
+    }
+
+    public void setIsMasterIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __ISMASTER_ISSET_ID, value);
+    }
+
     @Override
     public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
       switch (field) {
@@ -7101,6 +7148,14 @@ public class Server {
           unsetBackwardConnectionPipe();
         } else {
           setBackwardConnectionPipe((java.lang.String)value);
+        }
+        break;
+
+      case IS_MASTER:
+        if (value == null) {
+          unsetIsMaster();
+        } else {
+          setIsMaster((java.lang.Boolean)value);
         }
         break;
 
@@ -7113,6 +7168,9 @@ public class Server {
       switch (field) {
       case BACKWARD_CONNECTION_PIPE:
         return getBackwardConnectionPipe();
+
+      case IS_MASTER:
+        return isIsMaster();
 
       }
       throw new java.lang.IllegalStateException();
@@ -7128,6 +7186,8 @@ public class Server {
       switch (field) {
       case BACKWARD_CONNECTION_PIPE:
         return isSetBackwardConnectionPipe();
+      case IS_MASTER:
+        return isSetIsMaster();
       }
       throw new java.lang.IllegalStateException();
     }
@@ -7154,6 +7214,15 @@ public class Server {
           return false;
       }
 
+      boolean this_present_isMaster = true;
+      boolean that_present_isMaster = true;
+      if (this_present_isMaster || that_present_isMaster) {
+        if (!(this_present_isMaster && that_present_isMaster))
+          return false;
+        if (this.isMaster != that.isMaster)
+          return false;
+      }
+
       return true;
     }
 
@@ -7164,6 +7233,8 @@ public class Server {
       hashCode = hashCode * 8191 + ((isSetBackwardConnectionPipe()) ? 131071 : 524287);
       if (isSetBackwardConnectionPipe())
         hashCode = hashCode * 8191 + backwardConnectionPipe.hashCode();
+
+      hashCode = hashCode * 8191 + ((isMaster) ? 131071 : 524287);
 
       return hashCode;
     }
@@ -7182,6 +7253,16 @@ public class Server {
       }
       if (isSetBackwardConnectionPipe()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.backwardConnectionPipe, other.backwardConnectionPipe);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetIsMaster(), other.isSetIsMaster());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetIsMaster()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.isMaster, other.isMaster);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -7217,6 +7298,10 @@ public class Server {
         sb.append(this.backwardConnectionPipe);
       }
       first = false;
+      if (!first) sb.append(", ");
+      sb.append("isMaster:");
+      sb.append(this.isMaster);
+      first = false;
       sb.append(")");
       return sb.toString();
     }
@@ -7236,6 +7321,8 @@ public class Server {
 
     private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
       try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
       } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
@@ -7270,6 +7357,14 @@ public class Server {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
+            case 2: // IS_MASTER
+              if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
+                struct.isMaster = iprot.readBool();
+                struct.setIsMasterIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
             default:
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
           }
@@ -7291,6 +7386,9 @@ public class Server {
           oprot.writeString(struct.backwardConnectionPipe);
           oprot.writeFieldEnd();
         }
+        oprot.writeFieldBegin(IS_MASTER_FIELD_DESC);
+        oprot.writeBool(struct.isMaster);
+        oprot.writeFieldEnd();
         oprot.writeFieldStop();
         oprot.writeStructEnd();
       }
@@ -7313,19 +7411,29 @@ public class Server {
         if (struct.isSetBackwardConnectionPipe()) {
           optionals.set(0);
         }
-        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetIsMaster()) {
+          optionals.set(1);
+        }
+        oprot.writeBitSet(optionals, 2);
         if (struct.isSetBackwardConnectionPipe()) {
           oprot.writeString(struct.backwardConnectionPipe);
+        }
+        if (struct.isSetIsMaster()) {
+          oprot.writeBool(struct.isMaster);
         }
       }
 
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, connect_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(1);
+        java.util.BitSet incoming = iprot.readBitSet(2);
         if (incoming.get(0)) {
           struct.backwardConnectionPipe = iprot.readString();
           struct.setBackwardConnectionPipeIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.isMaster = iprot.readBool();
+          struct.setIsMasterIsSet(true);
         }
       }
     }
@@ -7715,15 +7823,18 @@ public class Server {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("connectTcp_args");
 
     private static final org.apache.thrift.protocol.TField BACKWARD_CONNECTION_PORT_FIELD_DESC = new org.apache.thrift.protocol.TField("backwardConnectionPort", org.apache.thrift.protocol.TType.I32, (short)1);
+    private static final org.apache.thrift.protocol.TField IS_MASTER_FIELD_DESC = new org.apache.thrift.protocol.TField("isMaster", org.apache.thrift.protocol.TType.BOOL, (short)2);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new connectTcp_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new connectTcp_argsTupleSchemeFactory();
 
     public int backwardConnectionPort; // required
+    public boolean isMaster; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      BACKWARD_CONNECTION_PORT((short)1, "backwardConnectionPort");
+      BACKWARD_CONNECTION_PORT((short)1, "backwardConnectionPort"),
+      IS_MASTER((short)2, "isMaster");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -7741,6 +7852,8 @@ public class Server {
         switch(fieldId) {
           case 1: // BACKWARD_CONNECTION_PORT
             return BACKWARD_CONNECTION_PORT;
+          case 2: // IS_MASTER
+            return IS_MASTER;
           default:
             return null;
         }
@@ -7785,12 +7898,15 @@ public class Server {
 
     // isset id assignments
     private static final int __BACKWARDCONNECTIONPORT_ISSET_ID = 0;
+    private static final int __ISMASTER_ISSET_ID = 1;
     private byte __isset_bitfield = 0;
     public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.BACKWARD_CONNECTION_PORT, new org.apache.thrift.meta_data.FieldMetaData("backwardConnectionPort", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.IS_MASTER, new org.apache.thrift.meta_data.FieldMetaData("isMaster", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(connectTcp_args.class, metaDataMap);
     }
@@ -7799,11 +7915,14 @@ public class Server {
     }
 
     public connectTcp_args(
-      int backwardConnectionPort)
+      int backwardConnectionPort,
+      boolean isMaster)
     {
       this();
       this.backwardConnectionPort = backwardConnectionPort;
       setBackwardConnectionPortIsSet(true);
+      this.isMaster = isMaster;
+      setIsMasterIsSet(true);
     }
 
     /**
@@ -7812,6 +7931,7 @@ public class Server {
     public connectTcp_args(connectTcp_args other) {
       __isset_bitfield = other.__isset_bitfield;
       this.backwardConnectionPort = other.backwardConnectionPort;
+      this.isMaster = other.isMaster;
     }
 
     @Override
@@ -7823,6 +7943,8 @@ public class Server {
     public void clear() {
       setBackwardConnectionPortIsSet(false);
       this.backwardConnectionPort = 0;
+      setIsMasterIsSet(false);
+      this.isMaster = false;
     }
 
     public int getBackwardConnectionPort() {
@@ -7848,6 +7970,29 @@ public class Server {
       __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __BACKWARDCONNECTIONPORT_ISSET_ID, value);
     }
 
+    public boolean isIsMaster() {
+      return this.isMaster;
+    }
+
+    public connectTcp_args setIsMaster(boolean isMaster) {
+      this.isMaster = isMaster;
+      setIsMasterIsSet(true);
+      return this;
+    }
+
+    public void unsetIsMaster() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __ISMASTER_ISSET_ID);
+    }
+
+    /** Returns true if field isMaster is set (has been assigned a value) and false otherwise */
+    public boolean isSetIsMaster() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __ISMASTER_ISSET_ID);
+    }
+
+    public void setIsMasterIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __ISMASTER_ISSET_ID, value);
+    }
+
     @Override
     public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
       switch (field) {
@@ -7856,6 +8001,14 @@ public class Server {
           unsetBackwardConnectionPort();
         } else {
           setBackwardConnectionPort((java.lang.Integer)value);
+        }
+        break;
+
+      case IS_MASTER:
+        if (value == null) {
+          unsetIsMaster();
+        } else {
+          setIsMaster((java.lang.Boolean)value);
         }
         break;
 
@@ -7868,6 +8021,9 @@ public class Server {
       switch (field) {
       case BACKWARD_CONNECTION_PORT:
         return getBackwardConnectionPort();
+
+      case IS_MASTER:
+        return isIsMaster();
 
       }
       throw new java.lang.IllegalStateException();
@@ -7883,6 +8039,8 @@ public class Server {
       switch (field) {
       case BACKWARD_CONNECTION_PORT:
         return isSetBackwardConnectionPort();
+      case IS_MASTER:
+        return isSetIsMaster();
       }
       throw new java.lang.IllegalStateException();
     }
@@ -7909,6 +8067,15 @@ public class Server {
           return false;
       }
 
+      boolean this_present_isMaster = true;
+      boolean that_present_isMaster = true;
+      if (this_present_isMaster || that_present_isMaster) {
+        if (!(this_present_isMaster && that_present_isMaster))
+          return false;
+        if (this.isMaster != that.isMaster)
+          return false;
+      }
+
       return true;
     }
 
@@ -7917,6 +8084,8 @@ public class Server {
       int hashCode = 1;
 
       hashCode = hashCode * 8191 + backwardConnectionPort;
+
+      hashCode = hashCode * 8191 + ((isMaster) ? 131071 : 524287);
 
       return hashCode;
     }
@@ -7935,6 +8104,16 @@ public class Server {
       }
       if (isSetBackwardConnectionPort()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.backwardConnectionPort, other.backwardConnectionPort);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetIsMaster(), other.isSetIsMaster());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetIsMaster()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.isMaster, other.isMaster);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -7965,6 +8144,10 @@ public class Server {
 
       sb.append("backwardConnectionPort:");
       sb.append(this.backwardConnectionPort);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("isMaster:");
+      sb.append(this.isMaster);
       first = false;
       sb.append(")");
       return sb.toString();
@@ -8021,6 +8204,14 @@ public class Server {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
+            case 2: // IS_MASTER
+              if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
+                struct.isMaster = iprot.readBool();
+                struct.setIsMasterIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
             default:
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
           }
@@ -8039,6 +8230,9 @@ public class Server {
         oprot.writeStructBegin(STRUCT_DESC);
         oprot.writeFieldBegin(BACKWARD_CONNECTION_PORT_FIELD_DESC);
         oprot.writeI32(struct.backwardConnectionPort);
+        oprot.writeFieldEnd();
+        oprot.writeFieldBegin(IS_MASTER_FIELD_DESC);
+        oprot.writeBool(struct.isMaster);
         oprot.writeFieldEnd();
         oprot.writeFieldStop();
         oprot.writeStructEnd();
@@ -8062,19 +8256,29 @@ public class Server {
         if (struct.isSetBackwardConnectionPort()) {
           optionals.set(0);
         }
-        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetIsMaster()) {
+          optionals.set(1);
+        }
+        oprot.writeBitSet(optionals, 2);
         if (struct.isSetBackwardConnectionPort()) {
           oprot.writeI32(struct.backwardConnectionPort);
+        }
+        if (struct.isSetIsMaster()) {
+          oprot.writeBool(struct.isMaster);
         }
       }
 
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, connectTcp_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(1);
+        java.util.BitSet incoming = iprot.readBitSet(2);
         if (incoming.get(0)) {
           struct.backwardConnectionPort = iprot.readI32();
           struct.setBackwardConnectionPortIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.isMaster = iprot.readBool();
+          struct.setIsMasterIsSet(true);
         }
       }
     }

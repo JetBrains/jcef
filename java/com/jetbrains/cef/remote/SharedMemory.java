@@ -26,7 +26,7 @@ public class SharedMemory {
             if (ALT_MEM_HELPER_PATH == null || ALT_MEM_HELPER_PATH.isEmpty())
                 System.loadLibrary("shared_mem_helper");
             else
-                System.load(ALT_MEM_HELPER_PATH);
+                System.load(ALT_MEM_HELPER_PATH.trim());
         } catch (UnsatisfiedLinkError e) {
             CefLog.Error("Can't load shared_mem_helper, exception: %s", e.getMessage());
         }

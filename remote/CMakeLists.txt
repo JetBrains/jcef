@@ -151,6 +151,7 @@ set(SERVER_SOURCES
         handlers/RemoteFocusHandler.h
         handlers/app/HelperApp.cpp
         handlers/app/HelperApp.h
+        ServerState.cpp
 )
 
 if (OS_WINDOWS)

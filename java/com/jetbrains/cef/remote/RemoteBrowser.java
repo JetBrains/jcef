@@ -42,7 +42,7 @@ public class RemoteBrowser implements CefBrowser {
     private volatile boolean myIsNativeBrowserCreated = false;
     private volatile boolean myIsClosing = false;
     private volatile boolean myIsClosed = false;
-    private volatile int myNativeBrowserIdentifier;
+    private volatile int myNativeBrowserIdentifier = Integer.MIN_VALUE;
 
     public RemoteBrowser(RpcExecutor service, RemoteClient owner, CefClient cefClient, String url) {
         myService = service;

@@ -369,8 +369,7 @@ public class CefApp extends CefAppHandlerAdapter {
                 // (3) Shutdown sequence. Close all clients and continue.
                 setState(CefAppState.SHUTTING_DOWN);
                 if (clients_.isEmpty()) {
-                    if (!IS_REMOTE_ENABLED)
-                        scheduleNativeShutdown();
+                    finishShutdown();
                 } else {
                     // shutdown() will be called from clientWasDisposed() when the last
                     // client is gone.
@@ -382,9 +381,6 @@ public class CefApp extends CefAppHandlerAdapter {
                         c.dispose();
                     }
                 }
-
-                if (IS_REMOTE_ENABLED)
-                    CefServer.instance().disconnectAndStop();
 
                 break;
 
@@ -467,12 +463,9 @@ public class CefApp extends CefAppHandlerAdapter {
             initializationListeners_.remove(client);
         }
         CefLog.Debug("CefApp: client was disposed: %s [clients count %d]", client, clients_.size());
-        if (IS_REMOTE_ENABLED)
-            return; // nothing to do, everything is done in setState
-
         if (clients_.isEmpty() && getState().compareTo(CefAppState.SHUTTING_DOWN) >= 0) {
             // Shutdown native system.
-            scheduleNativeShutdown();
+            finishShutdown();
         }
     }
 
@@ -519,7 +512,15 @@ public class CefApp extends CefAppHandlerAdapter {
     /**
      * Shut down the context.
      */
-    private void scheduleNativeShutdown() {
+    private void finishShutdown() {
+        if (IS_REMOTE_ENABLED) {
+            CefServer.instance().disconnect();
+            synchronized (this) {
+                setState(CefAppState.TERMINATED);
+                CefApp.self = null;
+            }
+            return;
+        }
         new Thread(() -> {
             // Empiric observation: to avoid crashes we must perform native shutdown in next manner:
             // last client closed -> small pause (to allow CEF finish some bg tasks) -> call CefShutdown

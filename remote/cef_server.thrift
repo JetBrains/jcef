@@ -20,8 +20,10 @@ namespace cpp thrift_codegen
 namespace java com.jetbrains.cef.remote.thrift_codegen
 
 service Server {
-    i32 connect(1: string backwardConnectionPipe),
-    i32 connectTcp(1: i32 backwardConnectionPort),
+    // Pass isMaster=true to mark client as 'master'.
+    // The server will stops itself after last master-client disconnected.
+    i32 connect(1: string backwardConnectionPipe, 2: bool isMaster),
+    i32 connectTcp(1: i32 backwardConnectionPort, 2: bool isMaster),
     oneway void log(1: string msg),
     string echo(1: string msg),
     string version(),

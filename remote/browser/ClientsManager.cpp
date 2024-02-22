@@ -1,5 +1,6 @@
 #include "ClientsManager.h"
-#include "../ServerHandler.h"
+#include "../ServerState.h"
+#include "../handlers/RemoteClientHandler.h"
 #include "../handlers/RemoteLifespanHandler.h"
 #include "include/base/cef_callback.h"
 #include "include/cef_task.h"
@@ -96,8 +97,8 @@ void ClientsManager::closeBrowser(const int32_t bid) {
   client->closeBrowser();
 }
 
-void ClientsManager::closeAllBrowsers() {
-  myRemoteClients->closeAll();
+std::string ClientsManager::closeAllBrowsers() {
+  return myRemoteClients->closeAll();
 }
 
 CefRefPtr<RemoteClientHandler> ClientsManager::ClientsStorage::get(int bid) {
@@ -105,31 +106,24 @@ CefRefPtr<RemoteClientHandler> ClientsManager::ClientsStorage::get(int bid) {
   return myBid2Client[bid];
 }
 
-void ClientsManager::ClientsStorage::checkShuttingDown() {
-  if (ServerHandler::isShuttingDown()) {
-    Lock lock(myMutex);
-    if (myBid2Client.empty())
-      ServerHandler::setStateShutdown();
-    else {
-      std::stringstream ss("remain browsers: ");
-      for (auto const& rc : myBid2Client) {
-        CefRefPtr<RemoteClientHandler> client = myBid2Client[rc.first];
-        if (client) ss << client->getBid() << ", ";
-      }
-      ServerHandler::setStateDesc("shutting down (" + ss.str() + ")");
-      Log::debug("Shutting down, wait closing %s", ss.str().c_str());
-    }
+std::string ClientsManager::ClientsStorage::enumClients() {
+  std::stringstream ss;
+  for (auto const& rc : myBid2Client) {
+    CefRefPtr<RemoteClientHandler> client = rc.second;
+    if (client)
+      ss << client->getBid() << ", ";
   }
+  return ss.str();
 }
 
-void ClientsManager::ClientsStorage::closeAll() {
+std::string ClientsManager::ClientsStorage::closeAll() {
   Lock lock(myMutex);
-  checkShuttingDown();
   for (auto const& rc : myBid2Client) {
-    CefRefPtr<RemoteClientHandler> client = myBid2Client[rc.first];
+    CefRefPtr<RemoteClientHandler> client = rc.second;
     if (client)
       client->closeBrowser();
   }
+  return enumClients();
 }
 
 void ClientsManager::ClientsStorage::set(int bid, CefRefPtr<RemoteClientHandler> val) {
@@ -140,7 +134,7 @@ void ClientsManager::ClientsStorage::set(int bid, CefRefPtr<RemoteClientHandler>
 void ClientsManager::ClientsStorage::erase(int bid) {
   Lock lock(myMutex);
   myBid2Client.erase(bid);
-  checkShuttingDown();
+  ServerState::instance().onClientDestroyed(enumClients());
 }
 
 int ClientsManager::ClientsStorage::findRemoteBrowser(CefRefPtr<CefBrowser> browser) {

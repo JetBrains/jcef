@@ -1,7 +1,8 @@
 package com.jetbrains.cef.remote;
 
-import com.jetbrains.cef.remote.thrift_codegen.ClientHandlers;
+import com.jetbrains.cef.remote.thrift_codegen.*;
 import org.apache.thrift.TException;
+import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.server.TServer;
 import org.apache.thrift.server.TThreadPoolServer;
 import org.apache.thrift.transport.TServerTransport;
@@ -11,11 +12,15 @@ import org.cef.handler.CefAppHandler;
 import org.cef.misc.CefLog;
 import org.cef.misc.Utils;
 
+import java.nio.ByteBuffer;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class CefServer {
+    private static final boolean CONNECT_AS_SLAVE = Utils.getBoolean("JCEF_CONNECT_AS_SLAVE");
+
     private static final CefServer INSTANCE = CefApp.isRemoteEnabled() ? new CefServer() : null;
 
     // Fields for cef-handlers execution on java side
@@ -34,14 +39,15 @@ public class CefServer {
         if (!CefApp.isRemoteEnabled())
             return false;
 
-        final long waitTimeoutNs = Utils.getInteger("WAIT_SERVER_TIMEOUT_MS", 15000)*1000000l;
-        if (!NativeServerManager.startIfNecessary(appHandler, settings, waitTimeoutNs))
-            return false;
-
-        if (!NativeServerManager.isRunning()) {
-            CefLog.Error("Native server is still down.");
-            return false;
+        if (NativeServerManager.isRunning()) {
+            CefLog.Error("Found running cef_server instance. TODO: we must check that running instance has the same <CefSettings, cmd-line switches, custom schemes> and restart cef_server with correct args if necessary.");
+        } else {
+            final long waitTimeoutMs = Utils.getInteger("WAIT_SERVER_TIMEOUT_MS", 15000);
+            final boolean success = NativeServerManager.startProcessAndWait(appHandler, settings, waitTimeoutMs);
+            if (!success)
+                return false;
         }
+
         if (!INSTANCE.connect(appHandler::onContextInitialized)) {
             CefLog.Error("Can't initialize client for native server.");
             return false;
@@ -80,7 +86,6 @@ public class CefServer {
             }
 
             // 2. Start service for backward rpc calls (from native to java)
-            ClientHandlers.Processor processor = new ClientHandlers.Processor(myClientHandlersImpl);
             try {
                 myClientHandlersTransport = ThriftTransport.createServerTransport();
             } catch (Exception e) {
@@ -92,6 +97,7 @@ public class CefServer {
                 return false;
             }
 
+            ClientHandlers.Processor processor = new ClientHandlers.Processor(myClientHandlersImpl);
             TThreadPoolServer.Args serverArgs = new TThreadPoolServer.Args(myClientHandlersTransport)
                 .processor(processor).executorService(new ThreadPoolExecutor(2, 10, 60L, TimeUnit.SECONDS, new SynchronousQueue(), new ThreadFactory() {
                     final AtomicLong count = new AtomicLong();
@@ -108,7 +114,7 @@ public class CefServer {
             myClientHandlersThread.start();
 
             // 3. Connect to CefServer
-            int cid = myRpc.connect();
+            int cid = myRpc.connect(!CONNECT_AS_SLAVE);
             CefLog.Debug("Connected to CefSever, cid=" + cid);
         } catch (Throwable e) {
             CefLog.Error("RuntimeException in CefServer.connect: %s", e.getMessage());
@@ -118,11 +124,10 @@ public class CefServer {
         return true;
     }
 
-    public void disconnectAndStop() {
-        CefLog.Debug("Disconnect from native server and stop it.");
+    public void disconnect() {
+        CefLog.Debug("Disconnect from native server (it will be automatically stopped soon because we were connected as master).");
         myIsConnected = false;
 
-        myRpc.exec(s->s.stop());
         myRpc.closeTransport();
 
         if (myClientHandlersTransport != null) {
@@ -133,5 +138,51 @@ public class CefServer {
             myClientHandlersServer.stop();
             myClientHandlersServer = null;
         }
+    }
+
+    public static TServer startTestHandlersService(CountDownLatch finished) {
+        // Start dummy service for backward rpc calls (from native to java)
+        TServerTransport transport;
+        try {
+            transport = ThriftTransport.createServerTransport();
+        } catch (Exception e) {
+            CefLog.Error("Exception when opening test-client %s : %s", ThriftTransport.isTcp() ? "tcp-socket" : "pipe", e.getMessage());
+            if (ThriftTransport.isTcp())
+                CefLog.Error("Port : %d", ThriftTransport.getJavaHandlersPort());
+            else
+                CefLog.Error("Pipe : %s", ThriftTransport.getJavaHandlersPipe());
+            return null;
+        }
+
+        ClientHandlers.Processor processor = new ClientHandlers.Processor(new ClientHandlersDummy());
+        TThreadPoolServer.Args serverArgs = new TThreadPoolServer.Args(transport)
+                .processor(processor).executorService(new ThreadPoolExecutor(2, 10, 60L, TimeUnit.SECONDS, new SynchronousQueue(), new ThreadFactory() {
+                    final AtomicLong count = new AtomicLong();
+                    public Thread newThread(Runnable r) {
+                        final String name = String.format("CefHandlers(dummy)-execution-%d", this.count.getAndIncrement());
+                        Thread thread = new Thread(r, name);
+                        return thread;
+                    }
+                }));
+        TServer result = new TThreadPoolServer(serverArgs) {
+            @Override
+            public void stop() {
+                super.stop();
+                transport.close();
+            }
+        };
+        Thread t = new Thread(()-> {
+            try {
+                result.serve();
+            } catch (Throwable e) {
+                throw e;
+            } finally {
+                if (finished != null)
+                    finished.countDown();
+            }
+        });
+        t.setName("CefHandlers(dummy)-listening");
+        t.start();
+        return result;
     }
 }

@@ -42,6 +42,14 @@ uint32_t Server_connect_args::read(::apache::thrift::protocol::TProtocol* iprot)
           xfer += iprot->skip(ftype);
         }
         break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->isMaster);
+          this->__isset.isMaster = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -63,6 +71,10 @@ uint32_t Server_connect_args::write(::apache::thrift::protocol::TProtocol* oprot
   xfer += oprot->writeString(this->backwardConnectionPipe);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("isMaster", ::apache::thrift::protocol::T_BOOL, 2);
+  xfer += oprot->writeBool(this->isMaster);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -80,6 +92,10 @@ uint32_t Server_connect_pargs::write(::apache::thrift::protocol::TProtocol* opro
 
   xfer += oprot->writeFieldBegin("backwardConnectionPipe", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString((*(this->backwardConnectionPipe)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("isMaster", ::apache::thrift::protocol::T_BOOL, 2);
+  xfer += oprot->writeBool((*(this->isMaster)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -229,6 +245,14 @@ uint32_t Server_connectTcp_args::read(::apache::thrift::protocol::TProtocol* ipr
           xfer += iprot->skip(ftype);
         }
         break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->isMaster);
+          this->__isset.isMaster = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -250,6 +274,10 @@ uint32_t Server_connectTcp_args::write(::apache::thrift::protocol::TProtocol* op
   xfer += oprot->writeI32(this->backwardConnectionPort);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("isMaster", ::apache::thrift::protocol::T_BOOL, 2);
+  xfer += oprot->writeBool(this->isMaster);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -267,6 +295,10 @@ uint32_t Server_connectTcp_pargs::write(::apache::thrift::protocol::TProtocol* o
 
   xfer += oprot->writeFieldBegin("backwardConnectionPort", ::apache::thrift::protocol::T_I32, 1);
   xfer += oprot->writeI32((*(this->backwardConnectionPort)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("isMaster", ::apache::thrift::protocol::T_BOOL, 2);
+  xfer += oprot->writeBool((*(this->isMaster)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -7072,19 +7104,20 @@ uint32_t Server_QueryCallback_Failure_pargs::write(::apache::thrift::protocol::T
   return xfer;
 }
 
-int32_t ServerClient::connect(const std::string& backwardConnectionPipe)
+int32_t ServerClient::connect(const std::string& backwardConnectionPipe, const bool isMaster)
 {
-  send_connect(backwardConnectionPipe);
+  send_connect(backwardConnectionPipe, isMaster);
   return recv_connect();
 }
 
-void ServerClient::send_connect(const std::string& backwardConnectionPipe)
+void ServerClient::send_connect(const std::string& backwardConnectionPipe, const bool isMaster)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("connect", ::apache::thrift::protocol::T_CALL, cseqid);
 
   Server_connect_pargs args;
   args.backwardConnectionPipe = &backwardConnectionPipe;
+  args.isMaster = &isMaster;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -7130,19 +7163,20 @@ int32_t ServerClient::recv_connect()
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "connect failed: unknown result");
 }
 
-int32_t ServerClient::connectTcp(const int32_t backwardConnectionPort)
+int32_t ServerClient::connectTcp(const int32_t backwardConnectionPort, const bool isMaster)
 {
-  send_connectTcp(backwardConnectionPort);
+  send_connectTcp(backwardConnectionPort, isMaster);
   return recv_connectTcp();
 }
 
-void ServerClient::send_connectTcp(const int32_t backwardConnectionPort)
+void ServerClient::send_connectTcp(const int32_t backwardConnectionPort, const bool isMaster)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("connectTcp", ::apache::thrift::protocol::T_CALL, cseqid);
 
   Server_connectTcp_pargs args;
   args.backwardConnectionPort = &backwardConnectionPort;
+  args.isMaster = &isMaster;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -9005,7 +9039,7 @@ void ServerProcessor::process_connect(int32_t seqid, ::apache::thrift::protocol:
 
   Server_connect_result result;
   try {
-    result.success = iface_->connect(args.backwardConnectionPipe);
+    result.success = iface_->connect(args.backwardConnectionPipe, args.isMaster);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != nullptr) {
@@ -9059,7 +9093,7 @@ void ServerProcessor::process_connectTcp(int32_t seqid, ::apache::thrift::protoc
 
   Server_connectTcp_result result;
   try {
-    result.success = iface_->connectTcp(args.backwardConnectionPort);
+    result.success = iface_->connectTcp(args.backwardConnectionPort, args.isMaster);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != nullptr) {
@@ -11157,13 +11191,13 @@ void ServerProcessor::process_QueryCallback_Failure(int32_t, ::apache::thrift::p
   return processor;
 }
 
-int32_t ServerConcurrentClient::connect(const std::string& backwardConnectionPipe)
+int32_t ServerConcurrentClient::connect(const std::string& backwardConnectionPipe, const bool isMaster)
 {
-  int32_t seqid = send_connect(backwardConnectionPipe);
+  int32_t seqid = send_connect(backwardConnectionPipe, isMaster);
   return recv_connect(seqid);
 }
 
-int32_t ServerConcurrentClient::send_connect(const std::string& backwardConnectionPipe)
+int32_t ServerConcurrentClient::send_connect(const std::string& backwardConnectionPipe, const bool isMaster)
 {
   int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
@@ -11171,6 +11205,7 @@ int32_t ServerConcurrentClient::send_connect(const std::string& backwardConnecti
 
   Server_connect_pargs args;
   args.backwardConnectionPipe = &backwardConnectionPipe;
+  args.isMaster = &isMaster;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -11241,13 +11276,13 @@ int32_t ServerConcurrentClient::recv_connect(const int32_t seqid)
   } // end while(true)
 }
 
-int32_t ServerConcurrentClient::connectTcp(const int32_t backwardConnectionPort)
+int32_t ServerConcurrentClient::connectTcp(const int32_t backwardConnectionPort, const bool isMaster)
 {
-  int32_t seqid = send_connectTcp(backwardConnectionPort);
+  int32_t seqid = send_connectTcp(backwardConnectionPort, isMaster);
   return recv_connectTcp(seqid);
 }
 
-int32_t ServerConcurrentClient::send_connectTcp(const int32_t backwardConnectionPort)
+int32_t ServerConcurrentClient::send_connectTcp(const int32_t backwardConnectionPort, const bool isMaster)
 {
   int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
@@ -11255,6 +11290,7 @@ int32_t ServerConcurrentClient::send_connectTcp(const int32_t backwardConnection
 
   Server_connectTcp_pargs args;
   args.backwardConnectionPort = &backwardConnectionPort;
+  args.isMaster = &isMaster;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
