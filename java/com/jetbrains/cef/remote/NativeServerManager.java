@@ -1,6 +1,7 @@
 package com.jetbrains.cef.remote;
 
 import org.apache.thrift.transport.TServerSocket;
+import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransportException;
 import org.cef.CefSettings;
 import org.cef.OS;
@@ -104,57 +105,109 @@ public class NativeServerManager {
         return startNativeServer(f.getAbsolutePath(), timeoutNs);
     }
 
+    public static boolean isProcessAlive() {
+        Process p = ourNativeServerProcess;
+        return p != null && p.isAlive();
+    }
+
+    private static boolean isConnectable(boolean withDebug) {
+        try {
+            if (ThriftTransport.isTcp()) {
+                try {
+                    TSocket socket = new TSocket("localhost", ThriftTransport.PORT_CEF_SERVER);
+                    socket.open();
+                    socket.close();
+                    if (withDebug)
+                        CefLog.Debug("isConnectable: tcp-port %d, opened and connected.", ThriftTransport.PORT_CEF_SERVER);
+                    return true;
+                } catch (TTransportException e) {
+                    if (withDebug)
+                        CefLog.Debug("isConnectable: tcp-port %d, TTransportException occurred: %s", ThriftTransport.PORT_CEF_SERVER, e.getMessage());
+                }
+                return false;
+            }
+            try {
+                if (OS.isWindows()) {
+                    WindowsPipeSocket pipe = new WindowsPipeSocket(ThriftTransport.getServerPipe());
+                    pipe.close();
+                    if (withDebug)
+                        CefLog.Debug("isConnectable: win-pipe '%s', opened and connected.", ThriftTransport.getServerPipe());
+                    return true;
+                }
+                UnixDomainSocketAddress socketAddress = UnixDomainSocketAddress.of(ThriftTransport.getServerPipe());
+                SocketChannel channel = SocketChannel.open(StandardProtocolFamily.UNIX);
+                channel.connect(socketAddress);
+                channel.close();
+                if (withDebug)
+                    CefLog.Debug("isConnectable: pipe '%s', opened and connected.", ThriftTransport.getServerPipe());
+                return true;
+            } catch (IOException e) {
+                if (withDebug)
+                    CefLog.Debug("isConnectable: pipe '%s', IOException occurred: %s", ThriftTransport.getServerPipe(), e.getMessage());
+            }
+        } catch (Throwable e) {
+            CefLog.Error("isConnectable: exception %s", e.getMessage());
+        }
+        return false;
+    }
+
+    private static boolean isServerSocketBusy(boolean withDebug) {
+        try {
+            if (ThriftTransport.isTcp()) {
+                TServerSocket serverSocket = null;
+                try {
+                    serverSocket = new TServerSocket(ThriftTransport.PORT_CEF_SERVER);
+                } catch (TTransportException e) {
+                    if (withDebug)
+                        CefLog.Debug("isServerTransportBusy: tcp-port %d, TTransportException occurred: %s", ThriftTransport.PORT_CEF_SERVER, e.getMessage());
+                    return true;
+                }
+                if (withDebug)
+                    CefLog.Debug("isServerTransportBusy: tcp-port %d, opened and connected.", ThriftTransport.PORT_CEF_SERVER);
+                serverSocket.close();
+            }
+        } catch (Throwable e) {
+            CefLog.Error("isServerSocketBusy: exception %s", e.getMessage());
+        }
+        return false;
+    }
+
     public static boolean isRunning() {
         return isRunning(false);
     }
 
     public static boolean isRunning(boolean withDebug) {
         try {
-            if (ThriftTransport.USE_TCP) {
-                TServerSocket serverSocket = null;
-                try {
-                    serverSocket = new TServerSocket(ThriftTransport.PORT_CEF_SERVER);
-                } catch (TTransportException e) {
-                    if (withDebug)
-                        CefLog.Debug("isRunning: tcp-port %d, TTransportException occurred: %s", ThriftTransport.PORT_CEF_SERVER, e.getMessage());
-                    // Socket is busy => server is running
-                    return true;
-                }
-                serverSocket.close();
-                return false;
+            if (ThriftTransport.isTcp()) {
+                // At first, we check whether the server socket is busy.
+                if (!isServerSocketBusy(withDebug))
+                    return false;
+                // Well, socket is busy and server seems to be running. Let's try to connect to it.
             }
 
-            UnixDomainSocketAddress socketAddress = UnixDomainSocketAddress.of(ThriftTransport.getServerPipe());
+            if (!isConnectable(withDebug))
+                return false;
+
+            // Successfully connected to server transport => server seems to be running. Let's connect and check an echo.
+            RpcExecutor test;
             try {
-                SocketChannel channel = SocketChannel.open(StandardProtocolFamily.UNIX);
-                channel.connect(socketAddress);
-                channel.close();
-                // Successfully connected to server pipe => server is running
-                return true;
-            } catch (IOException e) {
+                test = new RpcExecutor().openTransport();
+            } catch (TTransportException e) {
                 if (withDebug)
-                    CefLog.Debug("isRunning: pipe '%s', IOException occurred: %s", e.getMessage(), ThriftTransport.getServerPipe());
+                    CefLog.Debug("isRunning: TTransportException occurred when open server transport: %s", e.getMessage());
                 return false;
             }
-        } catch (Throwable e) {
-            CefLog.Error("isRunning: exception %s", e.getMessage());
-        }
-        return false;
-    }
-
-    public static boolean isRunningOld(boolean withDebug) {
-        try {
-            RpcExecutor test = new RpcExecutor().openTransport();
             String testMsg = "test_message786";
             String echoMsg = test.execObj(s -> s.echo(testMsg));
             test.closeTransport();
             final boolean result = echoMsg != null && echoMsg.equals(testMsg);
             if (!result)
-                CefLog.Debug("cef_server is running, but echo is incorrect: '%s' (original '%s')", echoMsg, testMsg);
+                CefLog.Error("isRunning: cef_server seems to be running, but echo is incorrect: '%s' (original '%s')", echoMsg, testMsg);
+            else if (withDebug)
+                CefLog.Debug("isRunning: cef_server is running and echo is correct.");
             return result;
-        } catch (TTransportException e) {
-            if (withDebug)
-                CefLog.Debug("isRunning: TTransportException occurred: %s", e.getMessage());
+        } catch (Throwable e) {
+            CefLog.Error("isRunning: exception %s", e.getMessage());
         }
         return false;
     }
@@ -162,7 +215,6 @@ public class NativeServerManager {
     public static void stopRunning() {
         try {
             RpcExecutor test = new RpcExecutor().openTransport();
-            test.openTransport();
             test.exec(s -> s.stop());
             test.closeTransport();
         } catch (TTransportException e) {
@@ -170,7 +222,7 @@ public class NativeServerManager {
         }
     }
 
-    private static String getServerState() {
+    public static String getServerState() {
         try {
             RpcExecutor test = new RpcExecutor().openTransport();
             String state = test.execObj(s -> s.state());
@@ -183,25 +235,21 @@ public class NativeServerManager {
 
     // returns true when server was stopped successfully
     public static boolean stopAndWait(long timeoutNs) {
-        if (!isRunning()) {
-            ourNativeServerProcess = null;
-            return true;
-        }
-
         CefLog.Debug("Stop running cef_server instance.");
         stopRunning();
         // Wait for stopping
         final long startNs = System.nanoTime();
-        boolean success = false;
+        boolean stopped = false;
         do {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {}
             CefLog.Debug("Waiting for server stopping... State: %s", getServerState());
-            success = !isRunning();
-        } while (!success && (System.nanoTime() - startNs < timeoutNs));
-        if (!success) {
-            CefLog.Error("Can't stop server in %d ms.", (System.nanoTime() - startNs)/1000000);
+            stopped = !isRunning();
+        } while (!stopped && (System.nanoTime() - startNs < timeoutNs));
+        if (!stopped) {
+            CefLog.Error("Can't stop server in %d ms (process is %s)",
+                    (System.nanoTime() - startNs) / 1000000, isProcessAlive() ? "alive" : "dead");
             return false;
         }
         ourNativeServerProcess = null;
@@ -237,8 +285,9 @@ public class NativeServerManager {
         }
 
         ProcessBuilder builder = new ProcessBuilder(serverExe.getAbsolutePath());
+        CefLog.Debug("\tWorking dir %s", serverExe.getParentFile());
         builder.directory(serverExe.getParentFile());
-        if (ThriftTransport.USE_TCP) {
+        if (ThriftTransport.isTcp()) {
             CefLog.Debug("\tUse tcp-port %d", ThriftTransport.PORT_CEF_SERVER);
             builder.command().add(String.format("--port=%d", ThriftTransport.PORT_CEF_SERVER));
         } else {
@@ -273,7 +322,7 @@ public class NativeServerManager {
             success = isRunning();
         } while (!success && (System.nanoTime() - startNs < timeoutNs));
 
-        if (!isRunning(true)) {
+        if (!success && !(success = isRunning(true))) {
             if (ourNativeServerProcess.isAlive())
                 CefLog.Error("Native cef_server was started but client can't connect.");
             else {

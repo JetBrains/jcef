@@ -14,8 +14,7 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.nio.file.Path;
 
-class ThriftTransport {
-    protected static final boolean USE_TCP = Utils.getBoolean("CEF_SERVER_USE_TCP");
+public class ThriftTransport {
     protected static final int PORT_CEF_SERVER = Utils.getInteger("ALT_CEF_SERVER_PORT", 9090);
     protected static final int PORT_JAVA_HANDLERS = Utils.getInteger("ALT_JAVA_HANDLERS_PORT", 9091);
     private static final String PIPENAME_JAVA_HANDLERS = Utils.getString("ALT_JAVA_HANDLERS_PIPE", "client_pipe");
@@ -33,8 +32,10 @@ class ThriftTransport {
         return Path.of(System.getProperty("java.io.tmpdir")).resolve(PIPENAME_CEF_SERVER).toString();
     }
 
-    static TServerTransport createServerTransport() throws Exception {
-        if (ThriftTransport.USE_TCP)
+    static boolean isTcp() { return Utils.getBoolean("CEF_SERVER_USE_TCP"); }
+
+    public static TServerTransport createServerTransport() throws Exception {
+        if (isTcp())
             return new TServerSocket(PORT_JAVA_HANDLERS);
 
         if (OS.isWindows()) {

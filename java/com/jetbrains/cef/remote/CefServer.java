@@ -75,7 +75,7 @@ public class CefServer {
                 CefLog.Debug("Initialize CefServer, open server transport.");
                 myRpc.openTransport();
             } catch (TException x) {
-                CefLog.Error("TException when opening server %s : %s", ThriftTransport.USE_TCP ? "tcp-socket" : "pipe", x.getMessage());
+                CefLog.Error("TException when opening server %s : %s", ThriftTransport.isTcp() ? "tcp-socket" : "pipe", x.getMessage());
                 return false;
             }
 
@@ -84,8 +84,8 @@ public class CefServer {
             try {
                 myClientHandlersTransport = ThriftTransport.createServerTransport();
             } catch (Exception e) {
-                CefLog.Error("Exception when opening client %s : %s", ThriftTransport.USE_TCP ? "tcp-socket" : "pipe", e.getMessage());
-                if (ThriftTransport.USE_TCP)
+                CefLog.Error("Exception when opening client %s : %s", ThriftTransport.isTcp() ? "tcp-socket" : "pipe", e.getMessage());
+                if (ThriftTransport.isTcp())
                     CefLog.Error("Port : %d", ThriftTransport.PORT_JAVA_HANDLERS);
                 else
                     CefLog.Error("Pipe : %s", ThriftTransport.getJavaHandlersPipe());
@@ -108,15 +108,8 @@ public class CefServer {
             myClientHandlersThread.start();
 
             // 3. Connect to CefServer
-            int[] cid = new int[]{-1};
-            myRpc.exec((s)->{
-                if (ThriftTransport.USE_TCP)
-                    cid[0] = s.connectTcp(ThriftTransport.PORT_JAVA_HANDLERS);
-                else
-                    cid[0] = s.connect(ThriftTransport.getJavaHandlersPipe());
-            });
-
-            CefLog.Debug("Connected to CefSever, cid=" + cid[0]);
+            int cid = myRpc.connect();
+            CefLog.Debug("Connected to CefSever, cid=" + cid);
         } catch (Throwable e) {
             CefLog.Error("RuntimeException in CefServer.connect: %s", e.getMessage());
             return false;
@@ -125,7 +118,7 @@ public class CefServer {
         return true;
     }
 
-    public void disconnect() {
+    public void disconnectAndStop() {
         CefLog.Debug("Disconnect from native server and stop it.");
         myIsConnected = false;
 

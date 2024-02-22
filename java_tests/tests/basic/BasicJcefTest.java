@@ -1,16 +1,23 @@
 package tests.basic;
 
+import com.jetbrains.cef.JCefAppConfig;
 import com.jetbrains.cef.remote.NativeServerManager;
+import com.jetbrains.cef.remote.WindowsPipeServerSocket;
+import com.jetbrains.cef.remote.WindowsPipeSocket;
 import org.cef.CefApp;
 import org.cef.CefClient;
 import org.cef.CefSettings;
 import org.cef.OS;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefFrame;
+import org.cef.handler.CefAppHandlerAdapter;
 import org.cef.misc.CefLog;
 import org.cef.misc.Utils;
 import org.cef.network.CefRequest;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import tests.OsrSupport;
 import tests.junittests.LoggingLifeSpanHandler;
 import tests.junittests.LoggingLoadHandler;
@@ -19,36 +26,114 @@ import tests.junittests.TestSetupExtension;
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
+import java.net.Socket;
 import java.net.StandardProtocolFamily;
 import java.net.UnixDomainSocketAddress;
 import java.nio.channels.Channels;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
-import java.nio.file.Path;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class BasicJcefTest {
     private static final boolean SKIP_BASIC_CHECK = Utils.getBoolean("JCEF_TESTS_SKIP_BASIC_CHECK");
     private static final boolean BASIC_CHECK_WITHOUT_UI = Utils.getBoolean("JCEF_TESTS_BASIC_CHECK_WITHOUT_UI");
+    private static final long WAIT_TIMEOUT_NS = Utils.getInteger("WAIT_SERVER_TIMEOUT_MS", 25000)*1000000l; // 25 sec
+    private static final String TCP_KEY = "CEF_SERVER_USE_TCP";
+
+    static {
+        CefLog.init(Utils.getString("JCEF_TESTS_LOG_FILE"), CefSettings.LogSeverity.LOGSEVERITY_VERBOSE);
+    }
 
     @Test
-    void test() {
+    @Order(1)
+    void testServerManagerPipe() {
+        if (SKIP_BASIC_CHECK || !CefApp.isRemoteEnabled())
+            return;
+
+        final String isTcpPrev = System.getProperty(TCP_KEY);
+        System.setProperty(TCP_KEY, "false");
+        try {
+            CefLog.Info("Test NativeServerManager with PIPE transport (timeout=%d ms).", WAIT_TIMEOUT_NS / 1000000);
+            testServerManagerImpl(WAIT_TIMEOUT_NS);
+        } finally {
+            if (isTcpPrev != null && !isTcpPrev.isEmpty())
+                System.setProperty(TCP_KEY, isTcpPrev);
+            else
+                System.clearProperty(TCP_KEY);
+        }
+    }
+
+    @Test
+    @Order(2)
+    void testServerManagerTcp() {
+        if (SKIP_BASIC_CHECK || !CefApp.isRemoteEnabled())
+            return;
+
+        final String isTcpPrev = System.getProperty(TCP_KEY);
+        System.setProperty(TCP_KEY, "true");
+        try {
+            CefLog.Info("Test NativeServerManager with TCP transport (timeout=%d ms).", WAIT_TIMEOUT_NS / 1000000);
+            testServerManagerImpl(WAIT_TIMEOUT_NS);
+        } finally {
+            if (isTcpPrev != null && !isTcpPrev.isEmpty())
+                System.setProperty(TCP_KEY, isTcpPrev);
+            else
+                System.clearProperty(TCP_KEY);
+        }
+    }
+
+    void testServerManagerImpl(long waitTimeoutNs) {
+        if (NativeServerManager.isRunning()) {
+            CefLog.Info("Old cef_server instance is running, will stop.");
+            boolean success = NativeServerManager.stopAndWait(waitTimeoutNs);
+            if (!success)
+                throw new AssertionError("Can't stop old server instance.");
+        }
+
+        CefLog.Info("Start new instance of cef_server");
+        JCefAppConfig config = JCefAppConfig.getInstance();
+        List<String> appArgs = config.getAppArgsAsList();
+        if (OS.isLinux())
+            appArgs.add("--password-store=basic");
+        CefSettings settings = config.getCefSettings();
+        settings.windowless_rendering_enabled = true;
+        settings.log_severity = CefSettings.LogSeverity.LOGSEVERITY_VERBOSE;
+        settings.no_sandbox = true;
+        boolean started = NativeServerManager.startIfNecessary(new CefAppHandlerAdapter(appArgs.toArray(new String[0])){}, settings, waitTimeoutNs);
+        if (!started)
+            throw new AssertionError("Can't start server.");
+        if (!NativeServerManager.isProcessAlive())
+            throw new AssertionError("Server process is dead.");
+        if (!NativeServerManager.isRunning(true))
+            throw new AssertionError("Server isn't running.");
+
+        CefLog.Info("Server is running, try to stop it now.");
+        final boolean stopped = NativeServerManager.stopAndWait(waitTimeoutNs);
+        if (!stopped) {
+            CefLog.Debug("Can't stop server, additional debug:");
+            if (NativeServerManager.isProcessAlive())
+                CefLog.Debug("\t server process is alive.");
+            CefLog.Debug("\t isRunning returns %s.", String.valueOf(NativeServerManager.isRunning(true)));
+            throw new AssertionError("Can't stop server.");
+        }
+        if (NativeServerManager.isProcessAlive())
+            throw new AssertionError("Server process is alive.");
+        if (NativeServerManager.isRunning(true))
+            throw new AssertionError("Server is still running.");
+
+        CefLog.Info("Server was successfully stopped.");
+    }
+
+    @Test
+    @Order(3)
+    void testBrowserCreation() {
         if (SKIP_BASIC_CHECK)
             return;
 
         final long start = System.currentTimeMillis();
-        if (CefApp.isRemoteEnabled()) {
-            CefLog.init(Utils.getString("JCEF_TESTS_LOG_FILE"), CefSettings.LogSeverity.LOGSEVERITY_VERBOSE);
-            final long waitTimeoutNs = Utils.getInteger("WAIT_SERVER_TIMEOUT_MS", 25000)*1000000l; // 25 sec
-            CefLog.Info("Test NativeServerManager (timeout=%d ms).", waitTimeoutNs/1000000);
-            if (NativeServerManager.isRunning()) {
-                CefLog.Debug("Old cef_server instance is running, will stop.");
-                boolean success = NativeServerManager.stopAndWait(waitTimeoutNs);
-                if (!success)
-                    throw new RuntimeException("Can't stop old server instance.");
-            }
-        }
         TestSetupExtension.initializeCef();
 
         //
@@ -127,7 +212,7 @@ public class BasicJcefTest {
         } else {
             browser = client.createBrowser("about:blank", false, false);
         }
-        CefLog.Info("Created test browser with bid=" + browser.getIdentifier());
+        CefLog.Info("Created test browser with [native] id=" + browser.getIdentifier());
 
         //
         // 3. init UI
@@ -151,7 +236,7 @@ public class BasicJcefTest {
         _wait(onAfterCreated_, 5, "Native CefBrowser wasn't created");
         CefLog.Info("Native browser creation spent %d ms", onAfterCreatedTime[0] - time1);
         try {
-            _wait(onLoadStart_, 5, "onLoadStart wasn't called, bid="+browser.getIdentifier());
+            _wait(onLoadStart_, 5, "onLoadStart wasn't called, [native] id="+browser.getIdentifier());
         } catch (RuntimeException e) {
             if (onLoadErr_.getCount() <= 0) {
                 // empiric observation: onLoadStart can be skipped when onLoadError occured.
@@ -174,6 +259,21 @@ public class BasicJcefTest {
         // dispose CefApp
         TestSetupExtension.shutdonwCef();
 
+        if (CefApp.isRemoteEnabled()) {
+            // Ensure that server process is stopped
+            final long startNs = System.nanoTime();
+            boolean stopped;
+            do {
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {}
+                CefLog.Debug("Waiting for server stopping... State: %s", NativeServerManager.getServerState());
+                stopped = !NativeServerManager.isRunning();
+            } while (!stopped && (System.nanoTime() - startNs < WAIT_TIMEOUT_NS));
+            if (!stopped)
+                CefLog.Error("Can't stop server in %d ms.", (System.nanoTime() - startNs)/1000000);
+        }
+
         CefLog.Info("Basic checks spent %d ms", System.currentTimeMillis() - time0);
     }
 
@@ -189,14 +289,84 @@ public class BasicJcefTest {
     }
 
     private static void testPipe() {
-        if (OS.isWindows())
-            return;
-
-        final Path pipeName = Path.of(System.getProperty("java.io.tmpdir")).resolve("test_pipe");
         final String testMsg = "TestPipe message 77";
         final String clientPrefix = "CLIENT23_";
 
-        new File(pipeName.toString()).delete(); // cleanup file remaining from prev process
+        if (OS.isWindows()) {
+            final String pipeName = "test_pipe";
+            Thread threadServ = new Thread(()-> {
+                try {
+                    CefLog.Debug("Create server transport.");
+                    WindowsPipeServerSocket pipeSocket = new WindowsPipeServerSocket(pipeName);
+                    Socket client = pipeSocket.accept();
+                    InputStream is = client.getInputStream();
+                    OutputStream os = client.getOutputStream();
+                    PrintStream ps = new PrintStream(os);
+                    CefLog.Debug("Send message to client.");
+                    ps.println(testMsg);
+                    ps.flush();
+
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+                    CefLog.Debug("Read response...");
+                    String line = reader.readLine();
+                    if (line != null && line.startsWith(clientPrefix) && line.endsWith(testMsg))
+                        CefLog.Info("testPipe finished successfully: read expected line '%s'", line);
+                    else
+                        CefLog.Error("testPipe: read unexpected line '%s'", line);
+                } catch (IOException e) {
+                    CefLog.Error(e.getMessage());
+                    e.printStackTrace();
+                    throw new RuntimeException(e);
+                }
+            }, "Serv");
+            threadServ.start();
+
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+            Thread threadClient = new Thread(()-> {
+                BufferedReader reader;
+                PrintStream ps;
+                try {
+                    CefLog.Debug("Create client transport.");
+                    WindowsPipeSocket pipe = new WindowsPipeSocket(pipeName);
+                    InputStream is = pipe.getInputStream();
+                    OutputStream os = pipe.getOutputStream();
+
+                    reader = new BufferedReader(new InputStreamReader(is));
+                    ps = new PrintStream(os);
+                } catch (IOException e) {
+                    CefLog.Error(e.getMessage());
+                    throw new RuntimeException(e);
+                }
+
+                String line;
+                try {
+                    CefLog.Debug("Read message from server...");
+                    line = reader.readLine();
+                } catch (IOException e) {
+                    CefLog.Error(e.getMessage());
+                    throw new RuntimeException(e);
+                }
+
+                CefLog.Debug("Send response to server.");
+                ps.println(clientPrefix + line);
+                ps.flush();
+            }, "Client");
+            threadClient.start();
+            try {
+                threadServ.join();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            return;
+        }
+
+        String pipeName = "test_pipe";
+        new File(pipeName).delete(); // cleanup file remaining from prev process
         ServerSocketChannel serverChannel;
         try {
             serverChannel = ServerSocketChannel.open(StandardProtocolFamily.UNIX);
@@ -274,6 +444,5 @@ public class BasicJcefTest {
     }
 
     public static void main(String[] args) {
-        new BasicJcefTest().test();
     }
 }

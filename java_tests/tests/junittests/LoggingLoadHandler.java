@@ -16,18 +16,18 @@ public class LoggingLoadHandler implements CefLoadHandler {
 
     @Override
     public void onLoadingStateChange(CefBrowser browser, boolean isLoading, boolean canGoBack, boolean canGoForward) {
-        CefLog.Log(myLevel, "onLoadingStateChange, isLoading=" + isLoading + ", bid=" + browser.getIdentifier());
+        CefLog.Log(myLevel, "onLoadingStateChange, isLoading=" + isLoading + ", [native] id=" + browser.getIdentifier());
     }
     @Override
     public void onLoadStart(CefBrowser browser, CefFrame cefFrame, CefRequest.TransitionType transitionType) {
-        CefLog.Log(myLevel, "onLoadStart, bid=" + browser.getIdentifier());
+        CefLog.Log(myLevel, "onLoadStart, [native] id=" + browser.getIdentifier());
     }
     @Override
     public void onLoadEnd(CefBrowser browser, CefFrame cefFrame, int httpStatusCode) {
-        CefLog.Log(myLevel, "onLoadEnd, bid=" + browser.getIdentifier() + ", statusCode=" + httpStatusCode);
+        CefLog.Log(myLevel, "onLoadEnd, [native] id=" + browser.getIdentifier() + ", statusCode=" + httpStatusCode);
     }
     @Override
     public void onLoadError(CefBrowser browser, CefFrame cefFrame, ErrorCode errorCode, String errorText, String failedUrl) {
-        CefLog.Log(myLevel, "onLoadError, bid=" + browser.getIdentifier() + ", errorText='" + errorText + "', url=" + failedUrl);
+        CefLog.Log(myLevel, "onLoadError, [native] id=" + browser.getIdentifier() + ", errorText='" + errorText + "', url=" + failedUrl);
     }
 }

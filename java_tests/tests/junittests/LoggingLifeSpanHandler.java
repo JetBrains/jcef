@@ -13,15 +13,15 @@ public class LoggingLifeSpanHandler extends CefLifeSpanHandlerAdapter {
     }
     @Override
     public void onAfterCreated(CefBrowser browser) {
-        CefLog.Log(myLevel, "onAfterCreated, bid=" + browser.getIdentifier());
+        CefLog.Log(myLevel, "onAfterCreated, [native] id=" + browser.getIdentifier());
     }
     @Override
     public boolean doClose(CefBrowser browser) {
-        CefLog.Log(myLevel, "doClose, bid=" + browser.getIdentifier());
+        CefLog.Log(myLevel, "doClose, [native] id=" + browser.getIdentifier());
         return false;
     }
     @Override
     public void onBeforeClose(CefBrowser browser) {
-        CefLog.Log(myLevel, "onBeforeClose, bid=" + browser.getIdentifier());
+        CefLog.Log(myLevel, "onBeforeClose, [native] id=" + browser.getIdentifier());
     }
 }

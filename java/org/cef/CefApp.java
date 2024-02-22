@@ -384,7 +384,7 @@ public class CefApp extends CefAppHandlerAdapter {
                 }
 
                 if (IS_REMOTE_ENABLED)
-                    CefServer.instance().disconnect();
+                    CefServer.instance().disconnectAndStop();
 
                 break;
 
