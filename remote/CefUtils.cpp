@@ -117,7 +117,8 @@ namespace CefUtils {
         Log::debug("Shutdown finished.");
     }
 
-    bool initializeCef(std::string paramsFilePath) {
+    bool initializeCef(const CommandLineArgs & cmdArgs) {
+      std::string paramsFilePath = cmdArgs.getParamsFile();
       bool collectCmdSwitches = false;
       bool collectSettings = false;
       bool collectSchemes = false;
@@ -178,8 +179,19 @@ namespace CefUtils {
       settings.windowless_rendering_enabled = true;
       settings.multi_threaded_message_loop = false;
       settings.external_message_pump = false;
-      settings.log_severity = LOGSEVERITY_INFO; // TODO: remove hardcoded
-      settings.no_sandbox = true; // TODO: support sandbox
+      settings.no_sandbox = true; // TODO: support sandbox later.
+
+      if (cmdArgs.getLogLevel() >= 0) {
+        if (!Log::isEqual(cmdArgs.getLogLevel(), settings.log_severity))
+          Log::trace("Setting 'log_severity' ('%d') will be replaced with log level from command line '%d'", cmdArgs.getLogLevel());
+        settings.log_severity = Log::toCefLogLevel(cmdArgs.getLogLevel());
+      }
+
+      if (!cmdArgs.getLogFile().empty()) {
+        const std::string logFromSettings = CefString(&settings.log_file).ToString();
+        if (cmdArgs.getLogFile() != logFromSettings)
+          Log::trace("Setting 'log_file' ('%s') will be replaced with value from command line '%s'", logFromSettings.c_str(), cmdArgs.getLogFile().c_str());
+      }
 
 #if defined(OS_MAC)
       const Clock::time_point startTime = Clock::now();
@@ -197,7 +209,7 @@ namespace CefUtils {
 
     bool initializeCef(
         std::vector<std::string> switches,
-        CefSettings settings,
+        CefSettings& settings,
         std::vector<std::pair<std::string, int>> schemes
     ) {
         CefMainArgs main_args;
@@ -251,11 +263,20 @@ namespace CefUtils {
     } else if (name.find("locale") != name.npos) {
         CefString(&out.locale) = val;
     } else if (name.find("log_file") != name.npos) {
-        // TODO: should we take into account log_level?
-        Log::trace("Setting 'log_file' and 'log_level' will be ignored, log_file='%s'", val.c_str());
+        CefString(&out.log_file) = val;
     } else if (name.find("log_severity") != name.npos) {
-        // TODO: should we take into account log_level?
-        Log::trace("Setting 'log_file' and 'log_level' will be ignored, log_file='%s'", val.c_str());
+      if (val.find("verb") != val.npos)
+        out.log_severity = LOGSEVERITY_VERBOSE;
+      else if (val.find("debug") != val.npos)
+        out.log_severity = LOGSEVERITY_DEBUG;
+      else if (val.find("info") != val.npos)
+        out.log_severity = LOGSEVERITY_INFO;
+      else if (val.find("warn") != val.npos)
+        out.log_severity = LOGSEVERITY_WARNING;
+      else if (val.find("err") != val.npos)
+        out.log_severity = LOGSEVERITY_ERROR;
+      else
+        out.log_severity = LOGSEVERITY_DEFAULT;
     } else if (name.find("javascript_flags") != name.npos) {
         CefString(&out.javascript_flags) = val;
     } else if (name.find("resources_dir_path") != name.npos) {

@@ -26,22 +26,25 @@ void setThreadName(std::string name) {
 }
 
 void Log::init(int level, std::string logfile) {
+  if (level < 0) level = 0; // max verbose
+  if (level > LEVEL_DISABLED) level = LEVEL_DISABLED;
+
+  fprintf(stdout, "Initialize logger: level=%d file='%s'", level, logfile.c_str());
   if (!logfile.empty()) {
     FILE* flog = fopen(logfile.c_str(), "a");
     if (flog != nullptr) {
-      fprintf(stdout, "Log will be written in file '%s'\n", logfile.c_str());
-      init(level, flog);
+      initImpl(level, flog);
     } else {
       fprintf(stderr,
               "Can't open log file '%s', will be used default (stderr)\n",
               logfile.c_str());
-      init(level);
+      initImpl(level);
     }
   } else
-    init(level);
+    initImpl(level);
 }
 
-void Log::init(int level, FILE* logFile) {
+void Log::initImpl(int level, FILE* logFile) {
   ourLogLevel = level;
   if (logFile != nullptr) {
     ourDoFlush = true;

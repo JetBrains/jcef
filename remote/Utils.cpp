@@ -71,6 +71,8 @@ CommandLineArgs::CommandLineArgs(int argc, char* argv[]) {
     if (arg == nullptr)
       continue;
 
+    // NOTE: these switches don't conflict with chromium one.
+    // See https://peter.sh/experiments/chromium-command-line-switches/
     std::string str(arg);
     size_t tokenPos;
     if ((tokenPos = str.find("--port=")) != str.npos) {
@@ -81,6 +83,11 @@ CommandLineArgs::CommandLineArgs(int argc, char* argv[]) {
       myPathPipe = str.substr(tokenPos + 7);
     } else if ((tokenPos = str.find("--logfile=")) != str.npos) {
       myPathLogFile = str.substr(tokenPos + 10);
+    } else if ((tokenPos = str.find("--loglevel=")) != str.npos) {
+      std::string sval = str.substr(tokenPos + 11);
+      myLogLevel = std::stoi(sval);
+      if (myLogLevel < LEVEL_TRACE - 5) myLogLevel = LEVEL_TRACE - 5;
+      if (myLogLevel > LEVEL_FATAL) myLogLevel = LEVEL_FATAL;
     } else if ((tokenPos = str.find("--params=")) != str.npos) {
       myPathParamsFile = str.substr(tokenPos + 9);
     } else if (str.find("--testmode") != str.npos) {

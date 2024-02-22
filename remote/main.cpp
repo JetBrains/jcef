@@ -89,7 +89,7 @@ class MyServerProcessorFactory : public ::apache::thrift::TProcessorFactory {
 
 int main(int argc, char* argv[]) {
   CommandLineArgs cmdArgs(argc, argv);
-  Log::init(LEVEL_TRACE, cmdArgs.getLogFile());
+  Log::init(cmdArgs.getLogLevel(), cmdArgs.getLogFile());
 
   setThreadName("main");
 #if defined(OS_LINUX)
@@ -126,7 +126,7 @@ int main(int argc, char* argv[]) {
 #endif
   const Clock::time_point startTime = Clock::now();
 
-  const bool success = CefUtils::initializeCef(cmdArgs.getParamsFile());
+  const bool success = CefUtils::initializeCef(cmdArgs);
   if (!success) {
     Log::error("Cef initialization failed");
     return -2;
@@ -169,7 +169,6 @@ int main(int argc, char* argv[]) {
   std::thread servThread([=]() {
     setThreadName("ServerListener");
     try {
-      Log::debug("Start listening incoming connections."); // TODO: remove
       server->serve();
     } catch (TException& e) {
       Log::error("Exception in listening thread");

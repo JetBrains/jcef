@@ -9,16 +9,18 @@
 
 #include "include/cef_base.h"
 
+class CommandLineArgs;
+
 namespace CefUtils {
 #if defined(OS_MAC)
   bool doLoadCefLibrary();
 #endif
   bool initializeCef(
       std::vector<std::string> switches,
-      CefSettings settings,
+      CefSettings& settings,
       std::vector<std::pair<std::string, int>> schemes
   );
-  bool initializeCef(std::string paramsFilePath);
+  bool initializeCef(const CommandLineArgs & cmdArgs);
   void runCefLoop();
 
   bool parseSetting(CefSettings & out, const std::string & settingLine);

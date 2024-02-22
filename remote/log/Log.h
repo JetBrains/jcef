@@ -4,6 +4,9 @@
 #include <chrono>
 #include <string>
 
+#include "include/cef_base.h"
+
+const int LEVEL_DISABLED = 100;
 const int LEVEL_FATAL = 10;
 const int LEVEL_ERROR = 9;
 const int LEVEL_WARN = 8;
@@ -44,8 +47,32 @@ public:
 
   static void log(int level, const char *const format, ...);
 
+  static bool isEqual(int serverLogLevel, cef_log_severity_t cefLogLevel) {
+    switch (cefLogLevel) {
+      case LOGSEVERITY_DISABLE: return serverLogLevel >= LEVEL_DISABLED;
+      case LOGSEVERITY_FATAL: return serverLogLevel == LEVEL_FATAL;
+      case LOGSEVERITY_ERROR: return serverLogLevel == LEVEL_ERROR;
+      case LOGSEVERITY_WARNING: return serverLogLevel == LEVEL_WARN;
+      case LOGSEVERITY_INFO: return serverLogLevel == LEVEL_INFO;
+      case LOGSEVERITY_DEBUG: return serverLogLevel == LEVEL_DEBUG || serverLogLevel == LEVEL_TRACE;
+      case LOGSEVERITY_DEFAULT: return serverLogLevel == LEVEL_INFO;
+    }
+    return false;
+  }
+  static cef_log_severity_t toCefLogLevel(int serverLogLevel) {
+    switch (serverLogLevel) {
+      case LEVEL_DISABLED: return LOGSEVERITY_DISABLE;
+      case LEVEL_FATAL: return LOGSEVERITY_FATAL;
+      case LEVEL_ERROR: return LOGSEVERITY_ERROR;
+      case LEVEL_WARN: return LOGSEVERITY_WARNING;
+      case LEVEL_INFO: return LOGSEVERITY_INFO;
+      case LEVEL_DEBUG: return LOGSEVERITY_DEBUG;
+      case LEVEL_TRACE: return LOGSEVERITY_DEBUG;
+    }
+    return LOGSEVERITY_DEFAULT;
+  }
  private:
-  static void init(int level, FILE* logFile = nullptr);
+  static void initImpl(int level, FILE* logFile = nullptr);
 };
 
 typedef std::chrono::high_resolution_clock Clock;

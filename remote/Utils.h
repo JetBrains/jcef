@@ -45,12 +45,13 @@ class CommandLineArgs {
  public:
   CommandLineArgs(int argc, char* argv[]);
 
-  bool useTcp() { return myUseTcp; }
-  int getPort() { return myPort; }
-  std::string getPipe() { return myPathPipe; }
-  std::string getLogFile() { return myPathLogFile; }
-  std::string getParamsFile() { return myPathParamsFile; }
-  bool isTestMode() { return myIsTestMode; }
+  bool useTcp() const { return myUseTcp; }
+  int getPort() const { return myPort; }
+  std::string getPipe() const { return myPathPipe; }
+  std::string getLogFile() const { return myPathLogFile; }
+  std::string getParamsFile() const { return myPathParamsFile; }
+  bool isTestMode() const { return myIsTestMode; }
+  int getLogLevel() const { return myLogLevel; }
 
  private:
   bool myUseTcp = false;
@@ -59,6 +60,7 @@ class CommandLineArgs {
   std::string myPathLogFile;
   std::string myPathParamsFile;
   bool myIsTestMode = false;
+  int myLogLevel = -1;
 };
 
 #endif  // JCEF_UTILS_H
