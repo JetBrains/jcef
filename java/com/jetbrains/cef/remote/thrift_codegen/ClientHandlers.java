@@ -67,7 +67,7 @@ public class ClientHandlers {
 
     public boolean RequestHandler_GetAuthCredentials(int bid, java.lang.String origin_url, boolean isProxy, java.lang.String host, int port, java.lang.String realm, java.lang.String scheme, com.jetbrains.cef.remote.thrift_codegen.RObject authCallback) throws org.apache.thrift.TException;
 
-    public boolean RequestHandler_OnCertificateError(int bid, java.lang.String cert_error, java.lang.String request_url, com.jetbrains.cef.remote.thrift_codegen.RObject sslInfo, com.jetbrains.cef.remote.thrift_codegen.RObject callback) throws org.apache.thrift.TException;
+    public boolean RequestHandler_OnCertificateError(int bid, java.lang.String cert_error, java.lang.String request_url, java.nio.ByteBuffer sslInfo, com.jetbrains.cef.remote.thrift_codegen.RObject callback) throws org.apache.thrift.TException;
 
     public void RequestHandler_OnRenderProcessTerminated(int bid, java.lang.String status) throws org.apache.thrift.TException;
 
@@ -171,7 +171,7 @@ public class ClientHandlers {
 
     public void RequestHandler_GetAuthCredentials(int bid, java.lang.String origin_url, boolean isProxy, java.lang.String host, int port, java.lang.String realm, java.lang.String scheme, com.jetbrains.cef.remote.thrift_codegen.RObject authCallback, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
 
-    public void RequestHandler_OnCertificateError(int bid, java.lang.String cert_error, java.lang.String request_url, com.jetbrains.cef.remote.thrift_codegen.RObject sslInfo, com.jetbrains.cef.remote.thrift_codegen.RObject callback, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
+    public void RequestHandler_OnCertificateError(int bid, java.lang.String cert_error, java.lang.String request_url, java.nio.ByteBuffer sslInfo, com.jetbrains.cef.remote.thrift_codegen.RObject callback, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
 
     public void RequestHandler_OnRenderProcessTerminated(int bid, java.lang.String status, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
@@ -808,13 +808,13 @@ public class ClientHandlers {
     }
 
     @Override
-    public boolean RequestHandler_OnCertificateError(int bid, java.lang.String cert_error, java.lang.String request_url, com.jetbrains.cef.remote.thrift_codegen.RObject sslInfo, com.jetbrains.cef.remote.thrift_codegen.RObject callback) throws org.apache.thrift.TException
+    public boolean RequestHandler_OnCertificateError(int bid, java.lang.String cert_error, java.lang.String request_url, java.nio.ByteBuffer sslInfo, com.jetbrains.cef.remote.thrift_codegen.RObject callback) throws org.apache.thrift.TException
     {
       send_RequestHandler_OnCertificateError(bid, cert_error, request_url, sslInfo, callback);
       return recv_RequestHandler_OnCertificateError();
     }
 
-    public void send_RequestHandler_OnCertificateError(int bid, java.lang.String cert_error, java.lang.String request_url, com.jetbrains.cef.remote.thrift_codegen.RObject sslInfo, com.jetbrains.cef.remote.thrift_codegen.RObject callback) throws org.apache.thrift.TException
+    public void send_RequestHandler_OnCertificateError(int bid, java.lang.String cert_error, java.lang.String request_url, java.nio.ByteBuffer sslInfo, com.jetbrains.cef.remote.thrift_codegen.RObject callback) throws org.apache.thrift.TException
     {
       RequestHandler_OnCertificateError_args args = new RequestHandler_OnCertificateError_args();
       args.setBid(bid);
@@ -2431,7 +2431,7 @@ public class ClientHandlers {
     }
 
     @Override
-    public void RequestHandler_OnCertificateError(int bid, java.lang.String cert_error, java.lang.String request_url, com.jetbrains.cef.remote.thrift_codegen.RObject sslInfo, com.jetbrains.cef.remote.thrift_codegen.RObject callback, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
+    public void RequestHandler_OnCertificateError(int bid, java.lang.String cert_error, java.lang.String request_url, java.nio.ByteBuffer sslInfo, com.jetbrains.cef.remote.thrift_codegen.RObject callback, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       RequestHandler_OnCertificateError_call method_call = new RequestHandler_OnCertificateError_call(bid, cert_error, request_url, sslInfo, callback, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -2442,9 +2442,9 @@ public class ClientHandlers {
       private int bid;
       private java.lang.String cert_error;
       private java.lang.String request_url;
-      private com.jetbrains.cef.remote.thrift_codegen.RObject sslInfo;
+      private java.nio.ByteBuffer sslInfo;
       private com.jetbrains.cef.remote.thrift_codegen.RObject callback;
-      public RequestHandler_OnCertificateError_call(int bid, java.lang.String cert_error, java.lang.String request_url, com.jetbrains.cef.remote.thrift_codegen.RObject sslInfo, com.jetbrains.cef.remote.thrift_codegen.RObject callback, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public RequestHandler_OnCertificateError_call(int bid, java.lang.String cert_error, java.lang.String request_url, java.nio.ByteBuffer sslInfo, com.jetbrains.cef.remote.thrift_codegen.RObject callback, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.bid = bid;
         this.cert_error = cert_error;
@@ -27948,7 +27948,7 @@ public class ClientHandlers {
     private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
     private static final org.apache.thrift.protocol.TField CERT_ERROR_FIELD_DESC = new org.apache.thrift.protocol.TField("cert_error", org.apache.thrift.protocol.TType.STRING, (short)2);
     private static final org.apache.thrift.protocol.TField REQUEST_URL_FIELD_DESC = new org.apache.thrift.protocol.TField("request_url", org.apache.thrift.protocol.TType.STRING, (short)3);
-    private static final org.apache.thrift.protocol.TField SSL_INFO_FIELD_DESC = new org.apache.thrift.protocol.TField("sslInfo", org.apache.thrift.protocol.TType.STRUCT, (short)4);
+    private static final org.apache.thrift.protocol.TField SSL_INFO_FIELD_DESC = new org.apache.thrift.protocol.TField("sslInfo", org.apache.thrift.protocol.TType.STRING, (short)4);
     private static final org.apache.thrift.protocol.TField CALLBACK_FIELD_DESC = new org.apache.thrift.protocol.TField("callback", org.apache.thrift.protocol.TType.STRUCT, (short)5);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RequestHandler_OnCertificateError_argsStandardSchemeFactory();
@@ -27957,7 +27957,7 @@ public class ClientHandlers {
     public int bid; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String cert_error; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String request_url; // required
-    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject sslInfo; // required
+    public @org.apache.thrift.annotation.Nullable java.nio.ByteBuffer sslInfo; // required
     public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject callback; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -28047,7 +28047,7 @@ public class ClientHandlers {
       tmpMap.put(_Fields.REQUEST_URL, new org.apache.thrift.meta_data.FieldMetaData("request_url", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       tmpMap.put(_Fields.SSL_INFO, new org.apache.thrift.meta_data.FieldMetaData("sslInfo", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING          , true)));
       tmpMap.put(_Fields.CALLBACK, new org.apache.thrift.meta_data.FieldMetaData("callback", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
@@ -28061,7 +28061,7 @@ public class ClientHandlers {
       int bid,
       java.lang.String cert_error,
       java.lang.String request_url,
-      com.jetbrains.cef.remote.thrift_codegen.RObject sslInfo,
+      java.nio.ByteBuffer sslInfo,
       com.jetbrains.cef.remote.thrift_codegen.RObject callback)
     {
       this();
@@ -28069,7 +28069,7 @@ public class ClientHandlers {
       setBidIsSet(true);
       this.cert_error = cert_error;
       this.request_url = request_url;
-      this.sslInfo = sslInfo;
+      this.sslInfo = org.apache.thrift.TBaseHelper.copyBinary(sslInfo);
       this.callback = callback;
     }
 
@@ -28086,7 +28086,7 @@ public class ClientHandlers {
         this.request_url = other.request_url;
       }
       if (other.isSetSslInfo()) {
-        this.sslInfo = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.sslInfo);
+        this.sslInfo = org.apache.thrift.TBaseHelper.copyBinary(other.sslInfo);
       }
       if (other.isSetCallback()) {
         this.callback = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.callback);
@@ -28181,13 +28181,22 @@ public class ClientHandlers {
       }
     }
 
-    @org.apache.thrift.annotation.Nullable
-    public com.jetbrains.cef.remote.thrift_codegen.RObject getSslInfo() {
-      return this.sslInfo;
+    public byte[] getSslInfo() {
+      setSslInfo(org.apache.thrift.TBaseHelper.rightSize(sslInfo));
+      return sslInfo == null ? null : sslInfo.array();
     }
 
-    public RequestHandler_OnCertificateError_args setSslInfo(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject sslInfo) {
-      this.sslInfo = sslInfo;
+    public java.nio.ByteBuffer bufferForSslInfo() {
+      return org.apache.thrift.TBaseHelper.copyBinary(sslInfo);
+    }
+
+    public RequestHandler_OnCertificateError_args setSslInfo(byte[] sslInfo) {
+      this.sslInfo = sslInfo == null ? (java.nio.ByteBuffer)null     : java.nio.ByteBuffer.wrap(sslInfo.clone());
+      return this;
+    }
+
+    public RequestHandler_OnCertificateError_args setSslInfo(@org.apache.thrift.annotation.Nullable java.nio.ByteBuffer sslInfo) {
+      this.sslInfo = org.apache.thrift.TBaseHelper.copyBinary(sslInfo);
       return this;
     }
 
@@ -28262,7 +28271,11 @@ public class ClientHandlers {
         if (value == null) {
           unsetSslInfo();
         } else {
-          setSslInfo((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+          if (value instanceof byte[]) {
+            setSslInfo((byte[])value);
+          } else {
+            setSslInfo((java.nio.ByteBuffer)value);
+          }
         }
         break;
 
@@ -28514,7 +28527,7 @@ public class ClientHandlers {
       if (this.sslInfo == null) {
         sb.append("null");
       } else {
-        sb.append(this.sslInfo);
+        org.apache.thrift.TBaseHelper.toString(this.sslInfo, sb);
       }
       first = false;
       if (!first) sb.append(", ");
@@ -28532,9 +28545,6 @@ public class ClientHandlers {
     public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
-      if (sslInfo != null) {
-        sslInfo.validate();
-      }
       if (callback != null) {
         callback.validate();
       }
@@ -28603,9 +28613,8 @@ public class ClientHandlers {
               }
               break;
             case 4: // SSL_INFO
-              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.sslInfo = new com.jetbrains.cef.remote.thrift_codegen.RObject();
-                struct.sslInfo.read(iprot);
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.sslInfo = iprot.readBinary();
                 struct.setSslInfoIsSet(true);
               } else { 
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
@@ -28651,7 +28660,7 @@ public class ClientHandlers {
         }
         if (struct.sslInfo != null) {
           oprot.writeFieldBegin(SSL_INFO_FIELD_DESC);
-          struct.sslInfo.write(oprot);
+          oprot.writeBinary(struct.sslInfo);
           oprot.writeFieldEnd();
         }
         if (struct.callback != null) {
@@ -28704,7 +28713,7 @@ public class ClientHandlers {
           oprot.writeString(struct.request_url);
         }
         if (struct.isSetSslInfo()) {
-          struct.sslInfo.write(oprot);
+          oprot.writeBinary(struct.sslInfo);
         }
         if (struct.isSetCallback()) {
           struct.callback.write(oprot);
@@ -28728,8 +28737,7 @@ public class ClientHandlers {
           struct.setRequest_urlIsSet(true);
         }
         if (incoming.get(3)) {
-          struct.sslInfo = new com.jetbrains.cef.remote.thrift_codegen.RObject();
-          struct.sslInfo.read(iprot);
+          struct.sslInfo = iprot.readBinary();
           struct.setSslInfoIsSet(true);
         }
         if (incoming.get(4)) {

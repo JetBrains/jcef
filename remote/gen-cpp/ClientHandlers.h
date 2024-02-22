@@ -50,7 +50,7 @@ class ClientHandlersIf {
   virtual bool RequestHandler_OnBeforeBrowse(const int32_t bid, const  ::thrift_codegen::RObject& request, const bool user_gesture, const bool is_redirect) = 0;
   virtual bool RequestHandler_OnOpenURLFromTab(const int32_t bid, const std::string& target_url, const bool user_gesture) = 0;
   virtual bool RequestHandler_GetAuthCredentials(const int32_t bid, const std::string& origin_url, const bool isProxy, const std::string& host, const int32_t port, const std::string& realm, const std::string& scheme, const  ::thrift_codegen::RObject& authCallback) = 0;
-  virtual bool RequestHandler_OnCertificateError(const int32_t bid, const std::string& cert_error, const std::string& request_url, const  ::thrift_codegen::RObject& sslInfo, const  ::thrift_codegen::RObject& callback) = 0;
+  virtual bool RequestHandler_OnCertificateError(const int32_t bid, const std::string& cert_error, const std::string& request_url, const std::string& sslInfo, const  ::thrift_codegen::RObject& callback) = 0;
   virtual void RequestHandler_OnRenderProcessTerminated(const int32_t bid, const std::string& status) = 0;
   virtual void RequestHandler_GetResourceRequestHandler( ::thrift_codegen::RObject& _return, const int32_t bid, const  ::thrift_codegen::RObject& request, const bool isNavigation, const bool isDownload, const std::string& requestInitiator) = 0;
   virtual void ResourceRequestHandler_Dispose(const int32_t rrHandler) = 0;
@@ -196,7 +196,7 @@ class ClientHandlersNull : virtual public ClientHandlersIf {
     bool _return = false;
     return _return;
   }
-  bool RequestHandler_OnCertificateError(const int32_t /* bid */, const std::string& /* cert_error */, const std::string& /* request_url */, const  ::thrift_codegen::RObject& /* sslInfo */, const  ::thrift_codegen::RObject& /* callback */) override {
+  bool RequestHandler_OnCertificateError(const int32_t /* bid */, const std::string& /* cert_error */, const std::string& /* request_url */, const std::string& /* sslInfo */, const  ::thrift_codegen::RObject& /* callback */) override {
     bool _return = false;
     return _return;
   }
@@ -2829,14 +2829,15 @@ class ClientHandlers_RequestHandler_OnCertificateError_args {
   ClientHandlers_RequestHandler_OnCertificateError_args() noexcept
                                                         : bid(0),
                                                           cert_error(),
-                                                          request_url() {
+                                                          request_url(),
+                                                          sslInfo() {
   }
 
   virtual ~ClientHandlers_RequestHandler_OnCertificateError_args() noexcept;
   int32_t bid;
   std::string cert_error;
   std::string request_url;
-   ::thrift_codegen::RObject sslInfo;
+  std::string sslInfo;
    ::thrift_codegen::RObject callback;
 
   _ClientHandlers_RequestHandler_OnCertificateError_args__isset __isset;
@@ -2847,7 +2848,7 @@ class ClientHandlers_RequestHandler_OnCertificateError_args {
 
   void __set_request_url(const std::string& val);
 
-  void __set_sslInfo(const  ::thrift_codegen::RObject& val);
+  void __set_sslInfo(const std::string& val);
 
   void __set_callback(const  ::thrift_codegen::RObject& val);
 
@@ -2885,7 +2886,7 @@ class ClientHandlers_RequestHandler_OnCertificateError_pargs {
   const int32_t* bid;
   const std::string* cert_error;
   const std::string* request_url;
-  const  ::thrift_codegen::RObject* sslInfo;
+  const std::string* sslInfo;
   const  ::thrift_codegen::RObject* callback;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -5191,8 +5192,8 @@ class ClientHandlersClient : virtual public ClientHandlersIf {
   bool RequestHandler_GetAuthCredentials(const int32_t bid, const std::string& origin_url, const bool isProxy, const std::string& host, const int32_t port, const std::string& realm, const std::string& scheme, const  ::thrift_codegen::RObject& authCallback) override;
   void send_RequestHandler_GetAuthCredentials(const int32_t bid, const std::string& origin_url, const bool isProxy, const std::string& host, const int32_t port, const std::string& realm, const std::string& scheme, const  ::thrift_codegen::RObject& authCallback);
   bool recv_RequestHandler_GetAuthCredentials();
-  bool RequestHandler_OnCertificateError(const int32_t bid, const std::string& cert_error, const std::string& request_url, const  ::thrift_codegen::RObject& sslInfo, const  ::thrift_codegen::RObject& callback) override;
-  void send_RequestHandler_OnCertificateError(const int32_t bid, const std::string& cert_error, const std::string& request_url, const  ::thrift_codegen::RObject& sslInfo, const  ::thrift_codegen::RObject& callback);
+  bool RequestHandler_OnCertificateError(const int32_t bid, const std::string& cert_error, const std::string& request_url, const std::string& sslInfo, const  ::thrift_codegen::RObject& callback) override;
+  void send_RequestHandler_OnCertificateError(const int32_t bid, const std::string& cert_error, const std::string& request_url, const std::string& sslInfo, const  ::thrift_codegen::RObject& callback);
   bool recv_RequestHandler_OnCertificateError();
   void RequestHandler_OnRenderProcessTerminated(const int32_t bid, const std::string& status) override;
   void send_RequestHandler_OnRenderProcessTerminated(const int32_t bid, const std::string& status);
@@ -5651,7 +5652,7 @@ class ClientHandlersMultiface : virtual public ClientHandlersIf {
     return ifaces_[i]->RequestHandler_GetAuthCredentials(bid, origin_url, isProxy, host, port, realm, scheme, authCallback);
   }
 
-  bool RequestHandler_OnCertificateError(const int32_t bid, const std::string& cert_error, const std::string& request_url, const  ::thrift_codegen::RObject& sslInfo, const  ::thrift_codegen::RObject& callback) override {
+  bool RequestHandler_OnCertificateError(const int32_t bid, const std::string& cert_error, const std::string& request_url, const std::string& sslInfo, const  ::thrift_codegen::RObject& callback) override {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
@@ -5958,8 +5959,8 @@ class ClientHandlersConcurrentClient : virtual public ClientHandlersIf {
   bool RequestHandler_GetAuthCredentials(const int32_t bid, const std::string& origin_url, const bool isProxy, const std::string& host, const int32_t port, const std::string& realm, const std::string& scheme, const  ::thrift_codegen::RObject& authCallback) override;
   int32_t send_RequestHandler_GetAuthCredentials(const int32_t bid, const std::string& origin_url, const bool isProxy, const std::string& host, const int32_t port, const std::string& realm, const std::string& scheme, const  ::thrift_codegen::RObject& authCallback);
   bool recv_RequestHandler_GetAuthCredentials(const int32_t seqid);
-  bool RequestHandler_OnCertificateError(const int32_t bid, const std::string& cert_error, const std::string& request_url, const  ::thrift_codegen::RObject& sslInfo, const  ::thrift_codegen::RObject& callback) override;
-  int32_t send_RequestHandler_OnCertificateError(const int32_t bid, const std::string& cert_error, const std::string& request_url, const  ::thrift_codegen::RObject& sslInfo, const  ::thrift_codegen::RObject& callback);
+  bool RequestHandler_OnCertificateError(const int32_t bid, const std::string& cert_error, const std::string& request_url, const std::string& sslInfo, const  ::thrift_codegen::RObject& callback) override;
+  int32_t send_RequestHandler_OnCertificateError(const int32_t bid, const std::string& cert_error, const std::string& request_url, const std::string& sslInfo, const  ::thrift_codegen::RObject& callback);
   bool recv_RequestHandler_OnCertificateError(const int32_t seqid);
   void RequestHandler_OnRenderProcessTerminated(const int32_t bid, const std::string& status) override;
   void send_RequestHandler_OnRenderProcessTerminated(const int32_t bid, const std::string& status);

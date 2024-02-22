@@ -4522,8 +4522,8 @@ uint32_t ClientHandlers_RequestHandler_OnCertificateError_args::read(::apache::t
         }
         break;
       case 4:
-        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
-          xfer += this->sslInfo.read(iprot);
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readBinary(this->sslInfo);
           this->__isset.sslInfo = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -4566,8 +4566,8 @@ uint32_t ClientHandlers_RequestHandler_OnCertificateError_args::write(::apache::
   xfer += oprot->writeString(this->request_url);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("sslInfo", ::apache::thrift::protocol::T_STRUCT, 4);
-  xfer += this->sslInfo.write(oprot);
+  xfer += oprot->writeFieldBegin("sslInfo", ::apache::thrift::protocol::T_STRING, 4);
+  xfer += oprot->writeBinary(this->sslInfo);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldBegin("callback", ::apache::thrift::protocol::T_STRUCT, 5);
@@ -4601,8 +4601,8 @@ uint32_t ClientHandlers_RequestHandler_OnCertificateError_pargs::write(::apache:
   xfer += oprot->writeString((*(this->request_url)));
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("sslInfo", ::apache::thrift::protocol::T_STRUCT, 4);
-  xfer += (*(this->sslInfo)).write(oprot);
+  xfer += oprot->writeFieldBegin("sslInfo", ::apache::thrift::protocol::T_STRING, 4);
+  xfer += oprot->writeBinary((*(this->sslInfo)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldBegin("callback", ::apache::thrift::protocol::T_STRUCT, 5);
@@ -9792,13 +9792,13 @@ bool ClientHandlersClient::recv_RequestHandler_GetAuthCredentials()
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "RequestHandler_GetAuthCredentials failed: unknown result");
 }
 
-bool ClientHandlersClient::RequestHandler_OnCertificateError(const int32_t bid, const std::string& cert_error, const std::string& request_url, const  ::thrift_codegen::RObject& sslInfo, const  ::thrift_codegen::RObject& callback)
+bool ClientHandlersClient::RequestHandler_OnCertificateError(const int32_t bid, const std::string& cert_error, const std::string& request_url, const std::string& sslInfo, const  ::thrift_codegen::RObject& callback)
 {
   send_RequestHandler_OnCertificateError(bid, cert_error, request_url, sslInfo, callback);
   return recv_RequestHandler_OnCertificateError();
 }
 
-void ClientHandlersClient::send_RequestHandler_OnCertificateError(const int32_t bid, const std::string& cert_error, const std::string& request_url, const  ::thrift_codegen::RObject& sslInfo, const  ::thrift_codegen::RObject& callback)
+void ClientHandlersClient::send_RequestHandler_OnCertificateError(const int32_t bid, const std::string& cert_error, const std::string& request_url, const std::string& sslInfo, const  ::thrift_codegen::RObject& callback)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("RequestHandler_OnCertificateError", ::apache::thrift::protocol::T_CALL, cseqid);
@@ -14805,13 +14805,13 @@ bool ClientHandlersConcurrentClient::recv_RequestHandler_GetAuthCredentials(cons
   } // end while(true)
 }
 
-bool ClientHandlersConcurrentClient::RequestHandler_OnCertificateError(const int32_t bid, const std::string& cert_error, const std::string& request_url, const  ::thrift_codegen::RObject& sslInfo, const  ::thrift_codegen::RObject& callback)
+bool ClientHandlersConcurrentClient::RequestHandler_OnCertificateError(const int32_t bid, const std::string& cert_error, const std::string& request_url, const std::string& sslInfo, const  ::thrift_codegen::RObject& callback)
 {
   int32_t seqid = send_RequestHandler_OnCertificateError(bid, cert_error, request_url, sslInfo, callback);
   return recv_RequestHandler_OnCertificateError(seqid);
 }
 
-int32_t ClientHandlersConcurrentClient::send_RequestHandler_OnCertificateError(const int32_t bid, const std::string& cert_error, const std::string& request_url, const  ::thrift_codegen::RObject& sslInfo, const  ::thrift_codegen::RObject& callback)
+int32_t ClientHandlersConcurrentClient::send_RequestHandler_OnCertificateError(const int32_t bid, const std::string& cert_error, const std::string& request_url, const std::string& sslInfo, const  ::thrift_codegen::RObject& callback)
 {
   int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());

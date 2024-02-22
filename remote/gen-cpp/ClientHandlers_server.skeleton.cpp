@@ -160,7 +160,7 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
     printf("RequestHandler_GetAuthCredentials\n");
   }
 
-  bool RequestHandler_OnCertificateError(const int32_t bid, const std::string& cert_error, const std::string& request_url, const  ::thrift_codegen::RObject& sslInfo, const  ::thrift_codegen::RObject& callback) {
+  bool RequestHandler_OnCertificateError(const int32_t bid, const std::string& cert_error, const std::string& request_url, const std::string& sslInfo, const  ::thrift_codegen::RObject& callback) {
     // Your implementation goes here
     printf("RequestHandler_OnCertificateError\n");
   }

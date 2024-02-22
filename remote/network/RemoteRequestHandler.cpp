@@ -6,6 +6,8 @@
 #include "RemoteRequest.h"
 #include "RemoteResourceRequestHandler.h"
 
+#include "include/cef_ssl_info.h"
+
 std::string err2str(cef_errorcode_t errorcode);
 namespace {
   std::string tstatus2str(cef_termination_status_t status);
@@ -146,6 +148,8 @@ bool RemoteRequestHandler::GetAuthCredentials(CefRefPtr<CefBrowser> browser,
   return handled;
 }
 
+void writeSSLData(std::string & out, CefRefPtr<CefSSLInfo> sslInfo);
+
 ///
 /// Called on the UI thread to handle requests for URLs with an invalid
 /// SSL certificate. Return true and call CefCallback methods either in this
@@ -163,16 +167,61 @@ bool RemoteRequestHandler::OnCertificateError(CefRefPtr<CefBrowser> browser,
 ) {
   LNDCT();
   RemoteCallback* rc = RemoteCallback::wrapDelegate(callback);
-  thrift_codegen::RObject sslInfo;
-  sslInfo.__set_objId(-1); // TODO: implement ssl_info
+  std::string buf;
+  writeSSLData(buf, ssl_info);
+  if (buf.capacity() > 1024*128)
+    Log::warn("Large SSL certificate data: %d bytes. Consider to use shared memory for IPC transport.", buf.capacity());
   const bool handled = myService->exec<bool>([&](RpcExecutor::Service s){
-      return s->RequestHandler_OnCertificateError(myBid, err2str(cert_error), request_url, sslInfo, rc->serverId());
+      return s->RequestHandler_OnCertificateError(myBid, err2str(cert_error), request_url, buf, rc->serverId());
   }, false);
   if (!handled)
     RemoteCallback::dispose(rc->getId());
   else
     myCallbacks.insert(rc->getId()); // Callback will be disposed with RemoteRequestHandler (just for insurance)
   return handled;
+}
+
+size_t getAligned(size_t bytesCount) {
+  const int diff = bytesCount % 4;
+  return diff == 0 ? bytesCount : bytesCount + 4 - diff;
+}
+
+void writeSSLData(std::string & out, CefRefPtr<CefSSLInfo> sslInfo) {
+  CefRefPtr<CefX509Certificate> cert = sslInfo->GetX509Certificate();
+
+  // 1. Collect
+  CefX509Certificate::IssuerChainBinaryList der_chain;
+  cert->GetDEREncodedIssuerChain(der_chain);
+  der_chain.insert(der_chain.begin(), cert->GetDEREncoded());
+
+  // 2. Calculate size
+  size_t totalBinaryDataSize = 0;
+  for (const auto& it: der_chain) {
+    const size_t size = it->GetSize();
+    totalBinaryDataSize += getAligned(size);
+  }
+
+  // 3. Write
+  const size_t reserved = totalBinaryDataSize + 4/*status mask*/ + 4/*items count*/ + 4*der_chain.size();
+  out.resize(reserved);
+  int32_t* p = (int32_t*)out.data();
+  *(p++) = sslInfo->GetCertStatus();
+  *(p++) = (int32_t)der_chain.size();
+  //Log::trace("writeSSLData: chain size = %d, status = %d.", der_chain.size(), sslInfo->GetCertStatus());
+
+  if (der_chain.size() == 0)
+    return;
+
+  for (const auto& der_cert: der_chain) {
+    const size_t bytesCount = der_cert->GetSize();
+    //Log::trace("writeSSLData: write chunk of size %d bytes, pos=%d.", bytesCount, ((char*)p) - out.data());
+    *(p++) = (int32_t)bytesCount;
+    if (bytesCount == 0)
+      continue;
+
+    der_cert->GetData(p, bytesCount, 0);
+    p += getAligned(bytesCount)/4;
+  }
 }
 
 void RemoteRequestHandler::OnRenderProcessTerminated(CefRefPtr<CefBrowser> browser, TerminationStatus status) {

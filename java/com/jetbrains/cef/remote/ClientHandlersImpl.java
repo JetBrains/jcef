@@ -541,14 +541,14 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     }
 
     @Override
-    public boolean RequestHandler_OnCertificateError(int bid, String cert_error, String request_url, RObject sslInfo, RObject callback) {
+    public boolean RequestHandler_OnCertificateError(int bid, String cert_error, String request_url, ByteBuffer sslInfo, RObject callback) {
         RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return false;
         CefRequestHandler rh = browser.getOwner().getRequestHandler();
         if (rh == null) return false;
 
         CefCallback cb = new RemoteCallback(myService, callback);
-        CefSSLInfo ssl = new RemoteSSLInfo(sslInfo);
+        CefSSLInfo ssl = RemoteSSLInfo.fromBinary(sslInfo);
         CefLoadHandler.ErrorCode err = CefLoadHandler.ErrorCode.ERR_NONE;
         if (cert_error != null && !cert_error.isEmpty()) {
             try {

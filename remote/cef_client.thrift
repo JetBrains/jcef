@@ -101,7 +101,7 @@ service ClientHandlers {
     bool           RequestHandler_OnBeforeBrowse(1: i32 bid, 2: shared.RObject request, 3: bool user_gesture, 4: bool is_redirect),
     bool           RequestHandler_OnOpenURLFromTab(1: i32 bid, 2: string target_url, 3: bool user_gesture),
     bool           RequestHandler_GetAuthCredentials(1: i32 bid, 2: string origin_url, 3: bool isProxy, 4: string host, 5: i32 port, 6: string realm, 7: string scheme, 8: shared.RObject authCallback),
-    bool           RequestHandler_OnCertificateError(1: i32 bid, 2: string cert_error, 3: string request_url, 4: shared.RObject sslInfo, 5: shared.RObject callback),
+    bool           RequestHandler_OnCertificateError(1: i32 bid, 2: string cert_error, 3: string request_url, 4: binary sslInfo, 5: shared.RObject callback),
     oneway void    RequestHandler_OnRenderProcessTerminated(1: i32 bid, 2: string status),
     shared.RObject RequestHandler_GetResourceRequestHandler(1: i32 bid, 2: shared.RObject request, 3: bool isNavigation, 4: bool isDownload, 5: string requestInitiator),
     oneway void       ResourceRequestHandler_Dispose(1: i32 rrHandler),
