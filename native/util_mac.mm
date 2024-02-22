@@ -25,6 +25,9 @@
 #include "temp_window.h"
 #include "window_handler.h"
 
+#include <chrono>
+#include <thread>
+
 namespace {
 
 static std::set<CefWindowHandle> g_browsers_;
@@ -274,9 +277,30 @@ bool isBrowserExists(CefWindowHandle handle) {
 }
 
 + (void)shutdown {
+  // JBR-5822: to debug intermittent crashes on shutdown use constants from environment
+  int workCount = 10;
+  const char* sval = getenv("JCEF_SHUTDOWN_WORK_COUNT");
+  if (sval != nullptr) {
+    workCount = atoi(sval);
+    if (workCount < 0) workCount = 0;
+    if (workCount > 100) workCount = 100;
+    fprintf(stderr, "\tPreform CefDoMessageLoopWork %d times before shutdown\n", (int)workCount);
+  }
+  int workPause = 0;
+  sval = getenv("JCEF_SHUTDOWN_WORK_PAUSE");
+  if (sval != nullptr) {
+    workPause = atoi(sval);
+    if (workPause < 0) workPause = 0;
+    if (workPause > 20) workPause = 20;
+    fprintf(stderr, "\tUse workPause=%d\n", (int)workPause);
+  }
+
   // Pump CefDoMessageLoopWork a few times before shutting down.
-  for (int i = 0; i < 10; ++i)
+  for (int i = 0; i < workCount; ++i) {
+    if (workPause > 0)
+      std::this_thread::sleep_for(std::chrono::milliseconds(workPause));
     CefDoMessageLoopWork();
+  }
 
   g_before_shutdown = true;
 
