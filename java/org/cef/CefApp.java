@@ -521,10 +521,19 @@ public class CefApp extends CefAppHandlerAdapter {
      */
     private void scheduleNativeShutdown() {
         new Thread(() -> {
-            // Can execute on any thread
-            CefLog.Info("shutdown CEF on " + Thread.currentThread());
+            // Empiric observation: to avoid crashes we must perform native shutdown in next manner:
+            // last client closed -> small pause (to allow CEF finish some bg tasks) -> call CefShutdown
+            // This small pause will be in bg thread, see JBR-5822.
+            final int sleepBeforeShutdown = Utils.getInteger("JCEF_SLEEP_BEFORE_SHUTDOWN", 999);
+            if (sleepBeforeShutdown > 0) {
+                try {
+                    CefLog.Debug("Sleep before native shutdown for %d ms, thread %s.", sleepBeforeShutdown, Thread.currentThread());
+                    Thread.sleep(sleepBeforeShutdown);
+                } catch (InterruptedException e) {}
+            }
 
             // Shutdown native CEF.
+            CefLog.Info("Perform native shutdown of CEF on thread %s.", Thread.currentThread());
             N_Shutdown();
 
             synchronized (this) {
