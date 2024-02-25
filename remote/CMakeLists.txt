@@ -160,17 +160,19 @@ if (OS_WINDOWS)
         windows/PipeTransport.h
         windows/PipeTransportServer.cpp
         windows/PipeTransportServer.h
+        ../native/critical_wait_win.cpp
     )
     add_executable(${EXECUTABLE_NAME} ${SERVER_SOURCES})
     target_link_options(${EXECUTABLE_NAME} PRIVATE "/SUBSYSTEM:console")
 endif ()
 
 if (OS_MAC)
-    list(APPEND SERVER_SOURCES mac/MacApplication.mm)
+    list(APPEND SERVER_SOURCES mac/MacApplication.mm ../native/critical_wait_posix.cpp)
     add_executable(${EXECUTABLE_NAME} MACOSX_BUNDLE ${SERVER_SOURCES})
 endif ()
 
 if (OS_LINUX)
+    list(APPEND SERVER_SOURCES ../native/critical_wait_posix.cpp)
     add_executable(${EXECUTABLE_NAME} ${SERVER_SOURCES})
 endif ()
 

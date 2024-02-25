@@ -1,5 +1,6 @@
 package com.jetbrains.cef.remote;
 
+import com.jetbrains.cef.remote.thrift_codegen.RObject;
 import org.cef.CefClient;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefDevToolsClient;
@@ -24,6 +25,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.CompletableFuture;
@@ -33,7 +35,7 @@ public class RemoteBrowser implements CefBrowser {
     private final RemoteClient myOwner;
     private final CefClient myCefClient; // will be the "owner" of RemoteClient, needed to override getClient()
 
-    private int myBid = -1;
+    private volatile int myBid = -1;
     private String myUrl = null;
     private Component myComponent;
     private CefNativeRenderHandler myRender;
@@ -43,6 +45,9 @@ public class RemoteBrowser implements CefBrowser {
     private volatile boolean myIsClosing = false;
     private volatile boolean myIsClosed = false;
     private volatile int myNativeBrowserIdentifier = Integer.MIN_VALUE;
+
+    private final List<Runnable> myDelayedActions = new ArrayList<>();
+    private int myFrameRate = 30; // just for cache
 
     public RemoteBrowser(RpcExecutor service, RemoteClient owner, CefClient cefClient, String url) {
         myService = service;
@@ -60,7 +65,7 @@ public class RemoteBrowser implements CefBrowser {
     public int getNativeBrowserIdentifier() { return myNativeBrowserIdentifier; }
 
     protected void setNativeBrowserCreated(int nativeBrowserIdentifier) {
-        // This setter is called from lifespan-handler (of owner)
+        // Called from lifespan-handler::onAfterCreated (of owner)
         myIsNativeBrowserCreated = true;
         myNativeBrowserIdentifier = nativeBrowserIdentifier;
     }
@@ -70,8 +75,26 @@ public class RemoteBrowser implements CefBrowser {
         myRender = renderHandler;
     }
 
+    private void execIfBid(Runnable runnable, String name) {
+        if (myBid >= 0) {
+            runnable.run();
+            return;
+        }
+        synchronized (myDelayedActions) {
+            CefLog.Debug("%s: add delayed action %s", this, name);
+            myDelayedActions.add(runnable);
+        }
+    }
+
     @Override
     public void createImmediately() {
+        CefServer.instance().onConnected(this::requestBid, "requestBid", false);
+    }
+
+    private void requestBid() {
+        if (myIsClosing)
+            return;
+
         myIsNativeBrowserCreationStarted = true;
         final int hmask = myOwner.getHandlersMask() | (myRender == null ? 0 :
                 RemoteClient.HandlerMasks.NativeRender.val());
@@ -84,6 +107,11 @@ public class RemoteBrowser implements CefBrowser {
             // At current point new bid is registered so java-handlers calls will be dispatched correctly.
             // We can't start creation earlier because for example onAfterCreated can be called before new bid is registered.
             myService.exec((s)-> s.startBrowserCreation(myBid, myUrl));
+
+            synchronized (myDelayedActions) {
+                myDelayedActions.forEach(r -> r.run());
+                myDelayedActions.clear();
+            }
         } else
             CefLog.Error("Can't obtain bid, createBrowser returns %d", myBid);
     }
@@ -100,6 +128,7 @@ public class RemoteBrowser implements CefBrowser {
 
     @Override
     public CefRequestContext getRequestContext() {
+        CefLog.Error("TODO: implement getRequestContext.");
         return null;
     }
 
@@ -108,60 +137,81 @@ public class RemoteBrowser implements CefBrowser {
 
     @Override
     public CefWindowHandler getWindowHandler() {
+        // Remote mode uses OSR only.
         return null;
     }
 
     @Override
     public boolean canGoBack() {
-        return false;
+        if (myIsClosing || myBid < 0)
+            return false;
+
+        return myService.execObj(s-> s.Browser_CanGoBack(myBid));
     }
 
     @Override
-    public void goBack() {}
+    public void goBack() {
+        if (myIsClosing || myBid < 0)
+            return;
+
+        myService.exec(s-> s.Browser_GoBack(myBid));
+    }
 
     @Override
     public boolean canGoForward() {
-        return false;
+        if (myIsClosing || myBid < 0)
+            return false;
+
+        return myService.execObj(s-> s.Browser_CanGoForward(myBid));
     }
 
     @Override
-    public void goForward() {}
+    public void goForward() {
+        if (myIsClosing || myBid < 0)
+            return;
+
+        myService.exec(s-> s.Browser_GoForward(myBid));
+    }
 
     @Override
     public boolean isLoading() {
-        return false;
+        if (myIsClosing || myBid < 0)
+            return false;
+
+        return myService.execObj(s-> s.Browser_IsLoading(myBid));
     }
 
     @Override
     public void reload() {
-        if (myBid < 0) {
-            CefLog.Debug("Skip reload because bid wasn't created.");
-            return;
-        }
         if (myIsClosing)
             return;
 
-        myService.exec((s)->{
-            s.Browser_Reload(myBid);
-        });
+        execIfBid(()->{
+            myService.exec((s)->{
+                s.Browser_Reload(myBid);
+            });
+        }, "reload");
     }
 
     @Override
     public void reloadIgnoreCache() {
-        if (myBid < 0) {
-            CefLog.Debug("Skip reloadIgnoreCache because bid wasn't created.");
-            return;
-        }
         if (myIsClosing)
             return;
 
-        myService.exec((s)->{
-            s.Browser_ReloadIgnoreCache(myBid);
-        });
+        execIfBid(()->{
+            myService.exec((s)->{
+                s.Browser_ReloadIgnoreCache(myBid);
+            });
+        }, "reloadIgnoreCache");
     }
 
     @Override
-    public void stopLoad() {}
+    public void stopLoad() {
+        if (myIsClosing || myBid < 0)
+            return;
+
+        myService.exec(s-> s.Browser_StopLoad(myBid));
+    }
 
     @Override
     public int getIdentifier() {
@@ -170,94 +220,143 @@ public class RemoteBrowser implements CefBrowser {
 
     @Override
     public CefFrame getMainFrame() {
+        CefLog.Error("TODO: implement getMainFrame.");
         return null;
     }
 
     @Override
     public CefFrame getFocusedFrame() {
+        CefLog.Error("TODO: implement getFocusedFrame.");
         return null;
     }
 
     @Override
     public CefFrame getFrame(long identifier) {
+        CefLog.Error("TODO: implement getFrame.");
         return null;
     }
 
     @Override
     public CefFrame getFrame(String name) {
+        CefLog.Error("TODO: implement getFrame.");
         return null;
     }
 
     @Override
     public Vector<Long> getFrameIdentifiers() {
+        CefLog.Error("TODO: implement getFrameIdentifiers.");
         return null;
     }
 
     @Override
     public Vector<String> getFrameNames() {
+        CefLog.Error("TODO: implement getFrameNames.");
         return null;
     }
 
     @Override
     public int getFrameCount() {
-        return 0;
+        if (myIsClosing)
+            return 0;
+
+        if (myBid < 0) {
+            CefLog.Debug("bid wasn't received yet and getFrameCount will return 0.");
+            return 0;
+        }
+
+        return myService.execObj(s-> s.Browser_GetFrameCount(myBid));
     }
 
     @Override
     public boolean isPopup() {
-        return false;
+        if (myIsClosing || myBid < 0)
+            return false;
+
+        return myService.execObj(s-> s.Browser_IsPopup(myBid));
     }
 
     @Override
     public boolean hasDocument() {
-        return false;
+        if (myIsClosing || myBid < 0)
+            return false;
+
+        return myService.execObj(s-> s.Browser_HasDocument(myBid));
     }
 
     @Override
-    public void viewSource() {}
+    public void viewSource() {
+        if (myIsClosing)
+            return;
+
+        execIfBid(()->{
+            myService.exec((s)->{
+                s.Browser_ViewSource(myBid);
+            });
+        }, "viewSource");
+    }
 
     @Override
-    public void getSource(CefStringVisitor visitor) {}
+    public void getSource(CefStringVisitor visitor) {
+        if (myIsClosing)
+            return;
+
+        execIfBid(()->{
+            myService.exec((s)->{
+                CefLog.Error("TODO: implement getSource.");
+//                RObject rv = RemoteStringVisitor.create(visitor);
+//                s.Browser_GetSource(myBid, rv);
+            });
+        }, "getSource");
+    }
 
     @Override
-    public void getText(CefStringVisitor visitor) {}
+    public void getText(CefStringVisitor visitor) {
+        if (myIsClosing)
+            return;
+
+        execIfBid(()->{
+            myService.exec((s)->{
+                CefLog.Error("TODO: implement getText.");
+//                RObject rv = RemoteStringVisitor.create(visitor);
+//                s.Browser_GetText(myBid, rv);
+            });
+        }, "getText");
+    }
 
     @Override
-    public void loadRequest(CefRequest request) {}
+    public void loadRequest(CefRequest request) {
+        CefLog.Error("TODO: implement loadRequest.");
+    }
 
     @Override
     public void loadURL(String url) {
         myUrl = url;
-        if (myBid < 0) {
-            CefLog.Debug("Skip loadURL because bid wasn't created.");
-            return;
-        }
         if (myIsClosing)
             return;
 
-        myService.exec((s)->{
-            s.Browser_LoadURL(myBid, url);
-        });
+        execIfBid(()->{
+            myService.exec((s)->{
+                s.Browser_LoadURL(myBid, url);
+            });
+        }, "loadURL");
     }
 
     @Override
     public void executeJavaScript(String code, String url, int line) {
-        if (myBid < 0) {
-            CefLog.Debug("Skip executeJavaScript because bid wasn't created.");
-            return;
-        }
         if (myIsClosing)
             return;
 
-        myService.exec((s)->{
-            s.Browser_ExecuteJavaScript(myBid, code, url, line);
-        });
+        execIfBid(()->{
+            myService.exec((s)->{
+                s.Browser_ExecuteJavaScript(myBid, code, url, line);
+            });
+        }, "executeJavaScript");
     }
 
     @Override
     public String getURL() {
         if (myBid < 0) {
-            CefLog.Debug("Skip getURL because bid wasn't created, return cached %s", myUrl);
+            CefLog.Debug("Can't do getURL because bid wasn't created, return cached %s", myUrl);
             return myUrl;
         }
         if (myIsClosing)
@@ -275,6 +374,9 @@ public class RemoteBrowser implements CefBrowser {
         myIsClosing = true;
         if (myRender != null)
             myRender.disposeNativeResources();
+        synchronized (myDelayedActions) {
+            myDelayedActions.clear();
+        }
         if (myBid < 0)
             return;
         myService.exec((s)->{
@@ -299,52 +401,90 @@ public class RemoteBrowser implements CefBrowser {
 
     @Override
     public void setFocus(boolean enable) {
+        if (myIsClosing)
+            return;
 
+        execIfBid(()->{
+            myService.exec((s)->{
+                s.Browser_SetFocus(myBid, enable);
+            });
+        }, "setFocus");
     }
 
     @Override
     public void setWindowVisibility(boolean visible) {
-
+        // NOTE: doesn't used in OSR mode
     }
 
     @Override
     public double getZoomLevel() {
-        return 0;
+        if (myBid < 0) {
+            CefLog.Debug("Can't do getZoomLevel because bid wasn't created, return 0");
+            return 0;
+        }
+        if (myIsClosing)
+            return 0;
+
+        return myService.execObj((s)-> s.Browser_GetZoomLevel(myBid));
     }
 
     @Override
     public void setZoomLevel(double zoomLevel) {
+        if (myIsClosing)
+            return;
 
+        execIfBid(()->myService.exec((s)-> s.Browser_SetZoomLevel(myBid, zoomLevel)), "setZoomLevel");
     }
 
     @Override
     public void runFileDialog(CefDialogHandler.FileDialogMode mode, String title, String defaultFilePath, Vector<String> acceptFilters, CefRunFileDialogCallback callback) {
-
+        CefLog.Error("TODO: implement runFileDialog.");
     }
 
     @Override
     public void startDownload(String url) {
+        if (myIsClosing)
+            return;
 
+        execIfBid(()->{
+            myService.exec((s)->{
+                s.Browser_StartDownload(myBid, url);
+            });
+        }, "startDownload");
     }
 
     @Override
     public void print() {
-
+        CefLog.Error("TODO: implement print.");
     }
 
     @Override
     public void printToPDF(String path, CefPdfPrintSettings settings, CefPdfPrintCallback callback) {
-
+        CefLog.Error("TODO: implement printToPDF.");
     }
 
     @Override
     public void find(String searchText, boolean forward, boolean matchCase, boolean findNext) {
+        if (myIsClosing)
+            return;
 
+        execIfBid(()->{
+            myService.exec((s)->{
+                s.Browser_Find(myBid, searchText, forward, matchCase, findNext);
+            });
+        }, "find");
     }
 
     @Override
     public void stopFinding(boolean clearSelection) {
+        if (myIsClosing)
+            return;
 
+        execIfBid(()->{
+            myService.exec((s)->{
+                s.Browser_StopFinding(myBid, clearSelection);
+            });
+        }, "stopFinding");
     }
 
     @Override
@@ -364,27 +504,40 @@ public class RemoteBrowser implements CefBrowser {
 
     @Override
     public void replaceMisspelling(String word) {
-
-    }
-
-    @Override
-    public void wasResized(int width, int height) {
-        // TODO: remember size in render-handler
-        if (myBid < 0) {
-            CefLog.Debug("Skip wasResized because bid wasn't created");
-            return;
-        }
         if (myIsClosing)
             return;
 
-        myService.exec((s)->{
-            s.Browser_WasResized(myBid, width, height);
-        });
+        execIfBid(()->{
+            myService.exec((s)->{
+                s.Browser_ReplaceMisspelling(myBid, word);
+            });
+        }, "replaceMisspelling");
+    }
+
+    @Override
+    public void wasResized(int width/*unused*/, int height/*unused*/) {
+        // NOTE: width, height are unused.
+        // This method will schedule request of new size via CefRenderHandler.GetViewRect.
+        if (myIsClosing)
+            return;
+
+        execIfBid(()->{
+            myService.exec((s)->{
+                s.Browser_WasResized(myBid);
+            });
+        }, "wasResized");
     }
 
     @Override
     public void notifyScreenInfoChanged() {
+        if (myIsClosing)
+            return;
 
+        execIfBid(()->{
+            myService.exec((s)->{
+                s.Browser_NotifyScreenInfoChanged(myBid);
+            });
+        }, "notifyScreenInfoChanged");
     }
 
     @Override
@@ -462,12 +615,24 @@ public class RemoteBrowser implements CefBrowser {
 
     @Override
     public void setWindowlessFrameRate(int frameRate) {
+        myFrameRate = frameRate;
 
+        if (myIsClosing)
+            return;
+
+        execIfBid(()->{
+            myService.exec((s)->{
+                s.Browser_SetFrameRate(myBid, frameRate);
+            });
+        }, "setWindowlessFrameRate");
     }
 
     @Override
     public CompletableFuture<Integer> getWindowlessFrameRate() {
-        return null;
+        CefLog.Warn("%s: getWindowlessFrameRate returns cached value %d. TODO: implement real getWindowlessFrameRate.", this, myFrameRate);
+        CompletableFuture<Integer> result = new CompletableFuture<Integer>();
+        result.complete(myFrameRate);
+        return result;
     }
 
     @Override

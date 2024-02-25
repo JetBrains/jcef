@@ -57,6 +57,11 @@ public class RpcExecutor {
         return myTransport;
     }
 
+    public boolean isValid() {
+        TTransport t = myTransport;
+        return t != null && t.isOpen();
+    }
+
     synchronized
     public int connect(boolean asMaster) {
         if (myTransport == null)

@@ -29,12 +29,12 @@ public class RemoteMessageRouterImpl extends RemoteServerObject {
         myCancel = cancel;
     }
 
-    public static RemoteMessageRouterImpl create(CefMessageRouter.CefMessageRouterConfig config) {
-        // TODO: check instance is ready (add delayed initialization)
-        RpcExecutor server = CefServer.instance().getService();
+    public static RemoteMessageRouterImpl create(RpcExecutor server, CefMessageRouter.CefMessageRouterConfig config) {
         RObject robj = server.execObj((s)->s.MessageRouter_Create(config.jsQueryFunction, config.jsCancelFunction));
-        if (robj.objId < 0)
+        if (robj.objId < 0) {
+            CefLog.Error("MessageRouter_Create returns invalid objId %d.", robj.objId);
             return null;
+        }
         return new RemoteMessageRouterImpl(server, robj, config.jsQueryFunction, config.jsCancelFunction);
     }
 

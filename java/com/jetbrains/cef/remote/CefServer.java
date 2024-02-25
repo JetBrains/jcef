@@ -1,8 +1,7 @@
 package com.jetbrains.cef.remote;
 
-import com.jetbrains.cef.remote.thrift_codegen.*;
+import com.jetbrains.cef.remote.thrift_codegen.ClientHandlers;
 import org.apache.thrift.TException;
-import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.server.TServer;
 import org.apache.thrift.server.TThreadPoolServer;
 import org.apache.thrift.transport.TServerTransport;
@@ -12,8 +11,7 @@ import org.cef.handler.CefAppHandler;
 import org.cef.misc.CefLog;
 import org.cef.misc.Utils;
 
-import java.nio.ByteBuffer;
-import java.util.List;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicLong;
@@ -32,6 +30,9 @@ public class CefServer {
     private final ClientHandlersImpl myClientHandlersImpl = new ClientHandlersImpl(myRpc, myBid2Browser);
 
     private volatile boolean myIsConnected = false;
+    private volatile boolean myIsContextInitialized = false;
+
+    private final LinkedList<Runnable> myDelayedActions = new LinkedList<>();
 
     // Connects to CefServer and start cef-handlers service.
     // Should be executed in bg thread.
@@ -52,13 +53,29 @@ public class CefServer {
             CefLog.Error("Can't initialize client for native server.");
             return false;
         }
-        INSTANCE.myIsConnected = true;
         return true;
     }
 
     public static CefServer instance() { return INSTANCE; }
 
-    public boolean isConnected() { return myIsConnected; }
+    // returns true when server is connected and action was executed immediately
+    public boolean onConnected(Runnable r, String name, boolean first) {
+        synchronized (myDelayedActions) {
+            if (myIsConnected) {
+                if (r != null)
+                    r.run();
+                return true;
+            }
+            if (r != null) {
+                if (first)
+                    myDelayedActions.addFirst(r);
+                else
+                    myDelayedActions.addLast(r);
+                CefLog.Debug("Delay action '%s' until server connected (first=%s).", name, String.valueOf(first));
+            }
+            return false;
+        }
+    }
 
     public RpcExecutor getService() { return myRpc; }
 
@@ -73,7 +90,10 @@ public class CefServer {
     }
 
     private boolean connect(Runnable onContextInitialized) {
-        myClientHandlersImpl.setOnContextInitialized(onContextInitialized);
+        myClientHandlersImpl.setOnContextInitialized(() -> {
+            myIsContextInitialized = true;
+            onContextInitialized.run();
+        });
 
         try {
             // 1. Start server for cef-handlers execution. Open transport for rpc-handlers
@@ -115,12 +135,21 @@ public class CefServer {
 
             // 3. Connect to CefServer
             int cid = myRpc.connect(!CONNECT_AS_SLAVE);
+            synchronized (myDelayedActions) {
+                myIsConnected = true;
+                myDelayedActions.forEach(r -> r.run());
+                myDelayedActions.clear();
+            }
+
             CefLog.Debug("Connected to CefSever, cid=" + cid);
         } catch (Throwable e) {
             CefLog.Error("RuntimeException in CefServer.connect: %s", e.getMessage());
             return false;
+        } finally {
+            synchronized (myDelayedActions) {
+                myDelayedActions.clear();
+            }
         }
-
         return true;
     }
 

@@ -47,4 +47,31 @@ class CriticalWait {
   CriticalLock* lock_;
 };
 
+class LockGuard {
+  CriticalLock &lock;
+
+ public:
+  LockGuard(CriticalLock& _lock) : lock(_lock) {
+    lock.Lock();
+  }
+  ~LockGuard() {
+    lock.Unlock();
+  }
+};
+
+class WaitGuard {
+  CriticalWait &wait;
+
+ public:
+  WaitGuard(CriticalWait &_wait) : wait(_wait) {
+    wait.lock()->Lock();
+  }
+  ~WaitGuard() {
+    wait.WakeUp();
+    wait.lock()->Unlock();
+  }
+};
+
+
+
 #endif  // JCEF_NATIVE_CRITICAL_WAIT_H_

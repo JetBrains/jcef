@@ -41,10 +41,32 @@ class ServerHandler : public thrift_codegen::ServerIf {
   void Browser_LoadURL(const int32_t bid, const std::string& url) override;
   void Browser_GetURL(std::string& _return, const int32_t bid) override;
   void Browser_ExecuteJavaScript(const int32_t bid,const std::string& code,const std::string& url,const int32_t line) override;
-  void Browser_WasResized(const int32_t bid,const int32_t width,const int32_t height) override;
+  void Browser_WasResized(const int32_t bid) override;
+  void Browser_NotifyScreenInfoChanged(const int32_t bid) override;
   void Browser_SendKeyEvent(const int32_t bid,const int32_t event_type,const int32_t modifiers,const int16_t key_char,const int64_t scanCode,const int32_t key_code) override;
   void Browser_SendMouseEvent(const int32_t bid,const int32_t event_type,const int32_t x,const int32_t y,const int32_t modifiers,const int32_t click_count,const int32_t button) override;
   void Browser_SendMouseWheelEvent(const int32_t bid,const int32_t scroll_type,const int32_t x,const int32_t y,const int32_t modifiers,const int32_t delta,const int32_t units_to_scroll) override;
+
+  void Browser_GoBack(const int32_t bid) override;
+  bool Browser_CanGoForward(const int32_t bid) override;
+  bool Browser_CanGoBack(const int32_t bid) override;
+  void Browser_GoForward(const int32_t bid) override;
+  bool Browser_IsLoading(const int32_t bid) override;
+  void Browser_StopLoad(const int32_t bid) override;
+  int32_t Browser_GetFrameCount(const int32_t bid) override;
+  bool Browser_IsPopup(const int32_t bid) override;
+  bool Browser_HasDocument(const int32_t bid) override;
+  void Browser_ViewSource(const int32_t bid) override;
+  void Browser_GetSource(const int32_t bid, const thrift_codegen::RObject& stringVisitor) override;
+  void Browser_GetText(const int32_t bid, const thrift_codegen::RObject& stringVisitor) override;
+  void Browser_SetFocus(const int32_t bid, bool enable) override;
+  double Browser_GetZoomLevel(const int32_t bid) override;
+  void Browser_SetZoomLevel(const int32_t bid, const double val) override;
+  void Browser_StartDownload(const int32_t bid, const std::string& url) override;
+  void Browser_Find(const int32_t bid, const std::string& searchText, const bool forward, const bool matchCase, const bool findNext) override;
+  void Browser_StopFinding(const int32_t bid, const bool clearSelection) override;
+  void Browser_ReplaceMisspelling(const int32_t bid, const std::string& word) override;
+  void Browser_SetFrameRate(const int32_t bid, int32_t val) override;
 
   //
   // CefRequest

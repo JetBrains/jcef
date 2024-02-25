@@ -95,9 +95,14 @@ class ServerHandler : virtual public ServerIf {
     printf("Browser_ExecuteJavaScript\n");
   }
 
-  void Browser_WasResized(const int32_t bid, const int32_t width, const int32_t height) {
+  void Browser_WasResized(const int32_t bid) {
     // Your implementation goes here
     printf("Browser_WasResized\n");
+  }
+
+  void Browser_NotifyScreenInfoChanged(const int32_t bid) {
+    // Your implementation goes here
+    printf("Browser_NotifyScreenInfoChanged\n");
   }
 
   void Browser_SendKeyEvent(const int32_t bid, const int32_t event_type, const int32_t modifiers, const int16_t key_char, const int64_t scanCode, const int32_t key_code) {
@@ -113,6 +118,106 @@ class ServerHandler : virtual public ServerIf {
   void Browser_SendMouseWheelEvent(const int32_t bid, const int32_t scroll_type, const int32_t x, const int32_t y, const int32_t modifiers, const int32_t delta, const int32_t units_to_scroll) {
     // Your implementation goes here
     printf("Browser_SendMouseWheelEvent\n");
+  }
+
+  bool Browser_CanGoForward(const int32_t bid) {
+    // Your implementation goes here
+    printf("Browser_CanGoForward\n");
+  }
+
+  bool Browser_CanGoBack(const int32_t bid) {
+    // Your implementation goes here
+    printf("Browser_CanGoBack\n");
+  }
+
+  void Browser_GoBack(const int32_t bid) {
+    // Your implementation goes here
+    printf("Browser_GoBack\n");
+  }
+
+  void Browser_GoForward(const int32_t bid) {
+    // Your implementation goes here
+    printf("Browser_GoForward\n");
+  }
+
+  bool Browser_IsLoading(const int32_t bid) {
+    // Your implementation goes here
+    printf("Browser_IsLoading\n");
+  }
+
+  void Browser_StopLoad(const int32_t bid) {
+    // Your implementation goes here
+    printf("Browser_StopLoad\n");
+  }
+
+  int32_t Browser_GetFrameCount(const int32_t bid) {
+    // Your implementation goes here
+    printf("Browser_GetFrameCount\n");
+  }
+
+  bool Browser_IsPopup(const int32_t bid) {
+    // Your implementation goes here
+    printf("Browser_IsPopup\n");
+  }
+
+  bool Browser_HasDocument(const int32_t bid) {
+    // Your implementation goes here
+    printf("Browser_HasDocument\n");
+  }
+
+  void Browser_ViewSource(const int32_t bid) {
+    // Your implementation goes here
+    printf("Browser_ViewSource\n");
+  }
+
+  void Browser_GetSource(const int32_t bid, const  ::thrift_codegen::RObject& stringVisitor) {
+    // Your implementation goes here
+    printf("Browser_GetSource\n");
+  }
+
+  void Browser_GetText(const int32_t bid, const  ::thrift_codegen::RObject& stringVisitor) {
+    // Your implementation goes here
+    printf("Browser_GetText\n");
+  }
+
+  void Browser_SetFocus(const int32_t bid, const bool enable) {
+    // Your implementation goes here
+    printf("Browser_SetFocus\n");
+  }
+
+  double Browser_GetZoomLevel(const int32_t bid) {
+    // Your implementation goes here
+    printf("Browser_GetZoomLevel\n");
+  }
+
+  void Browser_SetZoomLevel(const int32_t bid, const double val) {
+    // Your implementation goes here
+    printf("Browser_SetZoomLevel\n");
+  }
+
+  void Browser_StartDownload(const int32_t bid, const std::string& url) {
+    // Your implementation goes here
+    printf("Browser_StartDownload\n");
+  }
+
+  void Browser_Find(const int32_t bid, const std::string& searchText, const bool forward, const bool matchCase, const bool findNext) {
+    // Your implementation goes here
+    printf("Browser_Find\n");
+  }
+
+  void Browser_StopFinding(const int32_t bid, const bool clearSelection) {
+    // Your implementation goes here
+    printf("Browser_StopFinding\n");
+  }
+
+  void Browser_ReplaceMisspelling(const int32_t bid, const std::string& word) {
+    // Your implementation goes here
+    printf("Browser_ReplaceMisspelling\n");
+  }
+
+  void Browser_SetFrameRate(const int32_t bid, const int32_t val) {
+    // Your implementation goes here
+    printf("Browser_SetFrameRate\n");
   }
 
   void Request_Update(const  ::thrift_codegen::RObject& request) {

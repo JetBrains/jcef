@@ -19,6 +19,8 @@
 
 #include "ServerState.h"
 
+#include "../native/critical_wait.h"
+
 using namespace apache::thrift;
 
 ServerHandler::ServerHandler()
@@ -142,6 +144,13 @@ void ServerHandler::version(std::string& _return) {
     return;                                              \
   }
 
+#define GET_BROWSER_OR_RETURN_VAL(val)                   \
+  auto browser = myClientsManager->getCefBrowser(bid);   \
+  if (browser == nullptr) {                              \
+    Log::error("CefBrowser is null, bid=%d", bid);       \
+    return val;                                          \
+  }
+
 void ServerHandler::Browser_Reload(const int32_t bid) {
   LNDCT();
   GET_BROWSER_OR_RETURN()
@@ -172,10 +181,16 @@ void ServerHandler::Browser_ExecuteJavaScript(const int32_t bid,const std::strin
   browser->GetMainFrame()->ExecuteJavaScript(code, url, line);
 }
 
-void ServerHandler::Browser_WasResized(const int32_t bid,const int32_t width,const int32_t height) {
+void ServerHandler::Browser_WasResized(const int32_t bid) {
   LNDCT();
   GET_BROWSER_OR_RETURN()
   browser->GetHost()->WasResized();
+}
+
+void ServerHandler::Browser_NotifyScreenInfoChanged(const int32_t bid) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN()
+  browser->GetHost()->NotifyScreenInfoChanged();
 }
 
 extern void processKeyEvent(
@@ -225,6 +240,154 @@ void ServerHandler::Browser_SendMouseWheelEvent(const int32_t bid,const int32_t 
   LNDCT();
   GET_BROWSER_OR_RETURN()
   processMouseWheelEvent(browser, scroll_type, x, y, modifiers, delta, units_to_scroll);
+}
+
+void ServerHandler::Browser_GoBack(const int32_t bid) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN()
+  browser->GoBack();
+}
+
+bool ServerHandler::Browser_CanGoForward(const int32_t bid) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN_VAL(false)
+  return browser->CanGoForward();
+}
+
+bool ServerHandler::Browser_CanGoBack(const int32_t bid) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN_VAL(false)
+  return browser->CanGoBack();
+}
+
+void ServerHandler::Browser_GoForward(const int32_t bid) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN()
+  browser->GoForward();
+}
+
+bool ServerHandler::Browser_IsLoading(const int32_t bid) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN_VAL(false)
+  return browser->IsLoading();
+}
+void ServerHandler::Browser_StopLoad(const int32_t bid) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN()
+  browser->StopLoad();
+}
+
+int32_t ServerHandler::Browser_GetFrameCount(const int32_t bid) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN_VAL(0)
+  return (int32_t)browser->GetFrameCount();
+}
+
+bool ServerHandler::Browser_IsPopup(const int32_t bid) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN_VAL(false)
+  return browser->IsPopup();
+}
+
+bool ServerHandler::Browser_HasDocument(const int32_t bid) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN_VAL(false)
+  return browser->HasDocument();
+}
+
+void ServerHandler::Browser_ViewSource(const int32_t bid) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN()
+  CefRefPtr<CefFrame> mainFrame = browser->GetMainFrame();
+  CefPostTask(TID_UI, base::BindOnce(&CefFrame::ViewSource, mainFrame.get()));
+}
+
+void ServerHandler::Browser_GetSource(const int32_t bid, const thrift_codegen::RObject& stringVisitor) {
+  LNDCT();
+  Log::error("TODO: implement Browser_GetSource.");
+}
+
+void ServerHandler::Browser_GetText(const int32_t bid, const thrift_codegen::RObject& stringVisitor) {
+  LNDCT();
+  Log::error("TODO: implement Browser_GetText.");
+}
+
+void ServerHandler::Browser_SetFocus(const int32_t bid, bool enable) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN()
+  browser->GetHost()->SetFocus(enable);
+}
+
+namespace {
+  void _runTaskAndWakeup(std::shared_ptr<CriticalWait> waitCond,
+                         base::OnceClosure task) {
+    WaitGuard guard(*waitCond);
+    std::move(task).Run();
+    waitCond->WakeUp();
+  }
+
+  void CefPostTaskAndWait(CefThreadId threadId,
+                          base::OnceClosure task,
+                          long waitMillis) {
+    std::shared_ptr<CriticalLock> lock = std::make_shared<CriticalLock>();
+    std::shared_ptr<CriticalWait> waitCond = std::make_shared<CriticalWait>(lock.get());
+    LockGuard guard(*lock);
+    CefPostTask(threadId, base::BindOnce(_runTaskAndWakeup, waitCond, std::move(task)));
+    waitCond->Wait(waitMillis);
+  }
+
+  void getZoomLevel(CefRefPtr<CefBrowserHost> host, std::shared_ptr<double> result) {
+    *result = host->GetZoomLevel();
+  }
+}
+
+double ServerHandler::Browser_GetZoomLevel(const int32_t bid) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN_VAL(0.0f)
+
+  CefRefPtr<CefBrowserHost> host = browser->GetHost();
+  if (CefCurrentlyOn(TID_UI)) {
+    return host->GetZoomLevel();
+  }
+  std::shared_ptr<double> result = std::make_shared<double>(0.0);
+  CefPostTaskAndWait(TID_UI, base::BindOnce(getZoomLevel, host, result), 100);
+  return *result;
+}
+
+void ServerHandler::Browser_SetZoomLevel(const int32_t bid, const double val)   {
+  LNDCT();
+  GET_BROWSER_OR_RETURN()
+  browser->GetHost()->SetZoomLevel(val);
+}
+
+void ServerHandler::Browser_StartDownload(const int32_t bid, const std::string& url) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN()
+  browser->GetHost()->StartDownload(url);
+}
+
+void ServerHandler::Browser_Find(const int32_t bid, const std::string& searchText, const bool forward, const bool matchCase, const bool findNext)   {
+  LNDCT();
+  GET_BROWSER_OR_RETURN()
+  browser->GetHost()->Find(searchText, forward, matchCase, findNext);
+}
+
+void ServerHandler::Browser_StopFinding(const int32_t bid, const bool clearSelection)   {
+  LNDCT();
+  GET_BROWSER_OR_RETURN()
+  browser->GetHost()->StopFinding(clearSelection);
+}
+
+void ServerHandler::Browser_ReplaceMisspelling(const int32_t bid, const std::string& word)   {
+  LNDCT();
+  GET_BROWSER_OR_RETURN()
+  browser->GetHost()->ReplaceMisspelling(word);
+}
+
+void ServerHandler::Browser_SetFrameRate(const int32_t bid, int32_t val) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN()
+  browser->GetHost()->SetWindowlessFrameRate(val);
 }
 
 void ServerHandler::Request_Update(const thrift_codegen::RObject & request) {

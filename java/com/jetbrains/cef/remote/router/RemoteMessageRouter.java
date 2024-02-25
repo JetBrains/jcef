@@ -1,10 +1,9 @@
 package com.jetbrains.cef.remote.router;
 
-import org.cef.CefApp;
-import org.cef.CefApp.CefAppState;
+import com.jetbrains.cef.remote.CefServer;
+import com.jetbrains.cef.remote.RpcExecutor;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefMessageRouter;
-import org.cef.handler.CefAppStateHandler;
 import org.cef.handler.CefMessageRouterHandler;
 import org.cef.misc.CefLog;
 
@@ -12,28 +11,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 // Simple wrapper for convenience
-public class RemoteMessageRouter extends CefMessageRouter implements CefAppStateHandler {
+public class RemoteMessageRouter extends CefMessageRouter {
     private RemoteMessageRouterImpl myImpl;
-    private final List<Runnable> delayedActions_ = new ArrayList<>();
-
-    @Override
-    public void stateHasChanged(CefAppState state) {
-        if (CefAppState.INITIALIZED == state) {
-            myImpl = RemoteMessageRouterImpl.create(getMessageRouterConfig());
-            synchronized (delayedActions_) {
-                delayedActions_.forEach(r -> r.run());
-                delayedActions_.clear();
-            }
-        }
-    }
+    private final List<Runnable> myDelayedActions = new ArrayList<>();
 
     private void execute(Runnable nativeRunnable, String name) {
-        synchronized (delayedActions_) {
+        synchronized (myDelayedActions) {
             if (myImpl != null)
                 nativeRunnable.run();
             else {
                 CefLog.Debug("RemoteMessageRouter: %s: add delayed action %s", this, name);
-                delayedActions_.add(nativeRunnable);
+                myDelayedActions.add(nativeRunnable);
             }
         }
     }
@@ -41,8 +29,8 @@ public class RemoteMessageRouter extends CefMessageRouter implements CefAppState
     @Override
     public void dispose() {
         try {
-            synchronized (delayedActions_) {
-                delayedActions_.clear();
+            synchronized (myDelayedActions) {
+                myDelayedActions.clear();
                 if (myImpl != null)
                     myImpl.dispose();
             }
@@ -71,7 +59,16 @@ public class RemoteMessageRouter extends CefMessageRouter implements CefAppState
     public RemoteMessageRouter(CefMessageRouterConfig config) {
         super(config);
         // NOTE: message router must be registered before browser created, so use flag 'first' here
-        CefApp.getInstance().onInitialization(this, true);
+        CefServer.instance().onConnected(()->{
+            RpcExecutor service = CefServer.instance().getService();
+            if (!service.isValid()) // impossible, add logging just for insurance
+                CefLog.Error("Trying to create RemoteMessageRouter when not connected to server.");
+            myImpl = RemoteMessageRouterImpl.create(service, getMessageRouterConfig());
+            synchronized (myDelayedActions) {
+                myDelayedActions.forEach(r -> r.run());
+                myDelayedActions.clear();
+            }
+        }, "MessageRouter_Create", true);
     }
 
     public RemoteMessageRouterImpl getImpl() {
