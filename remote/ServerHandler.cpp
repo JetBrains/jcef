@@ -101,10 +101,15 @@ int32_t ServerHandler::connectTcp(int backwardConnectionPort, bool isMaster) {
   });
 }
 
-int32_t ServerHandler::createBrowser(int cid, const std::string& url) {
-  int32_t bid = myClientsManager->createBrowser(cid, myJavaService, myJavaServiceIO, myRoutersManager, url);
-  Log::trace("Created remote browser cid=%d, bid=%d (started native creation)", cid, bid);
+int32_t ServerHandler::createBrowser(int cid, int handlersMask) {
+  int32_t bid = myClientsManager->createBrowser(cid, myJavaService, myJavaServiceIO, myRoutersManager, handlersMask);
+  Log::trace("Created remote browser cid=%d, bid=%d, handlers: %s", cid, bid, HandlerMasks::toString(handlersMask).c_str());
   return bid;
+}
+
+void ServerHandler::startBrowserCreation(int bid, const std::string& url) {
+  myClientsManager->startBrowserCreation(bid, url);
+  Log::trace("Started creation of native CefBrowser of remote browser bid=%d", bid);
 }
 
 void ServerHandler::closeBrowser(const int32_t bid) {

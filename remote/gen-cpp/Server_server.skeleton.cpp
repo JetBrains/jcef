@@ -55,9 +55,14 @@ class ServerHandler : virtual public ServerIf {
     printf("stop\n");
   }
 
-  int32_t createBrowser(const int32_t cid, const std::string& url) {
+  int32_t createBrowser(const int32_t cid, const int32_t handlersMask) {
     // Your implementation goes here
     printf("createBrowser\n");
+  }
+
+  void startBrowserCreation(const int32_t bid, const std::string& url) {
+    // Your implementation goes here
+    printf("startBrowserCreation\n");
   }
 
   void closeBrowser(const int32_t bid) {

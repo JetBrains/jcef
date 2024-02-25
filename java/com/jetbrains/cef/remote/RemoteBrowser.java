@@ -73,12 +73,18 @@ public class RemoteBrowser implements CefBrowser {
     @Override
     public void createImmediately() {
         myIsNativeBrowserCreationStarted = true;
+        final int hmask = myOwner.getHandlersMask() | (myRender == null ? 0 :
+                RemoteClient.HandlerMasks.NativeRender.val());
         myService.exec((s)->{
-            myBid = s.createBrowser(myOwner.getCid(), myUrl);
+            myBid = s.createBrowser(myOwner.getCid(), hmask);
         });
-        if (myBid >= 0)
-            myOwner.onBrowserOpened(this);
-        else
+        if (myBid >= 0) {
+            myOwner.onNewBid(this);
+            CefLog.Debug("Registered bid %d with handlers: %s", myBid, RemoteClient.HandlerMasks.toString(hmask));
+            // At current point new bid is registered so java-handlers calls will be dispatched correctly.
+            // We can't start creation earlier because for example onAfterCreated can be called before new bid is registered.
+            myService.exec((s)-> s.startBrowserCreation(myBid, myUrl));
+        } else
             CefLog.Error("Can't obtain bid, createBrowser returns %d", myBid);
     }
 
@@ -267,13 +273,13 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing)
             return;
         myIsClosing = true;
+        if (myRender != null)
+            myRender.disposeNativeResources();
         if (myBid < 0)
             return;
-
         myService.exec((s)->{
             s.closeBrowser(myBid);
         });
-        myIsClosing = true;
     }
 
     @Override

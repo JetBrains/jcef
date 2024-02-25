@@ -515,7 +515,8 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         RemoteRequestImpl rreq = new RemoteRequestImpl(myService, request);
         RemoteResponseImpl rresp = new RemoteResponseImpl(myService, response);
         boolean result = f.getDelegate().canSaveCookie(getRemoteBrowser(bid), NULL_FRAME, new RemoteRequest(rreq), new RemoteResponse(rresp), cookieFromList(cookie));
-        rresp.flush(); // |request| cannot be modified in this callback
+        // NOTE: doc doesn't say that response can't be modifed, but call rresp.flush() triggers cooresponding
+        // error on server (i.e. resp is immutable) so don't do that.
         return result;
     }
 

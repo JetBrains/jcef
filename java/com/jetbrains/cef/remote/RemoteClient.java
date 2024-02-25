@@ -32,11 +32,10 @@ public class RemoteClient {
     private CefKeyboardHandler keyboardHandler_ = null;
     private CefPrintHandler printHandler_ = null;
     private CefRequestHandler requestHandler_ = null;
-    private CefNativeRenderHandler renderHandler_ = null;
-    private CefWindowHandler windowHandler_ = null;
     private CefLoadHandler loadHandler_ = null;
 
-    protected final MultiHandler<CefLifeSpanHandler> hLifeSpan = new MultiHandler<>();
+    protected final MultiHandler<CefLifeSpanHandler> hLifeSpan = new MultiHandler<>(); // always presented
+    private int myHandlersMask = 0;
 
     // MessageRouter support
     private Vector<RemoteMessageRouterImpl> msgRouters = new Vector<>();
@@ -77,13 +76,9 @@ public class RemoteClient {
     }
 
     // Called when new bid obtained from server.
-    protected void onBrowserOpened(RemoteBrowser browser) {
+    protected void onNewBid(RemoteBrowser browser) {
         int bid = browser.getBid();
-        if (bid < 0) {
-            CefLog.Error("Can't register bid %d", bid);
-            return;
-        }
-        CefLog.Debug("Registered browser %s", browser);
+        assert bid >= 0;
         ourBid2Browser.put(bid, browser);
     }
 
@@ -123,9 +118,6 @@ public class RemoteClient {
     public CefRequestHandler getRequestHandler() {
         return requestHandler_;
     }
-    public CefWindowHandler getWindowHandler() {
-        return windowHandler_;
-    }
     public CefLoadHandler getLoadHandler() { return loadHandler_; }
 
     //
@@ -139,6 +131,8 @@ public class RemoteClient {
     }
 
     public int getCid() { return myCid; }
+
+    public int getHandlersMask() { return myHandlersMask; }
 
     //
     // CefClient
@@ -165,12 +159,18 @@ public class RemoteClient {
 
 
     // Handlers management
+    private void _updateMask(Object handler, int handlerMask) {
+        if (handler != null)
+            myHandlersMask |= handlerMask;
+        else
+            myHandlersMask &= ~handlerMask;
+    }
+
     public void addLifeSpanHandler(CefLifeSpanHandler handler) {
         hLifeSpan.addHandler(handler);
     }
 
-    public void removeLifeSpanHandler() {
-        // TODO: use lifeSpanHandler_.removeHandler(handler);
+    public void removeAllLifeSpanHandlers() {
         hLifeSpan.removeAllHandlers();
     }
 
@@ -178,97 +178,145 @@ public class RemoteClient {
         if (loadHandler_ != null && !Objects.equals(loadHandler_, loadHandler))
             CefLog.Warn("loadHandler_ will be replaced.");
         loadHandler_ = loadHandler;
+        _updateMask(loadHandler_, HandlerMasks.Load.val());
     }
 
-    public void removeLoadHandler() { loadHandler_ = null; }
+    public void removeLoadHandler() {
+        loadHandler_ = null;
+        _updateMask(loadHandler_, HandlerMasks.Load.val());
+    }
 
     public void addDisplayHandler(CefDisplayHandler displayHandler) {
         if (displayHandler_ != null && !Objects.equals(displayHandler_, displayHandler))
             CefLog.Warn("displayHandler_ will be replaced.");
         displayHandler_ = displayHandler;
+        _updateMask(displayHandler_, HandlerMasks.Display.val());
     }
 
-    public void removeDisplayHandler() { displayHandler_ = null; }
+    public void removeDisplayHandler() {
+        displayHandler_ = null;
+        _updateMask(displayHandler_, HandlerMasks.Display.val());
+    }
 
     public void addRequestHandler(CefRequestHandler requestHandler) {
         if (requestHandler_ != null && !Objects.equals(requestHandler_, requestHandler))
             CefLog.Warn("requestHandler_ will be replaced.");
         requestHandler_ = requestHandler;
+        _updateMask(requestHandler_, HandlerMasks.Request.val());
     }
 
-    public void removeRequestHandler() { requestHandler_ = null; }
+    public void removeRequestHandler() {
+        requestHandler_ = null;
+        _updateMask(requestHandler_, HandlerMasks.Request.val());
+    }
 
     public void addContextMenuHandler(CefContextMenuHandler handler) {
         if (contextMenuHandler_ != null && !Objects.equals(contextMenuHandler_, handler))
             CefLog.Warn("contextMenuHandler_ will be replaced.");
         contextMenuHandler_ = handler;
+        _updateMask(contextMenuHandler_, HandlerMasks.ContextMenu.val());
     }
 
-    public void removeContextMenuHandler() {}
+    public void removeContextMenuHandler() {
+        contextMenuHandler_ = null;
+        _updateMask(contextMenuHandler_, HandlerMasks.ContextMenu.val());
+    }
 
     public void addDialogHandler(CefDialogHandler handler) {
         if (dialogHandler_ != null && !Objects.equals(dialogHandler_, handler))
             CefLog.Warn("dialogHandler_ will be replaced.");
         dialogHandler_ = handler;
+        _updateMask(dialogHandler_, HandlerMasks.Dialog.val());
     }
 
-    public void removeDialogHandler() {}
+    public void removeDialogHandler() {
+        dialogHandler_ = null;
+        _updateMask(dialogHandler_, HandlerMasks.Dialog.val());
+    }
 
     public void addDownloadHandler(CefDownloadHandler handler) {
         if (downloadHandler_ != null && !Objects.equals(downloadHandler_, handler))
             CefLog.Warn("downloadHandler_ will be replaced.");
         downloadHandler_ = handler;
+        _updateMask(downloadHandler_, HandlerMasks.Download.val());
     }
 
-    public void removeDownloadHandler() {}
+    public void removeDownloadHandler() {
+        downloadHandler_ = null;
+        _updateMask(downloadHandler_, HandlerMasks.Download.val());
+    }
 
     public void addDragHandler(CefDragHandler handler) {
         if (dragHandler_ != null && !Objects.equals(dragHandler_, handler))
             CefLog.Warn("dragHandler_ will be replaced.");
         dragHandler_ = handler;
+        _updateMask(dragHandler_, HandlerMasks.Drag.val());
     }
 
-    public void removeDragHandler() {}
+    public void removeDragHandler() {
+        dragHandler_ = null;
+        _updateMask(dragHandler_, HandlerMasks.Drag.val());
+    }
 
     public void addFocusHandler(CefFocusHandler handler) {
         if (focusHandler_ != null && !Objects.equals(focusHandler_, handler))
             CefLog.Warn("focusHandler_ will be replaced.");
         focusHandler_ = handler;
+        _updateMask(focusHandler_, HandlerMasks.Focus.val());
     }
 
-    public void removeFocusHandler() {}
+    public void removeFocusHandler() {
+        focusHandler_ = null;
+        _updateMask(focusHandler_, HandlerMasks.Focus.val());
+    }
 
     public void addPermissionHandler(CefPermissionHandler handler) {
         if (permissionHandler_ != null && !Objects.equals(permissionHandler_, handler))
             CefLog.Warn("permissionHandler_ will be replaced.");
         permissionHandler_ = handler;
+        _updateMask(permissionHandler_, HandlerMasks.Permission.val());
     }
 
-    public void removePermissionHandler() {}
+    public void removePermissionHandler() {
+        permissionHandler_ = null;
+        _updateMask(permissionHandler_, HandlerMasks.Permission.val());
+    }
 
     public void addJSDialogHandler(CefJSDialogHandler handler) {
         if (jsDialogHandler_ != null && !Objects.equals(jsDialogHandler_, handler))
             CefLog.Warn("jsDialogHandler_ will be replaced.");
         jsDialogHandler_ = handler;
+        _updateMask(jsDialogHandler_, HandlerMasks.JSDialog.val());
     }
 
-    public void removeJSDialogHandler() {}
+    public void removeJSDialogHandler() {
+        jsDialogHandler_ = null;
+        _updateMask(jsDialogHandler_, HandlerMasks.JSDialog.val());
+    }
 
     public void addKeyboardHandler(CefKeyboardHandler handler) {
         if (keyboardHandler_ != null && !Objects.equals(keyboardHandler_, handler))
             CefLog.Warn("keyboardHandler_ will be replaced.");
         keyboardHandler_ = handler;
+        _updateMask(keyboardHandler_, HandlerMasks.Keyboard.val());
     }
 
-    public void removeKeyboardHandler() {}
+    public void removeKeyboardHandler() {
+        keyboardHandler_ = null;
+        _updateMask(keyboardHandler_, HandlerMasks.Keyboard.val());
+    }
 
     public void addPrintHandler(CefPrintHandler handler) {
         if (printHandler_ != null && !Objects.equals(printHandler_, handler))
             CefLog.Warn("printHandler_ will be replaced.");
         printHandler_ = handler;
+        _updateMask(printHandler_, HandlerMasks.Print.val());
     }
 
-    public void removePrintHandler() {}
+    public void removePrintHandler() {
+        printHandler_ = null;
+        _updateMask(printHandler_, HandlerMasks.Print.val());
+    }
 
     //
     // CefMessageRouter
@@ -306,10 +354,7 @@ public class RemoteClient {
         // to dispose router as usual (inside finalize or manually (via dispose)) => just clean list here.
         msgRouters.clear();
 
-        // 2. Cleanup rendering stuff
-        if (renderHandler_ != null)
-            renderHandler_.disposeNativeResources();
-
+        // 2. Close browsers
         myBrowsers.forEach(rb -> {
             if (rb != null && !rb.isClosed())
                 rb.close(true);
@@ -319,5 +364,37 @@ public class RemoteClient {
 
     public String toString() {
         return "RemoteClient_" + myCid;
+    }
+
+    enum HandlerMasks {
+        Request(1 << 0),
+        NativeRender(1 << 1),
+        Load(1 << 2),
+        ContextMenu(1 << 4),
+        Dialog(1 << 5),
+        Display(1 << 6),
+        Focus(1 << 7),
+        Permission(1 << 8),
+        JSDialog(1 << 9),
+        Keyboard(1 << 10),
+        Print(1 << 11),
+        Download(1 << 12),
+        Drag(1 << 13);
+
+        private final int maskVal;
+
+        HandlerMasks(int maskVal) { this.maskVal = maskVal; }
+
+        int val() { return maskVal; }
+
+        static String toString(int mask) {
+            String result = "Lifespan";
+            for (HandlerMasks m : HandlerMasks.values()) {
+                if ((m.val() & mask) == 0)
+                    continue;
+                result += ", " + m.name();
+            }
+            return result;
+        }
     }
 }

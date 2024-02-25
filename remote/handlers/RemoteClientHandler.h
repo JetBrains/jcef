@@ -17,6 +17,7 @@ public:
      std::shared_ptr<RpcExecutor> serviceIO,
      int cid,
      int bid,
+     int handlersMask,
      std::function<void(int)> onClosedCallback);
 
  CefRefPtr<CefContextMenuHandler> GetContextMenuHandler() override;
@@ -63,18 +64,37 @@ public:
     std::shared_ptr<RpcExecutor> myService;
     std::shared_ptr<MessageRoutersManager> myRoutersManager;
 
-    const CefRefPtr<CefRenderHandler> myRemoteRenderHandler;
-    const CefRefPtr<CefLifeSpanHandler> myRemoteLisfespanHandler;
-    const CefRefPtr<CefLoadHandler> myRemoteLoadHandler;
-    const CefRefPtr<CefDisplayHandler> myRemoteDisplayHandler;
-    const CefRefPtr<CefRequestHandler> myRemoteRequestHandler;
-    const CefRefPtr<CefKeyboardHandler> myRemoteKeyboardHandler;
-    const CefRefPtr<CefFocusHandler> myRemoteFocusHandler;
+    const CefRefPtr<CefLifeSpanHandler> myRemoteLisfespanHandler; // always presented
+
+    CefRefPtr<CefRenderHandler> myRemoteRenderHandler;
+    CefRefPtr<CefLoadHandler> myRemoteLoadHandler;
+    CefRefPtr<CefDisplayHandler> myRemoteDisplayHandler;
+    CefRefPtr<CefRequestHandler> myRemoteRequestHandler;
+    CefRefPtr<CefKeyboardHandler> myRemoteKeyboardHandler;
+    CefRefPtr<CefFocusHandler> myRemoteFocusHandler;
 
     bool myIsClosing = false;
 
     IMPLEMENT_REFCOUNTING(RemoteClientHandler);
 };
+
+namespace HandlerMasks {
+constexpr int Request     (1 << 0);
+constexpr int NativeRender(1 << 1);
+constexpr int Load        (1 << 2);
+constexpr int ContextMenu (1 << 4);
+constexpr int Dialog      (1 << 5);
+constexpr int Display     (1 << 6);
+constexpr int Focus       (1 << 7);
+constexpr int Permission  (1 << 8);
+constexpr int JSDialog    (1 << 9);
+constexpr int Keyboard    (1 << 10);
+constexpr int Print       (1 << 11);
+constexpr int Download    (1 << 12);
+constexpr int Drag        (1 << 13);
+
+std::string toString(int hmask);
+}
 
 #endif  // JCEF_NATIVE_CLIENT_HANDLER_H_
 

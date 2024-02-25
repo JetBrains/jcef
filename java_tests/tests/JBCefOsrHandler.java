@@ -81,6 +81,7 @@ public class JBCefOsrHandler implements CefNativeRenderHandler {
     private final CountDownLatch initLatch = new CountDownLatch(1);
 
     private final Map<String, SharedMemory.WithRaster> mySharedMemCache = new ConcurrentHashMap<>();
+    private boolean myIsDisposed = false;
 
     private JBCefFpsMeter myFpsMeter;
 
@@ -110,6 +111,9 @@ public class JBCefOsrHandler implements CefNativeRenderHandler {
 
     @Override
     public void disposeNativeResources() {
+        if (myIsDisposed)
+            return;
+        myIsDisposed = true;
         for (SharedMemory.WithRaster mem: mySharedMemCache.values())
             mem.close();
         mySharedMemCache.clear();

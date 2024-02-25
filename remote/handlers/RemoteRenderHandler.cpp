@@ -53,6 +53,7 @@ void RemoteRenderHandler::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& re
         Log::trace("GetViewRect: small size %d %d", rect.width, rect.height);
         fillDummy(rect);
     }
+    //Log::trace("GetViewRect result: %d %d %d %d", rect.x, rect.y, rect.width, rect.height);
 }
 
 void fillDummy(CefScreenInfo& screen_info) {
@@ -106,6 +107,7 @@ bool RemoteRenderHandler::GetScreenInfo(CefRefPtr<CefBrowser> browser,
     screen_info.available_rect.y = result.available_rect.y;
     screen_info.available_rect.width = result.available_rect.w;
     screen_info.available_rect.height = result.available_rect.h;
+    //Log::trace("GetScreenInfo result: rc %d %d %d %d, avail %d %d %d %d", result.rect.x, result.rect.y, result.rect.w, result.rect.h, result.available_rect.x, result.available_rect.y, result.available_rect.w, result.available_rect.w);
     return true;
 }
 

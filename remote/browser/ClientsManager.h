@@ -20,8 +20,9 @@ class ClientsManager {
                     std::shared_ptr<RpcExecutor> service,
                     std::shared_ptr<RpcExecutor> serviceIO,
                     std::shared_ptr<MessageRoutersManager> routersManager,
-                    const std::string& url);
-  void closeBrowser(const int32_t bid);
+                    int handlersMask);
+  void startBrowserCreation(int bid, const std::string& url);
+  void closeBrowser(int bid);
 
   // returns short description of remaining browsers (or empty string when empty browsers set)
   std::string closeAllBrowsers();

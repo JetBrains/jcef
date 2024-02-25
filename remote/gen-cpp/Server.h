@@ -29,7 +29,8 @@ class ServerIf {
   virtual void version(std::string& _return) = 0;
   virtual void state(std::string& _return) = 0;
   virtual void stop() = 0;
-  virtual int32_t createBrowser(const int32_t cid, const std::string& url) = 0;
+  virtual int32_t createBrowser(const int32_t cid, const int32_t handlersMask) = 0;
+  virtual void startBrowserCreation(const int32_t bid, const std::string& url) = 0;
   virtual void closeBrowser(const int32_t bid) = 0;
   virtual void Browser_Reload(const int32_t bid) = 0;
   virtual void Browser_ReloadIgnoreCache(const int32_t bid) = 0;
@@ -121,9 +122,12 @@ class ServerNull : virtual public ServerIf {
   void stop() override {
     return;
   }
-  int32_t createBrowser(const int32_t /* cid */, const std::string& /* url */) override {
+  int32_t createBrowser(const int32_t /* cid */, const int32_t /* handlersMask */) override {
     int32_t _return = 0;
     return _return;
+  }
+  void startBrowserCreation(const int32_t /* bid */, const std::string& /* url */) override {
+    return;
   }
   void closeBrowser(const int32_t /* bid */) override {
     return;
@@ -852,36 +856,36 @@ class Server_stop_pargs {
 };
 
 typedef struct _Server_createBrowser_args__isset {
-  _Server_createBrowser_args__isset() : cid(false), url(false) {}
+  _Server_createBrowser_args__isset() : cid(false), handlersMask(false) {}
   bool cid :1;
-  bool url :1;
+  bool handlersMask :1;
 } _Server_createBrowser_args__isset;
 
 class Server_createBrowser_args {
  public:
 
-  Server_createBrowser_args(const Server_createBrowser_args&);
-  Server_createBrowser_args& operator=(const Server_createBrowser_args&);
+  Server_createBrowser_args(const Server_createBrowser_args&) noexcept;
+  Server_createBrowser_args& operator=(const Server_createBrowser_args&) noexcept;
   Server_createBrowser_args() noexcept
                             : cid(0),
-                              url() {
+                              handlersMask(0) {
   }
 
   virtual ~Server_createBrowser_args() noexcept;
   int32_t cid;
-  std::string url;
+  int32_t handlersMask;
 
   _Server_createBrowser_args__isset __isset;
 
   void __set_cid(const int32_t val);
 
-  void __set_url(const std::string& val);
+  void __set_handlersMask(const int32_t val);
 
   bool operator == (const Server_createBrowser_args & rhs) const
   {
     if (!(cid == rhs.cid))
       return false;
-    if (!(url == rhs.url))
+    if (!(handlersMask == rhs.handlersMask))
       return false;
     return true;
   }
@@ -903,7 +907,7 @@ class Server_createBrowser_pargs {
 
   virtual ~Server_createBrowser_pargs() noexcept;
   const int32_t* cid;
-  const std::string* url;
+  const int32_t* handlersMask;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -962,6 +966,64 @@ class Server_createBrowser_presult {
   _Server_createBrowser_presult__isset __isset;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_startBrowserCreation_args__isset {
+  _Server_startBrowserCreation_args__isset() : bid(false), url(false) {}
+  bool bid :1;
+  bool url :1;
+} _Server_startBrowserCreation_args__isset;
+
+class Server_startBrowserCreation_args {
+ public:
+
+  Server_startBrowserCreation_args(const Server_startBrowserCreation_args&);
+  Server_startBrowserCreation_args& operator=(const Server_startBrowserCreation_args&);
+  Server_startBrowserCreation_args() noexcept
+                                   : bid(0),
+                                     url() {
+  }
+
+  virtual ~Server_startBrowserCreation_args() noexcept;
+  int32_t bid;
+  std::string url;
+
+  _Server_startBrowserCreation_args__isset __isset;
+
+  void __set_bid(const int32_t val);
+
+  void __set_url(const std::string& val);
+
+  bool operator == (const Server_startBrowserCreation_args & rhs) const
+  {
+    if (!(bid == rhs.bid))
+      return false;
+    if (!(url == rhs.url))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_startBrowserCreation_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_startBrowserCreation_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_startBrowserCreation_pargs {
+ public:
+
+
+  virtual ~Server_startBrowserCreation_pargs() noexcept;
+  const int32_t* bid;
+  const std::string* url;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
 };
 
@@ -4200,9 +4262,11 @@ class ServerClient : virtual public ServerIf {
   void recv_state(std::string& _return);
   void stop() override;
   void send_stop();
-  int32_t createBrowser(const int32_t cid, const std::string& url) override;
-  void send_createBrowser(const int32_t cid, const std::string& url);
+  int32_t createBrowser(const int32_t cid, const int32_t handlersMask) override;
+  void send_createBrowser(const int32_t cid, const int32_t handlersMask);
   int32_t recv_createBrowser();
+  void startBrowserCreation(const int32_t bid, const std::string& url) override;
+  void send_startBrowserCreation(const int32_t bid, const std::string& url);
   void closeBrowser(const int32_t bid) override;
   void send_closeBrowser(const int32_t bid);
   void Browser_Reload(const int32_t bid) override;
@@ -4324,6 +4388,7 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_state(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_stop(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_createBrowser(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_startBrowserCreation(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_closeBrowser(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_Reload(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_ReloadIgnoreCache(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -4374,6 +4439,7 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["state"] = &ServerProcessor::process_state;
     processMap_["stop"] = &ServerProcessor::process_stop;
     processMap_["createBrowser"] = &ServerProcessor::process_createBrowser;
+    processMap_["startBrowserCreation"] = &ServerProcessor::process_startBrowserCreation;
     processMap_["closeBrowser"] = &ServerProcessor::process_closeBrowser;
     processMap_["Browser_Reload"] = &ServerProcessor::process_Browser_Reload;
     processMap_["Browser_ReloadIgnoreCache"] = &ServerProcessor::process_Browser_ReloadIgnoreCache;
@@ -4507,13 +4573,22 @@ class ServerMultiface : virtual public ServerIf {
     ifaces_[i]->stop();
   }
 
-  int32_t createBrowser(const int32_t cid, const std::string& url) override {
+  int32_t createBrowser(const int32_t cid, const int32_t handlersMask) override {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->createBrowser(cid, url);
+      ifaces_[i]->createBrowser(cid, handlersMask);
     }
-    return ifaces_[i]->createBrowser(cid, url);
+    return ifaces_[i]->createBrowser(cid, handlersMask);
+  }
+
+  void startBrowserCreation(const int32_t bid, const std::string& url) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->startBrowserCreation(bid, url);
+    }
+    ifaces_[i]->startBrowserCreation(bid, url);
   }
 
   void closeBrowser(const int32_t bid) override {
@@ -4925,9 +5000,11 @@ class ServerConcurrentClient : virtual public ServerIf {
   void recv_state(std::string& _return, const int32_t seqid);
   void stop() override;
   void send_stop();
-  int32_t createBrowser(const int32_t cid, const std::string& url) override;
-  int32_t send_createBrowser(const int32_t cid, const std::string& url);
+  int32_t createBrowser(const int32_t cid, const int32_t handlersMask) override;
+  int32_t send_createBrowser(const int32_t cid, const int32_t handlersMask);
   int32_t recv_createBrowser(const int32_t seqid);
+  void startBrowserCreation(const int32_t bid, const std::string& url) override;
+  void send_startBrowserCreation(const int32_t bid, const std::string& url);
   void closeBrowser(const int32_t bid) override;
   void send_closeBrowser(const int32_t bid);
   void Browser_Reload(const int32_t bid) override;

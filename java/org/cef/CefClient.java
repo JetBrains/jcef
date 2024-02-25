@@ -10,7 +10,6 @@ import com.jetbrains.cef.JdkEx;
 
 import com.jetbrains.cef.remote.CefServer;
 import com.jetbrains.cef.remote.RemoteClient;
-import org.cef.browser.*;
 import org.cef.callback.CefAuthCallback;
 import org.cef.callback.CefBeforeDownloadCallback;
 import org.cef.callback.CefCallback;
@@ -326,7 +325,7 @@ public class CefClient extends CefClientHandler
     @Override
     protected CefWindowHandler getWindowHandler() {
         if (remoteClient != null)
-            return remoteClient.getWindowHandler();
+            return null; // only OSR rendering in remote mode
         return this;
     }
 
@@ -748,7 +747,7 @@ public class CefClient extends CefClientHandler
 
     public void removeLifeSpanHandler() {
         if (remoteClient != null)
-            remoteClient.removeLifeSpanHandler();
+            remoteClient.removeAllLifeSpanHandlers();
         else
             synchronized (lifeSpanHandlers_) {
                 lifeSpanHandlers_.clear();

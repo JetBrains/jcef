@@ -44,33 +44,38 @@ int ClientsManager::createBrowser(
     std::shared_ptr<RpcExecutor> service,
     std::shared_ptr<RpcExecutor> serviceIO,
     std::shared_ptr<MessageRoutersManager> routersManager,
-    const std::string& url
+    int handlersMask
 ) {
   CefRefPtr<RemoteClientHandler> clienthandler;
-  // TODO: to prevent possible leaks implement:
-  // 1. wait some time for callback
-  // 2. force clear all clients
   std::shared_ptr<ClientsStorage> storage = myRemoteClients;
-  std::function<void(int)> remove = [=](int bid){
-    storage->erase(bid);
-  };
-
   int bid;
   {
     Lock lock(myRemoteClients->myMutex);
     static int sBid = 0;
     bid = sBid++;
-    clienthandler = new RemoteClientHandler(routersManager, service, serviceIO, cid, bid, remove);
+    clienthandler = new RemoteClientHandler(routersManager, service, serviceIO, cid, bid, handlersMask, [=](int bid){
+      storage->erase(bid);
+    });
     myRemoteClients->set(bid, clienthandler);
   }
 
-  if (CefCurrentlyOn(TID_UI)) {
-    createBrowserImpl(cid, bid, clienthandler, url, remove);
-  } else {
-    CefPostTask(TID_UI, base::BindOnce(&createBrowserImpl, cid, bid, clienthandler, url, remove));
-  }
-
   return bid;
+}
+
+void ClientsManager::startBrowserCreation(int bid, const std::string & url) {
+  CefRefPtr<RemoteClientHandler> clienthandler = myRemoteClients->get(bid);
+  if (!clienthandler)
+    return;
+
+  std::shared_ptr<ClientsStorage> storage = myRemoteClients;
+  std::function<void(int)> remove = [=](int bid){
+    storage->erase(bid);
+  };
+  if (CefCurrentlyOn(TID_UI)) {
+    createBrowserImpl(clienthandler->getCid(), bid, clienthandler, url, remove);
+  } else {
+    CefPostTask(TID_UI, base::BindOnce(&createBrowserImpl, clienthandler->getCid(), bid, clienthandler, url, remove));
+  }
 }
 
 CefRefPtr<CefBrowser> ClientsManager::getCefBrowser(int bid) {
