@@ -21,6 +21,7 @@ import java.util.function.BooleanSupplier;
 
 public class NativeServerManager {
     private static final String ALT_CEF_SERVER_PATH = Utils.getString("ALT_CEF_SERVER_PATH");
+    private static final boolean CHECK_PROCESS_ALIVE = Utils.getBoolean("JCEF_CHECK_PROCESS_ALIVE", true); // for debug, TODO: remove
 
     private static Process ourNativeServerProcess = null;
 
@@ -174,6 +175,11 @@ public class NativeServerManager {
     }
 
     public static boolean isRunning(boolean withDebug) {
+        if (CHECK_PROCESS_ALIVE && ourNativeServerProcess != null && !ourNativeServerProcess.isAlive()) {
+            if (withDebug)
+                CefLog.Debug("isRunning: server process is not alive.");
+            return false;
+        }
         try {
             if (ThriftTransport.isTcp()) {
                 // At first, we check whether the server socket is busy.
