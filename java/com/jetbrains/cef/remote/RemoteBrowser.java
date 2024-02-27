@@ -1,6 +1,5 @@
 package com.jetbrains.cef.remote;
 
-import com.jetbrains.cef.remote.thrift_codegen.RObject;
 import org.cef.CefClient;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefDevToolsClient;
@@ -29,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class RemoteBrowser implements CefBrowser {
     private final RpcExecutor myService;
@@ -40,6 +40,7 @@ public class RemoteBrowser implements CefBrowser {
     private Component myComponent;
     private CefNativeRenderHandler myRender;
 
+    private final AtomicBoolean myIsNativeBrowserCreationRequested = new AtomicBoolean(false);
     private volatile boolean myIsNativeBrowserCreationStarted = false;
     private volatile boolean myIsNativeBrowserCreated = false;
     private volatile boolean myIsClosing = false;
@@ -75,8 +76,8 @@ public class RemoteBrowser implements CefBrowser {
         myRender = renderHandler;
     }
 
-    private void execIfBid(Runnable runnable, String name) {
-        if (myBid >= 0) {
+    private void execWhenCreated(Runnable runnable, String name) {
+        if (myBid >= 0 && myIsNativeBrowserCreated) {
             runnable.run();
             return;
         }
@@ -88,7 +89,8 @@ public class RemoteBrowser implements CefBrowser {
 
     @Override
     public void createImmediately() {
-        CefServer.instance().onConnected(this::requestBid, "requestBid", false);
+        if (!myIsNativeBrowserCreationRequested.getAndSet(true))
+            CefServer.instance().onConnected(this::requestBid, "requestBid", false);
     }
 
     private void requestBid() {
@@ -186,7 +188,7 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing)
             return;
 
-        execIfBid(()->{
+        execWhenCreated(()->{
             myService.exec((s)->{
                 s.Browser_Reload(myBid);
             });
@@ -198,7 +200,7 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing)
             return;
 
-        execIfBid(()->{
+        execWhenCreated(()->{
             myService.exec((s)->{
                 s.Browser_ReloadIgnoreCache(myBid);
             });
@@ -288,7 +290,7 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing)
             return;
 
-        execIfBid(()->{
+        execWhenCreated(()->{
             myService.exec((s)->{
                 s.Browser_ViewSource(myBid);
             });
@@ -300,7 +302,7 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing)
             return;
 
-        execIfBid(()->{
+        execWhenCreated(()->{
             myService.exec((s)->{
                 CefLog.Error("TODO: implement getSource.");
 //                RObject rv = RemoteStringVisitor.create(visitor);
@@ -314,7 +316,7 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing)
             return;
 
-        execIfBid(()->{
+        execWhenCreated(()->{
             myService.exec((s)->{
                 CefLog.Error("TODO: implement getText.");
 //                RObject rv = RemoteStringVisitor.create(visitor);
@@ -334,7 +336,7 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing)
             return;
 
-        execIfBid(()->{
+        execWhenCreated(()->{
             myService.exec((s)->{
                 s.Browser_LoadURL(myBid, url);
             });
@@ -346,7 +348,7 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing)
             return;
 
-        execIfBid(()->{
+        execWhenCreated(()->{
             myService.exec((s)->{
                 s.Browser_ExecuteJavaScript(myBid, code, url, line);
             });
@@ -404,7 +406,7 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing)
             return;
 
-        execIfBid(()->{
+        execWhenCreated(()->{
             myService.exec((s)->{
                 s.Browser_SetFocus(myBid, enable);
             });
@@ -433,7 +435,7 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing)
             return;
 
-        execIfBid(()->myService.exec((s)-> s.Browser_SetZoomLevel(myBid, zoomLevel)), "setZoomLevel");
+        execWhenCreated(()->myService.exec((s)-> s.Browser_SetZoomLevel(myBid, zoomLevel)), "setZoomLevel");
     }
 
     @Override
@@ -446,7 +448,7 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing)
             return;
 
-        execIfBid(()->{
+        execWhenCreated(()->{
             myService.exec((s)->{
                 s.Browser_StartDownload(myBid, url);
             });
@@ -468,7 +470,7 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing)
             return;
 
-        execIfBid(()->{
+        execWhenCreated(()->{
             myService.exec((s)->{
                 s.Browser_Find(myBid, searchText, forward, matchCase, findNext);
             });
@@ -480,7 +482,7 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing)
             return;
 
-        execIfBid(()->{
+        execWhenCreated(()->{
             myService.exec((s)->{
                 s.Browser_StopFinding(myBid, clearSelection);
             });
@@ -507,7 +509,7 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing)
             return;
 
-        execIfBid(()->{
+        execWhenCreated(()->{
             myService.exec((s)->{
                 s.Browser_ReplaceMisspelling(myBid, word);
             });
@@ -521,7 +523,7 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing)
             return;
 
-        execIfBid(()->{
+        execWhenCreated(()->{
             myService.exec((s)->{
                 s.Browser_WasResized(myBid);
             });
@@ -533,7 +535,7 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing)
             return;
 
-        execIfBid(()->{
+        execWhenCreated(()->{
             myService.exec((s)->{
                 s.Browser_NotifyScreenInfoChanged(myBid);
             });
@@ -620,7 +622,7 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing)
             return;
 
-        execIfBid(()->{
+        execWhenCreated(()->{
             myService.exec((s)->{
                 s.Browser_SetFrameRate(myBid, frameRate);
             });
