@@ -67,6 +67,7 @@ class MyServerProcessorFactory : public ::apache::thrift::TProcessorFactory {
 };
 
 int main(int argc, char* argv[]) {
+  fprintf(stderr, "Starting cer server.\n");
   ServerState::instance().init(argc, argv);
 
   setThreadName("main");
@@ -100,16 +101,19 @@ int main(int argc, char* argv[]) {
     return result;
   }
 #elif OS_MAC
+  Log::trace("Initialize MacApplication delegate.");
   initMacApplication();
 #endif
   const Clock::time_point startTime = Clock::now();
 
+  Log::trace("Start CEF initialization.");
   const bool success = CefUtils::initializeCef();
   if (!success) {
     Log::error("Cef initialization failed");
     return -2;
   }
 
+  Log::trace("Create server transport.");
   const CommandLineArgs& cmdArgs = ServerState::instance().getCmdArgs();
   std::shared_ptr<TServerTransport> serverTransport;
   if (cmdArgs.useTcp()) {
@@ -179,6 +183,7 @@ int main(int argc, char* argv[]) {
     });
   }
 
+  Log::trace("Run CEF loop.");
   CefUtils::runCefLoop();
   Log::debug("Finished message loop.");
   server->stop();

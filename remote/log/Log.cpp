@@ -29,7 +29,7 @@ void Log::init(int level, std::string logfile) {
   if (level < 0) level = 0; // max verbose
   if (level > LEVEL_DISABLED) level = LEVEL_DISABLED;
 
-  fprintf(stdout, "Initialize logger: level=%d file='%s'", level, logfile.c_str());
+  fprintf(stderr, "Initialize logger: level=%d file='%s'\n", level, logfile.c_str());
   if (!logfile.empty()) {
     FILE* flog = fopen(logfile.c_str(), "a");
     if (flog != nullptr) {

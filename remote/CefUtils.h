@@ -12,9 +12,6 @@
 class CommandLineArgs;
 
 namespace CefUtils {
-#if defined(OS_MAC)
-  bool doLoadCefLibrary();
-#endif
   bool initializeCef();
   void runCefLoop();
 

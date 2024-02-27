@@ -152,6 +152,17 @@ namespace CefUtils {
     }
 
     bool initializeCef() {
+#if defined(OS_MAC)
+      const Clock::time_point startTime = Clock::now();
+      if (!doLoadCefLibrary())
+        return false;
+
+      const Clock::time_point t1 = Clock::now();
+      if (Log::isDebugEnabled()) {
+        Duration d1 = std::chrono::duration_cast<std::chrono::microseconds>(t1 - startTime);
+        Log::debug("Loaded cef library, spent %d ms", (int)d1.count()/1000);
+      }
+#endif
       const CommandLineArgs& cmdArgs = ServerState::instance().getCmdArgs();
       std::string paramsFilePath = cmdArgs.getParamsFile();
       bool collectCmdSwitches = false;
@@ -161,11 +172,11 @@ namespace CefUtils {
       CefSettings settings;
       std::vector<std::pair<std::string, int>> schemes;
       std::vector<std::string> parsedSettings; // just for logging
-
       if (!paramsFilePath.empty()) {
         std::ifstream infile(paramsFilePath);
         std::string line;
         while (std::getline(infile, line)) {
+          //Log::trace("\tprocess settings line: %s", line.c_str());
           if (line.empty())
             continue;
 
@@ -228,17 +239,6 @@ namespace CefUtils {
           Log::trace("Setting 'log_file' ('%s') will be replaced with value from command line '%s'", logFromSettings.c_str(), cmdArgs.getLogFile().c_str());
       }
 
-#if defined(OS_MAC)
-      const Clock::time_point startTime = Clock::now();
-      if (!CefUtils::doLoadCefLibrary())
-        return false;
-
-      const Clock::time_point t1 = Clock::now();
-      if (Log::isDebugEnabled()) {
-        Duration d1 = std::chrono::duration_cast<std::chrono::microseconds>(t1 - startTime);
-        Log::debug("Loaded cef library, spent %d ms", (int)d1.count()/1000);
-      }
-#endif
       return initializeCef(cmdlineSwitches, settings, schemes);
     }
 
@@ -251,6 +251,7 @@ namespace CefUtils {
 
     std::string name = settingLine.substr(0, pos);
     std::string val = settingLine.substr(pos + 1);
+    //Log::trace("\t parseSetting: name=%s val=%s", name.c_str(), val.c_str());
 
     //
     // Fill string fields
