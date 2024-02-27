@@ -231,19 +231,19 @@ public class RemoteBrowser implements CefBrowser {
     }
 
     @Override
-    public CefFrame getFrame(long identifier) {
+    public CefFrame getFrameByIdentifier(String identifier) {
         CefLog.Error("TODO: implement getFrame.");
         return null;
     }
 
     @Override
-    public CefFrame getFrame(String name) {
+    public CefFrame getFrameByName(String name) {
         CefLog.Error("TODO: implement getFrame.");
         return null;
     }
 
     @Override
-    public Vector<Long> getFrameIdentifiers() {
+    public Vector<String> getFrameIdentifiers() {
         CefLog.Error("TODO: implement getFrameIdentifiers.");
         return null;
     }

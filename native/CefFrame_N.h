@@ -21,7 +21,7 @@ JNIEXPORT void JNICALL Java_org_cef_browser_CefFrame_1N_N_1Dispose(JNIEnv*,
  * Method:    N_GetIdentifier
  * Signature: (J)J
  */
-JNIEXPORT jlong JNICALL
+JNIEXPORT jstring JNICALL
 Java_org_cef_browser_CefFrame_1N_N_1GetIdentifier(JNIEnv*, jobject, jlong);
 
 /*

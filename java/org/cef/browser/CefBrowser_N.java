@@ -452,7 +452,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     }
 
     @Override
-    public CefFrame getFrame(long identifier) {
+    public CefFrame getFrameByIdentifier(String identifier) {
         try {
             checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
@@ -464,7 +464,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     }
 
     @Override
-    public CefFrame getFrame(String name) {
+    public CefFrame getFrameByName(String name) {
         try {
             checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
@@ -476,7 +476,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     }
 
     @Override
-    public Vector<Long> getFrameIdentifiers() {
+    public Vector<String> getFrameIdentifiers() {
         try {
             checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
@@ -1120,9 +1120,9 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     private final native int N_GetIdentifier();
     private final native CefFrame N_GetMainFrame();
     private final native CefFrame N_GetFocusedFrame();
-    private final native CefFrame N_GetFrame(long identifier);
+    private final native CefFrame N_GetFrame(String identifier);
     private final native CefFrame N_GetFrame2(String name);
-    private final native Vector<Long> N_GetFrameIdentifiers();
+    private final native Vector<String> N_GetFrameIdentifiers();
     private final native Vector<String> N_GetFrameNames();
     private final native int N_GetFrameCount();
     private final native boolean N_IsPopup();

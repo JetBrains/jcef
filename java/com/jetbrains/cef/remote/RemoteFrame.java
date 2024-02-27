@@ -8,8 +8,8 @@ public class RemoteFrame implements CefFrame {
     }
 
     @Override
-    public long getIdentifier() {
-        return 0;
+    public String getIdentifier() {
+        return "RemoteFrame_";
     }
 
     @Override
