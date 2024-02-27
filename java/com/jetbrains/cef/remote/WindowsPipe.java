@@ -1,5 +1,7 @@
 package com.jetbrains.cef.remote;
 
+import com.jetbrains.cef.SharedMemory;
+
 import java.io.IOException;
 
 class WindowsPipe {

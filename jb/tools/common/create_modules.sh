@@ -85,17 +85,17 @@ cp ../module-info.class .
 cd ..
 rm -rf module-info.class module-info.java $TMP_DIR
 "$JAVA_HOME"/bin/jmod create --class-path slf4j.jar org.slf4j.jmod
-rm -rf "$SLF_JAR" slf4j.jar
 
 echo "*** create thrift module..."
 
 cp "$THRIFT_DIR"/"$THRIFT_JAR" .
 cp "$JB_TOOLS_DIR"/common/thrift-module-info.java module-info.java
-"$JAVA_HOME"/bin/javac --patch-module org.apache.thrift=$THRIFT_JAR module-info.java
+"$JAVA_HOME"/bin/javac --module-path="$SLF_DIR"/"$SLF_JAR" --patch-module org.apache.thrift=$THRIFT_JAR module-info.java
 "$JAVA_HOME"/bin/jar uf $THRIFT_JAR module-info.class
 rm module-info.class module-info.java
 "$JAVA_HOME"/bin/jmod create --class-path $THRIFT_JAR org.apache.thrift.jmod
 rm -rf "$THRIFT_JAR"
+rm -rf "$SLF_JAR" slf4j.jar
 
 echo "*** create jcef module..."
 cp "$OUT_CLS_DIR"/jcef.jar .

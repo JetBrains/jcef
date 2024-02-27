@@ -1,4 +1,4 @@
-package com.jetbrains.cef.remote;
+package com.jetbrains.cef;
 
 import org.cef.misc.CefLog;
 import org.cef.misc.Utils;
@@ -21,7 +21,7 @@ public class SharedMemory {
         loadDynamicLib();
     }
 
-    static void loadDynamicLib() {
+    public static void loadDynamicLib() {
         try {
             if (ALT_MEM_HELPER_PATH == null || ALT_MEM_HELPER_PATH.isEmpty())
                 System.loadLibrary("shared_mem_helper");

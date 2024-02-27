@@ -4,25 +4,14 @@
 
 package org.cef;
 
+import com.jetbrains.cef.remote.RemoteBrowser;
 import org.cef.browser.*;
 import com.jetbrains.cef.JCefAppConfig;
 import com.jetbrains.cef.JdkEx;
 
 import com.jetbrains.cef.remote.CefServer;
 import com.jetbrains.cef.remote.RemoteClient;
-import org.cef.callback.CefAuthCallback;
-import org.cef.callback.CefBeforeDownloadCallback;
-import org.cef.callback.CefCallback;
-import org.cef.callback.CefContextMenuParams;
-import org.cef.callback.CefDownloadItem;
-import org.cef.callback.CefDownloadItemCallback;
-import org.cef.callback.CefDragData;
-import org.cef.callback.CefFileDialogCallback;
-import org.cef.callback.CefJSDialogCallback;
-import org.cef.callback.CefMenuModel;
-import org.cef.callback.CefPrintDialogCallback;
-import org.cef.callback.CefPrintJobCallback;
-import org.cef.callback.CefMediaAccessCallback;
+import org.cef.callback.*;
 import org.cef.handler.CefClientHandler;
 import org.cef.handler.CefContextMenuHandler;
 import org.cef.handler.CefDialogHandler;
@@ -1233,5 +1222,13 @@ public class CefClient extends CefClientHandler
             }
         }
         return sb.toString();
+    }
+
+    public static boolean isNativeBrowserCreationStarted(CefBrowser browser) {
+        if (browser instanceof CefNativeAdapter)
+            return ((CefNativeAdapter)browser).getNativeRef("CefBrowser") != 0;
+        if (browser instanceof RemoteBrowser)
+            return ((RemoteBrowser)browser).isNativeBrowserCreationStarted();
+        return false;
     }
 }

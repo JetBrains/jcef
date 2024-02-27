@@ -14,7 +14,7 @@ extern "C" {
 #endif
 
 JNIEXPORT jlong JNICALL
-Java_com_jetbrains_cef_remote_SharedMemory_openSharedSegment(JNIEnv* env,
+Java_com_jetbrains_cef_SharedMemory_openSharedSegment(JNIEnv* env,
                                                jclass clazz,
                                                jstring sid) {
   if (!sid)
@@ -34,7 +34,7 @@ Java_com_jetbrains_cef_remote_SharedMemory_openSharedSegment(JNIEnv* env,
 }
 
 JNIEXPORT jlong JNICALL
-Java_com_jetbrains_cef_remote_SharedMemory_getPointer(JNIEnv* env,
+Java_com_jetbrains_cef_SharedMemory_getPointer(JNIEnv* env,
                                                             jclass clazz,
                                                             jlong segment,
                                                             jlong handle) {
@@ -49,7 +49,7 @@ Java_com_jetbrains_cef_remote_SharedMemory_getPointer(JNIEnv* env,
 }
 
 JNIEXPORT void JNICALL
-Java_com_jetbrains_cef_remote_SharedMemory_closeSharedSegment(JNIEnv* env,
+Java_com_jetbrains_cef_SharedMemory_closeSharedSegment(JNIEnv* env,
                                                             jclass clazz,
                                                             jlong segment) {
   if (!segment)
@@ -63,7 +63,7 @@ Java_com_jetbrains_cef_remote_SharedMemory_closeSharedSegment(JNIEnv* env,
 }
 
 JNIEXPORT jobject JNICALL
-Java_com_jetbrains_cef_remote_SharedMemory_wrapNativeMem(JNIEnv* env,
+Java_com_jetbrains_cef_SharedMemory_wrapNativeMem(JNIEnv* env,
                                                               jclass clazz,
                                                               jlong pdata,
                                                               jint length) {
@@ -73,7 +73,7 @@ Java_com_jetbrains_cef_remote_SharedMemory_wrapNativeMem(JNIEnv* env,
 }
 
 JNIEXPORT jint JNICALL
-Java_com_jetbrains_cef_remote_SharedMemory_readInt(JNIEnv* env,
+Java_com_jetbrains_cef_SharedMemory_readInt(JNIEnv* env,
                                                          jclass clazz,
                                                          jlong pdata,
                                                          jint offset) {
@@ -85,7 +85,7 @@ Java_com_jetbrains_cef_remote_SharedMemory_readInt(JNIEnv* env,
 }
 
 JNIEXPORT jint JNICALL
-Java_com_jetbrains_cef_remote_SharedMemory_readByte(JNIEnv* env,
+Java_com_jetbrains_cef_SharedMemory_readByte(JNIEnv* env,
                                                    jclass clazz,
                                                    jlong pdata,
                                                    jint offset) {
@@ -97,7 +97,7 @@ Java_com_jetbrains_cef_remote_SharedMemory_readByte(JNIEnv* env,
 }
 
 JNIEXPORT jlong JNICALL
-Java_com_jetbrains_cef_remote_SharedMemory_openSharedMutex(JNIEnv* env,
+Java_com_jetbrains_cef_SharedMemory_openSharedMutex(JNIEnv* env,
                                                              jclass clazz,
                                                              jstring uid) {
   if (!uid)
@@ -111,7 +111,7 @@ Java_com_jetbrains_cef_remote_SharedMemory_openSharedMutex(JNIEnv* env,
 }
 
 JNIEXPORT void JNICALL
-Java_com_jetbrains_cef_remote_SharedMemory_lockSharedMutex(JNIEnv* env,
+Java_com_jetbrains_cef_SharedMemory_lockSharedMutex(JNIEnv* env,
                                                       jclass clazz,
                                                       jlong mutex) {
   if (!mutex)
@@ -121,7 +121,7 @@ Java_com_jetbrains_cef_remote_SharedMemory_lockSharedMutex(JNIEnv* env,
 }
 
 JNIEXPORT void JNICALL
-Java_com_jetbrains_cef_remote_SharedMemory_unlockSharedMutex(JNIEnv* env,
+Java_com_jetbrains_cef_SharedMemory_unlockSharedMutex(JNIEnv* env,
                                                            jclass clazz,
                                                            jlong mutex) {
   if (!mutex)
@@ -131,7 +131,7 @@ Java_com_jetbrains_cef_remote_SharedMemory_unlockSharedMutex(JNIEnv* env,
 }
 
 JNIEXPORT void JNICALL
-Java_com_jetbrains_cef_remote_SharedMemory_closeSharedMutex(JNIEnv* env,
+Java_com_jetbrains_cef_SharedMemory_closeSharedMutex(JNIEnv* env,
                                                               jclass clazz,
                                                               jlong mutex) {
   if (!mutex)

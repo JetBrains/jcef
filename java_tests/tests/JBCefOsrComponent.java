@@ -1,9 +1,8 @@
 package tests;
 
 
-import com.jetbrains.cef.remote.RemoteBrowser;
+import org.cef.CefClient;
 import org.cef.browser.CefBrowser;
-import org.cef.callback.CefNativeAdapter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -72,13 +71,7 @@ class JBCefOsrComponent extends JPanel {
     public void addNotify() {
         super.addNotify();
 
-        boolean needCreate = false;
-        if (myBrowser instanceof CefNativeAdapter)
-            needCreate = ((CefNativeAdapter)myBrowser).getNativeRef("CefBrowser") == 0;
-        else if (myBrowser instanceof RemoteBrowser)
-            needCreate = !((RemoteBrowser)myBrowser).isNativeBrowserCreationStarted();
-
-        if (needCreate)
+        if (!CefClient.isNativeBrowserCreationStarted(myBrowser))
             myBrowser.createImmediately();
     }
 

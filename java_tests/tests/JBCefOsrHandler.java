@@ -3,12 +3,11 @@ package tests;
 
 import com.jetbrains.JBR;
 import com.jetbrains.cef.JCefAppConfig;
-import com.jetbrains.cef.remote.SharedMemory;
+import com.jetbrains.cef.SharedMemory;
 import org.cef.browser.CefBrowser;
 import org.cef.callback.CefDragData;
 import org.cef.handler.CefNativeRenderHandler;
 import org.cef.handler.CefScreenInfo;
-import org.cef.misc.CefLog;
 import org.cef.misc.CefRange;
 
 import javax.swing.*;
@@ -20,8 +19,6 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.awt.image.VolatileImage;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.IntBuffer;
