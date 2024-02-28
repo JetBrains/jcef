@@ -41,7 +41,7 @@ public class RemoteBrowser implements CefBrowser {
     private CefNativeRenderHandler myRender;
 
     private final AtomicBoolean myIsNativeBrowserCreationRequested = new AtomicBoolean(false);
-    private volatile boolean myIsNativeBrowserCreationStarted = false;
+    private volatile Boolean myIsNativeBrowserCreationStarted = false;
     private volatile boolean myIsNativeBrowserCreated = false;
     private volatile boolean myIsClosing = false;
     private volatile boolean myIsClosed = false;
@@ -67,8 +67,12 @@ public class RemoteBrowser implements CefBrowser {
 
     protected void setNativeBrowserCreated(int nativeBrowserIdentifier) {
         // Called from lifespan-handler::onAfterCreated (of owner)
-        myIsNativeBrowserCreated = true;
-        myNativeBrowserIdentifier = nativeBrowserIdentifier;
+        synchronized (myDelayedActions) {
+            myIsNativeBrowserCreated = true;
+            myNativeBrowserIdentifier = nativeBrowserIdentifier;
+            myDelayedActions.forEach(r -> r.run());
+            myDelayedActions.clear();
+        }
     }
 
     public void setComponent(Component component, CefNativeRenderHandler renderHandler) {
@@ -77,13 +81,13 @@ public class RemoteBrowser implements CefBrowser {
     }
 
     private void execWhenCreated(Runnable runnable, String name) {
-        if (myBid >= 0 && myIsNativeBrowserCreated) {
-            runnable.run();
-            return;
-        }
         synchronized (myDelayedActions) {
-            CefLog.Debug("%s: add delayed action %s", this, name);
-            myDelayedActions.add(runnable);
+            if (myIsNativeBrowserCreated) {
+                runnable.run();
+            } else {
+                CefLog.Debug("%s: add delayed action %s", this, name);
+                myDelayedActions.add(runnable);
+            }
         }
     }
 
@@ -94,28 +98,25 @@ public class RemoteBrowser implements CefBrowser {
     }
 
     private void requestBid() {
-        if (myIsClosing)
-            return;
+        synchronized (myIsNativeBrowserCreationStarted) {
+            if (myIsClosing)
+                return;
 
-        myIsNativeBrowserCreationStarted = true;
-        final int hmask = myOwner.getHandlersMask() | (myRender == null ? 0 :
-                RemoteClient.HandlerMasks.NativeRender.val());
-        myService.exec((s)->{
-            myBid = s.createBrowser(myOwner.getCid(), hmask);
-        });
-        if (myBid >= 0) {
-            myOwner.onNewBid(this);
-            CefLog.Debug("Registered bid %d with handlers: %s", myBid, RemoteClient.HandlerMasks.toString(hmask));
-            // At current point new bid is registered so java-handlers calls will be dispatched correctly.
-            // We can't start creation earlier because for example onAfterCreated can be called before new bid is registered.
-            myService.exec((s)-> s.startBrowserCreation(myBid, myUrl));
-
-            synchronized (myDelayedActions) {
-                myDelayedActions.forEach(r -> r.run());
-                myDelayedActions.clear();
-            }
-        } else
-            CefLog.Error("Can't obtain bid, createBrowser returns %d", myBid);
+            myIsNativeBrowserCreationStarted = true;
+            final int hmask = myOwner.getHandlersMask() | (myRender == null ? 0 :
+                    RemoteClient.HandlerMasks.NativeRender.val());
+            myService.exec((s) -> {
+                myBid = s.createBrowser(myOwner.getCid(), hmask);
+            });
+            if (myBid >= 0) {
+                myOwner.onNewBid(this);
+                CefLog.Debug("Registered bid %d with handlers: %s", myBid, RemoteClient.HandlerMasks.toString(hmask));
+                // At current point new bid is registered so java-handlers calls will be dispatched correctly.
+                // We can't start creation earlier because for example onAfterCreated can be called before new bid is registered.
+                myService.exec((s) -> s.startBrowserCreation(myBid, myUrl));
+            } else
+                CefLog.Error("Can't obtain bid, createBrowser returns %d", myBid);
+        }
     }
 
     @Override
@@ -371,19 +372,18 @@ public class RemoteBrowser implements CefBrowser {
 
     @Override
     public void close(boolean force) {
-        if (myIsClosing)
-            return;
-        myIsClosing = true;
-        if (myRender != null)
-            myRender.disposeNativeResources();
+        synchronized (myIsNativeBrowserCreationStarted) {
+            if (myIsClosing)
+                return;
+            myIsClosing = true;
+            if (myRender != null)
+                myRender.disposeNativeResources();
+            if (myBid >= 0)
+                myService.exec(s -> s.closeBrowser(myBid));
+        }
         synchronized (myDelayedActions) {
             myDelayedActions.clear();
         }
-        if (myBid < 0)
-            return;
-        myService.exec((s)->{
-            s.closeBrowser(myBid);
-        });
     }
 
     @Override
