@@ -289,9 +289,9 @@ public class NativeServerManager {
                         new File(javabin.getParentFile().getParentFile().getParentFile(), "Frameworks"),
                         "cef_server.app/Contents/MacOS/cef_server");
             } else if (OS.isLinux()) {
-                serverExe = new File(new File(javabin.getParentFile(), "lib"), "cef_server");
+                serverExe = new File(new File(javabin.getParentFile().getParentFile(), "lib"), "cef_server");
             } else {
-                serverExe = new File(new File(javabin.getParentFile(), "bin"), "cef_server.exe");
+                serverExe = new File(javabin.getParentFile(), "cef_server.exe");
             }
         } else
             serverExe = new File(ALT_CEF_SERVER_PATH.trim());
