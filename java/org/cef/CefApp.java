@@ -5,6 +5,7 @@
 package org.cef;
 
 import com.jetbrains.cef.remote.CefServer;
+import com.jetbrains.cef.remote.callback.RemoteSchemeHandlerFactory;
 import org.cef.callback.CefSchemeHandlerFactory;
 import org.cef.handler.CefAppHandler;
 import org.cef.handler.CefAppHandlerAdapter;
@@ -427,10 +428,16 @@ public class CefApp extends CefAppHandlerAdapter {
      * called on any thread in the browser process.
      */
     public boolean registerSchemeHandlerFactory(String schemeName, String domainName, CefSchemeHandlerFactory factory) {
+        if (IS_REMOTE_ENABLED) {
+            CefServer.instance().onConnected(()->{
+                RemoteSchemeHandlerFactory rf = RemoteSchemeHandlerFactory.create(factory);
+                CefServer.instance().getService().exec(s -> s.SchemeHandlerFactory_Register(schemeName, domainName, rf.thriftId()));
+            }, "registerSchemeHandlerFactory", true);
+            return true;
+        }
+
         onInitialization(state -> {
-            if (IS_REMOTE_ENABLED) {
-                CefLog.Error("Unimplemented registration of scheme handler factory, will be skipped [%s:%s]", schemeName, domainName);
-            } else if (!N_RegisterSchemeHandlerFactory(schemeName, domainName, factory))
+            if (!N_RegisterSchemeHandlerFactory(schemeName, domainName, factory))
                 CefLog.Error("Can't register scheme [%s:%s]", schemeName, domainName);
         });
         return true;
@@ -441,12 +448,15 @@ public class CefApp extends CefAppHandlerAdapter {
      * function may be called on any thread in the browser process.
      */
     public boolean clearSchemeHandlerFactories() {
+        if (IS_REMOTE_ENABLED) {
+            CefServer.instance().onConnected(()->{
+                CefServer.instance().getService().exec(s -> s.ClearAllSchemeHandlerFactories());
+            }, "clearSchemeHandlerFactories", false);
+            return true;
+        }
+
         if (!isInitialized_)
             return false;
-        if (IS_REMOTE_ENABLED) {
-            CefLog.Error("Unimplemented clearing of scheme handler factories");
-            return false;
-        }
         return N_ClearSchemeHandlerFactories();
     }
 

@@ -72,6 +72,8 @@ class ClientHandlersIf {
   virtual bool MessageRouterHandler_onQuery(const  ::thrift_codegen::RObject& handler, const int32_t bid, const int64_t queryId, const std::string& request, const bool persistent, const  ::thrift_codegen::RObject& queryCallback) = 0;
   virtual void MessageRouterHandler_onQueryCanceled(const  ::thrift_codegen::RObject& handler, const int32_t bid, const int64_t queryId) = 0;
   virtual void MessageRouterHandler_Dispose(const int32_t handler) = 0;
+  virtual void SchemeHandlerFactory_CreateHandler( ::thrift_codegen::RObject& _return, const int32_t schemeHandlerFactory, const int32_t bid, const std::string& scheme_name, const  ::thrift_codegen::RObject& request) = 0;
+  virtual void SchemeHandlerFactory_Dispose(const int32_t schemeHandlerFactory) = 0;
 };
 
 class ClientHandlersIfFactory {
@@ -268,6 +270,12 @@ class ClientHandlersNull : virtual public ClientHandlersIf {
     return;
   }
   void MessageRouterHandler_Dispose(const int32_t /* handler */) override {
+    return;
+  }
+  void SchemeHandlerFactory_CreateHandler( ::thrift_codegen::RObject& /* _return */, const int32_t /* schemeHandlerFactory */, const int32_t /* bid */, const std::string& /* scheme_name */, const  ::thrift_codegen::RObject& /* request */) override {
+    return;
+  }
+  void SchemeHandlerFactory_Dispose(const int32_t /* schemeHandlerFactory */) override {
     return;
   }
 };
@@ -5096,6 +5104,184 @@ class ClientHandlers_MessageRouterHandler_Dispose_pargs {
 
 };
 
+typedef struct _ClientHandlers_SchemeHandlerFactory_CreateHandler_args__isset {
+  _ClientHandlers_SchemeHandlerFactory_CreateHandler_args__isset() : schemeHandlerFactory(false), bid(false), scheme_name(false), request(false) {}
+  bool schemeHandlerFactory :1;
+  bool bid :1;
+  bool scheme_name :1;
+  bool request :1;
+} _ClientHandlers_SchemeHandlerFactory_CreateHandler_args__isset;
+
+class ClientHandlers_SchemeHandlerFactory_CreateHandler_args {
+ public:
+
+  ClientHandlers_SchemeHandlerFactory_CreateHandler_args(const ClientHandlers_SchemeHandlerFactory_CreateHandler_args&);
+  ClientHandlers_SchemeHandlerFactory_CreateHandler_args& operator=(const ClientHandlers_SchemeHandlerFactory_CreateHandler_args&);
+  ClientHandlers_SchemeHandlerFactory_CreateHandler_args() noexcept
+                                                         : schemeHandlerFactory(0),
+                                                           bid(0),
+                                                           scheme_name() {
+  }
+
+  virtual ~ClientHandlers_SchemeHandlerFactory_CreateHandler_args() noexcept;
+  int32_t schemeHandlerFactory;
+  int32_t bid;
+  std::string scheme_name;
+   ::thrift_codegen::RObject request;
+
+  _ClientHandlers_SchemeHandlerFactory_CreateHandler_args__isset __isset;
+
+  void __set_schemeHandlerFactory(const int32_t val);
+
+  void __set_bid(const int32_t val);
+
+  void __set_scheme_name(const std::string& val);
+
+  void __set_request(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const ClientHandlers_SchemeHandlerFactory_CreateHandler_args & rhs) const
+  {
+    if (!(schemeHandlerFactory == rhs.schemeHandlerFactory))
+      return false;
+    if (!(bid == rhs.bid))
+      return false;
+    if (!(scheme_name == rhs.scheme_name))
+      return false;
+    if (!(request == rhs.request))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_SchemeHandlerFactory_CreateHandler_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_SchemeHandlerFactory_CreateHandler_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_SchemeHandlerFactory_CreateHandler_pargs {
+ public:
+
+
+  virtual ~ClientHandlers_SchemeHandlerFactory_CreateHandler_pargs() noexcept;
+  const int32_t* schemeHandlerFactory;
+  const int32_t* bid;
+  const std::string* scheme_name;
+  const  ::thrift_codegen::RObject* request;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_SchemeHandlerFactory_CreateHandler_result__isset {
+  _ClientHandlers_SchemeHandlerFactory_CreateHandler_result__isset() : success(false) {}
+  bool success :1;
+} _ClientHandlers_SchemeHandlerFactory_CreateHandler_result__isset;
+
+class ClientHandlers_SchemeHandlerFactory_CreateHandler_result {
+ public:
+
+  ClientHandlers_SchemeHandlerFactory_CreateHandler_result(const ClientHandlers_SchemeHandlerFactory_CreateHandler_result&);
+  ClientHandlers_SchemeHandlerFactory_CreateHandler_result& operator=(const ClientHandlers_SchemeHandlerFactory_CreateHandler_result&);
+  ClientHandlers_SchemeHandlerFactory_CreateHandler_result() noexcept {
+  }
+
+  virtual ~ClientHandlers_SchemeHandlerFactory_CreateHandler_result() noexcept;
+   ::thrift_codegen::RObject success;
+
+  _ClientHandlers_SchemeHandlerFactory_CreateHandler_result__isset __isset;
+
+  void __set_success(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const ClientHandlers_SchemeHandlerFactory_CreateHandler_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_SchemeHandlerFactory_CreateHandler_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_SchemeHandlerFactory_CreateHandler_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_SchemeHandlerFactory_CreateHandler_presult__isset {
+  _ClientHandlers_SchemeHandlerFactory_CreateHandler_presult__isset() : success(false) {}
+  bool success :1;
+} _ClientHandlers_SchemeHandlerFactory_CreateHandler_presult__isset;
+
+class ClientHandlers_SchemeHandlerFactory_CreateHandler_presult {
+ public:
+
+
+  virtual ~ClientHandlers_SchemeHandlerFactory_CreateHandler_presult() noexcept;
+   ::thrift_codegen::RObject* success;
+
+  _ClientHandlers_SchemeHandlerFactory_CreateHandler_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _ClientHandlers_SchemeHandlerFactory_Dispose_args__isset {
+  _ClientHandlers_SchemeHandlerFactory_Dispose_args__isset() : schemeHandlerFactory(false) {}
+  bool schemeHandlerFactory :1;
+} _ClientHandlers_SchemeHandlerFactory_Dispose_args__isset;
+
+class ClientHandlers_SchemeHandlerFactory_Dispose_args {
+ public:
+
+  ClientHandlers_SchemeHandlerFactory_Dispose_args(const ClientHandlers_SchemeHandlerFactory_Dispose_args&) noexcept;
+  ClientHandlers_SchemeHandlerFactory_Dispose_args& operator=(const ClientHandlers_SchemeHandlerFactory_Dispose_args&) noexcept;
+  ClientHandlers_SchemeHandlerFactory_Dispose_args() noexcept
+                                                   : schemeHandlerFactory(0) {
+  }
+
+  virtual ~ClientHandlers_SchemeHandlerFactory_Dispose_args() noexcept;
+  int32_t schemeHandlerFactory;
+
+  _ClientHandlers_SchemeHandlerFactory_Dispose_args__isset __isset;
+
+  void __set_schemeHandlerFactory(const int32_t val);
+
+  bool operator == (const ClientHandlers_SchemeHandlerFactory_Dispose_args & rhs) const
+  {
+    if (!(schemeHandlerFactory == rhs.schemeHandlerFactory))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_SchemeHandlerFactory_Dispose_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_SchemeHandlerFactory_Dispose_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_SchemeHandlerFactory_Dispose_pargs {
+ public:
+
+
+  virtual ~ClientHandlers_SchemeHandlerFactory_Dispose_pargs() noexcept;
+  const int32_t* schemeHandlerFactory;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
 class ClientHandlersClient : virtual public ClientHandlersIf {
  public:
   ClientHandlersClient(std::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
@@ -5251,6 +5437,11 @@ class ClientHandlersClient : virtual public ClientHandlersIf {
   void send_MessageRouterHandler_onQueryCanceled(const  ::thrift_codegen::RObject& handler, const int32_t bid, const int64_t queryId);
   void MessageRouterHandler_Dispose(const int32_t handler) override;
   void send_MessageRouterHandler_Dispose(const int32_t handler);
+  void SchemeHandlerFactory_CreateHandler( ::thrift_codegen::RObject& _return, const int32_t schemeHandlerFactory, const int32_t bid, const std::string& scheme_name, const  ::thrift_codegen::RObject& request) override;
+  void send_SchemeHandlerFactory_CreateHandler(const int32_t schemeHandlerFactory, const int32_t bid, const std::string& scheme_name, const  ::thrift_codegen::RObject& request);
+  void recv_SchemeHandlerFactory_CreateHandler( ::thrift_codegen::RObject& _return);
+  void SchemeHandlerFactory_Dispose(const int32_t schemeHandlerFactory) override;
+  void send_SchemeHandlerFactory_Dispose(const int32_t schemeHandlerFactory);
  protected:
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -5316,6 +5507,8 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_MessageRouterHandler_onQuery(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_MessageRouterHandler_onQueryCanceled(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_MessageRouterHandler_Dispose(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_SchemeHandlerFactory_CreateHandler(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_SchemeHandlerFactory_Dispose(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   ClientHandlersProcessor(::std::shared_ptr<ClientHandlersIf> iface) :
     iface_(iface) {
@@ -5369,6 +5562,8 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["MessageRouterHandler_onQuery"] = &ClientHandlersProcessor::process_MessageRouterHandler_onQuery;
     processMap_["MessageRouterHandler_onQueryCanceled"] = &ClientHandlersProcessor::process_MessageRouterHandler_onQueryCanceled;
     processMap_["MessageRouterHandler_Dispose"] = &ClientHandlersProcessor::process_MessageRouterHandler_Dispose;
+    processMap_["SchemeHandlerFactory_CreateHandler"] = &ClientHandlersProcessor::process_SchemeHandlerFactory_CreateHandler;
+    processMap_["SchemeHandlerFactory_Dispose"] = &ClientHandlersProcessor::process_SchemeHandlerFactory_Dispose;
   }
 
   virtual ~ClientHandlersProcessor() {}
@@ -5856,6 +6051,25 @@ class ClientHandlersMultiface : virtual public ClientHandlersIf {
     ifaces_[i]->MessageRouterHandler_Dispose(handler);
   }
 
+  void SchemeHandlerFactory_CreateHandler( ::thrift_codegen::RObject& _return, const int32_t schemeHandlerFactory, const int32_t bid, const std::string& scheme_name, const  ::thrift_codegen::RObject& request) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->SchemeHandlerFactory_CreateHandler(_return, schemeHandlerFactory, bid, scheme_name, request);
+    }
+    ifaces_[i]->SchemeHandlerFactory_CreateHandler(_return, schemeHandlerFactory, bid, scheme_name, request);
+    return;
+  }
+
+  void SchemeHandlerFactory_Dispose(const int32_t schemeHandlerFactory) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->SchemeHandlerFactory_Dispose(schemeHandlerFactory);
+    }
+    ifaces_[i]->SchemeHandlerFactory_Dispose(schemeHandlerFactory);
+  }
+
 };
 
 // The 'concurrent' client is a thread safe client that correctly handles
@@ -6018,6 +6232,11 @@ class ClientHandlersConcurrentClient : virtual public ClientHandlersIf {
   void send_MessageRouterHandler_onQueryCanceled(const  ::thrift_codegen::RObject& handler, const int32_t bid, const int64_t queryId);
   void MessageRouterHandler_Dispose(const int32_t handler) override;
   void send_MessageRouterHandler_Dispose(const int32_t handler);
+  void SchemeHandlerFactory_CreateHandler( ::thrift_codegen::RObject& _return, const int32_t schemeHandlerFactory, const int32_t bid, const std::string& scheme_name, const  ::thrift_codegen::RObject& request) override;
+  int32_t send_SchemeHandlerFactory_CreateHandler(const int32_t schemeHandlerFactory, const int32_t bid, const std::string& scheme_name, const  ::thrift_codegen::RObject& request);
+  void recv_SchemeHandlerFactory_CreateHandler( ::thrift_codegen::RObject& _return, const int32_t seqid);
+  void SchemeHandlerFactory_Dispose(const int32_t schemeHandlerFactory) override;
+  void send_SchemeHandlerFactory_Dispose(const int32_t schemeHandlerFactory);
  protected:
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;

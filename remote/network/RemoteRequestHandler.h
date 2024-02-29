@@ -1,11 +1,13 @@
 #ifndef JCEF_REMOTEREQUESTHANDLER_H
 #define JCEF_REMOTEREQUESTHANDLER_H
 
-#include "../Utils.h"
+#include <set>
+
 #include "include/cef_request_handler.h"
 
 class RemoteClientHandler;
 class MessageRoutersManager;
+class RpcExecutor;
 
 class RemoteRequestHandler : public CefRequestHandler {
  public:

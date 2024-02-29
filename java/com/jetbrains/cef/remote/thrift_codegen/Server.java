@@ -149,6 +149,10 @@ public class Server {
 
     public void QueryCallback_Failure(com.jetbrains.cef.remote.thrift_codegen.RObject qcallback, int error_code, java.lang.String error_message) throws org.apache.thrift.TException;
 
+    public void SchemeHandlerFactory_Register(java.lang.String schemeName, java.lang.String domainName, com.jetbrains.cef.remote.thrift_codegen.RObject schemeHandlerFactory) throws org.apache.thrift.TException;
+
+    public void ClearAllSchemeHandlerFactories() throws org.apache.thrift.TException;
+
   }
 
   public interface AsyncIface {
@@ -290,6 +294,10 @@ public class Server {
     public void QueryCallback_Success(com.jetbrains.cef.remote.thrift_codegen.RObject qcallback, java.lang.String response, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
     public void QueryCallback_Failure(com.jetbrains.cef.remote.thrift_codegen.RObject qcallback, int error_code, java.lang.String error_message, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+
+    public void SchemeHandlerFactory_Register(java.lang.String schemeName, java.lang.String domainName, com.jetbrains.cef.remote.thrift_codegen.RObject schemeHandlerFactory, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+
+    public void ClearAllSchemeHandlerFactories(org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
   }
 
@@ -1596,6 +1604,33 @@ public class Server {
       args.setError_code(error_code);
       args.setError_message(error_message);
       sendBaseOneway("QueryCallback_Failure", args);
+    }
+
+    @Override
+    public void SchemeHandlerFactory_Register(java.lang.String schemeName, java.lang.String domainName, com.jetbrains.cef.remote.thrift_codegen.RObject schemeHandlerFactory) throws org.apache.thrift.TException
+    {
+      send_SchemeHandlerFactory_Register(schemeName, domainName, schemeHandlerFactory);
+    }
+
+    public void send_SchemeHandlerFactory_Register(java.lang.String schemeName, java.lang.String domainName, com.jetbrains.cef.remote.thrift_codegen.RObject schemeHandlerFactory) throws org.apache.thrift.TException
+    {
+      SchemeHandlerFactory_Register_args args = new SchemeHandlerFactory_Register_args();
+      args.setSchemeName(schemeName);
+      args.setDomainName(domainName);
+      args.setSchemeHandlerFactory(schemeHandlerFactory);
+      sendBaseOneway("SchemeHandlerFactory_Register", args);
+    }
+
+    @Override
+    public void ClearAllSchemeHandlerFactories() throws org.apache.thrift.TException
+    {
+      send_ClearAllSchemeHandlerFactories();
+    }
+
+    public void send_ClearAllSchemeHandlerFactories() throws org.apache.thrift.TException
+    {
+      ClearAllSchemeHandlerFactories_args args = new ClearAllSchemeHandlerFactories_args();
+      sendBaseOneway("ClearAllSchemeHandlerFactories", args);
     }
 
   }
@@ -4231,6 +4266,79 @@ public class Server {
       }
     }
 
+    @Override
+    public void SchemeHandlerFactory_Register(java.lang.String schemeName, java.lang.String domainName, com.jetbrains.cef.remote.thrift_codegen.RObject schemeHandlerFactory, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      SchemeHandlerFactory_Register_call method_call = new SchemeHandlerFactory_Register_call(schemeName, domainName, schemeHandlerFactory, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class SchemeHandlerFactory_Register_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
+      private java.lang.String schemeName;
+      private java.lang.String domainName;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject schemeHandlerFactory;
+      public SchemeHandlerFactory_Register_call(java.lang.String schemeName, java.lang.String domainName, com.jetbrains.cef.remote.thrift_codegen.RObject schemeHandlerFactory, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, true);
+        this.schemeName = schemeName;
+        this.domainName = domainName;
+        this.schemeHandlerFactory = schemeHandlerFactory;
+      }
+
+      @Override
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("SchemeHandlerFactory_Register", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
+        SchemeHandlerFactory_Register_args args = new SchemeHandlerFactory_Register_args();
+        args.setSchemeName(schemeName);
+        args.setDomainName(domainName);
+        args.setSchemeHandlerFactory(schemeHandlerFactory);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public Void getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return null;
+      }
+    }
+
+    @Override
+    public void ClearAllSchemeHandlerFactories(org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      ClearAllSchemeHandlerFactories_call method_call = new ClearAllSchemeHandlerFactories_call(resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class ClearAllSchemeHandlerFactories_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
+      public ClearAllSchemeHandlerFactories_call(org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, true);
+      }
+
+      @Override
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("ClearAllSchemeHandlerFactories", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
+        ClearAllSchemeHandlerFactories_args args = new ClearAllSchemeHandlerFactories_args();
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public Void getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return null;
+      }
+    }
+
   }
 
   public static class Processor<I extends Iface> extends org.apache.thrift.TBaseProcessor<I> implements org.apache.thrift.TProcessor {
@@ -4313,6 +4421,8 @@ public class Server {
       processMap.put("QueryCallback_Dispose", new QueryCallback_Dispose());
       processMap.put("QueryCallback_Success", new QueryCallback_Success());
       processMap.put("QueryCallback_Failure", new QueryCallback_Failure());
+      processMap.put("SchemeHandlerFactory_Register", new SchemeHandlerFactory_Register());
+      processMap.put("ClearAllSchemeHandlerFactories", new ClearAllSchemeHandlerFactories());
       return processMap;
     }
 
@@ -6222,6 +6332,60 @@ public class Server {
       }
     }
 
+    public static class SchemeHandlerFactory_Register<I extends Iface> extends org.apache.thrift.ProcessFunction<I, SchemeHandlerFactory_Register_args> {
+      public SchemeHandlerFactory_Register() {
+        super("SchemeHandlerFactory_Register");
+      }
+
+      @Override
+      public SchemeHandlerFactory_Register_args getEmptyArgsInstance() {
+        return new SchemeHandlerFactory_Register_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public org.apache.thrift.TBase getResult(I iface, SchemeHandlerFactory_Register_args args) throws org.apache.thrift.TException {
+        iface.SchemeHandlerFactory_Register(args.schemeName, args.domainName, args.schemeHandlerFactory);
+        return null;
+      }
+    }
+
+    public static class ClearAllSchemeHandlerFactories<I extends Iface> extends org.apache.thrift.ProcessFunction<I, ClearAllSchemeHandlerFactories_args> {
+      public ClearAllSchemeHandlerFactories() {
+        super("ClearAllSchemeHandlerFactories");
+      }
+
+      @Override
+      public ClearAllSchemeHandlerFactories_args getEmptyArgsInstance() {
+        return new ClearAllSchemeHandlerFactories_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public org.apache.thrift.TBase getResult(I iface, ClearAllSchemeHandlerFactories_args args) throws org.apache.thrift.TException {
+        iface.ClearAllSchemeHandlerFactories();
+        return null;
+      }
+    }
+
   }
 
   public static class AsyncProcessor<I extends AsyncIface> extends org.apache.thrift.TBaseAsyncProcessor<I> {
@@ -6304,6 +6468,8 @@ public class Server {
       processMap.put("QueryCallback_Dispose", new QueryCallback_Dispose());
       processMap.put("QueryCallback_Success", new QueryCallback_Success());
       processMap.put("QueryCallback_Failure", new QueryCallback_Failure());
+      processMap.put("SchemeHandlerFactory_Register", new SchemeHandlerFactory_Register());
+      processMap.put("ClearAllSchemeHandlerFactories", new ClearAllSchemeHandlerFactories());
       return processMap;
     }
 
@@ -9952,6 +10118,86 @@ public class Server {
       @Override
       public void start(I iface, QueryCallback_Failure_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
         iface.QueryCallback_Failure(args.qcallback, args.error_code, args.error_message,resultHandler);
+      }
+    }
+
+    public static class SchemeHandlerFactory_Register<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, SchemeHandlerFactory_Register_args, Void> {
+      public SchemeHandlerFactory_Register() {
+        super("SchemeHandlerFactory_Register");
+      }
+
+      @Override
+      public SchemeHandlerFactory_Register_args getEmptyArgsInstance() {
+        return new SchemeHandlerFactory_Register_args();
+      }
+
+      @Override
+      public org.apache.thrift.async.AsyncMethodCallback<Void> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final org.apache.thrift.AsyncProcessFunction fcall = this;
+        return new org.apache.thrift.async.AsyncMethodCallback<Void>() { 
+          @Override
+          public void onComplete(Void o) {
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            if (e instanceof org.apache.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+            } else {
+              _LOGGER.error("Exception inside oneway handler", e);
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      public void start(I iface, SchemeHandlerFactory_Register_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+        iface.SchemeHandlerFactory_Register(args.schemeName, args.domainName, args.schemeHandlerFactory,resultHandler);
+      }
+    }
+
+    public static class ClearAllSchemeHandlerFactories<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, ClearAllSchemeHandlerFactories_args, Void> {
+      public ClearAllSchemeHandlerFactories() {
+        super("ClearAllSchemeHandlerFactories");
+      }
+
+      @Override
+      public ClearAllSchemeHandlerFactories_args getEmptyArgsInstance() {
+        return new ClearAllSchemeHandlerFactories_args();
+      }
+
+      @Override
+      public org.apache.thrift.async.AsyncMethodCallback<Void> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final org.apache.thrift.AsyncProcessFunction fcall = this;
+        return new org.apache.thrift.async.AsyncMethodCallback<Void>() { 
+          @Override
+          public void onComplete(Void o) {
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            if (e instanceof org.apache.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+            } else {
+              _LOGGER.error("Exception inside oneway handler", e);
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      public void start(I iface, ClearAllSchemeHandlerFactories_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+        iface.ClearAllSchemeHandlerFactories(resultHandler);
       }
     }
 
@@ -53553,6 +53799,866 @@ public class Server {
           struct.error_message = iprot.readString();
           struct.setError_messageIsSet(true);
         }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class SchemeHandlerFactory_Register_args implements org.apache.thrift.TBase<SchemeHandlerFactory_Register_args, SchemeHandlerFactory_Register_args._Fields>, java.io.Serializable, Cloneable, Comparable<SchemeHandlerFactory_Register_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("SchemeHandlerFactory_Register_args");
+
+    private static final org.apache.thrift.protocol.TField SCHEME_NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("schemeName", org.apache.thrift.protocol.TType.STRING, (short)1);
+    private static final org.apache.thrift.protocol.TField DOMAIN_NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("domainName", org.apache.thrift.protocol.TType.STRING, (short)2);
+    private static final org.apache.thrift.protocol.TField SCHEME_HANDLER_FACTORY_FIELD_DESC = new org.apache.thrift.protocol.TField("schemeHandlerFactory", org.apache.thrift.protocol.TType.STRUCT, (short)3);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new SchemeHandlerFactory_Register_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new SchemeHandlerFactory_Register_argsTupleSchemeFactory();
+
+    public @org.apache.thrift.annotation.Nullable java.lang.String schemeName; // required
+    public @org.apache.thrift.annotation.Nullable java.lang.String domainName; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject schemeHandlerFactory; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      SCHEME_NAME((short)1, "schemeName"),
+      DOMAIN_NAME((short)2, "domainName"),
+      SCHEME_HANDLER_FACTORY((short)3, "schemeHandlerFactory");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // SCHEME_NAME
+            return SCHEME_NAME;
+          case 2: // DOMAIN_NAME
+            return DOMAIN_NAME;
+          case 3: // SCHEME_HANDLER_FACTORY
+            return SCHEME_HANDLER_FACTORY;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SCHEME_NAME, new org.apache.thrift.meta_data.FieldMetaData("schemeName", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.DOMAIN_NAME, new org.apache.thrift.meta_data.FieldMetaData("domainName", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.SCHEME_HANDLER_FACTORY, new org.apache.thrift.meta_data.FieldMetaData("schemeHandlerFactory", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(SchemeHandlerFactory_Register_args.class, metaDataMap);
+    }
+
+    public SchemeHandlerFactory_Register_args() {
+    }
+
+    public SchemeHandlerFactory_Register_args(
+      java.lang.String schemeName,
+      java.lang.String domainName,
+      com.jetbrains.cef.remote.thrift_codegen.RObject schemeHandlerFactory)
+    {
+      this();
+      this.schemeName = schemeName;
+      this.domainName = domainName;
+      this.schemeHandlerFactory = schemeHandlerFactory;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public SchemeHandlerFactory_Register_args(SchemeHandlerFactory_Register_args other) {
+      if (other.isSetSchemeName()) {
+        this.schemeName = other.schemeName;
+      }
+      if (other.isSetDomainName()) {
+        this.domainName = other.domainName;
+      }
+      if (other.isSetSchemeHandlerFactory()) {
+        this.schemeHandlerFactory = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.schemeHandlerFactory);
+      }
+    }
+
+    @Override
+    public SchemeHandlerFactory_Register_args deepCopy() {
+      return new SchemeHandlerFactory_Register_args(this);
+    }
+
+    @Override
+    public void clear() {
+      this.schemeName = null;
+      this.domainName = null;
+      this.schemeHandlerFactory = null;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.String getSchemeName() {
+      return this.schemeName;
+    }
+
+    public SchemeHandlerFactory_Register_args setSchemeName(@org.apache.thrift.annotation.Nullable java.lang.String schemeName) {
+      this.schemeName = schemeName;
+      return this;
+    }
+
+    public void unsetSchemeName() {
+      this.schemeName = null;
+    }
+
+    /** Returns true if field schemeName is set (has been assigned a value) and false otherwise */
+    public boolean isSetSchemeName() {
+      return this.schemeName != null;
+    }
+
+    public void setSchemeNameIsSet(boolean value) {
+      if (!value) {
+        this.schemeName = null;
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.String getDomainName() {
+      return this.domainName;
+    }
+
+    public SchemeHandlerFactory_Register_args setDomainName(@org.apache.thrift.annotation.Nullable java.lang.String domainName) {
+      this.domainName = domainName;
+      return this;
+    }
+
+    public void unsetDomainName() {
+      this.domainName = null;
+    }
+
+    /** Returns true if field domainName is set (has been assigned a value) and false otherwise */
+    public boolean isSetDomainName() {
+      return this.domainName != null;
+    }
+
+    public void setDomainNameIsSet(boolean value) {
+      if (!value) {
+        this.domainName = null;
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getSchemeHandlerFactory() {
+      return this.schemeHandlerFactory;
+    }
+
+    public SchemeHandlerFactory_Register_args setSchemeHandlerFactory(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject schemeHandlerFactory) {
+      this.schemeHandlerFactory = schemeHandlerFactory;
+      return this;
+    }
+
+    public void unsetSchemeHandlerFactory() {
+      this.schemeHandlerFactory = null;
+    }
+
+    /** Returns true if field schemeHandlerFactory is set (has been assigned a value) and false otherwise */
+    public boolean isSetSchemeHandlerFactory() {
+      return this.schemeHandlerFactory != null;
+    }
+
+    public void setSchemeHandlerFactoryIsSet(boolean value) {
+      if (!value) {
+        this.schemeHandlerFactory = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case SCHEME_NAME:
+        if (value == null) {
+          unsetSchemeName();
+        } else {
+          setSchemeName((java.lang.String)value);
+        }
+        break;
+
+      case DOMAIN_NAME:
+        if (value == null) {
+          unsetDomainName();
+        } else {
+          setDomainName((java.lang.String)value);
+        }
+        break;
+
+      case SCHEME_HANDLER_FACTORY:
+        if (value == null) {
+          unsetSchemeHandlerFactory();
+        } else {
+          setSchemeHandlerFactory((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SCHEME_NAME:
+        return getSchemeName();
+
+      case DOMAIN_NAME:
+        return getDomainName();
+
+      case SCHEME_HANDLER_FACTORY:
+        return getSchemeHandlerFactory();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SCHEME_NAME:
+        return isSetSchemeName();
+      case DOMAIN_NAME:
+        return isSetDomainName();
+      case SCHEME_HANDLER_FACTORY:
+        return isSetSchemeHandlerFactory();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof SchemeHandlerFactory_Register_args)
+        return this.equals((SchemeHandlerFactory_Register_args)that);
+      return false;
+    }
+
+    public boolean equals(SchemeHandlerFactory_Register_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_schemeName = true && this.isSetSchemeName();
+      boolean that_present_schemeName = true && that.isSetSchemeName();
+      if (this_present_schemeName || that_present_schemeName) {
+        if (!(this_present_schemeName && that_present_schemeName))
+          return false;
+        if (!this.schemeName.equals(that.schemeName))
+          return false;
+      }
+
+      boolean this_present_domainName = true && this.isSetDomainName();
+      boolean that_present_domainName = true && that.isSetDomainName();
+      if (this_present_domainName || that_present_domainName) {
+        if (!(this_present_domainName && that_present_domainName))
+          return false;
+        if (!this.domainName.equals(that.domainName))
+          return false;
+      }
+
+      boolean this_present_schemeHandlerFactory = true && this.isSetSchemeHandlerFactory();
+      boolean that_present_schemeHandlerFactory = true && that.isSetSchemeHandlerFactory();
+      if (this_present_schemeHandlerFactory || that_present_schemeHandlerFactory) {
+        if (!(this_present_schemeHandlerFactory && that_present_schemeHandlerFactory))
+          return false;
+        if (!this.schemeHandlerFactory.equals(that.schemeHandlerFactory))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((isSetSchemeName()) ? 131071 : 524287);
+      if (isSetSchemeName())
+        hashCode = hashCode * 8191 + schemeName.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetDomainName()) ? 131071 : 524287);
+      if (isSetDomainName())
+        hashCode = hashCode * 8191 + domainName.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetSchemeHandlerFactory()) ? 131071 : 524287);
+      if (isSetSchemeHandlerFactory())
+        hashCode = hashCode * 8191 + schemeHandlerFactory.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(SchemeHandlerFactory_Register_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetSchemeName(), other.isSetSchemeName());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSchemeName()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.schemeName, other.schemeName);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetDomainName(), other.isSetDomainName());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetDomainName()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.domainName, other.domainName);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetSchemeHandlerFactory(), other.isSetSchemeHandlerFactory());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSchemeHandlerFactory()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.schemeHandlerFactory, other.schemeHandlerFactory);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("SchemeHandlerFactory_Register_args(");
+      boolean first = true;
+
+      sb.append("schemeName:");
+      if (this.schemeName == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.schemeName);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("domainName:");
+      if (this.domainName == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.domainName);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("schemeHandlerFactory:");
+      if (this.schemeHandlerFactory == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.schemeHandlerFactory);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (schemeHandlerFactory != null) {
+        schemeHandlerFactory.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class SchemeHandlerFactory_Register_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public SchemeHandlerFactory_Register_argsStandardScheme getScheme() {
+        return new SchemeHandlerFactory_Register_argsStandardScheme();
+      }
+    }
+
+    private static class SchemeHandlerFactory_Register_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<SchemeHandlerFactory_Register_args> {
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol iprot, SchemeHandlerFactory_Register_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // SCHEME_NAME
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.schemeName = iprot.readString();
+                struct.setSchemeNameIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // DOMAIN_NAME
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.domainName = iprot.readString();
+                struct.setDomainNameIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 3: // SCHEME_HANDLER_FACTORY
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.schemeHandlerFactory = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.schemeHandlerFactory.read(iprot);
+                struct.setSchemeHandlerFactoryIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol oprot, SchemeHandlerFactory_Register_args struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.schemeName != null) {
+          oprot.writeFieldBegin(SCHEME_NAME_FIELD_DESC);
+          oprot.writeString(struct.schemeName);
+          oprot.writeFieldEnd();
+        }
+        if (struct.domainName != null) {
+          oprot.writeFieldBegin(DOMAIN_NAME_FIELD_DESC);
+          oprot.writeString(struct.domainName);
+          oprot.writeFieldEnd();
+        }
+        if (struct.schemeHandlerFactory != null) {
+          oprot.writeFieldBegin(SCHEME_HANDLER_FACTORY_FIELD_DESC);
+          struct.schemeHandlerFactory.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class SchemeHandlerFactory_Register_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public SchemeHandlerFactory_Register_argsTupleScheme getScheme() {
+        return new SchemeHandlerFactory_Register_argsTupleScheme();
+      }
+    }
+
+    private static class SchemeHandlerFactory_Register_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<SchemeHandlerFactory_Register_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, SchemeHandlerFactory_Register_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetSchemeName()) {
+          optionals.set(0);
+        }
+        if (struct.isSetDomainName()) {
+          optionals.set(1);
+        }
+        if (struct.isSetSchemeHandlerFactory()) {
+          optionals.set(2);
+        }
+        oprot.writeBitSet(optionals, 3);
+        if (struct.isSetSchemeName()) {
+          oprot.writeString(struct.schemeName);
+        }
+        if (struct.isSetDomainName()) {
+          oprot.writeString(struct.domainName);
+        }
+        if (struct.isSetSchemeHandlerFactory()) {
+          struct.schemeHandlerFactory.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, SchemeHandlerFactory_Register_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(3);
+        if (incoming.get(0)) {
+          struct.schemeName = iprot.readString();
+          struct.setSchemeNameIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.domainName = iprot.readString();
+          struct.setDomainNameIsSet(true);
+        }
+        if (incoming.get(2)) {
+          struct.schemeHandlerFactory = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.schemeHandlerFactory.read(iprot);
+          struct.setSchemeHandlerFactoryIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class ClearAllSchemeHandlerFactories_args implements org.apache.thrift.TBase<ClearAllSchemeHandlerFactories_args, ClearAllSchemeHandlerFactories_args._Fields>, java.io.Serializable, Cloneable, Comparable<ClearAllSchemeHandlerFactories_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("ClearAllSchemeHandlerFactories_args");
+
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new ClearAllSchemeHandlerFactories_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new ClearAllSchemeHandlerFactories_argsTupleSchemeFactory();
+
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+;
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(ClearAllSchemeHandlerFactories_args.class, metaDataMap);
+    }
+
+    public ClearAllSchemeHandlerFactories_args() {
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public ClearAllSchemeHandlerFactories_args(ClearAllSchemeHandlerFactories_args other) {
+    }
+
+    @Override
+    public ClearAllSchemeHandlerFactories_args deepCopy() {
+      return new ClearAllSchemeHandlerFactories_args(this);
+    }
+
+    @Override
+    public void clear() {
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof ClearAllSchemeHandlerFactories_args)
+        return this.equals((ClearAllSchemeHandlerFactories_args)that);
+      return false;
+    }
+
+    public boolean equals(ClearAllSchemeHandlerFactories_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(ClearAllSchemeHandlerFactories_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("ClearAllSchemeHandlerFactories_args(");
+      boolean first = true;
+
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class ClearAllSchemeHandlerFactories_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public ClearAllSchemeHandlerFactories_argsStandardScheme getScheme() {
+        return new ClearAllSchemeHandlerFactories_argsStandardScheme();
+      }
+    }
+
+    private static class ClearAllSchemeHandlerFactories_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<ClearAllSchemeHandlerFactories_args> {
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol iprot, ClearAllSchemeHandlerFactories_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol oprot, ClearAllSchemeHandlerFactories_args struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class ClearAllSchemeHandlerFactories_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public ClearAllSchemeHandlerFactories_argsTupleScheme getScheme() {
+        return new ClearAllSchemeHandlerFactories_argsTupleScheme();
+      }
+    }
+
+    private static class ClearAllSchemeHandlerFactories_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<ClearAllSchemeHandlerFactories_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, ClearAllSchemeHandlerFactories_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, ClearAllSchemeHandlerFactories_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
       }
     }
 

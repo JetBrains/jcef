@@ -257,4 +257,14 @@ public class ClientHandlersDummy implements ClientHandlers.Iface{
     public void MessageRouterHandler_Dispose(int handler) throws TException {
 
     }
+
+    @Override
+    public RObject SchemeHandlerFactory_CreateHandler(int schemeHandlerFactory, int bid, String scheme_name, RObject request) throws TException {
+        return null;
+    }
+
+    @Override
+    public void SchemeHandlerFactory_Dispose(int schemeHandlerFactory) throws TException {
+
+    }
 }

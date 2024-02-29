@@ -1,8 +1,7 @@
 #include "RemoteKeyboardHandler.h"
 #include "RemoteClientHandler.h"
 
-#include "../gen-cpp/shared_types.h"
-#include "../CefUtils.h"
+#include "../Utils.h"
 
 RemoteKeyboardHandler::RemoteKeyboardHandler(int bid, std::shared_ptr<RpcExecutor> service) : myBid(bid), myService(service) {}
 

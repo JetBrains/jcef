@@ -8638,6 +8638,320 @@ uint32_t ClientHandlers_MessageRouterHandler_Dispose_pargs::write(::apache::thri
   return xfer;
 }
 
+
+ClientHandlers_SchemeHandlerFactory_CreateHandler_args::~ClientHandlers_SchemeHandlerFactory_CreateHandler_args() noexcept {
+}
+
+
+uint32_t ClientHandlers_SchemeHandlerFactory_CreateHandler_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->schemeHandlerFactory);
+          this->__isset.schemeHandlerFactory = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->bid);
+          this->__isset.bid = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->scheme_name);
+          this->__isset.scheme_name = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->request.read(iprot);
+          this->__isset.request = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_SchemeHandlerFactory_CreateHandler_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_SchemeHandlerFactory_CreateHandler_args");
+
+  xfer += oprot->writeFieldBegin("schemeHandlerFactory", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->schemeHandlerFactory);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32(this->bid);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("scheme_name", ::apache::thrift::protocol::T_STRING, 3);
+  xfer += oprot->writeString(this->scheme_name);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("request", ::apache::thrift::protocol::T_STRUCT, 4);
+  xfer += this->request.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_SchemeHandlerFactory_CreateHandler_pargs::~ClientHandlers_SchemeHandlerFactory_CreateHandler_pargs() noexcept {
+}
+
+
+uint32_t ClientHandlers_SchemeHandlerFactory_CreateHandler_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_SchemeHandlerFactory_CreateHandler_pargs");
+
+  xfer += oprot->writeFieldBegin("schemeHandlerFactory", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->schemeHandlerFactory)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32((*(this->bid)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("scheme_name", ::apache::thrift::protocol::T_STRING, 3);
+  xfer += oprot->writeString((*(this->scheme_name)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("request", ::apache::thrift::protocol::T_STRUCT, 4);
+  xfer += (*(this->request)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_SchemeHandlerFactory_CreateHandler_result::~ClientHandlers_SchemeHandlerFactory_CreateHandler_result() noexcept {
+}
+
+
+uint32_t ClientHandlers_SchemeHandlerFactory_CreateHandler_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->success.read(iprot);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_SchemeHandlerFactory_CreateHandler_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("ClientHandlers_SchemeHandlerFactory_CreateHandler_result");
+
+  if (this->__isset.success) {
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_STRUCT, 0);
+    xfer += this->success.write(oprot);
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_SchemeHandlerFactory_CreateHandler_presult::~ClientHandlers_SchemeHandlerFactory_CreateHandler_presult() noexcept {
+}
+
+
+uint32_t ClientHandlers_SchemeHandlerFactory_CreateHandler_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += (*(this->success)).read(iprot);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
+ClientHandlers_SchemeHandlerFactory_Dispose_args::~ClientHandlers_SchemeHandlerFactory_Dispose_args() noexcept {
+}
+
+
+uint32_t ClientHandlers_SchemeHandlerFactory_Dispose_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->schemeHandlerFactory);
+          this->__isset.schemeHandlerFactory = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_SchemeHandlerFactory_Dispose_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_SchemeHandlerFactory_Dispose_args");
+
+  xfer += oprot->writeFieldBegin("schemeHandlerFactory", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->schemeHandlerFactory);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_SchemeHandlerFactory_Dispose_pargs::~ClientHandlers_SchemeHandlerFactory_Dispose_pargs() noexcept {
+}
+
+
+uint32_t ClientHandlers_SchemeHandlerFactory_Dispose_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_SchemeHandlerFactory_Dispose_pargs");
+
+  xfer += oprot->writeFieldBegin("schemeHandlerFactory", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->schemeHandlerFactory)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
 int32_t ClientHandlersClient::connect()
 {
   send_connect();
@@ -10832,6 +11146,86 @@ void ClientHandlersClient::send_MessageRouterHandler_Dispose(const int32_t handl
 
   ClientHandlers_MessageRouterHandler_Dispose_pargs args;
   args.handler = &handler;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void ClientHandlersClient::SchemeHandlerFactory_CreateHandler( ::thrift_codegen::RObject& _return, const int32_t schemeHandlerFactory, const int32_t bid, const std::string& scheme_name, const  ::thrift_codegen::RObject& request)
+{
+  send_SchemeHandlerFactory_CreateHandler(schemeHandlerFactory, bid, scheme_name, request);
+  recv_SchemeHandlerFactory_CreateHandler(_return);
+}
+
+void ClientHandlersClient::send_SchemeHandlerFactory_CreateHandler(const int32_t schemeHandlerFactory, const int32_t bid, const std::string& scheme_name, const  ::thrift_codegen::RObject& request)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("SchemeHandlerFactory_CreateHandler", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  ClientHandlers_SchemeHandlerFactory_CreateHandler_pargs args;
+  args.schemeHandlerFactory = &schemeHandlerFactory;
+  args.bid = &bid;
+  args.scheme_name = &scheme_name;
+  args.request = &request;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void ClientHandlersClient::recv_SchemeHandlerFactory_CreateHandler( ::thrift_codegen::RObject& _return)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("SchemeHandlerFactory_CreateHandler") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  ClientHandlers_SchemeHandlerFactory_CreateHandler_presult result;
+  result.success = &_return;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  if (result.__isset.success) {
+    // _return pointer has now been filled
+    return;
+  }
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "SchemeHandlerFactory_CreateHandler failed: unknown result");
+}
+
+void ClientHandlersClient::SchemeHandlerFactory_Dispose(const int32_t schemeHandlerFactory)
+{
+  send_SchemeHandlerFactory_Dispose(schemeHandlerFactory);
+}
+
+void ClientHandlersClient::send_SchemeHandlerFactory_Dispose(const int32_t schemeHandlerFactory)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("SchemeHandlerFactory_Dispose", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  ClientHandlers_SchemeHandlerFactory_Dispose_pargs args;
+  args.schemeHandlerFactory = &schemeHandlerFactory;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -13211,6 +13605,97 @@ void ClientHandlersProcessor::process_MessageRouterHandler_Dispose(int32_t, ::ap
 
   if (this->eventHandler_.get() != nullptr) {
     this->eventHandler_->asyncComplete(ctx, "ClientHandlers.MessageRouterHandler_Dispose");
+  }
+
+  return;
+}
+
+void ClientHandlersProcessor::process_SchemeHandlerFactory_CreateHandler(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("ClientHandlers.SchemeHandlerFactory_CreateHandler", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ClientHandlers.SchemeHandlerFactory_CreateHandler");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "ClientHandlers.SchemeHandlerFactory_CreateHandler");
+  }
+
+  ClientHandlers_SchemeHandlerFactory_CreateHandler_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "ClientHandlers.SchemeHandlerFactory_CreateHandler", bytes);
+  }
+
+  ClientHandlers_SchemeHandlerFactory_CreateHandler_result result;
+  try {
+    iface_->SchemeHandlerFactory_CreateHandler(result.success, args.schemeHandlerFactory, args.bid, args.scheme_name, args.request);
+    result.__isset.success = true;
+  } catch (const std::exception& e) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "ClientHandlers.SchemeHandlerFactory_CreateHandler");
+    }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("SchemeHandlerFactory_CreateHandler", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preWrite(ctx, "ClientHandlers.SchemeHandlerFactory_CreateHandler");
+  }
+
+  oprot->writeMessageBegin("SchemeHandlerFactory_CreateHandler", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "ClientHandlers.SchemeHandlerFactory_CreateHandler", bytes);
+  }
+}
+
+void ClientHandlersProcessor::process_SchemeHandlerFactory_Dispose(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("ClientHandlers.SchemeHandlerFactory_Dispose", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ClientHandlers.SchemeHandlerFactory_Dispose");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "ClientHandlers.SchemeHandlerFactory_Dispose");
+  }
+
+  ClientHandlers_SchemeHandlerFactory_Dispose_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "ClientHandlers.SchemeHandlerFactory_Dispose", bytes);
+  }
+
+  try {
+    iface_->SchemeHandlerFactory_Dispose(args.schemeHandlerFactory);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "ClientHandlers.SchemeHandlerFactory_Dispose");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "ClientHandlers.SchemeHandlerFactory_Dispose");
   }
 
   return;
@@ -16253,6 +16738,115 @@ void ClientHandlersConcurrentClient::send_MessageRouterHandler_Dispose(const int
 
   ClientHandlers_MessageRouterHandler_Dispose_pargs args;
   args.handler = &handler;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
+void ClientHandlersConcurrentClient::SchemeHandlerFactory_CreateHandler( ::thrift_codegen::RObject& _return, const int32_t schemeHandlerFactory, const int32_t bid, const std::string& scheme_name, const  ::thrift_codegen::RObject& request)
+{
+  int32_t seqid = send_SchemeHandlerFactory_CreateHandler(schemeHandlerFactory, bid, scheme_name, request);
+  recv_SchemeHandlerFactory_CreateHandler(_return, seqid);
+}
+
+int32_t ClientHandlersConcurrentClient::send_SchemeHandlerFactory_CreateHandler(const int32_t schemeHandlerFactory, const int32_t bid, const std::string& scheme_name, const  ::thrift_codegen::RObject& request)
+{
+  int32_t cseqid = this->sync_->generateSeqId();
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("SchemeHandlerFactory_CreateHandler", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  ClientHandlers_SchemeHandlerFactory_CreateHandler_pargs args;
+  args.schemeHandlerFactory = &schemeHandlerFactory;
+  args.bid = &bid;
+  args.scheme_name = &scheme_name;
+  args.request = &request;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+  return cseqid;
+}
+
+void ClientHandlersConcurrentClient::recv_SchemeHandlerFactory_CreateHandler( ::thrift_codegen::RObject& _return, const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("SchemeHandlerFactory_CreateHandler") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      ClientHandlers_SchemeHandlerFactory_CreateHandler_presult result;
+      result.success = &_return;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      if (result.__isset.success) {
+        // _return pointer has now been filled
+        sentry.commit();
+        return;
+      }
+      // in a bad state, don't commit
+      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "SchemeHandlerFactory_CreateHandler failed: unknown result");
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
+}
+
+void ClientHandlersConcurrentClient::SchemeHandlerFactory_Dispose(const int32_t schemeHandlerFactory)
+{
+  send_SchemeHandlerFactory_Dispose(schemeHandlerFactory);
+}
+
+void ClientHandlersConcurrentClient::send_SchemeHandlerFactory_Dispose(const int32_t schemeHandlerFactory)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("SchemeHandlerFactory_Dispose", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  ClientHandlers_SchemeHandlerFactory_Dispose_pargs args;
+  args.schemeHandlerFactory = &schemeHandlerFactory;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();

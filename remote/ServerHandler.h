@@ -112,6 +112,12 @@ class ServerHandler : public thrift_codegen::ServerIf {
   void QueryCallback_Success(const thrift_codegen::RObject& qcallback,const std::string& response) override;
   void QueryCallback_Failure(const thrift_codegen::RObject& qcallback,const int32_t error_code,const std::string& error_message) override;
 
+  //
+  // Custom schemes
+  //
+  void SchemeHandlerFactory_Register(const std::string & schemeName, const std::string & domainName, const thrift_codegen::RObject& schemeHandlerFactory) override;
+  void ClearAllSchemeHandlerFactories() override;
+
  private:
   bool myIsMaster = false;
   bool myIsClosed = false;

@@ -270,6 +270,16 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
     printf("MessageRouterHandler_Dispose\n");
   }
 
+  void SchemeHandlerFactory_CreateHandler( ::thrift_codegen::RObject& _return, const int32_t schemeHandlerFactory, const int32_t bid, const std::string& scheme_name, const  ::thrift_codegen::RObject& request) {
+    // Your implementation goes here
+    printf("SchemeHandlerFactory_CreateHandler\n");
+  }
+
+  void SchemeHandlerFactory_Dispose(const int32_t schemeHandlerFactory) {
+    // Your implementation goes here
+    printf("SchemeHandlerFactory_Dispose\n");
+  }
+
 };
 
 int main(int argc, char **argv) {

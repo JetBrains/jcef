@@ -5,6 +5,7 @@
 #include "include/cef_display_handler.h"
 
 class RemoteClientHandler;
+class RpcExecutor;
 
 // The methods of this class will be called on the UI thread.
 class RemoteDisplayHandler : public CefDisplayHandler {

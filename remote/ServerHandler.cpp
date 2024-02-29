@@ -10,6 +10,7 @@
 #include "RemoteObjects.h"
 #include "callback/RemoteAuthCallback.h"
 #include "callback/RemoteCallback.h"
+#include "callback/RemoteSchemeHandlerFactory.h"
 
 #include "include/base/cef_callback.h"
 #include "include/wrapper/cef_closure_task.h"
@@ -754,4 +755,30 @@ void ServerHandler::QueryCallback_Failure(
   if (rc == nullptr) return;
   rc->getDelegate().Failure(error_code, error_message);
   RemoteQueryCallback::dispose(qcallback.objId);
+}
+
+///
+/// Register a scheme handler factory with the global request context. An empty
+/// |domain_name| value for a standard scheme will cause the factory to match
+/// all domain names. The |domain_name| value will be ignored for non-standard
+/// schemes. If |scheme_name| is a built-in scheme and no handler is returned by
+/// |factory| then the built-in scheme handler factory will be called. If
+/// |scheme_name| is a custom scheme then you must also implement the
+/// CefApp::OnRegisterCustomSchemes() method in all processes. This function may
+/// be called multiple times to change or remove the factory that matches the
+/// specified |scheme_name| and optional |domain_name|. Returns false if an
+/// error occurs. This function may be called on any thread in the browser
+/// process. Using this function is equivalent to calling
+/// CefRequestContext::GetGlobalContext()->RegisterSchemeHandlerFactory().
+///
+void ServerHandler::SchemeHandlerFactory_Register(
+    const std::string& schemeName,
+    const std::string& domainName,
+    const thrift_codegen::RObject& schemeHandlerFactory) {
+  CefRefPtr<RemoteSchemeHandlerFactory> factory = new RemoteSchemeHandlerFactory(myClientsManager, myJavaService, schemeHandlerFactory);
+  CefRegisterSchemeHandlerFactory(schemeName,domainName, factory);
+}
+
+void ServerHandler::ClearAllSchemeHandlerFactories() {
+  CefClearSchemeHandlerFactories();
 }

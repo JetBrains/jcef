@@ -365,6 +365,16 @@ class ServerHandler : virtual public ServerIf {
     printf("QueryCallback_Failure\n");
   }
 
+  void SchemeHandlerFactory_Register(const std::string& schemeName, const std::string& domainName, const  ::thrift_codegen::RObject& schemeHandlerFactory) {
+    // Your implementation goes here
+    printf("SchemeHandlerFactory_Register\n");
+  }
+
+  void ClearAllSchemeHandlerFactories() {
+    // Your implementation goes here
+    printf("ClearAllSchemeHandlerFactories\n");
+  }
+
 };
 
 int main(int argc, char **argv) {

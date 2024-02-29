@@ -2,6 +2,7 @@ package com.jetbrains.cef.remote;
 
 import com.jetbrains.cef.remote.callback.RemoteAuthCallback;
 import com.jetbrains.cef.remote.callback.RemoteCallback;
+import com.jetbrains.cef.remote.callback.RemoteSchemeHandlerFactory;
 import com.jetbrains.cef.remote.network.*;
 import com.jetbrains.cef.remote.router.RemoteMessageRouterHandler;
 import com.jetbrains.cef.remote.router.RemoteQueryCallback;
@@ -845,5 +846,23 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     @Override
     public void MessageRouterHandler_Dispose(int handler) throws TException {
         RemoteMessageRouterHandler.FACTORY.dispose(handler);
+    }
+
+    @Override
+    public RObject SchemeHandlerFactory_CreateHandler(int schemeHandlerFactory, int bid, String scheme_name, RObject request) throws TException {
+        RemoteSchemeHandlerFactory sf = RemoteSchemeHandlerFactory.FACTORY.get(schemeHandlerFactory);
+        if (sf == null) return INVALID;
+
+        RemoteRequestImpl rreq = new RemoteRequestImpl(myService, request);
+        CefResourceHandler handler = sf.getDelegate().create(getRemoteBrowser(bid), NULL_FRAME, scheme_name, new RemoteRequest(rreq));
+        if (handler == null) return INVALID;
+
+        RemoteResourceHandler result = RemoteResourceHandler.create(handler);
+        return result.thriftId();
+    }
+
+    @Override
+    public void SchemeHandlerFactory_Dispose(int schemeHandlerFactory) throws TException {
+        RemoteSchemeHandlerFactory.FACTORY.dispose(schemeHandlerFactory);
     }
 }

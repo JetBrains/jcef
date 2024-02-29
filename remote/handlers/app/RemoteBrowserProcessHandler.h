@@ -6,6 +6,8 @@
 #include "../../Utils.h"
 #include "include/cef_browser_process_handler.h"
 
+class RpcExecutor;
+
 class RemoteBrowserProcessHandler : public CefBrowserProcessHandler {
  public:
   explicit RemoteBrowserProcessHandler();
@@ -22,7 +24,7 @@ class RemoteBrowserProcessHandler : public CefBrowserProcessHandler {
  private:
   std::shared_ptr<RpcExecutor> myService;
   std::recursive_mutex myMutex;
-  const Clock::time_point myCreationTime; // just for logging
+  const std::chrono::high_resolution_clock::time_point myCreationTime; // just for logging
   bool myIsContextInitialized = false;
   IMPLEMENT_REFCOUNTING(RemoteBrowserProcessHandler);
 };

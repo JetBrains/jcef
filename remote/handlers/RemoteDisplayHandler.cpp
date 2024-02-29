@@ -1,6 +1,5 @@
 #include "RemoteDisplayHandler.h"
 #include "RemoteClientHandler.h"
-#include "../log/Log.h"
 
 RemoteDisplayHandler::RemoteDisplayHandler(int bid, std::shared_ptr<RpcExecutor> service)
     : myBid(bid), myService(service) {}

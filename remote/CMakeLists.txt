@@ -134,6 +134,7 @@ set(SERVER_SOURCES
         network/RemotePostDataElement.h
         callback/RemoteCallback.h
         callback/RemoteAuthCallback.h
+        callback/RemoteSchemeHandlerFactory.cpp
         router/RemoteMessageRouter.cpp
         router/RemoteMessageRouter.h
         router/MessageRoutersManager.cpp
@@ -152,6 +153,7 @@ set(SERVER_SOURCES
         handlers/app/HelperApp.cpp
         handlers/app/HelperApp.h
         ServerState.cpp
+        RpcExecutor.cpp
 )
 
 if (OS_WINDOWS)
@@ -260,7 +262,7 @@ if (OS_MAC)
     set(CEF_HELPER_TARGET "${EXECUTABLE_NAME}_Helper")
     set(CEF_HELPER_OUTPUT_NAME "${EXECUTABLE_NAME} Helper")
 
-    set(CEFSIMPLE_HELPER_SRCS_MAC mac/process_helper_mac.cc handlers/app/HelperApp.cpp)
+    set(CEFSIMPLE_HELPER_SRCS_MAC mac/process_helper_mac.cc handlers/app/HelperApp.cpp Utils.cpp)
 
     list(APPEND HELPER_EXTRA_COMPILER_FLAGS
             -fexceptions

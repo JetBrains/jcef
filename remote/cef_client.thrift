@@ -127,4 +127,10 @@ service ClientHandlers {
     bool MessageRouterHandler_onQuery(1: shared.RObject handler, 2: i32 bid, 3: i64 queryId, 4: string request, 5: bool persistent, 6: shared.RObject queryCallback),
     oneway void MessageRouterHandler_onQueryCanceled(1: shared.RObject handler, 2: i32 bid, 3: i64 queryId),
     oneway void MessageRouterHandler_Dispose(1: i32 handler),
+
+    //
+    // Custom schemes
+    //
+    shared.RObject SchemeHandlerFactory_CreateHandler(1:i32 schemeHandlerFactory, 2:i32 bid, 3:string scheme_name, 4:shared.RObject request),
+    oneway void SchemeHandlerFactory_Dispose(1:i32 schemeHandlerFactory)
 }

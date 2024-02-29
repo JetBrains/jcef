@@ -1,12 +1,12 @@
 #include "RemoteAppHandler.h"
 #include "../../log/Log.h"
 
+#include <fstream>
+
 #ifdef LNDCT
 #undef LNDCT
 #define LNDCT()
 #endif
-
-using namespace thrift_codegen;
 
 RemoteAppHandler* RemoteAppHandler::sInstance = nullptr;
 
@@ -109,7 +109,14 @@ void RemoteAppHandler::OnRegisterCustomSchemes(
     CefRawPtr<CefSchemeRegistrar> registrar) {
   LNDCT();
 
-  Log::debug("Additional schemes:");
+  // The registered scheme has to be forwarded to all other processes which will
+  // be created by the browser process (e.g. the render-process). Otherwise
+  // things like JS "localStorage" get/set will end up in a crashed
+  // render process.
+  std::string tmpName = utils::GetTempFile("scheme", false);
+  std::ofstream fStream(tmpName.c_str(),std::ofstream::out | std::ofstream::trunc);
+
+  Log::debug("Register custom schemes [file=%s]:", tmpName.c_str());
   for (const auto& cs: mySchemes) {
     int options = 0;
     if (cs.second & (1 << 0))
@@ -129,5 +136,14 @@ void RemoteAppHandler::OnRegisterCustomSchemes(
 
     registrar->AddCustomScheme(cs.first, options);
     Log::debug("%s [%d:%d]", cs.first.c_str(), cs.second, options);
+
+    if (fStream.is_open())
+      fStream << cs.first.c_str() << "," << options;
   }
+
+  if (fStream.is_open())
+    fStream.close();
+
+  // TODO Register file to be deleted in CefShutdown()
+  // ClientApp::registerTempFile(tmpName);
 }

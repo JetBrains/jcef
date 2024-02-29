@@ -112,4 +112,10 @@ service Server {
     oneway void QueryCallback_Dispose(1: shared.RObject qcallback),
     oneway void QueryCallback_Success(1: shared.RObject qcallback, 2: string response),
     oneway void QueryCallback_Failure(1: shared.RObject qcallback, 2: i32 error_code, 3: string error_message),
+
+    //
+    // Custom schemes
+    //
+    oneway void SchemeHandlerFactory_Register(1:string schemeName, 2:string domainName, 3:shared.RObject schemeHandlerFactory),
+    oneway void ClearAllSchemeHandlerFactories(),
 }

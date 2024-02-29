@@ -9774,6 +9774,175 @@ uint32_t Server_QueryCallback_Failure_pargs::write(::apache::thrift::protocol::T
   return xfer;
 }
 
+
+Server_SchemeHandlerFactory_Register_args::~Server_SchemeHandlerFactory_Register_args() noexcept {
+}
+
+
+uint32_t Server_SchemeHandlerFactory_Register_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->schemeName);
+          this->__isset.schemeName = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->domainName);
+          this->__isset.domainName = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->schemeHandlerFactory.read(iprot);
+          this->__isset.schemeHandlerFactory = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_SchemeHandlerFactory_Register_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_SchemeHandlerFactory_Register_args");
+
+  xfer += oprot->writeFieldBegin("schemeName", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->schemeName);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("domainName", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString(this->domainName);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("schemeHandlerFactory", ::apache::thrift::protocol::T_STRUCT, 3);
+  xfer += this->schemeHandlerFactory.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_SchemeHandlerFactory_Register_pargs::~Server_SchemeHandlerFactory_Register_pargs() noexcept {
+}
+
+
+uint32_t Server_SchemeHandlerFactory_Register_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_SchemeHandlerFactory_Register_pargs");
+
+  xfer += oprot->writeFieldBegin("schemeName", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->schemeName)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("domainName", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString((*(this->domainName)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("schemeHandlerFactory", ::apache::thrift::protocol::T_STRUCT, 3);
+  xfer += (*(this->schemeHandlerFactory)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_ClearAllSchemeHandlerFactories_args::~Server_ClearAllSchemeHandlerFactories_args() noexcept {
+}
+
+
+uint32_t Server_ClearAllSchemeHandlerFactories_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_ClearAllSchemeHandlerFactories_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_ClearAllSchemeHandlerFactories_args");
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_ClearAllSchemeHandlerFactories_pargs::~Server_ClearAllSchemeHandlerFactories_pargs() noexcept {
+}
+
+
+uint32_t Server_ClearAllSchemeHandlerFactories_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_ClearAllSchemeHandlerFactories_pargs");
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
 int32_t ServerClient::connect(const std::string& backwardConnectionPipe, const bool isMaster)
 {
   send_connect(backwardConnectionPipe, isMaster);
@@ -12362,6 +12531,45 @@ void ServerClient::send_QueryCallback_Failure(const  ::thrift_codegen::RObject& 
   args.qcallback = &qcallback;
   args.error_code = &error_code;
   args.error_message = &error_message;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void ServerClient::SchemeHandlerFactory_Register(const std::string& schemeName, const std::string& domainName, const  ::thrift_codegen::RObject& schemeHandlerFactory)
+{
+  send_SchemeHandlerFactory_Register(schemeName, domainName, schemeHandlerFactory);
+}
+
+void ServerClient::send_SchemeHandlerFactory_Register(const std::string& schemeName, const std::string& domainName, const  ::thrift_codegen::RObject& schemeHandlerFactory)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("SchemeHandlerFactory_Register", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_SchemeHandlerFactory_Register_pargs args;
+  args.schemeName = &schemeName;
+  args.domainName = &domainName;
+  args.schemeHandlerFactory = &schemeHandlerFactory;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void ServerClient::ClearAllSchemeHandlerFactories()
+{
+  send_ClearAllSchemeHandlerFactories();
+}
+
+void ServerClient::send_ClearAllSchemeHandlerFactories()
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("ClearAllSchemeHandlerFactories", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_ClearAllSchemeHandlerFactories_pargs args;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -15484,6 +15692,80 @@ void ServerProcessor::process_QueryCallback_Failure(int32_t, ::apache::thrift::p
 
   if (this->eventHandler_.get() != nullptr) {
     this->eventHandler_->asyncComplete(ctx, "Server.QueryCallback_Failure");
+  }
+
+  return;
+}
+
+void ServerProcessor::process_SchemeHandlerFactory_Register(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("Server.SchemeHandlerFactory_Register", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.SchemeHandlerFactory_Register");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "Server.SchemeHandlerFactory_Register");
+  }
+
+  Server_SchemeHandlerFactory_Register_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "Server.SchemeHandlerFactory_Register", bytes);
+  }
+
+  try {
+    iface_->SchemeHandlerFactory_Register(args.schemeName, args.domainName, args.schemeHandlerFactory);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "Server.SchemeHandlerFactory_Register");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "Server.SchemeHandlerFactory_Register");
+  }
+
+  return;
+}
+
+void ServerProcessor::process_ClearAllSchemeHandlerFactories(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("Server.ClearAllSchemeHandlerFactories", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.ClearAllSchemeHandlerFactories");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "Server.ClearAllSchemeHandlerFactories");
+  }
+
+  Server_ClearAllSchemeHandlerFactories_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "Server.ClearAllSchemeHandlerFactories", bytes);
+  }
+
+  try {
+    iface_->ClearAllSchemeHandlerFactories();
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "Server.ClearAllSchemeHandlerFactories");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "Server.ClearAllSchemeHandlerFactories");
   }
 
   return;
@@ -19035,6 +19317,51 @@ void ServerConcurrentClient::send_QueryCallback_Failure(const  ::thrift_codegen:
   args.qcallback = &qcallback;
   args.error_code = &error_code;
   args.error_message = &error_message;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
+void ServerConcurrentClient::SchemeHandlerFactory_Register(const std::string& schemeName, const std::string& domainName, const  ::thrift_codegen::RObject& schemeHandlerFactory)
+{
+  send_SchemeHandlerFactory_Register(schemeName, domainName, schemeHandlerFactory);
+}
+
+void ServerConcurrentClient::send_SchemeHandlerFactory_Register(const std::string& schemeName, const std::string& domainName, const  ::thrift_codegen::RObject& schemeHandlerFactory)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("SchemeHandlerFactory_Register", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_SchemeHandlerFactory_Register_pargs args;
+  args.schemeName = &schemeName;
+  args.domainName = &domainName;
+  args.schemeHandlerFactory = &schemeHandlerFactory;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
+void ServerConcurrentClient::ClearAllSchemeHandlerFactories()
+{
+  send_ClearAllSchemeHandlerFactories();
+}
+
+void ServerConcurrentClient::send_ClearAllSchemeHandlerFactories()
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("ClearAllSchemeHandlerFactories", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_ClearAllSchemeHandlerFactories_pargs args;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();

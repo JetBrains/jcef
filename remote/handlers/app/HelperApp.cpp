@@ -1,4 +1,6 @@
 #include "HelperApp.h"
+#include <fstream>
+#include "../../Utils.h"
 
 //#define LOG_VIA_THRIFT
 
@@ -13,26 +15,21 @@ HelperApp::HelperApp()
 }
 
 void HelperApp::OnRegisterCustomSchemes(CefRawPtr<CefSchemeRegistrar> registrar) {
-#ifdef LOG_VIA_THRIFT
-  log("Unimplemented CefHelperApp.OnRegisterCustomSchemes");
-#endif // LOG_VIA_THRIFT
-  // TODO: implement
-  //    std::fstream fStream;
-  //    std::string fName = util::GetTempFileName("scheme", true);
-  //    char schemeName[512] = "";
-  //    int options;
-  //
-  //    fStream.open(fName.c_str(), std::fstream::in);
-  //    while (fStream.is_open() && !fStream.eof()) {
-  //      fStream.getline(schemeName, 512, ',');
-  //      if (strlen(schemeName) == 0)
-  //        break;
-  //
-  //      fStream >> options;
-  //
-  //      registrar->AddCustomScheme(schemeName, options);
-  //    }
-  //    fStream.close();
+  std::fstream fStream;
+  std::string fName = utils::GetTempFile("scheme", true);
+  char schemeName[512] = "";
+  int options;
+
+  fStream.open(fName.c_str(), std::fstream::in);
+  while (fStream.is_open() && !fStream.eof()) {
+    fStream.getline(schemeName, 512, ',');
+    if (strlen(schemeName) == 0)
+      break;
+
+    fStream >> options;
+    registrar->AddCustomScheme(schemeName, options);
+  }
+  fStream.close();
 }
 
 void HelperApp::OnBrowserCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDictionaryValue> extra_info) {

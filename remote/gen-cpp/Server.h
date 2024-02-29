@@ -91,6 +91,8 @@ class ServerIf {
   virtual void QueryCallback_Dispose(const  ::thrift_codegen::RObject& qcallback) = 0;
   virtual void QueryCallback_Success(const  ::thrift_codegen::RObject& qcallback, const std::string& response) = 0;
   virtual void QueryCallback_Failure(const  ::thrift_codegen::RObject& qcallback, const int32_t error_code, const std::string& error_message) = 0;
+  virtual void SchemeHandlerFactory_Register(const std::string& schemeName, const std::string& domainName, const  ::thrift_codegen::RObject& schemeHandlerFactory) = 0;
+  virtual void ClearAllSchemeHandlerFactories() = 0;
 };
 
 class ServerIfFactory {
@@ -335,6 +337,12 @@ class ServerNull : virtual public ServerIf {
     return;
   }
   void QueryCallback_Failure(const  ::thrift_codegen::RObject& /* qcallback */, const int32_t /* error_code */, const std::string& /* error_message */) override {
+    return;
+  }
+  void SchemeHandlerFactory_Register(const std::string& /* schemeName */, const std::string& /* domainName */, const  ::thrift_codegen::RObject& /* schemeHandlerFactory */) override {
+    return;
+  }
+  void ClearAllSchemeHandlerFactories() override {
     return;
   }
 };
@@ -5829,6 +5837,108 @@ class Server_QueryCallback_Failure_pargs {
 
 };
 
+typedef struct _Server_SchemeHandlerFactory_Register_args__isset {
+  _Server_SchemeHandlerFactory_Register_args__isset() : schemeName(false), domainName(false), schemeHandlerFactory(false) {}
+  bool schemeName :1;
+  bool domainName :1;
+  bool schemeHandlerFactory :1;
+} _Server_SchemeHandlerFactory_Register_args__isset;
+
+class Server_SchemeHandlerFactory_Register_args {
+ public:
+
+  Server_SchemeHandlerFactory_Register_args(const Server_SchemeHandlerFactory_Register_args&);
+  Server_SchemeHandlerFactory_Register_args& operator=(const Server_SchemeHandlerFactory_Register_args&);
+  Server_SchemeHandlerFactory_Register_args() noexcept
+                                            : schemeName(),
+                                              domainName() {
+  }
+
+  virtual ~Server_SchemeHandlerFactory_Register_args() noexcept;
+  std::string schemeName;
+  std::string domainName;
+   ::thrift_codegen::RObject schemeHandlerFactory;
+
+  _Server_SchemeHandlerFactory_Register_args__isset __isset;
+
+  void __set_schemeName(const std::string& val);
+
+  void __set_domainName(const std::string& val);
+
+  void __set_schemeHandlerFactory(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_SchemeHandlerFactory_Register_args & rhs) const
+  {
+    if (!(schemeName == rhs.schemeName))
+      return false;
+    if (!(domainName == rhs.domainName))
+      return false;
+    if (!(schemeHandlerFactory == rhs.schemeHandlerFactory))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_SchemeHandlerFactory_Register_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_SchemeHandlerFactory_Register_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_SchemeHandlerFactory_Register_pargs {
+ public:
+
+
+  virtual ~Server_SchemeHandlerFactory_Register_pargs() noexcept;
+  const std::string* schemeName;
+  const std::string* domainName;
+  const  ::thrift_codegen::RObject* schemeHandlerFactory;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_ClearAllSchemeHandlerFactories_args {
+ public:
+
+  Server_ClearAllSchemeHandlerFactories_args(const Server_ClearAllSchemeHandlerFactories_args&) noexcept;
+  Server_ClearAllSchemeHandlerFactories_args& operator=(const Server_ClearAllSchemeHandlerFactories_args&) noexcept;
+  Server_ClearAllSchemeHandlerFactories_args() noexcept {
+  }
+
+  virtual ~Server_ClearAllSchemeHandlerFactories_args() noexcept;
+
+  bool operator == (const Server_ClearAllSchemeHandlerFactories_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const Server_ClearAllSchemeHandlerFactories_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_ClearAllSchemeHandlerFactories_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_ClearAllSchemeHandlerFactories_pargs {
+ public:
+
+
+  virtual ~Server_ClearAllSchemeHandlerFactories_pargs() noexcept;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
 class ServerClient : virtual public ServerIf {
  public:
   ServerClient(std::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
@@ -6025,6 +6135,10 @@ class ServerClient : virtual public ServerIf {
   void send_QueryCallback_Success(const  ::thrift_codegen::RObject& qcallback, const std::string& response);
   void QueryCallback_Failure(const  ::thrift_codegen::RObject& qcallback, const int32_t error_code, const std::string& error_message) override;
   void send_QueryCallback_Failure(const  ::thrift_codegen::RObject& qcallback, const int32_t error_code, const std::string& error_message);
+  void SchemeHandlerFactory_Register(const std::string& schemeName, const std::string& domainName, const  ::thrift_codegen::RObject& schemeHandlerFactory) override;
+  void send_SchemeHandlerFactory_Register(const std::string& schemeName, const std::string& domainName, const  ::thrift_codegen::RObject& schemeHandlerFactory);
+  void ClearAllSchemeHandlerFactories() override;
+  void send_ClearAllSchemeHandlerFactories();
  protected:
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -6109,6 +6223,8 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_QueryCallback_Dispose(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_QueryCallback_Success(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_QueryCallback_Failure(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_SchemeHandlerFactory_Register(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_ClearAllSchemeHandlerFactories(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   ServerProcessor(::std::shared_ptr<ServerIf> iface) :
     iface_(iface) {
@@ -6181,6 +6297,8 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["QueryCallback_Dispose"] = &ServerProcessor::process_QueryCallback_Dispose;
     processMap_["QueryCallback_Success"] = &ServerProcessor::process_QueryCallback_Success;
     processMap_["QueryCallback_Failure"] = &ServerProcessor::process_QueryCallback_Failure;
+    processMap_["SchemeHandlerFactory_Register"] = &ServerProcessor::process_SchemeHandlerFactory_Register;
+    processMap_["ClearAllSchemeHandlerFactories"] = &ServerProcessor::process_ClearAllSchemeHandlerFactories;
   }
 
   virtual ~ServerProcessor() {}
@@ -6840,6 +6958,24 @@ class ServerMultiface : virtual public ServerIf {
     ifaces_[i]->QueryCallback_Failure(qcallback, error_code, error_message);
   }
 
+  void SchemeHandlerFactory_Register(const std::string& schemeName, const std::string& domainName, const  ::thrift_codegen::RObject& schemeHandlerFactory) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->SchemeHandlerFactory_Register(schemeName, domainName, schemeHandlerFactory);
+    }
+    ifaces_[i]->SchemeHandlerFactory_Register(schemeName, domainName, schemeHandlerFactory);
+  }
+
+  void ClearAllSchemeHandlerFactories() override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->ClearAllSchemeHandlerFactories();
+    }
+    ifaces_[i]->ClearAllSchemeHandlerFactories();
+  }
+
 };
 
 // The 'concurrent' client is a thread safe client that correctly handles
@@ -7043,6 +7179,10 @@ class ServerConcurrentClient : virtual public ServerIf {
   void send_QueryCallback_Success(const  ::thrift_codegen::RObject& qcallback, const std::string& response);
   void QueryCallback_Failure(const  ::thrift_codegen::RObject& qcallback, const int32_t error_code, const std::string& error_message) override;
   void send_QueryCallback_Failure(const  ::thrift_codegen::RObject& qcallback, const int32_t error_code, const std::string& error_message);
+  void SchemeHandlerFactory_Register(const std::string& schemeName, const std::string& domainName, const  ::thrift_codegen::RObject& schemeHandlerFactory) override;
+  void send_SchemeHandlerFactory_Register(const std::string& schemeName, const std::string& domainName, const  ::thrift_codegen::RObject& schemeHandlerFactory);
+  void ClearAllSchemeHandlerFactories() override;
+  void send_ClearAllSchemeHandlerFactories();
  protected:
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
