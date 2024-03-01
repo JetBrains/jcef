@@ -69,6 +69,11 @@ class ServerHandler : public thrift_codegen::ServerIf {
   void Browser_SetFrameRate(const int32_t bid, int32_t val) override;
 
   //
+  // CefFrame
+  //
+  void Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line) override;
+
+  //
   // CefRequest
   //
   void Request_Update(const thrift_codegen::RObject & request) override;

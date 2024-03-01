@@ -2,6 +2,7 @@
 #include "RemoteClientHandler.h"
 
 #include "../log/Log.h"
+#include "../browser/RemoteFrame.h"
 
 RemoteLifespanHandler::RemoteLifespanHandler(
     int bid,
@@ -25,10 +26,11 @@ bool RemoteLifespanHandler::OnBeforePopup(
     bool* no_javascript_access)
 {
   //LNDCT();
+  RemoteFrame::Holder frm(frame);
   return myService->exec<bool>([&](const RpcExecutor::Service& s){
     // TODO: support other params and return values
     Log::error("Unimplemented some params transferring");
-    return s->LifeSpanHandler_OnBeforePopup(myBid, target_url.ToString(), target_frame_name.ToString(), user_gesture);
+    return s->LifeSpanHandler_OnBeforePopup(myBid, frm.get()->serverIdWithMap(), target_url.ToString(), target_frame_name.ToString(), user_gesture);
   }, false);
 }
 

@@ -55,7 +55,7 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
     printf("RenderHandler_OnPaint\n");
   }
 
-  bool LifeSpanHandler_OnBeforePopup(const int32_t bid, const std::string& url, const std::string& frameName, const bool gesture) {
+  bool LifeSpanHandler_OnBeforePopup(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& url, const std::string& frameName, const bool gesture) {
     // Your implementation goes here
     printf("LifeSpanHandler_OnBeforePopup\n");
   }
@@ -80,22 +80,22 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
     printf("LoadHandler_OnLoadingStateChange\n");
   }
 
-  void LoadHandler_OnLoadStart(const int32_t bid, const int32_t transition_type) {
+  void LoadHandler_OnLoadStart(const int32_t bid, const  ::thrift_codegen::RObject& frame, const int32_t transition_type) {
     // Your implementation goes here
     printf("LoadHandler_OnLoadStart\n");
   }
 
-  void LoadHandler_OnLoadEnd(const int32_t bid, const int32_t httpStatusCode) {
+  void LoadHandler_OnLoadEnd(const int32_t bid, const  ::thrift_codegen::RObject& frame, const int32_t httpStatusCode) {
     // Your implementation goes here
     printf("LoadHandler_OnLoadEnd\n");
   }
 
-  void LoadHandler_OnLoadError(const int32_t bid, const int32_t errorCode, const std::string& errorText, const std::string& failedUrl) {
+  void LoadHandler_OnLoadError(const int32_t bid, const  ::thrift_codegen::RObject& frame, const int32_t errorCode, const std::string& errorText, const std::string& failedUrl) {
     // Your implementation goes here
     printf("LoadHandler_OnLoadError\n");
   }
 
-  void DisplayHandler_OnAddressChange(const int32_t bid, const std::string& url) {
+  void DisplayHandler_OnAddressChange(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& url) {
     // Your implementation goes here
     printf("DisplayHandler_OnAddressChange\n");
   }
@@ -145,12 +145,12 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
     printf("FocusHandler_OnGotFocus\n");
   }
 
-  bool RequestHandler_OnBeforeBrowse(const int32_t bid, const  ::thrift_codegen::RObject& request, const bool user_gesture, const bool is_redirect) {
+  bool RequestHandler_OnBeforeBrowse(const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool user_gesture, const bool is_redirect) {
     // Your implementation goes here
     printf("RequestHandler_OnBeforeBrowse\n");
   }
 
-  bool RequestHandler_OnOpenURLFromTab(const int32_t bid, const std::string& target_url, const bool user_gesture) {
+  bool RequestHandler_OnOpenURLFromTab(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& target_url, const bool user_gesture) {
     // Your implementation goes here
     printf("RequestHandler_OnOpenURLFromTab\n");
   }
@@ -170,7 +170,7 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
     printf("RequestHandler_OnRenderProcessTerminated\n");
   }
 
-  void RequestHandler_GetResourceRequestHandler( ::thrift_codegen::RObject& _return, const int32_t bid, const  ::thrift_codegen::RObject& request, const bool isNavigation, const bool isDownload, const std::string& requestInitiator) {
+  void RequestHandler_GetResourceRequestHandler( ::thrift_codegen::RObject& _return, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool isNavigation, const bool isDownload, const std::string& requestInitiator) {
     // Your implementation goes here
     printf("RequestHandler_GetResourceRequestHandler\n");
   }
@@ -180,7 +180,7 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
     printf("ResourceRequestHandler_Dispose\n");
   }
 
-  void ResourceRequestHandler_GetCookieAccessFilter( ::thrift_codegen::RObject& _return, const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request) {
+  void ResourceRequestHandler_GetCookieAccessFilter( ::thrift_codegen::RObject& _return, const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request) {
     // Your implementation goes here
     printf("ResourceRequestHandler_GetCookieAccessFilter\n");
   }
@@ -190,22 +190,22 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
     printf("CookieAccessFilter_Dispose\n");
   }
 
-  bool CookieAccessFilter_CanSendCookie(const int32_t filter, const int32_t bid, const  ::thrift_codegen::RObject& request, const std::vector<std::string> & cookie) {
+  bool CookieAccessFilter_CanSendCookie(const int32_t filter, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const std::vector<std::string> & cookie) {
     // Your implementation goes here
     printf("CookieAccessFilter_CanSendCookie\n");
   }
 
-  bool CookieAccessFilter_CanSaveCookie(const int32_t filter, const int32_t bid, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& response, const std::vector<std::string> & cookie) {
+  bool CookieAccessFilter_CanSaveCookie(const int32_t filter, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& response, const std::vector<std::string> & cookie) {
     // Your implementation goes here
     printf("CookieAccessFilter_CanSaveCookie\n");
   }
 
-  bool ResourceRequestHandler_OnBeforeResourceLoad(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request) {
+  bool ResourceRequestHandler_OnBeforeResourceLoad(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request) {
     // Your implementation goes here
     printf("ResourceRequestHandler_OnBeforeResourceLoad\n");
   }
 
-  void ResourceRequestHandler_GetResourceHandler( ::thrift_codegen::RObject& _return, const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request) {
+  void ResourceRequestHandler_GetResourceHandler( ::thrift_codegen::RObject& _return, const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request) {
     // Your implementation goes here
     printf("ResourceRequestHandler_GetResourceHandler\n");
   }
@@ -235,32 +235,32 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
     printf("ResourceHandler_Cancel\n");
   }
 
-  void ResourceRequestHandler_OnResourceRedirect(std::string& _return, const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& response, const std::string& new_url) {
+  void ResourceRequestHandler_OnResourceRedirect(std::string& _return, const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& response, const std::string& new_url) {
     // Your implementation goes here
     printf("ResourceRequestHandler_OnResourceRedirect\n");
   }
 
-  bool ResourceRequestHandler_OnResourceResponse(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& response) {
+  bool ResourceRequestHandler_OnResourceResponse(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& response) {
     // Your implementation goes here
     printf("ResourceRequestHandler_OnResourceResponse\n");
   }
 
-  void ResourceRequestHandler_OnResourceLoadComplete(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& response, const std::string& status, const int64_t receivedContentLength) {
+  void ResourceRequestHandler_OnResourceLoadComplete(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& response, const std::string& status, const int64_t receivedContentLength) {
     // Your implementation goes here
     printf("ResourceRequestHandler_OnResourceLoadComplete\n");
   }
 
-  bool ResourceRequestHandler_OnProtocolExecution(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& request, const bool allowOsExecution) {
+  bool ResourceRequestHandler_OnProtocolExecution(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool allowOsExecution) {
     // Your implementation goes here
     printf("ResourceRequestHandler_OnProtocolExecution\n");
   }
 
-  bool MessageRouterHandler_onQuery(const  ::thrift_codegen::RObject& handler, const int32_t bid, const int64_t queryId, const std::string& request, const bool persistent, const  ::thrift_codegen::RObject& queryCallback) {
+  bool MessageRouterHandler_onQuery(const  ::thrift_codegen::RObject& handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const int64_t queryId, const std::string& request, const bool persistent, const  ::thrift_codegen::RObject& queryCallback) {
     // Your implementation goes here
     printf("MessageRouterHandler_onQuery\n");
   }
 
-  void MessageRouterHandler_onQueryCanceled(const  ::thrift_codegen::RObject& handler, const int32_t bid, const int64_t queryId) {
+  void MessageRouterHandler_onQueryCanceled(const  ::thrift_codegen::RObject& handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const int64_t queryId) {
     // Your implementation goes here
     printf("MessageRouterHandler_onQueryCanceled\n");
   }
@@ -270,7 +270,7 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
     printf("MessageRouterHandler_Dispose\n");
   }
 
-  void SchemeHandlerFactory_CreateHandler( ::thrift_codegen::RObject& _return, const int32_t schemeHandlerFactory, const int32_t bid, const std::string& scheme_name, const  ::thrift_codegen::RObject& request) {
+  void SchemeHandlerFactory_CreateHandler( ::thrift_codegen::RObject& _return, const int32_t schemeHandlerFactory, const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& scheme_name, const  ::thrift_codegen::RObject& request) {
     // Your implementation goes here
     printf("SchemeHandlerFactory_CreateHandler\n");
   }

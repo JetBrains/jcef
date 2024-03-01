@@ -5,6 +5,7 @@
 #include "../handlers/RemoteClientHandler.h"
 #include "RemoteRequest.h"
 #include "RemoteResourceRequestHandler.h"
+#include "../browser/RemoteFrame.h"
 
 #include "include/cef_ssl_info.h"
 
@@ -58,8 +59,9 @@ bool RemoteRequestHandler::OnBeforeBrowse(CefRefPtr<CefBrowser> browser,
   myRoutersManager->OnBeforeBrowse(browser, frame);
 
   RemoteRequest::Holder req(request);
+  RemoteFrame::Holder frm(frame);
   return myService->exec<bool>([&](RpcExecutor::Service s){
-    return s->RequestHandler_OnBeforeBrowse(myBid, req.get()->serverIdWithMap(), user_gesture, is_redirect);
+    return s->RequestHandler_OnBeforeBrowse(myBid, frm.get()->serverIdWithMap(), req.get()->serverIdWithMap(), user_gesture, is_redirect);
   }, false);
 }
 
@@ -70,8 +72,9 @@ bool RemoteRequestHandler::OnOpenURLFromTab(CefRefPtr<CefBrowser> browser,
                       bool user_gesture
 ) {
   LNDCT();
+  RemoteFrame::Holder frm(frame);
   return myService->exec<bool>([&](RpcExecutor::Service s){
-    return s->RequestHandler_OnOpenURLFromTab(myBid, target_url.ToString(), user_gesture);
+    return s->RequestHandler_OnOpenURLFromTab(myBid, frm.get()->serverIdWithMap(), target_url.ToString(), user_gesture);
   }, false);
 }
 
@@ -103,11 +106,12 @@ CefRefPtr<CefResourceRequestHandler> RemoteRequestHandler::GetResourceRequestHan
   LogNdc ndc(__FILE_NAME__, __FUNCTION__, 500, false, false, "ChromeIO");
 
   RemoteRequest::Holder req(request);
+  RemoteFrame::Holder frm(frame);
   thrift_codegen::RObject peer;
   peer.__set_objId(-1);
   myServiceIO->exec([&](RpcExecutor::Service s){
     s->RequestHandler_GetResourceRequestHandler(
-        peer, myBid, req.get()->serverIdWithMap(), is_navigation, is_download, request_initiator.ToString());
+        peer, myBid, frm.get()->serverIdWithMap(), req.get()->serverIdWithMap(), is_navigation, is_download, request_initiator.ToString());
   });
 
   disable_default_handling = peer.__isset.flags ? peer.flags != 0 : false;

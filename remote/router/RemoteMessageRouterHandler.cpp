@@ -1,6 +1,7 @@
 #include "RemoteMessageRouterHandler.h"
 #include "RemoteQueryCallback.h"
 #include "../browser/ClientsManager.h"
+#include "../browser/RemoteFrame.h"
 
 // remove to enable tracing
 #ifdef TRACE
@@ -51,9 +52,10 @@ bool RemoteMessageRouterHandler::OnQuery(CefRefPtr<CefBrowser> browser,
     Log::error("Can't find remote browser by cef-id %d", browser ? browser->GetIdentifier() : -1);
     return false;
   }
+  RemoteFrame::Holder frm(frame);
   RemoteQueryCallback* rcb = RemoteQueryCallback::wrapDelegate(callback);
   bool handled = myService->exec<bool>([&](RpcExecutor::Service s){
-    return s->MessageRouterHandler_onQuery(javaId(), bid, query_id, request, persistent, rcb->serverId());
+    return s->MessageRouterHandler_onQuery(javaId(), bid, frm.get()->serverIdWithMap(), query_id, request, persistent, rcb->serverId());
   }, false);
   if (!handled) // NOTE: must delete callback when onQuery returns false
     RemoteQueryCallback::dispose(rcb->getId());
@@ -71,8 +73,9 @@ void RemoteMessageRouterHandler::OnQueryCanceled(CefRefPtr<CefBrowser> browser,
     Log::error("Can't find remote browser by cef-id %d", browser ? browser->GetIdentifier() : -1);
     return;
   }
+  RemoteFrame::Holder frm(frame);
   myService->exec([&](RpcExecutor::Service s){
-    return s->MessageRouterHandler_onQueryCanceled(javaId(), bid, query_id);
+    return s->MessageRouterHandler_onQueryCanceled(javaId(), bid, frm.get()->serverIdWithMap(), query_id);
   });
 }
 

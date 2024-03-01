@@ -154,6 +154,8 @@ set(SERVER_SOURCES
         handlers/app/HelperApp.h
         ServerState.cpp
         RpcExecutor.cpp
+        browser/RemoteFrame.cpp
+        browser/RemoteFrame.h
 )
 
 if (OS_WINDOWS)

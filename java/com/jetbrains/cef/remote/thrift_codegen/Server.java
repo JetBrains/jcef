@@ -91,6 +91,8 @@ public class Server {
 
     public void Browser_SetFrameRate(int bid, int val) throws org.apache.thrift.TException;
 
+    public void Frame_ExecuteJavaScript(int frameId, java.lang.String code, java.lang.String url, int line) throws org.apache.thrift.TException;
+
     public void Request_Update(com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException;
 
     public com.jetbrains.cef.remote.thrift_codegen.PostData Request_GetPostData(com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException;
@@ -236,6 +238,8 @@ public class Server {
     public void Browser_ReplaceMisspelling(int bid, java.lang.String word, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
     public void Browser_SetFrameRate(int bid, int val, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+
+    public void Frame_ExecuteJavaScript(int frameId, java.lang.String code, java.lang.String url, int line, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
     public void Request_Update(com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
@@ -1029,6 +1033,22 @@ public class Server {
       args.setBid(bid);
       args.setVal(val);
       sendBaseOneway("Browser_SetFrameRate", args);
+    }
+
+    @Override
+    public void Frame_ExecuteJavaScript(int frameId, java.lang.String code, java.lang.String url, int line) throws org.apache.thrift.TException
+    {
+      send_Frame_ExecuteJavaScript(frameId, code, url, line);
+    }
+
+    public void send_Frame_ExecuteJavaScript(int frameId, java.lang.String code, java.lang.String url, int line) throws org.apache.thrift.TException
+    {
+      Frame_ExecuteJavaScript_args args = new Frame_ExecuteJavaScript_args();
+      args.setFrameId(frameId);
+      args.setCode(code);
+      args.setUrl(url);
+      args.setLine(line);
+      sendBaseOneway("Frame_ExecuteJavaScript", args);
     }
 
     @Override
@@ -3155,6 +3175,50 @@ public class Server {
     }
 
     @Override
+    public void Frame_ExecuteJavaScript(int frameId, java.lang.String code, java.lang.String url, int line, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      Frame_ExecuteJavaScript_call method_call = new Frame_ExecuteJavaScript_call(frameId, code, url, line, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class Frame_ExecuteJavaScript_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
+      private int frameId;
+      private java.lang.String code;
+      private java.lang.String url;
+      private int line;
+      public Frame_ExecuteJavaScript_call(int frameId, java.lang.String code, java.lang.String url, int line, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, true);
+        this.frameId = frameId;
+        this.code = code;
+        this.url = url;
+        this.line = line;
+      }
+
+      @Override
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("Frame_ExecuteJavaScript", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
+        Frame_ExecuteJavaScript_args args = new Frame_ExecuteJavaScript_args();
+        args.setFrameId(frameId);
+        args.setCode(code);
+        args.setUrl(url);
+        args.setLine(line);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public Void getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return null;
+      }
+    }
+
+    @Override
     public void Request_Update(com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       Request_Update_call method_call = new Request_Update_call(request, resultHandler, this, ___protocolFactory, ___transport);
@@ -4392,6 +4456,7 @@ public class Server {
       processMap.put("Browser_StopFinding", new Browser_StopFinding());
       processMap.put("Browser_ReplaceMisspelling", new Browser_ReplaceMisspelling());
       processMap.put("Browser_SetFrameRate", new Browser_SetFrameRate());
+      processMap.put("Frame_ExecuteJavaScript", new Frame_ExecuteJavaScript());
       processMap.put("Request_Update", new Request_Update());
       processMap.put("Request_GetPostData", new Request_GetPostData());
       processMap.put("Request_SetPostData", new Request_SetPostData());
@@ -5530,6 +5595,33 @@ public class Server {
       }
     }
 
+    public static class Frame_ExecuteJavaScript<I extends Iface> extends org.apache.thrift.ProcessFunction<I, Frame_ExecuteJavaScript_args> {
+      public Frame_ExecuteJavaScript() {
+        super("Frame_ExecuteJavaScript");
+      }
+
+      @Override
+      public Frame_ExecuteJavaScript_args getEmptyArgsInstance() {
+        return new Frame_ExecuteJavaScript_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public org.apache.thrift.TBase getResult(I iface, Frame_ExecuteJavaScript_args args) throws org.apache.thrift.TException {
+        iface.Frame_ExecuteJavaScript(args.frameId, args.code, args.url, args.line);
+        return null;
+      }
+    }
+
     public static class Request_Update<I extends Iface> extends org.apache.thrift.ProcessFunction<I, Request_Update_args> {
       public Request_Update() {
         super("Request_Update");
@@ -6439,6 +6531,7 @@ public class Server {
       processMap.put("Browser_StopFinding", new Browser_StopFinding());
       processMap.put("Browser_ReplaceMisspelling", new Browser_ReplaceMisspelling());
       processMap.put("Browser_SetFrameRate", new Browser_SetFrameRate());
+      processMap.put("Frame_ExecuteJavaScript", new Frame_ExecuteJavaScript());
       processMap.put("Request_Update", new Request_Update());
       processMap.put("Request_GetPostData", new Request_GetPostData());
       processMap.put("Request_SetPostData", new Request_SetPostData());
@@ -8458,6 +8551,46 @@ public class Server {
       @Override
       public void start(I iface, Browser_SetFrameRate_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
         iface.Browser_SetFrameRate(args.bid, args.val,resultHandler);
+      }
+    }
+
+    public static class Frame_ExecuteJavaScript<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, Frame_ExecuteJavaScript_args, Void> {
+      public Frame_ExecuteJavaScript() {
+        super("Frame_ExecuteJavaScript");
+      }
+
+      @Override
+      public Frame_ExecuteJavaScript_args getEmptyArgsInstance() {
+        return new Frame_ExecuteJavaScript_args();
+      }
+
+      @Override
+      public org.apache.thrift.async.AsyncMethodCallback<Void> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final org.apache.thrift.AsyncProcessFunction fcall = this;
+        return new org.apache.thrift.async.AsyncMethodCallback<Void>() { 
+          @Override
+          public void onComplete(Void o) {
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            if (e instanceof org.apache.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+            } else {
+              _LOGGER.error("Exception inside oneway handler", e);
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      public void start(I iface, Frame_ExecuteJavaScript_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+        iface.Frame_ExecuteJavaScript(args.frameId, args.code, args.url, args.line,resultHandler);
       }
     }
 
@@ -33754,6 +33887,686 @@ public class Server {
         if (incoming.get(1)) {
           struct.val = iprot.readI32();
           struct.setValIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class Frame_ExecuteJavaScript_args implements org.apache.thrift.TBase<Frame_ExecuteJavaScript_args, Frame_ExecuteJavaScript_args._Fields>, java.io.Serializable, Cloneable, Comparable<Frame_ExecuteJavaScript_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("Frame_ExecuteJavaScript_args");
+
+    private static final org.apache.thrift.protocol.TField FRAME_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("frameId", org.apache.thrift.protocol.TType.I32, (short)1);
+    private static final org.apache.thrift.protocol.TField CODE_FIELD_DESC = new org.apache.thrift.protocol.TField("code", org.apache.thrift.protocol.TType.STRING, (short)2);
+    private static final org.apache.thrift.protocol.TField URL_FIELD_DESC = new org.apache.thrift.protocol.TField("url", org.apache.thrift.protocol.TType.STRING, (short)3);
+    private static final org.apache.thrift.protocol.TField LINE_FIELD_DESC = new org.apache.thrift.protocol.TField("line", org.apache.thrift.protocol.TType.I32, (short)4);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new Frame_ExecuteJavaScript_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new Frame_ExecuteJavaScript_argsTupleSchemeFactory();
+
+    public int frameId; // required
+    public @org.apache.thrift.annotation.Nullable java.lang.String code; // required
+    public @org.apache.thrift.annotation.Nullable java.lang.String url; // required
+    public int line; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      FRAME_ID((short)1, "frameId"),
+      CODE((short)2, "code"),
+      URL((short)3, "url"),
+      LINE((short)4, "line");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // FRAME_ID
+            return FRAME_ID;
+          case 2: // CODE
+            return CODE;
+          case 3: // URL
+            return URL;
+          case 4: // LINE
+            return LINE;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __FRAMEID_ISSET_ID = 0;
+    private static final int __LINE_ISSET_ID = 1;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.FRAME_ID, new org.apache.thrift.meta_data.FieldMetaData("frameId", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.CODE, new org.apache.thrift.meta_data.FieldMetaData("code", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.URL, new org.apache.thrift.meta_data.FieldMetaData("url", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.LINE, new org.apache.thrift.meta_data.FieldMetaData("line", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Frame_ExecuteJavaScript_args.class, metaDataMap);
+    }
+
+    public Frame_ExecuteJavaScript_args() {
+    }
+
+    public Frame_ExecuteJavaScript_args(
+      int frameId,
+      java.lang.String code,
+      java.lang.String url,
+      int line)
+    {
+      this();
+      this.frameId = frameId;
+      setFrameIdIsSet(true);
+      this.code = code;
+      this.url = url;
+      this.line = line;
+      setLineIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public Frame_ExecuteJavaScript_args(Frame_ExecuteJavaScript_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.frameId = other.frameId;
+      if (other.isSetCode()) {
+        this.code = other.code;
+      }
+      if (other.isSetUrl()) {
+        this.url = other.url;
+      }
+      this.line = other.line;
+    }
+
+    @Override
+    public Frame_ExecuteJavaScript_args deepCopy() {
+      return new Frame_ExecuteJavaScript_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setFrameIdIsSet(false);
+      this.frameId = 0;
+      this.code = null;
+      this.url = null;
+      setLineIsSet(false);
+      this.line = 0;
+    }
+
+    public int getFrameId() {
+      return this.frameId;
+    }
+
+    public Frame_ExecuteJavaScript_args setFrameId(int frameId) {
+      this.frameId = frameId;
+      setFrameIdIsSet(true);
+      return this;
+    }
+
+    public void unsetFrameId() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __FRAMEID_ISSET_ID);
+    }
+
+    /** Returns true if field frameId is set (has been assigned a value) and false otherwise */
+    public boolean isSetFrameId() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __FRAMEID_ISSET_ID);
+    }
+
+    public void setFrameIdIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __FRAMEID_ISSET_ID, value);
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.String getCode() {
+      return this.code;
+    }
+
+    public Frame_ExecuteJavaScript_args setCode(@org.apache.thrift.annotation.Nullable java.lang.String code) {
+      this.code = code;
+      return this;
+    }
+
+    public void unsetCode() {
+      this.code = null;
+    }
+
+    /** Returns true if field code is set (has been assigned a value) and false otherwise */
+    public boolean isSetCode() {
+      return this.code != null;
+    }
+
+    public void setCodeIsSet(boolean value) {
+      if (!value) {
+        this.code = null;
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.String getUrl() {
+      return this.url;
+    }
+
+    public Frame_ExecuteJavaScript_args setUrl(@org.apache.thrift.annotation.Nullable java.lang.String url) {
+      this.url = url;
+      return this;
+    }
+
+    public void unsetUrl() {
+      this.url = null;
+    }
+
+    /** Returns true if field url is set (has been assigned a value) and false otherwise */
+    public boolean isSetUrl() {
+      return this.url != null;
+    }
+
+    public void setUrlIsSet(boolean value) {
+      if (!value) {
+        this.url = null;
+      }
+    }
+
+    public int getLine() {
+      return this.line;
+    }
+
+    public Frame_ExecuteJavaScript_args setLine(int line) {
+      this.line = line;
+      setLineIsSet(true);
+      return this;
+    }
+
+    public void unsetLine() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __LINE_ISSET_ID);
+    }
+
+    /** Returns true if field line is set (has been assigned a value) and false otherwise */
+    public boolean isSetLine() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __LINE_ISSET_ID);
+    }
+
+    public void setLineIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __LINE_ISSET_ID, value);
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case FRAME_ID:
+        if (value == null) {
+          unsetFrameId();
+        } else {
+          setFrameId((java.lang.Integer)value);
+        }
+        break;
+
+      case CODE:
+        if (value == null) {
+          unsetCode();
+        } else {
+          setCode((java.lang.String)value);
+        }
+        break;
+
+      case URL:
+        if (value == null) {
+          unsetUrl();
+        } else {
+          setUrl((java.lang.String)value);
+        }
+        break;
+
+      case LINE:
+        if (value == null) {
+          unsetLine();
+        } else {
+          setLine((java.lang.Integer)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case FRAME_ID:
+        return getFrameId();
+
+      case CODE:
+        return getCode();
+
+      case URL:
+        return getUrl();
+
+      case LINE:
+        return getLine();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case FRAME_ID:
+        return isSetFrameId();
+      case CODE:
+        return isSetCode();
+      case URL:
+        return isSetUrl();
+      case LINE:
+        return isSetLine();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof Frame_ExecuteJavaScript_args)
+        return this.equals((Frame_ExecuteJavaScript_args)that);
+      return false;
+    }
+
+    public boolean equals(Frame_ExecuteJavaScript_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_frameId = true;
+      boolean that_present_frameId = true;
+      if (this_present_frameId || that_present_frameId) {
+        if (!(this_present_frameId && that_present_frameId))
+          return false;
+        if (this.frameId != that.frameId)
+          return false;
+      }
+
+      boolean this_present_code = true && this.isSetCode();
+      boolean that_present_code = true && that.isSetCode();
+      if (this_present_code || that_present_code) {
+        if (!(this_present_code && that_present_code))
+          return false;
+        if (!this.code.equals(that.code))
+          return false;
+      }
+
+      boolean this_present_url = true && this.isSetUrl();
+      boolean that_present_url = true && that.isSetUrl();
+      if (this_present_url || that_present_url) {
+        if (!(this_present_url && that_present_url))
+          return false;
+        if (!this.url.equals(that.url))
+          return false;
+      }
+
+      boolean this_present_line = true;
+      boolean that_present_line = true;
+      if (this_present_line || that_present_line) {
+        if (!(this_present_line && that_present_line))
+          return false;
+        if (this.line != that.line)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + frameId;
+
+      hashCode = hashCode * 8191 + ((isSetCode()) ? 131071 : 524287);
+      if (isSetCode())
+        hashCode = hashCode * 8191 + code.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetUrl()) ? 131071 : 524287);
+      if (isSetUrl())
+        hashCode = hashCode * 8191 + url.hashCode();
+
+      hashCode = hashCode * 8191 + line;
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(Frame_ExecuteJavaScript_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetFrameId(), other.isSetFrameId());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetFrameId()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.frameId, other.frameId);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetCode(), other.isSetCode());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetCode()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.code, other.code);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetUrl(), other.isSetUrl());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetUrl()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.url, other.url);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetLine(), other.isSetLine());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetLine()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.line, other.line);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("Frame_ExecuteJavaScript_args(");
+      boolean first = true;
+
+      sb.append("frameId:");
+      sb.append(this.frameId);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("code:");
+      if (this.code == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.code);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("url:");
+      if (this.url == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.url);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("line:");
+      sb.append(this.line);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class Frame_ExecuteJavaScript_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public Frame_ExecuteJavaScript_argsStandardScheme getScheme() {
+        return new Frame_ExecuteJavaScript_argsStandardScheme();
+      }
+    }
+
+    private static class Frame_ExecuteJavaScript_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<Frame_ExecuteJavaScript_args> {
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol iprot, Frame_ExecuteJavaScript_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // FRAME_ID
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.frameId = iprot.readI32();
+                struct.setFrameIdIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // CODE
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.code = iprot.readString();
+                struct.setCodeIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 3: // URL
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.url = iprot.readString();
+                struct.setUrlIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 4: // LINE
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.line = iprot.readI32();
+                struct.setLineIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol oprot, Frame_ExecuteJavaScript_args struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(FRAME_ID_FIELD_DESC);
+        oprot.writeI32(struct.frameId);
+        oprot.writeFieldEnd();
+        if (struct.code != null) {
+          oprot.writeFieldBegin(CODE_FIELD_DESC);
+          oprot.writeString(struct.code);
+          oprot.writeFieldEnd();
+        }
+        if (struct.url != null) {
+          oprot.writeFieldBegin(URL_FIELD_DESC);
+          oprot.writeString(struct.url);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldBegin(LINE_FIELD_DESC);
+        oprot.writeI32(struct.line);
+        oprot.writeFieldEnd();
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class Frame_ExecuteJavaScript_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public Frame_ExecuteJavaScript_argsTupleScheme getScheme() {
+        return new Frame_ExecuteJavaScript_argsTupleScheme();
+      }
+    }
+
+    private static class Frame_ExecuteJavaScript_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<Frame_ExecuteJavaScript_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, Frame_ExecuteJavaScript_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetFrameId()) {
+          optionals.set(0);
+        }
+        if (struct.isSetCode()) {
+          optionals.set(1);
+        }
+        if (struct.isSetUrl()) {
+          optionals.set(2);
+        }
+        if (struct.isSetLine()) {
+          optionals.set(3);
+        }
+        oprot.writeBitSet(optionals, 4);
+        if (struct.isSetFrameId()) {
+          oprot.writeI32(struct.frameId);
+        }
+        if (struct.isSetCode()) {
+          oprot.writeString(struct.code);
+        }
+        if (struct.isSetUrl()) {
+          oprot.writeString(struct.url);
+        }
+        if (struct.isSetLine()) {
+          oprot.writeI32(struct.line);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, Frame_ExecuteJavaScript_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(4);
+        if (incoming.get(0)) {
+          struct.frameId = iprot.readI32();
+          struct.setFrameIdIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.code = iprot.readString();
+          struct.setCodeIsSet(true);
+        }
+        if (incoming.get(2)) {
+          struct.url = iprot.readString();
+          struct.setUrlIsSet(true);
+        }
+        if (incoming.get(3)) {
+          struct.line = iprot.readI32();
+          struct.setLineIsSet(true);
         }
       }
     }

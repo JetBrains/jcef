@@ -6,6 +6,7 @@
 #include "network/RemotePostData.h"
 #include "network/RemoteRequest.h"
 #include "network/RemoteResponse.h"
+#include "browser/RemoteFrame.h"
 
 #include "RemoteObjects.h"
 #include "callback/RemoteAuthCallback.h"
@@ -181,6 +182,15 @@ void ServerHandler::Browser_ExecuteJavaScript(const int32_t bid,const std::strin
   LNDCT();
   GET_BROWSER_OR_RETURN()
   browser->GetMainFrame()->ExecuteJavaScript(code, url, line);
+}
+
+void ServerHandler::Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line) {
+  LNDCT();
+  RemoteFrame * rf = RemoteFrame::get(frameId);
+  if (rf == nullptr)
+    return;
+
+  rf->getDelegate().ExecuteJavaScript(code, url, line);
 }
 
 void ServerHandler::Browser_WasResized(const int32_t bid) {

@@ -3,6 +3,7 @@
 #include "../log/Log.h"
 #include "RemoteRequest.h"
 #include "RemoteResponse.h"
+#include "../browser/RemoteFrame.h"
 
 namespace {
   std::vector<std::string> cookie2list(const CefCookie& cookie);
@@ -40,8 +41,9 @@ bool RemoteCookieAccessFilter::CanSendCookie(CefRefPtr<CefBrowser> browser,
 ) {
   LNDCT();
   RemoteRequest::Holder req(request);
+  RemoteFrame::Holder frm(frame);
   return myService->exec<bool>([&](RpcExecutor::Service s){
-    return s->CookieAccessFilter_CanSendCookie(myPeerId, myBid, req.get()->serverIdWithMap(), cookie2list(cookie));
+    return s->CookieAccessFilter_CanSendCookie(myPeerId, myBid, frm.get()->serverIdWithMap(), req.get()->serverIdWithMap(), cookie2list(cookie));
   }, true);
 }
 
@@ -63,8 +65,9 @@ bool RemoteCookieAccessFilter::CanSaveCookie(CefRefPtr<CefBrowser> browser,
   LNDCT();
   RemoteRequest::Holder req(request);
   RemoteResponse::Holder resp(response);
+  RemoteFrame::Holder frm(frame);
   return myService->exec<bool>([&](RpcExecutor::Service s){
-    return s->CookieAccessFilter_CanSaveCookie(myPeerId, myBid, req.get()->serverIdWithMap(),
+    return s->CookieAccessFilter_CanSaveCookie(myPeerId, myBid, frm.get()->serverIdWithMap(), req.get()->serverIdWithMap(),
                                                resp.get()->serverIdWithMap(), cookie2list(cookie));
   }, true);
 }

@@ -62,6 +62,7 @@ class ServerIf {
   virtual void Browser_StopFinding(const int32_t bid, const bool clearSelection) = 0;
   virtual void Browser_ReplaceMisspelling(const int32_t bid, const std::string& word) = 0;
   virtual void Browser_SetFrameRate(const int32_t bid, const int32_t val) = 0;
+  virtual void Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line) = 0;
   virtual void Request_Update(const  ::thrift_codegen::RObject& request) = 0;
   virtual void Request_GetPostData( ::thrift_codegen::PostData& _return, const  ::thrift_codegen::RObject& request) = 0;
   virtual void Request_SetPostData(const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::PostData& postData) = 0;
@@ -250,6 +251,9 @@ class ServerNull : virtual public ServerIf {
     return;
   }
   void Browser_SetFrameRate(const int32_t /* bid */, const int32_t /* val */) override {
+    return;
+  }
+  void Frame_ExecuteJavaScript(const int32_t /* frameId */, const std::string& /* code */, const std::string& /* url */, const int32_t /* line */) override {
     return;
   }
   void Request_Update(const  ::thrift_codegen::RObject& /* request */) override {
@@ -3386,6 +3390,80 @@ class Server_Browser_SetFrameRate_pargs {
 
 };
 
+typedef struct _Server_Frame_ExecuteJavaScript_args__isset {
+  _Server_Frame_ExecuteJavaScript_args__isset() : frameId(false), code(false), url(false), line(false) {}
+  bool frameId :1;
+  bool code :1;
+  bool url :1;
+  bool line :1;
+} _Server_Frame_ExecuteJavaScript_args__isset;
+
+class Server_Frame_ExecuteJavaScript_args {
+ public:
+
+  Server_Frame_ExecuteJavaScript_args(const Server_Frame_ExecuteJavaScript_args&);
+  Server_Frame_ExecuteJavaScript_args& operator=(const Server_Frame_ExecuteJavaScript_args&);
+  Server_Frame_ExecuteJavaScript_args() noexcept
+                                      : frameId(0),
+                                        code(),
+                                        url(),
+                                        line(0) {
+  }
+
+  virtual ~Server_Frame_ExecuteJavaScript_args() noexcept;
+  int32_t frameId;
+  std::string code;
+  std::string url;
+  int32_t line;
+
+  _Server_Frame_ExecuteJavaScript_args__isset __isset;
+
+  void __set_frameId(const int32_t val);
+
+  void __set_code(const std::string& val);
+
+  void __set_url(const std::string& val);
+
+  void __set_line(const int32_t val);
+
+  bool operator == (const Server_Frame_ExecuteJavaScript_args & rhs) const
+  {
+    if (!(frameId == rhs.frameId))
+      return false;
+    if (!(code == rhs.code))
+      return false;
+    if (!(url == rhs.url))
+      return false;
+    if (!(line == rhs.line))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_Frame_ExecuteJavaScript_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Frame_ExecuteJavaScript_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Frame_ExecuteJavaScript_pargs {
+ public:
+
+
+  virtual ~Server_Frame_ExecuteJavaScript_pargs() noexcept;
+  const int32_t* frameId;
+  const std::string* code;
+  const std::string* url;
+  const int32_t* line;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
 typedef struct _Server_Request_Update_args__isset {
   _Server_Request_Update_args__isset() : request(false) {}
   bool request :1;
@@ -6058,6 +6136,8 @@ class ServerClient : virtual public ServerIf {
   void send_Browser_ReplaceMisspelling(const int32_t bid, const std::string& word);
   void Browser_SetFrameRate(const int32_t bid, const int32_t val) override;
   void send_Browser_SetFrameRate(const int32_t bid, const int32_t val);
+  void Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line) override;
+  void send_Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line);
   void Request_Update(const  ::thrift_codegen::RObject& request) override;
   void send_Request_Update(const  ::thrift_codegen::RObject& request);
   void recv_Request_Update();
@@ -6194,6 +6274,7 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_Browser_StopFinding(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_ReplaceMisspelling(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_SetFrameRate(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_Frame_ExecuteJavaScript(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Request_Update(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Request_GetPostData(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Request_SetPostData(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -6268,6 +6349,7 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["Browser_StopFinding"] = &ServerProcessor::process_Browser_StopFinding;
     processMap_["Browser_ReplaceMisspelling"] = &ServerProcessor::process_Browser_ReplaceMisspelling;
     processMap_["Browser_SetFrameRate"] = &ServerProcessor::process_Browser_SetFrameRate;
+    processMap_["Frame_ExecuteJavaScript"] = &ServerProcessor::process_Frame_ExecuteJavaScript;
     processMap_["Request_Update"] = &ServerProcessor::process_Request_Update;
     processMap_["Request_GetPostData"] = &ServerProcessor::process_Request_GetPostData;
     processMap_["Request_SetPostData"] = &ServerProcessor::process_Request_SetPostData;
@@ -6691,6 +6773,15 @@ class ServerMultiface : virtual public ServerIf {
     ifaces_[i]->Browser_SetFrameRate(bid, val);
   }
 
+  void Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->Frame_ExecuteJavaScript(frameId, code, url, line);
+    }
+    ifaces_[i]->Frame_ExecuteJavaScript(frameId, code, url, line);
+  }
+
   void Request_Update(const  ::thrift_codegen::RObject& request) override {
     size_t sz = ifaces_.size();
     size_t i = 0;
@@ -7102,6 +7193,8 @@ class ServerConcurrentClient : virtual public ServerIf {
   void send_Browser_ReplaceMisspelling(const int32_t bid, const std::string& word);
   void Browser_SetFrameRate(const int32_t bid, const int32_t val) override;
   void send_Browser_SetFrameRate(const int32_t bid, const int32_t val);
+  void Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line) override;
+  void send_Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line);
   void Request_Update(const  ::thrift_codegen::RObject& request) override;
   int32_t send_Request_Update(const  ::thrift_codegen::RObject& request);
   void recv_Request_Update(const int32_t seqid);

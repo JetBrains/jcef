@@ -220,6 +220,11 @@ class ServerHandler : virtual public ServerIf {
     printf("Browser_SetFrameRate\n");
   }
 
+  void Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line) {
+    // Your implementation goes here
+    printf("Frame_ExecuteJavaScript\n");
+  }
+
   void Request_Update(const  ::thrift_codegen::RObject& request) {
     // Your implementation goes here
     printf("Request_Update\n");

@@ -1,5 +1,6 @@
 #include "RemoteDisplayHandler.h"
 #include "RemoteClientHandler.h"
+#include "../browser/RemoteFrame.h"
 
 RemoteDisplayHandler::RemoteDisplayHandler(int bid, std::shared_ptr<RpcExecutor> service)
     : myBid(bid), myService(service) {}
@@ -8,8 +9,9 @@ void RemoteDisplayHandler::OnAddressChange(CefRefPtr<CefBrowser> browser,
                      CefRefPtr<CefFrame> frame,
                      const CefString& url) {
   LNDCT();
+  RemoteFrame::Holder frm(frame);
   myService->exec([&](const RpcExecutor::Service& s){
-    s->DisplayHandler_OnAddressChange(myBid, url.ToString());
+    s->DisplayHandler_OnAddressChange(myBid, frm.get()->serverIdWithMap(), url.ToString());
   });
 }
 

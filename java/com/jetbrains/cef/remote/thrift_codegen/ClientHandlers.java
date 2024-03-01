@@ -25,7 +25,7 @@ public class ClientHandlers {
 
     public void RenderHandler_OnPaint(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, int width, int height) throws org.apache.thrift.TException;
 
-    public boolean LifeSpanHandler_OnBeforePopup(int bid, java.lang.String url, java.lang.String frameName, boolean gesture) throws org.apache.thrift.TException;
+    public boolean LifeSpanHandler_OnBeforePopup(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, java.lang.String url, java.lang.String frameName, boolean gesture) throws org.apache.thrift.TException;
 
     public void LifeSpanHandler_OnAfterCreated(int bid, int nativeBrowserIdentifier) throws org.apache.thrift.TException;
 
@@ -35,13 +35,13 @@ public class ClientHandlers {
 
     public void LoadHandler_OnLoadingStateChange(int bid, boolean isLoading, boolean canGoBack, boolean canGoForward) throws org.apache.thrift.TException;
 
-    public void LoadHandler_OnLoadStart(int bid, int transition_type) throws org.apache.thrift.TException;
+    public void LoadHandler_OnLoadStart(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, int transition_type) throws org.apache.thrift.TException;
 
-    public void LoadHandler_OnLoadEnd(int bid, int httpStatusCode) throws org.apache.thrift.TException;
+    public void LoadHandler_OnLoadEnd(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, int httpStatusCode) throws org.apache.thrift.TException;
 
-    public void LoadHandler_OnLoadError(int bid, int errorCode, java.lang.String errorText, java.lang.String failedUrl) throws org.apache.thrift.TException;
+    public void LoadHandler_OnLoadError(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, int errorCode, java.lang.String errorText, java.lang.String failedUrl) throws org.apache.thrift.TException;
 
-    public void DisplayHandler_OnAddressChange(int bid, java.lang.String url) throws org.apache.thrift.TException;
+    public void DisplayHandler_OnAddressChange(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, java.lang.String url) throws org.apache.thrift.TException;
 
     public void DisplayHandler_OnTitleChange(int bid, java.lang.String title) throws org.apache.thrift.TException;
 
@@ -61,9 +61,9 @@ public class ClientHandlers {
 
     public void FocusHandler_OnGotFocus(int bid) throws org.apache.thrift.TException;
 
-    public boolean RequestHandler_OnBeforeBrowse(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean user_gesture, boolean is_redirect) throws org.apache.thrift.TException;
+    public boolean RequestHandler_OnBeforeBrowse(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean user_gesture, boolean is_redirect) throws org.apache.thrift.TException;
 
-    public boolean RequestHandler_OnOpenURLFromTab(int bid, java.lang.String target_url, boolean user_gesture) throws org.apache.thrift.TException;
+    public boolean RequestHandler_OnOpenURLFromTab(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, java.lang.String target_url, boolean user_gesture) throws org.apache.thrift.TException;
 
     public boolean RequestHandler_GetAuthCredentials(int bid, java.lang.String origin_url, boolean isProxy, java.lang.String host, int port, java.lang.String realm, java.lang.String scheme, com.jetbrains.cef.remote.thrift_codegen.RObject authCallback) throws org.apache.thrift.TException;
 
@@ -71,21 +71,21 @@ public class ClientHandlers {
 
     public void RequestHandler_OnRenderProcessTerminated(int bid, java.lang.String status) throws org.apache.thrift.TException;
 
-    public com.jetbrains.cef.remote.thrift_codegen.RObject RequestHandler_GetResourceRequestHandler(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean isNavigation, boolean isDownload, java.lang.String requestInitiator) throws org.apache.thrift.TException;
+    public com.jetbrains.cef.remote.thrift_codegen.RObject RequestHandler_GetResourceRequestHandler(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean isNavigation, boolean isDownload, java.lang.String requestInitiator) throws org.apache.thrift.TException;
 
     public void ResourceRequestHandler_Dispose(int rrHandler) throws org.apache.thrift.TException;
 
-    public com.jetbrains.cef.remote.thrift_codegen.RObject ResourceRequestHandler_GetCookieAccessFilter(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException;
+    public com.jetbrains.cef.remote.thrift_codegen.RObject ResourceRequestHandler_GetCookieAccessFilter(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException;
 
     public void CookieAccessFilter_Dispose(int filter) throws org.apache.thrift.TException;
 
-    public boolean CookieAccessFilter_CanSendCookie(int filter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, java.util.List<java.lang.String> cookie) throws org.apache.thrift.TException;
+    public boolean CookieAccessFilter_CanSendCookie(int filter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, java.util.List<java.lang.String> cookie) throws org.apache.thrift.TException;
 
-    public boolean CookieAccessFilter_CanSaveCookie(int filter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.util.List<java.lang.String> cookie) throws org.apache.thrift.TException;
+    public boolean CookieAccessFilter_CanSaveCookie(int filter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.util.List<java.lang.String> cookie) throws org.apache.thrift.TException;
 
-    public boolean ResourceRequestHandler_OnBeforeResourceLoad(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException;
+    public boolean ResourceRequestHandler_OnBeforeResourceLoad(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException;
 
-    public com.jetbrains.cef.remote.thrift_codegen.RObject ResourceRequestHandler_GetResourceHandler(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException;
+    public com.jetbrains.cef.remote.thrift_codegen.RObject ResourceRequestHandler_GetResourceHandler(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException;
 
     public void ResourceHandler_Dispose(int resourceHandler) throws org.apache.thrift.TException;
 
@@ -97,21 +97,21 @@ public class ClientHandlers {
 
     public void ResourceHandler_Cancel(int resourceHandler) throws org.apache.thrift.TException;
 
-    public java.lang.String ResourceRequestHandler_OnResourceRedirect(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String new_url) throws org.apache.thrift.TException;
+    public java.lang.String ResourceRequestHandler_OnResourceRedirect(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String new_url) throws org.apache.thrift.TException;
 
-    public boolean ResourceRequestHandler_OnResourceResponse(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response) throws org.apache.thrift.TException;
+    public boolean ResourceRequestHandler_OnResourceResponse(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response) throws org.apache.thrift.TException;
 
-    public void ResourceRequestHandler_OnResourceLoadComplete(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String status, long receivedContentLength) throws org.apache.thrift.TException;
+    public void ResourceRequestHandler_OnResourceLoadComplete(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String status, long receivedContentLength) throws org.apache.thrift.TException;
 
-    public boolean ResourceRequestHandler_OnProtocolExecution(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean allowOsExecution) throws org.apache.thrift.TException;
+    public boolean ResourceRequestHandler_OnProtocolExecution(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean allowOsExecution) throws org.apache.thrift.TException;
 
-    public boolean MessageRouterHandler_onQuery(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, long queryId, java.lang.String request, boolean persistent, com.jetbrains.cef.remote.thrift_codegen.RObject queryCallback) throws org.apache.thrift.TException;
+    public boolean MessageRouterHandler_onQuery(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, long queryId, java.lang.String request, boolean persistent, com.jetbrains.cef.remote.thrift_codegen.RObject queryCallback) throws org.apache.thrift.TException;
 
-    public void MessageRouterHandler_onQueryCanceled(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, long queryId) throws org.apache.thrift.TException;
+    public void MessageRouterHandler_onQueryCanceled(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, long queryId) throws org.apache.thrift.TException;
 
     public void MessageRouterHandler_Dispose(int handler) throws org.apache.thrift.TException;
 
-    public com.jetbrains.cef.remote.thrift_codegen.RObject SchemeHandlerFactory_CreateHandler(int schemeHandlerFactory, int bid, java.lang.String scheme_name, com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException;
+    public com.jetbrains.cef.remote.thrift_codegen.RObject SchemeHandlerFactory_CreateHandler(int schemeHandlerFactory, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, java.lang.String scheme_name, com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException;
 
     public void SchemeHandlerFactory_Dispose(int schemeHandlerFactory) throws org.apache.thrift.TException;
 
@@ -133,7 +133,7 @@ public class ClientHandlers {
 
     public void RenderHandler_OnPaint(int bid, boolean popup, int dirtyRectsCount, java.lang.String sharedMemName, long sharedMemHandle, int width, int height, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void LifeSpanHandler_OnBeforePopup(int bid, java.lang.String url, java.lang.String frameName, boolean gesture, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
+    public void LifeSpanHandler_OnBeforePopup(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, java.lang.String url, java.lang.String frameName, boolean gesture, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
 
     public void LifeSpanHandler_OnAfterCreated(int bid, int nativeBrowserIdentifier, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
@@ -143,13 +143,13 @@ public class ClientHandlers {
 
     public void LoadHandler_OnLoadingStateChange(int bid, boolean isLoading, boolean canGoBack, boolean canGoForward, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void LoadHandler_OnLoadStart(int bid, int transition_type, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void LoadHandler_OnLoadStart(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, int transition_type, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void LoadHandler_OnLoadEnd(int bid, int httpStatusCode, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void LoadHandler_OnLoadEnd(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, int httpStatusCode, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void LoadHandler_OnLoadError(int bid, int errorCode, java.lang.String errorText, java.lang.String failedUrl, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void LoadHandler_OnLoadError(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, int errorCode, java.lang.String errorText, java.lang.String failedUrl, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void DisplayHandler_OnAddressChange(int bid, java.lang.String url, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void DisplayHandler_OnAddressChange(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, java.lang.String url, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
     public void DisplayHandler_OnTitleChange(int bid, java.lang.String title, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
@@ -169,9 +169,9 @@ public class ClientHandlers {
 
     public void FocusHandler_OnGotFocus(int bid, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void RequestHandler_OnBeforeBrowse(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean user_gesture, boolean is_redirect, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
+    public void RequestHandler_OnBeforeBrowse(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean user_gesture, boolean is_redirect, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
 
-    public void RequestHandler_OnOpenURLFromTab(int bid, java.lang.String target_url, boolean user_gesture, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
+    public void RequestHandler_OnOpenURLFromTab(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, java.lang.String target_url, boolean user_gesture, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
 
     public void RequestHandler_GetAuthCredentials(int bid, java.lang.String origin_url, boolean isProxy, java.lang.String host, int port, java.lang.String realm, java.lang.String scheme, com.jetbrains.cef.remote.thrift_codegen.RObject authCallback, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
 
@@ -179,21 +179,21 @@ public class ClientHandlers {
 
     public void RequestHandler_OnRenderProcessTerminated(int bid, java.lang.String status, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void RequestHandler_GetResourceRequestHandler(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean isNavigation, boolean isDownload, java.lang.String requestInitiator, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException;
+    public void RequestHandler_GetResourceRequestHandler(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean isNavigation, boolean isDownload, java.lang.String requestInitiator, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException;
 
     public void ResourceRequestHandler_Dispose(int rrHandler, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void ResourceRequestHandler_GetCookieAccessFilter(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException;
+    public void ResourceRequestHandler_GetCookieAccessFilter(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException;
 
     public void CookieAccessFilter_Dispose(int filter, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void CookieAccessFilter_CanSendCookie(int filter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, java.util.List<java.lang.String> cookie, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
+    public void CookieAccessFilter_CanSendCookie(int filter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, java.util.List<java.lang.String> cookie, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
 
-    public void CookieAccessFilter_CanSaveCookie(int filter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.util.List<java.lang.String> cookie, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
+    public void CookieAccessFilter_CanSaveCookie(int filter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.util.List<java.lang.String> cookie, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
 
-    public void ResourceRequestHandler_OnBeforeResourceLoad(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
+    public void ResourceRequestHandler_OnBeforeResourceLoad(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
 
-    public void ResourceRequestHandler_GetResourceHandler(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException;
+    public void ResourceRequestHandler_GetResourceHandler(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException;
 
     public void ResourceHandler_Dispose(int resourceHandler, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
@@ -205,21 +205,21 @@ public class ClientHandlers {
 
     public void ResourceHandler_Cancel(int resourceHandler, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void ResourceRequestHandler_OnResourceRedirect(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String new_url, org.apache.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws org.apache.thrift.TException;
+    public void ResourceRequestHandler_OnResourceRedirect(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String new_url, org.apache.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws org.apache.thrift.TException;
 
-    public void ResourceRequestHandler_OnResourceResponse(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
+    public void ResourceRequestHandler_OnResourceResponse(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
 
-    public void ResourceRequestHandler_OnResourceLoadComplete(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String status, long receivedContentLength, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void ResourceRequestHandler_OnResourceLoadComplete(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String status, long receivedContentLength, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void ResourceRequestHandler_OnProtocolExecution(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean allowOsExecution, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
+    public void ResourceRequestHandler_OnProtocolExecution(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean allowOsExecution, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
 
-    public void MessageRouterHandler_onQuery(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, long queryId, java.lang.String request, boolean persistent, com.jetbrains.cef.remote.thrift_codegen.RObject queryCallback, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
+    public void MessageRouterHandler_onQuery(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, long queryId, java.lang.String request, boolean persistent, com.jetbrains.cef.remote.thrift_codegen.RObject queryCallback, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
 
-    public void MessageRouterHandler_onQueryCanceled(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, long queryId, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void MessageRouterHandler_onQueryCanceled(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, long queryId, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
     public void MessageRouterHandler_Dispose(int handler, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
-    public void SchemeHandlerFactory_CreateHandler(int schemeHandlerFactory, int bid, java.lang.String scheme_name, com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException;
+    public void SchemeHandlerFactory_CreateHandler(int schemeHandlerFactory, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, java.lang.String scheme_name, com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException;
 
     public void SchemeHandlerFactory_Dispose(int schemeHandlerFactory, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
@@ -397,16 +397,17 @@ public class ClientHandlers {
     }
 
     @Override
-    public boolean LifeSpanHandler_OnBeforePopup(int bid, java.lang.String url, java.lang.String frameName, boolean gesture) throws org.apache.thrift.TException
+    public boolean LifeSpanHandler_OnBeforePopup(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, java.lang.String url, java.lang.String frameName, boolean gesture) throws org.apache.thrift.TException
     {
-      send_LifeSpanHandler_OnBeforePopup(bid, url, frameName, gesture);
+      send_LifeSpanHandler_OnBeforePopup(bid, frame, url, frameName, gesture);
       return recv_LifeSpanHandler_OnBeforePopup();
     }
 
-    public void send_LifeSpanHandler_OnBeforePopup(int bid, java.lang.String url, java.lang.String frameName, boolean gesture) throws org.apache.thrift.TException
+    public void send_LifeSpanHandler_OnBeforePopup(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, java.lang.String url, java.lang.String frameName, boolean gesture) throws org.apache.thrift.TException
     {
       LifeSpanHandler_OnBeforePopup_args args = new LifeSpanHandler_OnBeforePopup_args();
       args.setBid(bid);
+      args.setFrame(frame);
       args.setUrl(url);
       args.setFrameName(frameName);
       args.setGesture(gesture);
@@ -491,43 +492,46 @@ public class ClientHandlers {
     }
 
     @Override
-    public void LoadHandler_OnLoadStart(int bid, int transition_type) throws org.apache.thrift.TException
+    public void LoadHandler_OnLoadStart(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, int transition_type) throws org.apache.thrift.TException
     {
-      send_LoadHandler_OnLoadStart(bid, transition_type);
+      send_LoadHandler_OnLoadStart(bid, frame, transition_type);
     }
 
-    public void send_LoadHandler_OnLoadStart(int bid, int transition_type) throws org.apache.thrift.TException
+    public void send_LoadHandler_OnLoadStart(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, int transition_type) throws org.apache.thrift.TException
     {
       LoadHandler_OnLoadStart_args args = new LoadHandler_OnLoadStart_args();
       args.setBid(bid);
+      args.setFrame(frame);
       args.setTransition_type(transition_type);
       sendBaseOneway("LoadHandler_OnLoadStart", args);
     }
 
     @Override
-    public void LoadHandler_OnLoadEnd(int bid, int httpStatusCode) throws org.apache.thrift.TException
+    public void LoadHandler_OnLoadEnd(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, int httpStatusCode) throws org.apache.thrift.TException
     {
-      send_LoadHandler_OnLoadEnd(bid, httpStatusCode);
+      send_LoadHandler_OnLoadEnd(bid, frame, httpStatusCode);
     }
 
-    public void send_LoadHandler_OnLoadEnd(int bid, int httpStatusCode) throws org.apache.thrift.TException
+    public void send_LoadHandler_OnLoadEnd(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, int httpStatusCode) throws org.apache.thrift.TException
     {
       LoadHandler_OnLoadEnd_args args = new LoadHandler_OnLoadEnd_args();
       args.setBid(bid);
+      args.setFrame(frame);
       args.setHttpStatusCode(httpStatusCode);
       sendBaseOneway("LoadHandler_OnLoadEnd", args);
     }
 
     @Override
-    public void LoadHandler_OnLoadError(int bid, int errorCode, java.lang.String errorText, java.lang.String failedUrl) throws org.apache.thrift.TException
+    public void LoadHandler_OnLoadError(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, int errorCode, java.lang.String errorText, java.lang.String failedUrl) throws org.apache.thrift.TException
     {
-      send_LoadHandler_OnLoadError(bid, errorCode, errorText, failedUrl);
+      send_LoadHandler_OnLoadError(bid, frame, errorCode, errorText, failedUrl);
     }
 
-    public void send_LoadHandler_OnLoadError(int bid, int errorCode, java.lang.String errorText, java.lang.String failedUrl) throws org.apache.thrift.TException
+    public void send_LoadHandler_OnLoadError(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, int errorCode, java.lang.String errorText, java.lang.String failedUrl) throws org.apache.thrift.TException
     {
       LoadHandler_OnLoadError_args args = new LoadHandler_OnLoadError_args();
       args.setBid(bid);
+      args.setFrame(frame);
       args.setErrorCode(errorCode);
       args.setErrorText(errorText);
       args.setFailedUrl(failedUrl);
@@ -535,15 +539,16 @@ public class ClientHandlers {
     }
 
     @Override
-    public void DisplayHandler_OnAddressChange(int bid, java.lang.String url) throws org.apache.thrift.TException
+    public void DisplayHandler_OnAddressChange(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, java.lang.String url) throws org.apache.thrift.TException
     {
-      send_DisplayHandler_OnAddressChange(bid, url);
+      send_DisplayHandler_OnAddressChange(bid, frame, url);
     }
 
-    public void send_DisplayHandler_OnAddressChange(int bid, java.lang.String url) throws org.apache.thrift.TException
+    public void send_DisplayHandler_OnAddressChange(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, java.lang.String url) throws org.apache.thrift.TException
     {
       DisplayHandler_OnAddressChange_args args = new DisplayHandler_OnAddressChange_args();
       args.setBid(bid);
+      args.setFrame(frame);
       args.setUrl(url);
       sendBaseOneway("DisplayHandler_OnAddressChange", args);
     }
@@ -732,16 +737,17 @@ public class ClientHandlers {
     }
 
     @Override
-    public boolean RequestHandler_OnBeforeBrowse(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean user_gesture, boolean is_redirect) throws org.apache.thrift.TException
+    public boolean RequestHandler_OnBeforeBrowse(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean user_gesture, boolean is_redirect) throws org.apache.thrift.TException
     {
-      send_RequestHandler_OnBeforeBrowse(bid, request, user_gesture, is_redirect);
+      send_RequestHandler_OnBeforeBrowse(bid, frame, request, user_gesture, is_redirect);
       return recv_RequestHandler_OnBeforeBrowse();
     }
 
-    public void send_RequestHandler_OnBeforeBrowse(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean user_gesture, boolean is_redirect) throws org.apache.thrift.TException
+    public void send_RequestHandler_OnBeforeBrowse(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean user_gesture, boolean is_redirect) throws org.apache.thrift.TException
     {
       RequestHandler_OnBeforeBrowse_args args = new RequestHandler_OnBeforeBrowse_args();
       args.setBid(bid);
+      args.setFrame(frame);
       args.setRequest(request);
       args.setUser_gesture(user_gesture);
       args.setIs_redirect(is_redirect);
@@ -759,16 +765,17 @@ public class ClientHandlers {
     }
 
     @Override
-    public boolean RequestHandler_OnOpenURLFromTab(int bid, java.lang.String target_url, boolean user_gesture) throws org.apache.thrift.TException
+    public boolean RequestHandler_OnOpenURLFromTab(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, java.lang.String target_url, boolean user_gesture) throws org.apache.thrift.TException
     {
-      send_RequestHandler_OnOpenURLFromTab(bid, target_url, user_gesture);
+      send_RequestHandler_OnOpenURLFromTab(bid, frame, target_url, user_gesture);
       return recv_RequestHandler_OnOpenURLFromTab();
     }
 
-    public void send_RequestHandler_OnOpenURLFromTab(int bid, java.lang.String target_url, boolean user_gesture) throws org.apache.thrift.TException
+    public void send_RequestHandler_OnOpenURLFromTab(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, java.lang.String target_url, boolean user_gesture) throws org.apache.thrift.TException
     {
       RequestHandler_OnOpenURLFromTab_args args = new RequestHandler_OnOpenURLFromTab_args();
       args.setBid(bid);
+      args.setFrame(frame);
       args.setTarget_url(target_url);
       args.setUser_gesture(user_gesture);
       sendBase("RequestHandler_OnOpenURLFromTab", args);
@@ -858,16 +865,17 @@ public class ClientHandlers {
     }
 
     @Override
-    public com.jetbrains.cef.remote.thrift_codegen.RObject RequestHandler_GetResourceRequestHandler(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean isNavigation, boolean isDownload, java.lang.String requestInitiator) throws org.apache.thrift.TException
+    public com.jetbrains.cef.remote.thrift_codegen.RObject RequestHandler_GetResourceRequestHandler(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean isNavigation, boolean isDownload, java.lang.String requestInitiator) throws org.apache.thrift.TException
     {
-      send_RequestHandler_GetResourceRequestHandler(bid, request, isNavigation, isDownload, requestInitiator);
+      send_RequestHandler_GetResourceRequestHandler(bid, frame, request, isNavigation, isDownload, requestInitiator);
       return recv_RequestHandler_GetResourceRequestHandler();
     }
 
-    public void send_RequestHandler_GetResourceRequestHandler(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean isNavigation, boolean isDownload, java.lang.String requestInitiator) throws org.apache.thrift.TException
+    public void send_RequestHandler_GetResourceRequestHandler(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean isNavigation, boolean isDownload, java.lang.String requestInitiator) throws org.apache.thrift.TException
     {
       RequestHandler_GetResourceRequestHandler_args args = new RequestHandler_GetResourceRequestHandler_args();
       args.setBid(bid);
+      args.setFrame(frame);
       args.setRequest(request);
       args.setIsNavigation(isNavigation);
       args.setIsDownload(isDownload);
@@ -899,17 +907,18 @@ public class ClientHandlers {
     }
 
     @Override
-    public com.jetbrains.cef.remote.thrift_codegen.RObject ResourceRequestHandler_GetCookieAccessFilter(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException
+    public com.jetbrains.cef.remote.thrift_codegen.RObject ResourceRequestHandler_GetCookieAccessFilter(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException
     {
-      send_ResourceRequestHandler_GetCookieAccessFilter(rrHandler, bid, request);
+      send_ResourceRequestHandler_GetCookieAccessFilter(rrHandler, bid, frame, request);
       return recv_ResourceRequestHandler_GetCookieAccessFilter();
     }
 
-    public void send_ResourceRequestHandler_GetCookieAccessFilter(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException
+    public void send_ResourceRequestHandler_GetCookieAccessFilter(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException
     {
       ResourceRequestHandler_GetCookieAccessFilter_args args = new ResourceRequestHandler_GetCookieAccessFilter_args();
       args.setRrHandler(rrHandler);
       args.setBid(bid);
+      args.setFrame(frame);
       args.setRequest(request);
       sendBase("ResourceRequestHandler_GetCookieAccessFilter", args);
     }
@@ -938,17 +947,18 @@ public class ClientHandlers {
     }
 
     @Override
-    public boolean CookieAccessFilter_CanSendCookie(int filter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, java.util.List<java.lang.String> cookie) throws org.apache.thrift.TException
+    public boolean CookieAccessFilter_CanSendCookie(int filter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, java.util.List<java.lang.String> cookie) throws org.apache.thrift.TException
     {
-      send_CookieAccessFilter_CanSendCookie(filter, bid, request, cookie);
+      send_CookieAccessFilter_CanSendCookie(filter, bid, frame, request, cookie);
       return recv_CookieAccessFilter_CanSendCookie();
     }
 
-    public void send_CookieAccessFilter_CanSendCookie(int filter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, java.util.List<java.lang.String> cookie) throws org.apache.thrift.TException
+    public void send_CookieAccessFilter_CanSendCookie(int filter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, java.util.List<java.lang.String> cookie) throws org.apache.thrift.TException
     {
       CookieAccessFilter_CanSendCookie_args args = new CookieAccessFilter_CanSendCookie_args();
       args.setFilter(filter);
       args.setBid(bid);
+      args.setFrame(frame);
       args.setRequest(request);
       args.setCookie(cookie);
       sendBase("CookieAccessFilter_CanSendCookie", args);
@@ -965,17 +975,18 @@ public class ClientHandlers {
     }
 
     @Override
-    public boolean CookieAccessFilter_CanSaveCookie(int filter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.util.List<java.lang.String> cookie) throws org.apache.thrift.TException
+    public boolean CookieAccessFilter_CanSaveCookie(int filter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.util.List<java.lang.String> cookie) throws org.apache.thrift.TException
     {
-      send_CookieAccessFilter_CanSaveCookie(filter, bid, request, response, cookie);
+      send_CookieAccessFilter_CanSaveCookie(filter, bid, frame, request, response, cookie);
       return recv_CookieAccessFilter_CanSaveCookie();
     }
 
-    public void send_CookieAccessFilter_CanSaveCookie(int filter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.util.List<java.lang.String> cookie) throws org.apache.thrift.TException
+    public void send_CookieAccessFilter_CanSaveCookie(int filter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.util.List<java.lang.String> cookie) throws org.apache.thrift.TException
     {
       CookieAccessFilter_CanSaveCookie_args args = new CookieAccessFilter_CanSaveCookie_args();
       args.setFilter(filter);
       args.setBid(bid);
+      args.setFrame(frame);
       args.setRequest(request);
       args.setResponse(response);
       args.setCookie(cookie);
@@ -993,17 +1004,18 @@ public class ClientHandlers {
     }
 
     @Override
-    public boolean ResourceRequestHandler_OnBeforeResourceLoad(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException
+    public boolean ResourceRequestHandler_OnBeforeResourceLoad(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException
     {
-      send_ResourceRequestHandler_OnBeforeResourceLoad(rrHandler, bid, request);
+      send_ResourceRequestHandler_OnBeforeResourceLoad(rrHandler, bid, frame, request);
       return recv_ResourceRequestHandler_OnBeforeResourceLoad();
     }
 
-    public void send_ResourceRequestHandler_OnBeforeResourceLoad(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException
+    public void send_ResourceRequestHandler_OnBeforeResourceLoad(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException
     {
       ResourceRequestHandler_OnBeforeResourceLoad_args args = new ResourceRequestHandler_OnBeforeResourceLoad_args();
       args.setRrHandler(rrHandler);
       args.setBid(bid);
+      args.setFrame(frame);
       args.setRequest(request);
       sendBase("ResourceRequestHandler_OnBeforeResourceLoad", args);
     }
@@ -1019,17 +1031,18 @@ public class ClientHandlers {
     }
 
     @Override
-    public com.jetbrains.cef.remote.thrift_codegen.RObject ResourceRequestHandler_GetResourceHandler(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException
+    public com.jetbrains.cef.remote.thrift_codegen.RObject ResourceRequestHandler_GetResourceHandler(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException
     {
-      send_ResourceRequestHandler_GetResourceHandler(rrHandler, bid, request);
+      send_ResourceRequestHandler_GetResourceHandler(rrHandler, bid, frame, request);
       return recv_ResourceRequestHandler_GetResourceHandler();
     }
 
-    public void send_ResourceRequestHandler_GetResourceHandler(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException
+    public void send_ResourceRequestHandler_GetResourceHandler(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException
     {
       ResourceRequestHandler_GetResourceHandler_args args = new ResourceRequestHandler_GetResourceHandler_args();
       args.setRrHandler(rrHandler);
       args.setBid(bid);
+      args.setFrame(frame);
       args.setRequest(request);
       sendBase("ResourceRequestHandler_GetResourceHandler", args);
     }
@@ -1148,17 +1161,18 @@ public class ClientHandlers {
     }
 
     @Override
-    public java.lang.String ResourceRequestHandler_OnResourceRedirect(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String new_url) throws org.apache.thrift.TException
+    public java.lang.String ResourceRequestHandler_OnResourceRedirect(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String new_url) throws org.apache.thrift.TException
     {
-      send_ResourceRequestHandler_OnResourceRedirect(rrHandler, bid, request, response, new_url);
+      send_ResourceRequestHandler_OnResourceRedirect(rrHandler, bid, frame, request, response, new_url);
       return recv_ResourceRequestHandler_OnResourceRedirect();
     }
 
-    public void send_ResourceRequestHandler_OnResourceRedirect(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String new_url) throws org.apache.thrift.TException
+    public void send_ResourceRequestHandler_OnResourceRedirect(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String new_url) throws org.apache.thrift.TException
     {
       ResourceRequestHandler_OnResourceRedirect_args args = new ResourceRequestHandler_OnResourceRedirect_args();
       args.setRrHandler(rrHandler);
       args.setBid(bid);
+      args.setFrame(frame);
       args.setRequest(request);
       args.setResponse(response);
       args.setNew_url(new_url);
@@ -1176,17 +1190,18 @@ public class ClientHandlers {
     }
 
     @Override
-    public boolean ResourceRequestHandler_OnResourceResponse(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response) throws org.apache.thrift.TException
+    public boolean ResourceRequestHandler_OnResourceResponse(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response) throws org.apache.thrift.TException
     {
-      send_ResourceRequestHandler_OnResourceResponse(rrHandler, bid, request, response);
+      send_ResourceRequestHandler_OnResourceResponse(rrHandler, bid, frame, request, response);
       return recv_ResourceRequestHandler_OnResourceResponse();
     }
 
-    public void send_ResourceRequestHandler_OnResourceResponse(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response) throws org.apache.thrift.TException
+    public void send_ResourceRequestHandler_OnResourceResponse(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response) throws org.apache.thrift.TException
     {
       ResourceRequestHandler_OnResourceResponse_args args = new ResourceRequestHandler_OnResourceResponse_args();
       args.setRrHandler(rrHandler);
       args.setBid(bid);
+      args.setFrame(frame);
       args.setRequest(request);
       args.setResponse(response);
       sendBase("ResourceRequestHandler_OnResourceResponse", args);
@@ -1203,17 +1218,18 @@ public class ClientHandlers {
     }
 
     @Override
-    public void ResourceRequestHandler_OnResourceLoadComplete(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String status, long receivedContentLength) throws org.apache.thrift.TException
+    public void ResourceRequestHandler_OnResourceLoadComplete(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String status, long receivedContentLength) throws org.apache.thrift.TException
     {
-      send_ResourceRequestHandler_OnResourceLoadComplete(rrHandler, bid, request, response, status, receivedContentLength);
+      send_ResourceRequestHandler_OnResourceLoadComplete(rrHandler, bid, frame, request, response, status, receivedContentLength);
       recv_ResourceRequestHandler_OnResourceLoadComplete();
     }
 
-    public void send_ResourceRequestHandler_OnResourceLoadComplete(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String status, long receivedContentLength) throws org.apache.thrift.TException
+    public void send_ResourceRequestHandler_OnResourceLoadComplete(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String status, long receivedContentLength) throws org.apache.thrift.TException
     {
       ResourceRequestHandler_OnResourceLoadComplete_args args = new ResourceRequestHandler_OnResourceLoadComplete_args();
       args.setRrHandler(rrHandler);
       args.setBid(bid);
+      args.setFrame(frame);
       args.setRequest(request);
       args.setResponse(response);
       args.setStatus(status);
@@ -1229,17 +1245,18 @@ public class ClientHandlers {
     }
 
     @Override
-    public boolean ResourceRequestHandler_OnProtocolExecution(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean allowOsExecution) throws org.apache.thrift.TException
+    public boolean ResourceRequestHandler_OnProtocolExecution(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean allowOsExecution) throws org.apache.thrift.TException
     {
-      send_ResourceRequestHandler_OnProtocolExecution(rrHandler, bid, request, allowOsExecution);
+      send_ResourceRequestHandler_OnProtocolExecution(rrHandler, bid, frame, request, allowOsExecution);
       return recv_ResourceRequestHandler_OnProtocolExecution();
     }
 
-    public void send_ResourceRequestHandler_OnProtocolExecution(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean allowOsExecution) throws org.apache.thrift.TException
+    public void send_ResourceRequestHandler_OnProtocolExecution(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean allowOsExecution) throws org.apache.thrift.TException
     {
       ResourceRequestHandler_OnProtocolExecution_args args = new ResourceRequestHandler_OnProtocolExecution_args();
       args.setRrHandler(rrHandler);
       args.setBid(bid);
+      args.setFrame(frame);
       args.setRequest(request);
       args.setAllowOsExecution(allowOsExecution);
       sendBase("ResourceRequestHandler_OnProtocolExecution", args);
@@ -1256,17 +1273,18 @@ public class ClientHandlers {
     }
 
     @Override
-    public boolean MessageRouterHandler_onQuery(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, long queryId, java.lang.String request, boolean persistent, com.jetbrains.cef.remote.thrift_codegen.RObject queryCallback) throws org.apache.thrift.TException
+    public boolean MessageRouterHandler_onQuery(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, long queryId, java.lang.String request, boolean persistent, com.jetbrains.cef.remote.thrift_codegen.RObject queryCallback) throws org.apache.thrift.TException
     {
-      send_MessageRouterHandler_onQuery(handler, bid, queryId, request, persistent, queryCallback);
+      send_MessageRouterHandler_onQuery(handler, bid, frame, queryId, request, persistent, queryCallback);
       return recv_MessageRouterHandler_onQuery();
     }
 
-    public void send_MessageRouterHandler_onQuery(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, long queryId, java.lang.String request, boolean persistent, com.jetbrains.cef.remote.thrift_codegen.RObject queryCallback) throws org.apache.thrift.TException
+    public void send_MessageRouterHandler_onQuery(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, long queryId, java.lang.String request, boolean persistent, com.jetbrains.cef.remote.thrift_codegen.RObject queryCallback) throws org.apache.thrift.TException
     {
       MessageRouterHandler_onQuery_args args = new MessageRouterHandler_onQuery_args();
       args.setHandler(handler);
       args.setBid(bid);
+      args.setFrame(frame);
       args.setQueryId(queryId);
       args.setRequest(request);
       args.setPersistent(persistent);
@@ -1285,16 +1303,17 @@ public class ClientHandlers {
     }
 
     @Override
-    public void MessageRouterHandler_onQueryCanceled(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, long queryId) throws org.apache.thrift.TException
+    public void MessageRouterHandler_onQueryCanceled(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, long queryId) throws org.apache.thrift.TException
     {
-      send_MessageRouterHandler_onQueryCanceled(handler, bid, queryId);
+      send_MessageRouterHandler_onQueryCanceled(handler, bid, frame, queryId);
     }
 
-    public void send_MessageRouterHandler_onQueryCanceled(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, long queryId) throws org.apache.thrift.TException
+    public void send_MessageRouterHandler_onQueryCanceled(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, long queryId) throws org.apache.thrift.TException
     {
       MessageRouterHandler_onQueryCanceled_args args = new MessageRouterHandler_onQueryCanceled_args();
       args.setHandler(handler);
       args.setBid(bid);
+      args.setFrame(frame);
       args.setQueryId(queryId);
       sendBaseOneway("MessageRouterHandler_onQueryCanceled", args);
     }
@@ -1313,17 +1332,18 @@ public class ClientHandlers {
     }
 
     @Override
-    public com.jetbrains.cef.remote.thrift_codegen.RObject SchemeHandlerFactory_CreateHandler(int schemeHandlerFactory, int bid, java.lang.String scheme_name, com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException
+    public com.jetbrains.cef.remote.thrift_codegen.RObject SchemeHandlerFactory_CreateHandler(int schemeHandlerFactory, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, java.lang.String scheme_name, com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException
     {
-      send_SchemeHandlerFactory_CreateHandler(schemeHandlerFactory, bid, scheme_name, request);
+      send_SchemeHandlerFactory_CreateHandler(schemeHandlerFactory, bid, frame, scheme_name, request);
       return recv_SchemeHandlerFactory_CreateHandler();
     }
 
-    public void send_SchemeHandlerFactory_CreateHandler(int schemeHandlerFactory, int bid, java.lang.String scheme_name, com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException
+    public void send_SchemeHandlerFactory_CreateHandler(int schemeHandlerFactory, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, java.lang.String scheme_name, com.jetbrains.cef.remote.thrift_codegen.RObject request) throws org.apache.thrift.TException
     {
       SchemeHandlerFactory_CreateHandler_args args = new SchemeHandlerFactory_CreateHandler_args();
       args.setSchemeHandlerFactory(schemeHandlerFactory);
       args.setBid(bid);
+      args.setFrame(frame);
       args.setScheme_name(scheme_name);
       args.setRequest(request);
       sendBase("SchemeHandlerFactory_CreateHandler", args);
@@ -1636,21 +1656,23 @@ public class ClientHandlers {
     }
 
     @Override
-    public void LifeSpanHandler_OnBeforePopup(int bid, java.lang.String url, java.lang.String frameName, boolean gesture, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
+    public void LifeSpanHandler_OnBeforePopup(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, java.lang.String url, java.lang.String frameName, boolean gesture, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      LifeSpanHandler_OnBeforePopup_call method_call = new LifeSpanHandler_OnBeforePopup_call(bid, url, frameName, gesture, resultHandler, this, ___protocolFactory, ___transport);
+      LifeSpanHandler_OnBeforePopup_call method_call = new LifeSpanHandler_OnBeforePopup_call(bid, frame, url, frameName, gesture, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
     public static class LifeSpanHandler_OnBeforePopup_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.Boolean> {
       private int bid;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject frame;
       private java.lang.String url;
       private java.lang.String frameName;
       private boolean gesture;
-      public LifeSpanHandler_OnBeforePopup_call(int bid, java.lang.String url, java.lang.String frameName, boolean gesture, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public LifeSpanHandler_OnBeforePopup_call(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, java.lang.String url, java.lang.String frameName, boolean gesture, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.bid = bid;
+        this.frame = frame;
         this.url = url;
         this.frameName = frameName;
         this.gesture = gesture;
@@ -1661,6 +1683,7 @@ public class ClientHandlers {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("LifeSpanHandler_OnBeforePopup", org.apache.thrift.protocol.TMessageType.CALL, 0));
         LifeSpanHandler_OnBeforePopup_args args = new LifeSpanHandler_OnBeforePopup_args();
         args.setBid(bid);
+        args.setFrame(frame);
         args.setUrl(url);
         args.setFrameName(frameName);
         args.setGesture(gesture);
@@ -1832,19 +1855,21 @@ public class ClientHandlers {
     }
 
     @Override
-    public void LoadHandler_OnLoadStart(int bid, int transition_type, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void LoadHandler_OnLoadStart(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, int transition_type, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      LoadHandler_OnLoadStart_call method_call = new LoadHandler_OnLoadStart_call(bid, transition_type, resultHandler, this, ___protocolFactory, ___transport);
+      LoadHandler_OnLoadStart_call method_call = new LoadHandler_OnLoadStart_call(bid, frame, transition_type, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
     public static class LoadHandler_OnLoadStart_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
       private int bid;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject frame;
       private int transition_type;
-      public LoadHandler_OnLoadStart_call(int bid, int transition_type, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public LoadHandler_OnLoadStart_call(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, int transition_type, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
         this.bid = bid;
+        this.frame = frame;
         this.transition_type = transition_type;
       }
 
@@ -1853,6 +1878,7 @@ public class ClientHandlers {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("LoadHandler_OnLoadStart", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
         LoadHandler_OnLoadStart_args args = new LoadHandler_OnLoadStart_args();
         args.setBid(bid);
+        args.setFrame(frame);
         args.setTransition_type(transition_type);
         args.write(prot);
         prot.writeMessageEnd();
@@ -1870,19 +1896,21 @@ public class ClientHandlers {
     }
 
     @Override
-    public void LoadHandler_OnLoadEnd(int bid, int httpStatusCode, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void LoadHandler_OnLoadEnd(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, int httpStatusCode, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      LoadHandler_OnLoadEnd_call method_call = new LoadHandler_OnLoadEnd_call(bid, httpStatusCode, resultHandler, this, ___protocolFactory, ___transport);
+      LoadHandler_OnLoadEnd_call method_call = new LoadHandler_OnLoadEnd_call(bid, frame, httpStatusCode, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
     public static class LoadHandler_OnLoadEnd_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
       private int bid;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject frame;
       private int httpStatusCode;
-      public LoadHandler_OnLoadEnd_call(int bid, int httpStatusCode, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public LoadHandler_OnLoadEnd_call(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, int httpStatusCode, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
         this.bid = bid;
+        this.frame = frame;
         this.httpStatusCode = httpStatusCode;
       }
 
@@ -1891,6 +1919,7 @@ public class ClientHandlers {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("LoadHandler_OnLoadEnd", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
         LoadHandler_OnLoadEnd_args args = new LoadHandler_OnLoadEnd_args();
         args.setBid(bid);
+        args.setFrame(frame);
         args.setHttpStatusCode(httpStatusCode);
         args.write(prot);
         prot.writeMessageEnd();
@@ -1908,21 +1937,23 @@ public class ClientHandlers {
     }
 
     @Override
-    public void LoadHandler_OnLoadError(int bid, int errorCode, java.lang.String errorText, java.lang.String failedUrl, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void LoadHandler_OnLoadError(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, int errorCode, java.lang.String errorText, java.lang.String failedUrl, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      LoadHandler_OnLoadError_call method_call = new LoadHandler_OnLoadError_call(bid, errorCode, errorText, failedUrl, resultHandler, this, ___protocolFactory, ___transport);
+      LoadHandler_OnLoadError_call method_call = new LoadHandler_OnLoadError_call(bid, frame, errorCode, errorText, failedUrl, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
     public static class LoadHandler_OnLoadError_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
       private int bid;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject frame;
       private int errorCode;
       private java.lang.String errorText;
       private java.lang.String failedUrl;
-      public LoadHandler_OnLoadError_call(int bid, int errorCode, java.lang.String errorText, java.lang.String failedUrl, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public LoadHandler_OnLoadError_call(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, int errorCode, java.lang.String errorText, java.lang.String failedUrl, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
         this.bid = bid;
+        this.frame = frame;
         this.errorCode = errorCode;
         this.errorText = errorText;
         this.failedUrl = failedUrl;
@@ -1933,6 +1964,7 @@ public class ClientHandlers {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("LoadHandler_OnLoadError", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
         LoadHandler_OnLoadError_args args = new LoadHandler_OnLoadError_args();
         args.setBid(bid);
+        args.setFrame(frame);
         args.setErrorCode(errorCode);
         args.setErrorText(errorText);
         args.setFailedUrl(failedUrl);
@@ -1952,19 +1984,21 @@ public class ClientHandlers {
     }
 
     @Override
-    public void DisplayHandler_OnAddressChange(int bid, java.lang.String url, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void DisplayHandler_OnAddressChange(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, java.lang.String url, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      DisplayHandler_OnAddressChange_call method_call = new DisplayHandler_OnAddressChange_call(bid, url, resultHandler, this, ___protocolFactory, ___transport);
+      DisplayHandler_OnAddressChange_call method_call = new DisplayHandler_OnAddressChange_call(bid, frame, url, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
     public static class DisplayHandler_OnAddressChange_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
       private int bid;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject frame;
       private java.lang.String url;
-      public DisplayHandler_OnAddressChange_call(int bid, java.lang.String url, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public DisplayHandler_OnAddressChange_call(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, java.lang.String url, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
         this.bid = bid;
+        this.frame = frame;
         this.url = url;
       }
 
@@ -1973,6 +2007,7 @@ public class ClientHandlers {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("DisplayHandler_OnAddressChange", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
         DisplayHandler_OnAddressChange_args args = new DisplayHandler_OnAddressChange_args();
         args.setBid(bid);
+        args.setFrame(frame);
         args.setUrl(url);
         args.write(prot);
         prot.writeMessageEnd();
@@ -2338,21 +2373,23 @@ public class ClientHandlers {
     }
 
     @Override
-    public void RequestHandler_OnBeforeBrowse(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean user_gesture, boolean is_redirect, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
+    public void RequestHandler_OnBeforeBrowse(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean user_gesture, boolean is_redirect, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      RequestHandler_OnBeforeBrowse_call method_call = new RequestHandler_OnBeforeBrowse_call(bid, request, user_gesture, is_redirect, resultHandler, this, ___protocolFactory, ___transport);
+      RequestHandler_OnBeforeBrowse_call method_call = new RequestHandler_OnBeforeBrowse_call(bid, frame, request, user_gesture, is_redirect, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
     public static class RequestHandler_OnBeforeBrowse_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.Boolean> {
       private int bid;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject frame;
       private com.jetbrains.cef.remote.thrift_codegen.RObject request;
       private boolean user_gesture;
       private boolean is_redirect;
-      public RequestHandler_OnBeforeBrowse_call(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean user_gesture, boolean is_redirect, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public RequestHandler_OnBeforeBrowse_call(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean user_gesture, boolean is_redirect, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.bid = bid;
+        this.frame = frame;
         this.request = request;
         this.user_gesture = user_gesture;
         this.is_redirect = is_redirect;
@@ -2363,6 +2400,7 @@ public class ClientHandlers {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("RequestHandler_OnBeforeBrowse", org.apache.thrift.protocol.TMessageType.CALL, 0));
         RequestHandler_OnBeforeBrowse_args args = new RequestHandler_OnBeforeBrowse_args();
         args.setBid(bid);
+        args.setFrame(frame);
         args.setRequest(request);
         args.setUser_gesture(user_gesture);
         args.setIs_redirect(is_redirect);
@@ -2382,20 +2420,22 @@ public class ClientHandlers {
     }
 
     @Override
-    public void RequestHandler_OnOpenURLFromTab(int bid, java.lang.String target_url, boolean user_gesture, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
+    public void RequestHandler_OnOpenURLFromTab(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, java.lang.String target_url, boolean user_gesture, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      RequestHandler_OnOpenURLFromTab_call method_call = new RequestHandler_OnOpenURLFromTab_call(bid, target_url, user_gesture, resultHandler, this, ___protocolFactory, ___transport);
+      RequestHandler_OnOpenURLFromTab_call method_call = new RequestHandler_OnOpenURLFromTab_call(bid, frame, target_url, user_gesture, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
     public static class RequestHandler_OnOpenURLFromTab_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.Boolean> {
       private int bid;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject frame;
       private java.lang.String target_url;
       private boolean user_gesture;
-      public RequestHandler_OnOpenURLFromTab_call(int bid, java.lang.String target_url, boolean user_gesture, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public RequestHandler_OnOpenURLFromTab_call(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, java.lang.String target_url, boolean user_gesture, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.bid = bid;
+        this.frame = frame;
         this.target_url = target_url;
         this.user_gesture = user_gesture;
       }
@@ -2405,6 +2445,7 @@ public class ClientHandlers {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("RequestHandler_OnOpenURLFromTab", org.apache.thrift.protocol.TMessageType.CALL, 0));
         RequestHandler_OnOpenURLFromTab_args args = new RequestHandler_OnOpenURLFromTab_args();
         args.setBid(bid);
+        args.setFrame(frame);
         args.setTarget_url(target_url);
         args.setUser_gesture(user_gesture);
         args.write(prot);
@@ -2564,22 +2605,24 @@ public class ClientHandlers {
     }
 
     @Override
-    public void RequestHandler_GetResourceRequestHandler(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean isNavigation, boolean isDownload, java.lang.String requestInitiator, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException {
+    public void RequestHandler_GetResourceRequestHandler(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean isNavigation, boolean isDownload, java.lang.String requestInitiator, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      RequestHandler_GetResourceRequestHandler_call method_call = new RequestHandler_GetResourceRequestHandler_call(bid, request, isNavigation, isDownload, requestInitiator, resultHandler, this, ___protocolFactory, ___transport);
+      RequestHandler_GetResourceRequestHandler_call method_call = new RequestHandler_GetResourceRequestHandler_call(bid, frame, request, isNavigation, isDownload, requestInitiator, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
     public static class RequestHandler_GetResourceRequestHandler_call extends org.apache.thrift.async.TAsyncMethodCall<com.jetbrains.cef.remote.thrift_codegen.RObject> {
       private int bid;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject frame;
       private com.jetbrains.cef.remote.thrift_codegen.RObject request;
       private boolean isNavigation;
       private boolean isDownload;
       private java.lang.String requestInitiator;
-      public RequestHandler_GetResourceRequestHandler_call(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean isNavigation, boolean isDownload, java.lang.String requestInitiator, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public RequestHandler_GetResourceRequestHandler_call(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean isNavigation, boolean isDownload, java.lang.String requestInitiator, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.bid = bid;
+        this.frame = frame;
         this.request = request;
         this.isNavigation = isNavigation;
         this.isDownload = isDownload;
@@ -2591,6 +2634,7 @@ public class ClientHandlers {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("RequestHandler_GetResourceRequestHandler", org.apache.thrift.protocol.TMessageType.CALL, 0));
         RequestHandler_GetResourceRequestHandler_args args = new RequestHandler_GetResourceRequestHandler_args();
         args.setBid(bid);
+        args.setFrame(frame);
         args.setRequest(request);
         args.setIsNavigation(isNavigation);
         args.setIsDownload(isDownload);
@@ -2646,9 +2690,9 @@ public class ClientHandlers {
     }
 
     @Override
-    public void ResourceRequestHandler_GetCookieAccessFilter(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException {
+    public void ResourceRequestHandler_GetCookieAccessFilter(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      ResourceRequestHandler_GetCookieAccessFilter_call method_call = new ResourceRequestHandler_GetCookieAccessFilter_call(rrHandler, bid, request, resultHandler, this, ___protocolFactory, ___transport);
+      ResourceRequestHandler_GetCookieAccessFilter_call method_call = new ResourceRequestHandler_GetCookieAccessFilter_call(rrHandler, bid, frame, request, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
@@ -2656,11 +2700,13 @@ public class ClientHandlers {
     public static class ResourceRequestHandler_GetCookieAccessFilter_call extends org.apache.thrift.async.TAsyncMethodCall<com.jetbrains.cef.remote.thrift_codegen.RObject> {
       private int rrHandler;
       private int bid;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject frame;
       private com.jetbrains.cef.remote.thrift_codegen.RObject request;
-      public ResourceRequestHandler_GetCookieAccessFilter_call(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public ResourceRequestHandler_GetCookieAccessFilter_call(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.rrHandler = rrHandler;
         this.bid = bid;
+        this.frame = frame;
         this.request = request;
       }
 
@@ -2670,6 +2716,7 @@ public class ClientHandlers {
         ResourceRequestHandler_GetCookieAccessFilter_args args = new ResourceRequestHandler_GetCookieAccessFilter_args();
         args.setRrHandler(rrHandler);
         args.setBid(bid);
+        args.setFrame(frame);
         args.setRequest(request);
         args.write(prot);
         prot.writeMessageEnd();
@@ -2722,9 +2769,9 @@ public class ClientHandlers {
     }
 
     @Override
-    public void CookieAccessFilter_CanSendCookie(int filter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, java.util.List<java.lang.String> cookie, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
+    public void CookieAccessFilter_CanSendCookie(int filter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, java.util.List<java.lang.String> cookie, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      CookieAccessFilter_CanSendCookie_call method_call = new CookieAccessFilter_CanSendCookie_call(filter, bid, request, cookie, resultHandler, this, ___protocolFactory, ___transport);
+      CookieAccessFilter_CanSendCookie_call method_call = new CookieAccessFilter_CanSendCookie_call(filter, bid, frame, request, cookie, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
@@ -2732,12 +2779,14 @@ public class ClientHandlers {
     public static class CookieAccessFilter_CanSendCookie_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.Boolean> {
       private int filter;
       private int bid;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject frame;
       private com.jetbrains.cef.remote.thrift_codegen.RObject request;
       private java.util.List<java.lang.String> cookie;
-      public CookieAccessFilter_CanSendCookie_call(int filter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, java.util.List<java.lang.String> cookie, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public CookieAccessFilter_CanSendCookie_call(int filter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, java.util.List<java.lang.String> cookie, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.filter = filter;
         this.bid = bid;
+        this.frame = frame;
         this.request = request;
         this.cookie = cookie;
       }
@@ -2748,6 +2797,7 @@ public class ClientHandlers {
         CookieAccessFilter_CanSendCookie_args args = new CookieAccessFilter_CanSendCookie_args();
         args.setFilter(filter);
         args.setBid(bid);
+        args.setFrame(frame);
         args.setRequest(request);
         args.setCookie(cookie);
         args.write(prot);
@@ -2766,9 +2816,9 @@ public class ClientHandlers {
     }
 
     @Override
-    public void CookieAccessFilter_CanSaveCookie(int filter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.util.List<java.lang.String> cookie, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
+    public void CookieAccessFilter_CanSaveCookie(int filter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.util.List<java.lang.String> cookie, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      CookieAccessFilter_CanSaveCookie_call method_call = new CookieAccessFilter_CanSaveCookie_call(filter, bid, request, response, cookie, resultHandler, this, ___protocolFactory, ___transport);
+      CookieAccessFilter_CanSaveCookie_call method_call = new CookieAccessFilter_CanSaveCookie_call(filter, bid, frame, request, response, cookie, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
@@ -2776,13 +2826,15 @@ public class ClientHandlers {
     public static class CookieAccessFilter_CanSaveCookie_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.Boolean> {
       private int filter;
       private int bid;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject frame;
       private com.jetbrains.cef.remote.thrift_codegen.RObject request;
       private com.jetbrains.cef.remote.thrift_codegen.RObject response;
       private java.util.List<java.lang.String> cookie;
-      public CookieAccessFilter_CanSaveCookie_call(int filter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.util.List<java.lang.String> cookie, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public CookieAccessFilter_CanSaveCookie_call(int filter, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.util.List<java.lang.String> cookie, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.filter = filter;
         this.bid = bid;
+        this.frame = frame;
         this.request = request;
         this.response = response;
         this.cookie = cookie;
@@ -2794,6 +2846,7 @@ public class ClientHandlers {
         CookieAccessFilter_CanSaveCookie_args args = new CookieAccessFilter_CanSaveCookie_args();
         args.setFilter(filter);
         args.setBid(bid);
+        args.setFrame(frame);
         args.setRequest(request);
         args.setResponse(response);
         args.setCookie(cookie);
@@ -2813,9 +2866,9 @@ public class ClientHandlers {
     }
 
     @Override
-    public void ResourceRequestHandler_OnBeforeResourceLoad(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
+    public void ResourceRequestHandler_OnBeforeResourceLoad(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      ResourceRequestHandler_OnBeforeResourceLoad_call method_call = new ResourceRequestHandler_OnBeforeResourceLoad_call(rrHandler, bid, request, resultHandler, this, ___protocolFactory, ___transport);
+      ResourceRequestHandler_OnBeforeResourceLoad_call method_call = new ResourceRequestHandler_OnBeforeResourceLoad_call(rrHandler, bid, frame, request, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
@@ -2823,11 +2876,13 @@ public class ClientHandlers {
     public static class ResourceRequestHandler_OnBeforeResourceLoad_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.Boolean> {
       private int rrHandler;
       private int bid;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject frame;
       private com.jetbrains.cef.remote.thrift_codegen.RObject request;
-      public ResourceRequestHandler_OnBeforeResourceLoad_call(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public ResourceRequestHandler_OnBeforeResourceLoad_call(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.rrHandler = rrHandler;
         this.bid = bid;
+        this.frame = frame;
         this.request = request;
       }
 
@@ -2837,6 +2892,7 @@ public class ClientHandlers {
         ResourceRequestHandler_OnBeforeResourceLoad_args args = new ResourceRequestHandler_OnBeforeResourceLoad_args();
         args.setRrHandler(rrHandler);
         args.setBid(bid);
+        args.setFrame(frame);
         args.setRequest(request);
         args.write(prot);
         prot.writeMessageEnd();
@@ -2854,9 +2910,9 @@ public class ClientHandlers {
     }
 
     @Override
-    public void ResourceRequestHandler_GetResourceHandler(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException {
+    public void ResourceRequestHandler_GetResourceHandler(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      ResourceRequestHandler_GetResourceHandler_call method_call = new ResourceRequestHandler_GetResourceHandler_call(rrHandler, bid, request, resultHandler, this, ___protocolFactory, ___transport);
+      ResourceRequestHandler_GetResourceHandler_call method_call = new ResourceRequestHandler_GetResourceHandler_call(rrHandler, bid, frame, request, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
@@ -2864,11 +2920,13 @@ public class ClientHandlers {
     public static class ResourceRequestHandler_GetResourceHandler_call extends org.apache.thrift.async.TAsyncMethodCall<com.jetbrains.cef.remote.thrift_codegen.RObject> {
       private int rrHandler;
       private int bid;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject frame;
       private com.jetbrains.cef.remote.thrift_codegen.RObject request;
-      public ResourceRequestHandler_GetResourceHandler_call(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public ResourceRequestHandler_GetResourceHandler_call(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.rrHandler = rrHandler;
         this.bid = bid;
+        this.frame = frame;
         this.request = request;
       }
 
@@ -2878,6 +2936,7 @@ public class ClientHandlers {
         ResourceRequestHandler_GetResourceHandler_args args = new ResourceRequestHandler_GetResourceHandler_args();
         args.setRrHandler(rrHandler);
         args.setBid(bid);
+        args.setFrame(frame);
         args.setRequest(request);
         args.write(prot);
         prot.writeMessageEnd();
@@ -3085,9 +3144,9 @@ public class ClientHandlers {
     }
 
     @Override
-    public void ResourceRequestHandler_OnResourceRedirect(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String new_url, org.apache.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws org.apache.thrift.TException {
+    public void ResourceRequestHandler_OnResourceRedirect(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String new_url, org.apache.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      ResourceRequestHandler_OnResourceRedirect_call method_call = new ResourceRequestHandler_OnResourceRedirect_call(rrHandler, bid, request, response, new_url, resultHandler, this, ___protocolFactory, ___transport);
+      ResourceRequestHandler_OnResourceRedirect_call method_call = new ResourceRequestHandler_OnResourceRedirect_call(rrHandler, bid, frame, request, response, new_url, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
@@ -3095,13 +3154,15 @@ public class ClientHandlers {
     public static class ResourceRequestHandler_OnResourceRedirect_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.String> {
       private int rrHandler;
       private int bid;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject frame;
       private com.jetbrains.cef.remote.thrift_codegen.RObject request;
       private com.jetbrains.cef.remote.thrift_codegen.RObject response;
       private java.lang.String new_url;
-      public ResourceRequestHandler_OnResourceRedirect_call(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String new_url, org.apache.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public ResourceRequestHandler_OnResourceRedirect_call(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String new_url, org.apache.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.rrHandler = rrHandler;
         this.bid = bid;
+        this.frame = frame;
         this.request = request;
         this.response = response;
         this.new_url = new_url;
@@ -3113,6 +3174,7 @@ public class ClientHandlers {
         ResourceRequestHandler_OnResourceRedirect_args args = new ResourceRequestHandler_OnResourceRedirect_args();
         args.setRrHandler(rrHandler);
         args.setBid(bid);
+        args.setFrame(frame);
         args.setRequest(request);
         args.setResponse(response);
         args.setNew_url(new_url);
@@ -3132,9 +3194,9 @@ public class ClientHandlers {
     }
 
     @Override
-    public void ResourceRequestHandler_OnResourceResponse(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
+    public void ResourceRequestHandler_OnResourceResponse(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      ResourceRequestHandler_OnResourceResponse_call method_call = new ResourceRequestHandler_OnResourceResponse_call(rrHandler, bid, request, response, resultHandler, this, ___protocolFactory, ___transport);
+      ResourceRequestHandler_OnResourceResponse_call method_call = new ResourceRequestHandler_OnResourceResponse_call(rrHandler, bid, frame, request, response, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
@@ -3142,12 +3204,14 @@ public class ClientHandlers {
     public static class ResourceRequestHandler_OnResourceResponse_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.Boolean> {
       private int rrHandler;
       private int bid;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject frame;
       private com.jetbrains.cef.remote.thrift_codegen.RObject request;
       private com.jetbrains.cef.remote.thrift_codegen.RObject response;
-      public ResourceRequestHandler_OnResourceResponse_call(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public ResourceRequestHandler_OnResourceResponse_call(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.rrHandler = rrHandler;
         this.bid = bid;
+        this.frame = frame;
         this.request = request;
         this.response = response;
       }
@@ -3158,6 +3222,7 @@ public class ClientHandlers {
         ResourceRequestHandler_OnResourceResponse_args args = new ResourceRequestHandler_OnResourceResponse_args();
         args.setRrHandler(rrHandler);
         args.setBid(bid);
+        args.setFrame(frame);
         args.setRequest(request);
         args.setResponse(response);
         args.write(prot);
@@ -3176,9 +3241,9 @@ public class ClientHandlers {
     }
 
     @Override
-    public void ResourceRequestHandler_OnResourceLoadComplete(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String status, long receivedContentLength, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void ResourceRequestHandler_OnResourceLoadComplete(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String status, long receivedContentLength, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      ResourceRequestHandler_OnResourceLoadComplete_call method_call = new ResourceRequestHandler_OnResourceLoadComplete_call(rrHandler, bid, request, response, status, receivedContentLength, resultHandler, this, ___protocolFactory, ___transport);
+      ResourceRequestHandler_OnResourceLoadComplete_call method_call = new ResourceRequestHandler_OnResourceLoadComplete_call(rrHandler, bid, frame, request, response, status, receivedContentLength, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
@@ -3186,14 +3251,16 @@ public class ClientHandlers {
     public static class ResourceRequestHandler_OnResourceLoadComplete_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
       private int rrHandler;
       private int bid;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject frame;
       private com.jetbrains.cef.remote.thrift_codegen.RObject request;
       private com.jetbrains.cef.remote.thrift_codegen.RObject response;
       private java.lang.String status;
       private long receivedContentLength;
-      public ResourceRequestHandler_OnResourceLoadComplete_call(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String status, long receivedContentLength, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public ResourceRequestHandler_OnResourceLoadComplete_call(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String status, long receivedContentLength, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.rrHandler = rrHandler;
         this.bid = bid;
+        this.frame = frame;
         this.request = request;
         this.response = response;
         this.status = status;
@@ -3206,6 +3273,7 @@ public class ClientHandlers {
         ResourceRequestHandler_OnResourceLoadComplete_args args = new ResourceRequestHandler_OnResourceLoadComplete_args();
         args.setRrHandler(rrHandler);
         args.setBid(bid);
+        args.setFrame(frame);
         args.setRequest(request);
         args.setResponse(response);
         args.setStatus(status);
@@ -3227,9 +3295,9 @@ public class ClientHandlers {
     }
 
     @Override
-    public void ResourceRequestHandler_OnProtocolExecution(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean allowOsExecution, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
+    public void ResourceRequestHandler_OnProtocolExecution(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean allowOsExecution, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      ResourceRequestHandler_OnProtocolExecution_call method_call = new ResourceRequestHandler_OnProtocolExecution_call(rrHandler, bid, request, allowOsExecution, resultHandler, this, ___protocolFactory, ___transport);
+      ResourceRequestHandler_OnProtocolExecution_call method_call = new ResourceRequestHandler_OnProtocolExecution_call(rrHandler, bid, frame, request, allowOsExecution, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
@@ -3237,12 +3305,14 @@ public class ClientHandlers {
     public static class ResourceRequestHandler_OnProtocolExecution_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.Boolean> {
       private int rrHandler;
       private int bid;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject frame;
       private com.jetbrains.cef.remote.thrift_codegen.RObject request;
       private boolean allowOsExecution;
-      public ResourceRequestHandler_OnProtocolExecution_call(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean allowOsExecution, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public ResourceRequestHandler_OnProtocolExecution_call(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean allowOsExecution, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.rrHandler = rrHandler;
         this.bid = bid;
+        this.frame = frame;
         this.request = request;
         this.allowOsExecution = allowOsExecution;
       }
@@ -3253,6 +3323,7 @@ public class ClientHandlers {
         ResourceRequestHandler_OnProtocolExecution_args args = new ResourceRequestHandler_OnProtocolExecution_args();
         args.setRrHandler(rrHandler);
         args.setBid(bid);
+        args.setFrame(frame);
         args.setRequest(request);
         args.setAllowOsExecution(allowOsExecution);
         args.write(prot);
@@ -3271,9 +3342,9 @@ public class ClientHandlers {
     }
 
     @Override
-    public void MessageRouterHandler_onQuery(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, long queryId, java.lang.String request, boolean persistent, com.jetbrains.cef.remote.thrift_codegen.RObject queryCallback, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
+    public void MessageRouterHandler_onQuery(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, long queryId, java.lang.String request, boolean persistent, com.jetbrains.cef.remote.thrift_codegen.RObject queryCallback, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      MessageRouterHandler_onQuery_call method_call = new MessageRouterHandler_onQuery_call(handler, bid, queryId, request, persistent, queryCallback, resultHandler, this, ___protocolFactory, ___transport);
+      MessageRouterHandler_onQuery_call method_call = new MessageRouterHandler_onQuery_call(handler, bid, frame, queryId, request, persistent, queryCallback, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
@@ -3281,14 +3352,16 @@ public class ClientHandlers {
     public static class MessageRouterHandler_onQuery_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.Boolean> {
       private com.jetbrains.cef.remote.thrift_codegen.RObject handler;
       private int bid;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject frame;
       private long queryId;
       private java.lang.String request;
       private boolean persistent;
       private com.jetbrains.cef.remote.thrift_codegen.RObject queryCallback;
-      public MessageRouterHandler_onQuery_call(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, long queryId, java.lang.String request, boolean persistent, com.jetbrains.cef.remote.thrift_codegen.RObject queryCallback, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public MessageRouterHandler_onQuery_call(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, long queryId, java.lang.String request, boolean persistent, com.jetbrains.cef.remote.thrift_codegen.RObject queryCallback, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.handler = handler;
         this.bid = bid;
+        this.frame = frame;
         this.queryId = queryId;
         this.request = request;
         this.persistent = persistent;
@@ -3301,6 +3374,7 @@ public class ClientHandlers {
         MessageRouterHandler_onQuery_args args = new MessageRouterHandler_onQuery_args();
         args.setHandler(handler);
         args.setBid(bid);
+        args.setFrame(frame);
         args.setQueryId(queryId);
         args.setRequest(request);
         args.setPersistent(persistent);
@@ -3321,9 +3395,9 @@ public class ClientHandlers {
     }
 
     @Override
-    public void MessageRouterHandler_onQueryCanceled(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, long queryId, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void MessageRouterHandler_onQueryCanceled(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, long queryId, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      MessageRouterHandler_onQueryCanceled_call method_call = new MessageRouterHandler_onQueryCanceled_call(handler, bid, queryId, resultHandler, this, ___protocolFactory, ___transport);
+      MessageRouterHandler_onQueryCanceled_call method_call = new MessageRouterHandler_onQueryCanceled_call(handler, bid, frame, queryId, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
@@ -3331,11 +3405,13 @@ public class ClientHandlers {
     public static class MessageRouterHandler_onQueryCanceled_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
       private com.jetbrains.cef.remote.thrift_codegen.RObject handler;
       private int bid;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject frame;
       private long queryId;
-      public MessageRouterHandler_onQueryCanceled_call(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, long queryId, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public MessageRouterHandler_onQueryCanceled_call(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, long queryId, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
         this.handler = handler;
         this.bid = bid;
+        this.frame = frame;
         this.queryId = queryId;
       }
 
@@ -3345,6 +3421,7 @@ public class ClientHandlers {
         MessageRouterHandler_onQueryCanceled_args args = new MessageRouterHandler_onQueryCanceled_args();
         args.setHandler(handler);
         args.setBid(bid);
+        args.setFrame(frame);
         args.setQueryId(queryId);
         args.write(prot);
         prot.writeMessageEnd();
@@ -3397,9 +3474,9 @@ public class ClientHandlers {
     }
 
     @Override
-    public void SchemeHandlerFactory_CreateHandler(int schemeHandlerFactory, int bid, java.lang.String scheme_name, com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException {
+    public void SchemeHandlerFactory_CreateHandler(int schemeHandlerFactory, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, java.lang.String scheme_name, com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      SchemeHandlerFactory_CreateHandler_call method_call = new SchemeHandlerFactory_CreateHandler_call(schemeHandlerFactory, bid, scheme_name, request, resultHandler, this, ___protocolFactory, ___transport);
+      SchemeHandlerFactory_CreateHandler_call method_call = new SchemeHandlerFactory_CreateHandler_call(schemeHandlerFactory, bid, frame, scheme_name, request, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
@@ -3407,12 +3484,14 @@ public class ClientHandlers {
     public static class SchemeHandlerFactory_CreateHandler_call extends org.apache.thrift.async.TAsyncMethodCall<com.jetbrains.cef.remote.thrift_codegen.RObject> {
       private int schemeHandlerFactory;
       private int bid;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject frame;
       private java.lang.String scheme_name;
       private com.jetbrains.cef.remote.thrift_codegen.RObject request;
-      public SchemeHandlerFactory_CreateHandler_call(int schemeHandlerFactory, int bid, java.lang.String scheme_name, com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public SchemeHandlerFactory_CreateHandler_call(int schemeHandlerFactory, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, java.lang.String scheme_name, com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.schemeHandlerFactory = schemeHandlerFactory;
         this.bid = bid;
+        this.frame = frame;
         this.scheme_name = scheme_name;
         this.request = request;
       }
@@ -3423,6 +3502,7 @@ public class ClientHandlers {
         SchemeHandlerFactory_CreateHandler_args args = new SchemeHandlerFactory_CreateHandler_args();
         args.setSchemeHandlerFactory(schemeHandlerFactory);
         args.setBid(bid);
+        args.setFrame(frame);
         args.setScheme_name(scheme_name);
         args.setRequest(request);
         args.write(prot);
@@ -3761,7 +3841,7 @@ public class ClientHandlers {
       @Override
       public LifeSpanHandler_OnBeforePopup_result getResult(I iface, LifeSpanHandler_OnBeforePopup_args args) throws org.apache.thrift.TException {
         LifeSpanHandler_OnBeforePopup_result result = new LifeSpanHandler_OnBeforePopup_result();
-        result.success = iface.LifeSpanHandler_OnBeforePopup(args.bid, args.url, args.frameName, args.gesture);
+        result.success = iface.LifeSpanHandler_OnBeforePopup(args.bid, args.frame, args.url, args.frameName, args.gesture);
         result.setSuccessIsSet(true);
         return result;
       }
@@ -3899,7 +3979,7 @@ public class ClientHandlers {
 
       @Override
       public org.apache.thrift.TBase getResult(I iface, LoadHandler_OnLoadStart_args args) throws org.apache.thrift.TException {
-        iface.LoadHandler_OnLoadStart(args.bid, args.transition_type);
+        iface.LoadHandler_OnLoadStart(args.bid, args.frame, args.transition_type);
         return null;
       }
     }
@@ -3926,7 +4006,7 @@ public class ClientHandlers {
 
       @Override
       public org.apache.thrift.TBase getResult(I iface, LoadHandler_OnLoadEnd_args args) throws org.apache.thrift.TException {
-        iface.LoadHandler_OnLoadEnd(args.bid, args.httpStatusCode);
+        iface.LoadHandler_OnLoadEnd(args.bid, args.frame, args.httpStatusCode);
         return null;
       }
     }
@@ -3953,7 +4033,7 @@ public class ClientHandlers {
 
       @Override
       public org.apache.thrift.TBase getResult(I iface, LoadHandler_OnLoadError_args args) throws org.apache.thrift.TException {
-        iface.LoadHandler_OnLoadError(args.bid, args.errorCode, args.errorText, args.failedUrl);
+        iface.LoadHandler_OnLoadError(args.bid, args.frame, args.errorCode, args.errorText, args.failedUrl);
         return null;
       }
     }
@@ -3980,7 +4060,7 @@ public class ClientHandlers {
 
       @Override
       public org.apache.thrift.TBase getResult(I iface, DisplayHandler_OnAddressChange_args args) throws org.apache.thrift.TException {
-        iface.DisplayHandler_OnAddressChange(args.bid, args.url);
+        iface.DisplayHandler_OnAddressChange(args.bid, args.frame, args.url);
         return null;
       }
     }
@@ -4261,7 +4341,7 @@ public class ClientHandlers {
       @Override
       public RequestHandler_OnBeforeBrowse_result getResult(I iface, RequestHandler_OnBeforeBrowse_args args) throws org.apache.thrift.TException {
         RequestHandler_OnBeforeBrowse_result result = new RequestHandler_OnBeforeBrowse_result();
-        result.success = iface.RequestHandler_OnBeforeBrowse(args.bid, args.request, args.user_gesture, args.is_redirect);
+        result.success = iface.RequestHandler_OnBeforeBrowse(args.bid, args.frame, args.request, args.user_gesture, args.is_redirect);
         result.setSuccessIsSet(true);
         return result;
       }
@@ -4290,7 +4370,7 @@ public class ClientHandlers {
       @Override
       public RequestHandler_OnOpenURLFromTab_result getResult(I iface, RequestHandler_OnOpenURLFromTab_args args) throws org.apache.thrift.TException {
         RequestHandler_OnOpenURLFromTab_result result = new RequestHandler_OnOpenURLFromTab_result();
-        result.success = iface.RequestHandler_OnOpenURLFromTab(args.bid, args.target_url, args.user_gesture);
+        result.success = iface.RequestHandler_OnOpenURLFromTab(args.bid, args.frame, args.target_url, args.user_gesture);
         result.setSuccessIsSet(true);
         return result;
       }
@@ -4404,7 +4484,7 @@ public class ClientHandlers {
       @Override
       public RequestHandler_GetResourceRequestHandler_result getResult(I iface, RequestHandler_GetResourceRequestHandler_args args) throws org.apache.thrift.TException {
         RequestHandler_GetResourceRequestHandler_result result = new RequestHandler_GetResourceRequestHandler_result();
-        result.success = iface.RequestHandler_GetResourceRequestHandler(args.bid, args.request, args.isNavigation, args.isDownload, args.requestInitiator);
+        result.success = iface.RequestHandler_GetResourceRequestHandler(args.bid, args.frame, args.request, args.isNavigation, args.isDownload, args.requestInitiator);
         return result;
       }
     }
@@ -4459,7 +4539,7 @@ public class ClientHandlers {
       @Override
       public ResourceRequestHandler_GetCookieAccessFilter_result getResult(I iface, ResourceRequestHandler_GetCookieAccessFilter_args args) throws org.apache.thrift.TException {
         ResourceRequestHandler_GetCookieAccessFilter_result result = new ResourceRequestHandler_GetCookieAccessFilter_result();
-        result.success = iface.ResourceRequestHandler_GetCookieAccessFilter(args.rrHandler, args.bid, args.request);
+        result.success = iface.ResourceRequestHandler_GetCookieAccessFilter(args.rrHandler, args.bid, args.frame, args.request);
         return result;
       }
     }
@@ -4514,7 +4594,7 @@ public class ClientHandlers {
       @Override
       public CookieAccessFilter_CanSendCookie_result getResult(I iface, CookieAccessFilter_CanSendCookie_args args) throws org.apache.thrift.TException {
         CookieAccessFilter_CanSendCookie_result result = new CookieAccessFilter_CanSendCookie_result();
-        result.success = iface.CookieAccessFilter_CanSendCookie(args.filter, args.bid, args.request, args.cookie);
+        result.success = iface.CookieAccessFilter_CanSendCookie(args.filter, args.bid, args.frame, args.request, args.cookie);
         result.setSuccessIsSet(true);
         return result;
       }
@@ -4543,7 +4623,7 @@ public class ClientHandlers {
       @Override
       public CookieAccessFilter_CanSaveCookie_result getResult(I iface, CookieAccessFilter_CanSaveCookie_args args) throws org.apache.thrift.TException {
         CookieAccessFilter_CanSaveCookie_result result = new CookieAccessFilter_CanSaveCookie_result();
-        result.success = iface.CookieAccessFilter_CanSaveCookie(args.filter, args.bid, args.request, args.response, args.cookie);
+        result.success = iface.CookieAccessFilter_CanSaveCookie(args.filter, args.bid, args.frame, args.request, args.response, args.cookie);
         result.setSuccessIsSet(true);
         return result;
       }
@@ -4572,7 +4652,7 @@ public class ClientHandlers {
       @Override
       public ResourceRequestHandler_OnBeforeResourceLoad_result getResult(I iface, ResourceRequestHandler_OnBeforeResourceLoad_args args) throws org.apache.thrift.TException {
         ResourceRequestHandler_OnBeforeResourceLoad_result result = new ResourceRequestHandler_OnBeforeResourceLoad_result();
-        result.success = iface.ResourceRequestHandler_OnBeforeResourceLoad(args.rrHandler, args.bid, args.request);
+        result.success = iface.ResourceRequestHandler_OnBeforeResourceLoad(args.rrHandler, args.bid, args.frame, args.request);
         result.setSuccessIsSet(true);
         return result;
       }
@@ -4601,7 +4681,7 @@ public class ClientHandlers {
       @Override
       public ResourceRequestHandler_GetResourceHandler_result getResult(I iface, ResourceRequestHandler_GetResourceHandler_args args) throws org.apache.thrift.TException {
         ResourceRequestHandler_GetResourceHandler_result result = new ResourceRequestHandler_GetResourceHandler_result();
-        result.success = iface.ResourceRequestHandler_GetResourceHandler(args.rrHandler, args.bid, args.request);
+        result.success = iface.ResourceRequestHandler_GetResourceHandler(args.rrHandler, args.bid, args.frame, args.request);
         return result;
       }
     }
@@ -4768,7 +4848,7 @@ public class ClientHandlers {
       @Override
       public ResourceRequestHandler_OnResourceRedirect_result getResult(I iface, ResourceRequestHandler_OnResourceRedirect_args args) throws org.apache.thrift.TException {
         ResourceRequestHandler_OnResourceRedirect_result result = new ResourceRequestHandler_OnResourceRedirect_result();
-        result.success = iface.ResourceRequestHandler_OnResourceRedirect(args.rrHandler, args.bid, args.request, args.response, args.new_url);
+        result.success = iface.ResourceRequestHandler_OnResourceRedirect(args.rrHandler, args.bid, args.frame, args.request, args.response, args.new_url);
         return result;
       }
     }
@@ -4796,7 +4876,7 @@ public class ClientHandlers {
       @Override
       public ResourceRequestHandler_OnResourceResponse_result getResult(I iface, ResourceRequestHandler_OnResourceResponse_args args) throws org.apache.thrift.TException {
         ResourceRequestHandler_OnResourceResponse_result result = new ResourceRequestHandler_OnResourceResponse_result();
-        result.success = iface.ResourceRequestHandler_OnResourceResponse(args.rrHandler, args.bid, args.request, args.response);
+        result.success = iface.ResourceRequestHandler_OnResourceResponse(args.rrHandler, args.bid, args.frame, args.request, args.response);
         result.setSuccessIsSet(true);
         return result;
       }
@@ -4825,7 +4905,7 @@ public class ClientHandlers {
       @Override
       public ResourceRequestHandler_OnResourceLoadComplete_result getResult(I iface, ResourceRequestHandler_OnResourceLoadComplete_args args) throws org.apache.thrift.TException {
         ResourceRequestHandler_OnResourceLoadComplete_result result = new ResourceRequestHandler_OnResourceLoadComplete_result();
-        iface.ResourceRequestHandler_OnResourceLoadComplete(args.rrHandler, args.bid, args.request, args.response, args.status, args.receivedContentLength);
+        iface.ResourceRequestHandler_OnResourceLoadComplete(args.rrHandler, args.bid, args.frame, args.request, args.response, args.status, args.receivedContentLength);
         return result;
       }
     }
@@ -4853,7 +4933,7 @@ public class ClientHandlers {
       @Override
       public ResourceRequestHandler_OnProtocolExecution_result getResult(I iface, ResourceRequestHandler_OnProtocolExecution_args args) throws org.apache.thrift.TException {
         ResourceRequestHandler_OnProtocolExecution_result result = new ResourceRequestHandler_OnProtocolExecution_result();
-        result.success = iface.ResourceRequestHandler_OnProtocolExecution(args.rrHandler, args.bid, args.request, args.allowOsExecution);
+        result.success = iface.ResourceRequestHandler_OnProtocolExecution(args.rrHandler, args.bid, args.frame, args.request, args.allowOsExecution);
         result.setSuccessIsSet(true);
         return result;
       }
@@ -4882,7 +4962,7 @@ public class ClientHandlers {
       @Override
       public MessageRouterHandler_onQuery_result getResult(I iface, MessageRouterHandler_onQuery_args args) throws org.apache.thrift.TException {
         MessageRouterHandler_onQuery_result result = new MessageRouterHandler_onQuery_result();
-        result.success = iface.MessageRouterHandler_onQuery(args.handler, args.bid, args.queryId, args.request, args.persistent, args.queryCallback);
+        result.success = iface.MessageRouterHandler_onQuery(args.handler, args.bid, args.frame, args.queryId, args.request, args.persistent, args.queryCallback);
         result.setSuccessIsSet(true);
         return result;
       }
@@ -4910,7 +4990,7 @@ public class ClientHandlers {
 
       @Override
       public org.apache.thrift.TBase getResult(I iface, MessageRouterHandler_onQueryCanceled_args args) throws org.apache.thrift.TException {
-        iface.MessageRouterHandler_onQueryCanceled(args.handler, args.bid, args.queryId);
+        iface.MessageRouterHandler_onQueryCanceled(args.handler, args.bid, args.frame, args.queryId);
         return null;
       }
     }
@@ -4965,7 +5045,7 @@ public class ClientHandlers {
       @Override
       public SchemeHandlerFactory_CreateHandler_result getResult(I iface, SchemeHandlerFactory_CreateHandler_args args) throws org.apache.thrift.TException {
         SchemeHandlerFactory_CreateHandler_result result = new SchemeHandlerFactory_CreateHandler_result();
-        result.success = iface.SchemeHandlerFactory_CreateHandler(args.schemeHandlerFactory, args.bid, args.scheme_name, args.request);
+        result.success = iface.SchemeHandlerFactory_CreateHandler(args.schemeHandlerFactory, args.bid, args.frame, args.scheme_name, args.request);
         return result;
       }
     }
@@ -5544,7 +5624,7 @@ public class ClientHandlers {
 
       @Override
       public void start(I iface, LifeSpanHandler_OnBeforePopup_args args, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
-        iface.LifeSpanHandler_OnBeforePopup(args.bid, args.url, args.frameName, args.gesture,resultHandler);
+        iface.LifeSpanHandler_OnBeforePopup(args.bid, args.frame, args.url, args.frameName, args.gesture,resultHandler);
       }
     }
 
@@ -5772,7 +5852,7 @@ public class ClientHandlers {
 
       @Override
       public void start(I iface, LoadHandler_OnLoadStart_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
-        iface.LoadHandler_OnLoadStart(args.bid, args.transition_type,resultHandler);
+        iface.LoadHandler_OnLoadStart(args.bid, args.frame, args.transition_type,resultHandler);
       }
     }
 
@@ -5812,7 +5892,7 @@ public class ClientHandlers {
 
       @Override
       public void start(I iface, LoadHandler_OnLoadEnd_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
-        iface.LoadHandler_OnLoadEnd(args.bid, args.httpStatusCode,resultHandler);
+        iface.LoadHandler_OnLoadEnd(args.bid, args.frame, args.httpStatusCode,resultHandler);
       }
     }
 
@@ -5852,7 +5932,7 @@ public class ClientHandlers {
 
       @Override
       public void start(I iface, LoadHandler_OnLoadError_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
-        iface.LoadHandler_OnLoadError(args.bid, args.errorCode, args.errorText, args.failedUrl,resultHandler);
+        iface.LoadHandler_OnLoadError(args.bid, args.frame, args.errorCode, args.errorText, args.failedUrl,resultHandler);
       }
     }
 
@@ -5892,7 +5972,7 @@ public class ClientHandlers {
 
       @Override
       public void start(I iface, DisplayHandler_OnAddressChange_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
-        iface.DisplayHandler_OnAddressChange(args.bid, args.url,resultHandler);
+        iface.DisplayHandler_OnAddressChange(args.bid, args.frame, args.url,resultHandler);
       }
     }
 
@@ -6460,7 +6540,7 @@ public class ClientHandlers {
 
       @Override
       public void start(I iface, RequestHandler_OnBeforeBrowse_args args, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
-        iface.RequestHandler_OnBeforeBrowse(args.bid, args.request, args.user_gesture, args.is_redirect,resultHandler);
+        iface.RequestHandler_OnBeforeBrowse(args.bid, args.frame, args.request, args.user_gesture, args.is_redirect,resultHandler);
       }
     }
 
@@ -6528,7 +6608,7 @@ public class ClientHandlers {
 
       @Override
       public void start(I iface, RequestHandler_OnOpenURLFromTab_args args, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
-        iface.RequestHandler_OnOpenURLFromTab(args.bid, args.target_url, args.user_gesture,resultHandler);
+        iface.RequestHandler_OnOpenURLFromTab(args.bid, args.frame, args.target_url, args.user_gesture,resultHandler);
       }
     }
 
@@ -6771,7 +6851,7 @@ public class ClientHandlers {
 
       @Override
       public void start(I iface, RequestHandler_GetResourceRequestHandler_args args, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException {
-        iface.RequestHandler_GetResourceRequestHandler(args.bid, args.request, args.isNavigation, args.isDownload, args.requestInitiator,resultHandler);
+        iface.RequestHandler_GetResourceRequestHandler(args.bid, args.frame, args.request, args.isNavigation, args.isDownload, args.requestInitiator,resultHandler);
       }
     }
 
@@ -6878,7 +6958,7 @@ public class ClientHandlers {
 
       @Override
       public void start(I iface, ResourceRequestHandler_GetCookieAccessFilter_args args, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException {
-        iface.ResourceRequestHandler_GetCookieAccessFilter(args.rrHandler, args.bid, args.request,resultHandler);
+        iface.ResourceRequestHandler_GetCookieAccessFilter(args.rrHandler, args.bid, args.frame, args.request,resultHandler);
       }
     }
 
@@ -6986,7 +7066,7 @@ public class ClientHandlers {
 
       @Override
       public void start(I iface, CookieAccessFilter_CanSendCookie_args args, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
-        iface.CookieAccessFilter_CanSendCookie(args.filter, args.bid, args.request, args.cookie,resultHandler);
+        iface.CookieAccessFilter_CanSendCookie(args.filter, args.bid, args.frame, args.request, args.cookie,resultHandler);
       }
     }
 
@@ -7054,7 +7134,7 @@ public class ClientHandlers {
 
       @Override
       public void start(I iface, CookieAccessFilter_CanSaveCookie_args args, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
-        iface.CookieAccessFilter_CanSaveCookie(args.filter, args.bid, args.request, args.response, args.cookie,resultHandler);
+        iface.CookieAccessFilter_CanSaveCookie(args.filter, args.bid, args.frame, args.request, args.response, args.cookie,resultHandler);
       }
     }
 
@@ -7122,7 +7202,7 @@ public class ClientHandlers {
 
       @Override
       public void start(I iface, ResourceRequestHandler_OnBeforeResourceLoad_args args, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
-        iface.ResourceRequestHandler_OnBeforeResourceLoad(args.rrHandler, args.bid, args.request,resultHandler);
+        iface.ResourceRequestHandler_OnBeforeResourceLoad(args.rrHandler, args.bid, args.frame, args.request,resultHandler);
       }
     }
 
@@ -7189,7 +7269,7 @@ public class ClientHandlers {
 
       @Override
       public void start(I iface, ResourceRequestHandler_GetResourceHandler_args args, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException {
-        iface.ResourceRequestHandler_GetResourceHandler(args.rrHandler, args.bid, args.request,resultHandler);
+        iface.ResourceRequestHandler_GetResourceHandler(args.rrHandler, args.bid, args.frame, args.request,resultHandler);
       }
     }
 
@@ -7538,7 +7618,7 @@ public class ClientHandlers {
 
       @Override
       public void start(I iface, ResourceRequestHandler_OnResourceRedirect_args args, org.apache.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws org.apache.thrift.TException {
-        iface.ResourceRequestHandler_OnResourceRedirect(args.rrHandler, args.bid, args.request, args.response, args.new_url,resultHandler);
+        iface.ResourceRequestHandler_OnResourceRedirect(args.rrHandler, args.bid, args.frame, args.request, args.response, args.new_url,resultHandler);
       }
     }
 
@@ -7606,7 +7686,7 @@ public class ClientHandlers {
 
       @Override
       public void start(I iface, ResourceRequestHandler_OnResourceResponse_args args, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
-        iface.ResourceRequestHandler_OnResourceResponse(args.rrHandler, args.bid, args.request, args.response,resultHandler);
+        iface.ResourceRequestHandler_OnResourceResponse(args.rrHandler, args.bid, args.frame, args.request, args.response,resultHandler);
       }
     }
 
@@ -7672,7 +7752,7 @@ public class ClientHandlers {
 
       @Override
       public void start(I iface, ResourceRequestHandler_OnResourceLoadComplete_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
-        iface.ResourceRequestHandler_OnResourceLoadComplete(args.rrHandler, args.bid, args.request, args.response, args.status, args.receivedContentLength,resultHandler);
+        iface.ResourceRequestHandler_OnResourceLoadComplete(args.rrHandler, args.bid, args.frame, args.request, args.response, args.status, args.receivedContentLength,resultHandler);
       }
     }
 
@@ -7740,7 +7820,7 @@ public class ClientHandlers {
 
       @Override
       public void start(I iface, ResourceRequestHandler_OnProtocolExecution_args args, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
-        iface.ResourceRequestHandler_OnProtocolExecution(args.rrHandler, args.bid, args.request, args.allowOsExecution,resultHandler);
+        iface.ResourceRequestHandler_OnProtocolExecution(args.rrHandler, args.bid, args.frame, args.request, args.allowOsExecution,resultHandler);
       }
     }
 
@@ -7808,7 +7888,7 @@ public class ClientHandlers {
 
       @Override
       public void start(I iface, MessageRouterHandler_onQuery_args args, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
-        iface.MessageRouterHandler_onQuery(args.handler, args.bid, args.queryId, args.request, args.persistent, args.queryCallback,resultHandler);
+        iface.MessageRouterHandler_onQuery(args.handler, args.bid, args.frame, args.queryId, args.request, args.persistent, args.queryCallback,resultHandler);
       }
     }
 
@@ -7848,7 +7928,7 @@ public class ClientHandlers {
 
       @Override
       public void start(I iface, MessageRouterHandler_onQueryCanceled_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
-        iface.MessageRouterHandler_onQueryCanceled(args.handler, args.bid, args.queryId,resultHandler);
+        iface.MessageRouterHandler_onQueryCanceled(args.handler, args.bid, args.frame, args.queryId,resultHandler);
       }
     }
 
@@ -7955,7 +8035,7 @@ public class ClientHandlers {
 
       @Override
       public void start(I iface, SchemeHandlerFactory_CreateHandler_args args, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException {
-        iface.SchemeHandlerFactory_CreateHandler(args.schemeHandlerFactory, args.bid, args.scheme_name, args.request,resultHandler);
+        iface.SchemeHandlerFactory_CreateHandler(args.schemeHandlerFactory, args.bid, args.frame, args.scheme_name, args.request,resultHandler);
       }
     }
 
@@ -12979,14 +13059,16 @@ public class ClientHandlers {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("LifeSpanHandler_OnBeforePopup_args");
 
     private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
-    private static final org.apache.thrift.protocol.TField URL_FIELD_DESC = new org.apache.thrift.protocol.TField("url", org.apache.thrift.protocol.TType.STRING, (short)2);
-    private static final org.apache.thrift.protocol.TField FRAME_NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("frameName", org.apache.thrift.protocol.TType.STRING, (short)3);
-    private static final org.apache.thrift.protocol.TField GESTURE_FIELD_DESC = new org.apache.thrift.protocol.TField("gesture", org.apache.thrift.protocol.TType.BOOL, (short)4);
+    private static final org.apache.thrift.protocol.TField FRAME_FIELD_DESC = new org.apache.thrift.protocol.TField("frame", org.apache.thrift.protocol.TType.STRUCT, (short)2);
+    private static final org.apache.thrift.protocol.TField URL_FIELD_DESC = new org.apache.thrift.protocol.TField("url", org.apache.thrift.protocol.TType.STRING, (short)3);
+    private static final org.apache.thrift.protocol.TField FRAME_NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("frameName", org.apache.thrift.protocol.TType.STRING, (short)4);
+    private static final org.apache.thrift.protocol.TField GESTURE_FIELD_DESC = new org.apache.thrift.protocol.TField("gesture", org.apache.thrift.protocol.TType.BOOL, (short)5);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new LifeSpanHandler_OnBeforePopup_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new LifeSpanHandler_OnBeforePopup_argsTupleSchemeFactory();
 
     public int bid; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String url; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String frameName; // required
     public boolean gesture; // required
@@ -12994,9 +13076,10 @@ public class ClientHandlers {
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       BID((short)1, "bid"),
-      URL((short)2, "url"),
-      FRAME_NAME((short)3, "frameName"),
-      GESTURE((short)4, "gesture");
+      FRAME((short)2, "frame"),
+      URL((short)3, "url"),
+      FRAME_NAME((short)4, "frameName"),
+      GESTURE((short)5, "gesture");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -13014,11 +13097,13 @@ public class ClientHandlers {
         switch(fieldId) {
           case 1: // BID
             return BID;
-          case 2: // URL
+          case 2: // FRAME
+            return FRAME;
+          case 3: // URL
             return URL;
-          case 3: // FRAME_NAME
+          case 4: // FRAME_NAME
             return FRAME_NAME;
-          case 4: // GESTURE
+          case 5: // GESTURE
             return GESTURE;
           default:
             return null;
@@ -13071,6 +13156,8 @@ public class ClientHandlers {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.FRAME, new org.apache.thrift.meta_data.FieldMetaData("frame", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.URL, new org.apache.thrift.meta_data.FieldMetaData("url", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       tmpMap.put(_Fields.FRAME_NAME, new org.apache.thrift.meta_data.FieldMetaData("frameName", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -13086,6 +13173,7 @@ public class ClientHandlers {
 
     public LifeSpanHandler_OnBeforePopup_args(
       int bid,
+      com.jetbrains.cef.remote.thrift_codegen.RObject frame,
       java.lang.String url,
       java.lang.String frameName,
       boolean gesture)
@@ -13093,6 +13181,7 @@ public class ClientHandlers {
       this();
       this.bid = bid;
       setBidIsSet(true);
+      this.frame = frame;
       this.url = url;
       this.frameName = frameName;
       this.gesture = gesture;
@@ -13105,6 +13194,9 @@ public class ClientHandlers {
     public LifeSpanHandler_OnBeforePopup_args(LifeSpanHandler_OnBeforePopup_args other) {
       __isset_bitfield = other.__isset_bitfield;
       this.bid = other.bid;
+      if (other.isSetFrame()) {
+        this.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.frame);
+      }
       if (other.isSetUrl()) {
         this.url = other.url;
       }
@@ -13123,6 +13215,7 @@ public class ClientHandlers {
     public void clear() {
       setBidIsSet(false);
       this.bid = 0;
+      this.frame = null;
       this.url = null;
       this.frameName = null;
       setGestureIsSet(false);
@@ -13150,6 +13243,31 @@ public class ClientHandlers {
 
     public void setBidIsSet(boolean value) {
       __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getFrame() {
+      return this.frame;
+    }
+
+    public LifeSpanHandler_OnBeforePopup_args setFrame(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame) {
+      this.frame = frame;
+      return this;
+    }
+
+    public void unsetFrame() {
+      this.frame = null;
+    }
+
+    /** Returns true if field frame is set (has been assigned a value) and false otherwise */
+    public boolean isSetFrame() {
+      return this.frame != null;
+    }
+
+    public void setFrameIsSet(boolean value) {
+      if (!value) {
+        this.frame = null;
+      }
     }
 
     @org.apache.thrift.annotation.Nullable
@@ -13236,6 +13354,14 @@ public class ClientHandlers {
         }
         break;
 
+      case FRAME:
+        if (value == null) {
+          unsetFrame();
+        } else {
+          setFrame((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
       case URL:
         if (value == null) {
           unsetUrl();
@@ -13270,6 +13396,9 @@ public class ClientHandlers {
       case BID:
         return getBid();
 
+      case FRAME:
+        return getFrame();
+
       case URL:
         return getUrl();
 
@@ -13293,6 +13422,8 @@ public class ClientHandlers {
       switch (field) {
       case BID:
         return isSetBid();
+      case FRAME:
+        return isSetFrame();
       case URL:
         return isSetUrl();
       case FRAME_NAME:
@@ -13322,6 +13453,15 @@ public class ClientHandlers {
         if (!(this_present_bid && that_present_bid))
           return false;
         if (this.bid != that.bid)
+          return false;
+      }
+
+      boolean this_present_frame = true && this.isSetFrame();
+      boolean that_present_frame = true && that.isSetFrame();
+      if (this_present_frame || that_present_frame) {
+        if (!(this_present_frame && that_present_frame))
+          return false;
+        if (!this.frame.equals(that.frame))
           return false;
       }
 
@@ -13361,6 +13501,10 @@ public class ClientHandlers {
 
       hashCode = hashCode * 8191 + bid;
 
+      hashCode = hashCode * 8191 + ((isSetFrame()) ? 131071 : 524287);
+      if (isSetFrame())
+        hashCode = hashCode * 8191 + frame.hashCode();
+
       hashCode = hashCode * 8191 + ((isSetUrl()) ? 131071 : 524287);
       if (isSetUrl())
         hashCode = hashCode * 8191 + url.hashCode();
@@ -13388,6 +13532,16 @@ public class ClientHandlers {
       }
       if (isSetBid()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetFrame(), other.isSetFrame());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetFrame()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.frame, other.frame);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -13450,6 +13604,14 @@ public class ClientHandlers {
       sb.append(this.bid);
       first = false;
       if (!first) sb.append(", ");
+      sb.append("frame:");
+      if (this.frame == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.frame);
+      }
+      first = false;
+      if (!first) sb.append(", ");
       sb.append("url:");
       if (this.url == null) {
         sb.append("null");
@@ -13476,6 +13638,9 @@ public class ClientHandlers {
     public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
+      if (frame != null) {
+        frame.validate();
+      }
     }
 
     private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
@@ -13524,7 +13689,16 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 2: // URL
+            case 2: // FRAME
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.frame.read(iprot);
+                struct.setFrameIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 3: // URL
               if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
                 struct.url = iprot.readString();
                 struct.setUrlIsSet(true);
@@ -13532,7 +13706,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 3: // FRAME_NAME
+            case 4: // FRAME_NAME
               if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
                 struct.frameName = iprot.readString();
                 struct.setFrameNameIsSet(true);
@@ -13540,7 +13714,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 4: // GESTURE
+            case 5: // GESTURE
               if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
                 struct.gesture = iprot.readBool();
                 struct.setGestureIsSet(true);
@@ -13567,6 +13741,11 @@ public class ClientHandlers {
         oprot.writeFieldBegin(BID_FIELD_DESC);
         oprot.writeI32(struct.bid);
         oprot.writeFieldEnd();
+        if (struct.frame != null) {
+          oprot.writeFieldBegin(FRAME_FIELD_DESC);
+          struct.frame.write(oprot);
+          oprot.writeFieldEnd();
+        }
         if (struct.url != null) {
           oprot.writeFieldBegin(URL_FIELD_DESC);
           oprot.writeString(struct.url);
@@ -13602,18 +13781,24 @@ public class ClientHandlers {
         if (struct.isSetBid()) {
           optionals.set(0);
         }
-        if (struct.isSetUrl()) {
+        if (struct.isSetFrame()) {
           optionals.set(1);
         }
-        if (struct.isSetFrameName()) {
+        if (struct.isSetUrl()) {
           optionals.set(2);
         }
-        if (struct.isSetGesture()) {
+        if (struct.isSetFrameName()) {
           optionals.set(3);
         }
-        oprot.writeBitSet(optionals, 4);
+        if (struct.isSetGesture()) {
+          optionals.set(4);
+        }
+        oprot.writeBitSet(optionals, 5);
         if (struct.isSetBid()) {
           oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetFrame()) {
+          struct.frame.write(oprot);
         }
         if (struct.isSetUrl()) {
           oprot.writeString(struct.url);
@@ -13629,20 +13814,25 @@ public class ClientHandlers {
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, LifeSpanHandler_OnBeforePopup_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(4);
+        java.util.BitSet incoming = iprot.readBitSet(5);
         if (incoming.get(0)) {
           struct.bid = iprot.readI32();
           struct.setBidIsSet(true);
         }
         if (incoming.get(1)) {
+          struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.frame.read(iprot);
+          struct.setFrameIsSet(true);
+        }
+        if (incoming.get(2)) {
           struct.url = iprot.readString();
           struct.setUrlIsSet(true);
         }
-        if (incoming.get(2)) {
+        if (incoming.get(3)) {
           struct.frameName = iprot.readString();
           struct.setFrameNameIsSet(true);
         }
-        if (incoming.get(3)) {
+        if (incoming.get(4)) {
           struct.gesture = iprot.readBool();
           struct.setGestureIsSet(true);
         }
@@ -16289,18 +16479,21 @@ public class ClientHandlers {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("LoadHandler_OnLoadStart_args");
 
     private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
-    private static final org.apache.thrift.protocol.TField TRANSITION_TYPE_FIELD_DESC = new org.apache.thrift.protocol.TField("transition_type", org.apache.thrift.protocol.TType.I32, (short)2);
+    private static final org.apache.thrift.protocol.TField FRAME_FIELD_DESC = new org.apache.thrift.protocol.TField("frame", org.apache.thrift.protocol.TType.STRUCT, (short)2);
+    private static final org.apache.thrift.protocol.TField TRANSITION_TYPE_FIELD_DESC = new org.apache.thrift.protocol.TField("transition_type", org.apache.thrift.protocol.TType.I32, (short)3);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new LoadHandler_OnLoadStart_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new LoadHandler_OnLoadStart_argsTupleSchemeFactory();
 
     public int bid; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame; // required
     public int transition_type; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       BID((short)1, "bid"),
-      TRANSITION_TYPE((short)2, "transition_type");
+      FRAME((short)2, "frame"),
+      TRANSITION_TYPE((short)3, "transition_type");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -16318,7 +16511,9 @@ public class ClientHandlers {
         switch(fieldId) {
           case 1: // BID
             return BID;
-          case 2: // TRANSITION_TYPE
+          case 2: // FRAME
+            return FRAME;
+          case 3: // TRANSITION_TYPE
             return TRANSITION_TYPE;
           default:
             return null;
@@ -16371,6 +16566,8 @@ public class ClientHandlers {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.FRAME, new org.apache.thrift.meta_data.FieldMetaData("frame", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.TRANSITION_TYPE, new org.apache.thrift.meta_data.FieldMetaData("transition_type", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
@@ -16382,11 +16579,13 @@ public class ClientHandlers {
 
     public LoadHandler_OnLoadStart_args(
       int bid,
+      com.jetbrains.cef.remote.thrift_codegen.RObject frame,
       int transition_type)
     {
       this();
       this.bid = bid;
       setBidIsSet(true);
+      this.frame = frame;
       this.transition_type = transition_type;
       setTransition_typeIsSet(true);
     }
@@ -16397,6 +16596,9 @@ public class ClientHandlers {
     public LoadHandler_OnLoadStart_args(LoadHandler_OnLoadStart_args other) {
       __isset_bitfield = other.__isset_bitfield;
       this.bid = other.bid;
+      if (other.isSetFrame()) {
+        this.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.frame);
+      }
       this.transition_type = other.transition_type;
     }
 
@@ -16409,6 +16611,7 @@ public class ClientHandlers {
     public void clear() {
       setBidIsSet(false);
       this.bid = 0;
+      this.frame = null;
       setTransition_typeIsSet(false);
       this.transition_type = 0;
     }
@@ -16434,6 +16637,31 @@ public class ClientHandlers {
 
     public void setBidIsSet(boolean value) {
       __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getFrame() {
+      return this.frame;
+    }
+
+    public LoadHandler_OnLoadStart_args setFrame(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame) {
+      this.frame = frame;
+      return this;
+    }
+
+    public void unsetFrame() {
+      this.frame = null;
+    }
+
+    /** Returns true if field frame is set (has been assigned a value) and false otherwise */
+    public boolean isSetFrame() {
+      return this.frame != null;
+    }
+
+    public void setFrameIsSet(boolean value) {
+      if (!value) {
+        this.frame = null;
+      }
     }
 
     public int getTransition_type() {
@@ -16470,6 +16698,14 @@ public class ClientHandlers {
         }
         break;
 
+      case FRAME:
+        if (value == null) {
+          unsetFrame();
+        } else {
+          setFrame((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
       case TRANSITION_TYPE:
         if (value == null) {
           unsetTransition_type();
@@ -16488,6 +16724,9 @@ public class ClientHandlers {
       case BID:
         return getBid();
 
+      case FRAME:
+        return getFrame();
+
       case TRANSITION_TYPE:
         return getTransition_type();
 
@@ -16505,6 +16744,8 @@ public class ClientHandlers {
       switch (field) {
       case BID:
         return isSetBid();
+      case FRAME:
+        return isSetFrame();
       case TRANSITION_TYPE:
         return isSetTransition_type();
       }
@@ -16533,6 +16774,15 @@ public class ClientHandlers {
           return false;
       }
 
+      boolean this_present_frame = true && this.isSetFrame();
+      boolean that_present_frame = true && that.isSetFrame();
+      if (this_present_frame || that_present_frame) {
+        if (!(this_present_frame && that_present_frame))
+          return false;
+        if (!this.frame.equals(that.frame))
+          return false;
+      }
+
       boolean this_present_transition_type = true;
       boolean that_present_transition_type = true;
       if (this_present_transition_type || that_present_transition_type) {
@@ -16550,6 +16800,10 @@ public class ClientHandlers {
       int hashCode = 1;
 
       hashCode = hashCode * 8191 + bid;
+
+      hashCode = hashCode * 8191 + ((isSetFrame()) ? 131071 : 524287);
+      if (isSetFrame())
+        hashCode = hashCode * 8191 + frame.hashCode();
 
       hashCode = hashCode * 8191 + transition_type;
 
@@ -16570,6 +16824,16 @@ public class ClientHandlers {
       }
       if (isSetBid()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetFrame(), other.isSetFrame());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetFrame()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.frame, other.frame);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -16612,6 +16876,14 @@ public class ClientHandlers {
       sb.append(this.bid);
       first = false;
       if (!first) sb.append(", ");
+      sb.append("frame:");
+      if (this.frame == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.frame);
+      }
+      first = false;
+      if (!first) sb.append(", ");
       sb.append("transition_type:");
       sb.append(this.transition_type);
       first = false;
@@ -16622,6 +16894,9 @@ public class ClientHandlers {
     public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
+      if (frame != null) {
+        frame.validate();
+      }
     }
 
     private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
@@ -16670,7 +16945,16 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 2: // TRANSITION_TYPE
+            case 2: // FRAME
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.frame.read(iprot);
+                struct.setFrameIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 3: // TRANSITION_TYPE
               if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
                 struct.transition_type = iprot.readI32();
                 struct.setTransition_typeIsSet(true);
@@ -16697,6 +16981,11 @@ public class ClientHandlers {
         oprot.writeFieldBegin(BID_FIELD_DESC);
         oprot.writeI32(struct.bid);
         oprot.writeFieldEnd();
+        if (struct.frame != null) {
+          oprot.writeFieldBegin(FRAME_FIELD_DESC);
+          struct.frame.write(oprot);
+          oprot.writeFieldEnd();
+        }
         oprot.writeFieldBegin(TRANSITION_TYPE_FIELD_DESC);
         oprot.writeI32(struct.transition_type);
         oprot.writeFieldEnd();
@@ -16722,12 +17011,18 @@ public class ClientHandlers {
         if (struct.isSetBid()) {
           optionals.set(0);
         }
-        if (struct.isSetTransition_type()) {
+        if (struct.isSetFrame()) {
           optionals.set(1);
         }
-        oprot.writeBitSet(optionals, 2);
+        if (struct.isSetTransition_type()) {
+          optionals.set(2);
+        }
+        oprot.writeBitSet(optionals, 3);
         if (struct.isSetBid()) {
           oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetFrame()) {
+          struct.frame.write(oprot);
         }
         if (struct.isSetTransition_type()) {
           oprot.writeI32(struct.transition_type);
@@ -16737,12 +17032,17 @@ public class ClientHandlers {
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, LoadHandler_OnLoadStart_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(2);
+        java.util.BitSet incoming = iprot.readBitSet(3);
         if (incoming.get(0)) {
           struct.bid = iprot.readI32();
           struct.setBidIsSet(true);
         }
         if (incoming.get(1)) {
+          struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.frame.read(iprot);
+          struct.setFrameIsSet(true);
+        }
+        if (incoming.get(2)) {
           struct.transition_type = iprot.readI32();
           struct.setTransition_typeIsSet(true);
         }
@@ -16759,18 +17059,21 @@ public class ClientHandlers {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("LoadHandler_OnLoadEnd_args");
 
     private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
-    private static final org.apache.thrift.protocol.TField HTTP_STATUS_CODE_FIELD_DESC = new org.apache.thrift.protocol.TField("httpStatusCode", org.apache.thrift.protocol.TType.I32, (short)2);
+    private static final org.apache.thrift.protocol.TField FRAME_FIELD_DESC = new org.apache.thrift.protocol.TField("frame", org.apache.thrift.protocol.TType.STRUCT, (short)2);
+    private static final org.apache.thrift.protocol.TField HTTP_STATUS_CODE_FIELD_DESC = new org.apache.thrift.protocol.TField("httpStatusCode", org.apache.thrift.protocol.TType.I32, (short)3);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new LoadHandler_OnLoadEnd_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new LoadHandler_OnLoadEnd_argsTupleSchemeFactory();
 
     public int bid; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame; // required
     public int httpStatusCode; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       BID((short)1, "bid"),
-      HTTP_STATUS_CODE((short)2, "httpStatusCode");
+      FRAME((short)2, "frame"),
+      HTTP_STATUS_CODE((short)3, "httpStatusCode");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -16788,7 +17091,9 @@ public class ClientHandlers {
         switch(fieldId) {
           case 1: // BID
             return BID;
-          case 2: // HTTP_STATUS_CODE
+          case 2: // FRAME
+            return FRAME;
+          case 3: // HTTP_STATUS_CODE
             return HTTP_STATUS_CODE;
           default:
             return null;
@@ -16841,6 +17146,8 @@ public class ClientHandlers {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.FRAME, new org.apache.thrift.meta_data.FieldMetaData("frame", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.HTTP_STATUS_CODE, new org.apache.thrift.meta_data.FieldMetaData("httpStatusCode", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
@@ -16852,11 +17159,13 @@ public class ClientHandlers {
 
     public LoadHandler_OnLoadEnd_args(
       int bid,
+      com.jetbrains.cef.remote.thrift_codegen.RObject frame,
       int httpStatusCode)
     {
       this();
       this.bid = bid;
       setBidIsSet(true);
+      this.frame = frame;
       this.httpStatusCode = httpStatusCode;
       setHttpStatusCodeIsSet(true);
     }
@@ -16867,6 +17176,9 @@ public class ClientHandlers {
     public LoadHandler_OnLoadEnd_args(LoadHandler_OnLoadEnd_args other) {
       __isset_bitfield = other.__isset_bitfield;
       this.bid = other.bid;
+      if (other.isSetFrame()) {
+        this.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.frame);
+      }
       this.httpStatusCode = other.httpStatusCode;
     }
 
@@ -16879,6 +17191,7 @@ public class ClientHandlers {
     public void clear() {
       setBidIsSet(false);
       this.bid = 0;
+      this.frame = null;
       setHttpStatusCodeIsSet(false);
       this.httpStatusCode = 0;
     }
@@ -16904,6 +17217,31 @@ public class ClientHandlers {
 
     public void setBidIsSet(boolean value) {
       __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getFrame() {
+      return this.frame;
+    }
+
+    public LoadHandler_OnLoadEnd_args setFrame(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame) {
+      this.frame = frame;
+      return this;
+    }
+
+    public void unsetFrame() {
+      this.frame = null;
+    }
+
+    /** Returns true if field frame is set (has been assigned a value) and false otherwise */
+    public boolean isSetFrame() {
+      return this.frame != null;
+    }
+
+    public void setFrameIsSet(boolean value) {
+      if (!value) {
+        this.frame = null;
+      }
     }
 
     public int getHttpStatusCode() {
@@ -16940,6 +17278,14 @@ public class ClientHandlers {
         }
         break;
 
+      case FRAME:
+        if (value == null) {
+          unsetFrame();
+        } else {
+          setFrame((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
       case HTTP_STATUS_CODE:
         if (value == null) {
           unsetHttpStatusCode();
@@ -16958,6 +17304,9 @@ public class ClientHandlers {
       case BID:
         return getBid();
 
+      case FRAME:
+        return getFrame();
+
       case HTTP_STATUS_CODE:
         return getHttpStatusCode();
 
@@ -16975,6 +17324,8 @@ public class ClientHandlers {
       switch (field) {
       case BID:
         return isSetBid();
+      case FRAME:
+        return isSetFrame();
       case HTTP_STATUS_CODE:
         return isSetHttpStatusCode();
       }
@@ -17003,6 +17354,15 @@ public class ClientHandlers {
           return false;
       }
 
+      boolean this_present_frame = true && this.isSetFrame();
+      boolean that_present_frame = true && that.isSetFrame();
+      if (this_present_frame || that_present_frame) {
+        if (!(this_present_frame && that_present_frame))
+          return false;
+        if (!this.frame.equals(that.frame))
+          return false;
+      }
+
       boolean this_present_httpStatusCode = true;
       boolean that_present_httpStatusCode = true;
       if (this_present_httpStatusCode || that_present_httpStatusCode) {
@@ -17020,6 +17380,10 @@ public class ClientHandlers {
       int hashCode = 1;
 
       hashCode = hashCode * 8191 + bid;
+
+      hashCode = hashCode * 8191 + ((isSetFrame()) ? 131071 : 524287);
+      if (isSetFrame())
+        hashCode = hashCode * 8191 + frame.hashCode();
 
       hashCode = hashCode * 8191 + httpStatusCode;
 
@@ -17040,6 +17404,16 @@ public class ClientHandlers {
       }
       if (isSetBid()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetFrame(), other.isSetFrame());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetFrame()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.frame, other.frame);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -17082,6 +17456,14 @@ public class ClientHandlers {
       sb.append(this.bid);
       first = false;
       if (!first) sb.append(", ");
+      sb.append("frame:");
+      if (this.frame == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.frame);
+      }
+      first = false;
+      if (!first) sb.append(", ");
       sb.append("httpStatusCode:");
       sb.append(this.httpStatusCode);
       first = false;
@@ -17092,6 +17474,9 @@ public class ClientHandlers {
     public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
+      if (frame != null) {
+        frame.validate();
+      }
     }
 
     private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
@@ -17140,7 +17525,16 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 2: // HTTP_STATUS_CODE
+            case 2: // FRAME
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.frame.read(iprot);
+                struct.setFrameIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 3: // HTTP_STATUS_CODE
               if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
                 struct.httpStatusCode = iprot.readI32();
                 struct.setHttpStatusCodeIsSet(true);
@@ -17167,6 +17561,11 @@ public class ClientHandlers {
         oprot.writeFieldBegin(BID_FIELD_DESC);
         oprot.writeI32(struct.bid);
         oprot.writeFieldEnd();
+        if (struct.frame != null) {
+          oprot.writeFieldBegin(FRAME_FIELD_DESC);
+          struct.frame.write(oprot);
+          oprot.writeFieldEnd();
+        }
         oprot.writeFieldBegin(HTTP_STATUS_CODE_FIELD_DESC);
         oprot.writeI32(struct.httpStatusCode);
         oprot.writeFieldEnd();
@@ -17192,12 +17591,18 @@ public class ClientHandlers {
         if (struct.isSetBid()) {
           optionals.set(0);
         }
-        if (struct.isSetHttpStatusCode()) {
+        if (struct.isSetFrame()) {
           optionals.set(1);
         }
-        oprot.writeBitSet(optionals, 2);
+        if (struct.isSetHttpStatusCode()) {
+          optionals.set(2);
+        }
+        oprot.writeBitSet(optionals, 3);
         if (struct.isSetBid()) {
           oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetFrame()) {
+          struct.frame.write(oprot);
         }
         if (struct.isSetHttpStatusCode()) {
           oprot.writeI32(struct.httpStatusCode);
@@ -17207,12 +17612,17 @@ public class ClientHandlers {
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, LoadHandler_OnLoadEnd_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(2);
+        java.util.BitSet incoming = iprot.readBitSet(3);
         if (incoming.get(0)) {
           struct.bid = iprot.readI32();
           struct.setBidIsSet(true);
         }
         if (incoming.get(1)) {
+          struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.frame.read(iprot);
+          struct.setFrameIsSet(true);
+        }
+        if (incoming.get(2)) {
           struct.httpStatusCode = iprot.readI32();
           struct.setHttpStatusCodeIsSet(true);
         }
@@ -17229,14 +17639,16 @@ public class ClientHandlers {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("LoadHandler_OnLoadError_args");
 
     private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
-    private static final org.apache.thrift.protocol.TField ERROR_CODE_FIELD_DESC = new org.apache.thrift.protocol.TField("errorCode", org.apache.thrift.protocol.TType.I32, (short)2);
-    private static final org.apache.thrift.protocol.TField ERROR_TEXT_FIELD_DESC = new org.apache.thrift.protocol.TField("errorText", org.apache.thrift.protocol.TType.STRING, (short)3);
-    private static final org.apache.thrift.protocol.TField FAILED_URL_FIELD_DESC = new org.apache.thrift.protocol.TField("failedUrl", org.apache.thrift.protocol.TType.STRING, (short)4);
+    private static final org.apache.thrift.protocol.TField FRAME_FIELD_DESC = new org.apache.thrift.protocol.TField("frame", org.apache.thrift.protocol.TType.STRUCT, (short)2);
+    private static final org.apache.thrift.protocol.TField ERROR_CODE_FIELD_DESC = new org.apache.thrift.protocol.TField("errorCode", org.apache.thrift.protocol.TType.I32, (short)3);
+    private static final org.apache.thrift.protocol.TField ERROR_TEXT_FIELD_DESC = new org.apache.thrift.protocol.TField("errorText", org.apache.thrift.protocol.TType.STRING, (short)4);
+    private static final org.apache.thrift.protocol.TField FAILED_URL_FIELD_DESC = new org.apache.thrift.protocol.TField("failedUrl", org.apache.thrift.protocol.TType.STRING, (short)5);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new LoadHandler_OnLoadError_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new LoadHandler_OnLoadError_argsTupleSchemeFactory();
 
     public int bid; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame; // required
     public int errorCode; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String errorText; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String failedUrl; // required
@@ -17244,9 +17656,10 @@ public class ClientHandlers {
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       BID((short)1, "bid"),
-      ERROR_CODE((short)2, "errorCode"),
-      ERROR_TEXT((short)3, "errorText"),
-      FAILED_URL((short)4, "failedUrl");
+      FRAME((short)2, "frame"),
+      ERROR_CODE((short)3, "errorCode"),
+      ERROR_TEXT((short)4, "errorText"),
+      FAILED_URL((short)5, "failedUrl");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -17264,11 +17677,13 @@ public class ClientHandlers {
         switch(fieldId) {
           case 1: // BID
             return BID;
-          case 2: // ERROR_CODE
+          case 2: // FRAME
+            return FRAME;
+          case 3: // ERROR_CODE
             return ERROR_CODE;
-          case 3: // ERROR_TEXT
+          case 4: // ERROR_TEXT
             return ERROR_TEXT;
-          case 4: // FAILED_URL
+          case 5: // FAILED_URL
             return FAILED_URL;
           default:
             return null;
@@ -17321,6 +17736,8 @@ public class ClientHandlers {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.FRAME, new org.apache.thrift.meta_data.FieldMetaData("frame", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.ERROR_CODE, new org.apache.thrift.meta_data.FieldMetaData("errorCode", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.ERROR_TEXT, new org.apache.thrift.meta_data.FieldMetaData("errorText", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -17336,6 +17753,7 @@ public class ClientHandlers {
 
     public LoadHandler_OnLoadError_args(
       int bid,
+      com.jetbrains.cef.remote.thrift_codegen.RObject frame,
       int errorCode,
       java.lang.String errorText,
       java.lang.String failedUrl)
@@ -17343,6 +17761,7 @@ public class ClientHandlers {
       this();
       this.bid = bid;
       setBidIsSet(true);
+      this.frame = frame;
       this.errorCode = errorCode;
       setErrorCodeIsSet(true);
       this.errorText = errorText;
@@ -17355,6 +17774,9 @@ public class ClientHandlers {
     public LoadHandler_OnLoadError_args(LoadHandler_OnLoadError_args other) {
       __isset_bitfield = other.__isset_bitfield;
       this.bid = other.bid;
+      if (other.isSetFrame()) {
+        this.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.frame);
+      }
       this.errorCode = other.errorCode;
       if (other.isSetErrorText()) {
         this.errorText = other.errorText;
@@ -17373,6 +17795,7 @@ public class ClientHandlers {
     public void clear() {
       setBidIsSet(false);
       this.bid = 0;
+      this.frame = null;
       setErrorCodeIsSet(false);
       this.errorCode = 0;
       this.errorText = null;
@@ -17400,6 +17823,31 @@ public class ClientHandlers {
 
     public void setBidIsSet(boolean value) {
       __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getFrame() {
+      return this.frame;
+    }
+
+    public LoadHandler_OnLoadError_args setFrame(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame) {
+      this.frame = frame;
+      return this;
+    }
+
+    public void unsetFrame() {
+      this.frame = null;
+    }
+
+    /** Returns true if field frame is set (has been assigned a value) and false otherwise */
+    public boolean isSetFrame() {
+      return this.frame != null;
+    }
+
+    public void setFrameIsSet(boolean value) {
+      if (!value) {
+        this.frame = null;
+      }
     }
 
     public int getErrorCode() {
@@ -17486,6 +17934,14 @@ public class ClientHandlers {
         }
         break;
 
+      case FRAME:
+        if (value == null) {
+          unsetFrame();
+        } else {
+          setFrame((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
       case ERROR_CODE:
         if (value == null) {
           unsetErrorCode();
@@ -17520,6 +17976,9 @@ public class ClientHandlers {
       case BID:
         return getBid();
 
+      case FRAME:
+        return getFrame();
+
       case ERROR_CODE:
         return getErrorCode();
 
@@ -17543,6 +18002,8 @@ public class ClientHandlers {
       switch (field) {
       case BID:
         return isSetBid();
+      case FRAME:
+        return isSetFrame();
       case ERROR_CODE:
         return isSetErrorCode();
       case ERROR_TEXT:
@@ -17572,6 +18033,15 @@ public class ClientHandlers {
         if (!(this_present_bid && that_present_bid))
           return false;
         if (this.bid != that.bid)
+          return false;
+      }
+
+      boolean this_present_frame = true && this.isSetFrame();
+      boolean that_present_frame = true && that.isSetFrame();
+      if (this_present_frame || that_present_frame) {
+        if (!(this_present_frame && that_present_frame))
+          return false;
+        if (!this.frame.equals(that.frame))
           return false;
       }
 
@@ -17611,6 +18081,10 @@ public class ClientHandlers {
 
       hashCode = hashCode * 8191 + bid;
 
+      hashCode = hashCode * 8191 + ((isSetFrame()) ? 131071 : 524287);
+      if (isSetFrame())
+        hashCode = hashCode * 8191 + frame.hashCode();
+
       hashCode = hashCode * 8191 + errorCode;
 
       hashCode = hashCode * 8191 + ((isSetErrorText()) ? 131071 : 524287);
@@ -17638,6 +18112,16 @@ public class ClientHandlers {
       }
       if (isSetBid()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetFrame(), other.isSetFrame());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetFrame()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.frame, other.frame);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -17700,6 +18184,14 @@ public class ClientHandlers {
       sb.append(this.bid);
       first = false;
       if (!first) sb.append(", ");
+      sb.append("frame:");
+      if (this.frame == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.frame);
+      }
+      first = false;
+      if (!first) sb.append(", ");
       sb.append("errorCode:");
       sb.append(this.errorCode);
       first = false;
@@ -17726,6 +18218,9 @@ public class ClientHandlers {
     public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
+      if (frame != null) {
+        frame.validate();
+      }
     }
 
     private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
@@ -17774,7 +18269,16 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 2: // ERROR_CODE
+            case 2: // FRAME
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.frame.read(iprot);
+                struct.setFrameIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 3: // ERROR_CODE
               if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
                 struct.errorCode = iprot.readI32();
                 struct.setErrorCodeIsSet(true);
@@ -17782,7 +18286,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 3: // ERROR_TEXT
+            case 4: // ERROR_TEXT
               if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
                 struct.errorText = iprot.readString();
                 struct.setErrorTextIsSet(true);
@@ -17790,7 +18294,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 4: // FAILED_URL
+            case 5: // FAILED_URL
               if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
                 struct.failedUrl = iprot.readString();
                 struct.setFailedUrlIsSet(true);
@@ -17817,6 +18321,11 @@ public class ClientHandlers {
         oprot.writeFieldBegin(BID_FIELD_DESC);
         oprot.writeI32(struct.bid);
         oprot.writeFieldEnd();
+        if (struct.frame != null) {
+          oprot.writeFieldBegin(FRAME_FIELD_DESC);
+          struct.frame.write(oprot);
+          oprot.writeFieldEnd();
+        }
         oprot.writeFieldBegin(ERROR_CODE_FIELD_DESC);
         oprot.writeI32(struct.errorCode);
         oprot.writeFieldEnd();
@@ -17852,18 +18361,24 @@ public class ClientHandlers {
         if (struct.isSetBid()) {
           optionals.set(0);
         }
-        if (struct.isSetErrorCode()) {
+        if (struct.isSetFrame()) {
           optionals.set(1);
         }
-        if (struct.isSetErrorText()) {
+        if (struct.isSetErrorCode()) {
           optionals.set(2);
         }
-        if (struct.isSetFailedUrl()) {
+        if (struct.isSetErrorText()) {
           optionals.set(3);
         }
-        oprot.writeBitSet(optionals, 4);
+        if (struct.isSetFailedUrl()) {
+          optionals.set(4);
+        }
+        oprot.writeBitSet(optionals, 5);
         if (struct.isSetBid()) {
           oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetFrame()) {
+          struct.frame.write(oprot);
         }
         if (struct.isSetErrorCode()) {
           oprot.writeI32(struct.errorCode);
@@ -17879,20 +18394,25 @@ public class ClientHandlers {
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, LoadHandler_OnLoadError_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(4);
+        java.util.BitSet incoming = iprot.readBitSet(5);
         if (incoming.get(0)) {
           struct.bid = iprot.readI32();
           struct.setBidIsSet(true);
         }
         if (incoming.get(1)) {
+          struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.frame.read(iprot);
+          struct.setFrameIsSet(true);
+        }
+        if (incoming.get(2)) {
           struct.errorCode = iprot.readI32();
           struct.setErrorCodeIsSet(true);
         }
-        if (incoming.get(2)) {
+        if (incoming.get(3)) {
           struct.errorText = iprot.readString();
           struct.setErrorTextIsSet(true);
         }
-        if (incoming.get(3)) {
+        if (incoming.get(4)) {
           struct.failedUrl = iprot.readString();
           struct.setFailedUrlIsSet(true);
         }
@@ -17909,18 +18429,21 @@ public class ClientHandlers {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("DisplayHandler_OnAddressChange_args");
 
     private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
-    private static final org.apache.thrift.protocol.TField URL_FIELD_DESC = new org.apache.thrift.protocol.TField("url", org.apache.thrift.protocol.TType.STRING, (short)2);
+    private static final org.apache.thrift.protocol.TField FRAME_FIELD_DESC = new org.apache.thrift.protocol.TField("frame", org.apache.thrift.protocol.TType.STRUCT, (short)2);
+    private static final org.apache.thrift.protocol.TField URL_FIELD_DESC = new org.apache.thrift.protocol.TField("url", org.apache.thrift.protocol.TType.STRING, (short)3);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new DisplayHandler_OnAddressChange_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new DisplayHandler_OnAddressChange_argsTupleSchemeFactory();
 
     public int bid; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String url; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       BID((short)1, "bid"),
-      URL((short)2, "url");
+      FRAME((short)2, "frame"),
+      URL((short)3, "url");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -17938,7 +18461,9 @@ public class ClientHandlers {
         switch(fieldId) {
           case 1: // BID
             return BID;
-          case 2: // URL
+          case 2: // FRAME
+            return FRAME;
+          case 3: // URL
             return URL;
           default:
             return null;
@@ -17990,6 +18515,8 @@ public class ClientHandlers {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.FRAME, new org.apache.thrift.meta_data.FieldMetaData("frame", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.URL, new org.apache.thrift.meta_data.FieldMetaData("url", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
@@ -18001,11 +18528,13 @@ public class ClientHandlers {
 
     public DisplayHandler_OnAddressChange_args(
       int bid,
+      com.jetbrains.cef.remote.thrift_codegen.RObject frame,
       java.lang.String url)
     {
       this();
       this.bid = bid;
       setBidIsSet(true);
+      this.frame = frame;
       this.url = url;
     }
 
@@ -18015,6 +18544,9 @@ public class ClientHandlers {
     public DisplayHandler_OnAddressChange_args(DisplayHandler_OnAddressChange_args other) {
       __isset_bitfield = other.__isset_bitfield;
       this.bid = other.bid;
+      if (other.isSetFrame()) {
+        this.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.frame);
+      }
       if (other.isSetUrl()) {
         this.url = other.url;
       }
@@ -18029,6 +18561,7 @@ public class ClientHandlers {
     public void clear() {
       setBidIsSet(false);
       this.bid = 0;
+      this.frame = null;
       this.url = null;
     }
 
@@ -18053,6 +18586,31 @@ public class ClientHandlers {
 
     public void setBidIsSet(boolean value) {
       __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getFrame() {
+      return this.frame;
+    }
+
+    public DisplayHandler_OnAddressChange_args setFrame(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame) {
+      this.frame = frame;
+      return this;
+    }
+
+    public void unsetFrame() {
+      this.frame = null;
+    }
+
+    /** Returns true if field frame is set (has been assigned a value) and false otherwise */
+    public boolean isSetFrame() {
+      return this.frame != null;
+    }
+
+    public void setFrameIsSet(boolean value) {
+      if (!value) {
+        this.frame = null;
+      }
     }
 
     @org.apache.thrift.annotation.Nullable
@@ -18091,6 +18649,14 @@ public class ClientHandlers {
         }
         break;
 
+      case FRAME:
+        if (value == null) {
+          unsetFrame();
+        } else {
+          setFrame((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
       case URL:
         if (value == null) {
           unsetUrl();
@@ -18109,6 +18675,9 @@ public class ClientHandlers {
       case BID:
         return getBid();
 
+      case FRAME:
+        return getFrame();
+
       case URL:
         return getUrl();
 
@@ -18126,6 +18695,8 @@ public class ClientHandlers {
       switch (field) {
       case BID:
         return isSetBid();
+      case FRAME:
+        return isSetFrame();
       case URL:
         return isSetUrl();
       }
@@ -18154,6 +18725,15 @@ public class ClientHandlers {
           return false;
       }
 
+      boolean this_present_frame = true && this.isSetFrame();
+      boolean that_present_frame = true && that.isSetFrame();
+      if (this_present_frame || that_present_frame) {
+        if (!(this_present_frame && that_present_frame))
+          return false;
+        if (!this.frame.equals(that.frame))
+          return false;
+      }
+
       boolean this_present_url = true && this.isSetUrl();
       boolean that_present_url = true && that.isSetUrl();
       if (this_present_url || that_present_url) {
@@ -18171,6 +18751,10 @@ public class ClientHandlers {
       int hashCode = 1;
 
       hashCode = hashCode * 8191 + bid;
+
+      hashCode = hashCode * 8191 + ((isSetFrame()) ? 131071 : 524287);
+      if (isSetFrame())
+        hashCode = hashCode * 8191 + frame.hashCode();
 
       hashCode = hashCode * 8191 + ((isSetUrl()) ? 131071 : 524287);
       if (isSetUrl())
@@ -18193,6 +18777,16 @@ public class ClientHandlers {
       }
       if (isSetBid()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetFrame(), other.isSetFrame());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetFrame()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.frame, other.frame);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -18235,6 +18829,14 @@ public class ClientHandlers {
       sb.append(this.bid);
       first = false;
       if (!first) sb.append(", ");
+      sb.append("frame:");
+      if (this.frame == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.frame);
+      }
+      first = false;
+      if (!first) sb.append(", ");
       sb.append("url:");
       if (this.url == null) {
         sb.append("null");
@@ -18249,6 +18851,9 @@ public class ClientHandlers {
     public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
+      if (frame != null) {
+        frame.validate();
+      }
     }
 
     private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
@@ -18297,7 +18902,16 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 2: // URL
+            case 2: // FRAME
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.frame.read(iprot);
+                struct.setFrameIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 3: // URL
               if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
                 struct.url = iprot.readString();
                 struct.setUrlIsSet(true);
@@ -18324,6 +18938,11 @@ public class ClientHandlers {
         oprot.writeFieldBegin(BID_FIELD_DESC);
         oprot.writeI32(struct.bid);
         oprot.writeFieldEnd();
+        if (struct.frame != null) {
+          oprot.writeFieldBegin(FRAME_FIELD_DESC);
+          struct.frame.write(oprot);
+          oprot.writeFieldEnd();
+        }
         if (struct.url != null) {
           oprot.writeFieldBegin(URL_FIELD_DESC);
           oprot.writeString(struct.url);
@@ -18351,12 +18970,18 @@ public class ClientHandlers {
         if (struct.isSetBid()) {
           optionals.set(0);
         }
-        if (struct.isSetUrl()) {
+        if (struct.isSetFrame()) {
           optionals.set(1);
         }
-        oprot.writeBitSet(optionals, 2);
+        if (struct.isSetUrl()) {
+          optionals.set(2);
+        }
+        oprot.writeBitSet(optionals, 3);
         if (struct.isSetBid()) {
           oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetFrame()) {
+          struct.frame.write(oprot);
         }
         if (struct.isSetUrl()) {
           oprot.writeString(struct.url);
@@ -18366,12 +18991,17 @@ public class ClientHandlers {
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, DisplayHandler_OnAddressChange_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(2);
+        java.util.BitSet incoming = iprot.readBitSet(3);
         if (incoming.get(0)) {
           struct.bid = iprot.readI32();
           struct.setBidIsSet(true);
         }
         if (incoming.get(1)) {
+          struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.frame.read(iprot);
+          struct.setFrameIsSet(true);
+        }
+        if (incoming.get(2)) {
           struct.url = iprot.readString();
           struct.setUrlIsSet(true);
         }
@@ -24767,14 +25397,16 @@ public class ClientHandlers {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("RequestHandler_OnBeforeBrowse_args");
 
     private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
-    private static final org.apache.thrift.protocol.TField REQUEST_FIELD_DESC = new org.apache.thrift.protocol.TField("request", org.apache.thrift.protocol.TType.STRUCT, (short)2);
-    private static final org.apache.thrift.protocol.TField USER_GESTURE_FIELD_DESC = new org.apache.thrift.protocol.TField("user_gesture", org.apache.thrift.protocol.TType.BOOL, (short)3);
-    private static final org.apache.thrift.protocol.TField IS_REDIRECT_FIELD_DESC = new org.apache.thrift.protocol.TField("is_redirect", org.apache.thrift.protocol.TType.BOOL, (short)4);
+    private static final org.apache.thrift.protocol.TField FRAME_FIELD_DESC = new org.apache.thrift.protocol.TField("frame", org.apache.thrift.protocol.TType.STRUCT, (short)2);
+    private static final org.apache.thrift.protocol.TField REQUEST_FIELD_DESC = new org.apache.thrift.protocol.TField("request", org.apache.thrift.protocol.TType.STRUCT, (short)3);
+    private static final org.apache.thrift.protocol.TField USER_GESTURE_FIELD_DESC = new org.apache.thrift.protocol.TField("user_gesture", org.apache.thrift.protocol.TType.BOOL, (short)4);
+    private static final org.apache.thrift.protocol.TField IS_REDIRECT_FIELD_DESC = new org.apache.thrift.protocol.TField("is_redirect", org.apache.thrift.protocol.TType.BOOL, (short)5);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RequestHandler_OnBeforeBrowse_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RequestHandler_OnBeforeBrowse_argsTupleSchemeFactory();
 
     public int bid; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame; // required
     public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request; // required
     public boolean user_gesture; // required
     public boolean is_redirect; // required
@@ -24782,9 +25414,10 @@ public class ClientHandlers {
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       BID((short)1, "bid"),
-      REQUEST((short)2, "request"),
-      USER_GESTURE((short)3, "user_gesture"),
-      IS_REDIRECT((short)4, "is_redirect");
+      FRAME((short)2, "frame"),
+      REQUEST((short)3, "request"),
+      USER_GESTURE((short)4, "user_gesture"),
+      IS_REDIRECT((short)5, "is_redirect");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -24802,11 +25435,13 @@ public class ClientHandlers {
         switch(fieldId) {
           case 1: // BID
             return BID;
-          case 2: // REQUEST
+          case 2: // FRAME
+            return FRAME;
+          case 3: // REQUEST
             return REQUEST;
-          case 3: // USER_GESTURE
+          case 4: // USER_GESTURE
             return USER_GESTURE;
-          case 4: // IS_REDIRECT
+          case 5: // IS_REDIRECT
             return IS_REDIRECT;
           default:
             return null;
@@ -24860,6 +25495,8 @@ public class ClientHandlers {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.FRAME, new org.apache.thrift.meta_data.FieldMetaData("frame", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.REQUEST, new org.apache.thrift.meta_data.FieldMetaData("request", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.USER_GESTURE, new org.apache.thrift.meta_data.FieldMetaData("user_gesture", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -24875,6 +25512,7 @@ public class ClientHandlers {
 
     public RequestHandler_OnBeforeBrowse_args(
       int bid,
+      com.jetbrains.cef.remote.thrift_codegen.RObject frame,
       com.jetbrains.cef.remote.thrift_codegen.RObject request,
       boolean user_gesture,
       boolean is_redirect)
@@ -24882,6 +25520,7 @@ public class ClientHandlers {
       this();
       this.bid = bid;
       setBidIsSet(true);
+      this.frame = frame;
       this.request = request;
       this.user_gesture = user_gesture;
       setUser_gestureIsSet(true);
@@ -24895,6 +25534,9 @@ public class ClientHandlers {
     public RequestHandler_OnBeforeBrowse_args(RequestHandler_OnBeforeBrowse_args other) {
       __isset_bitfield = other.__isset_bitfield;
       this.bid = other.bid;
+      if (other.isSetFrame()) {
+        this.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.frame);
+      }
       if (other.isSetRequest()) {
         this.request = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.request);
       }
@@ -24911,6 +25553,7 @@ public class ClientHandlers {
     public void clear() {
       setBidIsSet(false);
       this.bid = 0;
+      this.frame = null;
       this.request = null;
       setUser_gestureIsSet(false);
       this.user_gesture = false;
@@ -24939,6 +25582,31 @@ public class ClientHandlers {
 
     public void setBidIsSet(boolean value) {
       __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getFrame() {
+      return this.frame;
+    }
+
+    public RequestHandler_OnBeforeBrowse_args setFrame(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame) {
+      this.frame = frame;
+      return this;
+    }
+
+    public void unsetFrame() {
+      this.frame = null;
+    }
+
+    /** Returns true if field frame is set (has been assigned a value) and false otherwise */
+    public boolean isSetFrame() {
+      return this.frame != null;
+    }
+
+    public void setFrameIsSet(boolean value) {
+      if (!value) {
+        this.frame = null;
+      }
     }
 
     @org.apache.thrift.annotation.Nullable
@@ -25023,6 +25691,14 @@ public class ClientHandlers {
         }
         break;
 
+      case FRAME:
+        if (value == null) {
+          unsetFrame();
+        } else {
+          setFrame((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
       case REQUEST:
         if (value == null) {
           unsetRequest();
@@ -25057,6 +25733,9 @@ public class ClientHandlers {
       case BID:
         return getBid();
 
+      case FRAME:
+        return getFrame();
+
       case REQUEST:
         return getRequest();
 
@@ -25080,6 +25759,8 @@ public class ClientHandlers {
       switch (field) {
       case BID:
         return isSetBid();
+      case FRAME:
+        return isSetFrame();
       case REQUEST:
         return isSetRequest();
       case USER_GESTURE:
@@ -25109,6 +25790,15 @@ public class ClientHandlers {
         if (!(this_present_bid && that_present_bid))
           return false;
         if (this.bid != that.bid)
+          return false;
+      }
+
+      boolean this_present_frame = true && this.isSetFrame();
+      boolean that_present_frame = true && that.isSetFrame();
+      if (this_present_frame || that_present_frame) {
+        if (!(this_present_frame && that_present_frame))
+          return false;
+        if (!this.frame.equals(that.frame))
           return false;
       }
 
@@ -25148,6 +25838,10 @@ public class ClientHandlers {
 
       hashCode = hashCode * 8191 + bid;
 
+      hashCode = hashCode * 8191 + ((isSetFrame()) ? 131071 : 524287);
+      if (isSetFrame())
+        hashCode = hashCode * 8191 + frame.hashCode();
+
       hashCode = hashCode * 8191 + ((isSetRequest()) ? 131071 : 524287);
       if (isSetRequest())
         hashCode = hashCode * 8191 + request.hashCode();
@@ -25173,6 +25867,16 @@ public class ClientHandlers {
       }
       if (isSetBid()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetFrame(), other.isSetFrame());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetFrame()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.frame, other.frame);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -25235,6 +25939,14 @@ public class ClientHandlers {
       sb.append(this.bid);
       first = false;
       if (!first) sb.append(", ");
+      sb.append("frame:");
+      if (this.frame == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.frame);
+      }
+      first = false;
+      if (!first) sb.append(", ");
       sb.append("request:");
       if (this.request == null) {
         sb.append("null");
@@ -25257,6 +25969,9 @@ public class ClientHandlers {
     public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
+      if (frame != null) {
+        frame.validate();
+      }
       if (request != null) {
         request.validate();
       }
@@ -25308,7 +26023,16 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 2: // REQUEST
+            case 2: // FRAME
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.frame.read(iprot);
+                struct.setFrameIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 3: // REQUEST
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
                 struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.request.read(iprot);
@@ -25317,7 +26041,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 3: // USER_GESTURE
+            case 4: // USER_GESTURE
               if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
                 struct.user_gesture = iprot.readBool();
                 struct.setUser_gestureIsSet(true);
@@ -25325,7 +26049,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 4: // IS_REDIRECT
+            case 5: // IS_REDIRECT
               if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
                 struct.is_redirect = iprot.readBool();
                 struct.setIs_redirectIsSet(true);
@@ -25352,6 +26076,11 @@ public class ClientHandlers {
         oprot.writeFieldBegin(BID_FIELD_DESC);
         oprot.writeI32(struct.bid);
         oprot.writeFieldEnd();
+        if (struct.frame != null) {
+          oprot.writeFieldBegin(FRAME_FIELD_DESC);
+          struct.frame.write(oprot);
+          oprot.writeFieldEnd();
+        }
         if (struct.request != null) {
           oprot.writeFieldBegin(REQUEST_FIELD_DESC);
           struct.request.write(oprot);
@@ -25385,18 +26114,24 @@ public class ClientHandlers {
         if (struct.isSetBid()) {
           optionals.set(0);
         }
-        if (struct.isSetRequest()) {
+        if (struct.isSetFrame()) {
           optionals.set(1);
         }
-        if (struct.isSetUser_gesture()) {
+        if (struct.isSetRequest()) {
           optionals.set(2);
         }
-        if (struct.isSetIs_redirect()) {
+        if (struct.isSetUser_gesture()) {
           optionals.set(3);
         }
-        oprot.writeBitSet(optionals, 4);
+        if (struct.isSetIs_redirect()) {
+          optionals.set(4);
+        }
+        oprot.writeBitSet(optionals, 5);
         if (struct.isSetBid()) {
           oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetFrame()) {
+          struct.frame.write(oprot);
         }
         if (struct.isSetRequest()) {
           struct.request.write(oprot);
@@ -25412,21 +26147,26 @@ public class ClientHandlers {
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, RequestHandler_OnBeforeBrowse_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(4);
+        java.util.BitSet incoming = iprot.readBitSet(5);
         if (incoming.get(0)) {
           struct.bid = iprot.readI32();
           struct.setBidIsSet(true);
         }
         if (incoming.get(1)) {
+          struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.frame.read(iprot);
+          struct.setFrameIsSet(true);
+        }
+        if (incoming.get(2)) {
           struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.request.read(iprot);
           struct.setRequestIsSet(true);
         }
-        if (incoming.get(2)) {
+        if (incoming.get(3)) {
           struct.user_gesture = iprot.readBool();
           struct.setUser_gestureIsSet(true);
         }
-        if (incoming.get(3)) {
+        if (incoming.get(4)) {
           struct.is_redirect = iprot.readBool();
           struct.setIs_redirectIsSet(true);
         }
@@ -25818,21 +26558,24 @@ public class ClientHandlers {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("RequestHandler_OnOpenURLFromTab_args");
 
     private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
-    private static final org.apache.thrift.protocol.TField TARGET_URL_FIELD_DESC = new org.apache.thrift.protocol.TField("target_url", org.apache.thrift.protocol.TType.STRING, (short)2);
-    private static final org.apache.thrift.protocol.TField USER_GESTURE_FIELD_DESC = new org.apache.thrift.protocol.TField("user_gesture", org.apache.thrift.protocol.TType.BOOL, (short)3);
+    private static final org.apache.thrift.protocol.TField FRAME_FIELD_DESC = new org.apache.thrift.protocol.TField("frame", org.apache.thrift.protocol.TType.STRUCT, (short)2);
+    private static final org.apache.thrift.protocol.TField TARGET_URL_FIELD_DESC = new org.apache.thrift.protocol.TField("target_url", org.apache.thrift.protocol.TType.STRING, (short)3);
+    private static final org.apache.thrift.protocol.TField USER_GESTURE_FIELD_DESC = new org.apache.thrift.protocol.TField("user_gesture", org.apache.thrift.protocol.TType.BOOL, (short)4);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RequestHandler_OnOpenURLFromTab_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RequestHandler_OnOpenURLFromTab_argsTupleSchemeFactory();
 
     public int bid; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String target_url; // required
     public boolean user_gesture; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       BID((short)1, "bid"),
-      TARGET_URL((short)2, "target_url"),
-      USER_GESTURE((short)3, "user_gesture");
+      FRAME((short)2, "frame"),
+      TARGET_URL((short)3, "target_url"),
+      USER_GESTURE((short)4, "user_gesture");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -25850,9 +26593,11 @@ public class ClientHandlers {
         switch(fieldId) {
           case 1: // BID
             return BID;
-          case 2: // TARGET_URL
+          case 2: // FRAME
+            return FRAME;
+          case 3: // TARGET_URL
             return TARGET_URL;
-          case 3: // USER_GESTURE
+          case 4: // USER_GESTURE
             return USER_GESTURE;
           default:
             return null;
@@ -25905,6 +26650,8 @@ public class ClientHandlers {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.FRAME, new org.apache.thrift.meta_data.FieldMetaData("frame", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.TARGET_URL, new org.apache.thrift.meta_data.FieldMetaData("target_url", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       tmpMap.put(_Fields.USER_GESTURE, new org.apache.thrift.meta_data.FieldMetaData("user_gesture", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -25918,12 +26665,14 @@ public class ClientHandlers {
 
     public RequestHandler_OnOpenURLFromTab_args(
       int bid,
+      com.jetbrains.cef.remote.thrift_codegen.RObject frame,
       java.lang.String target_url,
       boolean user_gesture)
     {
       this();
       this.bid = bid;
       setBidIsSet(true);
+      this.frame = frame;
       this.target_url = target_url;
       this.user_gesture = user_gesture;
       setUser_gestureIsSet(true);
@@ -25935,6 +26684,9 @@ public class ClientHandlers {
     public RequestHandler_OnOpenURLFromTab_args(RequestHandler_OnOpenURLFromTab_args other) {
       __isset_bitfield = other.__isset_bitfield;
       this.bid = other.bid;
+      if (other.isSetFrame()) {
+        this.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.frame);
+      }
       if (other.isSetTarget_url()) {
         this.target_url = other.target_url;
       }
@@ -25950,6 +26702,7 @@ public class ClientHandlers {
     public void clear() {
       setBidIsSet(false);
       this.bid = 0;
+      this.frame = null;
       this.target_url = null;
       setUser_gestureIsSet(false);
       this.user_gesture = false;
@@ -25976,6 +26729,31 @@ public class ClientHandlers {
 
     public void setBidIsSet(boolean value) {
       __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getFrame() {
+      return this.frame;
+    }
+
+    public RequestHandler_OnOpenURLFromTab_args setFrame(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame) {
+      this.frame = frame;
+      return this;
+    }
+
+    public void unsetFrame() {
+      this.frame = null;
+    }
+
+    /** Returns true if field frame is set (has been assigned a value) and false otherwise */
+    public boolean isSetFrame() {
+      return this.frame != null;
+    }
+
+    public void setFrameIsSet(boolean value) {
+      if (!value) {
+        this.frame = null;
+      }
     }
 
     @org.apache.thrift.annotation.Nullable
@@ -26037,6 +26815,14 @@ public class ClientHandlers {
         }
         break;
 
+      case FRAME:
+        if (value == null) {
+          unsetFrame();
+        } else {
+          setFrame((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
       case TARGET_URL:
         if (value == null) {
           unsetTarget_url();
@@ -26063,6 +26849,9 @@ public class ClientHandlers {
       case BID:
         return getBid();
 
+      case FRAME:
+        return getFrame();
+
       case TARGET_URL:
         return getTarget_url();
 
@@ -26083,6 +26872,8 @@ public class ClientHandlers {
       switch (field) {
       case BID:
         return isSetBid();
+      case FRAME:
+        return isSetFrame();
       case TARGET_URL:
         return isSetTarget_url();
       case USER_GESTURE:
@@ -26113,6 +26904,15 @@ public class ClientHandlers {
           return false;
       }
 
+      boolean this_present_frame = true && this.isSetFrame();
+      boolean that_present_frame = true && that.isSetFrame();
+      if (this_present_frame || that_present_frame) {
+        if (!(this_present_frame && that_present_frame))
+          return false;
+        if (!this.frame.equals(that.frame))
+          return false;
+      }
+
       boolean this_present_target_url = true && this.isSetTarget_url();
       boolean that_present_target_url = true && that.isSetTarget_url();
       if (this_present_target_url || that_present_target_url) {
@@ -26140,6 +26940,10 @@ public class ClientHandlers {
 
       hashCode = hashCode * 8191 + bid;
 
+      hashCode = hashCode * 8191 + ((isSetFrame()) ? 131071 : 524287);
+      if (isSetFrame())
+        hashCode = hashCode * 8191 + frame.hashCode();
+
       hashCode = hashCode * 8191 + ((isSetTarget_url()) ? 131071 : 524287);
       if (isSetTarget_url())
         hashCode = hashCode * 8191 + target_url.hashCode();
@@ -26163,6 +26967,16 @@ public class ClientHandlers {
       }
       if (isSetBid()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetFrame(), other.isSetFrame());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetFrame()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.frame, other.frame);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -26215,6 +27029,14 @@ public class ClientHandlers {
       sb.append(this.bid);
       first = false;
       if (!first) sb.append(", ");
+      sb.append("frame:");
+      if (this.frame == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.frame);
+      }
+      first = false;
+      if (!first) sb.append(", ");
       sb.append("target_url:");
       if (this.target_url == null) {
         sb.append("null");
@@ -26233,6 +27055,9 @@ public class ClientHandlers {
     public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
+      if (frame != null) {
+        frame.validate();
+      }
     }
 
     private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
@@ -26281,7 +27106,16 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 2: // TARGET_URL
+            case 2: // FRAME
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.frame.read(iprot);
+                struct.setFrameIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 3: // TARGET_URL
               if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
                 struct.target_url = iprot.readString();
                 struct.setTarget_urlIsSet(true);
@@ -26289,7 +27123,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 3: // USER_GESTURE
+            case 4: // USER_GESTURE
               if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
                 struct.user_gesture = iprot.readBool();
                 struct.setUser_gestureIsSet(true);
@@ -26316,6 +27150,11 @@ public class ClientHandlers {
         oprot.writeFieldBegin(BID_FIELD_DESC);
         oprot.writeI32(struct.bid);
         oprot.writeFieldEnd();
+        if (struct.frame != null) {
+          oprot.writeFieldBegin(FRAME_FIELD_DESC);
+          struct.frame.write(oprot);
+          oprot.writeFieldEnd();
+        }
         if (struct.target_url != null) {
           oprot.writeFieldBegin(TARGET_URL_FIELD_DESC);
           oprot.writeString(struct.target_url);
@@ -26346,15 +27185,21 @@ public class ClientHandlers {
         if (struct.isSetBid()) {
           optionals.set(0);
         }
-        if (struct.isSetTarget_url()) {
+        if (struct.isSetFrame()) {
           optionals.set(1);
         }
-        if (struct.isSetUser_gesture()) {
+        if (struct.isSetTarget_url()) {
           optionals.set(2);
         }
-        oprot.writeBitSet(optionals, 3);
+        if (struct.isSetUser_gesture()) {
+          optionals.set(3);
+        }
+        oprot.writeBitSet(optionals, 4);
         if (struct.isSetBid()) {
           oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetFrame()) {
+          struct.frame.write(oprot);
         }
         if (struct.isSetTarget_url()) {
           oprot.writeString(struct.target_url);
@@ -26367,16 +27212,21 @@ public class ClientHandlers {
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, RequestHandler_OnOpenURLFromTab_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(3);
+        java.util.BitSet incoming = iprot.readBitSet(4);
         if (incoming.get(0)) {
           struct.bid = iprot.readI32();
           struct.setBidIsSet(true);
         }
         if (incoming.get(1)) {
+          struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.frame.read(iprot);
+          struct.setFrameIsSet(true);
+        }
+        if (incoming.get(2)) {
           struct.target_url = iprot.readString();
           struct.setTarget_urlIsSet(true);
         }
-        if (incoming.get(2)) {
+        if (incoming.get(3)) {
           struct.user_gesture = iprot.readBool();
           struct.setUser_gestureIsSet(true);
         }
@@ -29905,15 +30755,17 @@ public class ClientHandlers {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("RequestHandler_GetResourceRequestHandler_args");
 
     private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
-    private static final org.apache.thrift.protocol.TField REQUEST_FIELD_DESC = new org.apache.thrift.protocol.TField("request", org.apache.thrift.protocol.TType.STRUCT, (short)2);
-    private static final org.apache.thrift.protocol.TField IS_NAVIGATION_FIELD_DESC = new org.apache.thrift.protocol.TField("isNavigation", org.apache.thrift.protocol.TType.BOOL, (short)3);
-    private static final org.apache.thrift.protocol.TField IS_DOWNLOAD_FIELD_DESC = new org.apache.thrift.protocol.TField("isDownload", org.apache.thrift.protocol.TType.BOOL, (short)4);
-    private static final org.apache.thrift.protocol.TField REQUEST_INITIATOR_FIELD_DESC = new org.apache.thrift.protocol.TField("requestInitiator", org.apache.thrift.protocol.TType.STRING, (short)5);
+    private static final org.apache.thrift.protocol.TField FRAME_FIELD_DESC = new org.apache.thrift.protocol.TField("frame", org.apache.thrift.protocol.TType.STRUCT, (short)2);
+    private static final org.apache.thrift.protocol.TField REQUEST_FIELD_DESC = new org.apache.thrift.protocol.TField("request", org.apache.thrift.protocol.TType.STRUCT, (short)3);
+    private static final org.apache.thrift.protocol.TField IS_NAVIGATION_FIELD_DESC = new org.apache.thrift.protocol.TField("isNavigation", org.apache.thrift.protocol.TType.BOOL, (short)4);
+    private static final org.apache.thrift.protocol.TField IS_DOWNLOAD_FIELD_DESC = new org.apache.thrift.protocol.TField("isDownload", org.apache.thrift.protocol.TType.BOOL, (short)5);
+    private static final org.apache.thrift.protocol.TField REQUEST_INITIATOR_FIELD_DESC = new org.apache.thrift.protocol.TField("requestInitiator", org.apache.thrift.protocol.TType.STRING, (short)6);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RequestHandler_GetResourceRequestHandler_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RequestHandler_GetResourceRequestHandler_argsTupleSchemeFactory();
 
     public int bid; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame; // required
     public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request; // required
     public boolean isNavigation; // required
     public boolean isDownload; // required
@@ -29922,10 +30774,11 @@ public class ClientHandlers {
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       BID((short)1, "bid"),
-      REQUEST((short)2, "request"),
-      IS_NAVIGATION((short)3, "isNavigation"),
-      IS_DOWNLOAD((short)4, "isDownload"),
-      REQUEST_INITIATOR((short)5, "requestInitiator");
+      FRAME((short)2, "frame"),
+      REQUEST((short)3, "request"),
+      IS_NAVIGATION((short)4, "isNavigation"),
+      IS_DOWNLOAD((short)5, "isDownload"),
+      REQUEST_INITIATOR((short)6, "requestInitiator");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -29943,13 +30796,15 @@ public class ClientHandlers {
         switch(fieldId) {
           case 1: // BID
             return BID;
-          case 2: // REQUEST
+          case 2: // FRAME
+            return FRAME;
+          case 3: // REQUEST
             return REQUEST;
-          case 3: // IS_NAVIGATION
+          case 4: // IS_NAVIGATION
             return IS_NAVIGATION;
-          case 4: // IS_DOWNLOAD
+          case 5: // IS_DOWNLOAD
             return IS_DOWNLOAD;
-          case 5: // REQUEST_INITIATOR
+          case 6: // REQUEST_INITIATOR
             return REQUEST_INITIATOR;
           default:
             return null;
@@ -30003,6 +30858,8 @@ public class ClientHandlers {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.FRAME, new org.apache.thrift.meta_data.FieldMetaData("frame", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.REQUEST, new org.apache.thrift.meta_data.FieldMetaData("request", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.IS_NAVIGATION, new org.apache.thrift.meta_data.FieldMetaData("isNavigation", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -30020,6 +30877,7 @@ public class ClientHandlers {
 
     public RequestHandler_GetResourceRequestHandler_args(
       int bid,
+      com.jetbrains.cef.remote.thrift_codegen.RObject frame,
       com.jetbrains.cef.remote.thrift_codegen.RObject request,
       boolean isNavigation,
       boolean isDownload,
@@ -30028,6 +30886,7 @@ public class ClientHandlers {
       this();
       this.bid = bid;
       setBidIsSet(true);
+      this.frame = frame;
       this.request = request;
       this.isNavigation = isNavigation;
       setIsNavigationIsSet(true);
@@ -30042,6 +30901,9 @@ public class ClientHandlers {
     public RequestHandler_GetResourceRequestHandler_args(RequestHandler_GetResourceRequestHandler_args other) {
       __isset_bitfield = other.__isset_bitfield;
       this.bid = other.bid;
+      if (other.isSetFrame()) {
+        this.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.frame);
+      }
       if (other.isSetRequest()) {
         this.request = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.request);
       }
@@ -30061,6 +30923,7 @@ public class ClientHandlers {
     public void clear() {
       setBidIsSet(false);
       this.bid = 0;
+      this.frame = null;
       this.request = null;
       setIsNavigationIsSet(false);
       this.isNavigation = false;
@@ -30090,6 +30953,31 @@ public class ClientHandlers {
 
     public void setBidIsSet(boolean value) {
       __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getFrame() {
+      return this.frame;
+    }
+
+    public RequestHandler_GetResourceRequestHandler_args setFrame(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame) {
+      this.frame = frame;
+      return this;
+    }
+
+    public void unsetFrame() {
+      this.frame = null;
+    }
+
+    /** Returns true if field frame is set (has been assigned a value) and false otherwise */
+    public boolean isSetFrame() {
+      return this.frame != null;
+    }
+
+    public void setFrameIsSet(boolean value) {
+      if (!value) {
+        this.frame = null;
+      }
     }
 
     @org.apache.thrift.annotation.Nullable
@@ -30199,6 +31087,14 @@ public class ClientHandlers {
         }
         break;
 
+      case FRAME:
+        if (value == null) {
+          unsetFrame();
+        } else {
+          setFrame((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
       case REQUEST:
         if (value == null) {
           unsetRequest();
@@ -30241,6 +31137,9 @@ public class ClientHandlers {
       case BID:
         return getBid();
 
+      case FRAME:
+        return getFrame();
+
       case REQUEST:
         return getRequest();
 
@@ -30267,6 +31166,8 @@ public class ClientHandlers {
       switch (field) {
       case BID:
         return isSetBid();
+      case FRAME:
+        return isSetFrame();
       case REQUEST:
         return isSetRequest();
       case IS_NAVIGATION:
@@ -30298,6 +31199,15 @@ public class ClientHandlers {
         if (!(this_present_bid && that_present_bid))
           return false;
         if (this.bid != that.bid)
+          return false;
+      }
+
+      boolean this_present_frame = true && this.isSetFrame();
+      boolean that_present_frame = true && that.isSetFrame();
+      if (this_present_frame || that_present_frame) {
+        if (!(this_present_frame && that_present_frame))
+          return false;
+        if (!this.frame.equals(that.frame))
           return false;
       }
 
@@ -30346,6 +31256,10 @@ public class ClientHandlers {
 
       hashCode = hashCode * 8191 + bid;
 
+      hashCode = hashCode * 8191 + ((isSetFrame()) ? 131071 : 524287);
+      if (isSetFrame())
+        hashCode = hashCode * 8191 + frame.hashCode();
+
       hashCode = hashCode * 8191 + ((isSetRequest()) ? 131071 : 524287);
       if (isSetRequest())
         hashCode = hashCode * 8191 + request.hashCode();
@@ -30375,6 +31289,16 @@ public class ClientHandlers {
       }
       if (isSetBid()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetFrame(), other.isSetFrame());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetFrame()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.frame, other.frame);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -30447,6 +31371,14 @@ public class ClientHandlers {
       sb.append(this.bid);
       first = false;
       if (!first) sb.append(", ");
+      sb.append("frame:");
+      if (this.frame == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.frame);
+      }
+      first = false;
+      if (!first) sb.append(", ");
       sb.append("request:");
       if (this.request == null) {
         sb.append("null");
@@ -30477,6 +31409,9 @@ public class ClientHandlers {
     public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
+      if (frame != null) {
+        frame.validate();
+      }
       if (request != null) {
         request.validate();
       }
@@ -30528,7 +31463,16 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 2: // REQUEST
+            case 2: // FRAME
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.frame.read(iprot);
+                struct.setFrameIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 3: // REQUEST
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
                 struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.request.read(iprot);
@@ -30537,7 +31481,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 3: // IS_NAVIGATION
+            case 4: // IS_NAVIGATION
               if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
                 struct.isNavigation = iprot.readBool();
                 struct.setIsNavigationIsSet(true);
@@ -30545,7 +31489,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 4: // IS_DOWNLOAD
+            case 5: // IS_DOWNLOAD
               if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
                 struct.isDownload = iprot.readBool();
                 struct.setIsDownloadIsSet(true);
@@ -30553,7 +31497,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 5: // REQUEST_INITIATOR
+            case 6: // REQUEST_INITIATOR
               if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
                 struct.requestInitiator = iprot.readString();
                 struct.setRequestInitiatorIsSet(true);
@@ -30580,6 +31524,11 @@ public class ClientHandlers {
         oprot.writeFieldBegin(BID_FIELD_DESC);
         oprot.writeI32(struct.bid);
         oprot.writeFieldEnd();
+        if (struct.frame != null) {
+          oprot.writeFieldBegin(FRAME_FIELD_DESC);
+          struct.frame.write(oprot);
+          oprot.writeFieldEnd();
+        }
         if (struct.request != null) {
           oprot.writeFieldBegin(REQUEST_FIELD_DESC);
           struct.request.write(oprot);
@@ -30618,21 +31567,27 @@ public class ClientHandlers {
         if (struct.isSetBid()) {
           optionals.set(0);
         }
-        if (struct.isSetRequest()) {
+        if (struct.isSetFrame()) {
           optionals.set(1);
         }
-        if (struct.isSetIsNavigation()) {
+        if (struct.isSetRequest()) {
           optionals.set(2);
         }
-        if (struct.isSetIsDownload()) {
+        if (struct.isSetIsNavigation()) {
           optionals.set(3);
         }
-        if (struct.isSetRequestInitiator()) {
+        if (struct.isSetIsDownload()) {
           optionals.set(4);
         }
-        oprot.writeBitSet(optionals, 5);
+        if (struct.isSetRequestInitiator()) {
+          optionals.set(5);
+        }
+        oprot.writeBitSet(optionals, 6);
         if (struct.isSetBid()) {
           oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetFrame()) {
+          struct.frame.write(oprot);
         }
         if (struct.isSetRequest()) {
           struct.request.write(oprot);
@@ -30651,25 +31606,30 @@ public class ClientHandlers {
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, RequestHandler_GetResourceRequestHandler_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(5);
+        java.util.BitSet incoming = iprot.readBitSet(6);
         if (incoming.get(0)) {
           struct.bid = iprot.readI32();
           struct.setBidIsSet(true);
         }
         if (incoming.get(1)) {
+          struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.frame.read(iprot);
+          struct.setFrameIsSet(true);
+        }
+        if (incoming.get(2)) {
           struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.request.read(iprot);
           struct.setRequestIsSet(true);
         }
-        if (incoming.get(2)) {
+        if (incoming.get(3)) {
           struct.isNavigation = iprot.readBool();
           struct.setIsNavigationIsSet(true);
         }
-        if (incoming.get(3)) {
+        if (incoming.get(4)) {
           struct.isDownload = iprot.readBool();
           struct.setIsDownloadIsSet(true);
         }
-        if (incoming.get(4)) {
+        if (incoming.get(5)) {
           struct.requestInitiator = iprot.readString();
           struct.setRequestInitiatorIsSet(true);
         }
@@ -31444,20 +32404,23 @@ public class ClientHandlers {
 
     private static final org.apache.thrift.protocol.TField RR_HANDLER_FIELD_DESC = new org.apache.thrift.protocol.TField("rrHandler", org.apache.thrift.protocol.TType.I32, (short)1);
     private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)2);
-    private static final org.apache.thrift.protocol.TField REQUEST_FIELD_DESC = new org.apache.thrift.protocol.TField("request", org.apache.thrift.protocol.TType.STRUCT, (short)3);
+    private static final org.apache.thrift.protocol.TField FRAME_FIELD_DESC = new org.apache.thrift.protocol.TField("frame", org.apache.thrift.protocol.TType.STRUCT, (short)3);
+    private static final org.apache.thrift.protocol.TField REQUEST_FIELD_DESC = new org.apache.thrift.protocol.TField("request", org.apache.thrift.protocol.TType.STRUCT, (short)4);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new ResourceRequestHandler_GetCookieAccessFilter_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new ResourceRequestHandler_GetCookieAccessFilter_argsTupleSchemeFactory();
 
     public int rrHandler; // required
     public int bid; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame; // required
     public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       RR_HANDLER((short)1, "rrHandler"),
       BID((short)2, "bid"),
-      REQUEST((short)3, "request");
+      FRAME((short)3, "frame"),
+      REQUEST((short)4, "request");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -31477,7 +32440,9 @@ public class ClientHandlers {
             return RR_HANDLER;
           case 2: // BID
             return BID;
-          case 3: // REQUEST
+          case 3: // FRAME
+            return FRAME;
+          case 4: // REQUEST
             return REQUEST;
           default:
             return null;
@@ -31532,6 +32497,8 @@ public class ClientHandlers {
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.FRAME, new org.apache.thrift.meta_data.FieldMetaData("frame", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.REQUEST, new org.apache.thrift.meta_data.FieldMetaData("request", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
@@ -31544,6 +32511,7 @@ public class ClientHandlers {
     public ResourceRequestHandler_GetCookieAccessFilter_args(
       int rrHandler,
       int bid,
+      com.jetbrains.cef.remote.thrift_codegen.RObject frame,
       com.jetbrains.cef.remote.thrift_codegen.RObject request)
     {
       this();
@@ -31551,6 +32519,7 @@ public class ClientHandlers {
       setRrHandlerIsSet(true);
       this.bid = bid;
       setBidIsSet(true);
+      this.frame = frame;
       this.request = request;
     }
 
@@ -31561,6 +32530,9 @@ public class ClientHandlers {
       __isset_bitfield = other.__isset_bitfield;
       this.rrHandler = other.rrHandler;
       this.bid = other.bid;
+      if (other.isSetFrame()) {
+        this.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.frame);
+      }
       if (other.isSetRequest()) {
         this.request = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.request);
       }
@@ -31577,6 +32549,7 @@ public class ClientHandlers {
       this.rrHandler = 0;
       setBidIsSet(false);
       this.bid = 0;
+      this.frame = null;
       this.request = null;
     }
 
@@ -31627,6 +32600,31 @@ public class ClientHandlers {
     }
 
     @org.apache.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getFrame() {
+      return this.frame;
+    }
+
+    public ResourceRequestHandler_GetCookieAccessFilter_args setFrame(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame) {
+      this.frame = frame;
+      return this;
+    }
+
+    public void unsetFrame() {
+      this.frame = null;
+    }
+
+    /** Returns true if field frame is set (has been assigned a value) and false otherwise */
+    public boolean isSetFrame() {
+      return this.frame != null;
+    }
+
+    public void setFrameIsSet(boolean value) {
+      if (!value) {
+        this.frame = null;
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
     public com.jetbrains.cef.remote.thrift_codegen.RObject getRequest() {
       return this.request;
     }
@@ -31670,6 +32668,14 @@ public class ClientHandlers {
         }
         break;
 
+      case FRAME:
+        if (value == null) {
+          unsetFrame();
+        } else {
+          setFrame((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
       case REQUEST:
         if (value == null) {
           unsetRequest();
@@ -31691,6 +32697,9 @@ public class ClientHandlers {
       case BID:
         return getBid();
 
+      case FRAME:
+        return getFrame();
+
       case REQUEST:
         return getRequest();
 
@@ -31710,6 +32719,8 @@ public class ClientHandlers {
         return isSetRrHandler();
       case BID:
         return isSetBid();
+      case FRAME:
+        return isSetFrame();
       case REQUEST:
         return isSetRequest();
       }
@@ -31747,6 +32758,15 @@ public class ClientHandlers {
           return false;
       }
 
+      boolean this_present_frame = true && this.isSetFrame();
+      boolean that_present_frame = true && that.isSetFrame();
+      if (this_present_frame || that_present_frame) {
+        if (!(this_present_frame && that_present_frame))
+          return false;
+        if (!this.frame.equals(that.frame))
+          return false;
+      }
+
       boolean this_present_request = true && this.isSetRequest();
       boolean that_present_request = true && that.isSetRequest();
       if (this_present_request || that_present_request) {
@@ -31766,6 +32786,10 @@ public class ClientHandlers {
       hashCode = hashCode * 8191 + rrHandler;
 
       hashCode = hashCode * 8191 + bid;
+
+      hashCode = hashCode * 8191 + ((isSetFrame()) ? 131071 : 524287);
+      if (isSetFrame())
+        hashCode = hashCode * 8191 + frame.hashCode();
 
       hashCode = hashCode * 8191 + ((isSetRequest()) ? 131071 : 524287);
       if (isSetRequest())
@@ -31798,6 +32822,16 @@ public class ClientHandlers {
       }
       if (isSetBid()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetFrame(), other.isSetFrame());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetFrame()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.frame, other.frame);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -31844,6 +32878,14 @@ public class ClientHandlers {
       sb.append(this.bid);
       first = false;
       if (!first) sb.append(", ");
+      sb.append("frame:");
+      if (this.frame == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.frame);
+      }
+      first = false;
+      if (!first) sb.append(", ");
       sb.append("request:");
       if (this.request == null) {
         sb.append("null");
@@ -31858,6 +32900,9 @@ public class ClientHandlers {
     public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
+      if (frame != null) {
+        frame.validate();
+      }
       if (request != null) {
         request.validate();
       }
@@ -31917,7 +32962,16 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 3: // REQUEST
+            case 3: // FRAME
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.frame.read(iprot);
+                struct.setFrameIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 4: // REQUEST
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
                 struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.request.read(iprot);
@@ -31948,6 +33002,11 @@ public class ClientHandlers {
         oprot.writeFieldBegin(BID_FIELD_DESC);
         oprot.writeI32(struct.bid);
         oprot.writeFieldEnd();
+        if (struct.frame != null) {
+          oprot.writeFieldBegin(FRAME_FIELD_DESC);
+          struct.frame.write(oprot);
+          oprot.writeFieldEnd();
+        }
         if (struct.request != null) {
           oprot.writeFieldBegin(REQUEST_FIELD_DESC);
           struct.request.write(oprot);
@@ -31978,15 +33037,21 @@ public class ClientHandlers {
         if (struct.isSetBid()) {
           optionals.set(1);
         }
-        if (struct.isSetRequest()) {
+        if (struct.isSetFrame()) {
           optionals.set(2);
         }
-        oprot.writeBitSet(optionals, 3);
+        if (struct.isSetRequest()) {
+          optionals.set(3);
+        }
+        oprot.writeBitSet(optionals, 4);
         if (struct.isSetRrHandler()) {
           oprot.writeI32(struct.rrHandler);
         }
         if (struct.isSetBid()) {
           oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetFrame()) {
+          struct.frame.write(oprot);
         }
         if (struct.isSetRequest()) {
           struct.request.write(oprot);
@@ -31996,7 +33061,7 @@ public class ClientHandlers {
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, ResourceRequestHandler_GetCookieAccessFilter_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(3);
+        java.util.BitSet incoming = iprot.readBitSet(4);
         if (incoming.get(0)) {
           struct.rrHandler = iprot.readI32();
           struct.setRrHandlerIsSet(true);
@@ -32006,6 +33071,11 @@ public class ClientHandlers {
           struct.setBidIsSet(true);
         }
         if (incoming.get(2)) {
+          struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.frame.read(iprot);
+          struct.setFrameIsSet(true);
+        }
+        if (incoming.get(3)) {
           struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.request.read(iprot);
           struct.setRequestIsSet(true);
@@ -32781,14 +33851,16 @@ public class ClientHandlers {
 
     private static final org.apache.thrift.protocol.TField FILTER_FIELD_DESC = new org.apache.thrift.protocol.TField("filter", org.apache.thrift.protocol.TType.I32, (short)1);
     private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)2);
-    private static final org.apache.thrift.protocol.TField REQUEST_FIELD_DESC = new org.apache.thrift.protocol.TField("request", org.apache.thrift.protocol.TType.STRUCT, (short)3);
-    private static final org.apache.thrift.protocol.TField COOKIE_FIELD_DESC = new org.apache.thrift.protocol.TField("cookie", org.apache.thrift.protocol.TType.LIST, (short)4);
+    private static final org.apache.thrift.protocol.TField FRAME_FIELD_DESC = new org.apache.thrift.protocol.TField("frame", org.apache.thrift.protocol.TType.STRUCT, (short)3);
+    private static final org.apache.thrift.protocol.TField REQUEST_FIELD_DESC = new org.apache.thrift.protocol.TField("request", org.apache.thrift.protocol.TType.STRUCT, (short)4);
+    private static final org.apache.thrift.protocol.TField COOKIE_FIELD_DESC = new org.apache.thrift.protocol.TField("cookie", org.apache.thrift.protocol.TType.LIST, (short)5);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new CookieAccessFilter_CanSendCookie_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new CookieAccessFilter_CanSendCookie_argsTupleSchemeFactory();
 
     public int filter; // required
     public int bid; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame; // required
     public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request; // required
     public @org.apache.thrift.annotation.Nullable java.util.List<java.lang.String> cookie; // required
 
@@ -32796,8 +33868,9 @@ public class ClientHandlers {
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       FILTER((short)1, "filter"),
       BID((short)2, "bid"),
-      REQUEST((short)3, "request"),
-      COOKIE((short)4, "cookie");
+      FRAME((short)3, "frame"),
+      REQUEST((short)4, "request"),
+      COOKIE((short)5, "cookie");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -32817,9 +33890,11 @@ public class ClientHandlers {
             return FILTER;
           case 2: // BID
             return BID;
-          case 3: // REQUEST
+          case 3: // FRAME
+            return FRAME;
+          case 4: // REQUEST
             return REQUEST;
-          case 4: // COOKIE
+          case 5: // COOKIE
             return COOKIE;
           default:
             return null;
@@ -32874,6 +33949,8 @@ public class ClientHandlers {
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.FRAME, new org.apache.thrift.meta_data.FieldMetaData("frame", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.REQUEST, new org.apache.thrift.meta_data.FieldMetaData("request", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.COOKIE, new org.apache.thrift.meta_data.FieldMetaData("cookie", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -32889,6 +33966,7 @@ public class ClientHandlers {
     public CookieAccessFilter_CanSendCookie_args(
       int filter,
       int bid,
+      com.jetbrains.cef.remote.thrift_codegen.RObject frame,
       com.jetbrains.cef.remote.thrift_codegen.RObject request,
       java.util.List<java.lang.String> cookie)
     {
@@ -32897,6 +33975,7 @@ public class ClientHandlers {
       setFilterIsSet(true);
       this.bid = bid;
       setBidIsSet(true);
+      this.frame = frame;
       this.request = request;
       this.cookie = cookie;
     }
@@ -32908,6 +33987,9 @@ public class ClientHandlers {
       __isset_bitfield = other.__isset_bitfield;
       this.filter = other.filter;
       this.bid = other.bid;
+      if (other.isSetFrame()) {
+        this.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.frame);
+      }
       if (other.isSetRequest()) {
         this.request = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.request);
       }
@@ -32928,6 +34010,7 @@ public class ClientHandlers {
       this.filter = 0;
       setBidIsSet(false);
       this.bid = 0;
+      this.frame = null;
       this.request = null;
       this.cookie = null;
     }
@@ -32976,6 +34059,31 @@ public class ClientHandlers {
 
     public void setBidIsSet(boolean value) {
       __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getFrame() {
+      return this.frame;
+    }
+
+    public CookieAccessFilter_CanSendCookie_args setFrame(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame) {
+      this.frame = frame;
+      return this;
+    }
+
+    public void unsetFrame() {
+      this.frame = null;
+    }
+
+    /** Returns true if field frame is set (has been assigned a value) and false otherwise */
+    public boolean isSetFrame() {
+      return this.frame != null;
+    }
+
+    public void setFrameIsSet(boolean value) {
+      if (!value) {
+        this.frame = null;
+      }
     }
 
     @org.apache.thrift.annotation.Nullable
@@ -33063,6 +34171,14 @@ public class ClientHandlers {
         }
         break;
 
+      case FRAME:
+        if (value == null) {
+          unsetFrame();
+        } else {
+          setFrame((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
       case REQUEST:
         if (value == null) {
           unsetRequest();
@@ -33092,6 +34208,9 @@ public class ClientHandlers {
       case BID:
         return getBid();
 
+      case FRAME:
+        return getFrame();
+
       case REQUEST:
         return getRequest();
 
@@ -33114,6 +34233,8 @@ public class ClientHandlers {
         return isSetFilter();
       case BID:
         return isSetBid();
+      case FRAME:
+        return isSetFrame();
       case REQUEST:
         return isSetRequest();
       case COOKIE:
@@ -33153,6 +34274,15 @@ public class ClientHandlers {
           return false;
       }
 
+      boolean this_present_frame = true && this.isSetFrame();
+      boolean that_present_frame = true && that.isSetFrame();
+      if (this_present_frame || that_present_frame) {
+        if (!(this_present_frame && that_present_frame))
+          return false;
+        if (!this.frame.equals(that.frame))
+          return false;
+      }
+
       boolean this_present_request = true && this.isSetRequest();
       boolean that_present_request = true && that.isSetRequest();
       if (this_present_request || that_present_request) {
@@ -33181,6 +34311,10 @@ public class ClientHandlers {
       hashCode = hashCode * 8191 + filter;
 
       hashCode = hashCode * 8191 + bid;
+
+      hashCode = hashCode * 8191 + ((isSetFrame()) ? 131071 : 524287);
+      if (isSetFrame())
+        hashCode = hashCode * 8191 + frame.hashCode();
 
       hashCode = hashCode * 8191 + ((isSetRequest()) ? 131071 : 524287);
       if (isSetRequest())
@@ -33217,6 +34351,16 @@ public class ClientHandlers {
       }
       if (isSetBid()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetFrame(), other.isSetFrame());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetFrame()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.frame, other.frame);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -33273,6 +34417,14 @@ public class ClientHandlers {
       sb.append(this.bid);
       first = false;
       if (!first) sb.append(", ");
+      sb.append("frame:");
+      if (this.frame == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.frame);
+      }
+      first = false;
+      if (!first) sb.append(", ");
       sb.append("request:");
       if (this.request == null) {
         sb.append("null");
@@ -33295,6 +34447,9 @@ public class ClientHandlers {
     public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
+      if (frame != null) {
+        frame.validate();
+      }
       if (request != null) {
         request.validate();
       }
@@ -33354,7 +34509,16 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 3: // REQUEST
+            case 3: // FRAME
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.frame.read(iprot);
+                struct.setFrameIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 4: // REQUEST
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
                 struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.request.read(iprot);
@@ -33363,7 +34527,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 4: // COOKIE
+            case 5: // COOKIE
               if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
                 {
                   org.apache.thrift.protocol.TList _list0 = iprot.readListBegin();
@@ -33403,6 +34567,11 @@ public class ClientHandlers {
         oprot.writeFieldBegin(BID_FIELD_DESC);
         oprot.writeI32(struct.bid);
         oprot.writeFieldEnd();
+        if (struct.frame != null) {
+          oprot.writeFieldBegin(FRAME_FIELD_DESC);
+          struct.frame.write(oprot);
+          oprot.writeFieldEnd();
+        }
         if (struct.request != null) {
           oprot.writeFieldBegin(REQUEST_FIELD_DESC);
           struct.request.write(oprot);
@@ -33445,18 +34614,24 @@ public class ClientHandlers {
         if (struct.isSetBid()) {
           optionals.set(1);
         }
-        if (struct.isSetRequest()) {
+        if (struct.isSetFrame()) {
           optionals.set(2);
         }
-        if (struct.isSetCookie()) {
+        if (struct.isSetRequest()) {
           optionals.set(3);
         }
-        oprot.writeBitSet(optionals, 4);
+        if (struct.isSetCookie()) {
+          optionals.set(4);
+        }
+        oprot.writeBitSet(optionals, 5);
         if (struct.isSetFilter()) {
           oprot.writeI32(struct.filter);
         }
         if (struct.isSetBid()) {
           oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetFrame()) {
+          struct.frame.write(oprot);
         }
         if (struct.isSetRequest()) {
           struct.request.write(oprot);
@@ -33475,7 +34650,7 @@ public class ClientHandlers {
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, CookieAccessFilter_CanSendCookie_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(4);
+        java.util.BitSet incoming = iprot.readBitSet(5);
         if (incoming.get(0)) {
           struct.filter = iprot.readI32();
           struct.setFilterIsSet(true);
@@ -33485,11 +34660,16 @@ public class ClientHandlers {
           struct.setBidIsSet(true);
         }
         if (incoming.get(2)) {
+          struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.frame.read(iprot);
+          struct.setFrameIsSet(true);
+        }
+        if (incoming.get(3)) {
           struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.request.read(iprot);
           struct.setRequestIsSet(true);
         }
-        if (incoming.get(3)) {
+        if (incoming.get(4)) {
           {
             org.apache.thrift.protocol.TList _list5 = iprot.readListBegin(org.apache.thrift.protocol.TType.STRING);
             struct.cookie = new java.util.ArrayList<java.lang.String>(_list5.size);
@@ -33891,15 +35071,17 @@ public class ClientHandlers {
 
     private static final org.apache.thrift.protocol.TField FILTER_FIELD_DESC = new org.apache.thrift.protocol.TField("filter", org.apache.thrift.protocol.TType.I32, (short)1);
     private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)2);
-    private static final org.apache.thrift.protocol.TField REQUEST_FIELD_DESC = new org.apache.thrift.protocol.TField("request", org.apache.thrift.protocol.TType.STRUCT, (short)3);
-    private static final org.apache.thrift.protocol.TField RESPONSE_FIELD_DESC = new org.apache.thrift.protocol.TField("response", org.apache.thrift.protocol.TType.STRUCT, (short)4);
-    private static final org.apache.thrift.protocol.TField COOKIE_FIELD_DESC = new org.apache.thrift.protocol.TField("cookie", org.apache.thrift.protocol.TType.LIST, (short)5);
+    private static final org.apache.thrift.protocol.TField FRAME_FIELD_DESC = new org.apache.thrift.protocol.TField("frame", org.apache.thrift.protocol.TType.STRUCT, (short)3);
+    private static final org.apache.thrift.protocol.TField REQUEST_FIELD_DESC = new org.apache.thrift.protocol.TField("request", org.apache.thrift.protocol.TType.STRUCT, (short)4);
+    private static final org.apache.thrift.protocol.TField RESPONSE_FIELD_DESC = new org.apache.thrift.protocol.TField("response", org.apache.thrift.protocol.TType.STRUCT, (short)5);
+    private static final org.apache.thrift.protocol.TField COOKIE_FIELD_DESC = new org.apache.thrift.protocol.TField("cookie", org.apache.thrift.protocol.TType.LIST, (short)6);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new CookieAccessFilter_CanSaveCookie_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new CookieAccessFilter_CanSaveCookie_argsTupleSchemeFactory();
 
     public int filter; // required
     public int bid; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame; // required
     public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request; // required
     public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject response; // required
     public @org.apache.thrift.annotation.Nullable java.util.List<java.lang.String> cookie; // required
@@ -33908,9 +35090,10 @@ public class ClientHandlers {
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       FILTER((short)1, "filter"),
       BID((short)2, "bid"),
-      REQUEST((short)3, "request"),
-      RESPONSE((short)4, "response"),
-      COOKIE((short)5, "cookie");
+      FRAME((short)3, "frame"),
+      REQUEST((short)4, "request"),
+      RESPONSE((short)5, "response"),
+      COOKIE((short)6, "cookie");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -33930,11 +35113,13 @@ public class ClientHandlers {
             return FILTER;
           case 2: // BID
             return BID;
-          case 3: // REQUEST
+          case 3: // FRAME
+            return FRAME;
+          case 4: // REQUEST
             return REQUEST;
-          case 4: // RESPONSE
+          case 5: // RESPONSE
             return RESPONSE;
-          case 5: // COOKIE
+          case 6: // COOKIE
             return COOKIE;
           default:
             return null;
@@ -33989,6 +35174,8 @@ public class ClientHandlers {
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.FRAME, new org.apache.thrift.meta_data.FieldMetaData("frame", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.REQUEST, new org.apache.thrift.meta_data.FieldMetaData("request", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.RESPONSE, new org.apache.thrift.meta_data.FieldMetaData("response", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -34006,6 +35193,7 @@ public class ClientHandlers {
     public CookieAccessFilter_CanSaveCookie_args(
       int filter,
       int bid,
+      com.jetbrains.cef.remote.thrift_codegen.RObject frame,
       com.jetbrains.cef.remote.thrift_codegen.RObject request,
       com.jetbrains.cef.remote.thrift_codegen.RObject response,
       java.util.List<java.lang.String> cookie)
@@ -34015,6 +35203,7 @@ public class ClientHandlers {
       setFilterIsSet(true);
       this.bid = bid;
       setBidIsSet(true);
+      this.frame = frame;
       this.request = request;
       this.response = response;
       this.cookie = cookie;
@@ -34027,6 +35216,9 @@ public class ClientHandlers {
       __isset_bitfield = other.__isset_bitfield;
       this.filter = other.filter;
       this.bid = other.bid;
+      if (other.isSetFrame()) {
+        this.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.frame);
+      }
       if (other.isSetRequest()) {
         this.request = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.request);
       }
@@ -34050,6 +35242,7 @@ public class ClientHandlers {
       this.filter = 0;
       setBidIsSet(false);
       this.bid = 0;
+      this.frame = null;
       this.request = null;
       this.response = null;
       this.cookie = null;
@@ -34099,6 +35292,31 @@ public class ClientHandlers {
 
     public void setBidIsSet(boolean value) {
       __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getFrame() {
+      return this.frame;
+    }
+
+    public CookieAccessFilter_CanSaveCookie_args setFrame(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame) {
+      this.frame = frame;
+      return this;
+    }
+
+    public void unsetFrame() {
+      this.frame = null;
+    }
+
+    /** Returns true if field frame is set (has been assigned a value) and false otherwise */
+    public boolean isSetFrame() {
+      return this.frame != null;
+    }
+
+    public void setFrameIsSet(boolean value) {
+      if (!value) {
+        this.frame = null;
+      }
     }
 
     @org.apache.thrift.annotation.Nullable
@@ -34211,6 +35429,14 @@ public class ClientHandlers {
         }
         break;
 
+      case FRAME:
+        if (value == null) {
+          unsetFrame();
+        } else {
+          setFrame((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
       case REQUEST:
         if (value == null) {
           unsetRequest();
@@ -34248,6 +35474,9 @@ public class ClientHandlers {
       case BID:
         return getBid();
 
+      case FRAME:
+        return getFrame();
+
       case REQUEST:
         return getRequest();
 
@@ -34273,6 +35502,8 @@ public class ClientHandlers {
         return isSetFilter();
       case BID:
         return isSetBid();
+      case FRAME:
+        return isSetFrame();
       case REQUEST:
         return isSetRequest();
       case RESPONSE:
@@ -34314,6 +35545,15 @@ public class ClientHandlers {
           return false;
       }
 
+      boolean this_present_frame = true && this.isSetFrame();
+      boolean that_present_frame = true && that.isSetFrame();
+      if (this_present_frame || that_present_frame) {
+        if (!(this_present_frame && that_present_frame))
+          return false;
+        if (!this.frame.equals(that.frame))
+          return false;
+      }
+
       boolean this_present_request = true && this.isSetRequest();
       boolean that_present_request = true && that.isSetRequest();
       if (this_present_request || that_present_request) {
@@ -34351,6 +35591,10 @@ public class ClientHandlers {
       hashCode = hashCode * 8191 + filter;
 
       hashCode = hashCode * 8191 + bid;
+
+      hashCode = hashCode * 8191 + ((isSetFrame()) ? 131071 : 524287);
+      if (isSetFrame())
+        hashCode = hashCode * 8191 + frame.hashCode();
 
       hashCode = hashCode * 8191 + ((isSetRequest()) ? 131071 : 524287);
       if (isSetRequest())
@@ -34391,6 +35635,16 @@ public class ClientHandlers {
       }
       if (isSetBid()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetFrame(), other.isSetFrame());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetFrame()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.frame, other.frame);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -34457,6 +35711,14 @@ public class ClientHandlers {
       sb.append(this.bid);
       first = false;
       if (!first) sb.append(", ");
+      sb.append("frame:");
+      if (this.frame == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.frame);
+      }
+      first = false;
+      if (!first) sb.append(", ");
       sb.append("request:");
       if (this.request == null) {
         sb.append("null");
@@ -34487,6 +35749,9 @@ public class ClientHandlers {
     public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
+      if (frame != null) {
+        frame.validate();
+      }
       if (request != null) {
         request.validate();
       }
@@ -34549,7 +35814,16 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 3: // REQUEST
+            case 3: // FRAME
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.frame.read(iprot);
+                struct.setFrameIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 4: // REQUEST
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
                 struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.request.read(iprot);
@@ -34558,7 +35832,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 4: // RESPONSE
+            case 5: // RESPONSE
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
                 struct.response = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.response.read(iprot);
@@ -34567,7 +35841,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 5: // COOKIE
+            case 6: // COOKIE
               if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
                 {
                   org.apache.thrift.protocol.TList _list8 = iprot.readListBegin();
@@ -34607,6 +35881,11 @@ public class ClientHandlers {
         oprot.writeFieldBegin(BID_FIELD_DESC);
         oprot.writeI32(struct.bid);
         oprot.writeFieldEnd();
+        if (struct.frame != null) {
+          oprot.writeFieldBegin(FRAME_FIELD_DESC);
+          struct.frame.write(oprot);
+          oprot.writeFieldEnd();
+        }
         if (struct.request != null) {
           oprot.writeFieldBegin(REQUEST_FIELD_DESC);
           struct.request.write(oprot);
@@ -34654,21 +35933,27 @@ public class ClientHandlers {
         if (struct.isSetBid()) {
           optionals.set(1);
         }
-        if (struct.isSetRequest()) {
+        if (struct.isSetFrame()) {
           optionals.set(2);
         }
-        if (struct.isSetResponse()) {
+        if (struct.isSetRequest()) {
           optionals.set(3);
         }
-        if (struct.isSetCookie()) {
+        if (struct.isSetResponse()) {
           optionals.set(4);
         }
-        oprot.writeBitSet(optionals, 5);
+        if (struct.isSetCookie()) {
+          optionals.set(5);
+        }
+        oprot.writeBitSet(optionals, 6);
         if (struct.isSetFilter()) {
           oprot.writeI32(struct.filter);
         }
         if (struct.isSetBid()) {
           oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetFrame()) {
+          struct.frame.write(oprot);
         }
         if (struct.isSetRequest()) {
           struct.request.write(oprot);
@@ -34690,7 +35975,7 @@ public class ClientHandlers {
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, CookieAccessFilter_CanSaveCookie_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(5);
+        java.util.BitSet incoming = iprot.readBitSet(6);
         if (incoming.get(0)) {
           struct.filter = iprot.readI32();
           struct.setFilterIsSet(true);
@@ -34700,16 +35985,21 @@ public class ClientHandlers {
           struct.setBidIsSet(true);
         }
         if (incoming.get(2)) {
+          struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.frame.read(iprot);
+          struct.setFrameIsSet(true);
+        }
+        if (incoming.get(3)) {
           struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.request.read(iprot);
           struct.setRequestIsSet(true);
         }
-        if (incoming.get(3)) {
+        if (incoming.get(4)) {
           struct.response = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.response.read(iprot);
           struct.setResponseIsSet(true);
         }
-        if (incoming.get(4)) {
+        if (incoming.get(5)) {
           {
             org.apache.thrift.protocol.TList _list13 = iprot.readListBegin(org.apache.thrift.protocol.TType.STRING);
             struct.cookie = new java.util.ArrayList<java.lang.String>(_list13.size);
@@ -35111,20 +36401,23 @@ public class ClientHandlers {
 
     private static final org.apache.thrift.protocol.TField RR_HANDLER_FIELD_DESC = new org.apache.thrift.protocol.TField("rrHandler", org.apache.thrift.protocol.TType.I32, (short)1);
     private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)2);
-    private static final org.apache.thrift.protocol.TField REQUEST_FIELD_DESC = new org.apache.thrift.protocol.TField("request", org.apache.thrift.protocol.TType.STRUCT, (short)3);
+    private static final org.apache.thrift.protocol.TField FRAME_FIELD_DESC = new org.apache.thrift.protocol.TField("frame", org.apache.thrift.protocol.TType.STRUCT, (short)3);
+    private static final org.apache.thrift.protocol.TField REQUEST_FIELD_DESC = new org.apache.thrift.protocol.TField("request", org.apache.thrift.protocol.TType.STRUCT, (short)4);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new ResourceRequestHandler_OnBeforeResourceLoad_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new ResourceRequestHandler_OnBeforeResourceLoad_argsTupleSchemeFactory();
 
     public int rrHandler; // required
     public int bid; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame; // required
     public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       RR_HANDLER((short)1, "rrHandler"),
       BID((short)2, "bid"),
-      REQUEST((short)3, "request");
+      FRAME((short)3, "frame"),
+      REQUEST((short)4, "request");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -35144,7 +36437,9 @@ public class ClientHandlers {
             return RR_HANDLER;
           case 2: // BID
             return BID;
-          case 3: // REQUEST
+          case 3: // FRAME
+            return FRAME;
+          case 4: // REQUEST
             return REQUEST;
           default:
             return null;
@@ -35199,6 +36494,8 @@ public class ClientHandlers {
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.FRAME, new org.apache.thrift.meta_data.FieldMetaData("frame", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.REQUEST, new org.apache.thrift.meta_data.FieldMetaData("request", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
@@ -35211,6 +36508,7 @@ public class ClientHandlers {
     public ResourceRequestHandler_OnBeforeResourceLoad_args(
       int rrHandler,
       int bid,
+      com.jetbrains.cef.remote.thrift_codegen.RObject frame,
       com.jetbrains.cef.remote.thrift_codegen.RObject request)
     {
       this();
@@ -35218,6 +36516,7 @@ public class ClientHandlers {
       setRrHandlerIsSet(true);
       this.bid = bid;
       setBidIsSet(true);
+      this.frame = frame;
       this.request = request;
     }
 
@@ -35228,6 +36527,9 @@ public class ClientHandlers {
       __isset_bitfield = other.__isset_bitfield;
       this.rrHandler = other.rrHandler;
       this.bid = other.bid;
+      if (other.isSetFrame()) {
+        this.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.frame);
+      }
       if (other.isSetRequest()) {
         this.request = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.request);
       }
@@ -35244,6 +36546,7 @@ public class ClientHandlers {
       this.rrHandler = 0;
       setBidIsSet(false);
       this.bid = 0;
+      this.frame = null;
       this.request = null;
     }
 
@@ -35294,6 +36597,31 @@ public class ClientHandlers {
     }
 
     @org.apache.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getFrame() {
+      return this.frame;
+    }
+
+    public ResourceRequestHandler_OnBeforeResourceLoad_args setFrame(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame) {
+      this.frame = frame;
+      return this;
+    }
+
+    public void unsetFrame() {
+      this.frame = null;
+    }
+
+    /** Returns true if field frame is set (has been assigned a value) and false otherwise */
+    public boolean isSetFrame() {
+      return this.frame != null;
+    }
+
+    public void setFrameIsSet(boolean value) {
+      if (!value) {
+        this.frame = null;
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
     public com.jetbrains.cef.remote.thrift_codegen.RObject getRequest() {
       return this.request;
     }
@@ -35337,6 +36665,14 @@ public class ClientHandlers {
         }
         break;
 
+      case FRAME:
+        if (value == null) {
+          unsetFrame();
+        } else {
+          setFrame((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
       case REQUEST:
         if (value == null) {
           unsetRequest();
@@ -35358,6 +36694,9 @@ public class ClientHandlers {
       case BID:
         return getBid();
 
+      case FRAME:
+        return getFrame();
+
       case REQUEST:
         return getRequest();
 
@@ -35377,6 +36716,8 @@ public class ClientHandlers {
         return isSetRrHandler();
       case BID:
         return isSetBid();
+      case FRAME:
+        return isSetFrame();
       case REQUEST:
         return isSetRequest();
       }
@@ -35414,6 +36755,15 @@ public class ClientHandlers {
           return false;
       }
 
+      boolean this_present_frame = true && this.isSetFrame();
+      boolean that_present_frame = true && that.isSetFrame();
+      if (this_present_frame || that_present_frame) {
+        if (!(this_present_frame && that_present_frame))
+          return false;
+        if (!this.frame.equals(that.frame))
+          return false;
+      }
+
       boolean this_present_request = true && this.isSetRequest();
       boolean that_present_request = true && that.isSetRequest();
       if (this_present_request || that_present_request) {
@@ -35433,6 +36783,10 @@ public class ClientHandlers {
       hashCode = hashCode * 8191 + rrHandler;
 
       hashCode = hashCode * 8191 + bid;
+
+      hashCode = hashCode * 8191 + ((isSetFrame()) ? 131071 : 524287);
+      if (isSetFrame())
+        hashCode = hashCode * 8191 + frame.hashCode();
 
       hashCode = hashCode * 8191 + ((isSetRequest()) ? 131071 : 524287);
       if (isSetRequest())
@@ -35465,6 +36819,16 @@ public class ClientHandlers {
       }
       if (isSetBid()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetFrame(), other.isSetFrame());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetFrame()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.frame, other.frame);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -35511,6 +36875,14 @@ public class ClientHandlers {
       sb.append(this.bid);
       first = false;
       if (!first) sb.append(", ");
+      sb.append("frame:");
+      if (this.frame == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.frame);
+      }
+      first = false;
+      if (!first) sb.append(", ");
       sb.append("request:");
       if (this.request == null) {
         sb.append("null");
@@ -35525,6 +36897,9 @@ public class ClientHandlers {
     public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
+      if (frame != null) {
+        frame.validate();
+      }
       if (request != null) {
         request.validate();
       }
@@ -35584,7 +36959,16 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 3: // REQUEST
+            case 3: // FRAME
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.frame.read(iprot);
+                struct.setFrameIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 4: // REQUEST
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
                 struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.request.read(iprot);
@@ -35615,6 +36999,11 @@ public class ClientHandlers {
         oprot.writeFieldBegin(BID_FIELD_DESC);
         oprot.writeI32(struct.bid);
         oprot.writeFieldEnd();
+        if (struct.frame != null) {
+          oprot.writeFieldBegin(FRAME_FIELD_DESC);
+          struct.frame.write(oprot);
+          oprot.writeFieldEnd();
+        }
         if (struct.request != null) {
           oprot.writeFieldBegin(REQUEST_FIELD_DESC);
           struct.request.write(oprot);
@@ -35645,15 +37034,21 @@ public class ClientHandlers {
         if (struct.isSetBid()) {
           optionals.set(1);
         }
-        if (struct.isSetRequest()) {
+        if (struct.isSetFrame()) {
           optionals.set(2);
         }
-        oprot.writeBitSet(optionals, 3);
+        if (struct.isSetRequest()) {
+          optionals.set(3);
+        }
+        oprot.writeBitSet(optionals, 4);
         if (struct.isSetRrHandler()) {
           oprot.writeI32(struct.rrHandler);
         }
         if (struct.isSetBid()) {
           oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetFrame()) {
+          struct.frame.write(oprot);
         }
         if (struct.isSetRequest()) {
           struct.request.write(oprot);
@@ -35663,7 +37058,7 @@ public class ClientHandlers {
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, ResourceRequestHandler_OnBeforeResourceLoad_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(3);
+        java.util.BitSet incoming = iprot.readBitSet(4);
         if (incoming.get(0)) {
           struct.rrHandler = iprot.readI32();
           struct.setRrHandlerIsSet(true);
@@ -35673,6 +37068,11 @@ public class ClientHandlers {
           struct.setBidIsSet(true);
         }
         if (incoming.get(2)) {
+          struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.frame.read(iprot);
+          struct.setFrameIsSet(true);
+        }
+        if (incoming.get(3)) {
           struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.request.read(iprot);
           struct.setRequestIsSet(true);
@@ -36066,20 +37466,23 @@ public class ClientHandlers {
 
     private static final org.apache.thrift.protocol.TField RR_HANDLER_FIELD_DESC = new org.apache.thrift.protocol.TField("rrHandler", org.apache.thrift.protocol.TType.I32, (short)1);
     private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)2);
-    private static final org.apache.thrift.protocol.TField REQUEST_FIELD_DESC = new org.apache.thrift.protocol.TField("request", org.apache.thrift.protocol.TType.STRUCT, (short)3);
+    private static final org.apache.thrift.protocol.TField FRAME_FIELD_DESC = new org.apache.thrift.protocol.TField("frame", org.apache.thrift.protocol.TType.STRUCT, (short)3);
+    private static final org.apache.thrift.protocol.TField REQUEST_FIELD_DESC = new org.apache.thrift.protocol.TField("request", org.apache.thrift.protocol.TType.STRUCT, (short)4);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new ResourceRequestHandler_GetResourceHandler_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new ResourceRequestHandler_GetResourceHandler_argsTupleSchemeFactory();
 
     public int rrHandler; // required
     public int bid; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame; // required
     public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       RR_HANDLER((short)1, "rrHandler"),
       BID((short)2, "bid"),
-      REQUEST((short)3, "request");
+      FRAME((short)3, "frame"),
+      REQUEST((short)4, "request");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -36099,7 +37502,9 @@ public class ClientHandlers {
             return RR_HANDLER;
           case 2: // BID
             return BID;
-          case 3: // REQUEST
+          case 3: // FRAME
+            return FRAME;
+          case 4: // REQUEST
             return REQUEST;
           default:
             return null;
@@ -36154,6 +37559,8 @@ public class ClientHandlers {
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.FRAME, new org.apache.thrift.meta_data.FieldMetaData("frame", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.REQUEST, new org.apache.thrift.meta_data.FieldMetaData("request", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
@@ -36166,6 +37573,7 @@ public class ClientHandlers {
     public ResourceRequestHandler_GetResourceHandler_args(
       int rrHandler,
       int bid,
+      com.jetbrains.cef.remote.thrift_codegen.RObject frame,
       com.jetbrains.cef.remote.thrift_codegen.RObject request)
     {
       this();
@@ -36173,6 +37581,7 @@ public class ClientHandlers {
       setRrHandlerIsSet(true);
       this.bid = bid;
       setBidIsSet(true);
+      this.frame = frame;
       this.request = request;
     }
 
@@ -36183,6 +37592,9 @@ public class ClientHandlers {
       __isset_bitfield = other.__isset_bitfield;
       this.rrHandler = other.rrHandler;
       this.bid = other.bid;
+      if (other.isSetFrame()) {
+        this.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.frame);
+      }
       if (other.isSetRequest()) {
         this.request = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.request);
       }
@@ -36199,6 +37611,7 @@ public class ClientHandlers {
       this.rrHandler = 0;
       setBidIsSet(false);
       this.bid = 0;
+      this.frame = null;
       this.request = null;
     }
 
@@ -36249,6 +37662,31 @@ public class ClientHandlers {
     }
 
     @org.apache.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getFrame() {
+      return this.frame;
+    }
+
+    public ResourceRequestHandler_GetResourceHandler_args setFrame(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame) {
+      this.frame = frame;
+      return this;
+    }
+
+    public void unsetFrame() {
+      this.frame = null;
+    }
+
+    /** Returns true if field frame is set (has been assigned a value) and false otherwise */
+    public boolean isSetFrame() {
+      return this.frame != null;
+    }
+
+    public void setFrameIsSet(boolean value) {
+      if (!value) {
+        this.frame = null;
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
     public com.jetbrains.cef.remote.thrift_codegen.RObject getRequest() {
       return this.request;
     }
@@ -36292,6 +37730,14 @@ public class ClientHandlers {
         }
         break;
 
+      case FRAME:
+        if (value == null) {
+          unsetFrame();
+        } else {
+          setFrame((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
       case REQUEST:
         if (value == null) {
           unsetRequest();
@@ -36313,6 +37759,9 @@ public class ClientHandlers {
       case BID:
         return getBid();
 
+      case FRAME:
+        return getFrame();
+
       case REQUEST:
         return getRequest();
 
@@ -36332,6 +37781,8 @@ public class ClientHandlers {
         return isSetRrHandler();
       case BID:
         return isSetBid();
+      case FRAME:
+        return isSetFrame();
       case REQUEST:
         return isSetRequest();
       }
@@ -36369,6 +37820,15 @@ public class ClientHandlers {
           return false;
       }
 
+      boolean this_present_frame = true && this.isSetFrame();
+      boolean that_present_frame = true && that.isSetFrame();
+      if (this_present_frame || that_present_frame) {
+        if (!(this_present_frame && that_present_frame))
+          return false;
+        if (!this.frame.equals(that.frame))
+          return false;
+      }
+
       boolean this_present_request = true && this.isSetRequest();
       boolean that_present_request = true && that.isSetRequest();
       if (this_present_request || that_present_request) {
@@ -36388,6 +37848,10 @@ public class ClientHandlers {
       hashCode = hashCode * 8191 + rrHandler;
 
       hashCode = hashCode * 8191 + bid;
+
+      hashCode = hashCode * 8191 + ((isSetFrame()) ? 131071 : 524287);
+      if (isSetFrame())
+        hashCode = hashCode * 8191 + frame.hashCode();
 
       hashCode = hashCode * 8191 + ((isSetRequest()) ? 131071 : 524287);
       if (isSetRequest())
@@ -36420,6 +37884,16 @@ public class ClientHandlers {
       }
       if (isSetBid()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetFrame(), other.isSetFrame());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetFrame()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.frame, other.frame);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -36466,6 +37940,14 @@ public class ClientHandlers {
       sb.append(this.bid);
       first = false;
       if (!first) sb.append(", ");
+      sb.append("frame:");
+      if (this.frame == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.frame);
+      }
+      first = false;
+      if (!first) sb.append(", ");
       sb.append("request:");
       if (this.request == null) {
         sb.append("null");
@@ -36480,6 +37962,9 @@ public class ClientHandlers {
     public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
+      if (frame != null) {
+        frame.validate();
+      }
       if (request != null) {
         request.validate();
       }
@@ -36539,7 +38024,16 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 3: // REQUEST
+            case 3: // FRAME
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.frame.read(iprot);
+                struct.setFrameIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 4: // REQUEST
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
                 struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.request.read(iprot);
@@ -36570,6 +38064,11 @@ public class ClientHandlers {
         oprot.writeFieldBegin(BID_FIELD_DESC);
         oprot.writeI32(struct.bid);
         oprot.writeFieldEnd();
+        if (struct.frame != null) {
+          oprot.writeFieldBegin(FRAME_FIELD_DESC);
+          struct.frame.write(oprot);
+          oprot.writeFieldEnd();
+        }
         if (struct.request != null) {
           oprot.writeFieldBegin(REQUEST_FIELD_DESC);
           struct.request.write(oprot);
@@ -36600,15 +38099,21 @@ public class ClientHandlers {
         if (struct.isSetBid()) {
           optionals.set(1);
         }
-        if (struct.isSetRequest()) {
+        if (struct.isSetFrame()) {
           optionals.set(2);
         }
-        oprot.writeBitSet(optionals, 3);
+        if (struct.isSetRequest()) {
+          optionals.set(3);
+        }
+        oprot.writeBitSet(optionals, 4);
         if (struct.isSetRrHandler()) {
           oprot.writeI32(struct.rrHandler);
         }
         if (struct.isSetBid()) {
           oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetFrame()) {
+          struct.frame.write(oprot);
         }
         if (struct.isSetRequest()) {
           struct.request.write(oprot);
@@ -36618,7 +38123,7 @@ public class ClientHandlers {
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, ResourceRequestHandler_GetResourceHandler_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(3);
+        java.util.BitSet incoming = iprot.readBitSet(4);
         if (incoming.get(0)) {
           struct.rrHandler = iprot.readI32();
           struct.setRrHandlerIsSet(true);
@@ -36628,6 +38133,11 @@ public class ClientHandlers {
           struct.setBidIsSet(true);
         }
         if (incoming.get(2)) {
+          struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.frame.read(iprot);
+          struct.setFrameIsSet(true);
+        }
+        if (incoming.get(3)) {
           struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.request.read(iprot);
           struct.setRequestIsSet(true);
@@ -40576,15 +42086,17 @@ public class ClientHandlers {
 
     private static final org.apache.thrift.protocol.TField RR_HANDLER_FIELD_DESC = new org.apache.thrift.protocol.TField("rrHandler", org.apache.thrift.protocol.TType.I32, (short)1);
     private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)2);
-    private static final org.apache.thrift.protocol.TField REQUEST_FIELD_DESC = new org.apache.thrift.protocol.TField("request", org.apache.thrift.protocol.TType.STRUCT, (short)3);
-    private static final org.apache.thrift.protocol.TField RESPONSE_FIELD_DESC = new org.apache.thrift.protocol.TField("response", org.apache.thrift.protocol.TType.STRUCT, (short)4);
-    private static final org.apache.thrift.protocol.TField NEW_URL_FIELD_DESC = new org.apache.thrift.protocol.TField("new_url", org.apache.thrift.protocol.TType.STRING, (short)5);
+    private static final org.apache.thrift.protocol.TField FRAME_FIELD_DESC = new org.apache.thrift.protocol.TField("frame", org.apache.thrift.protocol.TType.STRUCT, (short)3);
+    private static final org.apache.thrift.protocol.TField REQUEST_FIELD_DESC = new org.apache.thrift.protocol.TField("request", org.apache.thrift.protocol.TType.STRUCT, (short)4);
+    private static final org.apache.thrift.protocol.TField RESPONSE_FIELD_DESC = new org.apache.thrift.protocol.TField("response", org.apache.thrift.protocol.TType.STRUCT, (short)5);
+    private static final org.apache.thrift.protocol.TField NEW_URL_FIELD_DESC = new org.apache.thrift.protocol.TField("new_url", org.apache.thrift.protocol.TType.STRING, (short)6);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new ResourceRequestHandler_OnResourceRedirect_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new ResourceRequestHandler_OnResourceRedirect_argsTupleSchemeFactory();
 
     public int rrHandler; // required
     public int bid; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame; // required
     public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request; // required
     public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject response; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String new_url; // required
@@ -40593,9 +42105,10 @@ public class ClientHandlers {
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       RR_HANDLER((short)1, "rrHandler"),
       BID((short)2, "bid"),
-      REQUEST((short)3, "request"),
-      RESPONSE((short)4, "response"),
-      NEW_URL((short)5, "new_url");
+      FRAME((short)3, "frame"),
+      REQUEST((short)4, "request"),
+      RESPONSE((short)5, "response"),
+      NEW_URL((short)6, "new_url");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -40615,11 +42128,13 @@ public class ClientHandlers {
             return RR_HANDLER;
           case 2: // BID
             return BID;
-          case 3: // REQUEST
+          case 3: // FRAME
+            return FRAME;
+          case 4: // REQUEST
             return REQUEST;
-          case 4: // RESPONSE
+          case 5: // RESPONSE
             return RESPONSE;
-          case 5: // NEW_URL
+          case 6: // NEW_URL
             return NEW_URL;
           default:
             return null;
@@ -40674,6 +42189,8 @@ public class ClientHandlers {
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.FRAME, new org.apache.thrift.meta_data.FieldMetaData("frame", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.REQUEST, new org.apache.thrift.meta_data.FieldMetaData("request", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.RESPONSE, new org.apache.thrift.meta_data.FieldMetaData("response", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -40690,6 +42207,7 @@ public class ClientHandlers {
     public ResourceRequestHandler_OnResourceRedirect_args(
       int rrHandler,
       int bid,
+      com.jetbrains.cef.remote.thrift_codegen.RObject frame,
       com.jetbrains.cef.remote.thrift_codegen.RObject request,
       com.jetbrains.cef.remote.thrift_codegen.RObject response,
       java.lang.String new_url)
@@ -40699,6 +42217,7 @@ public class ClientHandlers {
       setRrHandlerIsSet(true);
       this.bid = bid;
       setBidIsSet(true);
+      this.frame = frame;
       this.request = request;
       this.response = response;
       this.new_url = new_url;
@@ -40711,6 +42230,9 @@ public class ClientHandlers {
       __isset_bitfield = other.__isset_bitfield;
       this.rrHandler = other.rrHandler;
       this.bid = other.bid;
+      if (other.isSetFrame()) {
+        this.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.frame);
+      }
       if (other.isSetRequest()) {
         this.request = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.request);
       }
@@ -40733,6 +42255,7 @@ public class ClientHandlers {
       this.rrHandler = 0;
       setBidIsSet(false);
       this.bid = 0;
+      this.frame = null;
       this.request = null;
       this.response = null;
       this.new_url = null;
@@ -40782,6 +42305,31 @@ public class ClientHandlers {
 
     public void setBidIsSet(boolean value) {
       __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getFrame() {
+      return this.frame;
+    }
+
+    public ResourceRequestHandler_OnResourceRedirect_args setFrame(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame) {
+      this.frame = frame;
+      return this;
+    }
+
+    public void unsetFrame() {
+      this.frame = null;
+    }
+
+    /** Returns true if field frame is set (has been assigned a value) and false otherwise */
+    public boolean isSetFrame() {
+      return this.frame != null;
+    }
+
+    public void setFrameIsSet(boolean value) {
+      if (!value) {
+        this.frame = null;
+      }
     }
 
     @org.apache.thrift.annotation.Nullable
@@ -40878,6 +42426,14 @@ public class ClientHandlers {
         }
         break;
 
+      case FRAME:
+        if (value == null) {
+          unsetFrame();
+        } else {
+          setFrame((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
       case REQUEST:
         if (value == null) {
           unsetRequest();
@@ -40915,6 +42471,9 @@ public class ClientHandlers {
       case BID:
         return getBid();
 
+      case FRAME:
+        return getFrame();
+
       case REQUEST:
         return getRequest();
 
@@ -40940,6 +42499,8 @@ public class ClientHandlers {
         return isSetRrHandler();
       case BID:
         return isSetBid();
+      case FRAME:
+        return isSetFrame();
       case REQUEST:
         return isSetRequest();
       case RESPONSE:
@@ -40981,6 +42542,15 @@ public class ClientHandlers {
           return false;
       }
 
+      boolean this_present_frame = true && this.isSetFrame();
+      boolean that_present_frame = true && that.isSetFrame();
+      if (this_present_frame || that_present_frame) {
+        if (!(this_present_frame && that_present_frame))
+          return false;
+        if (!this.frame.equals(that.frame))
+          return false;
+      }
+
       boolean this_present_request = true && this.isSetRequest();
       boolean that_present_request = true && that.isSetRequest();
       if (this_present_request || that_present_request) {
@@ -41018,6 +42588,10 @@ public class ClientHandlers {
       hashCode = hashCode * 8191 + rrHandler;
 
       hashCode = hashCode * 8191 + bid;
+
+      hashCode = hashCode * 8191 + ((isSetFrame()) ? 131071 : 524287);
+      if (isSetFrame())
+        hashCode = hashCode * 8191 + frame.hashCode();
 
       hashCode = hashCode * 8191 + ((isSetRequest()) ? 131071 : 524287);
       if (isSetRequest())
@@ -41058,6 +42632,16 @@ public class ClientHandlers {
       }
       if (isSetBid()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetFrame(), other.isSetFrame());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetFrame()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.frame, other.frame);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -41124,6 +42708,14 @@ public class ClientHandlers {
       sb.append(this.bid);
       first = false;
       if (!first) sb.append(", ");
+      sb.append("frame:");
+      if (this.frame == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.frame);
+      }
+      first = false;
+      if (!first) sb.append(", ");
       sb.append("request:");
       if (this.request == null) {
         sb.append("null");
@@ -41154,6 +42746,9 @@ public class ClientHandlers {
     public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
+      if (frame != null) {
+        frame.validate();
+      }
       if (request != null) {
         request.validate();
       }
@@ -41216,7 +42811,16 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 3: // REQUEST
+            case 3: // FRAME
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.frame.read(iprot);
+                struct.setFrameIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 4: // REQUEST
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
                 struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.request.read(iprot);
@@ -41225,7 +42829,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 4: // RESPONSE
+            case 5: // RESPONSE
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
                 struct.response = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.response.read(iprot);
@@ -41234,7 +42838,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 5: // NEW_URL
+            case 6: // NEW_URL
               if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
                 struct.new_url = iprot.readString();
                 struct.setNew_urlIsSet(true);
@@ -41264,6 +42868,11 @@ public class ClientHandlers {
         oprot.writeFieldBegin(BID_FIELD_DESC);
         oprot.writeI32(struct.bid);
         oprot.writeFieldEnd();
+        if (struct.frame != null) {
+          oprot.writeFieldBegin(FRAME_FIELD_DESC);
+          struct.frame.write(oprot);
+          oprot.writeFieldEnd();
+        }
         if (struct.request != null) {
           oprot.writeFieldBegin(REQUEST_FIELD_DESC);
           struct.request.write(oprot);
@@ -41304,21 +42913,27 @@ public class ClientHandlers {
         if (struct.isSetBid()) {
           optionals.set(1);
         }
-        if (struct.isSetRequest()) {
+        if (struct.isSetFrame()) {
           optionals.set(2);
         }
-        if (struct.isSetResponse()) {
+        if (struct.isSetRequest()) {
           optionals.set(3);
         }
-        if (struct.isSetNew_url()) {
+        if (struct.isSetResponse()) {
           optionals.set(4);
         }
-        oprot.writeBitSet(optionals, 5);
+        if (struct.isSetNew_url()) {
+          optionals.set(5);
+        }
+        oprot.writeBitSet(optionals, 6);
         if (struct.isSetRrHandler()) {
           oprot.writeI32(struct.rrHandler);
         }
         if (struct.isSetBid()) {
           oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetFrame()) {
+          struct.frame.write(oprot);
         }
         if (struct.isSetRequest()) {
           struct.request.write(oprot);
@@ -41334,7 +42949,7 @@ public class ClientHandlers {
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, ResourceRequestHandler_OnResourceRedirect_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(5);
+        java.util.BitSet incoming = iprot.readBitSet(6);
         if (incoming.get(0)) {
           struct.rrHandler = iprot.readI32();
           struct.setRrHandlerIsSet(true);
@@ -41344,16 +42959,21 @@ public class ClientHandlers {
           struct.setBidIsSet(true);
         }
         if (incoming.get(2)) {
+          struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.frame.read(iprot);
+          struct.setFrameIsSet(true);
+        }
+        if (incoming.get(3)) {
           struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.request.read(iprot);
           struct.setRequestIsSet(true);
         }
-        if (incoming.get(3)) {
+        if (incoming.get(4)) {
           struct.response = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.response.read(iprot);
           struct.setResponseIsSet(true);
         }
-        if (incoming.get(4)) {
+        if (incoming.get(5)) {
           struct.new_url = iprot.readString();
           struct.setNew_urlIsSet(true);
         }
@@ -41749,14 +43369,16 @@ public class ClientHandlers {
 
     private static final org.apache.thrift.protocol.TField RR_HANDLER_FIELD_DESC = new org.apache.thrift.protocol.TField("rrHandler", org.apache.thrift.protocol.TType.I32, (short)1);
     private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)2);
-    private static final org.apache.thrift.protocol.TField REQUEST_FIELD_DESC = new org.apache.thrift.protocol.TField("request", org.apache.thrift.protocol.TType.STRUCT, (short)3);
-    private static final org.apache.thrift.protocol.TField RESPONSE_FIELD_DESC = new org.apache.thrift.protocol.TField("response", org.apache.thrift.protocol.TType.STRUCT, (short)4);
+    private static final org.apache.thrift.protocol.TField FRAME_FIELD_DESC = new org.apache.thrift.protocol.TField("frame", org.apache.thrift.protocol.TType.STRUCT, (short)3);
+    private static final org.apache.thrift.protocol.TField REQUEST_FIELD_DESC = new org.apache.thrift.protocol.TField("request", org.apache.thrift.protocol.TType.STRUCT, (short)4);
+    private static final org.apache.thrift.protocol.TField RESPONSE_FIELD_DESC = new org.apache.thrift.protocol.TField("response", org.apache.thrift.protocol.TType.STRUCT, (short)5);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new ResourceRequestHandler_OnResourceResponse_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new ResourceRequestHandler_OnResourceResponse_argsTupleSchemeFactory();
 
     public int rrHandler; // required
     public int bid; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame; // required
     public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request; // required
     public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject response; // required
 
@@ -41764,8 +43386,9 @@ public class ClientHandlers {
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       RR_HANDLER((short)1, "rrHandler"),
       BID((short)2, "bid"),
-      REQUEST((short)3, "request"),
-      RESPONSE((short)4, "response");
+      FRAME((short)3, "frame"),
+      REQUEST((short)4, "request"),
+      RESPONSE((short)5, "response");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -41785,9 +43408,11 @@ public class ClientHandlers {
             return RR_HANDLER;
           case 2: // BID
             return BID;
-          case 3: // REQUEST
+          case 3: // FRAME
+            return FRAME;
+          case 4: // REQUEST
             return REQUEST;
-          case 4: // RESPONSE
+          case 5: // RESPONSE
             return RESPONSE;
           default:
             return null;
@@ -41842,6 +43467,8 @@ public class ClientHandlers {
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.FRAME, new org.apache.thrift.meta_data.FieldMetaData("frame", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.REQUEST, new org.apache.thrift.meta_data.FieldMetaData("request", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.RESPONSE, new org.apache.thrift.meta_data.FieldMetaData("response", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -41856,6 +43483,7 @@ public class ClientHandlers {
     public ResourceRequestHandler_OnResourceResponse_args(
       int rrHandler,
       int bid,
+      com.jetbrains.cef.remote.thrift_codegen.RObject frame,
       com.jetbrains.cef.remote.thrift_codegen.RObject request,
       com.jetbrains.cef.remote.thrift_codegen.RObject response)
     {
@@ -41864,6 +43492,7 @@ public class ClientHandlers {
       setRrHandlerIsSet(true);
       this.bid = bid;
       setBidIsSet(true);
+      this.frame = frame;
       this.request = request;
       this.response = response;
     }
@@ -41875,6 +43504,9 @@ public class ClientHandlers {
       __isset_bitfield = other.__isset_bitfield;
       this.rrHandler = other.rrHandler;
       this.bid = other.bid;
+      if (other.isSetFrame()) {
+        this.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.frame);
+      }
       if (other.isSetRequest()) {
         this.request = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.request);
       }
@@ -41894,6 +43526,7 @@ public class ClientHandlers {
       this.rrHandler = 0;
       setBidIsSet(false);
       this.bid = 0;
+      this.frame = null;
       this.request = null;
       this.response = null;
     }
@@ -41942,6 +43575,31 @@ public class ClientHandlers {
 
     public void setBidIsSet(boolean value) {
       __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getFrame() {
+      return this.frame;
+    }
+
+    public ResourceRequestHandler_OnResourceResponse_args setFrame(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame) {
+      this.frame = frame;
+      return this;
+    }
+
+    public void unsetFrame() {
+      this.frame = null;
+    }
+
+    /** Returns true if field frame is set (has been assigned a value) and false otherwise */
+    public boolean isSetFrame() {
+      return this.frame != null;
+    }
+
+    public void setFrameIsSet(boolean value) {
+      if (!value) {
+        this.frame = null;
+      }
     }
 
     @org.apache.thrift.annotation.Nullable
@@ -42013,6 +43671,14 @@ public class ClientHandlers {
         }
         break;
 
+      case FRAME:
+        if (value == null) {
+          unsetFrame();
+        } else {
+          setFrame((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
       case REQUEST:
         if (value == null) {
           unsetRequest();
@@ -42042,6 +43708,9 @@ public class ClientHandlers {
       case BID:
         return getBid();
 
+      case FRAME:
+        return getFrame();
+
       case REQUEST:
         return getRequest();
 
@@ -42064,6 +43733,8 @@ public class ClientHandlers {
         return isSetRrHandler();
       case BID:
         return isSetBid();
+      case FRAME:
+        return isSetFrame();
       case REQUEST:
         return isSetRequest();
       case RESPONSE:
@@ -42103,6 +43774,15 @@ public class ClientHandlers {
           return false;
       }
 
+      boolean this_present_frame = true && this.isSetFrame();
+      boolean that_present_frame = true && that.isSetFrame();
+      if (this_present_frame || that_present_frame) {
+        if (!(this_present_frame && that_present_frame))
+          return false;
+        if (!this.frame.equals(that.frame))
+          return false;
+      }
+
       boolean this_present_request = true && this.isSetRequest();
       boolean that_present_request = true && that.isSetRequest();
       if (this_present_request || that_present_request) {
@@ -42131,6 +43811,10 @@ public class ClientHandlers {
       hashCode = hashCode * 8191 + rrHandler;
 
       hashCode = hashCode * 8191 + bid;
+
+      hashCode = hashCode * 8191 + ((isSetFrame()) ? 131071 : 524287);
+      if (isSetFrame())
+        hashCode = hashCode * 8191 + frame.hashCode();
 
       hashCode = hashCode * 8191 + ((isSetRequest()) ? 131071 : 524287);
       if (isSetRequest())
@@ -42167,6 +43851,16 @@ public class ClientHandlers {
       }
       if (isSetBid()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetFrame(), other.isSetFrame());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetFrame()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.frame, other.frame);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -42223,6 +43917,14 @@ public class ClientHandlers {
       sb.append(this.bid);
       first = false;
       if (!first) sb.append(", ");
+      sb.append("frame:");
+      if (this.frame == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.frame);
+      }
+      first = false;
+      if (!first) sb.append(", ");
       sb.append("request:");
       if (this.request == null) {
         sb.append("null");
@@ -42245,6 +43947,9 @@ public class ClientHandlers {
     public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
+      if (frame != null) {
+        frame.validate();
+      }
       if (request != null) {
         request.validate();
       }
@@ -42307,7 +44012,16 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 3: // REQUEST
+            case 3: // FRAME
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.frame.read(iprot);
+                struct.setFrameIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 4: // REQUEST
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
                 struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.request.read(iprot);
@@ -42316,7 +44030,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 4: // RESPONSE
+            case 5: // RESPONSE
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
                 struct.response = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.response.read(iprot);
@@ -42347,6 +44061,11 @@ public class ClientHandlers {
         oprot.writeFieldBegin(BID_FIELD_DESC);
         oprot.writeI32(struct.bid);
         oprot.writeFieldEnd();
+        if (struct.frame != null) {
+          oprot.writeFieldBegin(FRAME_FIELD_DESC);
+          struct.frame.write(oprot);
+          oprot.writeFieldEnd();
+        }
         if (struct.request != null) {
           oprot.writeFieldBegin(REQUEST_FIELD_DESC);
           struct.request.write(oprot);
@@ -42382,18 +44101,24 @@ public class ClientHandlers {
         if (struct.isSetBid()) {
           optionals.set(1);
         }
-        if (struct.isSetRequest()) {
+        if (struct.isSetFrame()) {
           optionals.set(2);
         }
-        if (struct.isSetResponse()) {
+        if (struct.isSetRequest()) {
           optionals.set(3);
         }
-        oprot.writeBitSet(optionals, 4);
+        if (struct.isSetResponse()) {
+          optionals.set(4);
+        }
+        oprot.writeBitSet(optionals, 5);
         if (struct.isSetRrHandler()) {
           oprot.writeI32(struct.rrHandler);
         }
         if (struct.isSetBid()) {
           oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetFrame()) {
+          struct.frame.write(oprot);
         }
         if (struct.isSetRequest()) {
           struct.request.write(oprot);
@@ -42406,7 +44131,7 @@ public class ClientHandlers {
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, ResourceRequestHandler_OnResourceResponse_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(4);
+        java.util.BitSet incoming = iprot.readBitSet(5);
         if (incoming.get(0)) {
           struct.rrHandler = iprot.readI32();
           struct.setRrHandlerIsSet(true);
@@ -42416,11 +44141,16 @@ public class ClientHandlers {
           struct.setBidIsSet(true);
         }
         if (incoming.get(2)) {
+          struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.frame.read(iprot);
+          struct.setFrameIsSet(true);
+        }
+        if (incoming.get(3)) {
           struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.request.read(iprot);
           struct.setRequestIsSet(true);
         }
-        if (incoming.get(3)) {
+        if (incoming.get(4)) {
           struct.response = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.response.read(iprot);
           struct.setResponseIsSet(true);
@@ -42814,16 +44544,18 @@ public class ClientHandlers {
 
     private static final org.apache.thrift.protocol.TField RR_HANDLER_FIELD_DESC = new org.apache.thrift.protocol.TField("rrHandler", org.apache.thrift.protocol.TType.I32, (short)1);
     private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)2);
-    private static final org.apache.thrift.protocol.TField REQUEST_FIELD_DESC = new org.apache.thrift.protocol.TField("request", org.apache.thrift.protocol.TType.STRUCT, (short)3);
-    private static final org.apache.thrift.protocol.TField RESPONSE_FIELD_DESC = new org.apache.thrift.protocol.TField("response", org.apache.thrift.protocol.TType.STRUCT, (short)4);
-    private static final org.apache.thrift.protocol.TField STATUS_FIELD_DESC = new org.apache.thrift.protocol.TField("status", org.apache.thrift.protocol.TType.STRING, (short)5);
-    private static final org.apache.thrift.protocol.TField RECEIVED_CONTENT_LENGTH_FIELD_DESC = new org.apache.thrift.protocol.TField("receivedContentLength", org.apache.thrift.protocol.TType.I64, (short)6);
+    private static final org.apache.thrift.protocol.TField FRAME_FIELD_DESC = new org.apache.thrift.protocol.TField("frame", org.apache.thrift.protocol.TType.STRUCT, (short)3);
+    private static final org.apache.thrift.protocol.TField REQUEST_FIELD_DESC = new org.apache.thrift.protocol.TField("request", org.apache.thrift.protocol.TType.STRUCT, (short)4);
+    private static final org.apache.thrift.protocol.TField RESPONSE_FIELD_DESC = new org.apache.thrift.protocol.TField("response", org.apache.thrift.protocol.TType.STRUCT, (short)5);
+    private static final org.apache.thrift.protocol.TField STATUS_FIELD_DESC = new org.apache.thrift.protocol.TField("status", org.apache.thrift.protocol.TType.STRING, (short)6);
+    private static final org.apache.thrift.protocol.TField RECEIVED_CONTENT_LENGTH_FIELD_DESC = new org.apache.thrift.protocol.TField("receivedContentLength", org.apache.thrift.protocol.TType.I64, (short)7);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new ResourceRequestHandler_OnResourceLoadComplete_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new ResourceRequestHandler_OnResourceLoadComplete_argsTupleSchemeFactory();
 
     public int rrHandler; // required
     public int bid; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame; // required
     public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request; // required
     public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject response; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String status; // required
@@ -42833,10 +44565,11 @@ public class ClientHandlers {
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       RR_HANDLER((short)1, "rrHandler"),
       BID((short)2, "bid"),
-      REQUEST((short)3, "request"),
-      RESPONSE((short)4, "response"),
-      STATUS((short)5, "status"),
-      RECEIVED_CONTENT_LENGTH((short)6, "receivedContentLength");
+      FRAME((short)3, "frame"),
+      REQUEST((short)4, "request"),
+      RESPONSE((short)5, "response"),
+      STATUS((short)6, "status"),
+      RECEIVED_CONTENT_LENGTH((short)7, "receivedContentLength");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -42856,13 +44589,15 @@ public class ClientHandlers {
             return RR_HANDLER;
           case 2: // BID
             return BID;
-          case 3: // REQUEST
+          case 3: // FRAME
+            return FRAME;
+          case 4: // REQUEST
             return REQUEST;
-          case 4: // RESPONSE
+          case 5: // RESPONSE
             return RESPONSE;
-          case 5: // STATUS
+          case 6: // STATUS
             return STATUS;
-          case 6: // RECEIVED_CONTENT_LENGTH
+          case 7: // RECEIVED_CONTENT_LENGTH
             return RECEIVED_CONTENT_LENGTH;
           default:
             return null;
@@ -42918,6 +44653,8 @@ public class ClientHandlers {
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.FRAME, new org.apache.thrift.meta_data.FieldMetaData("frame", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.REQUEST, new org.apache.thrift.meta_data.FieldMetaData("request", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.RESPONSE, new org.apache.thrift.meta_data.FieldMetaData("response", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -42936,6 +44673,7 @@ public class ClientHandlers {
     public ResourceRequestHandler_OnResourceLoadComplete_args(
       int rrHandler,
       int bid,
+      com.jetbrains.cef.remote.thrift_codegen.RObject frame,
       com.jetbrains.cef.remote.thrift_codegen.RObject request,
       com.jetbrains.cef.remote.thrift_codegen.RObject response,
       java.lang.String status,
@@ -42946,6 +44684,7 @@ public class ClientHandlers {
       setRrHandlerIsSet(true);
       this.bid = bid;
       setBidIsSet(true);
+      this.frame = frame;
       this.request = request;
       this.response = response;
       this.status = status;
@@ -42960,6 +44699,9 @@ public class ClientHandlers {
       __isset_bitfield = other.__isset_bitfield;
       this.rrHandler = other.rrHandler;
       this.bid = other.bid;
+      if (other.isSetFrame()) {
+        this.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.frame);
+      }
       if (other.isSetRequest()) {
         this.request = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.request);
       }
@@ -42983,6 +44725,7 @@ public class ClientHandlers {
       this.rrHandler = 0;
       setBidIsSet(false);
       this.bid = 0;
+      this.frame = null;
       this.request = null;
       this.response = null;
       this.status = null;
@@ -43034,6 +44777,31 @@ public class ClientHandlers {
 
     public void setBidIsSet(boolean value) {
       __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getFrame() {
+      return this.frame;
+    }
+
+    public ResourceRequestHandler_OnResourceLoadComplete_args setFrame(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame) {
+      this.frame = frame;
+      return this;
+    }
+
+    public void unsetFrame() {
+      this.frame = null;
+    }
+
+    /** Returns true if field frame is set (has been assigned a value) and false otherwise */
+    public boolean isSetFrame() {
+      return this.frame != null;
+    }
+
+    public void setFrameIsSet(boolean value) {
+      if (!value) {
+        this.frame = null;
+      }
     }
 
     @org.apache.thrift.annotation.Nullable
@@ -43153,6 +44921,14 @@ public class ClientHandlers {
         }
         break;
 
+      case FRAME:
+        if (value == null) {
+          unsetFrame();
+        } else {
+          setFrame((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
       case REQUEST:
         if (value == null) {
           unsetRequest();
@@ -43198,6 +44974,9 @@ public class ClientHandlers {
       case BID:
         return getBid();
 
+      case FRAME:
+        return getFrame();
+
       case REQUEST:
         return getRequest();
 
@@ -43226,6 +45005,8 @@ public class ClientHandlers {
         return isSetRrHandler();
       case BID:
         return isSetBid();
+      case FRAME:
+        return isSetFrame();
       case REQUEST:
         return isSetRequest();
       case RESPONSE:
@@ -43266,6 +45047,15 @@ public class ClientHandlers {
         if (!(this_present_bid && that_present_bid))
           return false;
         if (this.bid != that.bid)
+          return false;
+      }
+
+      boolean this_present_frame = true && this.isSetFrame();
+      boolean that_present_frame = true && that.isSetFrame();
+      if (this_present_frame || that_present_frame) {
+        if (!(this_present_frame && that_present_frame))
+          return false;
+        if (!this.frame.equals(that.frame))
           return false;
       }
 
@@ -43316,6 +45106,10 @@ public class ClientHandlers {
 
       hashCode = hashCode * 8191 + bid;
 
+      hashCode = hashCode * 8191 + ((isSetFrame()) ? 131071 : 524287);
+      if (isSetFrame())
+        hashCode = hashCode * 8191 + frame.hashCode();
+
       hashCode = hashCode * 8191 + ((isSetRequest()) ? 131071 : 524287);
       if (isSetRequest())
         hashCode = hashCode * 8191 + request.hashCode();
@@ -43357,6 +45151,16 @@ public class ClientHandlers {
       }
       if (isSetBid()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetFrame(), other.isSetFrame());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetFrame()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.frame, other.frame);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -43433,6 +45237,14 @@ public class ClientHandlers {
       sb.append(this.bid);
       first = false;
       if (!first) sb.append(", ");
+      sb.append("frame:");
+      if (this.frame == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.frame);
+      }
+      first = false;
+      if (!first) sb.append(", ");
       sb.append("request:");
       if (this.request == null) {
         sb.append("null");
@@ -43467,6 +45279,9 @@ public class ClientHandlers {
     public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
+      if (frame != null) {
+        frame.validate();
+      }
       if (request != null) {
         request.validate();
       }
@@ -43529,7 +45344,16 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 3: // REQUEST
+            case 3: // FRAME
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.frame.read(iprot);
+                struct.setFrameIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 4: // REQUEST
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
                 struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.request.read(iprot);
@@ -43538,7 +45362,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 4: // RESPONSE
+            case 5: // RESPONSE
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
                 struct.response = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.response.read(iprot);
@@ -43547,7 +45371,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 5: // STATUS
+            case 6: // STATUS
               if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
                 struct.status = iprot.readString();
                 struct.setStatusIsSet(true);
@@ -43555,7 +45379,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 6: // RECEIVED_CONTENT_LENGTH
+            case 7: // RECEIVED_CONTENT_LENGTH
               if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
                 struct.receivedContentLength = iprot.readI64();
                 struct.setReceivedContentLengthIsSet(true);
@@ -43585,6 +45409,11 @@ public class ClientHandlers {
         oprot.writeFieldBegin(BID_FIELD_DESC);
         oprot.writeI32(struct.bid);
         oprot.writeFieldEnd();
+        if (struct.frame != null) {
+          oprot.writeFieldBegin(FRAME_FIELD_DESC);
+          struct.frame.write(oprot);
+          oprot.writeFieldEnd();
+        }
         if (struct.request != null) {
           oprot.writeFieldBegin(REQUEST_FIELD_DESC);
           struct.request.write(oprot);
@@ -43628,24 +45457,30 @@ public class ClientHandlers {
         if (struct.isSetBid()) {
           optionals.set(1);
         }
-        if (struct.isSetRequest()) {
+        if (struct.isSetFrame()) {
           optionals.set(2);
         }
-        if (struct.isSetResponse()) {
+        if (struct.isSetRequest()) {
           optionals.set(3);
         }
-        if (struct.isSetStatus()) {
+        if (struct.isSetResponse()) {
           optionals.set(4);
         }
-        if (struct.isSetReceivedContentLength()) {
+        if (struct.isSetStatus()) {
           optionals.set(5);
         }
-        oprot.writeBitSet(optionals, 6);
+        if (struct.isSetReceivedContentLength()) {
+          optionals.set(6);
+        }
+        oprot.writeBitSet(optionals, 7);
         if (struct.isSetRrHandler()) {
           oprot.writeI32(struct.rrHandler);
         }
         if (struct.isSetBid()) {
           oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetFrame()) {
+          struct.frame.write(oprot);
         }
         if (struct.isSetRequest()) {
           struct.request.write(oprot);
@@ -43664,7 +45499,7 @@ public class ClientHandlers {
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, ResourceRequestHandler_OnResourceLoadComplete_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(6);
+        java.util.BitSet incoming = iprot.readBitSet(7);
         if (incoming.get(0)) {
           struct.rrHandler = iprot.readI32();
           struct.setRrHandlerIsSet(true);
@@ -43674,20 +45509,25 @@ public class ClientHandlers {
           struct.setBidIsSet(true);
         }
         if (incoming.get(2)) {
+          struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.frame.read(iprot);
+          struct.setFrameIsSet(true);
+        }
+        if (incoming.get(3)) {
           struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.request.read(iprot);
           struct.setRequestIsSet(true);
         }
-        if (incoming.get(3)) {
+        if (incoming.get(4)) {
           struct.response = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.response.read(iprot);
           struct.setResponseIsSet(true);
         }
-        if (incoming.get(4)) {
+        if (incoming.get(5)) {
           struct.status = iprot.readString();
           struct.setStatusIsSet(true);
         }
-        if (incoming.get(5)) {
+        if (incoming.get(6)) {
           struct.receivedContentLength = iprot.readI64();
           struct.setReceivedContentLengthIsSet(true);
         }
@@ -43970,14 +45810,16 @@ public class ClientHandlers {
 
     private static final org.apache.thrift.protocol.TField RR_HANDLER_FIELD_DESC = new org.apache.thrift.protocol.TField("rrHandler", org.apache.thrift.protocol.TType.I32, (short)1);
     private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)2);
-    private static final org.apache.thrift.protocol.TField REQUEST_FIELD_DESC = new org.apache.thrift.protocol.TField("request", org.apache.thrift.protocol.TType.STRUCT, (short)3);
-    private static final org.apache.thrift.protocol.TField ALLOW_OS_EXECUTION_FIELD_DESC = new org.apache.thrift.protocol.TField("allowOsExecution", org.apache.thrift.protocol.TType.BOOL, (short)4);
+    private static final org.apache.thrift.protocol.TField FRAME_FIELD_DESC = new org.apache.thrift.protocol.TField("frame", org.apache.thrift.protocol.TType.STRUCT, (short)3);
+    private static final org.apache.thrift.protocol.TField REQUEST_FIELD_DESC = new org.apache.thrift.protocol.TField("request", org.apache.thrift.protocol.TType.STRUCT, (short)4);
+    private static final org.apache.thrift.protocol.TField ALLOW_OS_EXECUTION_FIELD_DESC = new org.apache.thrift.protocol.TField("allowOsExecution", org.apache.thrift.protocol.TType.BOOL, (short)5);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new ResourceRequestHandler_OnProtocolExecution_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new ResourceRequestHandler_OnProtocolExecution_argsTupleSchemeFactory();
 
     public int rrHandler; // required
     public int bid; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame; // required
     public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request; // required
     public boolean allowOsExecution; // required
 
@@ -43985,8 +45827,9 @@ public class ClientHandlers {
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       RR_HANDLER((short)1, "rrHandler"),
       BID((short)2, "bid"),
-      REQUEST((short)3, "request"),
-      ALLOW_OS_EXECUTION((short)4, "allowOsExecution");
+      FRAME((short)3, "frame"),
+      REQUEST((short)4, "request"),
+      ALLOW_OS_EXECUTION((short)5, "allowOsExecution");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -44006,9 +45849,11 @@ public class ClientHandlers {
             return RR_HANDLER;
           case 2: // BID
             return BID;
-          case 3: // REQUEST
+          case 3: // FRAME
+            return FRAME;
+          case 4: // REQUEST
             return REQUEST;
-          case 4: // ALLOW_OS_EXECUTION
+          case 5: // ALLOW_OS_EXECUTION
             return ALLOW_OS_EXECUTION;
           default:
             return null;
@@ -44064,6 +45909,8 @@ public class ClientHandlers {
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.FRAME, new org.apache.thrift.meta_data.FieldMetaData("frame", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.REQUEST, new org.apache.thrift.meta_data.FieldMetaData("request", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.ALLOW_OS_EXECUTION, new org.apache.thrift.meta_data.FieldMetaData("allowOsExecution", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -44078,6 +45925,7 @@ public class ClientHandlers {
     public ResourceRequestHandler_OnProtocolExecution_args(
       int rrHandler,
       int bid,
+      com.jetbrains.cef.remote.thrift_codegen.RObject frame,
       com.jetbrains.cef.remote.thrift_codegen.RObject request,
       boolean allowOsExecution)
     {
@@ -44086,6 +45934,7 @@ public class ClientHandlers {
       setRrHandlerIsSet(true);
       this.bid = bid;
       setBidIsSet(true);
+      this.frame = frame;
       this.request = request;
       this.allowOsExecution = allowOsExecution;
       setAllowOsExecutionIsSet(true);
@@ -44098,6 +45947,9 @@ public class ClientHandlers {
       __isset_bitfield = other.__isset_bitfield;
       this.rrHandler = other.rrHandler;
       this.bid = other.bid;
+      if (other.isSetFrame()) {
+        this.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.frame);
+      }
       if (other.isSetRequest()) {
         this.request = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.request);
       }
@@ -44115,6 +45967,7 @@ public class ClientHandlers {
       this.rrHandler = 0;
       setBidIsSet(false);
       this.bid = 0;
+      this.frame = null;
       this.request = null;
       setAllowOsExecutionIsSet(false);
       this.allowOsExecution = false;
@@ -44164,6 +46017,31 @@ public class ClientHandlers {
 
     public void setBidIsSet(boolean value) {
       __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getFrame() {
+      return this.frame;
+    }
+
+    public ResourceRequestHandler_OnProtocolExecution_args setFrame(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame) {
+      this.frame = frame;
+      return this;
+    }
+
+    public void unsetFrame() {
+      this.frame = null;
+    }
+
+    /** Returns true if field frame is set (has been assigned a value) and false otherwise */
+    public boolean isSetFrame() {
+      return this.frame != null;
+    }
+
+    public void setFrameIsSet(boolean value) {
+      if (!value) {
+        this.frame = null;
+      }
     }
 
     @org.apache.thrift.annotation.Nullable
@@ -44233,6 +46111,14 @@ public class ClientHandlers {
         }
         break;
 
+      case FRAME:
+        if (value == null) {
+          unsetFrame();
+        } else {
+          setFrame((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
       case REQUEST:
         if (value == null) {
           unsetRequest();
@@ -44262,6 +46148,9 @@ public class ClientHandlers {
       case BID:
         return getBid();
 
+      case FRAME:
+        return getFrame();
+
       case REQUEST:
         return getRequest();
 
@@ -44284,6 +46173,8 @@ public class ClientHandlers {
         return isSetRrHandler();
       case BID:
         return isSetBid();
+      case FRAME:
+        return isSetFrame();
       case REQUEST:
         return isSetRequest();
       case ALLOW_OS_EXECUTION:
@@ -44323,6 +46214,15 @@ public class ClientHandlers {
           return false;
       }
 
+      boolean this_present_frame = true && this.isSetFrame();
+      boolean that_present_frame = true && that.isSetFrame();
+      if (this_present_frame || that_present_frame) {
+        if (!(this_present_frame && that_present_frame))
+          return false;
+        if (!this.frame.equals(that.frame))
+          return false;
+      }
+
       boolean this_present_request = true && this.isSetRequest();
       boolean that_present_request = true && that.isSetRequest();
       if (this_present_request || that_present_request) {
@@ -44351,6 +46251,10 @@ public class ClientHandlers {
       hashCode = hashCode * 8191 + rrHandler;
 
       hashCode = hashCode * 8191 + bid;
+
+      hashCode = hashCode * 8191 + ((isSetFrame()) ? 131071 : 524287);
+      if (isSetFrame())
+        hashCode = hashCode * 8191 + frame.hashCode();
 
       hashCode = hashCode * 8191 + ((isSetRequest()) ? 131071 : 524287);
       if (isSetRequest())
@@ -44385,6 +46289,16 @@ public class ClientHandlers {
       }
       if (isSetBid()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetFrame(), other.isSetFrame());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetFrame()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.frame, other.frame);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -44441,6 +46355,14 @@ public class ClientHandlers {
       sb.append(this.bid);
       first = false;
       if (!first) sb.append(", ");
+      sb.append("frame:");
+      if (this.frame == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.frame);
+      }
+      first = false;
+      if (!first) sb.append(", ");
       sb.append("request:");
       if (this.request == null) {
         sb.append("null");
@@ -44459,6 +46381,9 @@ public class ClientHandlers {
     public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
+      if (frame != null) {
+        frame.validate();
+      }
       if (request != null) {
         request.validate();
       }
@@ -44518,7 +46443,16 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 3: // REQUEST
+            case 3: // FRAME
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.frame.read(iprot);
+                struct.setFrameIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 4: // REQUEST
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
                 struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.request.read(iprot);
@@ -44527,7 +46461,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 4: // ALLOW_OS_EXECUTION
+            case 5: // ALLOW_OS_EXECUTION
               if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
                 struct.allowOsExecution = iprot.readBool();
                 struct.setAllowOsExecutionIsSet(true);
@@ -44557,6 +46491,11 @@ public class ClientHandlers {
         oprot.writeFieldBegin(BID_FIELD_DESC);
         oprot.writeI32(struct.bid);
         oprot.writeFieldEnd();
+        if (struct.frame != null) {
+          oprot.writeFieldBegin(FRAME_FIELD_DESC);
+          struct.frame.write(oprot);
+          oprot.writeFieldEnd();
+        }
         if (struct.request != null) {
           oprot.writeFieldBegin(REQUEST_FIELD_DESC);
           struct.request.write(oprot);
@@ -44590,18 +46529,24 @@ public class ClientHandlers {
         if (struct.isSetBid()) {
           optionals.set(1);
         }
-        if (struct.isSetRequest()) {
+        if (struct.isSetFrame()) {
           optionals.set(2);
         }
-        if (struct.isSetAllowOsExecution()) {
+        if (struct.isSetRequest()) {
           optionals.set(3);
         }
-        oprot.writeBitSet(optionals, 4);
+        if (struct.isSetAllowOsExecution()) {
+          optionals.set(4);
+        }
+        oprot.writeBitSet(optionals, 5);
         if (struct.isSetRrHandler()) {
           oprot.writeI32(struct.rrHandler);
         }
         if (struct.isSetBid()) {
           oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetFrame()) {
+          struct.frame.write(oprot);
         }
         if (struct.isSetRequest()) {
           struct.request.write(oprot);
@@ -44614,7 +46559,7 @@ public class ClientHandlers {
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, ResourceRequestHandler_OnProtocolExecution_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(4);
+        java.util.BitSet incoming = iprot.readBitSet(5);
         if (incoming.get(0)) {
           struct.rrHandler = iprot.readI32();
           struct.setRrHandlerIsSet(true);
@@ -44624,11 +46569,16 @@ public class ClientHandlers {
           struct.setBidIsSet(true);
         }
         if (incoming.get(2)) {
+          struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.frame.read(iprot);
+          struct.setFrameIsSet(true);
+        }
+        if (incoming.get(3)) {
           struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.request.read(iprot);
           struct.setRequestIsSet(true);
         }
-        if (incoming.get(3)) {
+        if (incoming.get(4)) {
           struct.allowOsExecution = iprot.readBool();
           struct.setAllowOsExecutionIsSet(true);
         }
@@ -45021,16 +46971,18 @@ public class ClientHandlers {
 
     private static final org.apache.thrift.protocol.TField HANDLER_FIELD_DESC = new org.apache.thrift.protocol.TField("handler", org.apache.thrift.protocol.TType.STRUCT, (short)1);
     private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)2);
-    private static final org.apache.thrift.protocol.TField QUERY_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("queryId", org.apache.thrift.protocol.TType.I64, (short)3);
-    private static final org.apache.thrift.protocol.TField REQUEST_FIELD_DESC = new org.apache.thrift.protocol.TField("request", org.apache.thrift.protocol.TType.STRING, (short)4);
-    private static final org.apache.thrift.protocol.TField PERSISTENT_FIELD_DESC = new org.apache.thrift.protocol.TField("persistent", org.apache.thrift.protocol.TType.BOOL, (short)5);
-    private static final org.apache.thrift.protocol.TField QUERY_CALLBACK_FIELD_DESC = new org.apache.thrift.protocol.TField("queryCallback", org.apache.thrift.protocol.TType.STRUCT, (short)6);
+    private static final org.apache.thrift.protocol.TField FRAME_FIELD_DESC = new org.apache.thrift.protocol.TField("frame", org.apache.thrift.protocol.TType.STRUCT, (short)3);
+    private static final org.apache.thrift.protocol.TField QUERY_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("queryId", org.apache.thrift.protocol.TType.I64, (short)4);
+    private static final org.apache.thrift.protocol.TField REQUEST_FIELD_DESC = new org.apache.thrift.protocol.TField("request", org.apache.thrift.protocol.TType.STRING, (short)5);
+    private static final org.apache.thrift.protocol.TField PERSISTENT_FIELD_DESC = new org.apache.thrift.protocol.TField("persistent", org.apache.thrift.protocol.TType.BOOL, (short)6);
+    private static final org.apache.thrift.protocol.TField QUERY_CALLBACK_FIELD_DESC = new org.apache.thrift.protocol.TField("queryCallback", org.apache.thrift.protocol.TType.STRUCT, (short)7);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new MessageRouterHandler_onQuery_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new MessageRouterHandler_onQuery_argsTupleSchemeFactory();
 
     public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject handler; // required
     public int bid; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame; // required
     public long queryId; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String request; // required
     public boolean persistent; // required
@@ -45040,10 +46992,11 @@ public class ClientHandlers {
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       HANDLER((short)1, "handler"),
       BID((short)2, "bid"),
-      QUERY_ID((short)3, "queryId"),
-      REQUEST((short)4, "request"),
-      PERSISTENT((short)5, "persistent"),
-      QUERY_CALLBACK((short)6, "queryCallback");
+      FRAME((short)3, "frame"),
+      QUERY_ID((short)4, "queryId"),
+      REQUEST((short)5, "request"),
+      PERSISTENT((short)6, "persistent"),
+      QUERY_CALLBACK((short)7, "queryCallback");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -45063,13 +47016,15 @@ public class ClientHandlers {
             return HANDLER;
           case 2: // BID
             return BID;
-          case 3: // QUERY_ID
+          case 3: // FRAME
+            return FRAME;
+          case 4: // QUERY_ID
             return QUERY_ID;
-          case 4: // REQUEST
+          case 5: // REQUEST
             return REQUEST;
-          case 5: // PERSISTENT
+          case 6: // PERSISTENT
             return PERSISTENT;
-          case 6: // QUERY_CALLBACK
+          case 7: // QUERY_CALLBACK
             return QUERY_CALLBACK;
           default:
             return null;
@@ -45125,6 +47080,8 @@ public class ClientHandlers {
           new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.FRAME, new org.apache.thrift.meta_data.FieldMetaData("frame", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.QUERY_ID, new org.apache.thrift.meta_data.FieldMetaData("queryId", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
       tmpMap.put(_Fields.REQUEST, new org.apache.thrift.meta_data.FieldMetaData("request", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -45143,6 +47100,7 @@ public class ClientHandlers {
     public MessageRouterHandler_onQuery_args(
       com.jetbrains.cef.remote.thrift_codegen.RObject handler,
       int bid,
+      com.jetbrains.cef.remote.thrift_codegen.RObject frame,
       long queryId,
       java.lang.String request,
       boolean persistent,
@@ -45152,6 +47110,7 @@ public class ClientHandlers {
       this.handler = handler;
       this.bid = bid;
       setBidIsSet(true);
+      this.frame = frame;
       this.queryId = queryId;
       setQueryIdIsSet(true);
       this.request = request;
@@ -45169,6 +47128,9 @@ public class ClientHandlers {
         this.handler = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.handler);
       }
       this.bid = other.bid;
+      if (other.isSetFrame()) {
+        this.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.frame);
+      }
       this.queryId = other.queryId;
       if (other.isSetRequest()) {
         this.request = other.request;
@@ -45189,6 +47151,7 @@ public class ClientHandlers {
       this.handler = null;
       setBidIsSet(false);
       this.bid = 0;
+      this.frame = null;
       setQueryIdIsSet(false);
       this.queryId = 0;
       this.request = null;
@@ -45243,6 +47206,31 @@ public class ClientHandlers {
 
     public void setBidIsSet(boolean value) {
       __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getFrame() {
+      return this.frame;
+    }
+
+    public MessageRouterHandler_onQuery_args setFrame(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame) {
+      this.frame = frame;
+      return this;
+    }
+
+    public void unsetFrame() {
+      this.frame = null;
+    }
+
+    /** Returns true if field frame is set (has been assigned a value) and false otherwise */
+    public boolean isSetFrame() {
+      return this.frame != null;
+    }
+
+    public void setFrameIsSet(boolean value) {
+      if (!value) {
+        this.frame = null;
+      }
     }
 
     public long getQueryId() {
@@ -45360,6 +47348,14 @@ public class ClientHandlers {
         }
         break;
 
+      case FRAME:
+        if (value == null) {
+          unsetFrame();
+        } else {
+          setFrame((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
       case QUERY_ID:
         if (value == null) {
           unsetQueryId();
@@ -45405,6 +47401,9 @@ public class ClientHandlers {
       case BID:
         return getBid();
 
+      case FRAME:
+        return getFrame();
+
       case QUERY_ID:
         return getQueryId();
 
@@ -45433,6 +47432,8 @@ public class ClientHandlers {
         return isSetHandler();
       case BID:
         return isSetBid();
+      case FRAME:
+        return isSetFrame();
       case QUERY_ID:
         return isSetQueryId();
       case REQUEST:
@@ -45473,6 +47474,15 @@ public class ClientHandlers {
         if (!(this_present_bid && that_present_bid))
           return false;
         if (this.bid != that.bid)
+          return false;
+      }
+
+      boolean this_present_frame = true && this.isSetFrame();
+      boolean that_present_frame = true && that.isSetFrame();
+      if (this_present_frame || that_present_frame) {
+        if (!(this_present_frame && that_present_frame))
+          return false;
+        if (!this.frame.equals(that.frame))
           return false;
       }
 
@@ -45525,6 +47535,10 @@ public class ClientHandlers {
 
       hashCode = hashCode * 8191 + bid;
 
+      hashCode = hashCode * 8191 + ((isSetFrame()) ? 131071 : 524287);
+      if (isSetFrame())
+        hashCode = hashCode * 8191 + frame.hashCode();
+
       hashCode = hashCode * 8191 + org.apache.thrift.TBaseHelper.hashCode(queryId);
 
       hashCode = hashCode * 8191 + ((isSetRequest()) ? 131071 : 524287);
@@ -45564,6 +47578,16 @@ public class ClientHandlers {
       }
       if (isSetBid()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetFrame(), other.isSetFrame());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetFrame()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.frame, other.frame);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -45644,6 +47668,14 @@ public class ClientHandlers {
       sb.append(this.bid);
       first = false;
       if (!first) sb.append(", ");
+      sb.append("frame:");
+      if (this.frame == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.frame);
+      }
+      first = false;
+      if (!first) sb.append(", ");
       sb.append("queryId:");
       sb.append(this.queryId);
       first = false;
@@ -45676,6 +47708,9 @@ public class ClientHandlers {
       // check for sub-struct validity
       if (handler != null) {
         handler.validate();
+      }
+      if (frame != null) {
+        frame.validate();
       }
       if (queryCallback != null) {
         queryCallback.validate();
@@ -45737,7 +47772,16 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 3: // QUERY_ID
+            case 3: // FRAME
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.frame.read(iprot);
+                struct.setFrameIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 4: // QUERY_ID
               if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
                 struct.queryId = iprot.readI64();
                 struct.setQueryIdIsSet(true);
@@ -45745,7 +47789,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 4: // REQUEST
+            case 5: // REQUEST
               if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
                 struct.request = iprot.readString();
                 struct.setRequestIsSet(true);
@@ -45753,7 +47797,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 5: // PERSISTENT
+            case 6: // PERSISTENT
               if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
                 struct.persistent = iprot.readBool();
                 struct.setPersistentIsSet(true);
@@ -45761,7 +47805,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 6: // QUERY_CALLBACK
+            case 7: // QUERY_CALLBACK
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
                 struct.queryCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.queryCallback.read(iprot);
@@ -45794,6 +47838,11 @@ public class ClientHandlers {
         oprot.writeFieldBegin(BID_FIELD_DESC);
         oprot.writeI32(struct.bid);
         oprot.writeFieldEnd();
+        if (struct.frame != null) {
+          oprot.writeFieldBegin(FRAME_FIELD_DESC);
+          struct.frame.write(oprot);
+          oprot.writeFieldEnd();
+        }
         oprot.writeFieldBegin(QUERY_ID_FIELD_DESC);
         oprot.writeI64(struct.queryId);
         oprot.writeFieldEnd();
@@ -45835,24 +47884,30 @@ public class ClientHandlers {
         if (struct.isSetBid()) {
           optionals.set(1);
         }
-        if (struct.isSetQueryId()) {
+        if (struct.isSetFrame()) {
           optionals.set(2);
         }
-        if (struct.isSetRequest()) {
+        if (struct.isSetQueryId()) {
           optionals.set(3);
         }
-        if (struct.isSetPersistent()) {
+        if (struct.isSetRequest()) {
           optionals.set(4);
         }
-        if (struct.isSetQueryCallback()) {
+        if (struct.isSetPersistent()) {
           optionals.set(5);
         }
-        oprot.writeBitSet(optionals, 6);
+        if (struct.isSetQueryCallback()) {
+          optionals.set(6);
+        }
+        oprot.writeBitSet(optionals, 7);
         if (struct.isSetHandler()) {
           struct.handler.write(oprot);
         }
         if (struct.isSetBid()) {
           oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetFrame()) {
+          struct.frame.write(oprot);
         }
         if (struct.isSetQueryId()) {
           oprot.writeI64(struct.queryId);
@@ -45871,7 +47926,7 @@ public class ClientHandlers {
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, MessageRouterHandler_onQuery_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(6);
+        java.util.BitSet incoming = iprot.readBitSet(7);
         if (incoming.get(0)) {
           struct.handler = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.handler.read(iprot);
@@ -45882,18 +47937,23 @@ public class ClientHandlers {
           struct.setBidIsSet(true);
         }
         if (incoming.get(2)) {
+          struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.frame.read(iprot);
+          struct.setFrameIsSet(true);
+        }
+        if (incoming.get(3)) {
           struct.queryId = iprot.readI64();
           struct.setQueryIdIsSet(true);
         }
-        if (incoming.get(3)) {
+        if (incoming.get(4)) {
           struct.request = iprot.readString();
           struct.setRequestIsSet(true);
         }
-        if (incoming.get(4)) {
+        if (incoming.get(5)) {
           struct.persistent = iprot.readBool();
           struct.setPersistentIsSet(true);
         }
-        if (incoming.get(5)) {
+        if (incoming.get(6)) {
           struct.queryCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.queryCallback.read(iprot);
           struct.setQueryCallbackIsSet(true);
@@ -46287,20 +48347,23 @@ public class ClientHandlers {
 
     private static final org.apache.thrift.protocol.TField HANDLER_FIELD_DESC = new org.apache.thrift.protocol.TField("handler", org.apache.thrift.protocol.TType.STRUCT, (short)1);
     private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)2);
-    private static final org.apache.thrift.protocol.TField QUERY_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("queryId", org.apache.thrift.protocol.TType.I64, (short)3);
+    private static final org.apache.thrift.protocol.TField FRAME_FIELD_DESC = new org.apache.thrift.protocol.TField("frame", org.apache.thrift.protocol.TType.STRUCT, (short)3);
+    private static final org.apache.thrift.protocol.TField QUERY_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("queryId", org.apache.thrift.protocol.TType.I64, (short)4);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new MessageRouterHandler_onQueryCanceled_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new MessageRouterHandler_onQueryCanceled_argsTupleSchemeFactory();
 
     public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject handler; // required
     public int bid; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame; // required
     public long queryId; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       HANDLER((short)1, "handler"),
       BID((short)2, "bid"),
-      QUERY_ID((short)3, "queryId");
+      FRAME((short)3, "frame"),
+      QUERY_ID((short)4, "queryId");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -46320,7 +48383,9 @@ public class ClientHandlers {
             return HANDLER;
           case 2: // BID
             return BID;
-          case 3: // QUERY_ID
+          case 3: // FRAME
+            return FRAME;
+          case 4: // QUERY_ID
             return QUERY_ID;
           default:
             return null;
@@ -46375,6 +48440,8 @@ public class ClientHandlers {
           new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.FRAME, new org.apache.thrift.meta_data.FieldMetaData("frame", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.QUERY_ID, new org.apache.thrift.meta_data.FieldMetaData("queryId", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
@@ -46387,12 +48454,14 @@ public class ClientHandlers {
     public MessageRouterHandler_onQueryCanceled_args(
       com.jetbrains.cef.remote.thrift_codegen.RObject handler,
       int bid,
+      com.jetbrains.cef.remote.thrift_codegen.RObject frame,
       long queryId)
     {
       this();
       this.handler = handler;
       this.bid = bid;
       setBidIsSet(true);
+      this.frame = frame;
       this.queryId = queryId;
       setQueryIdIsSet(true);
     }
@@ -46406,6 +48475,9 @@ public class ClientHandlers {
         this.handler = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.handler);
       }
       this.bid = other.bid;
+      if (other.isSetFrame()) {
+        this.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.frame);
+      }
       this.queryId = other.queryId;
     }
 
@@ -46419,6 +48491,7 @@ public class ClientHandlers {
       this.handler = null;
       setBidIsSet(false);
       this.bid = 0;
+      this.frame = null;
       setQueryIdIsSet(false);
       this.queryId = 0;
     }
@@ -46471,6 +48544,31 @@ public class ClientHandlers {
       __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
     }
 
+    @org.apache.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getFrame() {
+      return this.frame;
+    }
+
+    public MessageRouterHandler_onQueryCanceled_args setFrame(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame) {
+      this.frame = frame;
+      return this;
+    }
+
+    public void unsetFrame() {
+      this.frame = null;
+    }
+
+    /** Returns true if field frame is set (has been assigned a value) and false otherwise */
+    public boolean isSetFrame() {
+      return this.frame != null;
+    }
+
+    public void setFrameIsSet(boolean value) {
+      if (!value) {
+        this.frame = null;
+      }
+    }
+
     public long getQueryId() {
       return this.queryId;
     }
@@ -46513,6 +48611,14 @@ public class ClientHandlers {
         }
         break;
 
+      case FRAME:
+        if (value == null) {
+          unsetFrame();
+        } else {
+          setFrame((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
       case QUERY_ID:
         if (value == null) {
           unsetQueryId();
@@ -46534,6 +48640,9 @@ public class ClientHandlers {
       case BID:
         return getBid();
 
+      case FRAME:
+        return getFrame();
+
       case QUERY_ID:
         return getQueryId();
 
@@ -46553,6 +48662,8 @@ public class ClientHandlers {
         return isSetHandler();
       case BID:
         return isSetBid();
+      case FRAME:
+        return isSetFrame();
       case QUERY_ID:
         return isSetQueryId();
       }
@@ -46590,6 +48701,15 @@ public class ClientHandlers {
           return false;
       }
 
+      boolean this_present_frame = true && this.isSetFrame();
+      boolean that_present_frame = true && that.isSetFrame();
+      if (this_present_frame || that_present_frame) {
+        if (!(this_present_frame && that_present_frame))
+          return false;
+        if (!this.frame.equals(that.frame))
+          return false;
+      }
+
       boolean this_present_queryId = true;
       boolean that_present_queryId = true;
       if (this_present_queryId || that_present_queryId) {
@@ -46611,6 +48731,10 @@ public class ClientHandlers {
         hashCode = hashCode * 8191 + handler.hashCode();
 
       hashCode = hashCode * 8191 + bid;
+
+      hashCode = hashCode * 8191 + ((isSetFrame()) ? 131071 : 524287);
+      if (isSetFrame())
+        hashCode = hashCode * 8191 + frame.hashCode();
 
       hashCode = hashCode * 8191 + org.apache.thrift.TBaseHelper.hashCode(queryId);
 
@@ -46641,6 +48765,16 @@ public class ClientHandlers {
       }
       if (isSetBid()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetFrame(), other.isSetFrame());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetFrame()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.frame, other.frame);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -46691,6 +48825,14 @@ public class ClientHandlers {
       sb.append(this.bid);
       first = false;
       if (!first) sb.append(", ");
+      sb.append("frame:");
+      if (this.frame == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.frame);
+      }
+      first = false;
+      if (!first) sb.append(", ");
       sb.append("queryId:");
       sb.append(this.queryId);
       first = false;
@@ -46703,6 +48845,9 @@ public class ClientHandlers {
       // check for sub-struct validity
       if (handler != null) {
         handler.validate();
+      }
+      if (frame != null) {
+        frame.validate();
       }
     }
 
@@ -46761,7 +48906,16 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 3: // QUERY_ID
+            case 3: // FRAME
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.frame.read(iprot);
+                struct.setFrameIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 4: // QUERY_ID
               if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
                 struct.queryId = iprot.readI64();
                 struct.setQueryIdIsSet(true);
@@ -46793,6 +48947,11 @@ public class ClientHandlers {
         oprot.writeFieldBegin(BID_FIELD_DESC);
         oprot.writeI32(struct.bid);
         oprot.writeFieldEnd();
+        if (struct.frame != null) {
+          oprot.writeFieldBegin(FRAME_FIELD_DESC);
+          struct.frame.write(oprot);
+          oprot.writeFieldEnd();
+        }
         oprot.writeFieldBegin(QUERY_ID_FIELD_DESC);
         oprot.writeI64(struct.queryId);
         oprot.writeFieldEnd();
@@ -46821,15 +48980,21 @@ public class ClientHandlers {
         if (struct.isSetBid()) {
           optionals.set(1);
         }
-        if (struct.isSetQueryId()) {
+        if (struct.isSetFrame()) {
           optionals.set(2);
         }
-        oprot.writeBitSet(optionals, 3);
+        if (struct.isSetQueryId()) {
+          optionals.set(3);
+        }
+        oprot.writeBitSet(optionals, 4);
         if (struct.isSetHandler()) {
           struct.handler.write(oprot);
         }
         if (struct.isSetBid()) {
           oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetFrame()) {
+          struct.frame.write(oprot);
         }
         if (struct.isSetQueryId()) {
           oprot.writeI64(struct.queryId);
@@ -46839,7 +49004,7 @@ public class ClientHandlers {
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, MessageRouterHandler_onQueryCanceled_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(3);
+        java.util.BitSet incoming = iprot.readBitSet(4);
         if (incoming.get(0)) {
           struct.handler = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.handler.read(iprot);
@@ -46850,6 +49015,11 @@ public class ClientHandlers {
           struct.setBidIsSet(true);
         }
         if (incoming.get(2)) {
+          struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.frame.read(iprot);
+          struct.setFrameIsSet(true);
+        }
+        if (incoming.get(3)) {
           struct.queryId = iprot.readI64();
           struct.setQueryIdIsSet(true);
         }
@@ -47241,14 +49411,16 @@ public class ClientHandlers {
 
     private static final org.apache.thrift.protocol.TField SCHEME_HANDLER_FACTORY_FIELD_DESC = new org.apache.thrift.protocol.TField("schemeHandlerFactory", org.apache.thrift.protocol.TType.I32, (short)1);
     private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)2);
-    private static final org.apache.thrift.protocol.TField SCHEME_NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("scheme_name", org.apache.thrift.protocol.TType.STRING, (short)3);
-    private static final org.apache.thrift.protocol.TField REQUEST_FIELD_DESC = new org.apache.thrift.protocol.TField("request", org.apache.thrift.protocol.TType.STRUCT, (short)4);
+    private static final org.apache.thrift.protocol.TField FRAME_FIELD_DESC = new org.apache.thrift.protocol.TField("frame", org.apache.thrift.protocol.TType.STRUCT, (short)3);
+    private static final org.apache.thrift.protocol.TField SCHEME_NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("scheme_name", org.apache.thrift.protocol.TType.STRING, (short)4);
+    private static final org.apache.thrift.protocol.TField REQUEST_FIELD_DESC = new org.apache.thrift.protocol.TField("request", org.apache.thrift.protocol.TType.STRUCT, (short)5);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new SchemeHandlerFactory_CreateHandler_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new SchemeHandlerFactory_CreateHandler_argsTupleSchemeFactory();
 
     public int schemeHandlerFactory; // required
     public int bid; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String scheme_name; // required
     public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request; // required
 
@@ -47256,8 +49428,9 @@ public class ClientHandlers {
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SCHEME_HANDLER_FACTORY((short)1, "schemeHandlerFactory"),
       BID((short)2, "bid"),
-      SCHEME_NAME((short)3, "scheme_name"),
-      REQUEST((short)4, "request");
+      FRAME((short)3, "frame"),
+      SCHEME_NAME((short)4, "scheme_name"),
+      REQUEST((short)5, "request");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -47277,9 +49450,11 @@ public class ClientHandlers {
             return SCHEME_HANDLER_FACTORY;
           case 2: // BID
             return BID;
-          case 3: // SCHEME_NAME
+          case 3: // FRAME
+            return FRAME;
+          case 4: // SCHEME_NAME
             return SCHEME_NAME;
-          case 4: // REQUEST
+          case 5: // REQUEST
             return REQUEST;
           default:
             return null;
@@ -47334,6 +49509,8 @@ public class ClientHandlers {
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.FRAME, new org.apache.thrift.meta_data.FieldMetaData("frame", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
       tmpMap.put(_Fields.SCHEME_NAME, new org.apache.thrift.meta_data.FieldMetaData("scheme_name", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       tmpMap.put(_Fields.REQUEST, new org.apache.thrift.meta_data.FieldMetaData("request", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -47348,6 +49525,7 @@ public class ClientHandlers {
     public SchemeHandlerFactory_CreateHandler_args(
       int schemeHandlerFactory,
       int bid,
+      com.jetbrains.cef.remote.thrift_codegen.RObject frame,
       java.lang.String scheme_name,
       com.jetbrains.cef.remote.thrift_codegen.RObject request)
     {
@@ -47356,6 +49534,7 @@ public class ClientHandlers {
       setSchemeHandlerFactoryIsSet(true);
       this.bid = bid;
       setBidIsSet(true);
+      this.frame = frame;
       this.scheme_name = scheme_name;
       this.request = request;
     }
@@ -47367,6 +49546,9 @@ public class ClientHandlers {
       __isset_bitfield = other.__isset_bitfield;
       this.schemeHandlerFactory = other.schemeHandlerFactory;
       this.bid = other.bid;
+      if (other.isSetFrame()) {
+        this.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.frame);
+      }
       if (other.isSetScheme_name()) {
         this.scheme_name = other.scheme_name;
       }
@@ -47386,6 +49568,7 @@ public class ClientHandlers {
       this.schemeHandlerFactory = 0;
       setBidIsSet(false);
       this.bid = 0;
+      this.frame = null;
       this.scheme_name = null;
       this.request = null;
     }
@@ -47434,6 +49617,31 @@ public class ClientHandlers {
 
     public void setBidIsSet(boolean value) {
       __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getFrame() {
+      return this.frame;
+    }
+
+    public SchemeHandlerFactory_CreateHandler_args setFrame(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame) {
+      this.frame = frame;
+      return this;
+    }
+
+    public void unsetFrame() {
+      this.frame = null;
+    }
+
+    /** Returns true if field frame is set (has been assigned a value) and false otherwise */
+    public boolean isSetFrame() {
+      return this.frame != null;
+    }
+
+    public void setFrameIsSet(boolean value) {
+      if (!value) {
+        this.frame = null;
+      }
     }
 
     @org.apache.thrift.annotation.Nullable
@@ -47505,6 +49713,14 @@ public class ClientHandlers {
         }
         break;
 
+      case FRAME:
+        if (value == null) {
+          unsetFrame();
+        } else {
+          setFrame((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
       case SCHEME_NAME:
         if (value == null) {
           unsetScheme_name();
@@ -47534,6 +49750,9 @@ public class ClientHandlers {
       case BID:
         return getBid();
 
+      case FRAME:
+        return getFrame();
+
       case SCHEME_NAME:
         return getScheme_name();
 
@@ -47556,6 +49775,8 @@ public class ClientHandlers {
         return isSetSchemeHandlerFactory();
       case BID:
         return isSetBid();
+      case FRAME:
+        return isSetFrame();
       case SCHEME_NAME:
         return isSetScheme_name();
       case REQUEST:
@@ -47595,6 +49816,15 @@ public class ClientHandlers {
           return false;
       }
 
+      boolean this_present_frame = true && this.isSetFrame();
+      boolean that_present_frame = true && that.isSetFrame();
+      if (this_present_frame || that_present_frame) {
+        if (!(this_present_frame && that_present_frame))
+          return false;
+        if (!this.frame.equals(that.frame))
+          return false;
+      }
+
       boolean this_present_scheme_name = true && this.isSetScheme_name();
       boolean that_present_scheme_name = true && that.isSetScheme_name();
       if (this_present_scheme_name || that_present_scheme_name) {
@@ -47623,6 +49853,10 @@ public class ClientHandlers {
       hashCode = hashCode * 8191 + schemeHandlerFactory;
 
       hashCode = hashCode * 8191 + bid;
+
+      hashCode = hashCode * 8191 + ((isSetFrame()) ? 131071 : 524287);
+      if (isSetFrame())
+        hashCode = hashCode * 8191 + frame.hashCode();
 
       hashCode = hashCode * 8191 + ((isSetScheme_name()) ? 131071 : 524287);
       if (isSetScheme_name())
@@ -47659,6 +49893,16 @@ public class ClientHandlers {
       }
       if (isSetBid()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetFrame(), other.isSetFrame());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetFrame()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.frame, other.frame);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -47715,6 +49959,14 @@ public class ClientHandlers {
       sb.append(this.bid);
       first = false;
       if (!first) sb.append(", ");
+      sb.append("frame:");
+      if (this.frame == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.frame);
+      }
+      first = false;
+      if (!first) sb.append(", ");
       sb.append("scheme_name:");
       if (this.scheme_name == null) {
         sb.append("null");
@@ -47737,6 +49989,9 @@ public class ClientHandlers {
     public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
+      if (frame != null) {
+        frame.validate();
+      }
       if (request != null) {
         request.validate();
       }
@@ -47796,7 +50051,16 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 3: // SCHEME_NAME
+            case 3: // FRAME
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.frame.read(iprot);
+                struct.setFrameIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 4: // SCHEME_NAME
               if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
                 struct.scheme_name = iprot.readString();
                 struct.setScheme_nameIsSet(true);
@@ -47804,7 +50068,7 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 4: // REQUEST
+            case 5: // REQUEST
               if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
                 struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
                 struct.request.read(iprot);
@@ -47835,6 +50099,11 @@ public class ClientHandlers {
         oprot.writeFieldBegin(BID_FIELD_DESC);
         oprot.writeI32(struct.bid);
         oprot.writeFieldEnd();
+        if (struct.frame != null) {
+          oprot.writeFieldBegin(FRAME_FIELD_DESC);
+          struct.frame.write(oprot);
+          oprot.writeFieldEnd();
+        }
         if (struct.scheme_name != null) {
           oprot.writeFieldBegin(SCHEME_NAME_FIELD_DESC);
           oprot.writeString(struct.scheme_name);
@@ -47870,18 +50139,24 @@ public class ClientHandlers {
         if (struct.isSetBid()) {
           optionals.set(1);
         }
-        if (struct.isSetScheme_name()) {
+        if (struct.isSetFrame()) {
           optionals.set(2);
         }
-        if (struct.isSetRequest()) {
+        if (struct.isSetScheme_name()) {
           optionals.set(3);
         }
-        oprot.writeBitSet(optionals, 4);
+        if (struct.isSetRequest()) {
+          optionals.set(4);
+        }
+        oprot.writeBitSet(optionals, 5);
         if (struct.isSetSchemeHandlerFactory()) {
           oprot.writeI32(struct.schemeHandlerFactory);
         }
         if (struct.isSetBid()) {
           oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetFrame()) {
+          struct.frame.write(oprot);
         }
         if (struct.isSetScheme_name()) {
           oprot.writeString(struct.scheme_name);
@@ -47894,7 +50169,7 @@ public class ClientHandlers {
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, SchemeHandlerFactory_CreateHandler_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(4);
+        java.util.BitSet incoming = iprot.readBitSet(5);
         if (incoming.get(0)) {
           struct.schemeHandlerFactory = iprot.readI32();
           struct.setSchemeHandlerFactoryIsSet(true);
@@ -47904,10 +50179,15 @@ public class ClientHandlers {
           struct.setBidIsSet(true);
         }
         if (incoming.get(2)) {
+          struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.frame.read(iprot);
+          struct.setFrameIsSet(true);
+        }
+        if (incoming.get(3)) {
           struct.scheme_name = iprot.readString();
           struct.setScheme_nameIsSet(true);
         }
-        if (incoming.get(3)) {
+        if (incoming.get(4)) {
           struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.request.read(iprot);
           struct.setRequestIsSet(true);

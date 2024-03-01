@@ -44,7 +44,7 @@ public class ClientHandlersDummy implements ClientHandlers.Iface{
     }
 
     @Override
-    public boolean LifeSpanHandler_OnBeforePopup(int bid, String url, String frameName, boolean gesture) throws TException {
+    public boolean LifeSpanHandler_OnBeforePopup(int bid, RObject frame, String url, String frameName, boolean gesture) throws TException {
         return false;
     }
 
@@ -69,22 +69,22 @@ public class ClientHandlersDummy implements ClientHandlers.Iface{
     }
 
     @Override
-    public void LoadHandler_OnLoadStart(int bid, int transition_type) throws TException {
+    public void LoadHandler_OnLoadStart(int bid, RObject frame, int transition_type) throws TException {
 
     }
 
     @Override
-    public void LoadHandler_OnLoadEnd(int bid, int httpStatusCode) throws TException {
+    public void LoadHandler_OnLoadEnd(int bid, RObject frame, int httpStatusCode) throws TException {
 
     }
 
     @Override
-    public void LoadHandler_OnLoadError(int bid, int errorCode, String errorText, String failedUrl) throws TException {
+    public void LoadHandler_OnLoadError(int bid, RObject frame, int errorCode, String errorText, String failedUrl) throws TException {
 
     }
 
     @Override
-    public void DisplayHandler_OnAddressChange(int bid, String url) throws TException {
+    public void DisplayHandler_OnAddressChange(int bid, RObject frame, String url) throws TException {
 
     }
 
@@ -134,12 +134,12 @@ public class ClientHandlersDummy implements ClientHandlers.Iface{
     }
 
     @Override
-    public boolean RequestHandler_OnBeforeBrowse(int bid, RObject request, boolean user_gesture, boolean is_redirect) throws TException {
+    public boolean RequestHandler_OnBeforeBrowse(int bid, RObject frame, RObject request, boolean user_gesture, boolean is_redirect) throws TException {
         return false;
     }
 
     @Override
-    public boolean RequestHandler_OnOpenURLFromTab(int bid, String target_url, boolean user_gesture) throws TException {
+    public boolean RequestHandler_OnOpenURLFromTab(int bid, RObject frame, String target_url, boolean user_gesture) throws TException {
         return false;
     }
 
@@ -159,7 +159,7 @@ public class ClientHandlersDummy implements ClientHandlers.Iface{
     }
 
     @Override
-    public RObject RequestHandler_GetResourceRequestHandler(int bid, RObject request, boolean isNavigation, boolean isDownload, String requestInitiator) throws TException {
+    public RObject RequestHandler_GetResourceRequestHandler(int bid, RObject frame, RObject request, boolean isNavigation, boolean isDownload, String requestInitiator) throws TException {
         return null;
     }
 
@@ -169,7 +169,7 @@ public class ClientHandlersDummy implements ClientHandlers.Iface{
     }
 
     @Override
-    public RObject ResourceRequestHandler_GetCookieAccessFilter(int rrHandler, int bid, RObject request) throws TException {
+    public RObject ResourceRequestHandler_GetCookieAccessFilter(int rrHandler, int bid, RObject frame, RObject request) throws TException {
         return null;
     }
 
@@ -179,22 +179,22 @@ public class ClientHandlersDummy implements ClientHandlers.Iface{
     }
 
     @Override
-    public boolean CookieAccessFilter_CanSendCookie(int filter, int bid, RObject request, List<String> cookie) throws TException {
+    public boolean CookieAccessFilter_CanSendCookie(int filter, int bid, RObject frame, RObject request, List<String> cookie) throws TException {
         return false;
     }
 
     @Override
-    public boolean CookieAccessFilter_CanSaveCookie(int filter, int bid, RObject request, RObject response, List<String> cookie) throws TException {
+    public boolean CookieAccessFilter_CanSaveCookie(int filter, int bid, RObject frame, RObject request, RObject response, List<String> cookie) throws TException {
         return false;
     }
 
     @Override
-    public boolean ResourceRequestHandler_OnBeforeResourceLoad(int rrHandler, int bid, RObject request) throws TException {
+    public boolean ResourceRequestHandler_OnBeforeResourceLoad(int rrHandler, int bid, RObject frame, RObject request) throws TException {
         return false;
     }
 
     @Override
-    public RObject ResourceRequestHandler_GetResourceHandler(int rrHandler, int bid, RObject request) throws TException {
+    public RObject ResourceRequestHandler_GetResourceHandler(int rrHandler, int bid, RObject frame, RObject request) throws TException {
         return null;
     }
 
@@ -224,32 +224,32 @@ public class ClientHandlersDummy implements ClientHandlers.Iface{
     }
 
     @Override
-    public String ResourceRequestHandler_OnResourceRedirect(int rrHandler, int bid, RObject request, RObject response, String new_url) throws TException {
+    public String ResourceRequestHandler_OnResourceRedirect(int rrHandler, int bid, RObject frame, RObject request, RObject response, String new_url) throws TException {
         return null;
     }
 
     @Override
-    public boolean ResourceRequestHandler_OnResourceResponse(int rrHandler, int bid, RObject request, RObject response) throws TException {
+    public boolean ResourceRequestHandler_OnResourceResponse(int rrHandler, int bid, RObject frame, RObject request, RObject response) throws TException {
         return false;
     }
 
     @Override
-    public void ResourceRequestHandler_OnResourceLoadComplete(int rrHandler, int bid, RObject request, RObject response, String status, long receivedContentLength) throws TException {
+    public void ResourceRequestHandler_OnResourceLoadComplete(int rrHandler, int bid, RObject frame, RObject request, RObject response, String status, long receivedContentLength) throws TException {
 
     }
 
     @Override
-    public boolean ResourceRequestHandler_OnProtocolExecution(int rrHandler, int bid, RObject request, boolean allowOsExecution) throws TException {
+    public boolean ResourceRequestHandler_OnProtocolExecution(int rrHandler, int bid, RObject frame, RObject request, boolean allowOsExecution) throws TException {
         return false;
     }
 
     @Override
-    public boolean MessageRouterHandler_onQuery(RObject handler, int bid, long queryId, String request, boolean persistent, RObject queryCallback) throws TException {
+    public boolean MessageRouterHandler_onQuery(RObject handler, int bid, RObject frame, long queryId, String request, boolean persistent, RObject queryCallback) throws TException {
         return false;
     }
 
     @Override
-    public void MessageRouterHandler_onQueryCanceled(RObject handler, int bid, long queryId) throws TException {
+    public void MessageRouterHandler_onQueryCanceled(RObject handler, int bid, RObject frame, long queryId) throws TException {
 
     }
 
@@ -259,12 +259,22 @@ public class ClientHandlersDummy implements ClientHandlers.Iface{
     }
 
     @Override
-    public RObject SchemeHandlerFactory_CreateHandler(int schemeHandlerFactory, int bid, String scheme_name, RObject request) throws TException {
+    public RObject SchemeHandlerFactory_CreateHandler(int schemeHandlerFactory, int bid, RObject frame, String scheme_name, RObject request) throws TException {
         return null;
     }
 
     @Override
     public void SchemeHandlerFactory_Dispose(int schemeHandlerFactory) throws TException {
 
+    }
+
+    @Override
+    public void CompletionCallback_OnComplete(int completionCallback) throws TException {
+
+    }
+
+    @Override
+    public RObject RequestContextHandler_GetResourceRequestHandler(int handler, int bid, RObject frame, RObject request, boolean isNavigation, boolean isDownload, String requestInitiator) throws TException {
+        return null;
     }
 }

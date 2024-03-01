@@ -69,6 +69,11 @@ service Server {
     oneway void Browser_SetFrameRate(1: i32 bid, 2:i32 val),
 
     //
+    // CefFrame
+    //
+    oneway void Frame_ExecuteJavaScript(1:i32 frameId, 2:string code, 3:string url, 4:i32 line),
+
+    //
     // CefRequest
     //
     void Request_Update(1: shared.RObject request),
