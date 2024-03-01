@@ -338,7 +338,7 @@ public class CefClient extends CefClientHandler
     @Override
     public void onBeforeContextMenu(
             CefBrowser browser, CefFrame frame, CefContextMenuParams params, CefMenuModel model) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onBeforeContextMenu mustn't be called in remote mode (it seems that user manually called this method).");
         if (contextMenuHandler_ != null && browser != null)
             contextMenuHandler_.onBeforeContextMenu(browser, frame, params, model);
     }
@@ -346,7 +346,7 @@ public class CefClient extends CefClientHandler
     @Override
     public boolean onContextMenuCommand(CefBrowser browser, CefFrame frame,
                                         CefContextMenuParams params, int commandId, int eventFlags) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onContextMenuCommand mustn't be called in remote mode (it seems that user manually called this method).");
         if (contextMenuHandler_ != null && browser != null)
             return contextMenuHandler_.onContextMenuCommand(
                     browser, frame, params, commandId, eventFlags);
@@ -355,7 +355,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public void onContextMenuDismissed(CefBrowser browser, CefFrame frame) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onContextMenuDismissed mustn't be called in remote mode (it seems that user manually called this method).");
         if (contextMenuHandler_ != null && browser != null)
             contextMenuHandler_.onContextMenuDismissed(browser, frame);
     }
@@ -380,7 +380,7 @@ public class CefClient extends CefClientHandler
     @Override
     public boolean onFileDialog(CefBrowser browser, FileDialogMode mode, String title,
                                 String defaultFilePath, Vector<String> acceptFilters, CefFileDialogCallback callback) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onFileDialog mustn't be called in remote mode (it seems that user manually called this method).");
         if (dialogHandler_ != null && browser != null) {
             return dialogHandler_.onFileDialog(
                     browser, mode, title, defaultFilePath, acceptFilters, callback);
@@ -407,14 +407,14 @@ public class CefClient extends CefClientHandler
 
     @Override
     public void onAddressChange(CefBrowser browser, CefFrame frame, String url) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onAddressChange mustn't be called in remote mode (it seems that user manually called this method).");
         if (displayHandler_ != null && browser != null)
             displayHandler_.onAddressChange(browser, frame, url);
     }
 
     @Override
     public void onTitleChange(CefBrowser browser, String title) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onTitleChange mustn't be called in remote mode (it seems that user manually called this method).");
         if (displayHandler_ != null && browser != null)
             displayHandler_.onTitleChange(browser, title);
     }
@@ -427,7 +427,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public boolean onTooltip(CefBrowser browser, String text) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onTooltip mustn't be called in remote mode (it seems that user manually called this method).");
         if (displayHandler_ != null && browser != null) {
             return displayHandler_.onTooltip(browser, text);
         }
@@ -436,7 +436,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public void onStatusMessage(CefBrowser browser, String value) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onStatusMessage mustn't be called in remote mode (it seems that user manually called this method).");
         if (displayHandler_ != null && browser != null) {
             displayHandler_.onStatusMessage(browser, value);
         }
@@ -445,7 +445,7 @@ public class CefClient extends CefClientHandler
     @Override
     public boolean onConsoleMessage(CefBrowser browser, CefSettings.LogSeverity level,
                                     String message, String source, int line) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onConsoleMessage mustn't be called in remote mode (it seems that user manually called this method).");
         if (displayHandler_ != null && browser != null) {
             return displayHandler_.onConsoleMessage(browser, level, message, source, line);
         }
@@ -454,7 +454,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public boolean onCursorChange(CefBrowser browser, int cursorType) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onCursorChange mustn't be called in remote mode (it seems that user manually called this method).");
         if (browser == null) {
             return false;
         }
@@ -491,7 +491,7 @@ public class CefClient extends CefClientHandler
     @Override
     public void onBeforeDownload(CefBrowser browser, CefDownloadItem downloadItem,
                                  String suggestedName, CefBeforeDownloadCallback callback) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onBeforeDownload mustn't be called in remote mode (it seems that user manually called this method).");
         if (downloadHandler_ != null && browser != null)
             downloadHandler_.onBeforeDownload(browser, downloadItem, suggestedName, callback);
     }
@@ -499,7 +499,7 @@ public class CefClient extends CefClientHandler
     @Override
     public void onDownloadUpdated(
             CefBrowser browser, CefDownloadItem downloadItem, CefDownloadItemCallback callback) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onDownloadUpdated mustn't be called in remote mode (it seems that user manually called this method).");
         if (downloadHandler_ != null && browser != null)
             downloadHandler_.onDownloadUpdated(browser, downloadItem, callback);
     }
@@ -523,7 +523,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public boolean onDragEnter(CefBrowser browser, CefDragData dragData, int mask) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onDragEnter mustn't be called in remote mode (it seems that user manually called this method).");
         if (dragHandler_ != null && browser != null)
             return dragHandler_.onDragEnter(browser, dragData, mask);
         return false;
@@ -548,7 +548,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public void onTakeFocus(CefBrowser browser, boolean next) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onTakeFocus mustn't be called in remote mode (it seems that user manually called this method).");
         if (browser == null) return;
 
         browser.setFocus(false);
@@ -579,7 +579,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public boolean onSetFocus(final CefBrowser browser, FocusSource source) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onSetFocus mustn't be called in remote mode (it seems that user manually called this method).");
         if (browser == null) return false;
 
         Boolean alreadyHandled = Boolean.FALSE;
@@ -593,7 +593,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public void onGotFocus(CefBrowser browser) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onGotFocus mustn't be called in remote mode (it seems that user manually called this method).");
         if (browser == null) return;
         if (focusedBrowser_ == browser) return; // prevent recursive call (in OSR)
 
@@ -630,7 +630,7 @@ public class CefClient extends CefClientHandler
             String requesting_url,
             int requested_permissions,
             CefMediaAccessCallback callback) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onRequestMediaAccessPermission mustn't be called in remote mode (it seems that user manually called this method).");
         if (permissionHandler_ != null && browser != null)
             return permissionHandler_.onRequestMediaAccessPermission(browser, frame, requesting_url,
                     requested_permissions, callback);
@@ -658,7 +658,7 @@ public class CefClient extends CefClientHandler
     public boolean onJSDialog(CefBrowser browser, String origin_url, JSDialogType dialog_type,
                               String message_text, String default_prompt_text, CefJSDialogCallback callback,
                               BoolRef suppress_message) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onJSDialog mustn't be called in remote mode (it seems that user manually called this method).");
         if (jsDialogHandler_ != null && browser != null)
             return jsDialogHandler_.onJSDialog(browser, origin_url, dialog_type, message_text,
                     default_prompt_text, callback, suppress_message);
@@ -668,7 +668,7 @@ public class CefClient extends CefClientHandler
     @Override
     public boolean onBeforeUnloadDialog(CefBrowser browser, String message_text, boolean is_reload,
                                         CefJSDialogCallback callback) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onBeforeUnloadDialog mustn't be called in remote mode (it seems that user manually called this method).");
         if (jsDialogHandler_ != null && browser != null)
             return jsDialogHandler_.onBeforeUnloadDialog(
                     browser, message_text, is_reload, callback);
@@ -677,14 +677,14 @@ public class CefClient extends CefClientHandler
 
     @Override
     public void onResetDialogState(CefBrowser browser) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onResetDialogState mustn't be called in remote mode (it seems that user manually called this method).");
         if (jsDialogHandler_ != null && browser != null)
             jsDialogHandler_.onResetDialogState(browser);
     }
 
     @Override
     public void onDialogClosed(CefBrowser browser) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onDialogClosed mustn't be called in remote mode (it seems that user manually called this method).");
         if (jsDialogHandler_ != null && browser != null) jsDialogHandler_.onDialogClosed(browser);
     }
 
@@ -708,7 +708,7 @@ public class CefClient extends CefClientHandler
     @Override
     public boolean onPreKeyEvent(
             CefBrowser browser, CefKeyEvent event, BoolRef is_keyboard_shortcut) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onPreKeyEvent mustn't be called in remote mode (it seems that user manually called this method).");
         if (keyboardHandler_ != null && browser != null)
             return keyboardHandler_.onPreKeyEvent(browser, event, is_keyboard_shortcut);
         return false;
@@ -716,7 +716,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public boolean onKeyEvent(CefBrowser browser, CefKeyEvent event) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onKeyEvent mustn't be called in remote mode (it seems that user manually called this method).");
         if (keyboardHandler_ != null && browser != null)
             return keyboardHandler_.onKeyEvent(browser, event);
         return false;
@@ -746,7 +746,7 @@ public class CefClient extends CefClientHandler
     @Override
     public boolean onBeforePopup(
             CefBrowser browser, CefFrame frame, String target_url, String target_frame_name) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onBeforePopup mustn't be called in remote mode (it seems that user manually called this method).");
         if (isDisposed_) return true;
         if (browser == null)
             return false;
@@ -761,7 +761,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public void onAfterCreated(CefBrowser browser) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onAfterCreated mustn't be called in remote mode (it seems that user manually called this method).");
         if (browser == null) return;
         if (TRACE_LIFESPAN) CefLog.Debug("CefClient: browser=%s: onAfterCreated", browser);
         boolean disposed = isDisposed_;
@@ -785,7 +785,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public void onAfterParentChanged(CefBrowser browser) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onAfterParentChanged mustn't be called in remote mode (it seems that user manually called this method).");
         if (browser == null) return;
         synchronized (lifeSpanHandlers_) {
             for (CefLifeSpanHandler lsh : lifeSpanHandlers_)
@@ -795,7 +795,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public boolean doClose(CefBrowser browser) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("doClose mustn't be called in remote mode (it seems that user manually called this method).");
         if (browser == null) return false;
         synchronized (lifeSpanHandlers_) {
             for (CefLifeSpanHandler lsh : lifeSpanHandlers_)
@@ -806,7 +806,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public void onBeforeClose(CefBrowser browser) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onBeforeClose mustn't be called in remote mode (it seems that user manually called this method).");
         if (browser == null) return;
         if (TRACE_LIFESPAN) CefLog.Debug("CefClient: browser=%s: onBeforeClose", browser);
         synchronized (lifeSpanHandlers_) {
@@ -883,21 +883,21 @@ public class CefClient extends CefClientHandler
     @Override
     public void onLoadingStateChange(
             CefBrowser browser, boolean isLoading, boolean canGoBack, boolean canGoForward) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onLoadingStateChange mustn't be called in remote mode (it seems that user manually called this method).");
         if (loadHandler_ != null && browser != null)
             loadHandler_.onLoadingStateChange(browser, isLoading, canGoBack, canGoForward);
     }
 
     @Override
     public void onLoadStart(CefBrowser browser, CefFrame frame, TransitionType transitionType) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onLoadStart mustn't be called in remote mode (it seems that user manually called this method).");
         if (loadHandler_ != null && browser != null)
             loadHandler_.onLoadStart(browser, frame, transitionType);
     }
 
     @Override
     public void onLoadEnd(CefBrowser browser, CefFrame frame, int httpStatusCode) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onLoadEnd mustn't be called in remote mode (it seems that user manually called this method).");
         if (loadHandler_ != null && browser != null)
             loadHandler_.onLoadEnd(browser, frame, httpStatusCode);
     }
@@ -905,7 +905,7 @@ public class CefClient extends CefClientHandler
     @Override
     public void onLoadError(CefBrowser browser, CefFrame frame, ErrorCode errorCode,
                             String errorText, String failedUrl) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onLoadError mustn't be called in remote mode (it seems that user manually called this method).");
         if (loadHandler_ != null && browser != null)
             loadHandler_.onLoadError(browser, frame, errorCode, errorText, failedUrl);
     }
@@ -929,14 +929,14 @@ public class CefClient extends CefClientHandler
 
     @Override
     public void onPrintStart(CefBrowser browser) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onPrintStart mustn't be called in remote mode (it seems that user manually called this method).");
         if (printHandler_ != null && browser != null) printHandler_.onPrintStart(browser);
     }
 
     @Override
     public void onPrintSettings(
             CefBrowser browser, CefPrintSettings settings, boolean getDefaults) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onPrintSettings mustn't be called in remote mode (it seems that user manually called this method).");
         if (printHandler_ != null && browser != null)
             printHandler_.onPrintSettings(browser, settings, getDefaults);
     }
@@ -944,7 +944,7 @@ public class CefClient extends CefClientHandler
     @Override
     public boolean onPrintDialog(
             CefBrowser browser, boolean hasSelection, CefPrintDialogCallback callback) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onPrintDialog mustn't be called in remote mode (it seems that user manually called this method).");
         if (printHandler_ != null && browser != null)
             return printHandler_.onPrintDialog(browser, hasSelection, callback);
         return false;
@@ -953,7 +953,7 @@ public class CefClient extends CefClientHandler
     @Override
     public boolean onPrintJob(CefBrowser browser, String documentName, String pdfFilePath,
                               CefPrintJobCallback callback) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onPrintJob mustn't be called in remote mode (it seems that user manually called this method).");
         if (printHandler_ != null && browser != null)
             return printHandler_.onPrintJob(browser, documentName, pdfFilePath, callback);
         return false;
@@ -961,13 +961,13 @@ public class CefClient extends CefClientHandler
 
     @Override
     public void onPrintReset(CefBrowser browser) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onPrintReset mustn't be called in remote mode (it seems that user manually called this method).");
         if (printHandler_ != null && browser != null) printHandler_.onPrintReset(browser);
     }
 
     @Override
     public Dimension getPdfPaperSize(CefBrowser browser, int deviceUnitsPerInch) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("getPdfPaperSize mustn't be called in remote mode (it seems that user manually called this method).");
         if (printHandler_ != null && browser != null)
             return printHandler_.getPdfPaperSize(browser, deviceUnitsPerInch);
         return null;
@@ -995,7 +995,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public Rectangle getViewRect(CefBrowser browser) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("getViewRect mustn't be called in remote mode (it seems that user manually called this method).");
         // [tav] resize to 1x1 size to avoid crash in cef
         if (browser == null) return new Rectangle(0, 0, 1, 1);
 
@@ -1012,7 +1012,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public Point getScreenPoint(CefBrowser browser, Point viewPoint) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("getScreenPoint mustn't be called in remote mode (it seems that user manually called this method).");
         if (browser == null) return new Point(0, 0);
 
         CefRenderHandler realHandler = browser.getRenderHandler();
@@ -1022,7 +1022,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public double getDeviceScaleFactor(CefBrowser browser) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("getDeviceScaleFactor mustn't be called in remote mode (it seems that user manually called this method).");
         CefRenderHandler realHandler = browser.getRenderHandler();
         if (realHandler != null) {
             return realHandler.getDeviceScaleFactor(browser);
@@ -1032,7 +1032,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public void onPopupShow(CefBrowser browser, boolean show) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onPopupShow mustn't be called in remote mode (it seems that user manually called this method).");
         if (browser == null) return;
 
         CefRenderHandler realHandler = browser.getRenderHandler();
@@ -1041,7 +1041,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public void onPopupSize(CefBrowser browser, Rectangle size) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onPopupSize mustn't be called in remote mode (it seems that user manually called this method).");
         if (browser == null) return;
 
         CefRenderHandler realHandler = browser.getRenderHandler();
@@ -1051,7 +1051,7 @@ public class CefClient extends CefClientHandler
     @Override
     public void onPaint(CefBrowser browser, boolean popup, Rectangle[] dirtyRects,
                         ByteBuffer buffer, int width, int height) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onPaint mustn't be called in remote mode (it seems that user manually called this method).");
         if (browser == null) return;
 
         CefRenderHandler realHandler = browser.getRenderHandler();
@@ -1070,7 +1070,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public boolean startDragging(CefBrowser browser, CefDragData dragData, int mask, int x, int y) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("startDragging mustn't be called in remote mode (it seems that user manually called this method).");
         if (browser == null) return false;
 
         CefRenderHandler realHandler = browser.getRenderHandler();
@@ -1080,7 +1080,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public void updateDragCursor(CefBrowser browser, int operation) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("updateDragCursor mustn't be called in remote mode (it seems that user manually called this method).");
         if (browser == null) return;
 
         CefRenderHandler realHandler = browser.getRenderHandler();
@@ -1089,7 +1089,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public void OnImeCompositionRangeChanged(CefBrowser browser, CefRange selectionRange, Rectangle[] characterBounds) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("OnImeCompositionRangeChanged mustn't be called in remote mode (it seems that user manually called this method).");
         if (browser == null) return;
         CefRenderHandler realHandler = browser.getRenderHandler();
         if (realHandler != null) realHandler.OnImeCompositionRangeChanged(browser, selectionRange, characterBounds);
@@ -1097,7 +1097,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public void OnTextSelectionChanged(CefBrowser browser, String selectedText, CefRange selectionRange) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("OnTextSelectionChanged mustn't be called in remote mode (it seems that user manually called this method).");
         if (browser == null) return;
         CefRenderHandler realHandler = browser.getRenderHandler();
         if (realHandler != null) realHandler.OnTextSelectionChanged(browser, selectedText, selectionRange);
@@ -1105,7 +1105,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public boolean getScreenInfo(CefBrowser browser, CefScreenInfo screenInfo) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("getScreenInfo mustn't be called in remote mode (it seems that user manually called this method).");
         if (browser == null) return false;
 
         CefRenderHandler realHandler = browser.getRenderHandler();
@@ -1133,7 +1133,7 @@ public class CefClient extends CefClientHandler
     @Override
     public boolean onBeforeBrowse(CefBrowser browser, CefFrame frame, CefRequest request,
                                   boolean user_gesture, boolean is_redirect) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onBeforeBrowse mustn't be called in remote mode (it seems that user manually called this method).");
         if (requestHandler_ != null && browser != null)
             return requestHandler_.onBeforeBrowse(
                     browser, frame, request, user_gesture, is_redirect);
@@ -1143,7 +1143,7 @@ public class CefClient extends CefClientHandler
     @Override
     public boolean onOpenURLFromTab(
             CefBrowser browser, CefFrame frame, String target_url, boolean user_gesture) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onOpenURLFromTab mustn't be called in remote mode (it seems that user manually called this method).");
         if (isDisposed_) return true;
         if (requestHandler_ != null && browser != null)
             return requestHandler_.onOpenURLFromTab(browser, frame, target_url, user_gesture);
@@ -1154,7 +1154,7 @@ public class CefClient extends CefClientHandler
     public CefResourceRequestHandler getResourceRequestHandler(CefBrowser browser, CefFrame frame,
                                                                CefRequest request, boolean isNavigation, boolean isDownload, String requestInitiator,
                                                                BoolRef disableDefaultHandling) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("getResourceRequestHandler mustn't be called in remote mode (it seems that user manually called this method).");
         if (requestHandler_ != null && browser != null) {
             return requestHandler_.getResourceRequestHandler(browser, frame, request, isNavigation,
                     isDownload, requestInitiator, disableDefaultHandling);
@@ -1165,7 +1165,7 @@ public class CefClient extends CefClientHandler
     @Override
     public boolean getAuthCredentials(CefBrowser browser, String origin_url, boolean isProxy,
                                       String host, int port, String realm, String scheme, CefAuthCallback callback) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("getAuthCredentials mustn't be called in remote mode (it seems that user manually called this method).");
         if (requestHandler_ != null && browser != null)
             return requestHandler_.getAuthCredentials(
                     browser, origin_url, isProxy, host, port, realm, scheme, callback);
@@ -1175,7 +1175,13 @@ public class CefClient extends CefClientHandler
     @Override
     public boolean onCertificateError(
             CefBrowser browser, ErrorCode cert_error, String request_url, CefSSLInfo sslInfo, CefCallback callback) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) {
+            CefLog.Error("onCertificateError mustn't be called in remote mode (it seems that user manually called this method).");
+            // NOTE: next invocation us added just for IDEA tests.
+            CefRequestHandler handler = remoteClient.getRequestHandler();
+            if (handler != null)
+                return handler.onCertificateError(browser, cert_error, request_url, sslInfo, callback);
+        }
         if (requestHandler_ != null)
             return requestHandler_.onCertificateError(browser, cert_error, request_url, sslInfo, callback);
         return false;
@@ -1183,7 +1189,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public void onRenderProcessTerminated(CefBrowser browser, TerminationStatus status) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onRenderProcessTerminated mustn't be called in remote mode (it seems that user manually called this method).");
         if (requestHandler_ != null) requestHandler_.onRenderProcessTerminated(browser, status);
     }
 
@@ -1191,7 +1197,7 @@ public class CefClient extends CefClientHandler
 
     @Override
     public Rectangle getRect(CefBrowser browser) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("getRect mustn't be called in remote mode (it seems that user manually called this method).");
         if (browser == null) return new Rectangle(0, 0, 0, 0);
 
         CefWindowHandler realHandler = browser.getWindowHandler();
@@ -1202,7 +1208,7 @@ public class CefClient extends CefClientHandler
     @Override
     public void onMouseEvent(
             CefBrowser browser, int event, int screenX, int screenY, int modifier, int button) {
-        if (remoteClient != null) CefLog.Error("mustn't be called.");
+        if (remoteClient != null) CefLog.Error("onMouseEvent mustn't be called in remote mode (it seems that user manually called this method).");
         if (browser == null) return;
 
         CefWindowHandler realHandler = browser.getWindowHandler();

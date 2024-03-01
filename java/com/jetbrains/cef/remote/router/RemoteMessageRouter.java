@@ -14,9 +14,12 @@ import java.util.List;
 public class RemoteMessageRouter extends CefMessageRouter {
     private RemoteMessageRouterImpl myImpl;
     private final List<Runnable> myDelayedActions = new ArrayList<>();
+    private volatile boolean myIsDisposed = false;
 
     private void execute(Runnable nativeRunnable, String name) {
         synchronized (myDelayedActions) {
+            if (myIsDisposed)
+                return;
             if (myImpl != null)
                 nativeRunnable.run();
             else {
@@ -28,14 +31,11 @@ public class RemoteMessageRouter extends CefMessageRouter {
 
     @Override
     public void dispose() {
-        try {
-            synchronized (myDelayedActions) {
-                myDelayedActions.clear();
-                if (myImpl != null)
-                    myImpl.dispose();
-            }
-        } catch (UnsatisfiedLinkError ule) {
-            ule.printStackTrace();
+        synchronized (myDelayedActions) {
+            myIsDisposed = true;
+            myDelayedActions.clear();
+            if (myImpl != null)
+                myImpl.disposeOnServer();
         }
     }
 
@@ -67,6 +67,8 @@ public class RemoteMessageRouter extends CefMessageRouter {
             synchronized (myDelayedActions) {
                 myDelayedActions.forEach(r -> r.run());
                 myDelayedActions.clear();
+                if (myIsDisposed && myImpl != null)
+                    myImpl.disposeOnServer();
             }
         }, "MessageRouter_Create", true);
     }

@@ -112,7 +112,7 @@ int32_t ServerHandler::createBrowser(int cid, int handlersMask) {
 
 void ServerHandler::startBrowserCreation(int bid, const std::string& url) {
   myClientsManager->startBrowserCreation(bid, url);
-  Log::trace("Started creation of native CefBrowser of remote browser bid=%d", bid);
+  Log::trace("Started creation of native CefBrowser of remote browser bid=%d, url=%s", bid, url.c_str());
 }
 
 void ServerHandler::closeBrowser(const int32_t bid) {
@@ -167,6 +167,7 @@ void ServerHandler::Browser_ReloadIgnoreCache(const int32_t bid) {
 void ServerHandler::Browser_LoadURL(const int32_t bid, const std::string& url) {
   LNDCT();
   GET_BROWSER_OR_RETURN()
+  Log::trace("Browser %d is loading URL '%s'", bid, url.c_str());
   browser->GetMainFrame()->LoadURL(url);
 }
 
@@ -776,9 +777,14 @@ void ServerHandler::SchemeHandlerFactory_Register(
     const std::string& domainName,
     const thrift_codegen::RObject& schemeHandlerFactory) {
   CefRefPtr<RemoteSchemeHandlerFactory> factory = new RemoteSchemeHandlerFactory(myClientsManager, myJavaService, schemeHandlerFactory);
-  CefRegisterSchemeHandlerFactory(schemeName,domainName, factory);
+  const bool result = CefRegisterSchemeHandlerFactory(schemeName,domainName, factory);
+  if (result)
+    Log::trace("Registered SchemeHandlerFactory: schemeName=%s, domainName=%s, peer-id=%d", schemeName.c_str(), domainName.c_str(), schemeHandlerFactory.objId);
+  else
+    Log::error("Can't register SchemeHandlerFactory: schemeName=%s, domainName=%s, peer-id=%d", schemeName.c_str(), domainName.c_str(), schemeHandlerFactory.objId);
 }
 
 void ServerHandler::ClearAllSchemeHandlerFactories() {
+  Log::trace("Cleared all SchemeHandlerFactory instances.");
   CefClearSchemeHandlerFactories();
 }

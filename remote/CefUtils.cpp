@@ -251,6 +251,8 @@ namespace CefUtils {
 
     std::string name = settingLine.substr(0, pos);
     std::string val = settingLine.substr(pos + 1);
+    std::transform(val.begin(), val.end(), val.begin(),
+                   [](unsigned char c){ return std::tolower(c); });
     //Log::trace("\t parseSetting: name=%s val=%s", name.c_str(), val.c_str());
 
     //

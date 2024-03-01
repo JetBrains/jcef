@@ -49,10 +49,6 @@ public class RemoteMessageRouterImpl extends RemoteServerObject {
     @Override
     public void flush() {}
 
-    public void dispose() {
-        disposeOnServer();
-    }
-
     @Override
     protected void disposeOnServerImpl() {
         synchronized (myHandlers) {

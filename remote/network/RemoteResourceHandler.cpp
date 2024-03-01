@@ -40,7 +40,7 @@ bool RemoteResourceHandler::ProcessRequest(CefRefPtr<CefRequest> request,
   RemoteRequest::Holder req(request);
   RemoteCallback * rc = RemoteCallback::wrapDelegate(callback);
   const bool handled = myService->exec<bool>([&](RpcExecutor::Service s){
-    return s->ResourceHandler_ProcessRequest(myPeerId, req.get()->serverId(), rc->serverId());
+    return s->ResourceHandler_ProcessRequest(myPeerId, req.get()->serverIdWithMap(), rc->serverId());
   }, false);
   if (!handled)
     RemoteCallback::dispose(rc->getId());
@@ -71,7 +71,7 @@ void RemoteResourceHandler::GetResponseHeaders(CefRefPtr<CefResponse> response,
   RemoteResponse::Holder resp(response);
   thrift_codegen::ResponseHeaders _return;
   myService->exec([&](RpcExecutor::Service s){
-    s->ResourceHandler_GetResponseHeaders(_return, myPeerId, resp.get()->serverId());
+    s->ResourceHandler_GetResponseHeaders(_return, myPeerId, resp.get()->serverIdWithMap());
   });
   response_length = _return.length;
   if (_return.__isset.redirectUrl)
