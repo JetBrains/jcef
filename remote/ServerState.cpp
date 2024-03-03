@@ -9,6 +9,7 @@
 #include "log/Log.h"
 #include "Utils.h"
 #include "ServerHandler.h"
+#include "RpcExecutor.h"
 
 bool ServerHandlerFactory::hasMaster() {
   Lock lock(myMutex);

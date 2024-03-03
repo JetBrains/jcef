@@ -4,10 +4,9 @@
 #include "./gen-cpp/Server.h"
 
 #include "Utils.h"
-#include "handlers/RemoteClientHandler.h"
 #include "log/Log.h"
-#include "router/MessageRoutersManager.h"
-#include "browser/ClientsManager.h"
+
+class ServerHandlerContext;
 
 // Used per connection (destroyed when connection closed)
 class ServerHandler : public thrift_codegen::ServerIf {
@@ -32,9 +31,9 @@ class ServerHandler : public thrift_codegen::ServerIf {
   //
   // CefBrowser
   //
-  int32_t createBrowser(int cid, int handlersMask) override;
-  void startBrowserCreation(int bid, const std::string& url) override;
-  void closeBrowser(const int32_t bid) override;
+  int32_t Browser_Create(int cid, int handlersMask, const thrift_codegen::RObject& requestContextHandler) override;
+  void Browser_StartNativeCreation(int bid, const std::string& url) override;
+  void Browser_Close(const int32_t bid) override;
 
   void Browser_Reload(const int32_t bid) override;
   void Browser_ReloadIgnoreCache(const int32_t bid) override;
@@ -123,16 +122,15 @@ class ServerHandler : public thrift_codegen::ServerIf {
   void SchemeHandlerFactory_Register(const std::string & schemeName, const std::string & domainName, const thrift_codegen::RObject& schemeHandlerFactory) override;
   void ClearAllSchemeHandlerFactories() override;
 
+  void RequestContext_ClearCertificateExceptions(const int32_t bid, const thrift_codegen::RObject& completionCallback) override;
+  void RequestContext_CloseAllConnections(const int32_t bid, const thrift_codegen::RObject& completionCallback) override;
+
  private:
   bool myIsMaster = false;
   bool myIsClosed = false;
-  std::shared_ptr<RpcExecutor> myJavaService;
-  std::shared_ptr<RpcExecutor> myJavaServiceIO;
-  std::shared_ptr<ClientsManager> myClientsManager;
-  std::shared_ptr<MessageRoutersManager> myRoutersManager;
+  std::shared_ptr<ServerHandlerContext> myCtx;
 
   int connectImpl(std::function<void()> openBackwardTransport);
-  void closeBackwardTransport();
   void close();
 };
 

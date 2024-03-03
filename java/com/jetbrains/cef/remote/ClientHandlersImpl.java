@@ -2,6 +2,7 @@ package com.jetbrains.cef.remote;
 
 import com.jetbrains.cef.remote.callback.RemoteAuthCallback;
 import com.jetbrains.cef.remote.callback.RemoteCallback;
+import com.jetbrains.cef.remote.callback.RemoteCompletionCallback;
 import com.jetbrains.cef.remote.callback.RemoteSchemeHandlerFactory;
 import com.jetbrains.cef.remote.network.*;
 import com.jetbrains.cef.remote.router.RemoteMessageRouterHandler;
@@ -882,5 +883,30 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     @Override
     public void SchemeHandlerFactory_Dispose(int schemeHandlerFactory) throws TException {
         RemoteSchemeHandlerFactory.FACTORY.dispose(schemeHandlerFactory);
+    }
+
+    @Override
+    public void CompletionCallback_OnComplete(int completionCallback) throws TException {
+        RemoteCompletionCallback cc = RemoteCompletionCallback.FACTORY.get(completionCallback);
+        if (cc == null) return;
+
+        cc.getDelegate().onComplete();
+        RemoteCompletionCallback.FACTORY.dispose(completionCallback);
+    }
+
+    @Override
+    public RObject RequestContextHandler_GetResourceRequestHandler(int handlerId, int bid, RObject frame, RObject request, boolean isNavigation, boolean isDownload, String requestInitiator) throws TException {
+        RemoteRequestContextHandler rhandler = RemoteRequestContextHandler.FACTORY.get(handlerId);
+        RemoteBrowser browser = getRemoteBrowser(bid);
+        if (browser == null || rhandler == null) return INVALID;
+
+        RemoteRequestImpl rr = new RemoteRequestImpl(myService, request);
+        RemoteFrame rframe = new RemoteFrame(myService, frame);
+        BoolRef disableDefaultHandling = new BoolRef(false);
+        CefResourceRequestHandler handler = rhandler.getDelegate().getResourceRequestHandler(browser, rframe, new RemoteRequest(rr), isNavigation, isDownload, requestInitiator, disableDefaultHandling);
+        if (handler == null) return INVALID;
+
+        RemoteResourceRequestHandler resultHandler = RemoteResourceRequestHandler.create(handler);
+        return resultHandler.thriftId(disableDefaultHandling.get() ? 1 : 0);
     }
 }

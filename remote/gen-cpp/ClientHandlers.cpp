@@ -9272,6 +9272,368 @@ uint32_t ClientHandlers_SchemeHandlerFactory_Dispose_pargs::write(::apache::thri
   return xfer;
 }
 
+
+ClientHandlers_CompletionCallback_OnComplete_args::~ClientHandlers_CompletionCallback_OnComplete_args() noexcept {
+}
+
+
+uint32_t ClientHandlers_CompletionCallback_OnComplete_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->completionCallback);
+          this->__isset.completionCallback = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_CompletionCallback_OnComplete_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_CompletionCallback_OnComplete_args");
+
+  xfer += oprot->writeFieldBegin("completionCallback", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->completionCallback);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_CompletionCallback_OnComplete_pargs::~ClientHandlers_CompletionCallback_OnComplete_pargs() noexcept {
+}
+
+
+uint32_t ClientHandlers_CompletionCallback_OnComplete_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_CompletionCallback_OnComplete_pargs");
+
+  xfer += oprot->writeFieldBegin("completionCallback", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->completionCallback)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_RequestContextHandler_GetResourceRequestHandler_args::~ClientHandlers_RequestContextHandler_GetResourceRequestHandler_args() noexcept {
+}
+
+
+uint32_t ClientHandlers_RequestContextHandler_GetResourceRequestHandler_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->handler);
+          this->__isset.handler = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->bid);
+          this->__isset.bid = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->frame.read(iprot);
+          this->__isset.frame = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->request.read(iprot);
+          this->__isset.request = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 5:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->isNavigation);
+          this->__isset.isNavigation = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 6:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->isDownload);
+          this->__isset.isDownload = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 7:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->requestInitiator);
+          this->__isset.requestInitiator = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_RequestContextHandler_GetResourceRequestHandler_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_RequestContextHandler_GetResourceRequestHandler_args");
+
+  xfer += oprot->writeFieldBegin("handler", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->handler);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32(this->bid);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("frame", ::apache::thrift::protocol::T_STRUCT, 3);
+  xfer += this->frame.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("request", ::apache::thrift::protocol::T_STRUCT, 4);
+  xfer += this->request.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("isNavigation", ::apache::thrift::protocol::T_BOOL, 5);
+  xfer += oprot->writeBool(this->isNavigation);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("isDownload", ::apache::thrift::protocol::T_BOOL, 6);
+  xfer += oprot->writeBool(this->isDownload);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("requestInitiator", ::apache::thrift::protocol::T_STRING, 7);
+  xfer += oprot->writeString(this->requestInitiator);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_RequestContextHandler_GetResourceRequestHandler_pargs::~ClientHandlers_RequestContextHandler_GetResourceRequestHandler_pargs() noexcept {
+}
+
+
+uint32_t ClientHandlers_RequestContextHandler_GetResourceRequestHandler_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_RequestContextHandler_GetResourceRequestHandler_pargs");
+
+  xfer += oprot->writeFieldBegin("handler", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->handler)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32((*(this->bid)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("frame", ::apache::thrift::protocol::T_STRUCT, 3);
+  xfer += (*(this->frame)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("request", ::apache::thrift::protocol::T_STRUCT, 4);
+  xfer += (*(this->request)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("isNavigation", ::apache::thrift::protocol::T_BOOL, 5);
+  xfer += oprot->writeBool((*(this->isNavigation)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("isDownload", ::apache::thrift::protocol::T_BOOL, 6);
+  xfer += oprot->writeBool((*(this->isDownload)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("requestInitiator", ::apache::thrift::protocol::T_STRING, 7);
+  xfer += oprot->writeString((*(this->requestInitiator)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_RequestContextHandler_GetResourceRequestHandler_result::~ClientHandlers_RequestContextHandler_GetResourceRequestHandler_result() noexcept {
+}
+
+
+uint32_t ClientHandlers_RequestContextHandler_GetResourceRequestHandler_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->success.read(iprot);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_RequestContextHandler_GetResourceRequestHandler_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("ClientHandlers_RequestContextHandler_GetResourceRequestHandler_result");
+
+  if (this->__isset.success) {
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_STRUCT, 0);
+    xfer += this->success.write(oprot);
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_RequestContextHandler_GetResourceRequestHandler_presult::~ClientHandlers_RequestContextHandler_GetResourceRequestHandler_presult() noexcept {
+}
+
+
+uint32_t ClientHandlers_RequestContextHandler_GetResourceRequestHandler_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += (*(this->success)).read(iprot);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
 int32_t ClientHandlersClient::connect()
 {
   send_connect();
@@ -11571,6 +11933,89 @@ void ClientHandlersClient::send_SchemeHandlerFactory_Dispose(const int32_t schem
   oprot_->writeMessageEnd();
   oprot_->getTransport()->writeEnd();
   oprot_->getTransport()->flush();
+}
+
+void ClientHandlersClient::CompletionCallback_OnComplete(const int32_t completionCallback)
+{
+  send_CompletionCallback_OnComplete(completionCallback);
+}
+
+void ClientHandlersClient::send_CompletionCallback_OnComplete(const int32_t completionCallback)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("CompletionCallback_OnComplete", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  ClientHandlers_CompletionCallback_OnComplete_pargs args;
+  args.completionCallback = &completionCallback;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void ClientHandlersClient::RequestContextHandler_GetResourceRequestHandler( ::thrift_codegen::RObject& _return, const int32_t handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool isNavigation, const bool isDownload, const std::string& requestInitiator)
+{
+  send_RequestContextHandler_GetResourceRequestHandler(handler, bid, frame, request, isNavigation, isDownload, requestInitiator);
+  recv_RequestContextHandler_GetResourceRequestHandler(_return);
+}
+
+void ClientHandlersClient::send_RequestContextHandler_GetResourceRequestHandler(const int32_t handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool isNavigation, const bool isDownload, const std::string& requestInitiator)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("RequestContextHandler_GetResourceRequestHandler", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  ClientHandlers_RequestContextHandler_GetResourceRequestHandler_pargs args;
+  args.handler = &handler;
+  args.bid = &bid;
+  args.frame = &frame;
+  args.request = &request;
+  args.isNavigation = &isNavigation;
+  args.isDownload = &isDownload;
+  args.requestInitiator = &requestInitiator;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void ClientHandlersClient::recv_RequestContextHandler_GetResourceRequestHandler( ::thrift_codegen::RObject& _return)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("RequestContextHandler_GetResourceRequestHandler") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  ClientHandlers_RequestContextHandler_GetResourceRequestHandler_presult result;
+  result.success = &_return;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  if (result.__isset.success) {
+    // _return pointer has now been filled
+    return;
+  }
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "RequestContextHandler_GetResourceRequestHandler failed: unknown result");
 }
 
 bool ClientHandlersProcessor::dispatchCall(::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, const std::string& fname, int32_t seqid, void* callContext) {
@@ -14039,6 +14484,97 @@ void ClientHandlersProcessor::process_SchemeHandlerFactory_Dispose(int32_t, ::ap
   }
 
   return;
+}
+
+void ClientHandlersProcessor::process_CompletionCallback_OnComplete(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("ClientHandlers.CompletionCallback_OnComplete", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ClientHandlers.CompletionCallback_OnComplete");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "ClientHandlers.CompletionCallback_OnComplete");
+  }
+
+  ClientHandlers_CompletionCallback_OnComplete_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "ClientHandlers.CompletionCallback_OnComplete", bytes);
+  }
+
+  try {
+    iface_->CompletionCallback_OnComplete(args.completionCallback);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "ClientHandlers.CompletionCallback_OnComplete");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "ClientHandlers.CompletionCallback_OnComplete");
+  }
+
+  return;
+}
+
+void ClientHandlersProcessor::process_RequestContextHandler_GetResourceRequestHandler(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("ClientHandlers.RequestContextHandler_GetResourceRequestHandler", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ClientHandlers.RequestContextHandler_GetResourceRequestHandler");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "ClientHandlers.RequestContextHandler_GetResourceRequestHandler");
+  }
+
+  ClientHandlers_RequestContextHandler_GetResourceRequestHandler_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "ClientHandlers.RequestContextHandler_GetResourceRequestHandler", bytes);
+  }
+
+  ClientHandlers_RequestContextHandler_GetResourceRequestHandler_result result;
+  try {
+    iface_->RequestContextHandler_GetResourceRequestHandler(result.success, args.handler, args.bid, args.frame, args.request, args.isNavigation, args.isDownload, args.requestInitiator);
+    result.__isset.success = true;
+  } catch (const std::exception& e) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "ClientHandlers.RequestContextHandler_GetResourceRequestHandler");
+    }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("RequestContextHandler_GetResourceRequestHandler", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preWrite(ctx, "ClientHandlers.RequestContextHandler_GetResourceRequestHandler");
+  }
+
+  oprot->writeMessageBegin("RequestContextHandler_GetResourceRequestHandler", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "ClientHandlers.RequestContextHandler_GetResourceRequestHandler", bytes);
+  }
 }
 
 ::std::shared_ptr< ::apache::thrift::TProcessor > ClientHandlersProcessorFactory::getProcessor(const ::apache::thrift::TConnectionInfo& connInfo) {
@@ -17214,6 +17750,118 @@ void ClientHandlersConcurrentClient::send_SchemeHandlerFactory_Dispose(const int
   oprot_->getTransport()->flush();
 
   sentry.commit();
+}
+
+void ClientHandlersConcurrentClient::CompletionCallback_OnComplete(const int32_t completionCallback)
+{
+  send_CompletionCallback_OnComplete(completionCallback);
+}
+
+void ClientHandlersConcurrentClient::send_CompletionCallback_OnComplete(const int32_t completionCallback)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("CompletionCallback_OnComplete", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  ClientHandlers_CompletionCallback_OnComplete_pargs args;
+  args.completionCallback = &completionCallback;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
+void ClientHandlersConcurrentClient::RequestContextHandler_GetResourceRequestHandler( ::thrift_codegen::RObject& _return, const int32_t handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool isNavigation, const bool isDownload, const std::string& requestInitiator)
+{
+  int32_t seqid = send_RequestContextHandler_GetResourceRequestHandler(handler, bid, frame, request, isNavigation, isDownload, requestInitiator);
+  recv_RequestContextHandler_GetResourceRequestHandler(_return, seqid);
+}
+
+int32_t ClientHandlersConcurrentClient::send_RequestContextHandler_GetResourceRequestHandler(const int32_t handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool isNavigation, const bool isDownload, const std::string& requestInitiator)
+{
+  int32_t cseqid = this->sync_->generateSeqId();
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("RequestContextHandler_GetResourceRequestHandler", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  ClientHandlers_RequestContextHandler_GetResourceRequestHandler_pargs args;
+  args.handler = &handler;
+  args.bid = &bid;
+  args.frame = &frame;
+  args.request = &request;
+  args.isNavigation = &isNavigation;
+  args.isDownload = &isDownload;
+  args.requestInitiator = &requestInitiator;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+  return cseqid;
+}
+
+void ClientHandlersConcurrentClient::recv_RequestContextHandler_GetResourceRequestHandler( ::thrift_codegen::RObject& _return, const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("RequestContextHandler_GetResourceRequestHandler") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      ClientHandlers_RequestContextHandler_GetResourceRequestHandler_presult result;
+      result.success = &_return;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      if (result.__isset.success) {
+        // _return pointer has now been filled
+        sentry.commit();
+        return;
+      }
+      // in a bad state, don't commit
+      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "RequestContextHandler_GetResourceRequestHandler failed: unknown result");
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
 }
 
 } // namespace

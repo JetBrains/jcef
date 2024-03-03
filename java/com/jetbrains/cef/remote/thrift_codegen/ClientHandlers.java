@@ -115,6 +115,10 @@ public class ClientHandlers {
 
     public void SchemeHandlerFactory_Dispose(int schemeHandlerFactory) throws org.apache.thrift.TException;
 
+    public void CompletionCallback_OnComplete(int completionCallback) throws org.apache.thrift.TException;
+
+    public com.jetbrains.cef.remote.thrift_codegen.RObject RequestContextHandler_GetResourceRequestHandler(int handler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean isNavigation, boolean isDownload, java.lang.String requestInitiator) throws org.apache.thrift.TException;
+
   }
 
   public interface AsyncIface {
@@ -222,6 +226,10 @@ public class ClientHandlers {
     public void SchemeHandlerFactory_CreateHandler(int schemeHandlerFactory, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, java.lang.String scheme_name, com.jetbrains.cef.remote.thrift_codegen.RObject request, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException;
 
     public void SchemeHandlerFactory_Dispose(int schemeHandlerFactory, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+
+    public void CompletionCallback_OnComplete(int completionCallback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+
+    public void RequestContextHandler_GetResourceRequestHandler(int handler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean isNavigation, boolean isDownload, java.lang.String requestInitiator, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException;
 
   }
 
@@ -1370,6 +1378,49 @@ public class ClientHandlers {
       SchemeHandlerFactory_Dispose_args args = new SchemeHandlerFactory_Dispose_args();
       args.setSchemeHandlerFactory(schemeHandlerFactory);
       sendBaseOneway("SchemeHandlerFactory_Dispose", args);
+    }
+
+    @Override
+    public void CompletionCallback_OnComplete(int completionCallback) throws org.apache.thrift.TException
+    {
+      send_CompletionCallback_OnComplete(completionCallback);
+    }
+
+    public void send_CompletionCallback_OnComplete(int completionCallback) throws org.apache.thrift.TException
+    {
+      CompletionCallback_OnComplete_args args = new CompletionCallback_OnComplete_args();
+      args.setCompletionCallback(completionCallback);
+      sendBaseOneway("CompletionCallback_OnComplete", args);
+    }
+
+    @Override
+    public com.jetbrains.cef.remote.thrift_codegen.RObject RequestContextHandler_GetResourceRequestHandler(int handler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean isNavigation, boolean isDownload, java.lang.String requestInitiator) throws org.apache.thrift.TException
+    {
+      send_RequestContextHandler_GetResourceRequestHandler(handler, bid, frame, request, isNavigation, isDownload, requestInitiator);
+      return recv_RequestContextHandler_GetResourceRequestHandler();
+    }
+
+    public void send_RequestContextHandler_GetResourceRequestHandler(int handler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean isNavigation, boolean isDownload, java.lang.String requestInitiator) throws org.apache.thrift.TException
+    {
+      RequestContextHandler_GetResourceRequestHandler_args args = new RequestContextHandler_GetResourceRequestHandler_args();
+      args.setHandler(handler);
+      args.setBid(bid);
+      args.setFrame(frame);
+      args.setRequest(request);
+      args.setIsNavigation(isNavigation);
+      args.setIsDownload(isDownload);
+      args.setRequestInitiator(requestInitiator);
+      sendBase("RequestContextHandler_GetResourceRequestHandler", args);
+    }
+
+    public com.jetbrains.cef.remote.thrift_codegen.RObject recv_RequestContextHandler_GetResourceRequestHandler() throws org.apache.thrift.TException
+    {
+      RequestContextHandler_GetResourceRequestHandler_result result = new RequestContextHandler_GetResourceRequestHandler_result();
+      receiveBase(result, "RequestContextHandler_GetResourceRequestHandler");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "RequestContextHandler_GetResourceRequestHandler failed: unknown result");
     }
 
   }
@@ -3555,6 +3606,94 @@ public class ClientHandlers {
       }
     }
 
+    @Override
+    public void CompletionCallback_OnComplete(int completionCallback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      CompletionCallback_OnComplete_call method_call = new CompletionCallback_OnComplete_call(completionCallback, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class CompletionCallback_OnComplete_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
+      private int completionCallback;
+      public CompletionCallback_OnComplete_call(int completionCallback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, true);
+        this.completionCallback = completionCallback;
+      }
+
+      @Override
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("CompletionCallback_OnComplete", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
+        CompletionCallback_OnComplete_args args = new CompletionCallback_OnComplete_args();
+        args.setCompletionCallback(completionCallback);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public Void getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return null;
+      }
+    }
+
+    @Override
+    public void RequestContextHandler_GetResourceRequestHandler(int handler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean isNavigation, boolean isDownload, java.lang.String requestInitiator, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      RequestContextHandler_GetResourceRequestHandler_call method_call = new RequestContextHandler_GetResourceRequestHandler_call(handler, bid, frame, request, isNavigation, isDownload, requestInitiator, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class RequestContextHandler_GetResourceRequestHandler_call extends org.apache.thrift.async.TAsyncMethodCall<com.jetbrains.cef.remote.thrift_codegen.RObject> {
+      private int handler;
+      private int bid;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject frame;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject request;
+      private boolean isNavigation;
+      private boolean isDownload;
+      private java.lang.String requestInitiator;
+      public RequestContextHandler_GetResourceRequestHandler_call(int handler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean isNavigation, boolean isDownload, java.lang.String requestInitiator, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.handler = handler;
+        this.bid = bid;
+        this.frame = frame;
+        this.request = request;
+        this.isNavigation = isNavigation;
+        this.isDownload = isDownload;
+        this.requestInitiator = requestInitiator;
+      }
+
+      @Override
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("RequestContextHandler_GetResourceRequestHandler", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        RequestContextHandler_GetResourceRequestHandler_args args = new RequestContextHandler_GetResourceRequestHandler_args();
+        args.setHandler(handler);
+        args.setBid(bid);
+        args.setFrame(frame);
+        args.setRequest(request);
+        args.setIsNavigation(isNavigation);
+        args.setIsDownload(isDownload);
+        args.setRequestInitiator(requestInitiator);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift_codegen.RObject getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_RequestContextHandler_GetResourceRequestHandler();
+      }
+    }
+
   }
 
   public static class Processor<I extends Iface> extends org.apache.thrift.TBaseProcessor<I> implements org.apache.thrift.TProcessor {
@@ -3620,6 +3759,8 @@ public class ClientHandlers {
       processMap.put("MessageRouterHandler_Dispose", new MessageRouterHandler_Dispose());
       processMap.put("SchemeHandlerFactory_CreateHandler", new SchemeHandlerFactory_CreateHandler());
       processMap.put("SchemeHandlerFactory_Dispose", new SchemeHandlerFactory_Dispose());
+      processMap.put("CompletionCallback_OnComplete", new CompletionCallback_OnComplete());
+      processMap.put("RequestContextHandler_GetResourceRequestHandler", new RequestContextHandler_GetResourceRequestHandler());
       return processMap;
     }
 
@@ -5077,6 +5218,61 @@ public class ClientHandlers {
       }
     }
 
+    public static class CompletionCallback_OnComplete<I extends Iface> extends org.apache.thrift.ProcessFunction<I, CompletionCallback_OnComplete_args> {
+      public CompletionCallback_OnComplete() {
+        super("CompletionCallback_OnComplete");
+      }
+
+      @Override
+      public CompletionCallback_OnComplete_args getEmptyArgsInstance() {
+        return new CompletionCallback_OnComplete_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public org.apache.thrift.TBase getResult(I iface, CompletionCallback_OnComplete_args args) throws org.apache.thrift.TException {
+        iface.CompletionCallback_OnComplete(args.completionCallback);
+        return null;
+      }
+    }
+
+    public static class RequestContextHandler_GetResourceRequestHandler<I extends Iface> extends org.apache.thrift.ProcessFunction<I, RequestContextHandler_GetResourceRequestHandler_args> {
+      public RequestContextHandler_GetResourceRequestHandler() {
+        super("RequestContextHandler_GetResourceRequestHandler");
+      }
+
+      @Override
+      public RequestContextHandler_GetResourceRequestHandler_args getEmptyArgsInstance() {
+        return new RequestContextHandler_GetResourceRequestHandler_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public RequestContextHandler_GetResourceRequestHandler_result getResult(I iface, RequestContextHandler_GetResourceRequestHandler_args args) throws org.apache.thrift.TException {
+        RequestContextHandler_GetResourceRequestHandler_result result = new RequestContextHandler_GetResourceRequestHandler_result();
+        result.success = iface.RequestContextHandler_GetResourceRequestHandler(args.handler, args.bid, args.frame, args.request, args.isNavigation, args.isDownload, args.requestInitiator);
+        return result;
+      }
+    }
+
   }
 
   public static class AsyncProcessor<I extends AsyncIface> extends org.apache.thrift.TBaseAsyncProcessor<I> {
@@ -5142,6 +5338,8 @@ public class ClientHandlers {
       processMap.put("MessageRouterHandler_Dispose", new MessageRouterHandler_Dispose());
       processMap.put("SchemeHandlerFactory_CreateHandler", new SchemeHandlerFactory_CreateHandler());
       processMap.put("SchemeHandlerFactory_Dispose", new SchemeHandlerFactory_Dispose());
+      processMap.put("CompletionCallback_OnComplete", new CompletionCallback_OnComplete());
+      processMap.put("RequestContextHandler_GetResourceRequestHandler", new RequestContextHandler_GetResourceRequestHandler());
       return processMap;
     }
 
@@ -8076,6 +8274,113 @@ public class ClientHandlers {
       @Override
       public void start(I iface, SchemeHandlerFactory_Dispose_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
         iface.SchemeHandlerFactory_Dispose(args.schemeHandlerFactory,resultHandler);
+      }
+    }
+
+    public static class CompletionCallback_OnComplete<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, CompletionCallback_OnComplete_args, Void> {
+      public CompletionCallback_OnComplete() {
+        super("CompletionCallback_OnComplete");
+      }
+
+      @Override
+      public CompletionCallback_OnComplete_args getEmptyArgsInstance() {
+        return new CompletionCallback_OnComplete_args();
+      }
+
+      @Override
+      public org.apache.thrift.async.AsyncMethodCallback<Void> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final org.apache.thrift.AsyncProcessFunction fcall = this;
+        return new org.apache.thrift.async.AsyncMethodCallback<Void>() { 
+          @Override
+          public void onComplete(Void o) {
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            if (e instanceof org.apache.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+            } else {
+              _LOGGER.error("Exception inside oneway handler", e);
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      public void start(I iface, CompletionCallback_OnComplete_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+        iface.CompletionCallback_OnComplete(args.completionCallback,resultHandler);
+      }
+    }
+
+    public static class RequestContextHandler_GetResourceRequestHandler<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, RequestContextHandler_GetResourceRequestHandler_args, com.jetbrains.cef.remote.thrift_codegen.RObject> {
+      public RequestContextHandler_GetResourceRequestHandler() {
+        super("RequestContextHandler_GetResourceRequestHandler");
+      }
+
+      @Override
+      public RequestContextHandler_GetResourceRequestHandler_args getEmptyArgsInstance() {
+        return new RequestContextHandler_GetResourceRequestHandler_args();
+      }
+
+      @Override
+      public org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final org.apache.thrift.AsyncProcessFunction fcall = this;
+        return new org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject>() { 
+          @Override
+          public void onComplete(com.jetbrains.cef.remote.thrift_codegen.RObject o) {
+            RequestContextHandler_GetResourceRequestHandler_result result = new RequestContextHandler_GetResourceRequestHandler_result();
+            result.success = o;
+            try {
+              fcall.sendResponse(fb, result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (org.apache.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
+            org.apache.thrift.TSerializable msg;
+            RequestContextHandler_GetResourceRequestHandler_result result = new RequestContextHandler_GetResourceRequestHandler_result();
+            if (e instanceof org.apache.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+              return;
+            } else if (e instanceof org.apache.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (org.apache.thrift.TApplicationException)e;
+            } else {
+              _LOGGER.error("Exception inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      public void start(I iface, RequestContextHandler_GetResourceRequestHandler_args args, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException {
+        iface.RequestContextHandler_GetResourceRequestHandler(args.handler, args.bid, args.frame, args.request, args.isNavigation, args.isDownload, args.requestInitiator,resultHandler);
       }
     }
 
@@ -50948,6 +51253,1750 @@ public class ClientHandlers {
         if (incoming.get(0)) {
           struct.schemeHandlerFactory = iprot.readI32();
           struct.setSchemeHandlerFactoryIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class CompletionCallback_OnComplete_args implements org.apache.thrift.TBase<CompletionCallback_OnComplete_args, CompletionCallback_OnComplete_args._Fields>, java.io.Serializable, Cloneable, Comparable<CompletionCallback_OnComplete_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("CompletionCallback_OnComplete_args");
+
+    private static final org.apache.thrift.protocol.TField COMPLETION_CALLBACK_FIELD_DESC = new org.apache.thrift.protocol.TField("completionCallback", org.apache.thrift.protocol.TType.I32, (short)1);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new CompletionCallback_OnComplete_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new CompletionCallback_OnComplete_argsTupleSchemeFactory();
+
+    public int completionCallback; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      COMPLETION_CALLBACK((short)1, "completionCallback");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // COMPLETION_CALLBACK
+            return COMPLETION_CALLBACK;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __COMPLETIONCALLBACK_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.COMPLETION_CALLBACK, new org.apache.thrift.meta_data.FieldMetaData("completionCallback", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(CompletionCallback_OnComplete_args.class, metaDataMap);
+    }
+
+    public CompletionCallback_OnComplete_args() {
+    }
+
+    public CompletionCallback_OnComplete_args(
+      int completionCallback)
+    {
+      this();
+      this.completionCallback = completionCallback;
+      setCompletionCallbackIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public CompletionCallback_OnComplete_args(CompletionCallback_OnComplete_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.completionCallback = other.completionCallback;
+    }
+
+    @Override
+    public CompletionCallback_OnComplete_args deepCopy() {
+      return new CompletionCallback_OnComplete_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setCompletionCallbackIsSet(false);
+      this.completionCallback = 0;
+    }
+
+    public int getCompletionCallback() {
+      return this.completionCallback;
+    }
+
+    public CompletionCallback_OnComplete_args setCompletionCallback(int completionCallback) {
+      this.completionCallback = completionCallback;
+      setCompletionCallbackIsSet(true);
+      return this;
+    }
+
+    public void unsetCompletionCallback() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __COMPLETIONCALLBACK_ISSET_ID);
+    }
+
+    /** Returns true if field completionCallback is set (has been assigned a value) and false otherwise */
+    public boolean isSetCompletionCallback() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __COMPLETIONCALLBACK_ISSET_ID);
+    }
+
+    public void setCompletionCallbackIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __COMPLETIONCALLBACK_ISSET_ID, value);
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case COMPLETION_CALLBACK:
+        if (value == null) {
+          unsetCompletionCallback();
+        } else {
+          setCompletionCallback((java.lang.Integer)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case COMPLETION_CALLBACK:
+        return getCompletionCallback();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case COMPLETION_CALLBACK:
+        return isSetCompletionCallback();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof CompletionCallback_OnComplete_args)
+        return this.equals((CompletionCallback_OnComplete_args)that);
+      return false;
+    }
+
+    public boolean equals(CompletionCallback_OnComplete_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_completionCallback = true;
+      boolean that_present_completionCallback = true;
+      if (this_present_completionCallback || that_present_completionCallback) {
+        if (!(this_present_completionCallback && that_present_completionCallback))
+          return false;
+        if (this.completionCallback != that.completionCallback)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + completionCallback;
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(CompletionCallback_OnComplete_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetCompletionCallback(), other.isSetCompletionCallback());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetCompletionCallback()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.completionCallback, other.completionCallback);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("CompletionCallback_OnComplete_args(");
+      boolean first = true;
+
+      sb.append("completionCallback:");
+      sb.append(this.completionCallback);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class CompletionCallback_OnComplete_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public CompletionCallback_OnComplete_argsStandardScheme getScheme() {
+        return new CompletionCallback_OnComplete_argsStandardScheme();
+      }
+    }
+
+    private static class CompletionCallback_OnComplete_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<CompletionCallback_OnComplete_args> {
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol iprot, CompletionCallback_OnComplete_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // COMPLETION_CALLBACK
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.completionCallback = iprot.readI32();
+                struct.setCompletionCallbackIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol oprot, CompletionCallback_OnComplete_args struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(COMPLETION_CALLBACK_FIELD_DESC);
+        oprot.writeI32(struct.completionCallback);
+        oprot.writeFieldEnd();
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class CompletionCallback_OnComplete_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public CompletionCallback_OnComplete_argsTupleScheme getScheme() {
+        return new CompletionCallback_OnComplete_argsTupleScheme();
+      }
+    }
+
+    private static class CompletionCallback_OnComplete_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<CompletionCallback_OnComplete_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, CompletionCallback_OnComplete_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetCompletionCallback()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetCompletionCallback()) {
+          oprot.writeI32(struct.completionCallback);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, CompletionCallback_OnComplete_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.completionCallback = iprot.readI32();
+          struct.setCompletionCallbackIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class RequestContextHandler_GetResourceRequestHandler_args implements org.apache.thrift.TBase<RequestContextHandler_GetResourceRequestHandler_args, RequestContextHandler_GetResourceRequestHandler_args._Fields>, java.io.Serializable, Cloneable, Comparable<RequestContextHandler_GetResourceRequestHandler_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("RequestContextHandler_GetResourceRequestHandler_args");
+
+    private static final org.apache.thrift.protocol.TField HANDLER_FIELD_DESC = new org.apache.thrift.protocol.TField("handler", org.apache.thrift.protocol.TType.I32, (short)1);
+    private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)2);
+    private static final org.apache.thrift.protocol.TField FRAME_FIELD_DESC = new org.apache.thrift.protocol.TField("frame", org.apache.thrift.protocol.TType.STRUCT, (short)3);
+    private static final org.apache.thrift.protocol.TField REQUEST_FIELD_DESC = new org.apache.thrift.protocol.TField("request", org.apache.thrift.protocol.TType.STRUCT, (short)4);
+    private static final org.apache.thrift.protocol.TField IS_NAVIGATION_FIELD_DESC = new org.apache.thrift.protocol.TField("isNavigation", org.apache.thrift.protocol.TType.BOOL, (short)5);
+    private static final org.apache.thrift.protocol.TField IS_DOWNLOAD_FIELD_DESC = new org.apache.thrift.protocol.TField("isDownload", org.apache.thrift.protocol.TType.BOOL, (short)6);
+    private static final org.apache.thrift.protocol.TField REQUEST_INITIATOR_FIELD_DESC = new org.apache.thrift.protocol.TField("requestInitiator", org.apache.thrift.protocol.TType.STRING, (short)7);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RequestContextHandler_GetResourceRequestHandler_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RequestContextHandler_GetResourceRequestHandler_argsTupleSchemeFactory();
+
+    public int handler; // required
+    public int bid; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request; // required
+    public boolean isNavigation; // required
+    public boolean isDownload; // required
+    public @org.apache.thrift.annotation.Nullable java.lang.String requestInitiator; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      HANDLER((short)1, "handler"),
+      BID((short)2, "bid"),
+      FRAME((short)3, "frame"),
+      REQUEST((short)4, "request"),
+      IS_NAVIGATION((short)5, "isNavigation"),
+      IS_DOWNLOAD((short)6, "isDownload"),
+      REQUEST_INITIATOR((short)7, "requestInitiator");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // HANDLER
+            return HANDLER;
+          case 2: // BID
+            return BID;
+          case 3: // FRAME
+            return FRAME;
+          case 4: // REQUEST
+            return REQUEST;
+          case 5: // IS_NAVIGATION
+            return IS_NAVIGATION;
+          case 6: // IS_DOWNLOAD
+            return IS_DOWNLOAD;
+          case 7: // REQUEST_INITIATOR
+            return REQUEST_INITIATOR;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __HANDLER_ISSET_ID = 0;
+    private static final int __BID_ISSET_ID = 1;
+    private static final int __ISNAVIGATION_ISSET_ID = 2;
+    private static final int __ISDOWNLOAD_ISSET_ID = 3;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.HANDLER, new org.apache.thrift.meta_data.FieldMetaData("handler", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.FRAME, new org.apache.thrift.meta_data.FieldMetaData("frame", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      tmpMap.put(_Fields.REQUEST, new org.apache.thrift.meta_data.FieldMetaData("request", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      tmpMap.put(_Fields.IS_NAVIGATION, new org.apache.thrift.meta_data.FieldMetaData("isNavigation", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
+      tmpMap.put(_Fields.IS_DOWNLOAD, new org.apache.thrift.meta_data.FieldMetaData("isDownload", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
+      tmpMap.put(_Fields.REQUEST_INITIATOR, new org.apache.thrift.meta_data.FieldMetaData("requestInitiator", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(RequestContextHandler_GetResourceRequestHandler_args.class, metaDataMap);
+    }
+
+    public RequestContextHandler_GetResourceRequestHandler_args() {
+    }
+
+    public RequestContextHandler_GetResourceRequestHandler_args(
+      int handler,
+      int bid,
+      com.jetbrains.cef.remote.thrift_codegen.RObject frame,
+      com.jetbrains.cef.remote.thrift_codegen.RObject request,
+      boolean isNavigation,
+      boolean isDownload,
+      java.lang.String requestInitiator)
+    {
+      this();
+      this.handler = handler;
+      setHandlerIsSet(true);
+      this.bid = bid;
+      setBidIsSet(true);
+      this.frame = frame;
+      this.request = request;
+      this.isNavigation = isNavigation;
+      setIsNavigationIsSet(true);
+      this.isDownload = isDownload;
+      setIsDownloadIsSet(true);
+      this.requestInitiator = requestInitiator;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public RequestContextHandler_GetResourceRequestHandler_args(RequestContextHandler_GetResourceRequestHandler_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.handler = other.handler;
+      this.bid = other.bid;
+      if (other.isSetFrame()) {
+        this.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.frame);
+      }
+      if (other.isSetRequest()) {
+        this.request = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.request);
+      }
+      this.isNavigation = other.isNavigation;
+      this.isDownload = other.isDownload;
+      if (other.isSetRequestInitiator()) {
+        this.requestInitiator = other.requestInitiator;
+      }
+    }
+
+    @Override
+    public RequestContextHandler_GetResourceRequestHandler_args deepCopy() {
+      return new RequestContextHandler_GetResourceRequestHandler_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setHandlerIsSet(false);
+      this.handler = 0;
+      setBidIsSet(false);
+      this.bid = 0;
+      this.frame = null;
+      this.request = null;
+      setIsNavigationIsSet(false);
+      this.isNavigation = false;
+      setIsDownloadIsSet(false);
+      this.isDownload = false;
+      this.requestInitiator = null;
+    }
+
+    public int getHandler() {
+      return this.handler;
+    }
+
+    public RequestContextHandler_GetResourceRequestHandler_args setHandler(int handler) {
+      this.handler = handler;
+      setHandlerIsSet(true);
+      return this;
+    }
+
+    public void unsetHandler() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __HANDLER_ISSET_ID);
+    }
+
+    /** Returns true if field handler is set (has been assigned a value) and false otherwise */
+    public boolean isSetHandler() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __HANDLER_ISSET_ID);
+    }
+
+    public void setHandlerIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __HANDLER_ISSET_ID, value);
+    }
+
+    public int getBid() {
+      return this.bid;
+    }
+
+    public RequestContextHandler_GetResourceRequestHandler_args setBid(int bid) {
+      this.bid = bid;
+      setBidIsSet(true);
+      return this;
+    }
+
+    public void unsetBid() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    /** Returns true if field bid is set (has been assigned a value) and false otherwise */
+    public boolean isSetBid() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    public void setBidIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getFrame() {
+      return this.frame;
+    }
+
+    public RequestContextHandler_GetResourceRequestHandler_args setFrame(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame) {
+      this.frame = frame;
+      return this;
+    }
+
+    public void unsetFrame() {
+      this.frame = null;
+    }
+
+    /** Returns true if field frame is set (has been assigned a value) and false otherwise */
+    public boolean isSetFrame() {
+      return this.frame != null;
+    }
+
+    public void setFrameIsSet(boolean value) {
+      if (!value) {
+        this.frame = null;
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getRequest() {
+      return this.request;
+    }
+
+    public RequestContextHandler_GetResourceRequestHandler_args setRequest(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject request) {
+      this.request = request;
+      return this;
+    }
+
+    public void unsetRequest() {
+      this.request = null;
+    }
+
+    /** Returns true if field request is set (has been assigned a value) and false otherwise */
+    public boolean isSetRequest() {
+      return this.request != null;
+    }
+
+    public void setRequestIsSet(boolean value) {
+      if (!value) {
+        this.request = null;
+      }
+    }
+
+    public boolean isIsNavigation() {
+      return this.isNavigation;
+    }
+
+    public RequestContextHandler_GetResourceRequestHandler_args setIsNavigation(boolean isNavigation) {
+      this.isNavigation = isNavigation;
+      setIsNavigationIsSet(true);
+      return this;
+    }
+
+    public void unsetIsNavigation() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __ISNAVIGATION_ISSET_ID);
+    }
+
+    /** Returns true if field isNavigation is set (has been assigned a value) and false otherwise */
+    public boolean isSetIsNavigation() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __ISNAVIGATION_ISSET_ID);
+    }
+
+    public void setIsNavigationIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __ISNAVIGATION_ISSET_ID, value);
+    }
+
+    public boolean isIsDownload() {
+      return this.isDownload;
+    }
+
+    public RequestContextHandler_GetResourceRequestHandler_args setIsDownload(boolean isDownload) {
+      this.isDownload = isDownload;
+      setIsDownloadIsSet(true);
+      return this;
+    }
+
+    public void unsetIsDownload() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __ISDOWNLOAD_ISSET_ID);
+    }
+
+    /** Returns true if field isDownload is set (has been assigned a value) and false otherwise */
+    public boolean isSetIsDownload() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __ISDOWNLOAD_ISSET_ID);
+    }
+
+    public void setIsDownloadIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __ISDOWNLOAD_ISSET_ID, value);
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.String getRequestInitiator() {
+      return this.requestInitiator;
+    }
+
+    public RequestContextHandler_GetResourceRequestHandler_args setRequestInitiator(@org.apache.thrift.annotation.Nullable java.lang.String requestInitiator) {
+      this.requestInitiator = requestInitiator;
+      return this;
+    }
+
+    public void unsetRequestInitiator() {
+      this.requestInitiator = null;
+    }
+
+    /** Returns true if field requestInitiator is set (has been assigned a value) and false otherwise */
+    public boolean isSetRequestInitiator() {
+      return this.requestInitiator != null;
+    }
+
+    public void setRequestInitiatorIsSet(boolean value) {
+      if (!value) {
+        this.requestInitiator = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case HANDLER:
+        if (value == null) {
+          unsetHandler();
+        } else {
+          setHandler((java.lang.Integer)value);
+        }
+        break;
+
+      case BID:
+        if (value == null) {
+          unsetBid();
+        } else {
+          setBid((java.lang.Integer)value);
+        }
+        break;
+
+      case FRAME:
+        if (value == null) {
+          unsetFrame();
+        } else {
+          setFrame((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      case REQUEST:
+        if (value == null) {
+          unsetRequest();
+        } else {
+          setRequest((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      case IS_NAVIGATION:
+        if (value == null) {
+          unsetIsNavigation();
+        } else {
+          setIsNavigation((java.lang.Boolean)value);
+        }
+        break;
+
+      case IS_DOWNLOAD:
+        if (value == null) {
+          unsetIsDownload();
+        } else {
+          setIsDownload((java.lang.Boolean)value);
+        }
+        break;
+
+      case REQUEST_INITIATOR:
+        if (value == null) {
+          unsetRequestInitiator();
+        } else {
+          setRequestInitiator((java.lang.String)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case HANDLER:
+        return getHandler();
+
+      case BID:
+        return getBid();
+
+      case FRAME:
+        return getFrame();
+
+      case REQUEST:
+        return getRequest();
+
+      case IS_NAVIGATION:
+        return isIsNavigation();
+
+      case IS_DOWNLOAD:
+        return isIsDownload();
+
+      case REQUEST_INITIATOR:
+        return getRequestInitiator();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case HANDLER:
+        return isSetHandler();
+      case BID:
+        return isSetBid();
+      case FRAME:
+        return isSetFrame();
+      case REQUEST:
+        return isSetRequest();
+      case IS_NAVIGATION:
+        return isSetIsNavigation();
+      case IS_DOWNLOAD:
+        return isSetIsDownload();
+      case REQUEST_INITIATOR:
+        return isSetRequestInitiator();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof RequestContextHandler_GetResourceRequestHandler_args)
+        return this.equals((RequestContextHandler_GetResourceRequestHandler_args)that);
+      return false;
+    }
+
+    public boolean equals(RequestContextHandler_GetResourceRequestHandler_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_handler = true;
+      boolean that_present_handler = true;
+      if (this_present_handler || that_present_handler) {
+        if (!(this_present_handler && that_present_handler))
+          return false;
+        if (this.handler != that.handler)
+          return false;
+      }
+
+      boolean this_present_bid = true;
+      boolean that_present_bid = true;
+      if (this_present_bid || that_present_bid) {
+        if (!(this_present_bid && that_present_bid))
+          return false;
+        if (this.bid != that.bid)
+          return false;
+      }
+
+      boolean this_present_frame = true && this.isSetFrame();
+      boolean that_present_frame = true && that.isSetFrame();
+      if (this_present_frame || that_present_frame) {
+        if (!(this_present_frame && that_present_frame))
+          return false;
+        if (!this.frame.equals(that.frame))
+          return false;
+      }
+
+      boolean this_present_request = true && this.isSetRequest();
+      boolean that_present_request = true && that.isSetRequest();
+      if (this_present_request || that_present_request) {
+        if (!(this_present_request && that_present_request))
+          return false;
+        if (!this.request.equals(that.request))
+          return false;
+      }
+
+      boolean this_present_isNavigation = true;
+      boolean that_present_isNavigation = true;
+      if (this_present_isNavigation || that_present_isNavigation) {
+        if (!(this_present_isNavigation && that_present_isNavigation))
+          return false;
+        if (this.isNavigation != that.isNavigation)
+          return false;
+      }
+
+      boolean this_present_isDownload = true;
+      boolean that_present_isDownload = true;
+      if (this_present_isDownload || that_present_isDownload) {
+        if (!(this_present_isDownload && that_present_isDownload))
+          return false;
+        if (this.isDownload != that.isDownload)
+          return false;
+      }
+
+      boolean this_present_requestInitiator = true && this.isSetRequestInitiator();
+      boolean that_present_requestInitiator = true && that.isSetRequestInitiator();
+      if (this_present_requestInitiator || that_present_requestInitiator) {
+        if (!(this_present_requestInitiator && that_present_requestInitiator))
+          return false;
+        if (!this.requestInitiator.equals(that.requestInitiator))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + handler;
+
+      hashCode = hashCode * 8191 + bid;
+
+      hashCode = hashCode * 8191 + ((isSetFrame()) ? 131071 : 524287);
+      if (isSetFrame())
+        hashCode = hashCode * 8191 + frame.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetRequest()) ? 131071 : 524287);
+      if (isSetRequest())
+        hashCode = hashCode * 8191 + request.hashCode();
+
+      hashCode = hashCode * 8191 + ((isNavigation) ? 131071 : 524287);
+
+      hashCode = hashCode * 8191 + ((isDownload) ? 131071 : 524287);
+
+      hashCode = hashCode * 8191 + ((isSetRequestInitiator()) ? 131071 : 524287);
+      if (isSetRequestInitiator())
+        hashCode = hashCode * 8191 + requestInitiator.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(RequestContextHandler_GetResourceRequestHandler_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetHandler(), other.isSetHandler());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetHandler()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.handler, other.handler);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetBid()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetFrame(), other.isSetFrame());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetFrame()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.frame, other.frame);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetRequest(), other.isSetRequest());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetRequest()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.request, other.request);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetIsNavigation(), other.isSetIsNavigation());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetIsNavigation()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.isNavigation, other.isNavigation);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetIsDownload(), other.isSetIsDownload());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetIsDownload()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.isDownload, other.isDownload);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetRequestInitiator(), other.isSetRequestInitiator());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetRequestInitiator()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.requestInitiator, other.requestInitiator);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("RequestContextHandler_GetResourceRequestHandler_args(");
+      boolean first = true;
+
+      sb.append("handler:");
+      sb.append(this.handler);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("bid:");
+      sb.append(this.bid);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("frame:");
+      if (this.frame == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.frame);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("request:");
+      if (this.request == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.request);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("isNavigation:");
+      sb.append(this.isNavigation);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("isDownload:");
+      sb.append(this.isDownload);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("requestInitiator:");
+      if (this.requestInitiator == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.requestInitiator);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (frame != null) {
+        frame.validate();
+      }
+      if (request != null) {
+        request.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class RequestContextHandler_GetResourceRequestHandler_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public RequestContextHandler_GetResourceRequestHandler_argsStandardScheme getScheme() {
+        return new RequestContextHandler_GetResourceRequestHandler_argsStandardScheme();
+      }
+    }
+
+    private static class RequestContextHandler_GetResourceRequestHandler_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<RequestContextHandler_GetResourceRequestHandler_args> {
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol iprot, RequestContextHandler_GetResourceRequestHandler_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // HANDLER
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.handler = iprot.readI32();
+                struct.setHandlerIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // BID
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.bid = iprot.readI32();
+                struct.setBidIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 3: // FRAME
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.frame.read(iprot);
+                struct.setFrameIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 4: // REQUEST
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.request.read(iprot);
+                struct.setRequestIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 5: // IS_NAVIGATION
+              if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
+                struct.isNavigation = iprot.readBool();
+                struct.setIsNavigationIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 6: // IS_DOWNLOAD
+              if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
+                struct.isDownload = iprot.readBool();
+                struct.setIsDownloadIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 7: // REQUEST_INITIATOR
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.requestInitiator = iprot.readString();
+                struct.setRequestInitiatorIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol oprot, RequestContextHandler_GetResourceRequestHandler_args struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(HANDLER_FIELD_DESC);
+        oprot.writeI32(struct.handler);
+        oprot.writeFieldEnd();
+        oprot.writeFieldBegin(BID_FIELD_DESC);
+        oprot.writeI32(struct.bid);
+        oprot.writeFieldEnd();
+        if (struct.frame != null) {
+          oprot.writeFieldBegin(FRAME_FIELD_DESC);
+          struct.frame.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        if (struct.request != null) {
+          oprot.writeFieldBegin(REQUEST_FIELD_DESC);
+          struct.request.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldBegin(IS_NAVIGATION_FIELD_DESC);
+        oprot.writeBool(struct.isNavigation);
+        oprot.writeFieldEnd();
+        oprot.writeFieldBegin(IS_DOWNLOAD_FIELD_DESC);
+        oprot.writeBool(struct.isDownload);
+        oprot.writeFieldEnd();
+        if (struct.requestInitiator != null) {
+          oprot.writeFieldBegin(REQUEST_INITIATOR_FIELD_DESC);
+          oprot.writeString(struct.requestInitiator);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class RequestContextHandler_GetResourceRequestHandler_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public RequestContextHandler_GetResourceRequestHandler_argsTupleScheme getScheme() {
+        return new RequestContextHandler_GetResourceRequestHandler_argsTupleScheme();
+      }
+    }
+
+    private static class RequestContextHandler_GetResourceRequestHandler_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<RequestContextHandler_GetResourceRequestHandler_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, RequestContextHandler_GetResourceRequestHandler_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetHandler()) {
+          optionals.set(0);
+        }
+        if (struct.isSetBid()) {
+          optionals.set(1);
+        }
+        if (struct.isSetFrame()) {
+          optionals.set(2);
+        }
+        if (struct.isSetRequest()) {
+          optionals.set(3);
+        }
+        if (struct.isSetIsNavigation()) {
+          optionals.set(4);
+        }
+        if (struct.isSetIsDownload()) {
+          optionals.set(5);
+        }
+        if (struct.isSetRequestInitiator()) {
+          optionals.set(6);
+        }
+        oprot.writeBitSet(optionals, 7);
+        if (struct.isSetHandler()) {
+          oprot.writeI32(struct.handler);
+        }
+        if (struct.isSetBid()) {
+          oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetFrame()) {
+          struct.frame.write(oprot);
+        }
+        if (struct.isSetRequest()) {
+          struct.request.write(oprot);
+        }
+        if (struct.isSetIsNavigation()) {
+          oprot.writeBool(struct.isNavigation);
+        }
+        if (struct.isSetIsDownload()) {
+          oprot.writeBool(struct.isDownload);
+        }
+        if (struct.isSetRequestInitiator()) {
+          oprot.writeString(struct.requestInitiator);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, RequestContextHandler_GetResourceRequestHandler_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(7);
+        if (incoming.get(0)) {
+          struct.handler = iprot.readI32();
+          struct.setHandlerIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.bid = iprot.readI32();
+          struct.setBidIsSet(true);
+        }
+        if (incoming.get(2)) {
+          struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.frame.read(iprot);
+          struct.setFrameIsSet(true);
+        }
+        if (incoming.get(3)) {
+          struct.request = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.request.read(iprot);
+          struct.setRequestIsSet(true);
+        }
+        if (incoming.get(4)) {
+          struct.isNavigation = iprot.readBool();
+          struct.setIsNavigationIsSet(true);
+        }
+        if (incoming.get(5)) {
+          struct.isDownload = iprot.readBool();
+          struct.setIsDownloadIsSet(true);
+        }
+        if (incoming.get(6)) {
+          struct.requestInitiator = iprot.readString();
+          struct.setRequestInitiatorIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class RequestContextHandler_GetResourceRequestHandler_result implements org.apache.thrift.TBase<RequestContextHandler_GetResourceRequestHandler_result, RequestContextHandler_GetResourceRequestHandler_result._Fields>, java.io.Serializable, Cloneable, Comparable<RequestContextHandler_GetResourceRequestHandler_result>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("RequestContextHandler_GetResourceRequestHandler_result");
+
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RequestContextHandler_GetResourceRequestHandler_resultStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RequestContextHandler_GetResourceRequestHandler_resultTupleSchemeFactory();
+
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(RequestContextHandler_GetResourceRequestHandler_result.class, metaDataMap);
+    }
+
+    public RequestContextHandler_GetResourceRequestHandler_result() {
+    }
+
+    public RequestContextHandler_GetResourceRequestHandler_result(
+      com.jetbrains.cef.remote.thrift_codegen.RObject success)
+    {
+      this();
+      this.success = success;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public RequestContextHandler_GetResourceRequestHandler_result(RequestContextHandler_GetResourceRequestHandler_result other) {
+      if (other.isSetSuccess()) {
+        this.success = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.success);
+      }
+    }
+
+    @Override
+    public RequestContextHandler_GetResourceRequestHandler_result deepCopy() {
+      return new RequestContextHandler_GetResourceRequestHandler_result(this);
+    }
+
+    @Override
+    public void clear() {
+      this.success = null;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getSuccess() {
+      return this.success;
+    }
+
+    public RequestContextHandler_GetResourceRequestHandler_result setSuccess(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject success) {
+      this.success = success;
+      return this;
+    }
+
+    public void unsetSuccess() {
+      this.success = null;
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return this.success != null;
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      if (!value) {
+        this.success = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return getSuccess();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof RequestContextHandler_GetResourceRequestHandler_result)
+        return this.equals((RequestContextHandler_GetResourceRequestHandler_result)that);
+      return false;
+    }
+
+    public boolean equals(RequestContextHandler_GetResourceRequestHandler_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_success = true && this.isSetSuccess();
+      boolean that_present_success = true && that.isSetSuccess();
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (!this.success.equals(that.success))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((isSetSuccess()) ? 131071 : 524287);
+      if (isSetSuccess())
+        hashCode = hashCode * 8191 + success.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(RequestContextHandler_GetResourceRequestHandler_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetSuccess(), other.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, other.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("RequestContextHandler_GetResourceRequestHandler_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      if (this.success == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.success);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (success != null) {
+        success.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class RequestContextHandler_GetResourceRequestHandler_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public RequestContextHandler_GetResourceRequestHandler_resultStandardScheme getScheme() {
+        return new RequestContextHandler_GetResourceRequestHandler_resultStandardScheme();
+      }
+    }
+
+    private static class RequestContextHandler_GetResourceRequestHandler_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<RequestContextHandler_GetResourceRequestHandler_result> {
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol iprot, RequestContextHandler_GetResourceRequestHandler_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 0: // SUCCESS
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.success = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.success.read(iprot);
+                struct.setSuccessIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol oprot, RequestContextHandler_GetResourceRequestHandler_result struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.success != null) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          struct.success.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class RequestContextHandler_GetResourceRequestHandler_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public RequestContextHandler_GetResourceRequestHandler_resultTupleScheme getScheme() {
+        return new RequestContextHandler_GetResourceRequestHandler_resultTupleScheme();
+      }
+    }
+
+    private static class RequestContextHandler_GetResourceRequestHandler_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<RequestContextHandler_GetResourceRequestHandler_result> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, RequestContextHandler_GetResourceRequestHandler_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          struct.success.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, RequestContextHandler_GetResourceRequestHandler_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.success = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.success.read(iprot);
+          struct.setSuccessIsSet(true);
         }
       }
     }

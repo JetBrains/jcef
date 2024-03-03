@@ -1,7 +1,7 @@
 #include "ClientsManager.h"
 #include "../ServerState.h"
 #include "../handlers/RemoteClientHandler.h"
-#include "../handlers/RemoteLifespanHandler.h"
+#include "../router/MessageRoutersManager.h"
 #include "include/base/cef_callback.h"
 #include "include/cef_task.h"
 #include "include/wrapper/cef_closure_task.h"
@@ -31,7 +31,7 @@ namespace {
 
     //Log::trace( "CefBrowserHost::CreateBrowser cid=%d, bid=%d", cid, bid);
     bool result = CefBrowserHost::CreateBrowser(windowInfo, clienthandler, url,
-                                                settings, extra_info, nullptr);
+                                                settings, extra_info, clienthandler->getRequestContext());
     if (!result) {
       Log::error( "Failed to create browser with cid=%d, bid=%d", cid, bid);
       onCreationFailed(bid);
@@ -41,28 +41,23 @@ namespace {
 
 int ClientsManager::createBrowser(
     int cid,
-    std::shared_ptr<RpcExecutor> service,
-    std::shared_ptr<RpcExecutor> serviceIO,
-    std::shared_ptr<MessageRoutersManager> routersManager,
-    int handlersMask
+    std::shared_ptr<ServerHandlerContext> ctx,
+    int handlersMask, const thrift_codegen::RObject& requestContextHandler
 ) {
   CefRefPtr<RemoteClientHandler> clienthandler;
-  std::shared_ptr<ClientsStorage> storage = myRemoteClients;
   int bid;
   {
     Lock lock(myRemoteClients->myMutex);
     static int sBid = 0;
     bid = sBid++;
-    clienthandler = new RemoteClientHandler(routersManager, service, serviceIO, cid, bid, handlersMask, [=](int bid){
-      storage->erase(bid);
-    });
+    clienthandler = new RemoteClientHandler(ctx, cid, bid, handlersMask, requestContextHandler);
     myRemoteClients->set(bid, clienthandler);
   }
 
   return bid;
 }
 
-void ClientsManager::startBrowserCreation(int bid, const std::string & url) {
+void ClientsManager::startNativeBrowserCreation(int bid, const std::string & url) {
   CefRefPtr<RemoteClientHandler> clienthandler = myRemoteClients->get(bid);
   if (!clienthandler)
     return;
@@ -88,6 +83,16 @@ CefRefPtr<CefBrowser> ClientsManager::getCefBrowser(int bid) {
   return client->getCefBrowser();
 }
 
+CefRefPtr<RemoteClientHandler> ClientsManager::getClient(int bid) {
+  CefRefPtr<RemoteClientHandler> client = myRemoteClients->get(bid);
+  if (!client) {
+    Log::error("getClient: can't find client by bid %d", bid);
+    return nullptr;
+  }
+
+  return client;
+}
+
 int ClientsManager::findRemoteBrowser(CefRefPtr<CefBrowser> browser) {
   return myRemoteClients->findRemoteBrowser(browser);
 }
@@ -104,6 +109,10 @@ void ClientsManager::closeBrowser(const int32_t bid) {
 
 std::string ClientsManager::closeAllBrowsers() {
   return myRemoteClients->closeAll();
+}
+
+void ClientsManager::erase(int bid) {
+  myRemoteClients->erase(bid);
 }
 
 CefRefPtr<RemoteClientHandler> ClientsManager::ClientsStorage::get(int bid) {

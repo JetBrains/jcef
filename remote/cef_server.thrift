@@ -33,9 +33,9 @@ service Server {
     //
     // CefBrowser
     //
-    i32 createBrowser(1: i32 cid, 2: i32 handlersMask),
-    oneway void startBrowserCreation(1: i32 bid, 2: string url),
-    oneway void closeBrowser(1: i32 bid),
+    i32 Browser_Create(1: i32 cid, 2: i32 handlersMask, 3:shared.RObject requestContextHandler),
+    oneway void Browser_StartNativeCreation(1: i32 bid, 2: string url),
+    oneway void Browser_Close(1: i32 bid),
 
     oneway void Browser_Reload(1: i32 bid),
     oneway void Browser_ReloadIgnoreCache(1: i32 bid),
@@ -123,4 +123,10 @@ service Server {
     //
     oneway void SchemeHandlerFactory_Register(1:string schemeName, 2:string domainName, 3:shared.RObject schemeHandlerFactory),
     oneway void ClearAllSchemeHandlerFactories(),
+
+    //
+    // CefRequestContext
+    //
+    oneway void RequestContext_ClearCertificateExceptions(1:i32 bid, 2:shared.RObject completionCallback),
+    oneway void RequestContext_CloseAllConnections(1:i32 bid, 2:shared.RObject completionCallback)
 }

@@ -4,21 +4,17 @@
 #include <utility>
 
 #include "../RpcExecutor.h"
-#include "../router/MessageRoutersManager.h"
 #include "include/cef_client.h"
 
 class ServerHandler;
+class ServerHandlerContext;
+class MessageRoutersManager;
 
 class RemoteClientHandler : public CefClient {
 public:
  explicit RemoteClientHandler(
-     std::shared_ptr<MessageRoutersManager> routersManager,
-     std::shared_ptr<RpcExecutor> service,
-     std::shared_ptr<RpcExecutor> serviceIO,
-     int cid,
-     int bid,
-     int handlersMask,
-     std::function<void(int)> onClosedCallback);
+     std::shared_ptr<ServerHandlerContext> ctx, int cid, int bid, int handlersMask,
+     const thrift_codegen::RObject& requestContextHandler);
 
  CefRefPtr<CefContextMenuHandler> GetContextMenuHandler() override;
     CefRefPtr<CefDialogHandler> GetDialogHandler() override;
@@ -47,9 +43,9 @@ public:
     void closeBrowser();
     bool isClosing() const { return myIsClosing; }
 
-    std::shared_ptr<RpcExecutor> getService() { return myService; }
-    std::shared_ptr<MessageRoutersManager> getRoutersManager() { return myRoutersManager; }
     CefRefPtr<CefBrowser> getCefBrowser();
+
+    const CefRefPtr<CefRequestContext>& getRequestContext() const { return myRequestContext; }
 
     // Convenience methods
     template<typename T>
@@ -63,6 +59,7 @@ public:
     const int myBid;
     std::shared_ptr<RpcExecutor> myService;
     std::shared_ptr<MessageRoutersManager> myRoutersManager;
+    CefRefPtr<CefRequestContext> myRequestContext;
 
     const CefRefPtr<CefLifeSpanHandler> myRemoteLisfespanHandler; // always presented
 

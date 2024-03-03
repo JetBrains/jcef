@@ -6,9 +6,10 @@
 #include <map>
 #include "include/cef_base.h"
 
+#include "../gen-cpp/shared_types.h"
+
 class RemoteClientHandler;
-class RpcExecutor;
-class MessageRoutersManager;
+class ServerHandlerContext;
 class CefBrowser;
 
 class ClientsManager {
@@ -17,17 +18,18 @@ class ClientsManager {
 
   // Returns bid
   int createBrowser(int cid /*id from java*/,
-                    std::shared_ptr<RpcExecutor> service,
-                    std::shared_ptr<RpcExecutor> serviceIO,
-                    std::shared_ptr<MessageRoutersManager> routersManager,
-                    int handlersMask);
-  void startBrowserCreation(int bid, const std::string& url);
+                    std::shared_ptr<ServerHandlerContext> ctx,
+                    int handlersMask, const thrift_codegen::RObject& requestContextHandler);
+  void startNativeBrowserCreation(int bid, const std::string& url);
   void closeBrowser(int bid);
+
+  void erase(int bid);
 
   // returns short description of remaining browsers (or empty string when empty browsers set)
   std::string closeAllBrowsers();
 
   CefRefPtr<CefBrowser> getCefBrowser(int bid);
+  CefRefPtr<RemoteClientHandler> getClient(int bid);
   int findRemoteBrowser(CefRefPtr<CefBrowser> browser); // returns bid
 
  private:

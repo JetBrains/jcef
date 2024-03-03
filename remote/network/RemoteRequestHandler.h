@@ -5,17 +5,13 @@
 
 #include "include/cef_request_handler.h"
 
-class RemoteClientHandler;
-class MessageRoutersManager;
-class RpcExecutor;
+class ServerHandlerContext;
 
 class RemoteRequestHandler : public CefRequestHandler {
  public:
   explicit RemoteRequestHandler(
       int bid,
-      std::shared_ptr<RpcExecutor> service,
-      std::shared_ptr<RpcExecutor> serviceIO,
-      std::shared_ptr<MessageRoutersManager> routersManager);
+      std::shared_ptr<ServerHandlerContext> ctx);
   virtual ~RemoteRequestHandler();
 
   // Called on the UI thread before browser navigation.
@@ -70,10 +66,7 @@ class RemoteRequestHandler : public CefRequestHandler {
 
  private:
   const int myBid;
-  std::shared_ptr<RpcExecutor> myService;
-  std::shared_ptr<RpcExecutor> myServiceIO;
-
-  std::shared_ptr<MessageRoutersManager> myRoutersManager;
+  std::shared_ptr<ServerHandlerContext> myCtx;
 
   std::set<int> myCallbacks;
   std::set<int> myAuthCallbacks;

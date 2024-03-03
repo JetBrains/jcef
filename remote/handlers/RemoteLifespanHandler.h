@@ -3,15 +3,15 @@
 
 #include <thrift/Thrift.h>
 #include "include/cef_life_span_handler.h"
-#include <functional>
 
-class RemoteClientHandler;
+class ServerHandlerContext;
 class RpcExecutor;
 class MessageRoutersManager;
+class ClientsManager;
 
 class RemoteLifespanHandler : public CefLifeSpanHandler {
  public:
-  explicit RemoteLifespanHandler(int bid, std::shared_ptr<RpcExecutor> service, std::shared_ptr<MessageRoutersManager> routersManager, std::function<void(int)> onCloseCallback);
+  explicit RemoteLifespanHandler(int bid, std::shared_ptr<ServerHandlerContext> ctx);
   CefRefPtr<CefBrowser> getBrowser();
   //
   // All next methods will be called on the UI thread
@@ -34,9 +34,9 @@ class RemoteLifespanHandler : public CefLifeSpanHandler {
 
  private:
   const int myBid;
-  const std::function<void(int)> myOnClosedCallback;
   std::shared_ptr<RpcExecutor> myService;
   std::shared_ptr<MessageRoutersManager> myRoutersManager;
+  std::shared_ptr<ClientsManager> myClientsManager;
   CefRefPtr<CefBrowser> myBrowser = nullptr;
 
   IMPLEMENT_REFCOUNTING(RemoteLifespanHandler);

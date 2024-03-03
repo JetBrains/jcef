@@ -7,32 +7,34 @@
 #include "network/RemoteRequest.h"
 #include "network/RemoteResponse.h"
 #include "browser/RemoteFrame.h"
+#include "browser/ClientsManager.h"
+#include "handlers/RemoteClientHandler.h"
 
 #include "RemoteObjects.h"
 #include "callback/RemoteAuthCallback.h"
 #include "callback/RemoteCallback.h"
+#include "callback/RemoteCompletionCallback.h"
 #include "callback/RemoteSchemeHandlerFactory.h"
 
 #include "include/base/cef_callback.h"
 #include "include/wrapper/cef_closure_task.h"
+#include "router/MessageRoutersManager.h"
 #include "router/RemoteMessageRouter.h"
 #include "router/RemoteMessageRouterHandler.h"
 #include "router/RemoteQueryCallback.h"
 
 #include "ServerState.h"
+#include "ServerHandlerContext.h"
 
 #include "../native/critical_wait.h"
 
 using namespace apache::thrift;
 
-ServerHandler::ServerHandler()
-    : myRoutersManager(std::make_shared<MessageRoutersManager>()),
-      myClientsManager(std::make_shared<ClientsManager>())
-{}
+ServerHandler::ServerHandler() : myCtx(std::make_shared<ServerHandlerContext>()) {}
 
 ServerHandler::~ServerHandler() {
   close();
-  closeBackwardTransport();
+  myCtx->closeJavaServiceTransport();
 }
 
 void ServerHandler::close() {
@@ -40,23 +42,16 @@ void ServerHandler::close() {
     return;
 
   myIsClosed = true;
-  std::string remaining = myClientsManager->closeAllBrowsers();
+  std::string remaining = myCtx->clientsManager()->closeAllBrowsers();
   ServerState::instance().onServerHandlerClosed(*this, remaining);
   try {
     // NOTE: if some browser wasn't closed than client won't receive onBeforeClose callback
     // if we close transport here. So do it in destructor.
     if (remaining.empty())
-      closeBackwardTransport();
+      myCtx->closeJavaServiceTransport();
   } catch (TException& e) {
     Log::error("Thrift exception in ServerHandler::close: %s", e.what());
   }
-}
-
-void ServerHandler::closeBackwardTransport() {
-  if (myJavaService && !myJavaService->isClosed())
-    myJavaService->close();
-  if (myJavaServiceIO && !myJavaServiceIO->isClosed())
-    myJavaServiceIO->close();
 }
 
 int ServerHandler::connectImpl(std::function<void()> openBackwardTransport) {
@@ -67,10 +62,10 @@ int ServerHandler::connectImpl(std::function<void()> openBackwardTransport) {
   // Connect to client's side (for cef-callbacks execution on java side)
   try {
     openBackwardTransport();
-    RemoteAppHandler::instance()->setService(myJavaService);
+    RemoteAppHandler::instance()->setService(myCtx->javaService());
   } catch (TException& tx) {
     Log::error(tx.what());
-    closeBackwardTransport();
+    myCtx->closeJavaServiceTransport();
     return -1;
   }
 
@@ -78,7 +73,7 @@ int ServerHandler::connectImpl(std::function<void()> openBackwardTransport) {
 }
 
 int32_t ServerHandler::connect(const std::string& backwardConnectionPipe, bool isMaster) {
-  if (myJavaService != nullptr) {
+  if (myCtx->javaService() != nullptr) {
     Log::error("Client already connected, other attempts will be ignored.");
     return -1;
   }
@@ -86,13 +81,12 @@ int32_t ServerHandler::connect(const std::string& backwardConnectionPipe, bool i
   myIsMaster = isMaster;
 
   return connectImpl([&](){
-    myJavaService = std::make_shared<RpcExecutor>(backwardConnectionPipe);
-    myJavaServiceIO = std::make_shared<RpcExecutor>(backwardConnectionPipe);
+    myCtx->initJavaServicePipe(backwardConnectionPipe);
   });
 }
 
 int32_t ServerHandler::connectTcp(int backwardConnectionPort, bool isMaster) {
-  if (myJavaService != nullptr) {
+  if (myCtx->javaService() != nullptr) {
     Log::error("Client already connected (tcp), other attempts will be ignored.");
     return -1;
   }
@@ -100,24 +94,28 @@ int32_t ServerHandler::connectTcp(int backwardConnectionPort, bool isMaster) {
   myIsMaster = isMaster;
 
   return connectImpl([&](){
-    myJavaService = std::make_shared<RpcExecutor>(backwardConnectionPort);
-    myJavaServiceIO = std::make_shared<RpcExecutor>(backwardConnectionPort);
+    myCtx->initJavaServicePort(backwardConnectionPort);
   });
 }
 
-int32_t ServerHandler::createBrowser(int cid, int handlersMask) {
-  int32_t bid = myClientsManager->createBrowser(cid, myJavaService, myJavaServiceIO, myRoutersManager, handlersMask);
-  Log::trace("Created remote browser cid=%d, bid=%d, handlers: %s", cid, bid, HandlerMasks::toString(handlersMask).c_str());
+int32_t ServerHandler::Browser_Create(int cid, int handlersMask, const thrift_codegen::RObject& requestContextHandler) {
+  int32_t bid = myCtx->clientsManager()->createBrowser(cid, myCtx, handlersMask, requestContextHandler);
+  if (Log::isTraceEnabled()) {
+    std::string hdesc = "";
+    if (requestContextHandler.objId >= 0)
+      hdesc = string_format(" [request context handler %d]", requestContextHandler.objId);
+    Log::trace("Created remote browser cid=%d, bid=%d%s, handlers: %s", cid, bid, hdesc.c_str(), HandlerMasks::toString(handlersMask).c_str());
+  }
   return bid;
 }
 
-void ServerHandler::startBrowserCreation(int bid, const std::string& url) {
-  myClientsManager->startBrowserCreation(bid, url);
+void ServerHandler::Browser_StartNativeCreation(int bid, const std::string& url) {
+  myCtx->clientsManager()->startNativeBrowserCreation(bid, url);
   Log::trace("Started creation of native CefBrowser of remote browser bid=%d, url=%s", bid, url.c_str());
 }
 
-void ServerHandler::closeBrowser(const int32_t bid) {
-  myClientsManager->closeBrowser(bid);
+void ServerHandler::Browser_Close(const int32_t bid) {
+  myCtx->clientsManager()->closeBrowser(bid);
 }
 
 void ServerHandler::stop() {
@@ -139,18 +137,32 @@ void ServerHandler::version(std::string& _return) {
   ));
 }
 
-#define GET_BROWSER_OR_RETURN()                          \
-  auto browser = myClientsManager->getCefBrowser(bid);   \
-  if (browser == nullptr) {                              \
-    Log::error("CefBrowser is null, bid=%d", bid);       \
-    return;                                              \
+#define GET_BROWSER_OR_RETURN()                               \
+  auto browser = myCtx->clientsManager()->getCefBrowser(bid); \
+  if (browser == nullptr) {                                   \
+    Log::error("CefBrowser is null, bid=%d", bid);            \
+    return;                                                   \
   }
 
-#define GET_BROWSER_OR_RETURN_VAL(val)                   \
-  auto browser = myClientsManager->getCefBrowser(bid);   \
-  if (browser == nullptr) {                              \
-    Log::error("CefBrowser is null, bid=%d", bid);       \
-    return val;                                          \
+#define GET_BROWSER_OR_RETURN_VAL(val)                        \
+  auto browser = myCtx->clientsManager()->getCefBrowser(bid); \
+  if (browser == nullptr) {                                   \
+    Log::error("CefBrowser is null, bid=%d", bid);            \
+    return val;                                               \
+  }
+
+#define GET_CLIENT_OR_RETURN()                              \
+  auto client = myCtx->clientsManager()->getClient(bid);    \
+  if (client == nullptr) {                                  \
+    Log::error("RemoteClientHandler is null, bid=%d", bid); \
+    return;                                                 \
+  }
+
+#define GET_CLIENT_OR_RETURN_VAL(val)                       \
+  auto client = myCtx->clientsManager()->getClient(bid);    \
+  if (client == nullptr) {                                  \
+    Log::error("RemoteClientHandler is null, bid=%d", bid); \
+    return val;                                             \
   }
 
 void ServerHandler::Browser_Reload(const int32_t bid) {
@@ -618,11 +630,11 @@ void ServerHandler::Callback_Cancel(const thrift_codegen::RObject& callback) {
 void ServerHandler::MessageRouter_Create(thrift_codegen::RObject& _return,
                                         const std::string& query,
                                         const std::string& cancel) {
-  _return = myRoutersManager->CreateRemoteMessageRouter(myJavaService, query, cancel)->serverId();
+  _return = myCtx->routersManager()->CreateRemoteMessageRouter(myCtx->javaService(), query, cancel)->serverId();
 }
 
 void ServerHandler::MessageRouter_Dispose(const thrift_codegen::RObject& msgRouter) {
-  myRoutersManager->DisposeRemoteMessageRouter(msgRouter.objId);
+  myCtx->routersManager()->DisposeRemoteMessageRouter(msgRouter.objId);
 }
 
 void ServerHandler::MessageRouter_AddMessageRouterToBrowser(
@@ -633,7 +645,7 @@ void ServerHandler::MessageRouter_AddMessageRouterToBrowser(
   if (rmr == nullptr) return;
 
   // Update running render-processes.
-  CefRefPtr<CefBrowser> browser = myClientsManager->getCefBrowser(bid);
+  CefRefPtr<CefBrowser> browser = myCtx->clientsManager()->getCefBrowser(bid);
   if (!browser) {
     Log::debug("CefBrowser instance wasn't created, bid %d", bid);
     return;
@@ -656,7 +668,7 @@ void ServerHandler::MessageRouter_RemoveMessageRouterFromBrowser(
   if (rmr == nullptr) return;
 
   // Update running render-processes.
-  CefRefPtr<CefBrowser> browser = myClientsManager->getCefBrowser(bid);
+  CefRefPtr<CefBrowser> browser = myCtx->clientsManager()->getCefBrowser(bid);
   if (!browser) {
     Log::debug("CefBrowser instance wasn't created, bid %d", bid);
     return;
@@ -702,7 +714,7 @@ void ServerHandler::MessageRouter_AddHandler(
     const thrift_codegen::RObject& msgRouter,
     const thrift_codegen::RObject& handler, bool first) {
   if (CefCurrentlyOn(TID_UI)) {
-    ServerHandler_MessageRouter_AddHandler_Impl(myJavaService, myClientsManager, msgRouter, handler, first);
+    ServerHandler_MessageRouter_AddHandler_Impl(myCtx->javaService(), myCtx->clientsManager(), msgRouter, handler, first);
   } else {
     CefPostTask(TID_UI, base::BindOnce(
         [](std::shared_ptr<RpcExecutor> service,
@@ -712,7 +724,7 @@ void ServerHandler::MessageRouter_AddHandler(
            bool first) {
           ServerHandler_MessageRouter_AddHandler_Impl(service, manager, msgRouter, handler, first);
         },
-            myJavaService, myClientsManager, msgRouter, handler, first));
+            myCtx->javaService(), myCtx->clientsManager(), msgRouter, handler, first));
   }
 }
 
@@ -738,7 +750,7 @@ void ServerHandler::MessageRouter_CancelPending(
     const thrift_codegen::RObject& handler) {
   LNDCT();
   RemoteMessageRouter * rmr = RemoteMessageRouter::get(msgRouter.objId);
-  CefRefPtr<CefBrowser> browser = myClientsManager->getCefBrowser(bid);
+  CefRefPtr<CefBrowser> browser = myCtx->clientsManager()->getCefBrowser(bid);
   if (!rmr || !browser) return;
   std::shared_ptr<RemoteMessageRouterHandler> rmrh = rmr->FindRemoteHandler(handler.objId);
   if (rmrh)
@@ -786,7 +798,7 @@ void ServerHandler::SchemeHandlerFactory_Register(
     const std::string& schemeName,
     const std::string& domainName,
     const thrift_codegen::RObject& schemeHandlerFactory) {
-  CefRefPtr<RemoteSchemeHandlerFactory> factory = new RemoteSchemeHandlerFactory(myClientsManager, myJavaService, schemeHandlerFactory);
+  CefRefPtr<RemoteSchemeHandlerFactory> factory = new RemoteSchemeHandlerFactory(myCtx->clientsManager(), myCtx->javaService(), schemeHandlerFactory);
   const bool result = CefRegisterSchemeHandlerFactory(schemeName,domainName, factory);
   if (result)
     Log::trace("Registered SchemeHandlerFactory: schemeName=%s, domainName=%s, peer-id=%d", schemeName.c_str(), domainName.c_str(), schemeHandlerFactory.objId);
@@ -797,4 +809,40 @@ void ServerHandler::SchemeHandlerFactory_Register(
 void ServerHandler::ClearAllSchemeHandlerFactories() {
   Log::trace("Cleared all SchemeHandlerFactory instances.");
   CefClearSchemeHandlerFactories();
+}
+
+void ServerHandler::RequestContext_ClearCertificateExceptions(const int32_t bid, const thrift_codegen::RObject& rcompletionCallback) {
+  LNDCT();
+  CefRefPtr<RemoteCompletionCallback> cb;
+  if (rcompletionCallback.objId >= 0)
+    cb = new RemoteCompletionCallback(myCtx->javaService(), rcompletionCallback);
+  if (bid < 0) {
+    // NOTE: assume that GlobalContext is linked with negative bid.
+    CefRefPtr<CefRequestContext> globalContext = CefRequestContext::GetGlobalContext();
+    if (globalContext) {
+      globalContext->ClearCertificateExceptions(cb);
+      Log::debug("Cleared all certificate exceptions in global RequestContext.");
+    }
+    return;
+  }
+  GET_CLIENT_OR_RETURN()
+  client->getRequestContext()->ClearCertificateExceptions(cb);
+}
+
+void ServerHandler::RequestContext_CloseAllConnections(const int32_t bid, const thrift_codegen::RObject& rcompletionCallback) {
+  LNDCT();
+  CefRefPtr<RemoteCompletionCallback> cb;
+  if (rcompletionCallback.objId >= 0)
+    cb = new RemoteCompletionCallback(myCtx->javaService(), rcompletionCallback);
+  if (bid < 0) {
+    // NOTE: assume that GlobalContext is linked with negative bid.
+    CefRefPtr<CefRequestContext> globalContext = CefRequestContext::GetGlobalContext();
+    if (globalContext) {
+      globalContext->CloseAllConnections(cb);
+      Log::debug("Closed all connections in global RequestContext.");
+    }
+    return;
+  }
+  GET_CLIENT_OR_RETURN()
+  client->getRequestContext()->CloseAllConnections(cb);
 }

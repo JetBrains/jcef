@@ -74,6 +74,8 @@ class ClientHandlersIf {
   virtual void MessageRouterHandler_Dispose(const int32_t handler) = 0;
   virtual void SchemeHandlerFactory_CreateHandler( ::thrift_codegen::RObject& _return, const int32_t schemeHandlerFactory, const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& scheme_name, const  ::thrift_codegen::RObject& request) = 0;
   virtual void SchemeHandlerFactory_Dispose(const int32_t schemeHandlerFactory) = 0;
+  virtual void CompletionCallback_OnComplete(const int32_t completionCallback) = 0;
+  virtual void RequestContextHandler_GetResourceRequestHandler( ::thrift_codegen::RObject& _return, const int32_t handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool isNavigation, const bool isDownload, const std::string& requestInitiator) = 0;
 };
 
 class ClientHandlersIfFactory {
@@ -276,6 +278,12 @@ class ClientHandlersNull : virtual public ClientHandlersIf {
     return;
   }
   void SchemeHandlerFactory_Dispose(const int32_t /* schemeHandlerFactory */) override {
+    return;
+  }
+  void CompletionCallback_OnComplete(const int32_t /* completionCallback */) override {
+    return;
+  }
+  void RequestContextHandler_GetResourceRequestHandler( ::thrift_codegen::RObject& /* _return */, const int32_t /* handler */, const int32_t /* bid */, const  ::thrift_codegen::RObject& /* frame */, const  ::thrift_codegen::RObject& /* request */, const bool /* isNavigation */, const bool /* isDownload */, const std::string& /* requestInitiator */) override {
     return;
   }
 };
@@ -5422,6 +5430,207 @@ class ClientHandlers_SchemeHandlerFactory_Dispose_pargs {
 
 };
 
+typedef struct _ClientHandlers_CompletionCallback_OnComplete_args__isset {
+  _ClientHandlers_CompletionCallback_OnComplete_args__isset() : completionCallback(false) {}
+  bool completionCallback :1;
+} _ClientHandlers_CompletionCallback_OnComplete_args__isset;
+
+class ClientHandlers_CompletionCallback_OnComplete_args {
+ public:
+
+  ClientHandlers_CompletionCallback_OnComplete_args(const ClientHandlers_CompletionCallback_OnComplete_args&) noexcept;
+  ClientHandlers_CompletionCallback_OnComplete_args& operator=(const ClientHandlers_CompletionCallback_OnComplete_args&) noexcept;
+  ClientHandlers_CompletionCallback_OnComplete_args() noexcept
+                                                    : completionCallback(0) {
+  }
+
+  virtual ~ClientHandlers_CompletionCallback_OnComplete_args() noexcept;
+  int32_t completionCallback;
+
+  _ClientHandlers_CompletionCallback_OnComplete_args__isset __isset;
+
+  void __set_completionCallback(const int32_t val);
+
+  bool operator == (const ClientHandlers_CompletionCallback_OnComplete_args & rhs) const
+  {
+    if (!(completionCallback == rhs.completionCallback))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_CompletionCallback_OnComplete_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_CompletionCallback_OnComplete_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_CompletionCallback_OnComplete_pargs {
+ public:
+
+
+  virtual ~ClientHandlers_CompletionCallback_OnComplete_pargs() noexcept;
+  const int32_t* completionCallback;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_RequestContextHandler_GetResourceRequestHandler_args__isset {
+  _ClientHandlers_RequestContextHandler_GetResourceRequestHandler_args__isset() : handler(false), bid(false), frame(false), request(false), isNavigation(false), isDownload(false), requestInitiator(false) {}
+  bool handler :1;
+  bool bid :1;
+  bool frame :1;
+  bool request :1;
+  bool isNavigation :1;
+  bool isDownload :1;
+  bool requestInitiator :1;
+} _ClientHandlers_RequestContextHandler_GetResourceRequestHandler_args__isset;
+
+class ClientHandlers_RequestContextHandler_GetResourceRequestHandler_args {
+ public:
+
+  ClientHandlers_RequestContextHandler_GetResourceRequestHandler_args(const ClientHandlers_RequestContextHandler_GetResourceRequestHandler_args&);
+  ClientHandlers_RequestContextHandler_GetResourceRequestHandler_args& operator=(const ClientHandlers_RequestContextHandler_GetResourceRequestHandler_args&);
+  ClientHandlers_RequestContextHandler_GetResourceRequestHandler_args() noexcept
+                                                                      : handler(0),
+                                                                        bid(0),
+                                                                        isNavigation(0),
+                                                                        isDownload(0),
+                                                                        requestInitiator() {
+  }
+
+  virtual ~ClientHandlers_RequestContextHandler_GetResourceRequestHandler_args() noexcept;
+  int32_t handler;
+  int32_t bid;
+   ::thrift_codegen::RObject frame;
+   ::thrift_codegen::RObject request;
+  bool isNavigation;
+  bool isDownload;
+  std::string requestInitiator;
+
+  _ClientHandlers_RequestContextHandler_GetResourceRequestHandler_args__isset __isset;
+
+  void __set_handler(const int32_t val);
+
+  void __set_bid(const int32_t val);
+
+  void __set_frame(const  ::thrift_codegen::RObject& val);
+
+  void __set_request(const  ::thrift_codegen::RObject& val);
+
+  void __set_isNavigation(const bool val);
+
+  void __set_isDownload(const bool val);
+
+  void __set_requestInitiator(const std::string& val);
+
+  bool operator == (const ClientHandlers_RequestContextHandler_GetResourceRequestHandler_args & rhs) const
+  {
+    if (!(handler == rhs.handler))
+      return false;
+    if (!(bid == rhs.bid))
+      return false;
+    if (!(frame == rhs.frame))
+      return false;
+    if (!(request == rhs.request))
+      return false;
+    if (!(isNavigation == rhs.isNavigation))
+      return false;
+    if (!(isDownload == rhs.isDownload))
+      return false;
+    if (!(requestInitiator == rhs.requestInitiator))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_RequestContextHandler_GetResourceRequestHandler_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_RequestContextHandler_GetResourceRequestHandler_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_RequestContextHandler_GetResourceRequestHandler_pargs {
+ public:
+
+
+  virtual ~ClientHandlers_RequestContextHandler_GetResourceRequestHandler_pargs() noexcept;
+  const int32_t* handler;
+  const int32_t* bid;
+  const  ::thrift_codegen::RObject* frame;
+  const  ::thrift_codegen::RObject* request;
+  const bool* isNavigation;
+  const bool* isDownload;
+  const std::string* requestInitiator;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_RequestContextHandler_GetResourceRequestHandler_result__isset {
+  _ClientHandlers_RequestContextHandler_GetResourceRequestHandler_result__isset() : success(false) {}
+  bool success :1;
+} _ClientHandlers_RequestContextHandler_GetResourceRequestHandler_result__isset;
+
+class ClientHandlers_RequestContextHandler_GetResourceRequestHandler_result {
+ public:
+
+  ClientHandlers_RequestContextHandler_GetResourceRequestHandler_result(const ClientHandlers_RequestContextHandler_GetResourceRequestHandler_result&);
+  ClientHandlers_RequestContextHandler_GetResourceRequestHandler_result& operator=(const ClientHandlers_RequestContextHandler_GetResourceRequestHandler_result&);
+  ClientHandlers_RequestContextHandler_GetResourceRequestHandler_result() noexcept {
+  }
+
+  virtual ~ClientHandlers_RequestContextHandler_GetResourceRequestHandler_result() noexcept;
+   ::thrift_codegen::RObject success;
+
+  _ClientHandlers_RequestContextHandler_GetResourceRequestHandler_result__isset __isset;
+
+  void __set_success(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const ClientHandlers_RequestContextHandler_GetResourceRequestHandler_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_RequestContextHandler_GetResourceRequestHandler_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_RequestContextHandler_GetResourceRequestHandler_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_RequestContextHandler_GetResourceRequestHandler_presult__isset {
+  _ClientHandlers_RequestContextHandler_GetResourceRequestHandler_presult__isset() : success(false) {}
+  bool success :1;
+} _ClientHandlers_RequestContextHandler_GetResourceRequestHandler_presult__isset;
+
+class ClientHandlers_RequestContextHandler_GetResourceRequestHandler_presult {
+ public:
+
+
+  virtual ~ClientHandlers_RequestContextHandler_GetResourceRequestHandler_presult() noexcept;
+   ::thrift_codegen::RObject* success;
+
+  _ClientHandlers_RequestContextHandler_GetResourceRequestHandler_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
 class ClientHandlersClient : virtual public ClientHandlersIf {
  public:
   ClientHandlersClient(std::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
@@ -5582,6 +5791,11 @@ class ClientHandlersClient : virtual public ClientHandlersIf {
   void recv_SchemeHandlerFactory_CreateHandler( ::thrift_codegen::RObject& _return);
   void SchemeHandlerFactory_Dispose(const int32_t schemeHandlerFactory) override;
   void send_SchemeHandlerFactory_Dispose(const int32_t schemeHandlerFactory);
+  void CompletionCallback_OnComplete(const int32_t completionCallback) override;
+  void send_CompletionCallback_OnComplete(const int32_t completionCallback);
+  void RequestContextHandler_GetResourceRequestHandler( ::thrift_codegen::RObject& _return, const int32_t handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool isNavigation, const bool isDownload, const std::string& requestInitiator) override;
+  void send_RequestContextHandler_GetResourceRequestHandler(const int32_t handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool isNavigation, const bool isDownload, const std::string& requestInitiator);
+  void recv_RequestContextHandler_GetResourceRequestHandler( ::thrift_codegen::RObject& _return);
  protected:
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -5649,6 +5863,8 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_MessageRouterHandler_Dispose(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_SchemeHandlerFactory_CreateHandler(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_SchemeHandlerFactory_Dispose(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_CompletionCallback_OnComplete(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_RequestContextHandler_GetResourceRequestHandler(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   ClientHandlersProcessor(::std::shared_ptr<ClientHandlersIf> iface) :
     iface_(iface) {
@@ -5704,6 +5920,8 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["MessageRouterHandler_Dispose"] = &ClientHandlersProcessor::process_MessageRouterHandler_Dispose;
     processMap_["SchemeHandlerFactory_CreateHandler"] = &ClientHandlersProcessor::process_SchemeHandlerFactory_CreateHandler;
     processMap_["SchemeHandlerFactory_Dispose"] = &ClientHandlersProcessor::process_SchemeHandlerFactory_Dispose;
+    processMap_["CompletionCallback_OnComplete"] = &ClientHandlersProcessor::process_CompletionCallback_OnComplete;
+    processMap_["RequestContextHandler_GetResourceRequestHandler"] = &ClientHandlersProcessor::process_RequestContextHandler_GetResourceRequestHandler;
   }
 
   virtual ~ClientHandlersProcessor() {}
@@ -6210,6 +6428,25 @@ class ClientHandlersMultiface : virtual public ClientHandlersIf {
     ifaces_[i]->SchemeHandlerFactory_Dispose(schemeHandlerFactory);
   }
 
+  void CompletionCallback_OnComplete(const int32_t completionCallback) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->CompletionCallback_OnComplete(completionCallback);
+    }
+    ifaces_[i]->CompletionCallback_OnComplete(completionCallback);
+  }
+
+  void RequestContextHandler_GetResourceRequestHandler( ::thrift_codegen::RObject& _return, const int32_t handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool isNavigation, const bool isDownload, const std::string& requestInitiator) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->RequestContextHandler_GetResourceRequestHandler(_return, handler, bid, frame, request, isNavigation, isDownload, requestInitiator);
+    }
+    ifaces_[i]->RequestContextHandler_GetResourceRequestHandler(_return, handler, bid, frame, request, isNavigation, isDownload, requestInitiator);
+    return;
+  }
+
 };
 
 // The 'concurrent' client is a thread safe client that correctly handles
@@ -6377,6 +6614,11 @@ class ClientHandlersConcurrentClient : virtual public ClientHandlersIf {
   void recv_SchemeHandlerFactory_CreateHandler( ::thrift_codegen::RObject& _return, const int32_t seqid);
   void SchemeHandlerFactory_Dispose(const int32_t schemeHandlerFactory) override;
   void send_SchemeHandlerFactory_Dispose(const int32_t schemeHandlerFactory);
+  void CompletionCallback_OnComplete(const int32_t completionCallback) override;
+  void send_CompletionCallback_OnComplete(const int32_t completionCallback);
+  void RequestContextHandler_GetResourceRequestHandler( ::thrift_codegen::RObject& _return, const int32_t handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool isNavigation, const bool isDownload, const std::string& requestInitiator) override;
+  int32_t send_RequestContextHandler_GetResourceRequestHandler(const int32_t handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool isNavigation, const bool isDownload, const std::string& requestInitiator);
+  void recv_RequestContextHandler_GetResourceRequestHandler( ::thrift_codegen::RObject& _return, const int32_t seqid);
  protected:
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;

@@ -1,5 +1,8 @@
 package com.jetbrains.cef.remote;
 
+import com.jetbrains.cef.remote.network.RemoteRequestContext;
+import com.jetbrains.cef.remote.network.RemoteRequestContextHandler;
+import com.jetbrains.cef.remote.thrift_codegen.RObject;
 import org.cef.CefClient;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefDevToolsClient;
@@ -34,6 +37,7 @@ public class RemoteBrowser implements CefBrowser {
     private final RpcExecutor myService;
     private final RemoteClient myOwner;
     private final CefClient myCefClient; // will be the "owner" of RemoteClient, needed to override getClient()
+    private final RemoteRequestContext myRequestContext;
 
     private volatile int myBid = -1;
     private String myUrl = null;
@@ -50,11 +54,12 @@ public class RemoteBrowser implements CefBrowser {
     private final List<Runnable> myDelayedActions = new ArrayList<>();
     private int myFrameRate = 30; // just for cache
 
-    public RemoteBrowser(RpcExecutor service, RemoteClient owner, CefClient cefClient, String url) {
+    RemoteBrowser(RpcExecutor service, RemoteClient owner, CefClient cefClient, String url, RemoteRequestContext requestContext) {
         myService = service;
         myOwner = owner;
         myCefClient = cefClient;
         myUrl = url;
+        myRequestContext = requestContext != null ? requestContext : new RemoteRequestContext();
     }
 
     public int getBid() { return myBid; }
@@ -106,17 +111,23 @@ public class RemoteBrowser implements CefBrowser {
             final int hmask = myOwner.getHandlersMask() | (myRender == null ? 0 :
                     RemoteClient.HandlerMasks.NativeRender.val());
             myService.exec((s) -> {
-                myBid = s.createBrowser(myOwner.getCid(), hmask);
+                RObject contextHandler = new RObject(-1);
+                if (myRequestContext.getRemoteHandler() != null)
+                    contextHandler = myRequestContext.getRemoteHandler().thriftId();
+                myBid = s.Browser_Create(myOwner.getCid(), hmask, contextHandler);
             });
             if (myBid >= 0) {
                 myOwner.onNewBid(this);
                 CefLog.Debug("Registered bid %d with handlers: %s", myBid, RemoteClient.HandlerMasks.toString(hmask));
                 // At current point new bid is registered so java-handlers calls will be dispatched correctly.
                 // We can't start creation earlier because for example onAfterCreated can be called before new bid is registered.
-                myService.exec((s) -> s.startBrowserCreation(myBid, myUrl));
+                myService.exec((s) -> s.Browser_StartNativeCreation(myBid, myUrl));
             } else
                 CefLog.Error("Can't obtain bid, createBrowser returns %d", myBid);
         }
+
+        if (myBid >= 0)
+            myRequestContext.setBid(myBid);
     }
 
     @Override
@@ -130,10 +141,7 @@ public class RemoteBrowser implements CefBrowser {
     }
 
     @Override
-    public CefRequestContext getRequestContext() {
-        CefLog.Error("TODO: implement getRequestContext.");
-        return null;
-    }
+    public CefRequestContext getRequestContext() { return myRequestContext; }
 
     @Override
     public CefRenderHandler getRenderHandler() { return myRender; }
@@ -379,7 +387,7 @@ public class RemoteBrowser implements CefBrowser {
             if (myRender != null)
                 myRender.disposeNativeResources();
             if (myBid >= 0)
-                myService.exec(s -> s.closeBrowser(myBid));
+                myService.exec(s -> s.Browser_Close(myBid));
         }
         synchronized (myDelayedActions) {
             myDelayedActions.clear();
@@ -393,7 +401,11 @@ public class RemoteBrowser implements CefBrowser {
     public boolean doClose() { return false; }
 
     @Override
-    public void onBeforeClose() { myIsClosed = true; } // Called from lifespan handler (before native browser disposed).
+    public void onBeforeClose() {
+        // Called from lifespan handler (before native browser disposed).
+        myIsClosed = true;
+        myRequestContext.dispose();
+    }
 
     @Override
     public boolean isClosing() { return myIsClosing; }
@@ -491,16 +503,19 @@ public class RemoteBrowser implements CefBrowser {
 
     @Override
     public CefBrowser getDevTools() {
+        CefLog.Error("TODO: implement getDevTools().");
         return null;
     }
 
     @Override
     public CefBrowser getDevTools(Point inspectAt) {
+        CefLog.Error("TODO: implement getDevTools(Point).");
         return null;
     }
 
     @Override
     public CefDevToolsClient getDevToolsClient() {
+        CefLog.Error("TODO: implement getDevToolsClient(Point).");
         return null;
     }
 

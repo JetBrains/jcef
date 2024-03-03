@@ -55,19 +55,19 @@ class ServerHandler : virtual public ServerIf {
     printf("stop\n");
   }
 
-  int32_t createBrowser(const int32_t cid, const int32_t handlersMask) {
+  int32_t Browser_Create(const int32_t cid, const int32_t handlersMask, const  ::thrift_codegen::RObject& requestContextHandler) {
     // Your implementation goes here
-    printf("createBrowser\n");
+    printf("Browser_Create\n");
   }
 
-  void startBrowserCreation(const int32_t bid, const std::string& url) {
+  void Browser_StartNativeCreation(const int32_t bid, const std::string& url) {
     // Your implementation goes here
-    printf("startBrowserCreation\n");
+    printf("Browser_StartNativeCreation\n");
   }
 
-  void closeBrowser(const int32_t bid) {
+  void Browser_Close(const int32_t bid) {
     // Your implementation goes here
-    printf("closeBrowser\n");
+    printf("Browser_Close\n");
   }
 
   void Browser_Reload(const int32_t bid) {
@@ -378,6 +378,16 @@ class ServerHandler : virtual public ServerIf {
   void ClearAllSchemeHandlerFactories() {
     // Your implementation goes here
     printf("ClearAllSchemeHandlerFactories\n");
+  }
+
+  void RequestContext_ClearCertificateExceptions(const int32_t bid, const  ::thrift_codegen::RObject& completionCallback) {
+    // Your implementation goes here
+    printf("RequestContext_ClearCertificateExceptions\n");
+  }
+
+  void RequestContext_CloseAllConnections(const int32_t bid, const  ::thrift_codegen::RObject& completionCallback) {
+    // Your implementation goes here
+    printf("RequestContext_CloseAllConnections\n");
   }
 
 };

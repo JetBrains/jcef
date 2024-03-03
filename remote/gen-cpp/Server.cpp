@@ -1071,11 +1071,11 @@ uint32_t Server_stop_pargs::write(::apache::thrift::protocol::TProtocol* oprot) 
 }
 
 
-Server_createBrowser_args::~Server_createBrowser_args() noexcept {
+Server_Browser_Create_args::~Server_Browser_Create_args() noexcept {
 }
 
 
-uint32_t Server_createBrowser_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t Server_Browser_Create_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -1112,6 +1112,14 @@ uint32_t Server_createBrowser_args::read(::apache::thrift::protocol::TProtocol* 
           xfer += iprot->skip(ftype);
         }
         break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->requestContextHandler.read(iprot);
+          this->__isset.requestContextHandler = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -1124,10 +1132,10 @@ uint32_t Server_createBrowser_args::read(::apache::thrift::protocol::TProtocol* 
   return xfer;
 }
 
-uint32_t Server_createBrowser_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t Server_Browser_Create_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("Server_createBrowser_args");
+  xfer += oprot->writeStructBegin("Server_Browser_Create_args");
 
   xfer += oprot->writeFieldBegin("cid", ::apache::thrift::protocol::T_I32, 1);
   xfer += oprot->writeI32(this->cid);
@@ -1137,20 +1145,24 @@ uint32_t Server_createBrowser_args::write(::apache::thrift::protocol::TProtocol*
   xfer += oprot->writeI32(this->handlersMask);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("requestContextHandler", ::apache::thrift::protocol::T_STRUCT, 3);
+  xfer += this->requestContextHandler.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
 }
 
 
-Server_createBrowser_pargs::~Server_createBrowser_pargs() noexcept {
+Server_Browser_Create_pargs::~Server_Browser_Create_pargs() noexcept {
 }
 
 
-uint32_t Server_createBrowser_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t Server_Browser_Create_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("Server_createBrowser_pargs");
+  xfer += oprot->writeStructBegin("Server_Browser_Create_pargs");
 
   xfer += oprot->writeFieldBegin("cid", ::apache::thrift::protocol::T_I32, 1);
   xfer += oprot->writeI32((*(this->cid)));
@@ -1160,17 +1172,21 @@ uint32_t Server_createBrowser_pargs::write(::apache::thrift::protocol::TProtocol
   xfer += oprot->writeI32((*(this->handlersMask)));
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("requestContextHandler", ::apache::thrift::protocol::T_STRUCT, 3);
+  xfer += (*(this->requestContextHandler)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
 }
 
 
-Server_createBrowser_result::~Server_createBrowser_result() noexcept {
+Server_Browser_Create_result::~Server_Browser_Create_result() noexcept {
 }
 
 
-uint32_t Server_createBrowser_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t Server_Browser_Create_result::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -1211,11 +1227,11 @@ uint32_t Server_createBrowser_result::read(::apache::thrift::protocol::TProtocol
   return xfer;
 }
 
-uint32_t Server_createBrowser_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t Server_Browser_Create_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
   uint32_t xfer = 0;
 
-  xfer += oprot->writeStructBegin("Server_createBrowser_result");
+  xfer += oprot->writeStructBegin("Server_Browser_Create_result");
 
   if (this->__isset.success) {
     xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_I32, 0);
@@ -1228,11 +1244,11 @@ uint32_t Server_createBrowser_result::write(::apache::thrift::protocol::TProtoco
 }
 
 
-Server_createBrowser_presult::~Server_createBrowser_presult() noexcept {
+Server_Browser_Create_presult::~Server_Browser_Create_presult() noexcept {
 }
 
 
-uint32_t Server_createBrowser_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t Server_Browser_Create_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -1274,11 +1290,11 @@ uint32_t Server_createBrowser_presult::read(::apache::thrift::protocol::TProtoco
 }
 
 
-Server_startBrowserCreation_args::~Server_startBrowserCreation_args() noexcept {
+Server_Browser_StartNativeCreation_args::~Server_Browser_StartNativeCreation_args() noexcept {
 }
 
 
-uint32_t Server_startBrowserCreation_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t Server_Browser_StartNativeCreation_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -1327,10 +1343,10 @@ uint32_t Server_startBrowserCreation_args::read(::apache::thrift::protocol::TPro
   return xfer;
 }
 
-uint32_t Server_startBrowserCreation_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t Server_Browser_StartNativeCreation_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("Server_startBrowserCreation_args");
+  xfer += oprot->writeStructBegin("Server_Browser_StartNativeCreation_args");
 
   xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
   xfer += oprot->writeI32(this->bid);
@@ -1346,14 +1362,14 @@ uint32_t Server_startBrowserCreation_args::write(::apache::thrift::protocol::TPr
 }
 
 
-Server_startBrowserCreation_pargs::~Server_startBrowserCreation_pargs() noexcept {
+Server_Browser_StartNativeCreation_pargs::~Server_Browser_StartNativeCreation_pargs() noexcept {
 }
 
 
-uint32_t Server_startBrowserCreation_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t Server_Browser_StartNativeCreation_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("Server_startBrowserCreation_pargs");
+  xfer += oprot->writeStructBegin("Server_Browser_StartNativeCreation_pargs");
 
   xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
   xfer += oprot->writeI32((*(this->bid)));
@@ -1369,11 +1385,11 @@ uint32_t Server_startBrowserCreation_pargs::write(::apache::thrift::protocol::TP
 }
 
 
-Server_closeBrowser_args::~Server_closeBrowser_args() noexcept {
+Server_Browser_Close_args::~Server_Browser_Close_args() noexcept {
 }
 
 
-uint32_t Server_closeBrowser_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t Server_Browser_Close_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -1414,10 +1430,10 @@ uint32_t Server_closeBrowser_args::read(::apache::thrift::protocol::TProtocol* i
   return xfer;
 }
 
-uint32_t Server_closeBrowser_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t Server_Browser_Close_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("Server_closeBrowser_args");
+  xfer += oprot->writeStructBegin("Server_Browser_Close_args");
 
   xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
   xfer += oprot->writeI32(this->bid);
@@ -1429,14 +1445,14 @@ uint32_t Server_closeBrowser_args::write(::apache::thrift::protocol::TProtocol* 
 }
 
 
-Server_closeBrowser_pargs::~Server_closeBrowser_pargs() noexcept {
+Server_Browser_Close_pargs::~Server_Browser_Close_pargs() noexcept {
 }
 
 
-uint32_t Server_closeBrowser_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t Server_Browser_Close_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("Server_closeBrowser_pargs");
+  xfer += oprot->writeStructBegin("Server_Browser_Close_pargs");
 
   xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
   xfer += oprot->writeI32((*(this->bid)));
@@ -10070,6 +10086,196 @@ uint32_t Server_ClearAllSchemeHandlerFactories_pargs::write(::apache::thrift::pr
   return xfer;
 }
 
+
+Server_RequestContext_ClearCertificateExceptions_args::~Server_RequestContext_ClearCertificateExceptions_args() noexcept {
+}
+
+
+uint32_t Server_RequestContext_ClearCertificateExceptions_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->bid);
+          this->__isset.bid = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->completionCallback.read(iprot);
+          this->__isset.completionCallback = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_RequestContext_ClearCertificateExceptions_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_RequestContext_ClearCertificateExceptions_args");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->bid);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("completionCallback", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += this->completionCallback.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_RequestContext_ClearCertificateExceptions_pargs::~Server_RequestContext_ClearCertificateExceptions_pargs() noexcept {
+}
+
+
+uint32_t Server_RequestContext_ClearCertificateExceptions_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_RequestContext_ClearCertificateExceptions_pargs");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->bid)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("completionCallback", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += (*(this->completionCallback)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_RequestContext_CloseAllConnections_args::~Server_RequestContext_CloseAllConnections_args() noexcept {
+}
+
+
+uint32_t Server_RequestContext_CloseAllConnections_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->bid);
+          this->__isset.bid = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->completionCallback.read(iprot);
+          this->__isset.completionCallback = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_RequestContext_CloseAllConnections_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_RequestContext_CloseAllConnections_args");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->bid);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("completionCallback", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += this->completionCallback.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_RequestContext_CloseAllConnections_pargs::~Server_RequestContext_CloseAllConnections_pargs() noexcept {
+}
+
+
+uint32_t Server_RequestContext_CloseAllConnections_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_RequestContext_CloseAllConnections_pargs");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->bid)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("completionCallback", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += (*(this->completionCallback)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
 int32_t ServerClient::connect(const std::string& backwardConnectionPipe, const bool isMaster)
 {
   send_connect(backwardConnectionPipe, isMaster);
@@ -10397,20 +10603,21 @@ void ServerClient::send_stop()
   oprot_->getTransport()->flush();
 }
 
-int32_t ServerClient::createBrowser(const int32_t cid, const int32_t handlersMask)
+int32_t ServerClient::Browser_Create(const int32_t cid, const int32_t handlersMask, const  ::thrift_codegen::RObject& requestContextHandler)
 {
-  send_createBrowser(cid, handlersMask);
-  return recv_createBrowser();
+  send_Browser_Create(cid, handlersMask, requestContextHandler);
+  return recv_Browser_Create();
 }
 
-void ServerClient::send_createBrowser(const int32_t cid, const int32_t handlersMask)
+void ServerClient::send_Browser_Create(const int32_t cid, const int32_t handlersMask, const  ::thrift_codegen::RObject& requestContextHandler)
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("createBrowser", ::apache::thrift::protocol::T_CALL, cseqid);
+  oprot_->writeMessageBegin("Browser_Create", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  Server_createBrowser_pargs args;
+  Server_Browser_Create_pargs args;
   args.cid = &cid;
   args.handlersMask = &handlersMask;
+  args.requestContextHandler = &requestContextHandler;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -10418,7 +10625,7 @@ void ServerClient::send_createBrowser(const int32_t cid, const int32_t handlersM
   oprot_->getTransport()->flush();
 }
 
-int32_t ServerClient::recv_createBrowser()
+int32_t ServerClient::recv_Browser_Create()
 {
 
   int32_t rseqid = 0;
@@ -10438,13 +10645,13 @@ int32_t ServerClient::recv_createBrowser()
     iprot_->readMessageEnd();
     iprot_->getTransport()->readEnd();
   }
-  if (fname.compare("createBrowser") != 0) {
+  if (fname.compare("Browser_Create") != 0) {
     iprot_->skip(::apache::thrift::protocol::T_STRUCT);
     iprot_->readMessageEnd();
     iprot_->getTransport()->readEnd();
   }
   int32_t _return;
-  Server_createBrowser_presult result;
+  Server_Browser_Create_presult result;
   result.success = &_return;
   result.read(iprot_);
   iprot_->readMessageEnd();
@@ -10453,20 +10660,20 @@ int32_t ServerClient::recv_createBrowser()
   if (result.__isset.success) {
     return _return;
   }
-  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "createBrowser failed: unknown result");
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "Browser_Create failed: unknown result");
 }
 
-void ServerClient::startBrowserCreation(const int32_t bid, const std::string& url)
+void ServerClient::Browser_StartNativeCreation(const int32_t bid, const std::string& url)
 {
-  send_startBrowserCreation(bid, url);
+  send_Browser_StartNativeCreation(bid, url);
 }
 
-void ServerClient::send_startBrowserCreation(const int32_t bid, const std::string& url)
+void ServerClient::send_Browser_StartNativeCreation(const int32_t bid, const std::string& url)
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("startBrowserCreation", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("Browser_StartNativeCreation", ::apache::thrift::protocol::T_ONEWAY, cseqid);
 
-  Server_startBrowserCreation_pargs args;
+  Server_Browser_StartNativeCreation_pargs args;
   args.bid = &bid;
   args.url = &url;
   args.write(oprot_);
@@ -10476,17 +10683,17 @@ void ServerClient::send_startBrowserCreation(const int32_t bid, const std::strin
   oprot_->getTransport()->flush();
 }
 
-void ServerClient::closeBrowser(const int32_t bid)
+void ServerClient::Browser_Close(const int32_t bid)
 {
-  send_closeBrowser(bid);
+  send_Browser_Close(bid);
 }
 
-void ServerClient::send_closeBrowser(const int32_t bid)
+void ServerClient::send_Browser_Close(const int32_t bid)
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("closeBrowser", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("Browser_Close", ::apache::thrift::protocol::T_ONEWAY, cseqid);
 
-  Server_closeBrowser_pargs args;
+  Server_Browser_Close_pargs args;
   args.bid = &bid;
   args.write(oprot_);
 
@@ -12726,6 +12933,46 @@ void ServerClient::send_ClearAllSchemeHandlerFactories()
   oprot_->getTransport()->flush();
 }
 
+void ServerClient::RequestContext_ClearCertificateExceptions(const int32_t bid, const  ::thrift_codegen::RObject& completionCallback)
+{
+  send_RequestContext_ClearCertificateExceptions(bid, completionCallback);
+}
+
+void ServerClient::send_RequestContext_ClearCertificateExceptions(const int32_t bid, const  ::thrift_codegen::RObject& completionCallback)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("RequestContext_ClearCertificateExceptions", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_RequestContext_ClearCertificateExceptions_pargs args;
+  args.bid = &bid;
+  args.completionCallback = &completionCallback;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void ServerClient::RequestContext_CloseAllConnections(const int32_t bid, const  ::thrift_codegen::RObject& completionCallback)
+{
+  send_RequestContext_CloseAllConnections(bid, completionCallback);
+}
+
+void ServerClient::send_RequestContext_CloseAllConnections(const int32_t bid, const  ::thrift_codegen::RObject& completionCallback)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("RequestContext_CloseAllConnections", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_RequestContext_CloseAllConnections_pargs args;
+  args.bid = &bid;
+  args.completionCallback = &completionCallback;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
 bool ServerProcessor::dispatchCall(::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, const std::string& fname, int32_t seqid, void* callContext) {
   ProcessMap::iterator pfn;
   pfn = processMap_.find(fname);
@@ -13089,38 +13336,38 @@ void ServerProcessor::process_stop(int32_t, ::apache::thrift::protocol::TProtoco
   return;
 }
 
-void ServerProcessor::process_createBrowser(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+void ServerProcessor::process_Browser_Create(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = nullptr;
   if (this->eventHandler_.get() != nullptr) {
-    ctx = this->eventHandler_->getContext("Server.createBrowser", callContext);
+    ctx = this->eventHandler_->getContext("Server.Browser_Create", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.createBrowser");
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.Browser_Create");
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->preRead(ctx, "Server.createBrowser");
+    this->eventHandler_->preRead(ctx, "Server.Browser_Create");
   }
 
-  Server_createBrowser_args args;
+  Server_Browser_Create_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->postRead(ctx, "Server.createBrowser", bytes);
+    this->eventHandler_->postRead(ctx, "Server.Browser_Create", bytes);
   }
 
-  Server_createBrowser_result result;
+  Server_Browser_Create_result result;
   try {
-    result.success = iface_->createBrowser(args.cid, args.handlersMask);
+    result.success = iface_->Browser_Create(args.cid, args.handlersMask, args.requestContextHandler);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != nullptr) {
-      this->eventHandler_->handlerError(ctx, "Server.createBrowser");
+      this->eventHandler_->handlerError(ctx, "Server.Browser_Create");
     }
 
     ::apache::thrift::TApplicationException x(e.what());
-    oprot->writeMessageBegin("createBrowser", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    oprot->writeMessageBegin("Browser_Create", ::apache::thrift::protocol::T_EXCEPTION, seqid);
     x.write(oprot);
     oprot->writeMessageEnd();
     oprot->getTransport()->writeEnd();
@@ -13129,89 +13376,89 @@ void ServerProcessor::process_createBrowser(int32_t seqid, ::apache::thrift::pro
   }
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->preWrite(ctx, "Server.createBrowser");
+    this->eventHandler_->preWrite(ctx, "Server.Browser_Create");
   }
 
-  oprot->writeMessageBegin("createBrowser", ::apache::thrift::protocol::T_REPLY, seqid);
+  oprot->writeMessageBegin("Browser_Create", ::apache::thrift::protocol::T_REPLY, seqid);
   result.write(oprot);
   oprot->writeMessageEnd();
   bytes = oprot->getTransport()->writeEnd();
   oprot->getTransport()->flush();
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->postWrite(ctx, "Server.createBrowser", bytes);
+    this->eventHandler_->postWrite(ctx, "Server.Browser_Create", bytes);
   }
 }
 
-void ServerProcessor::process_startBrowserCreation(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+void ServerProcessor::process_Browser_StartNativeCreation(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
 {
   void* ctx = nullptr;
   if (this->eventHandler_.get() != nullptr) {
-    ctx = this->eventHandler_->getContext("Server.startBrowserCreation", callContext);
+    ctx = this->eventHandler_->getContext("Server.Browser_StartNativeCreation", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.startBrowserCreation");
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.Browser_StartNativeCreation");
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->preRead(ctx, "Server.startBrowserCreation");
+    this->eventHandler_->preRead(ctx, "Server.Browser_StartNativeCreation");
   }
 
-  Server_startBrowserCreation_args args;
+  Server_Browser_StartNativeCreation_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->postRead(ctx, "Server.startBrowserCreation", bytes);
+    this->eventHandler_->postRead(ctx, "Server.Browser_StartNativeCreation", bytes);
   }
 
   try {
-    iface_->startBrowserCreation(args.bid, args.url);
+    iface_->Browser_StartNativeCreation(args.bid, args.url);
   } catch (const std::exception&) {
     if (this->eventHandler_.get() != nullptr) {
-      this->eventHandler_->handlerError(ctx, "Server.startBrowserCreation");
+      this->eventHandler_->handlerError(ctx, "Server.Browser_StartNativeCreation");
     }
     return;
   }
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->asyncComplete(ctx, "Server.startBrowserCreation");
+    this->eventHandler_->asyncComplete(ctx, "Server.Browser_StartNativeCreation");
   }
 
   return;
 }
 
-void ServerProcessor::process_closeBrowser(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+void ServerProcessor::process_Browser_Close(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
 {
   void* ctx = nullptr;
   if (this->eventHandler_.get() != nullptr) {
-    ctx = this->eventHandler_->getContext("Server.closeBrowser", callContext);
+    ctx = this->eventHandler_->getContext("Server.Browser_Close", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.closeBrowser");
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.Browser_Close");
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->preRead(ctx, "Server.closeBrowser");
+    this->eventHandler_->preRead(ctx, "Server.Browser_Close");
   }
 
-  Server_closeBrowser_args args;
+  Server_Browser_Close_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->postRead(ctx, "Server.closeBrowser", bytes);
+    this->eventHandler_->postRead(ctx, "Server.Browser_Close", bytes);
   }
 
   try {
-    iface_->closeBrowser(args.bid);
+    iface_->Browser_Close(args.bid);
   } catch (const std::exception&) {
     if (this->eventHandler_.get() != nullptr) {
-      this->eventHandler_->handlerError(ctx, "Server.closeBrowser");
+      this->eventHandler_->handlerError(ctx, "Server.Browser_Close");
     }
     return;
   }
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->asyncComplete(ctx, "Server.closeBrowser");
+    this->eventHandler_->asyncComplete(ctx, "Server.Browser_Close");
   }
 
   return;
@@ -15957,6 +16204,80 @@ void ServerProcessor::process_ClearAllSchemeHandlerFactories(int32_t, ::apache::
   return;
 }
 
+void ServerProcessor::process_RequestContext_ClearCertificateExceptions(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("Server.RequestContext_ClearCertificateExceptions", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.RequestContext_ClearCertificateExceptions");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "Server.RequestContext_ClearCertificateExceptions");
+  }
+
+  Server_RequestContext_ClearCertificateExceptions_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "Server.RequestContext_ClearCertificateExceptions", bytes);
+  }
+
+  try {
+    iface_->RequestContext_ClearCertificateExceptions(args.bid, args.completionCallback);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "Server.RequestContext_ClearCertificateExceptions");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "Server.RequestContext_ClearCertificateExceptions");
+  }
+
+  return;
+}
+
+void ServerProcessor::process_RequestContext_CloseAllConnections(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("Server.RequestContext_CloseAllConnections", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.RequestContext_CloseAllConnections");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "Server.RequestContext_CloseAllConnections");
+  }
+
+  Server_RequestContext_CloseAllConnections_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "Server.RequestContext_CloseAllConnections", bytes);
+  }
+
+  try {
+    iface_->RequestContext_CloseAllConnections(args.bid, args.completionCallback);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "Server.RequestContext_CloseAllConnections");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "Server.RequestContext_CloseAllConnections");
+  }
+
+  return;
+}
+
 ::std::shared_ptr< ::apache::thrift::TProcessor > ServerProcessorFactory::getProcessor(const ::apache::thrift::TConnectionInfo& connInfo) {
   ::apache::thrift::ReleaseHandler< ServerIfFactory > cleanup(handlerFactory_);
   ::std::shared_ptr< ServerIf > handler(handlerFactory_->getHandler(connInfo), cleanup);
@@ -16427,21 +16748,22 @@ void ServerConcurrentClient::send_stop()
   sentry.commit();
 }
 
-int32_t ServerConcurrentClient::createBrowser(const int32_t cid, const int32_t handlersMask)
+int32_t ServerConcurrentClient::Browser_Create(const int32_t cid, const int32_t handlersMask, const  ::thrift_codegen::RObject& requestContextHandler)
 {
-  int32_t seqid = send_createBrowser(cid, handlersMask);
-  return recv_createBrowser(seqid);
+  int32_t seqid = send_Browser_Create(cid, handlersMask, requestContextHandler);
+  return recv_Browser_Create(seqid);
 }
 
-int32_t ServerConcurrentClient::send_createBrowser(const int32_t cid, const int32_t handlersMask)
+int32_t ServerConcurrentClient::send_Browser_Create(const int32_t cid, const int32_t handlersMask, const  ::thrift_codegen::RObject& requestContextHandler)
 {
   int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
-  oprot_->writeMessageBegin("createBrowser", ::apache::thrift::protocol::T_CALL, cseqid);
+  oprot_->writeMessageBegin("Browser_Create", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  Server_createBrowser_pargs args;
+  Server_Browser_Create_pargs args;
   args.cid = &cid;
   args.handlersMask = &handlersMask;
+  args.requestContextHandler = &requestContextHandler;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -16452,7 +16774,7 @@ int32_t ServerConcurrentClient::send_createBrowser(const int32_t cid, const int3
   return cseqid;
 }
 
-int32_t ServerConcurrentClient::recv_createBrowser(const int32_t seqid)
+int32_t ServerConcurrentClient::recv_Browser_Create(const int32_t seqid)
 {
 
   int32_t rseqid = 0;
@@ -16481,7 +16803,7 @@ int32_t ServerConcurrentClient::recv_createBrowser(const int32_t seqid)
         iprot_->readMessageEnd();
         iprot_->getTransport()->readEnd();
       }
-      if (fname.compare("createBrowser") != 0) {
+      if (fname.compare("Browser_Create") != 0) {
         iprot_->skip(::apache::thrift::protocol::T_STRUCT);
         iprot_->readMessageEnd();
         iprot_->getTransport()->readEnd();
@@ -16491,7 +16813,7 @@ int32_t ServerConcurrentClient::recv_createBrowser(const int32_t seqid)
         throw TProtocolException(TProtocolException::INVALID_DATA);
       }
       int32_t _return;
-      Server_createBrowser_presult result;
+      Server_Browser_Create_presult result;
       result.success = &_return;
       result.read(iprot_);
       iprot_->readMessageEnd();
@@ -16502,7 +16824,7 @@ int32_t ServerConcurrentClient::recv_createBrowser(const int32_t seqid)
         return _return;
       }
       // in a bad state, don't commit
-      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "createBrowser failed: unknown result");
+      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "Browser_Create failed: unknown result");
     }
     // seqid != rseqid
     this->sync_->updatePending(fname, mtype, rseqid);
@@ -16512,18 +16834,18 @@ int32_t ServerConcurrentClient::recv_createBrowser(const int32_t seqid)
   } // end while(true)
 }
 
-void ServerConcurrentClient::startBrowserCreation(const int32_t bid, const std::string& url)
+void ServerConcurrentClient::Browser_StartNativeCreation(const int32_t bid, const std::string& url)
 {
-  send_startBrowserCreation(bid, url);
+  send_Browser_StartNativeCreation(bid, url);
 }
 
-void ServerConcurrentClient::send_startBrowserCreation(const int32_t bid, const std::string& url)
+void ServerConcurrentClient::send_Browser_StartNativeCreation(const int32_t bid, const std::string& url)
 {
   int32_t cseqid = 0;
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
-  oprot_->writeMessageBegin("startBrowserCreation", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("Browser_StartNativeCreation", ::apache::thrift::protocol::T_ONEWAY, cseqid);
 
-  Server_startBrowserCreation_pargs args;
+  Server_Browser_StartNativeCreation_pargs args;
   args.bid = &bid;
   args.url = &url;
   args.write(oprot_);
@@ -16535,18 +16857,18 @@ void ServerConcurrentClient::send_startBrowserCreation(const int32_t bid, const 
   sentry.commit();
 }
 
-void ServerConcurrentClient::closeBrowser(const int32_t bid)
+void ServerConcurrentClient::Browser_Close(const int32_t bid)
 {
-  send_closeBrowser(bid);
+  send_Browser_Close(bid);
 }
 
-void ServerConcurrentClient::send_closeBrowser(const int32_t bid)
+void ServerConcurrentClient::send_Browser_Close(const int32_t bid)
 {
   int32_t cseqid = 0;
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
-  oprot_->writeMessageBegin("closeBrowser", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("Browser_Close", ::apache::thrift::protocol::T_ONEWAY, cseqid);
 
-  Server_closeBrowser_pargs args;
+  Server_Browser_Close_pargs args;
   args.bid = &bid;
   args.write(oprot_);
 
@@ -19573,6 +19895,52 @@ void ServerConcurrentClient::send_ClearAllSchemeHandlerFactories()
   oprot_->writeMessageBegin("ClearAllSchemeHandlerFactories", ::apache::thrift::protocol::T_ONEWAY, cseqid);
 
   Server_ClearAllSchemeHandlerFactories_pargs args;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
+void ServerConcurrentClient::RequestContext_ClearCertificateExceptions(const int32_t bid, const  ::thrift_codegen::RObject& completionCallback)
+{
+  send_RequestContext_ClearCertificateExceptions(bid, completionCallback);
+}
+
+void ServerConcurrentClient::send_RequestContext_ClearCertificateExceptions(const int32_t bid, const  ::thrift_codegen::RObject& completionCallback)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("RequestContext_ClearCertificateExceptions", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_RequestContext_ClearCertificateExceptions_pargs args;
+  args.bid = &bid;
+  args.completionCallback = &completionCallback;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
+void ServerConcurrentClient::RequestContext_CloseAllConnections(const int32_t bid, const  ::thrift_codegen::RObject& completionCallback)
+{
+  send_RequestContext_CloseAllConnections(bid, completionCallback);
+}
+
+void ServerConcurrentClient::send_RequestContext_CloseAllConnections(const int32_t bid, const  ::thrift_codegen::RObject& completionCallback)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("RequestContext_CloseAllConnections", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_RequestContext_CloseAllConnections_pargs args;
+  args.bid = &bid;
+  args.completionCallback = &completionCallback;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();

@@ -1,15 +1,16 @@
 #include "RemoteLifespanHandler.h"
 #include "RemoteClientHandler.h"
 
-#include "../log/Log.h"
+#include "../ServerHandlerContext.h"
 #include "../browser/RemoteFrame.h"
+#include "../browser/ClientsManager.h"
+#include "../router/MessageRoutersManager.h"
+
 
 RemoteLifespanHandler::RemoteLifespanHandler(
     int bid,
-    std::shared_ptr<RpcExecutor> service,
-    std::shared_ptr<MessageRoutersManager> routersManager,
-    std::function<void(int)> onCloseCallback)
-    : myBid(bid), myOnClosedCallback(onCloseCallback), myService(service), myRoutersManager(routersManager) {}
+    std::shared_ptr<ServerHandlerContext> ctx)
+    : myBid(bid), myService(ctx->javaService()), myRoutersManager(ctx->routersManager()), myClientsManager(ctx->clientsManager()) {}
 
 bool RemoteLifespanHandler::OnBeforePopup(
     CefRefPtr<CefBrowser> browser,
@@ -53,7 +54,7 @@ bool RemoteLifespanHandler::DoClose(CefRefPtr<CefBrowser> browser) {
 void RemoteLifespanHandler::OnBeforeClose(CefRefPtr<CefBrowser> browser) {
   LNDCT();
   myBrowser = nullptr;
-  myOnClosedCallback(myBid);
+  myClientsManager->erase(myBid);
   myRoutersManager->OnBeforeClose(browser);
   myService->exec([&](const RpcExecutor::Service& s){
     s->LifeSpanHandler_OnBeforeClose(myBid);

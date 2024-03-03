@@ -29,9 +29,9 @@ class ServerIf {
   virtual void version(std::string& _return) = 0;
   virtual void state(std::string& _return) = 0;
   virtual void stop() = 0;
-  virtual int32_t createBrowser(const int32_t cid, const int32_t handlersMask) = 0;
-  virtual void startBrowserCreation(const int32_t bid, const std::string& url) = 0;
-  virtual void closeBrowser(const int32_t bid) = 0;
+  virtual int32_t Browser_Create(const int32_t cid, const int32_t handlersMask, const  ::thrift_codegen::RObject& requestContextHandler) = 0;
+  virtual void Browser_StartNativeCreation(const int32_t bid, const std::string& url) = 0;
+  virtual void Browser_Close(const int32_t bid) = 0;
   virtual void Browser_Reload(const int32_t bid) = 0;
   virtual void Browser_ReloadIgnoreCache(const int32_t bid) = 0;
   virtual void Browser_LoadURL(const int32_t bid, const std::string& url) = 0;
@@ -94,6 +94,8 @@ class ServerIf {
   virtual void QueryCallback_Failure(const  ::thrift_codegen::RObject& qcallback, const int32_t error_code, const std::string& error_message) = 0;
   virtual void SchemeHandlerFactory_Register(const std::string& schemeName, const std::string& domainName, const  ::thrift_codegen::RObject& schemeHandlerFactory) = 0;
   virtual void ClearAllSchemeHandlerFactories() = 0;
+  virtual void RequestContext_ClearCertificateExceptions(const int32_t bid, const  ::thrift_codegen::RObject& completionCallback) = 0;
+  virtual void RequestContext_CloseAllConnections(const int32_t bid, const  ::thrift_codegen::RObject& completionCallback) = 0;
 };
 
 class ServerIfFactory {
@@ -146,14 +148,14 @@ class ServerNull : virtual public ServerIf {
   void stop() override {
     return;
   }
-  int32_t createBrowser(const int32_t /* cid */, const int32_t /* handlersMask */) override {
+  int32_t Browser_Create(const int32_t /* cid */, const int32_t /* handlersMask */, const  ::thrift_codegen::RObject& /* requestContextHandler */) override {
     int32_t _return = 0;
     return _return;
   }
-  void startBrowserCreation(const int32_t /* bid */, const std::string& /* url */) override {
+  void Browser_StartNativeCreation(const int32_t /* bid */, const std::string& /* url */) override {
     return;
   }
-  void closeBrowser(const int32_t /* bid */) override {
+  void Browser_Close(const int32_t /* bid */) override {
     return;
   }
   void Browser_Reload(const int32_t /* bid */) override {
@@ -347,6 +349,12 @@ class ServerNull : virtual public ServerIf {
     return;
   }
   void ClearAllSchemeHandlerFactories() override {
+    return;
+  }
+  void RequestContext_ClearCertificateExceptions(const int32_t /* bid */, const  ::thrift_codegen::RObject& /* completionCallback */) override {
+    return;
+  }
+  void RequestContext_CloseAllConnections(const int32_t /* bid */, const  ::thrift_codegen::RObject& /* completionCallback */) override {
     return;
   }
 };
@@ -958,45 +966,51 @@ class Server_stop_pargs {
 
 };
 
-typedef struct _Server_createBrowser_args__isset {
-  _Server_createBrowser_args__isset() : cid(false), handlersMask(false) {}
+typedef struct _Server_Browser_Create_args__isset {
+  _Server_Browser_Create_args__isset() : cid(false), handlersMask(false), requestContextHandler(false) {}
   bool cid :1;
   bool handlersMask :1;
-} _Server_createBrowser_args__isset;
+  bool requestContextHandler :1;
+} _Server_Browser_Create_args__isset;
 
-class Server_createBrowser_args {
+class Server_Browser_Create_args {
  public:
 
-  Server_createBrowser_args(const Server_createBrowser_args&) noexcept;
-  Server_createBrowser_args& operator=(const Server_createBrowser_args&) noexcept;
-  Server_createBrowser_args() noexcept
-                            : cid(0),
-                              handlersMask(0) {
+  Server_Browser_Create_args(const Server_Browser_Create_args&);
+  Server_Browser_Create_args& operator=(const Server_Browser_Create_args&);
+  Server_Browser_Create_args() noexcept
+                             : cid(0),
+                               handlersMask(0) {
   }
 
-  virtual ~Server_createBrowser_args() noexcept;
+  virtual ~Server_Browser_Create_args() noexcept;
   int32_t cid;
   int32_t handlersMask;
+   ::thrift_codegen::RObject requestContextHandler;
 
-  _Server_createBrowser_args__isset __isset;
+  _Server_Browser_Create_args__isset __isset;
 
   void __set_cid(const int32_t val);
 
   void __set_handlersMask(const int32_t val);
 
-  bool operator == (const Server_createBrowser_args & rhs) const
+  void __set_requestContextHandler(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_Browser_Create_args & rhs) const
   {
     if (!(cid == rhs.cid))
       return false;
     if (!(handlersMask == rhs.handlersMask))
       return false;
+    if (!(requestContextHandler == rhs.requestContextHandler))
+      return false;
     return true;
   }
-  bool operator != (const Server_createBrowser_args &rhs) const {
+  bool operator != (const Server_Browser_Create_args &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const Server_createBrowser_args & ) const;
+  bool operator < (const Server_Browser_Create_args & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -1004,101 +1018,102 @@ class Server_createBrowser_args {
 };
 
 
-class Server_createBrowser_pargs {
+class Server_Browser_Create_pargs {
  public:
 
 
-  virtual ~Server_createBrowser_pargs() noexcept;
+  virtual ~Server_Browser_Create_pargs() noexcept;
   const int32_t* cid;
   const int32_t* handlersMask;
+  const  ::thrift_codegen::RObject* requestContextHandler;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
 };
 
-typedef struct _Server_createBrowser_result__isset {
-  _Server_createBrowser_result__isset() : success(false) {}
+typedef struct _Server_Browser_Create_result__isset {
+  _Server_Browser_Create_result__isset() : success(false) {}
   bool success :1;
-} _Server_createBrowser_result__isset;
+} _Server_Browser_Create_result__isset;
 
-class Server_createBrowser_result {
+class Server_Browser_Create_result {
  public:
 
-  Server_createBrowser_result(const Server_createBrowser_result&) noexcept;
-  Server_createBrowser_result& operator=(const Server_createBrowser_result&) noexcept;
-  Server_createBrowser_result() noexcept
-                              : success(0) {
+  Server_Browser_Create_result(const Server_Browser_Create_result&) noexcept;
+  Server_Browser_Create_result& operator=(const Server_Browser_Create_result&) noexcept;
+  Server_Browser_Create_result() noexcept
+                               : success(0) {
   }
 
-  virtual ~Server_createBrowser_result() noexcept;
+  virtual ~Server_Browser_Create_result() noexcept;
   int32_t success;
 
-  _Server_createBrowser_result__isset __isset;
+  _Server_Browser_Create_result__isset __isset;
 
   void __set_success(const int32_t val);
 
-  bool operator == (const Server_createBrowser_result & rhs) const
+  bool operator == (const Server_Browser_Create_result & rhs) const
   {
     if (!(success == rhs.success))
       return false;
     return true;
   }
-  bool operator != (const Server_createBrowser_result &rhs) const {
+  bool operator != (const Server_Browser_Create_result &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const Server_createBrowser_result & ) const;
+  bool operator < (const Server_Browser_Create_result & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
 };
 
-typedef struct _Server_createBrowser_presult__isset {
-  _Server_createBrowser_presult__isset() : success(false) {}
+typedef struct _Server_Browser_Create_presult__isset {
+  _Server_Browser_Create_presult__isset() : success(false) {}
   bool success :1;
-} _Server_createBrowser_presult__isset;
+} _Server_Browser_Create_presult__isset;
 
-class Server_createBrowser_presult {
+class Server_Browser_Create_presult {
  public:
 
 
-  virtual ~Server_createBrowser_presult() noexcept;
+  virtual ~Server_Browser_Create_presult() noexcept;
   int32_t* success;
 
-  _Server_createBrowser_presult__isset __isset;
+  _Server_Browser_Create_presult__isset __isset;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
 };
 
-typedef struct _Server_startBrowserCreation_args__isset {
-  _Server_startBrowserCreation_args__isset() : bid(false), url(false) {}
+typedef struct _Server_Browser_StartNativeCreation_args__isset {
+  _Server_Browser_StartNativeCreation_args__isset() : bid(false), url(false) {}
   bool bid :1;
   bool url :1;
-} _Server_startBrowserCreation_args__isset;
+} _Server_Browser_StartNativeCreation_args__isset;
 
-class Server_startBrowserCreation_args {
+class Server_Browser_StartNativeCreation_args {
  public:
 
-  Server_startBrowserCreation_args(const Server_startBrowserCreation_args&);
-  Server_startBrowserCreation_args& operator=(const Server_startBrowserCreation_args&);
-  Server_startBrowserCreation_args() noexcept
-                                   : bid(0),
-                                     url() {
+  Server_Browser_StartNativeCreation_args(const Server_Browser_StartNativeCreation_args&);
+  Server_Browser_StartNativeCreation_args& operator=(const Server_Browser_StartNativeCreation_args&);
+  Server_Browser_StartNativeCreation_args() noexcept
+                                          : bid(0),
+                                            url() {
   }
 
-  virtual ~Server_startBrowserCreation_args() noexcept;
+  virtual ~Server_Browser_StartNativeCreation_args() noexcept;
   int32_t bid;
   std::string url;
 
-  _Server_startBrowserCreation_args__isset __isset;
+  _Server_Browser_StartNativeCreation_args__isset __isset;
 
   void __set_bid(const int32_t val);
 
   void __set_url(const std::string& val);
 
-  bool operator == (const Server_startBrowserCreation_args & rhs) const
+  bool operator == (const Server_Browser_StartNativeCreation_args & rhs) const
   {
     if (!(bid == rhs.bid))
       return false;
@@ -1106,11 +1121,11 @@ class Server_startBrowserCreation_args {
       return false;
     return true;
   }
-  bool operator != (const Server_startBrowserCreation_args &rhs) const {
+  bool operator != (const Server_Browser_StartNativeCreation_args &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const Server_startBrowserCreation_args & ) const;
+  bool operator < (const Server_Browser_StartNativeCreation_args & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -1118,11 +1133,11 @@ class Server_startBrowserCreation_args {
 };
 
 
-class Server_startBrowserCreation_pargs {
+class Server_Browser_StartNativeCreation_pargs {
  public:
 
 
-  virtual ~Server_startBrowserCreation_pargs() noexcept;
+  virtual ~Server_Browser_StartNativeCreation_pargs() noexcept;
   const int32_t* bid;
   const std::string* url;
 
@@ -1130,38 +1145,38 @@ class Server_startBrowserCreation_pargs {
 
 };
 
-typedef struct _Server_closeBrowser_args__isset {
-  _Server_closeBrowser_args__isset() : bid(false) {}
+typedef struct _Server_Browser_Close_args__isset {
+  _Server_Browser_Close_args__isset() : bid(false) {}
   bool bid :1;
-} _Server_closeBrowser_args__isset;
+} _Server_Browser_Close_args__isset;
 
-class Server_closeBrowser_args {
+class Server_Browser_Close_args {
  public:
 
-  Server_closeBrowser_args(const Server_closeBrowser_args&) noexcept;
-  Server_closeBrowser_args& operator=(const Server_closeBrowser_args&) noexcept;
-  Server_closeBrowser_args() noexcept
-                           : bid(0) {
+  Server_Browser_Close_args(const Server_Browser_Close_args&) noexcept;
+  Server_Browser_Close_args& operator=(const Server_Browser_Close_args&) noexcept;
+  Server_Browser_Close_args() noexcept
+                            : bid(0) {
   }
 
-  virtual ~Server_closeBrowser_args() noexcept;
+  virtual ~Server_Browser_Close_args() noexcept;
   int32_t bid;
 
-  _Server_closeBrowser_args__isset __isset;
+  _Server_Browser_Close_args__isset __isset;
 
   void __set_bid(const int32_t val);
 
-  bool operator == (const Server_closeBrowser_args & rhs) const
+  bool operator == (const Server_Browser_Close_args & rhs) const
   {
     if (!(bid == rhs.bid))
       return false;
     return true;
   }
-  bool operator != (const Server_closeBrowser_args &rhs) const {
+  bool operator != (const Server_Browser_Close_args &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const Server_closeBrowser_args & ) const;
+  bool operator < (const Server_Browser_Close_args & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -1169,11 +1184,11 @@ class Server_closeBrowser_args {
 };
 
 
-class Server_closeBrowser_pargs {
+class Server_Browser_Close_pargs {
  public:
 
 
-  virtual ~Server_closeBrowser_pargs() noexcept;
+  virtual ~Server_Browser_Close_pargs() noexcept;
   const int32_t* bid;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -6017,6 +6032,120 @@ class Server_ClearAllSchemeHandlerFactories_pargs {
 
 };
 
+typedef struct _Server_RequestContext_ClearCertificateExceptions_args__isset {
+  _Server_RequestContext_ClearCertificateExceptions_args__isset() : bid(false), completionCallback(false) {}
+  bool bid :1;
+  bool completionCallback :1;
+} _Server_RequestContext_ClearCertificateExceptions_args__isset;
+
+class Server_RequestContext_ClearCertificateExceptions_args {
+ public:
+
+  Server_RequestContext_ClearCertificateExceptions_args(const Server_RequestContext_ClearCertificateExceptions_args&);
+  Server_RequestContext_ClearCertificateExceptions_args& operator=(const Server_RequestContext_ClearCertificateExceptions_args&);
+  Server_RequestContext_ClearCertificateExceptions_args() noexcept
+                                                        : bid(0) {
+  }
+
+  virtual ~Server_RequestContext_ClearCertificateExceptions_args() noexcept;
+  int32_t bid;
+   ::thrift_codegen::RObject completionCallback;
+
+  _Server_RequestContext_ClearCertificateExceptions_args__isset __isset;
+
+  void __set_bid(const int32_t val);
+
+  void __set_completionCallback(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_RequestContext_ClearCertificateExceptions_args & rhs) const
+  {
+    if (!(bid == rhs.bid))
+      return false;
+    if (!(completionCallback == rhs.completionCallback))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_RequestContext_ClearCertificateExceptions_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_RequestContext_ClearCertificateExceptions_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_RequestContext_ClearCertificateExceptions_pargs {
+ public:
+
+
+  virtual ~Server_RequestContext_ClearCertificateExceptions_pargs() noexcept;
+  const int32_t* bid;
+  const  ::thrift_codegen::RObject* completionCallback;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_RequestContext_CloseAllConnections_args__isset {
+  _Server_RequestContext_CloseAllConnections_args__isset() : bid(false), completionCallback(false) {}
+  bool bid :1;
+  bool completionCallback :1;
+} _Server_RequestContext_CloseAllConnections_args__isset;
+
+class Server_RequestContext_CloseAllConnections_args {
+ public:
+
+  Server_RequestContext_CloseAllConnections_args(const Server_RequestContext_CloseAllConnections_args&);
+  Server_RequestContext_CloseAllConnections_args& operator=(const Server_RequestContext_CloseAllConnections_args&);
+  Server_RequestContext_CloseAllConnections_args() noexcept
+                                                 : bid(0) {
+  }
+
+  virtual ~Server_RequestContext_CloseAllConnections_args() noexcept;
+  int32_t bid;
+   ::thrift_codegen::RObject completionCallback;
+
+  _Server_RequestContext_CloseAllConnections_args__isset __isset;
+
+  void __set_bid(const int32_t val);
+
+  void __set_completionCallback(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_RequestContext_CloseAllConnections_args & rhs) const
+  {
+    if (!(bid == rhs.bid))
+      return false;
+    if (!(completionCallback == rhs.completionCallback))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_RequestContext_CloseAllConnections_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_RequestContext_CloseAllConnections_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_RequestContext_CloseAllConnections_pargs {
+ public:
+
+
+  virtual ~Server_RequestContext_CloseAllConnections_pargs() noexcept;
+  const int32_t* bid;
+  const  ::thrift_codegen::RObject* completionCallback;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
 class ServerClient : virtual public ServerIf {
  public:
   ServerClient(std::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
@@ -6061,13 +6190,13 @@ class ServerClient : virtual public ServerIf {
   void recv_state(std::string& _return);
   void stop() override;
   void send_stop();
-  int32_t createBrowser(const int32_t cid, const int32_t handlersMask) override;
-  void send_createBrowser(const int32_t cid, const int32_t handlersMask);
-  int32_t recv_createBrowser();
-  void startBrowserCreation(const int32_t bid, const std::string& url) override;
-  void send_startBrowserCreation(const int32_t bid, const std::string& url);
-  void closeBrowser(const int32_t bid) override;
-  void send_closeBrowser(const int32_t bid);
+  int32_t Browser_Create(const int32_t cid, const int32_t handlersMask, const  ::thrift_codegen::RObject& requestContextHandler) override;
+  void send_Browser_Create(const int32_t cid, const int32_t handlersMask, const  ::thrift_codegen::RObject& requestContextHandler);
+  int32_t recv_Browser_Create();
+  void Browser_StartNativeCreation(const int32_t bid, const std::string& url) override;
+  void send_Browser_StartNativeCreation(const int32_t bid, const std::string& url);
+  void Browser_Close(const int32_t bid) override;
+  void send_Browser_Close(const int32_t bid);
   void Browser_Reload(const int32_t bid) override;
   void send_Browser_Reload(const int32_t bid);
   void Browser_ReloadIgnoreCache(const int32_t bid) override;
@@ -6219,6 +6348,10 @@ class ServerClient : virtual public ServerIf {
   void send_SchemeHandlerFactory_Register(const std::string& schemeName, const std::string& domainName, const  ::thrift_codegen::RObject& schemeHandlerFactory);
   void ClearAllSchemeHandlerFactories() override;
   void send_ClearAllSchemeHandlerFactories();
+  void RequestContext_ClearCertificateExceptions(const int32_t bid, const  ::thrift_codegen::RObject& completionCallback) override;
+  void send_RequestContext_ClearCertificateExceptions(const int32_t bid, const  ::thrift_codegen::RObject& completionCallback);
+  void RequestContext_CloseAllConnections(const int32_t bid, const  ::thrift_codegen::RObject& completionCallback) override;
+  void send_RequestContext_CloseAllConnections(const int32_t bid, const  ::thrift_codegen::RObject& completionCallback);
  protected:
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -6241,9 +6374,9 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_version(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_state(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_stop(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
-  void process_createBrowser(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
-  void process_startBrowserCreation(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
-  void process_closeBrowser(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_Browser_Create(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_Browser_StartNativeCreation(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_Browser_Close(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_Reload(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_ReloadIgnoreCache(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_LoadURL(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -6306,6 +6439,8 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_QueryCallback_Failure(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_SchemeHandlerFactory_Register(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_ClearAllSchemeHandlerFactories(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_RequestContext_ClearCertificateExceptions(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_RequestContext_CloseAllConnections(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   ServerProcessor(::std::shared_ptr<ServerIf> iface) :
     iface_(iface) {
@@ -6316,9 +6451,9 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["version"] = &ServerProcessor::process_version;
     processMap_["state"] = &ServerProcessor::process_state;
     processMap_["stop"] = &ServerProcessor::process_stop;
-    processMap_["createBrowser"] = &ServerProcessor::process_createBrowser;
-    processMap_["startBrowserCreation"] = &ServerProcessor::process_startBrowserCreation;
-    processMap_["closeBrowser"] = &ServerProcessor::process_closeBrowser;
+    processMap_["Browser_Create"] = &ServerProcessor::process_Browser_Create;
+    processMap_["Browser_StartNativeCreation"] = &ServerProcessor::process_Browser_StartNativeCreation;
+    processMap_["Browser_Close"] = &ServerProcessor::process_Browser_Close;
     processMap_["Browser_Reload"] = &ServerProcessor::process_Browser_Reload;
     processMap_["Browser_ReloadIgnoreCache"] = &ServerProcessor::process_Browser_ReloadIgnoreCache;
     processMap_["Browser_LoadURL"] = &ServerProcessor::process_Browser_LoadURL;
@@ -6381,6 +6516,8 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["QueryCallback_Failure"] = &ServerProcessor::process_QueryCallback_Failure;
     processMap_["SchemeHandlerFactory_Register"] = &ServerProcessor::process_SchemeHandlerFactory_Register;
     processMap_["ClearAllSchemeHandlerFactories"] = &ServerProcessor::process_ClearAllSchemeHandlerFactories;
+    processMap_["RequestContext_ClearCertificateExceptions"] = &ServerProcessor::process_RequestContext_ClearCertificateExceptions;
+    processMap_["RequestContext_CloseAllConnections"] = &ServerProcessor::process_RequestContext_CloseAllConnections;
   }
 
   virtual ~ServerProcessor() {}
@@ -6475,31 +6612,31 @@ class ServerMultiface : virtual public ServerIf {
     ifaces_[i]->stop();
   }
 
-  int32_t createBrowser(const int32_t cid, const int32_t handlersMask) override {
+  int32_t Browser_Create(const int32_t cid, const int32_t handlersMask, const  ::thrift_codegen::RObject& requestContextHandler) override {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->createBrowser(cid, handlersMask);
+      ifaces_[i]->Browser_Create(cid, handlersMask, requestContextHandler);
     }
-    return ifaces_[i]->createBrowser(cid, handlersMask);
+    return ifaces_[i]->Browser_Create(cid, handlersMask, requestContextHandler);
   }
 
-  void startBrowserCreation(const int32_t bid, const std::string& url) override {
+  void Browser_StartNativeCreation(const int32_t bid, const std::string& url) override {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->startBrowserCreation(bid, url);
+      ifaces_[i]->Browser_StartNativeCreation(bid, url);
     }
-    ifaces_[i]->startBrowserCreation(bid, url);
+    ifaces_[i]->Browser_StartNativeCreation(bid, url);
   }
 
-  void closeBrowser(const int32_t bid) override {
+  void Browser_Close(const int32_t bid) override {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->closeBrowser(bid);
+      ifaces_[i]->Browser_Close(bid);
     }
-    ifaces_[i]->closeBrowser(bid);
+    ifaces_[i]->Browser_Close(bid);
   }
 
   void Browser_Reload(const int32_t bid) override {
@@ -7067,6 +7204,24 @@ class ServerMultiface : virtual public ServerIf {
     ifaces_[i]->ClearAllSchemeHandlerFactories();
   }
 
+  void RequestContext_ClearCertificateExceptions(const int32_t bid, const  ::thrift_codegen::RObject& completionCallback) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->RequestContext_ClearCertificateExceptions(bid, completionCallback);
+    }
+    ifaces_[i]->RequestContext_ClearCertificateExceptions(bid, completionCallback);
+  }
+
+  void RequestContext_CloseAllConnections(const int32_t bid, const  ::thrift_codegen::RObject& completionCallback) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->RequestContext_CloseAllConnections(bid, completionCallback);
+    }
+    ifaces_[i]->RequestContext_CloseAllConnections(bid, completionCallback);
+  }
+
 };
 
 // The 'concurrent' client is a thread safe client that correctly handles
@@ -7118,13 +7273,13 @@ class ServerConcurrentClient : virtual public ServerIf {
   void recv_state(std::string& _return, const int32_t seqid);
   void stop() override;
   void send_stop();
-  int32_t createBrowser(const int32_t cid, const int32_t handlersMask) override;
-  int32_t send_createBrowser(const int32_t cid, const int32_t handlersMask);
-  int32_t recv_createBrowser(const int32_t seqid);
-  void startBrowserCreation(const int32_t bid, const std::string& url) override;
-  void send_startBrowserCreation(const int32_t bid, const std::string& url);
-  void closeBrowser(const int32_t bid) override;
-  void send_closeBrowser(const int32_t bid);
+  int32_t Browser_Create(const int32_t cid, const int32_t handlersMask, const  ::thrift_codegen::RObject& requestContextHandler) override;
+  int32_t send_Browser_Create(const int32_t cid, const int32_t handlersMask, const  ::thrift_codegen::RObject& requestContextHandler);
+  int32_t recv_Browser_Create(const int32_t seqid);
+  void Browser_StartNativeCreation(const int32_t bid, const std::string& url) override;
+  void send_Browser_StartNativeCreation(const int32_t bid, const std::string& url);
+  void Browser_Close(const int32_t bid) override;
+  void send_Browser_Close(const int32_t bid);
   void Browser_Reload(const int32_t bid) override;
   void send_Browser_Reload(const int32_t bid);
   void Browser_ReloadIgnoreCache(const int32_t bid) override;
@@ -7276,6 +7431,10 @@ class ServerConcurrentClient : virtual public ServerIf {
   void send_SchemeHandlerFactory_Register(const std::string& schemeName, const std::string& domainName, const  ::thrift_codegen::RObject& schemeHandlerFactory);
   void ClearAllSchemeHandlerFactories() override;
   void send_ClearAllSchemeHandlerFactories();
+  void RequestContext_ClearCertificateExceptions(const int32_t bid, const  ::thrift_codegen::RObject& completionCallback) override;
+  void send_RequestContext_ClearCertificateExceptions(const int32_t bid, const  ::thrift_codegen::RObject& completionCallback);
+  void RequestContext_CloseAllConnections(const int32_t bid, const  ::thrift_codegen::RObject& completionCallback) override;
+  void send_RequestContext_CloseAllConnections(const int32_t bid, const  ::thrift_codegen::RObject& completionCallback);
  protected:
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;

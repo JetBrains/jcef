@@ -4,6 +4,8 @@
 
 package org.cef.browser;
 
+import com.jetbrains.cef.remote.network.RemoteRequestContext;
+import org.cef.CefApp;
 import org.cef.callback.CefCallback;
 import org.cef.callback.CefCompletionCallback;
 import org.cef.callback.CefNativeAdapter;
@@ -28,12 +30,15 @@ import org.cef.security.CefSSLInfo;
  */
 public abstract class CefRequestContext extends CefNativeAdapter {
     // This CTOR can't be called directly. Call method create() instead.
-    CefRequestContext() {}
+    protected CefRequestContext() {}
 
     /**
      * Returns the global context object.
      */
     public static final CefRequestContext getGlobalContext() {
+        if (CefApp.isRemoteEnabled())
+            return new RemoteRequestContext();
+
         return CefRequestContext_N.getGlobalContextNative();
     }
 
@@ -41,6 +46,9 @@ public abstract class CefRequestContext extends CefNativeAdapter {
      * Creates a new context object with the specified handler.
      */
     public static final CefRequestContext createContext(CefRequestContextHandler handler) {
+        if (CefApp.isRemoteEnabled())
+            return new RemoteRequestContext(handler);
+
         return CefRequestContext_N.createNative(handler);
     }
 

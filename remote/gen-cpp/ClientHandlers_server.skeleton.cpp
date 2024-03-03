@@ -280,6 +280,16 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
     printf("SchemeHandlerFactory_Dispose\n");
   }
 
+  void CompletionCallback_OnComplete(const int32_t completionCallback) {
+    // Your implementation goes here
+    printf("CompletionCallback_OnComplete\n");
+  }
+
+  void RequestContextHandler_GetResourceRequestHandler( ::thrift_codegen::RObject& _return, const int32_t handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool isNavigation, const bool isDownload, const std::string& requestInitiator) {
+    // Your implementation goes here
+    printf("RequestContextHandler_GetResourceRequestHandler\n");
+  }
+
 };
 
 int main(int argc, char **argv) {

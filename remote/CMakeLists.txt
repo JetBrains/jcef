@@ -156,6 +156,13 @@ set(SERVER_SOURCES
         RpcExecutor.cpp
         browser/RemoteFrame.cpp
         browser/RemoteFrame.h
+        network/RemoteRequestContextHandler.cpp
+        network/RemoteRequestContextHandler.h
+        ServerHandlerContext.h
+        ServerHandlerContext.cpp
+        ServerHandlerContext.cpp
+        callback/RemoteCompletionCallback.cpp
+        callback/RemoteCompletionCallback.h
 )
 
 if (OS_WINDOWS)

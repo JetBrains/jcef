@@ -1,5 +1,6 @@
 package com.jetbrains.cef.remote;
 
+import com.jetbrains.cef.remote.network.RemoteRequestContext;
 import com.jetbrains.cef.remote.router.RemoteMessageRouter;
 import com.jetbrains.cef.remote.router.RemoteMessageRouterImpl;
 import org.cef.CefClient;
@@ -139,8 +140,13 @@ public class RemoteClient {
     //
 
     public RemoteBrowser createBrowser(String url, CefRequestContext context, CefClient client, CefNativeRenderHandler renderHandler, Component component) {
-        // TODO: support context
-        RemoteBrowser browser = new RemoteBrowser(myService, this, client, url);
+        RemoteRequestContext ctx = null;
+        if (context instanceof RemoteRequestContext)
+            ctx = (RemoteRequestContext)context;
+        else if (context != null)
+            CefLog.Error("Unsupported class %s, will be used default (global) request context. Please use RemoteRequestContext.", context.getClass());
+
+        RemoteBrowser browser = new RemoteBrowser(myService, this, client, url, ctx);
         browser.setComponent(component, renderHandler);
         myBrowsers.add(browser);
         return browser;
@@ -156,7 +162,6 @@ public class RemoteClient {
         }
         throw new IllegalStateException("Can't create remote browser with rendering: " + rendering);
     }
-
 
     // Handlers management
     private void _updateMask(Object handler, int handlerMask) {

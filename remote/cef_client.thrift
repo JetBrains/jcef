@@ -131,5 +131,15 @@ service ClientHandlers {
     // Custom schemes
     //
     shared.RObject SchemeHandlerFactory_CreateHandler(1:i32 schemeHandlerFactory, 2:i32 bid, 3:shared.RObject frame, 4:string scheme_name, 5:shared.RObject request),
-    oneway void SchemeHandlerFactory_Dispose(1:i32 schemeHandlerFactory)
+    oneway void SchemeHandlerFactory_Dispose(1:i32 schemeHandlerFactory),
+
+    //
+    // CefCompletionCallback
+    //
+    oneway void CompletionCallback_OnComplete(1:i32 completionCallback),
+
+    //
+    // CefRequestContextHandler
+    //
+    shared.RObject RequestContextHandler_GetResourceRequestHandler(1:i32 handler, 2:i32 bid, 3:shared.RObject frame, 4:shared.RObject request, 5:bool isNavigation, 6:bool isDownload, 7:string requestInitiator),
 }

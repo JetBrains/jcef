@@ -2,10 +2,12 @@
 #include "../RpcExecutor.h"
 #include "../callback/RemoteAuthCallback.h"
 #include "../callback/RemoteCallback.h"
-#include "../handlers/RemoteClientHandler.h"
 #include "RemoteRequest.h"
 #include "RemoteResourceRequestHandler.h"
+#include "../router/MessageRoutersManager.h"
 #include "../browser/RemoteFrame.h"
+#include "../browser/ClientsManager.h"
+#include "../ServerHandlerContext.h"
 
 #include "include/cef_ssl_info.h"
 
@@ -22,10 +24,8 @@ namespace {
 
 RemoteRequestHandler::RemoteRequestHandler(
     int bid,
-    std::shared_ptr<RpcExecutor> service,
-    std::shared_ptr<RpcExecutor> serviceIO,
-    std::shared_ptr<MessageRoutersManager> routersManager)
-    : myBid(bid), myService(service), myServiceIO(serviceIO), myRoutersManager(routersManager) {}
+    std::shared_ptr<ServerHandlerContext> ctx)
+    : myBid(bid), myCtx(ctx) {}
 
 RemoteRequestHandler::~RemoteRequestHandler() {
   // simple protection for leaking via callbacks
@@ -55,12 +55,17 @@ bool RemoteRequestHandler::OnBeforeBrowse(CefRefPtr<CefBrowser> browser,
                     bool is_redirect
 ) {
   LNDCT();
+  if (Log::isDebugEnabled()) {
+    const int bid = myCtx->clientsManager()->findRemoteBrowser(browser);
+    if (bid != myBid)
+      Log::debug("RemoteRequestHandler::OnBeforeBrowse: bid mismatch, myBid(%d) != %d", myBid, bid);
+  }
   // Forward request to ClientHandler to make the message_router_ happy.
-  myRoutersManager->OnBeforeBrowse(browser, frame);
+  myCtx->routersManager()->OnBeforeBrowse(browser, frame);
 
   RemoteRequest::Holder req(request);
   RemoteFrame::Holder frm(frame);
-  return myService->exec<bool>([&](RpcExecutor::Service s){
+  return myCtx->javaService()->exec<bool>([&](RpcExecutor::Service s){
     return s->RequestHandler_OnBeforeBrowse(myBid, frm.get()->serverIdWithMap(), req.get()->serverIdWithMap(), user_gesture, is_redirect);
   }, false);
 }
@@ -72,8 +77,13 @@ bool RemoteRequestHandler::OnOpenURLFromTab(CefRefPtr<CefBrowser> browser,
                       bool user_gesture
 ) {
   LNDCT();
+  if (Log::isDebugEnabled()) {
+    const int bid = myCtx->clientsManager()->findRemoteBrowser(browser);
+    if (bid != myBid)
+      Log::debug("RemoteRequestHandler::OnOpenURLFromTab: bid mismatch, myBid(%d) != %d", myBid, bid);
+  }
   RemoteFrame::Holder frm(frame);
-  return myService->exec<bool>([&](RpcExecutor::Service s){
+  return myCtx->javaService()->exec<bool>([&](RpcExecutor::Service s){
     return s->RequestHandler_OnOpenURLFromTab(myBid, frm.get()->serverIdWithMap(), target_url.ToString(), user_gesture);
   }, false);
 }
@@ -104,18 +114,23 @@ CefRefPtr<CefResourceRequestHandler> RemoteRequestHandler::GetResourceRequestHan
 ) {
   // Called on the browser process IO thread before a resource request is initiated.
   LogNdc ndc(__FILE_NAME__, __FUNCTION__, 500, false, false, "ChromeIO");
+  if (Log::isDebugEnabled()) {
+    const int bid = myCtx->clientsManager()->findRemoteBrowser(browser);
+    if (bid != myBid)
+      Log::debug("RemoteRequestHandler::GetResourceRequestHandler: bid mismatch, myBid(%d) != %d", myBid, bid);
+  }
 
   RemoteRequest::Holder req(request);
   RemoteFrame::Holder frm(frame);
   thrift_codegen::RObject peer;
   peer.__set_objId(-1);
-  myServiceIO->exec([&](RpcExecutor::Service s){
+  myCtx->javaServiceIO()->exec([&](RpcExecutor::Service s){
     s->RequestHandler_GetResourceRequestHandler(
         peer, myBid, frm.get()->serverIdWithMap(), req.get()->serverIdWithMap(), is_navigation, is_download, request_initiator.ToString());
   });
 
   disable_default_handling = peer.__isset.flags ? peer.flags != 0 : false;
-  return peer.objId != -1 ? new RemoteResourceRequestHandler(myBid, myServiceIO, peer) : nullptr;
+  return peer.objId != -1 ? new RemoteResourceRequestHandler(myBid, myCtx->javaServiceIO(), peer) : nullptr;
 }
 
 ///
@@ -141,8 +156,13 @@ bool RemoteRequestHandler::GetAuthCredentials(CefRefPtr<CefBrowser> browser,
                         CefRefPtr<CefAuthCallback> callback
 ) {
   LNDCT();
+  if (Log::isDebugEnabled()) {
+    const int bid = myCtx->clientsManager()->findRemoteBrowser(browser);
+    if (bid != myBid)
+      Log::debug("RemoteRequestHandler::GetAuthCredentials: bid mismatch, myBid(%d) != %d", myBid, bid);
+  }
   thrift_codegen::RObject rc = RemoteAuthCallback::wrapDelegate(callback)->serverId();
-  const bool handled = myServiceIO->exec<bool>([&](RpcExecutor::Service s){
+  const bool handled = myCtx->javaServiceIO()->exec<bool>([&](RpcExecutor::Service s){
       return s->RequestHandler_GetAuthCredentials(myBid, origin_url.ToString(), isProxy, host.ToString(), port, realm.ToString(), scheme.ToString(), rc);
   }, false);
   if (!handled)
@@ -170,12 +190,17 @@ bool RemoteRequestHandler::OnCertificateError(CefRefPtr<CefBrowser> browser,
                         CefRefPtr<CefCallback> callback
 ) {
   LNDCT();
+  if (Log::isDebugEnabled()) {
+    const int bid = myCtx->clientsManager()->findRemoteBrowser(browser);
+    if (bid != myBid)
+      Log::debug("RemoteRequestHandler::OnCertificateError: bid mismatch, myBid(%d) != %d", myBid, bid);
+  }
   RemoteCallback* rc = RemoteCallback::wrapDelegate(callback);
   std::string buf;
   writeSSLData(buf, ssl_info);
   if (buf.capacity() > 1024*128)
     Log::warn("Large SSL certificate data: %d bytes. Consider to use shared memory for IPC transport.", buf.capacity());
-  const bool handled = myService->exec<bool>([&](RpcExecutor::Service s){
+  const bool handled = myCtx->javaService()->exec<bool>([&](RpcExecutor::Service s){
       return s->RequestHandler_OnCertificateError(myBid, err2str(cert_error), request_url, buf, rc->serverId());
   }, false);
   if (!handled)
@@ -230,9 +255,14 @@ void writeSSLData(std::string & out, CefRefPtr<CefSSLInfo> sslInfo) {
 
 void RemoteRequestHandler::OnRenderProcessTerminated(CefRefPtr<CefBrowser> browser, TerminationStatus status) {
   LNDCT();
+  if (Log::isDebugEnabled()) {
+    const int bid = myCtx->clientsManager()->findRemoteBrowser(browser);
+    if (bid != myBid)
+      Log::debug("RemoteRequestHandler::OnRenderProcessTerminated: bid mismatch, myBid(%d) != %d", myBid, bid);
+  }
   // Forward request to ClientHandler to make the message_router_ happy.
-  myRoutersManager->OnRenderProcessTerminated(browser);
-  myService->exec([&](RpcExecutor::Service s){
+  myCtx->routersManager()->OnRenderProcessTerminated(browser);
+  myCtx->javaService()->exec([&](RpcExecutor::Service s){
     s->RequestHandler_OnRenderProcessTerminated(myBid, tstatus2str(status));
   });
 }

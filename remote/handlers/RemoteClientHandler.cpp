@@ -2,9 +2,10 @@
 
 #include <strstream>
 
-#include <utility>
-#include "../log/Log.h"
+#include "../ServerHandlerContext.h"
 #include "../network/RemoteRequestHandler.h"
+#include "../network/RemoteRequestContextHandler.h"
+#include "../router/MessageRoutersManager.h"
 #include "RemoteDisplayHandler.h"
 #include "RemoteLifespanHandler.h"
 #include "RemoteLoadHandler.h"
@@ -32,40 +33,44 @@ class DummyRenderHandler : public CefRenderHandler {
 };
 
 RemoteClientHandler::RemoteClientHandler(
-    std::shared_ptr<MessageRoutersManager> routersManager,
-    std::shared_ptr<RpcExecutor> service,
-    std::shared_ptr<RpcExecutor> serviceIO,
+    std::shared_ptr<ServerHandlerContext> ctx,
     int cid,
     int bid,
     int handlersMask,
-    std::function<void(int)> onClosedCallback)
+    const thrift_codegen::RObject& requestContextHandler)
     : myCid(cid),
       myBid(bid),
-      myService(service),
-      myRoutersManager(routersManager),
-      myRemoteLisfespanHandler(new RemoteLifespanHandler(bid, service, routersManager, onClosedCallback))
+      myService(ctx->javaService()),
+      myRoutersManager(ctx->routersManager()),
+      myRemoteLisfespanHandler(new RemoteLifespanHandler(bid, ctx))
 {
   if (handlersMask & HandlerMasks::NativeRender)
-    myRemoteRenderHandler = new RemoteRenderHandler(bid, service);
+    myRemoteRenderHandler = new RemoteRenderHandler(bid, ctx->javaService());
   else {
     myRemoteRenderHandler = new DummyRenderHandler();
     Log::trace("Bid %d hasn't renderer.", bid);
   }
 
   if (handlersMask & HandlerMasks::Load)
-    myRemoteLoadHandler = new RemoteLoadHandler(bid, service);
+    myRemoteLoadHandler = new RemoteLoadHandler(bid, ctx->javaService());
 
   if (handlersMask & HandlerMasks::Display)
-    myRemoteDisplayHandler = new RemoteDisplayHandler(bid, service);
+    myRemoteDisplayHandler = new RemoteDisplayHandler(bid, ctx->javaService());
 
   if (handlersMask & HandlerMasks::Request)
-    myRemoteRequestHandler = new RemoteRequestHandler(bid, service, serviceIO, routersManager);
+    myRemoteRequestHandler = new RemoteRequestHandler(bid, ctx);
 
   if (handlersMask & HandlerMasks::Keyboard)
-    myRemoteKeyboardHandler = new RemoteKeyboardHandler(bid, service);
+    myRemoteKeyboardHandler = new RemoteKeyboardHandler(bid, ctx->javaService());
 
   if (handlersMask & HandlerMasks::Focus)
-    myRemoteFocusHandler = new RemoteFocusHandler(bid, service);
+    myRemoteFocusHandler = new RemoteFocusHandler(bid, ctx->javaService());
+
+  // TODO: Expose CefRequestContextSettings.
+  CefRequestContextSettings settings;
+  myRequestContext = requestContextHandler.objId < 0
+          ? CefRequestContext::GetGlobalContext()
+          : CefRequestContext::CreateContext(settings,new RemoteRequestContextHandler(ctx, requestContextHandler));
 }
 
 CefRefPtr<CefContextMenuHandler> RemoteClientHandler::GetContextMenuHandler() {
