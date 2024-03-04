@@ -198,9 +198,11 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
 
     private void executeNative(Runnable nativeRunnable, String name) {
         synchronized (delayedActions_) {
-            if (isNativeCtxInitialized_)
+            if (isNativeCtxInitialized_) {
+                if (request_context_ == null)
+                    request_context_ = CefRequestContext.getGlobalContext();
                 nativeRunnable.run();
-            else {
+            } else {
                 CefLog.Debug("CefBrowser_N: %s: add delayed action %s", this, name);
                 delayedActions_.add(nativeRunnable);
             }
