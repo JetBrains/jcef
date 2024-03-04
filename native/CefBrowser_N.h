@@ -159,7 +159,7 @@ JNIEXPORT jobject JNICALL Java_org_cef_browser_CefBrowser_1N_N_1GetFocusedFrame
  * Signature: (J)Lorg/cef/browser/CefFrame;
  */
 JNIEXPORT jobject JNICALL Java_org_cef_browser_CefBrowser_1N_N_1GetFrame
-  (JNIEnv *, jobject, jlong);
+  (JNIEnv *, jobject, jstring);
 
 /*
  * Class:     org_cef_browser_CefBrowser_N

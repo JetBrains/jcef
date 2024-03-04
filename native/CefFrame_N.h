@@ -21,7 +21,7 @@ JNIEXPORT void JNICALL Java_org_cef_browser_CefFrame_1N_N_1Dispose(JNIEnv*,
  * Method:    N_GetIdentifier
  * Signature: (J)J
  */
-JNIEXPORT jlong JNICALL
+JNIEXPORT jstring JNICALL
 Java_org_cef_browser_CefFrame_1N_N_1GetIdentifier(JNIEnv*, jobject, jlong);
 
 /*
@@ -152,51 +152,6 @@ JNIEXPORT void JNICALL Java_org_cef_browser_CefFrame_1N_N_1Delete(JNIEnv*,
 JNIEXPORT void JNICALL Java_org_cef_browser_CefFrame_1N_N_1SelectAll(JNIEnv*,
                                                                      jobject,
                                                                      jlong);
-
-/*
- * Class:     org_cef_browser_CefFrame_N
- * Method:    N_Undo
- * Signature: (J)V
- */
-JNIEXPORT void JNICALL Java_org_cef_browser_CefFrame_1N_N_1Undo(JNIEnv*,
-                                                                jobject,
-                                                                jlong);
-
-/*
- * Class:     org_cef_browser_CefFrame_N
- * Method:    N_Redo
- * Signature: (J)V
- */
-JNIEXPORT void JNICALL Java_org_cef_browser_CefFrame_1N_N_1Redo(JNIEnv*,
-                                                                jobject,
-                                                                jlong);
-
-/*
- * Class:     org_cef_browser_CefFrame_N
- * Method:    N_Cut
- * Signature: (J)V
- */
-JNIEXPORT void JNICALL Java_org_cef_browser_CefFrame_1N_N_1Cut(JNIEnv*,
-                                                               jobject,
-                                                               jlong);
-
-/*
- * Class:     org_cef_browser_CefFrame_N
- * Method:    N_Copy
- * Signature: (J)V
- */
-JNIEXPORT void JNICALL Java_org_cef_browser_CefFrame_1N_N_1Copy(JNIEnv*,
-                                                                jobject,
-                                                                jlong);
-
-/*
- * Class:     org_cef_browser_CefFrame_N
- * Method:    N_Paste
- * Signature: (J)V
- */
-JNIEXPORT void JNICALL Java_org_cef_browser_CefFrame_1N_N_1Paste(JNIEnv*,
-                                                                 jobject,
-                                                                 jlong);
 
 #ifdef __cplusplus
 }
