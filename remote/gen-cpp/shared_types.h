@@ -33,6 +33,8 @@ class PostData;
 
 class KeyEvent;
 
+class Cookie;
+
 typedef struct _RObject__isset {
   _RObject__isset() : flags(false), objInfo(false) {}
   bool flags :1;
@@ -403,6 +405,99 @@ class KeyEvent : public virtual ::apache::thrift::TBase {
 void swap(KeyEvent &a, KeyEvent &b);
 
 std::ostream& operator<<(std::ostream& out, const KeyEvent& obj);
+
+typedef struct _Cookie__isset {
+  _Cookie__isset() : expires(false) {}
+  bool expires :1;
+} _Cookie__isset;
+
+class Cookie : public virtual ::apache::thrift::TBase {
+ public:
+
+  Cookie(const Cookie&);
+  Cookie& operator=(const Cookie&);
+  Cookie() noexcept
+         : name(),
+           value(),
+           domain(),
+           path(),
+           secure(0),
+           httponly(0),
+           creation(0),
+           lastAccess(0),
+           expires(0) {
+  }
+
+  virtual ~Cookie() noexcept;
+  std::string name;
+  std::string value;
+  std::string domain;
+  std::string path;
+  bool secure;
+  bool httponly;
+  int64_t creation;
+  int64_t lastAccess;
+  int64_t expires;
+
+  _Cookie__isset __isset;
+
+  void __set_name(const std::string& val);
+
+  void __set_value(const std::string& val);
+
+  void __set_domain(const std::string& val);
+
+  void __set_path(const std::string& val);
+
+  void __set_secure(const bool val);
+
+  void __set_httponly(const bool val);
+
+  void __set_creation(const int64_t val);
+
+  void __set_lastAccess(const int64_t val);
+
+  void __set_expires(const int64_t val);
+
+  bool operator == (const Cookie & rhs) const
+  {
+    if (!(name == rhs.name))
+      return false;
+    if (!(value == rhs.value))
+      return false;
+    if (!(domain == rhs.domain))
+      return false;
+    if (!(path == rhs.path))
+      return false;
+    if (!(secure == rhs.secure))
+      return false;
+    if (!(httponly == rhs.httponly))
+      return false;
+    if (!(creation == rhs.creation))
+      return false;
+    if (!(lastAccess == rhs.lastAccess))
+      return false;
+    if (__isset.expires != rhs.__isset.expires)
+      return false;
+    else if (__isset.expires && !(expires == rhs.expires))
+      return false;
+    return true;
+  }
+  bool operator != (const Cookie &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Cookie & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
+
+  virtual void printTo(std::ostream& out) const;
+};
+
+void swap(Cookie &a, Cookie &b);
+
+std::ostream& operator<<(std::ostream& out, const Cookie& obj);
 
 } // namespace
 

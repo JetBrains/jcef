@@ -290,6 +290,16 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
     printf("RequestContextHandler_GetResourceRequestHandler\n");
   }
 
+  bool CookieVisitor_Visit(const int32_t visitor, const  ::thrift_codegen::Cookie& cookie, const int32_t count, const int32_t total) {
+    // Your implementation goes here
+    printf("CookieVisitor_Visit\n");
+  }
+
+  void CookieVisitor_Dispose(const int32_t visitor) {
+    // Your implementation goes here
+    printf("CookieVisitor_Dispose\n");
+  }
+
 };
 
 int main(int argc, char **argv) {

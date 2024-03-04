@@ -125,6 +125,26 @@ class ServerHandler : public thrift_codegen::ServerIf {
   void RequestContext_ClearCertificateExceptions(const int32_t bid, const thrift_codegen::RObject& completionCallback) override;
   void RequestContext_CloseAllConnections(const int32_t bid, const thrift_codegen::RObject& completionCallback) override;
 
+  void CookieManager_Create(thrift_codegen::RObject& _return) override;
+  void CookieManager_Dispose(const thrift_codegen::RObject& cookieManager) override;
+  bool CookieManager_VisitAllCookies(
+      const thrift_codegen::RObject& cookieManager,
+      const thrift_codegen::RObject& visitor) override;
+  bool CookieManager_VisitUrlCookies(
+      const thrift_codegen::RObject& cookieManager,
+      const thrift_codegen::RObject& visitor,
+      const std::string& url,
+      const bool includeHttpOnly) override;
+  bool CookieManager_SetCookie(const thrift_codegen::RObject& cookieManager,
+                               const std::string& url,
+                               const thrift_codegen::Cookie& c) override;
+  bool CookieManager_DeleteCookies(const thrift_codegen::RObject& cookieManager,
+                                   const std::string& url,
+                                   const std::string& cookieName) override;
+  bool CookieManager_FlushStore(
+      const thrift_codegen::RObject& cookieManager,
+      const thrift_codegen::RObject& completionCallback) override;
+
  private:
   bool myIsMaster = false;
   bool myIsClosed = false;

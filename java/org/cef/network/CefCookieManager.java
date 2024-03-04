@@ -4,6 +4,7 @@
 
 package org.cef.network;
 
+import com.jetbrains.cef.remote.network.RemoteCookieManager;
 import org.cef.CefApp;
 import org.cef.callback.CefCompletionCallback;
 import org.cef.callback.CefCookieVisitor;
@@ -17,7 +18,7 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public abstract class CefCookieManager extends CefNativeAdapter {
     // This CTOR can't be called directly. Call method create() instead.
-    CefCookieManager() {}
+    protected CefCookieManager() {}
 
     @Override
     protected void finalize() throws Throwable {
@@ -31,6 +32,9 @@ public abstract class CefCookieManager extends CefNativeAdapter {
      * @return The global cookie manager.
      */
     public static final CefCookieManager getGlobalManager() {
+        if (CefApp.isRemoteEnabled())
+            return RemoteCookieManager.createGlobal();
+
         CookieManagerWrapper instance = new CookieManagerWrapper();
         CefApp.getInstance().onInitialization(state -> {
             if (state == CefApp.CefAppState.INITIALIZED) {

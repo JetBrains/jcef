@@ -1,11 +1,14 @@
 #include "ServerHandler.h"
 
 #include "include/cef_version.h"
+#include "include/cef_base.h"
 
 #include "handlers/app/RemoteAppHandler.h"
 #include "network/RemotePostData.h"
 #include "network/RemoteRequest.h"
 #include "network/RemoteResponse.h"
+#include "network/RemoteCookieManager.h"
+#include "network/RemoteCookieVisitor.h"
 #include "browser/RemoteFrame.h"
 #include "browser/ClientsManager.h"
 #include "handlers/RemoteClientHandler.h"
@@ -163,6 +166,20 @@ void ServerHandler::version(std::string& _return) {
   if (client == nullptr) {                                  \
     Log::error("RemoteClientHandler is null, bid=%d", bid); \
     return val;                                             \
+  }
+
+#define GET_COOKIE_MANAGER_OR_RETURN()                                            \
+  RemoteCookieManager * manager = RemoteCookieManager::find(cookieManager.objId); \
+  if (manager == nullptr) {                                                       \
+    Log::error("Can't find RemoteCookieManager by id=%d", cookieManager.objId);   \
+    return;                                                                       \
+  }
+
+#define GET_COOKIE_MANAGER_OR_RETURN_VAL(val)                                     \
+  RemoteCookieManager * manager = RemoteCookieManager::find(cookieManager.objId); \
+  if (manager == nullptr) {                                                       \
+    Log::error("Can't find RemoteCookieManager by id=%d", cookieManager.objId);   \
+    return val;                                                                       \
   }
 
 void ServerHandler::Browser_Reload(const int32_t bid) {
@@ -845,4 +862,88 @@ void ServerHandler::RequestContext_CloseAllConnections(const int32_t bid, const 
   }
   GET_CLIENT_OR_RETURN()
   client->getRequestContext()->CloseAllConnections(cb);
+}
+
+void ServerHandler::CookieManager_Create(thrift_codegen::RObject& _return) {
+  _return.objId = -1;
+  // TODO(JCEF): Expose the callback object.
+  CefRefPtr<CefCookieManager> manager = CefCookieManager::GetGlobalManager(nullptr);
+  if (!manager)
+    return;
+
+  RemoteCookieManager * rm = RemoteCookieManager::create(myCtx->javaServiceIO(), manager);
+  _return = rm->serverId();
+}
+
+void ServerHandler::CookieManager_Dispose(const thrift_codegen::RObject& cookieManager) {
+  RemoteCookieManager::dispose(cookieManager.objId);
+}
+
+bool ServerHandler::CookieManager_VisitAllCookies(const thrift_codegen::RObject& cookieManager, const thrift_codegen::RObject& visitor) {
+  GET_COOKIE_MANAGER_OR_RETURN_VAL(false);
+  CefRefPtr<RemoteCookieVisitor> rvisitor(new RemoteCookieVisitor(myCtx->javaService(), visitor));
+  return manager->getDelegate().VisitAllCookies(rvisitor);
+}
+
+bool ServerHandler::CookieManager_VisitUrlCookies(
+    const thrift_codegen::RObject& cookieManager,
+    const thrift_codegen::RObject& visitor,
+    const std::string& url,
+    const bool includeHttpOnly
+) {
+  GET_COOKIE_MANAGER_OR_RETURN_VAL(false);
+  CefRefPtr<RemoteCookieVisitor> rvisitor(new RemoteCookieVisitor(myCtx->javaService(), visitor));
+  return manager->getDelegate().VisitUrlCookies(url, includeHttpOnly, rvisitor);
+}
+
+bool ServerHandler::CookieManager_SetCookie(
+    const thrift_codegen::RObject& cookieManager,
+    const std::string& url,
+    const thrift_codegen::Cookie& c
+) {
+  GET_COOKIE_MANAGER_OR_RETURN_VAL(false);
+  CefCookie cookie;
+  RemoteCookieVisitor::toCefCookie(c, cookie);
+
+  // The method CefCookieManager::SetCookie must be called on the IO thread.
+  // We ignore its return value and return the result of the PostTask event to
+  // java instead.
+  // TODO(JCEF): Expose the callback object.
+  CefRefPtr<CefCookieManager> pmanager(&(manager->getDelegate()));
+  bool result = CefPostTask(
+      TID_IO, base::BindOnce(base::IgnoreResult(&CefCookieManager::SetCookie),
+                             pmanager, url, cookie,
+                             CefRefPtr<CefSetCookieCallback>()));
+  return result;
+}
+
+bool ServerHandler::CookieManager_DeleteCookies(
+    const thrift_codegen::RObject& cookieManager,
+    const std::string& url,
+    const std::string& cookieName
+) {
+  GET_COOKIE_MANAGER_OR_RETURN_VAL(false);
+
+  // The method CefCookieManager::DeleteCookies must be called on the IO thread.
+  // We ignore its return value and return the result of the PostTask event to
+  // java instead.
+  // TODO(JCEF): Expose the callback object.
+  CefRefPtr<CefCookieManager> pmanager(&(manager->getDelegate()));
+  bool result = CefPostTask(
+      TID_IO, base::BindOnce(base::IgnoreResult(&CefCookieManager::DeleteCookies),
+                             pmanager, url, cookieName,
+                             CefRefPtr<CefDeleteCookiesCallback>()));
+  return result;
+}
+
+bool ServerHandler::CookieManager_FlushStore(
+    const thrift_codegen::RObject& cookieManager,
+    const thrift_codegen::RObject& rcompletionCallback
+) {
+  GET_COOKIE_MANAGER_OR_RETURN_VAL(false);
+
+  CefRefPtr<RemoteCompletionCallback> cb;
+  if (rcompletionCallback.objId >= 0)
+    cb = new RemoteCompletionCallback(myCtx->javaService(), rcompletionCallback);
+  return manager->getDelegate().FlushStore(cb);
 }

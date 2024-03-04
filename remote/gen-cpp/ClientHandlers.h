@@ -76,6 +76,8 @@ class ClientHandlersIf {
   virtual void SchemeHandlerFactory_Dispose(const int32_t schemeHandlerFactory) = 0;
   virtual void CompletionCallback_OnComplete(const int32_t completionCallback) = 0;
   virtual void RequestContextHandler_GetResourceRequestHandler( ::thrift_codegen::RObject& _return, const int32_t handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool isNavigation, const bool isDownload, const std::string& requestInitiator) = 0;
+  virtual bool CookieVisitor_Visit(const int32_t visitor, const  ::thrift_codegen::Cookie& cookie, const int32_t count, const int32_t total) = 0;
+  virtual void CookieVisitor_Dispose(const int32_t visitor) = 0;
 };
 
 class ClientHandlersIfFactory {
@@ -284,6 +286,13 @@ class ClientHandlersNull : virtual public ClientHandlersIf {
     return;
   }
   void RequestContextHandler_GetResourceRequestHandler( ::thrift_codegen::RObject& /* _return */, const int32_t /* handler */, const int32_t /* bid */, const  ::thrift_codegen::RObject& /* frame */, const  ::thrift_codegen::RObject& /* request */, const bool /* isNavigation */, const bool /* isDownload */, const std::string& /* requestInitiator */) override {
+    return;
+  }
+  bool CookieVisitor_Visit(const int32_t /* visitor */, const  ::thrift_codegen::Cookie& /* cookie */, const int32_t /* count */, const int32_t /* total */) override {
+    bool _return = false;
+    return _return;
+  }
+  void CookieVisitor_Dispose(const int32_t /* visitor */) override {
     return;
   }
 };
@@ -5631,6 +5640,185 @@ class ClientHandlers_RequestContextHandler_GetResourceRequestHandler_presult {
 
 };
 
+typedef struct _ClientHandlers_CookieVisitor_Visit_args__isset {
+  _ClientHandlers_CookieVisitor_Visit_args__isset() : visitor(false), cookie(false), count(false), total(false) {}
+  bool visitor :1;
+  bool cookie :1;
+  bool count :1;
+  bool total :1;
+} _ClientHandlers_CookieVisitor_Visit_args__isset;
+
+class ClientHandlers_CookieVisitor_Visit_args {
+ public:
+
+  ClientHandlers_CookieVisitor_Visit_args(const ClientHandlers_CookieVisitor_Visit_args&);
+  ClientHandlers_CookieVisitor_Visit_args& operator=(const ClientHandlers_CookieVisitor_Visit_args&);
+  ClientHandlers_CookieVisitor_Visit_args() noexcept
+                                          : visitor(0),
+                                            count(0),
+                                            total(0) {
+  }
+
+  virtual ~ClientHandlers_CookieVisitor_Visit_args() noexcept;
+  int32_t visitor;
+   ::thrift_codegen::Cookie cookie;
+  int32_t count;
+  int32_t total;
+
+  _ClientHandlers_CookieVisitor_Visit_args__isset __isset;
+
+  void __set_visitor(const int32_t val);
+
+  void __set_cookie(const  ::thrift_codegen::Cookie& val);
+
+  void __set_count(const int32_t val);
+
+  void __set_total(const int32_t val);
+
+  bool operator == (const ClientHandlers_CookieVisitor_Visit_args & rhs) const
+  {
+    if (!(visitor == rhs.visitor))
+      return false;
+    if (!(cookie == rhs.cookie))
+      return false;
+    if (!(count == rhs.count))
+      return false;
+    if (!(total == rhs.total))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_CookieVisitor_Visit_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_CookieVisitor_Visit_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_CookieVisitor_Visit_pargs {
+ public:
+
+
+  virtual ~ClientHandlers_CookieVisitor_Visit_pargs() noexcept;
+  const int32_t* visitor;
+  const  ::thrift_codegen::Cookie* cookie;
+  const int32_t* count;
+  const int32_t* total;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_CookieVisitor_Visit_result__isset {
+  _ClientHandlers_CookieVisitor_Visit_result__isset() : success(false) {}
+  bool success :1;
+} _ClientHandlers_CookieVisitor_Visit_result__isset;
+
+class ClientHandlers_CookieVisitor_Visit_result {
+ public:
+
+  ClientHandlers_CookieVisitor_Visit_result(const ClientHandlers_CookieVisitor_Visit_result&) noexcept;
+  ClientHandlers_CookieVisitor_Visit_result& operator=(const ClientHandlers_CookieVisitor_Visit_result&) noexcept;
+  ClientHandlers_CookieVisitor_Visit_result() noexcept
+                                            : success(0) {
+  }
+
+  virtual ~ClientHandlers_CookieVisitor_Visit_result() noexcept;
+  bool success;
+
+  _ClientHandlers_CookieVisitor_Visit_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const ClientHandlers_CookieVisitor_Visit_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_CookieVisitor_Visit_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_CookieVisitor_Visit_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_CookieVisitor_Visit_presult__isset {
+  _ClientHandlers_CookieVisitor_Visit_presult__isset() : success(false) {}
+  bool success :1;
+} _ClientHandlers_CookieVisitor_Visit_presult__isset;
+
+class ClientHandlers_CookieVisitor_Visit_presult {
+ public:
+
+
+  virtual ~ClientHandlers_CookieVisitor_Visit_presult() noexcept;
+  bool* success;
+
+  _ClientHandlers_CookieVisitor_Visit_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _ClientHandlers_CookieVisitor_Dispose_args__isset {
+  _ClientHandlers_CookieVisitor_Dispose_args__isset() : visitor(false) {}
+  bool visitor :1;
+} _ClientHandlers_CookieVisitor_Dispose_args__isset;
+
+class ClientHandlers_CookieVisitor_Dispose_args {
+ public:
+
+  ClientHandlers_CookieVisitor_Dispose_args(const ClientHandlers_CookieVisitor_Dispose_args&) noexcept;
+  ClientHandlers_CookieVisitor_Dispose_args& operator=(const ClientHandlers_CookieVisitor_Dispose_args&) noexcept;
+  ClientHandlers_CookieVisitor_Dispose_args() noexcept
+                                            : visitor(0) {
+  }
+
+  virtual ~ClientHandlers_CookieVisitor_Dispose_args() noexcept;
+  int32_t visitor;
+
+  _ClientHandlers_CookieVisitor_Dispose_args__isset __isset;
+
+  void __set_visitor(const int32_t val);
+
+  bool operator == (const ClientHandlers_CookieVisitor_Dispose_args & rhs) const
+  {
+    if (!(visitor == rhs.visitor))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_CookieVisitor_Dispose_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_CookieVisitor_Dispose_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_CookieVisitor_Dispose_pargs {
+ public:
+
+
+  virtual ~ClientHandlers_CookieVisitor_Dispose_pargs() noexcept;
+  const int32_t* visitor;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
 class ClientHandlersClient : virtual public ClientHandlersIf {
  public:
   ClientHandlersClient(std::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
@@ -5796,6 +5984,11 @@ class ClientHandlersClient : virtual public ClientHandlersIf {
   void RequestContextHandler_GetResourceRequestHandler( ::thrift_codegen::RObject& _return, const int32_t handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool isNavigation, const bool isDownload, const std::string& requestInitiator) override;
   void send_RequestContextHandler_GetResourceRequestHandler(const int32_t handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool isNavigation, const bool isDownload, const std::string& requestInitiator);
   void recv_RequestContextHandler_GetResourceRequestHandler( ::thrift_codegen::RObject& _return);
+  bool CookieVisitor_Visit(const int32_t visitor, const  ::thrift_codegen::Cookie& cookie, const int32_t count, const int32_t total) override;
+  void send_CookieVisitor_Visit(const int32_t visitor, const  ::thrift_codegen::Cookie& cookie, const int32_t count, const int32_t total);
+  bool recv_CookieVisitor_Visit();
+  void CookieVisitor_Dispose(const int32_t visitor) override;
+  void send_CookieVisitor_Dispose(const int32_t visitor);
  protected:
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -5865,6 +6058,8 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_SchemeHandlerFactory_Dispose(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_CompletionCallback_OnComplete(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_RequestContextHandler_GetResourceRequestHandler(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_CookieVisitor_Visit(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_CookieVisitor_Dispose(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   ClientHandlersProcessor(::std::shared_ptr<ClientHandlersIf> iface) :
     iface_(iface) {
@@ -5922,6 +6117,8 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["SchemeHandlerFactory_Dispose"] = &ClientHandlersProcessor::process_SchemeHandlerFactory_Dispose;
     processMap_["CompletionCallback_OnComplete"] = &ClientHandlersProcessor::process_CompletionCallback_OnComplete;
     processMap_["RequestContextHandler_GetResourceRequestHandler"] = &ClientHandlersProcessor::process_RequestContextHandler_GetResourceRequestHandler;
+    processMap_["CookieVisitor_Visit"] = &ClientHandlersProcessor::process_CookieVisitor_Visit;
+    processMap_["CookieVisitor_Dispose"] = &ClientHandlersProcessor::process_CookieVisitor_Dispose;
   }
 
   virtual ~ClientHandlersProcessor() {}
@@ -6447,6 +6644,24 @@ class ClientHandlersMultiface : virtual public ClientHandlersIf {
     return;
   }
 
+  bool CookieVisitor_Visit(const int32_t visitor, const  ::thrift_codegen::Cookie& cookie, const int32_t count, const int32_t total) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->CookieVisitor_Visit(visitor, cookie, count, total);
+    }
+    return ifaces_[i]->CookieVisitor_Visit(visitor, cookie, count, total);
+  }
+
+  void CookieVisitor_Dispose(const int32_t visitor) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->CookieVisitor_Dispose(visitor);
+    }
+    ifaces_[i]->CookieVisitor_Dispose(visitor);
+  }
+
 };
 
 // The 'concurrent' client is a thread safe client that correctly handles
@@ -6619,6 +6834,11 @@ class ClientHandlersConcurrentClient : virtual public ClientHandlersIf {
   void RequestContextHandler_GetResourceRequestHandler( ::thrift_codegen::RObject& _return, const int32_t handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool isNavigation, const bool isDownload, const std::string& requestInitiator) override;
   int32_t send_RequestContextHandler_GetResourceRequestHandler(const int32_t handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool isNavigation, const bool isDownload, const std::string& requestInitiator);
   void recv_RequestContextHandler_GetResourceRequestHandler( ::thrift_codegen::RObject& _return, const int32_t seqid);
+  bool CookieVisitor_Visit(const int32_t visitor, const  ::thrift_codegen::Cookie& cookie, const int32_t count, const int32_t total) override;
+  int32_t send_CookieVisitor_Visit(const int32_t visitor, const  ::thrift_codegen::Cookie& cookie, const int32_t count, const int32_t total);
+  bool recv_CookieVisitor_Visit(const int32_t seqid);
+  void CookieVisitor_Dispose(const int32_t visitor) override;
+  void send_CookieVisitor_Dispose(const int32_t visitor);
  protected:
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;

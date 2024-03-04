@@ -390,6 +390,41 @@ class ServerHandler : virtual public ServerIf {
     printf("RequestContext_CloseAllConnections\n");
   }
 
+  void CookieManager_Create( ::thrift_codegen::RObject& _return) {
+    // Your implementation goes here
+    printf("CookieManager_Create\n");
+  }
+
+  void CookieManager_Dispose(const  ::thrift_codegen::RObject& cookieManager) {
+    // Your implementation goes here
+    printf("CookieManager_Dispose\n");
+  }
+
+  bool CookieManager_VisitAllCookies(const  ::thrift_codegen::RObject& cookieManager, const  ::thrift_codegen::RObject& visitor) {
+    // Your implementation goes here
+    printf("CookieManager_VisitAllCookies\n");
+  }
+
+  bool CookieManager_VisitUrlCookies(const  ::thrift_codegen::RObject& cookieManager, const  ::thrift_codegen::RObject& visitor, const std::string& url, const bool includeHttpOnly) {
+    // Your implementation goes here
+    printf("CookieManager_VisitUrlCookies\n");
+  }
+
+  bool CookieManager_SetCookie(const  ::thrift_codegen::RObject& cookieManager, const std::string& url, const  ::thrift_codegen::Cookie& cookie) {
+    // Your implementation goes here
+    printf("CookieManager_SetCookie\n");
+  }
+
+  bool CookieManager_DeleteCookies(const  ::thrift_codegen::RObject& cookieManager, const std::string& url, const std::string& cookieName) {
+    // Your implementation goes here
+    printf("CookieManager_DeleteCookies\n");
+  }
+
+  bool CookieManager_FlushStore(const  ::thrift_codegen::RObject& cookieManager, const  ::thrift_codegen::RObject& completionCallback) {
+    // Your implementation goes here
+    printf("CookieManager_FlushStore\n");
+  }
+
 };
 
 int main(int argc, char **argv) {

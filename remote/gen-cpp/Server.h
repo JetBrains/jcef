@@ -96,6 +96,13 @@ class ServerIf {
   virtual void ClearAllSchemeHandlerFactories() = 0;
   virtual void RequestContext_ClearCertificateExceptions(const int32_t bid, const  ::thrift_codegen::RObject& completionCallback) = 0;
   virtual void RequestContext_CloseAllConnections(const int32_t bid, const  ::thrift_codegen::RObject& completionCallback) = 0;
+  virtual void CookieManager_Create( ::thrift_codegen::RObject& _return) = 0;
+  virtual void CookieManager_Dispose(const  ::thrift_codegen::RObject& cookieManager) = 0;
+  virtual bool CookieManager_VisitAllCookies(const  ::thrift_codegen::RObject& cookieManager, const  ::thrift_codegen::RObject& visitor) = 0;
+  virtual bool CookieManager_VisitUrlCookies(const  ::thrift_codegen::RObject& cookieManager, const  ::thrift_codegen::RObject& visitor, const std::string& url, const bool includeHttpOnly) = 0;
+  virtual bool CookieManager_SetCookie(const  ::thrift_codegen::RObject& cookieManager, const std::string& url, const  ::thrift_codegen::Cookie& cookie) = 0;
+  virtual bool CookieManager_DeleteCookies(const  ::thrift_codegen::RObject& cookieManager, const std::string& url, const std::string& cookieName) = 0;
+  virtual bool CookieManager_FlushStore(const  ::thrift_codegen::RObject& cookieManager, const  ::thrift_codegen::RObject& completionCallback) = 0;
 };
 
 class ServerIfFactory {
@@ -356,6 +363,32 @@ class ServerNull : virtual public ServerIf {
   }
   void RequestContext_CloseAllConnections(const int32_t /* bid */, const  ::thrift_codegen::RObject& /* completionCallback */) override {
     return;
+  }
+  void CookieManager_Create( ::thrift_codegen::RObject& /* _return */) override {
+    return;
+  }
+  void CookieManager_Dispose(const  ::thrift_codegen::RObject& /* cookieManager */) override {
+    return;
+  }
+  bool CookieManager_VisitAllCookies(const  ::thrift_codegen::RObject& /* cookieManager */, const  ::thrift_codegen::RObject& /* visitor */) override {
+    bool _return = false;
+    return _return;
+  }
+  bool CookieManager_VisitUrlCookies(const  ::thrift_codegen::RObject& /* cookieManager */, const  ::thrift_codegen::RObject& /* visitor */, const std::string& /* url */, const bool /* includeHttpOnly */) override {
+    bool _return = false;
+    return _return;
+  }
+  bool CookieManager_SetCookie(const  ::thrift_codegen::RObject& /* cookieManager */, const std::string& /* url */, const  ::thrift_codegen::Cookie& /* cookie */) override {
+    bool _return = false;
+    return _return;
+  }
+  bool CookieManager_DeleteCookies(const  ::thrift_codegen::RObject& /* cookieManager */, const std::string& /* url */, const std::string& /* cookieName */) override {
+    bool _return = false;
+    return _return;
+  }
+  bool CookieManager_FlushStore(const  ::thrift_codegen::RObject& /* cookieManager */, const  ::thrift_codegen::RObject& /* completionCallback */) override {
+    bool _return = false;
+    return _return;
   }
 };
 
@@ -6146,6 +6179,740 @@ class Server_RequestContext_CloseAllConnections_pargs {
 
 };
 
+
+class Server_CookieManager_Create_args {
+ public:
+
+  Server_CookieManager_Create_args(const Server_CookieManager_Create_args&) noexcept;
+  Server_CookieManager_Create_args& operator=(const Server_CookieManager_Create_args&) noexcept;
+  Server_CookieManager_Create_args() noexcept {
+  }
+
+  virtual ~Server_CookieManager_Create_args() noexcept;
+
+  bool operator == (const Server_CookieManager_Create_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const Server_CookieManager_Create_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_CookieManager_Create_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_CookieManager_Create_pargs {
+ public:
+
+
+  virtual ~Server_CookieManager_Create_pargs() noexcept;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_CookieManager_Create_result__isset {
+  _Server_CookieManager_Create_result__isset() : success(false) {}
+  bool success :1;
+} _Server_CookieManager_Create_result__isset;
+
+class Server_CookieManager_Create_result {
+ public:
+
+  Server_CookieManager_Create_result(const Server_CookieManager_Create_result&);
+  Server_CookieManager_Create_result& operator=(const Server_CookieManager_Create_result&);
+  Server_CookieManager_Create_result() noexcept {
+  }
+
+  virtual ~Server_CookieManager_Create_result() noexcept;
+   ::thrift_codegen::RObject success;
+
+  _Server_CookieManager_Create_result__isset __isset;
+
+  void __set_success(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_CookieManager_Create_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_CookieManager_Create_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_CookieManager_Create_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_CookieManager_Create_presult__isset {
+  _Server_CookieManager_Create_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_CookieManager_Create_presult__isset;
+
+class Server_CookieManager_Create_presult {
+ public:
+
+
+  virtual ~Server_CookieManager_Create_presult() noexcept;
+   ::thrift_codegen::RObject* success;
+
+  _Server_CookieManager_Create_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_CookieManager_Dispose_args__isset {
+  _Server_CookieManager_Dispose_args__isset() : cookieManager(false) {}
+  bool cookieManager :1;
+} _Server_CookieManager_Dispose_args__isset;
+
+class Server_CookieManager_Dispose_args {
+ public:
+
+  Server_CookieManager_Dispose_args(const Server_CookieManager_Dispose_args&);
+  Server_CookieManager_Dispose_args& operator=(const Server_CookieManager_Dispose_args&);
+  Server_CookieManager_Dispose_args() noexcept {
+  }
+
+  virtual ~Server_CookieManager_Dispose_args() noexcept;
+   ::thrift_codegen::RObject cookieManager;
+
+  _Server_CookieManager_Dispose_args__isset __isset;
+
+  void __set_cookieManager(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_CookieManager_Dispose_args & rhs) const
+  {
+    if (!(cookieManager == rhs.cookieManager))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_CookieManager_Dispose_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_CookieManager_Dispose_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_CookieManager_Dispose_pargs {
+ public:
+
+
+  virtual ~Server_CookieManager_Dispose_pargs() noexcept;
+  const  ::thrift_codegen::RObject* cookieManager;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_CookieManager_VisitAllCookies_args__isset {
+  _Server_CookieManager_VisitAllCookies_args__isset() : cookieManager(false), visitor(false) {}
+  bool cookieManager :1;
+  bool visitor :1;
+} _Server_CookieManager_VisitAllCookies_args__isset;
+
+class Server_CookieManager_VisitAllCookies_args {
+ public:
+
+  Server_CookieManager_VisitAllCookies_args(const Server_CookieManager_VisitAllCookies_args&);
+  Server_CookieManager_VisitAllCookies_args& operator=(const Server_CookieManager_VisitAllCookies_args&);
+  Server_CookieManager_VisitAllCookies_args() noexcept {
+  }
+
+  virtual ~Server_CookieManager_VisitAllCookies_args() noexcept;
+   ::thrift_codegen::RObject cookieManager;
+   ::thrift_codegen::RObject visitor;
+
+  _Server_CookieManager_VisitAllCookies_args__isset __isset;
+
+  void __set_cookieManager(const  ::thrift_codegen::RObject& val);
+
+  void __set_visitor(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_CookieManager_VisitAllCookies_args & rhs) const
+  {
+    if (!(cookieManager == rhs.cookieManager))
+      return false;
+    if (!(visitor == rhs.visitor))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_CookieManager_VisitAllCookies_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_CookieManager_VisitAllCookies_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_CookieManager_VisitAllCookies_pargs {
+ public:
+
+
+  virtual ~Server_CookieManager_VisitAllCookies_pargs() noexcept;
+  const  ::thrift_codegen::RObject* cookieManager;
+  const  ::thrift_codegen::RObject* visitor;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_CookieManager_VisitAllCookies_result__isset {
+  _Server_CookieManager_VisitAllCookies_result__isset() : success(false) {}
+  bool success :1;
+} _Server_CookieManager_VisitAllCookies_result__isset;
+
+class Server_CookieManager_VisitAllCookies_result {
+ public:
+
+  Server_CookieManager_VisitAllCookies_result(const Server_CookieManager_VisitAllCookies_result&) noexcept;
+  Server_CookieManager_VisitAllCookies_result& operator=(const Server_CookieManager_VisitAllCookies_result&) noexcept;
+  Server_CookieManager_VisitAllCookies_result() noexcept
+                                              : success(0) {
+  }
+
+  virtual ~Server_CookieManager_VisitAllCookies_result() noexcept;
+  bool success;
+
+  _Server_CookieManager_VisitAllCookies_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const Server_CookieManager_VisitAllCookies_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_CookieManager_VisitAllCookies_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_CookieManager_VisitAllCookies_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_CookieManager_VisitAllCookies_presult__isset {
+  _Server_CookieManager_VisitAllCookies_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_CookieManager_VisitAllCookies_presult__isset;
+
+class Server_CookieManager_VisitAllCookies_presult {
+ public:
+
+
+  virtual ~Server_CookieManager_VisitAllCookies_presult() noexcept;
+  bool* success;
+
+  _Server_CookieManager_VisitAllCookies_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_CookieManager_VisitUrlCookies_args__isset {
+  _Server_CookieManager_VisitUrlCookies_args__isset() : cookieManager(false), visitor(false), url(false), includeHttpOnly(false) {}
+  bool cookieManager :1;
+  bool visitor :1;
+  bool url :1;
+  bool includeHttpOnly :1;
+} _Server_CookieManager_VisitUrlCookies_args__isset;
+
+class Server_CookieManager_VisitUrlCookies_args {
+ public:
+
+  Server_CookieManager_VisitUrlCookies_args(const Server_CookieManager_VisitUrlCookies_args&);
+  Server_CookieManager_VisitUrlCookies_args& operator=(const Server_CookieManager_VisitUrlCookies_args&);
+  Server_CookieManager_VisitUrlCookies_args() noexcept
+                                            : url(),
+                                              includeHttpOnly(0) {
+  }
+
+  virtual ~Server_CookieManager_VisitUrlCookies_args() noexcept;
+   ::thrift_codegen::RObject cookieManager;
+   ::thrift_codegen::RObject visitor;
+  std::string url;
+  bool includeHttpOnly;
+
+  _Server_CookieManager_VisitUrlCookies_args__isset __isset;
+
+  void __set_cookieManager(const  ::thrift_codegen::RObject& val);
+
+  void __set_visitor(const  ::thrift_codegen::RObject& val);
+
+  void __set_url(const std::string& val);
+
+  void __set_includeHttpOnly(const bool val);
+
+  bool operator == (const Server_CookieManager_VisitUrlCookies_args & rhs) const
+  {
+    if (!(cookieManager == rhs.cookieManager))
+      return false;
+    if (!(visitor == rhs.visitor))
+      return false;
+    if (!(url == rhs.url))
+      return false;
+    if (!(includeHttpOnly == rhs.includeHttpOnly))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_CookieManager_VisitUrlCookies_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_CookieManager_VisitUrlCookies_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_CookieManager_VisitUrlCookies_pargs {
+ public:
+
+
+  virtual ~Server_CookieManager_VisitUrlCookies_pargs() noexcept;
+  const  ::thrift_codegen::RObject* cookieManager;
+  const  ::thrift_codegen::RObject* visitor;
+  const std::string* url;
+  const bool* includeHttpOnly;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_CookieManager_VisitUrlCookies_result__isset {
+  _Server_CookieManager_VisitUrlCookies_result__isset() : success(false) {}
+  bool success :1;
+} _Server_CookieManager_VisitUrlCookies_result__isset;
+
+class Server_CookieManager_VisitUrlCookies_result {
+ public:
+
+  Server_CookieManager_VisitUrlCookies_result(const Server_CookieManager_VisitUrlCookies_result&) noexcept;
+  Server_CookieManager_VisitUrlCookies_result& operator=(const Server_CookieManager_VisitUrlCookies_result&) noexcept;
+  Server_CookieManager_VisitUrlCookies_result() noexcept
+                                              : success(0) {
+  }
+
+  virtual ~Server_CookieManager_VisitUrlCookies_result() noexcept;
+  bool success;
+
+  _Server_CookieManager_VisitUrlCookies_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const Server_CookieManager_VisitUrlCookies_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_CookieManager_VisitUrlCookies_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_CookieManager_VisitUrlCookies_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_CookieManager_VisitUrlCookies_presult__isset {
+  _Server_CookieManager_VisitUrlCookies_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_CookieManager_VisitUrlCookies_presult__isset;
+
+class Server_CookieManager_VisitUrlCookies_presult {
+ public:
+
+
+  virtual ~Server_CookieManager_VisitUrlCookies_presult() noexcept;
+  bool* success;
+
+  _Server_CookieManager_VisitUrlCookies_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_CookieManager_SetCookie_args__isset {
+  _Server_CookieManager_SetCookie_args__isset() : cookieManager(false), url(false), cookie(false) {}
+  bool cookieManager :1;
+  bool url :1;
+  bool cookie :1;
+} _Server_CookieManager_SetCookie_args__isset;
+
+class Server_CookieManager_SetCookie_args {
+ public:
+
+  Server_CookieManager_SetCookie_args(const Server_CookieManager_SetCookie_args&);
+  Server_CookieManager_SetCookie_args& operator=(const Server_CookieManager_SetCookie_args&);
+  Server_CookieManager_SetCookie_args() noexcept
+                                      : url() {
+  }
+
+  virtual ~Server_CookieManager_SetCookie_args() noexcept;
+   ::thrift_codegen::RObject cookieManager;
+  std::string url;
+   ::thrift_codegen::Cookie cookie;
+
+  _Server_CookieManager_SetCookie_args__isset __isset;
+
+  void __set_cookieManager(const  ::thrift_codegen::RObject& val);
+
+  void __set_url(const std::string& val);
+
+  void __set_cookie(const  ::thrift_codegen::Cookie& val);
+
+  bool operator == (const Server_CookieManager_SetCookie_args & rhs) const
+  {
+    if (!(cookieManager == rhs.cookieManager))
+      return false;
+    if (!(url == rhs.url))
+      return false;
+    if (!(cookie == rhs.cookie))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_CookieManager_SetCookie_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_CookieManager_SetCookie_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_CookieManager_SetCookie_pargs {
+ public:
+
+
+  virtual ~Server_CookieManager_SetCookie_pargs() noexcept;
+  const  ::thrift_codegen::RObject* cookieManager;
+  const std::string* url;
+  const  ::thrift_codegen::Cookie* cookie;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_CookieManager_SetCookie_result__isset {
+  _Server_CookieManager_SetCookie_result__isset() : success(false) {}
+  bool success :1;
+} _Server_CookieManager_SetCookie_result__isset;
+
+class Server_CookieManager_SetCookie_result {
+ public:
+
+  Server_CookieManager_SetCookie_result(const Server_CookieManager_SetCookie_result&) noexcept;
+  Server_CookieManager_SetCookie_result& operator=(const Server_CookieManager_SetCookie_result&) noexcept;
+  Server_CookieManager_SetCookie_result() noexcept
+                                        : success(0) {
+  }
+
+  virtual ~Server_CookieManager_SetCookie_result() noexcept;
+  bool success;
+
+  _Server_CookieManager_SetCookie_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const Server_CookieManager_SetCookie_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_CookieManager_SetCookie_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_CookieManager_SetCookie_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_CookieManager_SetCookie_presult__isset {
+  _Server_CookieManager_SetCookie_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_CookieManager_SetCookie_presult__isset;
+
+class Server_CookieManager_SetCookie_presult {
+ public:
+
+
+  virtual ~Server_CookieManager_SetCookie_presult() noexcept;
+  bool* success;
+
+  _Server_CookieManager_SetCookie_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_CookieManager_DeleteCookies_args__isset {
+  _Server_CookieManager_DeleteCookies_args__isset() : cookieManager(false), url(false), cookieName(false) {}
+  bool cookieManager :1;
+  bool url :1;
+  bool cookieName :1;
+} _Server_CookieManager_DeleteCookies_args__isset;
+
+class Server_CookieManager_DeleteCookies_args {
+ public:
+
+  Server_CookieManager_DeleteCookies_args(const Server_CookieManager_DeleteCookies_args&);
+  Server_CookieManager_DeleteCookies_args& operator=(const Server_CookieManager_DeleteCookies_args&);
+  Server_CookieManager_DeleteCookies_args() noexcept
+                                          : url(),
+                                            cookieName() {
+  }
+
+  virtual ~Server_CookieManager_DeleteCookies_args() noexcept;
+   ::thrift_codegen::RObject cookieManager;
+  std::string url;
+  std::string cookieName;
+
+  _Server_CookieManager_DeleteCookies_args__isset __isset;
+
+  void __set_cookieManager(const  ::thrift_codegen::RObject& val);
+
+  void __set_url(const std::string& val);
+
+  void __set_cookieName(const std::string& val);
+
+  bool operator == (const Server_CookieManager_DeleteCookies_args & rhs) const
+  {
+    if (!(cookieManager == rhs.cookieManager))
+      return false;
+    if (!(url == rhs.url))
+      return false;
+    if (!(cookieName == rhs.cookieName))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_CookieManager_DeleteCookies_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_CookieManager_DeleteCookies_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_CookieManager_DeleteCookies_pargs {
+ public:
+
+
+  virtual ~Server_CookieManager_DeleteCookies_pargs() noexcept;
+  const  ::thrift_codegen::RObject* cookieManager;
+  const std::string* url;
+  const std::string* cookieName;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_CookieManager_DeleteCookies_result__isset {
+  _Server_CookieManager_DeleteCookies_result__isset() : success(false) {}
+  bool success :1;
+} _Server_CookieManager_DeleteCookies_result__isset;
+
+class Server_CookieManager_DeleteCookies_result {
+ public:
+
+  Server_CookieManager_DeleteCookies_result(const Server_CookieManager_DeleteCookies_result&) noexcept;
+  Server_CookieManager_DeleteCookies_result& operator=(const Server_CookieManager_DeleteCookies_result&) noexcept;
+  Server_CookieManager_DeleteCookies_result() noexcept
+                                            : success(0) {
+  }
+
+  virtual ~Server_CookieManager_DeleteCookies_result() noexcept;
+  bool success;
+
+  _Server_CookieManager_DeleteCookies_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const Server_CookieManager_DeleteCookies_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_CookieManager_DeleteCookies_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_CookieManager_DeleteCookies_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_CookieManager_DeleteCookies_presult__isset {
+  _Server_CookieManager_DeleteCookies_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_CookieManager_DeleteCookies_presult__isset;
+
+class Server_CookieManager_DeleteCookies_presult {
+ public:
+
+
+  virtual ~Server_CookieManager_DeleteCookies_presult() noexcept;
+  bool* success;
+
+  _Server_CookieManager_DeleteCookies_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_CookieManager_FlushStore_args__isset {
+  _Server_CookieManager_FlushStore_args__isset() : cookieManager(false), completionCallback(false) {}
+  bool cookieManager :1;
+  bool completionCallback :1;
+} _Server_CookieManager_FlushStore_args__isset;
+
+class Server_CookieManager_FlushStore_args {
+ public:
+
+  Server_CookieManager_FlushStore_args(const Server_CookieManager_FlushStore_args&);
+  Server_CookieManager_FlushStore_args& operator=(const Server_CookieManager_FlushStore_args&);
+  Server_CookieManager_FlushStore_args() noexcept {
+  }
+
+  virtual ~Server_CookieManager_FlushStore_args() noexcept;
+   ::thrift_codegen::RObject cookieManager;
+   ::thrift_codegen::RObject completionCallback;
+
+  _Server_CookieManager_FlushStore_args__isset __isset;
+
+  void __set_cookieManager(const  ::thrift_codegen::RObject& val);
+
+  void __set_completionCallback(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_CookieManager_FlushStore_args & rhs) const
+  {
+    if (!(cookieManager == rhs.cookieManager))
+      return false;
+    if (!(completionCallback == rhs.completionCallback))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_CookieManager_FlushStore_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_CookieManager_FlushStore_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_CookieManager_FlushStore_pargs {
+ public:
+
+
+  virtual ~Server_CookieManager_FlushStore_pargs() noexcept;
+  const  ::thrift_codegen::RObject* cookieManager;
+  const  ::thrift_codegen::RObject* completionCallback;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_CookieManager_FlushStore_result__isset {
+  _Server_CookieManager_FlushStore_result__isset() : success(false) {}
+  bool success :1;
+} _Server_CookieManager_FlushStore_result__isset;
+
+class Server_CookieManager_FlushStore_result {
+ public:
+
+  Server_CookieManager_FlushStore_result(const Server_CookieManager_FlushStore_result&) noexcept;
+  Server_CookieManager_FlushStore_result& operator=(const Server_CookieManager_FlushStore_result&) noexcept;
+  Server_CookieManager_FlushStore_result() noexcept
+                                         : success(0) {
+  }
+
+  virtual ~Server_CookieManager_FlushStore_result() noexcept;
+  bool success;
+
+  _Server_CookieManager_FlushStore_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const Server_CookieManager_FlushStore_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_CookieManager_FlushStore_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_CookieManager_FlushStore_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_CookieManager_FlushStore_presult__isset {
+  _Server_CookieManager_FlushStore_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_CookieManager_FlushStore_presult__isset;
+
+class Server_CookieManager_FlushStore_presult {
+ public:
+
+
+  virtual ~Server_CookieManager_FlushStore_presult() noexcept;
+  bool* success;
+
+  _Server_CookieManager_FlushStore_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
 class ServerClient : virtual public ServerIf {
  public:
   ServerClient(std::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
@@ -6352,6 +7119,26 @@ class ServerClient : virtual public ServerIf {
   void send_RequestContext_ClearCertificateExceptions(const int32_t bid, const  ::thrift_codegen::RObject& completionCallback);
   void RequestContext_CloseAllConnections(const int32_t bid, const  ::thrift_codegen::RObject& completionCallback) override;
   void send_RequestContext_CloseAllConnections(const int32_t bid, const  ::thrift_codegen::RObject& completionCallback);
+  void CookieManager_Create( ::thrift_codegen::RObject& _return) override;
+  void send_CookieManager_Create();
+  void recv_CookieManager_Create( ::thrift_codegen::RObject& _return);
+  void CookieManager_Dispose(const  ::thrift_codegen::RObject& cookieManager) override;
+  void send_CookieManager_Dispose(const  ::thrift_codegen::RObject& cookieManager);
+  bool CookieManager_VisitAllCookies(const  ::thrift_codegen::RObject& cookieManager, const  ::thrift_codegen::RObject& visitor) override;
+  void send_CookieManager_VisitAllCookies(const  ::thrift_codegen::RObject& cookieManager, const  ::thrift_codegen::RObject& visitor);
+  bool recv_CookieManager_VisitAllCookies();
+  bool CookieManager_VisitUrlCookies(const  ::thrift_codegen::RObject& cookieManager, const  ::thrift_codegen::RObject& visitor, const std::string& url, const bool includeHttpOnly) override;
+  void send_CookieManager_VisitUrlCookies(const  ::thrift_codegen::RObject& cookieManager, const  ::thrift_codegen::RObject& visitor, const std::string& url, const bool includeHttpOnly);
+  bool recv_CookieManager_VisitUrlCookies();
+  bool CookieManager_SetCookie(const  ::thrift_codegen::RObject& cookieManager, const std::string& url, const  ::thrift_codegen::Cookie& cookie) override;
+  void send_CookieManager_SetCookie(const  ::thrift_codegen::RObject& cookieManager, const std::string& url, const  ::thrift_codegen::Cookie& cookie);
+  bool recv_CookieManager_SetCookie();
+  bool CookieManager_DeleteCookies(const  ::thrift_codegen::RObject& cookieManager, const std::string& url, const std::string& cookieName) override;
+  void send_CookieManager_DeleteCookies(const  ::thrift_codegen::RObject& cookieManager, const std::string& url, const std::string& cookieName);
+  bool recv_CookieManager_DeleteCookies();
+  bool CookieManager_FlushStore(const  ::thrift_codegen::RObject& cookieManager, const  ::thrift_codegen::RObject& completionCallback) override;
+  void send_CookieManager_FlushStore(const  ::thrift_codegen::RObject& cookieManager, const  ::thrift_codegen::RObject& completionCallback);
+  bool recv_CookieManager_FlushStore();
  protected:
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -6441,6 +7228,13 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_ClearAllSchemeHandlerFactories(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_RequestContext_ClearCertificateExceptions(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_RequestContext_CloseAllConnections(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_CookieManager_Create(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_CookieManager_Dispose(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_CookieManager_VisitAllCookies(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_CookieManager_VisitUrlCookies(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_CookieManager_SetCookie(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_CookieManager_DeleteCookies(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_CookieManager_FlushStore(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   ServerProcessor(::std::shared_ptr<ServerIf> iface) :
     iface_(iface) {
@@ -6518,6 +7312,13 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["ClearAllSchemeHandlerFactories"] = &ServerProcessor::process_ClearAllSchemeHandlerFactories;
     processMap_["RequestContext_ClearCertificateExceptions"] = &ServerProcessor::process_RequestContext_ClearCertificateExceptions;
     processMap_["RequestContext_CloseAllConnections"] = &ServerProcessor::process_RequestContext_CloseAllConnections;
+    processMap_["CookieManager_Create"] = &ServerProcessor::process_CookieManager_Create;
+    processMap_["CookieManager_Dispose"] = &ServerProcessor::process_CookieManager_Dispose;
+    processMap_["CookieManager_VisitAllCookies"] = &ServerProcessor::process_CookieManager_VisitAllCookies;
+    processMap_["CookieManager_VisitUrlCookies"] = &ServerProcessor::process_CookieManager_VisitUrlCookies;
+    processMap_["CookieManager_SetCookie"] = &ServerProcessor::process_CookieManager_SetCookie;
+    processMap_["CookieManager_DeleteCookies"] = &ServerProcessor::process_CookieManager_DeleteCookies;
+    processMap_["CookieManager_FlushStore"] = &ServerProcessor::process_CookieManager_FlushStore;
   }
 
   virtual ~ServerProcessor() {}
@@ -7222,6 +8023,70 @@ class ServerMultiface : virtual public ServerIf {
     ifaces_[i]->RequestContext_CloseAllConnections(bid, completionCallback);
   }
 
+  void CookieManager_Create( ::thrift_codegen::RObject& _return) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->CookieManager_Create(_return);
+    }
+    ifaces_[i]->CookieManager_Create(_return);
+    return;
+  }
+
+  void CookieManager_Dispose(const  ::thrift_codegen::RObject& cookieManager) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->CookieManager_Dispose(cookieManager);
+    }
+    ifaces_[i]->CookieManager_Dispose(cookieManager);
+  }
+
+  bool CookieManager_VisitAllCookies(const  ::thrift_codegen::RObject& cookieManager, const  ::thrift_codegen::RObject& visitor) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->CookieManager_VisitAllCookies(cookieManager, visitor);
+    }
+    return ifaces_[i]->CookieManager_VisitAllCookies(cookieManager, visitor);
+  }
+
+  bool CookieManager_VisitUrlCookies(const  ::thrift_codegen::RObject& cookieManager, const  ::thrift_codegen::RObject& visitor, const std::string& url, const bool includeHttpOnly) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->CookieManager_VisitUrlCookies(cookieManager, visitor, url, includeHttpOnly);
+    }
+    return ifaces_[i]->CookieManager_VisitUrlCookies(cookieManager, visitor, url, includeHttpOnly);
+  }
+
+  bool CookieManager_SetCookie(const  ::thrift_codegen::RObject& cookieManager, const std::string& url, const  ::thrift_codegen::Cookie& cookie) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->CookieManager_SetCookie(cookieManager, url, cookie);
+    }
+    return ifaces_[i]->CookieManager_SetCookie(cookieManager, url, cookie);
+  }
+
+  bool CookieManager_DeleteCookies(const  ::thrift_codegen::RObject& cookieManager, const std::string& url, const std::string& cookieName) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->CookieManager_DeleteCookies(cookieManager, url, cookieName);
+    }
+    return ifaces_[i]->CookieManager_DeleteCookies(cookieManager, url, cookieName);
+  }
+
+  bool CookieManager_FlushStore(const  ::thrift_codegen::RObject& cookieManager, const  ::thrift_codegen::RObject& completionCallback) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->CookieManager_FlushStore(cookieManager, completionCallback);
+    }
+    return ifaces_[i]->CookieManager_FlushStore(cookieManager, completionCallback);
+  }
+
 };
 
 // The 'concurrent' client is a thread safe client that correctly handles
@@ -7435,6 +8300,26 @@ class ServerConcurrentClient : virtual public ServerIf {
   void send_RequestContext_ClearCertificateExceptions(const int32_t bid, const  ::thrift_codegen::RObject& completionCallback);
   void RequestContext_CloseAllConnections(const int32_t bid, const  ::thrift_codegen::RObject& completionCallback) override;
   void send_RequestContext_CloseAllConnections(const int32_t bid, const  ::thrift_codegen::RObject& completionCallback);
+  void CookieManager_Create( ::thrift_codegen::RObject& _return) override;
+  int32_t send_CookieManager_Create();
+  void recv_CookieManager_Create( ::thrift_codegen::RObject& _return, const int32_t seqid);
+  void CookieManager_Dispose(const  ::thrift_codegen::RObject& cookieManager) override;
+  void send_CookieManager_Dispose(const  ::thrift_codegen::RObject& cookieManager);
+  bool CookieManager_VisitAllCookies(const  ::thrift_codegen::RObject& cookieManager, const  ::thrift_codegen::RObject& visitor) override;
+  int32_t send_CookieManager_VisitAllCookies(const  ::thrift_codegen::RObject& cookieManager, const  ::thrift_codegen::RObject& visitor);
+  bool recv_CookieManager_VisitAllCookies(const int32_t seqid);
+  bool CookieManager_VisitUrlCookies(const  ::thrift_codegen::RObject& cookieManager, const  ::thrift_codegen::RObject& visitor, const std::string& url, const bool includeHttpOnly) override;
+  int32_t send_CookieManager_VisitUrlCookies(const  ::thrift_codegen::RObject& cookieManager, const  ::thrift_codegen::RObject& visitor, const std::string& url, const bool includeHttpOnly);
+  bool recv_CookieManager_VisitUrlCookies(const int32_t seqid);
+  bool CookieManager_SetCookie(const  ::thrift_codegen::RObject& cookieManager, const std::string& url, const  ::thrift_codegen::Cookie& cookie) override;
+  int32_t send_CookieManager_SetCookie(const  ::thrift_codegen::RObject& cookieManager, const std::string& url, const  ::thrift_codegen::Cookie& cookie);
+  bool recv_CookieManager_SetCookie(const int32_t seqid);
+  bool CookieManager_DeleteCookies(const  ::thrift_codegen::RObject& cookieManager, const std::string& url, const std::string& cookieName) override;
+  int32_t send_CookieManager_DeleteCookies(const  ::thrift_codegen::RObject& cookieManager, const std::string& url, const std::string& cookieName);
+  bool recv_CookieManager_DeleteCookies(const int32_t seqid);
+  bool CookieManager_FlushStore(const  ::thrift_codegen::RObject& cookieManager, const  ::thrift_codegen::RObject& completionCallback) override;
+  int32_t send_CookieManager_FlushStore(const  ::thrift_codegen::RObject& cookieManager, const  ::thrift_codegen::RObject& completionCallback);
+  bool recv_CookieManager_FlushStore(const int32_t seqid);
  protected:
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;

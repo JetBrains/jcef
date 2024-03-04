@@ -128,5 +128,13 @@ service Server {
     // CefRequestContext
     //
     oneway void RequestContext_ClearCertificateExceptions(1:i32 bid, 2:shared.RObject completionCallback),
-    oneway void RequestContext_CloseAllConnections(1:i32 bid, 2:shared.RObject completionCallback)
+    oneway void RequestContext_CloseAllConnections(1:i32 bid, 2:shared.RObject completionCallback),
+
+    shared.RObject CookieManager_Create(),
+    oneway void CookieManager_Dispose(1:shared.RObject cookieManager),
+    bool CookieManager_VisitAllCookies(1:shared.RObject cookieManager, 2:shared.RObject visitor),
+    bool CookieManager_VisitUrlCookies(1:shared.RObject cookieManager, 2:shared.RObject visitor, 3:string url, 4:bool includeHttpOnly),
+    bool CookieManager_SetCookie(1:shared.RObject cookieManager, 2:string url, 3:shared.Cookie cookie),
+    bool CookieManager_DeleteCookies(1:shared.RObject cookieManager, 2:string url, 3:string cookieName),
+    bool CookieManager_FlushStore(1:shared.RObject cookieManager, 2:shared.RObject completionCallback),
 }

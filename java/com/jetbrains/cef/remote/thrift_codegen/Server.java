@@ -159,6 +159,20 @@ public class Server {
 
     public void RequestContext_CloseAllConnections(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject completionCallback) throws org.apache.thrift.TException;
 
+    public com.jetbrains.cef.remote.thrift_codegen.RObject CookieManager_Create() throws org.apache.thrift.TException;
+
+    public void CookieManager_Dispose(com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager) throws org.apache.thrift.TException;
+
+    public boolean CookieManager_VisitAllCookies(com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager, com.jetbrains.cef.remote.thrift_codegen.RObject visitor) throws org.apache.thrift.TException;
+
+    public boolean CookieManager_VisitUrlCookies(com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager, com.jetbrains.cef.remote.thrift_codegen.RObject visitor, java.lang.String url, boolean includeHttpOnly) throws org.apache.thrift.TException;
+
+    public boolean CookieManager_SetCookie(com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager, java.lang.String url, com.jetbrains.cef.remote.thrift_codegen.Cookie cookie) throws org.apache.thrift.TException;
+
+    public boolean CookieManager_DeleteCookies(com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager, java.lang.String url, java.lang.String cookieName) throws org.apache.thrift.TException;
+
+    public boolean CookieManager_FlushStore(com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager, com.jetbrains.cef.remote.thrift_codegen.RObject completionCallback) throws org.apache.thrift.TException;
+
   }
 
   public interface AsyncIface {
@@ -310,6 +324,20 @@ public class Server {
     public void RequestContext_ClearCertificateExceptions(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject completionCallback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
     public void RequestContext_CloseAllConnections(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject completionCallback, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+
+    public void CookieManager_Create(org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException;
+
+    public void CookieManager_Dispose(com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+
+    public void CookieManager_VisitAllCookies(com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager, com.jetbrains.cef.remote.thrift_codegen.RObject visitor, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
+
+    public void CookieManager_VisitUrlCookies(com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager, com.jetbrains.cef.remote.thrift_codegen.RObject visitor, java.lang.String url, boolean includeHttpOnly, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
+
+    public void CookieManager_SetCookie(com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager, java.lang.String url, com.jetbrains.cef.remote.thrift_codegen.Cookie cookie, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
+
+    public void CookieManager_DeleteCookies(com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager, java.lang.String url, java.lang.String cookieName, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
+
+    public void CookieManager_FlushStore(com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager, com.jetbrains.cef.remote.thrift_codegen.RObject completionCallback, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
 
   }
 
@@ -1688,6 +1716,171 @@ public class Server {
       args.setBid(bid);
       args.setCompletionCallback(completionCallback);
       sendBaseOneway("RequestContext_CloseAllConnections", args);
+    }
+
+    @Override
+    public com.jetbrains.cef.remote.thrift_codegen.RObject CookieManager_Create() throws org.apache.thrift.TException
+    {
+      send_CookieManager_Create();
+      return recv_CookieManager_Create();
+    }
+
+    public void send_CookieManager_Create() throws org.apache.thrift.TException
+    {
+      CookieManager_Create_args args = new CookieManager_Create_args();
+      sendBase("CookieManager_Create", args);
+    }
+
+    public com.jetbrains.cef.remote.thrift_codegen.RObject recv_CookieManager_Create() throws org.apache.thrift.TException
+    {
+      CookieManager_Create_result result = new CookieManager_Create_result();
+      receiveBase(result, "CookieManager_Create");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "CookieManager_Create failed: unknown result");
+    }
+
+    @Override
+    public void CookieManager_Dispose(com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager) throws org.apache.thrift.TException
+    {
+      send_CookieManager_Dispose(cookieManager);
+    }
+
+    public void send_CookieManager_Dispose(com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager) throws org.apache.thrift.TException
+    {
+      CookieManager_Dispose_args args = new CookieManager_Dispose_args();
+      args.setCookieManager(cookieManager);
+      sendBaseOneway("CookieManager_Dispose", args);
+    }
+
+    @Override
+    public boolean CookieManager_VisitAllCookies(com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager, com.jetbrains.cef.remote.thrift_codegen.RObject visitor) throws org.apache.thrift.TException
+    {
+      send_CookieManager_VisitAllCookies(cookieManager, visitor);
+      return recv_CookieManager_VisitAllCookies();
+    }
+
+    public void send_CookieManager_VisitAllCookies(com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager, com.jetbrains.cef.remote.thrift_codegen.RObject visitor) throws org.apache.thrift.TException
+    {
+      CookieManager_VisitAllCookies_args args = new CookieManager_VisitAllCookies_args();
+      args.setCookieManager(cookieManager);
+      args.setVisitor(visitor);
+      sendBase("CookieManager_VisitAllCookies", args);
+    }
+
+    public boolean recv_CookieManager_VisitAllCookies() throws org.apache.thrift.TException
+    {
+      CookieManager_VisitAllCookies_result result = new CookieManager_VisitAllCookies_result();
+      receiveBase(result, "CookieManager_VisitAllCookies");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "CookieManager_VisitAllCookies failed: unknown result");
+    }
+
+    @Override
+    public boolean CookieManager_VisitUrlCookies(com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager, com.jetbrains.cef.remote.thrift_codegen.RObject visitor, java.lang.String url, boolean includeHttpOnly) throws org.apache.thrift.TException
+    {
+      send_CookieManager_VisitUrlCookies(cookieManager, visitor, url, includeHttpOnly);
+      return recv_CookieManager_VisitUrlCookies();
+    }
+
+    public void send_CookieManager_VisitUrlCookies(com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager, com.jetbrains.cef.remote.thrift_codegen.RObject visitor, java.lang.String url, boolean includeHttpOnly) throws org.apache.thrift.TException
+    {
+      CookieManager_VisitUrlCookies_args args = new CookieManager_VisitUrlCookies_args();
+      args.setCookieManager(cookieManager);
+      args.setVisitor(visitor);
+      args.setUrl(url);
+      args.setIncludeHttpOnly(includeHttpOnly);
+      sendBase("CookieManager_VisitUrlCookies", args);
+    }
+
+    public boolean recv_CookieManager_VisitUrlCookies() throws org.apache.thrift.TException
+    {
+      CookieManager_VisitUrlCookies_result result = new CookieManager_VisitUrlCookies_result();
+      receiveBase(result, "CookieManager_VisitUrlCookies");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "CookieManager_VisitUrlCookies failed: unknown result");
+    }
+
+    @Override
+    public boolean CookieManager_SetCookie(com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager, java.lang.String url, com.jetbrains.cef.remote.thrift_codegen.Cookie cookie) throws org.apache.thrift.TException
+    {
+      send_CookieManager_SetCookie(cookieManager, url, cookie);
+      return recv_CookieManager_SetCookie();
+    }
+
+    public void send_CookieManager_SetCookie(com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager, java.lang.String url, com.jetbrains.cef.remote.thrift_codegen.Cookie cookie) throws org.apache.thrift.TException
+    {
+      CookieManager_SetCookie_args args = new CookieManager_SetCookie_args();
+      args.setCookieManager(cookieManager);
+      args.setUrl(url);
+      args.setCookie(cookie);
+      sendBase("CookieManager_SetCookie", args);
+    }
+
+    public boolean recv_CookieManager_SetCookie() throws org.apache.thrift.TException
+    {
+      CookieManager_SetCookie_result result = new CookieManager_SetCookie_result();
+      receiveBase(result, "CookieManager_SetCookie");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "CookieManager_SetCookie failed: unknown result");
+    }
+
+    @Override
+    public boolean CookieManager_DeleteCookies(com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager, java.lang.String url, java.lang.String cookieName) throws org.apache.thrift.TException
+    {
+      send_CookieManager_DeleteCookies(cookieManager, url, cookieName);
+      return recv_CookieManager_DeleteCookies();
+    }
+
+    public void send_CookieManager_DeleteCookies(com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager, java.lang.String url, java.lang.String cookieName) throws org.apache.thrift.TException
+    {
+      CookieManager_DeleteCookies_args args = new CookieManager_DeleteCookies_args();
+      args.setCookieManager(cookieManager);
+      args.setUrl(url);
+      args.setCookieName(cookieName);
+      sendBase("CookieManager_DeleteCookies", args);
+    }
+
+    public boolean recv_CookieManager_DeleteCookies() throws org.apache.thrift.TException
+    {
+      CookieManager_DeleteCookies_result result = new CookieManager_DeleteCookies_result();
+      receiveBase(result, "CookieManager_DeleteCookies");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "CookieManager_DeleteCookies failed: unknown result");
+    }
+
+    @Override
+    public boolean CookieManager_FlushStore(com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager, com.jetbrains.cef.remote.thrift_codegen.RObject completionCallback) throws org.apache.thrift.TException
+    {
+      send_CookieManager_FlushStore(cookieManager, completionCallback);
+      return recv_CookieManager_FlushStore();
+    }
+
+    public void send_CookieManager_FlushStore(com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager, com.jetbrains.cef.remote.thrift_codegen.RObject completionCallback) throws org.apache.thrift.TException
+    {
+      CookieManager_FlushStore_args args = new CookieManager_FlushStore_args();
+      args.setCookieManager(cookieManager);
+      args.setCompletionCallback(completionCallback);
+      sendBase("CookieManager_FlushStore", args);
+    }
+
+    public boolean recv_CookieManager_FlushStore() throws org.apache.thrift.TException
+    {
+      CookieManager_FlushStore_result result = new CookieManager_FlushStore_result();
+      receiveBase(result, "CookieManager_FlushStore");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "CookieManager_FlushStore failed: unknown result");
     }
 
   }
@@ -4519,6 +4712,275 @@ public class Server {
       }
     }
 
+    @Override
+    public void CookieManager_Create(org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      CookieManager_Create_call method_call = new CookieManager_Create_call(resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class CookieManager_Create_call extends org.apache.thrift.async.TAsyncMethodCall<com.jetbrains.cef.remote.thrift_codegen.RObject> {
+      public CookieManager_Create_call(org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+      }
+
+      @Override
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("CookieManager_Create", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        CookieManager_Create_args args = new CookieManager_Create_args();
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift_codegen.RObject getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_CookieManager_Create();
+      }
+    }
+
+    @Override
+    public void CookieManager_Dispose(com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      CookieManager_Dispose_call method_call = new CookieManager_Dispose_call(cookieManager, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class CookieManager_Dispose_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
+      private com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager;
+      public CookieManager_Dispose_call(com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, true);
+        this.cookieManager = cookieManager;
+      }
+
+      @Override
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("CookieManager_Dispose", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
+        CookieManager_Dispose_args args = new CookieManager_Dispose_args();
+        args.setCookieManager(cookieManager);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public Void getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return null;
+      }
+    }
+
+    @Override
+    public void CookieManager_VisitAllCookies(com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager, com.jetbrains.cef.remote.thrift_codegen.RObject visitor, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      CookieManager_VisitAllCookies_call method_call = new CookieManager_VisitAllCookies_call(cookieManager, visitor, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class CookieManager_VisitAllCookies_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.Boolean> {
+      private com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject visitor;
+      public CookieManager_VisitAllCookies_call(com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager, com.jetbrains.cef.remote.thrift_codegen.RObject visitor, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.cookieManager = cookieManager;
+        this.visitor = visitor;
+      }
+
+      @Override
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("CookieManager_VisitAllCookies", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        CookieManager_VisitAllCookies_args args = new CookieManager_VisitAllCookies_args();
+        args.setCookieManager(cookieManager);
+        args.setVisitor(visitor);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public java.lang.Boolean getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_CookieManager_VisitAllCookies();
+      }
+    }
+
+    @Override
+    public void CookieManager_VisitUrlCookies(com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager, com.jetbrains.cef.remote.thrift_codegen.RObject visitor, java.lang.String url, boolean includeHttpOnly, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      CookieManager_VisitUrlCookies_call method_call = new CookieManager_VisitUrlCookies_call(cookieManager, visitor, url, includeHttpOnly, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class CookieManager_VisitUrlCookies_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.Boolean> {
+      private com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject visitor;
+      private java.lang.String url;
+      private boolean includeHttpOnly;
+      public CookieManager_VisitUrlCookies_call(com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager, com.jetbrains.cef.remote.thrift_codegen.RObject visitor, java.lang.String url, boolean includeHttpOnly, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.cookieManager = cookieManager;
+        this.visitor = visitor;
+        this.url = url;
+        this.includeHttpOnly = includeHttpOnly;
+      }
+
+      @Override
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("CookieManager_VisitUrlCookies", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        CookieManager_VisitUrlCookies_args args = new CookieManager_VisitUrlCookies_args();
+        args.setCookieManager(cookieManager);
+        args.setVisitor(visitor);
+        args.setUrl(url);
+        args.setIncludeHttpOnly(includeHttpOnly);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public java.lang.Boolean getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_CookieManager_VisitUrlCookies();
+      }
+    }
+
+    @Override
+    public void CookieManager_SetCookie(com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager, java.lang.String url, com.jetbrains.cef.remote.thrift_codegen.Cookie cookie, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      CookieManager_SetCookie_call method_call = new CookieManager_SetCookie_call(cookieManager, url, cookie, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class CookieManager_SetCookie_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.Boolean> {
+      private com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager;
+      private java.lang.String url;
+      private com.jetbrains.cef.remote.thrift_codegen.Cookie cookie;
+      public CookieManager_SetCookie_call(com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager, java.lang.String url, com.jetbrains.cef.remote.thrift_codegen.Cookie cookie, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.cookieManager = cookieManager;
+        this.url = url;
+        this.cookie = cookie;
+      }
+
+      @Override
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("CookieManager_SetCookie", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        CookieManager_SetCookie_args args = new CookieManager_SetCookie_args();
+        args.setCookieManager(cookieManager);
+        args.setUrl(url);
+        args.setCookie(cookie);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public java.lang.Boolean getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_CookieManager_SetCookie();
+      }
+    }
+
+    @Override
+    public void CookieManager_DeleteCookies(com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager, java.lang.String url, java.lang.String cookieName, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      CookieManager_DeleteCookies_call method_call = new CookieManager_DeleteCookies_call(cookieManager, url, cookieName, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class CookieManager_DeleteCookies_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.Boolean> {
+      private com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager;
+      private java.lang.String url;
+      private java.lang.String cookieName;
+      public CookieManager_DeleteCookies_call(com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager, java.lang.String url, java.lang.String cookieName, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.cookieManager = cookieManager;
+        this.url = url;
+        this.cookieName = cookieName;
+      }
+
+      @Override
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("CookieManager_DeleteCookies", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        CookieManager_DeleteCookies_args args = new CookieManager_DeleteCookies_args();
+        args.setCookieManager(cookieManager);
+        args.setUrl(url);
+        args.setCookieName(cookieName);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public java.lang.Boolean getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_CookieManager_DeleteCookies();
+      }
+    }
+
+    @Override
+    public void CookieManager_FlushStore(com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager, com.jetbrains.cef.remote.thrift_codegen.RObject completionCallback, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      CookieManager_FlushStore_call method_call = new CookieManager_FlushStore_call(cookieManager, completionCallback, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class CookieManager_FlushStore_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.Boolean> {
+      private com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject completionCallback;
+      public CookieManager_FlushStore_call(com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager, com.jetbrains.cef.remote.thrift_codegen.RObject completionCallback, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.cookieManager = cookieManager;
+        this.completionCallback = completionCallback;
+      }
+
+      @Override
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("CookieManager_FlushStore", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        CookieManager_FlushStore_args args = new CookieManager_FlushStore_args();
+        args.setCookieManager(cookieManager);
+        args.setCompletionCallback(completionCallback);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public java.lang.Boolean getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_CookieManager_FlushStore();
+      }
+    }
+
   }
 
   public static class Processor<I extends Iface> extends org.apache.thrift.TBaseProcessor<I> implements org.apache.thrift.TProcessor {
@@ -4606,6 +5068,13 @@ public class Server {
       processMap.put("ClearAllSchemeHandlerFactories", new ClearAllSchemeHandlerFactories());
       processMap.put("RequestContext_ClearCertificateExceptions", new RequestContext_ClearCertificateExceptions());
       processMap.put("RequestContext_CloseAllConnections", new RequestContext_CloseAllConnections());
+      processMap.put("CookieManager_Create", new CookieManager_Create());
+      processMap.put("CookieManager_Dispose", new CookieManager_Dispose());
+      processMap.put("CookieManager_VisitAllCookies", new CookieManager_VisitAllCookies());
+      processMap.put("CookieManager_VisitUrlCookies", new CookieManager_VisitUrlCookies());
+      processMap.put("CookieManager_SetCookie", new CookieManager_SetCookie());
+      processMap.put("CookieManager_DeleteCookies", new CookieManager_DeleteCookies());
+      processMap.put("CookieManager_FlushStore", new CookieManager_FlushStore());
       return processMap;
     }
 
@@ -6650,6 +7119,206 @@ public class Server {
       }
     }
 
+    public static class CookieManager_Create<I extends Iface> extends org.apache.thrift.ProcessFunction<I, CookieManager_Create_args> {
+      public CookieManager_Create() {
+        super("CookieManager_Create");
+      }
+
+      @Override
+      public CookieManager_Create_args getEmptyArgsInstance() {
+        return new CookieManager_Create_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public CookieManager_Create_result getResult(I iface, CookieManager_Create_args args) throws org.apache.thrift.TException {
+        CookieManager_Create_result result = new CookieManager_Create_result();
+        result.success = iface.CookieManager_Create();
+        return result;
+      }
+    }
+
+    public static class CookieManager_Dispose<I extends Iface> extends org.apache.thrift.ProcessFunction<I, CookieManager_Dispose_args> {
+      public CookieManager_Dispose() {
+        super("CookieManager_Dispose");
+      }
+
+      @Override
+      public CookieManager_Dispose_args getEmptyArgsInstance() {
+        return new CookieManager_Dispose_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public org.apache.thrift.TBase getResult(I iface, CookieManager_Dispose_args args) throws org.apache.thrift.TException {
+        iface.CookieManager_Dispose(args.cookieManager);
+        return null;
+      }
+    }
+
+    public static class CookieManager_VisitAllCookies<I extends Iface> extends org.apache.thrift.ProcessFunction<I, CookieManager_VisitAllCookies_args> {
+      public CookieManager_VisitAllCookies() {
+        super("CookieManager_VisitAllCookies");
+      }
+
+      @Override
+      public CookieManager_VisitAllCookies_args getEmptyArgsInstance() {
+        return new CookieManager_VisitAllCookies_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public CookieManager_VisitAllCookies_result getResult(I iface, CookieManager_VisitAllCookies_args args) throws org.apache.thrift.TException {
+        CookieManager_VisitAllCookies_result result = new CookieManager_VisitAllCookies_result();
+        result.success = iface.CookieManager_VisitAllCookies(args.cookieManager, args.visitor);
+        result.setSuccessIsSet(true);
+        return result;
+      }
+    }
+
+    public static class CookieManager_VisitUrlCookies<I extends Iface> extends org.apache.thrift.ProcessFunction<I, CookieManager_VisitUrlCookies_args> {
+      public CookieManager_VisitUrlCookies() {
+        super("CookieManager_VisitUrlCookies");
+      }
+
+      @Override
+      public CookieManager_VisitUrlCookies_args getEmptyArgsInstance() {
+        return new CookieManager_VisitUrlCookies_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public CookieManager_VisitUrlCookies_result getResult(I iface, CookieManager_VisitUrlCookies_args args) throws org.apache.thrift.TException {
+        CookieManager_VisitUrlCookies_result result = new CookieManager_VisitUrlCookies_result();
+        result.success = iface.CookieManager_VisitUrlCookies(args.cookieManager, args.visitor, args.url, args.includeHttpOnly);
+        result.setSuccessIsSet(true);
+        return result;
+      }
+    }
+
+    public static class CookieManager_SetCookie<I extends Iface> extends org.apache.thrift.ProcessFunction<I, CookieManager_SetCookie_args> {
+      public CookieManager_SetCookie() {
+        super("CookieManager_SetCookie");
+      }
+
+      @Override
+      public CookieManager_SetCookie_args getEmptyArgsInstance() {
+        return new CookieManager_SetCookie_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public CookieManager_SetCookie_result getResult(I iface, CookieManager_SetCookie_args args) throws org.apache.thrift.TException {
+        CookieManager_SetCookie_result result = new CookieManager_SetCookie_result();
+        result.success = iface.CookieManager_SetCookie(args.cookieManager, args.url, args.cookie);
+        result.setSuccessIsSet(true);
+        return result;
+      }
+    }
+
+    public static class CookieManager_DeleteCookies<I extends Iface> extends org.apache.thrift.ProcessFunction<I, CookieManager_DeleteCookies_args> {
+      public CookieManager_DeleteCookies() {
+        super("CookieManager_DeleteCookies");
+      }
+
+      @Override
+      public CookieManager_DeleteCookies_args getEmptyArgsInstance() {
+        return new CookieManager_DeleteCookies_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public CookieManager_DeleteCookies_result getResult(I iface, CookieManager_DeleteCookies_args args) throws org.apache.thrift.TException {
+        CookieManager_DeleteCookies_result result = new CookieManager_DeleteCookies_result();
+        result.success = iface.CookieManager_DeleteCookies(args.cookieManager, args.url, args.cookieName);
+        result.setSuccessIsSet(true);
+        return result;
+      }
+    }
+
+    public static class CookieManager_FlushStore<I extends Iface> extends org.apache.thrift.ProcessFunction<I, CookieManager_FlushStore_args> {
+      public CookieManager_FlushStore() {
+        super("CookieManager_FlushStore");
+      }
+
+      @Override
+      public CookieManager_FlushStore_args getEmptyArgsInstance() {
+        return new CookieManager_FlushStore_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public CookieManager_FlushStore_result getResult(I iface, CookieManager_FlushStore_args args) throws org.apache.thrift.TException {
+        CookieManager_FlushStore_result result = new CookieManager_FlushStore_result();
+        result.success = iface.CookieManager_FlushStore(args.cookieManager, args.completionCallback);
+        result.setSuccessIsSet(true);
+        return result;
+      }
+    }
+
   }
 
   public static class AsyncProcessor<I extends AsyncIface> extends org.apache.thrift.TBaseAsyncProcessor<I> {
@@ -6737,6 +7406,13 @@ public class Server {
       processMap.put("ClearAllSchemeHandlerFactories", new ClearAllSchemeHandlerFactories());
       processMap.put("RequestContext_ClearCertificateExceptions", new RequestContext_ClearCertificateExceptions());
       processMap.put("RequestContext_CloseAllConnections", new RequestContext_CloseAllConnections());
+      processMap.put("CookieManager_Create", new CookieManager_Create());
+      processMap.put("CookieManager_Dispose", new CookieManager_Dispose());
+      processMap.put("CookieManager_VisitAllCookies", new CookieManager_VisitAllCookies());
+      processMap.put("CookieManager_VisitUrlCookies", new CookieManager_VisitUrlCookies());
+      processMap.put("CookieManager_SetCookie", new CookieManager_SetCookie());
+      processMap.put("CookieManager_DeleteCookies", new CookieManager_DeleteCookies());
+      processMap.put("CookieManager_FlushStore", new CookieManager_FlushStore());
       return processMap;
     }
 
@@ -10585,6 +11261,453 @@ public class Server {
       @Override
       public void start(I iface, RequestContext_CloseAllConnections_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
         iface.RequestContext_CloseAllConnections(args.bid, args.completionCallback,resultHandler);
+      }
+    }
+
+    public static class CookieManager_Create<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, CookieManager_Create_args, com.jetbrains.cef.remote.thrift_codegen.RObject> {
+      public CookieManager_Create() {
+        super("CookieManager_Create");
+      }
+
+      @Override
+      public CookieManager_Create_args getEmptyArgsInstance() {
+        return new CookieManager_Create_args();
+      }
+
+      @Override
+      public org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final org.apache.thrift.AsyncProcessFunction fcall = this;
+        return new org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject>() { 
+          @Override
+          public void onComplete(com.jetbrains.cef.remote.thrift_codegen.RObject o) {
+            CookieManager_Create_result result = new CookieManager_Create_result();
+            result.success = o;
+            try {
+              fcall.sendResponse(fb, result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (org.apache.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
+            org.apache.thrift.TSerializable msg;
+            CookieManager_Create_result result = new CookieManager_Create_result();
+            if (e instanceof org.apache.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+              return;
+            } else if (e instanceof org.apache.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (org.apache.thrift.TApplicationException)e;
+            } else {
+              _LOGGER.error("Exception inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      public void start(I iface, CookieManager_Create_args args, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException {
+        iface.CookieManager_Create(resultHandler);
+      }
+    }
+
+    public static class CookieManager_Dispose<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, CookieManager_Dispose_args, Void> {
+      public CookieManager_Dispose() {
+        super("CookieManager_Dispose");
+      }
+
+      @Override
+      public CookieManager_Dispose_args getEmptyArgsInstance() {
+        return new CookieManager_Dispose_args();
+      }
+
+      @Override
+      public org.apache.thrift.async.AsyncMethodCallback<Void> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final org.apache.thrift.AsyncProcessFunction fcall = this;
+        return new org.apache.thrift.async.AsyncMethodCallback<Void>() { 
+          @Override
+          public void onComplete(Void o) {
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            if (e instanceof org.apache.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+            } else {
+              _LOGGER.error("Exception inside oneway handler", e);
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      public void start(I iface, CookieManager_Dispose_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+        iface.CookieManager_Dispose(args.cookieManager,resultHandler);
+      }
+    }
+
+    public static class CookieManager_VisitAllCookies<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, CookieManager_VisitAllCookies_args, java.lang.Boolean> {
+      public CookieManager_VisitAllCookies() {
+        super("CookieManager_VisitAllCookies");
+      }
+
+      @Override
+      public CookieManager_VisitAllCookies_args getEmptyArgsInstance() {
+        return new CookieManager_VisitAllCookies_args();
+      }
+
+      @Override
+      public org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final org.apache.thrift.AsyncProcessFunction fcall = this;
+        return new org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean>() { 
+          @Override
+          public void onComplete(java.lang.Boolean o) {
+            CookieManager_VisitAllCookies_result result = new CookieManager_VisitAllCookies_result();
+            result.success = o;
+            result.setSuccessIsSet(true);
+            try {
+              fcall.sendResponse(fb, result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (org.apache.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
+            org.apache.thrift.TSerializable msg;
+            CookieManager_VisitAllCookies_result result = new CookieManager_VisitAllCookies_result();
+            if (e instanceof org.apache.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+              return;
+            } else if (e instanceof org.apache.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (org.apache.thrift.TApplicationException)e;
+            } else {
+              _LOGGER.error("Exception inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      public void start(I iface, CookieManager_VisitAllCookies_args args, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
+        iface.CookieManager_VisitAllCookies(args.cookieManager, args.visitor,resultHandler);
+      }
+    }
+
+    public static class CookieManager_VisitUrlCookies<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, CookieManager_VisitUrlCookies_args, java.lang.Boolean> {
+      public CookieManager_VisitUrlCookies() {
+        super("CookieManager_VisitUrlCookies");
+      }
+
+      @Override
+      public CookieManager_VisitUrlCookies_args getEmptyArgsInstance() {
+        return new CookieManager_VisitUrlCookies_args();
+      }
+
+      @Override
+      public org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final org.apache.thrift.AsyncProcessFunction fcall = this;
+        return new org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean>() { 
+          @Override
+          public void onComplete(java.lang.Boolean o) {
+            CookieManager_VisitUrlCookies_result result = new CookieManager_VisitUrlCookies_result();
+            result.success = o;
+            result.setSuccessIsSet(true);
+            try {
+              fcall.sendResponse(fb, result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (org.apache.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
+            org.apache.thrift.TSerializable msg;
+            CookieManager_VisitUrlCookies_result result = new CookieManager_VisitUrlCookies_result();
+            if (e instanceof org.apache.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+              return;
+            } else if (e instanceof org.apache.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (org.apache.thrift.TApplicationException)e;
+            } else {
+              _LOGGER.error("Exception inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      public void start(I iface, CookieManager_VisitUrlCookies_args args, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
+        iface.CookieManager_VisitUrlCookies(args.cookieManager, args.visitor, args.url, args.includeHttpOnly,resultHandler);
+      }
+    }
+
+    public static class CookieManager_SetCookie<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, CookieManager_SetCookie_args, java.lang.Boolean> {
+      public CookieManager_SetCookie() {
+        super("CookieManager_SetCookie");
+      }
+
+      @Override
+      public CookieManager_SetCookie_args getEmptyArgsInstance() {
+        return new CookieManager_SetCookie_args();
+      }
+
+      @Override
+      public org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final org.apache.thrift.AsyncProcessFunction fcall = this;
+        return new org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean>() { 
+          @Override
+          public void onComplete(java.lang.Boolean o) {
+            CookieManager_SetCookie_result result = new CookieManager_SetCookie_result();
+            result.success = o;
+            result.setSuccessIsSet(true);
+            try {
+              fcall.sendResponse(fb, result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (org.apache.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
+            org.apache.thrift.TSerializable msg;
+            CookieManager_SetCookie_result result = new CookieManager_SetCookie_result();
+            if (e instanceof org.apache.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+              return;
+            } else if (e instanceof org.apache.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (org.apache.thrift.TApplicationException)e;
+            } else {
+              _LOGGER.error("Exception inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      public void start(I iface, CookieManager_SetCookie_args args, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
+        iface.CookieManager_SetCookie(args.cookieManager, args.url, args.cookie,resultHandler);
+      }
+    }
+
+    public static class CookieManager_DeleteCookies<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, CookieManager_DeleteCookies_args, java.lang.Boolean> {
+      public CookieManager_DeleteCookies() {
+        super("CookieManager_DeleteCookies");
+      }
+
+      @Override
+      public CookieManager_DeleteCookies_args getEmptyArgsInstance() {
+        return new CookieManager_DeleteCookies_args();
+      }
+
+      @Override
+      public org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final org.apache.thrift.AsyncProcessFunction fcall = this;
+        return new org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean>() { 
+          @Override
+          public void onComplete(java.lang.Boolean o) {
+            CookieManager_DeleteCookies_result result = new CookieManager_DeleteCookies_result();
+            result.success = o;
+            result.setSuccessIsSet(true);
+            try {
+              fcall.sendResponse(fb, result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (org.apache.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
+            org.apache.thrift.TSerializable msg;
+            CookieManager_DeleteCookies_result result = new CookieManager_DeleteCookies_result();
+            if (e instanceof org.apache.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+              return;
+            } else if (e instanceof org.apache.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (org.apache.thrift.TApplicationException)e;
+            } else {
+              _LOGGER.error("Exception inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      public void start(I iface, CookieManager_DeleteCookies_args args, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
+        iface.CookieManager_DeleteCookies(args.cookieManager, args.url, args.cookieName,resultHandler);
+      }
+    }
+
+    public static class CookieManager_FlushStore<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, CookieManager_FlushStore_args, java.lang.Boolean> {
+      public CookieManager_FlushStore() {
+        super("CookieManager_FlushStore");
+      }
+
+      @Override
+      public CookieManager_FlushStore_args getEmptyArgsInstance() {
+        return new CookieManager_FlushStore_args();
+      }
+
+      @Override
+      public org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final org.apache.thrift.AsyncProcessFunction fcall = this;
+        return new org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean>() { 
+          @Override
+          public void onComplete(java.lang.Boolean o) {
+            CookieManager_FlushStore_result result = new CookieManager_FlushStore_result();
+            result.success = o;
+            result.setSuccessIsSet(true);
+            try {
+              fcall.sendResponse(fb, result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (org.apache.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
+            org.apache.thrift.TSerializable msg;
+            CookieManager_FlushStore_result result = new CookieManager_FlushStore_result();
+            if (e instanceof org.apache.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+              return;
+            } else if (e instanceof org.apache.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (org.apache.thrift.TApplicationException)e;
+            } else {
+              _LOGGER.error("Exception inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      public void start(I iface, CookieManager_FlushStore_args args, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException {
+        iface.CookieManager_FlushStore(args.cookieManager, args.completionCallback,resultHandler);
       }
     }
 
@@ -56803,6 +57926,5794 @@ public class Server {
           struct.completionCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.completionCallback.read(iprot);
           struct.setCompletionCallbackIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class CookieManager_Create_args implements org.apache.thrift.TBase<CookieManager_Create_args, CookieManager_Create_args._Fields>, java.io.Serializable, Cloneable, Comparable<CookieManager_Create_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("CookieManager_Create_args");
+
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new CookieManager_Create_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new CookieManager_Create_argsTupleSchemeFactory();
+
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+;
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(CookieManager_Create_args.class, metaDataMap);
+    }
+
+    public CookieManager_Create_args() {
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public CookieManager_Create_args(CookieManager_Create_args other) {
+    }
+
+    @Override
+    public CookieManager_Create_args deepCopy() {
+      return new CookieManager_Create_args(this);
+    }
+
+    @Override
+    public void clear() {
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof CookieManager_Create_args)
+        return this.equals((CookieManager_Create_args)that);
+      return false;
+    }
+
+    public boolean equals(CookieManager_Create_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(CookieManager_Create_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("CookieManager_Create_args(");
+      boolean first = true;
+
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class CookieManager_Create_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public CookieManager_Create_argsStandardScheme getScheme() {
+        return new CookieManager_Create_argsStandardScheme();
+      }
+    }
+
+    private static class CookieManager_Create_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<CookieManager_Create_args> {
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol iprot, CookieManager_Create_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol oprot, CookieManager_Create_args struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class CookieManager_Create_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public CookieManager_Create_argsTupleScheme getScheme() {
+        return new CookieManager_Create_argsTupleScheme();
+      }
+    }
+
+    private static class CookieManager_Create_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<CookieManager_Create_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, CookieManager_Create_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, CookieManager_Create_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class CookieManager_Create_result implements org.apache.thrift.TBase<CookieManager_Create_result, CookieManager_Create_result._Fields>, java.io.Serializable, Cloneable, Comparable<CookieManager_Create_result>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("CookieManager_Create_result");
+
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new CookieManager_Create_resultStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new CookieManager_Create_resultTupleSchemeFactory();
+
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(CookieManager_Create_result.class, metaDataMap);
+    }
+
+    public CookieManager_Create_result() {
+    }
+
+    public CookieManager_Create_result(
+      com.jetbrains.cef.remote.thrift_codegen.RObject success)
+    {
+      this();
+      this.success = success;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public CookieManager_Create_result(CookieManager_Create_result other) {
+      if (other.isSetSuccess()) {
+        this.success = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.success);
+      }
+    }
+
+    @Override
+    public CookieManager_Create_result deepCopy() {
+      return new CookieManager_Create_result(this);
+    }
+
+    @Override
+    public void clear() {
+      this.success = null;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getSuccess() {
+      return this.success;
+    }
+
+    public CookieManager_Create_result setSuccess(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject success) {
+      this.success = success;
+      return this;
+    }
+
+    public void unsetSuccess() {
+      this.success = null;
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return this.success != null;
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      if (!value) {
+        this.success = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return getSuccess();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof CookieManager_Create_result)
+        return this.equals((CookieManager_Create_result)that);
+      return false;
+    }
+
+    public boolean equals(CookieManager_Create_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_success = true && this.isSetSuccess();
+      boolean that_present_success = true && that.isSetSuccess();
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (!this.success.equals(that.success))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((isSetSuccess()) ? 131071 : 524287);
+      if (isSetSuccess())
+        hashCode = hashCode * 8191 + success.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(CookieManager_Create_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetSuccess(), other.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, other.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("CookieManager_Create_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      if (this.success == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.success);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (success != null) {
+        success.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class CookieManager_Create_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public CookieManager_Create_resultStandardScheme getScheme() {
+        return new CookieManager_Create_resultStandardScheme();
+      }
+    }
+
+    private static class CookieManager_Create_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<CookieManager_Create_result> {
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol iprot, CookieManager_Create_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 0: // SUCCESS
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.success = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.success.read(iprot);
+                struct.setSuccessIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol oprot, CookieManager_Create_result struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.success != null) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          struct.success.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class CookieManager_Create_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public CookieManager_Create_resultTupleScheme getScheme() {
+        return new CookieManager_Create_resultTupleScheme();
+      }
+    }
+
+    private static class CookieManager_Create_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<CookieManager_Create_result> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, CookieManager_Create_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          struct.success.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, CookieManager_Create_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.success = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.success.read(iprot);
+          struct.setSuccessIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class CookieManager_Dispose_args implements org.apache.thrift.TBase<CookieManager_Dispose_args, CookieManager_Dispose_args._Fields>, java.io.Serializable, Cloneable, Comparable<CookieManager_Dispose_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("CookieManager_Dispose_args");
+
+    private static final org.apache.thrift.protocol.TField COOKIE_MANAGER_FIELD_DESC = new org.apache.thrift.protocol.TField("cookieManager", org.apache.thrift.protocol.TType.STRUCT, (short)1);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new CookieManager_Dispose_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new CookieManager_Dispose_argsTupleSchemeFactory();
+
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      COOKIE_MANAGER((short)1, "cookieManager");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // COOKIE_MANAGER
+            return COOKIE_MANAGER;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.COOKIE_MANAGER, new org.apache.thrift.meta_data.FieldMetaData("cookieManager", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(CookieManager_Dispose_args.class, metaDataMap);
+    }
+
+    public CookieManager_Dispose_args() {
+    }
+
+    public CookieManager_Dispose_args(
+      com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager)
+    {
+      this();
+      this.cookieManager = cookieManager;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public CookieManager_Dispose_args(CookieManager_Dispose_args other) {
+      if (other.isSetCookieManager()) {
+        this.cookieManager = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.cookieManager);
+      }
+    }
+
+    @Override
+    public CookieManager_Dispose_args deepCopy() {
+      return new CookieManager_Dispose_args(this);
+    }
+
+    @Override
+    public void clear() {
+      this.cookieManager = null;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getCookieManager() {
+      return this.cookieManager;
+    }
+
+    public CookieManager_Dispose_args setCookieManager(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager) {
+      this.cookieManager = cookieManager;
+      return this;
+    }
+
+    public void unsetCookieManager() {
+      this.cookieManager = null;
+    }
+
+    /** Returns true if field cookieManager is set (has been assigned a value) and false otherwise */
+    public boolean isSetCookieManager() {
+      return this.cookieManager != null;
+    }
+
+    public void setCookieManagerIsSet(boolean value) {
+      if (!value) {
+        this.cookieManager = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case COOKIE_MANAGER:
+        if (value == null) {
+          unsetCookieManager();
+        } else {
+          setCookieManager((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case COOKIE_MANAGER:
+        return getCookieManager();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case COOKIE_MANAGER:
+        return isSetCookieManager();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof CookieManager_Dispose_args)
+        return this.equals((CookieManager_Dispose_args)that);
+      return false;
+    }
+
+    public boolean equals(CookieManager_Dispose_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_cookieManager = true && this.isSetCookieManager();
+      boolean that_present_cookieManager = true && that.isSetCookieManager();
+      if (this_present_cookieManager || that_present_cookieManager) {
+        if (!(this_present_cookieManager && that_present_cookieManager))
+          return false;
+        if (!this.cookieManager.equals(that.cookieManager))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((isSetCookieManager()) ? 131071 : 524287);
+      if (isSetCookieManager())
+        hashCode = hashCode * 8191 + cookieManager.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(CookieManager_Dispose_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetCookieManager(), other.isSetCookieManager());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetCookieManager()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.cookieManager, other.cookieManager);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("CookieManager_Dispose_args(");
+      boolean first = true;
+
+      sb.append("cookieManager:");
+      if (this.cookieManager == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.cookieManager);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (cookieManager != null) {
+        cookieManager.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class CookieManager_Dispose_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public CookieManager_Dispose_argsStandardScheme getScheme() {
+        return new CookieManager_Dispose_argsStandardScheme();
+      }
+    }
+
+    private static class CookieManager_Dispose_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<CookieManager_Dispose_args> {
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol iprot, CookieManager_Dispose_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // COOKIE_MANAGER
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.cookieManager = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.cookieManager.read(iprot);
+                struct.setCookieManagerIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol oprot, CookieManager_Dispose_args struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.cookieManager != null) {
+          oprot.writeFieldBegin(COOKIE_MANAGER_FIELD_DESC);
+          struct.cookieManager.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class CookieManager_Dispose_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public CookieManager_Dispose_argsTupleScheme getScheme() {
+        return new CookieManager_Dispose_argsTupleScheme();
+      }
+    }
+
+    private static class CookieManager_Dispose_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<CookieManager_Dispose_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, CookieManager_Dispose_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetCookieManager()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetCookieManager()) {
+          struct.cookieManager.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, CookieManager_Dispose_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.cookieManager = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.cookieManager.read(iprot);
+          struct.setCookieManagerIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class CookieManager_VisitAllCookies_args implements org.apache.thrift.TBase<CookieManager_VisitAllCookies_args, CookieManager_VisitAllCookies_args._Fields>, java.io.Serializable, Cloneable, Comparable<CookieManager_VisitAllCookies_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("CookieManager_VisitAllCookies_args");
+
+    private static final org.apache.thrift.protocol.TField COOKIE_MANAGER_FIELD_DESC = new org.apache.thrift.protocol.TField("cookieManager", org.apache.thrift.protocol.TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField VISITOR_FIELD_DESC = new org.apache.thrift.protocol.TField("visitor", org.apache.thrift.protocol.TType.STRUCT, (short)2);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new CookieManager_VisitAllCookies_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new CookieManager_VisitAllCookies_argsTupleSchemeFactory();
+
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject visitor; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      COOKIE_MANAGER((short)1, "cookieManager"),
+      VISITOR((short)2, "visitor");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // COOKIE_MANAGER
+            return COOKIE_MANAGER;
+          case 2: // VISITOR
+            return VISITOR;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.COOKIE_MANAGER, new org.apache.thrift.meta_data.FieldMetaData("cookieManager", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      tmpMap.put(_Fields.VISITOR, new org.apache.thrift.meta_data.FieldMetaData("visitor", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(CookieManager_VisitAllCookies_args.class, metaDataMap);
+    }
+
+    public CookieManager_VisitAllCookies_args() {
+    }
+
+    public CookieManager_VisitAllCookies_args(
+      com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager,
+      com.jetbrains.cef.remote.thrift_codegen.RObject visitor)
+    {
+      this();
+      this.cookieManager = cookieManager;
+      this.visitor = visitor;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public CookieManager_VisitAllCookies_args(CookieManager_VisitAllCookies_args other) {
+      if (other.isSetCookieManager()) {
+        this.cookieManager = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.cookieManager);
+      }
+      if (other.isSetVisitor()) {
+        this.visitor = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.visitor);
+      }
+    }
+
+    @Override
+    public CookieManager_VisitAllCookies_args deepCopy() {
+      return new CookieManager_VisitAllCookies_args(this);
+    }
+
+    @Override
+    public void clear() {
+      this.cookieManager = null;
+      this.visitor = null;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getCookieManager() {
+      return this.cookieManager;
+    }
+
+    public CookieManager_VisitAllCookies_args setCookieManager(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager) {
+      this.cookieManager = cookieManager;
+      return this;
+    }
+
+    public void unsetCookieManager() {
+      this.cookieManager = null;
+    }
+
+    /** Returns true if field cookieManager is set (has been assigned a value) and false otherwise */
+    public boolean isSetCookieManager() {
+      return this.cookieManager != null;
+    }
+
+    public void setCookieManagerIsSet(boolean value) {
+      if (!value) {
+        this.cookieManager = null;
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getVisitor() {
+      return this.visitor;
+    }
+
+    public CookieManager_VisitAllCookies_args setVisitor(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject visitor) {
+      this.visitor = visitor;
+      return this;
+    }
+
+    public void unsetVisitor() {
+      this.visitor = null;
+    }
+
+    /** Returns true if field visitor is set (has been assigned a value) and false otherwise */
+    public boolean isSetVisitor() {
+      return this.visitor != null;
+    }
+
+    public void setVisitorIsSet(boolean value) {
+      if (!value) {
+        this.visitor = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case COOKIE_MANAGER:
+        if (value == null) {
+          unsetCookieManager();
+        } else {
+          setCookieManager((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      case VISITOR:
+        if (value == null) {
+          unsetVisitor();
+        } else {
+          setVisitor((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case COOKIE_MANAGER:
+        return getCookieManager();
+
+      case VISITOR:
+        return getVisitor();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case COOKIE_MANAGER:
+        return isSetCookieManager();
+      case VISITOR:
+        return isSetVisitor();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof CookieManager_VisitAllCookies_args)
+        return this.equals((CookieManager_VisitAllCookies_args)that);
+      return false;
+    }
+
+    public boolean equals(CookieManager_VisitAllCookies_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_cookieManager = true && this.isSetCookieManager();
+      boolean that_present_cookieManager = true && that.isSetCookieManager();
+      if (this_present_cookieManager || that_present_cookieManager) {
+        if (!(this_present_cookieManager && that_present_cookieManager))
+          return false;
+        if (!this.cookieManager.equals(that.cookieManager))
+          return false;
+      }
+
+      boolean this_present_visitor = true && this.isSetVisitor();
+      boolean that_present_visitor = true && that.isSetVisitor();
+      if (this_present_visitor || that_present_visitor) {
+        if (!(this_present_visitor && that_present_visitor))
+          return false;
+        if (!this.visitor.equals(that.visitor))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((isSetCookieManager()) ? 131071 : 524287);
+      if (isSetCookieManager())
+        hashCode = hashCode * 8191 + cookieManager.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetVisitor()) ? 131071 : 524287);
+      if (isSetVisitor())
+        hashCode = hashCode * 8191 + visitor.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(CookieManager_VisitAllCookies_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetCookieManager(), other.isSetCookieManager());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetCookieManager()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.cookieManager, other.cookieManager);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetVisitor(), other.isSetVisitor());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetVisitor()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.visitor, other.visitor);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("CookieManager_VisitAllCookies_args(");
+      boolean first = true;
+
+      sb.append("cookieManager:");
+      if (this.cookieManager == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.cookieManager);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("visitor:");
+      if (this.visitor == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.visitor);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (cookieManager != null) {
+        cookieManager.validate();
+      }
+      if (visitor != null) {
+        visitor.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class CookieManager_VisitAllCookies_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public CookieManager_VisitAllCookies_argsStandardScheme getScheme() {
+        return new CookieManager_VisitAllCookies_argsStandardScheme();
+      }
+    }
+
+    private static class CookieManager_VisitAllCookies_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<CookieManager_VisitAllCookies_args> {
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol iprot, CookieManager_VisitAllCookies_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // COOKIE_MANAGER
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.cookieManager = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.cookieManager.read(iprot);
+                struct.setCookieManagerIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // VISITOR
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.visitor = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.visitor.read(iprot);
+                struct.setVisitorIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol oprot, CookieManager_VisitAllCookies_args struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.cookieManager != null) {
+          oprot.writeFieldBegin(COOKIE_MANAGER_FIELD_DESC);
+          struct.cookieManager.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        if (struct.visitor != null) {
+          oprot.writeFieldBegin(VISITOR_FIELD_DESC);
+          struct.visitor.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class CookieManager_VisitAllCookies_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public CookieManager_VisitAllCookies_argsTupleScheme getScheme() {
+        return new CookieManager_VisitAllCookies_argsTupleScheme();
+      }
+    }
+
+    private static class CookieManager_VisitAllCookies_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<CookieManager_VisitAllCookies_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, CookieManager_VisitAllCookies_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetCookieManager()) {
+          optionals.set(0);
+        }
+        if (struct.isSetVisitor()) {
+          optionals.set(1);
+        }
+        oprot.writeBitSet(optionals, 2);
+        if (struct.isSetCookieManager()) {
+          struct.cookieManager.write(oprot);
+        }
+        if (struct.isSetVisitor()) {
+          struct.visitor.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, CookieManager_VisitAllCookies_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(2);
+        if (incoming.get(0)) {
+          struct.cookieManager = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.cookieManager.read(iprot);
+          struct.setCookieManagerIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.visitor = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.visitor.read(iprot);
+          struct.setVisitorIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class CookieManager_VisitAllCookies_result implements org.apache.thrift.TBase<CookieManager_VisitAllCookies_result, CookieManager_VisitAllCookies_result._Fields>, java.io.Serializable, Cloneable, Comparable<CookieManager_VisitAllCookies_result>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("CookieManager_VisitAllCookies_result");
+
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.BOOL, (short)0);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new CookieManager_VisitAllCookies_resultStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new CookieManager_VisitAllCookies_resultTupleSchemeFactory();
+
+    public boolean success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __SUCCESS_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(CookieManager_VisitAllCookies_result.class, metaDataMap);
+    }
+
+    public CookieManager_VisitAllCookies_result() {
+    }
+
+    public CookieManager_VisitAllCookies_result(
+      boolean success)
+    {
+      this();
+      this.success = success;
+      setSuccessIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public CookieManager_VisitAllCookies_result(CookieManager_VisitAllCookies_result other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.success = other.success;
+    }
+
+    @Override
+    public CookieManager_VisitAllCookies_result deepCopy() {
+      return new CookieManager_VisitAllCookies_result(this);
+    }
+
+    @Override
+    public void clear() {
+      setSuccessIsSet(false);
+      this.success = false;
+    }
+
+    public boolean isSuccess() {
+      return this.success;
+    }
+
+    public CookieManager_VisitAllCookies_result setSuccess(boolean success) {
+      this.success = success;
+      setSuccessIsSet(true);
+      return this;
+    }
+
+    public void unsetSuccess() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __SUCCESS_ISSET_ID, value);
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((java.lang.Boolean)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return isSuccess();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof CookieManager_VisitAllCookies_result)
+        return this.equals((CookieManager_VisitAllCookies_result)that);
+      return false;
+    }
+
+    public boolean equals(CookieManager_VisitAllCookies_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_success = true;
+      boolean that_present_success = true;
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (this.success != that.success)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((success) ? 131071 : 524287);
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(CookieManager_VisitAllCookies_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetSuccess(), other.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, other.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("CookieManager_VisitAllCookies_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      sb.append(this.success);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class CookieManager_VisitAllCookies_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public CookieManager_VisitAllCookies_resultStandardScheme getScheme() {
+        return new CookieManager_VisitAllCookies_resultStandardScheme();
+      }
+    }
+
+    private static class CookieManager_VisitAllCookies_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<CookieManager_VisitAllCookies_result> {
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol iprot, CookieManager_VisitAllCookies_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 0: // SUCCESS
+              if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
+                struct.success = iprot.readBool();
+                struct.setSuccessIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol oprot, CookieManager_VisitAllCookies_result struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.isSetSuccess()) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          oprot.writeBool(struct.success);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class CookieManager_VisitAllCookies_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public CookieManager_VisitAllCookies_resultTupleScheme getScheme() {
+        return new CookieManager_VisitAllCookies_resultTupleScheme();
+      }
+    }
+
+    private static class CookieManager_VisitAllCookies_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<CookieManager_VisitAllCookies_result> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, CookieManager_VisitAllCookies_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          oprot.writeBool(struct.success);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, CookieManager_VisitAllCookies_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.success = iprot.readBool();
+          struct.setSuccessIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class CookieManager_VisitUrlCookies_args implements org.apache.thrift.TBase<CookieManager_VisitUrlCookies_args, CookieManager_VisitUrlCookies_args._Fields>, java.io.Serializable, Cloneable, Comparable<CookieManager_VisitUrlCookies_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("CookieManager_VisitUrlCookies_args");
+
+    private static final org.apache.thrift.protocol.TField COOKIE_MANAGER_FIELD_DESC = new org.apache.thrift.protocol.TField("cookieManager", org.apache.thrift.protocol.TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField VISITOR_FIELD_DESC = new org.apache.thrift.protocol.TField("visitor", org.apache.thrift.protocol.TType.STRUCT, (short)2);
+    private static final org.apache.thrift.protocol.TField URL_FIELD_DESC = new org.apache.thrift.protocol.TField("url", org.apache.thrift.protocol.TType.STRING, (short)3);
+    private static final org.apache.thrift.protocol.TField INCLUDE_HTTP_ONLY_FIELD_DESC = new org.apache.thrift.protocol.TField("includeHttpOnly", org.apache.thrift.protocol.TType.BOOL, (short)4);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new CookieManager_VisitUrlCookies_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new CookieManager_VisitUrlCookies_argsTupleSchemeFactory();
+
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject visitor; // required
+    public @org.apache.thrift.annotation.Nullable java.lang.String url; // required
+    public boolean includeHttpOnly; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      COOKIE_MANAGER((short)1, "cookieManager"),
+      VISITOR((short)2, "visitor"),
+      URL((short)3, "url"),
+      INCLUDE_HTTP_ONLY((short)4, "includeHttpOnly");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // COOKIE_MANAGER
+            return COOKIE_MANAGER;
+          case 2: // VISITOR
+            return VISITOR;
+          case 3: // URL
+            return URL;
+          case 4: // INCLUDE_HTTP_ONLY
+            return INCLUDE_HTTP_ONLY;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __INCLUDEHTTPONLY_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.COOKIE_MANAGER, new org.apache.thrift.meta_data.FieldMetaData("cookieManager", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      tmpMap.put(_Fields.VISITOR, new org.apache.thrift.meta_data.FieldMetaData("visitor", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      tmpMap.put(_Fields.URL, new org.apache.thrift.meta_data.FieldMetaData("url", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.INCLUDE_HTTP_ONLY, new org.apache.thrift.meta_data.FieldMetaData("includeHttpOnly", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(CookieManager_VisitUrlCookies_args.class, metaDataMap);
+    }
+
+    public CookieManager_VisitUrlCookies_args() {
+    }
+
+    public CookieManager_VisitUrlCookies_args(
+      com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager,
+      com.jetbrains.cef.remote.thrift_codegen.RObject visitor,
+      java.lang.String url,
+      boolean includeHttpOnly)
+    {
+      this();
+      this.cookieManager = cookieManager;
+      this.visitor = visitor;
+      this.url = url;
+      this.includeHttpOnly = includeHttpOnly;
+      setIncludeHttpOnlyIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public CookieManager_VisitUrlCookies_args(CookieManager_VisitUrlCookies_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      if (other.isSetCookieManager()) {
+        this.cookieManager = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.cookieManager);
+      }
+      if (other.isSetVisitor()) {
+        this.visitor = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.visitor);
+      }
+      if (other.isSetUrl()) {
+        this.url = other.url;
+      }
+      this.includeHttpOnly = other.includeHttpOnly;
+    }
+
+    @Override
+    public CookieManager_VisitUrlCookies_args deepCopy() {
+      return new CookieManager_VisitUrlCookies_args(this);
+    }
+
+    @Override
+    public void clear() {
+      this.cookieManager = null;
+      this.visitor = null;
+      this.url = null;
+      setIncludeHttpOnlyIsSet(false);
+      this.includeHttpOnly = false;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getCookieManager() {
+      return this.cookieManager;
+    }
+
+    public CookieManager_VisitUrlCookies_args setCookieManager(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager) {
+      this.cookieManager = cookieManager;
+      return this;
+    }
+
+    public void unsetCookieManager() {
+      this.cookieManager = null;
+    }
+
+    /** Returns true if field cookieManager is set (has been assigned a value) and false otherwise */
+    public boolean isSetCookieManager() {
+      return this.cookieManager != null;
+    }
+
+    public void setCookieManagerIsSet(boolean value) {
+      if (!value) {
+        this.cookieManager = null;
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getVisitor() {
+      return this.visitor;
+    }
+
+    public CookieManager_VisitUrlCookies_args setVisitor(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject visitor) {
+      this.visitor = visitor;
+      return this;
+    }
+
+    public void unsetVisitor() {
+      this.visitor = null;
+    }
+
+    /** Returns true if field visitor is set (has been assigned a value) and false otherwise */
+    public boolean isSetVisitor() {
+      return this.visitor != null;
+    }
+
+    public void setVisitorIsSet(boolean value) {
+      if (!value) {
+        this.visitor = null;
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.String getUrl() {
+      return this.url;
+    }
+
+    public CookieManager_VisitUrlCookies_args setUrl(@org.apache.thrift.annotation.Nullable java.lang.String url) {
+      this.url = url;
+      return this;
+    }
+
+    public void unsetUrl() {
+      this.url = null;
+    }
+
+    /** Returns true if field url is set (has been assigned a value) and false otherwise */
+    public boolean isSetUrl() {
+      return this.url != null;
+    }
+
+    public void setUrlIsSet(boolean value) {
+      if (!value) {
+        this.url = null;
+      }
+    }
+
+    public boolean isIncludeHttpOnly() {
+      return this.includeHttpOnly;
+    }
+
+    public CookieManager_VisitUrlCookies_args setIncludeHttpOnly(boolean includeHttpOnly) {
+      this.includeHttpOnly = includeHttpOnly;
+      setIncludeHttpOnlyIsSet(true);
+      return this;
+    }
+
+    public void unsetIncludeHttpOnly() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __INCLUDEHTTPONLY_ISSET_ID);
+    }
+
+    /** Returns true if field includeHttpOnly is set (has been assigned a value) and false otherwise */
+    public boolean isSetIncludeHttpOnly() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __INCLUDEHTTPONLY_ISSET_ID);
+    }
+
+    public void setIncludeHttpOnlyIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __INCLUDEHTTPONLY_ISSET_ID, value);
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case COOKIE_MANAGER:
+        if (value == null) {
+          unsetCookieManager();
+        } else {
+          setCookieManager((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      case VISITOR:
+        if (value == null) {
+          unsetVisitor();
+        } else {
+          setVisitor((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      case URL:
+        if (value == null) {
+          unsetUrl();
+        } else {
+          setUrl((java.lang.String)value);
+        }
+        break;
+
+      case INCLUDE_HTTP_ONLY:
+        if (value == null) {
+          unsetIncludeHttpOnly();
+        } else {
+          setIncludeHttpOnly((java.lang.Boolean)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case COOKIE_MANAGER:
+        return getCookieManager();
+
+      case VISITOR:
+        return getVisitor();
+
+      case URL:
+        return getUrl();
+
+      case INCLUDE_HTTP_ONLY:
+        return isIncludeHttpOnly();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case COOKIE_MANAGER:
+        return isSetCookieManager();
+      case VISITOR:
+        return isSetVisitor();
+      case URL:
+        return isSetUrl();
+      case INCLUDE_HTTP_ONLY:
+        return isSetIncludeHttpOnly();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof CookieManager_VisitUrlCookies_args)
+        return this.equals((CookieManager_VisitUrlCookies_args)that);
+      return false;
+    }
+
+    public boolean equals(CookieManager_VisitUrlCookies_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_cookieManager = true && this.isSetCookieManager();
+      boolean that_present_cookieManager = true && that.isSetCookieManager();
+      if (this_present_cookieManager || that_present_cookieManager) {
+        if (!(this_present_cookieManager && that_present_cookieManager))
+          return false;
+        if (!this.cookieManager.equals(that.cookieManager))
+          return false;
+      }
+
+      boolean this_present_visitor = true && this.isSetVisitor();
+      boolean that_present_visitor = true && that.isSetVisitor();
+      if (this_present_visitor || that_present_visitor) {
+        if (!(this_present_visitor && that_present_visitor))
+          return false;
+        if (!this.visitor.equals(that.visitor))
+          return false;
+      }
+
+      boolean this_present_url = true && this.isSetUrl();
+      boolean that_present_url = true && that.isSetUrl();
+      if (this_present_url || that_present_url) {
+        if (!(this_present_url && that_present_url))
+          return false;
+        if (!this.url.equals(that.url))
+          return false;
+      }
+
+      boolean this_present_includeHttpOnly = true;
+      boolean that_present_includeHttpOnly = true;
+      if (this_present_includeHttpOnly || that_present_includeHttpOnly) {
+        if (!(this_present_includeHttpOnly && that_present_includeHttpOnly))
+          return false;
+        if (this.includeHttpOnly != that.includeHttpOnly)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((isSetCookieManager()) ? 131071 : 524287);
+      if (isSetCookieManager())
+        hashCode = hashCode * 8191 + cookieManager.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetVisitor()) ? 131071 : 524287);
+      if (isSetVisitor())
+        hashCode = hashCode * 8191 + visitor.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetUrl()) ? 131071 : 524287);
+      if (isSetUrl())
+        hashCode = hashCode * 8191 + url.hashCode();
+
+      hashCode = hashCode * 8191 + ((includeHttpOnly) ? 131071 : 524287);
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(CookieManager_VisitUrlCookies_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetCookieManager(), other.isSetCookieManager());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetCookieManager()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.cookieManager, other.cookieManager);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetVisitor(), other.isSetVisitor());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetVisitor()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.visitor, other.visitor);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetUrl(), other.isSetUrl());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetUrl()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.url, other.url);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetIncludeHttpOnly(), other.isSetIncludeHttpOnly());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetIncludeHttpOnly()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.includeHttpOnly, other.includeHttpOnly);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("CookieManager_VisitUrlCookies_args(");
+      boolean first = true;
+
+      sb.append("cookieManager:");
+      if (this.cookieManager == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.cookieManager);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("visitor:");
+      if (this.visitor == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.visitor);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("url:");
+      if (this.url == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.url);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("includeHttpOnly:");
+      sb.append(this.includeHttpOnly);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (cookieManager != null) {
+        cookieManager.validate();
+      }
+      if (visitor != null) {
+        visitor.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class CookieManager_VisitUrlCookies_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public CookieManager_VisitUrlCookies_argsStandardScheme getScheme() {
+        return new CookieManager_VisitUrlCookies_argsStandardScheme();
+      }
+    }
+
+    private static class CookieManager_VisitUrlCookies_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<CookieManager_VisitUrlCookies_args> {
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol iprot, CookieManager_VisitUrlCookies_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // COOKIE_MANAGER
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.cookieManager = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.cookieManager.read(iprot);
+                struct.setCookieManagerIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // VISITOR
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.visitor = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.visitor.read(iprot);
+                struct.setVisitorIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 3: // URL
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.url = iprot.readString();
+                struct.setUrlIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 4: // INCLUDE_HTTP_ONLY
+              if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
+                struct.includeHttpOnly = iprot.readBool();
+                struct.setIncludeHttpOnlyIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol oprot, CookieManager_VisitUrlCookies_args struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.cookieManager != null) {
+          oprot.writeFieldBegin(COOKIE_MANAGER_FIELD_DESC);
+          struct.cookieManager.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        if (struct.visitor != null) {
+          oprot.writeFieldBegin(VISITOR_FIELD_DESC);
+          struct.visitor.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        if (struct.url != null) {
+          oprot.writeFieldBegin(URL_FIELD_DESC);
+          oprot.writeString(struct.url);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldBegin(INCLUDE_HTTP_ONLY_FIELD_DESC);
+        oprot.writeBool(struct.includeHttpOnly);
+        oprot.writeFieldEnd();
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class CookieManager_VisitUrlCookies_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public CookieManager_VisitUrlCookies_argsTupleScheme getScheme() {
+        return new CookieManager_VisitUrlCookies_argsTupleScheme();
+      }
+    }
+
+    private static class CookieManager_VisitUrlCookies_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<CookieManager_VisitUrlCookies_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, CookieManager_VisitUrlCookies_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetCookieManager()) {
+          optionals.set(0);
+        }
+        if (struct.isSetVisitor()) {
+          optionals.set(1);
+        }
+        if (struct.isSetUrl()) {
+          optionals.set(2);
+        }
+        if (struct.isSetIncludeHttpOnly()) {
+          optionals.set(3);
+        }
+        oprot.writeBitSet(optionals, 4);
+        if (struct.isSetCookieManager()) {
+          struct.cookieManager.write(oprot);
+        }
+        if (struct.isSetVisitor()) {
+          struct.visitor.write(oprot);
+        }
+        if (struct.isSetUrl()) {
+          oprot.writeString(struct.url);
+        }
+        if (struct.isSetIncludeHttpOnly()) {
+          oprot.writeBool(struct.includeHttpOnly);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, CookieManager_VisitUrlCookies_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(4);
+        if (incoming.get(0)) {
+          struct.cookieManager = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.cookieManager.read(iprot);
+          struct.setCookieManagerIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.visitor = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.visitor.read(iprot);
+          struct.setVisitorIsSet(true);
+        }
+        if (incoming.get(2)) {
+          struct.url = iprot.readString();
+          struct.setUrlIsSet(true);
+        }
+        if (incoming.get(3)) {
+          struct.includeHttpOnly = iprot.readBool();
+          struct.setIncludeHttpOnlyIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class CookieManager_VisitUrlCookies_result implements org.apache.thrift.TBase<CookieManager_VisitUrlCookies_result, CookieManager_VisitUrlCookies_result._Fields>, java.io.Serializable, Cloneable, Comparable<CookieManager_VisitUrlCookies_result>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("CookieManager_VisitUrlCookies_result");
+
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.BOOL, (short)0);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new CookieManager_VisitUrlCookies_resultStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new CookieManager_VisitUrlCookies_resultTupleSchemeFactory();
+
+    public boolean success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __SUCCESS_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(CookieManager_VisitUrlCookies_result.class, metaDataMap);
+    }
+
+    public CookieManager_VisitUrlCookies_result() {
+    }
+
+    public CookieManager_VisitUrlCookies_result(
+      boolean success)
+    {
+      this();
+      this.success = success;
+      setSuccessIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public CookieManager_VisitUrlCookies_result(CookieManager_VisitUrlCookies_result other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.success = other.success;
+    }
+
+    @Override
+    public CookieManager_VisitUrlCookies_result deepCopy() {
+      return new CookieManager_VisitUrlCookies_result(this);
+    }
+
+    @Override
+    public void clear() {
+      setSuccessIsSet(false);
+      this.success = false;
+    }
+
+    public boolean isSuccess() {
+      return this.success;
+    }
+
+    public CookieManager_VisitUrlCookies_result setSuccess(boolean success) {
+      this.success = success;
+      setSuccessIsSet(true);
+      return this;
+    }
+
+    public void unsetSuccess() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __SUCCESS_ISSET_ID, value);
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((java.lang.Boolean)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return isSuccess();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof CookieManager_VisitUrlCookies_result)
+        return this.equals((CookieManager_VisitUrlCookies_result)that);
+      return false;
+    }
+
+    public boolean equals(CookieManager_VisitUrlCookies_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_success = true;
+      boolean that_present_success = true;
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (this.success != that.success)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((success) ? 131071 : 524287);
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(CookieManager_VisitUrlCookies_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetSuccess(), other.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, other.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("CookieManager_VisitUrlCookies_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      sb.append(this.success);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class CookieManager_VisitUrlCookies_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public CookieManager_VisitUrlCookies_resultStandardScheme getScheme() {
+        return new CookieManager_VisitUrlCookies_resultStandardScheme();
+      }
+    }
+
+    private static class CookieManager_VisitUrlCookies_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<CookieManager_VisitUrlCookies_result> {
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol iprot, CookieManager_VisitUrlCookies_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 0: // SUCCESS
+              if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
+                struct.success = iprot.readBool();
+                struct.setSuccessIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol oprot, CookieManager_VisitUrlCookies_result struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.isSetSuccess()) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          oprot.writeBool(struct.success);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class CookieManager_VisitUrlCookies_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public CookieManager_VisitUrlCookies_resultTupleScheme getScheme() {
+        return new CookieManager_VisitUrlCookies_resultTupleScheme();
+      }
+    }
+
+    private static class CookieManager_VisitUrlCookies_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<CookieManager_VisitUrlCookies_result> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, CookieManager_VisitUrlCookies_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          oprot.writeBool(struct.success);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, CookieManager_VisitUrlCookies_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.success = iprot.readBool();
+          struct.setSuccessIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class CookieManager_SetCookie_args implements org.apache.thrift.TBase<CookieManager_SetCookie_args, CookieManager_SetCookie_args._Fields>, java.io.Serializable, Cloneable, Comparable<CookieManager_SetCookie_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("CookieManager_SetCookie_args");
+
+    private static final org.apache.thrift.protocol.TField COOKIE_MANAGER_FIELD_DESC = new org.apache.thrift.protocol.TField("cookieManager", org.apache.thrift.protocol.TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField URL_FIELD_DESC = new org.apache.thrift.protocol.TField("url", org.apache.thrift.protocol.TType.STRING, (short)2);
+    private static final org.apache.thrift.protocol.TField COOKIE_FIELD_DESC = new org.apache.thrift.protocol.TField("cookie", org.apache.thrift.protocol.TType.STRUCT, (short)3);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new CookieManager_SetCookie_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new CookieManager_SetCookie_argsTupleSchemeFactory();
+
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager; // required
+    public @org.apache.thrift.annotation.Nullable java.lang.String url; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.Cookie cookie; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      COOKIE_MANAGER((short)1, "cookieManager"),
+      URL((short)2, "url"),
+      COOKIE((short)3, "cookie");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // COOKIE_MANAGER
+            return COOKIE_MANAGER;
+          case 2: // URL
+            return URL;
+          case 3: // COOKIE
+            return COOKIE;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.COOKIE_MANAGER, new org.apache.thrift.meta_data.FieldMetaData("cookieManager", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      tmpMap.put(_Fields.URL, new org.apache.thrift.meta_data.FieldMetaData("url", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.COOKIE, new org.apache.thrift.meta_data.FieldMetaData("cookie", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.Cookie.class)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(CookieManager_SetCookie_args.class, metaDataMap);
+    }
+
+    public CookieManager_SetCookie_args() {
+    }
+
+    public CookieManager_SetCookie_args(
+      com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager,
+      java.lang.String url,
+      com.jetbrains.cef.remote.thrift_codegen.Cookie cookie)
+    {
+      this();
+      this.cookieManager = cookieManager;
+      this.url = url;
+      this.cookie = cookie;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public CookieManager_SetCookie_args(CookieManager_SetCookie_args other) {
+      if (other.isSetCookieManager()) {
+        this.cookieManager = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.cookieManager);
+      }
+      if (other.isSetUrl()) {
+        this.url = other.url;
+      }
+      if (other.isSetCookie()) {
+        this.cookie = new com.jetbrains.cef.remote.thrift_codegen.Cookie(other.cookie);
+      }
+    }
+
+    @Override
+    public CookieManager_SetCookie_args deepCopy() {
+      return new CookieManager_SetCookie_args(this);
+    }
+
+    @Override
+    public void clear() {
+      this.cookieManager = null;
+      this.url = null;
+      this.cookie = null;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getCookieManager() {
+      return this.cookieManager;
+    }
+
+    public CookieManager_SetCookie_args setCookieManager(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager) {
+      this.cookieManager = cookieManager;
+      return this;
+    }
+
+    public void unsetCookieManager() {
+      this.cookieManager = null;
+    }
+
+    /** Returns true if field cookieManager is set (has been assigned a value) and false otherwise */
+    public boolean isSetCookieManager() {
+      return this.cookieManager != null;
+    }
+
+    public void setCookieManagerIsSet(boolean value) {
+      if (!value) {
+        this.cookieManager = null;
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.String getUrl() {
+      return this.url;
+    }
+
+    public CookieManager_SetCookie_args setUrl(@org.apache.thrift.annotation.Nullable java.lang.String url) {
+      this.url = url;
+      return this;
+    }
+
+    public void unsetUrl() {
+      this.url = null;
+    }
+
+    /** Returns true if field url is set (has been assigned a value) and false otherwise */
+    public boolean isSetUrl() {
+      return this.url != null;
+    }
+
+    public void setUrlIsSet(boolean value) {
+      if (!value) {
+        this.url = null;
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.Cookie getCookie() {
+      return this.cookie;
+    }
+
+    public CookieManager_SetCookie_args setCookie(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.Cookie cookie) {
+      this.cookie = cookie;
+      return this;
+    }
+
+    public void unsetCookie() {
+      this.cookie = null;
+    }
+
+    /** Returns true if field cookie is set (has been assigned a value) and false otherwise */
+    public boolean isSetCookie() {
+      return this.cookie != null;
+    }
+
+    public void setCookieIsSet(boolean value) {
+      if (!value) {
+        this.cookie = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case COOKIE_MANAGER:
+        if (value == null) {
+          unsetCookieManager();
+        } else {
+          setCookieManager((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      case URL:
+        if (value == null) {
+          unsetUrl();
+        } else {
+          setUrl((java.lang.String)value);
+        }
+        break;
+
+      case COOKIE:
+        if (value == null) {
+          unsetCookie();
+        } else {
+          setCookie((com.jetbrains.cef.remote.thrift_codegen.Cookie)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case COOKIE_MANAGER:
+        return getCookieManager();
+
+      case URL:
+        return getUrl();
+
+      case COOKIE:
+        return getCookie();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case COOKIE_MANAGER:
+        return isSetCookieManager();
+      case URL:
+        return isSetUrl();
+      case COOKIE:
+        return isSetCookie();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof CookieManager_SetCookie_args)
+        return this.equals((CookieManager_SetCookie_args)that);
+      return false;
+    }
+
+    public boolean equals(CookieManager_SetCookie_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_cookieManager = true && this.isSetCookieManager();
+      boolean that_present_cookieManager = true && that.isSetCookieManager();
+      if (this_present_cookieManager || that_present_cookieManager) {
+        if (!(this_present_cookieManager && that_present_cookieManager))
+          return false;
+        if (!this.cookieManager.equals(that.cookieManager))
+          return false;
+      }
+
+      boolean this_present_url = true && this.isSetUrl();
+      boolean that_present_url = true && that.isSetUrl();
+      if (this_present_url || that_present_url) {
+        if (!(this_present_url && that_present_url))
+          return false;
+        if (!this.url.equals(that.url))
+          return false;
+      }
+
+      boolean this_present_cookie = true && this.isSetCookie();
+      boolean that_present_cookie = true && that.isSetCookie();
+      if (this_present_cookie || that_present_cookie) {
+        if (!(this_present_cookie && that_present_cookie))
+          return false;
+        if (!this.cookie.equals(that.cookie))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((isSetCookieManager()) ? 131071 : 524287);
+      if (isSetCookieManager())
+        hashCode = hashCode * 8191 + cookieManager.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetUrl()) ? 131071 : 524287);
+      if (isSetUrl())
+        hashCode = hashCode * 8191 + url.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetCookie()) ? 131071 : 524287);
+      if (isSetCookie())
+        hashCode = hashCode * 8191 + cookie.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(CookieManager_SetCookie_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetCookieManager(), other.isSetCookieManager());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetCookieManager()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.cookieManager, other.cookieManager);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetUrl(), other.isSetUrl());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetUrl()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.url, other.url);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetCookie(), other.isSetCookie());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetCookie()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.cookie, other.cookie);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("CookieManager_SetCookie_args(");
+      boolean first = true;
+
+      sb.append("cookieManager:");
+      if (this.cookieManager == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.cookieManager);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("url:");
+      if (this.url == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.url);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("cookie:");
+      if (this.cookie == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.cookie);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (cookieManager != null) {
+        cookieManager.validate();
+      }
+      if (cookie != null) {
+        cookie.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class CookieManager_SetCookie_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public CookieManager_SetCookie_argsStandardScheme getScheme() {
+        return new CookieManager_SetCookie_argsStandardScheme();
+      }
+    }
+
+    private static class CookieManager_SetCookie_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<CookieManager_SetCookie_args> {
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol iprot, CookieManager_SetCookie_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // COOKIE_MANAGER
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.cookieManager = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.cookieManager.read(iprot);
+                struct.setCookieManagerIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // URL
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.url = iprot.readString();
+                struct.setUrlIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 3: // COOKIE
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.cookie = new com.jetbrains.cef.remote.thrift_codegen.Cookie();
+                struct.cookie.read(iprot);
+                struct.setCookieIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol oprot, CookieManager_SetCookie_args struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.cookieManager != null) {
+          oprot.writeFieldBegin(COOKIE_MANAGER_FIELD_DESC);
+          struct.cookieManager.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        if (struct.url != null) {
+          oprot.writeFieldBegin(URL_FIELD_DESC);
+          oprot.writeString(struct.url);
+          oprot.writeFieldEnd();
+        }
+        if (struct.cookie != null) {
+          oprot.writeFieldBegin(COOKIE_FIELD_DESC);
+          struct.cookie.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class CookieManager_SetCookie_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public CookieManager_SetCookie_argsTupleScheme getScheme() {
+        return new CookieManager_SetCookie_argsTupleScheme();
+      }
+    }
+
+    private static class CookieManager_SetCookie_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<CookieManager_SetCookie_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, CookieManager_SetCookie_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetCookieManager()) {
+          optionals.set(0);
+        }
+        if (struct.isSetUrl()) {
+          optionals.set(1);
+        }
+        if (struct.isSetCookie()) {
+          optionals.set(2);
+        }
+        oprot.writeBitSet(optionals, 3);
+        if (struct.isSetCookieManager()) {
+          struct.cookieManager.write(oprot);
+        }
+        if (struct.isSetUrl()) {
+          oprot.writeString(struct.url);
+        }
+        if (struct.isSetCookie()) {
+          struct.cookie.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, CookieManager_SetCookie_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(3);
+        if (incoming.get(0)) {
+          struct.cookieManager = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.cookieManager.read(iprot);
+          struct.setCookieManagerIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.url = iprot.readString();
+          struct.setUrlIsSet(true);
+        }
+        if (incoming.get(2)) {
+          struct.cookie = new com.jetbrains.cef.remote.thrift_codegen.Cookie();
+          struct.cookie.read(iprot);
+          struct.setCookieIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class CookieManager_SetCookie_result implements org.apache.thrift.TBase<CookieManager_SetCookie_result, CookieManager_SetCookie_result._Fields>, java.io.Serializable, Cloneable, Comparable<CookieManager_SetCookie_result>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("CookieManager_SetCookie_result");
+
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.BOOL, (short)0);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new CookieManager_SetCookie_resultStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new CookieManager_SetCookie_resultTupleSchemeFactory();
+
+    public boolean success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __SUCCESS_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(CookieManager_SetCookie_result.class, metaDataMap);
+    }
+
+    public CookieManager_SetCookie_result() {
+    }
+
+    public CookieManager_SetCookie_result(
+      boolean success)
+    {
+      this();
+      this.success = success;
+      setSuccessIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public CookieManager_SetCookie_result(CookieManager_SetCookie_result other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.success = other.success;
+    }
+
+    @Override
+    public CookieManager_SetCookie_result deepCopy() {
+      return new CookieManager_SetCookie_result(this);
+    }
+
+    @Override
+    public void clear() {
+      setSuccessIsSet(false);
+      this.success = false;
+    }
+
+    public boolean isSuccess() {
+      return this.success;
+    }
+
+    public CookieManager_SetCookie_result setSuccess(boolean success) {
+      this.success = success;
+      setSuccessIsSet(true);
+      return this;
+    }
+
+    public void unsetSuccess() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __SUCCESS_ISSET_ID, value);
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((java.lang.Boolean)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return isSuccess();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof CookieManager_SetCookie_result)
+        return this.equals((CookieManager_SetCookie_result)that);
+      return false;
+    }
+
+    public boolean equals(CookieManager_SetCookie_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_success = true;
+      boolean that_present_success = true;
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (this.success != that.success)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((success) ? 131071 : 524287);
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(CookieManager_SetCookie_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetSuccess(), other.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, other.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("CookieManager_SetCookie_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      sb.append(this.success);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class CookieManager_SetCookie_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public CookieManager_SetCookie_resultStandardScheme getScheme() {
+        return new CookieManager_SetCookie_resultStandardScheme();
+      }
+    }
+
+    private static class CookieManager_SetCookie_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<CookieManager_SetCookie_result> {
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol iprot, CookieManager_SetCookie_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 0: // SUCCESS
+              if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
+                struct.success = iprot.readBool();
+                struct.setSuccessIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol oprot, CookieManager_SetCookie_result struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.isSetSuccess()) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          oprot.writeBool(struct.success);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class CookieManager_SetCookie_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public CookieManager_SetCookie_resultTupleScheme getScheme() {
+        return new CookieManager_SetCookie_resultTupleScheme();
+      }
+    }
+
+    private static class CookieManager_SetCookie_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<CookieManager_SetCookie_result> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, CookieManager_SetCookie_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          oprot.writeBool(struct.success);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, CookieManager_SetCookie_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.success = iprot.readBool();
+          struct.setSuccessIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class CookieManager_DeleteCookies_args implements org.apache.thrift.TBase<CookieManager_DeleteCookies_args, CookieManager_DeleteCookies_args._Fields>, java.io.Serializable, Cloneable, Comparable<CookieManager_DeleteCookies_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("CookieManager_DeleteCookies_args");
+
+    private static final org.apache.thrift.protocol.TField COOKIE_MANAGER_FIELD_DESC = new org.apache.thrift.protocol.TField("cookieManager", org.apache.thrift.protocol.TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField URL_FIELD_DESC = new org.apache.thrift.protocol.TField("url", org.apache.thrift.protocol.TType.STRING, (short)2);
+    private static final org.apache.thrift.protocol.TField COOKIE_NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("cookieName", org.apache.thrift.protocol.TType.STRING, (short)3);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new CookieManager_DeleteCookies_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new CookieManager_DeleteCookies_argsTupleSchemeFactory();
+
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager; // required
+    public @org.apache.thrift.annotation.Nullable java.lang.String url; // required
+    public @org.apache.thrift.annotation.Nullable java.lang.String cookieName; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      COOKIE_MANAGER((short)1, "cookieManager"),
+      URL((short)2, "url"),
+      COOKIE_NAME((short)3, "cookieName");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // COOKIE_MANAGER
+            return COOKIE_MANAGER;
+          case 2: // URL
+            return URL;
+          case 3: // COOKIE_NAME
+            return COOKIE_NAME;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.COOKIE_MANAGER, new org.apache.thrift.meta_data.FieldMetaData("cookieManager", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      tmpMap.put(_Fields.URL, new org.apache.thrift.meta_data.FieldMetaData("url", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.COOKIE_NAME, new org.apache.thrift.meta_data.FieldMetaData("cookieName", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(CookieManager_DeleteCookies_args.class, metaDataMap);
+    }
+
+    public CookieManager_DeleteCookies_args() {
+    }
+
+    public CookieManager_DeleteCookies_args(
+      com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager,
+      java.lang.String url,
+      java.lang.String cookieName)
+    {
+      this();
+      this.cookieManager = cookieManager;
+      this.url = url;
+      this.cookieName = cookieName;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public CookieManager_DeleteCookies_args(CookieManager_DeleteCookies_args other) {
+      if (other.isSetCookieManager()) {
+        this.cookieManager = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.cookieManager);
+      }
+      if (other.isSetUrl()) {
+        this.url = other.url;
+      }
+      if (other.isSetCookieName()) {
+        this.cookieName = other.cookieName;
+      }
+    }
+
+    @Override
+    public CookieManager_DeleteCookies_args deepCopy() {
+      return new CookieManager_DeleteCookies_args(this);
+    }
+
+    @Override
+    public void clear() {
+      this.cookieManager = null;
+      this.url = null;
+      this.cookieName = null;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getCookieManager() {
+      return this.cookieManager;
+    }
+
+    public CookieManager_DeleteCookies_args setCookieManager(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager) {
+      this.cookieManager = cookieManager;
+      return this;
+    }
+
+    public void unsetCookieManager() {
+      this.cookieManager = null;
+    }
+
+    /** Returns true if field cookieManager is set (has been assigned a value) and false otherwise */
+    public boolean isSetCookieManager() {
+      return this.cookieManager != null;
+    }
+
+    public void setCookieManagerIsSet(boolean value) {
+      if (!value) {
+        this.cookieManager = null;
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.String getUrl() {
+      return this.url;
+    }
+
+    public CookieManager_DeleteCookies_args setUrl(@org.apache.thrift.annotation.Nullable java.lang.String url) {
+      this.url = url;
+      return this;
+    }
+
+    public void unsetUrl() {
+      this.url = null;
+    }
+
+    /** Returns true if field url is set (has been assigned a value) and false otherwise */
+    public boolean isSetUrl() {
+      return this.url != null;
+    }
+
+    public void setUrlIsSet(boolean value) {
+      if (!value) {
+        this.url = null;
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.String getCookieName() {
+      return this.cookieName;
+    }
+
+    public CookieManager_DeleteCookies_args setCookieName(@org.apache.thrift.annotation.Nullable java.lang.String cookieName) {
+      this.cookieName = cookieName;
+      return this;
+    }
+
+    public void unsetCookieName() {
+      this.cookieName = null;
+    }
+
+    /** Returns true if field cookieName is set (has been assigned a value) and false otherwise */
+    public boolean isSetCookieName() {
+      return this.cookieName != null;
+    }
+
+    public void setCookieNameIsSet(boolean value) {
+      if (!value) {
+        this.cookieName = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case COOKIE_MANAGER:
+        if (value == null) {
+          unsetCookieManager();
+        } else {
+          setCookieManager((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      case URL:
+        if (value == null) {
+          unsetUrl();
+        } else {
+          setUrl((java.lang.String)value);
+        }
+        break;
+
+      case COOKIE_NAME:
+        if (value == null) {
+          unsetCookieName();
+        } else {
+          setCookieName((java.lang.String)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case COOKIE_MANAGER:
+        return getCookieManager();
+
+      case URL:
+        return getUrl();
+
+      case COOKIE_NAME:
+        return getCookieName();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case COOKIE_MANAGER:
+        return isSetCookieManager();
+      case URL:
+        return isSetUrl();
+      case COOKIE_NAME:
+        return isSetCookieName();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof CookieManager_DeleteCookies_args)
+        return this.equals((CookieManager_DeleteCookies_args)that);
+      return false;
+    }
+
+    public boolean equals(CookieManager_DeleteCookies_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_cookieManager = true && this.isSetCookieManager();
+      boolean that_present_cookieManager = true && that.isSetCookieManager();
+      if (this_present_cookieManager || that_present_cookieManager) {
+        if (!(this_present_cookieManager && that_present_cookieManager))
+          return false;
+        if (!this.cookieManager.equals(that.cookieManager))
+          return false;
+      }
+
+      boolean this_present_url = true && this.isSetUrl();
+      boolean that_present_url = true && that.isSetUrl();
+      if (this_present_url || that_present_url) {
+        if (!(this_present_url && that_present_url))
+          return false;
+        if (!this.url.equals(that.url))
+          return false;
+      }
+
+      boolean this_present_cookieName = true && this.isSetCookieName();
+      boolean that_present_cookieName = true && that.isSetCookieName();
+      if (this_present_cookieName || that_present_cookieName) {
+        if (!(this_present_cookieName && that_present_cookieName))
+          return false;
+        if (!this.cookieName.equals(that.cookieName))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((isSetCookieManager()) ? 131071 : 524287);
+      if (isSetCookieManager())
+        hashCode = hashCode * 8191 + cookieManager.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetUrl()) ? 131071 : 524287);
+      if (isSetUrl())
+        hashCode = hashCode * 8191 + url.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetCookieName()) ? 131071 : 524287);
+      if (isSetCookieName())
+        hashCode = hashCode * 8191 + cookieName.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(CookieManager_DeleteCookies_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetCookieManager(), other.isSetCookieManager());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetCookieManager()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.cookieManager, other.cookieManager);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetUrl(), other.isSetUrl());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetUrl()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.url, other.url);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetCookieName(), other.isSetCookieName());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetCookieName()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.cookieName, other.cookieName);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("CookieManager_DeleteCookies_args(");
+      boolean first = true;
+
+      sb.append("cookieManager:");
+      if (this.cookieManager == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.cookieManager);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("url:");
+      if (this.url == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.url);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("cookieName:");
+      if (this.cookieName == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.cookieName);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (cookieManager != null) {
+        cookieManager.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class CookieManager_DeleteCookies_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public CookieManager_DeleteCookies_argsStandardScheme getScheme() {
+        return new CookieManager_DeleteCookies_argsStandardScheme();
+      }
+    }
+
+    private static class CookieManager_DeleteCookies_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<CookieManager_DeleteCookies_args> {
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol iprot, CookieManager_DeleteCookies_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // COOKIE_MANAGER
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.cookieManager = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.cookieManager.read(iprot);
+                struct.setCookieManagerIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // URL
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.url = iprot.readString();
+                struct.setUrlIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 3: // COOKIE_NAME
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.cookieName = iprot.readString();
+                struct.setCookieNameIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol oprot, CookieManager_DeleteCookies_args struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.cookieManager != null) {
+          oprot.writeFieldBegin(COOKIE_MANAGER_FIELD_DESC);
+          struct.cookieManager.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        if (struct.url != null) {
+          oprot.writeFieldBegin(URL_FIELD_DESC);
+          oprot.writeString(struct.url);
+          oprot.writeFieldEnd();
+        }
+        if (struct.cookieName != null) {
+          oprot.writeFieldBegin(COOKIE_NAME_FIELD_DESC);
+          oprot.writeString(struct.cookieName);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class CookieManager_DeleteCookies_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public CookieManager_DeleteCookies_argsTupleScheme getScheme() {
+        return new CookieManager_DeleteCookies_argsTupleScheme();
+      }
+    }
+
+    private static class CookieManager_DeleteCookies_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<CookieManager_DeleteCookies_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, CookieManager_DeleteCookies_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetCookieManager()) {
+          optionals.set(0);
+        }
+        if (struct.isSetUrl()) {
+          optionals.set(1);
+        }
+        if (struct.isSetCookieName()) {
+          optionals.set(2);
+        }
+        oprot.writeBitSet(optionals, 3);
+        if (struct.isSetCookieManager()) {
+          struct.cookieManager.write(oprot);
+        }
+        if (struct.isSetUrl()) {
+          oprot.writeString(struct.url);
+        }
+        if (struct.isSetCookieName()) {
+          oprot.writeString(struct.cookieName);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, CookieManager_DeleteCookies_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(3);
+        if (incoming.get(0)) {
+          struct.cookieManager = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.cookieManager.read(iprot);
+          struct.setCookieManagerIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.url = iprot.readString();
+          struct.setUrlIsSet(true);
+        }
+        if (incoming.get(2)) {
+          struct.cookieName = iprot.readString();
+          struct.setCookieNameIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class CookieManager_DeleteCookies_result implements org.apache.thrift.TBase<CookieManager_DeleteCookies_result, CookieManager_DeleteCookies_result._Fields>, java.io.Serializable, Cloneable, Comparable<CookieManager_DeleteCookies_result>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("CookieManager_DeleteCookies_result");
+
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.BOOL, (short)0);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new CookieManager_DeleteCookies_resultStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new CookieManager_DeleteCookies_resultTupleSchemeFactory();
+
+    public boolean success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __SUCCESS_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(CookieManager_DeleteCookies_result.class, metaDataMap);
+    }
+
+    public CookieManager_DeleteCookies_result() {
+    }
+
+    public CookieManager_DeleteCookies_result(
+      boolean success)
+    {
+      this();
+      this.success = success;
+      setSuccessIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public CookieManager_DeleteCookies_result(CookieManager_DeleteCookies_result other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.success = other.success;
+    }
+
+    @Override
+    public CookieManager_DeleteCookies_result deepCopy() {
+      return new CookieManager_DeleteCookies_result(this);
+    }
+
+    @Override
+    public void clear() {
+      setSuccessIsSet(false);
+      this.success = false;
+    }
+
+    public boolean isSuccess() {
+      return this.success;
+    }
+
+    public CookieManager_DeleteCookies_result setSuccess(boolean success) {
+      this.success = success;
+      setSuccessIsSet(true);
+      return this;
+    }
+
+    public void unsetSuccess() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __SUCCESS_ISSET_ID, value);
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((java.lang.Boolean)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return isSuccess();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof CookieManager_DeleteCookies_result)
+        return this.equals((CookieManager_DeleteCookies_result)that);
+      return false;
+    }
+
+    public boolean equals(CookieManager_DeleteCookies_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_success = true;
+      boolean that_present_success = true;
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (this.success != that.success)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((success) ? 131071 : 524287);
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(CookieManager_DeleteCookies_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetSuccess(), other.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, other.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("CookieManager_DeleteCookies_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      sb.append(this.success);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class CookieManager_DeleteCookies_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public CookieManager_DeleteCookies_resultStandardScheme getScheme() {
+        return new CookieManager_DeleteCookies_resultStandardScheme();
+      }
+    }
+
+    private static class CookieManager_DeleteCookies_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<CookieManager_DeleteCookies_result> {
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol iprot, CookieManager_DeleteCookies_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 0: // SUCCESS
+              if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
+                struct.success = iprot.readBool();
+                struct.setSuccessIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol oprot, CookieManager_DeleteCookies_result struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.isSetSuccess()) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          oprot.writeBool(struct.success);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class CookieManager_DeleteCookies_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public CookieManager_DeleteCookies_resultTupleScheme getScheme() {
+        return new CookieManager_DeleteCookies_resultTupleScheme();
+      }
+    }
+
+    private static class CookieManager_DeleteCookies_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<CookieManager_DeleteCookies_result> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, CookieManager_DeleteCookies_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          oprot.writeBool(struct.success);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, CookieManager_DeleteCookies_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.success = iprot.readBool();
+          struct.setSuccessIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class CookieManager_FlushStore_args implements org.apache.thrift.TBase<CookieManager_FlushStore_args, CookieManager_FlushStore_args._Fields>, java.io.Serializable, Cloneable, Comparable<CookieManager_FlushStore_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("CookieManager_FlushStore_args");
+
+    private static final org.apache.thrift.protocol.TField COOKIE_MANAGER_FIELD_DESC = new org.apache.thrift.protocol.TField("cookieManager", org.apache.thrift.protocol.TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField COMPLETION_CALLBACK_FIELD_DESC = new org.apache.thrift.protocol.TField("completionCallback", org.apache.thrift.protocol.TType.STRUCT, (short)2);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new CookieManager_FlushStore_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new CookieManager_FlushStore_argsTupleSchemeFactory();
+
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager; // required
+    public @org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject completionCallback; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      COOKIE_MANAGER((short)1, "cookieManager"),
+      COMPLETION_CALLBACK((short)2, "completionCallback");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // COOKIE_MANAGER
+            return COOKIE_MANAGER;
+          case 2: // COMPLETION_CALLBACK
+            return COMPLETION_CALLBACK;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.COOKIE_MANAGER, new org.apache.thrift.meta_data.FieldMetaData("cookieManager", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      tmpMap.put(_Fields.COMPLETION_CALLBACK, new org.apache.thrift.meta_data.FieldMetaData("completionCallback", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(CookieManager_FlushStore_args.class, metaDataMap);
+    }
+
+    public CookieManager_FlushStore_args() {
+    }
+
+    public CookieManager_FlushStore_args(
+      com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager,
+      com.jetbrains.cef.remote.thrift_codegen.RObject completionCallback)
+    {
+      this();
+      this.cookieManager = cookieManager;
+      this.completionCallback = completionCallback;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public CookieManager_FlushStore_args(CookieManager_FlushStore_args other) {
+      if (other.isSetCookieManager()) {
+        this.cookieManager = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.cookieManager);
+      }
+      if (other.isSetCompletionCallback()) {
+        this.completionCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.completionCallback);
+      }
+    }
+
+    @Override
+    public CookieManager_FlushStore_args deepCopy() {
+      return new CookieManager_FlushStore_args(this);
+    }
+
+    @Override
+    public void clear() {
+      this.cookieManager = null;
+      this.completionCallback = null;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getCookieManager() {
+      return this.cookieManager;
+    }
+
+    public CookieManager_FlushStore_args setCookieManager(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager) {
+      this.cookieManager = cookieManager;
+      return this;
+    }
+
+    public void unsetCookieManager() {
+      this.cookieManager = null;
+    }
+
+    /** Returns true if field cookieManager is set (has been assigned a value) and false otherwise */
+    public boolean isSetCookieManager() {
+      return this.cookieManager != null;
+    }
+
+    public void setCookieManagerIsSet(boolean value) {
+      if (!value) {
+        this.cookieManager = null;
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getCompletionCallback() {
+      return this.completionCallback;
+    }
+
+    public CookieManager_FlushStore_args setCompletionCallback(@org.apache.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject completionCallback) {
+      this.completionCallback = completionCallback;
+      return this;
+    }
+
+    public void unsetCompletionCallback() {
+      this.completionCallback = null;
+    }
+
+    /** Returns true if field completionCallback is set (has been assigned a value) and false otherwise */
+    public boolean isSetCompletionCallback() {
+      return this.completionCallback != null;
+    }
+
+    public void setCompletionCallbackIsSet(boolean value) {
+      if (!value) {
+        this.completionCallback = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case COOKIE_MANAGER:
+        if (value == null) {
+          unsetCookieManager();
+        } else {
+          setCookieManager((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      case COMPLETION_CALLBACK:
+        if (value == null) {
+          unsetCompletionCallback();
+        } else {
+          setCompletionCallback((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case COOKIE_MANAGER:
+        return getCookieManager();
+
+      case COMPLETION_CALLBACK:
+        return getCompletionCallback();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case COOKIE_MANAGER:
+        return isSetCookieManager();
+      case COMPLETION_CALLBACK:
+        return isSetCompletionCallback();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof CookieManager_FlushStore_args)
+        return this.equals((CookieManager_FlushStore_args)that);
+      return false;
+    }
+
+    public boolean equals(CookieManager_FlushStore_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_cookieManager = true && this.isSetCookieManager();
+      boolean that_present_cookieManager = true && that.isSetCookieManager();
+      if (this_present_cookieManager || that_present_cookieManager) {
+        if (!(this_present_cookieManager && that_present_cookieManager))
+          return false;
+        if (!this.cookieManager.equals(that.cookieManager))
+          return false;
+      }
+
+      boolean this_present_completionCallback = true && this.isSetCompletionCallback();
+      boolean that_present_completionCallback = true && that.isSetCompletionCallback();
+      if (this_present_completionCallback || that_present_completionCallback) {
+        if (!(this_present_completionCallback && that_present_completionCallback))
+          return false;
+        if (!this.completionCallback.equals(that.completionCallback))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((isSetCookieManager()) ? 131071 : 524287);
+      if (isSetCookieManager())
+        hashCode = hashCode * 8191 + cookieManager.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetCompletionCallback()) ? 131071 : 524287);
+      if (isSetCompletionCallback())
+        hashCode = hashCode * 8191 + completionCallback.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(CookieManager_FlushStore_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetCookieManager(), other.isSetCookieManager());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetCookieManager()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.cookieManager, other.cookieManager);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetCompletionCallback(), other.isSetCompletionCallback());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetCompletionCallback()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.completionCallback, other.completionCallback);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("CookieManager_FlushStore_args(");
+      boolean first = true;
+
+      sb.append("cookieManager:");
+      if (this.cookieManager == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.cookieManager);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("completionCallback:");
+      if (this.completionCallback == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.completionCallback);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (cookieManager != null) {
+        cookieManager.validate();
+      }
+      if (completionCallback != null) {
+        completionCallback.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class CookieManager_FlushStore_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public CookieManager_FlushStore_argsStandardScheme getScheme() {
+        return new CookieManager_FlushStore_argsStandardScheme();
+      }
+    }
+
+    private static class CookieManager_FlushStore_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<CookieManager_FlushStore_args> {
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol iprot, CookieManager_FlushStore_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // COOKIE_MANAGER
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.cookieManager = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.cookieManager.read(iprot);
+                struct.setCookieManagerIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // COMPLETION_CALLBACK
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.completionCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.completionCallback.read(iprot);
+                struct.setCompletionCallbackIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol oprot, CookieManager_FlushStore_args struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.cookieManager != null) {
+          oprot.writeFieldBegin(COOKIE_MANAGER_FIELD_DESC);
+          struct.cookieManager.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        if (struct.completionCallback != null) {
+          oprot.writeFieldBegin(COMPLETION_CALLBACK_FIELD_DESC);
+          struct.completionCallback.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class CookieManager_FlushStore_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public CookieManager_FlushStore_argsTupleScheme getScheme() {
+        return new CookieManager_FlushStore_argsTupleScheme();
+      }
+    }
+
+    private static class CookieManager_FlushStore_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<CookieManager_FlushStore_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, CookieManager_FlushStore_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetCookieManager()) {
+          optionals.set(0);
+        }
+        if (struct.isSetCompletionCallback()) {
+          optionals.set(1);
+        }
+        oprot.writeBitSet(optionals, 2);
+        if (struct.isSetCookieManager()) {
+          struct.cookieManager.write(oprot);
+        }
+        if (struct.isSetCompletionCallback()) {
+          struct.completionCallback.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, CookieManager_FlushStore_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(2);
+        if (incoming.get(0)) {
+          struct.cookieManager = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.cookieManager.read(iprot);
+          struct.setCookieManagerIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.completionCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.completionCallback.read(iprot);
+          struct.setCompletionCallbackIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class CookieManager_FlushStore_result implements org.apache.thrift.TBase<CookieManager_FlushStore_result, CookieManager_FlushStore_result._Fields>, java.io.Serializable, Cloneable, Comparable<CookieManager_FlushStore_result>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("CookieManager_FlushStore_result");
+
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.BOOL, (short)0);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new CookieManager_FlushStore_resultStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new CookieManager_FlushStore_resultTupleSchemeFactory();
+
+    public boolean success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __SUCCESS_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(CookieManager_FlushStore_result.class, metaDataMap);
+    }
+
+    public CookieManager_FlushStore_result() {
+    }
+
+    public CookieManager_FlushStore_result(
+      boolean success)
+    {
+      this();
+      this.success = success;
+      setSuccessIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public CookieManager_FlushStore_result(CookieManager_FlushStore_result other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.success = other.success;
+    }
+
+    @Override
+    public CookieManager_FlushStore_result deepCopy() {
+      return new CookieManager_FlushStore_result(this);
+    }
+
+    @Override
+    public void clear() {
+      setSuccessIsSet(false);
+      this.success = false;
+    }
+
+    public boolean isSuccess() {
+      return this.success;
+    }
+
+    public CookieManager_FlushStore_result setSuccess(boolean success) {
+      this.success = success;
+      setSuccessIsSet(true);
+      return this;
+    }
+
+    public void unsetSuccess() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __SUCCESS_ISSET_ID, value);
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((java.lang.Boolean)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return isSuccess();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof CookieManager_FlushStore_result)
+        return this.equals((CookieManager_FlushStore_result)that);
+      return false;
+    }
+
+    public boolean equals(CookieManager_FlushStore_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_success = true;
+      boolean that_present_success = true;
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (this.success != that.success)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((success) ? 131071 : 524287);
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(CookieManager_FlushStore_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetSuccess(), other.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, other.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("CookieManager_FlushStore_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      sb.append(this.success);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class CookieManager_FlushStore_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public CookieManager_FlushStore_resultStandardScheme getScheme() {
+        return new CookieManager_FlushStore_resultStandardScheme();
+      }
+    }
+
+    private static class CookieManager_FlushStore_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<CookieManager_FlushStore_result> {
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol iprot, CookieManager_FlushStore_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 0: // SUCCESS
+              if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
+                struct.success = iprot.readBool();
+                struct.setSuccessIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol oprot, CookieManager_FlushStore_result struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.isSetSuccess()) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          oprot.writeBool(struct.success);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class CookieManager_FlushStore_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
+      public CookieManager_FlushStore_resultTupleScheme getScheme() {
+        return new CookieManager_FlushStore_resultTupleScheme();
+      }
+    }
+
+    private static class CookieManager_FlushStore_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<CookieManager_FlushStore_result> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, CookieManager_FlushStore_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          oprot.writeBool(struct.success);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, CookieManager_FlushStore_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.success = iprot.readBool();
+          struct.setSuccessIsSet(true);
         }
       }
     }

@@ -277,4 +277,14 @@ public class ClientHandlersDummy implements ClientHandlers.Iface{
     public RObject RequestContextHandler_GetResourceRequestHandler(int handler, int bid, RObject frame, RObject request, boolean isNavigation, boolean isDownload, String requestInitiator) throws TException {
         return null;
     }
+
+    @Override
+    public boolean CookieVisitor_Visit(int visitor, Cookie cookie, int count, int total) throws TException {
+        return false;
+    }
+
+    @Override
+    public void CookieVisitor_Dispose(int visitor) throws TException {
+
+    }
 }

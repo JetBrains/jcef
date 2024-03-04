@@ -2,6 +2,7 @@
 #define JCEF_REMOTEBROWSERPROCESSHANDLER_H
 
 #include <utility>
+#include <mutex>
 
 #include "../../Utils.h"
 #include "include/cef_browser_process_handler.h"

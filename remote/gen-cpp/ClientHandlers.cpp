@@ -9634,6 +9634,320 @@ uint32_t ClientHandlers_RequestContextHandler_GetResourceRequestHandler_presult:
   return xfer;
 }
 
+
+ClientHandlers_CookieVisitor_Visit_args::~ClientHandlers_CookieVisitor_Visit_args() noexcept {
+}
+
+
+uint32_t ClientHandlers_CookieVisitor_Visit_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->visitor);
+          this->__isset.visitor = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->cookie.read(iprot);
+          this->__isset.cookie = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->count);
+          this->__isset.count = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->total);
+          this->__isset.total = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_CookieVisitor_Visit_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_CookieVisitor_Visit_args");
+
+  xfer += oprot->writeFieldBegin("visitor", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->visitor);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("cookie", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += this->cookie.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("count", ::apache::thrift::protocol::T_I32, 3);
+  xfer += oprot->writeI32(this->count);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("total", ::apache::thrift::protocol::T_I32, 4);
+  xfer += oprot->writeI32(this->total);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_CookieVisitor_Visit_pargs::~ClientHandlers_CookieVisitor_Visit_pargs() noexcept {
+}
+
+
+uint32_t ClientHandlers_CookieVisitor_Visit_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_CookieVisitor_Visit_pargs");
+
+  xfer += oprot->writeFieldBegin("visitor", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->visitor)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("cookie", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += (*(this->cookie)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("count", ::apache::thrift::protocol::T_I32, 3);
+  xfer += oprot->writeI32((*(this->count)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("total", ::apache::thrift::protocol::T_I32, 4);
+  xfer += oprot->writeI32((*(this->total)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_CookieVisitor_Visit_result::~ClientHandlers_CookieVisitor_Visit_result() noexcept {
+}
+
+
+uint32_t ClientHandlers_CookieVisitor_Visit_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->success);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_CookieVisitor_Visit_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("ClientHandlers_CookieVisitor_Visit_result");
+
+  if (this->__isset.success) {
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_BOOL, 0);
+    xfer += oprot->writeBool(this->success);
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_CookieVisitor_Visit_presult::~ClientHandlers_CookieVisitor_Visit_presult() noexcept {
+}
+
+
+uint32_t ClientHandlers_CookieVisitor_Visit_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool((*(this->success)));
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
+ClientHandlers_CookieVisitor_Dispose_args::~ClientHandlers_CookieVisitor_Dispose_args() noexcept {
+}
+
+
+uint32_t ClientHandlers_CookieVisitor_Dispose_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->visitor);
+          this->__isset.visitor = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_CookieVisitor_Dispose_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_CookieVisitor_Dispose_args");
+
+  xfer += oprot->writeFieldBegin("visitor", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->visitor);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_CookieVisitor_Dispose_pargs::~ClientHandlers_CookieVisitor_Dispose_pargs() noexcept {
+}
+
+
+uint32_t ClientHandlers_CookieVisitor_Dispose_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_CookieVisitor_Dispose_pargs");
+
+  xfer += oprot->writeFieldBegin("visitor", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->visitor)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
 int32_t ClientHandlersClient::connect()
 {
   send_connect();
@@ -12016,6 +12330,86 @@ void ClientHandlersClient::recv_RequestContextHandler_GetResourceRequestHandler(
     return;
   }
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "RequestContextHandler_GetResourceRequestHandler failed: unknown result");
+}
+
+bool ClientHandlersClient::CookieVisitor_Visit(const int32_t visitor, const  ::thrift_codegen::Cookie& cookie, const int32_t count, const int32_t total)
+{
+  send_CookieVisitor_Visit(visitor, cookie, count, total);
+  return recv_CookieVisitor_Visit();
+}
+
+void ClientHandlersClient::send_CookieVisitor_Visit(const int32_t visitor, const  ::thrift_codegen::Cookie& cookie, const int32_t count, const int32_t total)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("CookieVisitor_Visit", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  ClientHandlers_CookieVisitor_Visit_pargs args;
+  args.visitor = &visitor;
+  args.cookie = &cookie;
+  args.count = &count;
+  args.total = &total;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+bool ClientHandlersClient::recv_CookieVisitor_Visit()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("CookieVisitor_Visit") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  bool _return;
+  ClientHandlers_CookieVisitor_Visit_presult result;
+  result.success = &_return;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  if (result.__isset.success) {
+    return _return;
+  }
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "CookieVisitor_Visit failed: unknown result");
+}
+
+void ClientHandlersClient::CookieVisitor_Dispose(const int32_t visitor)
+{
+  send_CookieVisitor_Dispose(visitor);
+}
+
+void ClientHandlersClient::send_CookieVisitor_Dispose(const int32_t visitor)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("CookieVisitor_Dispose", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  ClientHandlers_CookieVisitor_Dispose_pargs args;
+  args.visitor = &visitor;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
 }
 
 bool ClientHandlersProcessor::dispatchCall(::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, const std::string& fname, int32_t seqid, void* callContext) {
@@ -14575,6 +14969,97 @@ void ClientHandlersProcessor::process_RequestContextHandler_GetResourceRequestHa
   if (this->eventHandler_.get() != nullptr) {
     this->eventHandler_->postWrite(ctx, "ClientHandlers.RequestContextHandler_GetResourceRequestHandler", bytes);
   }
+}
+
+void ClientHandlersProcessor::process_CookieVisitor_Visit(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("ClientHandlers.CookieVisitor_Visit", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ClientHandlers.CookieVisitor_Visit");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "ClientHandlers.CookieVisitor_Visit");
+  }
+
+  ClientHandlers_CookieVisitor_Visit_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "ClientHandlers.CookieVisitor_Visit", bytes);
+  }
+
+  ClientHandlers_CookieVisitor_Visit_result result;
+  try {
+    result.success = iface_->CookieVisitor_Visit(args.visitor, args.cookie, args.count, args.total);
+    result.__isset.success = true;
+  } catch (const std::exception& e) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "ClientHandlers.CookieVisitor_Visit");
+    }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("CookieVisitor_Visit", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preWrite(ctx, "ClientHandlers.CookieVisitor_Visit");
+  }
+
+  oprot->writeMessageBegin("CookieVisitor_Visit", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "ClientHandlers.CookieVisitor_Visit", bytes);
+  }
+}
+
+void ClientHandlersProcessor::process_CookieVisitor_Dispose(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("ClientHandlers.CookieVisitor_Dispose", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ClientHandlers.CookieVisitor_Dispose");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "ClientHandlers.CookieVisitor_Dispose");
+  }
+
+  ClientHandlers_CookieVisitor_Dispose_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "ClientHandlers.CookieVisitor_Dispose", bytes);
+  }
+
+  try {
+    iface_->CookieVisitor_Dispose(args.visitor);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "ClientHandlers.CookieVisitor_Dispose");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "ClientHandlers.CookieVisitor_Dispose");
+  }
+
+  return;
 }
 
 ::std::shared_ptr< ::apache::thrift::TProcessor > ClientHandlersProcessorFactory::getProcessor(const ::apache::thrift::TConnectionInfo& connInfo) {
@@ -17862,6 +18347,115 @@ void ClientHandlersConcurrentClient::recv_RequestContextHandler_GetResourceReque
     // this will temporarily unlock the readMutex, and let other clients get work done
     this->sync_->waitForWork(seqid);
   } // end while(true)
+}
+
+bool ClientHandlersConcurrentClient::CookieVisitor_Visit(const int32_t visitor, const  ::thrift_codegen::Cookie& cookie, const int32_t count, const int32_t total)
+{
+  int32_t seqid = send_CookieVisitor_Visit(visitor, cookie, count, total);
+  return recv_CookieVisitor_Visit(seqid);
+}
+
+int32_t ClientHandlersConcurrentClient::send_CookieVisitor_Visit(const int32_t visitor, const  ::thrift_codegen::Cookie& cookie, const int32_t count, const int32_t total)
+{
+  int32_t cseqid = this->sync_->generateSeqId();
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("CookieVisitor_Visit", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  ClientHandlers_CookieVisitor_Visit_pargs args;
+  args.visitor = &visitor;
+  args.cookie = &cookie;
+  args.count = &count;
+  args.total = &total;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+  return cseqid;
+}
+
+bool ClientHandlersConcurrentClient::recv_CookieVisitor_Visit(const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("CookieVisitor_Visit") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      bool _return;
+      ClientHandlers_CookieVisitor_Visit_presult result;
+      result.success = &_return;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      if (result.__isset.success) {
+        sentry.commit();
+        return _return;
+      }
+      // in a bad state, don't commit
+      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "CookieVisitor_Visit failed: unknown result");
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
+}
+
+void ClientHandlersConcurrentClient::CookieVisitor_Dispose(const int32_t visitor)
+{
+  send_CookieVisitor_Dispose(visitor);
+}
+
+void ClientHandlersConcurrentClient::send_CookieVisitor_Dispose(const int32_t visitor)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("CookieVisitor_Dispose", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  ClientHandlers_CookieVisitor_Dispose_pargs args;
+  args.visitor = &visitor;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
 }
 
 } // namespace

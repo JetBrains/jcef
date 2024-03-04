@@ -982,4 +982,282 @@ void KeyEvent::printTo(std::ostream& out) const {
   out << ")";
 }
 
+
+Cookie::~Cookie() noexcept {
+}
+
+
+void Cookie::__set_name(const std::string& val) {
+  this->name = val;
+}
+
+void Cookie::__set_value(const std::string& val) {
+  this->value = val;
+}
+
+void Cookie::__set_domain(const std::string& val) {
+  this->domain = val;
+}
+
+void Cookie::__set_path(const std::string& val) {
+  this->path = val;
+}
+
+void Cookie::__set_secure(const bool val) {
+  this->secure = val;
+}
+
+void Cookie::__set_httponly(const bool val) {
+  this->httponly = val;
+}
+
+void Cookie::__set_creation(const int64_t val) {
+  this->creation = val;
+}
+
+void Cookie::__set_lastAccess(const int64_t val) {
+  this->lastAccess = val;
+}
+
+void Cookie::__set_expires(const int64_t val) {
+  this->expires = val;
+__isset.expires = true;
+}
+std::ostream& operator<<(std::ostream& out, const Cookie& obj)
+{
+  obj.printTo(out);
+  return out;
+}
+
+
+uint32_t Cookie::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+  bool isset_name = false;
+  bool isset_value = false;
+  bool isset_domain = false;
+  bool isset_path = false;
+  bool isset_secure = false;
+  bool isset_httponly = false;
+  bool isset_creation = false;
+  bool isset_lastAccess = false;
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->name);
+          isset_name = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->value);
+          isset_value = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->domain);
+          isset_domain = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->path);
+          isset_path = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 5:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->secure);
+          isset_secure = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 6:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->httponly);
+          isset_httponly = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 7:
+        if (ftype == ::apache::thrift::protocol::T_I64) {
+          xfer += iprot->readI64(this->creation);
+          isset_creation = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 8:
+        if (ftype == ::apache::thrift::protocol::T_I64) {
+          xfer += iprot->readI64(this->lastAccess);
+          isset_lastAccess = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 9:
+        if (ftype == ::apache::thrift::protocol::T_I64) {
+          xfer += iprot->readI64(this->expires);
+          this->__isset.expires = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  if (!isset_name)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_value)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_domain)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_path)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_secure)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_httponly)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_creation)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_lastAccess)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  return xfer;
+}
+
+uint32_t Cookie::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Cookie");
+
+  xfer += oprot->writeFieldBegin("name", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->name);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("value", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString(this->value);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("domain", ::apache::thrift::protocol::T_STRING, 3);
+  xfer += oprot->writeString(this->domain);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("path", ::apache::thrift::protocol::T_STRING, 4);
+  xfer += oprot->writeString(this->path);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("secure", ::apache::thrift::protocol::T_BOOL, 5);
+  xfer += oprot->writeBool(this->secure);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("httponly", ::apache::thrift::protocol::T_BOOL, 6);
+  xfer += oprot->writeBool(this->httponly);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("creation", ::apache::thrift::protocol::T_I64, 7);
+  xfer += oprot->writeI64(this->creation);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("lastAccess", ::apache::thrift::protocol::T_I64, 8);
+  xfer += oprot->writeI64(this->lastAccess);
+  xfer += oprot->writeFieldEnd();
+
+  if (this->__isset.expires) {
+    xfer += oprot->writeFieldBegin("expires", ::apache::thrift::protocol::T_I64, 9);
+    xfer += oprot->writeI64(this->expires);
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+void swap(Cookie &a, Cookie &b) {
+  using ::std::swap;
+  swap(a.name, b.name);
+  swap(a.value, b.value);
+  swap(a.domain, b.domain);
+  swap(a.path, b.path);
+  swap(a.secure, b.secure);
+  swap(a.httponly, b.httponly);
+  swap(a.creation, b.creation);
+  swap(a.lastAccess, b.lastAccess);
+  swap(a.expires, b.expires);
+  swap(a.__isset, b.__isset);
+}
+
+Cookie::Cookie(const Cookie& other26) {
+  name = other26.name;
+  value = other26.value;
+  domain = other26.domain;
+  path = other26.path;
+  secure = other26.secure;
+  httponly = other26.httponly;
+  creation = other26.creation;
+  lastAccess = other26.lastAccess;
+  expires = other26.expires;
+  __isset = other26.__isset;
+}
+Cookie& Cookie::operator=(const Cookie& other27) {
+  name = other27.name;
+  value = other27.value;
+  domain = other27.domain;
+  path = other27.path;
+  secure = other27.secure;
+  httponly = other27.httponly;
+  creation = other27.creation;
+  lastAccess = other27.lastAccess;
+  expires = other27.expires;
+  __isset = other27.__isset;
+  return *this;
+}
+void Cookie::printTo(std::ostream& out) const {
+  using ::apache::thrift::to_string;
+  out << "Cookie(";
+  out << "name=" << to_string(name);
+  out << ", " << "value=" << to_string(value);
+  out << ", " << "domain=" << to_string(domain);
+  out << ", " << "path=" << to_string(path);
+  out << ", " << "secure=" << to_string(secure);
+  out << ", " << "httponly=" << to_string(httponly);
+  out << ", " << "creation=" << to_string(creation);
+  out << ", " << "lastAccess=" << to_string(lastAccess);
+  out << ", " << "expires="; (__isset.expires ? (out << to_string(expires)) : (out << "<null>"));
+  out << ")";
+}
+
 } // namespace

@@ -909,4 +909,26 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         RemoteResourceRequestHandler resultHandler = RemoteResourceRequestHandler.create(handler);
         return resultHandler.thriftId(disableDefaultHandling.get() ? 1 : 0);
     }
+
+    @Override
+    public boolean CookieVisitor_Visit(int visitor, Cookie cookie, int count, int total) throws TException {
+        RemoteCookieVisitor rvisitor = RemoteCookieVisitor.FACTORY.get(visitor);
+        if (rvisitor == null) return false;
+
+        BoolRef delete = new BoolRef(false);
+        boolean continueTraverse = rvisitor.getDelegate().visit(RemoteCookieManager.toCefCookie(cookie), count, total, delete);
+        if (delete.get())
+            CefLog.Error("Can't delete cookie %s via CefCookieVisitor, please use CefCookieManager.deleteCookie. TODO: implement.");
+        if (count == total || !continueTraverse) {
+            CefLog.Debug("Last cookie (%d) visited, dispose RemoteCookieVisitor %d.", total, visitor);
+            RemoteCookieVisitor.FACTORY.dispose(visitor);
+        }
+        return continueTraverse;
+    }
+
+    @Override
+    public void CookieVisitor_Dispose(int visitor) throws TException {
+        CefLog.Debug("Dispose RemoteCookieVisitor %d (by server request).", visitor);
+        RemoteCookieVisitor.FACTORY.dispose(visitor);
+    }
 }

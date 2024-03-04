@@ -142,4 +142,10 @@ service ClientHandlers {
     // CefRequestContextHandler
     //
     shared.RObject RequestContextHandler_GetResourceRequestHandler(1:i32 handler, 2:i32 bid, 3:shared.RObject frame, 4:shared.RObject request, 5:bool isNavigation, 6:bool isDownload, 7:string requestInitiator),
+
+    //
+    // CefCookieVisitor
+    //
+    bool CookieVisitor_Visit(1:i32 visitor, 2:shared.Cookie cookie, 3:i32 count, 4:i32 total),
+    oneway void CookieVisitor_Dispose(1:i32 visitor),
 }

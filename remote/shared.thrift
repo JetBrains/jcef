@@ -40,3 +40,16 @@ struct KeyEvent {
     7: required i16 unmodified_character,
     8: required bool focus_on_editable_field
 }
+
+struct Cookie {
+    1: required string name,
+    2: required string value,
+    3: required string domain,
+    4: required string path,
+    5: required bool secure,
+    6: required bool httponly,
+    7: required i64 creation,
+    8: required i64 lastAccess,
+    9: optional i64 expires
+}
+

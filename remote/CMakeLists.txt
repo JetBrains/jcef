@@ -163,6 +163,10 @@ set(SERVER_SOURCES
         ServerHandlerContext.cpp
         callback/RemoteCompletionCallback.cpp
         callback/RemoteCompletionCallback.h
+        network/RemoteCookieManager.cpp
+        network/RemoteCookieManager.h
+        network/RemoteCookieVisitor.cpp
+        network/RemoteCookieVisitor.h
 )
 
 if (OS_WINDOWS)
