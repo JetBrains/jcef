@@ -138,20 +138,20 @@ public interface CefBrowser {
      * @param identifier The unique frame identifier
      * @return The frame or NULL if not found
      */
-    public CefFrame getFrameByIdentifier(String identifier);
+    public CefFrame getFrame(long identifier);
 
     /**
      * Returns the frame with the specified name, or NULL if not found.
      * @param name The specified name
      * @return The frame or NULL if not found
      */
-    public CefFrame getFrameByName(String name);
+    public CefFrame getFrame(String name);
 
     /**
      * Returns the identifiers of all existing frames.
      * @return All identifiers of existing frames.
      */
-    public Vector<String> getFrameIdentifiers();
+    public Vector<Long> getFrameIdentifiers();
 
     /**
      * Returns the names of all existing frames.

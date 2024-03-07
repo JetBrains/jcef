@@ -14,11 +14,11 @@ public interface CefFrame {
     void dispose();
 
     /**
-     * Returns the globally unique identifier for this frame or null if the
+     * Returns the globally unique identifier for this frame or < 0 if the
      * underlying frame does not yet exist.
      * @return The frame identifier
      */
-    String getIdentifier();
+    long getIdentifier();
 
     /**
      * Emits the URL currently loaded in this frame.

@@ -12,7 +12,11 @@ import org.cef.callback.CefNativeAdapter;
  * The visibility of this class is "package".
  */
 class CefFrame_N extends CefNativeAdapter implements CefFrame {
+    private long myFakeId;
+
     CefFrame_N() {}
+
+    private void setFakeId(long fakeId) { myFakeId = fakeId; }
 
     @Override
     protected void finalize() throws Throwable {
@@ -30,13 +34,8 @@ class CefFrame_N extends CefNativeAdapter implements CefFrame {
     }
 
     @Override
-    public String getIdentifier() {
-        try {
-            return N_GetIdentifier(getNativeRef(null));
-        } catch (UnsatisfiedLinkError ule) {
-            ule.printStackTrace();
-            return null;
-        }
+    public long getIdentifier() {
+        return myFakeId;
     }
 
     @Override

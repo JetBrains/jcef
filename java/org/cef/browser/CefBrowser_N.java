@@ -452,11 +452,11 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     }
 
     @Override
-    public CefFrame getFrameByIdentifier(String identifier) {
+    public CefFrame getFrame(long identifier) {
         try {
             checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
-                return N_GetFrame(identifier);
+                return N_GetFrameByFakeId(identifier);
         } catch (UnsatisfiedLinkError ule) {
             ule.printStackTrace();
         }
@@ -464,7 +464,7 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     }
 
     @Override
-    public CefFrame getFrameByName(String name) {
+    public CefFrame getFrame(String name) {
         try {
             checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
@@ -476,11 +476,11 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     }
 
     @Override
-    public Vector<String> getFrameIdentifiers() {
+    public Vector<Long> getFrameIdentifiers() {
         try {
             checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
-                return N_GetFrameIdentifiers();
+                return N_GetFrameFakeIds();
         } catch (UnsatisfiedLinkError ule) {
             ule.printStackTrace();
         }
@@ -1122,8 +1122,10 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     private final native CefFrame N_GetFocusedFrame();
     private final native CefFrame N_GetFrame(String identifier);
     private final native CefFrame N_GetFrame2(String name);
+    private final native CefFrame N_GetFrameByFakeId(long identifier);
     private final native Vector<String> N_GetFrameIdentifiers();
     private final native Vector<String> N_GetFrameNames();
+    private final native Vector<Long> N_GetFrameFakeIds();
     private final native int N_GetFrameCount();
     private final native boolean N_IsPopup();
     private final native boolean N_HasDocument();

@@ -276,6 +276,21 @@ void OnAfterParentChanged(CefRefPtr<CefBrowser> browser) {
   }
 }
 
+jobject NewJNILongVector(JNIEnv* env, const std::vector<int64_t>& vals) {
+  ScopedJNIObjectLocal jvector(env, "java/util/Vector");
+  if (!jvector)
+    return nullptr;
+
+  std::vector<int64_t>::const_iterator iter;
+  for (iter = vals.begin(); iter != vals.end(); ++iter) {
+    ScopedJNIObjectLocal argument(
+        env, NewJNIObject(env, "java/lang/Long", "(J)V", (jlong)*iter));
+    JNI_CALL_VOID_METHOD(env, jvector, "addElement", "(Ljava/lang/Object;)V",
+                         argument.get());
+  }
+  return jvector.Release();
+}
+
 CefPdfPrintSettings GetJNIPdfPrintSettings(JNIEnv* env, jobject obj) {
   CefString tmp;
   CefPdfPrintSettings settings;
@@ -575,6 +590,36 @@ Java_org_cef_browser_CefBrowser_1N_N_1GetFrame2(JNIEnv* env,
     return nullptr;
   ScopedJNIFrame jframe(env, frame);
   return jframe.Release();
+}
+
+extern void Real2Fake(std::vector<CefString> readIds, std::vector<int64_t>& fakeIds);
+extern CefString Fake2Real(int64_t fakeId);
+
+JNIEXPORT jobject JNICALL
+Java_org_cef_browser_CefBrowser_1N_N_1GetFrameByFakeId(JNIEnv* env,
+                                               jobject obj,
+                                               jlong fakeId) {
+  CefRefPtr<CefBrowser> browser = JNI_GET_BROWSER_OR_RETURN(env, obj, nullptr);
+  CefString realId = Fake2Real(fakeId);
+  if (realId.size() == 0)
+    return nullptr;
+  CefRefPtr<CefFrame> frame = browser->GetFrameByIdentifier(realId);
+  if (!frame)
+    return nullptr;
+  ScopedJNIFrame jframe(env, frame);
+  return jframe.Release();
+}
+
+JNIEXPORT jobject JNICALL
+Java_org_cef_browser_CefBrowser_1N_N_1GetFrameFakeIds(JNIEnv* env,
+                                                          jobject obj) {
+  CefRefPtr<CefBrowser> browser = JNI_GET_BROWSER_OR_RETURN(env, obj, nullptr);
+  std::vector<CefString> realIds;
+  browser->GetFrameIdentifiers(realIds);
+
+  std::vector<int64_t> identifiers;
+  Real2Fake(realIds, identifiers);
+  return NewJNILongVector(env, identifiers);
 }
 
 JNIEXPORT jint JNICALL
