@@ -1,0 +1,512 @@
+Subject: [PATCH] remove slf4j usage
+---
+Index: lib/java/src/main/java/org/apache/thrift/Logger.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/java/src/main/java/org/apache/thrift/Logger.java b/lib/java/src/main/java/org/apache/thrift/Logger.java
+new file mode 100644
+--- /dev/null	(revision 4f8516a656b7d0b76c83e0471778eac000155849)
++++ b/lib/java/src/main/java/org/apache/thrift/Logger.java	(revision 4f8516a656b7d0b76c83e0471778eac000155849)
+@@ -0,0 +1,64 @@
++package org.apache.thrift;
++
++public class Logger {
++    public boolean isTraceEnabled() { return false; }
++
++    public void trace(String var1) {}
++
++    public void trace(String var1, Object var2) {}
++
++    public void trace(String var1, Object var2, Object var3) {}
++
++    public void trace(String var1, Object... var2) {}
++
++    public void trace(String var1, Throwable var2) {}
++
++    public boolean isDebugEnabled() { return false; }
++
++    public void debug(String var1) {}
++
++    public void debug(String var1, Object var2) {}
++
++    public void debug(String var1, Object var2, Object var3) {}
++
++    public void debug(String var1, Object... var2) {}
++
++    public void debug(String var1, Throwable var2) {}
++
++
++    public boolean isInfoEnabled() { return false; }
++
++    public void info(String var1) {}
++
++    public void info(String var1, Object var2) {}
++
++    public void info(String var1, Object var2, Object var3) {}
++
++    public void info(String var1, Object... var2) {}
++
++    public void info(String var1, Throwable var2) {}
++
++    public boolean isWarnEnabled() { return false; }
++
++    public void warn(String var1) {}
++
++    public void warn(String var1, Object var2) {}
++
++    public void warn(String var1, Object... var2) {}
++
++    public void warn(String var1, Object var2, Object var3) {}
++
++    public void warn(String var1, Throwable var2) {}
++
++    public boolean isErrorEnabled() { return false; }
++
++    public void error(String var1) {}
++
++    public void error(String var1, Object var2) {}
++
++    public void error(String var1, Object var2, Object var3) {}
++
++    public void error(String var1, Object... var2) {}
++
++    public void error(String var1, Throwable var2) {}
++}
+Index: lib/java/src/main/java/org/apache/thrift/LoggerFactory.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/java/src/main/java/org/apache/thrift/LoggerFactory.java b/lib/java/src/main/java/org/apache/thrift/LoggerFactory.java
+new file mode 100644
+--- /dev/null	(revision 4f8516a656b7d0b76c83e0471778eac000155849)
++++ b/lib/java/src/main/java/org/apache/thrift/LoggerFactory.java	(revision 4f8516a656b7d0b76c83e0471778eac000155849)
+@@ -0,0 +1,8 @@
++package org.apache.thrift;
++
++public class LoggerFactory {
++    public static Logger getLogger(String name) { return new Logger(); }
++
++    public static Logger getLogger(Class<?> clazz) { return new Logger(); }
++
++}
+Index: lib/java/src/main/java/org/apache/thrift/ProcessFunction.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/java/src/main/java/org/apache/thrift/ProcessFunction.java b/lib/java/src/main/java/org/apache/thrift/ProcessFunction.java
+--- a/lib/java/src/main/java/org/apache/thrift/ProcessFunction.java	(revision 5656208a202ca0be4d4dc44125b5ca0485f91bf0)
++++ b/lib/java/src/main/java/org/apache/thrift/ProcessFunction.java	(revision 4f8516a656b7d0b76c83e0471778eac000155849)
+@@ -5,8 +5,8 @@
+ import org.apache.thrift.protocol.TProtocol;
+ import org.apache.thrift.protocol.TProtocolException;
+ import org.apache.thrift.transport.TTransportException;
+-import org.slf4j.Logger;
+-import org.slf4j.LoggerFactory;
++import org.apache.thrift.Logger;
++import org.apache.thrift.LoggerFactory;
+ 
+ public abstract class ProcessFunction<I, T extends TBase> {
+   private final String methodName;
+Index: lib/java/src/main/java/org/apache/thrift/TBaseAsyncProcessor.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/java/src/main/java/org/apache/thrift/TBaseAsyncProcessor.java b/lib/java/src/main/java/org/apache/thrift/TBaseAsyncProcessor.java
+--- a/lib/java/src/main/java/org/apache/thrift/TBaseAsyncProcessor.java	(revision 5656208a202ca0be4d4dc44125b5ca0485f91bf0)
++++ b/lib/java/src/main/java/org/apache/thrift/TBaseAsyncProcessor.java	(revision 4f8516a656b7d0b76c83e0471778eac000155849)
+@@ -23,8 +23,8 @@
+ import org.apache.thrift.async.AsyncMethodCallback;
+ import org.apache.thrift.protocol.*;
+ import org.apache.thrift.server.AbstractNonblockingServer.*;
+-import org.slf4j.Logger;
+-import org.slf4j.LoggerFactory;
++import org.apache.thrift.Logger;
++import org.apache.thrift.LoggerFactory;
+ 
+ public class TBaseAsyncProcessor<I> implements TAsyncProcessor, TProcessor {
+   protected final Logger LOGGER = LoggerFactory.getLogger(getClass().getName());
+Index: lib/java/src/main/java/org/apache/thrift/TNonblockingMultiFetchClient.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/java/src/main/java/org/apache/thrift/TNonblockingMultiFetchClient.java b/lib/java/src/main/java/org/apache/thrift/TNonblockingMultiFetchClient.java
+--- a/lib/java/src/main/java/org/apache/thrift/TNonblockingMultiFetchClient.java	(revision 5656208a202ca0be4d4dc44125b5ca0485f91bf0)
++++ b/lib/java/src/main/java/org/apache/thrift/TNonblockingMultiFetchClient.java	(revision 4f8516a656b7d0b76c83e0471778eac000155849)
+@@ -33,8 +33,8 @@
+ import java.util.concurrent.FutureTask;
+ import java.util.concurrent.TimeUnit;
+ import java.util.concurrent.TimeoutException;
+-import org.slf4j.Logger;
+-import org.slf4j.LoggerFactory;
++import org.apache.thrift.Logger;
++import org.apache.thrift.LoggerFactory;
+ 
+ /**
+  * This class uses a single thread to set up non-blocking sockets to a set of remote servers
+Index: lib/java/src/main/java/org/apache/thrift/async/TAsyncClientManager.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/java/src/main/java/org/apache/thrift/async/TAsyncClientManager.java b/lib/java/src/main/java/org/apache/thrift/async/TAsyncClientManager.java
+--- a/lib/java/src/main/java/org/apache/thrift/async/TAsyncClientManager.java	(revision 5656208a202ca0be4d4dc44125b5ca0485f91bf0)
++++ b/lib/java/src/main/java/org/apache/thrift/async/TAsyncClientManager.java	(revision 4f8516a656b7d0b76c83e0471778eac000155849)
+@@ -30,8 +30,8 @@
+ import java.util.concurrent.ConcurrentLinkedQueue;
+ import java.util.concurrent.TimeoutException;
+ import org.apache.thrift.TException;
+-import org.slf4j.Logger;
+-import org.slf4j.LoggerFactory;
++import org.apache.thrift.Logger;
++import org.apache.thrift.LoggerFactory;
+ 
+ /** Contains selector thread which transitions method call objects */
+ public class TAsyncClientManager {
+Index: lib/java/src/main/java/org/apache/thrift/partial/EnumCache.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/java/src/main/java/org/apache/thrift/partial/EnumCache.java b/lib/java/src/main/java/org/apache/thrift/partial/EnumCache.java
+--- a/lib/java/src/main/java/org/apache/thrift/partial/EnumCache.java	(revision 5656208a202ca0be4d4dc44125b5ca0485f91bf0)
++++ b/lib/java/src/main/java/org/apache/thrift/partial/EnumCache.java	(revision 4f8516a656b7d0b76c83e0471778eac000155849)
+@@ -24,8 +24,8 @@
+ import java.util.HashMap;
+ import java.util.Map;
+ import org.apache.thrift.TEnum;
+-import org.slf4j.Logger;
+-import org.slf4j.LoggerFactory;
++import org.apache.thrift.Logger;
++import org.apache.thrift.LoggerFactory;
+ 
+ /**
+  * Provides a memoized way to lookup an enum by its value.
+Index: lib/java/src/main/java/org/apache/thrift/server/AbstractNonblockingServer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/java/src/main/java/org/apache/thrift/server/AbstractNonblockingServer.java b/lib/java/src/main/java/org/apache/thrift/server/AbstractNonblockingServer.java
+--- a/lib/java/src/main/java/org/apache/thrift/server/AbstractNonblockingServer.java	(revision 5656208a202ca0be4d4dc44125b5ca0485f91bf0)
++++ b/lib/java/src/main/java/org/apache/thrift/server/AbstractNonblockingServer.java	(revision 4f8516a656b7d0b76c83e0471778eac000155849)
+@@ -38,8 +38,8 @@
+ import org.apache.thrift.transport.TTransport;
+ import org.apache.thrift.transport.TTransportException;
+ import org.apache.thrift.transport.layered.TFramedTransport;
+-import org.slf4j.Logger;
+-import org.slf4j.LoggerFactory;
++import org.apache.thrift.Logger;
++import org.apache.thrift.LoggerFactory;
+ 
+ /** Provides common methods and classes used by nonblocking TServer implementations. */
+ public abstract class AbstractNonblockingServer extends TServer {
+Index: lib/java/src/main/java/org/apache/thrift/server/TSaslNonblockingServer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/java/src/main/java/org/apache/thrift/server/TSaslNonblockingServer.java b/lib/java/src/main/java/org/apache/thrift/server/TSaslNonblockingServer.java
+--- a/lib/java/src/main/java/org/apache/thrift/server/TSaslNonblockingServer.java	(revision 5656208a202ca0be4d4dc44125b5ca0485f91bf0)
++++ b/lib/java/src/main/java/org/apache/thrift/server/TSaslNonblockingServer.java	(revision 4f8516a656b7d0b76c83e0471778eac000155849)
+@@ -43,8 +43,8 @@
+ import org.apache.thrift.transport.sasl.TBaseSaslProcessorFactory;
+ import org.apache.thrift.transport.sasl.TSaslProcessorFactory;
+ import org.apache.thrift.transport.sasl.TSaslServerFactory;
+-import org.slf4j.Logger;
+-import org.slf4j.LoggerFactory;
++import org.apache.thrift.Logger;
++import org.apache.thrift.LoggerFactory;
+ 
+ /** TServer with sasl support, using asynchronous execution and nonblocking io. */
+ public class TSaslNonblockingServer extends TServer {
+Index: lib/java/src/main/java/org/apache/thrift/server/TSimpleServer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/java/src/main/java/org/apache/thrift/server/TSimpleServer.java b/lib/java/src/main/java/org/apache/thrift/server/TSimpleServer.java
+--- a/lib/java/src/main/java/org/apache/thrift/server/TSimpleServer.java	(revision 5656208a202ca0be4d4dc44125b5ca0485f91bf0)
++++ b/lib/java/src/main/java/org/apache/thrift/server/TSimpleServer.java	(revision 4f8516a656b7d0b76c83e0471778eac000155849)
+@@ -24,8 +24,8 @@
+ import org.apache.thrift.protocol.TProtocol;
+ import org.apache.thrift.transport.TTransport;
+ import org.apache.thrift.transport.TTransportException;
+-import org.slf4j.Logger;
+-import org.slf4j.LoggerFactory;
++import org.apache.thrift.Logger;
++import org.apache.thrift.LoggerFactory;
+ 
+ /** Simple singlethreaded server for testing. */
+ public class TSimpleServer extends TServer {
+Index: lib/java/src/main/java/org/apache/thrift/server/TThreadPoolServer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/java/src/main/java/org/apache/thrift/server/TThreadPoolServer.java b/lib/java/src/main/java/org/apache/thrift/server/TThreadPoolServer.java
+--- a/lib/java/src/main/java/org/apache/thrift/server/TThreadPoolServer.java	(revision 5656208a202ca0be4d4dc44125b5ca0485f91bf0)
++++ b/lib/java/src/main/java/org/apache/thrift/server/TThreadPoolServer.java	(revision 4f8516a656b7d0b76c83e0471778eac000155849)
+@@ -34,8 +34,8 @@
+ import org.apache.thrift.transport.TServerTransport;
+ import org.apache.thrift.transport.TTransport;
+ import org.apache.thrift.transport.TTransportException;
+-import org.slf4j.Logger;
+-import org.slf4j.LoggerFactory;
++import org.apache.thrift.Logger;
++import org.apache.thrift.LoggerFactory;
+ 
+ /**
+  * Server which uses Java's built in ThreadPool management to spawn off a worker pool that deals
+Index: lib/java/src/main/java/org/apache/thrift/server/TThreadedSelectorServer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/java/src/main/java/org/apache/thrift/server/TThreadedSelectorServer.java b/lib/java/src/main/java/org/apache/thrift/server/TThreadedSelectorServer.java
+--- a/lib/java/src/main/java/org/apache/thrift/server/TThreadedSelectorServer.java	(revision 5656208a202ca0be4d4dc44125b5ca0485f91bf0)
++++ b/lib/java/src/main/java/org/apache/thrift/server/TThreadedSelectorServer.java	(revision 4f8516a656b7d0b76c83e0471778eac000155849)
+@@ -41,8 +41,8 @@
+ import org.apache.thrift.transport.TNonblockingServerTransport;
+ import org.apache.thrift.transport.TNonblockingTransport;
+ import org.apache.thrift.transport.TTransportException;
+-import org.slf4j.Logger;
+-import org.slf4j.LoggerFactory;
++import org.apache.thrift.Logger;
++import org.apache.thrift.LoggerFactory;
+ 
+ /**
+  * A Half-Sync/Half-Async server with a separate pool of threads to handle non-blocking I/O. Accepts
+Index: lib/java/src/main/java/org/apache/thrift/transport/TFileTransport.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/java/src/main/java/org/apache/thrift/transport/TFileTransport.java b/lib/java/src/main/java/org/apache/thrift/transport/TFileTransport.java
+--- a/lib/java/src/main/java/org/apache/thrift/transport/TFileTransport.java	(revision 5656208a202ca0be4d4dc44125b5ca0485f91bf0)
++++ b/lib/java/src/main/java/org/apache/thrift/transport/TFileTransport.java	(revision 4f8516a656b7d0b76c83e0471778eac000155849)
+@@ -26,8 +26,8 @@
+ import java.io.OutputStream;
+ import java.util.Random;
+ import org.apache.thrift.TConfiguration;
+-import org.slf4j.Logger;
+-import org.slf4j.LoggerFactory;
++import org.apache.thrift.Logger;
++import org.apache.thrift.LoggerFactory;
+ 
+ /**
+  * FileTransport implementation of the TTransport interface. Currently this is a straightforward
+Index: lib/java/src/main/java/org/apache/thrift/transport/TIOStreamTransport.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/java/src/main/java/org/apache/thrift/transport/TIOStreamTransport.java b/lib/java/src/main/java/org/apache/thrift/transport/TIOStreamTransport.java
+--- a/lib/java/src/main/java/org/apache/thrift/transport/TIOStreamTransport.java	(revision 5656208a202ca0be4d4dc44125b5ca0485f91bf0)
++++ b/lib/java/src/main/java/org/apache/thrift/transport/TIOStreamTransport.java	(revision 4f8516a656b7d0b76c83e0471778eac000155849)
+@@ -24,8 +24,8 @@
+ import java.io.OutputStream;
+ import java.net.SocketTimeoutException;
+ import org.apache.thrift.TConfiguration;
+-import org.slf4j.Logger;
+-import org.slf4j.LoggerFactory;
++import org.apache.thrift.Logger;
++import org.apache.thrift.LoggerFactory;
+ 
+ /**
+  * This is the most commonly used base transport. It takes an InputStream or an OutputStream or both
+Index: lib/java/src/main/java/org/apache/thrift/transport/TNonblockingServerSocket.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/java/src/main/java/org/apache/thrift/transport/TNonblockingServerSocket.java b/lib/java/src/main/java/org/apache/thrift/transport/TNonblockingServerSocket.java
+--- a/lib/java/src/main/java/org/apache/thrift/transport/TNonblockingServerSocket.java	(revision 5656208a202ca0be4d4dc44125b5ca0485f91bf0)
++++ b/lib/java/src/main/java/org/apache/thrift/transport/TNonblockingServerSocket.java	(revision 4f8516a656b7d0b76c83e0471778eac000155849)
+@@ -29,8 +29,8 @@
+ import java.nio.channels.ServerSocketChannel;
+ import java.nio.channels.SocketChannel;
+ import org.apache.thrift.TConfiguration;
+-import org.slf4j.Logger;
+-import org.slf4j.LoggerFactory;
++import org.apache.thrift.Logger;
++import org.apache.thrift.LoggerFactory;
+ 
+ /** Wrapper around ServerSocketChannel */
+ public class TNonblockingServerSocket extends TNonblockingServerTransport {
+Index: lib/java/src/main/java/org/apache/thrift/transport/TNonblockingSocket.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/java/src/main/java/org/apache/thrift/transport/TNonblockingSocket.java b/lib/java/src/main/java/org/apache/thrift/transport/TNonblockingSocket.java
+--- a/lib/java/src/main/java/org/apache/thrift/transport/TNonblockingSocket.java	(revision 5656208a202ca0be4d4dc44125b5ca0485f91bf0)
++++ b/lib/java/src/main/java/org/apache/thrift/transport/TNonblockingSocket.java	(revision 4f8516a656b7d0b76c83e0471778eac000155849)
+@@ -29,8 +29,8 @@
+ import java.nio.channels.Selector;
+ import java.nio.channels.SocketChannel;
+ import org.apache.thrift.TConfiguration;
+-import org.slf4j.Logger;
+-import org.slf4j.LoggerFactory;
++import org.apache.thrift.Logger;
++import org.apache.thrift.LoggerFactory;
+ 
+ /** Transport for use with async client. */
+ public class TNonblockingSocket extends TNonblockingTransport {
+Index: lib/java/src/main/java/org/apache/thrift/transport/TSSLTransportFactory.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/java/src/main/java/org/apache/thrift/transport/TSSLTransportFactory.java b/lib/java/src/main/java/org/apache/thrift/transport/TSSLTransportFactory.java
+--- a/lib/java/src/main/java/org/apache/thrift/transport/TSSLTransportFactory.java	(revision 5656208a202ca0be4d4dc44125b5ca0485f91bf0)
++++ b/lib/java/src/main/java/org/apache/thrift/transport/TSSLTransportFactory.java	(revision 4f8516a656b7d0b76c83e0471778eac000155849)
+@@ -35,8 +35,8 @@
+ import javax.net.ssl.SSLSocket;
+ import javax.net.ssl.SSLSocketFactory;
+ import javax.net.ssl.TrustManagerFactory;
+-import org.slf4j.Logger;
+-import org.slf4j.LoggerFactory;
++import org.apache.thrift.Logger;
++import org.apache.thrift.LoggerFactory;
+ 
+ /**
+  * A Factory for providing and setting up Client and Server SSL wrapped TSocket and TServerSocket
+Index: lib/java/src/main/java/org/apache/thrift/transport/TSaslClientTransport.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/java/src/main/java/org/apache/thrift/transport/TSaslClientTransport.java b/lib/java/src/main/java/org/apache/thrift/transport/TSaslClientTransport.java
+--- a/lib/java/src/main/java/org/apache/thrift/transport/TSaslClientTransport.java	(revision 5656208a202ca0be4d4dc44125b5ca0485f91bf0)
++++ b/lib/java/src/main/java/org/apache/thrift/transport/TSaslClientTransport.java	(revision 4f8516a656b7d0b76c83e0471778eac000155849)
+@@ -26,8 +26,8 @@
+ import javax.security.sasl.SaslClient;
+ import javax.security.sasl.SaslException;
+ import org.apache.thrift.transport.sasl.NegotiationStatus;
+-import org.slf4j.Logger;
+-import org.slf4j.LoggerFactory;
++import org.apache.thrift.Logger;
++import org.apache.thrift.LoggerFactory;
+ 
+ /**
+  * Wraps another Thrift <code>TTransport</code>, but performs SASL client negotiation on the call to
+Index: lib/java/src/main/java/org/apache/thrift/transport/TSaslServerTransport.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/java/src/main/java/org/apache/thrift/transport/TSaslServerTransport.java b/lib/java/src/main/java/org/apache/thrift/transport/TSaslServerTransport.java
+--- a/lib/java/src/main/java/org/apache/thrift/transport/TSaslServerTransport.java	(revision 5656208a202ca0be4d4dc44125b5ca0485f91bf0)
++++ b/lib/java/src/main/java/org/apache/thrift/transport/TSaslServerTransport.java	(revision 4f8516a656b7d0b76c83e0471778eac000155849)
+@@ -31,8 +31,8 @@
+ import javax.security.sasl.SaslServer;
+ import org.apache.thrift.transport.sasl.NegotiationStatus;
+ import org.apache.thrift.transport.sasl.TSaslServerDefinition;
+-import org.slf4j.Logger;
+-import org.slf4j.LoggerFactory;
++import org.apache.thrift.Logger;
++import org.apache.thrift.LoggerFactory;
+ 
+ /**
+  * Wraps another Thrift <code>TTransport</code>, but performs SASL server negotiation on the call to
+Index: lib/java/src/main/java/org/apache/thrift/transport/TSaslTransport.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/java/src/main/java/org/apache/thrift/transport/TSaslTransport.java b/lib/java/src/main/java/org/apache/thrift/transport/TSaslTransport.java
+--- a/lib/java/src/main/java/org/apache/thrift/transport/TSaslTransport.java	(revision 5656208a202ca0be4d4dc44125b5ca0485f91bf0)
++++ b/lib/java/src/main/java/org/apache/thrift/transport/TSaslTransport.java	(revision 4f8516a656b7d0b76c83e0471778eac000155849)
+@@ -30,8 +30,8 @@
+ import org.apache.thrift.TConfiguration;
+ import org.apache.thrift.transport.layered.TFramedTransport;
+ import org.apache.thrift.transport.sasl.NegotiationStatus;
+-import org.slf4j.Logger;
+-import org.slf4j.LoggerFactory;
++import org.apache.thrift.Logger;
++import org.apache.thrift.LoggerFactory;
+ 
+ /**
+  * A superclass for SASL client/server thrift transports. A subclass need only implement the <code>
+Index: lib/java/src/main/java/org/apache/thrift/transport/TServerSocket.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/java/src/main/java/org/apache/thrift/transport/TServerSocket.java b/lib/java/src/main/java/org/apache/thrift/transport/TServerSocket.java
+--- a/lib/java/src/main/java/org/apache/thrift/transport/TServerSocket.java	(revision 5656208a202ca0be4d4dc44125b5ca0485f91bf0)
++++ b/lib/java/src/main/java/org/apache/thrift/transport/TServerSocket.java	(revision 4f8516a656b7d0b76c83e0471778eac000155849)
+@@ -24,8 +24,8 @@
+ import java.net.ServerSocket;
+ import java.net.Socket;
+ import java.net.SocketException;
+-import org.slf4j.Logger;
+-import org.slf4j.LoggerFactory;
++import org.apache.thrift.Logger;
++import org.apache.thrift.LoggerFactory;
+ 
+ /** Wrapper around ServerSocket for Thrift. */
+ public class TServerSocket extends TServerTransport {
+Index: lib/java/src/main/java/org/apache/thrift/transport/TSocket.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/java/src/main/java/org/apache/thrift/transport/TSocket.java b/lib/java/src/main/java/org/apache/thrift/transport/TSocket.java
+--- a/lib/java/src/main/java/org/apache/thrift/transport/TSocket.java	(revision 5656208a202ca0be4d4dc44125b5ca0485f91bf0)
++++ b/lib/java/src/main/java/org/apache/thrift/transport/TSocket.java	(revision 4f8516a656b7d0b76c83e0471778eac000155849)
+@@ -26,8 +26,8 @@
+ import java.net.Socket;
+ import java.net.SocketException;
+ import org.apache.thrift.TConfiguration;
+-import org.slf4j.Logger;
+-import org.slf4j.LoggerFactory;
++import org.apache.thrift.Logger;
++import org.apache.thrift.LoggerFactory;
+ 
+ /** Socket implementation of the TTransport interface. To be commented soon! */
+ public class TSocket extends TIOStreamTransport {
+Index: lib/java/src/main/java/org/apache/thrift/transport/sasl/NonblockingSaslHandler.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/java/src/main/java/org/apache/thrift/transport/sasl/NonblockingSaslHandler.java b/lib/java/src/main/java/org/apache/thrift/transport/sasl/NonblockingSaslHandler.java
+--- a/lib/java/src/main/java/org/apache/thrift/transport/sasl/NonblockingSaslHandler.java	(revision 5656208a202ca0be4d4dc44125b5ca0485f91bf0)
++++ b/lib/java/src/main/java/org/apache/thrift/transport/sasl/NonblockingSaslHandler.java	(revision 4f8516a656b7d0b76c83e0471778eac000155849)
+@@ -35,8 +35,8 @@
+ import org.apache.thrift.transport.TNonblockingTransport;
+ import org.apache.thrift.transport.TTransportException;
+ import org.apache.thrift.transport.sasl.TSaslNegotiationException.ErrorType;
+-import org.slf4j.Logger;
+-import org.slf4j.LoggerFactory;
++import org.apache.thrift.Logger;
++import org.apache.thrift.LoggerFactory;
+ 
+ /** State machine managing one sasl connection in a nonblocking way. */
+ public class NonblockingSaslHandler {
+Index: lib/java/src/main/java/org/apache/thrift/transport/sasl/ServerSaslPeer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/java/src/main/java/org/apache/thrift/transport/sasl/ServerSaslPeer.java b/lib/java/src/main/java/org/apache/thrift/transport/sasl/ServerSaslPeer.java
+--- a/lib/java/src/main/java/org/apache/thrift/transport/sasl/ServerSaslPeer.java	(revision 5656208a202ca0be4d4dc44125b5ca0485f91bf0)
++++ b/lib/java/src/main/java/org/apache/thrift/transport/sasl/ServerSaslPeer.java	(revision 4f8516a656b7d0b76c83e0471778eac000155849)
+@@ -25,8 +25,8 @@
+ import javax.security.sasl.SaslException;
+ import javax.security.sasl.SaslServer;
+ import org.apache.thrift.transport.TTransportException;
+-import org.slf4j.Logger;
+-import org.slf4j.LoggerFactory;
++import org.apache.thrift.Logger;
++import org.apache.thrift.LoggerFactory;
+ 
+ /** Server side sasl peer, a wrapper around SaslServer to provide some handy methods. */
+ public class ServerSaslPeer implements SaslPeer {

@@ -29,15 +29,12 @@ if (OperatingSystem.current().isWindows()) {
     separator = ";"
 }
 def mpaths = "$projectDir/../../../third_party/jogamp/jar" +
-        separator + "$projectDir/../../../third_party/thrift" +
-        separator + "$projectDir/../../../third_party/slf4j" +
         separator + "$projectDir/../../../third_party/jogamp/jar/gluegen-rt.jar" +
         separator + "$projectDir/../../../third_party/thrift/libthrift-0.19.0.jar" +
-        separator + "$projectDir/../../../third_party/slf4j/slf4j-api-2.0.0.jar" +
         separator + "$projectDir/../../../third_party/jogamp/jar/jogl-all.jar"
 compileJava.options.compilerArgs += [
     '--module-path', mpaths,
-    '--add-modules', 'jogl.all,gluegen.rt,org.slf4j,org.apache.thrift',
+    '--add-modules', 'jogl.all,gluegen.rt,org.apache.thrift',
     '--add-exports', 'jogl.all/com.jogamp.nativewindow=jcef',
     '--add-exports', 'jogl.all/com.jogamp.opengl.awt=jcef',
     '--add-exports', 'jogl.all/com.jogamp.opengl=jcef',
@@ -77,7 +74,6 @@ dependencies {
     implementation files(
         "$projectDir/../../../third_party/jogamp/jar/jogl-all.jar",
         "$projectDir/../../../third_party/jogamp/jar/gluegen-rt.jar",
-        "$projectDir/../../../third_party/slf4j/slf4j-api-2.0.0.jar",
         "$projectDir/../../../third_party/thrift/libthrift-0.19.0.jar"
     )
     testImplementation files(

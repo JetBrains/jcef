@@ -35,6 +35,14 @@ foreach (FILE ${THRIFT_FILES})
     if (thrift_result AND NOT STATUS EQUAL 0)
         message(FATAL_ERROR "Failed to compile ${FILE}: ${thrift_result}")
     endif ()
+
+    message(STATUS "Cleanup java thrift codegen...")
+    execute_process(
+            COMMAND ${PYTHON_EXECUTABLE} "${CMAKE_SOURCE_DIR}/jb/tools/common/cleanup_codegen.py"
+            WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+    )
+
+
 endforeach ()
 
 set(CMAKE_CXX_STANDARD 17)
