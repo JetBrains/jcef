@@ -169,15 +169,6 @@ JNIEXPORT jobject JNICALL Java_org_cef_browser_CefBrowser_1N_N_1GetFrame
 JNIEXPORT jobject JNICALL Java_org_cef_browser_CefBrowser_1N_N_1GetFrame2
   (JNIEnv *, jobject, jstring);
 
-JNIEXPORT jobject JNICALL
-Java_org_cef_browser_CefBrowser_1N_N_1GetFrameByFakeId(JNIEnv* env,
-                                                       jobject obj,
-                                                       jlong fakeId);
-
-JNIEXPORT jobject JNICALL
-Java_org_cef_browser_CefBrowser_1N_N_1GetFrameFakeIds(JNIEnv* env,
-                                                      jobject obj);
-
 /*
  * Class:     org_cef_browser_CefBrowser_N
  * Method:    N_GetFrameIdentifiers

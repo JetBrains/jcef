@@ -4,13 +4,11 @@
 
 #include <algorithm>
 #include <mutex>
-#include <map>
 
 #include "jni_scoped_helpers.h"
 
 #include "client_handler.h"
 #include "jni_util.h"
-
 
 namespace {
 
@@ -376,46 +374,11 @@ ScopedJNIDragData::ScopedJNIDragData(JNIEnv* env, CefRefPtr<CefDragData> obj)
                                    "org/cef/callback/CefDragData_N",
                                    "CefDragData") {}
 
-static std::map<int64_t, std::string> fake2real;
-static std::map<std::string, int64_t> real2fake;
-static std::recursive_mutex mutex;
-static int64_t frameIdCounter = 0;
-
-void Real2Fake(std::vector<CefString> readIds, std::vector<int64_t>& fakeIds) {
-  std::unique_lock<std::recursive_mutex> lock(mutex);
-  for (const auto& rid: readIds) {
-    std::string sid = rid.ToString();
-    if (real2fake.count(sid) > 0)
-      fakeIds.push_back(real2fake[sid]);
-  }
-}
-
-CefString Fake2Real(int64_t fakeId) {
-  std::unique_lock<std::recursive_mutex> lock(mutex);
-  return fake2real.count(fakeId) > 0 ? CefString(fake2real[fakeId]) : CefString();
-}
-
 ScopedJNIFrame::ScopedJNIFrame(JNIEnv* env, CefRefPtr<CefFrame> obj)
     : ScopedJNIObject<CefFrame>(env,
                                 obj,
                                 "org/cef/browser/CefFrame_N",
-                                "CefFrame") {
-  if (obj) {
-    CefString realId = obj->GetIdentifier();
-    std::string realIdS = realId.ToString();
-    std::unique_lock<std::recursive_mutex> lock(mutex);
-    int64_t fakeId;
-    if (real2fake.count(realIdS) > 0) {
-      fakeId = real2fake[realIdS];
-    } else {
-      fakeId = frameIdCounter++;
-      real2fake[realIdS] = fakeId;
-      fake2real[fakeId] = realIdS;
-    }
-    JNI_CALL_VOID_METHOD(env, jhandle_, "setFakeId", "(J)V", (jlong)fakeId);
-  }
-}
-
+                                "CefFrame") {}
 
 ScopedJNIMenuModel::ScopedJNIMenuModel(JNIEnv* env, CefRefPtr<CefMenuModel> obj)
     : ScopedJNIObject<CefMenuModel>(env,

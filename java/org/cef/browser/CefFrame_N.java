@@ -6,17 +6,24 @@ package org.cef.browser;
 
 import org.cef.callback.CefNativeAdapter;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * This class represents all methods which are connected to the
  * native counterpart CEF.
  * The visibility of this class is "package".
  */
 class CefFrame_N extends CefNativeAdapter implements CefFrame {
-    private long myFakeId;
+    // Added temporarily to avoid API changes.
+    // TODO: remove later.
+    private static final Map<Long, String> ourFake2Real = new HashMap<>();
+    private static final Map<String, Long> ourReal2Fake = new HashMap<>();
+    private static long ourFrameIdCounter = 0;
+
+    private Long myFakeId = null;
 
     CefFrame_N() {}
-
-    private void setFakeId(long fakeId) { myFakeId = fakeId; }
 
     @Override
     protected void finalize() throws Throwable {
@@ -33,8 +40,35 @@ class CefFrame_N extends CefNativeAdapter implements CefFrame {
         }
     }
 
+    protected String getRealIdentifier() {
+        try {
+            return N_GetIdentifier(getNativeRef(null));
+        } catch (UnsatisfiedLinkError ule) {
+            ule.printStackTrace();
+            return null;
+        }
+    }
+
+    protected static long getFakeId(String realId) {
+        synchronized (ourFake2Real) {
+            Long fakeId = ourReal2Fake.get(realId);
+            if (fakeId == null) {
+                fakeId = ourFrameIdCounter++;
+                ourFake2Real.put(fakeId, realId);
+                ourReal2Fake.put(realId, fakeId);
+            }
+            return fakeId;
+        }
+    }
+
+    protected static String getRealId(long fakeId) {
+        return ourFake2Real.get(fakeId);
+    }
+
     @Override
     public long getIdentifier() {
+        if (myFakeId == null)
+            myFakeId = getFakeId(getRealIdentifier());
         return myFakeId;
     }
 

@@ -8,11 +8,7 @@ import org.cef.CefApp;
 import org.cef.CefBrowserSettings;
 import org.cef.CefClient;
 import org.cef.browser.CefDevToolsClient.DevToolsException;
-import org.cef.callback.CefDragData;
-import org.cef.callback.CefNativeAdapter;
-import org.cef.callback.CefPdfPrintCallback;
-import org.cef.callback.CefRunFileDialogCallback;
-import org.cef.callback.CefStringVisitor;
+import org.cef.callback.*;
 import org.cef.handler.*;
 import org.cef.handler.CefDialogHandler.FileDialogMode;
 import org.cef.input.CefCompositionUnderline;
@@ -22,20 +18,15 @@ import org.cef.misc.CefPdfPrintSettings;
 import org.cef.misc.CefRange;
 import org.cef.network.CefRequest;
 
-import java.awt.Component;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Window;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
-
-import javax.swing.SwingUtilities;
 
 /**
  * This class represents all methods which are connected to the
@@ -455,8 +446,22 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     public CefFrame getFrame(long identifier) {
         try {
             checkNativeCtxInitialized();
-            if (isNativeCtxInitialized_)
-                return N_GetFrameByFakeId(identifier);
+            if (isNativeCtxInitialized_) {
+                String cachedId = CefFrame_N.getRealId(identifier);
+                if (cachedId == null) {
+                    CefLog.Error("Frame id not found: id=%d", identifier);
+                    return null;
+                }
+                CefFrame result = N_GetFrame(cachedId);
+                if (result == null)
+                    return null;
+
+                CefFrame_N nresult = ((CefFrame_N)result);
+                String realId = nresult.getRealIdentifier();
+                if (!cachedId.equals(realId))
+                    CefLog.Error("Frame id mismatch: id=%d, real=%s, cached=%s", identifier, realId, cachedId);
+                return result;
+            }
         } catch (UnsatisfiedLinkError ule) {
             ule.printStackTrace();
         }
@@ -479,8 +484,17 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     public Vector<Long> getFrameIdentifiers() {
         try {
             checkNativeCtxInitialized();
-            if (isNativeCtxInitialized_)
-                return N_GetFrameFakeIds();
+            if (isNativeCtxInitialized_) {
+                Vector<String> realIds = N_GetFrameIdentifiers();
+                if (realIds == null || realIds.isEmpty())
+                    return new Vector<>(); // returning null can theoretically cause somme errors and this code will be removed soon => return empty vector
+
+                Vector<Long> result = new Vector<>();
+                for (String realId : realIds)
+                    result.add(CefFrame_N.getFakeId(realId));
+
+                return result;
+            }
         } catch (UnsatisfiedLinkError ule) {
             ule.printStackTrace();
         }
@@ -1122,10 +1136,8 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     private final native CefFrame N_GetFocusedFrame();
     private final native CefFrame N_GetFrame(String identifier);
     private final native CefFrame N_GetFrame2(String name);
-    private final native CefFrame N_GetFrameByFakeId(long identifier);
     private final native Vector<String> N_GetFrameIdentifiers();
     private final native Vector<String> N_GetFrameNames();
-    private final native Vector<Long> N_GetFrameFakeIds();
     private final native int N_GetFrameCount();
     private final native boolean N_IsPopup();
     private final native boolean N_HasDocument();
