@@ -55,8 +55,20 @@ public class NativeServerManager {
         ps.printf("[SETTINGS]:\n");
         if (settings != null) {
             Map<String, String> settingsMap = settings.toMap();
-            for (Map.Entry entry : settingsMap.entrySet())
-                ps.printf("%s=%s\n", entry.getKey(), entry.getValue());
+            for (Map.Entry entry : settingsMap.entrySet()) {
+                if (OS.isMacintosh() && "browser_subprocess_path".equals(entry.getKey()))
+                    CefLog.Warn("Skip setting browser_subprocess_path=%s, will be replaced with calculated path.", entry.getValue());
+                else
+                    ps.printf("%s=%s\n", entry.getKey(), entry.getValue());
+            }
+        }
+
+        if (OS.isMacintosh()) {
+            File serverExe = getServerExe();
+            if (serverExe != null) {
+                File contents = serverExe.getParentFile().getParentFile();
+                ps.printf("browser_subprocess_path=%s\n", contents.getAbsolutePath() + "/Frameworks/cef_server Helper.app/Contents/MacOS/cef_server Helper");
+            }
         }
 
         // 3. custom schemes
@@ -274,6 +286,34 @@ public class NativeServerManager {
         return success;
     }
 
+    private static File getServerExe() {
+        ProcessHandle.Info i = ProcessHandle.current().info();
+        String cmd = i.command().get();
+        if (cmd == null || cmd.isEmpty()) {
+            CefLog.Error("Can't determine cef_server location because process command is empty.");
+            return null;
+        }
+
+        final boolean isJava = OS.isWindows() ? cmd.endsWith("java.exe") : cmd.endsWith("java");
+        if (isJava) {
+            File javabin = new File(cmd);
+            if (OS.isMacintosh())
+                return new File(javabin.getParentFile().getParentFile().getParentFile(), "Frameworks/cef_server.app/Contents/MacOS/cef_server");
+            if (OS.isLinux())
+                return new File(javabin.getParentFile().getParentFile(), "lib/cef_server");
+            return new File(javabin.getParentFile(), "cef_server.exe");
+        } else {
+            // TODO: get path of loaded libjvm and calculate relative server path
+            CefLog.Info("Java is started via native launcher %s, cef_server from bundled jbr will be used.", cmd);
+            File launcher = new File(cmd);
+            if (OS.isMacintosh())
+                return new File(launcher.getParentFile().getParentFile(), "jbr/Contents/Frameworks/cef_server.app/Contents/MacOS/cef_server");
+            if (OS.isLinux())
+                return new File(launcher.getParentFile().getParentFile(), "jbr/lib/cef_server");
+            return new File(new File(new File(launcher.getParentFile().getParentFile(), "jbr"), "bin"), "cef_server.exe");
+        }
+    }
+
     // returns true when server was started successfully
     private static boolean startProcessAndWait(String paramsPath, long timeoutMs) {
         if (ourNativeServerProcess != null)
@@ -282,17 +322,9 @@ public class NativeServerManager {
 
         File serverExe;
         if (ALT_CEF_SERVER_PATH == null || ALT_CEF_SERVER_PATH.isEmpty()) {
-            ProcessHandle.Info i = ProcessHandle.current().info();
-            File javabin = new File(i.command().get());
-            if (OS.isMacintosh()) {
-                serverExe = new File(
-                        new File(javabin.getParentFile().getParentFile().getParentFile(), "Frameworks"),
-                        "cef_server.app/Contents/MacOS/cef_server");
-            } else if (OS.isLinux()) {
-                serverExe = new File(new File(javabin.getParentFile().getParentFile(), "lib"), "cef_server");
-            } else {
-                serverExe = new File(javabin.getParentFile(), "cef_server.exe");
-            }
+            serverExe = getServerExe();
+            if (serverExe == null)
+                return false;
         } else
             serverExe = new File(ALT_CEF_SERVER_PATH.trim());
 
