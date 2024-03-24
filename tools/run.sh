@@ -20,6 +20,16 @@ else
       exit 1
     fi
 
+    # Necessary for libjcef.so to find libjawt.so.
+    export JAVA_PATH="$(readlink -f $(which java))"
+    export JAVA_LIB_PATH="$(dirname ${JAVA_PATH})/../lib"
+    if [ ! -d "$JAVA_LIB_PATH" ]; then
+      echo "ERROR: Java lib path does not exist"
+      exit 1
+    fi
+
+    export LIB_PATH="${LIB_PATH}:${JAVA_LIB_PATH}"
+
     if [ ! -d $OUT_PATH ]; then
       export OUT_PATH=$LIB_PATH
     fi
