@@ -4,6 +4,7 @@
 
 package org.cef;
 
+import com.jetbrains.cef.JCefAppConfig;
 import com.jetbrains.cef.remote.CefServer;
 import com.jetbrains.cef.remote.callback.RemoteSchemeHandlerFactory;
 import org.cef.callback.CefSchemeHandlerFactory;
@@ -16,6 +17,7 @@ import org.cef.misc.Utils;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -191,19 +193,6 @@ public class CefApp extends CefAppHandlerAdapter {
     }
 
     private void preinit(String[] args) throws RuntimeException {
-            if (OS.isMacintosh()) {
-                String[] fixedPathArgs = Startup.fixOSXPathsInArgs(args);
-                CefAppHandlerAdapter apph = this;
-                if (appHandler_ != null) {
-                    if (appHandler_ instanceof CefAppHandlerAdapter)
-                        apph = (CefAppHandlerAdapter) appHandler_;
-                    else
-                        CefLog.Warn("AppHandler is not instance of CefAppHandlerAdapter and path-arguments won't be fixed. Can cause initialization errors.");
-                }
-                apph.updateArgs(fixedPathArgs);
-            }
-            Startup.setPathsInSettings(settings_);
-
         // Start preInit
         AtomicBoolean success = new AtomicBoolean(false);
         if (PREINIT_ON_ANY_THREAD)
@@ -503,7 +492,6 @@ public class CefApp extends CefAppHandlerAdapter {
             CefLog.Debug(logMsg);
 
         CefSettings settings = settings_ != null ? settings_ : new CefSettings();
-        Startup.setPathsInSettings(settings);
 
         boolean success = N_Initialize(appHandler_ == null ? CefApp.this : appHandler_, settings, false);
         if (success) {
@@ -613,15 +601,51 @@ public class CefApp extends CefAppHandlerAdapter {
      * initialization. On Linux this initializes Xlib multithreading and on macOS this dynamically loads the
      * CEF framework. Can be executed in any thread.
      *
-     * @param args Command-line arguments were perviously used only to get CEF framework path in OSX. Now it's
-     *             unused (CEF path is obtained dynamically during startup)
+     * @param args Command-line arguments were used only to get CEF framework path in OSX.
      */
-    public static boolean startup(String[] args/*unused*/) {
-        startupAsync();
+    public static boolean startup(String[] args) {
+        if (OS.isMacintosh() && args.length == 0) {
+            // this condition is to be removed after adapting IJ
+            startupAsync(JCefAppConfig.getJbrFrameworkPathOSX());
+        }
+
+        String frameworkPathOSX = null;
+        String switchPrefix = "--framework-dir-path=";
+        for (String arg : args) {
+            if (arg.startsWith(switchPrefix)) {
+                frameworkPathOSX = new File(arg.substring(switchPrefix.length())).getAbsolutePath();
+            }
+        }
+        startupAsync(frameworkPathOSX);
         return true;
     }
 
+    /**
+     * @deprecated Use @{@link CefApp#startupAsync(String)}. To be removed in 242
+     */
+    @Deprecated(forRemoval = true)
     public static void startupAsync() {
+        startupAsync(JCefAppConfig.getJbrFrameworkPathOSX());
+    }
+
+    /**
+     * Asynchronously starts up the CEF framework.
+     * <p>
+     * This method starts up the CEF framework on a separate thread, allowing the application to continue
+     * executing while the framework is being initialized. Once the framework is initialized, the
+     * operation is considered complete and any registered completion handlers are invoked.
+     * <p>
+     * This method must be called at the beginning of the main() method to perform platform-specific startup
+     * initialization. On Linux this initializes Xlib multithreading and on macOS this dynamically loads the
+     * CEF framework. Can be executed in any thread.
+     * <p>
+     * If the remote debugging feature is enabled, the method returns without actually starting up the
+     * framework. However, the method must be called anyway to unblock further initialization.
+     *
+     * @param frameworkPath The path to the CEF framework on the system.
+     *                      Used only on macOS.
+     */
+    public static void startupAsync(String frameworkPath) {
         if (IS_REMOTE_ENABLED) {
             ourStartupFeature.complete(null);
             return;
@@ -629,8 +653,21 @@ public class CefApp extends CefAppHandlerAdapter {
 
         new NamedThreadExecutor("CefStartup-thread").execute(()->{
             try {
-                Startup.loadCefLibrary();
-                CefApp.N_Startup(Startup.getPathToFrameworkOSX());
+                if (OS.isWindows()) {
+                    // [tav] "jawt" is loaded by JDK AccessBridgeLoader that leads to UnsatisfiedLinkError
+                    try {
+                        SystemBootstrap.loadLibrary("jawt");
+                    } catch (UnsatisfiedLinkError e) {
+                        CefLog.Error("can't load jawt library: " + e.getMessage());
+                    }
+                    SystemBootstrap.loadLibrary("chrome_elf");
+                    SystemBootstrap.loadLibrary("libcef");
+                } else if (OS.isLinux()) {
+                    SystemBootstrap.loadLibrary("cef");
+                }
+
+                SystemBootstrap.loadLibrary("jcef");
+                CefApp.N_Startup(frameworkPath);
                 ourStartupFeature.complete(null);
             } catch (Throwable e) {
                 ourStartupFeature.completeExceptionally(e);

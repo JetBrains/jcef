@@ -5,6 +5,7 @@ package com.jetbrains.cef;
 import org.cef.CefApp;
 import org.cef.CefSettings;
 import org.cef.OS;
+import org.cef.SystemBootstrap;
 import org.cef.misc.Utils;
 
 import java.awt.*;
@@ -15,32 +16,13 @@ import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * @author Anton Tarasov
+ * TODO: Why it's abstact? Check if removing abstract can be promoted
  */
 public abstract class JCefAppConfig {
     protected final CefSettings cefSettings = new CefSettings();
     protected final List<String> appArgs = new ArrayList<>();
-
+    protected final SystemBootstrap.Loader loader = null;
     private static final AtomicReference<Double> forceDeviceScaleFactor = new AtomicReference<>(Double.valueOf(0));
-
-    private static class Holder {
-        static JCefAppConfig INSTANCE;
-
-        static {
-            if (OS.isMacintosh()) {
-                INSTANCE = new JCefAppConfigMac();
-            }
-            else if (OS.isLinux()) {
-                INSTANCE = new JCefAppConfigLinux();
-            }
-            else if (OS.isWindows()) {
-                INSTANCE = new JCefAppConfigWindows();
-            }
-            else {
-                INSTANCE = null;
-                assert false : "JCEF: unknown platform";
-            }
-        }
-    }
 
     public String[] getAppArgs() {
         return appArgs.toArray(new String[0]);
@@ -58,12 +40,54 @@ public abstract class JCefAppConfig {
      * @throws IllegalStateException in case of unsupported platform
      */
     public static JCefAppConfig getInstance() {
-        if (Holder.INSTANCE != null) {
-            Holder.INSTANCE.init();
+        JCefAppConfig appConfig = new JCefAppConfig() {
+        };
+        if (OS.isMacintosh()) {
+            String javaRoot = Utils.pathOf(System.getProperty("java.home"), "/..");
+            String frameworkPath = Utils.pathOf(javaRoot, "/Frameworks/Chromium Embedded Framework.framework");
+            String cefHelperPath = Utils.pathOf(javaRoot, "/Frameworks/jcef Helper.app");
+            String subprocessPath = Utils.pathOf(cefHelperPath, "/Contents/MacOS/jcef Helper");
+
+            appConfig.appArgs.add("--framework-dir-path=" + frameworkPath);
+            appConfig.appArgs.add("--browser-subprocess-path=" + subprocessPath);
+            appConfig.appArgs.add("--main-bundle-path=" + cefHelperPath);
+
+            appConfig.appArgs.add("--disable-in-process-stack-traces");
+            appConfig.appArgs.add("--use-mock-keychain");
+            appConfig.appArgs.add("--disable-features=SpareRendererForSitePerProcess");
+        } else if (OS.isLinux()) {
+            String libPath = Utils.pathOf(System.getProperty("java.home"), "lib");
+            appConfig.cefSettings.resources_dir_path = libPath;
+            appConfig.cefSettings.locales_dir_path = Utils.pathOf(libPath, "locales");
+            appConfig.cefSettings.browser_subprocess_path = Utils.pathOf(libPath, "jcef_helper");
+
+            double scale = getDeviceScaleFactor(null);
+            appConfig.appArgs.add("--force-device-scale-factor=" + scale);
+            appConfig.appArgs.add("--disable-features=SpareRendererForSitePerProcess");
+        } else if (OS.isWindows()) {
+            String binPath = System.getProperty("java.home") + "/bin";
+            String libPath = System.getProperty("java.home") + "/lib";
+            appConfig.cefSettings.resources_dir_path = libPath;
+            appConfig.cefSettings.locales_dir_path = libPath + "/locales";
+            appConfig.cefSettings.browser_subprocess_path = binPath + "/jcef_helper.exe";
+
+            appConfig.appArgs.add("--disable-features=SpareRendererForSitePerProcess");
         } else {
-            throw new IllegalStateException("JCEF is not supported on this platform");
+            throw new IllegalStateException("JCEF is not supported on this platform: " + System.getProperty("os.name", "unknown"));
         }
-        return Holder.INSTANCE;
+
+        return appConfig;
+    }
+
+    /**
+     * @deprecated don't use. This function is temporary here.
+     */
+    @Deprecated
+    public static String getJbrFrameworkPathOSX() {
+        if (OS.isMacintosh()) {
+            return Utils.pathOf(System.getProperty("java.home"), "../Frameworks/Chromium Embedded Framework.framework");
+        }
+        return null;
     }
 
     /**
@@ -99,32 +123,6 @@ public abstract class JCefAppConfig {
         }
     }
 
-    protected abstract void init();
-
-    private static class JCefAppConfigMac extends JCefAppConfig {
-        @Override
-        protected void init() {
-            appArgs.add("--disable-in-process-stack-traces");
-            appArgs.add("--use-mock-keychain");
-            appArgs.add("--disable-features=SpareRendererForSitePerProcess");
-        }
-    }
-
-    private static class JCefAppConfigWindows extends JCefAppConfig {
-        @Override
-        protected void init() {
-            appArgs.add("--disable-features=SpareRendererForSitePerProcess");
-        }
-    }
-
-    private static class JCefAppConfigLinux extends JCefAppConfig {
-        @Override
-        protected void init() {
-            double scale = getDeviceScaleFactor(null);
-            appArgs.add("--force-device-scale-factor=" + scale);
-            appArgs.add("--disable-features=SpareRendererForSitePerProcess");
-        }
-    }
 
     public static double getDeviceScaleFactor(/*@Nullable*/Component component) {
         if (GraphicsEnvironment.isHeadless()) {
@@ -137,8 +135,7 @@ public abstract class JCefAppConfig {
         try {
             if (component != null && component.getGraphicsConfiguration() != null) {
                 device = component.getGraphicsConfiguration().getDevice();
-            }
-            else {
+            } else {
                 device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
             }
         } catch (Throwable t) {
@@ -156,6 +153,7 @@ public abstract class JCefAppConfig {
     /**
      * Defined to support IDE-managed HiDPI mode in IDEA, undefined in JRE-managed HiDPI.
      */
+    @Deprecated
     public static double getForceDeviceScaleFactor() {
         if (forceDeviceScaleFactor.get() == 0) {
             synchronized (forceDeviceScaleFactor) {
@@ -167,8 +165,7 @@ public abstract class JCefAppConfig {
                         forceDeviceScaleFactor.set(Double.valueOf(-1));
                         e.printStackTrace();
                     }
-                }
-                else {
+                } else {
                     forceDeviceScaleFactor.set(Double.valueOf(-1));
                 }
             }

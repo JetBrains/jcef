@@ -1,8 +1,6 @@
 package org.cef.misc;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Objects;
+import java.nio.file.Paths;
 
 public class Utils {
     public static boolean getBoolean(String varName) {
@@ -58,11 +56,7 @@ public class Utils {
     }
 
     // CEF does not accept ".." in path
-    public static String normalizePath(String path) {
-        try {
-            return new File(path).getCanonicalPath();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public static String pathOf(String first, String... more) {
+        return Paths.get(first, more).toAbsolutePath().normalize().toString();
     }
 }

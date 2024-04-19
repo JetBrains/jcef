@@ -18,28 +18,10 @@ import java.util.*;
  * This class exists as convenience for creating handler objects.
  */
 public abstract class CefAppHandlerAdapter implements CefAppHandler {
-    private String[] args_;
+    private final String[] args_;
 
     public CefAppHandlerAdapter(String[] args) {
         args_ = args;
-    }
-
-    public void updateArgs(String[] args) {
-        Set<String> keysToRemove = new HashSet<>();
-        for (String arg: args) {
-            keysToRemove.add(arg.split("=", 2)[0]);
-        }
-
-        List<String> result = new ArrayList<>();
-        for (String arg: args_) {
-            String key = arg.split("=", 2)[0];
-            if (!keysToRemove.contains(key)) {
-                result.add(arg);
-            }
-        }
-
-        Collections.addAll(result, args);
-        args_ = result.toArray(new String[0]);
     }
 
     public String[] getArgs() {
