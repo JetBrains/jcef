@@ -10,7 +10,7 @@ import org.cef.misc.Utils;
 
 import java.awt.*;
 import java.io.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -68,7 +68,22 @@ public abstract class JCefAppConfig {
                 }
             };
         } else if (OS.isWindows()) {
-            throw new RuntimeException("Not implemented");
+            appConfig.cefSettings.browser_subprocess_path = Utils.pathOf(nativeBundlePath, "jcef_helper.exe");
+            appConfig.cefSettings.resources_dir_path = Utils.pathOf(nativeBundlePath);
+            appConfig.cefSettings.locales_dir_path = Utils.pathOf(nativeBundlePath, "locales");
+
+            appConfig.loader = new SystemBootstrap.Loader() {
+                final private Set<String> bundledLibs = new HashSet<>(Arrays.asList("chrome_elf", "jcef", "libcef"));
+                @Override
+                public void loadLibrary(String libname) {
+                    if (bundledLibs.contains(libname)) {
+                        System.load(Utils.pathOf(nativeBundlePath, libname + ".dll"));
+                    } else {
+                        System.loadLibrary(libname);
+                    }
+                }
+            };
+
         } else {
             throw new IllegalStateException("JCEF is not supported on this platform: " + System.getProperty("os.name", "unknown"));
         }
