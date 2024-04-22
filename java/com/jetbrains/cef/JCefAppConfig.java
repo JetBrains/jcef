@@ -21,7 +21,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public abstract class JCefAppConfig {
     protected final CefSettings cefSettings = new CefSettings();
     protected final List<String> appArgs = new ArrayList<>();
-    protected final SystemBootstrap.Loader loader = null;
+    protected SystemBootstrap.Loader loader = null;
     private static final AtomicReference<Double> forceDeviceScaleFactor = new AtomicReference<>(Double.valueOf(0));
 
     public String[] getAppArgs() {
@@ -34,6 +34,36 @@ public abstract class JCefAppConfig {
 
     public CefSettings getCefSettings() {
         return cefSettings;
+    }
+
+    public SystemBootstrap.Loader getLoader() {
+        return loader;
+    }
+
+    public static JCefAppConfig getInstance(String nativeBundlePath) {
+        JCefAppConfig appConfig = new JCefAppConfig() {
+        };
+        if (OS.isMacintosh()) {
+            throw new RuntimeException("Not implemented");
+        } else if (OS.isLinux()) {
+            // NOTE: [libcef + jcef_helper + resources] must be in the same folder (otherwise CEF doesn't init)
+            appConfig.cefSettings.browser_subprocess_path = Utils.pathOf(nativeBundlePath, "/jcef_helper");
+            appConfig.cefSettings.resources_dir_path = Utils.pathOf(nativeBundlePath);
+            appConfig.cefSettings.locales_dir_path = Utils.pathOf(nativeBundlePath, "/locales");
+            appConfig.loader = new SystemBootstrap.Loader() {
+                @Override
+                public void loadLibrary(String libname) {
+                    libname = Utils.pathOf(nativeBundlePath, "lib" + libname + ".so");
+                    System.load(libname);
+                }
+            };
+        } else if (OS.isWindows()) {
+            throw new RuntimeException("Not implemented");
+        } else {
+            throw new IllegalStateException("JCEF is not supported on this platform: " + System.getProperty("os.name", "unknown"));
+        }
+
+        return appConfig;
     }
 
     /**
@@ -75,6 +105,13 @@ public abstract class JCefAppConfig {
         } else {
             throw new IllegalStateException("JCEF is not supported on this platform: " + System.getProperty("os.name", "unknown"));
         }
+
+        appConfig.loader = new SystemBootstrap.Loader() {
+            @Override
+            public void loadLibrary(String libname) {
+                System.loadLibrary(libname);
+            }
+        };
 
         return appConfig;
     }
