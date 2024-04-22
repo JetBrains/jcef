@@ -22,6 +22,7 @@ public abstract class JCefAppConfig {
     protected final CefSettings cefSettings = new CefSettings();
     protected final List<String> appArgs = new ArrayList<>();
     protected SystemBootstrap.Loader loader = null;
+    private String cefFrameworkPathOSC = null;
     private static final AtomicReference<Double> forceDeviceScaleFactor = new AtomicReference<>(Double.valueOf(0));
 
     public String[] getAppArgs() {
@@ -44,12 +45,21 @@ public abstract class JCefAppConfig {
         JCefAppConfig appConfig = new JCefAppConfig() {
         };
         if (OS.isMacintosh()) {
-            throw new RuntimeException("Not implemented");
+            appConfig.cefFrameworkPathOSC = Utils.pathOf(nativeBundlePath, "Frameworks/Chromium Embedded Framework.framework");
+            appConfig.appArgs.add("--framework-dir-path=" + appConfig.cefFrameworkPathOSC);
+            appConfig.appArgs.add("--main-bundle-path=" + Utils.pathOf(nativeBundlePath, "Frameworks/jcef Helper.app"));
+            appConfig.appArgs.add("--browser-subprocess-path=" + Utils.pathOf(nativeBundlePath, "Frameworks/jcef Helper.app/Contents/MacOS/jcef Helper"));
+            appConfig.loader = new SystemBootstrap.Loader() {
+                @Override
+                public void loadLibrary(String libname) {
+                    libname = Utils.pathOf(nativeBundlePath, "lib" + libname + ".dylib");
+                    System.load(libname);
+                }
+            };
         } else if (OS.isLinux()) {
-            // NOTE: [libcef + jcef_helper + resources] must be in the same folder (otherwise CEF doesn't init)
-            appConfig.cefSettings.browser_subprocess_path = Utils.pathOf(nativeBundlePath, "/jcef_helper");
+            appConfig.cefSettings.browser_subprocess_path = Utils.pathOf(nativeBundlePath, "jcef_helper");
             appConfig.cefSettings.resources_dir_path = Utils.pathOf(nativeBundlePath);
-            appConfig.cefSettings.locales_dir_path = Utils.pathOf(nativeBundlePath, "/locales");
+            appConfig.cefSettings.locales_dir_path = Utils.pathOf(nativeBundlePath, "locales");
             appConfig.loader = new SystemBootstrap.Loader() {
                 @Override
                 public void loadLibrary(String libname) {
