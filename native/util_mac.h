@@ -29,6 +29,8 @@ std::string GetAbsPath(const std::string& path);
 // Returns true if |ptr| is an NSView instance.
 bool IsNSView(void* ptr);
 void* GetNSView(void* nsWindow);
+void retainObj(jlong pointer);
+void releaseObj(jlong pointer);
 
 CefWindowHandle CreateBrowserContentView(NSWindow* window, CefRect& orig);
 void TranslateRect(CefWindowHandle view, CefRect& orig);
