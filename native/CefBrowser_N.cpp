@@ -103,10 +103,23 @@ struct JNIObjectsForCreate {
         jbrowserSettings(env, _browserSettings) {}
 };
 
+#if defined(OS_MAC)
+class WindowHandleHolder {
+ public:
+  WindowHandleHolder(jlong _handle) : handle(_handle) {}
+  ~WindowHandleHolder() { util_mac::releaseObj(handle); }
+ private:
+  jlong handle;
+};
+#endif
+
 void create(std::shared_ptr<JNIObjectsForCreate> objs,
             jlong windowHandle,
             jboolean osr,
             jboolean transparent) {
+#if defined(OS_MAC)
+  WindowHandleHolder windowHandleHolder(windowHandle);
+#endif
   ScopedJNIEnv env;
   CefRefPtr<ClientHandler> clientHandler = GetCefFromJNIObject_sync<ClientHandler>(
       env, objs->jclientHandler, "CefClientHandler");
@@ -209,19 +222,6 @@ void create(std::shared_ptr<JNIObjectsForCreate> objs,
     // Send the message router config to CefHelperApp::OnBrowserCreated.
     extra_info = CefDictionaryValue::Create();
     extra_info->SetList("router_configs", router_configs);
-  }
-
-  static int testDelaySec = -1;
-  if (testDelaySec < 0) {
-    testDelaySec = GetJavaSystemPropertyLong("test.delay.create_browser2.seconds", env, 0);
-    if (testDelaySec > 0) LOG(INFO) << "Use test.delay.create_browser2.seconds=" << testDelaySec;
-  }
-  if (testDelaySec > 0) {
-#if defined(OS_WIN)
-    Sleep(testDelaySec * 1000l);
-#else
-    sleep(testDelaySec*1000l);
-#endif
   }
 
   bool result = CefBrowserHost::CreateBrowser(
@@ -372,17 +372,11 @@ Java_org_cef_browser_CefBrowser_1N_N_1CreateBrowser(JNIEnv* env,
   std::shared_ptr<JNIObjectsForCreate> objs(
       new JNIObjectsForCreate(env, jbrowser, nullptr, jclientHandler, url,
                               canvas, jcontext, nullptr, browserSettings));
-
-  static int testDelaySec = -1;
-  if (testDelaySec < 0) {
-    testDelaySec = GetJavaSystemPropertyLong("test.delay.create_browser.seconds", env, 0);
-    if (testDelaySec > 0) LOG(INFO) << "Use test.delay.create_browser.seconds=" << testDelaySec;
-  }
-
-  if (testDelaySec > 0) {
-    CefPostDelayedTask(TID_UI,
-                base::BindOnce(&create, objs, windowHandle, osr, transparent), testDelaySec*1000l);
-  } else if (CefCurrentlyOn(TID_UI)) {
+#if defined(OS_MAC)
+  if (windowHandle != 0) // Retain handle to prevent crash, see JBR-6603
+    util_mac::retainObj(windowHandle);
+#endif
+  if (CefCurrentlyOn(TID_UI)) {
     create(objs, windowHandle, osr, transparent);
   } else {
     CefPostTask(TID_UI,
@@ -404,6 +398,10 @@ Java_org_cef_browser_CefBrowser_1N_N_1CreateDevTools(JNIEnv* env,
   std::shared_ptr<JNIObjectsForCreate> objs(
       new JNIObjectsForCreate(env, jbrowser, jparent, jclientHandler, nullptr,
                               canvas, nullptr, inspect, nullptr));
+#if defined(OS_MAC)
+  if (windowHandle != 0) // Retain handle to prevent crash, see JBR-6603
+    util_mac::retainObj(windowHandle);
+#endif
   if (CefCurrentlyOn(TID_UI)) {
     create(objs, windowHandle, osr, transparent);
   } else {

@@ -491,6 +491,16 @@ void* GetNSView(void* nsWindow) {
   return [(NSWindow*)nsWindow contentView];
 }
 
+void retainObj(jlong pointer) {
+  if (pointer != 0)
+    [(NSObject*)pointer retain];
+}
+
+void releaseObj(jlong pointer) {
+  if (pointer != 0)
+    [(NSObject*)pointer release];
+}
+
 CefWindowHandle CreateBrowserContentView(NSWindow* window, CefRect& orig) {
   NSView* mainView = CAST_CEF_WINDOW_HANDLE_TO_NSVIEW([window contentView]);
   TranslateRect(mainView, orig);
