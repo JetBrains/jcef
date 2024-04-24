@@ -36,9 +36,14 @@ public class CefServer {
 
     // Connects to CefServer and start cef-handlers service.
     // Should be executed in bg thread.
+    // NOTE: appHandler is necessary for (1) cmdLineArgs, (2) custom schemes, (3) onContextInitialized callback
     public static boolean connect(CefAppHandler appHandler, CefSettings settings) {
         if (!CefApp.isRemoteEnabled())
             return false;
+        if (appHandler == null) { // just for simplicity
+            CefLog.Error("Can't initialize client for native server because CefAppHandler is null.");
+            return false;
+        }
 
         if (NativeServerManager.isRunning()) {
             CefLog.Error("Found running cef_server instance. TODO: we must check that running instance has the same <CefSettings, cmd-line switches, custom schemes> and restart cef_server with correct args if necessary.");
@@ -92,7 +97,8 @@ public class CefServer {
     private boolean connect(Runnable onContextInitialized) {
         myClientHandlersImpl.setOnContextInitialized(() -> {
             myIsContextInitialized = true;
-            onContextInitialized.run();
+            if (onContextInitialized != null)
+                onContextInitialized.run();
         });
 
         try {

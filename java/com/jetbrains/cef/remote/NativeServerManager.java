@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.function.BooleanSupplier;
 
 public class NativeServerManager {
+    private static final Boolean DISABLE_GPU = Utils.getBoolean("JCEF_DISABLE_GPU");
     private static final String ALT_CEF_SERVER_PATH = Utils.getString("ALT_CEF_SERVER_PATH");
     private static final boolean CHECK_PROCESS_ALIVE = Utils.getBoolean("JCEF_CHECK_PROCESS_ALIVE", true); // for debug, TODO: remove
 
@@ -48,6 +49,14 @@ public class NativeServerManager {
             if (commandLineArgs != null && commandLineArgs.length > 0)
                 for (String arg: commandLineArgs)
                     ps.printf("%s\n", arg);
+            if (DISABLE_GPU) {
+                ps.println("--disable-gpu");
+                ps.println("--disable-gpu-compositing");
+                ps.println("--disable-gpu-vsync");
+                ps.println("--disable-software-rasterizer");
+                ps.println("--disable-extensions");
+            }
+
         } else if (appHandler != null)
             CefLog.Error("Unsupported class of CefAppHandler %s. Overridden command-line arguments will be ignored.", CefAppHandler.class);
 
@@ -287,6 +296,9 @@ public class NativeServerManager {
     }
 
     private static File getServerExe() {
+        if (ALT_CEF_SERVER_PATH != null && !ALT_CEF_SERVER_PATH.trim().isEmpty())
+            return new File(ALT_CEF_SERVER_PATH);
+
         ProcessHandle.Info i = ProcessHandle.current().info();
         String cmd = i.command().get();
         if (cmd == null || cmd.isEmpty()) {
@@ -320,13 +332,9 @@ public class NativeServerManager {
             CefLog.Debug("Handle of server process will be overwritten.");
         ourNativeServerProcess = null;
 
-        File serverExe;
-        if (ALT_CEF_SERVER_PATH == null || ALT_CEF_SERVER_PATH.isEmpty()) {
-            serverExe = getServerExe();
-            if (serverExe == null)
-                return false;
-        } else
-            serverExe = new File(ALT_CEF_SERVER_PATH.trim());
+        File serverExe = getServerExe();
+        if (serverExe == null)
+            return false;
 
         CefLog.Debug("Start native cef_server, path='%s', params path='%s'", serverExe.getAbsolutePath(), paramsPath);
         if (!serverExe.exists()) {

@@ -455,6 +455,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         RemoteRequestImpl rr = new RemoteRequestImpl(myService, request);
         RemoteFrame rframe = new RemoteFrame(myService, frame);
         CefCookieAccessFilter filter = rrrh.getDelegate().getCookieAccessFilter(getRemoteBrowser(bid), rframe, new RemoteRequest(rr));
+        if (filter == null) return INVALID;
         RemoteCookieAccessFilter resultHandler = RemoteCookieAccessFilter.create(filter);
         return resultHandler.thriftId();
     }
