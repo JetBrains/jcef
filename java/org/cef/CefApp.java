@@ -155,8 +155,8 @@ public class CefApp extends CefAppHandlerAdapter {
     private CefApp(String[] args, CefSettings settings) {
         super(args);
 
-        if (settings != null) settings_ = fixSettings(settings);
-        CefLog.init(settings_);
+        if (settings != null) settings_ = settings.clone();
+        CefLog.init(settings);
         setState(CefAppState.NEW);
 
         ourStartupFeature.thenRunAsync(() -> { // Perform native pre-initialization.
@@ -278,7 +278,7 @@ public class CefApp extends CefAppHandlerAdapter {
         if (getState().compareTo(CefAppState.NEW) > 0)
             throw new IllegalStateException("Settings can only be passed to CEF"
                     + " before createClient is called the first time. Current state is " + getState());
-        settings_ = fixSettings(settings);
+        settings_ = settings.clone();
     }
 
     public final CefVersion getVersion() {
@@ -569,16 +569,6 @@ public class CefApp extends CefAppHandlerAdapter {
                 ourStartupFeature.completeExceptionally(e);
             }
         });
-    }
-
-    private static CefSettings fixSettings(CefSettings settings) {
-        CefSettings result = settings.clone();
-        // A workaround for IDEA-350784. Disable sandbox on linux. Until the reason of the crash is eliminated.
-        if (OS.isLinux() && !Boolean.getBoolean("jcef.sandbox.force_enabled")) {
-            result.no_sandbox = true;
-        }
-
-        return result;
     }
 
     static class NamedThreadExecutor implements Executor {
