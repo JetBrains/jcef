@@ -13,7 +13,6 @@ public class SharedMemory {
 
     final private long mySegment;
     final private long myPtr;
-    private volatile boolean myClosed = false;
 
     final private long myMutex;
 
@@ -53,15 +52,14 @@ public class SharedMemory {
         return myPtr;
     }
 
-    public boolean isClosed() { return myClosed; }
-
-    synchronized
-    public void close() {
-        if (myClosed)
-            return;
-        myClosed = true;
-        closeSharedSegment(mySegment);
-        closeSharedMutex(myMutex);
+    @Override
+    protected void finalize() throws Throwable {
+        try {
+            closeSharedSegment(mySegment);
+            closeSharedMutex(myMutex);
+        } finally {
+            super.finalize();
+        }
     }
 
     public ByteBuffer wrap(int size) {

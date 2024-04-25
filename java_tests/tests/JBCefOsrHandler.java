@@ -107,12 +107,10 @@ public class JBCefOsrHandler implements CefNativeRenderHandler {
     }
 
     @Override
-    public void disposeNativeResources() {
+    synchronized public void disposeNativeResources() {
         if (myIsDisposed)
             return;
         myIsDisposed = true;
-        for (SharedMemory.WithRaster mem: mySharedMemCache.values())
-            mem.close();
         mySharedMemCache.clear();
     }
 
@@ -165,9 +163,7 @@ public class JBCefOsrHandler implements CefNativeRenderHandler {
             }
         }
         for (String name: toRemove) {
-            SharedMemory.WithRaster removed = mySharedMemCache.remove(name);
-            if (removed != null)
-                removed.close();
+            mySharedMemCache.remove(name);
         }
 
     }
@@ -181,7 +177,12 @@ public class JBCefOsrHandler implements CefNativeRenderHandler {
         if (mem == null) {
             cleanCacheIfNecessary();
             mem = new SharedMemory.WithRaster(sharedMemName, sharedMemHandle);
-            mySharedMemCache.put(sharedMemName, mem);
+            synchronized (this) {
+                // Use synchronization to avoid leak (when disposeNativeRes is called just before putting into cache).
+                if (myIsDisposed)
+                    return;
+                mySharedMemCache.put(sharedMemName, mem);
+            }
         }
 
         mem.setWidth(width);
