@@ -9,12 +9,15 @@ import org.cef.callback.CefCallback;
 import org.cef.security.CefCertStatus;
 import org.cef.security.CefSSLInfo;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(TestSetupExtension.class)
+@Disabled
 class SelfSignedSSLTest {
     @Test
+    @Disabled("Until local test server setup.")
     void certificateAccepted() {
         var frame = new TestFrame() {
             public CefSSLInfo sslInfo = null;
@@ -47,6 +50,7 @@ class SelfSignedSSLTest {
     }
 
     @Test
+    @Disabled("Until local test server setup.")
     void certificateRejected() {
         var frame = new TestFrame() {
             boolean isOnCertificateErrorCalled = false;
