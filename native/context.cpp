@@ -295,7 +295,7 @@ void Context::Shutdown() {
 
   ClientApp::eraseTempFiles();
 #if defined(OS_MAC)
-  util_mac::CefShutdownOnMainThread();
+  util_mac::CefShutdownOnMainThread(temp_window_.release());
 #else
 
   // NOTE: external_message_pump_ == false in Windows and Linux (see Context::Initialize)
