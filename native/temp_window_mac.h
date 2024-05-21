@@ -18,6 +18,8 @@ class NSWindow;
 // popup browsers.
 class TempWindowMac {
  public:
+  ~TempWindowMac();
+
   // Returns the singleton window handle.
   static CefWindowHandle GetWindowHandle();
 
@@ -26,11 +28,8 @@ class TempWindowMac {
  private:
   // A single instance will be created/owned by Context.
   friend class Context;
-  // Allow deletion via std::unique_ptr only.
-  friend std::default_delete<TempWindowMac>;
 
   TempWindowMac();
-  ~TempWindowMac();
 
   NSWindow* window_;
 

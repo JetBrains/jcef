@@ -69,12 +69,20 @@ bool isBrowserExists(CefWindowHandle handle) {
 @implementation SetVisibilityParams
 @end
 
+@interface ShutdownParams : NSObject {
+ @public
+  TempWindowMac * pointer_;
+}
+@end
+@implementation ShutdownParams
+@end
+
 // Obj-C Wrapper Class to be called by "performSelectorOnMainThread".
 @interface CefHandler : NSObject {
 }
 
 + (void)initialize:(InitializeParams*)params;
-+ (void)shutdown;
++ (void)shutdown:(ShutdownParams*)params;
 + (void)doMessageLoopWork;
 + (void)setVisibility:(SetVisibilityParams*)params;
 
@@ -259,7 +267,7 @@ bool isBrowserExists(CefWindowHandle handle) {
   }
 
   if (continueTerminate && !g_after_shutdown)
-    [[CefHandler class] shutdown];
+    [[CefHandler class] shutdown:nil];
 
   // [tav] let NSApplication::terminate proceed
   [self _swizzled_terminate:sender];
@@ -276,7 +284,7 @@ bool isBrowserExists(CefWindowHandle handle) {
                                   g_client_app_.get(), nullptr);
 }
 
-+ (void)shutdown {
++ (void)shutdown:(ShutdownParams*)params {
   // JBR-5822: to debug intermittent crashes on shutdown use constants from environment
   int workCount = 10;
   const char* sval = getenv("JCEF_SHUTDOWN_WORK_COUNT");
@@ -310,6 +318,12 @@ bool isBrowserExists(CefWindowHandle handle) {
   g_client_app_ = nullptr;
 
   if (g_mouse_monitor_) [NSEvent removeMonitor:g_mouse_monitor_];
+
+  if (params != nil) {
+    if (params->pointer_ != nullptr)
+      delete params->pointer_;
+    [params release];
+  }
 }
 
 + (void)doMessageLoopWork {
@@ -551,10 +565,11 @@ bool CefInitializeOnMainThread(const CefMainArgs& args,
   return result;
 }
 
-void CefShutdownOnMainThread() {
-  // Block until done.
-  [[CefHandler class] performSelectorOnMainThread:@selector(shutdown)
-                                       withObject:nil
+void CefShutdownOnMainThread(void* tempWindow) {
+  ShutdownParams* params = [[ShutdownParams alloc] init];
+  params->pointer_ = (TempWindowMac*)tempWindow;
+  [[CefHandler class] performSelectorOnMainThread:@selector(shutdown:)
+                                       withObject:params
                                     waitUntilDone:NO];
 }
 

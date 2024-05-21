@@ -39,7 +39,7 @@ bool CefInitializeOnMainThread(const CefMainArgs& args,
                                const CefSettings& settings,
                                CefRefPtr<ClientApp> application);
 
-void CefShutdownOnMainThread();
+void CefShutdownOnMainThread(void* tempWindow);
 
 void CefDoMessageLoopWorkOnMainThread();
 
