@@ -752,6 +752,10 @@ void ServerHandler::Browser_PrintToPDF(
     } else if (kv.first.compare("footer_template") == 0) {
       std::string templ = kv.second;
       CefString(&settings.footer_template) = templ;
+    }  else if (kv.first.compare("generate_document_outline") == 0) {
+      setFieldValueB(settings.generate_document_outline, kv.second);
+    }  else if (kv.first.compare("generate_tagged_pdf") == 0) {
+      setFieldValueB(settings.generate_tagged_pdf, kv.second);
     }
   }
 

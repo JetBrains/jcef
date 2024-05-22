@@ -614,6 +614,8 @@ public class RemoteBrowser implements CefBrowser {
                 printSettings.put("header_template", settings.header_template);
             if (settings.footer_template != null && !settings.footer_template.isEmpty())
                 printSettings.put("footer_template", settings.footer_template);
+            printSettings.put("generate_document_outline", String.valueOf(settings.generate_document_outline));
+            printSettings.put("generate_tagged_pdf", String.valueOf(settings.generate_tagged_pdf));
         }
         execWhenCreated(()->{
             myRpc.exec((s)->{
