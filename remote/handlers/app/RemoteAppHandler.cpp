@@ -100,15 +100,16 @@ void RemoteAppHandler::OnBeforeCommandLineProcessing(
         case 1: {
           // Switches can optionally have a value specified using the '=' delimiter
           // (e.g. "-switch=value").
-          int eqPos = static_cast<int>(arg.find("="));
-          std::string s0 = arg.substr(switchCnt, eqPos - switchCnt);
-          if (eqPos > 0) {
-            std::string s1 = arg.substr(eqPos + 1);
+          const std::string switchStr = arg.substr(switchCnt);
+          const size_t eqPos = switchStr.find("=");
+          if (eqPos != std::string::npos && eqPos > 0) {
+            std::string s0 = switchStr.substr(0, eqPos);
+            std::string s1 = switchStr.substr(eqPos + 1);
             command_line->AppendSwitchWithValue(s0, s1);
             additionalItems += s0 + "|" + s1 + ", ";
           } else {
-            command_line->AppendSwitch(s0);
-            additionalItems += s0 + ", ";
+            command_line->AppendSwitch(switchStr);
+            additionalItems += switchStr + ", ";
           }
           break;
         }
