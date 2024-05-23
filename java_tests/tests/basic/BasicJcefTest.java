@@ -15,6 +15,7 @@ import org.cef.handler.CefAppHandlerAdapter;
 import org.cef.misc.CefLog;
 import org.cef.misc.Utils;
 import org.cef.network.CefRequest;
+import org.junit.Assert;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -312,6 +313,10 @@ public class BasicJcefTest {
         }
         _wait(onLoadEnd_, 10, "onLoadEnd wasn't called");
 
+        Assert.assertTrue(false);
+        if (true)
+            throw new RuntimeException("Do test fail!");
+
         // dispose browser and client
         browser.setCloseAllowed(); // Cause browser.doClose() to return false so that OSR browser can close.
         browser.close(true);
@@ -320,7 +325,7 @@ public class BasicJcefTest {
         _wait(clientDispose_, 5, "CefClient wasn't completely disposed: " + client.getInfo());
 
         if (frame[0] != null)
-            frame[0].dispose();
+            frame[0].dispose(); // TODO: make safe (always) dispose
 
         // dispose CefApp
         TestSetupExtension.shutdonwCef();
