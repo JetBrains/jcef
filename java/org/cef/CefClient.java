@@ -106,7 +106,7 @@ public class CefClient extends CefClientHandler
      *
      * @see org.cef.CefApp#createClient()
      */
-    CefClient() throws UnsatisfiedLinkError {
+    protected CefClient() throws UnsatisfiedLinkError {
         super();
 
         remoteClient = CefApp.isRemoteEnabled() ? CefServer.instance().createClient() : null;
