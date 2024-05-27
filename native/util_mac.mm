@@ -272,7 +272,9 @@ bool isBrowserExists(CefWindowHandle handle) {
 // |params| will be released by the caller.
 + (void)initialize:(InitializeParams*)params {
   g_client_app_ = params->application_;
-  params->result_ = CefInitialize(*params->args_, params->settings_,
+  CefSettings settings = params->settings_;
+  settings.chrome_runtime = true;
+  params->result_ = CefInitialize(*params->args_, settings,
                                   g_client_app_.get(), nullptr);
 }
 
@@ -530,6 +532,7 @@ bool CefInitializeOnMainThread(const CefMainArgs& args,
   InitializeParams* params = [[InitializeParams alloc] init];
   params->args_ = std::make_shared<CefMainArgs>(args);
   params->settings_ = settings;
+  params->settings_.chrome_runtime = true;
   params->application_ = application;
   params->result_ = false;
 

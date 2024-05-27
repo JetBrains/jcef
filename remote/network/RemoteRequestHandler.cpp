@@ -129,7 +129,10 @@ bool RemoteRequestHandler::OnCertificateError(CefRefPtr<CefBrowser> browser,
   return handled;
 }
 
-void RemoteRequestHandler::OnRenderProcessTerminated(CefRefPtr<CefBrowser> browser, TerminationStatus status) {
+void RemoteRequestHandler::OnRenderProcessTerminated(CefRefPtr<CefBrowser> browser,
+                                                     TerminationStatus status,
+                                                     int error_code,
+                                                     const CefString& error_string) {
   LNDCT();
   // Forward request to ClientHandler to make the message_router_ happy.
   myOwner.getRoutersManager()->OnRenderProcessTerminated(browser);

@@ -229,7 +229,9 @@ bool RequestHandler::OnCertificateError(CefRefPtr<CefBrowser> browser,
 }
 
 void RequestHandler::OnRenderProcessTerminated(CefRefPtr<CefBrowser> browser,
-                                               TerminationStatus status) {
+                                               TerminationStatus status,
+                                               int error_code,
+                                               const CefString& error_string) {
   // Forward request to ClientHandler to make the message_router_ happy.
   CefRefPtr<ClientHandler> client =
       (ClientHandler*)browser->GetHost()->GetClient().get();
@@ -251,6 +253,8 @@ void RequestHandler::OnRenderProcessTerminated(CefRefPtr<CefBrowser> browser,
              TS_PROCESS_CRASHED, jstatus);
     JNI_CASE(env, "org/cef/handler/CefRequestHandler$TerminationStatus",
              TS_PROCESS_OOM, jstatus);
+    default:
+      return;
   }
 
   JNI_CALL_VOID_METHOD(

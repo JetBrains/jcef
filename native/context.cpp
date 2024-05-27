@@ -125,6 +125,7 @@ CefSettings GetJNISettings(JNIEnv* env, jobject obj) {
   GetJNIFieldBoolean(env, cls, obj, "no_sandbox",
                      &settings.no_sandbox);
 
+  settings.chrome_runtime = true;
   return settings;
 }
 
