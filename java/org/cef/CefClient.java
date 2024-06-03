@@ -84,7 +84,9 @@ public class CefClient extends CefClientHandler
     private boolean isDisposed_ = false;
     private Runnable onDisposed_ = null; // just for convenience (for tests debugging)
     private volatile CefBrowser focusedBrowser_ = null;
-    private final PropertyChangeListener propertyChangeListener = new PropertyChangeListener() {
+    // allow(by making propertyChangeListener protected) custom disposing of this listener for GTW-4830
+    // TODO(kharitonov): make dispose() work w/o warnings and side effects for rem-dev server implementation
+    protected final PropertyChangeListener propertyChangeListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
             if (focusedBrowser_ != null) {
