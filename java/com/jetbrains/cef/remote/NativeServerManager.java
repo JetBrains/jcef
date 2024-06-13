@@ -73,6 +73,10 @@ public class NativeServerManager {
             for (Map.Entry entry : settingsMap.entrySet()) {
                 if (OS.isMacintosh() && "browser_subprocess_path".equals(entry.getKey()))
                     CefLog.Warn("Skip setting browser_subprocess_path=%s, will be replaced with calculated path.", entry.getValue());
+                else if ("resources_dir_path".equals(entry.getKey()))
+                    CefLog.Warn("Skip setting resources_dir_path=%s", entry.getValue());
+                else if ("locales_dir_path".equals(entry.getKey()))
+                    CefLog.Warn("Skip setting locales_dir_path=%s", entry.getValue());
                 else
                     ps.printf("%s=%s\n", entry.getKey(), entry.getValue());
             }
