@@ -47,8 +47,14 @@ public class NativeServerManager {
             CefAppHandlerAdapter h = (CefAppHandlerAdapter)appHandler;
             String[] commandLineArgs = h.getArgs();
             if (commandLineArgs != null && commandLineArgs.length > 0)
-                for (String arg: commandLineArgs)
-                    ps.printf("%s\n", arg);
+                for (String arg: commandLineArgs) {
+                    if (arg.startsWith("--browser-subprocess-path=")) {
+                        CefLog.Warn("Skip cmdline swintch '%s'", arg);
+                    } else if (arg.startsWith("--main-bundle-path=")) {
+                        CefLog.Warn("Skip cmdline swintch '%s'", arg);
+                    } else
+                        ps.printf("%s\n", arg);
+                }
             if (DISABLE_GPU) {
                 ps.println("--disable-gpu");
                 ps.println("--disable-gpu-compositing");
