@@ -47,8 +47,15 @@ public class NativeServerManager {
             CefAppHandlerAdapter h = (CefAppHandlerAdapter)appHandler;
             String[] commandLineArgs = h.getArgs();
             if (commandLineArgs != null && commandLineArgs.length > 0)
-                for (String arg: commandLineArgs)
-                    ps.printf("%s\n", arg);
+                for (String arg: commandLineArgs) {
+                    boolean skip = arg.startsWith("--browser-subprocess-path=")
+                            || arg.startsWith("--main-bundle-path=")
+                            || arg.startsWith("--framework-dir-path=");
+                    if (skip)
+                        CefLog.Debug("Skip cmdline swintch '%s'", arg);
+                    else
+                        ps.printf("%s\n", arg);
+                }
             if (DISABLE_GPU) {
                 ps.println("--disable-gpu");
                 ps.println("--disable-gpu-compositing");
@@ -65,18 +72,13 @@ public class NativeServerManager {
         if (settings != null) {
             Map<String, String> settingsMap = settings.toMap();
             for (Map.Entry entry : settingsMap.entrySet()) {
-                if (OS.isMacintosh() && "browser_subprocess_path".equals(entry.getKey()))
-                    CefLog.Warn("Skip setting browser_subprocess_path=%s, will be replaced with calculated path.", entry.getValue());
+                boolean skip = "browser_subprocess_path".equals(entry.getKey())
+                        || "resources_dir_path".equals(entry.getKey())
+                        || "locales_dir_path".equals(entry.getKey());
+                if (skip)
+                    CefLog.Debug("Skip setting %s=%s", entry.getKey(), entry.getValue());
                 else
                     ps.printf("%s=%s\n", entry.getKey(), entry.getValue());
-            }
-        }
-
-        if (OS.isMacintosh()) {
-            File serverExe = getServerExe();
-            if (serverExe != null) {
-                File contents = serverExe.getParentFile().getParentFile();
-                ps.printf("browser_subprocess_path=%s\n", contents.getAbsolutePath() + "/Frameworks/cef_server Helper.app/Contents/MacOS/cef_server Helper");
             }
         }
 
