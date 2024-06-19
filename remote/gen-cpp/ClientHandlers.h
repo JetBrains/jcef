@@ -55,7 +55,7 @@ class ClientHandlersIf {
   virtual bool RequestHandler_OnOpenURLFromTab(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& target_url, const bool user_gesture) = 0;
   virtual bool RequestHandler_GetAuthCredentials(const int32_t bid, const std::string& origin_url, const bool isProxy, const std::string& host, const int32_t port, const std::string& realm, const std::string& scheme, const  ::thrift_codegen::RObject& authCallback) = 0;
   virtual bool RequestHandler_OnCertificateError(const int32_t bid, const std::string& cert_error, const std::string& request_url, const std::string& sslInfo, const  ::thrift_codegen::RObject& callback) = 0;
-  virtual void RequestHandler_OnRenderProcessTerminated(const int32_t bid, const std::string& status) = 0;
+  virtual void RequestHandler_OnRenderProcessTerminated(const int32_t bid, const std::string& status, const int32_t errCode, const std::string& errText) = 0;
   virtual void RequestHandler_GetResourceRequestHandler( ::thrift_codegen::RObject& _return, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool isNavigation, const bool isDownload, const std::string& requestInitiator) = 0;
   virtual void ResourceRequestHandler_Dispose(const int32_t rrHandler) = 0;
   virtual void ResourceRequestHandler_GetCookieAccessFilter( ::thrift_codegen::RObject& _return, const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request) = 0;
@@ -234,7 +234,7 @@ class ClientHandlersNull : virtual public ClientHandlersIf {
     bool _return = false;
     return _return;
   }
-  void RequestHandler_OnRenderProcessTerminated(const int32_t /* bid */, const std::string& /* status */) override {
+  void RequestHandler_OnRenderProcessTerminated(const int32_t /* bid */, const std::string& /* status */, const int32_t /* errCode */, const std::string& /* errText */) override {
     return;
   }
   void RequestHandler_GetResourceRequestHandler( ::thrift_codegen::RObject& /* _return */, const int32_t /* bid */, const  ::thrift_codegen::RObject& /* frame */, const  ::thrift_codegen::RObject& /* request */, const bool /* isNavigation */, const bool /* isDownload */, const std::string& /* requestInitiator */) override {
@@ -3499,9 +3499,11 @@ class ClientHandlers_RequestHandler_OnCertificateError_presult {
 };
 
 typedef struct _ClientHandlers_RequestHandler_OnRenderProcessTerminated_args__isset {
-  _ClientHandlers_RequestHandler_OnRenderProcessTerminated_args__isset() : bid(false), status(false) {}
+  _ClientHandlers_RequestHandler_OnRenderProcessTerminated_args__isset() : bid(false), status(false), errCode(false), errText(false) {}
   bool bid :1;
   bool status :1;
+  bool errCode :1;
+  bool errText :1;
 } _ClientHandlers_RequestHandler_OnRenderProcessTerminated_args__isset;
 
 class ClientHandlers_RequestHandler_OnRenderProcessTerminated_args {
@@ -3511,12 +3513,16 @@ class ClientHandlers_RequestHandler_OnRenderProcessTerminated_args {
   ClientHandlers_RequestHandler_OnRenderProcessTerminated_args& operator=(const ClientHandlers_RequestHandler_OnRenderProcessTerminated_args&);
   ClientHandlers_RequestHandler_OnRenderProcessTerminated_args() noexcept
                                                                : bid(0),
-                                                                 status() {
+                                                                 status(),
+                                                                 errCode(0),
+                                                                 errText() {
   }
 
   virtual ~ClientHandlers_RequestHandler_OnRenderProcessTerminated_args() noexcept;
   int32_t bid;
   std::string status;
+  int32_t errCode;
+  std::string errText;
 
   _ClientHandlers_RequestHandler_OnRenderProcessTerminated_args__isset __isset;
 
@@ -3524,11 +3530,19 @@ class ClientHandlers_RequestHandler_OnRenderProcessTerminated_args {
 
   void __set_status(const std::string& val);
 
+  void __set_errCode(const int32_t val);
+
+  void __set_errText(const std::string& val);
+
   bool operator == (const ClientHandlers_RequestHandler_OnRenderProcessTerminated_args & rhs) const
   {
     if (!(bid == rhs.bid))
       return false;
     if (!(status == rhs.status))
+      return false;
+    if (!(errCode == rhs.errCode))
+      return false;
+    if (!(errText == rhs.errText))
       return false;
     return true;
   }
@@ -3551,6 +3565,8 @@ class ClientHandlers_RequestHandler_OnRenderProcessTerminated_pargs {
   virtual ~ClientHandlers_RequestHandler_OnRenderProcessTerminated_pargs() noexcept;
   const int32_t* bid;
   const std::string* status;
+  const int32_t* errCode;
+  const std::string* errText;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -7637,8 +7653,8 @@ class ClientHandlersClient : virtual public ClientHandlersIf {
   bool RequestHandler_OnCertificateError(const int32_t bid, const std::string& cert_error, const std::string& request_url, const std::string& sslInfo, const  ::thrift_codegen::RObject& callback) override;
   void send_RequestHandler_OnCertificateError(const int32_t bid, const std::string& cert_error, const std::string& request_url, const std::string& sslInfo, const  ::thrift_codegen::RObject& callback);
   bool recv_RequestHandler_OnCertificateError();
-  void RequestHandler_OnRenderProcessTerminated(const int32_t bid, const std::string& status) override;
-  void send_RequestHandler_OnRenderProcessTerminated(const int32_t bid, const std::string& status);
+  void RequestHandler_OnRenderProcessTerminated(const int32_t bid, const std::string& status, const int32_t errCode, const std::string& errText) override;
+  void send_RequestHandler_OnRenderProcessTerminated(const int32_t bid, const std::string& status, const int32_t errCode, const std::string& errText);
   void RequestHandler_GetResourceRequestHandler( ::thrift_codegen::RObject& _return, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool isNavigation, const bool isDownload, const std::string& requestInitiator) override;
   void send_RequestHandler_GetResourceRequestHandler(const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool isNavigation, const bool isDownload, const std::string& requestInitiator);
   void recv_RequestHandler_GetResourceRequestHandler( ::thrift_codegen::RObject& _return);
@@ -8235,13 +8251,13 @@ class ClientHandlersMultiface : virtual public ClientHandlersIf {
     return ifaces_[i]->RequestHandler_OnCertificateError(bid, cert_error, request_url, sslInfo, callback);
   }
 
-  void RequestHandler_OnRenderProcessTerminated(const int32_t bid, const std::string& status) override {
+  void RequestHandler_OnRenderProcessTerminated(const int32_t bid, const std::string& status, const int32_t errCode, const std::string& errText) override {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->RequestHandler_OnRenderProcessTerminated(bid, status);
+      ifaces_[i]->RequestHandler_OnRenderProcessTerminated(bid, status, errCode, errText);
     }
-    ifaces_[i]->RequestHandler_OnRenderProcessTerminated(bid, status);
+    ifaces_[i]->RequestHandler_OnRenderProcessTerminated(bid, status, errCode, errText);
   }
 
   void RequestHandler_GetResourceRequestHandler( ::thrift_codegen::RObject& _return, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool isNavigation, const bool isDownload, const std::string& requestInitiator) override {
@@ -8722,8 +8738,8 @@ class ClientHandlersConcurrentClient : virtual public ClientHandlersIf {
   bool RequestHandler_OnCertificateError(const int32_t bid, const std::string& cert_error, const std::string& request_url, const std::string& sslInfo, const  ::thrift_codegen::RObject& callback) override;
   int32_t send_RequestHandler_OnCertificateError(const int32_t bid, const std::string& cert_error, const std::string& request_url, const std::string& sslInfo, const  ::thrift_codegen::RObject& callback);
   bool recv_RequestHandler_OnCertificateError(const int32_t seqid);
-  void RequestHandler_OnRenderProcessTerminated(const int32_t bid, const std::string& status) override;
-  void send_RequestHandler_OnRenderProcessTerminated(const int32_t bid, const std::string& status);
+  void RequestHandler_OnRenderProcessTerminated(const int32_t bid, const std::string& status, const int32_t errCode, const std::string& errText) override;
+  void send_RequestHandler_OnRenderProcessTerminated(const int32_t bid, const std::string& status, const int32_t errCode, const std::string& errText);
   void RequestHandler_GetResourceRequestHandler( ::thrift_codegen::RObject& _return, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool isNavigation, const bool isDownload, const std::string& requestInitiator) override;
   int32_t send_RequestHandler_GetResourceRequestHandler(const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool isNavigation, const bool isDownload, const std::string& requestInitiator);
   void recv_RequestHandler_GetResourceRequestHandler( ::thrift_codegen::RObject& _return, const int32_t seqid);

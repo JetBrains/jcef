@@ -252,7 +252,7 @@ void writeSSLData(std::string & out, CefRefPtr<CefSSLInfo> sslInfo) {
   }
 }
 
-void RemoteRequestHandler::OnRenderProcessTerminated(CefRefPtr<CefBrowser> browser, TerminationStatus status) {
+void RemoteRequestHandler::OnRenderProcessTerminated(CefRefPtr<CefBrowser> browser, TerminationStatus status, int error_code, const CefString& error_string) {
   TRACE()
   if (Log::isDebugEnabled()) {
     const int bid = myCtx->clientsManager()->findRemoteBrowser(browser);
@@ -262,7 +262,7 @@ void RemoteRequestHandler::OnRenderProcessTerminated(CefRefPtr<CefBrowser> brows
   // Forward request to ClientHandler to make the message_router_ happy.
   myCtx->routersManager()->OnRenderProcessTerminated(browser);
   myCtx->javaService()->exec([&](JavaService s){
-    s->RequestHandler_OnRenderProcessTerminated(myBid, tstatus2str(status));
+    s->RequestHandler_OnRenderProcessTerminated(myBid, tstatus2str(status), error_code, error_string);
   });
 }
 
@@ -278,7 +278,10 @@ namespace {
       {TS_ABNORMAL_TERMINATION, "TS_ABNORMAL_TERMINATION"},
       {TS_PROCESS_WAS_KILLED, "TS_PROCESS_WAS_KILLED"},
       {TS_PROCESS_CRASHED, "TS_PROCESS_CRASHED"},
-      {TS_PROCESS_OOM, "TS_PROCESS_OOM"}
+      {TS_PROCESS_OOM, "TS_PROCESS_OOM"},
+      {TS_LAUNCH_FAILED, "TS_LAUNCH_FAILED"},
+      {TS_INTEGRITY_FAILURE, "TS_INTEGRITY_FAILURE"},
+      {TS_NUM_VALUES, "TS_NUM_VALUES"}
   };
 
   std::string tstatus2str(cef_termination_status_t status) {

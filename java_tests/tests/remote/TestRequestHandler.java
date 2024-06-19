@@ -55,7 +55,7 @@ public class TestRequestHandler implements CefRequestHandler {
     }
 
     @Override
-    public void onRenderProcessTerminated(CefBrowser browser, TerminationStatus status) {
-        CefLog.Info("onRenderProcessTerminated " + browser + ", status=" + status);
+    public void onRenderProcessTerminated(CefBrowser browser, TerminationStatus status, int error_code, String error_string) {
+        CefLog.Info("onRenderProcessTerminated " + browser + ", status=" + status + ", errCode=" + error_code + ", errText=" + error_string);
     }
 }

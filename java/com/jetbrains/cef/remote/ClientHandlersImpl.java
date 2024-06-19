@@ -640,7 +640,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     }
 
     @Override
-    public void RequestHandler_OnRenderProcessTerminated(int bid, String status) {
+    public void RequestHandler_OnRenderProcessTerminated(int bid, String status, int errCode, String errText) {
         RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return;
         CefRequestHandler rh = browser.getOwner().getRequestHandler();
@@ -654,7 +654,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
                 CefLog.Error("onRenderProcessTerminated: status=%s, exception: %s", status, e.getMessage());
             }
         }
-        rh.onRenderProcessTerminated(browser, s);
+        rh.onRenderProcessTerminated(browser, s, errCode, errText);
     }
 
     ///

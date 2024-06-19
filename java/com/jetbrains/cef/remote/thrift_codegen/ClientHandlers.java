@@ -77,7 +77,7 @@ public class ClientHandlers {
 
     public boolean RequestHandler_OnCertificateError(int bid, java.lang.String cert_error, java.lang.String request_url, java.nio.ByteBuffer sslInfo, com.jetbrains.cef.remote.thrift_codegen.RObject callback) throws com.jetbrains.cef.remote.thrift.TException;
 
-    public void RequestHandler_OnRenderProcessTerminated(int bid, java.lang.String status) throws com.jetbrains.cef.remote.thrift.TException;
+    public void RequestHandler_OnRenderProcessTerminated(int bid, java.lang.String status, int errCode, java.lang.String errText) throws com.jetbrains.cef.remote.thrift.TException;
 
     public com.jetbrains.cef.remote.thrift_codegen.RObject RequestHandler_GetResourceRequestHandler(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean isNavigation, boolean isDownload, java.lang.String requestInitiator) throws com.jetbrains.cef.remote.thrift.TException;
 
@@ -227,7 +227,7 @@ public class ClientHandlers {
 
     public void RequestHandler_OnCertificateError(int bid, java.lang.String cert_error, java.lang.String request_url, java.nio.ByteBuffer sslInfo, com.jetbrains.cef.remote.thrift_codegen.RObject callback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
-    public void RequestHandler_OnRenderProcessTerminated(int bid, java.lang.String status, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+    public void RequestHandler_OnRenderProcessTerminated(int bid, java.lang.String status, int errCode, java.lang.String errText, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void RequestHandler_GetResourceRequestHandler(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean isNavigation, boolean isDownload, java.lang.String requestInitiator, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
@@ -1026,16 +1026,18 @@ public class ClientHandlers {
     }
 
     @Override
-    public void RequestHandler_OnRenderProcessTerminated(int bid, java.lang.String status) throws com.jetbrains.cef.remote.thrift.TException
+    public void RequestHandler_OnRenderProcessTerminated(int bid, java.lang.String status, int errCode, java.lang.String errText) throws com.jetbrains.cef.remote.thrift.TException
     {
-      send_RequestHandler_OnRenderProcessTerminated(bid, status);
+      send_RequestHandler_OnRenderProcessTerminated(bid, status, errCode, errText);
     }
 
-    public void send_RequestHandler_OnRenderProcessTerminated(int bid, java.lang.String status) throws com.jetbrains.cef.remote.thrift.TException
+    public void send_RequestHandler_OnRenderProcessTerminated(int bid, java.lang.String status, int errCode, java.lang.String errText) throws com.jetbrains.cef.remote.thrift.TException
     {
       RequestHandler_OnRenderProcessTerminated_args args = new RequestHandler_OnRenderProcessTerminated_args();
       args.setBid(bid);
       args.setStatus(status);
+      args.setErrCode(errCode);
+      args.setErrText(errText);
       sendBaseOneway("RequestHandler_OnRenderProcessTerminated", args);
     }
 
@@ -3263,9 +3265,9 @@ public class ClientHandlers {
     }
 
     @Override
-    public void RequestHandler_OnRenderProcessTerminated(int bid, java.lang.String status, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+    public void RequestHandler_OnRenderProcessTerminated(int bid, java.lang.String status, int errCode, java.lang.String errText, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
       checkReady();
-      RequestHandler_OnRenderProcessTerminated_call method_call = new RequestHandler_OnRenderProcessTerminated_call(bid, status, resultHandler, this, ___protocolFactory, ___transport);
+      RequestHandler_OnRenderProcessTerminated_call method_call = new RequestHandler_OnRenderProcessTerminated_call(bid, status, errCode, errText, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
@@ -3273,10 +3275,14 @@ public class ClientHandlers {
     public static class RequestHandler_OnRenderProcessTerminated_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<Void> {
       private int bid;
       private java.lang.String status;
-      public RequestHandler_OnRenderProcessTerminated_call(int bid, java.lang.String status, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+      private int errCode;
+      private java.lang.String errText;
+      public RequestHandler_OnRenderProcessTerminated_call(int bid, java.lang.String status, int errCode, java.lang.String errText, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
         this.bid = bid;
         this.status = status;
+        this.errCode = errCode;
+        this.errText = errText;
       }
 
       @Override
@@ -3285,6 +3291,8 @@ public class ClientHandlers {
         RequestHandler_OnRenderProcessTerminated_args args = new RequestHandler_OnRenderProcessTerminated_args();
         args.setBid(bid);
         args.setStatus(status);
+        args.setErrCode(errCode);
+        args.setErrText(errText);
         args.write(prot);
         prot.writeMessageEnd();
       }
@@ -5994,7 +6002,7 @@ public class ClientHandlers {
 
       @Override
       public com.jetbrains.cef.remote.thrift.TBase getResult(I iface, RequestHandler_OnRenderProcessTerminated_args args) throws com.jetbrains.cef.remote.thrift.TException {
-        iface.RequestHandler_OnRenderProcessTerminated(args.bid, args.status);
+        iface.RequestHandler_OnRenderProcessTerminated(args.bid, args.status, args.errCode, args.errText);
         return null;
       }
     }
@@ -9079,7 +9087,7 @@ public class ClientHandlers {
 
       @Override
       public void start(I iface, RequestHandler_OnRenderProcessTerminated_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
-        iface.RequestHandler_OnRenderProcessTerminated(args.bid, args.status,resultHandler);
+        iface.RequestHandler_OnRenderProcessTerminated(args.bid, args.status, args.errCode, args.errText,resultHandler);
       }
     }
 
@@ -36894,17 +36902,23 @@ public class ClientHandlers {
 
     private static final com.jetbrains.cef.remote.thrift.protocol.TField BID_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("bid", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)1);
     private static final com.jetbrains.cef.remote.thrift.protocol.TField STATUS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("status", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)2);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField ERR_CODE_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("errCode", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)3);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField ERR_TEXT_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("errText", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)4);
 
     private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RequestHandler_OnRenderProcessTerminated_argsStandardSchemeFactory();
     private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RequestHandler_OnRenderProcessTerminated_argsTupleSchemeFactory();
 
     public int bid; // required
     public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String status; // required
+    public int errCode; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String errText; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
       BID((short)1, "bid"),
-      STATUS((short)2, "status");
+      STATUS((short)2, "status"),
+      ERR_CODE((short)3, "errCode"),
+      ERR_TEXT((short)4, "errText");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -36924,6 +36938,10 @@ public class ClientHandlers {
             return BID;
           case 2: // STATUS
             return STATUS;
+          case 3: // ERR_CODE
+            return ERR_CODE;
+          case 4: // ERR_TEXT
+            return ERR_TEXT;
           default:
             return null;
         }
@@ -36968,6 +36986,7 @@ public class ClientHandlers {
 
     // isset id assignments
     private static final int __BID_ISSET_ID = 0;
+    private static final int __ERRCODE_ISSET_ID = 1;
     private byte __isset_bitfield = 0;
     public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
@@ -36975,6 +36994,10 @@ public class ClientHandlers {
       tmpMap.put(_Fields.BID, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("bid", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
           new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.STATUS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("status", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.ERR_CODE, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("errCode", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.ERR_TEXT, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("errText", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
           new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(RequestHandler_OnRenderProcessTerminated_args.class, metaDataMap);
@@ -36985,12 +37008,17 @@ public class ClientHandlers {
 
     public RequestHandler_OnRenderProcessTerminated_args(
       int bid,
-      java.lang.String status)
+      java.lang.String status,
+      int errCode,
+      java.lang.String errText)
     {
       this();
       this.bid = bid;
       setBidIsSet(true);
       this.status = status;
+      this.errCode = errCode;
+      setErrCodeIsSet(true);
+      this.errText = errText;
     }
 
     /**
@@ -37001,6 +37029,10 @@ public class ClientHandlers {
       this.bid = other.bid;
       if (other.isSetStatus()) {
         this.status = other.status;
+      }
+      this.errCode = other.errCode;
+      if (other.isSetErrText()) {
+        this.errText = other.errText;
       }
     }
 
@@ -37014,6 +37046,9 @@ public class ClientHandlers {
       setBidIsSet(false);
       this.bid = 0;
       this.status = null;
+      setErrCodeIsSet(false);
+      this.errCode = 0;
+      this.errText = null;
     }
 
     public int getBid() {
@@ -37064,6 +37099,54 @@ public class ClientHandlers {
       }
     }
 
+    public int getErrCode() {
+      return this.errCode;
+    }
+
+    public RequestHandler_OnRenderProcessTerminated_args setErrCode(int errCode) {
+      this.errCode = errCode;
+      setErrCodeIsSet(true);
+      return this;
+    }
+
+    public void unsetErrCode() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __ERRCODE_ISSET_ID);
+    }
+
+    /** Returns true if field errCode is set (has been assigned a value) and false otherwise */
+    public boolean isSetErrCode() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __ERRCODE_ISSET_ID);
+    }
+
+    public void setErrCodeIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __ERRCODE_ISSET_ID, value);
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.lang.String getErrText() {
+      return this.errText;
+    }
+
+    public RequestHandler_OnRenderProcessTerminated_args setErrText(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String errText) {
+      this.errText = errText;
+      return this;
+    }
+
+    public void unsetErrText() {
+      this.errText = null;
+    }
+
+    /** Returns true if field errText is set (has been assigned a value) and false otherwise */
+    public boolean isSetErrText() {
+      return this.errText != null;
+    }
+
+    public void setErrTextIsSet(boolean value) {
+      if (!value) {
+        this.errText = null;
+      }
+    }
+
     @Override
     public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
       switch (field) {
@@ -37083,6 +37166,22 @@ public class ClientHandlers {
         }
         break;
 
+      case ERR_CODE:
+        if (value == null) {
+          unsetErrCode();
+        } else {
+          setErrCode((java.lang.Integer)value);
+        }
+        break;
+
+      case ERR_TEXT:
+        if (value == null) {
+          unsetErrText();
+        } else {
+          setErrText((java.lang.String)value);
+        }
+        break;
+
       }
     }
 
@@ -37095,6 +37194,12 @@ public class ClientHandlers {
 
       case STATUS:
         return getStatus();
+
+      case ERR_CODE:
+        return getErrCode();
+
+      case ERR_TEXT:
+        return getErrText();
 
       }
       throw new java.lang.IllegalStateException();
@@ -37112,6 +37217,10 @@ public class ClientHandlers {
         return isSetBid();
       case STATUS:
         return isSetStatus();
+      case ERR_CODE:
+        return isSetErrCode();
+      case ERR_TEXT:
+        return isSetErrText();
       }
       throw new java.lang.IllegalStateException();
     }
@@ -37147,6 +37256,24 @@ public class ClientHandlers {
           return false;
       }
 
+      boolean this_present_errCode = true;
+      boolean that_present_errCode = true;
+      if (this_present_errCode || that_present_errCode) {
+        if (!(this_present_errCode && that_present_errCode))
+          return false;
+        if (this.errCode != that.errCode)
+          return false;
+      }
+
+      boolean this_present_errText = true && this.isSetErrText();
+      boolean that_present_errText = true && that.isSetErrText();
+      if (this_present_errText || that_present_errText) {
+        if (!(this_present_errText && that_present_errText))
+          return false;
+        if (!this.errText.equals(that.errText))
+          return false;
+      }
+
       return true;
     }
 
@@ -37159,6 +37286,12 @@ public class ClientHandlers {
       hashCode = hashCode * 8191 + ((isSetStatus()) ? 131071 : 524287);
       if (isSetStatus())
         hashCode = hashCode * 8191 + status.hashCode();
+
+      hashCode = hashCode * 8191 + errCode;
+
+      hashCode = hashCode * 8191 + ((isSetErrText()) ? 131071 : 524287);
+      if (isSetErrText())
+        hashCode = hashCode * 8191 + errText.hashCode();
 
       return hashCode;
     }
@@ -37187,6 +37320,26 @@ public class ClientHandlers {
       }
       if (isSetStatus()) {
         lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.status, other.status);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetErrCode(), other.isSetErrCode());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetErrCode()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.errCode, other.errCode);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetErrText(), other.isSetErrText());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetErrText()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.errText, other.errText);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -37224,6 +37377,18 @@ public class ClientHandlers {
         sb.append("null");
       } else {
         sb.append(this.status);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("errCode:");
+      sb.append(this.errCode);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("errText:");
+      if (this.errText == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.errText);
       }
       first = false;
       sb.append(")");
@@ -37289,6 +37454,22 @@ public class ClientHandlers {
                 com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
+            case 3: // ERR_CODE
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
+                struct.errCode = iprot.readI32();
+                struct.setErrCodeIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 4: // ERR_TEXT
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRING) {
+                struct.errText = iprot.readString();
+                struct.setErrTextIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
             default:
               com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
           }
@@ -37311,6 +37492,14 @@ public class ClientHandlers {
         if (struct.status != null) {
           oprot.writeFieldBegin(STATUS_FIELD_DESC);
           oprot.writeString(struct.status);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldBegin(ERR_CODE_FIELD_DESC);
+        oprot.writeI32(struct.errCode);
+        oprot.writeFieldEnd();
+        if (struct.errText != null) {
+          oprot.writeFieldBegin(ERR_TEXT_FIELD_DESC);
+          oprot.writeString(struct.errText);
           oprot.writeFieldEnd();
         }
         oprot.writeFieldStop();
@@ -37338,19 +37527,31 @@ public class ClientHandlers {
         if (struct.isSetStatus()) {
           optionals.set(1);
         }
-        oprot.writeBitSet(optionals, 2);
+        if (struct.isSetErrCode()) {
+          optionals.set(2);
+        }
+        if (struct.isSetErrText()) {
+          optionals.set(3);
+        }
+        oprot.writeBitSet(optionals, 4);
         if (struct.isSetBid()) {
           oprot.writeI32(struct.bid);
         }
         if (struct.isSetStatus()) {
           oprot.writeString(struct.status);
         }
+        if (struct.isSetErrCode()) {
+          oprot.writeI32(struct.errCode);
+        }
+        if (struct.isSetErrText()) {
+          oprot.writeString(struct.errText);
+        }
       }
 
       @Override
       public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, RequestHandler_OnRenderProcessTerminated_args struct) throws com.jetbrains.cef.remote.thrift.TException {
         com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(2);
+        java.util.BitSet incoming = iprot.readBitSet(4);
         if (incoming.get(0)) {
           struct.bid = iprot.readI32();
           struct.setBidIsSet(true);
@@ -37358,6 +37559,14 @@ public class ClientHandlers {
         if (incoming.get(1)) {
           struct.status = iprot.readString();
           struct.setStatusIsSet(true);
+        }
+        if (incoming.get(2)) {
+          struct.errCode = iprot.readI32();
+          struct.setErrCodeIsSet(true);
+        }
+        if (incoming.get(3)) {
+          struct.errText = iprot.readString();
+          struct.setErrTextIsSet(true);
         }
       }
     }

@@ -185,7 +185,7 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
     printf("RequestHandler_OnCertificateError\n");
   }
 
-  void RequestHandler_OnRenderProcessTerminated(const int32_t bid, const std::string& status) {
+  void RequestHandler_OnRenderProcessTerminated(const int32_t bid, const std::string& status, const int32_t errCode, const std::string& errText) {
     // Your implementation goes here
     printf("RequestHandler_OnRenderProcessTerminated\n");
   }

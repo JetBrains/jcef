@@ -5645,6 +5645,22 @@ uint32_t ClientHandlers_RequestHandler_OnRenderProcessTerminated_args::read(::ap
           xfer += iprot->skip(ftype);
         }
         break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->errCode);
+          this->__isset.errCode = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->errText);
+          this->__isset.errText = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -5670,6 +5686,14 @@ uint32_t ClientHandlers_RequestHandler_OnRenderProcessTerminated_args::write(::a
   xfer += oprot->writeString(this->status);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("errCode", ::apache::thrift::protocol::T_I32, 3);
+  xfer += oprot->writeI32(this->errCode);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("errText", ::apache::thrift::protocol::T_STRING, 4);
+  xfer += oprot->writeString(this->errText);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -5691,6 +5715,14 @@ uint32_t ClientHandlers_RequestHandler_OnRenderProcessTerminated_pargs::write(::
 
   xfer += oprot->writeFieldBegin("status", ::apache::thrift::protocol::T_STRING, 2);
   xfer += oprot->writeString((*(this->status)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("errCode", ::apache::thrift::protocol::T_I32, 3);
+  xfer += oprot->writeI32((*(this->errCode)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("errText", ::apache::thrift::protocol::T_STRING, 4);
+  xfer += oprot->writeString((*(this->errText)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -14490,12 +14522,12 @@ bool ClientHandlersClient::recv_RequestHandler_OnCertificateError()
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "RequestHandler_OnCertificateError failed: unknown result");
 }
 
-void ClientHandlersClient::RequestHandler_OnRenderProcessTerminated(const int32_t bid, const std::string& status)
+void ClientHandlersClient::RequestHandler_OnRenderProcessTerminated(const int32_t bid, const std::string& status, const int32_t errCode, const std::string& errText)
 {
-  send_RequestHandler_OnRenderProcessTerminated(bid, status);
+  send_RequestHandler_OnRenderProcessTerminated(bid, status, errCode, errText);
 }
 
-void ClientHandlersClient::send_RequestHandler_OnRenderProcessTerminated(const int32_t bid, const std::string& status)
+void ClientHandlersClient::send_RequestHandler_OnRenderProcessTerminated(const int32_t bid, const std::string& status, const int32_t errCode, const std::string& errText)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("RequestHandler_OnRenderProcessTerminated", ::apache::thrift::protocol::T_ONEWAY, cseqid);
@@ -14503,6 +14535,8 @@ void ClientHandlersClient::send_RequestHandler_OnRenderProcessTerminated(const i
   ClientHandlers_RequestHandler_OnRenderProcessTerminated_pargs args;
   args.bid = &bid;
   args.status = &status;
+  args.errCode = &errCode;
+  args.errText = &errText;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -17895,7 +17929,7 @@ void ClientHandlersProcessor::process_RequestHandler_OnRenderProcessTerminated(i
   }
 
   try {
-    iface_->RequestHandler_OnRenderProcessTerminated(args.bid, args.status);
+    iface_->RequestHandler_OnRenderProcessTerminated(args.bid, args.status, args.errCode, args.errText);
   } catch (const std::exception&) {
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "ClientHandlers.RequestHandler_OnRenderProcessTerminated");
@@ -21776,12 +21810,12 @@ bool ClientHandlersConcurrentClient::recv_RequestHandler_OnCertificateError(cons
   } // end while(true)
 }
 
-void ClientHandlersConcurrentClient::RequestHandler_OnRenderProcessTerminated(const int32_t bid, const std::string& status)
+void ClientHandlersConcurrentClient::RequestHandler_OnRenderProcessTerminated(const int32_t bid, const std::string& status, const int32_t errCode, const std::string& errText)
 {
-  send_RequestHandler_OnRenderProcessTerminated(bid, status);
+  send_RequestHandler_OnRenderProcessTerminated(bid, status, errCode, errText);
 }
 
-void ClientHandlersConcurrentClient::send_RequestHandler_OnRenderProcessTerminated(const int32_t bid, const std::string& status)
+void ClientHandlersConcurrentClient::send_RequestHandler_OnRenderProcessTerminated(const int32_t bid, const std::string& status, const int32_t errCode, const std::string& errText)
 {
   int32_t cseqid = 0;
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
@@ -21790,6 +21824,8 @@ void ClientHandlersConcurrentClient::send_RequestHandler_OnRenderProcessTerminat
   ClientHandlers_RequestHandler_OnRenderProcessTerminated_pargs args;
   args.bid = &bid;
   args.status = &status;
+  args.errCode = &errCode;
+  args.errText = &errText;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();

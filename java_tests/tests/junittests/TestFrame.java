@@ -280,7 +280,8 @@ public class TestFrame extends JFrame implements CefLifeSpanHandler, CefLoadHand
     }
 
     @Override
-    public void onRenderProcessTerminated(CefBrowser browser, TerminationStatus status) {}
+    public void onRenderProcessTerminated(
+            CefBrowser browser, TerminationStatus status, int error_code, String error_string) {}
 
     // CefResourceRequestHandler methods:
 

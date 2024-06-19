@@ -176,7 +176,7 @@ public class ClientHandlersDummy implements ClientHandlers.Iface{
     }
 
     @Override
-    public void RequestHandler_OnRenderProcessTerminated(int bid, String status) throws TException {
+    public void RequestHandler_OnRenderProcessTerminated(int bid, String status, int errCode, String errText) throws TException {
 
     }
 
