@@ -143,7 +143,6 @@ void RemoteRenderHandler::OnPopupSize(CefRefPtr<CefBrowser> browser,
 //
 // Debug methods
 //
-#define DRAW_DEBUG 0
 
 inline void fillRect(unsigned char * dst, int stride, int y, int x, int dx, int dy, int r, int g, int b, int a, int width, int height) {
     if (y >= height)
@@ -261,14 +260,23 @@ void RemoteRenderHandler::OnPaint(CefRefPtr<CefBrowser> browser,
       *(sharedRects++) = r.height;
     }
 
-#ifdef DRAW_DEBUG
-    const int stride = width*4;
-    const int th = 30;
-    fillRect((unsigned char *)buff.ptr(), stride, 0, 0, th, th, 255, 0, 0, 255, width, height);
-    fillRect((unsigned char *)buff.ptr(), stride, 0, width - th, th, th, 0, 255, 0, 255, width, height);
-    fillRect((unsigned char *)buff.ptr(), stride, height - th, width - th, th, th, 0, 0, 255, 255, width, height);
-    fillRect((unsigned char *)buff.ptr(), stride, height - th, 0, th, th, 255, 0, 255, 255, width, height);
-#endif //DRAW_DEBUG
+    { // Draw debug
+      static int drawDebug = -1;
+        if (drawDebug < 0) {
+          drawDebug = 0;
+          const char* sval = getenv("CEF_SERVER_DRAW_DEBUG");
+          if (sval != nullptr && std::string(sval).compare("true") == 0)
+            drawDebug = 1;
+        }
+        if (drawDebug > 0) {
+          const int stride = width*4;
+          const int th = 30;
+          fillRect((unsigned char *)buff.ptr(), stride, 0, 0, th, th, 255, 0, 0, 255, width, height);
+          fillRect((unsigned char *)buff.ptr(), stride, 0, width - th, th, th, 0, 255, 0, 255, width, height);
+          fillRect((unsigned char *)buff.ptr(), stride, height - th, width - th, th, th, 0, 0, 255, 255, width, height);
+          fillRect((unsigned char *)buff.ptr(), stride, height - th, 0, th, th, 255, 0, 255, 255, width, height);
+        }
+    }
 
     buff.unlock();
 
