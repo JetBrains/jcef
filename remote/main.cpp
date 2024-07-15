@@ -67,10 +67,6 @@ class MyServerProcessorFactory : public ::apache::thrift::TProcessorFactory {
 };
 
 int main(int argc, char* argv[]) {
-  fprintf(stderr, "Starting cer server.\n");
-  ServerState::instance().init(argc, argv);
-
-  setThreadName("main");
 #if defined(OS_LINUX)
   CefRefPtr<CefApp> app = nullptr;
   CefRefPtr<CefCommandLine> command_line = CefCommandLine::CreateCommandLine();
@@ -101,9 +97,13 @@ int main(int argc, char* argv[]) {
     return result;
   }
 #elif OS_MAC
-  Log::trace("Initialize MacApplication delegate.");
   initMacApplication();
 #endif
+
+  fprintf(stderr, "Starting cer server.\n");
+  ServerState::instance().init(argc, argv);
+
+  setThreadName("main");
   const Clock::time_point startTime = Clock::now();
 
   Log::trace("Start CEF initialization.");
