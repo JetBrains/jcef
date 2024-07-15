@@ -14,9 +14,20 @@ namespace {
 
 SharedBuffer::SharedBuffer(std::string uid, size_t len)
     : myUid(uid), myLen(len) {
+  static int additionalBytes = -1;
+  if (additionalBytes < 0) {
+    additionalBytes = 300; // NOTE: 256 isn't enough in Ubuntu24 arm64
+    const char* sval = getenv("CEF_SERVER_ADDITIONAL_SHARED_BYTES");
+    if (sval != nullptr) {
+      additionalBytes = atoi(sval);
+      if (additionalBytes < 0) additionalBytes = 0;
+      if (additionalBytes > 1024*8) additionalBytes = 1024*8;
+      Log::debug("Set additional bytes for shared memory: %d bytes\n", additionalBytes);
+    }
+  }
+
   Log::trace("Allocate shared buffer '%s' | %.2f Mb", uid.c_str(), len/(1024*1024.f));
   const Clock::time_point startTime = Clock::now();
-  const unsigned int additionalBytes = 256;
   shared_memory_object::remove(uid.c_str());
 
   const Clock::time_point t1 = Clock::now();

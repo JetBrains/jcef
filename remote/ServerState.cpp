@@ -95,7 +95,7 @@ void ServerState::shutdownHard() {
 }
 
 CommandLineArgs::CommandLineArgs() {
-  const char* sval = getenv("JCEF_TRANSPORT_OPEN_COOLDOWN_MS");
+  const char* sval = getenv("CEF_SERVER_TRANSPORT_OPEN_COOLDOWN_MS");
   if (sval != nullptr) {
     myOpenTransportCooldownMs = atoi(sval);
     if (myOpenTransportCooldownMs < 0) myOpenTransportCooldownMs = 0;
