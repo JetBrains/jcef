@@ -304,28 +304,92 @@ public class NativeServerManager {
         ProcessHandle.Info i = ProcessHandle.current().info();
         String cmd = i.command().get();
         if (cmd == null || cmd.isEmpty()) {
-            CefLog.Error("Can't determine cef_server location because process command is empty.");
-            return null;
+            CefLog.Warn("Can't determine cef_server location via ProcessHandle (because the command is empty).");
+            return findExeViaSystemProperty();
         }
 
         final boolean isJava = OS.isWindows() ? cmd.endsWith("java.exe") : cmd.endsWith("java");
         if (isJava) {
             File javabin = new File(cmd);
+            if (!javabin.exists() || javabin.isDirectory()) {
+                CefLog.Warn("Can't determine cef_server location via ProcessHandle (because calculated java.exe doesn't exist), cmd=%s");
+                return findExeViaSystemProperty();
+            }
+            File result;
             if (OS.isMacintosh())
-                return new File(javabin.getParentFile().getParentFile().getParentFile(), "Frameworks/cef_server.app/Contents/MacOS/cef_server");
-            if (OS.isLinux())
-                return new File(javabin.getParentFile().getParentFile(), "lib/cef_server");
-            return new File(javabin.getParentFile(), "cef_server.exe");
-        } else {
-            // TODO: get path of loaded libjvm and calculate relative server path
-            CefLog.Info("Java is started via native launcher %s, cef_server from bundled jbr will be used.", cmd);
-            File launcher = new File(cmd);
-            if (OS.isMacintosh())
-                return new File(launcher.getParentFile().getParentFile(), "jbr/Contents/Frameworks/cef_server.app/Contents/MacOS/cef_server");
-            if (OS.isLinux())
-                return new File(launcher.getParentFile().getParentFile(), "jbr/lib/cef_server");
-            return new File(new File(new File(launcher.getParentFile().getParentFile(), "jbr"), "bin"), "cef_server.exe");
+                result = new File(javabin.getParentFile().getParentFile().getParentFile(), "Frameworks/cef_server.app/Contents/MacOS/cef_server");
+            else if (OS.isLinux())
+                result = new File(javabin.getParentFile().getParentFile(), "lib/cef_server");
+            else
+                result = new File(javabin.getParentFile(), "cef_server.exe");
+            if (!result.exists()) {
+                CefLog.Warn("Can't determine cef_server location via ProcessHandle (because calculated path '%s' doesn't exist), cmd=%s", result.getAbsolutePath(), cmd);
+                return findExeViaSystemProperty();
+            }
+
+            return result;
         }
+
+        //
+        // It seems that JVM is started via the native launcher.
+        //
+
+        File result = findExeViaSystemProperty();
+        if (result != null) {
+            CefLog.Debug("Java is started via native launcher. Found cef_server path %s (via system propety)", result.getAbsolutePath());
+            return result;
+        }
+
+        // TODO: get path of loaded libjvm and calculate relative server path
+        File launcher = new File(cmd);
+        if (!launcher.exists()) {
+            CefLog.Warn("Can't find cef_server in bundled jbr (launcher '%s' doesn't exist), cmd=%s", launcher.getAbsolutePath(), cmd);
+            return null;
+        }
+
+        if (OS.isMacintosh())
+            result = new File(launcher.getParentFile().getParentFile(), "jbr/Contents/Frameworks/cef_server.app/Contents/MacOS/cef_server");
+        else if (OS.isLinux())
+            result = new File(launcher.getParentFile().getParentFile(), "jbr/lib/cef_server");
+        else
+            result = new File(new File(new File(launcher.getParentFile().getParentFile(), "jbr"), "bin"), "cef_server.exe");
+
+        if (!result.exists()) {
+            CefLog.Warn("Can't find cef_server in bundled jbr (calculated path '%s' doesn't exist), cmd=%s", result.getAbsolutePath(), cmd);
+            result = null;
+        }
+        CefLog.Debug("Java is started via native launcher. Found cef_server path %s (in bundled jbr)", result.getAbsolutePath());
+        return result;
+
+    }
+
+    private static File findExeViaSystemProperty() {
+        String javaPath = System.getProperty("java.home");
+        if (javaPath == null || javaPath.isEmpty()) {
+            CefLog.Error("Can't find cef_server binary: system property 'java.home' is empty.");
+            return null;
+        }
+        CefLog.Debug("Find cef_server binary via system property 'java.home'=%s", javaPath);
+
+        File javaDir = new File(javaPath);
+        if (!javaDir.exists() || !javaDir.isDirectory()) {
+            CefLog.Error("Can't find cef_server binary: java directory doesn't exist, 'java.home'=%s", javaPath);
+            return null;
+        }
+
+        File result;
+        if (OS.isMacintosh()) // javaPath points to Home: /Applications/IntelliJ IDEA Ultimate 2024.3 Nightly.app/Contents/jbr/Contents/Home
+            result = new File(javaDir.getParentFile(), "Frameworks/cef_server.app/Contents/MacOS/cef_server");
+        else if (OS.isLinux())
+            result = new File(javaDir, "lib/cef_server");
+        else
+            result = new File(new File(javaDir, "bin"), "cef_server.exe");
+
+        if (!result.exists()) {
+            CefLog.Error("Can't find cef_server binary: file %s doesn't exist, 'java.home'=%s", result.getAbsolutePath(), javaPath);
+            return null;
+        }
+        return result;
     }
 
     // returns true when server was started successfully
