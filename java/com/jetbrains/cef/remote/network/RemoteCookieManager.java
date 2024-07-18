@@ -84,6 +84,8 @@ public class RemoteCookieManager extends CefCookieManager {
     }
 
     public static CefCookie toCefCookie(Cookie c) {
+        if (c == null)
+            return null;
         Date creation = c.creation == 0 ? null : new Date(c.creation);
         Date lastAccess = c.lastAccess == 0 ? null : new Date(c.lastAccess);
         Date expires = c.isSetExpires() ? new Date(c.expires) : null;
@@ -91,6 +93,9 @@ public class RemoteCookieManager extends CefCookieManager {
     }
 
     public static Cookie toThriftCookie(CefCookie c) {
+        if (c == null)
+            return null;
+
         Cookie cookie = new Cookie(c.name, c.value, c.domain, c.path, c.secure, c.httponly, c.creation == null ? 0 : c.creation.getTime(), c.lastAccess == null ? 0 : c.lastAccess.getTime());
         if (c.hasExpires && c.expires != null)
             cookie.setExpires(c.expires.getTime());

@@ -46,6 +46,9 @@ public class RemotePostData extends CefPostData {
     public void removeElements() { myElements.clear(); }
 
     static PostData toThriftWithMap(CefPostData postData) {
+        if (postData == null)
+            return null;
+
         boolean hasExcluded = (postData instanceof RemotePostData) ? ((RemotePostData)postData).hasExcludedElements() : false;
         PostData pd = new PostData(postData.isReadOnly(), hasExcluded);
         if (postData.getElementCount() > 0) {

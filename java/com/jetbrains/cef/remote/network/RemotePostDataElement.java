@@ -62,6 +62,9 @@ public class RemotePostDataElement extends CefPostDataElement {
     }
 
     static PostDataElement toThriftWithMap(CefPostDataElement postData) {
+        if (postData == null)
+            return null;
+
         PostDataElement e = new PostDataElement(postData.isReadOnly());
         if (postData.getType() == CefPostDataElement.Type.PDE_TYPE_FILE) {
             e.file = postData.getFile();

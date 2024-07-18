@@ -41,7 +41,11 @@ public class RemoteResponseImpl extends RemoteServerObjectLocal {
     }
 
     public void setError(CefLoadHandler.ErrorCode errorCode) {
-        setLongVal("Error", errorCode.getCode());
+        final String key = "Error";
+        if (errorCode == null)
+            setStrVal(key, null);
+        else
+            setLongVal(key, errorCode.getCode());
     }
 
     public int getStatus() { return (int)getLongVal("Status"); }
