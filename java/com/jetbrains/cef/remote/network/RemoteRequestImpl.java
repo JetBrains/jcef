@@ -42,7 +42,7 @@ public class RemoteRequestImpl extends RemoteServerObjectLocal {
 
     public void setReferrer(String url, CefRequest.ReferrerPolicy policy) {
         setStrVal("ReferrerURL", url);
-        setStrVal("ReferrerPolicy", policy.name());
+        setStrVal("ReferrerPolicy", policy == null ? null : policy.name());
     }
 
     public String getReferrerURL() { return myCache.get("ReferrerURL"); }
