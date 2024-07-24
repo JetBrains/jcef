@@ -28,6 +28,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.CompletableFuture;
@@ -231,38 +232,80 @@ public class RemoteBrowser implements CefBrowser {
 
     @Override
     public CefFrame getMainFrame() {
-        CefLog.Error("TODO: implement getMainFrame.");
-        return null;
+        if (myIsClosing)
+            return null;
+        if (myBid < 0) {
+            CefLog.Debug("bid wasn't received yet and getMainFrame will return null.");
+            return null;
+        }
+
+        RObject rf = myService.execObj(s-> s.Browser_GetMainFrame(myBid));
+        return rf == null || rf.objId < 0 ? null : new RemoteFrame(myService, rf);
     }
 
     @Override
     public CefFrame getFocusedFrame() {
-        CefLog.Error("TODO: implement getFocusedFrame.");
-        return null;
+        if (myIsClosing)
+            return null;
+        if (myBid < 0) {
+            CefLog.Debug("bid wasn't received yet and getFocusedFrame will return null.");
+            return null;
+        }
+
+        RObject rf = myService.execObj(s-> s.Browser_GetFocusedFrame(myBid));
+        return rf == null || rf.objId < 0 ? null : new RemoteFrame(myService, rf);
     }
 
     @Override
     public CefFrame getFrameByIdentifier(String identifier) {
-        CefLog.Error("TODO: implement getFrame.");
-        return null;
+        if (myIsClosing)
+            return null;
+        if (myBid < 0) {
+            CefLog.Debug("bid wasn't received yet and getFrameByIdentifier will return null.");
+            return null;
+        }
+
+        RObject rf = myService.execObj(s-> s.Browser_GetFrameByIdentifier(myBid, identifier));
+        return rf == null || rf.objId < 0 ? null : new RemoteFrame(myService, rf);
     }
 
     @Override
     public CefFrame getFrameByName(String name) {
-        CefLog.Error("TODO: implement getFrame.");
-        return null;
+        if (myIsClosing)
+            return null;
+        if (myBid < 0) {
+            CefLog.Debug("bid wasn't received yet and getFrameByName will return null.");
+            return null;
+        }
+
+        RObject rf = myService.execObj(s-> s.Browser_GetFrameByName(myBid, name));
+        return rf == null || rf.objId < 0 ? null : new RemoteFrame(myService, rf);
     }
 
     @Override
     public Vector<String> getFrameIdentifiers() {
-        CefLog.Error("TODO: implement getFrameIdentifiers.");
-        return null;
+        if (myIsClosing)
+            return null;
+        if (myBid < 0) {
+            CefLog.Debug("bid wasn't received yet and getFrameIdentifiers will return null.");
+            return null;
+        }
+
+        List<String> ids = myService.execObj(s-> s.Browser_GetFrameIdentifiers(myBid));
+        return ids == null || ids.isEmpty() ? null : new Vector<>(ids);
     }
 
     @Override
     public Vector<String> getFrameNames() {
-        CefLog.Error("TODO: implement getFrameNames.");
-        return null;
+        if (myIsClosing)
+            return null;
+        if (myBid < 0) {
+            CefLog.Debug("bid wasn't received yet and getFrameNames will return null.");
+            return null;
+        }
+
+        List<String> ids = myService.execObj(s-> s.Browser_GetFrameNames(myBid));
+        return ids == null || ids.isEmpty() ? null : new Vector<>(ids);
     }
 
     @Override

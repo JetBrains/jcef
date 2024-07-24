@@ -216,10 +216,74 @@ void ServerHandler::Browser_ExecuteJavaScript(const int32_t bid,const std::strin
 void ServerHandler::Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line) {
   LNDCT();
   RemoteFrame * rf = RemoteFrame::get(frameId);
+  if (rf != nullptr)
+    rf->getDelegate().ExecuteJavaScript(code, url, line);
+}
+
+void ServerHandler::Frame_Dispose(const int32_t frameId) {
+  LNDCT();
+  RemoteFrame::dispose(frameId);
+}
+
+void ServerHandler::Frame_GetParent(thrift_codegen::RObject & _return, int frameId) {
+  LNDCT();
+  _return.objId = -1;
+  RemoteFrame * rf = RemoteFrame::get(frameId);
   if (rf == nullptr)
     return;
 
-  rf->getDelegate().ExecuteJavaScript(code, url, line);
+  RemoteFrame* rparent = RemoteFrame::create(rf->getDelegate().GetParent());
+  if (rparent != nullptr)
+    _return = rparent->serverIdWithMap();
+}
+
+void ServerHandler::Frame_Undo(int frameId) {
+  LNDCT();
+  RemoteFrame * rf = RemoteFrame::get(frameId);
+  if (rf != nullptr)
+    rf->getDelegate().Undo();
+}
+
+void ServerHandler::Frame_Redo(int frameId) {
+  LNDCT();
+  RemoteFrame * rf = RemoteFrame::get(frameId);
+  if (rf != nullptr)
+    rf->getDelegate().Redo();
+}
+
+void ServerHandler::Frame_Cut(int frameId) {
+  LNDCT();
+  RemoteFrame * rf = RemoteFrame::get(frameId);
+  if (rf != nullptr)
+    rf->getDelegate().Cut();
+}
+
+void ServerHandler::Frame_Copy(int frameId) {
+  LNDCT();
+  RemoteFrame * rf = RemoteFrame::get(frameId);
+  if (rf != nullptr)
+    rf->getDelegate().Copy();
+}
+
+void ServerHandler::Frame_Paste(int frameId) {
+  LNDCT();
+  RemoteFrame * rf = RemoteFrame::get(frameId);
+  if (rf != nullptr)
+    rf->getDelegate().Paste();
+}
+
+void ServerHandler::Frame_Delete(int frameId) {
+  LNDCT();
+  RemoteFrame * rf = RemoteFrame::get(frameId);
+  if (rf != nullptr)
+    rf->getDelegate().Delete();
+}
+
+void ServerHandler::Frame_SelectAll(int frameId) {
+  LNDCT();
+  RemoteFrame * rf = RemoteFrame::get(frameId);
+  if (rf != nullptr)
+    rf->getDelegate().SelectAll();
 }
 
 void ServerHandler::Browser_WasResized(const int32_t bid) {
@@ -316,6 +380,64 @@ void ServerHandler::Browser_StopLoad(const int32_t bid) {
   LNDCT();
   GET_BROWSER_OR_RETURN()
   browser->StopLoad();
+}
+
+void ServerHandler::Browser_GetMainFrame(thrift_codegen::RObject& _return, const int32_t bid) {
+  LNDCT();
+  _return.objId = -1;
+  GET_BROWSER_OR_RETURN()
+  CefRefPtr<CefFrame> frame = browser->GetMainFrame();
+  RemoteFrame* rf = RemoteFrame::create(frame);
+  if (rf != nullptr)
+    _return = rf->serverIdWithMap();
+}
+
+void ServerHandler::Browser_GetFocusedFrame(thrift_codegen::RObject& _return, const int32_t bid) {
+  LNDCT();
+  _return.objId = -1;
+  GET_BROWSER_OR_RETURN()
+  CefRefPtr<CefFrame> frame = browser->GetFocusedFrame();
+  RemoteFrame* rf = RemoteFrame::create(frame);
+  if (rf != nullptr)
+    _return = rf->serverIdWithMap();
+}
+
+void ServerHandler::Browser_GetFrameByIdentifier(thrift_codegen::RObject& _return, const int32_t bid, const std::string& id) {
+  LNDCT();
+  _return.objId = -1;
+  GET_BROWSER_OR_RETURN()
+  CefRefPtr<CefFrame> frame = browser->GetFrameByIdentifier(id);
+  RemoteFrame* rf = RemoteFrame::create(frame);
+  if (rf != nullptr)
+    _return = rf->serverIdWithMap();
+}
+
+void ServerHandler::Browser_GetFrameByName(thrift_codegen::RObject& _return, const int32_t bid, const std::string& name) {
+  LNDCT();
+  _return.objId = -1;
+  GET_BROWSER_OR_RETURN()
+  CefRefPtr<CefFrame> frame = browser->GetFrameByName(name);
+  RemoteFrame* rf = RemoteFrame::create(frame);
+  if (rf != nullptr)
+    _return = rf->serverIdWithMap();
+}
+
+void ServerHandler::Browser_GetFrameIdentifiers(std::vector<std::string>& _return, const int32_t bid) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN()
+  std::vector<CefString> identifiers;
+  browser->GetFrameIdentifiers(identifiers);
+  for (const auto & fid: identifiers)
+    _return.push_back(fid.ToString());
+}
+
+void ServerHandler::Browser_GetFrameNames(std::vector<std::string>& _return, const int32_t bid) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN()
+  std::vector<CefString> names;
+  browser->GetFrameNames(names);
+  for (const auto & name : names)
+    _return.push_back(name.ToString());
 }
 
 int32_t ServerHandler::Browser_GetFrameCount(const int32_t bid) {

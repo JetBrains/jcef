@@ -7,14 +7,21 @@ import org.cef.misc.CefLog;
 import org.cef.network.CefRequest;
 
 // 1. Represents remote java peer for native server object (CefFrame).
-// 2. Created on java side when processing some server request
-// 3. Lifetime of remote native peer if managed by server: native object
-// peer (CefFrame) is destroyed immediately after rpc finished. After that
-// moment all requests from java to native will return errors (or default values).
-// Java object will be destroyed via usual gc.
-public class RemoteFrame extends RemoteServerObjectLocal implements CefFrame {
+// 2. Created
+//      a) on java side when processing some server request
+//      b) on native side when called CefBrowser::GetMainFrame
+// 3. Lifetime of remote native peer is managed by java: native object
+// peer will be destroyed when java object destroyed via usual gc.
+public class RemoteFrame extends RemoteServerObject implements CefFrame {
     public RemoteFrame(RpcExecutor server, RObject frame) {
         super(server, frame);
+    }
+
+    @Override
+    protected void disposeOnServerImpl() {
+        myServer.exec((s)->{
+            s.Frame_Dispose(myId);
+        });
     }
 
     @Override
@@ -24,7 +31,7 @@ public class RemoteFrame extends RemoteServerObjectLocal implements CefFrame {
 
     @Override
     public void dispose() {
-        // Nothing to do (lifetime of remote native peer if managed by server). Java object will be destroyed via usual gc.
+        disposeOnServer();
     }
 
     @Override
@@ -59,8 +66,8 @@ public class RemoteFrame extends RemoteServerObjectLocal implements CefFrame {
 
     @Override
     public CefFrame getParent() {
-        CefLog.Error("TODO: implement getParent().");
-        return null;
+        RObject parent = myServer.execObj((s)-> s.Frame_GetParent(myId));
+        return parent == null || parent.objId < 0 ? null : new RemoteFrame(myServer, parent);
     }
 
     @Override
@@ -71,37 +78,35 @@ public class RemoteFrame extends RemoteServerObjectLocal implements CefFrame {
     }
 
     @Override
-    public void undo() {
-        CefLog.Error("TODO: implement undo().");
-    }
+    public void undo() { myServer.exec((s)-> s.Frame_Undo(myId)); }
 
     @Override
     public void redo() {
-        CefLog.Error("TODO: implement redo().");
+        myServer.exec((s)-> s.Frame_Redo(myId));
     }
 
     @Override
     public void cut() {
-        CefLog.Error("TODO: implement cut().");
+        myServer.exec((s)-> s.Frame_Cut(myId));
     }
 
     @Override
     public void copy() {
-        CefLog.Error("TODO: implement copy().");
+        myServer.exec((s)-> s.Frame_Copy(myId));
     }
 
     @Override
     public void paste() {
-        CefLog.Error("TODO: implement undo().");
+        myServer.exec((s)-> s.Frame_Paste(myId));
     }
 
     @Override
     public void delete() {
-        CefLog.Error("TODO: implement delete().");
+        myServer.exec((s)-> s.Frame_Delete(myId));
     }
 
     @Override
     public void selectAll() {
-        CefLog.Error("TODO: implement selectAll().");
+        myServer.exec((s)-> s.Frame_SelectAll(myId));
     }
 }

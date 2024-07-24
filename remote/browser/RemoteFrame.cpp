@@ -23,3 +23,9 @@ std::map<std::string, std::string> RemoteFrame::toMapImpl() {
   setBool(result, "IsFocused", myDelegate->IsFocused());
   return result;
 }
+
+RemoteFrame * RemoteFrame::create(CefRefPtr<CefFrame> delegate) {
+  if (!delegate)
+    return nullptr;
+  return FACTORY.create([&](int id) -> RemoteFrame* {return new RemoteFrame(delegate, id);});
+}

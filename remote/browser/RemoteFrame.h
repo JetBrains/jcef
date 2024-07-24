@@ -12,6 +12,8 @@ class RemoteFrame : public virtual CefBaseRefCounted, public RemoteServerObjectU
   }
   std::map<std::string, std::string> toMapImpl() override;
 
+  static RemoteFrame * create(CefRefPtr<CefFrame> delegate);
+
  private:
   explicit RemoteFrame(CefRefPtr<CefFrame> delegate, int id) : RemoteServerObjectUpdatable(id, delegate) {}
   template <class T, class D> friend class ::RemoteServerObjectHolder;
