@@ -217,6 +217,23 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         loadHandler.onLoadingStateChange(browser, isLoading, canGoBack, canGoForward);
     }
 
+    private static CefRequest.TransitionType getTransitionType(int transitionTypeNative) {
+        final int TT_SOURCE_MASK = 0xFF;
+        final int TT_QUALIFIER_MASK = 0xFFFFFF00;
+        CefRequest.TransitionType result = null;
+        for (CefRequest.TransitionType tt: CefRequest.TransitionType.values()) {
+            if ((tt.getValue() & TT_SOURCE_MASK) == (transitionTypeNative & TT_SOURCE_MASK)) {
+                result = tt;
+                break;
+            }
+        }
+
+        if (result != null)
+            result.addQualifiers(transitionTypeNative & TT_QUALIFIER_MASK);
+
+        return result;
+    }
+
     @Override
     public void LoadHandler_OnLoadStart(int bid, RObject frame, int transition_type) {
         RemoteBrowser browser = getRemoteBrowser(bid);
@@ -224,9 +241,8 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         CefLoadHandler loadHandler = browser.getOwner().getLoadHandler();
         if (loadHandler == null) return;
 
-        // TODO: use correct transition_type instead of TT_LINK
         RemoteFrame rframe = new RemoteFrame(myService, frame);
-        loadHandler.onLoadStart(browser, rframe, CefRequest.TransitionType.TT_LINK);
+        loadHandler.onLoadStart(browser, rframe, getTransitionType(transition_type));
     }
 
     @Override
