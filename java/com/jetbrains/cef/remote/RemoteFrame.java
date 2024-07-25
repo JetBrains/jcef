@@ -8,8 +8,8 @@ import org.cef.network.CefRequest;
 
 // 1. Represents remote java peer for native server object (CefFrame).
 // 2. Created
-//      a) on java side when processing some server request
-//      b) on native side when called CefBrowser::GetMainFrame
+//      a) on java side when processing some server request (and object will be invalid after rpc finished)
+//      b) on native side when called CefBrowser::GetMainFrame (object will be valid until GC)
 // 3. Lifetime of remote native peer is managed by java: native object
 // peer will be destroyed when java object destroyed via usual gc.
 public class RemoteFrame extends RemoteServerObject implements CefFrame {

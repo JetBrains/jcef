@@ -11,6 +11,8 @@ class RemoteRequest : public virtual CefBaseRefCounted, public RemoteServerObjec
   void updateImpl(const std::map<std::string, std::string>& requestInfo) override;
   std::map<std::string, std::string> toMapImpl() override;
 
+  static RemoteRequest * create(CefRefPtr<CefRequest> delegate);
+
  private:
   explicit RemoteRequest(CefRefPtr<CefRequest> delegate, int id) : RemoteServerObjectUpdatable(id, delegate) {}
   template <class T, class D> friend class ::RemoteServerObjectHolder;

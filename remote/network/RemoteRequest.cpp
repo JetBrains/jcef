@@ -10,6 +10,12 @@ namespace {
   std::string ttype2str(cef_transition_type_t type);
 }
 
+RemoteRequest * RemoteRequest::create(CefRefPtr<CefRequest> delegate) {
+  if (!delegate)
+    return nullptr;
+  return FACTORY.create([&](int id) -> RemoteRequest* {return new RemoteRequest(delegate, id);});
+}
+
 void RemoteRequest::updateImpl(const std::map<std::string, std::string>& requestInfo) {
   SET_STR(requestInfo, URL);
   SET_STR(requestInfo, Method);

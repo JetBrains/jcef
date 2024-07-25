@@ -35,6 +35,7 @@ class ServerIf {
   virtual void Browser_Reload(const int32_t bid) = 0;
   virtual void Browser_ReloadIgnoreCache(const int32_t bid) = 0;
   virtual void Browser_LoadURL(const int32_t bid, const std::string& url) = 0;
+  virtual void Browser_LoadRequest(const int32_t bid, const  ::thrift_codegen::RObject& request) = 0;
   virtual void Browser_GetURL(std::string& _return, const int32_t bid) = 0;
   virtual void Browser_ExecuteJavaScript(const int32_t bid, const std::string& code, const std::string& url, const int32_t line) = 0;
   virtual void Browser_WasResized(const int32_t bid) = 0;
@@ -78,6 +79,8 @@ class ServerIf {
   virtual void Frame_Paste(const int32_t frameId) = 0;
   virtual void Frame_Delete(const int32_t frameId) = 0;
   virtual void Frame_SelectAll(const int32_t frameId) = 0;
+  virtual void Request_Create( ::thrift_codegen::RObject& _return) = 0;
+  virtual void Request_Dispose(const int32_t requestId) = 0;
   virtual void Request_Update(const  ::thrift_codegen::RObject& request) = 0;
   virtual void Request_GetPostData( ::thrift_codegen::PostData& _return, const  ::thrift_codegen::RObject& request) = 0;
   virtual void Request_SetPostData(const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::PostData& postData) = 0;
@@ -187,6 +190,9 @@ class ServerNull : virtual public ServerIf {
     return;
   }
   void Browser_LoadURL(const int32_t /* bid */, const std::string& /* url */) override {
+    return;
+  }
+  void Browser_LoadRequest(const int32_t /* bid */, const  ::thrift_codegen::RObject& /* request */) override {
     return;
   }
   void Browser_GetURL(std::string& /* _return */, const int32_t /* bid */) override {
@@ -323,6 +329,12 @@ class ServerNull : virtual public ServerIf {
     return;
   }
   void Frame_SelectAll(const int32_t /* frameId */) override {
+    return;
+  }
+  void Request_Create( ::thrift_codegen::RObject& /* _return */) override {
+    return;
+  }
+  void Request_Dispose(const int32_t /* requestId */) override {
     return;
   }
   void Request_Update(const  ::thrift_codegen::RObject& /* request */) override {
@@ -1441,6 +1453,63 @@ class Server_Browser_LoadURL_pargs {
   virtual ~Server_Browser_LoadURL_pargs() noexcept;
   const int32_t* bid;
   const std::string* url;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_Browser_LoadRequest_args__isset {
+  _Server_Browser_LoadRequest_args__isset() : bid(false), request(false) {}
+  bool bid :1;
+  bool request :1;
+} _Server_Browser_LoadRequest_args__isset;
+
+class Server_Browser_LoadRequest_args {
+ public:
+
+  Server_Browser_LoadRequest_args(const Server_Browser_LoadRequest_args&);
+  Server_Browser_LoadRequest_args& operator=(const Server_Browser_LoadRequest_args&);
+  Server_Browser_LoadRequest_args() noexcept
+                                  : bid(0) {
+  }
+
+  virtual ~Server_Browser_LoadRequest_args() noexcept;
+  int32_t bid;
+   ::thrift_codegen::RObject request;
+
+  _Server_Browser_LoadRequest_args__isset __isset;
+
+  void __set_bid(const int32_t val);
+
+  void __set_request(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_Browser_LoadRequest_args & rhs) const
+  {
+    if (!(bid == rhs.bid))
+      return false;
+    if (!(request == rhs.request))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_Browser_LoadRequest_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Browser_LoadRequest_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Browser_LoadRequest_pargs {
+ public:
+
+
+  virtual ~Server_Browser_LoadRequest_pargs() noexcept;
+  const int32_t* bid;
+  const  ::thrift_codegen::RObject* request;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -4718,6 +4787,148 @@ class Server_Frame_SelectAll_pargs {
 
   virtual ~Server_Frame_SelectAll_pargs() noexcept;
   const int32_t* frameId;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Request_Create_args {
+ public:
+
+  Server_Request_Create_args(const Server_Request_Create_args&) noexcept;
+  Server_Request_Create_args& operator=(const Server_Request_Create_args&) noexcept;
+  Server_Request_Create_args() noexcept {
+  }
+
+  virtual ~Server_Request_Create_args() noexcept;
+
+  bool operator == (const Server_Request_Create_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const Server_Request_Create_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Request_Create_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Request_Create_pargs {
+ public:
+
+
+  virtual ~Server_Request_Create_pargs() noexcept;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_Request_Create_result__isset {
+  _Server_Request_Create_result__isset() : success(false) {}
+  bool success :1;
+} _Server_Request_Create_result__isset;
+
+class Server_Request_Create_result {
+ public:
+
+  Server_Request_Create_result(const Server_Request_Create_result&);
+  Server_Request_Create_result& operator=(const Server_Request_Create_result&);
+  Server_Request_Create_result() noexcept {
+  }
+
+  virtual ~Server_Request_Create_result() noexcept;
+   ::thrift_codegen::RObject success;
+
+  _Server_Request_Create_result__isset __isset;
+
+  void __set_success(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_Request_Create_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_Request_Create_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Request_Create_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_Request_Create_presult__isset {
+  _Server_Request_Create_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_Request_Create_presult__isset;
+
+class Server_Request_Create_presult {
+ public:
+
+
+  virtual ~Server_Request_Create_presult() noexcept;
+   ::thrift_codegen::RObject* success;
+
+  _Server_Request_Create_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_Request_Dispose_args__isset {
+  _Server_Request_Dispose_args__isset() : requestId(false) {}
+  bool requestId :1;
+} _Server_Request_Dispose_args__isset;
+
+class Server_Request_Dispose_args {
+ public:
+
+  Server_Request_Dispose_args(const Server_Request_Dispose_args&) noexcept;
+  Server_Request_Dispose_args& operator=(const Server_Request_Dispose_args&) noexcept;
+  Server_Request_Dispose_args() noexcept
+                              : requestId(0) {
+  }
+
+  virtual ~Server_Request_Dispose_args() noexcept;
+  int32_t requestId;
+
+  _Server_Request_Dispose_args__isset __isset;
+
+  void __set_requestId(const int32_t val);
+
+  bool operator == (const Server_Request_Dispose_args & rhs) const
+  {
+    if (!(requestId == rhs.requestId))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_Request_Dispose_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Request_Dispose_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Request_Dispose_pargs {
+ public:
+
+
+  virtual ~Server_Request_Dispose_pargs() noexcept;
+  const int32_t* requestId;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -8181,6 +8392,8 @@ class ServerClient : virtual public ServerIf {
   void send_Browser_ReloadIgnoreCache(const int32_t bid);
   void Browser_LoadURL(const int32_t bid, const std::string& url) override;
   void send_Browser_LoadURL(const int32_t bid, const std::string& url);
+  void Browser_LoadRequest(const int32_t bid, const  ::thrift_codegen::RObject& request) override;
+  void send_Browser_LoadRequest(const int32_t bid, const  ::thrift_codegen::RObject& request);
   void Browser_GetURL(std::string& _return, const int32_t bid) override;
   void send_Browser_GetURL(const int32_t bid);
   void recv_Browser_GetURL(std::string& _return);
@@ -8282,6 +8495,11 @@ class ServerClient : virtual public ServerIf {
   void send_Frame_Delete(const int32_t frameId);
   void Frame_SelectAll(const int32_t frameId) override;
   void send_Frame_SelectAll(const int32_t frameId);
+  void Request_Create( ::thrift_codegen::RObject& _return) override;
+  void send_Request_Create();
+  void recv_Request_Create( ::thrift_codegen::RObject& _return);
+  void Request_Dispose(const int32_t requestId) override;
+  void send_Request_Dispose(const int32_t requestId);
   void Request_Update(const  ::thrift_codegen::RObject& request) override;
   void send_Request_Update(const  ::thrift_codegen::RObject& request);
   void recv_Request_Update();
@@ -8415,6 +8633,7 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_Browser_Reload(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_ReloadIgnoreCache(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_LoadURL(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_Browser_LoadRequest(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_GetURL(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_ExecuteJavaScript(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_WasResized(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -8458,6 +8677,8 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_Frame_Paste(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Frame_Delete(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Frame_SelectAll(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_Request_Create(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_Request_Dispose(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Request_Update(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Request_GetPostData(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Request_SetPostData(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -8514,6 +8735,7 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["Browser_Reload"] = &ServerProcessor::process_Browser_Reload;
     processMap_["Browser_ReloadIgnoreCache"] = &ServerProcessor::process_Browser_ReloadIgnoreCache;
     processMap_["Browser_LoadURL"] = &ServerProcessor::process_Browser_LoadURL;
+    processMap_["Browser_LoadRequest"] = &ServerProcessor::process_Browser_LoadRequest;
     processMap_["Browser_GetURL"] = &ServerProcessor::process_Browser_GetURL;
     processMap_["Browser_ExecuteJavaScript"] = &ServerProcessor::process_Browser_ExecuteJavaScript;
     processMap_["Browser_WasResized"] = &ServerProcessor::process_Browser_WasResized;
@@ -8557,6 +8779,8 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["Frame_Paste"] = &ServerProcessor::process_Frame_Paste;
     processMap_["Frame_Delete"] = &ServerProcessor::process_Frame_Delete;
     processMap_["Frame_SelectAll"] = &ServerProcessor::process_Frame_SelectAll;
+    processMap_["Request_Create"] = &ServerProcessor::process_Request_Create;
+    processMap_["Request_Dispose"] = &ServerProcessor::process_Request_Dispose;
     processMap_["Request_Update"] = &ServerProcessor::process_Request_Update;
     processMap_["Request_GetPostData"] = &ServerProcessor::process_Request_GetPostData;
     processMap_["Request_SetPostData"] = &ServerProcessor::process_Request_SetPostData;
@@ -8743,6 +8967,15 @@ class ServerMultiface : virtual public ServerIf {
       ifaces_[i]->Browser_LoadURL(bid, url);
     }
     ifaces_[i]->Browser_LoadURL(bid, url);
+  }
+
+  void Browser_LoadRequest(const int32_t bid, const  ::thrift_codegen::RObject& request) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->Browser_LoadRequest(bid, request);
+    }
+    ifaces_[i]->Browser_LoadRequest(bid, request);
   }
 
   void Browser_GetURL(std::string& _return, const int32_t bid) override {
@@ -9138,6 +9371,25 @@ class ServerMultiface : virtual public ServerIf {
       ifaces_[i]->Frame_SelectAll(frameId);
     }
     ifaces_[i]->Frame_SelectAll(frameId);
+  }
+
+  void Request_Create( ::thrift_codegen::RObject& _return) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->Request_Create(_return);
+    }
+    ifaces_[i]->Request_Create(_return);
+    return;
+  }
+
+  void Request_Dispose(const int32_t requestId) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->Request_Dispose(requestId);
+    }
+    ifaces_[i]->Request_Dispose(requestId);
   }
 
   void Request_Update(const  ::thrift_codegen::RObject& request) override {
@@ -9571,6 +9823,8 @@ class ServerConcurrentClient : virtual public ServerIf {
   void send_Browser_ReloadIgnoreCache(const int32_t bid);
   void Browser_LoadURL(const int32_t bid, const std::string& url) override;
   void send_Browser_LoadURL(const int32_t bid, const std::string& url);
+  void Browser_LoadRequest(const int32_t bid, const  ::thrift_codegen::RObject& request) override;
+  void send_Browser_LoadRequest(const int32_t bid, const  ::thrift_codegen::RObject& request);
   void Browser_GetURL(std::string& _return, const int32_t bid) override;
   int32_t send_Browser_GetURL(const int32_t bid);
   void recv_Browser_GetURL(std::string& _return, const int32_t seqid);
@@ -9672,6 +9926,11 @@ class ServerConcurrentClient : virtual public ServerIf {
   void send_Frame_Delete(const int32_t frameId);
   void Frame_SelectAll(const int32_t frameId) override;
   void send_Frame_SelectAll(const int32_t frameId);
+  void Request_Create( ::thrift_codegen::RObject& _return) override;
+  int32_t send_Request_Create();
+  void recv_Request_Create( ::thrift_codegen::RObject& _return, const int32_t seqid);
+  void Request_Dispose(const int32_t requestId) override;
+  void send_Request_Dispose(const int32_t requestId);
   void Request_Update(const  ::thrift_codegen::RObject& request) override;
   int32_t send_Request_Update(const  ::thrift_codegen::RObject& request);
   void recv_Request_Update(const int32_t seqid);

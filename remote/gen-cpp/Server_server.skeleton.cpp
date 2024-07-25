@@ -85,6 +85,11 @@ class ServerHandler : virtual public ServerIf {
     printf("Browser_LoadURL\n");
   }
 
+  void Browser_LoadRequest(const int32_t bid, const  ::thrift_codegen::RObject& request) {
+    // Your implementation goes here
+    printf("Browser_LoadRequest\n");
+  }
+
   void Browser_GetURL(std::string& _return, const int32_t bid) {
     // Your implementation goes here
     printf("Browser_GetURL\n");
@@ -298,6 +303,16 @@ class ServerHandler : virtual public ServerIf {
   void Frame_SelectAll(const int32_t frameId) {
     // Your implementation goes here
     printf("Frame_SelectAll\n");
+  }
+
+  void Request_Create( ::thrift_codegen::RObject& _return) {
+    // Your implementation goes here
+    printf("Request_Create\n");
+  }
+
+  void Request_Dispose(const int32_t requestId) {
+    // Your implementation goes here
+    printf("Request_Dispose\n");
   }
 
   void Request_Update(const  ::thrift_codegen::RObject& request) {

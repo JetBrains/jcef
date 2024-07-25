@@ -1,7 +1,9 @@
 package com.jetbrains.cef.remote;
 
+import com.jetbrains.cef.remote.network.RemoteRequest;
 import com.jetbrains.cef.remote.network.RemoteRequestContext;
 import com.jetbrains.cef.remote.network.RemoteRequestContextHandler;
+import com.jetbrains.cef.remote.network.RemoteRequestImpl;
 import com.jetbrains.cef.remote.thrift_codegen.RObject;
 import org.cef.CefClient;
 import org.cef.browser.CefBrowser;
@@ -379,7 +381,22 @@ public class RemoteBrowser implements CefBrowser {
 
     @Override
     public void loadRequest(CefRequest request) {
-        CefLog.Error("TODO: implement loadRequest.");
+        if (myIsClosing)
+            return;
+
+        if (!(request instanceof RemoteRequest)) {
+            CefLog.Error("Unsupported CefRequest: %s", request);
+            return;
+        }
+
+        execWhenCreated(() -> {
+            RemoteRequestImpl rr = ((RemoteRequest)request).getImpl();
+            if (rr != null) {
+                rr.flush(); // just for insurance
+                myService.exec((s) -> s.Browser_LoadRequest(myBid, rr.thriftIdWithCache()));
+            } else
+                CefLog.Error("RemoteRequestImpl is null [bid=%d]", myBid);
+        }, "loadRequest");
     }
 
     @Override

@@ -40,6 +40,7 @@ service Server {
     oneway void    Browser_Reload(1: i32 bid),
     oneway void    Browser_ReloadIgnoreCache(1: i32 bid),
     oneway void    Browser_LoadURL(1: i32 bid, 2: string url),
+    oneway void    Browser_LoadRequest(1: i32 bid, 2: shared.RObject request),
     string         Browser_GetURL(1: i32 bid),
     oneway void    Browser_ExecuteJavaScript(1: i32 bid, 2: string code, 3: string url, 4: i32 line),
     oneway void    Browser_WasResized(1: i32 bid), // The browser will then call CefRenderHandler#GetViewRect to update the size of view area with the new values.
@@ -91,14 +92,17 @@ service Server {
     //
     // CefRequest
     //
-    void Request_Update(1: shared.RObject request),
-    shared.PostData Request_GetPostData(1: shared.RObject request),
-    void Request_SetPostData(1: shared.RObject request, 2: shared.PostData postData),
-    string Request_GetHeaderByName(1: shared.RObject request, 2: string name),
-    void Request_SetHeaderByName(1: shared.RObject request, 2: string name, 3: string value, 4: bool overwrite),
-    map<string, string> Request_GetHeaderMap(1: shared.RObject request),                                                                                 // TODO: support multimaps
-    void Request_SetHeaderMap(1: shared.RObject request, 2: map<string, string> headerMap),
-    void Request_Set(1: shared.RObject request, 2: string url, 3: string method, 4: shared.PostData postData, 5: map<string, string> headerMap),
+    shared.RObject      Request_Create(),
+    oneway void         Request_Dispose(1:i32 requestId),
+    void                Request_Update(1:shared.RObject request),
+    shared.PostData     Request_GetPostData(1:shared.RObject request),
+    void                Request_SetPostData(1:shared.RObject request, 2:shared.PostData postData),
+    string              Request_GetHeaderByName(1:shared.RObject request, 2:string name),
+    void                Request_SetHeaderByName(1:shared.RObject request, 2:string name, 3:string value, 4:bool overwrite),
+    map<string, string> Request_GetHeaderMap(1:shared.RObject request),                                                                                 // TODO: support multimaps
+    void                Request_SetHeaderMap(1:shared.RObject request, 2:map<string, string> headerMap),
+    void                Request_Set(1:shared.RObject request, 2:string url, 3:string method, 4:shared.PostData postData, 5:map<string, string> headerMap),
+
     //
     // CefResponse
     //

@@ -4,6 +4,8 @@
 
 package org.cef.network;
 
+import com.jetbrains.cef.remote.network.RemoteRequest;
+import org.cef.CefApp;
 import org.cef.callback.CefNativeAdapter;
 
 import java.util.HashMap;
@@ -335,7 +337,7 @@ public abstract class CefRequest extends CefNativeAdapter {
      * Create a new CefRequest object.
      */
     public static final CefRequest create() {
-        return CefRequest_N.createNative();
+        return CefApp.isRemoteEnabled() ? new RemoteRequest() : CefRequest_N.createNative();
     }
 
     /**

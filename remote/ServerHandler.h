@@ -38,6 +38,7 @@ class ServerHandler : public thrift_codegen::ServerIf {
   void Browser_Reload(const int32_t bid) override;
   void Browser_ReloadIgnoreCache(const int32_t bid) override;
   void Browser_LoadURL(const int32_t bid, const std::string& url) override;
+  void Browser_LoadRequest(const int32_t bid, const thrift_codegen::RObject & request) override;
   void Browser_GetURL(std::string& _return, const int32_t bid) override;
   void Browser_ExecuteJavaScript(const int32_t bid,const std::string& code,const std::string& url,const int32_t line) override;
   void Browser_WasResized(const int32_t bid) override;
@@ -90,6 +91,8 @@ class ServerHandler : public thrift_codegen::ServerIf {
   //
   // CefRequest
   //
+  void Request_Create(thrift_codegen::RObject& result) override;
+  void Request_Dispose(int requestId) override;
   void Request_Update(const thrift_codegen::RObject & request) override;
   void Request_GetHeaderByName(std::string& _return,const thrift_codegen::RObject& request,const std::string& name) override;
   void Request_SetHeaderByName(const thrift_codegen::RObject& request,const std::string& name,const std::string& value,const bool overwrite) override;

@@ -1,5 +1,6 @@
 package com.jetbrains.cef.remote.network;
 
+import com.jetbrains.cef.remote.RemoteServerObject;
 import com.jetbrains.cef.remote.RpcExecutor;
 import com.jetbrains.cef.remote.RemoteServerObjectLocal;
 import com.jetbrains.cef.remote.thrift_codegen.PostData;
@@ -11,14 +12,21 @@ import org.cef.network.CefRequest;
 import java.util.Map;
 
 // 1. Represents remote java peer for native server object (CefRequest).
-// 2. Created on java side when processing some server request.
-// 3. Lifetime of remote native peer if managed by server: native object
-// peer (CefRequest) is destroyed immediately after rpc finished. After that
-// moment all requests from java to native will return errors (or default values).
-// Java object will be destroyed via usual gc.
-public class RemoteRequestImpl extends RemoteServerObjectLocal {
+// 2. Created
+//      a) on java side when processing some server request (and object will be invalid after rpc finished)
+//      b) on java side when user creates custom CefRequest (object will be valid until GC)
+// 3. Lifetime of remote native peer is managed by java: native object
+// peer will be destroyed when java object destroyed via usual gc.
+public class RemoteRequestImpl extends RemoteServerObject {
     public RemoteRequestImpl(RpcExecutor server, RObject request) {
         super(server, request);
+    }
+
+    @Override
+    protected void disposeOnServerImpl() {
+        myServer.exec((s)->{
+            s.Request_Dispose(myId);
+        });
     }
 
     @Override
