@@ -1,5 +1,7 @@
 package com.jetbrains.cef.remote;
 
+import com.jetbrains.cef.remote.browser.RemoteBrowser;
+import com.jetbrains.cef.remote.browser.RemoteClient;
 import com.jetbrains.cef.remote.thrift_codegen.ClientHandlers;
 import com.jetbrains.cef.remote.thrift.TException;
 import com.jetbrains.cef.remote.thrift.server.TServer;

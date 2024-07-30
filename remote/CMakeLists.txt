@@ -179,6 +179,12 @@ set(SERVER_SOURCES
         network/RemoteCookieVisitor.h
         callback/RemoteStringVisitor.cpp
         callback/RemoteStringVisitor.h
+        browser/RemoteDevToolsMessageObserver.cpp
+        browser/RemoteDevToolsMessageObserver.h
+        callback/RemoteRegistration.cpp
+        callback/RemoteRegistration.h
+        callback/RemoteIntCallback.cpp
+        callback/RemoteIntCallback.h
 )
 
 if (OS_WINDOWS)

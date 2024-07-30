@@ -1,16 +1,16 @@
-package com.jetbrains.cef.remote;
+package com.jetbrains.cef.remote.browser;
 
+import com.jetbrains.cef.remote.CefServer;
+import com.jetbrains.cef.remote.RpcExecutor;
+import com.jetbrains.cef.remote.callback.RemoteIntCallback;
 import com.jetbrains.cef.remote.callback.RemoteStringVisitor;
 import com.jetbrains.cef.remote.network.RemoteRequest;
 import com.jetbrains.cef.remote.network.RemoteRequestContext;
-import com.jetbrains.cef.remote.network.RemoteRequestContextHandler;
 import com.jetbrains.cef.remote.network.RemoteRequestImpl;
 import com.jetbrains.cef.remote.thrift_codegen.RObject;
+import org.cef.CefBrowserSettings;
 import org.cef.CefClient;
-import org.cef.browser.CefBrowser;
-import org.cef.browser.CefDevToolsClient;
-import org.cef.browser.CefFrame;
-import org.cef.browser.CefRequestContext;
+import org.cef.browser.*;
 import org.cef.callback.CefPdfPrintCallback;
 import org.cef.callback.CefRunFileDialogCallback;
 import org.cef.callback.CefStringVisitor;
@@ -31,22 +31,24 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Supplier;
 
 public class RemoteBrowser implements CefBrowser {
     private final RpcExecutor myService;
     private final RemoteClient myOwner;
     private final CefClient myCefClient; // will be the "owner" of RemoteClient, needed to override getClient()
     private final RemoteRequestContext myRequestContext;
+    private final CefBrowserSettings mySettings; // TODO: use settings in startNativeCreation
 
     private volatile int myBid = -1;
     private String myUrl = null;
     private Component myComponent;
     private CefNativeRenderHandler myRender;
+    private Supplier<CefRendering> myRenderingFactory; // necessary for dev-tools browser creation
 
     private final AtomicBoolean myIsNativeBrowserCreationRequested = new AtomicBoolean(false);
     private volatile Boolean myIsNativeBrowserCreationStarted = false;
@@ -58,12 +60,18 @@ public class RemoteBrowser implements CefBrowser {
     private final List<Runnable> myDelayedActions = new ArrayList<>();
     private int myFrameRate = 30; // just for cache
 
-    RemoteBrowser(RpcExecutor service, RemoteClient owner, CefClient cefClient, String url, RemoteRequestContext requestContext) {
+    private volatile RemoteBrowser myDevTools = null;
+    private volatile RemoteBrowser myParentBrowser = null;
+    private volatile CefDevToolsClient myDevToolsClient = null;
+    private Point myInspectPoint;
+
+    RemoteBrowser(RpcExecutor service, RemoteClient owner, CefClient cefClient, String url, RemoteRequestContext requestContext, CefBrowserSettings settings) {
         myService = service;
         myOwner = owner;
         myCefClient = cefClient;
         myUrl = url;
         myRequestContext = requestContext != null ? requestContext : new RemoteRequestContext();
+        mySettings = settings;
     }
 
     public int getBid() { return myBid; }
@@ -87,6 +95,10 @@ public class RemoteBrowser implements CefBrowser {
     public void setComponent(Component component, CefNativeRenderHandler renderHandler) {
         myComponent = component;
         myRender = renderHandler;
+    }
+
+    public void setRenderingFactory(Supplier<CefRendering> renderingFactory) {
+        myRenderingFactory = renderingFactory;
     }
 
     private void execWhenCreated(Runnable runnable, String name) {
@@ -125,7 +137,10 @@ public class RemoteBrowser implements CefBrowser {
                 CefLog.Debug("Registered bid %d with handlers: %s", myBid, RemoteClient.HandlerMasks.toString(hmask));
                 // At current point new bid is registered so java-handlers calls will be dispatched correctly.
                 // We can't start creation earlier because for example onAfterCreated can be called before new bid is registered.
-                myService.exec((s) -> s.Browser_StartNativeCreation(myBid, myUrl));
+                if (myParentBrowser != null)
+                    myService.exec((s) -> s.Browser_StartNativeDevToolsCreation(myBid, myParentBrowser.getBid(), myInspectPoint.x ,myInspectPoint.x));
+                else
+                    myService.exec((s) -> s.Browser_StartNativeCreation(myBid, myUrl));
             } else
                 CefLog.Error("Can't obtain bid, createBrowser returns %d", myBid);
         }
@@ -453,6 +468,14 @@ public class RemoteBrowser implements CefBrowser {
         }
     }
 
+    protected final void closeDevTools() {
+        execWhenCreated(()->{
+            myService.exec((s)->{
+                s.Browser_CloseDevTools(myBid);
+            });
+        }, "closeDevTools");
+    }
+
     @Override
     public void setCloseAllowed() {}
 
@@ -464,6 +487,13 @@ public class RemoteBrowser implements CefBrowser {
         // Called from lifespan handler (before native browser disposed).
         myIsClosed = true;
         myRequestContext.dispose();
+        if (myParentBrowser != null) {
+            myParentBrowser.closeDevTools();
+            myParentBrowser.myDevTools = null;
+            myParentBrowser = null;
+        }
+        if (myDevToolsClient != null)
+            myDevToolsClient.close();
     }
 
     @Override
@@ -561,21 +591,33 @@ public class RemoteBrowser implements CefBrowser {
     }
 
     @Override
-    public CefBrowser getDevTools() {
-        CefLog.Error("TODO: implement getDevTools().");
-        return null;
-    }
+    public CefBrowser getDevTools() { return getDevTools(null); }
 
     @Override
     public CefBrowser getDevTools(Point inspectAt) {
-        CefLog.Error("TODO: implement getDevTools(Point).");
-        return null;
+        if (myIsClosing)
+            return null;
+
+        if (myDevTools == null) {
+            if (myRenderingFactory == null) {
+                CefLog.Error("Can't create dev-tools browser because rendering factory is null. Please use proper constructor (or invoke setRenderingFactory()).");
+                return null;
+            }
+            myDevTools = myOwner.createBrowser(myUrl, myRequestContext, myCefClient, myRenderingFactory.get(), mySettings);
+            myDevTools.myParentBrowser = this;
+            myDevTools.myInspectPoint = inspectAt == null ? new Point(0, 0) : inspectAt;
+        }
+        return myDevTools;
     }
 
     @Override
     public CefDevToolsClient getDevToolsClient() {
-        CefLog.Error("TODO: implement getDevToolsClient(Point).");
-        return null;
+        if (myIsClosing)
+            return null;
+
+        if (myDevToolsClient == null || myDevToolsClient.isClosed())
+            myDevToolsClient = new CefDevToolsClient(this);
+        return myDevToolsClient;
     }
 
     @Override
@@ -714,5 +756,44 @@ public class RemoteBrowser implements CefBrowser {
     @Override
     public String toString() {
         return "RemoteBrowser_" + myBid;
+    }
+
+    public CefRegistration addDevToolsMessageObserver(CefDevToolsMessageObserver observer) {
+        if (myIsClosing || observer == null)
+            return null;
+
+        if (!myIsNativeBrowserCreated) {
+            CefLog.Error("Can't add DevToolsMessageObserver because native browser wasn't created");
+            return null;
+        }
+
+        RemoteDevToolsMessageObserver robserver = RemoteDevToolsMessageObserver.create(observer);
+        RObject registration = myService.execObj(s -> s.Browser_AddDevToolsMessageObserver(myBid, robserver.thriftId()));
+        RemoteRegistrationImpl impl = new RemoteRegistrationImpl(myService, registration);
+        return new RemoteRegistration(impl);
+    }
+
+    public CompletableFuture<Integer> executeDevToolsMethod(String method, String parametersAsJson) {
+        CompletableFuture<Integer> future = new CompletableFuture<>();
+        if (myIsClosing || method == null) {
+            future.completeExceptionally(new CefDevToolsClient.DevToolsException(myIsClosing ? "Client is closing." : "Method is null."));
+        } else if (!myIsNativeBrowserCreated) {
+            CefLog.Error("Can't execute DevToolsMethod because native browser wasn't created");
+            future.completeExceptionally(new CefDevToolsClient.DevToolsException("Native browser wasn't created"));
+        } else {
+            RemoteIntCallback ricb = RemoteIntCallback.create(generatedMessageId -> {
+                if (generatedMessageId <= 0) {
+                    future.completeExceptionally(new CefDevToolsClient.DevToolsException(
+                            String.format("Failed to execute DevTools method %s, generatedMessageId=%d", method, generatedMessageId)));
+                } else {
+                    future.complete(generatedMessageId);
+                }
+            });
+            execWhenCreated(() -> {
+                myService.exec(s -> s.Browser_ExecuteDevToolsMethod(myBid, method, parametersAsJson, ricb.thriftId()));
+            }, String.format("executeDevToolsMethod: %s(%s)", method, parametersAsJson));
+        }
+
+        return future;
     }
 }

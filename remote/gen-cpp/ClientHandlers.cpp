@@ -9696,6 +9696,101 @@ uint32_t ClientHandlers_CompletionCallback_OnComplete_pargs::write(::apache::thr
 }
 
 
+ClientHandlers_IntCallback_OnComplete_args::~ClientHandlers_IntCallback_OnComplete_args() noexcept {
+}
+
+
+uint32_t ClientHandlers_IntCallback_OnComplete_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->intCallback);
+          this->__isset.intCallback = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->result);
+          this->__isset.result = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_IntCallback_OnComplete_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_IntCallback_OnComplete_args");
+
+  xfer += oprot->writeFieldBegin("intCallback", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->intCallback);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("result", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32(this->result);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_IntCallback_OnComplete_pargs::~ClientHandlers_IntCallback_OnComplete_pargs() noexcept {
+}
+
+
+uint32_t ClientHandlers_IntCallback_OnComplete_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_IntCallback_OnComplete_pargs");
+
+  xfer += oprot->writeFieldBegin("intCallback", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->intCallback)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("result", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32((*(this->result)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
 ClientHandlers_RequestContextHandler_GetResourceRequestHandler_args::~ClientHandlers_RequestContextHandler_GetResourceRequestHandler_args() noexcept {
 }
 
@@ -10459,6 +10554,355 @@ uint32_t ClientHandlers_StringVisitor_Dispose_pargs::write(::apache::thrift::pro
 
   xfer += oprot->writeFieldBegin("stringVisitor", ::apache::thrift::protocol::T_I32, 1);
   xfer += oprot->writeI32((*(this->stringVisitor)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_DevToolsMessageObserver_Dispose_args::~ClientHandlers_DevToolsMessageObserver_Dispose_args() noexcept {
+}
+
+
+uint32_t ClientHandlers_DevToolsMessageObserver_Dispose_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->observer);
+          this->__isset.observer = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_DevToolsMessageObserver_Dispose_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_DevToolsMessageObserver_Dispose_args");
+
+  xfer += oprot->writeFieldBegin("observer", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->observer);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_DevToolsMessageObserver_Dispose_pargs::~ClientHandlers_DevToolsMessageObserver_Dispose_pargs() noexcept {
+}
+
+
+uint32_t ClientHandlers_DevToolsMessageObserver_Dispose_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_DevToolsMessageObserver_Dispose_pargs");
+
+  xfer += oprot->writeFieldBegin("observer", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->observer)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_DevToolsMessageObserver_OnDevToolsMethodResult_args::~ClientHandlers_DevToolsMessageObserver_OnDevToolsMethodResult_args() noexcept {
+}
+
+
+uint32_t ClientHandlers_DevToolsMessageObserver_OnDevToolsMethodResult_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->observer);
+          this->__isset.observer = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->bid);
+          this->__isset.bid = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->messageId);
+          this->__isset.messageId = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->success);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 5:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->result);
+          this->__isset.result = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_DevToolsMessageObserver_OnDevToolsMethodResult_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_DevToolsMessageObserver_OnDevToolsMethodResult_args");
+
+  xfer += oprot->writeFieldBegin("observer", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->observer);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32(this->bid);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("messageId", ::apache::thrift::protocol::T_I32, 3);
+  xfer += oprot->writeI32(this->messageId);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_BOOL, 4);
+  xfer += oprot->writeBool(this->success);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("result", ::apache::thrift::protocol::T_STRING, 5);
+  xfer += oprot->writeString(this->result);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_DevToolsMessageObserver_OnDevToolsMethodResult_pargs::~ClientHandlers_DevToolsMessageObserver_OnDevToolsMethodResult_pargs() noexcept {
+}
+
+
+uint32_t ClientHandlers_DevToolsMessageObserver_OnDevToolsMethodResult_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_DevToolsMessageObserver_OnDevToolsMethodResult_pargs");
+
+  xfer += oprot->writeFieldBegin("observer", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->observer)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32((*(this->bid)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("messageId", ::apache::thrift::protocol::T_I32, 3);
+  xfer += oprot->writeI32((*(this->messageId)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_BOOL, 4);
+  xfer += oprot->writeBool((*(this->success)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("result", ::apache::thrift::protocol::T_STRING, 5);
+  xfer += oprot->writeString((*(this->result)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_DevToolsMessageObserver_OnDevToolsEvent_args::~ClientHandlers_DevToolsMessageObserver_OnDevToolsEvent_args() noexcept {
+}
+
+
+uint32_t ClientHandlers_DevToolsMessageObserver_OnDevToolsEvent_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->observer);
+          this->__isset.observer = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->bid);
+          this->__isset.bid = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->method);
+          this->__isset.method = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->parameters);
+          this->__isset.parameters = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_DevToolsMessageObserver_OnDevToolsEvent_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_DevToolsMessageObserver_OnDevToolsEvent_args");
+
+  xfer += oprot->writeFieldBegin("observer", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->observer);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32(this->bid);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("method", ::apache::thrift::protocol::T_STRING, 3);
+  xfer += oprot->writeString(this->method);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("parameters", ::apache::thrift::protocol::T_STRING, 4);
+  xfer += oprot->writeString(this->parameters);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_DevToolsMessageObserver_OnDevToolsEvent_pargs::~ClientHandlers_DevToolsMessageObserver_OnDevToolsEvent_pargs() noexcept {
+}
+
+
+uint32_t ClientHandlers_DevToolsMessageObserver_OnDevToolsEvent_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_DevToolsMessageObserver_OnDevToolsEvent_pargs");
+
+  xfer += oprot->writeFieldBegin("observer", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->observer)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32((*(this->bid)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("method", ::apache::thrift::protocol::T_STRING, 3);
+  xfer += oprot->writeString((*(this->method)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("parameters", ::apache::thrift::protocol::T_STRING, 4);
+  xfer += oprot->writeString((*(this->parameters)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -12894,6 +13338,26 @@ void ClientHandlersClient::send_CompletionCallback_OnComplete(const int32_t comp
   oprot_->getTransport()->flush();
 }
 
+void ClientHandlersClient::IntCallback_OnComplete(const int32_t intCallback, const int32_t result)
+{
+  send_IntCallback_OnComplete(intCallback, result);
+}
+
+void ClientHandlersClient::send_IntCallback_OnComplete(const int32_t intCallback, const int32_t result)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("IntCallback_OnComplete", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  ClientHandlers_IntCallback_OnComplete_pargs args;
+  args.intCallback = &intCallback;
+  args.result = &result;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
 void ClientHandlersClient::RequestContextHandler_GetResourceRequestHandler( ::thrift_codegen::RObject& _return, const int32_t handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool isNavigation, const bool isDownload, const std::string& requestInitiator)
 {
   send_RequestContextHandler_GetResourceRequestHandler(handler, bid, frame, request, isNavigation, isDownload, requestInitiator);
@@ -13070,6 +13534,70 @@ void ClientHandlersClient::send_StringVisitor_Dispose(const int32_t stringVisito
 
   ClientHandlers_StringVisitor_Dispose_pargs args;
   args.stringVisitor = &stringVisitor;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void ClientHandlersClient::DevToolsMessageObserver_Dispose(const int32_t observer)
+{
+  send_DevToolsMessageObserver_Dispose(observer);
+}
+
+void ClientHandlersClient::send_DevToolsMessageObserver_Dispose(const int32_t observer)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("DevToolsMessageObserver_Dispose", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  ClientHandlers_DevToolsMessageObserver_Dispose_pargs args;
+  args.observer = &observer;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void ClientHandlersClient::DevToolsMessageObserver_OnDevToolsMethodResult(const int32_t observer, const int32_t bid, const int32_t messageId, const bool success, const std::string& result)
+{
+  send_DevToolsMessageObserver_OnDevToolsMethodResult(observer, bid, messageId, success, result);
+}
+
+void ClientHandlersClient::send_DevToolsMessageObserver_OnDevToolsMethodResult(const int32_t observer, const int32_t bid, const int32_t messageId, const bool success, const std::string& result)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("DevToolsMessageObserver_OnDevToolsMethodResult", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  ClientHandlers_DevToolsMessageObserver_OnDevToolsMethodResult_pargs args;
+  args.observer = &observer;
+  args.bid = &bid;
+  args.messageId = &messageId;
+  args.success = &success;
+  args.result = &result;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void ClientHandlersClient::DevToolsMessageObserver_OnDevToolsEvent(const int32_t observer, const int32_t bid, const std::string& method, const std::string& parameters)
+{
+  send_DevToolsMessageObserver_OnDevToolsEvent(observer, bid, method, parameters);
+}
+
+void ClientHandlersClient::send_DevToolsMessageObserver_OnDevToolsEvent(const int32_t observer, const int32_t bid, const std::string& method, const std::string& parameters)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("DevToolsMessageObserver_OnDevToolsEvent", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  ClientHandlers_DevToolsMessageObserver_OnDevToolsEvent_pargs args;
+  args.observer = &observer;
+  args.bid = &bid;
+  args.method = &method;
+  args.parameters = &parameters;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -15688,6 +16216,43 @@ void ClientHandlersProcessor::process_CompletionCallback_OnComplete(int32_t, ::a
   return;
 }
 
+void ClientHandlersProcessor::process_IntCallback_OnComplete(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("ClientHandlers.IntCallback_OnComplete", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ClientHandlers.IntCallback_OnComplete");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "ClientHandlers.IntCallback_OnComplete");
+  }
+
+  ClientHandlers_IntCallback_OnComplete_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "ClientHandlers.IntCallback_OnComplete", bytes);
+  }
+
+  try {
+    iface_->IntCallback_OnComplete(args.intCallback, args.result);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "ClientHandlers.IntCallback_OnComplete");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "ClientHandlers.IntCallback_OnComplete");
+  }
+
+  return;
+}
+
 void ClientHandlersProcessor::process_RequestContextHandler_GetResourceRequestHandler(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = nullptr;
@@ -15902,6 +16467,117 @@ void ClientHandlersProcessor::process_StringVisitor_Dispose(int32_t, ::apache::t
 
   if (this->eventHandler_.get() != nullptr) {
     this->eventHandler_->asyncComplete(ctx, "ClientHandlers.StringVisitor_Dispose");
+  }
+
+  return;
+}
+
+void ClientHandlersProcessor::process_DevToolsMessageObserver_Dispose(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("ClientHandlers.DevToolsMessageObserver_Dispose", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ClientHandlers.DevToolsMessageObserver_Dispose");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "ClientHandlers.DevToolsMessageObserver_Dispose");
+  }
+
+  ClientHandlers_DevToolsMessageObserver_Dispose_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "ClientHandlers.DevToolsMessageObserver_Dispose", bytes);
+  }
+
+  try {
+    iface_->DevToolsMessageObserver_Dispose(args.observer);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "ClientHandlers.DevToolsMessageObserver_Dispose");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "ClientHandlers.DevToolsMessageObserver_Dispose");
+  }
+
+  return;
+}
+
+void ClientHandlersProcessor::process_DevToolsMessageObserver_OnDevToolsMethodResult(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("ClientHandlers.DevToolsMessageObserver_OnDevToolsMethodResult", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ClientHandlers.DevToolsMessageObserver_OnDevToolsMethodResult");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "ClientHandlers.DevToolsMessageObserver_OnDevToolsMethodResult");
+  }
+
+  ClientHandlers_DevToolsMessageObserver_OnDevToolsMethodResult_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "ClientHandlers.DevToolsMessageObserver_OnDevToolsMethodResult", bytes);
+  }
+
+  try {
+    iface_->DevToolsMessageObserver_OnDevToolsMethodResult(args.observer, args.bid, args.messageId, args.success, args.result);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "ClientHandlers.DevToolsMessageObserver_OnDevToolsMethodResult");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "ClientHandlers.DevToolsMessageObserver_OnDevToolsMethodResult");
+  }
+
+  return;
+}
+
+void ClientHandlersProcessor::process_DevToolsMessageObserver_OnDevToolsEvent(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("ClientHandlers.DevToolsMessageObserver_OnDevToolsEvent", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ClientHandlers.DevToolsMessageObserver_OnDevToolsEvent");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "ClientHandlers.DevToolsMessageObserver_OnDevToolsEvent");
+  }
+
+  ClientHandlers_DevToolsMessageObserver_OnDevToolsEvent_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "ClientHandlers.DevToolsMessageObserver_OnDevToolsEvent", bytes);
+  }
+
+  try {
+    iface_->DevToolsMessageObserver_OnDevToolsEvent(args.observer, args.bid, args.method, args.parameters);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "ClientHandlers.DevToolsMessageObserver_OnDevToolsEvent");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "ClientHandlers.DevToolsMessageObserver_OnDevToolsEvent");
   }
 
   return;
@@ -19262,6 +19938,29 @@ void ClientHandlersConcurrentClient::send_CompletionCallback_OnComplete(const in
   sentry.commit();
 }
 
+void ClientHandlersConcurrentClient::IntCallback_OnComplete(const int32_t intCallback, const int32_t result)
+{
+  send_IntCallback_OnComplete(intCallback, result);
+}
+
+void ClientHandlersConcurrentClient::send_IntCallback_OnComplete(const int32_t intCallback, const int32_t result)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("IntCallback_OnComplete", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  ClientHandlers_IntCallback_OnComplete_pargs args;
+  args.intCallback = &intCallback;
+  args.result = &result;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
 void ClientHandlersConcurrentClient::RequestContextHandler_GetResourceRequestHandler( ::thrift_codegen::RObject& _return, const int32_t handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool isNavigation, const bool isDownload, const std::string& requestInitiator)
 {
   int32_t seqid = send_RequestContextHandler_GetResourceRequestHandler(handler, bid, frame, request, isNavigation, isDownload, requestInitiator);
@@ -19497,6 +20196,79 @@ void ClientHandlersConcurrentClient::send_StringVisitor_Dispose(const int32_t st
 
   ClientHandlers_StringVisitor_Dispose_pargs args;
   args.stringVisitor = &stringVisitor;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
+void ClientHandlersConcurrentClient::DevToolsMessageObserver_Dispose(const int32_t observer)
+{
+  send_DevToolsMessageObserver_Dispose(observer);
+}
+
+void ClientHandlersConcurrentClient::send_DevToolsMessageObserver_Dispose(const int32_t observer)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("DevToolsMessageObserver_Dispose", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  ClientHandlers_DevToolsMessageObserver_Dispose_pargs args;
+  args.observer = &observer;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
+void ClientHandlersConcurrentClient::DevToolsMessageObserver_OnDevToolsMethodResult(const int32_t observer, const int32_t bid, const int32_t messageId, const bool success, const std::string& result)
+{
+  send_DevToolsMessageObserver_OnDevToolsMethodResult(observer, bid, messageId, success, result);
+}
+
+void ClientHandlersConcurrentClient::send_DevToolsMessageObserver_OnDevToolsMethodResult(const int32_t observer, const int32_t bid, const int32_t messageId, const bool success, const std::string& result)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("DevToolsMessageObserver_OnDevToolsMethodResult", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  ClientHandlers_DevToolsMessageObserver_OnDevToolsMethodResult_pargs args;
+  args.observer = &observer;
+  args.bid = &bid;
+  args.messageId = &messageId;
+  args.success = &success;
+  args.result = &result;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
+void ClientHandlersConcurrentClient::DevToolsMessageObserver_OnDevToolsEvent(const int32_t observer, const int32_t bid, const std::string& method, const std::string& parameters)
+{
+  send_DevToolsMessageObserver_OnDevToolsEvent(observer, bid, method, parameters);
+}
+
+void ClientHandlersConcurrentClient::send_DevToolsMessageObserver_OnDevToolsEvent(const int32_t observer, const int32_t bid, const std::string& method, const std::string& parameters)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("DevToolsMessageObserver_OnDevToolsEvent", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  ClientHandlers_DevToolsMessageObserver_OnDevToolsEvent_pargs args;
+  args.observer = &observer;
+  args.bid = &bid;
+  args.method = &method;
+  args.parameters = &parameters;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();

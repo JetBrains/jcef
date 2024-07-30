@@ -13,8 +13,4 @@ class RemoteStringVisitor : public CefStringVisitor, public RemoteJavaObject<Rem
   IMPLEMENT_REFCOUNTING(RemoteStringVisitor);
 };
 
-
-
-  // const thrift_codegen::RObject& stringVisitor
-
 #endif  // JCEF_REMOTESTRINGVISITOR_H

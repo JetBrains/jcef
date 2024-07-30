@@ -30,14 +30,12 @@ public abstract class RemoteServerObjectLocal {
 
     public abstract void flush();
 
+    public RObject thriftId() { return new RObject(myId); }
+    public RObject thriftIdWithCache() { return new RObject(myId).setObjInfo(myCache); }
+
     //
     // Protected API
     //
-
-    protected RObject thriftId() { return new RObject(myId); }
-    protected RObject thriftIdWithCache() {
-        return new RObject(myId).setObjInfo(myCache);
-    }
 
     protected void onThriftException(TException e) {
         CefLog.Error("thrift exception '%s'", e.getMessage());

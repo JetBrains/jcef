@@ -92,7 +92,7 @@ service ClientHandlers {
     // CefFocusHandler (will be called on the UI thread).
     //
     oneway void FocusHandler_OnTakeFocus(1:i32 bid, 2: bool next)
-    bool FocusHandler_OnSetFocus(1:i32 bid, 2:string source)
+    bool        FocusHandler_OnSetFocus(1:i32 bid, 2:string source)
     oneway void FocusHandler_OnGotFocus(1:i32 bid)
     //
     // CefRequestHandler
@@ -123,7 +123,7 @@ service ClientHandlers {
     //
     // CefMessageRouter
     //
-    bool MessageRouterHandler_onQuery(1: shared.RObject handler, 2:i32 bid, 3:shared.RObject frame, 4:i64 queryId, 5:string request, 6:bool persistent, 7:shared.RObject queryCallback),
+    bool        MessageRouterHandler_onQuery(1: shared.RObject handler, 2:i32 bid, 3:shared.RObject frame, 4:i64 queryId, 5:string request, 6:bool persistent, 7:shared.RObject queryCallback),
     oneway void MessageRouterHandler_onQueryCanceled(1: shared.RObject handler, 2:i32 bid, 3:shared.RObject frame, 4:i64 queryId),
     oneway void MessageRouterHandler_Dispose(1: i32 handler),
 
@@ -131,12 +131,14 @@ service ClientHandlers {
     // Custom schemes
     //
     shared.RObject SchemeHandlerFactory_CreateHandler(1:i32 schemeHandlerFactory, 2:i32 bid, 3:shared.RObject frame, 4:string scheme_name, 5:shared.RObject request),
-    oneway void SchemeHandlerFactory_Dispose(1:i32 schemeHandlerFactory),
+    oneway void    SchemeHandlerFactory_Dispose(1:i32 schemeHandlerFactory),
 
     //
     // CefCompletionCallback
     //
     oneway void CompletionCallback_OnComplete(1:i32 completionCallback),
+
+    oneway void IntCallback_OnComplete(1:i32 intCallback, 2:i32 result),
 
     //
     // CefRequestContextHandler
@@ -146,7 +148,7 @@ service ClientHandlers {
     //
     // CefCookieVisitor
     //
-    bool CookieVisitor_Visit(1:i32 visitor, 2:shared.Cookie cookie, 3:i32 count, 4:i32 total),
+    bool        CookieVisitor_Visit(1:i32 visitor, 2:shared.Cookie cookie, 3:i32 count, 4:i32 total),
     oneway void CookieVisitor_Dispose(1:i32 visitor),
 
     //
@@ -154,4 +156,11 @@ service ClientHandlers {
     //
     oneway void StringVisitor_Visit(1:i32 stringVisitor, 2:string str),
     oneway void StringVisitor_Dispose(1:i32 stringVisitor),
+
+    //
+    // CefDevToolsMessageObserver
+    //
+    oneway void DevToolsMessageObserver_Dispose(1:i32 observer),
+    oneway void DevToolsMessageObserver_OnDevToolsMethodResult(1:i32 observer, 2:i32 bid, 3:i32 messageId, 4:bool success, 5:string result),
+    oneway void DevToolsMessageObserver_OnDevToolsEvent(1:i32 observer, 2:i32 bid, 3:string method, 4:string parameters),
 }

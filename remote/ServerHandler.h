@@ -33,7 +33,9 @@ class ServerHandler : public thrift_codegen::ServerIf {
   //
   int32_t Browser_Create(int cid, int handlersMask, const thrift_codegen::RObject& requestContextHandler) override;
   void Browser_StartNativeCreation(int bid, const std::string& url) override;
+  void Browser_StartNativeDevToolsCreation(int bid, int parentBid, int x, int y) override;
   void Browser_Close(const int32_t bid) override;
+  void Browser_CloseDevTools(const int32_t bid) override;
 
   void Browser_Reload(const int32_t bid) override;
   void Browser_ReloadIgnoreCache(const int32_t bid) override;
@@ -73,6 +75,15 @@ class ServerHandler : public thrift_codegen::ServerIf {
   void Browser_StopFinding(const int32_t bid, const bool clearSelection) override;
   void Browser_ReplaceMisspelling(const int32_t bid, const std::string& word) override;
   void Browser_SetFrameRate(const int32_t bid, int32_t val) override;
+  void Browser_AddDevToolsMessageObserver(
+      thrift_codegen::RObject& _return,
+      const int32_t bid,
+      const thrift_codegen::RObject& observer) override;
+  void Browser_ExecuteDevToolsMethod(
+      const int32_t bid,
+      const std::string& method,
+      const std::string& parametersAsJson,
+      const thrift_codegen::RObject& intCallback) override;
 
   //
   // CefFrame
@@ -162,6 +173,9 @@ class ServerHandler : public thrift_codegen::ServerIf {
   bool CookieManager_FlushStore(
       const thrift_codegen::RObject& cookieManager,
       const thrift_codegen::RObject& completionCallback) override;
+
+  void Registration_Dispose(
+      const thrift_codegen::RObject& registration) override;
 
  private:
   bool myIsMaster = false;
