@@ -35,7 +35,9 @@ service Server {
     //
     i32            Browser_Create(1: i32 cid, 2: i32 handlersMask, 3:shared.RObject requestContextHandler),
     oneway void    Browser_StartNativeCreation(1: i32 bid, 2: string url),
+    oneway void    Browser_StartNativeDevToolsCreation(1: i32 bid, 2: i32 parentBid, 3: i32 x, 4: i32 y),
     oneway void    Browser_Close(1: i32 bid),
+    oneway void    Browser_CloseDevTools(1: i32 bid),
 
     oneway void    Browser_Reload(1: i32 bid),
     oneway void    Browser_ReloadIgnoreCache(1: i32 bid),
@@ -74,6 +76,8 @@ service Server {
     oneway void    Browser_StopFinding(1: i32 bid, 2:bool clearSelection),
     oneway void    Browser_ReplaceMisspelling(1: i32 bid, 2:string word),
     oneway void    Browser_SetFrameRate(1: i32 bid, 2:i32 val),
+    shared.RObject Browser_AddDevToolsMessageObserver(1: i32 bid, 2:shared.RObject observer), // creates and returns CefRegistration object
+    oneway void    Browser_ExecuteDevToolsMethod(1: i32 bid, 2:string method, 3:string parametersAsJson, 4:shared.RObject intCallback),
 
     //
     // CefFrame
@@ -149,11 +153,19 @@ service Server {
     oneway void RequestContext_ClearCertificateExceptions(1:i32 bid, 2:shared.RObject completionCallback),
     oneway void RequestContext_CloseAllConnections(1:i32 bid, 2:shared.RObject completionCallback),
 
+    //
+    // CefCookieManager
+    //
     shared.RObject CookieManager_Create(),
-    oneway void CookieManager_Dispose(1:shared.RObject cookieManager),
-    bool CookieManager_VisitAllCookies(1:shared.RObject cookieManager, 2:shared.RObject visitor),
-    bool CookieManager_VisitUrlCookies(1:shared.RObject cookieManager, 2:shared.RObject visitor, 3:string url, 4:bool includeHttpOnly),
-    bool CookieManager_SetCookie(1:shared.RObject cookieManager, 2:string url, 3:shared.Cookie cookie),
-    bool CookieManager_DeleteCookies(1:shared.RObject cookieManager, 2:string url, 3:string cookieName),
-    bool CookieManager_FlushStore(1:shared.RObject cookieManager, 2:shared.RObject completionCallback),
+    oneway void    CookieManager_Dispose(1:shared.RObject cookieManager),
+    bool           CookieManager_VisitAllCookies(1:shared.RObject cookieManager, 2:shared.RObject visitor),
+    bool           CookieManager_VisitUrlCookies(1:shared.RObject cookieManager, 2:shared.RObject visitor, 3:string url, 4:bool includeHttpOnly),
+    bool           CookieManager_SetCookie(1:shared.RObject cookieManager, 2:string url, 3:shared.Cookie cookie),
+    bool           CookieManager_DeleteCookies(1:shared.RObject cookieManager, 2:string url, 3:string cookieName),
+    bool           CookieManager_FlushStore(1:shared.RObject cookieManager, 2:shared.RObject completionCallback),
+
+    //
+    // CefRegistration
+    //
+    oneway void    Registration_Dispose(1:shared.RObject registration),
 }

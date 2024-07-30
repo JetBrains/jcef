@@ -1,8 +1,11 @@
-package com.jetbrains.cef.remote;
+package com.jetbrains.cef.remote.browser;
 
+import com.jetbrains.cef.remote.MultiHandler;
+import com.jetbrains.cef.remote.RpcExecutor;
 import com.jetbrains.cef.remote.network.RemoteRequestContext;
 import com.jetbrains.cef.remote.router.RemoteMessageRouter;
 import com.jetbrains.cef.remote.router.RemoteMessageRouterImpl;
+import org.cef.CefBrowserSettings;
 import org.cef.CefClient;
 import org.cef.browser.*;
 import org.cef.handler.*;
@@ -12,6 +15,7 @@ import java.awt.Component;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Supplier;
 
 public class RemoteClient {
     private static AtomicInteger ourCounter = new AtomicInteger(0);
@@ -35,7 +39,7 @@ public class RemoteClient {
     private CefRequestHandler requestHandler_ = null;
     private CefLoadHandler loadHandler_ = null;
 
-    protected final MultiHandler<CefLifeSpanHandler> hLifeSpan = new MultiHandler<>(); // always presented
+    private final MultiHandler<CefLifeSpanHandler> hLifeSpan = new MultiHandler<>(); // always presented
     private int myHandlersMask = 0;
 
     // MessageRouter support
@@ -47,8 +51,10 @@ public class RemoteClient {
         ourBid2Browser = bid2browser;
     }
 
+    public MultiHandler<CefLifeSpanHandler> getLifeSpanHandler() { return hLifeSpan; }
+
     // Called from lifespan handler when native browser is created on server side.
-    protected void onAfterCreated(RemoteBrowser browser, int nativeBrowserIdentifier) {
+    public void onAfterCreated(RemoteBrowser browser, int nativeBrowserIdentifier) {
         browser.setNativeBrowserCreated(nativeBrowserIdentifier);
         myNativeIdentifier2Browser.put(nativeBrowserIdentifier, browser);
         hLifeSpan.handle(lsh->lsh.onAfterCreated(browser));
@@ -56,7 +62,7 @@ public class RemoteClient {
     }
 
     // Called from lifespan handler when native browser is disposed on server side.
-    protected void onBeforeClosed(RemoteBrowser browser) {
+    public void onBeforeClosed(RemoteBrowser browser) {
         hLifeSpan.handle(lsh->lsh.onBeforeClose(browser));
 
         if (!myBrowsers.remove(browser))
@@ -139,28 +145,34 @@ public class RemoteClient {
     // CefClient
     //
 
-    public RemoteBrowser createBrowser(String url, CefRequestContext context, CefClient client, CefNativeRenderHandler renderHandler, Component component) {
+    public RemoteBrowser createBrowser(String url, CefRequestContext context, CefClient client, CefNativeRenderHandler renderHandler, Component component, CefBrowserSettings settings) {
         RemoteRequestContext ctx = null;
         if (context instanceof RemoteRequestContext)
             ctx = (RemoteRequestContext)context;
         else if (context != null)
             CefLog.Error("Unsupported class %s, will be used default (global) request context. Please use RemoteRequestContext.", context.getClass());
 
-        RemoteBrowser browser = new RemoteBrowser(myService, this, client, url, ctx);
+        RemoteBrowser browser = new RemoteBrowser(myService, this, client, url, ctx, settings);
         browser.setComponent(component, renderHandler);
         myBrowsers.add(browser);
         return browser;
     }
 
-    public RemoteBrowser createBrowser(String url, CefRequestContext context, CefClient client, CefRendering rendering) {
+    public RemoteBrowser createBrowser(String url, CefRequestContext context, CefClient client, CefRendering rendering, CefBrowserSettings settings) {
         if (rendering instanceof CefRendering.CefRenderingWithHandler) {
             CefRendering.CefRenderingWithHandler rh = (CefRendering.CefRenderingWithHandler) rendering;
             if (rh.getRenderHandler() instanceof CefNativeRenderHandler) {
-                return createBrowser(url, context, client, (CefNativeRenderHandler)rh.getRenderHandler(), rh.getComponent());
+                return createBrowser(url, context, client, (CefNativeRenderHandler)rh.getRenderHandler(), rh.getComponent(), settings);
             }
             throw new IllegalStateException("Can't create remote browser with render-handler: " + rh.getRenderHandler());
         }
         throw new IllegalStateException("Can't create remote browser with rendering: " + rendering);
+    }
+
+    public CefBrowser createBrowser(String url, CefRequestContext context, CefClient client, Supplier<CefRendering> renderingFactory, CefBrowserSettings settings) {
+        RemoteBrowser browser = createBrowser(url, context, client, renderingFactory.get(), settings);
+        browser.setRenderingFactory(renderingFactory);
+        return browser;
     }
 
     // Handlers management

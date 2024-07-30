@@ -1,10 +1,9 @@
-package com.jetbrains.cef.remote;
+package com.jetbrains.cef.remote.browser;
 
+import com.jetbrains.cef.remote.RemoteServerObject;
+import com.jetbrains.cef.remote.RpcExecutor;
 import com.jetbrains.cef.remote.thrift_codegen.RObject;
-import org.cef.CefClient;
 import org.cef.browser.CefFrame;
-import org.cef.misc.CefLog;
-import org.cef.network.CefRequest;
 
 // 1. Represents remote java peer for native server object (CefFrame).
 // 2. Created

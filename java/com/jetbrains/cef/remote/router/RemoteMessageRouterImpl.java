@@ -1,7 +1,6 @@
 package com.jetbrains.cef.remote.router;
 
-import com.jetbrains.cef.remote.CefServer;
-import com.jetbrains.cef.remote.RemoteBrowser;
+import com.jetbrains.cef.remote.browser.RemoteBrowser;
 import com.jetbrains.cef.remote.RemoteServerObject;
 import com.jetbrains.cef.remote.RpcExecutor;
 import com.jetbrains.cef.remote.thrift_codegen.RObject;

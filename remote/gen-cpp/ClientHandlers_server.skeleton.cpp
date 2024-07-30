@@ -295,6 +295,11 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
     printf("CompletionCallback_OnComplete\n");
   }
 
+  void IntCallback_OnComplete(const int32_t intCallback, const int32_t result) {
+    // Your implementation goes here
+    printf("IntCallback_OnComplete\n");
+  }
+
   void RequestContextHandler_GetResourceRequestHandler( ::thrift_codegen::RObject& _return, const int32_t handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool isNavigation, const bool isDownload, const std::string& requestInitiator) {
     // Your implementation goes here
     printf("RequestContextHandler_GetResourceRequestHandler\n");
@@ -318,6 +323,21 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
   void StringVisitor_Dispose(const int32_t stringVisitor) {
     // Your implementation goes here
     printf("StringVisitor_Dispose\n");
+  }
+
+  void DevToolsMessageObserver_Dispose(const int32_t observer) {
+    // Your implementation goes here
+    printf("DevToolsMessageObserver_Dispose\n");
+  }
+
+  void DevToolsMessageObserver_OnDevToolsMethodResult(const int32_t observer, const int32_t bid, const int32_t messageId, const bool success, const std::string& result) {
+    // Your implementation goes here
+    printf("DevToolsMessageObserver_OnDevToolsMethodResult\n");
+  }
+
+  void DevToolsMessageObserver_OnDevToolsEvent(const int32_t observer, const int32_t bid, const std::string& method, const std::string& parameters) {
+    // Your implementation goes here
+    printf("DevToolsMessageObserver_OnDevToolsEvent\n");
   }
 
 };

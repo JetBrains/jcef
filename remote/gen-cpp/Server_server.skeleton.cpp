@@ -65,9 +65,19 @@ class ServerHandler : virtual public ServerIf {
     printf("Browser_StartNativeCreation\n");
   }
 
+  void Browser_StartNativeDevToolsCreation(const int32_t bid, const int32_t parentBid, const int32_t x, const int32_t y) {
+    // Your implementation goes here
+    printf("Browser_StartNativeDevToolsCreation\n");
+  }
+
   void Browser_Close(const int32_t bid) {
     // Your implementation goes here
     printf("Browser_Close\n");
+  }
+
+  void Browser_CloseDevTools(const int32_t bid) {
+    // Your implementation goes here
+    printf("Browser_CloseDevTools\n");
   }
 
   void Browser_Reload(const int32_t bid) {
@@ -253,6 +263,16 @@ class ServerHandler : virtual public ServerIf {
   void Browser_SetFrameRate(const int32_t bid, const int32_t val) {
     // Your implementation goes here
     printf("Browser_SetFrameRate\n");
+  }
+
+  void Browser_AddDevToolsMessageObserver( ::thrift_codegen::RObject& _return, const int32_t bid, const  ::thrift_codegen::RObject& observer) {
+    // Your implementation goes here
+    printf("Browser_AddDevToolsMessageObserver\n");
+  }
+
+  void Browser_ExecuteDevToolsMethod(const int32_t bid, const std::string& method, const std::string& parametersAsJson, const  ::thrift_codegen::RObject& intCallback) {
+    // Your implementation goes here
+    printf("Browser_ExecuteDevToolsMethod\n");
   }
 
   void Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line) {
@@ -513,6 +533,11 @@ class ServerHandler : virtual public ServerIf {
   bool CookieManager_FlushStore(const  ::thrift_codegen::RObject& cookieManager, const  ::thrift_codegen::RObject& completionCallback) {
     // Your implementation goes here
     printf("CookieManager_FlushStore\n");
+  }
+
+  void Registration_Dispose(const  ::thrift_codegen::RObject& registration) {
+    // Your implementation goes here
+    printf("Registration_Dispose\n");
   }
 
 };

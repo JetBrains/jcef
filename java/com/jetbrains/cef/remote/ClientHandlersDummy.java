@@ -284,6 +284,11 @@ public class ClientHandlersDummy implements ClientHandlers.Iface{
     }
 
     @Override
+    public void IntCallback_OnComplete(int intCallback, int result) throws TException {
+
+    }
+
+    @Override
     public RObject RequestContextHandler_GetResourceRequestHandler(int handler, int bid, RObject frame, RObject request, boolean isNavigation, boolean isDownload, String requestInitiator) throws TException {
         return null;
     }
@@ -295,6 +300,31 @@ public class ClientHandlersDummy implements ClientHandlers.Iface{
 
     @Override
     public void CookieVisitor_Dispose(int visitor) throws TException {
+
+    }
+
+    @Override
+    public void StringVisitor_Visit(int stringVisitor, String str) throws TException {
+
+    }
+
+    @Override
+    public void StringVisitor_Dispose(int stringVisitor) throws TException {
+
+    }
+
+    @Override
+    public void DevToolsMessageObserver_Dispose(int observer) throws TException {
+
+    }
+
+    @Override
+    public void DevToolsMessageObserver_OnDevToolsMethodResult(int observer, int bid, int messageId, boolean success, String result) throws TException {
+
+    }
+
+    @Override
+    public void DevToolsMessageObserver_OnDevToolsEvent(int observer, int bid, String method, String parameters) throws TException {
 
     }
 }

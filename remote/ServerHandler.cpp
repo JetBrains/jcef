@@ -2,6 +2,7 @@
 
 #include "include/cef_version.h"
 #include "include/cef_base.h"
+#include "include/cef_parser.h"
 
 #include "handlers/app/RemoteAppHandler.h"
 #include "network/RemotePostData.h"
@@ -10,15 +11,18 @@
 #include "network/RemoteCookieManager.h"
 #include "network/RemoteCookieVisitor.h"
 #include "browser/RemoteFrame.h"
+#include "browser/RemoteDevToolsMessageObserver.h"
 #include "browser/ClientsManager.h"
 #include "handlers/RemoteClientHandler.h"
 
 #include "RemoteObjects.h"
 #include "callback/RemoteAuthCallback.h"
 #include "callback/RemoteCallback.h"
+#include "callback/RemoteRegistration.h"
 #include "callback/RemoteCompletionCallback.h"
 #include "callback/RemoteSchemeHandlerFactory.h"
 #include "callback/RemoteStringVisitor.h"
+#include "callback/RemoteIntCallback.h"
 
 #include "include/base/cef_callback.h"
 #include "include/wrapper/cef_closure_task.h"
@@ -33,6 +37,29 @@
 #include "../native/critical_wait.h"
 
 using namespace apache::thrift;
+
+namespace {
+  void executeDevToolsMethod(CefRefPtr<CefBrowserHost> host,
+                             const CefString& method,
+                             const CefString& parametersAsJson,
+                             CefRefPtr<RemoteIntCallback> callback
+  ) {
+    CefRefPtr<CefDictionaryValue> parameters = nullptr;
+    if (!parametersAsJson.empty()) {
+      CefRefPtr<CefValue> value = CefParseJSON(
+          parametersAsJson, cef_json_parser_options_t::JSON_PARSER_RFC);
+
+      if (!value || value->GetType() != VTYPE_DICTIONARY) {
+        callback->OnComplete(0);
+        return;
+      }
+
+      parameters = value->GetDictionary();
+    }
+
+    callback->OnComplete(host->ExecuteDevToolsMethod(0, method, parameters));
+  }
+}
 
 ServerHandler::ServerHandler() : myCtx(std::make_shared<ServerHandlerContext>()) {}
 
@@ -118,6 +145,11 @@ void ServerHandler::Browser_StartNativeCreation(int bid, const std::string& url)
   Log::trace("Started creation of native CefBrowser of remote browser bid=%d, url=%s", bid, url.c_str());
 }
 
+void ServerHandler::Browser_StartNativeDevToolsCreation(int bid, int parentBid, int x, int y) {
+  myCtx->clientsManager()->startNativeDevToolsCreation(bid, parentBid, x, y);
+  Log::trace("Started creation of dev-tools of remote browser bid=%d, parentBid=%d ", bid, parentBid);
+}
+
 void ServerHandler::Browser_Close(const int32_t bid) {
   myCtx->clientsManager()->closeBrowser(bid);
 }
@@ -182,6 +214,11 @@ void ServerHandler::version(std::string& _return) {
     Log::error("Can't find RemoteCookieManager by id=%d", cookieManager.objId);   \
     return val;                                                                       \
   }
+
+void ServerHandler::Browser_CloseDevTools(const int32_t bid) {
+  GET_BROWSER_OR_RETURN()
+  browser->GetHost()->CloseDevTools();
+}
 
 void ServerHandler::Browser_Reload(const int32_t bid) {
   LNDCT();
@@ -567,6 +604,39 @@ void ServerHandler::Browser_SetFrameRate(const int32_t bid, int32_t val) {
   LNDCT();
   GET_BROWSER_OR_RETURN()
   browser->GetHost()->SetWindowlessFrameRate(val);
+}
+
+void ServerHandler::Browser_AddDevToolsMessageObserver(thrift_codegen::RObject& _return, const int32_t bid, const thrift_codegen::RObject& observer) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN()
+
+  CefRefPtr<RemoteDevToolsMessageObserver> robserver(new RemoteDevToolsMessageObserver(myCtx->clientsManager(), myCtx->javaService(), observer));
+  CefRefPtr<CefRegistration> registration = browser->GetHost()->AddDevToolsMessageObserver(robserver);
+  _return = RemoteRegistration::create(registration)->serverId();
+}
+
+void ServerHandler::Browser_ExecuteDevToolsMethod(
+    const int32_t bid,
+    const std::string& method,
+    const std::string& parametersAsJson,
+    const thrift_codegen::RObject& intCallback
+) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN()
+
+  CefRefPtr<RemoteIntCallback> callback = new RemoteIntCallback(myCtx->javaService(), intCallback);
+  if (!browser.get()) {
+    callback->OnComplete(0);
+    return;
+  }
+
+  if (CefCurrentlyOn(TID_UI)) {
+    executeDevToolsMethod(browser->GetHost(), method, parametersAsJson, callback);
+  } else {
+    CefPostTask(TID_UI,
+                base::BindOnce(executeDevToolsMethod,
+                               browser->GetHost(), method, parametersAsJson, callback));
+  }
 }
 
 void ServerHandler::Request_Create(thrift_codegen::RObject& result) {
@@ -1098,3 +1168,8 @@ bool ServerHandler::CookieManager_FlushStore(
     cb = new RemoteCompletionCallback(myCtx->javaService(), rcompletionCallback);
   return manager->getDelegate().FlushStore(cb);
 }
+
+void ServerHandler::Registration_Dispose(const thrift_codegen::RObject& registration) {
+  RemoteRegistration::dispose(registration.objId);
+}
+

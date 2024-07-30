@@ -4,13 +4,13 @@
 
 package org.cef;
 
-import com.jetbrains.cef.remote.RemoteBrowser;
+import com.jetbrains.cef.remote.browser.RemoteBrowser;
 import org.cef.browser.*;
 import com.jetbrains.cef.JCefAppConfig;
 import com.jetbrains.cef.JdkEx;
 
 import com.jetbrains.cef.remote.CefServer;
-import com.jetbrains.cef.remote.RemoteClient;
+import com.jetbrains.cef.remote.browser.RemoteClient;
 import org.cef.callback.*;
 import org.cef.handler.CefClientHandler;
 import org.cef.handler.CefContextMenuHandler;
@@ -53,6 +53,7 @@ import java.util.Vector;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * Client that owns a browser and renderer.
@@ -182,7 +183,7 @@ public class CefClient extends CefClientHandler
         if (isDisposed_)
             throw new IllegalStateException("Can't create browser. CefClient is disposed");
         if (remoteClient != null)
-            return remoteClient.createBrowser(url, context, this, rendering);
+            return remoteClient.createBrowser(url, context, this, rendering, null);
         return CefBrowserFactory.create(this, url, rendering, isTransparent, context, null);
     }
 
@@ -190,11 +191,20 @@ public class CefClient extends CefClientHandler
                                     CefRequestContext context, CefBrowserSettings settings) {
         if (isDisposed_)
             throw new IllegalStateException("Can't create browser. CefClient is disposed");
-        // TODO: add CefBrowserSettings to RemoteClient#createBrowser
         if (remoteClient != null)
-            return remoteClient.createBrowser(url, context, this, rendering);
+            return remoteClient.createBrowser(url, context, this, rendering, settings);
         return CefBrowserFactory.create(
                 this, url, rendering, isTransparent, context, settings);
+    }
+
+    public CefBrowser createBrowser(String url, Supplier<CefRendering> rendering, boolean isTransparent,
+                                    CefRequestContext context, CefBrowserSettings settings) {
+        if (isDisposed_)
+            throw new IllegalStateException("Can't create browser. CefClient is disposed");
+        if (remoteClient != null)
+            return remoteClient.createBrowser(url, context, this, rendering, settings);
+        return CefBrowserFactory.create(
+                this, url, rendering.get(), isTransparent, context, settings);
     }
 
     @Override

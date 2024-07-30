@@ -1,6 +1,10 @@
 package com.jetbrains.cef.remote;
 
 import com.jetbrains.cef.remote.callback.*;
+import com.jetbrains.cef.remote.browser.RemoteBrowser;
+import com.jetbrains.cef.remote.browser.RemoteDevToolsMessageObserver;
+import com.jetbrains.cef.remote.browser.RemoteFrame;
+import com.jetbrains.cef.remote.callback.*;
 import com.jetbrains.cef.remote.network.*;
 import com.jetbrains.cef.remote.router.RemoteMessageRouterHandler;
 import com.jetbrains.cef.remote.router.RemoteQueryCallback;
@@ -10,7 +14,6 @@ import com.jetbrains.cef.remote.thrift_codegen.Rect;
 import com.jetbrains.cef.remote.thrift_codegen.ScreenInfo;
 import com.jetbrains.cef.remote.thrift.TException;
 import org.cef.CefSettings;
-import org.cef.browser.CefFrame;
 import org.cef.callback.CefAuthCallback;
 import org.cef.callback.CefCallback;
 import org.cef.handler.*;
@@ -163,7 +166,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         if (browser == null) return false;
 
         RemoteFrame rframe = new RemoteFrame(myService, frame);
-        return browser.getOwner().hLifeSpan.handleBool(lsh-> lsh.onBeforePopup(browser, rframe, url, frameName));
+        return browser.getOwner().getLifeSpanHandler().handleBool(lsh-> lsh.onBeforePopup(browser, rframe, url, frameName));
     }
 
     @Override
@@ -197,7 +200,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     public boolean LifeSpanHandler_DoClose(int bid) {
         RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser != null)
-            browser.getOwner().hLifeSpan.handle(lsh->lsh.doClose(browser));
+            browser.getOwner().getLifeSpanHandler().handle(lsh->lsh.doClose(browser));
         return false;
     }
 
@@ -976,5 +979,33 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     public void StringVisitor_Dispose(int visitor) throws TException {
         CefLog.Debug("Dispose RemoteStringVisitor %d (by server request).", visitor);
         RemoteStringVisitor.FACTORY.dispose(visitor);
+    }
+
+    @Override
+    public void DevToolsMessageObserver_OnDevToolsEvent(int observer, int bid, String method, String parameters) throws TException {
+        RemoteDevToolsMessageObserver ro = RemoteDevToolsMessageObserver.FACTORY.get(observer);
+        if (ro == null) return;
+        ro.getDelegate().onDevToolsEvent(getRemoteBrowser(bid), method, parameters);
+    }
+
+    @Override
+    public void DevToolsMessageObserver_OnDevToolsMethodResult(int observer, int bid, int messageId, boolean success, String result) throws TException {
+        RemoteDevToolsMessageObserver ro = RemoteDevToolsMessageObserver.FACTORY.get(observer);
+        if (ro == null) return;
+        ro.getDelegate().onDevToolsMethodResult(getRemoteBrowser(bid), messageId, success, result);
+    }
+
+    @Override
+    public void DevToolsMessageObserver_Dispose(int observer) throws TException {
+        RemoteDevToolsMessageObserver.FACTORY.dispose(observer);
+    }
+
+    @Override
+    public void IntCallback_OnComplete(int intCallback, int result) throws TException {
+        RemoteIntCallback rcb = RemoteIntCallback.FACTORY.get(intCallback);
+        if (rcb == null) return;
+
+        rcb.onComplete(result);
+        RemoteIntCallback.FACTORY.dispose(intCallback);
     }
 }

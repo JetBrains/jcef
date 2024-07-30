@@ -77,11 +77,15 @@ class ClientHandlersIf {
   virtual void SchemeHandlerFactory_CreateHandler( ::thrift_codegen::RObject& _return, const int32_t schemeHandlerFactory, const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& scheme_name, const  ::thrift_codegen::RObject& request) = 0;
   virtual void SchemeHandlerFactory_Dispose(const int32_t schemeHandlerFactory) = 0;
   virtual void CompletionCallback_OnComplete(const int32_t completionCallback) = 0;
+  virtual void IntCallback_OnComplete(const int32_t intCallback, const int32_t result) = 0;
   virtual void RequestContextHandler_GetResourceRequestHandler( ::thrift_codegen::RObject& _return, const int32_t handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool isNavigation, const bool isDownload, const std::string& requestInitiator) = 0;
   virtual bool CookieVisitor_Visit(const int32_t visitor, const  ::thrift_codegen::Cookie& cookie, const int32_t count, const int32_t total) = 0;
   virtual void CookieVisitor_Dispose(const int32_t visitor) = 0;
   virtual void StringVisitor_Visit(const int32_t stringVisitor, const std::string& str) = 0;
   virtual void StringVisitor_Dispose(const int32_t stringVisitor) = 0;
+  virtual void DevToolsMessageObserver_Dispose(const int32_t observer) = 0;
+  virtual void DevToolsMessageObserver_OnDevToolsMethodResult(const int32_t observer, const int32_t bid, const int32_t messageId, const bool success, const std::string& result) = 0;
+  virtual void DevToolsMessageObserver_OnDevToolsEvent(const int32_t observer, const int32_t bid, const std::string& method, const std::string& parameters) = 0;
 };
 
 class ClientHandlersIfFactory {
@@ -295,6 +299,9 @@ class ClientHandlersNull : virtual public ClientHandlersIf {
   void CompletionCallback_OnComplete(const int32_t /* completionCallback */) override {
     return;
   }
+  void IntCallback_OnComplete(const int32_t /* intCallback */, const int32_t /* result */) override {
+    return;
+  }
   void RequestContextHandler_GetResourceRequestHandler( ::thrift_codegen::RObject& /* _return */, const int32_t /* handler */, const int32_t /* bid */, const  ::thrift_codegen::RObject& /* frame */, const  ::thrift_codegen::RObject& /* request */, const bool /* isNavigation */, const bool /* isDownload */, const std::string& /* requestInitiator */) override {
     return;
   }
@@ -309,6 +316,15 @@ class ClientHandlersNull : virtual public ClientHandlersIf {
     return;
   }
   void StringVisitor_Dispose(const int32_t /* stringVisitor */) override {
+    return;
+  }
+  void DevToolsMessageObserver_Dispose(const int32_t /* observer */) override {
+    return;
+  }
+  void DevToolsMessageObserver_OnDevToolsMethodResult(const int32_t /* observer */, const int32_t /* bid */, const int32_t /* messageId */, const bool /* success */, const std::string& /* result */) override {
+    return;
+  }
+  void DevToolsMessageObserver_OnDevToolsEvent(const int32_t /* observer */, const int32_t /* bid */, const std::string& /* method */, const std::string& /* parameters */) override {
     return;
   }
 };
@@ -5694,6 +5710,64 @@ class ClientHandlers_CompletionCallback_OnComplete_pargs {
 
 };
 
+typedef struct _ClientHandlers_IntCallback_OnComplete_args__isset {
+  _ClientHandlers_IntCallback_OnComplete_args__isset() : intCallback(false), result(false) {}
+  bool intCallback :1;
+  bool result :1;
+} _ClientHandlers_IntCallback_OnComplete_args__isset;
+
+class ClientHandlers_IntCallback_OnComplete_args {
+ public:
+
+  ClientHandlers_IntCallback_OnComplete_args(const ClientHandlers_IntCallback_OnComplete_args&) noexcept;
+  ClientHandlers_IntCallback_OnComplete_args& operator=(const ClientHandlers_IntCallback_OnComplete_args&) noexcept;
+  ClientHandlers_IntCallback_OnComplete_args() noexcept
+                                             : intCallback(0),
+                                               result(0) {
+  }
+
+  virtual ~ClientHandlers_IntCallback_OnComplete_args() noexcept;
+  int32_t intCallback;
+  int32_t result;
+
+  _ClientHandlers_IntCallback_OnComplete_args__isset __isset;
+
+  void __set_intCallback(const int32_t val);
+
+  void __set_result(const int32_t val);
+
+  bool operator == (const ClientHandlers_IntCallback_OnComplete_args & rhs) const
+  {
+    if (!(intCallback == rhs.intCallback))
+      return false;
+    if (!(result == rhs.result))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_IntCallback_OnComplete_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_IntCallback_OnComplete_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_IntCallback_OnComplete_pargs {
+ public:
+
+
+  virtual ~ClientHandlers_IntCallback_OnComplete_pargs() noexcept;
+  const int32_t* intCallback;
+  const int32_t* result;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
 typedef struct _ClientHandlers_RequestContextHandler_GetResourceRequestHandler_args__isset {
   _ClientHandlers_RequestContextHandler_GetResourceRequestHandler_args__isset() : handler(false), bid(false), frame(false), request(false), isNavigation(false), isDownload(false), requestInitiator(false) {}
   bool handler :1;
@@ -6132,6 +6206,212 @@ class ClientHandlers_StringVisitor_Dispose_pargs {
 
 };
 
+typedef struct _ClientHandlers_DevToolsMessageObserver_Dispose_args__isset {
+  _ClientHandlers_DevToolsMessageObserver_Dispose_args__isset() : observer(false) {}
+  bool observer :1;
+} _ClientHandlers_DevToolsMessageObserver_Dispose_args__isset;
+
+class ClientHandlers_DevToolsMessageObserver_Dispose_args {
+ public:
+
+  ClientHandlers_DevToolsMessageObserver_Dispose_args(const ClientHandlers_DevToolsMessageObserver_Dispose_args&) noexcept;
+  ClientHandlers_DevToolsMessageObserver_Dispose_args& operator=(const ClientHandlers_DevToolsMessageObserver_Dispose_args&) noexcept;
+  ClientHandlers_DevToolsMessageObserver_Dispose_args() noexcept
+                                                      : observer(0) {
+  }
+
+  virtual ~ClientHandlers_DevToolsMessageObserver_Dispose_args() noexcept;
+  int32_t observer;
+
+  _ClientHandlers_DevToolsMessageObserver_Dispose_args__isset __isset;
+
+  void __set_observer(const int32_t val);
+
+  bool operator == (const ClientHandlers_DevToolsMessageObserver_Dispose_args & rhs) const
+  {
+    if (!(observer == rhs.observer))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_DevToolsMessageObserver_Dispose_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_DevToolsMessageObserver_Dispose_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_DevToolsMessageObserver_Dispose_pargs {
+ public:
+
+
+  virtual ~ClientHandlers_DevToolsMessageObserver_Dispose_pargs() noexcept;
+  const int32_t* observer;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_DevToolsMessageObserver_OnDevToolsMethodResult_args__isset {
+  _ClientHandlers_DevToolsMessageObserver_OnDevToolsMethodResult_args__isset() : observer(false), bid(false), messageId(false), success(false), result(false) {}
+  bool observer :1;
+  bool bid :1;
+  bool messageId :1;
+  bool success :1;
+  bool result :1;
+} _ClientHandlers_DevToolsMessageObserver_OnDevToolsMethodResult_args__isset;
+
+class ClientHandlers_DevToolsMessageObserver_OnDevToolsMethodResult_args {
+ public:
+
+  ClientHandlers_DevToolsMessageObserver_OnDevToolsMethodResult_args(const ClientHandlers_DevToolsMessageObserver_OnDevToolsMethodResult_args&);
+  ClientHandlers_DevToolsMessageObserver_OnDevToolsMethodResult_args& operator=(const ClientHandlers_DevToolsMessageObserver_OnDevToolsMethodResult_args&);
+  ClientHandlers_DevToolsMessageObserver_OnDevToolsMethodResult_args() noexcept
+                                                                     : observer(0),
+                                                                       bid(0),
+                                                                       messageId(0),
+                                                                       success(0),
+                                                                       result() {
+  }
+
+  virtual ~ClientHandlers_DevToolsMessageObserver_OnDevToolsMethodResult_args() noexcept;
+  int32_t observer;
+  int32_t bid;
+  int32_t messageId;
+  bool success;
+  std::string result;
+
+  _ClientHandlers_DevToolsMessageObserver_OnDevToolsMethodResult_args__isset __isset;
+
+  void __set_observer(const int32_t val);
+
+  void __set_bid(const int32_t val);
+
+  void __set_messageId(const int32_t val);
+
+  void __set_success(const bool val);
+
+  void __set_result(const std::string& val);
+
+  bool operator == (const ClientHandlers_DevToolsMessageObserver_OnDevToolsMethodResult_args & rhs) const
+  {
+    if (!(observer == rhs.observer))
+      return false;
+    if (!(bid == rhs.bid))
+      return false;
+    if (!(messageId == rhs.messageId))
+      return false;
+    if (!(success == rhs.success))
+      return false;
+    if (!(result == rhs.result))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_DevToolsMessageObserver_OnDevToolsMethodResult_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_DevToolsMessageObserver_OnDevToolsMethodResult_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_DevToolsMessageObserver_OnDevToolsMethodResult_pargs {
+ public:
+
+
+  virtual ~ClientHandlers_DevToolsMessageObserver_OnDevToolsMethodResult_pargs() noexcept;
+  const int32_t* observer;
+  const int32_t* bid;
+  const int32_t* messageId;
+  const bool* success;
+  const std::string* result;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_DevToolsMessageObserver_OnDevToolsEvent_args__isset {
+  _ClientHandlers_DevToolsMessageObserver_OnDevToolsEvent_args__isset() : observer(false), bid(false), method(false), parameters(false) {}
+  bool observer :1;
+  bool bid :1;
+  bool method :1;
+  bool parameters :1;
+} _ClientHandlers_DevToolsMessageObserver_OnDevToolsEvent_args__isset;
+
+class ClientHandlers_DevToolsMessageObserver_OnDevToolsEvent_args {
+ public:
+
+  ClientHandlers_DevToolsMessageObserver_OnDevToolsEvent_args(const ClientHandlers_DevToolsMessageObserver_OnDevToolsEvent_args&);
+  ClientHandlers_DevToolsMessageObserver_OnDevToolsEvent_args& operator=(const ClientHandlers_DevToolsMessageObserver_OnDevToolsEvent_args&);
+  ClientHandlers_DevToolsMessageObserver_OnDevToolsEvent_args() noexcept
+                                                              : observer(0),
+                                                                bid(0),
+                                                                method(),
+                                                                parameters() {
+  }
+
+  virtual ~ClientHandlers_DevToolsMessageObserver_OnDevToolsEvent_args() noexcept;
+  int32_t observer;
+  int32_t bid;
+  std::string method;
+  std::string parameters;
+
+  _ClientHandlers_DevToolsMessageObserver_OnDevToolsEvent_args__isset __isset;
+
+  void __set_observer(const int32_t val);
+
+  void __set_bid(const int32_t val);
+
+  void __set_method(const std::string& val);
+
+  void __set_parameters(const std::string& val);
+
+  bool operator == (const ClientHandlers_DevToolsMessageObserver_OnDevToolsEvent_args & rhs) const
+  {
+    if (!(observer == rhs.observer))
+      return false;
+    if (!(bid == rhs.bid))
+      return false;
+    if (!(method == rhs.method))
+      return false;
+    if (!(parameters == rhs.parameters))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_DevToolsMessageObserver_OnDevToolsEvent_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_DevToolsMessageObserver_OnDevToolsEvent_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_DevToolsMessageObserver_OnDevToolsEvent_pargs {
+ public:
+
+
+  virtual ~ClientHandlers_DevToolsMessageObserver_OnDevToolsEvent_pargs() noexcept;
+  const int32_t* observer;
+  const int32_t* bid;
+  const std::string* method;
+  const std::string* parameters;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
 class ClientHandlersClient : virtual public ClientHandlersIf {
  public:
   ClientHandlersClient(std::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
@@ -6300,6 +6580,8 @@ class ClientHandlersClient : virtual public ClientHandlersIf {
   void send_SchemeHandlerFactory_Dispose(const int32_t schemeHandlerFactory);
   void CompletionCallback_OnComplete(const int32_t completionCallback) override;
   void send_CompletionCallback_OnComplete(const int32_t completionCallback);
+  void IntCallback_OnComplete(const int32_t intCallback, const int32_t result) override;
+  void send_IntCallback_OnComplete(const int32_t intCallback, const int32_t result);
   void RequestContextHandler_GetResourceRequestHandler( ::thrift_codegen::RObject& _return, const int32_t handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool isNavigation, const bool isDownload, const std::string& requestInitiator) override;
   void send_RequestContextHandler_GetResourceRequestHandler(const int32_t handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool isNavigation, const bool isDownload, const std::string& requestInitiator);
   void recv_RequestContextHandler_GetResourceRequestHandler( ::thrift_codegen::RObject& _return);
@@ -6312,6 +6594,12 @@ class ClientHandlersClient : virtual public ClientHandlersIf {
   void send_StringVisitor_Visit(const int32_t stringVisitor, const std::string& str);
   void StringVisitor_Dispose(const int32_t stringVisitor) override;
   void send_StringVisitor_Dispose(const int32_t stringVisitor);
+  void DevToolsMessageObserver_Dispose(const int32_t observer) override;
+  void send_DevToolsMessageObserver_Dispose(const int32_t observer);
+  void DevToolsMessageObserver_OnDevToolsMethodResult(const int32_t observer, const int32_t bid, const int32_t messageId, const bool success, const std::string& result) override;
+  void send_DevToolsMessageObserver_OnDevToolsMethodResult(const int32_t observer, const int32_t bid, const int32_t messageId, const bool success, const std::string& result);
+  void DevToolsMessageObserver_OnDevToolsEvent(const int32_t observer, const int32_t bid, const std::string& method, const std::string& parameters) override;
+  void send_DevToolsMessageObserver_OnDevToolsEvent(const int32_t observer, const int32_t bid, const std::string& method, const std::string& parameters);
  protected:
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -6382,11 +6670,15 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_SchemeHandlerFactory_CreateHandler(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_SchemeHandlerFactory_Dispose(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_CompletionCallback_OnComplete(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_IntCallback_OnComplete(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_RequestContextHandler_GetResourceRequestHandler(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_CookieVisitor_Visit(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_CookieVisitor_Dispose(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_StringVisitor_Visit(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_StringVisitor_Dispose(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_DevToolsMessageObserver_Dispose(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_DevToolsMessageObserver_OnDevToolsMethodResult(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_DevToolsMessageObserver_OnDevToolsEvent(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   ClientHandlersProcessor(::std::shared_ptr<ClientHandlersIf> iface) :
     iface_(iface) {
@@ -6445,11 +6737,15 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["SchemeHandlerFactory_CreateHandler"] = &ClientHandlersProcessor::process_SchemeHandlerFactory_CreateHandler;
     processMap_["SchemeHandlerFactory_Dispose"] = &ClientHandlersProcessor::process_SchemeHandlerFactory_Dispose;
     processMap_["CompletionCallback_OnComplete"] = &ClientHandlersProcessor::process_CompletionCallback_OnComplete;
+    processMap_["IntCallback_OnComplete"] = &ClientHandlersProcessor::process_IntCallback_OnComplete;
     processMap_["RequestContextHandler_GetResourceRequestHandler"] = &ClientHandlersProcessor::process_RequestContextHandler_GetResourceRequestHandler;
     processMap_["CookieVisitor_Visit"] = &ClientHandlersProcessor::process_CookieVisitor_Visit;
     processMap_["CookieVisitor_Dispose"] = &ClientHandlersProcessor::process_CookieVisitor_Dispose;
     processMap_["StringVisitor_Visit"] = &ClientHandlersProcessor::process_StringVisitor_Visit;
     processMap_["StringVisitor_Dispose"] = &ClientHandlersProcessor::process_StringVisitor_Dispose;
+    processMap_["DevToolsMessageObserver_Dispose"] = &ClientHandlersProcessor::process_DevToolsMessageObserver_Dispose;
+    processMap_["DevToolsMessageObserver_OnDevToolsMethodResult"] = &ClientHandlersProcessor::process_DevToolsMessageObserver_OnDevToolsMethodResult;
+    processMap_["DevToolsMessageObserver_OnDevToolsEvent"] = &ClientHandlersProcessor::process_DevToolsMessageObserver_OnDevToolsEvent;
   }
 
   virtual ~ClientHandlersProcessor() {}
@@ -6983,6 +7279,15 @@ class ClientHandlersMultiface : virtual public ClientHandlersIf {
     ifaces_[i]->CompletionCallback_OnComplete(completionCallback);
   }
 
+  void IntCallback_OnComplete(const int32_t intCallback, const int32_t result) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->IntCallback_OnComplete(intCallback, result);
+    }
+    ifaces_[i]->IntCallback_OnComplete(intCallback, result);
+  }
+
   void RequestContextHandler_GetResourceRequestHandler( ::thrift_codegen::RObject& _return, const int32_t handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool isNavigation, const bool isDownload, const std::string& requestInitiator) override {
     size_t sz = ifaces_.size();
     size_t i = 0;
@@ -7027,6 +7332,33 @@ class ClientHandlersMultiface : virtual public ClientHandlersIf {
       ifaces_[i]->StringVisitor_Dispose(stringVisitor);
     }
     ifaces_[i]->StringVisitor_Dispose(stringVisitor);
+  }
+
+  void DevToolsMessageObserver_Dispose(const int32_t observer) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->DevToolsMessageObserver_Dispose(observer);
+    }
+    ifaces_[i]->DevToolsMessageObserver_Dispose(observer);
+  }
+
+  void DevToolsMessageObserver_OnDevToolsMethodResult(const int32_t observer, const int32_t bid, const int32_t messageId, const bool success, const std::string& result) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->DevToolsMessageObserver_OnDevToolsMethodResult(observer, bid, messageId, success, result);
+    }
+    ifaces_[i]->DevToolsMessageObserver_OnDevToolsMethodResult(observer, bid, messageId, success, result);
+  }
+
+  void DevToolsMessageObserver_OnDevToolsEvent(const int32_t observer, const int32_t bid, const std::string& method, const std::string& parameters) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->DevToolsMessageObserver_OnDevToolsEvent(observer, bid, method, parameters);
+    }
+    ifaces_[i]->DevToolsMessageObserver_OnDevToolsEvent(observer, bid, method, parameters);
   }
 
 };
@@ -7204,6 +7536,8 @@ class ClientHandlersConcurrentClient : virtual public ClientHandlersIf {
   void send_SchemeHandlerFactory_Dispose(const int32_t schemeHandlerFactory);
   void CompletionCallback_OnComplete(const int32_t completionCallback) override;
   void send_CompletionCallback_OnComplete(const int32_t completionCallback);
+  void IntCallback_OnComplete(const int32_t intCallback, const int32_t result) override;
+  void send_IntCallback_OnComplete(const int32_t intCallback, const int32_t result);
   void RequestContextHandler_GetResourceRequestHandler( ::thrift_codegen::RObject& _return, const int32_t handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool isNavigation, const bool isDownload, const std::string& requestInitiator) override;
   int32_t send_RequestContextHandler_GetResourceRequestHandler(const int32_t handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool isNavigation, const bool isDownload, const std::string& requestInitiator);
   void recv_RequestContextHandler_GetResourceRequestHandler( ::thrift_codegen::RObject& _return, const int32_t seqid);
@@ -7216,6 +7550,12 @@ class ClientHandlersConcurrentClient : virtual public ClientHandlersIf {
   void send_StringVisitor_Visit(const int32_t stringVisitor, const std::string& str);
   void StringVisitor_Dispose(const int32_t stringVisitor) override;
   void send_StringVisitor_Dispose(const int32_t stringVisitor);
+  void DevToolsMessageObserver_Dispose(const int32_t observer) override;
+  void send_DevToolsMessageObserver_Dispose(const int32_t observer);
+  void DevToolsMessageObserver_OnDevToolsMethodResult(const int32_t observer, const int32_t bid, const int32_t messageId, const bool success, const std::string& result) override;
+  void send_DevToolsMessageObserver_OnDevToolsMethodResult(const int32_t observer, const int32_t bid, const int32_t messageId, const bool success, const std::string& result);
+  void DevToolsMessageObserver_OnDevToolsEvent(const int32_t observer, const int32_t bid, const std::string& method, const std::string& parameters) override;
+  void send_DevToolsMessageObserver_OnDevToolsEvent(const int32_t observer, const int32_t bid, const std::string& method, const std::string& parameters);
  protected:
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;

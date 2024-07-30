@@ -31,7 +31,9 @@ class ServerIf {
   virtual void stop() = 0;
   virtual int32_t Browser_Create(const int32_t cid, const int32_t handlersMask, const  ::thrift_codegen::RObject& requestContextHandler) = 0;
   virtual void Browser_StartNativeCreation(const int32_t bid, const std::string& url) = 0;
+  virtual void Browser_StartNativeDevToolsCreation(const int32_t bid, const int32_t parentBid, const int32_t x, const int32_t y) = 0;
   virtual void Browser_Close(const int32_t bid) = 0;
+  virtual void Browser_CloseDevTools(const int32_t bid) = 0;
   virtual void Browser_Reload(const int32_t bid) = 0;
   virtual void Browser_ReloadIgnoreCache(const int32_t bid) = 0;
   virtual void Browser_LoadURL(const int32_t bid, const std::string& url) = 0;
@@ -69,6 +71,8 @@ class ServerIf {
   virtual void Browser_StopFinding(const int32_t bid, const bool clearSelection) = 0;
   virtual void Browser_ReplaceMisspelling(const int32_t bid, const std::string& word) = 0;
   virtual void Browser_SetFrameRate(const int32_t bid, const int32_t val) = 0;
+  virtual void Browser_AddDevToolsMessageObserver( ::thrift_codegen::RObject& _return, const int32_t bid, const  ::thrift_codegen::RObject& observer) = 0;
+  virtual void Browser_ExecuteDevToolsMethod(const int32_t bid, const std::string& method, const std::string& parametersAsJson, const  ::thrift_codegen::RObject& intCallback) = 0;
   virtual void Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line) = 0;
   virtual void Frame_Dispose(const int32_t frameId) = 0;
   virtual void Frame_GetParent( ::thrift_codegen::RObject& _return, const int32_t frameId) = 0;
@@ -121,6 +125,7 @@ class ServerIf {
   virtual bool CookieManager_SetCookie(const  ::thrift_codegen::RObject& cookieManager, const std::string& url, const  ::thrift_codegen::Cookie& cookie) = 0;
   virtual bool CookieManager_DeleteCookies(const  ::thrift_codegen::RObject& cookieManager, const std::string& url, const std::string& cookieName) = 0;
   virtual bool CookieManager_FlushStore(const  ::thrift_codegen::RObject& cookieManager, const  ::thrift_codegen::RObject& completionCallback) = 0;
+  virtual void Registration_Dispose(const  ::thrift_codegen::RObject& registration) = 0;
 };
 
 class ServerIfFactory {
@@ -180,7 +185,13 @@ class ServerNull : virtual public ServerIf {
   void Browser_StartNativeCreation(const int32_t /* bid */, const std::string& /* url */) override {
     return;
   }
+  void Browser_StartNativeDevToolsCreation(const int32_t /* bid */, const int32_t /* parentBid */, const int32_t /* x */, const int32_t /* y */) override {
+    return;
+  }
   void Browser_Close(const int32_t /* bid */) override {
+    return;
+  }
+  void Browser_CloseDevTools(const int32_t /* bid */) override {
     return;
   }
   void Browser_Reload(const int32_t /* bid */) override {
@@ -299,6 +310,12 @@ class ServerNull : virtual public ServerIf {
     return;
   }
   void Browser_SetFrameRate(const int32_t /* bid */, const int32_t /* val */) override {
+    return;
+  }
+  void Browser_AddDevToolsMessageObserver( ::thrift_codegen::RObject& /* _return */, const int32_t /* bid */, const  ::thrift_codegen::RObject& /* observer */) override {
+    return;
+  }
+  void Browser_ExecuteDevToolsMethod(const int32_t /* bid */, const std::string& /* method */, const std::string& /* parametersAsJson */, const  ::thrift_codegen::RObject& /* intCallback */) override {
     return;
   }
   void Frame_ExecuteJavaScript(const int32_t /* frameId */, const std::string& /* code */, const std::string& /* url */, const int32_t /* line */) override {
@@ -461,6 +478,9 @@ class ServerNull : virtual public ServerIf {
   bool CookieManager_FlushStore(const  ::thrift_codegen::RObject& /* cookieManager */, const  ::thrift_codegen::RObject& /* completionCallback */) override {
     bool _return = false;
     return _return;
+  }
+  void Registration_Dispose(const  ::thrift_codegen::RObject& /* registration */) override {
+    return;
   }
 };
 
@@ -1250,6 +1270,80 @@ class Server_Browser_StartNativeCreation_pargs {
 
 };
 
+typedef struct _Server_Browser_StartNativeDevToolsCreation_args__isset {
+  _Server_Browser_StartNativeDevToolsCreation_args__isset() : bid(false), parentBid(false), x(false), y(false) {}
+  bool bid :1;
+  bool parentBid :1;
+  bool x :1;
+  bool y :1;
+} _Server_Browser_StartNativeDevToolsCreation_args__isset;
+
+class Server_Browser_StartNativeDevToolsCreation_args {
+ public:
+
+  Server_Browser_StartNativeDevToolsCreation_args(const Server_Browser_StartNativeDevToolsCreation_args&) noexcept;
+  Server_Browser_StartNativeDevToolsCreation_args& operator=(const Server_Browser_StartNativeDevToolsCreation_args&) noexcept;
+  Server_Browser_StartNativeDevToolsCreation_args() noexcept
+                                                  : bid(0),
+                                                    parentBid(0),
+                                                    x(0),
+                                                    y(0) {
+  }
+
+  virtual ~Server_Browser_StartNativeDevToolsCreation_args() noexcept;
+  int32_t bid;
+  int32_t parentBid;
+  int32_t x;
+  int32_t y;
+
+  _Server_Browser_StartNativeDevToolsCreation_args__isset __isset;
+
+  void __set_bid(const int32_t val);
+
+  void __set_parentBid(const int32_t val);
+
+  void __set_x(const int32_t val);
+
+  void __set_y(const int32_t val);
+
+  bool operator == (const Server_Browser_StartNativeDevToolsCreation_args & rhs) const
+  {
+    if (!(bid == rhs.bid))
+      return false;
+    if (!(parentBid == rhs.parentBid))
+      return false;
+    if (!(x == rhs.x))
+      return false;
+    if (!(y == rhs.y))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_Browser_StartNativeDevToolsCreation_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Browser_StartNativeDevToolsCreation_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Browser_StartNativeDevToolsCreation_pargs {
+ public:
+
+
+  virtual ~Server_Browser_StartNativeDevToolsCreation_pargs() noexcept;
+  const int32_t* bid;
+  const int32_t* parentBid;
+  const int32_t* x;
+  const int32_t* y;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
 typedef struct _Server_Browser_Close_args__isset {
   _Server_Browser_Close_args__isset() : bid(false) {}
   bool bid :1;
@@ -1294,6 +1388,56 @@ class Server_Browser_Close_pargs {
 
 
   virtual ~Server_Browser_Close_pargs() noexcept;
+  const int32_t* bid;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_Browser_CloseDevTools_args__isset {
+  _Server_Browser_CloseDevTools_args__isset() : bid(false) {}
+  bool bid :1;
+} _Server_Browser_CloseDevTools_args__isset;
+
+class Server_Browser_CloseDevTools_args {
+ public:
+
+  Server_Browser_CloseDevTools_args(const Server_Browser_CloseDevTools_args&) noexcept;
+  Server_Browser_CloseDevTools_args& operator=(const Server_Browser_CloseDevTools_args&) noexcept;
+  Server_Browser_CloseDevTools_args() noexcept
+                                    : bid(0) {
+  }
+
+  virtual ~Server_Browser_CloseDevTools_args() noexcept;
+  int32_t bid;
+
+  _Server_Browser_CloseDevTools_args__isset __isset;
+
+  void __set_bid(const int32_t val);
+
+  bool operator == (const Server_Browser_CloseDevTools_args & rhs) const
+  {
+    if (!(bid == rhs.bid))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_Browser_CloseDevTools_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Browser_CloseDevTools_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Browser_CloseDevTools_pargs {
+ public:
+
+
+  virtual ~Server_Browser_CloseDevTools_pargs() noexcept;
   const int32_t* bid;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -4208,6 +4352,191 @@ class Server_Browser_SetFrameRate_pargs {
   virtual ~Server_Browser_SetFrameRate_pargs() noexcept;
   const int32_t* bid;
   const int32_t* val;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_Browser_AddDevToolsMessageObserver_args__isset {
+  _Server_Browser_AddDevToolsMessageObserver_args__isset() : bid(false), observer(false) {}
+  bool bid :1;
+  bool observer :1;
+} _Server_Browser_AddDevToolsMessageObserver_args__isset;
+
+class Server_Browser_AddDevToolsMessageObserver_args {
+ public:
+
+  Server_Browser_AddDevToolsMessageObserver_args(const Server_Browser_AddDevToolsMessageObserver_args&);
+  Server_Browser_AddDevToolsMessageObserver_args& operator=(const Server_Browser_AddDevToolsMessageObserver_args&);
+  Server_Browser_AddDevToolsMessageObserver_args() noexcept
+                                                 : bid(0) {
+  }
+
+  virtual ~Server_Browser_AddDevToolsMessageObserver_args() noexcept;
+  int32_t bid;
+   ::thrift_codegen::RObject observer;
+
+  _Server_Browser_AddDevToolsMessageObserver_args__isset __isset;
+
+  void __set_bid(const int32_t val);
+
+  void __set_observer(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_Browser_AddDevToolsMessageObserver_args & rhs) const
+  {
+    if (!(bid == rhs.bid))
+      return false;
+    if (!(observer == rhs.observer))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_Browser_AddDevToolsMessageObserver_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Browser_AddDevToolsMessageObserver_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Browser_AddDevToolsMessageObserver_pargs {
+ public:
+
+
+  virtual ~Server_Browser_AddDevToolsMessageObserver_pargs() noexcept;
+  const int32_t* bid;
+  const  ::thrift_codegen::RObject* observer;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_Browser_AddDevToolsMessageObserver_result__isset {
+  _Server_Browser_AddDevToolsMessageObserver_result__isset() : success(false) {}
+  bool success :1;
+} _Server_Browser_AddDevToolsMessageObserver_result__isset;
+
+class Server_Browser_AddDevToolsMessageObserver_result {
+ public:
+
+  Server_Browser_AddDevToolsMessageObserver_result(const Server_Browser_AddDevToolsMessageObserver_result&);
+  Server_Browser_AddDevToolsMessageObserver_result& operator=(const Server_Browser_AddDevToolsMessageObserver_result&);
+  Server_Browser_AddDevToolsMessageObserver_result() noexcept {
+  }
+
+  virtual ~Server_Browser_AddDevToolsMessageObserver_result() noexcept;
+   ::thrift_codegen::RObject success;
+
+  _Server_Browser_AddDevToolsMessageObserver_result__isset __isset;
+
+  void __set_success(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_Browser_AddDevToolsMessageObserver_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_Browser_AddDevToolsMessageObserver_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Browser_AddDevToolsMessageObserver_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_Browser_AddDevToolsMessageObserver_presult__isset {
+  _Server_Browser_AddDevToolsMessageObserver_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_Browser_AddDevToolsMessageObserver_presult__isset;
+
+class Server_Browser_AddDevToolsMessageObserver_presult {
+ public:
+
+
+  virtual ~Server_Browser_AddDevToolsMessageObserver_presult() noexcept;
+   ::thrift_codegen::RObject* success;
+
+  _Server_Browser_AddDevToolsMessageObserver_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_Browser_ExecuteDevToolsMethod_args__isset {
+  _Server_Browser_ExecuteDevToolsMethod_args__isset() : bid(false), method(false), parametersAsJson(false), intCallback(false) {}
+  bool bid :1;
+  bool method :1;
+  bool parametersAsJson :1;
+  bool intCallback :1;
+} _Server_Browser_ExecuteDevToolsMethod_args__isset;
+
+class Server_Browser_ExecuteDevToolsMethod_args {
+ public:
+
+  Server_Browser_ExecuteDevToolsMethod_args(const Server_Browser_ExecuteDevToolsMethod_args&);
+  Server_Browser_ExecuteDevToolsMethod_args& operator=(const Server_Browser_ExecuteDevToolsMethod_args&);
+  Server_Browser_ExecuteDevToolsMethod_args() noexcept
+                                            : bid(0),
+                                              method(),
+                                              parametersAsJson() {
+  }
+
+  virtual ~Server_Browser_ExecuteDevToolsMethod_args() noexcept;
+  int32_t bid;
+  std::string method;
+  std::string parametersAsJson;
+   ::thrift_codegen::RObject intCallback;
+
+  _Server_Browser_ExecuteDevToolsMethod_args__isset __isset;
+
+  void __set_bid(const int32_t val);
+
+  void __set_method(const std::string& val);
+
+  void __set_parametersAsJson(const std::string& val);
+
+  void __set_intCallback(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_Browser_ExecuteDevToolsMethod_args & rhs) const
+  {
+    if (!(bid == rhs.bid))
+      return false;
+    if (!(method == rhs.method))
+      return false;
+    if (!(parametersAsJson == rhs.parametersAsJson))
+      return false;
+    if (!(intCallback == rhs.intCallback))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_Browser_ExecuteDevToolsMethod_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Browser_ExecuteDevToolsMethod_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Browser_ExecuteDevToolsMethod_pargs {
+ public:
+
+
+  virtual ~Server_Browser_ExecuteDevToolsMethod_pargs() noexcept;
+  const int32_t* bid;
+  const std::string* method;
+  const std::string* parametersAsJson;
+  const  ::thrift_codegen::RObject* intCallback;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -8335,6 +8664,55 @@ class Server_CookieManager_FlushStore_presult {
 
 };
 
+typedef struct _Server_Registration_Dispose_args__isset {
+  _Server_Registration_Dispose_args__isset() : registration(false) {}
+  bool registration :1;
+} _Server_Registration_Dispose_args__isset;
+
+class Server_Registration_Dispose_args {
+ public:
+
+  Server_Registration_Dispose_args(const Server_Registration_Dispose_args&);
+  Server_Registration_Dispose_args& operator=(const Server_Registration_Dispose_args&);
+  Server_Registration_Dispose_args() noexcept {
+  }
+
+  virtual ~Server_Registration_Dispose_args() noexcept;
+   ::thrift_codegen::RObject registration;
+
+  _Server_Registration_Dispose_args__isset __isset;
+
+  void __set_registration(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_Registration_Dispose_args & rhs) const
+  {
+    if (!(registration == rhs.registration))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_Registration_Dispose_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Registration_Dispose_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Registration_Dispose_pargs {
+ public:
+
+
+  virtual ~Server_Registration_Dispose_pargs() noexcept;
+  const  ::thrift_codegen::RObject* registration;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
 class ServerClient : virtual public ServerIf {
  public:
   ServerClient(std::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
@@ -8384,8 +8762,12 @@ class ServerClient : virtual public ServerIf {
   int32_t recv_Browser_Create();
   void Browser_StartNativeCreation(const int32_t bid, const std::string& url) override;
   void send_Browser_StartNativeCreation(const int32_t bid, const std::string& url);
+  void Browser_StartNativeDevToolsCreation(const int32_t bid, const int32_t parentBid, const int32_t x, const int32_t y) override;
+  void send_Browser_StartNativeDevToolsCreation(const int32_t bid, const int32_t parentBid, const int32_t x, const int32_t y);
   void Browser_Close(const int32_t bid) override;
   void send_Browser_Close(const int32_t bid);
+  void Browser_CloseDevTools(const int32_t bid) override;
+  void send_Browser_CloseDevTools(const int32_t bid);
   void Browser_Reload(const int32_t bid) override;
   void send_Browser_Reload(const int32_t bid);
   void Browser_ReloadIgnoreCache(const int32_t bid) override;
@@ -8474,6 +8856,11 @@ class ServerClient : virtual public ServerIf {
   void send_Browser_ReplaceMisspelling(const int32_t bid, const std::string& word);
   void Browser_SetFrameRate(const int32_t bid, const int32_t val) override;
   void send_Browser_SetFrameRate(const int32_t bid, const int32_t val);
+  void Browser_AddDevToolsMessageObserver( ::thrift_codegen::RObject& _return, const int32_t bid, const  ::thrift_codegen::RObject& observer) override;
+  void send_Browser_AddDevToolsMessageObserver(const int32_t bid, const  ::thrift_codegen::RObject& observer);
+  void recv_Browser_AddDevToolsMessageObserver( ::thrift_codegen::RObject& _return);
+  void Browser_ExecuteDevToolsMethod(const int32_t bid, const std::string& method, const std::string& parametersAsJson, const  ::thrift_codegen::RObject& intCallback) override;
+  void send_Browser_ExecuteDevToolsMethod(const int32_t bid, const std::string& method, const std::string& parametersAsJson, const  ::thrift_codegen::RObject& intCallback);
   void Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line) override;
   void send_Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line);
   void Frame_Dispose(const int32_t frameId) override;
@@ -8605,6 +8992,8 @@ class ServerClient : virtual public ServerIf {
   bool CookieManager_FlushStore(const  ::thrift_codegen::RObject& cookieManager, const  ::thrift_codegen::RObject& completionCallback) override;
   void send_CookieManager_FlushStore(const  ::thrift_codegen::RObject& cookieManager, const  ::thrift_codegen::RObject& completionCallback);
   bool recv_CookieManager_FlushStore();
+  void Registration_Dispose(const  ::thrift_codegen::RObject& registration) override;
+  void send_Registration_Dispose(const  ::thrift_codegen::RObject& registration);
  protected:
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -8629,7 +9018,9 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_stop(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_Create(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_StartNativeCreation(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_Browser_StartNativeDevToolsCreation(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_Close(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_Browser_CloseDevTools(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_Reload(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_ReloadIgnoreCache(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_LoadURL(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -8667,6 +9058,8 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_Browser_StopFinding(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_ReplaceMisspelling(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_SetFrameRate(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_Browser_AddDevToolsMessageObserver(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_Browser_ExecuteDevToolsMethod(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Frame_ExecuteJavaScript(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Frame_Dispose(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Frame_GetParent(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -8719,6 +9112,7 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_CookieManager_SetCookie(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_CookieManager_DeleteCookies(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_CookieManager_FlushStore(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_Registration_Dispose(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   ServerProcessor(::std::shared_ptr<ServerIf> iface) :
     iface_(iface) {
@@ -8731,7 +9125,9 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["stop"] = &ServerProcessor::process_stop;
     processMap_["Browser_Create"] = &ServerProcessor::process_Browser_Create;
     processMap_["Browser_StartNativeCreation"] = &ServerProcessor::process_Browser_StartNativeCreation;
+    processMap_["Browser_StartNativeDevToolsCreation"] = &ServerProcessor::process_Browser_StartNativeDevToolsCreation;
     processMap_["Browser_Close"] = &ServerProcessor::process_Browser_Close;
+    processMap_["Browser_CloseDevTools"] = &ServerProcessor::process_Browser_CloseDevTools;
     processMap_["Browser_Reload"] = &ServerProcessor::process_Browser_Reload;
     processMap_["Browser_ReloadIgnoreCache"] = &ServerProcessor::process_Browser_ReloadIgnoreCache;
     processMap_["Browser_LoadURL"] = &ServerProcessor::process_Browser_LoadURL;
@@ -8769,6 +9165,8 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["Browser_StopFinding"] = &ServerProcessor::process_Browser_StopFinding;
     processMap_["Browser_ReplaceMisspelling"] = &ServerProcessor::process_Browser_ReplaceMisspelling;
     processMap_["Browser_SetFrameRate"] = &ServerProcessor::process_Browser_SetFrameRate;
+    processMap_["Browser_AddDevToolsMessageObserver"] = &ServerProcessor::process_Browser_AddDevToolsMessageObserver;
+    processMap_["Browser_ExecuteDevToolsMethod"] = &ServerProcessor::process_Browser_ExecuteDevToolsMethod;
     processMap_["Frame_ExecuteJavaScript"] = &ServerProcessor::process_Frame_ExecuteJavaScript;
     processMap_["Frame_Dispose"] = &ServerProcessor::process_Frame_Dispose;
     processMap_["Frame_GetParent"] = &ServerProcessor::process_Frame_GetParent;
@@ -8821,6 +9219,7 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["CookieManager_SetCookie"] = &ServerProcessor::process_CookieManager_SetCookie;
     processMap_["CookieManager_DeleteCookies"] = &ServerProcessor::process_CookieManager_DeleteCookies;
     processMap_["CookieManager_FlushStore"] = &ServerProcessor::process_CookieManager_FlushStore;
+    processMap_["Registration_Dispose"] = &ServerProcessor::process_Registration_Dispose;
   }
 
   virtual ~ServerProcessor() {}
@@ -8933,6 +9332,15 @@ class ServerMultiface : virtual public ServerIf {
     ifaces_[i]->Browser_StartNativeCreation(bid, url);
   }
 
+  void Browser_StartNativeDevToolsCreation(const int32_t bid, const int32_t parentBid, const int32_t x, const int32_t y) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->Browser_StartNativeDevToolsCreation(bid, parentBid, x, y);
+    }
+    ifaces_[i]->Browser_StartNativeDevToolsCreation(bid, parentBid, x, y);
+  }
+
   void Browser_Close(const int32_t bid) override {
     size_t sz = ifaces_.size();
     size_t i = 0;
@@ -8940,6 +9348,15 @@ class ServerMultiface : virtual public ServerIf {
       ifaces_[i]->Browser_Close(bid);
     }
     ifaces_[i]->Browser_Close(bid);
+  }
+
+  void Browser_CloseDevTools(const int32_t bid) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->Browser_CloseDevTools(bid);
+    }
+    ifaces_[i]->Browser_CloseDevTools(bid);
   }
 
   void Browser_Reload(const int32_t bid) override {
@@ -9280,6 +9697,25 @@ class ServerMultiface : virtual public ServerIf {
       ifaces_[i]->Browser_SetFrameRate(bid, val);
     }
     ifaces_[i]->Browser_SetFrameRate(bid, val);
+  }
+
+  void Browser_AddDevToolsMessageObserver( ::thrift_codegen::RObject& _return, const int32_t bid, const  ::thrift_codegen::RObject& observer) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->Browser_AddDevToolsMessageObserver(_return, bid, observer);
+    }
+    ifaces_[i]->Browser_AddDevToolsMessageObserver(_return, bid, observer);
+    return;
+  }
+
+  void Browser_ExecuteDevToolsMethod(const int32_t bid, const std::string& method, const std::string& parametersAsJson, const  ::thrift_codegen::RObject& intCallback) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->Browser_ExecuteDevToolsMethod(bid, method, parametersAsJson, intCallback);
+    }
+    ifaces_[i]->Browser_ExecuteDevToolsMethod(bid, method, parametersAsJson, intCallback);
   }
 
   void Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line) override {
@@ -9759,6 +10195,15 @@ class ServerMultiface : virtual public ServerIf {
     return ifaces_[i]->CookieManager_FlushStore(cookieManager, completionCallback);
   }
 
+  void Registration_Dispose(const  ::thrift_codegen::RObject& registration) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->Registration_Dispose(registration);
+    }
+    ifaces_[i]->Registration_Dispose(registration);
+  }
+
 };
 
 // The 'concurrent' client is a thread safe client that correctly handles
@@ -9815,8 +10260,12 @@ class ServerConcurrentClient : virtual public ServerIf {
   int32_t recv_Browser_Create(const int32_t seqid);
   void Browser_StartNativeCreation(const int32_t bid, const std::string& url) override;
   void send_Browser_StartNativeCreation(const int32_t bid, const std::string& url);
+  void Browser_StartNativeDevToolsCreation(const int32_t bid, const int32_t parentBid, const int32_t x, const int32_t y) override;
+  void send_Browser_StartNativeDevToolsCreation(const int32_t bid, const int32_t parentBid, const int32_t x, const int32_t y);
   void Browser_Close(const int32_t bid) override;
   void send_Browser_Close(const int32_t bid);
+  void Browser_CloseDevTools(const int32_t bid) override;
+  void send_Browser_CloseDevTools(const int32_t bid);
   void Browser_Reload(const int32_t bid) override;
   void send_Browser_Reload(const int32_t bid);
   void Browser_ReloadIgnoreCache(const int32_t bid) override;
@@ -9905,6 +10354,11 @@ class ServerConcurrentClient : virtual public ServerIf {
   void send_Browser_ReplaceMisspelling(const int32_t bid, const std::string& word);
   void Browser_SetFrameRate(const int32_t bid, const int32_t val) override;
   void send_Browser_SetFrameRate(const int32_t bid, const int32_t val);
+  void Browser_AddDevToolsMessageObserver( ::thrift_codegen::RObject& _return, const int32_t bid, const  ::thrift_codegen::RObject& observer) override;
+  int32_t send_Browser_AddDevToolsMessageObserver(const int32_t bid, const  ::thrift_codegen::RObject& observer);
+  void recv_Browser_AddDevToolsMessageObserver( ::thrift_codegen::RObject& _return, const int32_t seqid);
+  void Browser_ExecuteDevToolsMethod(const int32_t bid, const std::string& method, const std::string& parametersAsJson, const  ::thrift_codegen::RObject& intCallback) override;
+  void send_Browser_ExecuteDevToolsMethod(const int32_t bid, const std::string& method, const std::string& parametersAsJson, const  ::thrift_codegen::RObject& intCallback);
   void Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line) override;
   void send_Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line);
   void Frame_Dispose(const int32_t frameId) override;
@@ -10036,6 +10490,8 @@ class ServerConcurrentClient : virtual public ServerIf {
   bool CookieManager_FlushStore(const  ::thrift_codegen::RObject& cookieManager, const  ::thrift_codegen::RObject& completionCallback) override;
   int32_t send_CookieManager_FlushStore(const  ::thrift_codegen::RObject& cookieManager, const  ::thrift_codegen::RObject& completionCallback);
   bool recv_CookieManager_FlushStore(const int32_t seqid);
+  void Registration_Dispose(const  ::thrift_codegen::RObject& registration) override;
+  void send_Registration_Dispose(const  ::thrift_codegen::RObject& registration);
  protected:
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;

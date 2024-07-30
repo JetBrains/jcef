@@ -10,7 +10,7 @@ package org.cef.browser;
  * Handle to observer registration, As long as this object is alive, the observer will stay
  * registered.
  */
-abstract class CefRegistration {
+public abstract class CefRegistration {
     /**
      * Removes the native reference from an unused object.
      */
