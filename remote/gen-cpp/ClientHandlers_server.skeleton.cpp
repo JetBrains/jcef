@@ -55,6 +55,16 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
     printf("RenderHandler_OnPaint\n");
   }
 
+  void OnPopupShow(const int32_t bid, const bool show) {
+    // Your implementation goes here
+    printf("OnPopupShow\n");
+  }
+
+  void OnPopupSize(const int32_t bid, const Rect& rect) {
+    // Your implementation goes here
+    printf("OnPopupSize\n");
+  }
+
   bool LifeSpanHandler_OnBeforePopup(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& url, const std::string& frameName, const bool gesture) {
     // Your implementation goes here
     printf("LifeSpanHandler_OnBeforePopup\n");

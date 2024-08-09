@@ -44,6 +44,16 @@ public class ClientHandlersDummy implements ClientHandlers.Iface{
     }
 
     @Override
+    public void OnPopupShow(int bid, boolean show) throws TException {
+
+    }
+
+    @Override
+    public void OnPopupSize(int bid, Rect rect) throws TException {
+
+    }
+
+    @Override
     public boolean LifeSpanHandler_OnBeforePopup(int bid, RObject frame, String url, String frameName, boolean gesture) throws TException {
         return false;
     }

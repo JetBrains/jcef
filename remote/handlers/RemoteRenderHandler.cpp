@@ -130,14 +130,23 @@ bool RemoteRenderHandler::GetScreenPoint(CefRefPtr<CefBrowser> browser,
 }
 
 void RemoteRenderHandler::OnPopupShow(CefRefPtr<CefBrowser> browser, bool show) {
-    LNDCT();
-    Log::error("Unimplemented.");
+  LNDCT();
+  myService->exec([&](const RpcExecutor::Service& s){
+    s->OnPopupShow(myBid, show);
+  });
 }
 
 void RemoteRenderHandler::OnPopupSize(CefRefPtr<CefBrowser> browser,
-                                const CefRect& rect) {
-    LNDCT();
-    Log::error("Unimplemented.");
+                                      const CefRect& rect) {
+  LNDCT();
+  myService->exec([&](const RpcExecutor::Service& s) {
+    Rect size;
+    size.x = rect.x;
+    size.y = rect.y;
+    size.w = rect.width;
+    size.h = rect.height;
+    s->OnPopupSize(myBid, size);
+  });
 }
 
 //

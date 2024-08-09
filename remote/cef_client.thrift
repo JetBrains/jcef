@@ -54,9 +54,9 @@ service ClientHandlers {
     ScreenInfo RenderHandler_GetScreenInfo(1:i32 bid),
     Point RenderHandler_GetScreenPoint(1:i32 bid, 2:i32 viewX, 3:i32 viewY),
     void RenderHandler_OnPaint(1:i32 bid, 2: bool popup, 3:i32 dirtyRectsCount, 4: string sharedMemName, 5: i64 sharedMemHandle, 6: i32 width, 7: i32 height),
+    void OnPopupShow(1:i32 bid, 2: bool show)
+    void OnPopupSize(1:i32 bid, 2: Rect rect)
     // TODO: implement
-    // OnPopupShow(1:i32 bid, bool show)
-    // OnPopupSize(1:i32 bid, const CefRect& rect)
     // StartDragging(1:i32 bid, CefRefPtr<CefDragData> drag_data, DragOperationsMask allowed_ops, int x, int y)
     // UpdateDragCursor(1:i32 bid, DragOperation operation)
 

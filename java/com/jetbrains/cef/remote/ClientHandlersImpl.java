@@ -138,6 +138,24 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         ((CefNativeRenderHandler)rh).onPaintWithSharedMem(browser, popup, dirtyRectsCount, sharedMemName, sharedMemHandle, width, height);
     }
 
+    @Override
+    public void OnPopupShow(int bid, boolean show) throws TException {
+        RemoteBrowser browser = getRemoteBrowser(bid);
+        if (browser == null) return;
+        CefRenderHandler rh = browser.getRenderHandler();
+        if (rh == null) return;
+        rh.onPopupShow(browser, show);
+    }
+
+    @Override
+    public void OnPopupSize(int bid, Rect rect) throws TException {
+        RemoteBrowser browser = getRemoteBrowser(bid);
+        if (browser == null) return;
+        CefRenderHandler rh = browser.getRenderHandler();
+        if (rh == null) return;
+        rh.onPopupSize(browser, new Rectangle(rect.x, rect.y, rect.w, rect.h));
+    }
+
     //
     // CefLifeSpanHandler
     //

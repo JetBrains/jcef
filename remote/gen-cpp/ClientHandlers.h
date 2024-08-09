@@ -29,6 +29,8 @@ class ClientHandlersIf {
   virtual void RenderHandler_GetScreenInfo(ScreenInfo& _return, const int32_t bid) = 0;
   virtual void RenderHandler_GetScreenPoint(Point& _return, const int32_t bid, const int32_t viewX, const int32_t viewY) = 0;
   virtual void RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const int32_t width, const int32_t height) = 0;
+  virtual void OnPopupShow(const int32_t bid, const bool show) = 0;
+  virtual void OnPopupSize(const int32_t bid, const Rect& rect) = 0;
   virtual bool LifeSpanHandler_OnBeforePopup(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& url, const std::string& frameName, const bool gesture) = 0;
   virtual void LifeSpanHandler_OnAfterCreated(const int32_t bid, const int32_t nativeBrowserIdentifier) = 0;
   virtual bool LifeSpanHandler_DoClose(const int32_t bid) = 0;
@@ -127,6 +129,12 @@ class ClientHandlersNull : virtual public ClientHandlersIf {
     return;
   }
   void RenderHandler_OnPaint(const int32_t /* bid */, const bool /* popup */, const int32_t /* dirtyRectsCount */, const std::string& /* sharedMemName */, const int64_t /* sharedMemHandle */, const int32_t /* width */, const int32_t /* height */) override {
+    return;
+  }
+  void OnPopupShow(const int32_t /* bid */, const bool /* show */) override {
+    return;
+  }
+  void OnPopupSize(const int32_t /* bid */, const Rect& /* rect */) override {
     return;
   }
   bool LifeSpanHandler_OnBeforePopup(const int32_t /* bid */, const  ::thrift_codegen::RObject& /* frame */, const std::string& /* url */, const std::string& /* frameName */, const bool /* gesture */) override {
@@ -938,6 +946,195 @@ class ClientHandlers_RenderHandler_OnPaint_presult {
 
 
   virtual ~ClientHandlers_RenderHandler_OnPaint_presult() noexcept;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _ClientHandlers_OnPopupShow_args__isset {
+  _ClientHandlers_OnPopupShow_args__isset() : bid(false), show(false) {}
+  bool bid :1;
+  bool show :1;
+} _ClientHandlers_OnPopupShow_args__isset;
+
+class ClientHandlers_OnPopupShow_args {
+ public:
+
+  ClientHandlers_OnPopupShow_args(const ClientHandlers_OnPopupShow_args&) noexcept;
+  ClientHandlers_OnPopupShow_args& operator=(const ClientHandlers_OnPopupShow_args&) noexcept;
+  ClientHandlers_OnPopupShow_args() noexcept
+                                  : bid(0),
+                                    show(0) {
+  }
+
+  virtual ~ClientHandlers_OnPopupShow_args() noexcept;
+  int32_t bid;
+  bool show;
+
+  _ClientHandlers_OnPopupShow_args__isset __isset;
+
+  void __set_bid(const int32_t val);
+
+  void __set_show(const bool val);
+
+  bool operator == (const ClientHandlers_OnPopupShow_args & rhs) const
+  {
+    if (!(bid == rhs.bid))
+      return false;
+    if (!(show == rhs.show))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_OnPopupShow_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_OnPopupShow_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_OnPopupShow_pargs {
+ public:
+
+
+  virtual ~ClientHandlers_OnPopupShow_pargs() noexcept;
+  const int32_t* bid;
+  const bool* show;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_OnPopupShow_result {
+ public:
+
+  ClientHandlers_OnPopupShow_result(const ClientHandlers_OnPopupShow_result&) noexcept;
+  ClientHandlers_OnPopupShow_result& operator=(const ClientHandlers_OnPopupShow_result&) noexcept;
+  ClientHandlers_OnPopupShow_result() noexcept {
+  }
+
+  virtual ~ClientHandlers_OnPopupShow_result() noexcept;
+
+  bool operator == (const ClientHandlers_OnPopupShow_result & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const ClientHandlers_OnPopupShow_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_OnPopupShow_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_OnPopupShow_presult {
+ public:
+
+
+  virtual ~ClientHandlers_OnPopupShow_presult() noexcept;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _ClientHandlers_OnPopupSize_args__isset {
+  _ClientHandlers_OnPopupSize_args__isset() : bid(false), rect(false) {}
+  bool bid :1;
+  bool rect :1;
+} _ClientHandlers_OnPopupSize_args__isset;
+
+class ClientHandlers_OnPopupSize_args {
+ public:
+
+  ClientHandlers_OnPopupSize_args(const ClientHandlers_OnPopupSize_args&) noexcept;
+  ClientHandlers_OnPopupSize_args& operator=(const ClientHandlers_OnPopupSize_args&) noexcept;
+  ClientHandlers_OnPopupSize_args() noexcept
+                                  : bid(0) {
+  }
+
+  virtual ~ClientHandlers_OnPopupSize_args() noexcept;
+  int32_t bid;
+  Rect rect;
+
+  _ClientHandlers_OnPopupSize_args__isset __isset;
+
+  void __set_bid(const int32_t val);
+
+  void __set_rect(const Rect& val);
+
+  bool operator == (const ClientHandlers_OnPopupSize_args & rhs) const
+  {
+    if (!(bid == rhs.bid))
+      return false;
+    if (!(rect == rhs.rect))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_OnPopupSize_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_OnPopupSize_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_OnPopupSize_pargs {
+ public:
+
+
+  virtual ~ClientHandlers_OnPopupSize_pargs() noexcept;
+  const int32_t* bid;
+  const Rect* rect;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_OnPopupSize_result {
+ public:
+
+  ClientHandlers_OnPopupSize_result(const ClientHandlers_OnPopupSize_result&) noexcept;
+  ClientHandlers_OnPopupSize_result& operator=(const ClientHandlers_OnPopupSize_result&) noexcept;
+  ClientHandlers_OnPopupSize_result() noexcept {
+  }
+
+  virtual ~ClientHandlers_OnPopupSize_result() noexcept;
+
+  bool operator == (const ClientHandlers_OnPopupSize_result & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const ClientHandlers_OnPopupSize_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_OnPopupSize_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_OnPopupSize_presult {
+ public:
+
+
+  virtual ~ClientHandlers_OnPopupSize_presult() noexcept;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
@@ -5863,6 +6060,12 @@ class ClientHandlersClient : virtual public ClientHandlersIf {
   void RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const int32_t width, const int32_t height) override;
   void send_RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const int32_t width, const int32_t height);
   void recv_RenderHandler_OnPaint();
+  void OnPopupShow(const int32_t bid, const bool show) override;
+  void send_OnPopupShow(const int32_t bid, const bool show);
+  void recv_OnPopupShow();
+  void OnPopupSize(const int32_t bid, const Rect& rect) override;
+  void send_OnPopupSize(const int32_t bid, const Rect& rect);
+  void recv_OnPopupSize();
   bool LifeSpanHandler_OnBeforePopup(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& url, const std::string& frameName, const bool gesture) override;
   void send_LifeSpanHandler_OnBeforePopup(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& url, const std::string& frameName, const bool gesture);
   bool recv_LifeSpanHandler_OnBeforePopup();
@@ -6011,6 +6214,8 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_RenderHandler_GetScreenInfo(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_RenderHandler_GetScreenPoint(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_RenderHandler_OnPaint(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_OnPopupShow(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_OnPopupSize(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_LifeSpanHandler_OnBeforePopup(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_LifeSpanHandler_OnAfterCreated(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_LifeSpanHandler_DoClose(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -6070,6 +6275,8 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["RenderHandler_GetScreenInfo"] = &ClientHandlersProcessor::process_RenderHandler_GetScreenInfo;
     processMap_["RenderHandler_GetScreenPoint"] = &ClientHandlersProcessor::process_RenderHandler_GetScreenPoint;
     processMap_["RenderHandler_OnPaint"] = &ClientHandlersProcessor::process_RenderHandler_OnPaint;
+    processMap_["OnPopupShow"] = &ClientHandlersProcessor::process_OnPopupShow;
+    processMap_["OnPopupSize"] = &ClientHandlersProcessor::process_OnPopupSize;
     processMap_["LifeSpanHandler_OnBeforePopup"] = &ClientHandlersProcessor::process_LifeSpanHandler_OnBeforePopup;
     processMap_["LifeSpanHandler_OnAfterCreated"] = &ClientHandlersProcessor::process_LifeSpanHandler_OnAfterCreated;
     processMap_["LifeSpanHandler_DoClose"] = &ClientHandlersProcessor::process_LifeSpanHandler_DoClose;
@@ -6211,6 +6418,24 @@ class ClientHandlersMultiface : virtual public ClientHandlersIf {
       ifaces_[i]->RenderHandler_OnPaint(bid, popup, dirtyRectsCount, sharedMemName, sharedMemHandle, width, height);
     }
     ifaces_[i]->RenderHandler_OnPaint(bid, popup, dirtyRectsCount, sharedMemName, sharedMemHandle, width, height);
+  }
+
+  void OnPopupShow(const int32_t bid, const bool show) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->OnPopupShow(bid, show);
+    }
+    ifaces_[i]->OnPopupShow(bid, show);
+  }
+
+  void OnPopupSize(const int32_t bid, const Rect& rect) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->OnPopupSize(bid, rect);
+    }
+    ifaces_[i]->OnPopupSize(bid, rect);
   }
 
   bool LifeSpanHandler_OnBeforePopup(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& url, const std::string& frameName, const bool gesture) override {
@@ -6713,6 +6938,12 @@ class ClientHandlersConcurrentClient : virtual public ClientHandlersIf {
   void RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const int32_t width, const int32_t height) override;
   int32_t send_RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const int32_t width, const int32_t height);
   void recv_RenderHandler_OnPaint(const int32_t seqid);
+  void OnPopupShow(const int32_t bid, const bool show) override;
+  int32_t send_OnPopupShow(const int32_t bid, const bool show);
+  void recv_OnPopupShow(const int32_t seqid);
+  void OnPopupSize(const int32_t bid, const Rect& rect) override;
+  int32_t send_OnPopupSize(const int32_t bid, const Rect& rect);
+  void recv_OnPopupSize(const int32_t seqid);
   bool LifeSpanHandler_OnBeforePopup(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& url, const std::string& frameName, const bool gesture) override;
   int32_t send_LifeSpanHandler_OnBeforePopup(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& url, const std::string& frameName, const bool gesture);
   bool recv_LifeSpanHandler_OnBeforePopup(const int32_t seqid);
