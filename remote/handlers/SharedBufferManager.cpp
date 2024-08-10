@@ -99,8 +99,8 @@ SharedBuffer::~SharedBuffer() {
   _releaseShared();
 }
 
-SharedBufferManager::SharedBufferManager(int bid) {
-  myPrefix = string_format("CefRasterB%d_", bid);
+SharedBufferManager::SharedBufferManager(int bid, const std::string& name) {
+  myPrefix = string_format("CefRasterB%d_%s_", bid, name.c_str());
 }
 
 SharedBuffer* SharedBufferManager::_getOrCreateBuffer(size_t size, int index) {

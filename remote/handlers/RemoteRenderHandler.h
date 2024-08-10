@@ -51,7 +51,8 @@ public:
 protected:
   const int myBid;
   std::shared_ptr<RpcExecutor> myService;
-  SharedBufferManager myBufferManager;
+  SharedBufferManager myBufferManagerPage;
+  SharedBufferManager myBufferManagerPopup;
 
 private:
   IMPLEMENT_REFCOUNTING(RemoteRenderHandler);

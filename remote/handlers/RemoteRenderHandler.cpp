@@ -19,7 +19,12 @@ using namespace boost::interprocess;
 #define LNDCT()
 #endif
 
-RemoteRenderHandler::RemoteRenderHandler(int bid, std::shared_ptr<RpcExecutor> service) : myBid(bid), myService(service), myBufferManager(bid) {}
+RemoteRenderHandler::RemoteRenderHandler(int bid,
+                                         std::shared_ptr<RpcExecutor> service)
+    : myBid(bid),
+      myService(service),
+      myBufferManagerPage(bid, "page"),
+      myBufferManagerPopup(bid, "popup") {}
 
 bool RemoteRenderHandler::GetRootScreenRect(CefRefPtr<CefBrowser> browser,
                                       CefRect& rect) {
@@ -251,15 +256,21 @@ void RemoteRenderHandler::OnPaint(CefRefPtr<CefBrowser> browser,
                             const void* buffer,
                             int width,
                             int height) {
-    const int rasterPixCount = width*height;
-    const size_t extendedRectsCount = dirtyRects.size() < 10 ? 10 : dirtyRects.size();
-    SharedBuffer & buff = myBufferManager.getLockedBuffer(rasterPixCount*4 + 4*4*extendedRectsCount);
-    if (buff.ptr() == nullptr) {
-      Log::error("SharedBuffer is empty.");
-      return;
-    }
+  const int rasterPixCount = width * height;
+  const size_t extendedRectsCount =
+      dirtyRects.size() < 10 ? 10 : dirtyRects.size();
+  SharedBufferManager& bufferManager =
+      type == PET_POPUP ? myBufferManagerPopup : myBufferManagerPage;
 
-    ::memcpy((char*)buff.ptr(), (char*)buffer, rasterPixCount*4);
+  SharedBuffer& buff = bufferManager.getLockedBuffer(
+      rasterPixCount * 4 + 4 * 4 * extendedRectsCount);
+
+  if (buff.ptr() == nullptr) {
+    Log::error("SharedBuffer is empty.");
+    return;
+  }
+
+  ::memcpy((char*)buff.ptr(), (char*)buffer, rasterPixCount*4);
 
     int32_t * sharedRects = (int32_t *)buff.ptr() + rasterPixCount;
     for (const CefRect& r : dirtyRects) {

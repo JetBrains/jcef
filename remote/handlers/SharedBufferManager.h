@@ -42,7 +42,7 @@ class SharedBuffer {
 
 class SharedBufferManager {
  public:
-  SharedBufferManager(int bid);
+  SharedBufferManager(int bid, const std::string& name);
   ~SharedBufferManager();
 
   SharedBuffer & getLockedBuffer(size_t size);
