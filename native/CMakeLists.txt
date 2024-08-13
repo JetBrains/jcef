@@ -156,8 +156,6 @@ set(JCEF_SRCS_LINUX
   critical_wait_posix.cpp
   jni_util_linux.cpp
   JavaKeyCode2X11.cpp
-  signal_restore_posix.cpp
-  signal_restore_posix.h
   temp_window_x11.cc
   temp_window_x11.h
   util_linux.cpp
@@ -165,8 +163,6 @@ set(JCEF_SRCS_LINUX
   )
 set(JCEF_SRCS_MAC
   critical_wait_posix.cpp
-  signal_restore_posix.cpp
-  signal_restore_posix.h
   temp_window_mac.h
   temp_window_mac.mm
   util_mac.h

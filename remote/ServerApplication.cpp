@@ -215,7 +215,9 @@ bool ServerApplication::init(int argc, char* argv[]) {
   CefSettings settings;
   std::vector<std::pair<std::string, int>> schemes;
   CefSettingsParser::parseSettings(myCmdArgs.getParamsFile(), cmdlineSwitches, settings, schemes);
-
+#if defined(OS_POSIX) && !defined(OS_ANDROID)
+  settings.disable_signal_handlers = true;
+#endif
   myAppHandler = new RemoteAppHandler(cmdlineSwitches, settings, schemes);
   myAppHandler->AddRef();
 
