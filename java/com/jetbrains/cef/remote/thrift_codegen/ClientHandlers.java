@@ -73,7 +73,7 @@ public class ClientHandlers {
 
     public boolean RequestHandler_OnCertificateError(int bid, java.lang.String cert_error, java.lang.String request_url, java.nio.ByteBuffer sslInfo, com.jetbrains.cef.remote.thrift_codegen.RObject callback) throws org.apache.thrift.TException;
 
-    public void RequestHandler_OnRenderProcessTerminated(int bid, java.lang.String status) throws org.apache.thrift.TException;
+    public void RequestHandler_OnRenderProcessTerminated(int bid, java.lang.String status, int error_code, java.lang.String error_string) throws org.apache.thrift.TException;
 
     public com.jetbrains.cef.remote.thrift_codegen.RObject RequestHandler_GetResourceRequestHandler(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean isNavigation, boolean isDownload, java.lang.String requestInitiator) throws org.apache.thrift.TException;
 
@@ -193,7 +193,7 @@ public class ClientHandlers {
 
     public void RequestHandler_OnCertificateError(int bid, java.lang.String cert_error, java.lang.String request_url, java.nio.ByteBuffer sslInfo, com.jetbrains.cef.remote.thrift_codegen.RObject callback, org.apache.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws org.apache.thrift.TException;
 
-    public void RequestHandler_OnRenderProcessTerminated(int bid, java.lang.String status, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
+    public void RequestHandler_OnRenderProcessTerminated(int bid, java.lang.String status, int error_code, java.lang.String error_string, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException;
 
     public void RequestHandler_GetResourceRequestHandler(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean isNavigation, boolean isDownload, java.lang.String requestInitiator, org.apache.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws org.apache.thrift.TException;
 
@@ -919,16 +919,18 @@ public class ClientHandlers {
     }
 
     @Override
-    public void RequestHandler_OnRenderProcessTerminated(int bid, java.lang.String status) throws org.apache.thrift.TException
+    public void RequestHandler_OnRenderProcessTerminated(int bid, java.lang.String status, int error_code, java.lang.String error_string) throws org.apache.thrift.TException
     {
-      send_RequestHandler_OnRenderProcessTerminated(bid, status);
+      send_RequestHandler_OnRenderProcessTerminated(bid, status, error_code, error_string);
     }
 
-    public void send_RequestHandler_OnRenderProcessTerminated(int bid, java.lang.String status) throws org.apache.thrift.TException
+    public void send_RequestHandler_OnRenderProcessTerminated(int bid, java.lang.String status, int error_code, java.lang.String error_string) throws org.apache.thrift.TException
     {
       RequestHandler_OnRenderProcessTerminated_args args = new RequestHandler_OnRenderProcessTerminated_args();
       args.setBid(bid);
       args.setStatus(status);
+      args.setError_code(error_code);
+      args.setError_string(error_string);
       sendBaseOneway("RequestHandler_OnRenderProcessTerminated", args);
     }
 
@@ -2796,9 +2798,9 @@ public class ClientHandlers {
     }
 
     @Override
-    public void RequestHandler_OnRenderProcessTerminated(int bid, java.lang.String status, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
+    public void RequestHandler_OnRenderProcessTerminated(int bid, java.lang.String status, int error_code, java.lang.String error_string, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      RequestHandler_OnRenderProcessTerminated_call method_call = new RequestHandler_OnRenderProcessTerminated_call(bid, status, resultHandler, this, ___protocolFactory, ___transport);
+      RequestHandler_OnRenderProcessTerminated_call method_call = new RequestHandler_OnRenderProcessTerminated_call(bid, status, error_code, error_string, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
@@ -2806,10 +2808,14 @@ public class ClientHandlers {
     public static class RequestHandler_OnRenderProcessTerminated_call extends org.apache.thrift.async.TAsyncMethodCall<Void> {
       private int bid;
       private java.lang.String status;
-      public RequestHandler_OnRenderProcessTerminated_call(int bid, java.lang.String status, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private int error_code;
+      private java.lang.String error_string;
+      public RequestHandler_OnRenderProcessTerminated_call(int bid, java.lang.String status, int error_code, java.lang.String error_string, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
         this.bid = bid;
         this.status = status;
+        this.error_code = error_code;
+        this.error_string = error_string;
       }
 
       @Override
@@ -2818,6 +2824,8 @@ public class ClientHandlers {
         RequestHandler_OnRenderProcessTerminated_args args = new RequestHandler_OnRenderProcessTerminated_args();
         args.setBid(bid);
         args.setStatus(status);
+        args.setError_code(error_code);
+        args.setError_string(error_string);
         args.write(prot);
         prot.writeMessageEnd();
       }
@@ -4914,7 +4922,7 @@ public class ClientHandlers {
 
       @Override
       public org.apache.thrift.TBase getResult(I iface, RequestHandler_OnRenderProcessTerminated_args args) throws org.apache.thrift.TException {
-        iface.RequestHandler_OnRenderProcessTerminated(args.bid, args.status);
+        iface.RequestHandler_OnRenderProcessTerminated(args.bid, args.status, args.error_code, args.error_string);
         return null;
       }
     }
@@ -7491,7 +7499,7 @@ public class ClientHandlers {
 
       @Override
       public void start(I iface, RequestHandler_OnRenderProcessTerminated_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
-        iface.RequestHandler_OnRenderProcessTerminated(args.bid, args.status,resultHandler);
+        iface.RequestHandler_OnRenderProcessTerminated(args.bid, args.status, args.error_code, args.error_string,resultHandler);
       }
     }
 
@@ -32683,17 +32691,23 @@ public class ClientHandlers {
 
     private static final org.apache.thrift.protocol.TField BID_FIELD_DESC = new org.apache.thrift.protocol.TField("bid", org.apache.thrift.protocol.TType.I32, (short)1);
     private static final org.apache.thrift.protocol.TField STATUS_FIELD_DESC = new org.apache.thrift.protocol.TField("status", org.apache.thrift.protocol.TType.STRING, (short)2);
+    private static final org.apache.thrift.protocol.TField ERROR_CODE_FIELD_DESC = new org.apache.thrift.protocol.TField("error_code", org.apache.thrift.protocol.TType.I32, (short)3);
+    private static final org.apache.thrift.protocol.TField ERROR_STRING_FIELD_DESC = new org.apache.thrift.protocol.TField("error_string", org.apache.thrift.protocol.TType.STRING, (short)4);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RequestHandler_OnRenderProcessTerminated_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RequestHandler_OnRenderProcessTerminated_argsTupleSchemeFactory();
 
     public int bid; // required
     public @org.apache.thrift.annotation.Nullable java.lang.String status; // required
+    public int error_code; // required
+    public @org.apache.thrift.annotation.Nullable java.lang.String error_string; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       BID((short)1, "bid"),
-      STATUS((short)2, "status");
+      STATUS((short)2, "status"),
+      ERROR_CODE((short)3, "error_code"),
+      ERROR_STRING((short)4, "error_string");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -32713,6 +32727,10 @@ public class ClientHandlers {
             return BID;
           case 2: // STATUS
             return STATUS;
+          case 3: // ERROR_CODE
+            return ERROR_CODE;
+          case 4: // ERROR_STRING
+            return ERROR_STRING;
           default:
             return null;
         }
@@ -32757,6 +32775,7 @@ public class ClientHandlers {
 
     // isset id assignments
     private static final int __BID_ISSET_ID = 0;
+    private static final int __ERROR_CODE_ISSET_ID = 1;
     private byte __isset_bitfield = 0;
     public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
@@ -32764,6 +32783,10 @@ public class ClientHandlers {
       tmpMap.put(_Fields.BID, new org.apache.thrift.meta_data.FieldMetaData("bid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.STATUS, new org.apache.thrift.meta_data.FieldMetaData("status", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.ERROR_CODE, new org.apache.thrift.meta_data.FieldMetaData("error_code", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.ERROR_STRING, new org.apache.thrift.meta_data.FieldMetaData("error_string", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(RequestHandler_OnRenderProcessTerminated_args.class, metaDataMap);
@@ -32774,12 +32797,17 @@ public class ClientHandlers {
 
     public RequestHandler_OnRenderProcessTerminated_args(
       int bid,
-      java.lang.String status)
+      java.lang.String status,
+      int error_code,
+      java.lang.String error_string)
     {
       this();
       this.bid = bid;
       setBidIsSet(true);
       this.status = status;
+      this.error_code = error_code;
+      setError_codeIsSet(true);
+      this.error_string = error_string;
     }
 
     /**
@@ -32790,6 +32818,10 @@ public class ClientHandlers {
       this.bid = other.bid;
       if (other.isSetStatus()) {
         this.status = other.status;
+      }
+      this.error_code = other.error_code;
+      if (other.isSetError_string()) {
+        this.error_string = other.error_string;
       }
     }
 
@@ -32803,6 +32835,9 @@ public class ClientHandlers {
       setBidIsSet(false);
       this.bid = 0;
       this.status = null;
+      setError_codeIsSet(false);
+      this.error_code = 0;
+      this.error_string = null;
     }
 
     public int getBid() {
@@ -32853,6 +32888,54 @@ public class ClientHandlers {
       }
     }
 
+    public int getError_code() {
+      return this.error_code;
+    }
+
+    public RequestHandler_OnRenderProcessTerminated_args setError_code(int error_code) {
+      this.error_code = error_code;
+      setError_codeIsSet(true);
+      return this;
+    }
+
+    public void unsetError_code() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __ERROR_CODE_ISSET_ID);
+    }
+
+    /** Returns true if field error_code is set (has been assigned a value) and false otherwise */
+    public boolean isSetError_code() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __ERROR_CODE_ISSET_ID);
+    }
+
+    public void setError_codeIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __ERROR_CODE_ISSET_ID, value);
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.String getError_string() {
+      return this.error_string;
+    }
+
+    public RequestHandler_OnRenderProcessTerminated_args setError_string(@org.apache.thrift.annotation.Nullable java.lang.String error_string) {
+      this.error_string = error_string;
+      return this;
+    }
+
+    public void unsetError_string() {
+      this.error_string = null;
+    }
+
+    /** Returns true if field error_string is set (has been assigned a value) and false otherwise */
+    public boolean isSetError_string() {
+      return this.error_string != null;
+    }
+
+    public void setError_stringIsSet(boolean value) {
+      if (!value) {
+        this.error_string = null;
+      }
+    }
+
     @Override
     public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
       switch (field) {
@@ -32872,6 +32955,22 @@ public class ClientHandlers {
         }
         break;
 
+      case ERROR_CODE:
+        if (value == null) {
+          unsetError_code();
+        } else {
+          setError_code((java.lang.Integer)value);
+        }
+        break;
+
+      case ERROR_STRING:
+        if (value == null) {
+          unsetError_string();
+        } else {
+          setError_string((java.lang.String)value);
+        }
+        break;
+
       }
     }
 
@@ -32884,6 +32983,12 @@ public class ClientHandlers {
 
       case STATUS:
         return getStatus();
+
+      case ERROR_CODE:
+        return getError_code();
+
+      case ERROR_STRING:
+        return getError_string();
 
       }
       throw new java.lang.IllegalStateException();
@@ -32901,6 +33006,10 @@ public class ClientHandlers {
         return isSetBid();
       case STATUS:
         return isSetStatus();
+      case ERROR_CODE:
+        return isSetError_code();
+      case ERROR_STRING:
+        return isSetError_string();
       }
       throw new java.lang.IllegalStateException();
     }
@@ -32936,6 +33045,24 @@ public class ClientHandlers {
           return false;
       }
 
+      boolean this_present_error_code = true;
+      boolean that_present_error_code = true;
+      if (this_present_error_code || that_present_error_code) {
+        if (!(this_present_error_code && that_present_error_code))
+          return false;
+        if (this.error_code != that.error_code)
+          return false;
+      }
+
+      boolean this_present_error_string = true && this.isSetError_string();
+      boolean that_present_error_string = true && that.isSetError_string();
+      if (this_present_error_string || that_present_error_string) {
+        if (!(this_present_error_string && that_present_error_string))
+          return false;
+        if (!this.error_string.equals(that.error_string))
+          return false;
+      }
+
       return true;
     }
 
@@ -32948,6 +33075,12 @@ public class ClientHandlers {
       hashCode = hashCode * 8191 + ((isSetStatus()) ? 131071 : 524287);
       if (isSetStatus())
         hashCode = hashCode * 8191 + status.hashCode();
+
+      hashCode = hashCode * 8191 + error_code;
+
+      hashCode = hashCode * 8191 + ((isSetError_string()) ? 131071 : 524287);
+      if (isSetError_string())
+        hashCode = hashCode * 8191 + error_string.hashCode();
 
       return hashCode;
     }
@@ -32976,6 +33109,26 @@ public class ClientHandlers {
       }
       if (isSetStatus()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.status, other.status);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetError_code(), other.isSetError_code());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetError_code()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.error_code, other.error_code);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetError_string(), other.isSetError_string());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetError_string()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.error_string, other.error_string);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -33013,6 +33166,18 @@ public class ClientHandlers {
         sb.append("null");
       } else {
         sb.append(this.status);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("error_code:");
+      sb.append(this.error_code);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("error_string:");
+      if (this.error_string == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.error_string);
       }
       first = false;
       sb.append(")");
@@ -33078,6 +33243,22 @@ public class ClientHandlers {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
+            case 3: // ERROR_CODE
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.error_code = iprot.readI32();
+                struct.setError_codeIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 4: // ERROR_STRING
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.error_string = iprot.readString();
+                struct.setError_stringIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
             default:
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
           }
@@ -33100,6 +33281,14 @@ public class ClientHandlers {
         if (struct.status != null) {
           oprot.writeFieldBegin(STATUS_FIELD_DESC);
           oprot.writeString(struct.status);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldBegin(ERROR_CODE_FIELD_DESC);
+        oprot.writeI32(struct.error_code);
+        oprot.writeFieldEnd();
+        if (struct.error_string != null) {
+          oprot.writeFieldBegin(ERROR_STRING_FIELD_DESC);
+          oprot.writeString(struct.error_string);
           oprot.writeFieldEnd();
         }
         oprot.writeFieldStop();
@@ -33127,19 +33316,31 @@ public class ClientHandlers {
         if (struct.isSetStatus()) {
           optionals.set(1);
         }
-        oprot.writeBitSet(optionals, 2);
+        if (struct.isSetError_code()) {
+          optionals.set(2);
+        }
+        if (struct.isSetError_string()) {
+          optionals.set(3);
+        }
+        oprot.writeBitSet(optionals, 4);
         if (struct.isSetBid()) {
           oprot.writeI32(struct.bid);
         }
         if (struct.isSetStatus()) {
           oprot.writeString(struct.status);
         }
+        if (struct.isSetError_code()) {
+          oprot.writeI32(struct.error_code);
+        }
+        if (struct.isSetError_string()) {
+          oprot.writeString(struct.error_string);
+        }
       }
 
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, RequestHandler_OnRenderProcessTerminated_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(2);
+        java.util.BitSet incoming = iprot.readBitSet(4);
         if (incoming.get(0)) {
           struct.bid = iprot.readI32();
           struct.setBidIsSet(true);
@@ -33147,6 +33348,14 @@ public class ClientHandlers {
         if (incoming.get(1)) {
           struct.status = iprot.readString();
           struct.setStatusIsSet(true);
+        }
+        if (incoming.get(2)) {
+          struct.error_code = iprot.readI32();
+          struct.setError_codeIsSet(true);
+        }
+        if (incoming.get(3)) {
+          struct.error_string = iprot.readString();
+          struct.setError_stringIsSet(true);
         }
       }
     }

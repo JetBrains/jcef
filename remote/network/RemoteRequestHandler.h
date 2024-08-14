@@ -62,7 +62,9 @@ class RemoteRequestHandler : public CefRequestHandler {
   // Called on the browser process UI thread when the render process
   // terminates unexpectedly.
   void OnRenderProcessTerminated(CefRefPtr<CefBrowser> browser,
-                                 TerminationStatus status) override;
+                                 TerminationStatus status,
+                                 int error_code,
+                                 const CefString& error_string) override;
 
  private:
   const int myBid;
