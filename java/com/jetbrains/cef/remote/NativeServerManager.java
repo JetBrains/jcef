@@ -22,6 +22,7 @@ import java.util.function.BooleanSupplier;
 public class NativeServerManager {
     private static final Boolean DISABLE_GPU = Utils.getBoolean("JCEF_DISABLE_GPU");
     private static final String ALT_CEF_SERVER_PATH = Utils.getString("ALT_CEF_SERVER_PATH");
+    private static final String ALT_SUBPROCESS_PATH = Utils.getString("ALT_SUBPROCESS_PATH");
     private static final boolean CHECK_PROCESS_ALIVE = Utils.getBoolean("JCEF_CHECK_PROCESS_ALIVE", true); // for debug, TODO: remove
 
     private static Process ourNativeServerProcess = null;
@@ -79,6 +80,16 @@ public class NativeServerManager {
                     CefLog.Debug("Skip setting %s=%s", entry.getKey(), entry.getValue());
                 else
                     ps.printf("%s=%s\n", entry.getKey(), entry.getValue());
+            }
+        }
+
+        if (ALT_SUBPROCESS_PATH != null && !ALT_SUBPROCESS_PATH.trim().isEmpty())
+            ps.printf("browser_subprocess_path=%s\n", ALT_SUBPROCESS_PATH);
+        else if (OS.isMacintosh()) {
+            File serverExe = getServerExe();
+            if (serverExe != null) {
+                File subprocess = new File(serverExe.getParentFile().getParentFile(), "Frameworks/cef_server Helper.app/Contents/MacOS/cef_server Helper");
+                ps.printf("browser_subprocess_path=%s\n", subprocess.getAbsolutePath());
             }
         }
 
