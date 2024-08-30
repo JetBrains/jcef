@@ -220,11 +220,9 @@ public final class Validate {
   }
 
   public static void checkArgument(boolean expression, String format, Object... args) {
-    org.apache.commons.lang3.Validate.isTrue(expression, format, args);
-  }
-
-  public static void checkState(boolean expression, String format, Object... args) {
-    org.apache.commons.lang3.Validate.validState(expression, format, args);
+    if (!expression) {
+      throw new IllegalArgumentException(String.format(format, args));
+    }
   }
 
   private static void checkNotEmpty(int arraySize, String argName) {
