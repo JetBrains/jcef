@@ -46,7 +46,6 @@ if exist "%JCEF_ROOT_DIR%\%ARTIFACT_SERVER%.tar.gz" (
     del /f /q "%JCEF_ROOT_DIR%\%ARTIFACT_SERVER%.tar.gz"
 )
 
-copy third_party\thrift\libthrift-0.19.0.jar cef_server
 bash -c "tar -cvzf $ARTIFACT_SERVER.tar.gz -C cef_server $(ls cef_server)" || goto:__exit
 rmdir /s /q cef_server || goto:__exit
 
