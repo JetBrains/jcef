@@ -27,7 +27,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.thrift.TBase;
 import org.apache.thrift.TFieldIdEnum;
 import org.apache.thrift.TFieldRequirementType;
@@ -110,7 +109,7 @@ public class ThriftMetadata {
 
     /** Gets a space string whose length is proportional to the given indent level. */
     protected String getIndent(int level) {
-      return StringUtils.repeat(" ", level * 4);
+      return "   ".repeat(Math.max(0, level));
     }
 
     /** Helper method to append a formatted string to the given {@code StringBuilder}. */
