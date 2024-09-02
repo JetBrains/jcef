@@ -24,6 +24,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.spi.SelectorProvider;
+import java.text.MessageFormat;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
@@ -426,7 +427,7 @@ public abstract class AbstractNonblockingServer extends TServer {
           selectionKey_.cancel();
           break;
         default:
-          LOGGER.error("changeSelectInterest was called, but state is invalid ({})", state_);
+          LOGGER.error(MessageFormat.format("changeSelectInterest was called, but state is invalid ({0})", state_));
       }
     }
 

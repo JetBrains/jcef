@@ -24,6 +24,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
+import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -230,7 +231,7 @@ public class TNonblockingMultiFetchClient {
           key.attach(i);
         } catch (Exception e) {
           stats.incNumConnectErrorServers();
-          LOGGER.error("Set up socket to server {} error", server, e);
+          LOGGER.error("Set up socket to server " + server + " error", e);
 
           // free resource
           if (s != null) {
@@ -277,7 +278,7 @@ public class TNonblockingMultiFetchClient {
               sChannel.finishConnect();
             } catch (Exception e) {
               stats.incNumConnectErrorServers();
-              LOGGER.error("Socket {} connects to server {} error", index, servers.get(index), e);
+              LOGGER.error(MessageFormat.format("Socket {0} connects to server {1} error", index, servers.get(index)), e);
             }
           }
 
@@ -288,7 +289,7 @@ public class TNonblockingMultiFetchClient {
               SocketChannel sChannel = (SocketChannel) selKey.channel();
               sChannel.write(sendBuf[index]);
             } catch (Exception e) {
-              LOGGER.error("Socket {} writes to server {} error", index, servers.get(index), e);
+              LOGGER.error(MessageFormat.format("Socket {0} writes to server {1} error", index, servers.get(index)), e);
             }
           }
 
@@ -309,10 +310,10 @@ public class TNonblockingMultiFetchClient {
 
                   if (frameSize[index] <= 0) {
                     stats.incNumInvalidFrameSize();
-                    LOGGER.error(
-                        "Read an invalid frame size {} from {}. Does the server use TFramedTransport?",
+                    LOGGER.error(MessageFormat.format(
+                        "Read an invalid frame size {0} from {1}. Does the server use TFramedTransport?",
                         frameSize[index],
-                        servers.get(index));
+                        servers.get(index)));
                     sChannel.close();
                     continue;
                   }
@@ -323,11 +324,11 @@ public class TNonblockingMultiFetchClient {
 
                   if (frameSize[index] + 4 > maxRecvBufBytesPerServer) {
                     stats.incNumOverflowedRecvBuf();
-                    LOGGER.error(
-                        "Read frame size {} from {}, total buffer size would exceed limit {}",
+                    LOGGER.error(MessageFormat.format(
+                        "Read frame size {0} from {1}, total buffer size would exceed limit {2}",
                         frameSize[index],
                         servers.get(index),
-                        maxRecvBufBytesPerServer);
+                        maxRecvBufBytesPerServer));
                     sChannel.close();
                     continue;
                   }
@@ -349,7 +350,7 @@ public class TNonblockingMultiFetchClient {
                 }
               }
             } catch (Exception e) {
-              LOGGER.error("Socket {} reads from server {} error", index, servers.get(index), e);
+              LOGGER.error(MessageFormat.format("Socket {0} reads from server {1} error", index, servers.get(index)), e);
             }
           }
         }
