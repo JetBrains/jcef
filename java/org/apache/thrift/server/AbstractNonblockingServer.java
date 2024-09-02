@@ -39,8 +39,8 @@ import org.apache.thrift.transport.TNonblockingTransport;
 import org.apache.thrift.transport.TTransport;
 import org.apache.thrift.transport.TTransportException;
 import org.apache.thrift.transport.layered.TFramedTransport;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.thrift.Logger;
+import org.apache.thrift.LoggerFactory;
 
 /** Provides common methods and classes used by nonblocking TServer implementations. */
 public abstract class AbstractNonblockingServer extends TServer {

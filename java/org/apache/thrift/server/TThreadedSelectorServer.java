@@ -42,8 +42,8 @@ import java.util.concurrent.TimeUnit;
 import org.apache.thrift.transport.TNonblockingServerTransport;
 import org.apache.thrift.transport.TNonblockingTransport;
 import org.apache.thrift.transport.TTransportException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.thrift.Logger;
+import org.apache.thrift.LoggerFactory;
 
 /**
  * A Half-Sync/Half-Async server with a separate pool of threads to handle non-blocking I/O. Accepts

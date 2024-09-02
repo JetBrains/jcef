@@ -37,6 +37,16 @@ foreach (FILE ${THRIFT_FILES})
     endif ()
 endforeach ()
 
+message(STATUS "Patching java interfaces at ${CMAKE_SOURCE_DIR}/java/com/jetbrains/cef/remote/thrift_codegen...")
+execute_process(
+        COMMAND ${PYTHON_EXECUTABLE} "${CMAKE_SOURCE_DIR}/jb/tools/common/patch_thrift_interfaces.py" "${CMAKE_SOURCE_DIR}/java/com/jetbrains/cef/remote/thrift_codegen/"
+        RESULT_VARIABLE result
+)
+
+if (result AND NOT STATUS EQUAL 0)
+    message(FATAL_ERROR "Failed to run the patch script: ${thrift_result}")
+endif ()
+
 set(CMAKE_CXX_STANDARD 17)
 include_directories(${Boost_INCLUDE_DIRS})
 

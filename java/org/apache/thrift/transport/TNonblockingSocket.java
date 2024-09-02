@@ -29,8 +29,8 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 import org.apache.thrift.TConfiguration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.thrift.Logger;
+import org.apache.thrift.LoggerFactory;
 
 /** Transport for use with async client. */
 public class TNonblockingSocket extends TNonblockingTransport {

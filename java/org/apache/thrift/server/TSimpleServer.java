@@ -24,8 +24,8 @@ import org.apache.thrift.TProcessor;
 import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.transport.TTransport;
 import org.apache.thrift.transport.TTransportException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.thrift.Logger;
+import org.apache.thrift.LoggerFactory;
 
 /** Simple singlethreaded server for testing. */
 public class TSimpleServer extends TServer {

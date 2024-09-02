@@ -23,8 +23,6 @@ import java.util.Map;
 import org.apache.thrift.async.AsyncMethodCallback;
 import org.apache.thrift.protocol.*;
 import org.apache.thrift.server.AbstractNonblockingServer.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class TBaseAsyncProcessor<I> implements TAsyncProcessor, TProcessor {
   protected final Logger LOGGER = LoggerFactory.getLogger(getClass().getName());

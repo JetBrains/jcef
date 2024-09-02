@@ -24,8 +24,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.SocketTimeoutException;
 import org.apache.thrift.TConfiguration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.thrift.Logger;
+import org.apache.thrift.LoggerFactory;
 
 /**
  * This is the most commonly used base transport. It takes an InputStream or an OutputStream or both

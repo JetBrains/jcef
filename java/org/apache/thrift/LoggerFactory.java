@@ -1,4 +1,4 @@
-package org.slf4j;
+package org.apache.thrift;
 
 public class LoggerFactory {
     public static Logger getLogger(String name) {

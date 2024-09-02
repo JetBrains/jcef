@@ -1,4 +1,4 @@
-package org.slf4j;
+package org.apache.thrift;
 
 import org.cef.misc.CefLog;
 

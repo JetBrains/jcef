@@ -120,7 +120,6 @@
         <include name="org/cef/**"/>
         <include name="com/jetbrains/**"/>
         <include name="org/apache/thrift/**"/>
-        <include name="org/slf4j/**"/>
         <include name="${include.module-info.class}"/>
       </fileset>
     </jar>
@@ -129,7 +128,6 @@
         <include name="org/cef/**"/>
         <include name="com/jetbrains/**"/>
         <include name="org/apache/thrift/**"/>
-        <include name="org/slf4j/**"/>
       </fileset>
     </jar>
   </target>
