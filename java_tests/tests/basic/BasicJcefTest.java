@@ -2,8 +2,8 @@ package tests.basic;
 
 import com.jetbrains.cef.JCefAppConfig;
 import com.jetbrains.cef.remote.*;
-import org.apache.thrift.server.TServer;
-import org.apache.thrift.transport.TTransportException;
+import com.jetbrains.cef.remote.thrift.server.TServer;
+import com.jetbrains.cef.remote.thrift.transport.TTransportException;
 import org.cef.CefApp;
 import org.cef.CefClient;
 import org.cef.CefSettings;

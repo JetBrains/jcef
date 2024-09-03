@@ -1,8 +1,8 @@
-package org.apache.thrift.protocol;
+package com.jetbrains.cef.remote.thrift.protocol;
 
 import java.nio.ByteBuffer;
 import java.util.UUID;
-import org.apache.thrift.TException;
+import com.jetbrains.cef.remote.thrift.TException;
 
 public interface TReadProtocol {
 

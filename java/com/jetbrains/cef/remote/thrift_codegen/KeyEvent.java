@@ -7,22 +7,22 @@
 package com.jetbrains.cef.remote.thrift_codegen;
 
 @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
-public class KeyEvent implements org.apache.thrift.TBase<KeyEvent, KeyEvent._Fields>, java.io.Serializable, Cloneable, Comparable<KeyEvent> {
-  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("KeyEvent");
+public class KeyEvent implements com.jetbrains.cef.remote.thrift.TBase<KeyEvent, KeyEvent._Fields>, java.io.Serializable, Cloneable, Comparable<KeyEvent> {
+  private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("KeyEvent");
 
-  private static final org.apache.thrift.protocol.TField TYPE_FIELD_DESC = new org.apache.thrift.protocol.TField("type", org.apache.thrift.protocol.TType.STRING, (short)1);
-  private static final org.apache.thrift.protocol.TField MODIFIERS_FIELD_DESC = new org.apache.thrift.protocol.TField("modifiers", org.apache.thrift.protocol.TType.I32, (short)2);
-  private static final org.apache.thrift.protocol.TField WINDOWS_KEY_CODE_FIELD_DESC = new org.apache.thrift.protocol.TField("windows_key_code", org.apache.thrift.protocol.TType.I32, (short)3);
-  private static final org.apache.thrift.protocol.TField NATIVE_KEY_CODE_FIELD_DESC = new org.apache.thrift.protocol.TField("native_key_code", org.apache.thrift.protocol.TType.I32, (short)4);
-  private static final org.apache.thrift.protocol.TField IS_SYSTEM_KEY_FIELD_DESC = new org.apache.thrift.protocol.TField("is_system_key", org.apache.thrift.protocol.TType.BOOL, (short)5);
-  private static final org.apache.thrift.protocol.TField CHARACTER_FIELD_DESC = new org.apache.thrift.protocol.TField("character", org.apache.thrift.protocol.TType.I16, (short)6);
-  private static final org.apache.thrift.protocol.TField UNMODIFIED_CHARACTER_FIELD_DESC = new org.apache.thrift.protocol.TField("unmodified_character", org.apache.thrift.protocol.TType.I16, (short)7);
-  private static final org.apache.thrift.protocol.TField FOCUS_ON_EDITABLE_FIELD_FIELD_DESC = new org.apache.thrift.protocol.TField("focus_on_editable_field", org.apache.thrift.protocol.TType.BOOL, (short)8);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField TYPE_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("type", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)1);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField MODIFIERS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("modifiers", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)2);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField WINDOWS_KEY_CODE_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("windows_key_code", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)3);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField NATIVE_KEY_CODE_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("native_key_code", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)4);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField IS_SYSTEM_KEY_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("is_system_key", com.jetbrains.cef.remote.thrift.protocol.TType.BOOL, (short)5);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField CHARACTER_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("character", com.jetbrains.cef.remote.thrift.protocol.TType.I16, (short)6);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField UNMODIFIED_CHARACTER_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("unmodified_character", com.jetbrains.cef.remote.thrift.protocol.TType.I16, (short)7);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField FOCUS_ON_EDITABLE_FIELD_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("focus_on_editable_field", com.jetbrains.cef.remote.thrift.protocol.TType.BOOL, (short)8);
 
-  private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new KeyEventStandardSchemeFactory();
-  private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new KeyEventTupleSchemeFactory();
+  private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new KeyEventStandardSchemeFactory();
+  private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new KeyEventTupleSchemeFactory();
 
-  public @org.apache.thrift.annotation.Nullable java.lang.String type; // required
+  public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String type; // required
   public int modifiers; // required
   public int windows_key_code; // required
   public int native_key_code; // required
@@ -32,7 +32,7 @@ public class KeyEvent implements org.apache.thrift.TBase<KeyEvent, KeyEvent._Fie
   public boolean focus_on_editable_field; // required
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-  public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+  public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
     TYPE((short)1, "type"),
     MODIFIERS((short)2, "modifiers"),
     WINDOWS_KEY_CODE((short)3, "windows_key_code"),
@@ -53,7 +53,7 @@ public class KeyEvent implements org.apache.thrift.TBase<KeyEvent, KeyEvent._Fie
     /**
      * Find the _Fields constant that matches fieldId, or null if its not found.
      */
-    @org.apache.thrift.annotation.Nullable
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
     public static _Fields findByThriftId(int fieldId) {
       switch(fieldId) {
         case 1: // TYPE
@@ -90,7 +90,7 @@ public class KeyEvent implements org.apache.thrift.TBase<KeyEvent, KeyEvent._Fie
     /**
      * Find the _Fields constant that matches name, or null if its not found.
      */
-    @org.apache.thrift.annotation.Nullable
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
     public static _Fields findByName(java.lang.String name) {
       return byName.get(name);
     }
@@ -123,27 +123,27 @@ public class KeyEvent implements org.apache.thrift.TBase<KeyEvent, KeyEvent._Fie
   private static final int __UNMODIFIED_CHARACTER_ISSET_ID = 5;
   private static final int __FOCUS_ON_EDITABLE_FIELD_ISSET_ID = 6;
   private byte __isset_bitfield = 0;
-  public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+  public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
-    java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.TYPE, new org.apache.thrift.meta_data.FieldMetaData("type", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-    tmpMap.put(_Fields.MODIFIERS, new org.apache.thrift.meta_data.FieldMetaData("modifiers", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
-    tmpMap.put(_Fields.WINDOWS_KEY_CODE, new org.apache.thrift.meta_data.FieldMetaData("windows_key_code", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
-    tmpMap.put(_Fields.NATIVE_KEY_CODE, new org.apache.thrift.meta_data.FieldMetaData("native_key_code", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
-    tmpMap.put(_Fields.IS_SYSTEM_KEY, new org.apache.thrift.meta_data.FieldMetaData("is_system_key", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
-    tmpMap.put(_Fields.CHARACTER, new org.apache.thrift.meta_data.FieldMetaData("character", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I16)));
-    tmpMap.put(_Fields.UNMODIFIED_CHARACTER, new org.apache.thrift.meta_data.FieldMetaData("unmodified_character", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I16)));
-    tmpMap.put(_Fields.FOCUS_ON_EDITABLE_FIELD, new org.apache.thrift.meta_data.FieldMetaData("focus_on_editable_field", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
+    java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+    tmpMap.put(_Fields.TYPE, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("type", com.jetbrains.cef.remote.thrift.TFieldRequirementType.REQUIRED, 
+        new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.MODIFIERS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("modifiers", com.jetbrains.cef.remote.thrift.TFieldRequirementType.REQUIRED, 
+        new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+    tmpMap.put(_Fields.WINDOWS_KEY_CODE, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("windows_key_code", com.jetbrains.cef.remote.thrift.TFieldRequirementType.REQUIRED, 
+        new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+    tmpMap.put(_Fields.NATIVE_KEY_CODE, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("native_key_code", com.jetbrains.cef.remote.thrift.TFieldRequirementType.REQUIRED, 
+        new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+    tmpMap.put(_Fields.IS_SYSTEM_KEY, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("is_system_key", com.jetbrains.cef.remote.thrift.TFieldRequirementType.REQUIRED, 
+        new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.BOOL)));
+    tmpMap.put(_Fields.CHARACTER, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("character", com.jetbrains.cef.remote.thrift.TFieldRequirementType.REQUIRED, 
+        new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I16)));
+    tmpMap.put(_Fields.UNMODIFIED_CHARACTER, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("unmodified_character", com.jetbrains.cef.remote.thrift.TFieldRequirementType.REQUIRED, 
+        new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I16)));
+    tmpMap.put(_Fields.FOCUS_ON_EDITABLE_FIELD, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("focus_on_editable_field", com.jetbrains.cef.remote.thrift.TFieldRequirementType.REQUIRED, 
+        new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.BOOL)));
     metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(KeyEvent.class, metaDataMap);
+    com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(KeyEvent.class, metaDataMap);
   }
 
   public KeyEvent() {
@@ -218,12 +218,12 @@ public class KeyEvent implements org.apache.thrift.TBase<KeyEvent, KeyEvent._Fie
     this.focus_on_editable_field = false;
   }
 
-  @org.apache.thrift.annotation.Nullable
+  @com.jetbrains.cef.remote.thrift.annotation.Nullable
   public java.lang.String getType() {
     return this.type;
   }
 
-  public KeyEvent setType(@org.apache.thrift.annotation.Nullable java.lang.String type) {
+  public KeyEvent setType(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String type) {
     this.type = type;
     return this;
   }
@@ -254,16 +254,16 @@ public class KeyEvent implements org.apache.thrift.TBase<KeyEvent, KeyEvent._Fie
   }
 
   public void unsetModifiers() {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __MODIFIERS_ISSET_ID);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __MODIFIERS_ISSET_ID);
   }
 
   /** Returns true if field modifiers is set (has been assigned a value) and false otherwise */
   public boolean isSetModifiers() {
-    return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __MODIFIERS_ISSET_ID);
+    return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __MODIFIERS_ISSET_ID);
   }
 
   public void setModifiersIsSet(boolean value) {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __MODIFIERS_ISSET_ID, value);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __MODIFIERS_ISSET_ID, value);
   }
 
   public int getWindows_key_code() {
@@ -277,16 +277,16 @@ public class KeyEvent implements org.apache.thrift.TBase<KeyEvent, KeyEvent._Fie
   }
 
   public void unsetWindows_key_code() {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __WINDOWS_KEY_CODE_ISSET_ID);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __WINDOWS_KEY_CODE_ISSET_ID);
   }
 
   /** Returns true if field windows_key_code is set (has been assigned a value) and false otherwise */
   public boolean isSetWindows_key_code() {
-    return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __WINDOWS_KEY_CODE_ISSET_ID);
+    return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __WINDOWS_KEY_CODE_ISSET_ID);
   }
 
   public void setWindows_key_codeIsSet(boolean value) {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __WINDOWS_KEY_CODE_ISSET_ID, value);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __WINDOWS_KEY_CODE_ISSET_ID, value);
   }
 
   public int getNative_key_code() {
@@ -300,16 +300,16 @@ public class KeyEvent implements org.apache.thrift.TBase<KeyEvent, KeyEvent._Fie
   }
 
   public void unsetNative_key_code() {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __NATIVE_KEY_CODE_ISSET_ID);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __NATIVE_KEY_CODE_ISSET_ID);
   }
 
   /** Returns true if field native_key_code is set (has been assigned a value) and false otherwise */
   public boolean isSetNative_key_code() {
-    return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __NATIVE_KEY_CODE_ISSET_ID);
+    return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __NATIVE_KEY_CODE_ISSET_ID);
   }
 
   public void setNative_key_codeIsSet(boolean value) {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __NATIVE_KEY_CODE_ISSET_ID, value);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __NATIVE_KEY_CODE_ISSET_ID, value);
   }
 
   public boolean isIs_system_key() {
@@ -323,16 +323,16 @@ public class KeyEvent implements org.apache.thrift.TBase<KeyEvent, KeyEvent._Fie
   }
 
   public void unsetIs_system_key() {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __IS_SYSTEM_KEY_ISSET_ID);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __IS_SYSTEM_KEY_ISSET_ID);
   }
 
   /** Returns true if field is_system_key is set (has been assigned a value) and false otherwise */
   public boolean isSetIs_system_key() {
-    return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __IS_SYSTEM_KEY_ISSET_ID);
+    return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __IS_SYSTEM_KEY_ISSET_ID);
   }
 
   public void setIs_system_keyIsSet(boolean value) {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __IS_SYSTEM_KEY_ISSET_ID, value);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __IS_SYSTEM_KEY_ISSET_ID, value);
   }
 
   public short getCharacter() {
@@ -346,16 +346,16 @@ public class KeyEvent implements org.apache.thrift.TBase<KeyEvent, KeyEvent._Fie
   }
 
   public void unsetCharacter() {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __CHARACTER_ISSET_ID);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __CHARACTER_ISSET_ID);
   }
 
   /** Returns true if field character is set (has been assigned a value) and false otherwise */
   public boolean isSetCharacter() {
-    return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __CHARACTER_ISSET_ID);
+    return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __CHARACTER_ISSET_ID);
   }
 
   public void setCharacterIsSet(boolean value) {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __CHARACTER_ISSET_ID, value);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __CHARACTER_ISSET_ID, value);
   }
 
   public short getUnmodified_character() {
@@ -369,16 +369,16 @@ public class KeyEvent implements org.apache.thrift.TBase<KeyEvent, KeyEvent._Fie
   }
 
   public void unsetUnmodified_character() {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __UNMODIFIED_CHARACTER_ISSET_ID);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __UNMODIFIED_CHARACTER_ISSET_ID);
   }
 
   /** Returns true if field unmodified_character is set (has been assigned a value) and false otherwise */
   public boolean isSetUnmodified_character() {
-    return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __UNMODIFIED_CHARACTER_ISSET_ID);
+    return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __UNMODIFIED_CHARACTER_ISSET_ID);
   }
 
   public void setUnmodified_characterIsSet(boolean value) {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __UNMODIFIED_CHARACTER_ISSET_ID, value);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __UNMODIFIED_CHARACTER_ISSET_ID, value);
   }
 
   public boolean isFocus_on_editable_field() {
@@ -392,20 +392,20 @@ public class KeyEvent implements org.apache.thrift.TBase<KeyEvent, KeyEvent._Fie
   }
 
   public void unsetFocus_on_editable_field() {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __FOCUS_ON_EDITABLE_FIELD_ISSET_ID);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __FOCUS_ON_EDITABLE_FIELD_ISSET_ID);
   }
 
   /** Returns true if field focus_on_editable_field is set (has been assigned a value) and false otherwise */
   public boolean isSetFocus_on_editable_field() {
-    return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __FOCUS_ON_EDITABLE_FIELD_ISSET_ID);
+    return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __FOCUS_ON_EDITABLE_FIELD_ISSET_ID);
   }
 
   public void setFocus_on_editable_fieldIsSet(boolean value) {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __FOCUS_ON_EDITABLE_FIELD_ISSET_ID, value);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __FOCUS_ON_EDITABLE_FIELD_ISSET_ID, value);
   }
 
   @Override
-  public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+  public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
     switch (field) {
     case TYPE:
       if (value == null) {
@@ -474,7 +474,7 @@ public class KeyEvent implements org.apache.thrift.TBase<KeyEvent, KeyEvent._Fie
     }
   }
 
-  @org.apache.thrift.annotation.Nullable
+  @com.jetbrains.cef.remote.thrift.annotation.Nullable
   @Override
   public java.lang.Object getFieldValue(_Fields field) {
     switch (field) {
@@ -660,7 +660,7 @@ public class KeyEvent implements org.apache.thrift.TBase<KeyEvent, KeyEvent._Fie
       return lastComparison;
     }
     if (isSetType()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.type, other.type);
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.type, other.type);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -670,7 +670,7 @@ public class KeyEvent implements org.apache.thrift.TBase<KeyEvent, KeyEvent._Fie
       return lastComparison;
     }
     if (isSetModifiers()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.modifiers, other.modifiers);
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.modifiers, other.modifiers);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -680,7 +680,7 @@ public class KeyEvent implements org.apache.thrift.TBase<KeyEvent, KeyEvent._Fie
       return lastComparison;
     }
     if (isSetWindows_key_code()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.windows_key_code, other.windows_key_code);
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.windows_key_code, other.windows_key_code);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -690,7 +690,7 @@ public class KeyEvent implements org.apache.thrift.TBase<KeyEvent, KeyEvent._Fie
       return lastComparison;
     }
     if (isSetNative_key_code()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.native_key_code, other.native_key_code);
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.native_key_code, other.native_key_code);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -700,7 +700,7 @@ public class KeyEvent implements org.apache.thrift.TBase<KeyEvent, KeyEvent._Fie
       return lastComparison;
     }
     if (isSetIs_system_key()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.is_system_key, other.is_system_key);
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.is_system_key, other.is_system_key);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -710,7 +710,7 @@ public class KeyEvent implements org.apache.thrift.TBase<KeyEvent, KeyEvent._Fie
       return lastComparison;
     }
     if (isSetCharacter()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.character, other.character);
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.character, other.character);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -720,7 +720,7 @@ public class KeyEvent implements org.apache.thrift.TBase<KeyEvent, KeyEvent._Fie
       return lastComparison;
     }
     if (isSetUnmodified_character()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.unmodified_character, other.unmodified_character);
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.unmodified_character, other.unmodified_character);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -730,7 +730,7 @@ public class KeyEvent implements org.apache.thrift.TBase<KeyEvent, KeyEvent._Fie
       return lastComparison;
     }
     if (isSetFocus_on_editable_field()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.focus_on_editable_field, other.focus_on_editable_field);
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.focus_on_editable_field, other.focus_on_editable_field);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -738,19 +738,19 @@ public class KeyEvent implements org.apache.thrift.TBase<KeyEvent, KeyEvent._Fie
     return 0;
   }
 
-  @org.apache.thrift.annotation.Nullable
+  @com.jetbrains.cef.remote.thrift.annotation.Nullable
   @Override
   public _Fields fieldForId(int fieldId) {
     return _Fields.findByThriftId(fieldId);
   }
 
   @Override
-  public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+  public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
     scheme(iprot).read(iprot, this);
   }
 
   @Override
-  public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+  public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
     scheme(oprot).write(oprot, this);
   }
 
@@ -798,10 +798,10 @@ public class KeyEvent implements org.apache.thrift.TBase<KeyEvent, KeyEvent._Fie
     return sb.toString();
   }
 
-  public void validate() throws org.apache.thrift.TException {
+  public void validate() throws com.jetbrains.cef.remote.thrift.TException {
     // check for required fields
     if (type == null) {
-      throw new org.apache.thrift.protocol.TProtocolException("Required field 'type' was not present! Struct: " + toString());
+      throw new com.jetbrains.cef.remote.thrift.protocol.TProtocolException("Required field 'type' was not present! Struct: " + toString());
     }
     // alas, we cannot check 'modifiers' because it's a primitive and you chose the non-beans generator.
     // alas, we cannot check 'windows_key_code' because it's a primitive and you chose the non-beans generator.
@@ -815,8 +815,8 @@ public class KeyEvent implements org.apache.thrift.TBase<KeyEvent, KeyEvent._Fie
 
   private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
     try {
-      write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-    } catch (org.apache.thrift.TException te) {
+      write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+    } catch (com.jetbrains.cef.remote.thrift.TException te) {
       throw new java.io.IOException(te);
     }
   }
@@ -825,98 +825,98 @@ public class KeyEvent implements org.apache.thrift.TBase<KeyEvent, KeyEvent._Fie
     try {
       // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
       __isset_bitfield = 0;
-      read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-    } catch (org.apache.thrift.TException te) {
+      read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+    } catch (com.jetbrains.cef.remote.thrift.TException te) {
       throw new java.io.IOException(te);
     }
   }
 
-  private static class KeyEventStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+  private static class KeyEventStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
     @Override
     public KeyEventStandardScheme getScheme() {
       return new KeyEventStandardScheme();
     }
   }
 
-  private static class KeyEventStandardScheme extends org.apache.thrift.scheme.StandardScheme<KeyEvent> {
+  private static class KeyEventStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<KeyEvent> {
 
     @Override
-    public void read(org.apache.thrift.protocol.TProtocol iprot, KeyEvent struct) throws org.apache.thrift.TException {
-      org.apache.thrift.protocol.TField schemeField;
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, KeyEvent struct) throws com.jetbrains.cef.remote.thrift.TException {
+      com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
       iprot.readStructBegin();
       while (true)
       {
         schemeField = iprot.readFieldBegin();
-        if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+        if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (schemeField.id) {
           case 1: // TYPE
-            if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRING) {
               struct.type = iprot.readString();
               struct.setTypeIsSet(true);
             } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           case 2: // MODIFIERS
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
               struct.modifiers = iprot.readI32();
               struct.setModifiersIsSet(true);
             } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           case 3: // WINDOWS_KEY_CODE
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
               struct.windows_key_code = iprot.readI32();
               struct.setWindows_key_codeIsSet(true);
             } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           case 4: // NATIVE_KEY_CODE
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
               struct.native_key_code = iprot.readI32();
               struct.setNative_key_codeIsSet(true);
             } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           case 5: // IS_SYSTEM_KEY
-            if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.BOOL) {
               struct.is_system_key = iprot.readBool();
               struct.setIs_system_keyIsSet(true);
             } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           case 6: // CHARACTER
-            if (schemeField.type == org.apache.thrift.protocol.TType.I16) {
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I16) {
               struct.character = iprot.readI16();
               struct.setCharacterIsSet(true);
             } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           case 7: // UNMODIFIED_CHARACTER
-            if (schemeField.type == org.apache.thrift.protocol.TType.I16) {
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I16) {
               struct.unmodified_character = iprot.readI16();
               struct.setUnmodified_characterIsSet(true);
             } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           case 8: // FOCUS_ON_EDITABLE_FIELD
-            if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.BOOL) {
               struct.focus_on_editable_field = iprot.readBool();
               struct.setFocus_on_editable_fieldIsSet(true);
             } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           default:
-            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
         }
         iprot.readFieldEnd();
       }
@@ -924,31 +924,31 @@ public class KeyEvent implements org.apache.thrift.TBase<KeyEvent, KeyEvent._Fie
 
       // check for required fields of primitive type, which can't be checked in the validate method
       if (!struct.isSetModifiers()) {
-        throw new org.apache.thrift.protocol.TProtocolException("Required field 'modifiers' was not found in serialized data! Struct: " + toString());
+        throw new com.jetbrains.cef.remote.thrift.protocol.TProtocolException("Required field 'modifiers' was not found in serialized data! Struct: " + toString());
       }
       if (!struct.isSetWindows_key_code()) {
-        throw new org.apache.thrift.protocol.TProtocolException("Required field 'windows_key_code' was not found in serialized data! Struct: " + toString());
+        throw new com.jetbrains.cef.remote.thrift.protocol.TProtocolException("Required field 'windows_key_code' was not found in serialized data! Struct: " + toString());
       }
       if (!struct.isSetNative_key_code()) {
-        throw new org.apache.thrift.protocol.TProtocolException("Required field 'native_key_code' was not found in serialized data! Struct: " + toString());
+        throw new com.jetbrains.cef.remote.thrift.protocol.TProtocolException("Required field 'native_key_code' was not found in serialized data! Struct: " + toString());
       }
       if (!struct.isSetIs_system_key()) {
-        throw new org.apache.thrift.protocol.TProtocolException("Required field 'is_system_key' was not found in serialized data! Struct: " + toString());
+        throw new com.jetbrains.cef.remote.thrift.protocol.TProtocolException("Required field 'is_system_key' was not found in serialized data! Struct: " + toString());
       }
       if (!struct.isSetCharacter()) {
-        throw new org.apache.thrift.protocol.TProtocolException("Required field 'character' was not found in serialized data! Struct: " + toString());
+        throw new com.jetbrains.cef.remote.thrift.protocol.TProtocolException("Required field 'character' was not found in serialized data! Struct: " + toString());
       }
       if (!struct.isSetUnmodified_character()) {
-        throw new org.apache.thrift.protocol.TProtocolException("Required field 'unmodified_character' was not found in serialized data! Struct: " + toString());
+        throw new com.jetbrains.cef.remote.thrift.protocol.TProtocolException("Required field 'unmodified_character' was not found in serialized data! Struct: " + toString());
       }
       if (!struct.isSetFocus_on_editable_field()) {
-        throw new org.apache.thrift.protocol.TProtocolException("Required field 'focus_on_editable_field' was not found in serialized data! Struct: " + toString());
+        throw new com.jetbrains.cef.remote.thrift.protocol.TProtocolException("Required field 'focus_on_editable_field' was not found in serialized data! Struct: " + toString());
       }
       struct.validate();
     }
 
     @Override
-    public void write(org.apache.thrift.protocol.TProtocol oprot, KeyEvent struct) throws org.apache.thrift.TException {
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, KeyEvent struct) throws com.jetbrains.cef.remote.thrift.TException {
       struct.validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -984,18 +984,18 @@ public class KeyEvent implements org.apache.thrift.TBase<KeyEvent, KeyEvent._Fie
 
   }
 
-  private static class KeyEventTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+  private static class KeyEventTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
     @Override
     public KeyEventTupleScheme getScheme() {
       return new KeyEventTupleScheme();
     }
   }
 
-  private static class KeyEventTupleScheme extends org.apache.thrift.scheme.TupleScheme<KeyEvent> {
+  private static class KeyEventTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<KeyEvent> {
 
     @Override
-    public void write(org.apache.thrift.protocol.TProtocol prot, KeyEvent struct) throws org.apache.thrift.TException {
-      org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, KeyEvent struct) throws com.jetbrains.cef.remote.thrift.TException {
+      com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
       oprot.writeString(struct.type);
       oprot.writeI32(struct.modifiers);
       oprot.writeI32(struct.windows_key_code);
@@ -1007,8 +1007,8 @@ public class KeyEvent implements org.apache.thrift.TBase<KeyEvent, KeyEvent._Fie
     }
 
     @Override
-    public void read(org.apache.thrift.protocol.TProtocol prot, KeyEvent struct) throws org.apache.thrift.TException {
-      org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, KeyEvent struct) throws com.jetbrains.cef.remote.thrift.TException {
+      com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
       struct.type = iprot.readString();
       struct.setTypeIsSet(true);
       struct.modifiers = iprot.readI32();
@@ -1028,8 +1028,8 @@ public class KeyEvent implements org.apache.thrift.TBase<KeyEvent, KeyEvent._Fie
     }
   }
 
-  private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
-    return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+  private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+    return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
   }
 }
 

@@ -7,22 +7,22 @@
 package com.jetbrains.cef.remote.thrift_codegen;
 
 @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
-public class PostDataElement implements org.apache.thrift.TBase<PostDataElement, PostDataElement._Fields>, java.io.Serializable, Cloneable, Comparable<PostDataElement> {
-  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("PostDataElement");
+public class PostDataElement implements com.jetbrains.cef.remote.thrift.TBase<PostDataElement, PostDataElement._Fields>, java.io.Serializable, Cloneable, Comparable<PostDataElement> {
+  private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("PostDataElement");
 
-  private static final org.apache.thrift.protocol.TField IS_READ_ONLY_FIELD_DESC = new org.apache.thrift.protocol.TField("isReadOnly", org.apache.thrift.protocol.TType.BOOL, (short)1);
-  private static final org.apache.thrift.protocol.TField FILE_FIELD_DESC = new org.apache.thrift.protocol.TField("file", org.apache.thrift.protocol.TType.STRING, (short)2);
-  private static final org.apache.thrift.protocol.TField BYTES_FIELD_DESC = new org.apache.thrift.protocol.TField("bytes", org.apache.thrift.protocol.TType.STRING, (short)3);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField IS_READ_ONLY_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("isReadOnly", com.jetbrains.cef.remote.thrift.protocol.TType.BOOL, (short)1);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField FILE_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("file", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)2);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField BYTES_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("bytes", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)3);
 
-  private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new PostDataElementStandardSchemeFactory();
-  private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new PostDataElementTupleSchemeFactory();
+  private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new PostDataElementStandardSchemeFactory();
+  private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new PostDataElementTupleSchemeFactory();
 
   public boolean isReadOnly; // required
-  public @org.apache.thrift.annotation.Nullable java.lang.String file; // optional
-  public @org.apache.thrift.annotation.Nullable java.nio.ByteBuffer bytes; // optional
+  public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String file; // optional
+  public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.nio.ByteBuffer bytes; // optional
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-  public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+  public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
     IS_READ_ONLY((short)1, "isReadOnly"),
     FILE((short)2, "file"),
     BYTES((short)3, "bytes");
@@ -38,7 +38,7 @@ public class PostDataElement implements org.apache.thrift.TBase<PostDataElement,
     /**
      * Find the _Fields constant that matches fieldId, or null if its not found.
      */
-    @org.apache.thrift.annotation.Nullable
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
     public static _Fields findByThriftId(int fieldId) {
       switch(fieldId) {
         case 1: // IS_READ_ONLY
@@ -65,7 +65,7 @@ public class PostDataElement implements org.apache.thrift.TBase<PostDataElement,
     /**
      * Find the _Fields constant that matches name, or null if its not found.
      */
-    @org.apache.thrift.annotation.Nullable
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
     public static _Fields findByName(java.lang.String name) {
       return byName.get(name);
     }
@@ -93,17 +93,17 @@ public class PostDataElement implements org.apache.thrift.TBase<PostDataElement,
   private static final int __ISREADONLY_ISSET_ID = 0;
   private byte __isset_bitfield = 0;
   private static final _Fields optionals[] = {_Fields.FILE,_Fields.BYTES};
-  public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+  public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
-    java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.IS_READ_ONLY, new org.apache.thrift.meta_data.FieldMetaData("isReadOnly", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
-    tmpMap.put(_Fields.FILE, new org.apache.thrift.meta_data.FieldMetaData("file", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-    tmpMap.put(_Fields.BYTES, new org.apache.thrift.meta_data.FieldMetaData("bytes", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , true)));
+    java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+    tmpMap.put(_Fields.IS_READ_ONLY, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("isReadOnly", com.jetbrains.cef.remote.thrift.TFieldRequirementType.REQUIRED, 
+        new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.BOOL)));
+    tmpMap.put(_Fields.FILE, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("file", com.jetbrains.cef.remote.thrift.TFieldRequirementType.OPTIONAL, 
+        new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.BYTES, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("bytes", com.jetbrains.cef.remote.thrift.TFieldRequirementType.OPTIONAL, 
+        new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING        , true)));
     metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(PostDataElement.class, metaDataMap);
+    com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(PostDataElement.class, metaDataMap);
   }
 
   public PostDataElement() {
@@ -127,7 +127,7 @@ public class PostDataElement implements org.apache.thrift.TBase<PostDataElement,
       this.file = other.file;
     }
     if (other.isSetBytes()) {
-      this.bytes = org.apache.thrift.TBaseHelper.copyBinary(other.bytes);
+      this.bytes = com.jetbrains.cef.remote.thrift.TBaseHelper.copyBinary(other.bytes);
     }
   }
 
@@ -155,24 +155,24 @@ public class PostDataElement implements org.apache.thrift.TBase<PostDataElement,
   }
 
   public void unsetIsReadOnly() {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __ISREADONLY_ISSET_ID);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __ISREADONLY_ISSET_ID);
   }
 
   /** Returns true if field isReadOnly is set (has been assigned a value) and false otherwise */
   public boolean isSetIsReadOnly() {
-    return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __ISREADONLY_ISSET_ID);
+    return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __ISREADONLY_ISSET_ID);
   }
 
   public void setIsReadOnlyIsSet(boolean value) {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __ISREADONLY_ISSET_ID, value);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __ISREADONLY_ISSET_ID, value);
   }
 
-  @org.apache.thrift.annotation.Nullable
+  @com.jetbrains.cef.remote.thrift.annotation.Nullable
   public java.lang.String getFile() {
     return this.file;
   }
 
-  public PostDataElement setFile(@org.apache.thrift.annotation.Nullable java.lang.String file) {
+  public PostDataElement setFile(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String file) {
     this.file = file;
     return this;
   }
@@ -193,12 +193,12 @@ public class PostDataElement implements org.apache.thrift.TBase<PostDataElement,
   }
 
   public byte[] getBytes() {
-    setBytes(org.apache.thrift.TBaseHelper.rightSize(bytes));
+    setBytes(com.jetbrains.cef.remote.thrift.TBaseHelper.rightSize(bytes));
     return bytes == null ? null : bytes.array();
   }
 
   public java.nio.ByteBuffer bufferForBytes() {
-    return org.apache.thrift.TBaseHelper.copyBinary(bytes);
+    return com.jetbrains.cef.remote.thrift.TBaseHelper.copyBinary(bytes);
   }
 
   public PostDataElement setBytes(byte[] bytes) {
@@ -206,8 +206,8 @@ public class PostDataElement implements org.apache.thrift.TBase<PostDataElement,
     return this;
   }
 
-  public PostDataElement setBytes(@org.apache.thrift.annotation.Nullable java.nio.ByteBuffer bytes) {
-    this.bytes = org.apache.thrift.TBaseHelper.copyBinary(bytes);
+  public PostDataElement setBytes(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.nio.ByteBuffer bytes) {
+    this.bytes = com.jetbrains.cef.remote.thrift.TBaseHelper.copyBinary(bytes);
     return this;
   }
 
@@ -227,7 +227,7 @@ public class PostDataElement implements org.apache.thrift.TBase<PostDataElement,
   }
 
   @Override
-  public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+  public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
     switch (field) {
     case IS_READ_ONLY:
       if (value == null) {
@@ -260,7 +260,7 @@ public class PostDataElement implements org.apache.thrift.TBase<PostDataElement,
     }
   }
 
-  @org.apache.thrift.annotation.Nullable
+  @com.jetbrains.cef.remote.thrift.annotation.Nullable
   @Override
   public java.lang.Object getFieldValue(_Fields field) {
     switch (field) {
@@ -368,7 +368,7 @@ public class PostDataElement implements org.apache.thrift.TBase<PostDataElement,
       return lastComparison;
     }
     if (isSetIsReadOnly()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.isReadOnly, other.isReadOnly);
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.isReadOnly, other.isReadOnly);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -378,7 +378,7 @@ public class PostDataElement implements org.apache.thrift.TBase<PostDataElement,
       return lastComparison;
     }
     if (isSetFile()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.file, other.file);
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.file, other.file);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -388,7 +388,7 @@ public class PostDataElement implements org.apache.thrift.TBase<PostDataElement,
       return lastComparison;
     }
     if (isSetBytes()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bytes, other.bytes);
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.bytes, other.bytes);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -396,19 +396,19 @@ public class PostDataElement implements org.apache.thrift.TBase<PostDataElement,
     return 0;
   }
 
-  @org.apache.thrift.annotation.Nullable
+  @com.jetbrains.cef.remote.thrift.annotation.Nullable
   @Override
   public _Fields fieldForId(int fieldId) {
     return _Fields.findByThriftId(fieldId);
   }
 
   @Override
-  public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+  public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
     scheme(iprot).read(iprot, this);
   }
 
   @Override
-  public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+  public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
     scheme(oprot).write(oprot, this);
   }
 
@@ -436,7 +436,7 @@ public class PostDataElement implements org.apache.thrift.TBase<PostDataElement,
       if (this.bytes == null) {
         sb.append("null");
       } else {
-        org.apache.thrift.TBaseHelper.toString(this.bytes, sb);
+        com.jetbrains.cef.remote.thrift.TBaseHelper.toString(this.bytes, sb);
       }
       first = false;
     }
@@ -444,7 +444,7 @@ public class PostDataElement implements org.apache.thrift.TBase<PostDataElement,
     return sb.toString();
   }
 
-  public void validate() throws org.apache.thrift.TException {
+  public void validate() throws com.jetbrains.cef.remote.thrift.TException {
     // check for required fields
     // alas, we cannot check 'isReadOnly' because it's a primitive and you chose the non-beans generator.
     // check for sub-struct validity
@@ -452,8 +452,8 @@ public class PostDataElement implements org.apache.thrift.TBase<PostDataElement,
 
   private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
     try {
-      write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-    } catch (org.apache.thrift.TException te) {
+      write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+    } catch (com.jetbrains.cef.remote.thrift.TException te) {
       throw new java.io.IOException(te);
     }
   }
@@ -462,58 +462,58 @@ public class PostDataElement implements org.apache.thrift.TBase<PostDataElement,
     try {
       // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
       __isset_bitfield = 0;
-      read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-    } catch (org.apache.thrift.TException te) {
+      read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+    } catch (com.jetbrains.cef.remote.thrift.TException te) {
       throw new java.io.IOException(te);
     }
   }
 
-  private static class PostDataElementStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+  private static class PostDataElementStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
     @Override
     public PostDataElementStandardScheme getScheme() {
       return new PostDataElementStandardScheme();
     }
   }
 
-  private static class PostDataElementStandardScheme extends org.apache.thrift.scheme.StandardScheme<PostDataElement> {
+  private static class PostDataElementStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<PostDataElement> {
 
     @Override
-    public void read(org.apache.thrift.protocol.TProtocol iprot, PostDataElement struct) throws org.apache.thrift.TException {
-      org.apache.thrift.protocol.TField schemeField;
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, PostDataElement struct) throws com.jetbrains.cef.remote.thrift.TException {
+      com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
       iprot.readStructBegin();
       while (true)
       {
         schemeField = iprot.readFieldBegin();
-        if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+        if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (schemeField.id) {
           case 1: // IS_READ_ONLY
-            if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.BOOL) {
               struct.isReadOnly = iprot.readBool();
               struct.setIsReadOnlyIsSet(true);
             } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           case 2: // FILE
-            if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRING) {
               struct.file = iprot.readString();
               struct.setFileIsSet(true);
             } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           case 3: // BYTES
-            if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRING) {
               struct.bytes = iprot.readBinary();
               struct.setBytesIsSet(true);
             } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           default:
-            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
         }
         iprot.readFieldEnd();
       }
@@ -521,13 +521,13 @@ public class PostDataElement implements org.apache.thrift.TBase<PostDataElement,
 
       // check for required fields of primitive type, which can't be checked in the validate method
       if (!struct.isSetIsReadOnly()) {
-        throw new org.apache.thrift.protocol.TProtocolException("Required field 'isReadOnly' was not found in serialized data! Struct: " + toString());
+        throw new com.jetbrains.cef.remote.thrift.protocol.TProtocolException("Required field 'isReadOnly' was not found in serialized data! Struct: " + toString());
       }
       struct.validate();
     }
 
     @Override
-    public void write(org.apache.thrift.protocol.TProtocol oprot, PostDataElement struct) throws org.apache.thrift.TException {
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, PostDataElement struct) throws com.jetbrains.cef.remote.thrift.TException {
       struct.validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -554,18 +554,18 @@ public class PostDataElement implements org.apache.thrift.TBase<PostDataElement,
 
   }
 
-  private static class PostDataElementTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+  private static class PostDataElementTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
     @Override
     public PostDataElementTupleScheme getScheme() {
       return new PostDataElementTupleScheme();
     }
   }
 
-  private static class PostDataElementTupleScheme extends org.apache.thrift.scheme.TupleScheme<PostDataElement> {
+  private static class PostDataElementTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<PostDataElement> {
 
     @Override
-    public void write(org.apache.thrift.protocol.TProtocol prot, PostDataElement struct) throws org.apache.thrift.TException {
-      org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, PostDataElement struct) throws com.jetbrains.cef.remote.thrift.TException {
+      com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
       oprot.writeBool(struct.isReadOnly);
       java.util.BitSet optionals = new java.util.BitSet();
       if (struct.isSetFile()) {
@@ -584,8 +584,8 @@ public class PostDataElement implements org.apache.thrift.TBase<PostDataElement,
     }
 
     @Override
-    public void read(org.apache.thrift.protocol.TProtocol prot, PostDataElement struct) throws org.apache.thrift.TException {
-      org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, PostDataElement struct) throws com.jetbrains.cef.remote.thrift.TException {
+      com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
       struct.isReadOnly = iprot.readBool();
       struct.setIsReadOnlyIsSet(true);
       java.util.BitSet incoming = iprot.readBitSet(2);
@@ -600,8 +600,8 @@ public class PostDataElement implements org.apache.thrift.TBase<PostDataElement,
     }
   }
 
-  private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
-    return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+  private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+    return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
   }
 }
 

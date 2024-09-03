@@ -17,10 +17,10 @@
  * under the License.
  */
 
-package org.apache.thrift.protocol;
+package com.jetbrains.cef.remote.thrift.protocol;
 
 import java.io.Serializable;
-import org.apache.thrift.transport.TTransport;
+import com.jetbrains.cef.remote.thrift.transport.TTransport;
 
 /** Factory interface for constructing protocol instances. */
 public interface TProtocolFactory extends Serializable {

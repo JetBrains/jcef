@@ -17,11 +17,11 @@
  * under the License.
  */
 
-package org.apache.thrift;
+package com.jetbrains.cef.remote.thrift;
 
-import org.apache.thrift.protocol.TMessage;
-import org.apache.thrift.protocol.TMessageType;
-import org.apache.thrift.protocol.TProtocol;
+import com.jetbrains.cef.remote.thrift.protocol.TMessage;
+import com.jetbrains.cef.remote.thrift.protocol.TMessageType;
+import com.jetbrains.cef.remote.thrift.protocol.TProtocol;
 
 /**
  * A TServiceClient is used to communicate with a TService implementation across protocols and

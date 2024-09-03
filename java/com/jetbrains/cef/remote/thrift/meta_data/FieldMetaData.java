@@ -17,14 +17,14 @@
  * under the License.
  */
 
-package org.apache.thrift.meta_data;
+package com.jetbrains.cef.remote.thrift.meta_data;
 
 import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import org.apache.thrift.TBase;
-import org.apache.thrift.TFieldIdEnum;
+import com.jetbrains.cef.remote.thrift.TBase;
+import com.jetbrains.cef.remote.thrift.TFieldIdEnum;
 
 /**
  * This class is used to store meta data about thrift fields. Every field in a a struct should have

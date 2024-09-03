@@ -1,12 +1,12 @@
-package org.apache.thrift;
+package com.jetbrains.cef.remote.thrift;
 
 import java.util.Collections;
 import java.util.Map;
-import org.apache.thrift.protocol.TMessage;
-import org.apache.thrift.protocol.TMessageType;
-import org.apache.thrift.protocol.TProtocol;
-import org.apache.thrift.protocol.TProtocolUtil;
-import org.apache.thrift.protocol.TType;
+import com.jetbrains.cef.remote.thrift.protocol.TMessage;
+import com.jetbrains.cef.remote.thrift.protocol.TMessageType;
+import com.jetbrains.cef.remote.thrift.protocol.TProtocol;
+import com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil;
+import com.jetbrains.cef.remote.thrift.protocol.TType;
 
 public abstract class TBaseProcessor<I> implements TProcessor {
   private final I iface;

@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.thrift.async;
+package com.jetbrains.cef.remote.thrift.async;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -29,9 +29,9 @@ import java.util.Iterator;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeoutException;
-import org.apache.thrift.TException;
-import org.apache.thrift.Logger;
-import org.apache.thrift.LoggerFactory;
+import com.jetbrains.cef.remote.thrift.TException;
+import com.jetbrains.cef.remote.thrift.Logger;
+import com.jetbrains.cef.remote.thrift.LoggerFactory;
 
 /** Contains selector thread which transitions method call objects */
 public class TAsyncClientManager {

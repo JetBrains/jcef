@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.apache.thrift.protocol;
+package com.jetbrains.cef.remote.thrift.protocol;
 
 /** Helper class that encapsulates struct metadata. */
 public final class TStruct {

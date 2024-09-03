@@ -17,10 +17,10 @@
  * under the License.
  */
 
-package org.apache.thrift.server;
+package com.jetbrains.cef.remote.thrift.server;
 
-import org.apache.thrift.protocol.TProtocol;
-import org.apache.thrift.transport.TTransport;
+import com.jetbrains.cef.remote.thrift.protocol.TProtocol;
+import com.jetbrains.cef.remote.thrift.transport.TTransport;
 
 /**
  * Interface that can handle events from the server core. To use this you should subclass it and

@@ -17,9 +17,9 @@
  * under the License.
  */
 
-package org.apache.thrift.protocol;
+package com.jetbrains.cef.remote.thrift.protocol;
 
-import org.apache.thrift.TException;
+import com.jetbrains.cef.remote.thrift.TException;
 
 /**
  * <code>TMultiplexedProtocol</code> is a protocol-independent concrete decorator that allows a
@@ -27,7 +27,7 @@ import org.apache.thrift.TException;
  * the function name during function calls.
  *
  * <p>NOTE: THIS IS NOT USED BY SERVERS. On the server, use {@link
- * org.apache.thrift.TMultiplexedProcessor TMultiplexedProcessor} to handle requests from a
+ * com.jetbrains.cef.remote.thrift.TMultiplexedProcessor TMultiplexedProcessor} to handle requests from a
  * multiplexing client.
  *
  * <p>This example uses a single socket transport to invoke two services:
@@ -48,7 +48,7 @@ import org.apache.thrift.TException;
  * System.out.println(service2.getTemperature());
  * }</pre>
  *
- * @see org.apache.thrift.protocol.TProtocolDecorator
+ * @see com.jetbrains.cef.remote.thrift.protocol.TProtocolDecorator
  */
 public class TMultiplexedProtocol extends TProtocolDecorator {
 

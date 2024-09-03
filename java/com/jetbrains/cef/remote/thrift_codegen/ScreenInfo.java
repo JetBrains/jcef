@@ -7,28 +7,28 @@
 package com.jetbrains.cef.remote.thrift_codegen;
 
 @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
-public class ScreenInfo implements org.apache.thrift.TBase<ScreenInfo, ScreenInfo._Fields>, java.io.Serializable, Cloneable, Comparable<ScreenInfo> {
-  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("ScreenInfo");
+public class ScreenInfo implements com.jetbrains.cef.remote.thrift.TBase<ScreenInfo, ScreenInfo._Fields>, java.io.Serializable, Cloneable, Comparable<ScreenInfo> {
+  private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("ScreenInfo");
 
-  private static final org.apache.thrift.protocol.TField DEVICE_SCALE_FACTOR_FIELD_DESC = new org.apache.thrift.protocol.TField("device_scale_factor", org.apache.thrift.protocol.TType.DOUBLE, (short)1);
-  private static final org.apache.thrift.protocol.TField DEPTH_FIELD_DESC = new org.apache.thrift.protocol.TField("depth", org.apache.thrift.protocol.TType.I32, (short)2);
-  private static final org.apache.thrift.protocol.TField DEPTH_PER_COMPONENT_FIELD_DESC = new org.apache.thrift.protocol.TField("depth_per_component", org.apache.thrift.protocol.TType.I32, (short)3);
-  private static final org.apache.thrift.protocol.TField IS_MONOCHROME_FIELD_DESC = new org.apache.thrift.protocol.TField("is_monochrome", org.apache.thrift.protocol.TType.BOOL, (short)4);
-  private static final org.apache.thrift.protocol.TField RECT_FIELD_DESC = new org.apache.thrift.protocol.TField("rect", org.apache.thrift.protocol.TType.STRUCT, (short)5);
-  private static final org.apache.thrift.protocol.TField AVAILABLE_RECT_FIELD_DESC = new org.apache.thrift.protocol.TField("available_rect", org.apache.thrift.protocol.TType.STRUCT, (short)6);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField DEVICE_SCALE_FACTOR_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("device_scale_factor", com.jetbrains.cef.remote.thrift.protocol.TType.DOUBLE, (short)1);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField DEPTH_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("depth", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)2);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField DEPTH_PER_COMPONENT_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("depth_per_component", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)3);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField IS_MONOCHROME_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("is_monochrome", com.jetbrains.cef.remote.thrift.protocol.TType.BOOL, (short)4);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField RECT_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("rect", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)5);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField AVAILABLE_RECT_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("available_rect", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)6);
 
-  private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new ScreenInfoStandardSchemeFactory();
-  private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new ScreenInfoTupleSchemeFactory();
+  private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new ScreenInfoStandardSchemeFactory();
+  private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new ScreenInfoTupleSchemeFactory();
 
   public double device_scale_factor; // required
   public int depth; // required
   public int depth_per_component; // required
   public boolean is_monochrome; // required
-  public @org.apache.thrift.annotation.Nullable Rect rect; // required
-  public @org.apache.thrift.annotation.Nullable Rect available_rect; // required
+  public @com.jetbrains.cef.remote.thrift.annotation.Nullable Rect rect; // required
+  public @com.jetbrains.cef.remote.thrift.annotation.Nullable Rect available_rect; // required
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-  public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+  public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
     DEVICE_SCALE_FACTOR((short)1, "device_scale_factor"),
     DEPTH((short)2, "depth"),
     DEPTH_PER_COMPONENT((short)3, "depth_per_component"),
@@ -47,7 +47,7 @@ public class ScreenInfo implements org.apache.thrift.TBase<ScreenInfo, ScreenInf
     /**
      * Find the _Fields constant that matches fieldId, or null if its not found.
      */
-    @org.apache.thrift.annotation.Nullable
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
     public static _Fields findByThriftId(int fieldId) {
       switch(fieldId) {
         case 1: // DEVICE_SCALE_FACTOR
@@ -80,7 +80,7 @@ public class ScreenInfo implements org.apache.thrift.TBase<ScreenInfo, ScreenInf
     /**
      * Find the _Fields constant that matches name, or null if its not found.
      */
-    @org.apache.thrift.annotation.Nullable
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
     public static _Fields findByName(java.lang.String name) {
       return byName.get(name);
     }
@@ -110,23 +110,23 @@ public class ScreenInfo implements org.apache.thrift.TBase<ScreenInfo, ScreenInf
   private static final int __DEPTH_PER_COMPONENT_ISSET_ID = 2;
   private static final int __IS_MONOCHROME_ISSET_ID = 3;
   private byte __isset_bitfield = 0;
-  public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+  public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
-    java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.DEVICE_SCALE_FACTOR, new org.apache.thrift.meta_data.FieldMetaData("device_scale_factor", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
-    tmpMap.put(_Fields.DEPTH, new org.apache.thrift.meta_data.FieldMetaData("depth", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
-    tmpMap.put(_Fields.DEPTH_PER_COMPONENT, new org.apache.thrift.meta_data.FieldMetaData("depth_per_component", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
-    tmpMap.put(_Fields.IS_MONOCHROME, new org.apache.thrift.meta_data.FieldMetaData("is_monochrome", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
-    tmpMap.put(_Fields.RECT, new org.apache.thrift.meta_data.FieldMetaData("rect", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Rect.class)));
-    tmpMap.put(_Fields.AVAILABLE_RECT, new org.apache.thrift.meta_data.FieldMetaData("available_rect", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Rect.class)));
+    java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+    tmpMap.put(_Fields.DEVICE_SCALE_FACTOR, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("device_scale_factor", com.jetbrains.cef.remote.thrift.TFieldRequirementType.REQUIRED, 
+        new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.DOUBLE)));
+    tmpMap.put(_Fields.DEPTH, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("depth", com.jetbrains.cef.remote.thrift.TFieldRequirementType.REQUIRED, 
+        new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+    tmpMap.put(_Fields.DEPTH_PER_COMPONENT, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("depth_per_component", com.jetbrains.cef.remote.thrift.TFieldRequirementType.REQUIRED, 
+        new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+    tmpMap.put(_Fields.IS_MONOCHROME, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("is_monochrome", com.jetbrains.cef.remote.thrift.TFieldRequirementType.REQUIRED, 
+        new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.BOOL)));
+    tmpMap.put(_Fields.RECT, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("rect", com.jetbrains.cef.remote.thrift.TFieldRequirementType.REQUIRED, 
+        new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, Rect.class)));
+    tmpMap.put(_Fields.AVAILABLE_RECT, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("available_rect", com.jetbrains.cef.remote.thrift.TFieldRequirementType.REQUIRED, 
+        new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, Rect.class)));
     metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(ScreenInfo.class, metaDataMap);
+    com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(ScreenInfo.class, metaDataMap);
   }
 
   public ScreenInfo() {
@@ -200,16 +200,16 @@ public class ScreenInfo implements org.apache.thrift.TBase<ScreenInfo, ScreenInf
   }
 
   public void unsetDevice_scale_factor() {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __DEVICE_SCALE_FACTOR_ISSET_ID);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __DEVICE_SCALE_FACTOR_ISSET_ID);
   }
 
   /** Returns true if field device_scale_factor is set (has been assigned a value) and false otherwise */
   public boolean isSetDevice_scale_factor() {
-    return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __DEVICE_SCALE_FACTOR_ISSET_ID);
+    return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __DEVICE_SCALE_FACTOR_ISSET_ID);
   }
 
   public void setDevice_scale_factorIsSet(boolean value) {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __DEVICE_SCALE_FACTOR_ISSET_ID, value);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __DEVICE_SCALE_FACTOR_ISSET_ID, value);
   }
 
   public int getDepth() {
@@ -223,16 +223,16 @@ public class ScreenInfo implements org.apache.thrift.TBase<ScreenInfo, ScreenInf
   }
 
   public void unsetDepth() {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __DEPTH_ISSET_ID);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __DEPTH_ISSET_ID);
   }
 
   /** Returns true if field depth is set (has been assigned a value) and false otherwise */
   public boolean isSetDepth() {
-    return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __DEPTH_ISSET_ID);
+    return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __DEPTH_ISSET_ID);
   }
 
   public void setDepthIsSet(boolean value) {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __DEPTH_ISSET_ID, value);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __DEPTH_ISSET_ID, value);
   }
 
   public int getDepth_per_component() {
@@ -246,16 +246,16 @@ public class ScreenInfo implements org.apache.thrift.TBase<ScreenInfo, ScreenInf
   }
 
   public void unsetDepth_per_component() {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __DEPTH_PER_COMPONENT_ISSET_ID);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __DEPTH_PER_COMPONENT_ISSET_ID);
   }
 
   /** Returns true if field depth_per_component is set (has been assigned a value) and false otherwise */
   public boolean isSetDepth_per_component() {
-    return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __DEPTH_PER_COMPONENT_ISSET_ID);
+    return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __DEPTH_PER_COMPONENT_ISSET_ID);
   }
 
   public void setDepth_per_componentIsSet(boolean value) {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __DEPTH_PER_COMPONENT_ISSET_ID, value);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __DEPTH_PER_COMPONENT_ISSET_ID, value);
   }
 
   public boolean isIs_monochrome() {
@@ -269,24 +269,24 @@ public class ScreenInfo implements org.apache.thrift.TBase<ScreenInfo, ScreenInf
   }
 
   public void unsetIs_monochrome() {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __IS_MONOCHROME_ISSET_ID);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __IS_MONOCHROME_ISSET_ID);
   }
 
   /** Returns true if field is_monochrome is set (has been assigned a value) and false otherwise */
   public boolean isSetIs_monochrome() {
-    return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __IS_MONOCHROME_ISSET_ID);
+    return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __IS_MONOCHROME_ISSET_ID);
   }
 
   public void setIs_monochromeIsSet(boolean value) {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __IS_MONOCHROME_ISSET_ID, value);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __IS_MONOCHROME_ISSET_ID, value);
   }
 
-  @org.apache.thrift.annotation.Nullable
+  @com.jetbrains.cef.remote.thrift.annotation.Nullable
   public Rect getRect() {
     return this.rect;
   }
 
-  public ScreenInfo setRect(@org.apache.thrift.annotation.Nullable Rect rect) {
+  public ScreenInfo setRect(@com.jetbrains.cef.remote.thrift.annotation.Nullable Rect rect) {
     this.rect = rect;
     return this;
   }
@@ -306,12 +306,12 @@ public class ScreenInfo implements org.apache.thrift.TBase<ScreenInfo, ScreenInf
     }
   }
 
-  @org.apache.thrift.annotation.Nullable
+  @com.jetbrains.cef.remote.thrift.annotation.Nullable
   public Rect getAvailable_rect() {
     return this.available_rect;
   }
 
-  public ScreenInfo setAvailable_rect(@org.apache.thrift.annotation.Nullable Rect available_rect) {
+  public ScreenInfo setAvailable_rect(@com.jetbrains.cef.remote.thrift.annotation.Nullable Rect available_rect) {
     this.available_rect = available_rect;
     return this;
   }
@@ -332,7 +332,7 @@ public class ScreenInfo implements org.apache.thrift.TBase<ScreenInfo, ScreenInf
   }
 
   @Override
-  public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+  public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
     switch (field) {
     case DEVICE_SCALE_FACTOR:
       if (value == null) {
@@ -385,7 +385,7 @@ public class ScreenInfo implements org.apache.thrift.TBase<ScreenInfo, ScreenInf
     }
   }
 
-  @org.apache.thrift.annotation.Nullable
+  @com.jetbrains.cef.remote.thrift.annotation.Nullable
   @Override
   public java.lang.Object getFieldValue(_Fields field) {
     switch (field) {
@@ -509,7 +509,7 @@ public class ScreenInfo implements org.apache.thrift.TBase<ScreenInfo, ScreenInf
   public int hashCode() {
     int hashCode = 1;
 
-    hashCode = hashCode * 8191 + org.apache.thrift.TBaseHelper.hashCode(device_scale_factor);
+    hashCode = hashCode * 8191 + com.jetbrains.cef.remote.thrift.TBaseHelper.hashCode(device_scale_factor);
 
     hashCode = hashCode * 8191 + depth;
 
@@ -541,7 +541,7 @@ public class ScreenInfo implements org.apache.thrift.TBase<ScreenInfo, ScreenInf
       return lastComparison;
     }
     if (isSetDevice_scale_factor()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.device_scale_factor, other.device_scale_factor);
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.device_scale_factor, other.device_scale_factor);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -551,7 +551,7 @@ public class ScreenInfo implements org.apache.thrift.TBase<ScreenInfo, ScreenInf
       return lastComparison;
     }
     if (isSetDepth()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.depth, other.depth);
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.depth, other.depth);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -561,7 +561,7 @@ public class ScreenInfo implements org.apache.thrift.TBase<ScreenInfo, ScreenInf
       return lastComparison;
     }
     if (isSetDepth_per_component()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.depth_per_component, other.depth_per_component);
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.depth_per_component, other.depth_per_component);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -571,7 +571,7 @@ public class ScreenInfo implements org.apache.thrift.TBase<ScreenInfo, ScreenInf
       return lastComparison;
     }
     if (isSetIs_monochrome()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.is_monochrome, other.is_monochrome);
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.is_monochrome, other.is_monochrome);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -581,7 +581,7 @@ public class ScreenInfo implements org.apache.thrift.TBase<ScreenInfo, ScreenInf
       return lastComparison;
     }
     if (isSetRect()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.rect, other.rect);
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.rect, other.rect);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -591,7 +591,7 @@ public class ScreenInfo implements org.apache.thrift.TBase<ScreenInfo, ScreenInf
       return lastComparison;
     }
     if (isSetAvailable_rect()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.available_rect, other.available_rect);
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.available_rect, other.available_rect);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -599,19 +599,19 @@ public class ScreenInfo implements org.apache.thrift.TBase<ScreenInfo, ScreenInf
     return 0;
   }
 
-  @org.apache.thrift.annotation.Nullable
+  @com.jetbrains.cef.remote.thrift.annotation.Nullable
   @Override
   public _Fields fieldForId(int fieldId) {
     return _Fields.findByThriftId(fieldId);
   }
 
   @Override
-  public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+  public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
     scheme(iprot).read(iprot, this);
   }
 
   @Override
-  public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+  public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
     scheme(oprot).write(oprot, this);
   }
 
@@ -655,17 +655,17 @@ public class ScreenInfo implements org.apache.thrift.TBase<ScreenInfo, ScreenInf
     return sb.toString();
   }
 
-  public void validate() throws org.apache.thrift.TException {
+  public void validate() throws com.jetbrains.cef.remote.thrift.TException {
     // check for required fields
     // alas, we cannot check 'device_scale_factor' because it's a primitive and you chose the non-beans generator.
     // alas, we cannot check 'depth' because it's a primitive and you chose the non-beans generator.
     // alas, we cannot check 'depth_per_component' because it's a primitive and you chose the non-beans generator.
     // alas, we cannot check 'is_monochrome' because it's a primitive and you chose the non-beans generator.
     if (rect == null) {
-      throw new org.apache.thrift.protocol.TProtocolException("Required field 'rect' was not present! Struct: " + toString());
+      throw new com.jetbrains.cef.remote.thrift.protocol.TProtocolException("Required field 'rect' was not present! Struct: " + toString());
     }
     if (available_rect == null) {
-      throw new org.apache.thrift.protocol.TProtocolException("Required field 'available_rect' was not present! Struct: " + toString());
+      throw new com.jetbrains.cef.remote.thrift.protocol.TProtocolException("Required field 'available_rect' was not present! Struct: " + toString());
     }
     // check for sub-struct validity
     if (rect != null) {
@@ -678,8 +678,8 @@ public class ScreenInfo implements org.apache.thrift.TBase<ScreenInfo, ScreenInf
 
   private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
     try {
-      write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-    } catch (org.apache.thrift.TException te) {
+      write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+    } catch (com.jetbrains.cef.remote.thrift.TException te) {
       throw new java.io.IOException(te);
     }
   }
@@ -688,84 +688,84 @@ public class ScreenInfo implements org.apache.thrift.TBase<ScreenInfo, ScreenInf
     try {
       // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
       __isset_bitfield = 0;
-      read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-    } catch (org.apache.thrift.TException te) {
+      read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+    } catch (com.jetbrains.cef.remote.thrift.TException te) {
       throw new java.io.IOException(te);
     }
   }
 
-  private static class ScreenInfoStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+  private static class ScreenInfoStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
     @Override
     public ScreenInfoStandardScheme getScheme() {
       return new ScreenInfoStandardScheme();
     }
   }
 
-  private static class ScreenInfoStandardScheme extends org.apache.thrift.scheme.StandardScheme<ScreenInfo> {
+  private static class ScreenInfoStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<ScreenInfo> {
 
     @Override
-    public void read(org.apache.thrift.protocol.TProtocol iprot, ScreenInfo struct) throws org.apache.thrift.TException {
-      org.apache.thrift.protocol.TField schemeField;
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, ScreenInfo struct) throws com.jetbrains.cef.remote.thrift.TException {
+      com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
       iprot.readStructBegin();
       while (true)
       {
         schemeField = iprot.readFieldBegin();
-        if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+        if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (schemeField.id) {
           case 1: // DEVICE_SCALE_FACTOR
-            if (schemeField.type == org.apache.thrift.protocol.TType.DOUBLE) {
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.DOUBLE) {
               struct.device_scale_factor = iprot.readDouble();
               struct.setDevice_scale_factorIsSet(true);
             } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           case 2: // DEPTH
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
               struct.depth = iprot.readI32();
               struct.setDepthIsSet(true);
             } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           case 3: // DEPTH_PER_COMPONENT
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
               struct.depth_per_component = iprot.readI32();
               struct.setDepth_per_componentIsSet(true);
             } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           case 4: // IS_MONOCHROME
-            if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.BOOL) {
               struct.is_monochrome = iprot.readBool();
               struct.setIs_monochromeIsSet(true);
             } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           case 5: // RECT
-            if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
               struct.rect = new Rect();
               struct.rect.read(iprot);
               struct.setRectIsSet(true);
             } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           case 6: // AVAILABLE_RECT
-            if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
               struct.available_rect = new Rect();
               struct.available_rect.read(iprot);
               struct.setAvailable_rectIsSet(true);
             } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           default:
-            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
         }
         iprot.readFieldEnd();
       }
@@ -773,22 +773,22 @@ public class ScreenInfo implements org.apache.thrift.TBase<ScreenInfo, ScreenInf
 
       // check for required fields of primitive type, which can't be checked in the validate method
       if (!struct.isSetDevice_scale_factor()) {
-        throw new org.apache.thrift.protocol.TProtocolException("Required field 'device_scale_factor' was not found in serialized data! Struct: " + toString());
+        throw new com.jetbrains.cef.remote.thrift.protocol.TProtocolException("Required field 'device_scale_factor' was not found in serialized data! Struct: " + toString());
       }
       if (!struct.isSetDepth()) {
-        throw new org.apache.thrift.protocol.TProtocolException("Required field 'depth' was not found in serialized data! Struct: " + toString());
+        throw new com.jetbrains.cef.remote.thrift.protocol.TProtocolException("Required field 'depth' was not found in serialized data! Struct: " + toString());
       }
       if (!struct.isSetDepth_per_component()) {
-        throw new org.apache.thrift.protocol.TProtocolException("Required field 'depth_per_component' was not found in serialized data! Struct: " + toString());
+        throw new com.jetbrains.cef.remote.thrift.protocol.TProtocolException("Required field 'depth_per_component' was not found in serialized data! Struct: " + toString());
       }
       if (!struct.isSetIs_monochrome()) {
-        throw new org.apache.thrift.protocol.TProtocolException("Required field 'is_monochrome' was not found in serialized data! Struct: " + toString());
+        throw new com.jetbrains.cef.remote.thrift.protocol.TProtocolException("Required field 'is_monochrome' was not found in serialized data! Struct: " + toString());
       }
       struct.validate();
     }
 
     @Override
-    public void write(org.apache.thrift.protocol.TProtocol oprot, ScreenInfo struct) throws org.apache.thrift.TException {
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, ScreenInfo struct) throws com.jetbrains.cef.remote.thrift.TException {
       struct.validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -820,18 +820,18 @@ public class ScreenInfo implements org.apache.thrift.TBase<ScreenInfo, ScreenInf
 
   }
 
-  private static class ScreenInfoTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+  private static class ScreenInfoTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
     @Override
     public ScreenInfoTupleScheme getScheme() {
       return new ScreenInfoTupleScheme();
     }
   }
 
-  private static class ScreenInfoTupleScheme extends org.apache.thrift.scheme.TupleScheme<ScreenInfo> {
+  private static class ScreenInfoTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<ScreenInfo> {
 
     @Override
-    public void write(org.apache.thrift.protocol.TProtocol prot, ScreenInfo struct) throws org.apache.thrift.TException {
-      org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, ScreenInfo struct) throws com.jetbrains.cef.remote.thrift.TException {
+      com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
       oprot.writeDouble(struct.device_scale_factor);
       oprot.writeI32(struct.depth);
       oprot.writeI32(struct.depth_per_component);
@@ -841,8 +841,8 @@ public class ScreenInfo implements org.apache.thrift.TBase<ScreenInfo, ScreenInf
     }
 
     @Override
-    public void read(org.apache.thrift.protocol.TProtocol prot, ScreenInfo struct) throws org.apache.thrift.TException {
-      org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, ScreenInfo struct) throws com.jetbrains.cef.remote.thrift.TException {
+      com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
       struct.device_scale_factor = iprot.readDouble();
       struct.setDevice_scale_factorIsSet(true);
       struct.depth = iprot.readI32();
@@ -860,8 +860,8 @@ public class ScreenInfo implements org.apache.thrift.TBase<ScreenInfo, ScreenInf
     }
   }
 
-  private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
-    return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+  private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+    return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
   }
 }
 

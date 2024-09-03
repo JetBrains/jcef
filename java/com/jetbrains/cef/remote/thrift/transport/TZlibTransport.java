@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.thrift.transport;
+package com.jetbrains.cef.remote.thrift.transport;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,7 +26,7 @@ import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.Inflater;
 import java.util.zip.InflaterInputStream;
-import org.apache.thrift.TConfiguration;
+import com.jetbrains.cef.remote.thrift.TConfiguration;
 
 /** TZlibTransport deflates on write and inflates on read. */
 public class TZlibTransport extends TIOStreamTransport {

@@ -16,20 +16,20 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.thrift.async;
+package com.jetbrains.cef.remote.thrift.async;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.util.concurrent.atomic.AtomicLong;
-import org.apache.thrift.TException;
-import org.apache.thrift.protocol.TProtocol;
-import org.apache.thrift.protocol.TProtocolFactory;
-import org.apache.thrift.transport.TMemoryBuffer;
-import org.apache.thrift.transport.TNonblockingTransport;
-import org.apache.thrift.transport.TTransportException;
-import org.apache.thrift.transport.layered.TFramedTransport;
+import com.jetbrains.cef.remote.thrift.TException;
+import com.jetbrains.cef.remote.thrift.protocol.TProtocol;
+import com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory;
+import com.jetbrains.cef.remote.thrift.transport.TMemoryBuffer;
+import com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport;
+import com.jetbrains.cef.remote.thrift.transport.TTransportException;
+import com.jetbrains.cef.remote.thrift.transport.layered.TFramedTransport;
 
 /**
  * Encapsulates an async method call.

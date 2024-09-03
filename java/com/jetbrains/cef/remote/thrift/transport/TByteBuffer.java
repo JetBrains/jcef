@@ -1,9 +1,9 @@
-package org.apache.thrift.transport;
+package com.jetbrains.cef.remote.thrift.transport;
 
 import java.nio.BufferOverflowException;
 import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
-import org.apache.thrift.TConfiguration;
+import com.jetbrains.cef.remote.thrift.TConfiguration;
 
 /** ByteBuffer-backed implementation of TTransport. */
 public final class TByteBuffer extends TEndpointTransport {

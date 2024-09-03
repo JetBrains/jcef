@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.apache.thrift;
+package com.jetbrains.cef.remote.thrift;
 
 public interface TEnum {
   int getValue();

@@ -17,9 +17,9 @@
  * under the License.
  */
 
-package org.apache.thrift;
+package com.jetbrains.cef.remote.thrift;
 
-import org.apache.thrift.transport.TTransport;
+import com.jetbrains.cef.remote.thrift.transport.TTransport;
 
 /** The default processor factory just returns a singleton instance. */
 public class TProcessorFactory {

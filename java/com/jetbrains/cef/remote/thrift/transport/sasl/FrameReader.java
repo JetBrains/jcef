@@ -17,12 +17,12 @@
  * under the License.
  */
 
-package org.apache.thrift.transport.sasl;
+package com.jetbrains.cef.remote.thrift.transport.sasl;
 
 import java.nio.ByteBuffer;
-import org.apache.thrift.transport.TEOFException;
-import org.apache.thrift.transport.TTransport;
-import org.apache.thrift.transport.TTransportException;
+import com.jetbrains.cef.remote.thrift.transport.TEOFException;
+import com.jetbrains.cef.remote.thrift.transport.TTransport;
+import com.jetbrains.cef.remote.thrift.transport.TTransportException;
 
 /**
  * Read frames from a transport. Each frame has a header and a payload. A header will indicate the

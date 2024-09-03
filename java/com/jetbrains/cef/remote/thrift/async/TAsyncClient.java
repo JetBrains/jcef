@@ -16,10 +16,10 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.thrift.async;
+package com.jetbrains.cef.remote.thrift.async;
 
-import org.apache.thrift.protocol.TProtocolFactory;
-import org.apache.thrift.transport.TNonblockingTransport;
+import com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory;
+import com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport;
 
 public abstract class TAsyncClient {
   protected final TProtocolFactory ___protocolFactory;

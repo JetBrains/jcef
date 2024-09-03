@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.apache.thrift;
+package com.jetbrains.cef.remote.thrift;
 
 /** Utility methods for use when encoding/decoding raw data as byte arrays. */
 public class EncodingUtils {

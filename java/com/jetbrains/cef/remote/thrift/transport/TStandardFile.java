@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.apache.thrift.transport;
+package com.jetbrains.cef.remote.thrift.transport;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

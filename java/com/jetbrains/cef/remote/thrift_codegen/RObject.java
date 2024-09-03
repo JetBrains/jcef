@@ -7,22 +7,22 @@
 package com.jetbrains.cef.remote.thrift_codegen;
 
 @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
-public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields>, java.io.Serializable, Cloneable, Comparable<RObject> {
-  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("RObject");
+public class RObject implements com.jetbrains.cef.remote.thrift.TBase<RObject, RObject._Fields>, java.io.Serializable, Cloneable, Comparable<RObject> {
+  private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("RObject");
 
-  private static final org.apache.thrift.protocol.TField OBJ_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("objId", org.apache.thrift.protocol.TType.I32, (short)1);
-  private static final org.apache.thrift.protocol.TField FLAGS_FIELD_DESC = new org.apache.thrift.protocol.TField("flags", org.apache.thrift.protocol.TType.I32, (short)2);
-  private static final org.apache.thrift.protocol.TField OBJ_INFO_FIELD_DESC = new org.apache.thrift.protocol.TField("objInfo", org.apache.thrift.protocol.TType.MAP, (short)3);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField OBJ_ID_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("objId", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)1);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField FLAGS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("flags", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)2);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField OBJ_INFO_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("objInfo", com.jetbrains.cef.remote.thrift.protocol.TType.MAP, (short)3);
 
-  private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RObjectStandardSchemeFactory();
-  private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RObjectTupleSchemeFactory();
+  private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RObjectStandardSchemeFactory();
+  private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RObjectTupleSchemeFactory();
 
   public int objId; // required
   public int flags; // optional
-  public @org.apache.thrift.annotation.Nullable java.util.Map<java.lang.String,java.lang.String> objInfo; // optional
+  public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.util.Map<java.lang.String,java.lang.String> objInfo; // optional
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-  public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+  public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
     OBJ_ID((short)1, "objId"),
     FLAGS((short)2, "flags"),
     OBJ_INFO((short)3, "objInfo");
@@ -38,7 +38,7 @@ public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields
     /**
      * Find the _Fields constant that matches fieldId, or null if its not found.
      */
-    @org.apache.thrift.annotation.Nullable
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
     public static _Fields findByThriftId(int fieldId) {
       switch(fieldId) {
         case 1: // OBJ_ID
@@ -65,7 +65,7 @@ public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields
     /**
      * Find the _Fields constant that matches name, or null if its not found.
      */
-    @org.apache.thrift.annotation.Nullable
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
     public static _Fields findByName(java.lang.String name) {
       return byName.get(name);
     }
@@ -94,19 +94,19 @@ public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields
   private static final int __FLAGS_ISSET_ID = 1;
   private byte __isset_bitfield = 0;
   private static final _Fields optionals[] = {_Fields.FLAGS,_Fields.OBJ_INFO};
-  public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+  public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
-    java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.OBJ_ID, new org.apache.thrift.meta_data.FieldMetaData("objId", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
-    tmpMap.put(_Fields.FLAGS, new org.apache.thrift.meta_data.FieldMetaData("flags", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
-    tmpMap.put(_Fields.OBJ_INFO, new org.apache.thrift.meta_data.FieldMetaData("objInfo", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
-        new org.apache.thrift.meta_data.MapMetaData(org.apache.thrift.protocol.TType.MAP, 
-            new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING), 
-            new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING))));
+    java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+    tmpMap.put(_Fields.OBJ_ID, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("objId", com.jetbrains.cef.remote.thrift.TFieldRequirementType.REQUIRED, 
+        new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+    tmpMap.put(_Fields.FLAGS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("flags", com.jetbrains.cef.remote.thrift.TFieldRequirementType.OPTIONAL, 
+        new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+    tmpMap.put(_Fields.OBJ_INFO, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("objInfo", com.jetbrains.cef.remote.thrift.TFieldRequirementType.OPTIONAL, 
+        new com.jetbrains.cef.remote.thrift.meta_data.MapMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.MAP, 
+            new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING), 
+            new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING))));
     metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(RObject.class, metaDataMap);
+    com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(RObject.class, metaDataMap);
   }
 
   public RObject() {
@@ -158,16 +158,16 @@ public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields
   }
 
   public void unsetObjId() {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __OBJID_ISSET_ID);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __OBJID_ISSET_ID);
   }
 
   /** Returns true if field objId is set (has been assigned a value) and false otherwise */
   public boolean isSetObjId() {
-    return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __OBJID_ISSET_ID);
+    return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __OBJID_ISSET_ID);
   }
 
   public void setObjIdIsSet(boolean value) {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __OBJID_ISSET_ID, value);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __OBJID_ISSET_ID, value);
   }
 
   public int getFlags() {
@@ -181,16 +181,16 @@ public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields
   }
 
   public void unsetFlags() {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __FLAGS_ISSET_ID);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __FLAGS_ISSET_ID);
   }
 
   /** Returns true if field flags is set (has been assigned a value) and false otherwise */
   public boolean isSetFlags() {
-    return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __FLAGS_ISSET_ID);
+    return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __FLAGS_ISSET_ID);
   }
 
   public void setFlagsIsSet(boolean value) {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __FLAGS_ISSET_ID, value);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __FLAGS_ISSET_ID, value);
   }
 
   public int getObjInfoSize() {
@@ -204,12 +204,12 @@ public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields
     this.objInfo.put(key, val);
   }
 
-  @org.apache.thrift.annotation.Nullable
+  @com.jetbrains.cef.remote.thrift.annotation.Nullable
   public java.util.Map<java.lang.String,java.lang.String> getObjInfo() {
     return this.objInfo;
   }
 
-  public RObject setObjInfo(@org.apache.thrift.annotation.Nullable java.util.Map<java.lang.String,java.lang.String> objInfo) {
+  public RObject setObjInfo(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.util.Map<java.lang.String,java.lang.String> objInfo) {
     this.objInfo = objInfo;
     return this;
   }
@@ -230,7 +230,7 @@ public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields
   }
 
   @Override
-  public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+  public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
     switch (field) {
     case OBJ_ID:
       if (value == null) {
@@ -259,7 +259,7 @@ public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields
     }
   }
 
-  @org.apache.thrift.annotation.Nullable
+  @com.jetbrains.cef.remote.thrift.annotation.Nullable
   @Override
   public java.lang.Object getFieldValue(_Fields field) {
     switch (field) {
@@ -367,7 +367,7 @@ public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields
       return lastComparison;
     }
     if (isSetObjId()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.objId, other.objId);
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.objId, other.objId);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -377,7 +377,7 @@ public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields
       return lastComparison;
     }
     if (isSetFlags()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.flags, other.flags);
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.flags, other.flags);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -387,7 +387,7 @@ public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields
       return lastComparison;
     }
     if (isSetObjInfo()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.objInfo, other.objInfo);
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.objInfo, other.objInfo);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -395,19 +395,19 @@ public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields
     return 0;
   }
 
-  @org.apache.thrift.annotation.Nullable
+  @com.jetbrains.cef.remote.thrift.annotation.Nullable
   @Override
   public _Fields fieldForId(int fieldId) {
     return _Fields.findByThriftId(fieldId);
   }
 
   @Override
-  public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+  public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
     scheme(iprot).read(iprot, this);
   }
 
   @Override
-  public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+  public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
     scheme(oprot).write(oprot, this);
   }
 
@@ -439,7 +439,7 @@ public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields
     return sb.toString();
   }
 
-  public void validate() throws org.apache.thrift.TException {
+  public void validate() throws com.jetbrains.cef.remote.thrift.TException {
     // check for required fields
     // alas, we cannot check 'objId' because it's a primitive and you chose the non-beans generator.
     // check for sub-struct validity
@@ -447,8 +447,8 @@ public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields
 
   private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
     try {
-      write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-    } catch (org.apache.thrift.TException te) {
+      write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+    } catch (com.jetbrains.cef.remote.thrift.TException te) {
       throw new java.io.IOException(te);
     }
   }
@@ -457,55 +457,55 @@ public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields
     try {
       // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
       __isset_bitfield = 0;
-      read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-    } catch (org.apache.thrift.TException te) {
+      read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+    } catch (com.jetbrains.cef.remote.thrift.TException te) {
       throw new java.io.IOException(te);
     }
   }
 
-  private static class RObjectStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+  private static class RObjectStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
     @Override
     public RObjectStandardScheme getScheme() {
       return new RObjectStandardScheme();
     }
   }
 
-  private static class RObjectStandardScheme extends org.apache.thrift.scheme.StandardScheme<RObject> {
+  private static class RObjectStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<RObject> {
 
     @Override
-    public void read(org.apache.thrift.protocol.TProtocol iprot, RObject struct) throws org.apache.thrift.TException {
-      org.apache.thrift.protocol.TField schemeField;
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, RObject struct) throws com.jetbrains.cef.remote.thrift.TException {
+      com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
       iprot.readStructBegin();
       while (true)
       {
         schemeField = iprot.readFieldBegin();
-        if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+        if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (schemeField.id) {
           case 1: // OBJ_ID
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
               struct.objId = iprot.readI32();
               struct.setObjIdIsSet(true);
             } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           case 2: // FLAGS
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
               struct.flags = iprot.readI32();
               struct.setFlagsIsSet(true);
             } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           case 3: // OBJ_INFO
-            if (schemeField.type == org.apache.thrift.protocol.TType.MAP) {
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.MAP) {
               {
-                org.apache.thrift.protocol.TMap _map0 = iprot.readMapBegin();
+                com.jetbrains.cef.remote.thrift.protocol.TMap _map0 = iprot.readMapBegin();
                 struct.objInfo = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map0.size);
-                @org.apache.thrift.annotation.Nullable java.lang.String _key1;
-                @org.apache.thrift.annotation.Nullable java.lang.String _val2;
+                @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key1;
+                @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val2;
                 for (int _i3 = 0; _i3 < _map0.size; ++_i3)
                 {
                   _key1 = iprot.readString();
@@ -516,11 +516,11 @@ public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields
               }
               struct.setObjInfoIsSet(true);
             } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           default:
-            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
         }
         iprot.readFieldEnd();
       }
@@ -528,13 +528,13 @@ public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields
 
       // check for required fields of primitive type, which can't be checked in the validate method
       if (!struct.isSetObjId()) {
-        throw new org.apache.thrift.protocol.TProtocolException("Required field 'objId' was not found in serialized data! Struct: " + toString());
+        throw new com.jetbrains.cef.remote.thrift.protocol.TProtocolException("Required field 'objId' was not found in serialized data! Struct: " + toString());
       }
       struct.validate();
     }
 
     @Override
-    public void write(org.apache.thrift.protocol.TProtocol oprot, RObject struct) throws org.apache.thrift.TException {
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, RObject struct) throws com.jetbrains.cef.remote.thrift.TException {
       struct.validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -550,7 +550,7 @@ public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields
         if (struct.isSetObjInfo()) {
           oprot.writeFieldBegin(OBJ_INFO_FIELD_DESC);
           {
-            oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING, struct.objInfo.size()));
+            oprot.writeMapBegin(new com.jetbrains.cef.remote.thrift.protocol.TMap(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, com.jetbrains.cef.remote.thrift.protocol.TType.STRING, struct.objInfo.size()));
             for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter4 : struct.objInfo.entrySet())
             {
               oprot.writeString(_iter4.getKey());
@@ -567,18 +567,18 @@ public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields
 
   }
 
-  private static class RObjectTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+  private static class RObjectTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
     @Override
     public RObjectTupleScheme getScheme() {
       return new RObjectTupleScheme();
     }
   }
 
-  private static class RObjectTupleScheme extends org.apache.thrift.scheme.TupleScheme<RObject> {
+  private static class RObjectTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<RObject> {
 
     @Override
-    public void write(org.apache.thrift.protocol.TProtocol prot, RObject struct) throws org.apache.thrift.TException {
-      org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, RObject struct) throws com.jetbrains.cef.remote.thrift.TException {
+      com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
       oprot.writeI32(struct.objId);
       java.util.BitSet optionals = new java.util.BitSet();
       if (struct.isSetFlags()) {
@@ -604,8 +604,8 @@ public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields
     }
 
     @Override
-    public void read(org.apache.thrift.protocol.TProtocol prot, RObject struct) throws org.apache.thrift.TException {
-      org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, RObject struct) throws com.jetbrains.cef.remote.thrift.TException {
+      com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
       struct.objId = iprot.readI32();
       struct.setObjIdIsSet(true);
       java.util.BitSet incoming = iprot.readBitSet(2);
@@ -615,10 +615,10 @@ public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields
       }
       if (incoming.get(1)) {
         {
-          org.apache.thrift.protocol.TMap _map6 = iprot.readMapBegin(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING); 
+          com.jetbrains.cef.remote.thrift.protocol.TMap _map6 = iprot.readMapBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, com.jetbrains.cef.remote.thrift.protocol.TType.STRING); 
           struct.objInfo = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map6.size);
-          @org.apache.thrift.annotation.Nullable java.lang.String _key7;
-          @org.apache.thrift.annotation.Nullable java.lang.String _val8;
+          @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key7;
+          @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val8;
           for (int _i9 = 0; _i9 < _map6.size; ++_i9)
           {
             _key7 = iprot.readString();
@@ -631,8 +631,8 @@ public class RObject implements org.apache.thrift.TBase<RObject, RObject._Fields
     }
   }
 
-  private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
-    return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+  private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+    return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
   }
 }
 

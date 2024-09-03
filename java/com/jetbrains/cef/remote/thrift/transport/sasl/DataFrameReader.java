@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.apache.thrift.transport.sasl;
+package com.jetbrains.cef.remote.thrift.transport.sasl;
 
 /** Frames for thrift (serialized) messages. */
 public class DataFrameReader extends FrameReader<DataFrameHeaderReader> {

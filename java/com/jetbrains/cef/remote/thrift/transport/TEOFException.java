@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.apache.thrift.transport;
+package com.jetbrains.cef.remote.thrift.transport;
 
 /** End of file, especially, the underlying socket is closed. */
 public class TEOFException extends TTransportException {

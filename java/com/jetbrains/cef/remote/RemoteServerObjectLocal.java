@@ -1,7 +1,7 @@
 package com.jetbrains.cef.remote;
 
 import com.jetbrains.cef.remote.thrift_codegen.RObject;
-import org.apache.thrift.TException;
+import com.jetbrains.cef.remote.thrift.TException;
 import org.cef.misc.CefLog;
 
 import java.io.PrintWriter;

@@ -16,15 +16,15 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.thrift.scheme;
+package com.jetbrains.cef.remote.thrift.scheme;
 
-import org.apache.thrift.TBase;
+import com.jetbrains.cef.remote.thrift.TBase;
 
 public interface IScheme<T extends TBase> {
 
-  void read(org.apache.thrift.protocol.TProtocol iproto, T struct)
-      throws org.apache.thrift.TException;
+  void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iproto, T struct)
+      throws com.jetbrains.cef.remote.thrift.TException;
 
-  void write(org.apache.thrift.protocol.TProtocol oproto, T struct)
-      throws org.apache.thrift.TException;
+  void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oproto, T struct)
+      throws com.jetbrains.cef.remote.thrift.TException;
 }

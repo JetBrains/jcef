@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.apache.thrift.transport;
+package com.jetbrains.cef.remote.thrift.transport;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -25,9 +25,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Random;
-import org.apache.thrift.TConfiguration;
-import org.apache.thrift.Logger;
-import org.apache.thrift.LoggerFactory;
+import com.jetbrains.cef.remote.thrift.TConfiguration;
+import com.jetbrains.cef.remote.thrift.Logger;
+import com.jetbrains.cef.remote.thrift.LoggerFactory;
 
 /**
  * FileTransport implementation of the TTransport interface. Currently this is a straightforward

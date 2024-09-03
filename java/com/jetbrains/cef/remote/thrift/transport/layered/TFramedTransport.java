@@ -17,15 +17,15 @@
  * under the License.
  */
 
-package org.apache.thrift.transport.layered;
+package com.jetbrains.cef.remote.thrift.transport.layered;
 
 import java.util.Objects;
-import org.apache.thrift.TByteArrayOutputStream;
-import org.apache.thrift.TConfiguration;
-import org.apache.thrift.transport.TMemoryInputTransport;
-import org.apache.thrift.transport.TTransport;
-import org.apache.thrift.transport.TTransportException;
-import org.apache.thrift.transport.TTransportFactory;
+import com.jetbrains.cef.remote.thrift.TByteArrayOutputStream;
+import com.jetbrains.cef.remote.thrift.TConfiguration;
+import com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport;
+import com.jetbrains.cef.remote.thrift.transport.TTransport;
+import com.jetbrains.cef.remote.thrift.transport.TTransportException;
+import com.jetbrains.cef.remote.thrift.transport.TTransportFactory;
 
 /**
  * TFramedTransport is a buffered TTransport that ensures a fully read message every time by

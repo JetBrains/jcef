@@ -1,4 +1,4 @@
-package org.apache.thrift;
+package com.jetbrains.cef.remote.thrift;
 
 import org.cef.misc.CefLog;
 

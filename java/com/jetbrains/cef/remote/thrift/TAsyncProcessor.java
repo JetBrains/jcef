@@ -16,9 +16,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.thrift;
+package com.jetbrains.cef.remote.thrift;
 
-import org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer;
+import com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer;
 
 public interface TAsyncProcessor {
   /**

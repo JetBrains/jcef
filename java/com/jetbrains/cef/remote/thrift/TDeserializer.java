@@ -17,29 +17,29 @@
  * under the License.
  */
 
-package org.apache.thrift;
+package com.jetbrains.cef.remote.thrift;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.util.Collection;
-import org.apache.thrift.meta_data.EnumMetaData;
-import org.apache.thrift.meta_data.StructMetaData;
-import org.apache.thrift.partial.TFieldData;
-import org.apache.thrift.partial.ThriftFieldValueProcessor;
-import org.apache.thrift.partial.ThriftMetadata;
-import org.apache.thrift.partial.ThriftStructProcessor;
-import org.apache.thrift.partial.Validate;
-import org.apache.thrift.protocol.TBinaryProtocol;
-import org.apache.thrift.protocol.TField;
-import org.apache.thrift.protocol.TList;
-import org.apache.thrift.protocol.TMap;
-import org.apache.thrift.protocol.TProtocol;
-import org.apache.thrift.protocol.TProtocolFactory;
-import org.apache.thrift.protocol.TProtocolUtil;
-import org.apache.thrift.protocol.TSet;
-import org.apache.thrift.protocol.TType;
-import org.apache.thrift.transport.TMemoryInputTransport;
-import org.apache.thrift.transport.TTransportException;
+import com.jetbrains.cef.remote.thrift.meta_data.EnumMetaData;
+import com.jetbrains.cef.remote.thrift.meta_data.StructMetaData;
+import com.jetbrains.cef.remote.thrift.partial.TFieldData;
+import com.jetbrains.cef.remote.thrift.partial.ThriftFieldValueProcessor;
+import com.jetbrains.cef.remote.thrift.partial.ThriftMetadata;
+import com.jetbrains.cef.remote.thrift.partial.ThriftStructProcessor;
+import com.jetbrains.cef.remote.thrift.partial.Validate;
+import com.jetbrains.cef.remote.thrift.protocol.TBinaryProtocol;
+import com.jetbrains.cef.remote.thrift.protocol.TField;
+import com.jetbrains.cef.remote.thrift.protocol.TList;
+import com.jetbrains.cef.remote.thrift.protocol.TMap;
+import com.jetbrains.cef.remote.thrift.protocol.TProtocol;
+import com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory;
+import com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil;
+import com.jetbrains.cef.remote.thrift.protocol.TSet;
+import com.jetbrains.cef.remote.thrift.protocol.TType;
+import com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport;
+import com.jetbrains.cef.remote.thrift.transport.TTransportException;
 
 /** Generic utility for easily deserializing objects from a byte array or Java String. */
 public class TDeserializer {

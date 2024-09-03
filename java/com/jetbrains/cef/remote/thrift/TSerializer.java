@@ -17,14 +17,14 @@
  * under the License.
  */
 
-package org.apache.thrift;
+package com.jetbrains.cef.remote.thrift;
 
 import java.io.ByteArrayOutputStream;
-import org.apache.thrift.protocol.TBinaryProtocol;
-import org.apache.thrift.protocol.TProtocol;
-import org.apache.thrift.protocol.TProtocolFactory;
-import org.apache.thrift.transport.TIOStreamTransport;
-import org.apache.thrift.transport.TTransportException;
+import com.jetbrains.cef.remote.thrift.protocol.TBinaryProtocol;
+import com.jetbrains.cef.remote.thrift.protocol.TProtocol;
+import com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory;
+import com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport;
+import com.jetbrains.cef.remote.thrift.transport.TTransportException;
 
 /** Generic utility for easily serializing objects into a byte array or Java String. */
 public class TSerializer {

@@ -17,11 +17,11 @@
  * under the License.
  */
 
-package org.apache.thrift.transport;
+package com.jetbrains.cef.remote.thrift.transport;
 
 import java.io.Closeable;
 import java.net.InetSocketAddress;
-import org.apache.thrift.TConfiguration;
+import com.jetbrains.cef.remote.thrift.TConfiguration;
 
 /** Server transport. Object which provides client transports. */
 public abstract class TServerTransport implements Closeable {

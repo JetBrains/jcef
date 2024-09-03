@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.apache.thrift.transport.sasl;
+package com.jetbrains.cef.remote.thrift.transport.sasl;
 
 /** Read frames for sasl negotiatiions. */
 public class SaslNegotiationFrameReader extends FrameReader<SaslNegotiationHeaderReader> {

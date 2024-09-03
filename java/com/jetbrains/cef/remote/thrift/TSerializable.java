@@ -17,9 +17,9 @@
  * under the License.
  */
 
-package org.apache.thrift;
+package com.jetbrains.cef.remote.thrift;
 
-import org.apache.thrift.protocol.TProtocol;
+import com.jetbrains.cef.remote.thrift.protocol.TProtocol;
 
 /** Generic base interface for generated Thrift objects. */
 public interface TSerializable {

@@ -17,9 +17,9 @@
  * under the License.
  */
 
-package org.apache.thrift.transport.sasl;
+package com.jetbrains.cef.remote.thrift.transport.sasl;
 
-import static org.apache.thrift.transport.sasl.TSaslNegotiationException.ErrorType.PROTOCOL_ERROR;
+import static com.jetbrains.cef.remote.thrift.transport.sasl.TSaslNegotiationException.ErrorType.PROTOCOL_ERROR;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,10 +1,10 @@
 package com.jetbrains.cef.remote;
 
 import com.jetbrains.cef.remote.thrift_codegen.ClientHandlers;
-import org.apache.thrift.TException;
-import org.apache.thrift.server.TServer;
-import org.apache.thrift.server.TThreadPoolServer;
-import org.apache.thrift.transport.TServerTransport;
+import com.jetbrains.cef.remote.thrift.TException;
+import com.jetbrains.cef.remote.thrift.server.TServer;
+import com.jetbrains.cef.remote.thrift.server.TThreadPoolServer;
+import com.jetbrains.cef.remote.thrift.transport.TServerTransport;
 import org.cef.CefApp;
 import org.cef.CefSettings;
 import org.cef.handler.CefAppHandler;

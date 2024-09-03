@@ -17,9 +17,9 @@
  * under the License.
  */
 
-package org.apache.thrift.meta_data;
+package com.jetbrains.cef.remote.thrift.meta_data;
 
-import org.apache.thrift.TEnum;
+import com.jetbrains.cef.remote.thrift.TEnum;
 
 public class EnumMetaData extends FieldValueMetaData {
   public final Class<? extends TEnum> enumClass;

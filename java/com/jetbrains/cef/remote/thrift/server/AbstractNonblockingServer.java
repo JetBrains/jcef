@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.apache.thrift.server;
+package com.jetbrains.cef.remote.thrift.server;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -28,19 +28,19 @@ import java.text.MessageFormat;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
-import org.apache.thrift.TAsyncProcessor;
-import org.apache.thrift.TByteArrayOutputStream;
-import org.apache.thrift.TException;
-import org.apache.thrift.protocol.TProtocol;
-import org.apache.thrift.transport.TIOStreamTransport;
-import org.apache.thrift.transport.TMemoryInputTransport;
-import org.apache.thrift.transport.TNonblockingServerTransport;
-import org.apache.thrift.transport.TNonblockingTransport;
-import org.apache.thrift.transport.TTransport;
-import org.apache.thrift.transport.TTransportException;
-import org.apache.thrift.transport.layered.TFramedTransport;
-import org.apache.thrift.Logger;
-import org.apache.thrift.LoggerFactory;
+import com.jetbrains.cef.remote.thrift.TAsyncProcessor;
+import com.jetbrains.cef.remote.thrift.TByteArrayOutputStream;
+import com.jetbrains.cef.remote.thrift.TException;
+import com.jetbrains.cef.remote.thrift.protocol.TProtocol;
+import com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport;
+import com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport;
+import com.jetbrains.cef.remote.thrift.transport.TNonblockingServerTransport;
+import com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport;
+import com.jetbrains.cef.remote.thrift.transport.TTransport;
+import com.jetbrains.cef.remote.thrift.transport.TTransportException;
+import com.jetbrains.cef.remote.thrift.transport.layered.TFramedTransport;
+import com.jetbrains.cef.remote.thrift.Logger;
+import com.jetbrains.cef.remote.thrift.LoggerFactory;
 
 /** Provides common methods and classes used by nonblocking TServer implementations. */
 public abstract class AbstractNonblockingServer extends TServer {

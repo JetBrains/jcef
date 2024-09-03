@@ -18,7 +18,7 @@
  */
 
 /** Interface for storing server's connection context. */
-package org.apache.thrift.server;
+package com.jetbrains.cef.remote.thrift.server;
 
 public interface ServerContext {
 

@@ -17,9 +17,9 @@
  * under the License.
  */
 
-package org.apache.thrift.meta_data;
+package com.jetbrains.cef.remote.thrift.meta_data;
 
-import org.apache.thrift.TBase;
+import com.jetbrains.cef.remote.thrift.TBase;
 
 public class StructMetaData extends FieldValueMetaData {
   public final Class<? extends TBase> structClass;

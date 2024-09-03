@@ -16,13 +16,13 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.thrift;
+package com.jetbrains.cef.remote.thrift;
 
 import java.util.Collections;
 import java.util.Map;
-import org.apache.thrift.async.AsyncMethodCallback;
-import org.apache.thrift.protocol.*;
-import org.apache.thrift.server.AbstractNonblockingServer.*;
+import com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback;
+import com.jetbrains.cef.remote.thrift.protocol.*;
+import com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.*;
 
 public class TBaseAsyncProcessor<I> implements TAsyncProcessor, TProcessor {
   protected final Logger LOGGER = LoggerFactory.getLogger(getClass().getName());

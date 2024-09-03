@@ -17,13 +17,13 @@
  * under the License.
  */
 
-package org.apache.thrift.transport;
+package com.jetbrains.cef.remote.thrift.transport;
 
 import java.io.IOException;
 import java.net.SocketAddress;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
-import org.apache.thrift.TConfiguration;
+import com.jetbrains.cef.remote.thrift.TConfiguration;
 
 public abstract class TNonblockingTransport extends TEndpointTransport {
 

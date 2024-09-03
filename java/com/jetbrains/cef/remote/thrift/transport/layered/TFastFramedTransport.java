@@ -16,11 +16,11 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.thrift.transport.layered;
+package com.jetbrains.cef.remote.thrift.transport.layered;
 
 import java.util.Objects;
-import org.apache.thrift.TConfiguration;
-import org.apache.thrift.transport.*;
+import com.jetbrains.cef.remote.thrift.TConfiguration;
+import com.jetbrains.cef.remote.thrift.transport.*;
 
 /**
  * This transport is wire compatible with {@link TFramedTransport}, but makes use of reusable,

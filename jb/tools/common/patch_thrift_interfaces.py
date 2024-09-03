@@ -2,7 +2,8 @@ import os
 import sys
 
 substitution_list = [
-    ("org.slf4j.", "org.apache.thrift.")
+    ("org.slf4j.", "org.apache.thrift."),
+    ("org.apache.thrift", "com.jetbrains.cef.remote.thrift")
 ]
 
 

@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.thrift;
+package com.jetbrains.cef.remote.thrift;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -25,14 +25,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.apache.thrift.protocol.TField;
-import org.apache.thrift.protocol.TProtocol;
-import org.apache.thrift.protocol.TProtocolException;
-import org.apache.thrift.protocol.TStruct;
-import org.apache.thrift.scheme.IScheme;
-import org.apache.thrift.scheme.SchemeFactory;
-import org.apache.thrift.scheme.StandardScheme;
-import org.apache.thrift.scheme.TupleScheme;
+import com.jetbrains.cef.remote.thrift.protocol.TField;
+import com.jetbrains.cef.remote.thrift.protocol.TProtocol;
+import com.jetbrains.cef.remote.thrift.protocol.TProtocolException;
+import com.jetbrains.cef.remote.thrift.protocol.TStruct;
+import com.jetbrains.cef.remote.thrift.scheme.IScheme;
+import com.jetbrains.cef.remote.thrift.scheme.SchemeFactory;
+import com.jetbrains.cef.remote.thrift.scheme.StandardScheme;
+import com.jetbrains.cef.remote.thrift.scheme.TupleScheme;
 
 public abstract class TUnion<T extends TUnion<T, F>, F extends TFieldIdEnum>
     implements TBase<T, F> {

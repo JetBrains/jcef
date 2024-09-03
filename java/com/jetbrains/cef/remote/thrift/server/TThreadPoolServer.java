@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.apache.thrift.server;
+package com.jetbrains.cef.remote.thrift.server;
 
 import java.net.SocketException;
 import java.util.Optional;
@@ -28,14 +28,14 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
-import org.apache.thrift.TException;
-import org.apache.thrift.TProcessor;
-import org.apache.thrift.protocol.TProtocol;
-import org.apache.thrift.transport.TServerTransport;
-import org.apache.thrift.transport.TTransport;
-import org.apache.thrift.transport.TTransportException;
-import org.apache.thrift.Logger;
-import org.apache.thrift.LoggerFactory;
+import com.jetbrains.cef.remote.thrift.TException;
+import com.jetbrains.cef.remote.thrift.TProcessor;
+import com.jetbrains.cef.remote.thrift.protocol.TProtocol;
+import com.jetbrains.cef.remote.thrift.transport.TServerTransport;
+import com.jetbrains.cef.remote.thrift.transport.TTransport;
+import com.jetbrains.cef.remote.thrift.transport.TTransportException;
+import com.jetbrains.cef.remote.thrift.Logger;
+import com.jetbrains.cef.remote.thrift.LoggerFactory;
 
 /**
  * Server which uses Java's built in ThreadPool management to spawn off a worker pool that deals

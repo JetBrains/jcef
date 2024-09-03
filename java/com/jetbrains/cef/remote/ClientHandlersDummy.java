@@ -1,7 +1,7 @@
 package com.jetbrains.cef.remote;
 
 import com.jetbrains.cef.remote.thrift_codegen.*;
-import org.apache.thrift.TException;
+import com.jetbrains.cef.remote.thrift.TException;
 
 import java.nio.ByteBuffer;
 import java.util.List;

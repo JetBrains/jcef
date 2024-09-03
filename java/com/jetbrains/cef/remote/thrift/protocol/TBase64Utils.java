@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.apache.thrift.protocol;
+package com.jetbrains.cef.remote.thrift.protocol;
 
 /**
  * Class for encoding and decoding Base64 data.

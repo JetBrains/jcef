@@ -16,9 +16,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.thrift.async;
+package com.jetbrains.cef.remote.thrift.async;
 
-import org.apache.thrift.transport.TNonblockingTransport;
+import com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport;
 
 public interface TAsyncClientFactory<T extends TAsyncClient> {
   T getAsyncClient(TNonblockingTransport transport);

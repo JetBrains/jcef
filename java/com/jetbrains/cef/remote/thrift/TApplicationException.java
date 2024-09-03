@@ -17,13 +17,13 @@
  * under the License.
  */
 
-package org.apache.thrift;
+package com.jetbrains.cef.remote.thrift;
 
-import org.apache.thrift.protocol.TField;
-import org.apache.thrift.protocol.TProtocol;
-import org.apache.thrift.protocol.TProtocolUtil;
-import org.apache.thrift.protocol.TStruct;
-import org.apache.thrift.protocol.TType;
+import com.jetbrains.cef.remote.thrift.protocol.TField;
+import com.jetbrains.cef.remote.thrift.protocol.TProtocol;
+import com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil;
+import com.jetbrains.cef.remote.thrift.protocol.TStruct;
+import com.jetbrains.cef.remote.thrift.protocol.TType;
 
 /** Application level exception */
 public class TApplicationException extends TException implements TSerializable {

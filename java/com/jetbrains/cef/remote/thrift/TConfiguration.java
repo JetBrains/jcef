@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.thrift;
+package com.jetbrains.cef.remote.thrift;
 
 public class TConfiguration {
   public static final int DEFAULT_MAX_MESSAGE_SIZE = 100 * 1024 * 1024;

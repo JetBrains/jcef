@@ -17,14 +17,14 @@
  * under the License.
  */
 
-package org.apache.thrift.server;
+package com.jetbrains.cef.remote.thrift.server;
 
 import java.io.IOException;
 import java.nio.channels.SelectionKey;
 import java.util.Iterator;
-import org.apache.thrift.transport.TNonblockingServerTransport;
-import org.apache.thrift.transport.TNonblockingTransport;
-import org.apache.thrift.transport.TTransportException;
+import com.jetbrains.cef.remote.thrift.transport.TNonblockingServerTransport;
+import com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport;
+import com.jetbrains.cef.remote.thrift.transport.TTransportException;
 
 /**
  * A nonblocking TServer implementation. This allows for fairness amongst all connected clients in

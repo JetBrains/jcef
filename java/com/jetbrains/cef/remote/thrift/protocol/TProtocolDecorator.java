@@ -17,11 +17,11 @@
  * under the License.
  */
 
-package org.apache.thrift.protocol;
+package com.jetbrains.cef.remote.thrift.protocol;
 
 import java.nio.ByteBuffer;
 import java.util.UUID;
-import org.apache.thrift.TException;
+import com.jetbrains.cef.remote.thrift.TException;
 
 /**
  * <code>TProtocolDecorator</code> forwards all requests to an enclosed <code>TProtocol</code>
@@ -31,7 +31,7 @@ import org.apache.thrift.TException;
  *
  * <p>See p.175 of Design Patterns (by Gamma et al.)
  *
- * @see org.apache.thrift.protocol.TMultiplexedProtocol
+ * @see com.jetbrains.cef.remote.thrift.protocol.TMultiplexedProtocol
  */
 public abstract class TProtocolDecorator extends TProtocol {
 

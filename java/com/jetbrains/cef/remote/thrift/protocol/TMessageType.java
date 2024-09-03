@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.apache.thrift.protocol;
+package com.jetbrains.cef.remote.thrift.protocol;
 
 /** Message type constants in the Thrift protocol. */
 public final class TMessageType {

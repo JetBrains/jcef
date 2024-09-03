@@ -17,13 +17,13 @@
  * under the License.
  */
 
-package org.apache.thrift.transport.sasl;
+package com.jetbrains.cef.remote.thrift.transport.sasl;
 
-import static org.apache.thrift.transport.sasl.DataFrameHeaderReader.PAYLOAD_LENGTH_BYTES;
+import static com.jetbrains.cef.remote.thrift.transport.sasl.DataFrameHeaderReader.PAYLOAD_LENGTH_BYTES;
 
 import java.nio.ByteBuffer;
-import org.apache.thrift.EncodingUtils;
-import org.apache.thrift.utils.StringUtils;
+import com.jetbrains.cef.remote.thrift.EncodingUtils;
+import com.jetbrains.cef.remote.thrift.utils.StringUtils;
 
 /**
  * Write frames of thrift messages. It expects an empty/null header to be provided with a payload to

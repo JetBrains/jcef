@@ -7,26 +7,26 @@
 package com.jetbrains.cef.remote.thrift_codegen;
 
 @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
-public class Cookie implements org.apache.thrift.TBase<Cookie, Cookie._Fields>, java.io.Serializable, Cloneable, Comparable<Cookie> {
-  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("Cookie");
+public class Cookie implements com.jetbrains.cef.remote.thrift.TBase<Cookie, Cookie._Fields>, java.io.Serializable, Cloneable, Comparable<Cookie> {
+  private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("Cookie");
 
-  private static final org.apache.thrift.protocol.TField NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("name", org.apache.thrift.protocol.TType.STRING, (short)1);
-  private static final org.apache.thrift.protocol.TField VALUE_FIELD_DESC = new org.apache.thrift.protocol.TField("value", org.apache.thrift.protocol.TType.STRING, (short)2);
-  private static final org.apache.thrift.protocol.TField DOMAIN_FIELD_DESC = new org.apache.thrift.protocol.TField("domain", org.apache.thrift.protocol.TType.STRING, (short)3);
-  private static final org.apache.thrift.protocol.TField PATH_FIELD_DESC = new org.apache.thrift.protocol.TField("path", org.apache.thrift.protocol.TType.STRING, (short)4);
-  private static final org.apache.thrift.protocol.TField SECURE_FIELD_DESC = new org.apache.thrift.protocol.TField("secure", org.apache.thrift.protocol.TType.BOOL, (short)5);
-  private static final org.apache.thrift.protocol.TField HTTPONLY_FIELD_DESC = new org.apache.thrift.protocol.TField("httponly", org.apache.thrift.protocol.TType.BOOL, (short)6);
-  private static final org.apache.thrift.protocol.TField CREATION_FIELD_DESC = new org.apache.thrift.protocol.TField("creation", org.apache.thrift.protocol.TType.I64, (short)7);
-  private static final org.apache.thrift.protocol.TField LAST_ACCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("lastAccess", org.apache.thrift.protocol.TType.I64, (short)8);
-  private static final org.apache.thrift.protocol.TField EXPIRES_FIELD_DESC = new org.apache.thrift.protocol.TField("expires", org.apache.thrift.protocol.TType.I64, (short)9);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField NAME_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("name", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)1);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField VALUE_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("value", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)2);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField DOMAIN_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("domain", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)3);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField PATH_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("path", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)4);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField SECURE_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("secure", com.jetbrains.cef.remote.thrift.protocol.TType.BOOL, (short)5);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField HTTPONLY_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("httponly", com.jetbrains.cef.remote.thrift.protocol.TType.BOOL, (short)6);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField CREATION_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("creation", com.jetbrains.cef.remote.thrift.protocol.TType.I64, (short)7);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField LAST_ACCESS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("lastAccess", com.jetbrains.cef.remote.thrift.protocol.TType.I64, (short)8);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField EXPIRES_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("expires", com.jetbrains.cef.remote.thrift.protocol.TType.I64, (short)9);
 
-  private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new CookieStandardSchemeFactory();
-  private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new CookieTupleSchemeFactory();
+  private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new CookieStandardSchemeFactory();
+  private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new CookieTupleSchemeFactory();
 
-  public @org.apache.thrift.annotation.Nullable java.lang.String name; // required
-  public @org.apache.thrift.annotation.Nullable java.lang.String value; // required
-  public @org.apache.thrift.annotation.Nullable java.lang.String domain; // required
-  public @org.apache.thrift.annotation.Nullable java.lang.String path; // required
+  public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String name; // required
+  public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String value; // required
+  public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String domain; // required
+  public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String path; // required
   public boolean secure; // required
   public boolean httponly; // required
   public long creation; // required
@@ -34,7 +34,7 @@ public class Cookie implements org.apache.thrift.TBase<Cookie, Cookie._Fields>, 
   public long expires; // optional
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-  public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+  public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
     NAME((short)1, "name"),
     VALUE((short)2, "value"),
     DOMAIN((short)3, "domain"),
@@ -56,7 +56,7 @@ public class Cookie implements org.apache.thrift.TBase<Cookie, Cookie._Fields>, 
     /**
      * Find the _Fields constant that matches fieldId, or null if its not found.
      */
-    @org.apache.thrift.annotation.Nullable
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
     public static _Fields findByThriftId(int fieldId) {
       switch(fieldId) {
         case 1: // NAME
@@ -95,7 +95,7 @@ public class Cookie implements org.apache.thrift.TBase<Cookie, Cookie._Fields>, 
     /**
      * Find the _Fields constant that matches name, or null if its not found.
      */
-    @org.apache.thrift.annotation.Nullable
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
     public static _Fields findByName(java.lang.String name) {
       return byName.get(name);
     }
@@ -127,29 +127,29 @@ public class Cookie implements org.apache.thrift.TBase<Cookie, Cookie._Fields>, 
   private static final int __EXPIRES_ISSET_ID = 4;
   private byte __isset_bitfield = 0;
   private static final _Fields optionals[] = {_Fields.EXPIRES};
-  public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+  public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
-    java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.NAME, new org.apache.thrift.meta_data.FieldMetaData("name", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-    tmpMap.put(_Fields.VALUE, new org.apache.thrift.meta_data.FieldMetaData("value", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-    tmpMap.put(_Fields.DOMAIN, new org.apache.thrift.meta_data.FieldMetaData("domain", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-    tmpMap.put(_Fields.PATH, new org.apache.thrift.meta_data.FieldMetaData("path", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-    tmpMap.put(_Fields.SECURE, new org.apache.thrift.meta_data.FieldMetaData("secure", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
-    tmpMap.put(_Fields.HTTPONLY, new org.apache.thrift.meta_data.FieldMetaData("httponly", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
-    tmpMap.put(_Fields.CREATION, new org.apache.thrift.meta_data.FieldMetaData("creation", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
-    tmpMap.put(_Fields.LAST_ACCESS, new org.apache.thrift.meta_data.FieldMetaData("lastAccess", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
-    tmpMap.put(_Fields.EXPIRES, new org.apache.thrift.meta_data.FieldMetaData("expires", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
+    java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+    tmpMap.put(_Fields.NAME, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("name", com.jetbrains.cef.remote.thrift.TFieldRequirementType.REQUIRED, 
+        new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.VALUE, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("value", com.jetbrains.cef.remote.thrift.TFieldRequirementType.REQUIRED, 
+        new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.DOMAIN, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("domain", com.jetbrains.cef.remote.thrift.TFieldRequirementType.REQUIRED, 
+        new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.PATH, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("path", com.jetbrains.cef.remote.thrift.TFieldRequirementType.REQUIRED, 
+        new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.SECURE, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("secure", com.jetbrains.cef.remote.thrift.TFieldRequirementType.REQUIRED, 
+        new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.BOOL)));
+    tmpMap.put(_Fields.HTTPONLY, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("httponly", com.jetbrains.cef.remote.thrift.TFieldRequirementType.REQUIRED, 
+        new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.BOOL)));
+    tmpMap.put(_Fields.CREATION, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("creation", com.jetbrains.cef.remote.thrift.TFieldRequirementType.REQUIRED, 
+        new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I64)));
+    tmpMap.put(_Fields.LAST_ACCESS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("lastAccess", com.jetbrains.cef.remote.thrift.TFieldRequirementType.REQUIRED, 
+        new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I64)));
+    tmpMap.put(_Fields.EXPIRES, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("expires", com.jetbrains.cef.remote.thrift.TFieldRequirementType.OPTIONAL, 
+        new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I64)));
     metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Cookie.class, metaDataMap);
+    com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Cookie.class, metaDataMap);
   }
 
   public Cookie() {
@@ -227,12 +227,12 @@ public class Cookie implements org.apache.thrift.TBase<Cookie, Cookie._Fields>, 
     this.expires = 0;
   }
 
-  @org.apache.thrift.annotation.Nullable
+  @com.jetbrains.cef.remote.thrift.annotation.Nullable
   public java.lang.String getName() {
     return this.name;
   }
 
-  public Cookie setName(@org.apache.thrift.annotation.Nullable java.lang.String name) {
+  public Cookie setName(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String name) {
     this.name = name;
     return this;
   }
@@ -252,12 +252,12 @@ public class Cookie implements org.apache.thrift.TBase<Cookie, Cookie._Fields>, 
     }
   }
 
-  @org.apache.thrift.annotation.Nullable
+  @com.jetbrains.cef.remote.thrift.annotation.Nullable
   public java.lang.String getValue() {
     return this.value;
   }
 
-  public Cookie setValue(@org.apache.thrift.annotation.Nullable java.lang.String value) {
+  public Cookie setValue(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String value) {
     this.value = value;
     return this;
   }
@@ -277,12 +277,12 @@ public class Cookie implements org.apache.thrift.TBase<Cookie, Cookie._Fields>, 
     }
   }
 
-  @org.apache.thrift.annotation.Nullable
+  @com.jetbrains.cef.remote.thrift.annotation.Nullable
   public java.lang.String getDomain() {
     return this.domain;
   }
 
-  public Cookie setDomain(@org.apache.thrift.annotation.Nullable java.lang.String domain) {
+  public Cookie setDomain(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String domain) {
     this.domain = domain;
     return this;
   }
@@ -302,12 +302,12 @@ public class Cookie implements org.apache.thrift.TBase<Cookie, Cookie._Fields>, 
     }
   }
 
-  @org.apache.thrift.annotation.Nullable
+  @com.jetbrains.cef.remote.thrift.annotation.Nullable
   public java.lang.String getPath() {
     return this.path;
   }
 
-  public Cookie setPath(@org.apache.thrift.annotation.Nullable java.lang.String path) {
+  public Cookie setPath(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String path) {
     this.path = path;
     return this;
   }
@@ -338,16 +338,16 @@ public class Cookie implements org.apache.thrift.TBase<Cookie, Cookie._Fields>, 
   }
 
   public void unsetSecure() {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __SECURE_ISSET_ID);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __SECURE_ISSET_ID);
   }
 
   /** Returns true if field secure is set (has been assigned a value) and false otherwise */
   public boolean isSetSecure() {
-    return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __SECURE_ISSET_ID);
+    return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __SECURE_ISSET_ID);
   }
 
   public void setSecureIsSet(boolean value) {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __SECURE_ISSET_ID, value);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __SECURE_ISSET_ID, value);
   }
 
   public boolean isHttponly() {
@@ -361,16 +361,16 @@ public class Cookie implements org.apache.thrift.TBase<Cookie, Cookie._Fields>, 
   }
 
   public void unsetHttponly() {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __HTTPONLY_ISSET_ID);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __HTTPONLY_ISSET_ID);
   }
 
   /** Returns true if field httponly is set (has been assigned a value) and false otherwise */
   public boolean isSetHttponly() {
-    return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __HTTPONLY_ISSET_ID);
+    return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __HTTPONLY_ISSET_ID);
   }
 
   public void setHttponlyIsSet(boolean value) {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __HTTPONLY_ISSET_ID, value);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __HTTPONLY_ISSET_ID, value);
   }
 
   public long getCreation() {
@@ -384,16 +384,16 @@ public class Cookie implements org.apache.thrift.TBase<Cookie, Cookie._Fields>, 
   }
 
   public void unsetCreation() {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __CREATION_ISSET_ID);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __CREATION_ISSET_ID);
   }
 
   /** Returns true if field creation is set (has been assigned a value) and false otherwise */
   public boolean isSetCreation() {
-    return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __CREATION_ISSET_ID);
+    return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __CREATION_ISSET_ID);
   }
 
   public void setCreationIsSet(boolean value) {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __CREATION_ISSET_ID, value);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __CREATION_ISSET_ID, value);
   }
 
   public long getLastAccess() {
@@ -407,16 +407,16 @@ public class Cookie implements org.apache.thrift.TBase<Cookie, Cookie._Fields>, 
   }
 
   public void unsetLastAccess() {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __LASTACCESS_ISSET_ID);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __LASTACCESS_ISSET_ID);
   }
 
   /** Returns true if field lastAccess is set (has been assigned a value) and false otherwise */
   public boolean isSetLastAccess() {
-    return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __LASTACCESS_ISSET_ID);
+    return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __LASTACCESS_ISSET_ID);
   }
 
   public void setLastAccessIsSet(boolean value) {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __LASTACCESS_ISSET_ID, value);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __LASTACCESS_ISSET_ID, value);
   }
 
   public long getExpires() {
@@ -430,20 +430,20 @@ public class Cookie implements org.apache.thrift.TBase<Cookie, Cookie._Fields>, 
   }
 
   public void unsetExpires() {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __EXPIRES_ISSET_ID);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __EXPIRES_ISSET_ID);
   }
 
   /** Returns true if field expires is set (has been assigned a value) and false otherwise */
   public boolean isSetExpires() {
-    return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __EXPIRES_ISSET_ID);
+    return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __EXPIRES_ISSET_ID);
   }
 
   public void setExpiresIsSet(boolean value) {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __EXPIRES_ISSET_ID, value);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __EXPIRES_ISSET_ID, value);
   }
 
   @Override
-  public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+  public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
     switch (field) {
     case NAME:
       if (value == null) {
@@ -520,7 +520,7 @@ public class Cookie implements org.apache.thrift.TBase<Cookie, Cookie._Fields>, 
     }
   }
 
-  @org.apache.thrift.annotation.Nullable
+  @com.jetbrains.cef.remote.thrift.annotation.Nullable
   @Override
   public java.lang.Object getFieldValue(_Fields field) {
     switch (field) {
@@ -706,13 +706,13 @@ public class Cookie implements org.apache.thrift.TBase<Cookie, Cookie._Fields>, 
 
     hashCode = hashCode * 8191 + ((httponly) ? 131071 : 524287);
 
-    hashCode = hashCode * 8191 + org.apache.thrift.TBaseHelper.hashCode(creation);
+    hashCode = hashCode * 8191 + com.jetbrains.cef.remote.thrift.TBaseHelper.hashCode(creation);
 
-    hashCode = hashCode * 8191 + org.apache.thrift.TBaseHelper.hashCode(lastAccess);
+    hashCode = hashCode * 8191 + com.jetbrains.cef.remote.thrift.TBaseHelper.hashCode(lastAccess);
 
     hashCode = hashCode * 8191 + ((isSetExpires()) ? 131071 : 524287);
     if (isSetExpires())
-      hashCode = hashCode * 8191 + org.apache.thrift.TBaseHelper.hashCode(expires);
+      hashCode = hashCode * 8191 + com.jetbrains.cef.remote.thrift.TBaseHelper.hashCode(expires);
 
     return hashCode;
   }
@@ -730,7 +730,7 @@ public class Cookie implements org.apache.thrift.TBase<Cookie, Cookie._Fields>, 
       return lastComparison;
     }
     if (isSetName()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.name, other.name);
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.name, other.name);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -740,7 +740,7 @@ public class Cookie implements org.apache.thrift.TBase<Cookie, Cookie._Fields>, 
       return lastComparison;
     }
     if (isSetValue()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.value, other.value);
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.value, other.value);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -750,7 +750,7 @@ public class Cookie implements org.apache.thrift.TBase<Cookie, Cookie._Fields>, 
       return lastComparison;
     }
     if (isSetDomain()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.domain, other.domain);
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.domain, other.domain);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -760,7 +760,7 @@ public class Cookie implements org.apache.thrift.TBase<Cookie, Cookie._Fields>, 
       return lastComparison;
     }
     if (isSetPath()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.path, other.path);
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.path, other.path);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -770,7 +770,7 @@ public class Cookie implements org.apache.thrift.TBase<Cookie, Cookie._Fields>, 
       return lastComparison;
     }
     if (isSetSecure()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.secure, other.secure);
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.secure, other.secure);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -780,7 +780,7 @@ public class Cookie implements org.apache.thrift.TBase<Cookie, Cookie._Fields>, 
       return lastComparison;
     }
     if (isSetHttponly()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.httponly, other.httponly);
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.httponly, other.httponly);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -790,7 +790,7 @@ public class Cookie implements org.apache.thrift.TBase<Cookie, Cookie._Fields>, 
       return lastComparison;
     }
     if (isSetCreation()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.creation, other.creation);
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.creation, other.creation);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -800,7 +800,7 @@ public class Cookie implements org.apache.thrift.TBase<Cookie, Cookie._Fields>, 
       return lastComparison;
     }
     if (isSetLastAccess()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.lastAccess, other.lastAccess);
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.lastAccess, other.lastAccess);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -810,7 +810,7 @@ public class Cookie implements org.apache.thrift.TBase<Cookie, Cookie._Fields>, 
       return lastComparison;
     }
     if (isSetExpires()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.expires, other.expires);
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.expires, other.expires);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -818,19 +818,19 @@ public class Cookie implements org.apache.thrift.TBase<Cookie, Cookie._Fields>, 
     return 0;
   }
 
-  @org.apache.thrift.annotation.Nullable
+  @com.jetbrains.cef.remote.thrift.annotation.Nullable
   @Override
   public _Fields fieldForId(int fieldId) {
     return _Fields.findByThriftId(fieldId);
   }
 
   @Override
-  public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+  public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
     scheme(iprot).read(iprot, this);
   }
 
   @Override
-  public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+  public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
     scheme(oprot).write(oprot, this);
   }
 
@@ -896,19 +896,19 @@ public class Cookie implements org.apache.thrift.TBase<Cookie, Cookie._Fields>, 
     return sb.toString();
   }
 
-  public void validate() throws org.apache.thrift.TException {
+  public void validate() throws com.jetbrains.cef.remote.thrift.TException {
     // check for required fields
     if (name == null) {
-      throw new org.apache.thrift.protocol.TProtocolException("Required field 'name' was not present! Struct: " + toString());
+      throw new com.jetbrains.cef.remote.thrift.protocol.TProtocolException("Required field 'name' was not present! Struct: " + toString());
     }
     if (value == null) {
-      throw new org.apache.thrift.protocol.TProtocolException("Required field 'value' was not present! Struct: " + toString());
+      throw new com.jetbrains.cef.remote.thrift.protocol.TProtocolException("Required field 'value' was not present! Struct: " + toString());
     }
     if (domain == null) {
-      throw new org.apache.thrift.protocol.TProtocolException("Required field 'domain' was not present! Struct: " + toString());
+      throw new com.jetbrains.cef.remote.thrift.protocol.TProtocolException("Required field 'domain' was not present! Struct: " + toString());
     }
     if (path == null) {
-      throw new org.apache.thrift.protocol.TProtocolException("Required field 'path' was not present! Struct: " + toString());
+      throw new com.jetbrains.cef.remote.thrift.protocol.TProtocolException("Required field 'path' was not present! Struct: " + toString());
     }
     // alas, we cannot check 'secure' because it's a primitive and you chose the non-beans generator.
     // alas, we cannot check 'httponly' because it's a primitive and you chose the non-beans generator.
@@ -919,8 +919,8 @@ public class Cookie implements org.apache.thrift.TBase<Cookie, Cookie._Fields>, 
 
   private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
     try {
-      write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-    } catch (org.apache.thrift.TException te) {
+      write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+    } catch (com.jetbrains.cef.remote.thrift.TException te) {
       throw new java.io.IOException(te);
     }
   }
@@ -929,106 +929,106 @@ public class Cookie implements org.apache.thrift.TBase<Cookie, Cookie._Fields>, 
     try {
       // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
       __isset_bitfield = 0;
-      read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-    } catch (org.apache.thrift.TException te) {
+      read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+    } catch (com.jetbrains.cef.remote.thrift.TException te) {
       throw new java.io.IOException(te);
     }
   }
 
-  private static class CookieStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+  private static class CookieStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
     @Override
     public CookieStandardScheme getScheme() {
       return new CookieStandardScheme();
     }
   }
 
-  private static class CookieStandardScheme extends org.apache.thrift.scheme.StandardScheme<Cookie> {
+  private static class CookieStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<Cookie> {
 
     @Override
-    public void read(org.apache.thrift.protocol.TProtocol iprot, Cookie struct) throws org.apache.thrift.TException {
-      org.apache.thrift.protocol.TField schemeField;
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, Cookie struct) throws com.jetbrains.cef.remote.thrift.TException {
+      com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
       iprot.readStructBegin();
       while (true)
       {
         schemeField = iprot.readFieldBegin();
-        if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+        if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (schemeField.id) {
           case 1: // NAME
-            if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRING) {
               struct.name = iprot.readString();
               struct.setNameIsSet(true);
             } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           case 2: // VALUE
-            if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRING) {
               struct.value = iprot.readString();
               struct.setValueIsSet(true);
             } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           case 3: // DOMAIN
-            if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRING) {
               struct.domain = iprot.readString();
               struct.setDomainIsSet(true);
             } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           case 4: // PATH
-            if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRING) {
               struct.path = iprot.readString();
               struct.setPathIsSet(true);
             } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           case 5: // SECURE
-            if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.BOOL) {
               struct.secure = iprot.readBool();
               struct.setSecureIsSet(true);
             } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           case 6: // HTTPONLY
-            if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.BOOL) {
               struct.httponly = iprot.readBool();
               struct.setHttponlyIsSet(true);
             } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           case 7: // CREATION
-            if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I64) {
               struct.creation = iprot.readI64();
               struct.setCreationIsSet(true);
             } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           case 8: // LAST_ACCESS
-            if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I64) {
               struct.lastAccess = iprot.readI64();
               struct.setLastAccessIsSet(true);
             } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           case 9: // EXPIRES
-            if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I64) {
               struct.expires = iprot.readI64();
               struct.setExpiresIsSet(true);
             } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           default:
-            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
         }
         iprot.readFieldEnd();
       }
@@ -1036,22 +1036,22 @@ public class Cookie implements org.apache.thrift.TBase<Cookie, Cookie._Fields>, 
 
       // check for required fields of primitive type, which can't be checked in the validate method
       if (!struct.isSetSecure()) {
-        throw new org.apache.thrift.protocol.TProtocolException("Required field 'secure' was not found in serialized data! Struct: " + toString());
+        throw new com.jetbrains.cef.remote.thrift.protocol.TProtocolException("Required field 'secure' was not found in serialized data! Struct: " + toString());
       }
       if (!struct.isSetHttponly()) {
-        throw new org.apache.thrift.protocol.TProtocolException("Required field 'httponly' was not found in serialized data! Struct: " + toString());
+        throw new com.jetbrains.cef.remote.thrift.protocol.TProtocolException("Required field 'httponly' was not found in serialized data! Struct: " + toString());
       }
       if (!struct.isSetCreation()) {
-        throw new org.apache.thrift.protocol.TProtocolException("Required field 'creation' was not found in serialized data! Struct: " + toString());
+        throw new com.jetbrains.cef.remote.thrift.protocol.TProtocolException("Required field 'creation' was not found in serialized data! Struct: " + toString());
       }
       if (!struct.isSetLastAccess()) {
-        throw new org.apache.thrift.protocol.TProtocolException("Required field 'lastAccess' was not found in serialized data! Struct: " + toString());
+        throw new com.jetbrains.cef.remote.thrift.protocol.TProtocolException("Required field 'lastAccess' was not found in serialized data! Struct: " + toString());
       }
       struct.validate();
     }
 
     @Override
-    public void write(org.apache.thrift.protocol.TProtocol oprot, Cookie struct) throws org.apache.thrift.TException {
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, Cookie struct) throws com.jetbrains.cef.remote.thrift.TException {
       struct.validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -1098,18 +1098,18 @@ public class Cookie implements org.apache.thrift.TBase<Cookie, Cookie._Fields>, 
 
   }
 
-  private static class CookieTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+  private static class CookieTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
     @Override
     public CookieTupleScheme getScheme() {
       return new CookieTupleScheme();
     }
   }
 
-  private static class CookieTupleScheme extends org.apache.thrift.scheme.TupleScheme<Cookie> {
+  private static class CookieTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<Cookie> {
 
     @Override
-    public void write(org.apache.thrift.protocol.TProtocol prot, Cookie struct) throws org.apache.thrift.TException {
-      org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, Cookie struct) throws com.jetbrains.cef.remote.thrift.TException {
+      com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
       oprot.writeString(struct.name);
       oprot.writeString(struct.value);
       oprot.writeString(struct.domain);
@@ -1129,8 +1129,8 @@ public class Cookie implements org.apache.thrift.TBase<Cookie, Cookie._Fields>, 
     }
 
     @Override
-    public void read(org.apache.thrift.protocol.TProtocol prot, Cookie struct) throws org.apache.thrift.TException {
-      org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, Cookie struct) throws com.jetbrains.cef.remote.thrift.TException {
+      com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
       struct.name = iprot.readString();
       struct.setNameIsSet(true);
       struct.value = iprot.readString();
@@ -1155,8 +1155,8 @@ public class Cookie implements org.apache.thrift.TBase<Cookie, Cookie._Fields>, 
     }
   }
 
-  private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
-    return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+  private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+    return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
   }
 }
 

@@ -17,9 +17,9 @@
  * under the License.
  */
 
-package org.apache.thrift.transport.sasl;
+package com.jetbrains.cef.remote.thrift.transport.sasl;
 
-import static org.apache.thrift.transport.sasl.TSaslNegotiationException.ErrorType.PROTOCOL_ERROR;
+import static com.jetbrains.cef.remote.thrift.transport.sasl.TSaslNegotiationException.ErrorType.PROTOCOL_ERROR;
 
 /**
  * Header for sasl negotiation frames. It contains status byte of negotiation and a 4-byte integer

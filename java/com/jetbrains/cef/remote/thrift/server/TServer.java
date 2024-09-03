@@ -17,14 +17,14 @@
  * under the License.
  */
 
-package org.apache.thrift.server;
+package com.jetbrains.cef.remote.thrift.server;
 
-import org.apache.thrift.TProcessor;
-import org.apache.thrift.TProcessorFactory;
-import org.apache.thrift.protocol.TBinaryProtocol;
-import org.apache.thrift.protocol.TProtocolFactory;
-import org.apache.thrift.transport.TServerTransport;
-import org.apache.thrift.transport.TTransportFactory;
+import com.jetbrains.cef.remote.thrift.TProcessor;
+import com.jetbrains.cef.remote.thrift.TProcessorFactory;
+import com.jetbrains.cef.remote.thrift.protocol.TBinaryProtocol;
+import com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory;
+import com.jetbrains.cef.remote.thrift.transport.TServerTransport;
+import com.jetbrains.cef.remote.thrift.transport.TTransportFactory;
 
 /** Generic interface for a Thrift server. */
 public abstract class TServer {

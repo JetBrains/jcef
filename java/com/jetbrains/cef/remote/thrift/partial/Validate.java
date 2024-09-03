@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.apache.thrift.partial;
+package com.jetbrains.cef.remote.thrift.partial;
 
 import java.nio.file.Files;
 import java.nio.file.Path;

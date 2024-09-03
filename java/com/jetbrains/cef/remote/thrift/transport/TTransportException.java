@@ -17,9 +17,9 @@
  * under the License.
  */
 
-package org.apache.thrift.transport;
+package com.jetbrains.cef.remote.thrift.transport;
 
-import org.apache.thrift.TException;
+import com.jetbrains.cef.remote.thrift.TException;
 
 /** Transport exceptions. */
 public class TTransportException extends TException {

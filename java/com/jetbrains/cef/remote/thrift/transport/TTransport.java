@@ -17,11 +17,11 @@
  * under the License.
  */
 
-package org.apache.thrift.transport;
+package com.jetbrains.cef.remote.thrift.transport;
 
 import java.io.Closeable;
 import java.nio.ByteBuffer;
-import org.apache.thrift.TConfiguration;
+import com.jetbrains.cef.remote.thrift.TConfiguration;
 
 /**
  * Generic class that encapsulates the I/O layer. This is basically a thin wrapper around the

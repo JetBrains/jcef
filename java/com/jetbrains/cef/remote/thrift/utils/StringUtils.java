@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.apache.thrift.utils;
+package com.jetbrains.cef.remote.thrift.utils;
 
 public final class StringUtils {
 

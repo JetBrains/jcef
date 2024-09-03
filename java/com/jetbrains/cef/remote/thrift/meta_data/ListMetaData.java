@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.apache.thrift.meta_data;
+package com.jetbrains.cef.remote.thrift.meta_data;
 
 public class ListMetaData extends FieldValueMetaData {
   public final FieldValueMetaData elemMetaData;

@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.apache.thrift.transport.sasl;
+package com.jetbrains.cef.remote.thrift.transport.sasl;
 
 import java.util.Map;
 import javax.security.auth.callback.CallbackHandler;

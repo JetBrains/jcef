@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.apache.thrift.transport.sasl;
+package com.jetbrains.cef.remote.thrift.transport.sasl;
 
 /** Got an invalid frame that does not respect the thrift sasl protocol. */
 public class TInvalidSaslFrameException extends TSaslNegotiationException {

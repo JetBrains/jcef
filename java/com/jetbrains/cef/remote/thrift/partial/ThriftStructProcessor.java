@@ -17,16 +17,16 @@
  * under the License.
  */
 
-package org.apache.thrift.partial;
+package com.jetbrains.cef.remote.thrift.partial;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import org.apache.thrift.TBase;
-import org.apache.thrift.TEnum;
-import org.apache.thrift.TFieldIdEnum;
+import com.jetbrains.cef.remote.thrift.TBase;
+import com.jetbrains.cef.remote.thrift.TEnum;
+import com.jetbrains.cef.remote.thrift.TFieldIdEnum;
 
 /**
  * Provides a way to create and initialize an instance of TBase during partial deserialization.

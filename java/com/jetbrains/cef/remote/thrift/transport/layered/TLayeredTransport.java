@@ -16,12 +16,12 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.thrift.transport.layered;
+package com.jetbrains.cef.remote.thrift.transport.layered;
 
 import java.util.Objects;
-import org.apache.thrift.TConfiguration;
-import org.apache.thrift.transport.TTransport;
-import org.apache.thrift.transport.TTransportException;
+import com.jetbrains.cef.remote.thrift.TConfiguration;
+import com.jetbrains.cef.remote.thrift.transport.TTransport;
+import com.jetbrains.cef.remote.thrift.transport.TTransportException;
 
 public abstract class TLayeredTransport extends TTransport {
 

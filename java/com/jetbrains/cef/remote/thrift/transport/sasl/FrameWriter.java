@@ -17,11 +17,11 @@
  * under the License.
  */
 
-package org.apache.thrift.transport.sasl;
+package com.jetbrains.cef.remote.thrift.transport.sasl;
 
 import java.nio.ByteBuffer;
-import org.apache.thrift.transport.TNonblockingTransport;
-import org.apache.thrift.transport.TTransportException;
+import com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport;
+import com.jetbrains.cef.remote.thrift.transport.TTransportException;
 
 /** Write frame (header and payload) to transport in a nonblocking way. */
 public abstract class FrameWriter {

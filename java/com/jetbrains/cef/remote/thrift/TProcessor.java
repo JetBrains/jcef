@@ -17,9 +17,9 @@
  * under the License.
  */
 
-package org.apache.thrift;
+package com.jetbrains.cef.remote.thrift;
 
-import org.apache.thrift.protocol.TProtocol;
+import com.jetbrains.cef.remote.thrift.protocol.TProtocol;
 
 /**
  * A processor is a generic object which operates upon an input stream and writes to some output

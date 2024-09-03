@@ -17,14 +17,14 @@
  * under the License.
  */
 
-package org.apache.thrift.transport.sasl;
+package com.jetbrains.cef.remote.thrift.transport.sasl;
 
-import static org.apache.thrift.transport.sasl.SaslNegotiationHeaderReader.PAYLOAD_LENGTH_BYTES;
-import static org.apache.thrift.transport.sasl.SaslNegotiationHeaderReader.STATUS_BYTES;
+import static com.jetbrains.cef.remote.thrift.transport.sasl.SaslNegotiationHeaderReader.PAYLOAD_LENGTH_BYTES;
+import static com.jetbrains.cef.remote.thrift.transport.sasl.SaslNegotiationHeaderReader.STATUS_BYTES;
 
 import java.nio.ByteBuffer;
-import org.apache.thrift.EncodingUtils;
-import org.apache.thrift.utils.StringUtils;
+import com.jetbrains.cef.remote.thrift.EncodingUtils;
+import com.jetbrains.cef.remote.thrift.utils.StringUtils;
 
 /**
  * Writer for sasl negotiation frames. It expect a status byte as header with a payload to be

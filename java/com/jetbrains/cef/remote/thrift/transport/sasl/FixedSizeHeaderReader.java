@@ -17,12 +17,12 @@
  * under the License.
  */
 
-package org.apache.thrift.transport.sasl;
+package com.jetbrains.cef.remote.thrift.transport.sasl;
 
 import java.nio.ByteBuffer;
-import org.apache.thrift.transport.TTransport;
-import org.apache.thrift.transport.TTransportException;
-import org.apache.thrift.utils.StringUtils;
+import com.jetbrains.cef.remote.thrift.transport.TTransport;
+import com.jetbrains.cef.remote.thrift.transport.TTransportException;
+import com.jetbrains.cef.remote.thrift.utils.StringUtils;
 
 /** Headers' size should be predefined. */
 public abstract class FixedSizeHeaderReader implements FrameHeaderReader {

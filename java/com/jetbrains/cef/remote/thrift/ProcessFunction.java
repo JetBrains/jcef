@@ -1,10 +1,10 @@
-package org.apache.thrift;
+package com.jetbrains.cef.remote.thrift;
 
-import org.apache.thrift.protocol.TMessage;
-import org.apache.thrift.protocol.TMessageType;
-import org.apache.thrift.protocol.TProtocol;
-import org.apache.thrift.protocol.TProtocolException;
-import org.apache.thrift.transport.TTransportException;
+import com.jetbrains.cef.remote.thrift.protocol.TMessage;
+import com.jetbrains.cef.remote.thrift.protocol.TMessageType;
+import com.jetbrains.cef.remote.thrift.protocol.TProtocol;
+import com.jetbrains.cef.remote.thrift.protocol.TProtocolException;
+import com.jetbrains.cef.remote.thrift.transport.TTransportException;
 
 public abstract class ProcessFunction<I, T extends TBase> {
   private final String methodName;

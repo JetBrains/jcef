@@ -16,13 +16,13 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.thrift.protocol;
+package com.jetbrains.cef.remote.thrift.protocol;
 
 import java.util.BitSet;
-import org.apache.thrift.TException;
-import org.apache.thrift.scheme.IScheme;
-import org.apache.thrift.scheme.TupleScheme;
-import org.apache.thrift.transport.TTransport;
+import com.jetbrains.cef.remote.thrift.TException;
+import com.jetbrains.cef.remote.thrift.scheme.IScheme;
+import com.jetbrains.cef.remote.thrift.scheme.TupleScheme;
+import com.jetbrains.cef.remote.thrift.transport.TTransport;
 
 public final class TTupleProtocol extends TCompactProtocol {
   public static class Factory implements TProtocolFactory {

@@ -1,6 +1,6 @@
-package org.apache.thrift.server;
+package com.jetbrains.cef.remote.thrift.server;
 
-import org.apache.thrift.server.AbstractNonblockingServer.FrameBuffer;
+import com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.FrameBuffer;
 
 /**
  * An Invocation represents a method call that is prepared to execute, given an idle worker thread.

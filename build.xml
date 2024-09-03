@@ -119,7 +119,6 @@
       <fileset dir="${out.path}">
         <include name="org/cef/**"/>
         <include name="com/jetbrains/**"/>
-        <include name="org/apache/thrift/**"/>
         <include name="${include.module-info.class}"/>
       </fileset>
     </jar>
@@ -127,7 +126,6 @@
       <fileset dir="java">
         <include name="org/cef/**"/>
         <include name="com/jetbrains/**"/>
-        <include name="org/apache/thrift/**"/>
       </fileset>
     </jar>
   </target>

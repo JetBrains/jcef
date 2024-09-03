@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.apache.thrift.protocol;
+package com.jetbrains.cef.remote.thrift.protocol;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,11 +26,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.IntFunction;
-import org.apache.thrift.TException;
-import org.apache.thrift.partial.TFieldData;
-import org.apache.thrift.scheme.IScheme;
-import org.apache.thrift.scheme.StandardScheme;
-import org.apache.thrift.transport.TTransport;
+import com.jetbrains.cef.remote.thrift.TException;
+import com.jetbrains.cef.remote.thrift.partial.TFieldData;
+import com.jetbrains.cef.remote.thrift.scheme.IScheme;
+import com.jetbrains.cef.remote.thrift.scheme.StandardScheme;
+import com.jetbrains.cef.remote.thrift.transport.TTransport;
 
 /** Protocol interface definition. */
 public abstract class TProtocol implements TWriteProtocol, TReadProtocol {
@@ -186,7 +186,7 @@ public abstract class TProtocol implements TWriteProtocol, TReadProtocol {
    */
   public final <T> boolean readField(ReadCallback<TField, T> callback) throws Exception {
     TField tField = readFieldBegin();
-    if (tField.type == org.apache.thrift.protocol.TType.STOP) {
+    if (tField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) {
       return true;
     }
     callback.accept(tField);

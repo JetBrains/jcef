@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.apache.thrift.transport;
+package com.jetbrains.cef.remote.thrift.transport;
 
 /**
  * Factory class used to create wrapped instance of Transports. This is used primarily in servers,

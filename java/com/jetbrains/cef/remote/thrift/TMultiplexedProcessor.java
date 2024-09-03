@@ -17,11 +17,11 @@
  * under the License.
  */
 
-package org.apache.thrift;
+package com.jetbrains.cef.remote.thrift;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.thrift.protocol.*;
+import com.jetbrains.cef.remote.thrift.protocol.*;
 
 /**
  * <code>TMultiplexedProcessor</code> is a <code>TProcessor</code> allowing a single <code>TServer

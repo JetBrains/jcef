@@ -1,6 +1,6 @@
 package com.jetbrains.cef.remote;
 
-import org.apache.thrift.transport.*;
+import com.jetbrains.cef.remote.thrift.transport.*;
 import org.cef.OS;
 import org.cef.misc.CefLog;
 import org.cef.misc.Utils;

@@ -17,10 +17,10 @@
  * under the License.
  */
 
-package org.apache.thrift.partial;
+package com.jetbrains.cef.remote.thrift.partial;
 
 /**
- * Holds the type and id members of a {@link org.apache.thrift.protocol.TField} into a single int.
+ * Holds the type and id members of a {@link com.jetbrains.cef.remote.thrift.protocol.TField} into a single int.
  *
  * <p>This encoding scheme obviates the need to instantiate TField during the partial
  * deserialization process.

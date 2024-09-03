@@ -17,9 +17,9 @@
  * under the License.
  */
 
-package org.apache.thrift;
+package com.jetbrains.cef.remote.thrift;
 
-import org.apache.thrift.protocol.TProtocol;
+import com.jetbrains.cef.remote.thrift.protocol.TProtocol;
 
 /**
  * A TServiceClientFactory provides a general way to get a TServiceClient connected to a remote

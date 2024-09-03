@@ -17,9 +17,9 @@
  * under the License.
  */
 
-package org.apache.thrift.meta_data;
+package com.jetbrains.cef.remote.thrift.meta_data;
 
-import org.apache.thrift.protocol.TType;
+import com.jetbrains.cef.remote.thrift.protocol.TType;
 
 /**
  * FieldValueMetaData and collection of subclasses to store metadata about the value(s) of a field

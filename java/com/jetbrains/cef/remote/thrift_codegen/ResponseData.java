@@ -7,22 +7,22 @@
 package com.jetbrains.cef.remote.thrift_codegen;
 
 @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
-public class ResponseData implements org.apache.thrift.TBase<ResponseData, ResponseData._Fields>, java.io.Serializable, Cloneable, Comparable<ResponseData> {
-  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("ResponseData");
+public class ResponseData implements com.jetbrains.cef.remote.thrift.TBase<ResponseData, ResponseData._Fields>, java.io.Serializable, Cloneable, Comparable<ResponseData> {
+  private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("ResponseData");
 
-  private static final org.apache.thrift.protocol.TField CONTINUE_READ_FIELD_DESC = new org.apache.thrift.protocol.TField("continueRead", org.apache.thrift.protocol.TType.BOOL, (short)1);
-  private static final org.apache.thrift.protocol.TField DATA_FIELD_DESC = new org.apache.thrift.protocol.TField("data", org.apache.thrift.protocol.TType.STRING, (short)2);
-  private static final org.apache.thrift.protocol.TField BYTES_READ_FIELD_DESC = new org.apache.thrift.protocol.TField("bytes_read", org.apache.thrift.protocol.TType.I32, (short)3);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField CONTINUE_READ_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("continueRead", com.jetbrains.cef.remote.thrift.protocol.TType.BOOL, (short)1);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField DATA_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("data", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)2);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField BYTES_READ_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("bytes_read", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)3);
 
-  private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new ResponseDataStandardSchemeFactory();
-  private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new ResponseDataTupleSchemeFactory();
+  private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new ResponseDataStandardSchemeFactory();
+  private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new ResponseDataTupleSchemeFactory();
 
   public boolean continueRead; // optional
-  public @org.apache.thrift.annotation.Nullable java.nio.ByteBuffer data; // optional
+  public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.nio.ByteBuffer data; // optional
   public int bytes_read; // optional
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-  public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+  public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
     CONTINUE_READ((short)1, "continueRead"),
     DATA((short)2, "data"),
     BYTES_READ((short)3, "bytes_read");
@@ -38,7 +38,7 @@ public class ResponseData implements org.apache.thrift.TBase<ResponseData, Respo
     /**
      * Find the _Fields constant that matches fieldId, or null if its not found.
      */
-    @org.apache.thrift.annotation.Nullable
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
     public static _Fields findByThriftId(int fieldId) {
       switch(fieldId) {
         case 1: // CONTINUE_READ
@@ -65,7 +65,7 @@ public class ResponseData implements org.apache.thrift.TBase<ResponseData, Respo
     /**
      * Find the _Fields constant that matches name, or null if its not found.
      */
-    @org.apache.thrift.annotation.Nullable
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
     public static _Fields findByName(java.lang.String name) {
       return byName.get(name);
     }
@@ -94,17 +94,17 @@ public class ResponseData implements org.apache.thrift.TBase<ResponseData, Respo
   private static final int __BYTES_READ_ISSET_ID = 1;
   private byte __isset_bitfield = 0;
   private static final _Fields optionals[] = {_Fields.CONTINUE_READ,_Fields.DATA,_Fields.BYTES_READ};
-  public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+  public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
-    java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.CONTINUE_READ, new org.apache.thrift.meta_data.FieldMetaData("continueRead", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
-    tmpMap.put(_Fields.DATA, new org.apache.thrift.meta_data.FieldMetaData("data", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , true)));
-    tmpMap.put(_Fields.BYTES_READ, new org.apache.thrift.meta_data.FieldMetaData("bytes_read", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+    java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+    tmpMap.put(_Fields.CONTINUE_READ, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("continueRead", com.jetbrains.cef.remote.thrift.TFieldRequirementType.OPTIONAL, 
+        new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.BOOL)));
+    tmpMap.put(_Fields.DATA, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("data", com.jetbrains.cef.remote.thrift.TFieldRequirementType.OPTIONAL, 
+        new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING        , true)));
+    tmpMap.put(_Fields.BYTES_READ, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("bytes_read", com.jetbrains.cef.remote.thrift.TFieldRequirementType.OPTIONAL, 
+        new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
     metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(ResponseData.class, metaDataMap);
+    com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(ResponseData.class, metaDataMap);
   }
 
   public ResponseData() {
@@ -117,7 +117,7 @@ public class ResponseData implements org.apache.thrift.TBase<ResponseData, Respo
     __isset_bitfield = other.__isset_bitfield;
     this.continueRead = other.continueRead;
     if (other.isSetData()) {
-      this.data = org.apache.thrift.TBaseHelper.copyBinary(other.data);
+      this.data = com.jetbrains.cef.remote.thrift.TBaseHelper.copyBinary(other.data);
     }
     this.bytes_read = other.bytes_read;
   }
@@ -147,25 +147,25 @@ public class ResponseData implements org.apache.thrift.TBase<ResponseData, Respo
   }
 
   public void unsetContinueRead() {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __CONTINUEREAD_ISSET_ID);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __CONTINUEREAD_ISSET_ID);
   }
 
   /** Returns true if field continueRead is set (has been assigned a value) and false otherwise */
   public boolean isSetContinueRead() {
-    return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __CONTINUEREAD_ISSET_ID);
+    return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __CONTINUEREAD_ISSET_ID);
   }
 
   public void setContinueReadIsSet(boolean value) {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __CONTINUEREAD_ISSET_ID, value);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __CONTINUEREAD_ISSET_ID, value);
   }
 
   public byte[] getData() {
-    setData(org.apache.thrift.TBaseHelper.rightSize(data));
+    setData(com.jetbrains.cef.remote.thrift.TBaseHelper.rightSize(data));
     return data == null ? null : data.array();
   }
 
   public java.nio.ByteBuffer bufferForData() {
-    return org.apache.thrift.TBaseHelper.copyBinary(data);
+    return com.jetbrains.cef.remote.thrift.TBaseHelper.copyBinary(data);
   }
 
   public ResponseData setData(byte[] data) {
@@ -173,8 +173,8 @@ public class ResponseData implements org.apache.thrift.TBase<ResponseData, Respo
     return this;
   }
 
-  public ResponseData setData(@org.apache.thrift.annotation.Nullable java.nio.ByteBuffer data) {
-    this.data = org.apache.thrift.TBaseHelper.copyBinary(data);
+  public ResponseData setData(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.nio.ByteBuffer data) {
+    this.data = com.jetbrains.cef.remote.thrift.TBaseHelper.copyBinary(data);
     return this;
   }
 
@@ -204,20 +204,20 @@ public class ResponseData implements org.apache.thrift.TBase<ResponseData, Respo
   }
 
   public void unsetBytes_read() {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __BYTES_READ_ISSET_ID);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __BYTES_READ_ISSET_ID);
   }
 
   /** Returns true if field bytes_read is set (has been assigned a value) and false otherwise */
   public boolean isSetBytes_read() {
-    return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __BYTES_READ_ISSET_ID);
+    return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __BYTES_READ_ISSET_ID);
   }
 
   public void setBytes_readIsSet(boolean value) {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __BYTES_READ_ISSET_ID, value);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __BYTES_READ_ISSET_ID, value);
   }
 
   @Override
-  public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+  public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
     switch (field) {
     case CONTINUE_READ:
       if (value == null) {
@@ -250,7 +250,7 @@ public class ResponseData implements org.apache.thrift.TBase<ResponseData, Respo
     }
   }
 
-  @org.apache.thrift.annotation.Nullable
+  @com.jetbrains.cef.remote.thrift.annotation.Nullable
   @Override
   public java.lang.Object getFieldValue(_Fields field) {
     switch (field) {
@@ -360,7 +360,7 @@ public class ResponseData implements org.apache.thrift.TBase<ResponseData, Respo
       return lastComparison;
     }
     if (isSetContinueRead()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.continueRead, other.continueRead);
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.continueRead, other.continueRead);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -370,7 +370,7 @@ public class ResponseData implements org.apache.thrift.TBase<ResponseData, Respo
       return lastComparison;
     }
     if (isSetData()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.data, other.data);
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.data, other.data);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -380,7 +380,7 @@ public class ResponseData implements org.apache.thrift.TBase<ResponseData, Respo
       return lastComparison;
     }
     if (isSetBytes_read()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bytes_read, other.bytes_read);
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.bytes_read, other.bytes_read);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -388,19 +388,19 @@ public class ResponseData implements org.apache.thrift.TBase<ResponseData, Respo
     return 0;
   }
 
-  @org.apache.thrift.annotation.Nullable
+  @com.jetbrains.cef.remote.thrift.annotation.Nullable
   @Override
   public _Fields fieldForId(int fieldId) {
     return _Fields.findByThriftId(fieldId);
   }
 
   @Override
-  public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+  public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
     scheme(iprot).read(iprot, this);
   }
 
   @Override
-  public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+  public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
     scheme(oprot).write(oprot, this);
   }
 
@@ -420,7 +420,7 @@ public class ResponseData implements org.apache.thrift.TBase<ResponseData, Respo
       if (this.data == null) {
         sb.append("null");
       } else {
-        org.apache.thrift.TBaseHelper.toString(this.data, sb);
+        com.jetbrains.cef.remote.thrift.TBaseHelper.toString(this.data, sb);
       }
       first = false;
     }
@@ -434,15 +434,15 @@ public class ResponseData implements org.apache.thrift.TBase<ResponseData, Respo
     return sb.toString();
   }
 
-  public void validate() throws org.apache.thrift.TException {
+  public void validate() throws com.jetbrains.cef.remote.thrift.TException {
     // check for required fields
     // check for sub-struct validity
   }
 
   private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
     try {
-      write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-    } catch (org.apache.thrift.TException te) {
+      write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+    } catch (com.jetbrains.cef.remote.thrift.TException te) {
       throw new java.io.IOException(te);
     }
   }
@@ -451,58 +451,58 @@ public class ResponseData implements org.apache.thrift.TBase<ResponseData, Respo
     try {
       // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
       __isset_bitfield = 0;
-      read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-    } catch (org.apache.thrift.TException te) {
+      read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+    } catch (com.jetbrains.cef.remote.thrift.TException te) {
       throw new java.io.IOException(te);
     }
   }
 
-  private static class ResponseDataStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+  private static class ResponseDataStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
     @Override
     public ResponseDataStandardScheme getScheme() {
       return new ResponseDataStandardScheme();
     }
   }
 
-  private static class ResponseDataStandardScheme extends org.apache.thrift.scheme.StandardScheme<ResponseData> {
+  private static class ResponseDataStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<ResponseData> {
 
     @Override
-    public void read(org.apache.thrift.protocol.TProtocol iprot, ResponseData struct) throws org.apache.thrift.TException {
-      org.apache.thrift.protocol.TField schemeField;
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, ResponseData struct) throws com.jetbrains.cef.remote.thrift.TException {
+      com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
       iprot.readStructBegin();
       while (true)
       {
         schemeField = iprot.readFieldBegin();
-        if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+        if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (schemeField.id) {
           case 1: // CONTINUE_READ
-            if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.BOOL) {
               struct.continueRead = iprot.readBool();
               struct.setContinueReadIsSet(true);
             } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           case 2: // DATA
-            if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRING) {
               struct.data = iprot.readBinary();
               struct.setDataIsSet(true);
             } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           case 3: // BYTES_READ
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
               struct.bytes_read = iprot.readI32();
               struct.setBytes_readIsSet(true);
             } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           default:
-            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
         }
         iprot.readFieldEnd();
       }
@@ -513,7 +513,7 @@ public class ResponseData implements org.apache.thrift.TBase<ResponseData, Respo
     }
 
     @Override
-    public void write(org.apache.thrift.protocol.TProtocol oprot, ResponseData struct) throws org.apache.thrift.TException {
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, ResponseData struct) throws com.jetbrains.cef.remote.thrift.TException {
       struct.validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -540,18 +540,18 @@ public class ResponseData implements org.apache.thrift.TBase<ResponseData, Respo
 
   }
 
-  private static class ResponseDataTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+  private static class ResponseDataTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
     @Override
     public ResponseDataTupleScheme getScheme() {
       return new ResponseDataTupleScheme();
     }
   }
 
-  private static class ResponseDataTupleScheme extends org.apache.thrift.scheme.TupleScheme<ResponseData> {
+  private static class ResponseDataTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<ResponseData> {
 
     @Override
-    public void write(org.apache.thrift.protocol.TProtocol prot, ResponseData struct) throws org.apache.thrift.TException {
-      org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, ResponseData struct) throws com.jetbrains.cef.remote.thrift.TException {
+      com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
       java.util.BitSet optionals = new java.util.BitSet();
       if (struct.isSetContinueRead()) {
         optionals.set(0);
@@ -575,8 +575,8 @@ public class ResponseData implements org.apache.thrift.TBase<ResponseData, Respo
     }
 
     @Override
-    public void read(org.apache.thrift.protocol.TProtocol prot, ResponseData struct) throws org.apache.thrift.TException {
-      org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, ResponseData struct) throws com.jetbrains.cef.remote.thrift.TException {
+      com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
       java.util.BitSet incoming = iprot.readBitSet(3);
       if (incoming.get(0)) {
         struct.continueRead = iprot.readBool();
@@ -593,8 +593,8 @@ public class ResponseData implements org.apache.thrift.TBase<ResponseData, Respo
     }
   }
 
-  private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
-    return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+  private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+    return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
   }
 }
 

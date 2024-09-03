@@ -17,11 +17,11 @@
  * under the License.
  */
 
-package org.apache.thrift.transport;
+package com.jetbrains.cef.remote.thrift.transport;
 
 import java.nio.ByteBuffer;
-import org.apache.thrift.TByteArrayOutputStream;
-import org.apache.thrift.TConfiguration;
+import com.jetbrains.cef.remote.thrift.TByteArrayOutputStream;
+import com.jetbrains.cef.remote.thrift.TConfiguration;
 
 /** In memory transport with separate buffers for input and output. */
 public class TMemoryTransport extends TEndpointTransport {

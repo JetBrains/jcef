@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.apache.thrift.partial;
+package com.jetbrains.cef.remote.thrift.partial;
 
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
@@ -27,16 +27,16 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.thrift.TBase;
-import org.apache.thrift.TFieldIdEnum;
-import org.apache.thrift.TFieldRequirementType;
-import org.apache.thrift.TUnion;
-import org.apache.thrift.meta_data.FieldMetaData;
-import org.apache.thrift.meta_data.ListMetaData;
-import org.apache.thrift.meta_data.MapMetaData;
-import org.apache.thrift.meta_data.SetMetaData;
-import org.apache.thrift.meta_data.StructMetaData;
-import org.apache.thrift.protocol.TType;
+import com.jetbrains.cef.remote.thrift.TBase;
+import com.jetbrains.cef.remote.thrift.TFieldIdEnum;
+import com.jetbrains.cef.remote.thrift.TFieldRequirementType;
+import com.jetbrains.cef.remote.thrift.TUnion;
+import com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData;
+import com.jetbrains.cef.remote.thrift.meta_data.ListMetaData;
+import com.jetbrains.cef.remote.thrift.meta_data.MapMetaData;
+import com.jetbrains.cef.remote.thrift.meta_data.SetMetaData;
+import com.jetbrains.cef.remote.thrift.meta_data.StructMetaData;
+import com.jetbrains.cef.remote.thrift.protocol.TType;
 
 /**
  * Container for Thrift metadata classes such as {@link ThriftPrimitive}, {@link ThriftList}, etc.

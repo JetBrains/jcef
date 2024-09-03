@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.thrift;
+package com.jetbrains.cef.remote.thrift;
 
 /** This class keeps track of statistics for TNonblockinMultiFetchClient. */
 public class TNonblockingMultiFetchStats {

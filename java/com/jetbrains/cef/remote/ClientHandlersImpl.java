@@ -11,7 +11,7 @@ import com.jetbrains.cef.remote.thrift_codegen.*;
 import com.jetbrains.cef.remote.thrift_codegen.Point;
 import com.jetbrains.cef.remote.thrift_codegen.Rect;
 import com.jetbrains.cef.remote.thrift_codegen.ScreenInfo;
-import org.apache.thrift.TException;
+import com.jetbrains.cef.remote.thrift.TException;
 import org.cef.CefSettings;
 import org.cef.browser.CefFrame;
 import org.cef.callback.CefAuthCallback;

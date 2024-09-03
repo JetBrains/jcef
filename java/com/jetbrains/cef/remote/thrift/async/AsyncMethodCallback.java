@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.thrift.async;
+package com.jetbrains.cef.remote.thrift.async;
 
 /**
  * A handler interface asynchronous clients can implement to receive future notice of the results of

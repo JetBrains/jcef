@@ -16,9 +16,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.thrift.transport;
+package com.jetbrains.cef.remote.thrift.transport;
 
-import org.apache.thrift.TConfiguration;
+import com.jetbrains.cef.remote.thrift.TConfiguration;
 
 public final class TMemoryInputTransport extends TEndpointTransport {
 

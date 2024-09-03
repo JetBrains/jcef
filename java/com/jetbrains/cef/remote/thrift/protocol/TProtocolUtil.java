@@ -17,9 +17,9 @@
  * under the License.
  */
 
-package org.apache.thrift.protocol;
+package com.jetbrains.cef.remote.thrift.protocol;
 
-import org.apache.thrift.TException;
+import com.jetbrains.cef.remote.thrift.TException;
 
 /** Utility class with static methods for interacting with protocol data streams. */
 public class TProtocolUtil {

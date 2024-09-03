@@ -17,15 +17,15 @@
  * under the License.
  */
 
-package org.apache.thrift.partial;
+package com.jetbrains.cef.remote.thrift.partial;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.thrift.TEnum;
-import org.apache.thrift.Logger;
-import org.apache.thrift.LoggerFactory;
+import com.jetbrains.cef.remote.thrift.TEnum;
+import com.jetbrains.cef.remote.thrift.Logger;
+import com.jetbrains.cef.remote.thrift.LoggerFactory;
 
 /**
  * Provides a memoized way to lookup an enum by its value.

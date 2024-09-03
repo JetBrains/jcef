@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.apache.thrift.partial;
+package com.jetbrains.cef.remote.thrift.partial;
 
 import java.nio.ByteBuffer;
 import java.util.Arrays;
@@ -25,8 +25,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.apache.thrift.TBase;
-import org.apache.thrift.protocol.TType;
+import com.jetbrains.cef.remote.thrift.TBase;
+import com.jetbrains.cef.remote.thrift.protocol.TType;
 
 /**
  * Enables comparison of two TBase instances such that the comparison is limited to the subset of

@@ -7,16 +7,16 @@
 package com.jetbrains.cef.remote.thrift_codegen;
 
 @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
-public class Rect implements org.apache.thrift.TBase<Rect, Rect._Fields>, java.io.Serializable, Cloneable, Comparable<Rect> {
-  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("Rect");
+public class Rect implements com.jetbrains.cef.remote.thrift.TBase<Rect, Rect._Fields>, java.io.Serializable, Cloneable, Comparable<Rect> {
+  private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("Rect");
 
-  private static final org.apache.thrift.protocol.TField X_FIELD_DESC = new org.apache.thrift.protocol.TField("x", org.apache.thrift.protocol.TType.I32, (short)1);
-  private static final org.apache.thrift.protocol.TField Y_FIELD_DESC = new org.apache.thrift.protocol.TField("y", org.apache.thrift.protocol.TType.I32, (short)2);
-  private static final org.apache.thrift.protocol.TField W_FIELD_DESC = new org.apache.thrift.protocol.TField("w", org.apache.thrift.protocol.TType.I32, (short)3);
-  private static final org.apache.thrift.protocol.TField H_FIELD_DESC = new org.apache.thrift.protocol.TField("h", org.apache.thrift.protocol.TType.I32, (short)4);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField X_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("x", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)1);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField Y_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("y", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)2);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField W_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("w", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)3);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField H_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("h", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)4);
 
-  private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RectStandardSchemeFactory();
-  private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RectTupleSchemeFactory();
+  private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RectStandardSchemeFactory();
+  private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RectTupleSchemeFactory();
 
   public int x; // required
   public int y; // required
@@ -24,7 +24,7 @@ public class Rect implements org.apache.thrift.TBase<Rect, Rect._Fields>, java.i
   public int h; // required
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-  public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+  public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
     X((short)1, "x"),
     Y((short)2, "y"),
     W((short)3, "w"),
@@ -41,7 +41,7 @@ public class Rect implements org.apache.thrift.TBase<Rect, Rect._Fields>, java.i
     /**
      * Find the _Fields constant that matches fieldId, or null if its not found.
      */
-    @org.apache.thrift.annotation.Nullable
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
     public static _Fields findByThriftId(int fieldId) {
       switch(fieldId) {
         case 1: // X
@@ -70,7 +70,7 @@ public class Rect implements org.apache.thrift.TBase<Rect, Rect._Fields>, java.i
     /**
      * Find the _Fields constant that matches name, or null if its not found.
      */
-    @org.apache.thrift.annotation.Nullable
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
     public static _Fields findByName(java.lang.String name) {
       return byName.get(name);
     }
@@ -100,19 +100,19 @@ public class Rect implements org.apache.thrift.TBase<Rect, Rect._Fields>, java.i
   private static final int __W_ISSET_ID = 2;
   private static final int __H_ISSET_ID = 3;
   private byte __isset_bitfield = 0;
-  public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+  public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
-    java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.X, new org.apache.thrift.meta_data.FieldMetaData("x", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
-    tmpMap.put(_Fields.Y, new org.apache.thrift.meta_data.FieldMetaData("y", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
-    tmpMap.put(_Fields.W, new org.apache.thrift.meta_data.FieldMetaData("w", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
-    tmpMap.put(_Fields.H, new org.apache.thrift.meta_data.FieldMetaData("h", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+    java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+    tmpMap.put(_Fields.X, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("x", com.jetbrains.cef.remote.thrift.TFieldRequirementType.REQUIRED, 
+        new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+    tmpMap.put(_Fields.Y, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("y", com.jetbrains.cef.remote.thrift.TFieldRequirementType.REQUIRED, 
+        new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+    tmpMap.put(_Fields.W, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("w", com.jetbrains.cef.remote.thrift.TFieldRequirementType.REQUIRED, 
+        new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+    tmpMap.put(_Fields.H, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("h", com.jetbrains.cef.remote.thrift.TFieldRequirementType.REQUIRED, 
+        new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
     metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Rect.class, metaDataMap);
+    com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Rect.class, metaDataMap);
   }
 
   public Rect() {
@@ -174,16 +174,16 @@ public class Rect implements org.apache.thrift.TBase<Rect, Rect._Fields>, java.i
   }
 
   public void unsetX() {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __X_ISSET_ID);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __X_ISSET_ID);
   }
 
   /** Returns true if field x is set (has been assigned a value) and false otherwise */
   public boolean isSetX() {
-    return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __X_ISSET_ID);
+    return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __X_ISSET_ID);
   }
 
   public void setXIsSet(boolean value) {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __X_ISSET_ID, value);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __X_ISSET_ID, value);
   }
 
   public int getY() {
@@ -197,16 +197,16 @@ public class Rect implements org.apache.thrift.TBase<Rect, Rect._Fields>, java.i
   }
 
   public void unsetY() {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __Y_ISSET_ID);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __Y_ISSET_ID);
   }
 
   /** Returns true if field y is set (has been assigned a value) and false otherwise */
   public boolean isSetY() {
-    return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __Y_ISSET_ID);
+    return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __Y_ISSET_ID);
   }
 
   public void setYIsSet(boolean value) {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __Y_ISSET_ID, value);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __Y_ISSET_ID, value);
   }
 
   public int getW() {
@@ -220,16 +220,16 @@ public class Rect implements org.apache.thrift.TBase<Rect, Rect._Fields>, java.i
   }
 
   public void unsetW() {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __W_ISSET_ID);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __W_ISSET_ID);
   }
 
   /** Returns true if field w is set (has been assigned a value) and false otherwise */
   public boolean isSetW() {
-    return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __W_ISSET_ID);
+    return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __W_ISSET_ID);
   }
 
   public void setWIsSet(boolean value) {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __W_ISSET_ID, value);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __W_ISSET_ID, value);
   }
 
   public int getH() {
@@ -243,20 +243,20 @@ public class Rect implements org.apache.thrift.TBase<Rect, Rect._Fields>, java.i
   }
 
   public void unsetH() {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __H_ISSET_ID);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __H_ISSET_ID);
   }
 
   /** Returns true if field h is set (has been assigned a value) and false otherwise */
   public boolean isSetH() {
-    return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __H_ISSET_ID);
+    return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __H_ISSET_ID);
   }
 
   public void setHIsSet(boolean value) {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __H_ISSET_ID, value);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __H_ISSET_ID, value);
   }
 
   @Override
-  public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+  public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
     switch (field) {
     case X:
       if (value == null) {
@@ -293,7 +293,7 @@ public class Rect implements org.apache.thrift.TBase<Rect, Rect._Fields>, java.i
     }
   }
 
-  @org.apache.thrift.annotation.Nullable
+  @com.jetbrains.cef.remote.thrift.annotation.Nullable
   @Override
   public java.lang.Object getFieldValue(_Fields field) {
     switch (field) {
@@ -413,7 +413,7 @@ public class Rect implements org.apache.thrift.TBase<Rect, Rect._Fields>, java.i
       return lastComparison;
     }
     if (isSetX()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.x, other.x);
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.x, other.x);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -423,7 +423,7 @@ public class Rect implements org.apache.thrift.TBase<Rect, Rect._Fields>, java.i
       return lastComparison;
     }
     if (isSetY()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.y, other.y);
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.y, other.y);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -433,7 +433,7 @@ public class Rect implements org.apache.thrift.TBase<Rect, Rect._Fields>, java.i
       return lastComparison;
     }
     if (isSetW()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.w, other.w);
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.w, other.w);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -443,7 +443,7 @@ public class Rect implements org.apache.thrift.TBase<Rect, Rect._Fields>, java.i
       return lastComparison;
     }
     if (isSetH()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.h, other.h);
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.h, other.h);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -451,19 +451,19 @@ public class Rect implements org.apache.thrift.TBase<Rect, Rect._Fields>, java.i
     return 0;
   }
 
-  @org.apache.thrift.annotation.Nullable
+  @com.jetbrains.cef.remote.thrift.annotation.Nullable
   @Override
   public _Fields fieldForId(int fieldId) {
     return _Fields.findByThriftId(fieldId);
   }
 
   @Override
-  public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+  public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
     scheme(iprot).read(iprot, this);
   }
 
   @Override
-  public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+  public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
     scheme(oprot).write(oprot, this);
   }
 
@@ -491,7 +491,7 @@ public class Rect implements org.apache.thrift.TBase<Rect, Rect._Fields>, java.i
     return sb.toString();
   }
 
-  public void validate() throws org.apache.thrift.TException {
+  public void validate() throws com.jetbrains.cef.remote.thrift.TException {
     // check for required fields
     // alas, we cannot check 'x' because it's a primitive and you chose the non-beans generator.
     // alas, we cannot check 'y' because it's a primitive and you chose the non-beans generator.
@@ -502,8 +502,8 @@ public class Rect implements org.apache.thrift.TBase<Rect, Rect._Fields>, java.i
 
   private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
     try {
-      write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-    } catch (org.apache.thrift.TException te) {
+      write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+    } catch (com.jetbrains.cef.remote.thrift.TException te) {
       throw new java.io.IOException(te);
     }
   }
@@ -512,66 +512,66 @@ public class Rect implements org.apache.thrift.TBase<Rect, Rect._Fields>, java.i
     try {
       // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
       __isset_bitfield = 0;
-      read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-    } catch (org.apache.thrift.TException te) {
+      read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+    } catch (com.jetbrains.cef.remote.thrift.TException te) {
       throw new java.io.IOException(te);
     }
   }
 
-  private static class RectStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+  private static class RectStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
     @Override
     public RectStandardScheme getScheme() {
       return new RectStandardScheme();
     }
   }
 
-  private static class RectStandardScheme extends org.apache.thrift.scheme.StandardScheme<Rect> {
+  private static class RectStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<Rect> {
 
     @Override
-    public void read(org.apache.thrift.protocol.TProtocol iprot, Rect struct) throws org.apache.thrift.TException {
-      org.apache.thrift.protocol.TField schemeField;
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, Rect struct) throws com.jetbrains.cef.remote.thrift.TException {
+      com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
       iprot.readStructBegin();
       while (true)
       {
         schemeField = iprot.readFieldBegin();
-        if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+        if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (schemeField.id) {
           case 1: // X
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
               struct.x = iprot.readI32();
               struct.setXIsSet(true);
             } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           case 2: // Y
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
               struct.y = iprot.readI32();
               struct.setYIsSet(true);
             } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           case 3: // W
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
               struct.w = iprot.readI32();
               struct.setWIsSet(true);
             } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           case 4: // H
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
               struct.h = iprot.readI32();
               struct.setHIsSet(true);
             } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           default:
-            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
         }
         iprot.readFieldEnd();
       }
@@ -579,22 +579,22 @@ public class Rect implements org.apache.thrift.TBase<Rect, Rect._Fields>, java.i
 
       // check for required fields of primitive type, which can't be checked in the validate method
       if (!struct.isSetX()) {
-        throw new org.apache.thrift.protocol.TProtocolException("Required field 'x' was not found in serialized data! Struct: " + toString());
+        throw new com.jetbrains.cef.remote.thrift.protocol.TProtocolException("Required field 'x' was not found in serialized data! Struct: " + toString());
       }
       if (!struct.isSetY()) {
-        throw new org.apache.thrift.protocol.TProtocolException("Required field 'y' was not found in serialized data! Struct: " + toString());
+        throw new com.jetbrains.cef.remote.thrift.protocol.TProtocolException("Required field 'y' was not found in serialized data! Struct: " + toString());
       }
       if (!struct.isSetW()) {
-        throw new org.apache.thrift.protocol.TProtocolException("Required field 'w' was not found in serialized data! Struct: " + toString());
+        throw new com.jetbrains.cef.remote.thrift.protocol.TProtocolException("Required field 'w' was not found in serialized data! Struct: " + toString());
       }
       if (!struct.isSetH()) {
-        throw new org.apache.thrift.protocol.TProtocolException("Required field 'h' was not found in serialized data! Struct: " + toString());
+        throw new com.jetbrains.cef.remote.thrift.protocol.TProtocolException("Required field 'h' was not found in serialized data! Struct: " + toString());
       }
       struct.validate();
     }
 
     @Override
-    public void write(org.apache.thrift.protocol.TProtocol oprot, Rect struct) throws org.apache.thrift.TException {
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, Rect struct) throws com.jetbrains.cef.remote.thrift.TException {
       struct.validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -616,18 +616,18 @@ public class Rect implements org.apache.thrift.TBase<Rect, Rect._Fields>, java.i
 
   }
 
-  private static class RectTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+  private static class RectTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
     @Override
     public RectTupleScheme getScheme() {
       return new RectTupleScheme();
     }
   }
 
-  private static class RectTupleScheme extends org.apache.thrift.scheme.TupleScheme<Rect> {
+  private static class RectTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<Rect> {
 
     @Override
-    public void write(org.apache.thrift.protocol.TProtocol prot, Rect struct) throws org.apache.thrift.TException {
-      org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, Rect struct) throws com.jetbrains.cef.remote.thrift.TException {
+      com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
       oprot.writeI32(struct.x);
       oprot.writeI32(struct.y);
       oprot.writeI32(struct.w);
@@ -635,8 +635,8 @@ public class Rect implements org.apache.thrift.TBase<Rect, Rect._Fields>, java.i
     }
 
     @Override
-    public void read(org.apache.thrift.protocol.TProtocol prot, Rect struct) throws org.apache.thrift.TException {
-      org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, Rect struct) throws com.jetbrains.cef.remote.thrift.TException {
+      com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
       struct.x = iprot.readI32();
       struct.setXIsSet(true);
       struct.y = iprot.readI32();
@@ -648,8 +648,8 @@ public class Rect implements org.apache.thrift.TBase<Rect, Rect._Fields>, java.i
     }
   }
 
-  private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
-    return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+  private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+    return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
   }
 }
 

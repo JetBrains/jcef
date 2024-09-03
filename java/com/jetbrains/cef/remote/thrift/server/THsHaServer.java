@@ -17,14 +17,14 @@
  * under the License.
  */
 
-package org.apache.thrift.server;
+package com.jetbrains.cef.remote.thrift.server;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import org.apache.thrift.transport.TNonblockingServerTransport;
+import com.jetbrains.cef.remote.thrift.transport.TNonblockingServerTransport;
 
 /**
  * An extension of the TNonblockingServer to a Half-Sync/Half-Async server. Like TNonblockingServer,

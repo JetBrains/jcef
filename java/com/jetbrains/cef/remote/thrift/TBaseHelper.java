@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.thrift;
+package com.jetbrains.cef.remote.thrift;
 
 import java.io.Serializable;
 import java.nio.ByteBuffer;
@@ -197,7 +197,7 @@ public final class TBaseHelper {
       sb.append("[");
       while (true) {
         ByteBuffer bb = it.next();
-        org.apache.thrift.TBaseHelper.toString(bb, sb);
+        com.jetbrains.cef.remote.thrift.TBaseHelper.toString(bb, sb);
         if (!it.hasNext()) {
           sb.append("]");
           return;

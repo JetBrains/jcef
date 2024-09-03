@@ -17,11 +17,11 @@
  * under the License.
  */
 
-package org.apache.thrift.partial;
+package com.jetbrains.cef.remote.thrift.partial;
 
 import java.nio.ByteBuffer;
-import org.apache.thrift.TEnum;
-import org.apache.thrift.TFieldIdEnum;
+import com.jetbrains.cef.remote.thrift.TEnum;
+import com.jetbrains.cef.remote.thrift.TFieldIdEnum;
 
 /**
  * Provides an abstraction to process deserialized field values and place them into the collection

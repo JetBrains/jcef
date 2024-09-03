@@ -1,8 +1,8 @@
 package com.jetbrains.cef.remote;
 
-import org.apache.thrift.transport.TServerSocket;
-import org.apache.thrift.transport.TSocket;
-import org.apache.thrift.transport.TTransportException;
+import com.jetbrains.cef.remote.thrift.transport.TServerSocket;
+import com.jetbrains.cef.remote.thrift.transport.TSocket;
+import com.jetbrains.cef.remote.thrift.transport.TTransportException;
 import org.cef.CefSettings;
 import org.cef.OS;
 import org.cef.callback.CefSchemeRegistrar;

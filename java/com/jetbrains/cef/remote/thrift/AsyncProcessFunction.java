@@ -16,12 +16,12 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.thrift;
+package com.jetbrains.cef.remote.thrift;
 
-import org.apache.thrift.async.AsyncMethodCallback;
-import org.apache.thrift.protocol.TMessage;
-import org.apache.thrift.protocol.TProtocol;
-import org.apache.thrift.server.AbstractNonblockingServer;
+import com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback;
+import com.jetbrains.cef.remote.thrift.protocol.TMessage;
+import com.jetbrains.cef.remote.thrift.protocol.TProtocol;
+import com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer;
 
 public abstract class AsyncProcessFunction<I, T extends TBase, R> {
   final String methodName;

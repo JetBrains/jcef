@@ -1,4 +1,4 @@
-package org.apache.thrift.async;
+package com.jetbrains.cef.remote.thrift.async;
 
 import java.util.concurrent.CompletableFuture;
 

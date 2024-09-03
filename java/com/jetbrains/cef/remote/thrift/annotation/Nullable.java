@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.apache.thrift.annotation;
+package com.jetbrains.cef.remote.thrift.annotation;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
