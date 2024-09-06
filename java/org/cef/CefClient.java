@@ -1233,10 +1233,21 @@ public class CefClient extends CefClientHandler
     }
 
     public static boolean isNativeBrowserCreationStarted(CefBrowser browser) {
-        if (browser instanceof CefNativeAdapter)
-            return ((CefNativeAdapter)browser).getNativeRef("CefBrowser") != 0;
         if (browser instanceof RemoteBrowser)
             return ((RemoteBrowser)browser).isNativeBrowserCreationStarted();
+        // Fallback to old logic (incorrect in general, since creation is always started before native ref obtained)
+        if (browser instanceof CefNativeAdapter)
+            return ((CefNativeAdapter)browser).getNativeRef("CefBrowser") != 0;
+
+        CefLog.Error("Unsupported CefBrowser: %s", browser);
+        return false;
+    }
+
+    public static boolean isNativeBrowserCreated(CefBrowser cefBrowser) {
+        if (cefBrowser instanceof RemoteBrowser)
+            return ((RemoteBrowser)cefBrowser).isNativeBrowserCreated();
+        if (cefBrowser instanceof CefNativeAdapter)
+            return ((CefNativeAdapter)cefBrowser).getNativeRef("CefBrowser") != 0;
         return false;
     }
 }
