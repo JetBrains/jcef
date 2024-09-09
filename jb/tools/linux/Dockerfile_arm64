@@ -22,7 +22,8 @@ RUN apt-get update && \
         python3=3.8.2-0ubuntu2 \
         tar=1.30+dfsg-7ubuntu0.20.04.4 \
         unzip=6.0-25ubuntu1.2 \
-        zip=3.0-11build1
+        zip=3.0-11build1 && \
+    apt-get clean -qy
 
 ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-arm64/        
 
@@ -32,4 +33,4 @@ RUN curl -sSL https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERION
     ln -s /opt/cmake-${CMAKE_VERIONS}-linux-aarch64/bin/ctest /usr/local/bin/ctest && \
     cmake --version
 
-RUN echo 'cd /mnt/home/develop/jcef_master_linux && sh ./build.sh' > /go.sh;
+RUN git config --global --add safe.directory '*'
