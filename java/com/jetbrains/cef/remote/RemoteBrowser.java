@@ -1,5 +1,6 @@
 package com.jetbrains.cef.remote;
 
+import com.jetbrains.cef.remote.callback.RemoteStringVisitor;
 import com.jetbrains.cef.remote.network.RemoteRequest;
 import com.jetbrains.cef.remote.network.RemoteRequestContext;
 import com.jetbrains.cef.remote.network.RemoteRequestContextHandler;
@@ -353,28 +354,26 @@ public class RemoteBrowser implements CefBrowser {
 
     @Override
     public void getSource(CefStringVisitor visitor) {
-        if (myIsClosing)
+        if (myIsClosing || visitor == null)
             return;
 
         execWhenCreated(()->{
             myService.exec((s)->{
-                CefLog.Error("TODO: implement getSource.");
-//                RObject rv = RemoteStringVisitor.create(visitor);
-//                s.Browser_GetSource(myBid, rv);
+                RemoteStringVisitor rvisitor = RemoteStringVisitor.create(visitor);
+                s.Browser_GetSource(myBid, rvisitor.thriftId());
             });
         }, "getSource");
     }
 
     @Override
     public void getText(CefStringVisitor visitor) {
-        if (myIsClosing)
+        if (myIsClosing || visitor == null)
             return;
 
         execWhenCreated(()->{
             myService.exec((s)->{
-                CefLog.Error("TODO: implement getText.");
-//                RObject rv = RemoteStringVisitor.create(visitor);
-//                s.Browser_GetText(myBid, rv);
+                RemoteStringVisitor rvisitor = RemoteStringVisitor.create(visitor);
+                s.Browser_GetText(myBid, rvisitor.thriftId());
             });
         }, "getText");
     }
