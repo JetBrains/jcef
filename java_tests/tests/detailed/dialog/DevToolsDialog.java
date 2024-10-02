@@ -5,6 +5,7 @@
 package tests.detailed.dialog;
 
 import org.cef.browser.CefBrowser;
+import tests.JBCefOsrComponent;
 
 import java.awt.BorderLayout;
 import java.awt.Frame;
@@ -29,6 +30,8 @@ public class DevToolsDialog extends JDialog {
         setLocation(owner.getLocation().x + 20, owner.getLocation().y + 20);
 
         devTools_ = browser.getDevTools(inspectAt);
+        devTools_.createImmediately();
+        ((JBCefOsrComponent)devTools_.getUIComponent()).setBrowser(devTools_);
         add(devTools_.getUIComponent());
 
         addComponentListener(new ComponentAdapter() {

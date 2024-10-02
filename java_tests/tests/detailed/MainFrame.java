@@ -4,17 +4,6 @@
 
 package tests.detailed;
 
-import java.awt.BorderLayout;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.KeyboardFocusManager;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import javax.swing.JPanel;
-
 import com.jetbrains.cef.JCefAppConfig;
 import org.cef.CefApp;
 import org.cef.CefApp.CefVersion;
@@ -24,36 +13,31 @@ import org.cef.CefSettings;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefFrame;
 import org.cef.browser.CefMessageRouter;
-import org.cef.handler.*;
+import org.cef.browser.CefRendering;
+import org.cef.handler.CefDisplayHandlerAdapter;
+import org.cef.handler.CefFocusHandlerAdapter;
+import org.cef.handler.CefLoadHandlerAdapter;
 import org.cef.network.CefCookieManager;
-
-import java.io.IOException;
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.GraphicsConfiguration;
-import java.awt.KeyboardFocusManager;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.io.File;
-import java.lang.Thread.UncaughtExceptionHandler;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-
+import tests.JBCefOsrComponent;
+import tests.JBCefOsrHandler;
+import tests.OsrSupport;
 import tests.detailed.dialog.DownloadDialog;
-import tests.detailed.handler.AppHandler;
-import tests.detailed.handler.ContextMenuHandler;
-import tests.detailed.handler.DragHandler;
-import tests.detailed.handler.JSDialogHandler;
-import tests.detailed.handler.KeyboardHandler;
-import tests.detailed.handler.MessageRouterHandler;
-import tests.detailed.handler.MessageRouterHandlerEx;
-import tests.detailed.handler.RequestHandler;
+import tests.detailed.handler.*;
 import tests.detailed.ui.ControlPanel;
 import tests.detailed.ui.MenuBar;
 import tests.detailed.ui.StatusPanel;
 import tests.detailed.util.DataUri;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Supplier;
 
 public class MainFrame extends BrowserFrame {
     private static final long serialVersionUID = -2295538706810864538L;
@@ -63,7 +47,7 @@ public class MainFrame extends BrowserFrame {
 
         // OSR mode is enabled by default on Linux.
         // and disabled by default on Windows and Mac OS X.
-        boolean osrEnabledArg = false;
+        boolean osrEnabledArg = true;
         boolean transparentPaintingEnabledArg = false;
         boolean createImmediately = false;
         int windowless_frame_rate = 0;
@@ -124,6 +108,12 @@ public class MainFrame extends BrowserFrame {
             appArgs.addAll(config.getAppArgsAsList());
             args = appArgs.toArray(new String[0]);
 
+            //    We're registering our own AppHandler because we want to
+            //    add an own schemes (search:// and client://) and its corresponding
+            //    protocol handlers. So if you enter "search:something on the web", your
+            //    search request "something on the web" is forwarded to www.google.com
+            CefApp.addAppHandler(new AppHandler(args));
+
             // 1) CefApp is the entry point for JCEF. You can pass
             //    application arguments to it, if you want to handle any
             //    chromium or CEF related switches/attributes in
@@ -136,12 +126,6 @@ public class MainFrame extends BrowserFrame {
 
             CefVersion version = myApp.getVersion();
             System.out.println("Using:\n" + version);
-
-            //    We're registering our own AppHandler because we want to
-            //    add an own schemes (search:// and client://) and its corresponding
-            //    protocol handlers. So if you enter "search:something on the web", your
-            //    search request "something on the web" is forwarded to www.google.com
-            CefApp.addAppHandler(new AppHandler(args));
         } else {
             myApp = CefApp.getInstance();
         }
@@ -247,8 +231,14 @@ public class MainFrame extends BrowserFrame {
         browserSettings.windowless_frame_rate = windowless_frame_rate;
 
         // Create the browser.
-        CefBrowser browser = client_.createBrowser("http://www.google.com", osrEnabled,
-                transparentPaintingEnabled, null, browserSettings);
+        final String startURL = "http://www.google.com";
+        CefBrowser browser;
+        if (CefApp.isRemoteEnabled()) {
+            browser = client_.createBrowser(startURL, OsrSupport.createRenderingFactory(), false, null, null);
+            ((JBCefOsrComponent)browser.getUIComponent()).setBrowser(browser);
+        } else
+            browser = client_.createBrowser(startURL, osrEnabled, transparentPaintingEnabled, null, browserSettings);
+
         setBrowser(browser);
 
         // Set up the UI for this example implementation.
