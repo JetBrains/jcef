@@ -18,6 +18,7 @@
 #include "callback/RemoteCallback.h"
 #include "callback/RemoteCompletionCallback.h"
 #include "callback/RemoteSchemeHandlerFactory.h"
+#include "callback/RemoteStringVisitor.h"
 
 #include "include/base/cef_callback.h"
 #include "include/wrapper/cef_closure_task.h"
@@ -480,12 +481,14 @@ void ServerHandler::Browser_ViewSource(const int32_t bid) {
 
 void ServerHandler::Browser_GetSource(const int32_t bid, const thrift_codegen::RObject& stringVisitor) {
   LNDCT();
-  Log::error("TODO: implement Browser_GetSource.");
+  GET_BROWSER_OR_RETURN()
+  browser->GetMainFrame()->GetSource(new RemoteStringVisitor(myCtx->javaService(), stringVisitor));
 }
 
 void ServerHandler::Browser_GetText(const int32_t bid, const thrift_codegen::RObject& stringVisitor) {
   LNDCT();
-  Log::error("TODO: implement Browser_GetText.");
+  GET_BROWSER_OR_RETURN()
+  browser->GetMainFrame()->GetText(new RemoteStringVisitor(myCtx->javaService(), stringVisitor));
 }
 
 void ServerHandler::Browser_SetFocus(const int32_t bid, bool enable) {

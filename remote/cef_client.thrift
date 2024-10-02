@@ -148,4 +148,10 @@ service ClientHandlers {
     //
     bool CookieVisitor_Visit(1:i32 visitor, 2:shared.Cookie cookie, 3:i32 count, 4:i32 total),
     oneway void CookieVisitor_Dispose(1:i32 visitor),
+
+    //
+    // CefStringVisitor
+    //
+    oneway void StringVisitor_Visit(1:i32 stringVisitor, 2:string str),
+    oneway void StringVisitor_Dispose(1:i32 stringVisitor),
 }

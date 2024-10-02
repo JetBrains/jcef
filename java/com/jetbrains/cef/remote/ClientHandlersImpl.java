@@ -1,9 +1,6 @@
 package com.jetbrains.cef.remote;
 
-import com.jetbrains.cef.remote.callback.RemoteAuthCallback;
-import com.jetbrains.cef.remote.callback.RemoteCallback;
-import com.jetbrains.cef.remote.callback.RemoteCompletionCallback;
-import com.jetbrains.cef.remote.callback.RemoteSchemeHandlerFactory;
+import com.jetbrains.cef.remote.callback.*;
 import com.jetbrains.cef.remote.network.*;
 import com.jetbrains.cef.remote.router.RemoteMessageRouterHandler;
 import com.jetbrains.cef.remote.router.RemoteQueryCallback;
@@ -965,5 +962,19 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     public void CookieVisitor_Dispose(int visitor) throws TException {
         CefLog.Debug("Dispose RemoteCookieVisitor %d (by server request).", visitor);
         RemoteCookieVisitor.FACTORY.dispose(visitor);
+    }
+
+    @Override
+    public void StringVisitor_Visit(int visitor, String str) throws TException {
+        RemoteStringVisitor rvisitor = RemoteStringVisitor.FACTORY.get(visitor);
+        if (rvisitor == null) return;
+
+        rvisitor.getDelegate().visit(str);
+    }
+
+    @Override
+    public void StringVisitor_Dispose(int visitor) throws TException {
+        CefLog.Debug("Dispose RemoteStringVisitor %d (by server request).", visitor);
+        RemoteStringVisitor.FACTORY.dispose(visitor);
     }
 }

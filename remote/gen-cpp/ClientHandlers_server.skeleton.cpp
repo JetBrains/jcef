@@ -310,6 +310,16 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
     printf("CookieVisitor_Dispose\n");
   }
 
+  void StringVisitor_Visit(const int32_t stringVisitor, const std::string& str) {
+    // Your implementation goes here
+    printf("StringVisitor_Visit\n");
+  }
+
+  void StringVisitor_Dispose(const int32_t stringVisitor) {
+    // Your implementation goes here
+    printf("StringVisitor_Dispose\n");
+  }
+
 };
 
 int main(int argc, char **argv) {

@@ -10292,6 +10292,180 @@ uint32_t ClientHandlers_CookieVisitor_Dispose_pargs::write(::apache::thrift::pro
   return xfer;
 }
 
+
+ClientHandlers_StringVisitor_Visit_args::~ClientHandlers_StringVisitor_Visit_args() noexcept {
+}
+
+
+uint32_t ClientHandlers_StringVisitor_Visit_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->stringVisitor);
+          this->__isset.stringVisitor = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->str);
+          this->__isset.str = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_StringVisitor_Visit_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_StringVisitor_Visit_args");
+
+  xfer += oprot->writeFieldBegin("stringVisitor", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->stringVisitor);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("str", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString(this->str);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_StringVisitor_Visit_pargs::~ClientHandlers_StringVisitor_Visit_pargs() noexcept {
+}
+
+
+uint32_t ClientHandlers_StringVisitor_Visit_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_StringVisitor_Visit_pargs");
+
+  xfer += oprot->writeFieldBegin("stringVisitor", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->stringVisitor)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("str", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString((*(this->str)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_StringVisitor_Dispose_args::~ClientHandlers_StringVisitor_Dispose_args() noexcept {
+}
+
+
+uint32_t ClientHandlers_StringVisitor_Dispose_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->stringVisitor);
+          this->__isset.stringVisitor = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_StringVisitor_Dispose_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_StringVisitor_Dispose_args");
+
+  xfer += oprot->writeFieldBegin("stringVisitor", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->stringVisitor);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_StringVisitor_Dispose_pargs::~ClientHandlers_StringVisitor_Dispose_pargs() noexcept {
+}
+
+
+uint32_t ClientHandlers_StringVisitor_Dispose_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_StringVisitor_Dispose_pargs");
+
+  xfer += oprot->writeFieldBegin("stringVisitor", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->stringVisitor)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
 int32_t ClientHandlersClient::connect()
 {
   send_connect();
@@ -12857,6 +13031,45 @@ void ClientHandlersClient::send_CookieVisitor_Dispose(const int32_t visitor)
 
   ClientHandlers_CookieVisitor_Dispose_pargs args;
   args.visitor = &visitor;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void ClientHandlersClient::StringVisitor_Visit(const int32_t stringVisitor, const std::string& str)
+{
+  send_StringVisitor_Visit(stringVisitor, str);
+}
+
+void ClientHandlersClient::send_StringVisitor_Visit(const int32_t stringVisitor, const std::string& str)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("StringVisitor_Visit", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  ClientHandlers_StringVisitor_Visit_pargs args;
+  args.stringVisitor = &stringVisitor;
+  args.str = &str;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void ClientHandlersClient::StringVisitor_Dispose(const int32_t stringVisitor)
+{
+  send_StringVisitor_Dispose(stringVisitor);
+}
+
+void ClientHandlersClient::send_StringVisitor_Dispose(const int32_t stringVisitor)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("StringVisitor_Dispose", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  ClientHandlers_StringVisitor_Dispose_pargs args;
+  args.stringVisitor = &stringVisitor;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -15615,6 +15828,80 @@ void ClientHandlersProcessor::process_CookieVisitor_Dispose(int32_t, ::apache::t
 
   if (this->eventHandler_.get() != nullptr) {
     this->eventHandler_->asyncComplete(ctx, "ClientHandlers.CookieVisitor_Dispose");
+  }
+
+  return;
+}
+
+void ClientHandlersProcessor::process_StringVisitor_Visit(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("ClientHandlers.StringVisitor_Visit", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ClientHandlers.StringVisitor_Visit");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "ClientHandlers.StringVisitor_Visit");
+  }
+
+  ClientHandlers_StringVisitor_Visit_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "ClientHandlers.StringVisitor_Visit", bytes);
+  }
+
+  try {
+    iface_->StringVisitor_Visit(args.stringVisitor, args.str);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "ClientHandlers.StringVisitor_Visit");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "ClientHandlers.StringVisitor_Visit");
+  }
+
+  return;
+}
+
+void ClientHandlersProcessor::process_StringVisitor_Dispose(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("ClientHandlers.StringVisitor_Dispose", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ClientHandlers.StringVisitor_Dispose");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "ClientHandlers.StringVisitor_Dispose");
+  }
+
+  ClientHandlers_StringVisitor_Dispose_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "ClientHandlers.StringVisitor_Dispose", bytes);
+  }
+
+  try {
+    iface_->StringVisitor_Dispose(args.stringVisitor);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "ClientHandlers.StringVisitor_Dispose");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "ClientHandlers.StringVisitor_Dispose");
   }
 
   return;
@@ -19165,6 +19452,51 @@ void ClientHandlersConcurrentClient::send_CookieVisitor_Dispose(const int32_t vi
 
   ClientHandlers_CookieVisitor_Dispose_pargs args;
   args.visitor = &visitor;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
+void ClientHandlersConcurrentClient::StringVisitor_Visit(const int32_t stringVisitor, const std::string& str)
+{
+  send_StringVisitor_Visit(stringVisitor, str);
+}
+
+void ClientHandlersConcurrentClient::send_StringVisitor_Visit(const int32_t stringVisitor, const std::string& str)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("StringVisitor_Visit", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  ClientHandlers_StringVisitor_Visit_pargs args;
+  args.stringVisitor = &stringVisitor;
+  args.str = &str;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
+void ClientHandlersConcurrentClient::StringVisitor_Dispose(const int32_t stringVisitor)
+{
+  send_StringVisitor_Dispose(stringVisitor);
+}
+
+void ClientHandlersConcurrentClient::send_StringVisitor_Dispose(const int32_t stringVisitor)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("StringVisitor_Dispose", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  ClientHandlers_StringVisitor_Dispose_pargs args;
+  args.stringVisitor = &stringVisitor;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();

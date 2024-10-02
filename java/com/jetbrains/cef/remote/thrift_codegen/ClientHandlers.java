@@ -127,6 +127,10 @@ public class ClientHandlers {
 
     public void CookieVisitor_Dispose(int visitor) throws com.jetbrains.cef.remote.thrift.TException;
 
+    public void StringVisitor_Visit(int stringVisitor, java.lang.String str) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void StringVisitor_Dispose(int stringVisitor) throws com.jetbrains.cef.remote.thrift.TException;
+
   }
 
   public interface AsyncIface {
@@ -246,6 +250,10 @@ public class ClientHandlers {
     public void CookieVisitor_Visit(int visitor, com.jetbrains.cef.remote.thrift_codegen.Cookie cookie, int count, int total, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void CookieVisitor_Dispose(int visitor, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void StringVisitor_Visit(int stringVisitor, java.lang.String str, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void StringVisitor_Dispose(int stringVisitor, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
   }
 
@@ -1521,6 +1529,33 @@ public class ClientHandlers {
       CookieVisitor_Dispose_args args = new CookieVisitor_Dispose_args();
       args.setVisitor(visitor);
       sendBaseOneway("CookieVisitor_Dispose", args);
+    }
+
+    @Override
+    public void StringVisitor_Visit(int stringVisitor, java.lang.String str) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_StringVisitor_Visit(stringVisitor, str);
+    }
+
+    public void send_StringVisitor_Visit(int stringVisitor, java.lang.String str) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      StringVisitor_Visit_args args = new StringVisitor_Visit_args();
+      args.setStringVisitor(stringVisitor);
+      args.setStr(str);
+      sendBaseOneway("StringVisitor_Visit", args);
+    }
+
+    @Override
+    public void StringVisitor_Dispose(int stringVisitor) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_StringVisitor_Dispose(stringVisitor);
+    }
+
+    public void send_StringVisitor_Dispose(int stringVisitor) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      StringVisitor_Dispose_args args = new StringVisitor_Dispose_args();
+      args.setStringVisitor(stringVisitor);
+      sendBaseOneway("StringVisitor_Dispose", args);
     }
 
   }
@@ -3951,6 +3986,79 @@ public class ClientHandlers {
       }
     }
 
+    @Override
+    public void StringVisitor_Visit(int stringVisitor, java.lang.String str, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      StringVisitor_Visit_call method_call = new StringVisitor_Visit_call(stringVisitor, str, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class StringVisitor_Visit_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<Void> {
+      private int stringVisitor;
+      private java.lang.String str;
+      public StringVisitor_Visit_call(int stringVisitor, java.lang.String str, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, true);
+        this.stringVisitor = stringVisitor;
+        this.str = str;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("StringVisitor_Visit", com.jetbrains.cef.remote.thrift.protocol.TMessageType.ONEWAY, 0));
+        StringVisitor_Visit_args args = new StringVisitor_Visit_args();
+        args.setStringVisitor(stringVisitor);
+        args.setStr(str);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public Void getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return null;
+      }
+    }
+
+    @Override
+    public void StringVisitor_Dispose(int stringVisitor, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      StringVisitor_Dispose_call method_call = new StringVisitor_Dispose_call(stringVisitor, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class StringVisitor_Dispose_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<Void> {
+      private int stringVisitor;
+      public StringVisitor_Dispose_call(int stringVisitor, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, true);
+        this.stringVisitor = stringVisitor;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("StringVisitor_Dispose", com.jetbrains.cef.remote.thrift.protocol.TMessageType.ONEWAY, 0));
+        StringVisitor_Dispose_args args = new StringVisitor_Dispose_args();
+        args.setStringVisitor(stringVisitor);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public Void getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return null;
+      }
+    }
+
   }
 
   public static class Processor<I extends Iface> extends com.jetbrains.cef.remote.thrift.TBaseProcessor<I> implements com.jetbrains.cef.remote.thrift.TProcessor {
@@ -4022,6 +4130,8 @@ public class ClientHandlers {
       processMap.put("RequestContextHandler_GetResourceRequestHandler", new RequestContextHandler_GetResourceRequestHandler());
       processMap.put("CookieVisitor_Visit", new CookieVisitor_Visit());
       processMap.put("CookieVisitor_Dispose", new CookieVisitor_Dispose());
+      processMap.put("StringVisitor_Visit", new StringVisitor_Visit());
+      processMap.put("StringVisitor_Dispose", new StringVisitor_Dispose());
       return processMap;
     }
 
@@ -5646,6 +5756,60 @@ public class ClientHandlers {
       }
     }
 
+    public static class StringVisitor_Visit<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, StringVisitor_Visit_args> {
+      public StringVisitor_Visit() {
+        super("StringVisitor_Visit");
+      }
+
+      @Override
+      public StringVisitor_Visit_args getEmptyArgsInstance() {
+        return new StringVisitor_Visit_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.TBase getResult(I iface, StringVisitor_Visit_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.StringVisitor_Visit(args.stringVisitor, args.str);
+        return null;
+      }
+    }
+
+    public static class StringVisitor_Dispose<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, StringVisitor_Dispose_args> {
+      public StringVisitor_Dispose() {
+        super("StringVisitor_Dispose");
+      }
+
+      @Override
+      public StringVisitor_Dispose_args getEmptyArgsInstance() {
+        return new StringVisitor_Dispose_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.TBase getResult(I iface, StringVisitor_Dispose_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.StringVisitor_Dispose(args.stringVisitor);
+        return null;
+      }
+    }
+
   }
 
   public static class AsyncProcessor<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.TBaseAsyncProcessor<I> {
@@ -5717,6 +5881,8 @@ public class ClientHandlers {
       processMap.put("RequestContextHandler_GetResourceRequestHandler", new RequestContextHandler_GetResourceRequestHandler());
       processMap.put("CookieVisitor_Visit", new CookieVisitor_Visit());
       processMap.put("CookieVisitor_Dispose", new CookieVisitor_Dispose());
+      processMap.put("StringVisitor_Visit", new StringVisitor_Visit());
+      processMap.put("StringVisitor_Dispose", new StringVisitor_Dispose());
       return processMap;
     }
 
@@ -8998,6 +9164,86 @@ public class ClientHandlers {
       @Override
       public void start(I iface, CookieVisitor_Dispose_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
         iface.CookieVisitor_Dispose(args.visitor,resultHandler);
+      }
+    }
+
+    public static class StringVisitor_Visit<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, StringVisitor_Visit_args, Void> {
+      public StringVisitor_Visit() {
+        super("StringVisitor_Visit");
+      }
+
+      @Override
+      public StringVisitor_Visit_args getEmptyArgsInstance() {
+        return new StringVisitor_Visit_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void>() { 
+          @Override
+          public void onComplete(Void o) {
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+            } else {
+              _LOGGER.error("Exception inside oneway handler", e);
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      public void start(I iface, StringVisitor_Visit_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.StringVisitor_Visit(args.stringVisitor, args.str,resultHandler);
+      }
+    }
+
+    public static class StringVisitor_Dispose<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, StringVisitor_Dispose_args, Void> {
+      public StringVisitor_Dispose() {
+        super("StringVisitor_Dispose");
+      }
+
+      @Override
+      public StringVisitor_Dispose_args getEmptyArgsInstance() {
+        return new StringVisitor_Dispose_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void>() { 
+          @Override
+          public void onComplete(Void o) {
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+            } else {
+              _LOGGER.error("Exception inside oneway handler", e);
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      public void start(I iface, StringVisitor_Dispose_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.StringVisitor_Dispose(args.stringVisitor,resultHandler);
       }
     }
 
@@ -56523,6 +56769,859 @@ public class ClientHandlers {
         if (incoming.get(0)) {
           struct.visitor = iprot.readI32();
           struct.setVisitorIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class StringVisitor_Visit_args implements com.jetbrains.cef.remote.thrift.TBase<StringVisitor_Visit_args, StringVisitor_Visit_args._Fields>, java.io.Serializable, Cloneable, Comparable<StringVisitor_Visit_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("StringVisitor_Visit_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField STRING_VISITOR_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("stringVisitor", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)1);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField STR_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("str", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)2);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new StringVisitor_Visit_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new StringVisitor_Visit_argsTupleSchemeFactory();
+
+    public int stringVisitor; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String str; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      STRING_VISITOR((short)1, "stringVisitor"),
+      STR((short)2, "str");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // STRING_VISITOR
+            return STRING_VISITOR;
+          case 2: // STR
+            return STR;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __STRINGVISITOR_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.STRING_VISITOR, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("stringVisitor", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.STR, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("str", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(StringVisitor_Visit_args.class, metaDataMap);
+    }
+
+    public StringVisitor_Visit_args() {
+    }
+
+    public StringVisitor_Visit_args(
+      int stringVisitor,
+      java.lang.String str)
+    {
+      this();
+      this.stringVisitor = stringVisitor;
+      setStringVisitorIsSet(true);
+      this.str = str;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public StringVisitor_Visit_args(StringVisitor_Visit_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.stringVisitor = other.stringVisitor;
+      if (other.isSetStr()) {
+        this.str = other.str;
+      }
+    }
+
+    @Override
+    public StringVisitor_Visit_args deepCopy() {
+      return new StringVisitor_Visit_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setStringVisitorIsSet(false);
+      this.stringVisitor = 0;
+      this.str = null;
+    }
+
+    public int getStringVisitor() {
+      return this.stringVisitor;
+    }
+
+    public StringVisitor_Visit_args setStringVisitor(int stringVisitor) {
+      this.stringVisitor = stringVisitor;
+      setStringVisitorIsSet(true);
+      return this;
+    }
+
+    public void unsetStringVisitor() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __STRINGVISITOR_ISSET_ID);
+    }
+
+    /** Returns true if field stringVisitor is set (has been assigned a value) and false otherwise */
+    public boolean isSetStringVisitor() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __STRINGVISITOR_ISSET_ID);
+    }
+
+    public void setStringVisitorIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __STRINGVISITOR_ISSET_ID, value);
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.lang.String getStr() {
+      return this.str;
+    }
+
+    public StringVisitor_Visit_args setStr(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String str) {
+      this.str = str;
+      return this;
+    }
+
+    public void unsetStr() {
+      this.str = null;
+    }
+
+    /** Returns true if field str is set (has been assigned a value) and false otherwise */
+    public boolean isSetStr() {
+      return this.str != null;
+    }
+
+    public void setStrIsSet(boolean value) {
+      if (!value) {
+        this.str = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case STRING_VISITOR:
+        if (value == null) {
+          unsetStringVisitor();
+        } else {
+          setStringVisitor((java.lang.Integer)value);
+        }
+        break;
+
+      case STR:
+        if (value == null) {
+          unsetStr();
+        } else {
+          setStr((java.lang.String)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case STRING_VISITOR:
+        return getStringVisitor();
+
+      case STR:
+        return getStr();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case STRING_VISITOR:
+        return isSetStringVisitor();
+      case STR:
+        return isSetStr();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof StringVisitor_Visit_args)
+        return this.equals((StringVisitor_Visit_args)that);
+      return false;
+    }
+
+    public boolean equals(StringVisitor_Visit_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_stringVisitor = true;
+      boolean that_present_stringVisitor = true;
+      if (this_present_stringVisitor || that_present_stringVisitor) {
+        if (!(this_present_stringVisitor && that_present_stringVisitor))
+          return false;
+        if (this.stringVisitor != that.stringVisitor)
+          return false;
+      }
+
+      boolean this_present_str = true && this.isSetStr();
+      boolean that_present_str = true && that.isSetStr();
+      if (this_present_str || that_present_str) {
+        if (!(this_present_str && that_present_str))
+          return false;
+        if (!this.str.equals(that.str))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + stringVisitor;
+
+      hashCode = hashCode * 8191 + ((isSetStr()) ? 131071 : 524287);
+      if (isSetStr())
+        hashCode = hashCode * 8191 + str.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(StringVisitor_Visit_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetStringVisitor(), other.isSetStringVisitor());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetStringVisitor()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.stringVisitor, other.stringVisitor);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetStr(), other.isSetStr());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetStr()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.str, other.str);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("StringVisitor_Visit_args(");
+      boolean first = true;
+
+      sb.append("stringVisitor:");
+      sb.append(this.stringVisitor);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("str:");
+      if (this.str == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.str);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class StringVisitor_Visit_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public StringVisitor_Visit_argsStandardScheme getScheme() {
+        return new StringVisitor_Visit_argsStandardScheme();
+      }
+    }
+
+    private static class StringVisitor_Visit_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<StringVisitor_Visit_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, StringVisitor_Visit_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // STRING_VISITOR
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
+                struct.stringVisitor = iprot.readI32();
+                struct.setStringVisitorIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // STR
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRING) {
+                struct.str = iprot.readString();
+                struct.setStrIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, StringVisitor_Visit_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(STRING_VISITOR_FIELD_DESC);
+        oprot.writeI32(struct.stringVisitor);
+        oprot.writeFieldEnd();
+        if (struct.str != null) {
+          oprot.writeFieldBegin(STR_FIELD_DESC);
+          oprot.writeString(struct.str);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class StringVisitor_Visit_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public StringVisitor_Visit_argsTupleScheme getScheme() {
+        return new StringVisitor_Visit_argsTupleScheme();
+      }
+    }
+
+    private static class StringVisitor_Visit_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<StringVisitor_Visit_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, StringVisitor_Visit_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetStringVisitor()) {
+          optionals.set(0);
+        }
+        if (struct.isSetStr()) {
+          optionals.set(1);
+        }
+        oprot.writeBitSet(optionals, 2);
+        if (struct.isSetStringVisitor()) {
+          oprot.writeI32(struct.stringVisitor);
+        }
+        if (struct.isSetStr()) {
+          oprot.writeString(struct.str);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, StringVisitor_Visit_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(2);
+        if (incoming.get(0)) {
+          struct.stringVisitor = iprot.readI32();
+          struct.setStringVisitorIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.str = iprot.readString();
+          struct.setStrIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class StringVisitor_Dispose_args implements com.jetbrains.cef.remote.thrift.TBase<StringVisitor_Dispose_args, StringVisitor_Dispose_args._Fields>, java.io.Serializable, Cloneable, Comparable<StringVisitor_Dispose_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("StringVisitor_Dispose_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField STRING_VISITOR_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("stringVisitor", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)1);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new StringVisitor_Dispose_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new StringVisitor_Dispose_argsTupleSchemeFactory();
+
+    public int stringVisitor; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      STRING_VISITOR((short)1, "stringVisitor");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // STRING_VISITOR
+            return STRING_VISITOR;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __STRINGVISITOR_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.STRING_VISITOR, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("stringVisitor", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(StringVisitor_Dispose_args.class, metaDataMap);
+    }
+
+    public StringVisitor_Dispose_args() {
+    }
+
+    public StringVisitor_Dispose_args(
+      int stringVisitor)
+    {
+      this();
+      this.stringVisitor = stringVisitor;
+      setStringVisitorIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public StringVisitor_Dispose_args(StringVisitor_Dispose_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.stringVisitor = other.stringVisitor;
+    }
+
+    @Override
+    public StringVisitor_Dispose_args deepCopy() {
+      return new StringVisitor_Dispose_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setStringVisitorIsSet(false);
+      this.stringVisitor = 0;
+    }
+
+    public int getStringVisitor() {
+      return this.stringVisitor;
+    }
+
+    public StringVisitor_Dispose_args setStringVisitor(int stringVisitor) {
+      this.stringVisitor = stringVisitor;
+      setStringVisitorIsSet(true);
+      return this;
+    }
+
+    public void unsetStringVisitor() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __STRINGVISITOR_ISSET_ID);
+    }
+
+    /** Returns true if field stringVisitor is set (has been assigned a value) and false otherwise */
+    public boolean isSetStringVisitor() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __STRINGVISITOR_ISSET_ID);
+    }
+
+    public void setStringVisitorIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __STRINGVISITOR_ISSET_ID, value);
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case STRING_VISITOR:
+        if (value == null) {
+          unsetStringVisitor();
+        } else {
+          setStringVisitor((java.lang.Integer)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case STRING_VISITOR:
+        return getStringVisitor();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case STRING_VISITOR:
+        return isSetStringVisitor();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof StringVisitor_Dispose_args)
+        return this.equals((StringVisitor_Dispose_args)that);
+      return false;
+    }
+
+    public boolean equals(StringVisitor_Dispose_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_stringVisitor = true;
+      boolean that_present_stringVisitor = true;
+      if (this_present_stringVisitor || that_present_stringVisitor) {
+        if (!(this_present_stringVisitor && that_present_stringVisitor))
+          return false;
+        if (this.stringVisitor != that.stringVisitor)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + stringVisitor;
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(StringVisitor_Dispose_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetStringVisitor(), other.isSetStringVisitor());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetStringVisitor()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.stringVisitor, other.stringVisitor);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("StringVisitor_Dispose_args(");
+      boolean first = true;
+
+      sb.append("stringVisitor:");
+      sb.append(this.stringVisitor);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class StringVisitor_Dispose_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public StringVisitor_Dispose_argsStandardScheme getScheme() {
+        return new StringVisitor_Dispose_argsStandardScheme();
+      }
+    }
+
+    private static class StringVisitor_Dispose_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<StringVisitor_Dispose_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, StringVisitor_Dispose_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // STRING_VISITOR
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
+                struct.stringVisitor = iprot.readI32();
+                struct.setStringVisitorIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, StringVisitor_Dispose_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(STRING_VISITOR_FIELD_DESC);
+        oprot.writeI32(struct.stringVisitor);
+        oprot.writeFieldEnd();
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class StringVisitor_Dispose_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public StringVisitor_Dispose_argsTupleScheme getScheme() {
+        return new StringVisitor_Dispose_argsTupleScheme();
+      }
+    }
+
+    private static class StringVisitor_Dispose_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<StringVisitor_Dispose_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, StringVisitor_Dispose_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetStringVisitor()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetStringVisitor()) {
+          oprot.writeI32(struct.stringVisitor);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, StringVisitor_Dispose_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.stringVisitor = iprot.readI32();
+          struct.setStringVisitorIsSet(true);
         }
       }
     }
