@@ -30,7 +30,7 @@ void RemoteBrowserProcessHandler::OnContextInitialized() {
 
   if (Log::isTraceEnabled()) {
     Duration dur = std::chrono::duration_cast<std::chrono::microseconds>(Clock::now() - myCreationTime);
-    Log::trace("Native CEF context initialization spent %d ms.", (int)dur.count()/1000);
+    Log::trace("CEF context is initialized, spent %d mcs", (int)dur.count());
   }
 
   Lock lock(myMutex);

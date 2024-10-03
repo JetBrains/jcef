@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.function.BooleanSupplier;
 
 public class NativeServerManager {
+    private static final Boolean ENSURE_SETTINGS_FILE_WRITTEN = Utils.getBoolean("JCEF_ENSURE_SETTINGS_FILE_WRITTEN");
     private static final Boolean DISABLE_GPU = Utils.getBoolean("JCEF_DISABLE_GPU");
     private static final String ALT_CEF_SERVER_PATH = Utils.getString("ALT_CEF_SERVER_PATH");
     private static final String ALT_SUBPROCESS_PATH = Utils.getString("ALT_SUBPROCESS_PATH");
@@ -29,15 +30,16 @@ public class NativeServerManager {
 
     // Should be called in bg thread
     public static boolean startProcessAndWait(CefAppHandler appHandler, CefSettings settings, long timeoutMs) {
-        final Path pipeName = Path.of(System.getProperty("java.io.tmpdir")).resolve("cef_server_params.txt");
-        File f = new File(pipeName.toString());
+        final long t0 = System.nanoTime();
+        final Path settingsFileName = Path.of(System.getProperty("java.io.tmpdir")).resolve("cef_server_params.txt");
+        File f = new File(settingsFileName.toString());
         PrintStream ps;
         try {
             new FileOutputStream(f).close(); // delete the content of the file
             f.createNewFile();
             ps = new PrintStream(new FileOutputStream(f, false));
         } catch (IOException e) {
-            CefLog.Error("Can't create temp file with server params path=%s, msg=%s", pipeName.toString(), e.getMessage());
+            CefLog.Error("Can't create temp file with server params path=%s, msg=%s", settingsFileName.toString(), e.getMessage());
             return false;
         }
 
@@ -117,24 +119,26 @@ public class NativeServerManager {
         ps.flush();
         ps.close();
 
-        // Ensure file written
-        BufferedReader reader;
-        try {
-            reader = new BufferedReader(new FileReader(f));
-            String line = reader.readLine();
-            if (line == null || line.isEmpty() || !line.contains(sectionCmdLine)) {
-                CefLog.Error("Write errors (when write temp file with server params), was written:");
-                while (line != null) {
-                    CefLog.Error("\t%s", line);
-                    line = reader.readLine();
+        if (ENSURE_SETTINGS_FILE_WRITTEN) {
+            BufferedReader reader;
+            try {
+                reader = new BufferedReader(new FileReader(f));
+                String line = reader.readLine();
+                if (line == null || line.isEmpty() || !line.contains(sectionCmdLine)) {
+                    CefLog.Error("Write errors (when write temp file with server params), was written:");
+                    while (line != null) {
+                        CefLog.Error("\t%s", line);
+                        line = reader.readLine();
+                    }
                 }
+                reader.close();
+            } catch (IOException e) {
+                CefLog.Error("Can't read temp file with server params: %s", e.getMessage());
             }
-            reader.close();
-        } catch (IOException e) {
-            CefLog.Error("Can't read temp file with server params: %s", e.getMessage());
         }
 
-        return startProcessAndWait(f.getAbsolutePath(), timeoutMs);
+        CefLog.Debug("Settings were written to file, spent %d mcs", (System.nanoTime() - t0)/1000);
+        return startProcessAndWait(f.getAbsolutePath(), timeoutMs, settings.log_file, settings.log_severity);
     }
 
     public static boolean isProcessAlive() {
@@ -297,7 +301,7 @@ public class NativeServerManager {
         boolean success;
         do {
             try {
-                Thread.sleep(500);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -404,7 +408,8 @@ public class NativeServerManager {
     }
 
     // returns true when server was started successfully
-    private static boolean startProcessAndWait(String paramsPath, long timeoutMs) {
+    private static boolean startProcessAndWait(String paramsPath, long timeoutMs, String logPath, CefSettings.LogSeverity logLevel) {
+        final long t0 = System.nanoTime();
         if (ourNativeServerProcess != null)
             CefLog.Debug("Handle of server process will be overwritten.");
         ourNativeServerProcess = null;
@@ -429,11 +434,43 @@ public class NativeServerManager {
             CefLog.Debug("\tUse pipe %s", ThriftTransport.getServerPipe());
             builder.command().add(String.format("--pipe=%s", ThriftTransport.getServerPipe()));
         }
-        final String serverLog = Utils.getString("CEF_SERVER_LOG_PATH");
+        String serverLog = logPath;
+        if (serverLog == null || serverLog.trim().isEmpty())
+            serverLog = Utils.getString("CEF_SERVER_LOG_PATH");
         if (serverLog != null && !serverLog.isEmpty()) {
             CefLog.Debug("\tLog file %s", serverLog);
             builder.command().add(String.format("--logfile=%s", serverLog.trim()));
         }
+        {   // Select native log level
+            final int LEVEL_DISABLED = 100;
+            final int LEVEL_FATAL = 10;
+            final int LEVEL_ERROR = 9;
+            final int LEVEL_WARN = 8;
+            final int LEVEL_INFO = 7;
+            final int LEVEL_DEBUG = 6;
+            final int LEVEL_TRACE = 5;
+            int nativeLogLevel = LEVEL_DISABLED;
+            if (logLevel != null) {
+                if (logLevel == CefSettings.LogSeverity.LOGSEVERITY_DISABLE)
+                    nativeLogLevel = LEVEL_DISABLED;
+                else if (logLevel == CefSettings.LogSeverity.LOGSEVERITY_DEFAULT)
+                    nativeLogLevel = LEVEL_INFO;
+                else if (logLevel == CefSettings.LogSeverity.LOGSEVERITY_FATAL)
+                    nativeLogLevel = LEVEL_FATAL;
+                else if (logLevel == CefSettings.LogSeverity.LOGSEVERITY_ERROR)
+                    nativeLogLevel = LEVEL_ERROR;
+                else if (logLevel == CefSettings.LogSeverity.LOGSEVERITY_WARNING)
+                    nativeLogLevel = LEVEL_WARN;
+                else if (logLevel == CefSettings.LogSeverity.LOGSEVERITY_INFO)
+                    nativeLogLevel = LEVEL_DEBUG;
+                else if (logLevel == CefSettings.LogSeverity.LOGSEVERITY_VERBOSE)
+                    nativeLogLevel = LEVEL_TRACE;
+            }
+
+            CefLog.Debug("\tLog level (native) %d", nativeLogLevel);
+            builder.command().add(String.format("--loglevel=%d", nativeLogLevel));
+        }
+
         builder.command().add(String.format("--params=%s", paramsPath));
         builder.redirectOutput(ProcessBuilder.Redirect.INHERIT);
         builder.redirectError(ProcessBuilder.Redirect.INHERIT);
@@ -445,6 +482,7 @@ public class NativeServerManager {
         }
 
         // Wait for native server
+        final long t1 = System.nanoTime();
         boolean running = waitForRunning(timeoutMs);
         if (!running && !(running = isRunning(true))) {
             if (ourNativeServerProcess.isAlive())
@@ -454,6 +492,7 @@ public class NativeServerManager {
                 ourNativeServerProcess = null;
             }
         }
+        CefLog.Debug("\t spent mcs: process starting %d, waiting %d", (t1 - t0)/1000, (System.nanoTime() - t1)/1000);
         return running;
     }
 }
