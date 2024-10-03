@@ -41,6 +41,8 @@ class MessageRoutersManager {
 
   static std::set<CefMessageRouterConfig, cmpCfg> router_cfg_;
   static base::Lock router_cfg_lock_;
+
+  std::set<CefRefPtr<CefMessageRouterBrowserSide>> getMessageRouters();
 };
 
 #endif  // JCEF_MESSAGEROUTERSMANAGER_H

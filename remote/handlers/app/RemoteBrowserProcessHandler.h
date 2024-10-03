@@ -27,6 +27,7 @@ class RemoteBrowserProcessHandler : public CefBrowserProcessHandler {
   std::recursive_mutex myMutex;
   const std::chrono::high_resolution_clock::time_point myCreationTime; // just for logging
   bool myIsContextInitialized = false;
+  bool myIsCallbackInvoked = false;
   IMPLEMENT_REFCOUNTING(RemoteBrowserProcessHandler);
 };
 #endif  // JCEF_REMOTEBROWSERPROCESSHANDLER_H

@@ -26,13 +26,16 @@ class ServerObjectsFactory {
   }
 
   void dispose(int id, bool doDelete) {
-    Lock lock(MUTEX);
-    T* r = INSTANCES[id];
-    if (r != nullptr) {
-      if (doDelete)
-        delete r;
-      INSTANCES.erase(id);
+    T* r = nullptr;
+    {
+      Lock lock(MUTEX);
+      r = INSTANCES[id];
+      if (r != nullptr)
+        INSTANCES.erase(id);
     }
+
+    if (r != nullptr && doDelete)
+      delete r;
   }
 
  private:

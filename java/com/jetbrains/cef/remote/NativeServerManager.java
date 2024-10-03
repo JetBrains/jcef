@@ -20,7 +20,6 @@ import java.util.Map;
 import java.util.function.BooleanSupplier;
 
 public class NativeServerManager {
-    private static final Boolean ENSURE_SETTINGS_FILE_WRITTEN = Utils.getBoolean("JCEF_ENSURE_SETTINGS_FILE_WRITTEN");
     private static final Boolean DISABLE_GPU = Utils.getBoolean("JCEF_DISABLE_GPU");
     private static final String ALT_CEF_SERVER_PATH = Utils.getString("ALT_CEF_SERVER_PATH");
     private static final String ALT_SUBPROCESS_PATH = Utils.getString("ALT_SUBPROCESS_PATH");
@@ -118,24 +117,6 @@ public class NativeServerManager {
 
         ps.flush();
         ps.close();
-
-        if (ENSURE_SETTINGS_FILE_WRITTEN) {
-            BufferedReader reader;
-            try {
-                reader = new BufferedReader(new FileReader(f));
-                String line = reader.readLine();
-                if (line == null || line.isEmpty() || !line.contains(sectionCmdLine)) {
-                    CefLog.Error("Write errors (when write temp file with server params), was written:");
-                    while (line != null) {
-                        CefLog.Error("\t%s", line);
-                        line = reader.readLine();
-                    }
-                }
-                reader.close();
-            } catch (IOException e) {
-                CefLog.Error("Can't read temp file with server params: %s", e.getMessage());
-            }
-        }
 
         CefLog.Debug("Settings were written to file, spent %d mcs", (System.nanoTime() - t0)/1000);
         return startProcessAndWait(f.getAbsolutePath(), timeoutMs, settings.log_file, settings.log_severity);
