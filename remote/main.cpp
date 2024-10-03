@@ -17,6 +17,8 @@
 
 #include "handlers/app/HelperApp.h"
 
+#include <boost/date_time/posix_time/posix_time.hpp>
+
 using namespace apache::thrift;
 using namespace apache::thrift::protocol;
 using namespace apache::thrift::transport;
@@ -67,6 +69,7 @@ class MyServerProcessorFactory : public ::apache::thrift::TProcessorFactory {
 };
 
 int main(int argc, char* argv[]) {
+  const boost::posix_time::ptime t0 =  boost::posix_time::microsec_clock::local_time();
 #if defined(OS_LINUX)
   CefRefPtr<CefApp> app = nullptr;
   CefRefPtr<CefCommandLine> command_line = CefCommandLine::CreateCommandLine();
@@ -100,21 +103,23 @@ int main(int argc, char* argv[]) {
   initMacApplication();
 #endif
 
-  fprintf(stderr, "Starting cer server.\n");
-  ServerState::instance().init(argc, argv);
-
+  const boost::posix_time::ptime t1 =  boost::posix_time::microsec_clock::local_time();
+  fprintf(stdout, "Starting cer server. Pre-initialize spent %d mcs.\n", (t1 - t0).total_microseconds());
+  ServerState& ss = ServerState::instance();
+  ss.init(argc, argv);
   setThreadName("main");
-  const Clock::time_point startTime = Clock::now();
 
-  Log::trace("Start CEF initialization.");
+  boost::posix_time::ptime t2 = boost::posix_time::microsec_clock::local_time();
+  Log::trace("Start CEF initialization. ServerState initialization spent %d mcs.", (t2 - t1).total_microseconds());
   const bool success = CefUtils::initializeCef();
   if (!success) {
     Log::error("Cef initialization failed");
     return -2;
   }
 
-  Log::trace("Create server transport.");
-  const CommandLineArgs& cmdArgs = ServerState::instance().getCmdArgs();
+  const boost::posix_time::ptime t3 =  boost::posix_time::microsec_clock::local_time();
+  Log::trace("Create server transport. CEF initialization spent %d mcs.", (t3 - t2).total_microseconds());
+  const CommandLineArgs& cmdArgs = ss.getCmdArgs();
   std::shared_ptr<TServerTransport> serverTransport;
   if (cmdArgs.useTcp()) {
     Log::info("TCP transport will be used, port=%d", cmdArgs.getPort());
@@ -136,7 +141,7 @@ int main(int argc, char* argv[]) {
     serverTransport = std::make_shared<TServerSocket>(pipePath.c_str());
 #endif //WIN32
   }
-  std::shared_ptr<ServerHandlerFactory> handlersFactory = ServerState::instance().getServerHandlerFactory();
+  std::shared_ptr<ServerHandlerFactory> handlersFactory = ss.getServerHandlerFactory();
   std::shared_ptr<apache::thrift::TProcessorFactory> processorFactory = std::make_shared<MyServerProcessorFactory>(handlersFactory);
   std::shared_ptr<TThreadedServer> server = std::make_shared<TThreadedServer>(
       processorFactory,
@@ -144,12 +149,8 @@ int main(int argc, char* argv[]) {
       std::make_shared<TBufferedTransportFactory>(),
       std::make_shared<TBinaryProtocolFactory>());
 
-  if (Log::isDebugEnabled()) {
-    const Clock::time_point endTime = Clock::now();
-    Duration d2 = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
-    Log::debug("Starting the server. Initialization spent %d ms", (int)d2.count()/1000);
-  }
-
+  const boost::posix_time::ptime t4 =  boost::posix_time::microsec_clock::local_time();
+  Log::trace("Start listening thread. Transport initialization spent %d mcs.", (t4 - t3).total_microseconds());
   std::thread servThread([=]() {
     setThreadName("ServerListener");
     try {
@@ -183,7 +184,9 @@ int main(int argc, char* argv[]) {
     });
   }
 
-  Log::trace("Run CEF loop.");
+  const boost::posix_time::ptime t6 =  boost::posix_time::microsec_clock::local_time();
+  Log::trace("Run CEF loop. Total initialization time %d mcs.", (t6 - t0).total_microseconds());
+
   CefUtils::runCefLoop();
   Log::debug("Finished message loop.");
   server->stop();
