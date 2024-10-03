@@ -104,7 +104,7 @@ int main(int argc, char* argv[]) {
 #endif
 
   const boost::posix_time::ptime t1 =  boost::posix_time::microsec_clock::local_time();
-  fprintf(stdout, "Starting cer server. Pre-initialize spent %d mcs.\n", (t1 - t0).total_microseconds());
+  fprintf(stdout, "Starting cer server. Pre-initialize spent %d mcs.\n", (int)(t1 - t0).total_microseconds());
   ServerState& ss = ServerState::instance();
   ss.init(argc, argv);
   setThreadName("main");
