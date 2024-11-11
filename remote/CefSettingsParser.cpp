@@ -79,8 +79,6 @@ bool parseSettingItem(CefSettings & out, const std::string & settingLine) {
     out.command_line_args_disabled = val.compare("true") == 0;
   } else if  (name.find("persist_session_cookies") != name.npos) {
     out.persist_session_cookies = val.compare("true") == 0;
-  } else if (name.find("pack_loading_disabled") != name.npos) {
-    out.pack_loading_disabled = val.compare("true") == 0;
   } else if (name.find("cookieable_schemes_exclude_defaults") != name.npos) {
     out.cookieable_schemes_exclude_defaults = val.compare("true") == 0;
   } else if (name.find("no_sandbox") != name.npos) {

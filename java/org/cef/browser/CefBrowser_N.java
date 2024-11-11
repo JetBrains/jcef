@@ -51,7 +51,6 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     private CefRequestContext request_context_;
     private volatile CefBrowser_N parent_ = null;
     private volatile Point inspectAt_ = null;
-    private volatile CefBrowser_N devTools_ = null;
     private volatile CefDevToolsClient devToolsClient_ = null;
     private boolean closeAllowed_ = false;
     private volatile boolean isClosed_ = false;
@@ -172,7 +171,6 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
         if (request_context_ != null) request_context_.dispose();
         if (parent_ != null) {
             parent_.closeDevTools();
-            parent_.devTools_ = null;
             parent_ = null;
         }
         if (devToolsClient_ != null) {
@@ -181,16 +179,13 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     }
 
     @Override
-    public CefBrowser getDevTools() {
-        return getDevTools(null);
+    public void openDevTools() {
+        openDevTools(null);
     }
 
     @Override
-    public synchronized CefBrowser getDevTools(Point inspectAt) {
-        if (devTools_ == null) {
-            devTools_ = (CefBrowser_N) createDevToolsBrowser(client_, url_, request_context_, this, inspectAt);
-        }
-        return devTools_;
+    public synchronized void openDevTools(Point inspectAt) {
+        createDevToolsBrowser(client_, url_, request_context_, this, inspectAt).createImmediately();
     }
 
     protected abstract CefBrowser createDevToolsBrowser(CefClient client, String url,
@@ -768,7 +763,8 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
         }
     }
 
-    protected final void closeDevTools() {
+    @Override
+    public void closeDevTools() {
         try {
             checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)
