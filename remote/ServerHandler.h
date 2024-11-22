@@ -177,6 +177,7 @@ class ServerHandler : public thrift_codegen::ServerIf {
   void Registration_Dispose(
       const thrift_codegen::RObject& registration) override;
 
+  std::shared_ptr<ServerHandlerContext> getCtx() const { return myCtx; }
  private:
   bool myIsMaster = false;
   bool myIsClosed = false;

@@ -4,23 +4,18 @@
 #include "include/cef_app.h"
 #endif //WIN32
 
-#include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/server/TThreadedServer.h>
 #include <thrift/transport/TServerSocket.h>
-#include <thrift/transport/TSocket.h>
 #include <thrift/transport/TTransportUtils.h>
 
 #include "CefUtils.h"
+#include "ServerApplication.h"
 #include "ServerHandler.h"
-#include "ServerState.h"
 #include "log/Log.h"
-
-#include "handlers/app/HelperApp.h"
 
 #include <boost/date_time/posix_time/posix_time.hpp>
 
 using namespace apache::thrift;
-using namespace apache::thrift::protocol;
 using namespace apache::thrift::transport;
 using namespace apache::thrift::server;
 
@@ -29,44 +24,6 @@ using namespace thrift_codegen;
 #ifdef OS_MAC
 extern void initMacApplication();
 #endif
-
-class MyServerProcessor : public ServerProcessor {
- public:
-  MyServerProcessor(::std::shared_ptr<ServerIf> iface) : ServerProcessor(iface) {}
-
-  bool process(std::shared_ptr<protocol::TProtocol> in,
-               std::shared_ptr<protocol::TProtocol> out,
-               void* connectionContext) override {
-    std::string fname;
-    protocol::TMessageType mtype;
-    int32_t seqid;
-    in->readMessageBegin(fname, mtype, seqid);
-
-    if (mtype != protocol::T_CALL && mtype != protocol::T_ONEWAY) {
-      Log::error("received invalid message type %d from client", mtype);
-      return false;
-    }
-
-    //Log::trace("\t process %s", fname.c_str());
-    return dispatchCall(in.get(), out.get(), fname, seqid, connectionContext);
-  }
-};
-
-class MyServerProcessorFactory : public ::apache::thrift::TProcessorFactory {
- public:
-  MyServerProcessorFactory(const ::std::shared_ptr< ServerIfFactory >& handlerFactory) noexcept :
-        handlerFactory_(handlerFactory) {}
-
-  ::std::shared_ptr< ::apache::thrift::TProcessor > getProcessor(const ::apache::thrift::TConnectionInfo& connInfo) override {
-    ::apache::thrift::ReleaseHandler< ServerIfFactory > cleanup(handlerFactory_);
-    ::std::shared_ptr< ServerIf > handler(handlerFactory_->getHandler(connInfo), cleanup);
-    ::std::shared_ptr< ::apache::thrift::TProcessor > processor(new MyServerProcessor(handler));
-    return processor;
-  }
-
- protected:
-  ::std::shared_ptr< ServerIfFactory > handlerFactory_;
-};
 
 int main(int argc, char* argv[]) {
   const boost::posix_time::ptime t0 =  boost::posix_time::microsec_clock::local_time();
@@ -105,8 +62,8 @@ int main(int argc, char* argv[]) {
 
   const boost::posix_time::ptime t1 =  boost::posix_time::microsec_clock::local_time();
   fprintf(stdout, "Starting cer server. Pre-initialize spent %d mcs.\n", (int)(t1 - t0).total_microseconds());
-  ServerState& ss = ServerState::instance();
-  ss.init(argc, argv);
+  ServerApplication& app = ServerApplication::instance();
+  app.init(argc, argv);
   setThreadName("main");
 
   boost::posix_time::ptime t2 = boost::posix_time::microsec_clock::local_time();
@@ -119,7 +76,7 @@ int main(int argc, char* argv[]) {
 
   const boost::posix_time::ptime t3 =  boost::posix_time::microsec_clock::local_time();
   Log::trace("Create server transport. CEF initialization spent %d mcs.", (t3 - t2).total_microseconds());
-  const CommandLineArgs& cmdArgs = ss.getCmdArgs();
+  const CommandLineArgs& cmdArgs = app.getCmdArgs();
   std::shared_ptr<TServerTransport> serverTransport;
   if (cmdArgs.useTcp()) {
     Log::info("TCP transport will be used, port=%d", cmdArgs.getPort());
@@ -141,8 +98,7 @@ int main(int argc, char* argv[]) {
     serverTransport = std::make_shared<TServerSocket>(pipePath.c_str());
 #endif //WIN32
   }
-  std::shared_ptr<ServerHandlerFactory> handlersFactory = ss.getServerHandlerFactory();
-  std::shared_ptr<apache::thrift::TProcessorFactory> processorFactory = std::make_shared<MyServerProcessorFactory>(handlersFactory);
+  std::shared_ptr<apache::thrift::TProcessorFactory> processorFactory = app.getProcessorFactory();
   std::shared_ptr<TThreadedServer> server = std::make_shared<TThreadedServer>(
       processorFactory,
       serverTransport,
@@ -164,26 +120,6 @@ int main(int argc, char* argv[]) {
     Log::debug("Done, server stopped.");
   });
 
-  std::thread testThread;
-  if (cmdArgs.isTestMode()) {
-    const int timeoutSec = 30;
-    Log::info("Server will be started in test mode, exit timeout = %d sec.", timeoutSec);
-    testThread = std::thread([&]() {
-      setThreadName("TestMonitor");
-      std::chrono::time_point startTime(Clock::now());
-      std::chrono::duration<float, std::milli> elapsed;
-      std::chrono::duration<float, std::milli> timeout(timeoutSec*1000);
-      while ((elapsed = (Clock::now() - startTime)) < timeout) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-        const int remainMs = (timeout - elapsed).count();
-        Log::debug("\t will exit in %d sec...", remainMs);
-      }
-
-      Log::info("Timeout elapsed, do hard exit.");
-      ServerState::shutdownHard();
-    });
-  }
-
   const boost::posix_time::ptime t6 =  boost::posix_time::microsec_clock::local_time();
   Log::trace("Run CEF loop. Total initialization time %d mcs.", (t6 - t0).total_microseconds());
 
@@ -191,6 +127,7 @@ int main(int argc, char* argv[]) {
   Log::debug("Finished message loop.");
   server->stop();
   servThread.join();
+  app.stopWatcher();
   Log::debug("Buy!");
   return 0;
 }

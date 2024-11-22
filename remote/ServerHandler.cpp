@@ -31,7 +31,7 @@
 #include "router/RemoteMessageRouterHandler.h"
 #include "router/RemoteQueryCallback.h"
 
-#include "ServerState.h"
+#include "ServerApplication.h"
 #include "ServerHandlerContext.h"
 
 #include "../native/critical_wait.h"
@@ -73,12 +73,12 @@ void ServerHandler::close() {
     return;
 
   myIsClosed = true;
-  std::string remaining = myCtx->clientsManager()->closeAllBrowsers();
-  ServerState::instance().onServerHandlerClosed(*this, remaining);
+  const bool isEmpty = myCtx->clientsManager()->closeAllBrowsers();
+  ServerApplication::instance().onServerHandlerClosed(*this);
   try {
     // NOTE: if some browser wasn't closed than client won't receive onBeforeClose callback
     // if we close transport here. So do it in destructor.
-    if (remaining.empty())
+    if (isEmpty)
       myCtx->closeJavaServiceTransport();
   } catch (TException& e) {
     Log::error("Thrift exception in ServerHandler::close: %s", e.what());
@@ -156,12 +156,12 @@ void ServerHandler::Browser_Close(const int32_t bid) {
 
 void ServerHandler::stop() {
   Log::debug("ServerHandler %p asked to stop server.", this);
-  ServerState::instance().startShuttingDown();
+  ServerApplication::instance().startShuttingDown();
   close();
 }
 
 void ServerHandler::state(std::string& _return) {
-  _return = ServerState::instance().getStateDesc();
+  _return = ServerApplication::instance().getStateDesc();
 }
 
 void ServerHandler::version(std::string& _return) {

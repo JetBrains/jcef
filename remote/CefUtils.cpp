@@ -4,7 +4,7 @@
 #include <boost/filesystem.hpp>
 #include <fstream>
 
-#include "ServerState.h"
+#include "ServerApplication.h"
 
 #if defined(OS_MAC)
 #include "include/wrapper/cef_library_loader.h"
@@ -115,6 +115,7 @@ namespace CefUtils {
         setThreadName("CefMain");
         CefRunMessageLoop();
         Log::debug("Cef going shutdown.");
+        std::this_thread::sleep_for(std::chrono::milliseconds(100)); // sleep to prevent shutdown_checker::AssertNotShutdown() inside life_span_handler_on_before_close
         CefShutdown();
         Log::debug("Shutdown finished.");
     }
@@ -163,7 +164,8 @@ namespace CefUtils {
         Log::debug("Loaded cef library, spent %d ms", (int)d1.count()/1000);
       }
 #endif
-      const CommandLineArgs& cmdArgs = ServerState::instance().getCmdArgs();
+      const CommandLineArgs& cmdArgs =
+          ServerApplication::instance().getCmdArgs();
       std::string paramsFilePath = cmdArgs.getParamsFile();
       bool collectCmdSwitches = false;
       bool collectSettings = false;
@@ -251,8 +253,6 @@ namespace CefUtils {
 
     std::string name = settingLine.substr(0, pos);
     std::string val = settingLine.substr(pos + 1);
-    std::transform(val.begin(), val.end(), val.begin(),
-                   [](unsigned char c){ return std::tolower(c); });
     //Log::trace("\t parseSetting: name=%s val=%s", name.c_str(), val.c_str());
 
     //

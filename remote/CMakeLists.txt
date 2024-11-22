@@ -162,7 +162,7 @@ set(SERVER_SOURCES
         handlers/RemoteFocusHandler.h
         handlers/app/HelperApp.cpp
         handlers/app/HelperApp.h
-        ServerState.cpp
+        ServerApplication.cpp
         RpcExecutor.cpp
         browser/RemoteFrame.cpp
         browser/RemoteFrame.h
