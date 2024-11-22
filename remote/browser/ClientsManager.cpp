@@ -1,11 +1,11 @@
 #include "ClientsManager.h"
-#include "../ServerState.h"
+#include "../ServerApplication.h"
 #include "../handlers/RemoteClientHandler.h"
 #include "../router/MessageRoutersManager.h"
 #include "include/base/cef_callback.h"
+#include "include/cef_app.h"
 #include "include/cef_task.h"
 #include "include/wrapper/cef_closure_task.h"
-#include "include/cef_app.h"
 
 struct CreationParams {
   int bid;
@@ -148,8 +148,12 @@ void ClientsManager::closeBrowser(const int32_t bid) {
   client->closeBrowser();
 }
 
-std::string ClientsManager::closeAllBrowsers() {
+bool ClientsManager::closeAllBrowsers() {
   return myRemoteClients->closeAll();
+}
+
+std::vector<int> ClientsManager::enumAllBrowsers() {
+  return myRemoteClients->enumClients();
 }
 
 void ClientsManager::erase(int bid) {
@@ -161,24 +165,28 @@ CefRefPtr<RemoteClientHandler> ClientsManager::ClientsStorage::get(int bid) {
   return myBid2Client[bid];
 }
 
-std::string ClientsManager::ClientsStorage::enumClients() {
-  std::stringstream ss;
+std::vector<int> ClientsManager::ClientsStorage::enumClients() {
+  Lock lock(myMutex);
+  std::vector<int> result;
   for (auto const& rc : myBid2Client) {
     CefRefPtr<RemoteClientHandler> client = rc.second;
     if (client)
-      ss << client->getBid() << ", ";
+      result.push_back(client->getBid());
   }
-  return ss.str();
+  return result;
 }
 
-std::string ClientsManager::ClientsStorage::closeAll() {
+bool ClientsManager::ClientsStorage::closeAll() {
+  bool isEmpty = true;
   Lock lock(myMutex);
   for (auto const& rc : myBid2Client) {
     CefRefPtr<RemoteClientHandler> client = rc.second;
-    if (client)
+    if (client) {
       client->closeBrowser();
+      isEmpty = false;
+    }
   }
-  return enumClients();
+  return isEmpty;
 }
 
 void ClientsManager::ClientsStorage::set(int bid, CefRefPtr<RemoteClientHandler> val) {
@@ -187,9 +195,11 @@ void ClientsManager::ClientsStorage::set(int bid, CefRefPtr<RemoteClientHandler>
 }
 
 void ClientsManager::ClientsStorage::erase(int bid) {
-  Lock lock(myMutex);
-  myBid2Client.erase(bid);
-  ServerState::instance().onClientDestroyed(enumClients());
+  {
+    Lock lock(myMutex);
+    myBid2Client.erase(bid);
+  }
+  ServerApplication::instance().onClientDestroyed();
 }
 
 int ClientsManager::ClientsStorage::findRemoteBrowser(CefRefPtr<CefBrowser> browser) {

@@ -27,8 +27,8 @@ class ClientsManager {
 
   void erase(int bid);
 
-  // returns short description of remaining browsers (or empty string when empty browsers set)
-  std::string closeAllBrowsers();
+  bool closeAllBrowsers(); // returns true when no clients presented (all browsers is already closed)
+  std::vector<int> enumAllBrowsers();
 
   CefRefPtr<CefBrowser> getCefBrowser(int bid);
   CefRefPtr<RemoteClientHandler> getClient(int bid);
@@ -43,14 +43,12 @@ class ClientsManager {
     void erase(int bid);
     int findRemoteBrowser(CefRefPtr<CefBrowser> browser); // returns bid
 
-    // returns short description of remaining browsers (or empty string when empty browsers set)
-    std::string closeAll();
+    bool closeAll(); // returns true when no clients presented (all browsers is already closed)
+    std::vector<int> enumClients();
 
     std::recursive_mutex myMutex;
    private:
     std::map<int, CefRefPtr<RemoteClientHandler>> myBid2Client;
-
-    std::string enumClients();
   };
 
   std::shared_ptr<ClientsStorage> myRemoteClients;

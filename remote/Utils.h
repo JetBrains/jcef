@@ -22,4 +22,7 @@ std::string string_format( const std::string& format, Args ... args )
   return std::string( buf.get(), buf.get() + size - 1 );
 }
 
+bool getBoolEnv(const std::string & envName);
+long getLongEnv(const std::string & envName, long defVal);
+
 #endif  // JCEF_UTILS_H
