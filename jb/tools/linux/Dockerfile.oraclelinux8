@@ -1,0 +1,35 @@
+FROM oraclelinux:8
+
+RUN yum -y update; \
+    yum -y install gcc-toolset-10-10.1-0.el8; \
+    yum -y install \
+        bison-3.0.4-10.el8 \
+        cmake-3.26.5-2.el8 \
+        flex-2.6.1-9.el8 \
+        gcc-c++-8.5.0-22.0.1.el8_10 \
+        git-2.43.5-1.el8_10 \
+        java-17-openjdk-devel-17.0.13.0.11-3.0.1.el8 \
+        libX11-devel-1.6.8-9.el8_10 \
+        mesa-libgbm-23.1.4-3.el8_10 \
+        perl-IPC-Cmd-1.02-1.el8 \
+        python3.11-3.11.10-1.0.1.el8_10 \
+        wget-1.19.5-12.0.1.el8_10; \
+    dnf --enablerepo=ol8_codeready_builder install libstdc++-static; \
+    yum -y clean all
+
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-17.0.13.0.11-3.0.1.el8.x86_64
+RUN ${JAVA_HOME}/bin/javac -version
+
+ ARG ANT_VERSION=1.10.14
+ RUN wget -nv -O ant.tgz https://dlcdn.apache.org/ant/binaries/apache-ant-${ANT_VERSION}-bin.tar.gz && \
+     tar xfz ant.tgz -C /opt && \
+     rm ant.tgz
+ ENV ANT_HOME=/opt/apache-ant-${ANT_VERSION}
+ RUN ${ANT_HOME}/bin/ant -version
+
+RUN git config --global user.email "teamcity@jetbrains.com" && \
+    git config --global user.name "builduser" && \
+    git config --global --add safe.directory '*'
+
+# RUN git clone https://github.com/JetBrains/jcef.git && cd jcef && git checkout dev
+# RUN echo "cd jcef && bash ./jb/tools/linux/build.sh all x86_64" > run.sh
