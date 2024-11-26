@@ -77,6 +77,8 @@ std::string GetTempFile(const std::string& identifer, bool useParentId) {
 }
 } // namespace utils
 
+#endif // OS_WIN
+
 bool getBoolEnv(const std::string & envName) {
   const char* sval = getenv(envName.c_str());
   if (sval == nullptr)
@@ -92,5 +94,3 @@ long getLongEnv(const std::string & envName, long defVal) {
 
   return atol(sval);
 }
-
-#endif
