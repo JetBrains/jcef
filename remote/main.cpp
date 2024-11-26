@@ -1,7 +1,6 @@
 #ifdef WIN32
 #include <windows.h>
 #include "windows/PipeTransportServer.h"
-#include "include/cef_app.h"
 #endif //WIN32
 
 #include <thrift/server/TThreadedServer.h>
@@ -23,36 +22,39 @@ using namespace thrift_codegen;
 
 #ifdef OS_MAC
 extern void initMacApplication();
+#else
+#include "include/cef_app.h"
+#include "handlers/app/HelperApp.h"
 #endif
 
 int main(int argc, char* argv[]) {
   const boost::posix_time::ptime t0 =  boost::posix_time::microsec_clock::local_time();
 #if defined(OS_LINUX)
-  CefRefPtr<CefApp> app = nullptr;
+  CefRefPtr<CefApp> cefApp = nullptr;
   CefRefPtr<CefCommandLine> command_line = CefCommandLine::CreateCommandLine();
   command_line->InitFromArgv(argc, argv);
   const std::string& process_type = command_line->GetSwitchValue("type");
   if (process_type == "renderer" || process_type == "zygote")
-    app = new HelperApp();
+    cefApp = new HelperApp();
   // On Linux the zygote process is used to spawn other process types. Since
   // we don't know what type of process it will be give it the renderer
   // client.
 
   CefMainArgs main_args(argc, argv);
-  int exit_code = CefExecuteProcess(main_args, app, nullptr);
+  int exit_code = CefExecuteProcess(main_args, cefApp, nullptr);
   if (exit_code >= 0) {
     return exit_code;
   }
 #elif WIN32
-  CefRefPtr<CefApp> app = nullptr;
+  CefRefPtr<CefApp> cefApp = nullptr;
   CefRefPtr<CefCommandLine> command_line = CefCommandLine::CreateCommandLine();
   command_line->InitFromString(::GetCommandLineW());
   const std::string& process_type = command_line->GetSwitchValue("type");
   if (process_type == "renderer")
-    app = new HelperApp();
+    cefApp = new HelperApp();
 
   CefMainArgs main_args(GetModuleHandle(0));
-  const int result = CefExecuteProcess(main_args, app, nullptr);
+  const int result = CefExecuteProcess(main_args, cefApp, nullptr);
   if (result >= 0) {
     return result;
   }
