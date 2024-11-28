@@ -17,6 +17,8 @@ namespace CefUtils {
 
   bool parseSetting(CefSettings & out, const std::string & settingLine);
   bool parseScheme(std::string & name, int & options, const std::string & settingLine);
+
+  std::string getVersionWithSha();
 }
 
 std::string toString(cef_rect_t& rect);

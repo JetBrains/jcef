@@ -20,6 +20,9 @@
 
 #include "handlers/app/RemoteAppHandler.h"
 
+#include "include/cef_version.h"
+#include "../native/jcef_version.h"
+
 namespace CefUtils {
 #if defined(OS_MAC)
     std::string g_pathFrameworkDir = "";
@@ -148,8 +151,12 @@ namespace CefUtils {
 #endif
         RemoteAppHandler::initialize(switches, settings, schemes);
         CefRefPtr<CefApp> app = RemoteAppHandler::instance();
-        Log::debug("Start CefInitialize");
-        return CefInitialize(main_args, settings, app, nullptr);
+        const bool isInitialized = CefInitialize(main_args, settings, app, nullptr);
+        if (isInitialized)
+          Log::info("CEF is initialized, version: %s", getVersionWithSha().c_str());
+        else
+          Log::error("CEF initialization failed.");
+        return isInitialized;
     }
 
     bool initializeCef() {
@@ -332,6 +339,15 @@ namespace CefUtils {
     name.assign(settingLine.substr(0, pos - 1));
     options = std::stoi(settingLine.substr(pos + 1));
     return true;
+  }
+
+  std::string getVersionWithSha() {
+    return string_format("%d.%d.%d.%d_%s",
+                                 cef_version_info(0),   // CEF_VERSION_MAJOR
+                                 cef_version_info(1),   // CEF_VERSION_MINOR
+                                 cef_version_info(2),   // CEF_VERSION_PATCH
+                                 cef_version_info(3),   // CEF_COMMIT_NUMBER
+                                 JCEF_COMMIT_HASH);
   }
 } // CefUtils
 

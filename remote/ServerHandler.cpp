@@ -1,6 +1,5 @@
 #include "ServerHandler.h"
 
-#include "include/cef_version.h"
 #include "include/cef_base.h"
 #include "include/cef_parser.h"
 
@@ -35,6 +34,7 @@
 #include "ServerHandlerContext.h"
 
 #include "../native/critical_wait.h"
+#include "CefUtils.h"
 
 using namespace apache::thrift;
 
@@ -165,12 +165,7 @@ void ServerHandler::state(std::string& _return) {
 }
 
 void ServerHandler::version(std::string& _return) {
-  _return.assign(string_format("%d.%d.%d.%d",
-    cef_version_info(0),   // CEF_VERSION_MAJOR
-    cef_version_info(1),   // CEF_VERSION_MINOR
-    cef_version_info(2),   // CEF_VERSION_PATCH
-    cef_version_info(3)   // CEF_COMMIT_NUMBER
-  ));
+  _return.assign(CefUtils::getVersionWithSha());
 }
 
 #define GET_BROWSER_OR_RETURN()                               \
