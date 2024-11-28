@@ -110,11 +110,11 @@ service Server {
     //
     // CefResponse
     //
-    void Response_Update(1: shared.RObject response),
-    string Response_GetHeaderByName(1: shared.RObject response, 2: string name),
-    void Response_SetHeaderByName(1: shared.RObject response, 2: string name, 3: string value, 4: bool overwrite),
+    void                Response_Update(1: shared.RObject response),
+    string              Response_GetHeaderByName(1: shared.RObject response, 2: string name),
+    void                Response_SetHeaderByName(1: shared.RObject response, 2: string name, 3: string value, 4: bool overwrite),
     map<string, string> Response_GetHeaderMap(1: shared.RObject response),                                                                               // TODO: support multimaps
-    void Response_SetHeaderMap(1: shared.RObject response, 2: map<string, string> headerMap),
+    void                Response_SetHeaderMap(1: shared.RObject response, 2: map<string, string> headerMap),
     //
     // Callback
     //

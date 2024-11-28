@@ -113,6 +113,8 @@ public class CefServer {
                 return false;
             }
 
+            CefLog.Info("cef_server version: %s", (String)myRpc.execObj(r->r.version()));
+
             // 2. Start service for backward rpc calls (from native to java)
             try {
                 myClientHandlersTransport = ThriftTransport.createServerTransport();

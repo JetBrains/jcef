@@ -164,7 +164,7 @@ public class RemoteClient {
             if (rh.getRenderHandler() instanceof CefNativeRenderHandler) {
                 return createBrowser(url, context, client, (CefNativeRenderHandler)rh.getRenderHandler(), rh.getComponent(), settings);
             }
-            throw new IllegalStateException("Can't create remote browser with render-handler: " + rh.getRenderHandler());
+            throw new IllegalStateException("Can't create remote browser with render-handler: " + rh.getRenderHandler() + ", please implement CefNativeRenderHandler interface.");
         }
         throw new IllegalStateException("Can't create remote browser with rendering: " + rendering);
     }

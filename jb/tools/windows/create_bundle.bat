@@ -49,9 +49,7 @@ if exist "%JCEF_ROOT_DIR%\%ARTIFACT_SERVER%.tar.gz" (
 bash -c "tar -cvzf $ARTIFACT_SERVER.tar.gz -C cef_server $(ls cef_server)" || goto:__exit
 rmdir /s /q cef_server || goto:__exit
 
-echo *** create jcef.version...
-grep "#define JCEF_VERSION" "%JCEF_ROOT_DIR%"\native\jcef_version.h > "%JCEF_ROOT_DIR%"\jcef.version
-sed 's/#define JCEF_VERSION /JCEF_VERSION=/g' "%JCEF_ROOT_DIR%"\jcef.version > "%ARTIFACT_DIR%"\jcef.version
+bash "%JB_TOOLS_DIR%"\common\create_version_file.sh %ARTIFACT_DIR%
 
 bash -c "tar -cvzf $ARTIFACT_DIR.tar.gz -C $ARTIFACT_DIR $(ls $ARTIFACT_DIR)" || goto:__exit
 rmdir /s /q %ARTIFACT_DIR% || goto:__exit
