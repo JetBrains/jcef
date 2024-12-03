@@ -17,6 +17,11 @@ RemoteRequest * RemoteRequest::create(CefRefPtr<CefRequest> delegate) {
 }
 
 void RemoteRequest::updateImpl(const std::map<std::string, std::string>& requestInfo) {
+  if (myDelegate->IsReadOnly()) {
+    const std::string url = myDelegate->GetURL().ToString();
+    Log::error("RemoteRequest::updateImpl: object is read-only, ulr=%s", url.c_str());
+    return;
+  }
   SET_STR(requestInfo, URL);
   SET_STR(requestInfo, Method);
   SET_INT(requestInfo, Flags);
