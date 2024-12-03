@@ -37,7 +37,7 @@ esac
 
 script_dir=$(cd -- "$(dirname -- "$0")" &>/dev/null && pwd)
 
-if [ "${JCEF_CLEANUP_VCPKG:-0}" != "0" ] || [ -n "${TEAMCITY_VERSION:-}" ]; then
+if [ "${JCEF_CLEANUP_VCPKG:-0}" != "0" ] ]; then
   echo "Cleaning up the checkout directory..."
   cd "$script_dir/../../../"
   git clean -xfdf
