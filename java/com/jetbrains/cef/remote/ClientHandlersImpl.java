@@ -689,7 +689,8 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         RemoteRequestImpl rr = new RemoteRequestImpl(myService, request);
         CefCallback cb = new RemoteCallback(myService, callback);
         boolean result = rrh.getDelegate().processRequest(new RemoteRequest(rr), cb);
-        rr.flush();
+        // From java doc: the request cannot be modified in this callback. Instance only valid within the scope of this method.
+        // So don't call rr.flush() here
         return result;
      }
 
