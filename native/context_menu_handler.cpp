@@ -20,6 +20,18 @@ class ScopedJNIContextMenuParams
             "CefContextMenuParams") {}
 };
 
+class ScopedJNIRunContextMenuCallback
+    : public ScopedJNIObject<CefRunContextMenuCallback> {
+ public:
+  ScopedJNIRunContextMenuCallback(JNIEnv* env,
+                                  CefRefPtr<CefRunContextMenuCallback> obj)
+      : ScopedJNIObject<CefRunContextMenuCallback>(
+        env,
+        obj,
+        "org/cef/callback/CefRunContextMenuCallback_N",
+        "CefRunContextMenuCallback") {}
+};
+
 }  // namespace
 
 ContextMenuHandler::ContextMenuHandler(JNIEnv* env, jobject handler)
@@ -48,6 +60,37 @@ void ContextMenuHandler::OnBeforeContextMenu(
                        "Lorg/cef/callback/CefMenuModel;)V",
                        jbrowser.get(), jframe.get(), jparams.get(),
                        jmodel.get());
+}
+
+bool ContextMenuHandler::RunContextMenu(
+    CefRefPtr<CefBrowser> browser,
+    CefRefPtr<CefFrame> frame,
+    CefRefPtr<CefContextMenuParams> params,
+    CefRefPtr<CefMenuModel> model,
+    CefRefPtr<CefRunContextMenuCallback> callback) {
+  ScopedJNIEnv env;
+  if (!env)
+    return false;
+
+  ScopedJNIBrowser jBrowser(env, browser);
+  ScopedJNIFrame jFrame(env, frame);
+  jFrame.SetTemporary();
+  ScopedJNIContextMenuParams jParams(env, params);
+  jParams.SetTemporary();
+  ScopedJNIMenuModel jModel(env, model);
+  jModel.SetTemporary();
+  ScopedJNIRunContextMenuCallback jCallback(env, callback);
+
+  jboolean jresult = JNI_FALSE;
+  JNI_CALL_BOOLEAN_METHOD(jresult, env, handle_, "runContextMenu",
+    "(Lorg/cef/browser/CefBrowser;"
+    "Lorg/cef/browser/CefFrame;"
+    "Lorg/cef/callback/CefContextMenuParams;"
+    "Lorg/cef/callback/CefMenuModel;"
+    "Lorg/cef/callback/CefRunContextMenuCallback;)"
+    "Z",
+    jBrowser.get(), jFrame.get(), jParams.get(), jModel.get(), jCallback.get());
+  return jresult;
 }
 
 bool ContextMenuHandler::OnContextMenuCommand(

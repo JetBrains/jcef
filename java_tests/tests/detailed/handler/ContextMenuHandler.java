@@ -16,10 +16,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+import org.cef.handler.CefContextMenuHandlerAdapter;
 import tests.detailed.dialog.SearchDialog;
 import tests.detailed.dialog.ShowTextDialog;
 
-public class ContextMenuHandler implements CefContextMenuHandler {
+public class ContextMenuHandler extends CefContextMenuHandlerAdapter {
     private final Frame owner_;
     private Map<Integer, String> suggestions_ = new HashMap<Integer, String>();
 
