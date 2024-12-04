@@ -168,12 +168,12 @@ void ServerApplication::init(int argc, char* argv[]) {
 
         // 2. Check JavaService timings
         std::shared_ptr<RpcExecutor> rpcExecutor = p->getServerHandler()->getCtx()->javaService();
-        if (rpcExecutor->isProcessing())
+        if (rpcExecutor && rpcExecutor->isProcessing())
           execTimes[JavaService] = now - rpcExecutor->getProcessingStart();
           //printDebugIfNecessary(,);
 
         std::shared_ptr<RpcExecutor> rpcExecutorIO = p->getServerHandler()->getCtx()->javaServiceIO();
-        if (rpcExecutorIO->isProcessing())
+        if (rpcExecutorIO && rpcExecutorIO->isProcessing())
           execTimes[JavaServiceIO] = now - rpcExecutorIO->getProcessingStart();
 
           //printDebugIfNecessary(rpcExecutorIO->getProcessingName(),
