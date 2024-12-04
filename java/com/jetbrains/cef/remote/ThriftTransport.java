@@ -15,8 +15,14 @@ import java.nio.file.Path;
 public class ThriftTransport {
     private static int PORT_CEF_SERVER = Utils.getInteger("ALT_CEF_SERVER_PORT", -1);
     private static int PORT_JAVA_HANDLERS = Utils.getInteger("ALT_JAVA_HANDLERS_PORT", -1);
-    private static final String PIPENAME_JAVA_HANDLERS = Utils.getString("ALT_JAVA_HANDLERS_PIPE", "client_pipe");
+    private static final String PIPENAME_JAVA_HANDLERS;
     private static final String PIPENAME_CEF_SERVER = Utils.getString("ALT_CEF_SERVER_PIPE", "cef_server_pipe");
+
+    static {
+        // NOTE: we should use unique names under windows, so let's add suffix
+        final String suffix = OS.isWindows() ? "_" + System.currentTimeMillis(): "";
+        PIPENAME_JAVA_HANDLERS = Utils.getString("ALT_JAVA_HANDLERS_PIPE", "client_pipe" + suffix);
+    }
 
     static String getJavaHandlersPipe() {
         if (OS.isWindows())
