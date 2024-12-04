@@ -8,6 +8,7 @@ import org.cef.browser.CefBrowser;
 import org.cef.browser.CefFrame;
 import org.cef.callback.CefContextMenuParams;
 import org.cef.callback.CefMenuModel;
+import org.cef.callback.CefRunContextMenuCallback;
 
 /**
  * An abstract adapter class for receiving context menu events.
@@ -18,6 +19,11 @@ public abstract class CefContextMenuHandlerAdapter implements CefContextMenuHand
     @Override
     public void onBeforeContextMenu(
             CefBrowser browser, CefFrame frame, CefContextMenuParams params, CefMenuModel model) {}
+
+    @Override
+    public boolean runContextMenu(CefBrowser browser, CefFrame frame, CefContextMenuParams params, CefMenuModel model, CefRunContextMenuCallback callback) {
+        return false;
+    }
 
     @Override
     public boolean onContextMenuCommand(CefBrowser browser, CefFrame frame,

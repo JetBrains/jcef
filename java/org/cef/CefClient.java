@@ -356,6 +356,15 @@ public class CefClient extends CefClientHandler
     }
 
     @Override
+    public boolean runContextMenu(CefBrowser browser, CefFrame frame, CefContextMenuParams params, CefMenuModel model, CefRunContextMenuCallback callback) {
+        if (remoteClient != null) CefLog.Error("The implementation for out-of-process is to be provided");
+        if (contextMenuHandler_ != null && browser != null) {
+            return contextMenuHandler_.runContextMenu(browser, frame, params, model, callback);
+        }
+        return false;
+    }
+
+    @Override
     public boolean onContextMenuCommand(CefBrowser browser, CefFrame frame,
                                         CefContextMenuParams params, int commandId, int eventFlags) {
         if (remoteClient != null) CefLog.Error("onContextMenuCommand mustn't be called in remote mode (it seems that user manually called this method).");
