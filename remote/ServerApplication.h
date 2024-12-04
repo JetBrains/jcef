@@ -18,6 +18,7 @@ class CommandLineArgs {
   void init(int argc, char* argv[]);
 
   bool useTcp() const { return myUseTcp; }
+  bool waitDebugger() const { return myWaitDebugger; }
   int getPort() const { return myPort; }
   std::string getPipe() const { return myPathPipe; }
   std::string getLogFile() const { return myPathLogFile; }
@@ -27,6 +28,7 @@ class CommandLineArgs {
 
  private:
   bool myUseTcp = false;
+  bool myWaitDebugger = false;
   int myPort = -1;
   std::string myPathPipe;
   std::string myPathLogFile;

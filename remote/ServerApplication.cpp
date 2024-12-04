@@ -321,6 +321,11 @@ void CommandLineArgs::init(int argc, char* argv[]) {
     // NOTE: these switches don't conflict with chromium one.
     // See https://peter.sh/experiments/chromium-command-line-switches/
     std::string str(arg);
+    if (str == "--cef-server-wait-debugger") {
+      myWaitDebugger = true;
+      continue;
+    }
+
     size_t tokenPos;
     if ((tokenPos = str.find("--port=")) != str.npos) {
       std::string val = str.substr(tokenPos + 7);
