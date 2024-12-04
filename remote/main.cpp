@@ -27,6 +27,66 @@ extern void initMacApplication();
 #include "handlers/app/HelperApp.h"
 #endif
 
+#ifndef NDEBUG
+#if defined(OS_WIN)
+void waitForDebug() {
+  // Likely the call to
+  // https://learn.microsoft.com/en-us/windows/win32/api/debugapi/nf-debugapi-isdebuggerpresent
+  // can help
+  printf("Waiting for debugger is not supported on windows");
+}
+#elif defined(OS_LINUX)
+void waitForDebug() {
+  printf("Waiting for debugger is not supported on linux");
+// Probably something like this could work:
+// bool isDebuggerAttached() {
+//   std::ifstream statusFile("/proc/self/status");
+//   std::string line;
+//   while (std::getline(statusFile, line)) {
+//     if (line.compare(0, 11, "TracerPid:") == 0) {
+//       // Extract the tracer PID value
+//       int tracerPid = std::stoi(line.substr(11));
+//       return tracerPid != 0;
+//     }
+//   }
+//   return false;
+// }
+}
+#elif defined(OS_MAC)
+#include <sys/types.h>
+#include <sys/sysctl.h>
+
+bool isDebuggerAttached() {
+  int mib[4];
+  mib[0] = CTL_KERN;
+  mib[1] = KERN_PROC;
+  mib[2] = KERN_PROC_PID;
+  mib[3] = getpid();
+
+  kinfo_proc info;
+  info.kp_proc.p_flag = 0;
+  size_t size = sizeof(info);
+
+  if (sysctl(mib, 4, &info, &size, nullptr, 0) == -1) {
+    perror("sysctl failure");
+    return false;
+  }
+
+  return (info.kp_proc.p_flag & P_TRACED) != 0;
+}
+
+void waitForDebug() {
+  printf("Waiting for debugger(PID=%d)...", getpid());
+
+  while (!isDebuggerAttached()) {
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+  }
+  printf("Attached");
+}
+
+#endif
+#endif
+
 int main(int argc, char* argv[]) {
   const boost::posix_time::ptime t0 =  boost::posix_time::microsec_clock::local_time();
 #if defined(OS_LINUX)
@@ -66,8 +126,16 @@ int main(int argc, char* argv[]) {
   fprintf(stdout, "Starting cer server. Pre-initialize spent %d mcs.\n", (int)(t1 - t0).total_microseconds());
   ServerApplication& app = ServerApplication::instance();
   app.init(argc, argv);
-  setThreadName("main");
+  const CommandLineArgs& cmdArgs = app.getCmdArgs();
 
+#ifndef NDEBUG
+  if (cmdArgs.waitDebugger()) {
+    waitForDebug();
+  }
+#endif
+
+
+  setThreadName("main");
   boost::posix_time::ptime t2 = boost::posix_time::microsec_clock::local_time();
   Log::trace("Start CEF initialization. ServerState initialization spent %d mcs.", (t2 - t1).total_microseconds());
   const bool success = CefUtils::initializeCef();
@@ -78,7 +146,6 @@ int main(int argc, char* argv[]) {
 
   const boost::posix_time::ptime t3 =  boost::posix_time::microsec_clock::local_time();
   Log::trace("Create server transport. CEF initialization spent %d mcs.", (t3 - t2).total_microseconds());
-  const CommandLineArgs& cmdArgs = app.getCmdArgs();
   std::shared_ptr<TServerTransport> serverTransport;
   if (cmdArgs.useTcp()) {
     Log::info("TCP transport will be used, port=%d", cmdArgs.getPort());
