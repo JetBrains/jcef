@@ -49,6 +49,7 @@ if exist "%JCEF_ROOT_DIR%\%ARTIFACT_SERVER%.tar.gz" (
 bash -c "tar -cvzf $ARTIFACT_SERVER.tar.gz -C cef_server $(ls cef_server)" || goto:__exit
 rmdir /s /q cef_server || goto:__exit
 
+sed -i "s/\r$//" "%JB_TOOLS_DIR%"\common\create_version_file.sh
 bash "%JB_TOOLS_DIR%"\common\create_version_file.sh %ARTIFACT_DIR%
 
 bash -c "tar -cvzf $ARTIFACT_DIR.tar.gz -C $ARTIFACT_DIR $(ls $ARTIFACT_DIR)" || goto:__exit
