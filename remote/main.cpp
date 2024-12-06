@@ -76,12 +76,12 @@ bool isDebuggerAttached() {
 }
 
 void waitForDebug() {
-  Log::info("Waiting for debugger(PID=%d)...", getpid());
+  printf("Waiting for debugger(PID=%d)...", getpid());
 
   while (!isDebuggerAttached()) {
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
   }
-  Log::info("Debugger attached");
+  printf("Attached");
 }
 
 #endif
