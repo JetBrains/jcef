@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "../CefUtils.h"
+#include "../Utils.h"
 #include "../log/Log.h"
 
 using namespace std::chrono;
@@ -282,12 +283,8 @@ void RemoteRenderHandler::OnPaint(CefRefPtr<CefBrowser> browser,
 
     { // Draw debug
       static int drawDebug = -1;
-        if (drawDebug < 0) {
-          drawDebug = 0;
-          const char* sval = getenv("CEF_SERVER_DRAW_DEBUG");
-          if (sval != nullptr && std::string(sval).compare("true") == 0)
-            drawDebug = 1;
-        }
+        if (drawDebug < 0)
+          drawDebug = getBoolEnv("CEF_SERVER_DRAW_DEBUG") ? 1 : 0;
         if (drawDebug > 0) {
           const int stride = width*4;
           const int th = 30;

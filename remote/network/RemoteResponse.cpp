@@ -3,6 +3,12 @@
 extern std::string err2str(cef_errorcode_t errorcode);
 extern cef_errorcode_t str2err(std::string err);
 
+
+RemoteResponse::RemoteResponse(CefRefPtr<CefResponse> delegate, int id)
+    : RemoteServerObjectUpdatable<RemoteResponse, CefResponse>(id, delegate) {
+  FACTORY_TRACE("CEF_SERVER_OBJTRACE_Response", "RemoteResponse");
+}
+
 void RemoteResponse::updateImpl(const std::map<std::string, std::string>& requestInfo) {
   SET_INT(requestInfo, Status);
   SET_STR(requestInfo, StatusText);

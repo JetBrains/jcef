@@ -1,13 +1,18 @@
 #include "MessageRoutersManager.h"
 #include "RemoteMessageRouter.h"
 
-// remove to enable tracing
 #ifdef TRACE
 #undef TRACE
-#define TRACE()
+#define TRACE()                 \
+  if (doTrace) {                \
+      Log::trace(__FUNCTION__); \
+  }
 #endif
 
+const bool MessageRoutersManager::doTrace = getBoolEnv("CEF_SERVER_TRACE_MessageRoutersManager");
+
 MessageRoutersManager::~MessageRoutersManager() {
+  TRACE();
   std::vector<int> toDelete;
   {
     base::AutoLock lockR(myRoutersLock);
@@ -24,6 +29,7 @@ MessageRoutersManager::~MessageRoutersManager() {
 }
 
 std::set<CefRefPtr<CefMessageRouterBrowserSide>> MessageRoutersManager::getMessageRouters() {
+  TRACE();
   std::set<CefRefPtr<CefMessageRouterBrowserSide>> message_routers;
   base::AutoLock lock_scope(myRoutersLock);
   for (auto r: myRouters)
