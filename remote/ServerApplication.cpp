@@ -303,9 +303,9 @@ const std::chrono::high_resolution_clock::time_point& ServerApplication::getStar
 }
 
 CommandLineArgs::CommandLineArgs() {
-  const char* sval = getenv("CEF_SERVER_TRANSPORT_OPEN_COOLDOWN_MS");
-  if (sval != nullptr) {
-    myOpenTransportCooldownMs = atoi(sval);
+  const long defVal = myOpenTransportCooldownMs;
+  myOpenTransportCooldownMs = getLongEnv("CEF_SERVER_TRANSPORT_OPEN_COOLDOWN_MS", defVal);
+  if (myOpenTransportCooldownMs != defVal) {
     if (myOpenTransportCooldownMs < 0) myOpenTransportCooldownMs = 0;
     if (myOpenTransportCooldownMs > 500) myOpenTransportCooldownMs = 500;
     fprintf(stderr, "\tUse OpenTransportCooldownMs=%d\n", myOpenTransportCooldownMs);

@@ -127,4 +127,11 @@ void setThreadName(std::string name);
 
 #define TRACE() LogNdc ndc(__FILE_NAME__, __FUNCTION__, 1000, true, false)
 
+#define FACTORY_TRACE(Key, Prefix)        \
+  static int doTrace = -1;                \
+  if (doTrace < 0) {                      \
+    doTrace = getBoolEnv(Key) ? 1 : 0;    \
+    if (doTrace) FACTORY.trace(Prefix);   \
+  }
+
 #endif  // JCEF_LOG_H

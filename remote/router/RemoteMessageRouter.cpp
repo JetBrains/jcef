@@ -15,6 +15,7 @@ RemoteMessageRouter::RemoteMessageRouter(std::shared_ptr<RpcExecutor> service, i
 }
 
 RemoteMessageRouter * RemoteMessageRouter::create(std::shared_ptr<RpcExecutor> service, CefRefPtr<CefMessageRouter> delegate, CefMessageRouterConfig config) {
+  FACTORY_TRACE("CEF_SERVER_OBJTRACE_MessageRouter", "RemoteMessageRouter");
   return FACTORY.create([&](int id) -> RemoteMessageRouter* {return new RemoteMessageRouter(service, id, delegate, config);});
 }
 

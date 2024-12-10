@@ -12,9 +12,7 @@ class RemoteResponse : public virtual CefBaseRefCounted, public RemoteServerObje
   std::map<std::string, std::string> toMapImpl() override;
 
  private:
-  explicit RemoteResponse(CefRefPtr<CefResponse> delegate, int id)
-      : RemoteServerObjectUpdatable<RemoteResponse, CefResponse>(id, delegate) {
-  }
+  explicit RemoteResponse(CefRefPtr<CefResponse> delegate, int id);
   template <class T, class D> friend class ::RemoteServerObjectHolder;
   IMPLEMENT_REFCOUNTING(RemoteResponse);
 };
