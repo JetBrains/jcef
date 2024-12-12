@@ -43,7 +43,6 @@ class MessageRoutersManager {
   static base::Lock router_cfg_lock_;
 
   std::set<CefRefPtr<CefMessageRouterBrowserSide>> getMessageRouters();
-  static const bool doTrace;
 };
 
 #endif  // JCEF_MESSAGEROUTERSMANAGER_H

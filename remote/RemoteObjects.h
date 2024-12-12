@@ -33,12 +33,15 @@ class ServerObjectsFactory {
     T* r = nullptr;
     {
       Lock lock(MUTEX);
+      if (!myName.empty()) Log::trace("[%s] locked mutex", myName.c_str());
       r = INSTANCES[id];
       if (r != nullptr)
         INSTANCES.erase(id);
+      if (!myName.empty()) Log::trace("[%s] unlocked mutex", myName.c_str());
     }
 
     if (r != nullptr && doDelete) {
+      if (!myName.empty()) Log::trace("[%s] delete %d", myName.c_str(), id);
       delete r;
       if (!myName.empty()) Log::trace("[%s] disposed %d", myName.c_str(), id);
     }

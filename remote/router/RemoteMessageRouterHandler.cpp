@@ -3,11 +3,7 @@
 #include "../browser/ClientsManager.h"
 #include "../browser/RemoteFrame.h"
 
-// remove to enable tracing
-#ifdef TRACE
-#undef TRACE
-#define TRACE()
-#endif
+const bool doTrace = getBoolEnv("CEF_SERVER_TRACE_RemoteMessageRouterHandler");
 
 RemoteMessageRouterHandler::RemoteMessageRouterHandler(
     std::shared_ptr<RpcExecutor> service,
@@ -25,6 +21,7 @@ RemoteMessageRouterHandler::RemoteMessageRouterHandler(
 }
 
 RemoteMessageRouterHandler::~RemoteMessageRouterHandler() {
+  TRACE();
   //Log::trace("delete RouterHandler: peerId=%d", myPeerId);
   for (auto cb: myCallbacks) // simple protection for leaking via callbacks
     RemoteQueryCallback::dispose(cb);
