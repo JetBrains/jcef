@@ -2,16 +2,12 @@
 #include "RemoteMessageRouterHandler.h"
 #include "../CefUtils.h"
 
-// remove to enable tracing
-#ifdef TRACE
-#undef TRACE
-#define TRACE()
-#endif
+const bool doTrace = getBoolEnv("CEF_SERVER_TRACE_RemoteMessageRouter");
 
 RemoteMessageRouter::RemoteMessageRouter(std::shared_ptr<RpcExecutor> service, int id, CefRefPtr<CefMessageRouter> delegate, CefMessageRouterConfig config)
     : RemoteServerObject<RemoteMessageRouter, CefMessageRouter>(id, delegate), myService(service), myConfig(config)
 {
-    // LogNdc ndc(string_format("Create router <%s | %s>", config.js_query_function.ToString().c_str(), config.js_cancel_function.ToString().c_str()), "", 0, true);
+  TRACE();
 }
 
 RemoteMessageRouter * RemoteMessageRouter::create(std::shared_ptr<RpcExecutor> service, CefRefPtr<CefMessageRouter> delegate, CefMessageRouterConfig config) {
@@ -43,6 +39,7 @@ void RemoteMessageRouter::RemoveRemoteHandler(const thrift_codegen::RObject& han
 }
 
 std::shared_ptr<RemoteMessageRouterHandler> RemoteMessageRouter::FindRemoteHandler(int objId) {
+  TRACE();
   std::shared_ptr<RemoteMessageRouterHandler> rmrh;
   {
     Lock lock(myMutex);

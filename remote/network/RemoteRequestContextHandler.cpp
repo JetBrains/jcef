@@ -5,13 +5,17 @@
 #include "../browser/RemoteFrame.h"
 #include "../browser/ClientsManager.h"
 
+const bool doTrace = getBoolEnv("CEF_SERVER_TRACE_RemoteRequestContextHandler");
+
 RemoteRequestContextHandler::RemoteRequestContextHandler(std::shared_ptr<ServerHandlerContext> ctx, thrift_codegen::RObject peer) :
       RemoteJavaObject<RemoteRequestContextHandler>(
             ctx->javaService(),
             peer.objId,
             [=](std::shared_ptr<thrift_codegen::ClientHandlersClient> service) {
               // Nothing to do, because lifetime of java-peer is managed by java owner (RemoteRequestContext)
-            }), myCtx(ctx) {}
+            }), myCtx(ctx) {
+  TRACE();
+}
 
 CefRefPtr<CefResourceRequestHandler> RemoteRequestContextHandler::GetResourceRequestHandler(
     CefRefPtr<CefBrowser> browser,
@@ -23,6 +27,7 @@ CefRefPtr<CefResourceRequestHandler> RemoteRequestContextHandler::GetResourceReq
     bool& disable_default_handling
 ) {
   // Called on the browser process IO thread before a resource request is initiated.
+  TRACE();
   LogNdc ndc(__FILE_NAME__, __FUNCTION__, 500, false, false, "ChromeIO");
 
   int bid = myCtx->clientsManager()->findRemoteBrowser(browser);

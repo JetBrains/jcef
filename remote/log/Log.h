@@ -125,13 +125,16 @@ void setThreadName(std::string name);
 #define LNDCTT(thresholdMcs) LogNdc ndc(__FILE_NAME__, __FUNCTION__, thresholdMcs)
 #define LNDCTTS(thresholdMcs) LogNdc ndc(__FILE_NAME__, __FUNCTION__, thresholdMcs, true)
 
-#define TRACE() LogNdc ndc(__FILE_NAME__, __FUNCTION__, 1000, true, false)
+#define TRACE()                 \
+  if (doTrace) {                \
+      Log::trace(__FUNCTION__); \
+  }
 
 #define FACTORY_TRACE(Key, Prefix)        \
-  static int doTrace = -1;                \
-  if (doTrace < 0) {                      \
-    doTrace = getBoolEnv(Key) ? 1 : 0;    \
-    if (doTrace) FACTORY.trace(Prefix);   \
+  static int doFactoryTrace = -1;                \
+  if (doFactoryTrace < 0) {                      \
+    doFactoryTrace = getBoolEnv(Key) ? 1 : 0;    \
+    if (doFactoryTrace) FACTORY.trace(Prefix);   \
   }
 
 #endif  // JCEF_LOG_H

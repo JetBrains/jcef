@@ -16,18 +16,17 @@ namespace {
   std::string tstatus2str(cef_termination_status_t status);
 }
 
-// Disable logging until optimized
-#ifdef LNDCT
-#undef LNDCT
-#define LNDCT()
-#endif
+const bool doTrace = getBoolEnv("CEF_SERVER_TRACE_RemoteRequestHandler");
 
 RemoteRequestHandler::RemoteRequestHandler(
     int bid,
     std::shared_ptr<ServerHandlerContext> ctx)
-    : myBid(bid), myCtx(ctx) {}
+    : myBid(bid), myCtx(ctx) {
+  TRACE()
+}
 
 RemoteRequestHandler::~RemoteRequestHandler() {
+  TRACE()
   // simple protection for leaking via callbacks
   for (auto c: myCallbacks)
     RemoteCallback::dispose(c);
@@ -54,7 +53,7 @@ bool RemoteRequestHandler::OnBeforeBrowse(CefRefPtr<CefBrowser> browser,
                     bool user_gesture,
                     bool is_redirect
 ) {
-  LNDCT();
+  TRACE()
   if (Log::isDebugEnabled()) {
     const int bid = myCtx->clientsManager()->findRemoteBrowser(browser);
     if (bid != myBid)
@@ -76,7 +75,7 @@ bool RemoteRequestHandler::OnOpenURLFromTab(CefRefPtr<CefBrowser> browser,
                       WindowOpenDisposition target_disposition,
                       bool user_gesture
 ) {
-  LNDCT();
+  TRACE()
   if (Log::isDebugEnabled()) {
     const int bid = myCtx->clientsManager()->findRemoteBrowser(browser);
     if (bid != myBid)
@@ -113,6 +112,7 @@ CefRefPtr<CefResourceRequestHandler> RemoteRequestHandler::GetResourceRequestHan
     bool& disable_default_handling
 ) {
   // Called on the browser process IO thread before a resource request is initiated.
+  TRACE()
   LogNdc ndc(__FILE_NAME__, __FUNCTION__, 500, false, false, "ChromeIO");
   if (Log::isDebugEnabled()) {
     const int bid = myCtx->clientsManager()->findRemoteBrowser(browser);
@@ -155,7 +155,7 @@ bool RemoteRequestHandler::GetAuthCredentials(CefRefPtr<CefBrowser> browser,
                         const CefString& scheme,
                         CefRefPtr<CefAuthCallback> callback
 ) {
-  LNDCT();
+  TRACE()
   if (Log::isDebugEnabled()) {
     const int bid = myCtx->clientsManager()->findRemoteBrowser(browser);
     if (bid != myBid)
@@ -189,7 +189,7 @@ bool RemoteRequestHandler::OnCertificateError(CefRefPtr<CefBrowser> browser,
                         CefRefPtr<CefSSLInfo> ssl_info,
                         CefRefPtr<CefCallback> callback
 ) {
-  LNDCT();
+  TRACE()
   if (Log::isDebugEnabled()) {
     const int bid = myCtx->clientsManager()->findRemoteBrowser(browser);
     if (bid != myBid)
@@ -254,7 +254,7 @@ void writeSSLData(std::string & out, CefRefPtr<CefSSLInfo> sslInfo) {
 }
 
 void RemoteRequestHandler::OnRenderProcessTerminated(CefRefPtr<CefBrowser> browser, TerminationStatus status) {
-  LNDCT();
+  TRACE()
   if (Log::isDebugEnabled()) {
     const int bid = myCtx->clientsManager()->findRemoteBrowser(browser);
     if (bid != myBid)

@@ -1,15 +1,7 @@
 #include "MessageRoutersManager.h"
 #include "RemoteMessageRouter.h"
 
-#ifdef TRACE
-#undef TRACE
-#define TRACE()                 \
-  if (doTrace) {                \
-      Log::trace(__FUNCTION__); \
-  }
-#endif
-
-const bool MessageRoutersManager::doTrace = getBoolEnv("CEF_SERVER_TRACE_MessageRoutersManager");
+static const bool doTrace = getBoolEnv("CEF_SERVER_TRACE_MessageRoutersManager");
 
 MessageRoutersManager::~MessageRoutersManager() {
   TRACE();

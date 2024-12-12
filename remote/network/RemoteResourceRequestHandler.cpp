@@ -12,11 +12,7 @@ namespace {
   std::string status2str(cef_urlrequest_status_t type);
 }
 
-// Disable logging until optimized
-#ifdef LNDCT
-#undef LNDCT
-#define LNDCT()
-#endif
+const bool doTrace = getBoolEnv("CEF_SERVER_TRACE_RemoteResourceRequestHandler");
 
 RemoteResourceRequestHandler::RemoteResourceRequestHandler(
     int bid,
@@ -27,7 +23,9 @@ RemoteResourceRequestHandler::RemoteResourceRequestHandler(
           peer.objId,
           [=](std::shared_ptr<thrift_codegen::ClientHandlersClient> service) {
             service->ResourceRequestHandler_Dispose(peer.objId);
-          }), myBid(bid) {}
+          }), myBid(bid) {
+  TRACE();
+}
 
 ///
 /// Called on the IO thread before a resource request is loaded. The |browser|
@@ -42,8 +40,7 @@ CefRefPtr<CefCookieAccessFilter> RemoteResourceRequestHandler::GetCookieAccessFi
     CefRefPtr<CefFrame> frame,
     CefRefPtr<CefRequest> request
 ) {
-  LNDCT();
-
+  TRACE();
   RemoteRequest::Holder req(request);
   RemoteFrame::Holder frm(frame);
   thrift_codegen::RObject remoteHandler;
@@ -72,7 +69,7 @@ CefResourceRequestHandler::ReturnValue RemoteResourceRequestHandler::OnBeforeRes
     CefRefPtr<CefRequest> request,
     CefRefPtr<CefCallback> callback
 ) {
-  LNDCT();
+  TRACE();
   RemoteRequest::Holder req(request);
   RemoteFrame::Holder frm(frame);
   CefResourceRequestHandler::ReturnValue result = RV_CONTINUE;
@@ -97,8 +94,7 @@ CefRefPtr<CefResourceHandler> RemoteResourceRequestHandler::GetResourceHandler(
     CefRefPtr<CefFrame> frame,
     CefRefPtr<CefRequest> request
 ) {
-  LNDCT();
-
+  TRACE();
   RemoteRequest::Holder req(request);
   RemoteFrame::Holder frm(frame);
   thrift_codegen::RObject remoteHandler;
@@ -126,7 +122,7 @@ void RemoteResourceRequestHandler::OnResourceRedirect(
     CefRefPtr<CefResponse> response,
     CefString& new_url
 ) {
-  LNDCT();
+  TRACE();
   RemoteRequest::Holder req(request);
   RemoteResponse::Holder resp(response);
   RemoteFrame::Holder frm(frame);
@@ -159,7 +155,7 @@ bool RemoteResourceRequestHandler::OnResourceResponse(
     CefRefPtr<CefRequest> request,
     CefRefPtr<CefResponse> response
 ) {
-  LNDCT();
+  TRACE();
   RemoteRequest::Holder req(request);
   RemoteResponse::Holder resp(response);
   RemoteFrame::Holder frm(frame);
@@ -194,7 +190,7 @@ void RemoteResourceRequestHandler::OnResourceLoadComplete(
     CefResourceRequestHandler::URLRequestStatus status,
     int64_t received_content_length
 ) {
-  LNDCT();
+  TRACE();
   RemoteRequest::Holder req(request);
   RemoteResponse::Holder resp(response);
   RemoteFrame::Holder frm(frame);
@@ -220,7 +216,7 @@ void RemoteResourceRequestHandler::OnProtocolExecution(
     CefRefPtr<CefFrame> frame,
     CefRefPtr<CefRequest> request,
     bool& allow_os_execution) {
-  LNDCT();
+  TRACE();
   RemoteRequest::Holder req(request);
   RemoteFrame::Holder frm(frame);
   myService->exec([&](RpcExecutor::Service s){

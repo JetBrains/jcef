@@ -236,16 +236,22 @@ namespace CefUtils {
       settings.external_message_pump = false;
       settings.no_sandbox = true; // TODO: support sandbox later.
 
-      if (cmdArgs.getLogLevel() >= 0) {
+      const bool useSeparateLogging = getBoolEnv("CEF_SERVER_SEPARATE_LOG");
+      const int customChromiumLogLevel = getLongEnv("CEF_SERVER_CHROMIUM_LOG_LEVEL", -1);
+      if (customChromiumLogLevel >= 0) {
+        Log::info("Setting 'log_severity' ('%d') will be replaced with custom log level '%d'", customChromiumLogLevel);
+        settings.log_severity = Log::toCefLogLevel(customChromiumLogLevel);
+      } else if (!useSeparateLogging && cmdArgs.getLogLevel() >= 0) {
         if (!Log::isEqual(cmdArgs.getLogLevel(), settings.log_severity))
-          Log::trace("Setting 'log_severity' ('%d') will be replaced with log level from command line '%d'", cmdArgs.getLogLevel());
+          Log::info("Setting 'log_severity' ('%d') will be replaced with log level from command line '%d'", cmdArgs.getLogLevel());
         settings.log_severity = Log::toCefLogLevel(cmdArgs.getLogLevel());
       }
 
-      if (!cmdArgs.getLogFile().empty()) {
+      if (!useSeparateLogging && !cmdArgs.getLogFile().empty()) {
         const std::string logFromSettings = CefString(&settings.log_file).ToString();
-        if (cmdArgs.getLogFile() != logFromSettings)
-          Log::trace("Setting 'log_file' ('%s') will be replaced with value from command line '%s'", logFromSettings.c_str(), cmdArgs.getLogFile().c_str());
+        if (cmdArgs.getLogFile().compare(logFromSettings) != 0)
+          Log::info("Setting 'log_file' ('%s') will be replaced with value from command line '%s'", logFromSettings.c_str(), cmdArgs.getLogFile().c_str());
+        CefString(&settings.log_file) = cmdArgs.getLogFile();
       }
 
       return initializeCef(cmdlineSwitches, settings, schemes);
