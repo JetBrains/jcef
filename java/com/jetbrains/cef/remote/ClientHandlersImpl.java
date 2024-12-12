@@ -672,6 +672,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         return result.thriftId();
     }
 
+    private static boolean TEST_READONLY_MODIFICATIONS = Utils.getBoolean("TEST_READONLY_MODIFICATIONS");
     ///
     /// Begin processing the request. To handle the request return true and call
     /// CefCallback::Continue() once the response header information is available
@@ -691,6 +692,8 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         boolean result = rrh.getDelegate().processRequest(new RemoteRequest(rr), cb);
         // From java doc: the request cannot be modified in this callback. Instance only valid within the scope of this method.
         // So don't call rr.flush() here
+        if (TEST_READONLY_MODIFICATIONS)
+            rr.flush();
         return result;
      }
 
