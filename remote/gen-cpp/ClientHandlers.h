@@ -71,6 +71,7 @@ class ClientHandlersIf {
   virtual bool ResourceRequestHandler_OnResourceResponse(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& response) = 0;
   virtual void ResourceRequestHandler_OnResourceLoadComplete(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& response, const std::string& status, const int64_t receivedContentLength) = 0;
   virtual bool ResourceRequestHandler_OnProtocolExecution(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool allowOsExecution) = 0;
+  virtual void ContextMenuHandler_OnBeforeContextMenu(const int32_t bid, const  ::thrift_codegen::RObject& frame, const ContextMenuParams& params, const  ::thrift_codegen::RObject& menu_model) = 0;
   virtual bool MessageRouterHandler_onQuery(const  ::thrift_codegen::RObject& handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const int64_t queryId, const std::string& request, const bool persistent, const  ::thrift_codegen::RObject& queryCallback) = 0;
   virtual void MessageRouterHandler_onQueryCanceled(const  ::thrift_codegen::RObject& handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const int64_t queryId) = 0;
   virtual void MessageRouterHandler_Dispose(const int32_t handler) = 0;
@@ -279,6 +280,9 @@ class ClientHandlersNull : virtual public ClientHandlersIf {
   bool ResourceRequestHandler_OnProtocolExecution(const int32_t /* rrHandler */, const int32_t /* bid */, const  ::thrift_codegen::RObject& /* frame */, const  ::thrift_codegen::RObject& /* request */, const bool /* allowOsExecution */) override {
     bool _return = false;
     return _return;
+  }
+  void ContextMenuHandler_OnBeforeContextMenu(const int32_t /* bid */, const  ::thrift_codegen::RObject& /* frame */, const ContextMenuParams& /* params */, const  ::thrift_codegen::RObject& /* menu_model */) override {
+    return;
   }
   bool MessageRouterHandler_onQuery(const  ::thrift_codegen::RObject& /* handler */, const int32_t /* bid */, const  ::thrift_codegen::RObject& /* frame */, const int64_t /* queryId */, const std::string& /* request */, const bool /* persistent */, const  ::thrift_codegen::RObject& /* queryCallback */) override {
     bool _return = false;
@@ -5202,6 +5206,114 @@ class ClientHandlers_ResourceRequestHandler_OnProtocolExecution_presult {
 
 };
 
+typedef struct _ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_args__isset {
+  _ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_args__isset() : bid(false), frame(false), params(false), menu_model(false) {}
+  bool bid :1;
+  bool frame :1;
+  bool params :1;
+  bool menu_model :1;
+} _ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_args__isset;
+
+class ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_args {
+ public:
+
+  ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_args(const ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_args&);
+  ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_args& operator=(const ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_args&);
+  ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_args() noexcept
+                                                             : bid(0) {
+  }
+
+  virtual ~ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_args() noexcept;
+  int32_t bid;
+   ::thrift_codegen::RObject frame;
+  ContextMenuParams params;
+   ::thrift_codegen::RObject menu_model;
+
+  _ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_args__isset __isset;
+
+  void __set_bid(const int32_t val);
+
+  void __set_frame(const  ::thrift_codegen::RObject& val);
+
+  void __set_params(const ContextMenuParams& val);
+
+  void __set_menu_model(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_args & rhs) const
+  {
+    if (!(bid == rhs.bid))
+      return false;
+    if (!(frame == rhs.frame))
+      return false;
+    if (!(params == rhs.params))
+      return false;
+    if (!(menu_model == rhs.menu_model))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_pargs {
+ public:
+
+
+  virtual ~ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_pargs() noexcept;
+  const int32_t* bid;
+  const  ::thrift_codegen::RObject* frame;
+  const ContextMenuParams* params;
+  const  ::thrift_codegen::RObject* menu_model;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_result {
+ public:
+
+  ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_result(const ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_result&) noexcept;
+  ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_result& operator=(const ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_result&) noexcept;
+  ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_result() noexcept {
+  }
+
+  virtual ~ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_result() noexcept;
+
+  bool operator == (const ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_result & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_presult {
+ public:
+
+
+  virtual ~ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_presult() noexcept;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
 typedef struct _ClientHandlers_MessageRouterHandler_onQuery_args__isset {
   _ClientHandlers_MessageRouterHandler_onQuery_args__isset() : handler(false), bid(false), frame(false), queryId(false), request(false), persistent(false), queryCallback(false) {}
   bool handler :1;
@@ -6566,6 +6678,9 @@ class ClientHandlersClient : virtual public ClientHandlersIf {
   bool ResourceRequestHandler_OnProtocolExecution(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool allowOsExecution) override;
   void send_ResourceRequestHandler_OnProtocolExecution(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool allowOsExecution);
   bool recv_ResourceRequestHandler_OnProtocolExecution();
+  void ContextMenuHandler_OnBeforeContextMenu(const int32_t bid, const  ::thrift_codegen::RObject& frame, const ContextMenuParams& params, const  ::thrift_codegen::RObject& menu_model) override;
+  void send_ContextMenuHandler_OnBeforeContextMenu(const int32_t bid, const  ::thrift_codegen::RObject& frame, const ContextMenuParams& params, const  ::thrift_codegen::RObject& menu_model);
+  void recv_ContextMenuHandler_OnBeforeContextMenu();
   bool MessageRouterHandler_onQuery(const  ::thrift_codegen::RObject& handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const int64_t queryId, const std::string& request, const bool persistent, const  ::thrift_codegen::RObject& queryCallback) override;
   void send_MessageRouterHandler_onQuery(const  ::thrift_codegen::RObject& handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const int64_t queryId, const std::string& request, const bool persistent, const  ::thrift_codegen::RObject& queryCallback);
   bool recv_MessageRouterHandler_onQuery();
@@ -6664,6 +6779,7 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_ResourceRequestHandler_OnResourceResponse(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_ResourceRequestHandler_OnResourceLoadComplete(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_ResourceRequestHandler_OnProtocolExecution(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_ContextMenuHandler_OnBeforeContextMenu(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_MessageRouterHandler_onQuery(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_MessageRouterHandler_onQueryCanceled(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_MessageRouterHandler_Dispose(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -6731,6 +6847,7 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["ResourceRequestHandler_OnResourceResponse"] = &ClientHandlersProcessor::process_ResourceRequestHandler_OnResourceResponse;
     processMap_["ResourceRequestHandler_OnResourceLoadComplete"] = &ClientHandlersProcessor::process_ResourceRequestHandler_OnResourceLoadComplete;
     processMap_["ResourceRequestHandler_OnProtocolExecution"] = &ClientHandlersProcessor::process_ResourceRequestHandler_OnProtocolExecution;
+    processMap_["ContextMenuHandler_OnBeforeContextMenu"] = &ClientHandlersProcessor::process_ContextMenuHandler_OnBeforeContextMenu;
     processMap_["MessageRouterHandler_onQuery"] = &ClientHandlersProcessor::process_MessageRouterHandler_onQuery;
     processMap_["MessageRouterHandler_onQueryCanceled"] = &ClientHandlersProcessor::process_MessageRouterHandler_onQueryCanceled;
     processMap_["MessageRouterHandler_Dispose"] = &ClientHandlersProcessor::process_MessageRouterHandler_Dispose;
@@ -7224,6 +7341,15 @@ class ClientHandlersMultiface : virtual public ClientHandlersIf {
     return ifaces_[i]->ResourceRequestHandler_OnProtocolExecution(rrHandler, bid, frame, request, allowOsExecution);
   }
 
+  void ContextMenuHandler_OnBeforeContextMenu(const int32_t bid, const  ::thrift_codegen::RObject& frame, const ContextMenuParams& params, const  ::thrift_codegen::RObject& menu_model) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->ContextMenuHandler_OnBeforeContextMenu(bid, frame, params, menu_model);
+    }
+    ifaces_[i]->ContextMenuHandler_OnBeforeContextMenu(bid, frame, params, menu_model);
+  }
+
   bool MessageRouterHandler_onQuery(const  ::thrift_codegen::RObject& handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const int64_t queryId, const std::string& request, const bool persistent, const  ::thrift_codegen::RObject& queryCallback) override {
     size_t sz = ifaces_.size();
     size_t i = 0;
@@ -7522,6 +7648,9 @@ class ClientHandlersConcurrentClient : virtual public ClientHandlersIf {
   bool ResourceRequestHandler_OnProtocolExecution(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool allowOsExecution) override;
   int32_t send_ResourceRequestHandler_OnProtocolExecution(const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool allowOsExecution);
   bool recv_ResourceRequestHandler_OnProtocolExecution(const int32_t seqid);
+  void ContextMenuHandler_OnBeforeContextMenu(const int32_t bid, const  ::thrift_codegen::RObject& frame, const ContextMenuParams& params, const  ::thrift_codegen::RObject& menu_model) override;
+  int32_t send_ContextMenuHandler_OnBeforeContextMenu(const int32_t bid, const  ::thrift_codegen::RObject& frame, const ContextMenuParams& params, const  ::thrift_codegen::RObject& menu_model);
+  void recv_ContextMenuHandler_OnBeforeContextMenu(const int32_t seqid);
   bool MessageRouterHandler_onQuery(const  ::thrift_codegen::RObject& handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const int64_t queryId, const std::string& request, const bool persistent, const  ::thrift_codegen::RObject& queryCallback) override;
   int32_t send_MessageRouterHandler_onQuery(const  ::thrift_codegen::RObject& handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const int64_t queryId, const std::string& request, const bool persistent, const  ::thrift_codegen::RObject& queryCallback);
   bool recv_MessageRouterHandler_onQuery(const int32_t seqid);

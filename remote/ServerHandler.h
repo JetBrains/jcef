@@ -130,6 +130,56 @@ class ServerHandler : public thrift_codegen::ServerIf {
   void Callback_Continue(const thrift_codegen::RObject& callback) override;
   void Callback_Cancel(const thrift_codegen::RObject& callback) override;
 
+  void CefRunContextMenuCallback_Dispose(const thrift_codegen::RObject& self) override;
+  void CefRunContextMenuCallback_Continue(const thrift_codegen::RObject& self, const int32_t command_id, const int32_t event_flag) override;
+  void CefRunContextMenuCallback_Cancel(const thrift_codegen::RObject& self) override;
+
+  //
+  // CefMenuModel
+  //
+  bool is_sub_menu(const thrift_codegen::RObject& self) override;
+  bool clear(const thrift_codegen::RObject& self) override;
+  int32_t get_count(const thrift_codegen::RObject& self) override;
+  bool add_separator(const thrift_codegen::RObject& self) override;
+  bool add_item(const thrift_codegen::RObject& self, const int32_t command_id, const std::string& label) override;
+  bool add_check_item(const thrift_codegen::RObject& self, const int32_t command_id, const std::string& label) override;
+  bool add_radio_item(const thrift_codegen::RObject& self, const int32_t command_id, const std::string& label, const int32_t group_id) override;
+  void add_sub_menu(thrift_codegen::RObject& _return, const thrift_codegen::RObject& self, const int32_t command_id, const std::string& label) override;
+  bool insert_separator_at(const thrift_codegen::RObject& self, const int32_t index) override;
+  bool insert_item_at(const thrift_codegen::RObject& self, const int32_t index, const int32_t command_id, const std::string& label) override;
+  bool insert_check_item_at(const thrift_codegen::RObject& self, const int32_t index, const int32_t command_id, const std::string& label) override;
+  bool insert_radio_item_at(const thrift_codegen::RObject& self, const int32_t index, const int32_t command_id, const std::string& label, const int32_t group_id) override;
+  void insert_sub_menu_at(thrift_codegen::RObject& _return, const thrift_codegen::RObject& self, const int32_t index, const int32_t command_id, const std::string& label) override;
+  bool remove(const thrift_codegen::RObject& self, const int32_t command_id) override;
+  bool remove_at(const thrift_codegen::RObject& self, const int32_t index) override;
+  int32_t get_index_of(const thrift_codegen::RObject& self, const int32_t command_id) override;
+  int32_t get_command_id_at(const thrift_codegen::RObject& self, const int32_t index) override;
+  bool set_command_id_at(const thrift_codegen::RObject& self, const int32_t index, const int32_t command_id) override;
+  void get_label(std::string& _return, const thrift_codegen::RObject& self, const int32_t command_id) override;
+  void get_label_at(std::string& _return, const thrift_codegen::RObject& self, const int32_t index) override;
+  bool set_label(const thrift_codegen::RObject& self, const int32_t command_id, const std::string& label) override;
+  bool set_label_at(const thrift_codegen::RObject& self, const int32_t index, const std::string& label) override;
+  int32_t get_type(const thrift_codegen::RObject& self, const int32_t command_id) override;
+  int32_t get_type_at(const thrift_codegen::RObject& self, const int32_t index) override;
+  int32_t get_group_id(const thrift_codegen::RObject& self, const int32_t command_id) override;
+  int32_t get_group_id_at(const thrift_codegen::RObject& self, const int32_t index) override;
+  bool set_group_id(const thrift_codegen::RObject& self, const int32_t command_id, const int32_t group_id) override;
+  bool set_group_id_at(const thrift_codegen::RObject& self, const int32_t index, const int32_t group_id) override;
+  void get_sub_menu(thrift_codegen::RObject& _return, const thrift_codegen::RObject& self, const int32_t command_id) override;
+  void get_sub_menu_at(thrift_codegen::RObject& _return, const thrift_codegen::RObject& self, const int32_t index) override;
+  bool is_visible(const thrift_codegen::RObject& self, const int32_t command_id) override;
+  bool is_visible_at(const thrift_codegen::RObject& self, const int32_t index) override;
+  bool set_visible(const thrift_codegen::RObject& self, const int32_t command_id, const bool visible) override;
+  bool set_visible_at(const thrift_codegen::RObject& self, const int32_t index, const bool visible) override;
+  bool is_enabled(const thrift_codegen::RObject& self, const int32_t command_id) override;
+  bool is_enabled_at(const thrift_codegen::RObject& self, const int32_t index) override;
+  bool set_enabled(const thrift_codegen::RObject& self, const int32_t command_id, const bool enabled) override;
+  bool set_enabled_at(const thrift_codegen::RObject& self, const int32_t index, const bool enabled) override;
+  bool is_checked(const thrift_codegen::RObject& self, const int32_t command_id) override;
+  bool is_checked_at(const thrift_codegen::RObject& self, const int32_t index) override;
+  bool set_checked(const thrift_codegen::RObject& self, const int32_t command_id, const bool checked) override;
+  bool set_checked_at(const thrift_codegen::RObject& self, const int32_t index, const bool checked) override;
+
   //
   // CefMessageRouter
   //
@@ -185,6 +235,8 @@ class ServerHandler : public thrift_codegen::ServerIf {
 
   int connectImpl(std::function<void()> openBackwardTransport);
   void close();
+
+ public:
 };
 
 #endif  // JCEF_SERVERHANDLER_H

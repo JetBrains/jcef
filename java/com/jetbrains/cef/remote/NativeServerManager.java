@@ -452,6 +452,10 @@ public class NativeServerManager {
             builder.command().add(String.format("--loglevel=%d", nativeLogLevel));
         }
 
+        if (System.getenv().containsKey("DEBUG_CEF_SERVER")) {
+            builder.command().add("--cef-server-wait-debugger");
+        }
+
         builder.command().add(String.format("--params=%s", paramsPath));
         builder.redirectOutput(ProcessBuilder.Redirect.INHERIT);
         builder.redirectError(ProcessBuilder.Redirect.INHERIT);

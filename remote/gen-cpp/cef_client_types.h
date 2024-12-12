@@ -28,6 +28,8 @@ class Rect;
 
 class ScreenInfo;
 
+class ContextMenuParams;
+
 
 class Point : public virtual ::apache::thrift::TBase {
  public:
@@ -190,6 +192,151 @@ class ScreenInfo : public virtual ::apache::thrift::TBase {
 void swap(ScreenInfo &a, ScreenInfo &b);
 
 std::ostream& operator<<(std::ostream& out, const ScreenInfo& obj);
+
+
+class ContextMenuParams : public virtual ::apache::thrift::TBase {
+ public:
+
+  ContextMenuParams(const ContextMenuParams&);
+  ContextMenuParams& operator=(const ContextMenuParams&);
+  ContextMenuParams() noexcept
+                    : x(0),
+                      y(0),
+                      type_flags(0),
+                      link_url(),
+                      unfiltered_link_url(),
+                      source_url(),
+                      has_image_contents(0),
+                      title_text(),
+                      page_url(),
+                      frame_url(),
+                      frame_charset(),
+                      media_type(0),
+                      media_state_flags(0),
+                      selected_text(),
+                      misspelled_word(),
+                      is_editable(0),
+                      is_spellcheck_enabled(0),
+                      edit_state_flags(0),
+                      is_custom_menu(0) {
+  }
+
+  virtual ~ContextMenuParams() noexcept;
+  int32_t x;
+  int32_t y;
+  int32_t type_flags;
+  std::string link_url;
+  std::string unfiltered_link_url;
+  std::string source_url;
+  bool has_image_contents;
+  std::string title_text;
+  std::string page_url;
+  std::string frame_url;
+  std::string frame_charset;
+  int32_t media_type;
+  int32_t media_state_flags;
+  std::string selected_text;
+  std::string misspelled_word;
+  bool is_editable;
+  bool is_spellcheck_enabled;
+  int32_t edit_state_flags;
+  bool is_custom_menu;
+
+  void __set_x(const int32_t val);
+
+  void __set_y(const int32_t val);
+
+  void __set_type_flags(const int32_t val);
+
+  void __set_link_url(const std::string& val);
+
+  void __set_unfiltered_link_url(const std::string& val);
+
+  void __set_source_url(const std::string& val);
+
+  void __set_has_image_contents(const bool val);
+
+  void __set_title_text(const std::string& val);
+
+  void __set_page_url(const std::string& val);
+
+  void __set_frame_url(const std::string& val);
+
+  void __set_frame_charset(const std::string& val);
+
+  void __set_media_type(const int32_t val);
+
+  void __set_media_state_flags(const int32_t val);
+
+  void __set_selected_text(const std::string& val);
+
+  void __set_misspelled_word(const std::string& val);
+
+  void __set_is_editable(const bool val);
+
+  void __set_is_spellcheck_enabled(const bool val);
+
+  void __set_edit_state_flags(const int32_t val);
+
+  void __set_is_custom_menu(const bool val);
+
+  bool operator == (const ContextMenuParams & rhs) const
+  {
+    if (!(x == rhs.x))
+      return false;
+    if (!(y == rhs.y))
+      return false;
+    if (!(type_flags == rhs.type_flags))
+      return false;
+    if (!(link_url == rhs.link_url))
+      return false;
+    if (!(unfiltered_link_url == rhs.unfiltered_link_url))
+      return false;
+    if (!(source_url == rhs.source_url))
+      return false;
+    if (!(has_image_contents == rhs.has_image_contents))
+      return false;
+    if (!(title_text == rhs.title_text))
+      return false;
+    if (!(page_url == rhs.page_url))
+      return false;
+    if (!(frame_url == rhs.frame_url))
+      return false;
+    if (!(frame_charset == rhs.frame_charset))
+      return false;
+    if (!(media_type == rhs.media_type))
+      return false;
+    if (!(media_state_flags == rhs.media_state_flags))
+      return false;
+    if (!(selected_text == rhs.selected_text))
+      return false;
+    if (!(misspelled_word == rhs.misspelled_word))
+      return false;
+    if (!(is_editable == rhs.is_editable))
+      return false;
+    if (!(is_spellcheck_enabled == rhs.is_spellcheck_enabled))
+      return false;
+    if (!(edit_state_flags == rhs.edit_state_flags))
+      return false;
+    if (!(is_custom_menu == rhs.is_custom_menu))
+      return false;
+    return true;
+  }
+  bool operator != (const ContextMenuParams &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ContextMenuParams & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
+
+  virtual void printTo(std::ostream& out) const;
+};
+
+void swap(ContextMenuParams &a, ContextMenuParams &b);
+
+std::ostream& operator<<(std::ostream& out, const ContextMenuParams& obj);
 
 } // namespace
 

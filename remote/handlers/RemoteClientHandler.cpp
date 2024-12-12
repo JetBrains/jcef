@@ -3,22 +3,25 @@
 #include <strstream>
 
 #include "../ServerHandlerContext.h"
-#include "../network/RemoteRequestHandler.h"
 #include "../network/RemoteRequestContextHandler.h"
+#include "../network/RemoteRequestHandler.h"
 #include "../router/MessageRoutersManager.h"
+#include "RemoteContextMenuHandler.h"
 #include "RemoteDisplayHandler.h"
+#include "RemoteFocusHandler.h"
+#include "RemoteKeyboardHandler.h"
 #include "RemoteLifespanHandler.h"
 #include "RemoteLoadHandler.h"
 #include "RemoteRenderHandler.h"
-#include "RemoteKeyboardHandler.h"
-#include "RemoteFocusHandler.h"
+
+namespace {
 
 class DummyRenderHandler : public CefRenderHandler {
  public:
   void GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) override {
     rect.x = 0;
     rect.y = 0;
-    rect.width = 20; // TODO: try to return invalid rect.
+    rect.width = 20;  // TODO: try to return invalid rect.
     rect.height = 20;
   }
   void OnPaint(CefRefPtr<CefBrowser> browser,
@@ -31,6 +34,8 @@ class DummyRenderHandler : public CefRenderHandler {
  private:
   IMPLEMENT_REFCOUNTING(DummyRenderHandler);
 };
+
+}  // namespace
 
 RemoteClientHandler::RemoteClientHandler(
     std::shared_ptr<ServerHandlerContext> ctx,
@@ -66,6 +71,9 @@ RemoteClientHandler::RemoteClientHandler(
   if (handlersMask & HandlerMasks::Focus)
     myRemoteFocusHandler = new RemoteFocusHandler(bid, ctx->javaService());
 
+  if (handlersMask & HandlerMasks::ContextMenu)
+    myRemoteContextMenuHandler = new RemoteContextMenuHandler(bid, ctx->javaService());
+
   // TODO: Expose CefRequestContextSettings.
   CefRequestContextSettings settings;
   myRequestContext = requestContextHandler.objId < 0
@@ -74,8 +82,7 @@ RemoteClientHandler::RemoteClientHandler(
 }
 
 CefRefPtr<CefContextMenuHandler> RemoteClientHandler::GetContextMenuHandler() {
-    Log::error("UNIMPLEMENTED: RemoteClientHandler::GetContextMenuHandler");
-    return nullptr;
+    return myRemoteContextMenuHandler;
 }
 
 CefRefPtr<CefDialogHandler> RemoteClientHandler::GetDialogHandler() {

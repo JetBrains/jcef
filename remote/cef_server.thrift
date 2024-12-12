@@ -118,15 +118,69 @@ service Server {
     //
     // Callback
     //
-    oneway void Callback_Dispose(1: shared.RObject callback),
-    oneway void Callback_Continue(1: shared.RObject callback),
-    oneway void Callback_Cancel(1: shared.RObject callback),
+    void Callback_Dispose(1: shared.RObject callback),
+    void Callback_Continue(1: shared.RObject callback),
+    void Callback_Cancel(1: shared.RObject callback),
     //
     // CefAuthCallback
     //
     oneway void AuthCallback_Dispose(1: shared.RObject authCallback),
     oneway void AuthCallback_Continue(1: shared.RObject authCallback, 2: string username, 3: string password),
     oneway void AuthCallback_Cancel(1: shared.RObject authCallback),
+    //
+    // CefRunContextMenuCallback
+    //
+    oneway void CefRunContextMenuCallback_Dispose(1: shared.RObject self),
+    oneway void CefRunContextMenuCallback_Continue(1: shared.RObject self, 2: i32 command_id, 3: i32 event_flag),
+    oneway void CefRunContextMenuCallback_Cancel(1: shared.RObject self),
+
+    //
+    // CefMenuModel
+    //
+    // Note: keyboard accelerators, colors and fonts are not supported
+    bool is_sub_menu(1: shared.RObject self);
+    bool clear(1: shared.RObject self);
+    i32 get_count(1: shared.RObject self);
+    bool add_separator(1: shared.RObject self);
+    bool add_item(1: shared.RObject self, 2: i32 command_id, 3: string label);
+    bool add_check_item(1: shared.RObject self, 2: i32 command_id, 3: string label);
+    bool add_radio_item(1: shared.RObject self, 2: i32 command_id, 3: string label, 4: i32 group_id);
+    shared.RObject add_sub_menu(1: shared.RObject self, 2: i32 command_id, 3: string label);
+    bool insert_separator_at(1: shared.RObject self, 2: i32 index);
+    bool insert_item_at(1: shared.RObject self, 2: i32 index, 3: i32 command_id, 4: string label);
+    bool insert_check_item_at(1: shared.RObject self, 2: i32 index, 3: i32 command_id, 4: string label);
+    bool insert_radio_item_at(1: shared.RObject self, 2: i32 index, 3: i32 command_id, 4: string label, 5: i32 group_id);
+    shared.RObject insert_sub_menu_at(1: shared.RObject self, 2: i32 index, 3: i32 command_id, 4: string label);
+    bool remove(1: shared.RObject self, 2: i32 command_id);
+    bool remove_at(1: shared.RObject self, 2: i32 index);
+    i32 get_index_of(1: shared.RObject self, 2: i32 command_id);
+    i32 get_command_id_at(1: shared.RObject self, 2: i32 index);
+    bool set_command_id_at(1: shared.RObject self, 2: i32 index, 3: i32 command_id);
+    string get_label(1: shared.RObject self, 2: i32 command_id);
+    string get_label_at(1: shared.RObject self, 2: i32 index);
+    bool set_label(1: shared.RObject self, 2: i32 command_id, 3: string label);
+    bool set_label_at(1: shared.RObject self, 2: i32 index, 3: string label);
+    i32 get_type(1: shared.RObject self, 2: i32 command_id);
+    i32 get_type_at(1: shared.RObject self, 2: i32 index);
+    i32 get_group_id(1: shared.RObject self, 2: i32 command_id);
+    i32 get_group_id_at(1: shared.RObject self, 2: i32 index);
+    bool set_group_id(1: shared.RObject self, 2: i32 command_id, 3: i32 group_id);
+    bool set_group_id_at(1: shared.RObject self, 2: i32 index, 3: i32 group_id);
+    shared.RObject get_sub_menu(1: shared.RObject self, 2: i32 command_id);
+    shared.RObject get_sub_menu_at(1: shared.RObject self, 2: i32 index);
+    bool is_visible(1: shared.RObject self, 2: i32 command_id);
+    bool is_visible_at(1: shared.RObject self, 2: i32 index);
+    bool set_visible(1: shared.RObject self, 2: i32 command_id, 3: bool visible);
+    bool set_visible_at(1: shared.RObject self, 2: i32 index, 3: bool visible);
+    bool is_enabled(1: shared.RObject self, 2: i32 command_id);
+    bool is_enabled_at(1: shared.RObject self, 2: i32 index);
+    bool set_enabled(1: shared.RObject self, 2: i32 command_id, 3: bool enabled);
+    bool set_enabled_at(1: shared.RObject self, 2: i32 index, 3: bool enabled);
+    bool is_checked(1: shared.RObject self, 2: i32 command_id);
+    bool is_checked_at(1: shared.RObject self, 2: i32 index);
+    bool set_checked(1: shared.RObject self, 2: i32 command_id, 3: bool checked);
+    bool set_checked_at(1: shared.RObject self, 2: i32 index, 3: bool checked);
+
     //
     // CefMessageRouter
     //

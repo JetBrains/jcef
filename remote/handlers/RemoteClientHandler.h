@@ -16,7 +16,7 @@ public:
      std::shared_ptr<ServerHandlerContext> ctx, int cid, int bid, int handlersMask,
      const thrift_codegen::RObject& requestContextHandler);
 
- CefRefPtr<CefContextMenuHandler> GetContextMenuHandler() override;
+    CefRefPtr<CefContextMenuHandler> GetContextMenuHandler() override;
     CefRefPtr<CefDialogHandler> GetDialogHandler() override;
     CefRefPtr<CefDisplayHandler> GetDisplayHandler() override;
     CefRefPtr<CefDownloadHandler> GetDownloadHandler() override;
@@ -69,6 +69,7 @@ public:
     CefRefPtr<CefRequestHandler> myRemoteRequestHandler;
     CefRefPtr<CefKeyboardHandler> myRemoteKeyboardHandler;
     CefRefPtr<CefFocusHandler> myRemoteFocusHandler;
+    CefRefPtr<CefContextMenuHandler> myRemoteContextMenuHandler;
 
     bool myIsClosing = false;
 

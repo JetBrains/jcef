@@ -254,6 +254,11 @@ public class ClientHandlersDummy implements ClientHandlers.Iface{
     }
 
     @Override
+    public void ContextMenuHandler_OnBeforeContextMenu(int bid, RObject frame, ContextMenuParams params, RObject menu_model) throws TException {
+
+    }
+
+    @Override
     public boolean MessageRouterHandler_onQuery(RObject handler, int bid, RObject frame, long queryId, String request, boolean persistent, RObject queryCallback) throws TException {
         return false;
     }

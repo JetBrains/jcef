@@ -430,6 +430,231 @@ class ServerHandler : virtual public ServerIf {
     printf("AuthCallback_Cancel\n");
   }
 
+  void CefRunContextMenuCallback_Dispose(const  ::thrift_codegen::RObject& self) {
+    // Your implementation goes here
+    printf("CefRunContextMenuCallback_Dispose\n");
+  }
+
+  void CefRunContextMenuCallback_Continue(const  ::thrift_codegen::RObject& self, const int32_t command_id, const int32_t event_flag) {
+    // Your implementation goes here
+    printf("CefRunContextMenuCallback_Continue\n");
+  }
+
+  void CefRunContextMenuCallback_Cancel(const  ::thrift_codegen::RObject& self) {
+    // Your implementation goes here
+    printf("CefRunContextMenuCallback_Cancel\n");
+  }
+
+  bool is_sub_menu(const  ::thrift_codegen::RObject& self) {
+    // Your implementation goes here
+    printf("is_sub_menu\n");
+  }
+
+  bool clear(const  ::thrift_codegen::RObject& self) {
+    // Your implementation goes here
+    printf("clear\n");
+  }
+
+  int32_t get_count(const  ::thrift_codegen::RObject& self) {
+    // Your implementation goes here
+    printf("get_count\n");
+  }
+
+  bool add_separator(const  ::thrift_codegen::RObject& self) {
+    // Your implementation goes here
+    printf("add_separator\n");
+  }
+
+  bool add_item(const  ::thrift_codegen::RObject& self, const int32_t command_id, const std::string& label) {
+    // Your implementation goes here
+    printf("add_item\n");
+  }
+
+  bool add_check_item(const  ::thrift_codegen::RObject& self, const int32_t command_id, const std::string& label) {
+    // Your implementation goes here
+    printf("add_check_item\n");
+  }
+
+  bool add_radio_item(const  ::thrift_codegen::RObject& self, const int32_t command_id, const std::string& label, const int32_t group_id) {
+    // Your implementation goes here
+    printf("add_radio_item\n");
+  }
+
+  void add_sub_menu( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& self, const int32_t command_id, const std::string& label) {
+    // Your implementation goes here
+    printf("add_sub_menu\n");
+  }
+
+  bool insert_separator_at(const  ::thrift_codegen::RObject& self, const int32_t index) {
+    // Your implementation goes here
+    printf("insert_separator_at\n");
+  }
+
+  bool insert_item_at(const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t command_id, const std::string& label) {
+    // Your implementation goes here
+    printf("insert_item_at\n");
+  }
+
+  bool insert_check_item_at(const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t command_id, const std::string& label) {
+    // Your implementation goes here
+    printf("insert_check_item_at\n");
+  }
+
+  bool insert_radio_item_at(const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t command_id, const std::string& label, const int32_t group_id) {
+    // Your implementation goes here
+    printf("insert_radio_item_at\n");
+  }
+
+  void insert_sub_menu_at( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t command_id, const std::string& label) {
+    // Your implementation goes here
+    printf("insert_sub_menu_at\n");
+  }
+
+  bool remove(const  ::thrift_codegen::RObject& self, const int32_t command_id) {
+    // Your implementation goes here
+    printf("remove\n");
+  }
+
+  bool remove_at(const  ::thrift_codegen::RObject& self, const int32_t index) {
+    // Your implementation goes here
+    printf("remove_at\n");
+  }
+
+  int32_t get_index_of(const  ::thrift_codegen::RObject& self, const int32_t command_id) {
+    // Your implementation goes here
+    printf("get_index_of\n");
+  }
+
+  int32_t get_command_id_at(const  ::thrift_codegen::RObject& self, const int32_t index) {
+    // Your implementation goes here
+    printf("get_command_id_at\n");
+  }
+
+  bool set_command_id_at(const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t command_id) {
+    // Your implementation goes here
+    printf("set_command_id_at\n");
+  }
+
+  void get_label(std::string& _return, const  ::thrift_codegen::RObject& self, const int32_t command_id) {
+    // Your implementation goes here
+    printf("get_label\n");
+  }
+
+  void get_label_at(std::string& _return, const  ::thrift_codegen::RObject& self, const int32_t index) {
+    // Your implementation goes here
+    printf("get_label_at\n");
+  }
+
+  bool set_label(const  ::thrift_codegen::RObject& self, const int32_t command_id, const std::string& label) {
+    // Your implementation goes here
+    printf("set_label\n");
+  }
+
+  bool set_label_at(const  ::thrift_codegen::RObject& self, const int32_t index, const std::string& label) {
+    // Your implementation goes here
+    printf("set_label_at\n");
+  }
+
+  int32_t get_type(const  ::thrift_codegen::RObject& self, const int32_t command_id) {
+    // Your implementation goes here
+    printf("get_type\n");
+  }
+
+  int32_t get_type_at(const  ::thrift_codegen::RObject& self, const int32_t index) {
+    // Your implementation goes here
+    printf("get_type_at\n");
+  }
+
+  int32_t get_group_id(const  ::thrift_codegen::RObject& self, const int32_t command_id) {
+    // Your implementation goes here
+    printf("get_group_id\n");
+  }
+
+  int32_t get_group_id_at(const  ::thrift_codegen::RObject& self, const int32_t index) {
+    // Your implementation goes here
+    printf("get_group_id_at\n");
+  }
+
+  bool set_group_id(const  ::thrift_codegen::RObject& self, const int32_t command_id, const int32_t group_id) {
+    // Your implementation goes here
+    printf("set_group_id\n");
+  }
+
+  bool set_group_id_at(const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t group_id) {
+    // Your implementation goes here
+    printf("set_group_id_at\n");
+  }
+
+  void get_sub_menu( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& self, const int32_t command_id) {
+    // Your implementation goes here
+    printf("get_sub_menu\n");
+  }
+
+  void get_sub_menu_at( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& self, const int32_t index) {
+    // Your implementation goes here
+    printf("get_sub_menu_at\n");
+  }
+
+  bool is_visible(const  ::thrift_codegen::RObject& self, const int32_t command_id) {
+    // Your implementation goes here
+    printf("is_visible\n");
+  }
+
+  bool is_visible_at(const  ::thrift_codegen::RObject& self, const int32_t index) {
+    // Your implementation goes here
+    printf("is_visible_at\n");
+  }
+
+  bool set_visible(const  ::thrift_codegen::RObject& self, const int32_t command_id, const bool visible) {
+    // Your implementation goes here
+    printf("set_visible\n");
+  }
+
+  bool set_visible_at(const  ::thrift_codegen::RObject& self, const int32_t index, const bool visible) {
+    // Your implementation goes here
+    printf("set_visible_at\n");
+  }
+
+  bool is_enabled(const  ::thrift_codegen::RObject& self, const int32_t command_id) {
+    // Your implementation goes here
+    printf("is_enabled\n");
+  }
+
+  bool is_enabled_at(const  ::thrift_codegen::RObject& self, const int32_t index) {
+    // Your implementation goes here
+    printf("is_enabled_at\n");
+  }
+
+  bool set_enabled(const  ::thrift_codegen::RObject& self, const int32_t command_id, const bool enabled) {
+    // Your implementation goes here
+    printf("set_enabled\n");
+  }
+
+  bool set_enabled_at(const  ::thrift_codegen::RObject& self, const int32_t index, const bool enabled) {
+    // Your implementation goes here
+    printf("set_enabled_at\n");
+  }
+
+  bool is_checked(const  ::thrift_codegen::RObject& self, const int32_t command_id) {
+    // Your implementation goes here
+    printf("is_checked\n");
+  }
+
+  bool is_checked_at(const  ::thrift_codegen::RObject& self, const int32_t index) {
+    // Your implementation goes here
+    printf("is_checked_at\n");
+  }
+
+  bool set_checked(const  ::thrift_codegen::RObject& self, const int32_t command_id, const bool checked) {
+    // Your implementation goes here
+    printf("set_checked\n");
+  }
+
+  bool set_checked_at(const  ::thrift_codegen::RObject& self, const int32_t index, const bool checked) {
+    // Your implementation goes here
+    printf("set_checked_at\n");
+  }
+
   void MessageRouter_Create( ::thrift_codegen::RObject& _return, const std::string& query, const std::string& cancel) {
     // Your implementation goes here
     printf("MessageRouter_Create\n");

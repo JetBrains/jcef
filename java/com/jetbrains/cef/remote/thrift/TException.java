@@ -19,6 +19,8 @@
 
 package com.jetbrains.cef.remote.thrift;
 
+import java.lang.Throwable;
+
 /** Generic exception class for Thrift. */
 public class TException extends Exception {
 

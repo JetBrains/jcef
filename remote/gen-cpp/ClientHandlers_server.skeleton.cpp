@@ -265,6 +265,11 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
     printf("ResourceRequestHandler_OnProtocolExecution\n");
   }
 
+  void ContextMenuHandler_OnBeforeContextMenu(const int32_t bid, const  ::thrift_codegen::RObject& frame, const ContextMenuParams& params, const  ::thrift_codegen::RObject& menu_model) {
+    // Your implementation goes here
+    printf("ContextMenuHandler_OnBeforeContextMenu\n");
+  }
+
   bool MessageRouterHandler_onQuery(const  ::thrift_codegen::RObject& handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const int64_t queryId, const std::string& request, const bool persistent, const  ::thrift_codegen::RObject& queryCallback) {
     // Your implementation goes here
     printf("MessageRouterHandler_onQuery\n");

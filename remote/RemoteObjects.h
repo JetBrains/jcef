@@ -22,6 +22,9 @@ class ServerObjectsFactory {
 
   T* find(int id) {
     Lock lock(MUTEX);
+    if (INSTANCES.count(id) == 0)
+      return nullptr;
+
     return INSTANCES[id];
   }
 
@@ -30,11 +33,10 @@ class ServerObjectsFactory {
     {
       Lock lock(MUTEX);
       r = INSTANCES[id];
-      if (r != nullptr)
-        INSTANCES.erase(id);
+      INSTANCES.erase(id);
     }
 
-    if (r != nullptr && doDelete)
+    if (doDelete)
       delete r;
   }
 
@@ -88,6 +90,10 @@ class RemoteServerObject : public RemoteServerObjectBase<T> {
   explicit RemoteServerObject(int id, CefRefPtr<D> delegate) : RemoteServerObjectBase<T>(id), myDelegate(delegate.get()) {
     myDelegate->AddRef();
   }
+
+  RemoteServerObject(const RemoteServerObject&) = delete;
+  RemoteServerObject(RemoteServerObject&&) = delete;
+
   ~RemoteServerObject() override {
     myDelegate->Release();
   }
@@ -106,7 +112,7 @@ template <class T, class D>
 class RemoteServerObjectUpdatable : public RemoteServerObject<T, D> {
  public:
   explicit RemoteServerObjectUpdatable(int id, CefRefPtr<D> delegate) : RemoteServerObject<T, D>(id, delegate) {}
-  ~RemoteServerObjectUpdatable() override {}
+  ~RemoteServerObjectUpdatable() override = default;
 
   thrift_codegen::RObject serverIdWithMap() {
     thrift_codegen::RObject robj;

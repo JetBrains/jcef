@@ -40,6 +40,36 @@ struct ScreenInfo {
     6: required Rect available_rect,
 }
 
+struct ContextMenuParams {
+    1: required i32 x,
+    2: required i32 y,
+    3: required i32 type_flags,
+    4: required string link_url,
+    5: required string unfiltered_link_url,
+    6: required string source_url,
+    7: required bool has_image_contents,
+    8: required string title_text,
+    9: required string page_url,
+    10: required string frame_url,
+    11: required string frame_charset,
+    12: required i32 media_type,
+    13: required i32 media_state_flags,
+    14: required string selected_text,
+    15: required string misspelled_word,
+    16: required bool is_editable,
+    17: required bool is_spellcheck_enabled,
+    18: required i32 edit_state_flags,
+    19: required bool is_custom_menu,
+    // not implemented:
+    // GetDictionarySuggestions(std::vector<CefString>& suggestions);
+}
+
+struct SomeModel {
+    1: required i32 x,
+    2: required i32 y,
+    3: list<SomeModel> list;
+}
+
 service ClientHandlers {
     i32 connect(),
     oneway void log(1: string msg),
@@ -122,6 +152,11 @@ service ClientHandlers {
     bool              ResourceRequestHandler_OnResourceResponse(1: i32 rrHandler, 2:i32 bid, 3:shared.RObject frame, 4:shared.RObject request, 5:shared.RObject response),
     void              ResourceRequestHandler_OnResourceLoadComplete(1: i32 rrHandler, 2:i32 bid, 3:shared.RObject frame, 4:shared.RObject request, 5:shared.RObject response, 6:string status, 7:i64 receivedContentLength),
     bool              ResourceRequestHandler_OnProtocolExecution(1: i32 rrHandler, 2:i32 bid, 3:shared.RObject frame, 4:shared.RObject request, 5:bool allowOsExecution),
+
+    //
+    // CefContextMenuHandler
+    //
+    void ContextMenuHandler_OnBeforeContextMenu(1: i32 bid, 2: shared.RObject frame, 3: ContextMenuParams params, 4: shared.RObject menu_model)
 
     //
     // CefMessageRouter

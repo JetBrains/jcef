@@ -4,7 +4,7 @@ import com.jetbrains.cef.remote.callback.*;
 import com.jetbrains.cef.remote.browser.RemoteBrowser;
 import com.jetbrains.cef.remote.browser.RemoteDevToolsMessageObserver;
 import com.jetbrains.cef.remote.browser.RemoteFrame;
-import com.jetbrains.cef.remote.callback.*;
+import com.jetbrains.cef.remote.menu.RemoteMenuModel;
 import com.jetbrains.cef.remote.network.*;
 import com.jetbrains.cef.remote.router.RemoteMessageRouterHandler;
 import com.jetbrains.cef.remote.router.RemoteQueryCallback;
@@ -16,6 +16,8 @@ import com.jetbrains.cef.remote.thrift.TException;
 import org.cef.CefSettings;
 import org.cef.callback.CefAuthCallback;
 import org.cef.callback.CefCallback;
+import org.cef.callback.CefContextMenuParams;
+import org.cef.callback.CefMenuModel;
 import org.cef.handler.*;
 import org.cef.misc.*;
 import org.cef.network.CefCookie;
@@ -25,10 +27,8 @@ import org.cef.security.CefSSLInfo;
 
 import java.awt.*;
 import java.nio.ByteBuffer;
-import java.util.Arrays;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 //
 // Service for rpc from native to java
@@ -871,6 +871,26 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         BoolRef br = new BoolRef(allowOsExecution);
         rrrh.getDelegate().onProtocolExecution(getRemoteBrowser(bid), rframe, new RemoteRequest(rreq), br);
         return br.get();
+    }
+
+    @Override
+    public void ContextMenuHandler_OnBeforeContextMenu(int bid, RObject frame, ContextMenuParams params, RObject menu_model) throws TException {
+        RemoteBrowser browser = getRemoteBrowser(bid);
+        if (browser == null) {
+            CefLog.Error("There is no browser with bid=%d", bid);
+            return;
+        }
+
+        RemoteFrame rFrame = new RemoteFrame(myService, frame);
+        CefContextMenuParams cefParams = new com.jetbrains.cef.remote.menu.ContextMenuParams(params);
+        CefMenuModel menuModel = new RemoteMenuModel(myService, menu_model);
+
+        CefContextMenuHandler handler = browser.getOwner().getContextMenuHandler();
+        if (handler == null) {
+            return;
+        }
+
+        handler.onBeforeContextMenu(browser, rFrame, cefParams, menuModel);
     }
 
     @Override

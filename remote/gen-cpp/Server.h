@@ -104,6 +104,51 @@ class ServerIf {
   virtual void AuthCallback_Dispose(const  ::thrift_codegen::RObject& authCallback) = 0;
   virtual void AuthCallback_Continue(const  ::thrift_codegen::RObject& authCallback, const std::string& username, const std::string& password) = 0;
   virtual void AuthCallback_Cancel(const  ::thrift_codegen::RObject& authCallback) = 0;
+  virtual void CefRunContextMenuCallback_Dispose(const  ::thrift_codegen::RObject& self) = 0;
+  virtual void CefRunContextMenuCallback_Continue(const  ::thrift_codegen::RObject& self, const int32_t command_id, const int32_t event_flag) = 0;
+  virtual void CefRunContextMenuCallback_Cancel(const  ::thrift_codegen::RObject& self) = 0;
+  virtual bool is_sub_menu(const  ::thrift_codegen::RObject& self) = 0;
+  virtual bool clear(const  ::thrift_codegen::RObject& self) = 0;
+  virtual int32_t get_count(const  ::thrift_codegen::RObject& self) = 0;
+  virtual bool add_separator(const  ::thrift_codegen::RObject& self) = 0;
+  virtual bool add_item(const  ::thrift_codegen::RObject& self, const int32_t command_id, const std::string& label) = 0;
+  virtual bool add_check_item(const  ::thrift_codegen::RObject& self, const int32_t command_id, const std::string& label) = 0;
+  virtual bool add_radio_item(const  ::thrift_codegen::RObject& self, const int32_t command_id, const std::string& label, const int32_t group_id) = 0;
+  virtual void add_sub_menu( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& self, const int32_t command_id, const std::string& label) = 0;
+  virtual bool insert_separator_at(const  ::thrift_codegen::RObject& self, const int32_t index) = 0;
+  virtual bool insert_item_at(const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t command_id, const std::string& label) = 0;
+  virtual bool insert_check_item_at(const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t command_id, const std::string& label) = 0;
+  virtual bool insert_radio_item_at(const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t command_id, const std::string& label, const int32_t group_id) = 0;
+  virtual void insert_sub_menu_at( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t command_id, const std::string& label) = 0;
+  virtual bool remove(const  ::thrift_codegen::RObject& self, const int32_t command_id) = 0;
+  virtual bool remove_at(const  ::thrift_codegen::RObject& self, const int32_t index) = 0;
+  virtual int32_t get_index_of(const  ::thrift_codegen::RObject& self, const int32_t command_id) = 0;
+  virtual int32_t get_command_id_at(const  ::thrift_codegen::RObject& self, const int32_t index) = 0;
+  virtual bool set_command_id_at(const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t command_id) = 0;
+  virtual void get_label(std::string& _return, const  ::thrift_codegen::RObject& self, const int32_t command_id) = 0;
+  virtual void get_label_at(std::string& _return, const  ::thrift_codegen::RObject& self, const int32_t index) = 0;
+  virtual bool set_label(const  ::thrift_codegen::RObject& self, const int32_t command_id, const std::string& label) = 0;
+  virtual bool set_label_at(const  ::thrift_codegen::RObject& self, const int32_t index, const std::string& label) = 0;
+  virtual int32_t get_type(const  ::thrift_codegen::RObject& self, const int32_t command_id) = 0;
+  virtual int32_t get_type_at(const  ::thrift_codegen::RObject& self, const int32_t index) = 0;
+  virtual int32_t get_group_id(const  ::thrift_codegen::RObject& self, const int32_t command_id) = 0;
+  virtual int32_t get_group_id_at(const  ::thrift_codegen::RObject& self, const int32_t index) = 0;
+  virtual bool set_group_id(const  ::thrift_codegen::RObject& self, const int32_t command_id, const int32_t group_id) = 0;
+  virtual bool set_group_id_at(const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t group_id) = 0;
+  virtual void get_sub_menu( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& self, const int32_t command_id) = 0;
+  virtual void get_sub_menu_at( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& self, const int32_t index) = 0;
+  virtual bool is_visible(const  ::thrift_codegen::RObject& self, const int32_t command_id) = 0;
+  virtual bool is_visible_at(const  ::thrift_codegen::RObject& self, const int32_t index) = 0;
+  virtual bool set_visible(const  ::thrift_codegen::RObject& self, const int32_t command_id, const bool visible) = 0;
+  virtual bool set_visible_at(const  ::thrift_codegen::RObject& self, const int32_t index, const bool visible) = 0;
+  virtual bool is_enabled(const  ::thrift_codegen::RObject& self, const int32_t command_id) = 0;
+  virtual bool is_enabled_at(const  ::thrift_codegen::RObject& self, const int32_t index) = 0;
+  virtual bool set_enabled(const  ::thrift_codegen::RObject& self, const int32_t command_id, const bool enabled) = 0;
+  virtual bool set_enabled_at(const  ::thrift_codegen::RObject& self, const int32_t index, const bool enabled) = 0;
+  virtual bool is_checked(const  ::thrift_codegen::RObject& self, const int32_t command_id) = 0;
+  virtual bool is_checked_at(const  ::thrift_codegen::RObject& self, const int32_t index) = 0;
+  virtual bool set_checked(const  ::thrift_codegen::RObject& self, const int32_t command_id, const bool checked) = 0;
+  virtual bool set_checked_at(const  ::thrift_codegen::RObject& self, const int32_t index, const bool checked) = 0;
   virtual void MessageRouter_Create( ::thrift_codegen::RObject& _return, const std::string& query, const std::string& cancel) = 0;
   virtual void MessageRouter_Dispose(const  ::thrift_codegen::RObject& msgRouter) = 0;
   virtual void MessageRouter_AddMessageRouterToBrowser(const  ::thrift_codegen::RObject& msgRouter, const int32_t bid) = 0;
@@ -410,6 +455,177 @@ class ServerNull : virtual public ServerIf {
   }
   void AuthCallback_Cancel(const  ::thrift_codegen::RObject& /* authCallback */) override {
     return;
+  }
+  void CefRunContextMenuCallback_Dispose(const  ::thrift_codegen::RObject& /* self */) override {
+    return;
+  }
+  void CefRunContextMenuCallback_Continue(const  ::thrift_codegen::RObject& /* self */, const int32_t /* command_id */, const int32_t /* event_flag */) override {
+    return;
+  }
+  void CefRunContextMenuCallback_Cancel(const  ::thrift_codegen::RObject& /* self */) override {
+    return;
+  }
+  bool is_sub_menu(const  ::thrift_codegen::RObject& /* self */) override {
+    bool _return = false;
+    return _return;
+  }
+  bool clear(const  ::thrift_codegen::RObject& /* self */) override {
+    bool _return = false;
+    return _return;
+  }
+  int32_t get_count(const  ::thrift_codegen::RObject& /* self */) override {
+    int32_t _return = 0;
+    return _return;
+  }
+  bool add_separator(const  ::thrift_codegen::RObject& /* self */) override {
+    bool _return = false;
+    return _return;
+  }
+  bool add_item(const  ::thrift_codegen::RObject& /* self */, const int32_t /* command_id */, const std::string& /* label */) override {
+    bool _return = false;
+    return _return;
+  }
+  bool add_check_item(const  ::thrift_codegen::RObject& /* self */, const int32_t /* command_id */, const std::string& /* label */) override {
+    bool _return = false;
+    return _return;
+  }
+  bool add_radio_item(const  ::thrift_codegen::RObject& /* self */, const int32_t /* command_id */, const std::string& /* label */, const int32_t /* group_id */) override {
+    bool _return = false;
+    return _return;
+  }
+  void add_sub_menu( ::thrift_codegen::RObject& /* _return */, const  ::thrift_codegen::RObject& /* self */, const int32_t /* command_id */, const std::string& /* label */) override {
+    return;
+  }
+  bool insert_separator_at(const  ::thrift_codegen::RObject& /* self */, const int32_t /* index */) override {
+    bool _return = false;
+    return _return;
+  }
+  bool insert_item_at(const  ::thrift_codegen::RObject& /* self */, const int32_t /* index */, const int32_t /* command_id */, const std::string& /* label */) override {
+    bool _return = false;
+    return _return;
+  }
+  bool insert_check_item_at(const  ::thrift_codegen::RObject& /* self */, const int32_t /* index */, const int32_t /* command_id */, const std::string& /* label */) override {
+    bool _return = false;
+    return _return;
+  }
+  bool insert_radio_item_at(const  ::thrift_codegen::RObject& /* self */, const int32_t /* index */, const int32_t /* command_id */, const std::string& /* label */, const int32_t /* group_id */) override {
+    bool _return = false;
+    return _return;
+  }
+  void insert_sub_menu_at( ::thrift_codegen::RObject& /* _return */, const  ::thrift_codegen::RObject& /* self */, const int32_t /* index */, const int32_t /* command_id */, const std::string& /* label */) override {
+    return;
+  }
+  bool remove(const  ::thrift_codegen::RObject& /* self */, const int32_t /* command_id */) override {
+    bool _return = false;
+    return _return;
+  }
+  bool remove_at(const  ::thrift_codegen::RObject& /* self */, const int32_t /* index */) override {
+    bool _return = false;
+    return _return;
+  }
+  int32_t get_index_of(const  ::thrift_codegen::RObject& /* self */, const int32_t /* command_id */) override {
+    int32_t _return = 0;
+    return _return;
+  }
+  int32_t get_command_id_at(const  ::thrift_codegen::RObject& /* self */, const int32_t /* index */) override {
+    int32_t _return = 0;
+    return _return;
+  }
+  bool set_command_id_at(const  ::thrift_codegen::RObject& /* self */, const int32_t /* index */, const int32_t /* command_id */) override {
+    bool _return = false;
+    return _return;
+  }
+  void get_label(std::string& /* _return */, const  ::thrift_codegen::RObject& /* self */, const int32_t /* command_id */) override {
+    return;
+  }
+  void get_label_at(std::string& /* _return */, const  ::thrift_codegen::RObject& /* self */, const int32_t /* index */) override {
+    return;
+  }
+  bool set_label(const  ::thrift_codegen::RObject& /* self */, const int32_t /* command_id */, const std::string& /* label */) override {
+    bool _return = false;
+    return _return;
+  }
+  bool set_label_at(const  ::thrift_codegen::RObject& /* self */, const int32_t /* index */, const std::string& /* label */) override {
+    bool _return = false;
+    return _return;
+  }
+  int32_t get_type(const  ::thrift_codegen::RObject& /* self */, const int32_t /* command_id */) override {
+    int32_t _return = 0;
+    return _return;
+  }
+  int32_t get_type_at(const  ::thrift_codegen::RObject& /* self */, const int32_t /* index */) override {
+    int32_t _return = 0;
+    return _return;
+  }
+  int32_t get_group_id(const  ::thrift_codegen::RObject& /* self */, const int32_t /* command_id */) override {
+    int32_t _return = 0;
+    return _return;
+  }
+  int32_t get_group_id_at(const  ::thrift_codegen::RObject& /* self */, const int32_t /* index */) override {
+    int32_t _return = 0;
+    return _return;
+  }
+  bool set_group_id(const  ::thrift_codegen::RObject& /* self */, const int32_t /* command_id */, const int32_t /* group_id */) override {
+    bool _return = false;
+    return _return;
+  }
+  bool set_group_id_at(const  ::thrift_codegen::RObject& /* self */, const int32_t /* index */, const int32_t /* group_id */) override {
+    bool _return = false;
+    return _return;
+  }
+  void get_sub_menu( ::thrift_codegen::RObject& /* _return */, const  ::thrift_codegen::RObject& /* self */, const int32_t /* command_id */) override {
+    return;
+  }
+  void get_sub_menu_at( ::thrift_codegen::RObject& /* _return */, const  ::thrift_codegen::RObject& /* self */, const int32_t /* index */) override {
+    return;
+  }
+  bool is_visible(const  ::thrift_codegen::RObject& /* self */, const int32_t /* command_id */) override {
+    bool _return = false;
+    return _return;
+  }
+  bool is_visible_at(const  ::thrift_codegen::RObject& /* self */, const int32_t /* index */) override {
+    bool _return = false;
+    return _return;
+  }
+  bool set_visible(const  ::thrift_codegen::RObject& /* self */, const int32_t /* command_id */, const bool /* visible */) override {
+    bool _return = false;
+    return _return;
+  }
+  bool set_visible_at(const  ::thrift_codegen::RObject& /* self */, const int32_t /* index */, const bool /* visible */) override {
+    bool _return = false;
+    return _return;
+  }
+  bool is_enabled(const  ::thrift_codegen::RObject& /* self */, const int32_t /* command_id */) override {
+    bool _return = false;
+    return _return;
+  }
+  bool is_enabled_at(const  ::thrift_codegen::RObject& /* self */, const int32_t /* index */) override {
+    bool _return = false;
+    return _return;
+  }
+  bool set_enabled(const  ::thrift_codegen::RObject& /* self */, const int32_t /* command_id */, const bool /* enabled */) override {
+    bool _return = false;
+    return _return;
+  }
+  bool set_enabled_at(const  ::thrift_codegen::RObject& /* self */, const int32_t /* index */, const bool /* enabled */) override {
+    bool _return = false;
+    return _return;
+  }
+  bool is_checked(const  ::thrift_codegen::RObject& /* self */, const int32_t /* command_id */) override {
+    bool _return = false;
+    return _return;
+  }
+  bool is_checked_at(const  ::thrift_codegen::RObject& /* self */, const int32_t /* index */) override {
+    bool _return = false;
+    return _return;
+  }
+  bool set_checked(const  ::thrift_codegen::RObject& /* self */, const int32_t /* command_id */, const bool /* checked */) override {
+    bool _return = false;
+    return _return;
+  }
+  bool set_checked_at(const  ::thrift_codegen::RObject& /* self */, const int32_t /* index */, const bool /* checked */) override {
+    bool _return = false;
+    return _return;
   }
   void MessageRouter_Create( ::thrift_codegen::RObject& /* _return */, const std::string& /* query */, const std::string& /* cancel */) override {
     return;
@@ -6637,6 +6853,43 @@ class Server_Callback_Dispose_pargs {
 
 };
 
+
+class Server_Callback_Dispose_result {
+ public:
+
+  Server_Callback_Dispose_result(const Server_Callback_Dispose_result&) noexcept;
+  Server_Callback_Dispose_result& operator=(const Server_Callback_Dispose_result&) noexcept;
+  Server_Callback_Dispose_result() noexcept {
+  }
+
+  virtual ~Server_Callback_Dispose_result() noexcept;
+
+  bool operator == (const Server_Callback_Dispose_result & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const Server_Callback_Dispose_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Callback_Dispose_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Callback_Dispose_presult {
+ public:
+
+
+  virtual ~Server_Callback_Dispose_presult() noexcept;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
 typedef struct _Server_Callback_Continue_args__isset {
   _Server_Callback_Continue_args__isset() : callback(false) {}
   bool callback :1;
@@ -6686,6 +6939,43 @@ class Server_Callback_Continue_pargs {
 
 };
 
+
+class Server_Callback_Continue_result {
+ public:
+
+  Server_Callback_Continue_result(const Server_Callback_Continue_result&) noexcept;
+  Server_Callback_Continue_result& operator=(const Server_Callback_Continue_result&) noexcept;
+  Server_Callback_Continue_result() noexcept {
+  }
+
+  virtual ~Server_Callback_Continue_result() noexcept;
+
+  bool operator == (const Server_Callback_Continue_result & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const Server_Callback_Continue_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Callback_Continue_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Callback_Continue_presult {
+ public:
+
+
+  virtual ~Server_Callback_Continue_presult() noexcept;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
 typedef struct _Server_Callback_Cancel_args__isset {
   _Server_Callback_Cancel_args__isset() : callback(false) {}
   bool callback :1;
@@ -6732,6 +7022,43 @@ class Server_Callback_Cancel_pargs {
   const  ::thrift_codegen::RObject* callback;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Callback_Cancel_result {
+ public:
+
+  Server_Callback_Cancel_result(const Server_Callback_Cancel_result&) noexcept;
+  Server_Callback_Cancel_result& operator=(const Server_Callback_Cancel_result&) noexcept;
+  Server_Callback_Cancel_result() noexcept {
+  }
+
+  virtual ~Server_Callback_Cancel_result() noexcept;
+
+  bool operator == (const Server_Callback_Cancel_result & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const Server_Callback_Cancel_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Callback_Cancel_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Callback_Cancel_presult {
+ public:
+
+
+  virtual ~Server_Callback_Cancel_presult() noexcept;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
 };
 
@@ -6895,6 +7222,5079 @@ class Server_AuthCallback_Cancel_pargs {
   const  ::thrift_codegen::RObject* authCallback;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_CefRunContextMenuCallback_Dispose_args__isset {
+  _Server_CefRunContextMenuCallback_Dispose_args__isset() : self(false) {}
+  bool self :1;
+} _Server_CefRunContextMenuCallback_Dispose_args__isset;
+
+class Server_CefRunContextMenuCallback_Dispose_args {
+ public:
+
+  Server_CefRunContextMenuCallback_Dispose_args(const Server_CefRunContextMenuCallback_Dispose_args&);
+  Server_CefRunContextMenuCallback_Dispose_args& operator=(const Server_CefRunContextMenuCallback_Dispose_args&);
+  Server_CefRunContextMenuCallback_Dispose_args() noexcept {
+  }
+
+  virtual ~Server_CefRunContextMenuCallback_Dispose_args() noexcept;
+   ::thrift_codegen::RObject self;
+
+  _Server_CefRunContextMenuCallback_Dispose_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_CefRunContextMenuCallback_Dispose_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_CefRunContextMenuCallback_Dispose_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_CefRunContextMenuCallback_Dispose_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_CefRunContextMenuCallback_Dispose_pargs {
+ public:
+
+
+  virtual ~Server_CefRunContextMenuCallback_Dispose_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_CefRunContextMenuCallback_Continue_args__isset {
+  _Server_CefRunContextMenuCallback_Continue_args__isset() : self(false), command_id(false), event_flag(false) {}
+  bool self :1;
+  bool command_id :1;
+  bool event_flag :1;
+} _Server_CefRunContextMenuCallback_Continue_args__isset;
+
+class Server_CefRunContextMenuCallback_Continue_args {
+ public:
+
+  Server_CefRunContextMenuCallback_Continue_args(const Server_CefRunContextMenuCallback_Continue_args&);
+  Server_CefRunContextMenuCallback_Continue_args& operator=(const Server_CefRunContextMenuCallback_Continue_args&);
+  Server_CefRunContextMenuCallback_Continue_args() noexcept
+                                                 : command_id(0),
+                                                   event_flag(0) {
+  }
+
+  virtual ~Server_CefRunContextMenuCallback_Continue_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t command_id;
+  int32_t event_flag;
+
+  _Server_CefRunContextMenuCallback_Continue_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_command_id(const int32_t val);
+
+  void __set_event_flag(const int32_t val);
+
+  bool operator == (const Server_CefRunContextMenuCallback_Continue_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(command_id == rhs.command_id))
+      return false;
+    if (!(event_flag == rhs.event_flag))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_CefRunContextMenuCallback_Continue_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_CefRunContextMenuCallback_Continue_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_CefRunContextMenuCallback_Continue_pargs {
+ public:
+
+
+  virtual ~Server_CefRunContextMenuCallback_Continue_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* command_id;
+  const int32_t* event_flag;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_CefRunContextMenuCallback_Cancel_args__isset {
+  _Server_CefRunContextMenuCallback_Cancel_args__isset() : self(false) {}
+  bool self :1;
+} _Server_CefRunContextMenuCallback_Cancel_args__isset;
+
+class Server_CefRunContextMenuCallback_Cancel_args {
+ public:
+
+  Server_CefRunContextMenuCallback_Cancel_args(const Server_CefRunContextMenuCallback_Cancel_args&);
+  Server_CefRunContextMenuCallback_Cancel_args& operator=(const Server_CefRunContextMenuCallback_Cancel_args&);
+  Server_CefRunContextMenuCallback_Cancel_args() noexcept {
+  }
+
+  virtual ~Server_CefRunContextMenuCallback_Cancel_args() noexcept;
+   ::thrift_codegen::RObject self;
+
+  _Server_CefRunContextMenuCallback_Cancel_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_CefRunContextMenuCallback_Cancel_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_CefRunContextMenuCallback_Cancel_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_CefRunContextMenuCallback_Cancel_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_CefRunContextMenuCallback_Cancel_pargs {
+ public:
+
+
+  virtual ~Server_CefRunContextMenuCallback_Cancel_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_is_sub_menu_args__isset {
+  _Server_is_sub_menu_args__isset() : self(false) {}
+  bool self :1;
+} _Server_is_sub_menu_args__isset;
+
+class Server_is_sub_menu_args {
+ public:
+
+  Server_is_sub_menu_args(const Server_is_sub_menu_args&);
+  Server_is_sub_menu_args& operator=(const Server_is_sub_menu_args&);
+  Server_is_sub_menu_args() noexcept {
+  }
+
+  virtual ~Server_is_sub_menu_args() noexcept;
+   ::thrift_codegen::RObject self;
+
+  _Server_is_sub_menu_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_is_sub_menu_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_is_sub_menu_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_is_sub_menu_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_is_sub_menu_pargs {
+ public:
+
+
+  virtual ~Server_is_sub_menu_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_is_sub_menu_result__isset {
+  _Server_is_sub_menu_result__isset() : success(false) {}
+  bool success :1;
+} _Server_is_sub_menu_result__isset;
+
+class Server_is_sub_menu_result {
+ public:
+
+  Server_is_sub_menu_result(const Server_is_sub_menu_result&) noexcept;
+  Server_is_sub_menu_result& operator=(const Server_is_sub_menu_result&) noexcept;
+  Server_is_sub_menu_result() noexcept
+                            : success(0) {
+  }
+
+  virtual ~Server_is_sub_menu_result() noexcept;
+  bool success;
+
+  _Server_is_sub_menu_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const Server_is_sub_menu_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_is_sub_menu_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_is_sub_menu_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_is_sub_menu_presult__isset {
+  _Server_is_sub_menu_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_is_sub_menu_presult__isset;
+
+class Server_is_sub_menu_presult {
+ public:
+
+
+  virtual ~Server_is_sub_menu_presult() noexcept;
+  bool* success;
+
+  _Server_is_sub_menu_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_clear_args__isset {
+  _Server_clear_args__isset() : self(false) {}
+  bool self :1;
+} _Server_clear_args__isset;
+
+class Server_clear_args {
+ public:
+
+  Server_clear_args(const Server_clear_args&);
+  Server_clear_args& operator=(const Server_clear_args&);
+  Server_clear_args() noexcept {
+  }
+
+  virtual ~Server_clear_args() noexcept;
+   ::thrift_codegen::RObject self;
+
+  _Server_clear_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_clear_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_clear_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_clear_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_clear_pargs {
+ public:
+
+
+  virtual ~Server_clear_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_clear_result__isset {
+  _Server_clear_result__isset() : success(false) {}
+  bool success :1;
+} _Server_clear_result__isset;
+
+class Server_clear_result {
+ public:
+
+  Server_clear_result(const Server_clear_result&) noexcept;
+  Server_clear_result& operator=(const Server_clear_result&) noexcept;
+  Server_clear_result() noexcept
+                      : success(0) {
+  }
+
+  virtual ~Server_clear_result() noexcept;
+  bool success;
+
+  _Server_clear_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const Server_clear_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_clear_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_clear_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_clear_presult__isset {
+  _Server_clear_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_clear_presult__isset;
+
+class Server_clear_presult {
+ public:
+
+
+  virtual ~Server_clear_presult() noexcept;
+  bool* success;
+
+  _Server_clear_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_get_count_args__isset {
+  _Server_get_count_args__isset() : self(false) {}
+  bool self :1;
+} _Server_get_count_args__isset;
+
+class Server_get_count_args {
+ public:
+
+  Server_get_count_args(const Server_get_count_args&);
+  Server_get_count_args& operator=(const Server_get_count_args&);
+  Server_get_count_args() noexcept {
+  }
+
+  virtual ~Server_get_count_args() noexcept;
+   ::thrift_codegen::RObject self;
+
+  _Server_get_count_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_get_count_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_get_count_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_get_count_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_get_count_pargs {
+ public:
+
+
+  virtual ~Server_get_count_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_get_count_result__isset {
+  _Server_get_count_result__isset() : success(false) {}
+  bool success :1;
+} _Server_get_count_result__isset;
+
+class Server_get_count_result {
+ public:
+
+  Server_get_count_result(const Server_get_count_result&) noexcept;
+  Server_get_count_result& operator=(const Server_get_count_result&) noexcept;
+  Server_get_count_result() noexcept
+                          : success(0) {
+  }
+
+  virtual ~Server_get_count_result() noexcept;
+  int32_t success;
+
+  _Server_get_count_result__isset __isset;
+
+  void __set_success(const int32_t val);
+
+  bool operator == (const Server_get_count_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_get_count_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_get_count_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_get_count_presult__isset {
+  _Server_get_count_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_get_count_presult__isset;
+
+class Server_get_count_presult {
+ public:
+
+
+  virtual ~Server_get_count_presult() noexcept;
+  int32_t* success;
+
+  _Server_get_count_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_add_separator_args__isset {
+  _Server_add_separator_args__isset() : self(false) {}
+  bool self :1;
+} _Server_add_separator_args__isset;
+
+class Server_add_separator_args {
+ public:
+
+  Server_add_separator_args(const Server_add_separator_args&);
+  Server_add_separator_args& operator=(const Server_add_separator_args&);
+  Server_add_separator_args() noexcept {
+  }
+
+  virtual ~Server_add_separator_args() noexcept;
+   ::thrift_codegen::RObject self;
+
+  _Server_add_separator_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_add_separator_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_add_separator_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_add_separator_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_add_separator_pargs {
+ public:
+
+
+  virtual ~Server_add_separator_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_add_separator_result__isset {
+  _Server_add_separator_result__isset() : success(false) {}
+  bool success :1;
+} _Server_add_separator_result__isset;
+
+class Server_add_separator_result {
+ public:
+
+  Server_add_separator_result(const Server_add_separator_result&) noexcept;
+  Server_add_separator_result& operator=(const Server_add_separator_result&) noexcept;
+  Server_add_separator_result() noexcept
+                              : success(0) {
+  }
+
+  virtual ~Server_add_separator_result() noexcept;
+  bool success;
+
+  _Server_add_separator_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const Server_add_separator_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_add_separator_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_add_separator_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_add_separator_presult__isset {
+  _Server_add_separator_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_add_separator_presult__isset;
+
+class Server_add_separator_presult {
+ public:
+
+
+  virtual ~Server_add_separator_presult() noexcept;
+  bool* success;
+
+  _Server_add_separator_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_add_item_args__isset {
+  _Server_add_item_args__isset() : self(false), command_id(false), label(false) {}
+  bool self :1;
+  bool command_id :1;
+  bool label :1;
+} _Server_add_item_args__isset;
+
+class Server_add_item_args {
+ public:
+
+  Server_add_item_args(const Server_add_item_args&);
+  Server_add_item_args& operator=(const Server_add_item_args&);
+  Server_add_item_args() noexcept
+                       : command_id(0),
+                         label() {
+  }
+
+  virtual ~Server_add_item_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t command_id;
+  std::string label;
+
+  _Server_add_item_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_command_id(const int32_t val);
+
+  void __set_label(const std::string& val);
+
+  bool operator == (const Server_add_item_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(command_id == rhs.command_id))
+      return false;
+    if (!(label == rhs.label))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_add_item_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_add_item_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_add_item_pargs {
+ public:
+
+
+  virtual ~Server_add_item_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* command_id;
+  const std::string* label;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_add_item_result__isset {
+  _Server_add_item_result__isset() : success(false) {}
+  bool success :1;
+} _Server_add_item_result__isset;
+
+class Server_add_item_result {
+ public:
+
+  Server_add_item_result(const Server_add_item_result&) noexcept;
+  Server_add_item_result& operator=(const Server_add_item_result&) noexcept;
+  Server_add_item_result() noexcept
+                         : success(0) {
+  }
+
+  virtual ~Server_add_item_result() noexcept;
+  bool success;
+
+  _Server_add_item_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const Server_add_item_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_add_item_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_add_item_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_add_item_presult__isset {
+  _Server_add_item_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_add_item_presult__isset;
+
+class Server_add_item_presult {
+ public:
+
+
+  virtual ~Server_add_item_presult() noexcept;
+  bool* success;
+
+  _Server_add_item_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_add_check_item_args__isset {
+  _Server_add_check_item_args__isset() : self(false), command_id(false), label(false) {}
+  bool self :1;
+  bool command_id :1;
+  bool label :1;
+} _Server_add_check_item_args__isset;
+
+class Server_add_check_item_args {
+ public:
+
+  Server_add_check_item_args(const Server_add_check_item_args&);
+  Server_add_check_item_args& operator=(const Server_add_check_item_args&);
+  Server_add_check_item_args() noexcept
+                             : command_id(0),
+                               label() {
+  }
+
+  virtual ~Server_add_check_item_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t command_id;
+  std::string label;
+
+  _Server_add_check_item_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_command_id(const int32_t val);
+
+  void __set_label(const std::string& val);
+
+  bool operator == (const Server_add_check_item_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(command_id == rhs.command_id))
+      return false;
+    if (!(label == rhs.label))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_add_check_item_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_add_check_item_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_add_check_item_pargs {
+ public:
+
+
+  virtual ~Server_add_check_item_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* command_id;
+  const std::string* label;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_add_check_item_result__isset {
+  _Server_add_check_item_result__isset() : success(false) {}
+  bool success :1;
+} _Server_add_check_item_result__isset;
+
+class Server_add_check_item_result {
+ public:
+
+  Server_add_check_item_result(const Server_add_check_item_result&) noexcept;
+  Server_add_check_item_result& operator=(const Server_add_check_item_result&) noexcept;
+  Server_add_check_item_result() noexcept
+                               : success(0) {
+  }
+
+  virtual ~Server_add_check_item_result() noexcept;
+  bool success;
+
+  _Server_add_check_item_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const Server_add_check_item_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_add_check_item_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_add_check_item_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_add_check_item_presult__isset {
+  _Server_add_check_item_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_add_check_item_presult__isset;
+
+class Server_add_check_item_presult {
+ public:
+
+
+  virtual ~Server_add_check_item_presult() noexcept;
+  bool* success;
+
+  _Server_add_check_item_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_add_radio_item_args__isset {
+  _Server_add_radio_item_args__isset() : self(false), command_id(false), label(false), group_id(false) {}
+  bool self :1;
+  bool command_id :1;
+  bool label :1;
+  bool group_id :1;
+} _Server_add_radio_item_args__isset;
+
+class Server_add_radio_item_args {
+ public:
+
+  Server_add_radio_item_args(const Server_add_radio_item_args&);
+  Server_add_radio_item_args& operator=(const Server_add_radio_item_args&);
+  Server_add_radio_item_args() noexcept
+                             : command_id(0),
+                               label(),
+                               group_id(0) {
+  }
+
+  virtual ~Server_add_radio_item_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t command_id;
+  std::string label;
+  int32_t group_id;
+
+  _Server_add_radio_item_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_command_id(const int32_t val);
+
+  void __set_label(const std::string& val);
+
+  void __set_group_id(const int32_t val);
+
+  bool operator == (const Server_add_radio_item_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(command_id == rhs.command_id))
+      return false;
+    if (!(label == rhs.label))
+      return false;
+    if (!(group_id == rhs.group_id))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_add_radio_item_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_add_radio_item_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_add_radio_item_pargs {
+ public:
+
+
+  virtual ~Server_add_radio_item_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* command_id;
+  const std::string* label;
+  const int32_t* group_id;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_add_radio_item_result__isset {
+  _Server_add_radio_item_result__isset() : success(false) {}
+  bool success :1;
+} _Server_add_radio_item_result__isset;
+
+class Server_add_radio_item_result {
+ public:
+
+  Server_add_radio_item_result(const Server_add_radio_item_result&) noexcept;
+  Server_add_radio_item_result& operator=(const Server_add_radio_item_result&) noexcept;
+  Server_add_radio_item_result() noexcept
+                               : success(0) {
+  }
+
+  virtual ~Server_add_radio_item_result() noexcept;
+  bool success;
+
+  _Server_add_radio_item_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const Server_add_radio_item_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_add_radio_item_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_add_radio_item_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_add_radio_item_presult__isset {
+  _Server_add_radio_item_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_add_radio_item_presult__isset;
+
+class Server_add_radio_item_presult {
+ public:
+
+
+  virtual ~Server_add_radio_item_presult() noexcept;
+  bool* success;
+
+  _Server_add_radio_item_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_add_sub_menu_args__isset {
+  _Server_add_sub_menu_args__isset() : self(false), command_id(false), label(false) {}
+  bool self :1;
+  bool command_id :1;
+  bool label :1;
+} _Server_add_sub_menu_args__isset;
+
+class Server_add_sub_menu_args {
+ public:
+
+  Server_add_sub_menu_args(const Server_add_sub_menu_args&);
+  Server_add_sub_menu_args& operator=(const Server_add_sub_menu_args&);
+  Server_add_sub_menu_args() noexcept
+                           : command_id(0),
+                             label() {
+  }
+
+  virtual ~Server_add_sub_menu_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t command_id;
+  std::string label;
+
+  _Server_add_sub_menu_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_command_id(const int32_t val);
+
+  void __set_label(const std::string& val);
+
+  bool operator == (const Server_add_sub_menu_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(command_id == rhs.command_id))
+      return false;
+    if (!(label == rhs.label))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_add_sub_menu_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_add_sub_menu_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_add_sub_menu_pargs {
+ public:
+
+
+  virtual ~Server_add_sub_menu_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* command_id;
+  const std::string* label;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_add_sub_menu_result__isset {
+  _Server_add_sub_menu_result__isset() : success(false) {}
+  bool success :1;
+} _Server_add_sub_menu_result__isset;
+
+class Server_add_sub_menu_result {
+ public:
+
+  Server_add_sub_menu_result(const Server_add_sub_menu_result&);
+  Server_add_sub_menu_result& operator=(const Server_add_sub_menu_result&);
+  Server_add_sub_menu_result() noexcept {
+  }
+
+  virtual ~Server_add_sub_menu_result() noexcept;
+   ::thrift_codegen::RObject success;
+
+  _Server_add_sub_menu_result__isset __isset;
+
+  void __set_success(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_add_sub_menu_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_add_sub_menu_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_add_sub_menu_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_add_sub_menu_presult__isset {
+  _Server_add_sub_menu_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_add_sub_menu_presult__isset;
+
+class Server_add_sub_menu_presult {
+ public:
+
+
+  virtual ~Server_add_sub_menu_presult() noexcept;
+   ::thrift_codegen::RObject* success;
+
+  _Server_add_sub_menu_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_insert_separator_at_args__isset {
+  _Server_insert_separator_at_args__isset() : self(false), index(false) {}
+  bool self :1;
+  bool index :1;
+} _Server_insert_separator_at_args__isset;
+
+class Server_insert_separator_at_args {
+ public:
+
+  Server_insert_separator_at_args(const Server_insert_separator_at_args&);
+  Server_insert_separator_at_args& operator=(const Server_insert_separator_at_args&);
+  Server_insert_separator_at_args() noexcept
+                                  : index(0) {
+  }
+
+  virtual ~Server_insert_separator_at_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t index;
+
+  _Server_insert_separator_at_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_index(const int32_t val);
+
+  bool operator == (const Server_insert_separator_at_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(index == rhs.index))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_insert_separator_at_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_insert_separator_at_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_insert_separator_at_pargs {
+ public:
+
+
+  virtual ~Server_insert_separator_at_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* index;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_insert_separator_at_result__isset {
+  _Server_insert_separator_at_result__isset() : success(false) {}
+  bool success :1;
+} _Server_insert_separator_at_result__isset;
+
+class Server_insert_separator_at_result {
+ public:
+
+  Server_insert_separator_at_result(const Server_insert_separator_at_result&) noexcept;
+  Server_insert_separator_at_result& operator=(const Server_insert_separator_at_result&) noexcept;
+  Server_insert_separator_at_result() noexcept
+                                    : success(0) {
+  }
+
+  virtual ~Server_insert_separator_at_result() noexcept;
+  bool success;
+
+  _Server_insert_separator_at_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const Server_insert_separator_at_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_insert_separator_at_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_insert_separator_at_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_insert_separator_at_presult__isset {
+  _Server_insert_separator_at_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_insert_separator_at_presult__isset;
+
+class Server_insert_separator_at_presult {
+ public:
+
+
+  virtual ~Server_insert_separator_at_presult() noexcept;
+  bool* success;
+
+  _Server_insert_separator_at_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_insert_item_at_args__isset {
+  _Server_insert_item_at_args__isset() : self(false), index(false), command_id(false), label(false) {}
+  bool self :1;
+  bool index :1;
+  bool command_id :1;
+  bool label :1;
+} _Server_insert_item_at_args__isset;
+
+class Server_insert_item_at_args {
+ public:
+
+  Server_insert_item_at_args(const Server_insert_item_at_args&);
+  Server_insert_item_at_args& operator=(const Server_insert_item_at_args&);
+  Server_insert_item_at_args() noexcept
+                             : index(0),
+                               command_id(0),
+                               label() {
+  }
+
+  virtual ~Server_insert_item_at_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t index;
+  int32_t command_id;
+  std::string label;
+
+  _Server_insert_item_at_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_index(const int32_t val);
+
+  void __set_command_id(const int32_t val);
+
+  void __set_label(const std::string& val);
+
+  bool operator == (const Server_insert_item_at_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(index == rhs.index))
+      return false;
+    if (!(command_id == rhs.command_id))
+      return false;
+    if (!(label == rhs.label))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_insert_item_at_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_insert_item_at_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_insert_item_at_pargs {
+ public:
+
+
+  virtual ~Server_insert_item_at_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* index;
+  const int32_t* command_id;
+  const std::string* label;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_insert_item_at_result__isset {
+  _Server_insert_item_at_result__isset() : success(false) {}
+  bool success :1;
+} _Server_insert_item_at_result__isset;
+
+class Server_insert_item_at_result {
+ public:
+
+  Server_insert_item_at_result(const Server_insert_item_at_result&) noexcept;
+  Server_insert_item_at_result& operator=(const Server_insert_item_at_result&) noexcept;
+  Server_insert_item_at_result() noexcept
+                               : success(0) {
+  }
+
+  virtual ~Server_insert_item_at_result() noexcept;
+  bool success;
+
+  _Server_insert_item_at_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const Server_insert_item_at_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_insert_item_at_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_insert_item_at_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_insert_item_at_presult__isset {
+  _Server_insert_item_at_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_insert_item_at_presult__isset;
+
+class Server_insert_item_at_presult {
+ public:
+
+
+  virtual ~Server_insert_item_at_presult() noexcept;
+  bool* success;
+
+  _Server_insert_item_at_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_insert_check_item_at_args__isset {
+  _Server_insert_check_item_at_args__isset() : self(false), index(false), command_id(false), label(false) {}
+  bool self :1;
+  bool index :1;
+  bool command_id :1;
+  bool label :1;
+} _Server_insert_check_item_at_args__isset;
+
+class Server_insert_check_item_at_args {
+ public:
+
+  Server_insert_check_item_at_args(const Server_insert_check_item_at_args&);
+  Server_insert_check_item_at_args& operator=(const Server_insert_check_item_at_args&);
+  Server_insert_check_item_at_args() noexcept
+                                   : index(0),
+                                     command_id(0),
+                                     label() {
+  }
+
+  virtual ~Server_insert_check_item_at_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t index;
+  int32_t command_id;
+  std::string label;
+
+  _Server_insert_check_item_at_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_index(const int32_t val);
+
+  void __set_command_id(const int32_t val);
+
+  void __set_label(const std::string& val);
+
+  bool operator == (const Server_insert_check_item_at_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(index == rhs.index))
+      return false;
+    if (!(command_id == rhs.command_id))
+      return false;
+    if (!(label == rhs.label))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_insert_check_item_at_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_insert_check_item_at_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_insert_check_item_at_pargs {
+ public:
+
+
+  virtual ~Server_insert_check_item_at_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* index;
+  const int32_t* command_id;
+  const std::string* label;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_insert_check_item_at_result__isset {
+  _Server_insert_check_item_at_result__isset() : success(false) {}
+  bool success :1;
+} _Server_insert_check_item_at_result__isset;
+
+class Server_insert_check_item_at_result {
+ public:
+
+  Server_insert_check_item_at_result(const Server_insert_check_item_at_result&) noexcept;
+  Server_insert_check_item_at_result& operator=(const Server_insert_check_item_at_result&) noexcept;
+  Server_insert_check_item_at_result() noexcept
+                                     : success(0) {
+  }
+
+  virtual ~Server_insert_check_item_at_result() noexcept;
+  bool success;
+
+  _Server_insert_check_item_at_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const Server_insert_check_item_at_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_insert_check_item_at_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_insert_check_item_at_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_insert_check_item_at_presult__isset {
+  _Server_insert_check_item_at_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_insert_check_item_at_presult__isset;
+
+class Server_insert_check_item_at_presult {
+ public:
+
+
+  virtual ~Server_insert_check_item_at_presult() noexcept;
+  bool* success;
+
+  _Server_insert_check_item_at_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_insert_radio_item_at_args__isset {
+  _Server_insert_radio_item_at_args__isset() : self(false), index(false), command_id(false), label(false), group_id(false) {}
+  bool self :1;
+  bool index :1;
+  bool command_id :1;
+  bool label :1;
+  bool group_id :1;
+} _Server_insert_radio_item_at_args__isset;
+
+class Server_insert_radio_item_at_args {
+ public:
+
+  Server_insert_radio_item_at_args(const Server_insert_radio_item_at_args&);
+  Server_insert_radio_item_at_args& operator=(const Server_insert_radio_item_at_args&);
+  Server_insert_radio_item_at_args() noexcept
+                                   : index(0),
+                                     command_id(0),
+                                     label(),
+                                     group_id(0) {
+  }
+
+  virtual ~Server_insert_radio_item_at_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t index;
+  int32_t command_id;
+  std::string label;
+  int32_t group_id;
+
+  _Server_insert_radio_item_at_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_index(const int32_t val);
+
+  void __set_command_id(const int32_t val);
+
+  void __set_label(const std::string& val);
+
+  void __set_group_id(const int32_t val);
+
+  bool operator == (const Server_insert_radio_item_at_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(index == rhs.index))
+      return false;
+    if (!(command_id == rhs.command_id))
+      return false;
+    if (!(label == rhs.label))
+      return false;
+    if (!(group_id == rhs.group_id))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_insert_radio_item_at_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_insert_radio_item_at_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_insert_radio_item_at_pargs {
+ public:
+
+
+  virtual ~Server_insert_radio_item_at_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* index;
+  const int32_t* command_id;
+  const std::string* label;
+  const int32_t* group_id;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_insert_radio_item_at_result__isset {
+  _Server_insert_radio_item_at_result__isset() : success(false) {}
+  bool success :1;
+} _Server_insert_radio_item_at_result__isset;
+
+class Server_insert_radio_item_at_result {
+ public:
+
+  Server_insert_radio_item_at_result(const Server_insert_radio_item_at_result&) noexcept;
+  Server_insert_radio_item_at_result& operator=(const Server_insert_radio_item_at_result&) noexcept;
+  Server_insert_radio_item_at_result() noexcept
+                                     : success(0) {
+  }
+
+  virtual ~Server_insert_radio_item_at_result() noexcept;
+  bool success;
+
+  _Server_insert_radio_item_at_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const Server_insert_radio_item_at_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_insert_radio_item_at_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_insert_radio_item_at_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_insert_radio_item_at_presult__isset {
+  _Server_insert_radio_item_at_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_insert_radio_item_at_presult__isset;
+
+class Server_insert_radio_item_at_presult {
+ public:
+
+
+  virtual ~Server_insert_radio_item_at_presult() noexcept;
+  bool* success;
+
+  _Server_insert_radio_item_at_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_insert_sub_menu_at_args__isset {
+  _Server_insert_sub_menu_at_args__isset() : self(false), index(false), command_id(false), label(false) {}
+  bool self :1;
+  bool index :1;
+  bool command_id :1;
+  bool label :1;
+} _Server_insert_sub_menu_at_args__isset;
+
+class Server_insert_sub_menu_at_args {
+ public:
+
+  Server_insert_sub_menu_at_args(const Server_insert_sub_menu_at_args&);
+  Server_insert_sub_menu_at_args& operator=(const Server_insert_sub_menu_at_args&);
+  Server_insert_sub_menu_at_args() noexcept
+                                 : index(0),
+                                   command_id(0),
+                                   label() {
+  }
+
+  virtual ~Server_insert_sub_menu_at_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t index;
+  int32_t command_id;
+  std::string label;
+
+  _Server_insert_sub_menu_at_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_index(const int32_t val);
+
+  void __set_command_id(const int32_t val);
+
+  void __set_label(const std::string& val);
+
+  bool operator == (const Server_insert_sub_menu_at_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(index == rhs.index))
+      return false;
+    if (!(command_id == rhs.command_id))
+      return false;
+    if (!(label == rhs.label))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_insert_sub_menu_at_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_insert_sub_menu_at_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_insert_sub_menu_at_pargs {
+ public:
+
+
+  virtual ~Server_insert_sub_menu_at_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* index;
+  const int32_t* command_id;
+  const std::string* label;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_insert_sub_menu_at_result__isset {
+  _Server_insert_sub_menu_at_result__isset() : success(false) {}
+  bool success :1;
+} _Server_insert_sub_menu_at_result__isset;
+
+class Server_insert_sub_menu_at_result {
+ public:
+
+  Server_insert_sub_menu_at_result(const Server_insert_sub_menu_at_result&);
+  Server_insert_sub_menu_at_result& operator=(const Server_insert_sub_menu_at_result&);
+  Server_insert_sub_menu_at_result() noexcept {
+  }
+
+  virtual ~Server_insert_sub_menu_at_result() noexcept;
+   ::thrift_codegen::RObject success;
+
+  _Server_insert_sub_menu_at_result__isset __isset;
+
+  void __set_success(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_insert_sub_menu_at_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_insert_sub_menu_at_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_insert_sub_menu_at_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_insert_sub_menu_at_presult__isset {
+  _Server_insert_sub_menu_at_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_insert_sub_menu_at_presult__isset;
+
+class Server_insert_sub_menu_at_presult {
+ public:
+
+
+  virtual ~Server_insert_sub_menu_at_presult() noexcept;
+   ::thrift_codegen::RObject* success;
+
+  _Server_insert_sub_menu_at_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_remove_args__isset {
+  _Server_remove_args__isset() : self(false), command_id(false) {}
+  bool self :1;
+  bool command_id :1;
+} _Server_remove_args__isset;
+
+class Server_remove_args {
+ public:
+
+  Server_remove_args(const Server_remove_args&);
+  Server_remove_args& operator=(const Server_remove_args&);
+  Server_remove_args() noexcept
+                     : command_id(0) {
+  }
+
+  virtual ~Server_remove_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t command_id;
+
+  _Server_remove_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_command_id(const int32_t val);
+
+  bool operator == (const Server_remove_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(command_id == rhs.command_id))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_remove_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_remove_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_remove_pargs {
+ public:
+
+
+  virtual ~Server_remove_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* command_id;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_remove_result__isset {
+  _Server_remove_result__isset() : success(false) {}
+  bool success :1;
+} _Server_remove_result__isset;
+
+class Server_remove_result {
+ public:
+
+  Server_remove_result(const Server_remove_result&) noexcept;
+  Server_remove_result& operator=(const Server_remove_result&) noexcept;
+  Server_remove_result() noexcept
+                       : success(0) {
+  }
+
+  virtual ~Server_remove_result() noexcept;
+  bool success;
+
+  _Server_remove_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const Server_remove_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_remove_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_remove_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_remove_presult__isset {
+  _Server_remove_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_remove_presult__isset;
+
+class Server_remove_presult {
+ public:
+
+
+  virtual ~Server_remove_presult() noexcept;
+  bool* success;
+
+  _Server_remove_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_remove_at_args__isset {
+  _Server_remove_at_args__isset() : self(false), index(false) {}
+  bool self :1;
+  bool index :1;
+} _Server_remove_at_args__isset;
+
+class Server_remove_at_args {
+ public:
+
+  Server_remove_at_args(const Server_remove_at_args&);
+  Server_remove_at_args& operator=(const Server_remove_at_args&);
+  Server_remove_at_args() noexcept
+                        : index(0) {
+  }
+
+  virtual ~Server_remove_at_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t index;
+
+  _Server_remove_at_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_index(const int32_t val);
+
+  bool operator == (const Server_remove_at_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(index == rhs.index))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_remove_at_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_remove_at_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_remove_at_pargs {
+ public:
+
+
+  virtual ~Server_remove_at_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* index;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_remove_at_result__isset {
+  _Server_remove_at_result__isset() : success(false) {}
+  bool success :1;
+} _Server_remove_at_result__isset;
+
+class Server_remove_at_result {
+ public:
+
+  Server_remove_at_result(const Server_remove_at_result&) noexcept;
+  Server_remove_at_result& operator=(const Server_remove_at_result&) noexcept;
+  Server_remove_at_result() noexcept
+                          : success(0) {
+  }
+
+  virtual ~Server_remove_at_result() noexcept;
+  bool success;
+
+  _Server_remove_at_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const Server_remove_at_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_remove_at_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_remove_at_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_remove_at_presult__isset {
+  _Server_remove_at_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_remove_at_presult__isset;
+
+class Server_remove_at_presult {
+ public:
+
+
+  virtual ~Server_remove_at_presult() noexcept;
+  bool* success;
+
+  _Server_remove_at_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_get_index_of_args__isset {
+  _Server_get_index_of_args__isset() : self(false), command_id(false) {}
+  bool self :1;
+  bool command_id :1;
+} _Server_get_index_of_args__isset;
+
+class Server_get_index_of_args {
+ public:
+
+  Server_get_index_of_args(const Server_get_index_of_args&);
+  Server_get_index_of_args& operator=(const Server_get_index_of_args&);
+  Server_get_index_of_args() noexcept
+                           : command_id(0) {
+  }
+
+  virtual ~Server_get_index_of_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t command_id;
+
+  _Server_get_index_of_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_command_id(const int32_t val);
+
+  bool operator == (const Server_get_index_of_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(command_id == rhs.command_id))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_get_index_of_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_get_index_of_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_get_index_of_pargs {
+ public:
+
+
+  virtual ~Server_get_index_of_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* command_id;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_get_index_of_result__isset {
+  _Server_get_index_of_result__isset() : success(false) {}
+  bool success :1;
+} _Server_get_index_of_result__isset;
+
+class Server_get_index_of_result {
+ public:
+
+  Server_get_index_of_result(const Server_get_index_of_result&) noexcept;
+  Server_get_index_of_result& operator=(const Server_get_index_of_result&) noexcept;
+  Server_get_index_of_result() noexcept
+                             : success(0) {
+  }
+
+  virtual ~Server_get_index_of_result() noexcept;
+  int32_t success;
+
+  _Server_get_index_of_result__isset __isset;
+
+  void __set_success(const int32_t val);
+
+  bool operator == (const Server_get_index_of_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_get_index_of_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_get_index_of_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_get_index_of_presult__isset {
+  _Server_get_index_of_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_get_index_of_presult__isset;
+
+class Server_get_index_of_presult {
+ public:
+
+
+  virtual ~Server_get_index_of_presult() noexcept;
+  int32_t* success;
+
+  _Server_get_index_of_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_get_command_id_at_args__isset {
+  _Server_get_command_id_at_args__isset() : self(false), index(false) {}
+  bool self :1;
+  bool index :1;
+} _Server_get_command_id_at_args__isset;
+
+class Server_get_command_id_at_args {
+ public:
+
+  Server_get_command_id_at_args(const Server_get_command_id_at_args&);
+  Server_get_command_id_at_args& operator=(const Server_get_command_id_at_args&);
+  Server_get_command_id_at_args() noexcept
+                                : index(0) {
+  }
+
+  virtual ~Server_get_command_id_at_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t index;
+
+  _Server_get_command_id_at_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_index(const int32_t val);
+
+  bool operator == (const Server_get_command_id_at_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(index == rhs.index))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_get_command_id_at_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_get_command_id_at_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_get_command_id_at_pargs {
+ public:
+
+
+  virtual ~Server_get_command_id_at_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* index;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_get_command_id_at_result__isset {
+  _Server_get_command_id_at_result__isset() : success(false) {}
+  bool success :1;
+} _Server_get_command_id_at_result__isset;
+
+class Server_get_command_id_at_result {
+ public:
+
+  Server_get_command_id_at_result(const Server_get_command_id_at_result&) noexcept;
+  Server_get_command_id_at_result& operator=(const Server_get_command_id_at_result&) noexcept;
+  Server_get_command_id_at_result() noexcept
+                                  : success(0) {
+  }
+
+  virtual ~Server_get_command_id_at_result() noexcept;
+  int32_t success;
+
+  _Server_get_command_id_at_result__isset __isset;
+
+  void __set_success(const int32_t val);
+
+  bool operator == (const Server_get_command_id_at_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_get_command_id_at_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_get_command_id_at_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_get_command_id_at_presult__isset {
+  _Server_get_command_id_at_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_get_command_id_at_presult__isset;
+
+class Server_get_command_id_at_presult {
+ public:
+
+
+  virtual ~Server_get_command_id_at_presult() noexcept;
+  int32_t* success;
+
+  _Server_get_command_id_at_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_set_command_id_at_args__isset {
+  _Server_set_command_id_at_args__isset() : self(false), index(false), command_id(false) {}
+  bool self :1;
+  bool index :1;
+  bool command_id :1;
+} _Server_set_command_id_at_args__isset;
+
+class Server_set_command_id_at_args {
+ public:
+
+  Server_set_command_id_at_args(const Server_set_command_id_at_args&);
+  Server_set_command_id_at_args& operator=(const Server_set_command_id_at_args&);
+  Server_set_command_id_at_args() noexcept
+                                : index(0),
+                                  command_id(0) {
+  }
+
+  virtual ~Server_set_command_id_at_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t index;
+  int32_t command_id;
+
+  _Server_set_command_id_at_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_index(const int32_t val);
+
+  void __set_command_id(const int32_t val);
+
+  bool operator == (const Server_set_command_id_at_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(index == rhs.index))
+      return false;
+    if (!(command_id == rhs.command_id))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_set_command_id_at_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_set_command_id_at_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_set_command_id_at_pargs {
+ public:
+
+
+  virtual ~Server_set_command_id_at_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* index;
+  const int32_t* command_id;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_set_command_id_at_result__isset {
+  _Server_set_command_id_at_result__isset() : success(false) {}
+  bool success :1;
+} _Server_set_command_id_at_result__isset;
+
+class Server_set_command_id_at_result {
+ public:
+
+  Server_set_command_id_at_result(const Server_set_command_id_at_result&) noexcept;
+  Server_set_command_id_at_result& operator=(const Server_set_command_id_at_result&) noexcept;
+  Server_set_command_id_at_result() noexcept
+                                  : success(0) {
+  }
+
+  virtual ~Server_set_command_id_at_result() noexcept;
+  bool success;
+
+  _Server_set_command_id_at_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const Server_set_command_id_at_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_set_command_id_at_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_set_command_id_at_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_set_command_id_at_presult__isset {
+  _Server_set_command_id_at_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_set_command_id_at_presult__isset;
+
+class Server_set_command_id_at_presult {
+ public:
+
+
+  virtual ~Server_set_command_id_at_presult() noexcept;
+  bool* success;
+
+  _Server_set_command_id_at_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_get_label_args__isset {
+  _Server_get_label_args__isset() : self(false), command_id(false) {}
+  bool self :1;
+  bool command_id :1;
+} _Server_get_label_args__isset;
+
+class Server_get_label_args {
+ public:
+
+  Server_get_label_args(const Server_get_label_args&);
+  Server_get_label_args& operator=(const Server_get_label_args&);
+  Server_get_label_args() noexcept
+                        : command_id(0) {
+  }
+
+  virtual ~Server_get_label_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t command_id;
+
+  _Server_get_label_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_command_id(const int32_t val);
+
+  bool operator == (const Server_get_label_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(command_id == rhs.command_id))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_get_label_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_get_label_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_get_label_pargs {
+ public:
+
+
+  virtual ~Server_get_label_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* command_id;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_get_label_result__isset {
+  _Server_get_label_result__isset() : success(false) {}
+  bool success :1;
+} _Server_get_label_result__isset;
+
+class Server_get_label_result {
+ public:
+
+  Server_get_label_result(const Server_get_label_result&);
+  Server_get_label_result& operator=(const Server_get_label_result&);
+  Server_get_label_result() noexcept
+                          : success() {
+  }
+
+  virtual ~Server_get_label_result() noexcept;
+  std::string success;
+
+  _Server_get_label_result__isset __isset;
+
+  void __set_success(const std::string& val);
+
+  bool operator == (const Server_get_label_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_get_label_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_get_label_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_get_label_presult__isset {
+  _Server_get_label_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_get_label_presult__isset;
+
+class Server_get_label_presult {
+ public:
+
+
+  virtual ~Server_get_label_presult() noexcept;
+  std::string* success;
+
+  _Server_get_label_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_get_label_at_args__isset {
+  _Server_get_label_at_args__isset() : self(false), index(false) {}
+  bool self :1;
+  bool index :1;
+} _Server_get_label_at_args__isset;
+
+class Server_get_label_at_args {
+ public:
+
+  Server_get_label_at_args(const Server_get_label_at_args&);
+  Server_get_label_at_args& operator=(const Server_get_label_at_args&);
+  Server_get_label_at_args() noexcept
+                           : index(0) {
+  }
+
+  virtual ~Server_get_label_at_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t index;
+
+  _Server_get_label_at_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_index(const int32_t val);
+
+  bool operator == (const Server_get_label_at_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(index == rhs.index))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_get_label_at_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_get_label_at_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_get_label_at_pargs {
+ public:
+
+
+  virtual ~Server_get_label_at_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* index;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_get_label_at_result__isset {
+  _Server_get_label_at_result__isset() : success(false) {}
+  bool success :1;
+} _Server_get_label_at_result__isset;
+
+class Server_get_label_at_result {
+ public:
+
+  Server_get_label_at_result(const Server_get_label_at_result&);
+  Server_get_label_at_result& operator=(const Server_get_label_at_result&);
+  Server_get_label_at_result() noexcept
+                             : success() {
+  }
+
+  virtual ~Server_get_label_at_result() noexcept;
+  std::string success;
+
+  _Server_get_label_at_result__isset __isset;
+
+  void __set_success(const std::string& val);
+
+  bool operator == (const Server_get_label_at_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_get_label_at_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_get_label_at_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_get_label_at_presult__isset {
+  _Server_get_label_at_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_get_label_at_presult__isset;
+
+class Server_get_label_at_presult {
+ public:
+
+
+  virtual ~Server_get_label_at_presult() noexcept;
+  std::string* success;
+
+  _Server_get_label_at_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_set_label_args__isset {
+  _Server_set_label_args__isset() : self(false), command_id(false), label(false) {}
+  bool self :1;
+  bool command_id :1;
+  bool label :1;
+} _Server_set_label_args__isset;
+
+class Server_set_label_args {
+ public:
+
+  Server_set_label_args(const Server_set_label_args&);
+  Server_set_label_args& operator=(const Server_set_label_args&);
+  Server_set_label_args() noexcept
+                        : command_id(0),
+                          label() {
+  }
+
+  virtual ~Server_set_label_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t command_id;
+  std::string label;
+
+  _Server_set_label_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_command_id(const int32_t val);
+
+  void __set_label(const std::string& val);
+
+  bool operator == (const Server_set_label_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(command_id == rhs.command_id))
+      return false;
+    if (!(label == rhs.label))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_set_label_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_set_label_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_set_label_pargs {
+ public:
+
+
+  virtual ~Server_set_label_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* command_id;
+  const std::string* label;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_set_label_result__isset {
+  _Server_set_label_result__isset() : success(false) {}
+  bool success :1;
+} _Server_set_label_result__isset;
+
+class Server_set_label_result {
+ public:
+
+  Server_set_label_result(const Server_set_label_result&) noexcept;
+  Server_set_label_result& operator=(const Server_set_label_result&) noexcept;
+  Server_set_label_result() noexcept
+                          : success(0) {
+  }
+
+  virtual ~Server_set_label_result() noexcept;
+  bool success;
+
+  _Server_set_label_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const Server_set_label_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_set_label_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_set_label_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_set_label_presult__isset {
+  _Server_set_label_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_set_label_presult__isset;
+
+class Server_set_label_presult {
+ public:
+
+
+  virtual ~Server_set_label_presult() noexcept;
+  bool* success;
+
+  _Server_set_label_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_set_label_at_args__isset {
+  _Server_set_label_at_args__isset() : self(false), index(false), label(false) {}
+  bool self :1;
+  bool index :1;
+  bool label :1;
+} _Server_set_label_at_args__isset;
+
+class Server_set_label_at_args {
+ public:
+
+  Server_set_label_at_args(const Server_set_label_at_args&);
+  Server_set_label_at_args& operator=(const Server_set_label_at_args&);
+  Server_set_label_at_args() noexcept
+                           : index(0),
+                             label() {
+  }
+
+  virtual ~Server_set_label_at_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t index;
+  std::string label;
+
+  _Server_set_label_at_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_index(const int32_t val);
+
+  void __set_label(const std::string& val);
+
+  bool operator == (const Server_set_label_at_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(index == rhs.index))
+      return false;
+    if (!(label == rhs.label))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_set_label_at_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_set_label_at_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_set_label_at_pargs {
+ public:
+
+
+  virtual ~Server_set_label_at_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* index;
+  const std::string* label;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_set_label_at_result__isset {
+  _Server_set_label_at_result__isset() : success(false) {}
+  bool success :1;
+} _Server_set_label_at_result__isset;
+
+class Server_set_label_at_result {
+ public:
+
+  Server_set_label_at_result(const Server_set_label_at_result&) noexcept;
+  Server_set_label_at_result& operator=(const Server_set_label_at_result&) noexcept;
+  Server_set_label_at_result() noexcept
+                             : success(0) {
+  }
+
+  virtual ~Server_set_label_at_result() noexcept;
+  bool success;
+
+  _Server_set_label_at_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const Server_set_label_at_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_set_label_at_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_set_label_at_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_set_label_at_presult__isset {
+  _Server_set_label_at_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_set_label_at_presult__isset;
+
+class Server_set_label_at_presult {
+ public:
+
+
+  virtual ~Server_set_label_at_presult() noexcept;
+  bool* success;
+
+  _Server_set_label_at_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_get_type_args__isset {
+  _Server_get_type_args__isset() : self(false), command_id(false) {}
+  bool self :1;
+  bool command_id :1;
+} _Server_get_type_args__isset;
+
+class Server_get_type_args {
+ public:
+
+  Server_get_type_args(const Server_get_type_args&);
+  Server_get_type_args& operator=(const Server_get_type_args&);
+  Server_get_type_args() noexcept
+                       : command_id(0) {
+  }
+
+  virtual ~Server_get_type_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t command_id;
+
+  _Server_get_type_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_command_id(const int32_t val);
+
+  bool operator == (const Server_get_type_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(command_id == rhs.command_id))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_get_type_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_get_type_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_get_type_pargs {
+ public:
+
+
+  virtual ~Server_get_type_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* command_id;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_get_type_result__isset {
+  _Server_get_type_result__isset() : success(false) {}
+  bool success :1;
+} _Server_get_type_result__isset;
+
+class Server_get_type_result {
+ public:
+
+  Server_get_type_result(const Server_get_type_result&) noexcept;
+  Server_get_type_result& operator=(const Server_get_type_result&) noexcept;
+  Server_get_type_result() noexcept
+                         : success(0) {
+  }
+
+  virtual ~Server_get_type_result() noexcept;
+  int32_t success;
+
+  _Server_get_type_result__isset __isset;
+
+  void __set_success(const int32_t val);
+
+  bool operator == (const Server_get_type_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_get_type_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_get_type_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_get_type_presult__isset {
+  _Server_get_type_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_get_type_presult__isset;
+
+class Server_get_type_presult {
+ public:
+
+
+  virtual ~Server_get_type_presult() noexcept;
+  int32_t* success;
+
+  _Server_get_type_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_get_type_at_args__isset {
+  _Server_get_type_at_args__isset() : self(false), index(false) {}
+  bool self :1;
+  bool index :1;
+} _Server_get_type_at_args__isset;
+
+class Server_get_type_at_args {
+ public:
+
+  Server_get_type_at_args(const Server_get_type_at_args&);
+  Server_get_type_at_args& operator=(const Server_get_type_at_args&);
+  Server_get_type_at_args() noexcept
+                          : index(0) {
+  }
+
+  virtual ~Server_get_type_at_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t index;
+
+  _Server_get_type_at_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_index(const int32_t val);
+
+  bool operator == (const Server_get_type_at_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(index == rhs.index))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_get_type_at_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_get_type_at_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_get_type_at_pargs {
+ public:
+
+
+  virtual ~Server_get_type_at_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* index;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_get_type_at_result__isset {
+  _Server_get_type_at_result__isset() : success(false) {}
+  bool success :1;
+} _Server_get_type_at_result__isset;
+
+class Server_get_type_at_result {
+ public:
+
+  Server_get_type_at_result(const Server_get_type_at_result&) noexcept;
+  Server_get_type_at_result& operator=(const Server_get_type_at_result&) noexcept;
+  Server_get_type_at_result() noexcept
+                            : success(0) {
+  }
+
+  virtual ~Server_get_type_at_result() noexcept;
+  int32_t success;
+
+  _Server_get_type_at_result__isset __isset;
+
+  void __set_success(const int32_t val);
+
+  bool operator == (const Server_get_type_at_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_get_type_at_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_get_type_at_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_get_type_at_presult__isset {
+  _Server_get_type_at_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_get_type_at_presult__isset;
+
+class Server_get_type_at_presult {
+ public:
+
+
+  virtual ~Server_get_type_at_presult() noexcept;
+  int32_t* success;
+
+  _Server_get_type_at_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_get_group_id_args__isset {
+  _Server_get_group_id_args__isset() : self(false), command_id(false) {}
+  bool self :1;
+  bool command_id :1;
+} _Server_get_group_id_args__isset;
+
+class Server_get_group_id_args {
+ public:
+
+  Server_get_group_id_args(const Server_get_group_id_args&);
+  Server_get_group_id_args& operator=(const Server_get_group_id_args&);
+  Server_get_group_id_args() noexcept
+                           : command_id(0) {
+  }
+
+  virtual ~Server_get_group_id_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t command_id;
+
+  _Server_get_group_id_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_command_id(const int32_t val);
+
+  bool operator == (const Server_get_group_id_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(command_id == rhs.command_id))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_get_group_id_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_get_group_id_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_get_group_id_pargs {
+ public:
+
+
+  virtual ~Server_get_group_id_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* command_id;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_get_group_id_result__isset {
+  _Server_get_group_id_result__isset() : success(false) {}
+  bool success :1;
+} _Server_get_group_id_result__isset;
+
+class Server_get_group_id_result {
+ public:
+
+  Server_get_group_id_result(const Server_get_group_id_result&) noexcept;
+  Server_get_group_id_result& operator=(const Server_get_group_id_result&) noexcept;
+  Server_get_group_id_result() noexcept
+                             : success(0) {
+  }
+
+  virtual ~Server_get_group_id_result() noexcept;
+  int32_t success;
+
+  _Server_get_group_id_result__isset __isset;
+
+  void __set_success(const int32_t val);
+
+  bool operator == (const Server_get_group_id_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_get_group_id_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_get_group_id_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_get_group_id_presult__isset {
+  _Server_get_group_id_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_get_group_id_presult__isset;
+
+class Server_get_group_id_presult {
+ public:
+
+
+  virtual ~Server_get_group_id_presult() noexcept;
+  int32_t* success;
+
+  _Server_get_group_id_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_get_group_id_at_args__isset {
+  _Server_get_group_id_at_args__isset() : self(false), index(false) {}
+  bool self :1;
+  bool index :1;
+} _Server_get_group_id_at_args__isset;
+
+class Server_get_group_id_at_args {
+ public:
+
+  Server_get_group_id_at_args(const Server_get_group_id_at_args&);
+  Server_get_group_id_at_args& operator=(const Server_get_group_id_at_args&);
+  Server_get_group_id_at_args() noexcept
+                              : index(0) {
+  }
+
+  virtual ~Server_get_group_id_at_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t index;
+
+  _Server_get_group_id_at_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_index(const int32_t val);
+
+  bool operator == (const Server_get_group_id_at_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(index == rhs.index))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_get_group_id_at_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_get_group_id_at_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_get_group_id_at_pargs {
+ public:
+
+
+  virtual ~Server_get_group_id_at_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* index;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_get_group_id_at_result__isset {
+  _Server_get_group_id_at_result__isset() : success(false) {}
+  bool success :1;
+} _Server_get_group_id_at_result__isset;
+
+class Server_get_group_id_at_result {
+ public:
+
+  Server_get_group_id_at_result(const Server_get_group_id_at_result&) noexcept;
+  Server_get_group_id_at_result& operator=(const Server_get_group_id_at_result&) noexcept;
+  Server_get_group_id_at_result() noexcept
+                                : success(0) {
+  }
+
+  virtual ~Server_get_group_id_at_result() noexcept;
+  int32_t success;
+
+  _Server_get_group_id_at_result__isset __isset;
+
+  void __set_success(const int32_t val);
+
+  bool operator == (const Server_get_group_id_at_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_get_group_id_at_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_get_group_id_at_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_get_group_id_at_presult__isset {
+  _Server_get_group_id_at_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_get_group_id_at_presult__isset;
+
+class Server_get_group_id_at_presult {
+ public:
+
+
+  virtual ~Server_get_group_id_at_presult() noexcept;
+  int32_t* success;
+
+  _Server_get_group_id_at_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_set_group_id_args__isset {
+  _Server_set_group_id_args__isset() : self(false), command_id(false), group_id(false) {}
+  bool self :1;
+  bool command_id :1;
+  bool group_id :1;
+} _Server_set_group_id_args__isset;
+
+class Server_set_group_id_args {
+ public:
+
+  Server_set_group_id_args(const Server_set_group_id_args&);
+  Server_set_group_id_args& operator=(const Server_set_group_id_args&);
+  Server_set_group_id_args() noexcept
+                           : command_id(0),
+                             group_id(0) {
+  }
+
+  virtual ~Server_set_group_id_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t command_id;
+  int32_t group_id;
+
+  _Server_set_group_id_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_command_id(const int32_t val);
+
+  void __set_group_id(const int32_t val);
+
+  bool operator == (const Server_set_group_id_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(command_id == rhs.command_id))
+      return false;
+    if (!(group_id == rhs.group_id))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_set_group_id_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_set_group_id_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_set_group_id_pargs {
+ public:
+
+
+  virtual ~Server_set_group_id_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* command_id;
+  const int32_t* group_id;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_set_group_id_result__isset {
+  _Server_set_group_id_result__isset() : success(false) {}
+  bool success :1;
+} _Server_set_group_id_result__isset;
+
+class Server_set_group_id_result {
+ public:
+
+  Server_set_group_id_result(const Server_set_group_id_result&) noexcept;
+  Server_set_group_id_result& operator=(const Server_set_group_id_result&) noexcept;
+  Server_set_group_id_result() noexcept
+                             : success(0) {
+  }
+
+  virtual ~Server_set_group_id_result() noexcept;
+  bool success;
+
+  _Server_set_group_id_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const Server_set_group_id_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_set_group_id_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_set_group_id_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_set_group_id_presult__isset {
+  _Server_set_group_id_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_set_group_id_presult__isset;
+
+class Server_set_group_id_presult {
+ public:
+
+
+  virtual ~Server_set_group_id_presult() noexcept;
+  bool* success;
+
+  _Server_set_group_id_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_set_group_id_at_args__isset {
+  _Server_set_group_id_at_args__isset() : self(false), index(false), group_id(false) {}
+  bool self :1;
+  bool index :1;
+  bool group_id :1;
+} _Server_set_group_id_at_args__isset;
+
+class Server_set_group_id_at_args {
+ public:
+
+  Server_set_group_id_at_args(const Server_set_group_id_at_args&);
+  Server_set_group_id_at_args& operator=(const Server_set_group_id_at_args&);
+  Server_set_group_id_at_args() noexcept
+                              : index(0),
+                                group_id(0) {
+  }
+
+  virtual ~Server_set_group_id_at_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t index;
+  int32_t group_id;
+
+  _Server_set_group_id_at_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_index(const int32_t val);
+
+  void __set_group_id(const int32_t val);
+
+  bool operator == (const Server_set_group_id_at_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(index == rhs.index))
+      return false;
+    if (!(group_id == rhs.group_id))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_set_group_id_at_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_set_group_id_at_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_set_group_id_at_pargs {
+ public:
+
+
+  virtual ~Server_set_group_id_at_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* index;
+  const int32_t* group_id;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_set_group_id_at_result__isset {
+  _Server_set_group_id_at_result__isset() : success(false) {}
+  bool success :1;
+} _Server_set_group_id_at_result__isset;
+
+class Server_set_group_id_at_result {
+ public:
+
+  Server_set_group_id_at_result(const Server_set_group_id_at_result&) noexcept;
+  Server_set_group_id_at_result& operator=(const Server_set_group_id_at_result&) noexcept;
+  Server_set_group_id_at_result() noexcept
+                                : success(0) {
+  }
+
+  virtual ~Server_set_group_id_at_result() noexcept;
+  bool success;
+
+  _Server_set_group_id_at_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const Server_set_group_id_at_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_set_group_id_at_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_set_group_id_at_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_set_group_id_at_presult__isset {
+  _Server_set_group_id_at_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_set_group_id_at_presult__isset;
+
+class Server_set_group_id_at_presult {
+ public:
+
+
+  virtual ~Server_set_group_id_at_presult() noexcept;
+  bool* success;
+
+  _Server_set_group_id_at_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_get_sub_menu_args__isset {
+  _Server_get_sub_menu_args__isset() : self(false), command_id(false) {}
+  bool self :1;
+  bool command_id :1;
+} _Server_get_sub_menu_args__isset;
+
+class Server_get_sub_menu_args {
+ public:
+
+  Server_get_sub_menu_args(const Server_get_sub_menu_args&);
+  Server_get_sub_menu_args& operator=(const Server_get_sub_menu_args&);
+  Server_get_sub_menu_args() noexcept
+                           : command_id(0) {
+  }
+
+  virtual ~Server_get_sub_menu_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t command_id;
+
+  _Server_get_sub_menu_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_command_id(const int32_t val);
+
+  bool operator == (const Server_get_sub_menu_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(command_id == rhs.command_id))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_get_sub_menu_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_get_sub_menu_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_get_sub_menu_pargs {
+ public:
+
+
+  virtual ~Server_get_sub_menu_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* command_id;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_get_sub_menu_result__isset {
+  _Server_get_sub_menu_result__isset() : success(false) {}
+  bool success :1;
+} _Server_get_sub_menu_result__isset;
+
+class Server_get_sub_menu_result {
+ public:
+
+  Server_get_sub_menu_result(const Server_get_sub_menu_result&);
+  Server_get_sub_menu_result& operator=(const Server_get_sub_menu_result&);
+  Server_get_sub_menu_result() noexcept {
+  }
+
+  virtual ~Server_get_sub_menu_result() noexcept;
+   ::thrift_codegen::RObject success;
+
+  _Server_get_sub_menu_result__isset __isset;
+
+  void __set_success(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_get_sub_menu_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_get_sub_menu_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_get_sub_menu_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_get_sub_menu_presult__isset {
+  _Server_get_sub_menu_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_get_sub_menu_presult__isset;
+
+class Server_get_sub_menu_presult {
+ public:
+
+
+  virtual ~Server_get_sub_menu_presult() noexcept;
+   ::thrift_codegen::RObject* success;
+
+  _Server_get_sub_menu_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_get_sub_menu_at_args__isset {
+  _Server_get_sub_menu_at_args__isset() : self(false), index(false) {}
+  bool self :1;
+  bool index :1;
+} _Server_get_sub_menu_at_args__isset;
+
+class Server_get_sub_menu_at_args {
+ public:
+
+  Server_get_sub_menu_at_args(const Server_get_sub_menu_at_args&);
+  Server_get_sub_menu_at_args& operator=(const Server_get_sub_menu_at_args&);
+  Server_get_sub_menu_at_args() noexcept
+                              : index(0) {
+  }
+
+  virtual ~Server_get_sub_menu_at_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t index;
+
+  _Server_get_sub_menu_at_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_index(const int32_t val);
+
+  bool operator == (const Server_get_sub_menu_at_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(index == rhs.index))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_get_sub_menu_at_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_get_sub_menu_at_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_get_sub_menu_at_pargs {
+ public:
+
+
+  virtual ~Server_get_sub_menu_at_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* index;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_get_sub_menu_at_result__isset {
+  _Server_get_sub_menu_at_result__isset() : success(false) {}
+  bool success :1;
+} _Server_get_sub_menu_at_result__isset;
+
+class Server_get_sub_menu_at_result {
+ public:
+
+  Server_get_sub_menu_at_result(const Server_get_sub_menu_at_result&);
+  Server_get_sub_menu_at_result& operator=(const Server_get_sub_menu_at_result&);
+  Server_get_sub_menu_at_result() noexcept {
+  }
+
+  virtual ~Server_get_sub_menu_at_result() noexcept;
+   ::thrift_codegen::RObject success;
+
+  _Server_get_sub_menu_at_result__isset __isset;
+
+  void __set_success(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_get_sub_menu_at_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_get_sub_menu_at_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_get_sub_menu_at_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_get_sub_menu_at_presult__isset {
+  _Server_get_sub_menu_at_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_get_sub_menu_at_presult__isset;
+
+class Server_get_sub_menu_at_presult {
+ public:
+
+
+  virtual ~Server_get_sub_menu_at_presult() noexcept;
+   ::thrift_codegen::RObject* success;
+
+  _Server_get_sub_menu_at_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_is_visible_args__isset {
+  _Server_is_visible_args__isset() : self(false), command_id(false) {}
+  bool self :1;
+  bool command_id :1;
+} _Server_is_visible_args__isset;
+
+class Server_is_visible_args {
+ public:
+
+  Server_is_visible_args(const Server_is_visible_args&);
+  Server_is_visible_args& operator=(const Server_is_visible_args&);
+  Server_is_visible_args() noexcept
+                         : command_id(0) {
+  }
+
+  virtual ~Server_is_visible_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t command_id;
+
+  _Server_is_visible_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_command_id(const int32_t val);
+
+  bool operator == (const Server_is_visible_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(command_id == rhs.command_id))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_is_visible_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_is_visible_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_is_visible_pargs {
+ public:
+
+
+  virtual ~Server_is_visible_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* command_id;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_is_visible_result__isset {
+  _Server_is_visible_result__isset() : success(false) {}
+  bool success :1;
+} _Server_is_visible_result__isset;
+
+class Server_is_visible_result {
+ public:
+
+  Server_is_visible_result(const Server_is_visible_result&) noexcept;
+  Server_is_visible_result& operator=(const Server_is_visible_result&) noexcept;
+  Server_is_visible_result() noexcept
+                           : success(0) {
+  }
+
+  virtual ~Server_is_visible_result() noexcept;
+  bool success;
+
+  _Server_is_visible_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const Server_is_visible_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_is_visible_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_is_visible_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_is_visible_presult__isset {
+  _Server_is_visible_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_is_visible_presult__isset;
+
+class Server_is_visible_presult {
+ public:
+
+
+  virtual ~Server_is_visible_presult() noexcept;
+  bool* success;
+
+  _Server_is_visible_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_is_visible_at_args__isset {
+  _Server_is_visible_at_args__isset() : self(false), index(false) {}
+  bool self :1;
+  bool index :1;
+} _Server_is_visible_at_args__isset;
+
+class Server_is_visible_at_args {
+ public:
+
+  Server_is_visible_at_args(const Server_is_visible_at_args&);
+  Server_is_visible_at_args& operator=(const Server_is_visible_at_args&);
+  Server_is_visible_at_args() noexcept
+                            : index(0) {
+  }
+
+  virtual ~Server_is_visible_at_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t index;
+
+  _Server_is_visible_at_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_index(const int32_t val);
+
+  bool operator == (const Server_is_visible_at_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(index == rhs.index))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_is_visible_at_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_is_visible_at_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_is_visible_at_pargs {
+ public:
+
+
+  virtual ~Server_is_visible_at_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* index;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_is_visible_at_result__isset {
+  _Server_is_visible_at_result__isset() : success(false) {}
+  bool success :1;
+} _Server_is_visible_at_result__isset;
+
+class Server_is_visible_at_result {
+ public:
+
+  Server_is_visible_at_result(const Server_is_visible_at_result&) noexcept;
+  Server_is_visible_at_result& operator=(const Server_is_visible_at_result&) noexcept;
+  Server_is_visible_at_result() noexcept
+                              : success(0) {
+  }
+
+  virtual ~Server_is_visible_at_result() noexcept;
+  bool success;
+
+  _Server_is_visible_at_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const Server_is_visible_at_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_is_visible_at_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_is_visible_at_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_is_visible_at_presult__isset {
+  _Server_is_visible_at_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_is_visible_at_presult__isset;
+
+class Server_is_visible_at_presult {
+ public:
+
+
+  virtual ~Server_is_visible_at_presult() noexcept;
+  bool* success;
+
+  _Server_is_visible_at_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_set_visible_args__isset {
+  _Server_set_visible_args__isset() : self(false), command_id(false), visible(false) {}
+  bool self :1;
+  bool command_id :1;
+  bool visible :1;
+} _Server_set_visible_args__isset;
+
+class Server_set_visible_args {
+ public:
+
+  Server_set_visible_args(const Server_set_visible_args&);
+  Server_set_visible_args& operator=(const Server_set_visible_args&);
+  Server_set_visible_args() noexcept
+                          : command_id(0),
+                            visible(0) {
+  }
+
+  virtual ~Server_set_visible_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t command_id;
+  bool visible;
+
+  _Server_set_visible_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_command_id(const int32_t val);
+
+  void __set_visible(const bool val);
+
+  bool operator == (const Server_set_visible_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(command_id == rhs.command_id))
+      return false;
+    if (!(visible == rhs.visible))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_set_visible_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_set_visible_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_set_visible_pargs {
+ public:
+
+
+  virtual ~Server_set_visible_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* command_id;
+  const bool* visible;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_set_visible_result__isset {
+  _Server_set_visible_result__isset() : success(false) {}
+  bool success :1;
+} _Server_set_visible_result__isset;
+
+class Server_set_visible_result {
+ public:
+
+  Server_set_visible_result(const Server_set_visible_result&) noexcept;
+  Server_set_visible_result& operator=(const Server_set_visible_result&) noexcept;
+  Server_set_visible_result() noexcept
+                            : success(0) {
+  }
+
+  virtual ~Server_set_visible_result() noexcept;
+  bool success;
+
+  _Server_set_visible_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const Server_set_visible_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_set_visible_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_set_visible_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_set_visible_presult__isset {
+  _Server_set_visible_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_set_visible_presult__isset;
+
+class Server_set_visible_presult {
+ public:
+
+
+  virtual ~Server_set_visible_presult() noexcept;
+  bool* success;
+
+  _Server_set_visible_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_set_visible_at_args__isset {
+  _Server_set_visible_at_args__isset() : self(false), index(false), visible(false) {}
+  bool self :1;
+  bool index :1;
+  bool visible :1;
+} _Server_set_visible_at_args__isset;
+
+class Server_set_visible_at_args {
+ public:
+
+  Server_set_visible_at_args(const Server_set_visible_at_args&);
+  Server_set_visible_at_args& operator=(const Server_set_visible_at_args&);
+  Server_set_visible_at_args() noexcept
+                             : index(0),
+                               visible(0) {
+  }
+
+  virtual ~Server_set_visible_at_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t index;
+  bool visible;
+
+  _Server_set_visible_at_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_index(const int32_t val);
+
+  void __set_visible(const bool val);
+
+  bool operator == (const Server_set_visible_at_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(index == rhs.index))
+      return false;
+    if (!(visible == rhs.visible))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_set_visible_at_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_set_visible_at_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_set_visible_at_pargs {
+ public:
+
+
+  virtual ~Server_set_visible_at_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* index;
+  const bool* visible;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_set_visible_at_result__isset {
+  _Server_set_visible_at_result__isset() : success(false) {}
+  bool success :1;
+} _Server_set_visible_at_result__isset;
+
+class Server_set_visible_at_result {
+ public:
+
+  Server_set_visible_at_result(const Server_set_visible_at_result&) noexcept;
+  Server_set_visible_at_result& operator=(const Server_set_visible_at_result&) noexcept;
+  Server_set_visible_at_result() noexcept
+                               : success(0) {
+  }
+
+  virtual ~Server_set_visible_at_result() noexcept;
+  bool success;
+
+  _Server_set_visible_at_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const Server_set_visible_at_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_set_visible_at_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_set_visible_at_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_set_visible_at_presult__isset {
+  _Server_set_visible_at_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_set_visible_at_presult__isset;
+
+class Server_set_visible_at_presult {
+ public:
+
+
+  virtual ~Server_set_visible_at_presult() noexcept;
+  bool* success;
+
+  _Server_set_visible_at_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_is_enabled_args__isset {
+  _Server_is_enabled_args__isset() : self(false), command_id(false) {}
+  bool self :1;
+  bool command_id :1;
+} _Server_is_enabled_args__isset;
+
+class Server_is_enabled_args {
+ public:
+
+  Server_is_enabled_args(const Server_is_enabled_args&);
+  Server_is_enabled_args& operator=(const Server_is_enabled_args&);
+  Server_is_enabled_args() noexcept
+                         : command_id(0) {
+  }
+
+  virtual ~Server_is_enabled_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t command_id;
+
+  _Server_is_enabled_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_command_id(const int32_t val);
+
+  bool operator == (const Server_is_enabled_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(command_id == rhs.command_id))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_is_enabled_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_is_enabled_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_is_enabled_pargs {
+ public:
+
+
+  virtual ~Server_is_enabled_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* command_id;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_is_enabled_result__isset {
+  _Server_is_enabled_result__isset() : success(false) {}
+  bool success :1;
+} _Server_is_enabled_result__isset;
+
+class Server_is_enabled_result {
+ public:
+
+  Server_is_enabled_result(const Server_is_enabled_result&) noexcept;
+  Server_is_enabled_result& operator=(const Server_is_enabled_result&) noexcept;
+  Server_is_enabled_result() noexcept
+                           : success(0) {
+  }
+
+  virtual ~Server_is_enabled_result() noexcept;
+  bool success;
+
+  _Server_is_enabled_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const Server_is_enabled_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_is_enabled_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_is_enabled_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_is_enabled_presult__isset {
+  _Server_is_enabled_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_is_enabled_presult__isset;
+
+class Server_is_enabled_presult {
+ public:
+
+
+  virtual ~Server_is_enabled_presult() noexcept;
+  bool* success;
+
+  _Server_is_enabled_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_is_enabled_at_args__isset {
+  _Server_is_enabled_at_args__isset() : self(false), index(false) {}
+  bool self :1;
+  bool index :1;
+} _Server_is_enabled_at_args__isset;
+
+class Server_is_enabled_at_args {
+ public:
+
+  Server_is_enabled_at_args(const Server_is_enabled_at_args&);
+  Server_is_enabled_at_args& operator=(const Server_is_enabled_at_args&);
+  Server_is_enabled_at_args() noexcept
+                            : index(0) {
+  }
+
+  virtual ~Server_is_enabled_at_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t index;
+
+  _Server_is_enabled_at_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_index(const int32_t val);
+
+  bool operator == (const Server_is_enabled_at_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(index == rhs.index))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_is_enabled_at_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_is_enabled_at_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_is_enabled_at_pargs {
+ public:
+
+
+  virtual ~Server_is_enabled_at_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* index;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_is_enabled_at_result__isset {
+  _Server_is_enabled_at_result__isset() : success(false) {}
+  bool success :1;
+} _Server_is_enabled_at_result__isset;
+
+class Server_is_enabled_at_result {
+ public:
+
+  Server_is_enabled_at_result(const Server_is_enabled_at_result&) noexcept;
+  Server_is_enabled_at_result& operator=(const Server_is_enabled_at_result&) noexcept;
+  Server_is_enabled_at_result() noexcept
+                              : success(0) {
+  }
+
+  virtual ~Server_is_enabled_at_result() noexcept;
+  bool success;
+
+  _Server_is_enabled_at_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const Server_is_enabled_at_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_is_enabled_at_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_is_enabled_at_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_is_enabled_at_presult__isset {
+  _Server_is_enabled_at_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_is_enabled_at_presult__isset;
+
+class Server_is_enabled_at_presult {
+ public:
+
+
+  virtual ~Server_is_enabled_at_presult() noexcept;
+  bool* success;
+
+  _Server_is_enabled_at_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_set_enabled_args__isset {
+  _Server_set_enabled_args__isset() : self(false), command_id(false), enabled(false) {}
+  bool self :1;
+  bool command_id :1;
+  bool enabled :1;
+} _Server_set_enabled_args__isset;
+
+class Server_set_enabled_args {
+ public:
+
+  Server_set_enabled_args(const Server_set_enabled_args&);
+  Server_set_enabled_args& operator=(const Server_set_enabled_args&);
+  Server_set_enabled_args() noexcept
+                          : command_id(0),
+                            enabled(0) {
+  }
+
+  virtual ~Server_set_enabled_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t command_id;
+  bool enabled;
+
+  _Server_set_enabled_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_command_id(const int32_t val);
+
+  void __set_enabled(const bool val);
+
+  bool operator == (const Server_set_enabled_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(command_id == rhs.command_id))
+      return false;
+    if (!(enabled == rhs.enabled))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_set_enabled_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_set_enabled_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_set_enabled_pargs {
+ public:
+
+
+  virtual ~Server_set_enabled_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* command_id;
+  const bool* enabled;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_set_enabled_result__isset {
+  _Server_set_enabled_result__isset() : success(false) {}
+  bool success :1;
+} _Server_set_enabled_result__isset;
+
+class Server_set_enabled_result {
+ public:
+
+  Server_set_enabled_result(const Server_set_enabled_result&) noexcept;
+  Server_set_enabled_result& operator=(const Server_set_enabled_result&) noexcept;
+  Server_set_enabled_result() noexcept
+                            : success(0) {
+  }
+
+  virtual ~Server_set_enabled_result() noexcept;
+  bool success;
+
+  _Server_set_enabled_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const Server_set_enabled_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_set_enabled_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_set_enabled_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_set_enabled_presult__isset {
+  _Server_set_enabled_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_set_enabled_presult__isset;
+
+class Server_set_enabled_presult {
+ public:
+
+
+  virtual ~Server_set_enabled_presult() noexcept;
+  bool* success;
+
+  _Server_set_enabled_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_set_enabled_at_args__isset {
+  _Server_set_enabled_at_args__isset() : self(false), index(false), enabled(false) {}
+  bool self :1;
+  bool index :1;
+  bool enabled :1;
+} _Server_set_enabled_at_args__isset;
+
+class Server_set_enabled_at_args {
+ public:
+
+  Server_set_enabled_at_args(const Server_set_enabled_at_args&);
+  Server_set_enabled_at_args& operator=(const Server_set_enabled_at_args&);
+  Server_set_enabled_at_args() noexcept
+                             : index(0),
+                               enabled(0) {
+  }
+
+  virtual ~Server_set_enabled_at_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t index;
+  bool enabled;
+
+  _Server_set_enabled_at_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_index(const int32_t val);
+
+  void __set_enabled(const bool val);
+
+  bool operator == (const Server_set_enabled_at_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(index == rhs.index))
+      return false;
+    if (!(enabled == rhs.enabled))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_set_enabled_at_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_set_enabled_at_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_set_enabled_at_pargs {
+ public:
+
+
+  virtual ~Server_set_enabled_at_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* index;
+  const bool* enabled;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_set_enabled_at_result__isset {
+  _Server_set_enabled_at_result__isset() : success(false) {}
+  bool success :1;
+} _Server_set_enabled_at_result__isset;
+
+class Server_set_enabled_at_result {
+ public:
+
+  Server_set_enabled_at_result(const Server_set_enabled_at_result&) noexcept;
+  Server_set_enabled_at_result& operator=(const Server_set_enabled_at_result&) noexcept;
+  Server_set_enabled_at_result() noexcept
+                               : success(0) {
+  }
+
+  virtual ~Server_set_enabled_at_result() noexcept;
+  bool success;
+
+  _Server_set_enabled_at_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const Server_set_enabled_at_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_set_enabled_at_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_set_enabled_at_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_set_enabled_at_presult__isset {
+  _Server_set_enabled_at_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_set_enabled_at_presult__isset;
+
+class Server_set_enabled_at_presult {
+ public:
+
+
+  virtual ~Server_set_enabled_at_presult() noexcept;
+  bool* success;
+
+  _Server_set_enabled_at_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_is_checked_args__isset {
+  _Server_is_checked_args__isset() : self(false), command_id(false) {}
+  bool self :1;
+  bool command_id :1;
+} _Server_is_checked_args__isset;
+
+class Server_is_checked_args {
+ public:
+
+  Server_is_checked_args(const Server_is_checked_args&);
+  Server_is_checked_args& operator=(const Server_is_checked_args&);
+  Server_is_checked_args() noexcept
+                         : command_id(0) {
+  }
+
+  virtual ~Server_is_checked_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t command_id;
+
+  _Server_is_checked_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_command_id(const int32_t val);
+
+  bool operator == (const Server_is_checked_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(command_id == rhs.command_id))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_is_checked_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_is_checked_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_is_checked_pargs {
+ public:
+
+
+  virtual ~Server_is_checked_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* command_id;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_is_checked_result__isset {
+  _Server_is_checked_result__isset() : success(false) {}
+  bool success :1;
+} _Server_is_checked_result__isset;
+
+class Server_is_checked_result {
+ public:
+
+  Server_is_checked_result(const Server_is_checked_result&) noexcept;
+  Server_is_checked_result& operator=(const Server_is_checked_result&) noexcept;
+  Server_is_checked_result() noexcept
+                           : success(0) {
+  }
+
+  virtual ~Server_is_checked_result() noexcept;
+  bool success;
+
+  _Server_is_checked_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const Server_is_checked_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_is_checked_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_is_checked_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_is_checked_presult__isset {
+  _Server_is_checked_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_is_checked_presult__isset;
+
+class Server_is_checked_presult {
+ public:
+
+
+  virtual ~Server_is_checked_presult() noexcept;
+  bool* success;
+
+  _Server_is_checked_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_is_checked_at_args__isset {
+  _Server_is_checked_at_args__isset() : self(false), index(false) {}
+  bool self :1;
+  bool index :1;
+} _Server_is_checked_at_args__isset;
+
+class Server_is_checked_at_args {
+ public:
+
+  Server_is_checked_at_args(const Server_is_checked_at_args&);
+  Server_is_checked_at_args& operator=(const Server_is_checked_at_args&);
+  Server_is_checked_at_args() noexcept
+                            : index(0) {
+  }
+
+  virtual ~Server_is_checked_at_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t index;
+
+  _Server_is_checked_at_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_index(const int32_t val);
+
+  bool operator == (const Server_is_checked_at_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(index == rhs.index))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_is_checked_at_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_is_checked_at_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_is_checked_at_pargs {
+ public:
+
+
+  virtual ~Server_is_checked_at_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* index;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_is_checked_at_result__isset {
+  _Server_is_checked_at_result__isset() : success(false) {}
+  bool success :1;
+} _Server_is_checked_at_result__isset;
+
+class Server_is_checked_at_result {
+ public:
+
+  Server_is_checked_at_result(const Server_is_checked_at_result&) noexcept;
+  Server_is_checked_at_result& operator=(const Server_is_checked_at_result&) noexcept;
+  Server_is_checked_at_result() noexcept
+                              : success(0) {
+  }
+
+  virtual ~Server_is_checked_at_result() noexcept;
+  bool success;
+
+  _Server_is_checked_at_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const Server_is_checked_at_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_is_checked_at_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_is_checked_at_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_is_checked_at_presult__isset {
+  _Server_is_checked_at_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_is_checked_at_presult__isset;
+
+class Server_is_checked_at_presult {
+ public:
+
+
+  virtual ~Server_is_checked_at_presult() noexcept;
+  bool* success;
+
+  _Server_is_checked_at_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_set_checked_args__isset {
+  _Server_set_checked_args__isset() : self(false), command_id(false), checked(false) {}
+  bool self :1;
+  bool command_id :1;
+  bool checked :1;
+} _Server_set_checked_args__isset;
+
+class Server_set_checked_args {
+ public:
+
+  Server_set_checked_args(const Server_set_checked_args&);
+  Server_set_checked_args& operator=(const Server_set_checked_args&);
+  Server_set_checked_args() noexcept
+                          : command_id(0),
+                            checked(0) {
+  }
+
+  virtual ~Server_set_checked_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t command_id;
+  bool checked;
+
+  _Server_set_checked_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_command_id(const int32_t val);
+
+  void __set_checked(const bool val);
+
+  bool operator == (const Server_set_checked_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(command_id == rhs.command_id))
+      return false;
+    if (!(checked == rhs.checked))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_set_checked_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_set_checked_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_set_checked_pargs {
+ public:
+
+
+  virtual ~Server_set_checked_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* command_id;
+  const bool* checked;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_set_checked_result__isset {
+  _Server_set_checked_result__isset() : success(false) {}
+  bool success :1;
+} _Server_set_checked_result__isset;
+
+class Server_set_checked_result {
+ public:
+
+  Server_set_checked_result(const Server_set_checked_result&) noexcept;
+  Server_set_checked_result& operator=(const Server_set_checked_result&) noexcept;
+  Server_set_checked_result() noexcept
+                            : success(0) {
+  }
+
+  virtual ~Server_set_checked_result() noexcept;
+  bool success;
+
+  _Server_set_checked_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const Server_set_checked_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_set_checked_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_set_checked_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_set_checked_presult__isset {
+  _Server_set_checked_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_set_checked_presult__isset;
+
+class Server_set_checked_presult {
+ public:
+
+
+  virtual ~Server_set_checked_presult() noexcept;
+  bool* success;
+
+  _Server_set_checked_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_set_checked_at_args__isset {
+  _Server_set_checked_at_args__isset() : self(false), index(false), checked(false) {}
+  bool self :1;
+  bool index :1;
+  bool checked :1;
+} _Server_set_checked_at_args__isset;
+
+class Server_set_checked_at_args {
+ public:
+
+  Server_set_checked_at_args(const Server_set_checked_at_args&);
+  Server_set_checked_at_args& operator=(const Server_set_checked_at_args&);
+  Server_set_checked_at_args() noexcept
+                             : index(0),
+                               checked(0) {
+  }
+
+  virtual ~Server_set_checked_at_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t index;
+  bool checked;
+
+  _Server_set_checked_at_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_index(const int32_t val);
+
+  void __set_checked(const bool val);
+
+  bool operator == (const Server_set_checked_at_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(index == rhs.index))
+      return false;
+    if (!(checked == rhs.checked))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_set_checked_at_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_set_checked_at_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_set_checked_at_pargs {
+ public:
+
+
+  virtual ~Server_set_checked_at_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* index;
+  const bool* checked;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_set_checked_at_result__isset {
+  _Server_set_checked_at_result__isset() : success(false) {}
+  bool success :1;
+} _Server_set_checked_at_result__isset;
+
+class Server_set_checked_at_result {
+ public:
+
+  Server_set_checked_at_result(const Server_set_checked_at_result&) noexcept;
+  Server_set_checked_at_result& operator=(const Server_set_checked_at_result&) noexcept;
+  Server_set_checked_at_result() noexcept
+                               : success(0) {
+  }
+
+  virtual ~Server_set_checked_at_result() noexcept;
+  bool success;
+
+  _Server_set_checked_at_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const Server_set_checked_at_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_set_checked_at_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_set_checked_at_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_set_checked_at_presult__isset {
+  _Server_set_checked_at_presult__isset() : success(false) {}
+  bool success :1;
+} _Server_set_checked_at_presult__isset;
+
+class Server_set_checked_at_presult {
+ public:
+
+
+  virtual ~Server_set_checked_at_presult() noexcept;
+  bool* success;
+
+  _Server_set_checked_at_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
 };
 
@@ -8928,16 +14328,151 @@ class ServerClient : virtual public ServerIf {
   void recv_Response_SetHeaderMap();
   void Callback_Dispose(const  ::thrift_codegen::RObject& callback) override;
   void send_Callback_Dispose(const  ::thrift_codegen::RObject& callback);
+  void recv_Callback_Dispose();
   void Callback_Continue(const  ::thrift_codegen::RObject& callback) override;
   void send_Callback_Continue(const  ::thrift_codegen::RObject& callback);
+  void recv_Callback_Continue();
   void Callback_Cancel(const  ::thrift_codegen::RObject& callback) override;
   void send_Callback_Cancel(const  ::thrift_codegen::RObject& callback);
+  void recv_Callback_Cancel();
   void AuthCallback_Dispose(const  ::thrift_codegen::RObject& authCallback) override;
   void send_AuthCallback_Dispose(const  ::thrift_codegen::RObject& authCallback);
   void AuthCallback_Continue(const  ::thrift_codegen::RObject& authCallback, const std::string& username, const std::string& password) override;
   void send_AuthCallback_Continue(const  ::thrift_codegen::RObject& authCallback, const std::string& username, const std::string& password);
   void AuthCallback_Cancel(const  ::thrift_codegen::RObject& authCallback) override;
   void send_AuthCallback_Cancel(const  ::thrift_codegen::RObject& authCallback);
+  void CefRunContextMenuCallback_Dispose(const  ::thrift_codegen::RObject& self) override;
+  void send_CefRunContextMenuCallback_Dispose(const  ::thrift_codegen::RObject& self);
+  void CefRunContextMenuCallback_Continue(const  ::thrift_codegen::RObject& self, const int32_t command_id, const int32_t event_flag) override;
+  void send_CefRunContextMenuCallback_Continue(const  ::thrift_codegen::RObject& self, const int32_t command_id, const int32_t event_flag);
+  void CefRunContextMenuCallback_Cancel(const  ::thrift_codegen::RObject& self) override;
+  void send_CefRunContextMenuCallback_Cancel(const  ::thrift_codegen::RObject& self);
+  bool is_sub_menu(const  ::thrift_codegen::RObject& self) override;
+  void send_is_sub_menu(const  ::thrift_codegen::RObject& self);
+  bool recv_is_sub_menu();
+  bool clear(const  ::thrift_codegen::RObject& self) override;
+  void send_clear(const  ::thrift_codegen::RObject& self);
+  bool recv_clear();
+  int32_t get_count(const  ::thrift_codegen::RObject& self) override;
+  void send_get_count(const  ::thrift_codegen::RObject& self);
+  int32_t recv_get_count();
+  bool add_separator(const  ::thrift_codegen::RObject& self) override;
+  void send_add_separator(const  ::thrift_codegen::RObject& self);
+  bool recv_add_separator();
+  bool add_item(const  ::thrift_codegen::RObject& self, const int32_t command_id, const std::string& label) override;
+  void send_add_item(const  ::thrift_codegen::RObject& self, const int32_t command_id, const std::string& label);
+  bool recv_add_item();
+  bool add_check_item(const  ::thrift_codegen::RObject& self, const int32_t command_id, const std::string& label) override;
+  void send_add_check_item(const  ::thrift_codegen::RObject& self, const int32_t command_id, const std::string& label);
+  bool recv_add_check_item();
+  bool add_radio_item(const  ::thrift_codegen::RObject& self, const int32_t command_id, const std::string& label, const int32_t group_id) override;
+  void send_add_radio_item(const  ::thrift_codegen::RObject& self, const int32_t command_id, const std::string& label, const int32_t group_id);
+  bool recv_add_radio_item();
+  void add_sub_menu( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& self, const int32_t command_id, const std::string& label) override;
+  void send_add_sub_menu(const  ::thrift_codegen::RObject& self, const int32_t command_id, const std::string& label);
+  void recv_add_sub_menu( ::thrift_codegen::RObject& _return);
+  bool insert_separator_at(const  ::thrift_codegen::RObject& self, const int32_t index) override;
+  void send_insert_separator_at(const  ::thrift_codegen::RObject& self, const int32_t index);
+  bool recv_insert_separator_at();
+  bool insert_item_at(const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t command_id, const std::string& label) override;
+  void send_insert_item_at(const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t command_id, const std::string& label);
+  bool recv_insert_item_at();
+  bool insert_check_item_at(const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t command_id, const std::string& label) override;
+  void send_insert_check_item_at(const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t command_id, const std::string& label);
+  bool recv_insert_check_item_at();
+  bool insert_radio_item_at(const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t command_id, const std::string& label, const int32_t group_id) override;
+  void send_insert_radio_item_at(const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t command_id, const std::string& label, const int32_t group_id);
+  bool recv_insert_radio_item_at();
+  void insert_sub_menu_at( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t command_id, const std::string& label) override;
+  void send_insert_sub_menu_at(const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t command_id, const std::string& label);
+  void recv_insert_sub_menu_at( ::thrift_codegen::RObject& _return);
+  bool remove(const  ::thrift_codegen::RObject& self, const int32_t command_id) override;
+  void send_remove(const  ::thrift_codegen::RObject& self, const int32_t command_id);
+  bool recv_remove();
+  bool remove_at(const  ::thrift_codegen::RObject& self, const int32_t index) override;
+  void send_remove_at(const  ::thrift_codegen::RObject& self, const int32_t index);
+  bool recv_remove_at();
+  int32_t get_index_of(const  ::thrift_codegen::RObject& self, const int32_t command_id) override;
+  void send_get_index_of(const  ::thrift_codegen::RObject& self, const int32_t command_id);
+  int32_t recv_get_index_of();
+  int32_t get_command_id_at(const  ::thrift_codegen::RObject& self, const int32_t index) override;
+  void send_get_command_id_at(const  ::thrift_codegen::RObject& self, const int32_t index);
+  int32_t recv_get_command_id_at();
+  bool set_command_id_at(const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t command_id) override;
+  void send_set_command_id_at(const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t command_id);
+  bool recv_set_command_id_at();
+  void get_label(std::string& _return, const  ::thrift_codegen::RObject& self, const int32_t command_id) override;
+  void send_get_label(const  ::thrift_codegen::RObject& self, const int32_t command_id);
+  void recv_get_label(std::string& _return);
+  void get_label_at(std::string& _return, const  ::thrift_codegen::RObject& self, const int32_t index) override;
+  void send_get_label_at(const  ::thrift_codegen::RObject& self, const int32_t index);
+  void recv_get_label_at(std::string& _return);
+  bool set_label(const  ::thrift_codegen::RObject& self, const int32_t command_id, const std::string& label) override;
+  void send_set_label(const  ::thrift_codegen::RObject& self, const int32_t command_id, const std::string& label);
+  bool recv_set_label();
+  bool set_label_at(const  ::thrift_codegen::RObject& self, const int32_t index, const std::string& label) override;
+  void send_set_label_at(const  ::thrift_codegen::RObject& self, const int32_t index, const std::string& label);
+  bool recv_set_label_at();
+  int32_t get_type(const  ::thrift_codegen::RObject& self, const int32_t command_id) override;
+  void send_get_type(const  ::thrift_codegen::RObject& self, const int32_t command_id);
+  int32_t recv_get_type();
+  int32_t get_type_at(const  ::thrift_codegen::RObject& self, const int32_t index) override;
+  void send_get_type_at(const  ::thrift_codegen::RObject& self, const int32_t index);
+  int32_t recv_get_type_at();
+  int32_t get_group_id(const  ::thrift_codegen::RObject& self, const int32_t command_id) override;
+  void send_get_group_id(const  ::thrift_codegen::RObject& self, const int32_t command_id);
+  int32_t recv_get_group_id();
+  int32_t get_group_id_at(const  ::thrift_codegen::RObject& self, const int32_t index) override;
+  void send_get_group_id_at(const  ::thrift_codegen::RObject& self, const int32_t index);
+  int32_t recv_get_group_id_at();
+  bool set_group_id(const  ::thrift_codegen::RObject& self, const int32_t command_id, const int32_t group_id) override;
+  void send_set_group_id(const  ::thrift_codegen::RObject& self, const int32_t command_id, const int32_t group_id);
+  bool recv_set_group_id();
+  bool set_group_id_at(const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t group_id) override;
+  void send_set_group_id_at(const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t group_id);
+  bool recv_set_group_id_at();
+  void get_sub_menu( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& self, const int32_t command_id) override;
+  void send_get_sub_menu(const  ::thrift_codegen::RObject& self, const int32_t command_id);
+  void recv_get_sub_menu( ::thrift_codegen::RObject& _return);
+  void get_sub_menu_at( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& self, const int32_t index) override;
+  void send_get_sub_menu_at(const  ::thrift_codegen::RObject& self, const int32_t index);
+  void recv_get_sub_menu_at( ::thrift_codegen::RObject& _return);
+  bool is_visible(const  ::thrift_codegen::RObject& self, const int32_t command_id) override;
+  void send_is_visible(const  ::thrift_codegen::RObject& self, const int32_t command_id);
+  bool recv_is_visible();
+  bool is_visible_at(const  ::thrift_codegen::RObject& self, const int32_t index) override;
+  void send_is_visible_at(const  ::thrift_codegen::RObject& self, const int32_t index);
+  bool recv_is_visible_at();
+  bool set_visible(const  ::thrift_codegen::RObject& self, const int32_t command_id, const bool visible) override;
+  void send_set_visible(const  ::thrift_codegen::RObject& self, const int32_t command_id, const bool visible);
+  bool recv_set_visible();
+  bool set_visible_at(const  ::thrift_codegen::RObject& self, const int32_t index, const bool visible) override;
+  void send_set_visible_at(const  ::thrift_codegen::RObject& self, const int32_t index, const bool visible);
+  bool recv_set_visible_at();
+  bool is_enabled(const  ::thrift_codegen::RObject& self, const int32_t command_id) override;
+  void send_is_enabled(const  ::thrift_codegen::RObject& self, const int32_t command_id);
+  bool recv_is_enabled();
+  bool is_enabled_at(const  ::thrift_codegen::RObject& self, const int32_t index) override;
+  void send_is_enabled_at(const  ::thrift_codegen::RObject& self, const int32_t index);
+  bool recv_is_enabled_at();
+  bool set_enabled(const  ::thrift_codegen::RObject& self, const int32_t command_id, const bool enabled) override;
+  void send_set_enabled(const  ::thrift_codegen::RObject& self, const int32_t command_id, const bool enabled);
+  bool recv_set_enabled();
+  bool set_enabled_at(const  ::thrift_codegen::RObject& self, const int32_t index, const bool enabled) override;
+  void send_set_enabled_at(const  ::thrift_codegen::RObject& self, const int32_t index, const bool enabled);
+  bool recv_set_enabled_at();
+  bool is_checked(const  ::thrift_codegen::RObject& self, const int32_t command_id) override;
+  void send_is_checked(const  ::thrift_codegen::RObject& self, const int32_t command_id);
+  bool recv_is_checked();
+  bool is_checked_at(const  ::thrift_codegen::RObject& self, const int32_t index) override;
+  void send_is_checked_at(const  ::thrift_codegen::RObject& self, const int32_t index);
+  bool recv_is_checked_at();
+  bool set_checked(const  ::thrift_codegen::RObject& self, const int32_t command_id, const bool checked) override;
+  void send_set_checked(const  ::thrift_codegen::RObject& self, const int32_t command_id, const bool checked);
+  bool recv_set_checked();
+  bool set_checked_at(const  ::thrift_codegen::RObject& self, const int32_t index, const bool checked) override;
+  void send_set_checked_at(const  ::thrift_codegen::RObject& self, const int32_t index, const bool checked);
+  bool recv_set_checked_at();
   void MessageRouter_Create( ::thrift_codegen::RObject& _return, const std::string& query, const std::string& cancel) override;
   void send_MessageRouter_Create(const std::string& query, const std::string& cancel);
   void recv_MessageRouter_Create( ::thrift_codegen::RObject& _return);
@@ -9091,6 +14626,51 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_AuthCallback_Dispose(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_AuthCallback_Continue(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_AuthCallback_Cancel(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_CefRunContextMenuCallback_Dispose(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_CefRunContextMenuCallback_Continue(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_CefRunContextMenuCallback_Cancel(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_is_sub_menu(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_clear(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_get_count(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_add_separator(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_add_item(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_add_check_item(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_add_radio_item(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_add_sub_menu(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_insert_separator_at(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_insert_item_at(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_insert_check_item_at(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_insert_radio_item_at(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_insert_sub_menu_at(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_remove(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_remove_at(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_get_index_of(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_get_command_id_at(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_set_command_id_at(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_get_label(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_get_label_at(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_set_label(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_set_label_at(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_get_type(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_get_type_at(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_get_group_id(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_get_group_id_at(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_set_group_id(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_set_group_id_at(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_get_sub_menu(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_get_sub_menu_at(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_is_visible(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_is_visible_at(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_set_visible(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_set_visible_at(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_is_enabled(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_is_enabled_at(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_set_enabled(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_set_enabled_at(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_is_checked(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_is_checked_at(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_set_checked(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_set_checked_at(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_MessageRouter_Create(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_MessageRouter_Dispose(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_MessageRouter_AddMessageRouterToBrowser(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -9198,6 +14778,51 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["AuthCallback_Dispose"] = &ServerProcessor::process_AuthCallback_Dispose;
     processMap_["AuthCallback_Continue"] = &ServerProcessor::process_AuthCallback_Continue;
     processMap_["AuthCallback_Cancel"] = &ServerProcessor::process_AuthCallback_Cancel;
+    processMap_["CefRunContextMenuCallback_Dispose"] = &ServerProcessor::process_CefRunContextMenuCallback_Dispose;
+    processMap_["CefRunContextMenuCallback_Continue"] = &ServerProcessor::process_CefRunContextMenuCallback_Continue;
+    processMap_["CefRunContextMenuCallback_Cancel"] = &ServerProcessor::process_CefRunContextMenuCallback_Cancel;
+    processMap_["is_sub_menu"] = &ServerProcessor::process_is_sub_menu;
+    processMap_["clear"] = &ServerProcessor::process_clear;
+    processMap_["get_count"] = &ServerProcessor::process_get_count;
+    processMap_["add_separator"] = &ServerProcessor::process_add_separator;
+    processMap_["add_item"] = &ServerProcessor::process_add_item;
+    processMap_["add_check_item"] = &ServerProcessor::process_add_check_item;
+    processMap_["add_radio_item"] = &ServerProcessor::process_add_radio_item;
+    processMap_["add_sub_menu"] = &ServerProcessor::process_add_sub_menu;
+    processMap_["insert_separator_at"] = &ServerProcessor::process_insert_separator_at;
+    processMap_["insert_item_at"] = &ServerProcessor::process_insert_item_at;
+    processMap_["insert_check_item_at"] = &ServerProcessor::process_insert_check_item_at;
+    processMap_["insert_radio_item_at"] = &ServerProcessor::process_insert_radio_item_at;
+    processMap_["insert_sub_menu_at"] = &ServerProcessor::process_insert_sub_menu_at;
+    processMap_["remove"] = &ServerProcessor::process_remove;
+    processMap_["remove_at"] = &ServerProcessor::process_remove_at;
+    processMap_["get_index_of"] = &ServerProcessor::process_get_index_of;
+    processMap_["get_command_id_at"] = &ServerProcessor::process_get_command_id_at;
+    processMap_["set_command_id_at"] = &ServerProcessor::process_set_command_id_at;
+    processMap_["get_label"] = &ServerProcessor::process_get_label;
+    processMap_["get_label_at"] = &ServerProcessor::process_get_label_at;
+    processMap_["set_label"] = &ServerProcessor::process_set_label;
+    processMap_["set_label_at"] = &ServerProcessor::process_set_label_at;
+    processMap_["get_type"] = &ServerProcessor::process_get_type;
+    processMap_["get_type_at"] = &ServerProcessor::process_get_type_at;
+    processMap_["get_group_id"] = &ServerProcessor::process_get_group_id;
+    processMap_["get_group_id_at"] = &ServerProcessor::process_get_group_id_at;
+    processMap_["set_group_id"] = &ServerProcessor::process_set_group_id;
+    processMap_["set_group_id_at"] = &ServerProcessor::process_set_group_id_at;
+    processMap_["get_sub_menu"] = &ServerProcessor::process_get_sub_menu;
+    processMap_["get_sub_menu_at"] = &ServerProcessor::process_get_sub_menu_at;
+    processMap_["is_visible"] = &ServerProcessor::process_is_visible;
+    processMap_["is_visible_at"] = &ServerProcessor::process_is_visible_at;
+    processMap_["set_visible"] = &ServerProcessor::process_set_visible;
+    processMap_["set_visible_at"] = &ServerProcessor::process_set_visible_at;
+    processMap_["is_enabled"] = &ServerProcessor::process_is_enabled;
+    processMap_["is_enabled_at"] = &ServerProcessor::process_is_enabled_at;
+    processMap_["set_enabled"] = &ServerProcessor::process_set_enabled;
+    processMap_["set_enabled_at"] = &ServerProcessor::process_set_enabled_at;
+    processMap_["is_checked"] = &ServerProcessor::process_is_checked;
+    processMap_["is_checked_at"] = &ServerProcessor::process_is_checked_at;
+    processMap_["set_checked"] = &ServerProcessor::process_set_checked;
+    processMap_["set_checked_at"] = &ServerProcessor::process_set_checked_at;
     processMap_["MessageRouter_Create"] = &ServerProcessor::process_MessageRouter_Create;
     processMap_["MessageRouter_Dispose"] = &ServerProcessor::process_MessageRouter_Dispose;
     processMap_["MessageRouter_AddMessageRouterToBrowser"] = &ServerProcessor::process_MessageRouter_AddMessageRouterToBrowser;
@@ -10004,6 +15629,417 @@ class ServerMultiface : virtual public ServerIf {
     ifaces_[i]->AuthCallback_Cancel(authCallback);
   }
 
+  void CefRunContextMenuCallback_Dispose(const  ::thrift_codegen::RObject& self) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->CefRunContextMenuCallback_Dispose(self);
+    }
+    ifaces_[i]->CefRunContextMenuCallback_Dispose(self);
+  }
+
+  void CefRunContextMenuCallback_Continue(const  ::thrift_codegen::RObject& self, const int32_t command_id, const int32_t event_flag) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->CefRunContextMenuCallback_Continue(self, command_id, event_flag);
+    }
+    ifaces_[i]->CefRunContextMenuCallback_Continue(self, command_id, event_flag);
+  }
+
+  void CefRunContextMenuCallback_Cancel(const  ::thrift_codegen::RObject& self) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->CefRunContextMenuCallback_Cancel(self);
+    }
+    ifaces_[i]->CefRunContextMenuCallback_Cancel(self);
+  }
+
+  bool is_sub_menu(const  ::thrift_codegen::RObject& self) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->is_sub_menu(self);
+    }
+    return ifaces_[i]->is_sub_menu(self);
+  }
+
+  bool clear(const  ::thrift_codegen::RObject& self) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->clear(self);
+    }
+    return ifaces_[i]->clear(self);
+  }
+
+  int32_t get_count(const  ::thrift_codegen::RObject& self) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->get_count(self);
+    }
+    return ifaces_[i]->get_count(self);
+  }
+
+  bool add_separator(const  ::thrift_codegen::RObject& self) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->add_separator(self);
+    }
+    return ifaces_[i]->add_separator(self);
+  }
+
+  bool add_item(const  ::thrift_codegen::RObject& self, const int32_t command_id, const std::string& label) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->add_item(self, command_id, label);
+    }
+    return ifaces_[i]->add_item(self, command_id, label);
+  }
+
+  bool add_check_item(const  ::thrift_codegen::RObject& self, const int32_t command_id, const std::string& label) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->add_check_item(self, command_id, label);
+    }
+    return ifaces_[i]->add_check_item(self, command_id, label);
+  }
+
+  bool add_radio_item(const  ::thrift_codegen::RObject& self, const int32_t command_id, const std::string& label, const int32_t group_id) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->add_radio_item(self, command_id, label, group_id);
+    }
+    return ifaces_[i]->add_radio_item(self, command_id, label, group_id);
+  }
+
+  void add_sub_menu( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& self, const int32_t command_id, const std::string& label) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->add_sub_menu(_return, self, command_id, label);
+    }
+    ifaces_[i]->add_sub_menu(_return, self, command_id, label);
+    return;
+  }
+
+  bool insert_separator_at(const  ::thrift_codegen::RObject& self, const int32_t index) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->insert_separator_at(self, index);
+    }
+    return ifaces_[i]->insert_separator_at(self, index);
+  }
+
+  bool insert_item_at(const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t command_id, const std::string& label) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->insert_item_at(self, index, command_id, label);
+    }
+    return ifaces_[i]->insert_item_at(self, index, command_id, label);
+  }
+
+  bool insert_check_item_at(const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t command_id, const std::string& label) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->insert_check_item_at(self, index, command_id, label);
+    }
+    return ifaces_[i]->insert_check_item_at(self, index, command_id, label);
+  }
+
+  bool insert_radio_item_at(const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t command_id, const std::string& label, const int32_t group_id) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->insert_radio_item_at(self, index, command_id, label, group_id);
+    }
+    return ifaces_[i]->insert_radio_item_at(self, index, command_id, label, group_id);
+  }
+
+  void insert_sub_menu_at( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t command_id, const std::string& label) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->insert_sub_menu_at(_return, self, index, command_id, label);
+    }
+    ifaces_[i]->insert_sub_menu_at(_return, self, index, command_id, label);
+    return;
+  }
+
+  bool remove(const  ::thrift_codegen::RObject& self, const int32_t command_id) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->remove(self, command_id);
+    }
+    return ifaces_[i]->remove(self, command_id);
+  }
+
+  bool remove_at(const  ::thrift_codegen::RObject& self, const int32_t index) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->remove_at(self, index);
+    }
+    return ifaces_[i]->remove_at(self, index);
+  }
+
+  int32_t get_index_of(const  ::thrift_codegen::RObject& self, const int32_t command_id) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->get_index_of(self, command_id);
+    }
+    return ifaces_[i]->get_index_of(self, command_id);
+  }
+
+  int32_t get_command_id_at(const  ::thrift_codegen::RObject& self, const int32_t index) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->get_command_id_at(self, index);
+    }
+    return ifaces_[i]->get_command_id_at(self, index);
+  }
+
+  bool set_command_id_at(const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t command_id) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->set_command_id_at(self, index, command_id);
+    }
+    return ifaces_[i]->set_command_id_at(self, index, command_id);
+  }
+
+  void get_label(std::string& _return, const  ::thrift_codegen::RObject& self, const int32_t command_id) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->get_label(_return, self, command_id);
+    }
+    ifaces_[i]->get_label(_return, self, command_id);
+    return;
+  }
+
+  void get_label_at(std::string& _return, const  ::thrift_codegen::RObject& self, const int32_t index) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->get_label_at(_return, self, index);
+    }
+    ifaces_[i]->get_label_at(_return, self, index);
+    return;
+  }
+
+  bool set_label(const  ::thrift_codegen::RObject& self, const int32_t command_id, const std::string& label) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->set_label(self, command_id, label);
+    }
+    return ifaces_[i]->set_label(self, command_id, label);
+  }
+
+  bool set_label_at(const  ::thrift_codegen::RObject& self, const int32_t index, const std::string& label) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->set_label_at(self, index, label);
+    }
+    return ifaces_[i]->set_label_at(self, index, label);
+  }
+
+  int32_t get_type(const  ::thrift_codegen::RObject& self, const int32_t command_id) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->get_type(self, command_id);
+    }
+    return ifaces_[i]->get_type(self, command_id);
+  }
+
+  int32_t get_type_at(const  ::thrift_codegen::RObject& self, const int32_t index) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->get_type_at(self, index);
+    }
+    return ifaces_[i]->get_type_at(self, index);
+  }
+
+  int32_t get_group_id(const  ::thrift_codegen::RObject& self, const int32_t command_id) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->get_group_id(self, command_id);
+    }
+    return ifaces_[i]->get_group_id(self, command_id);
+  }
+
+  int32_t get_group_id_at(const  ::thrift_codegen::RObject& self, const int32_t index) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->get_group_id_at(self, index);
+    }
+    return ifaces_[i]->get_group_id_at(self, index);
+  }
+
+  bool set_group_id(const  ::thrift_codegen::RObject& self, const int32_t command_id, const int32_t group_id) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->set_group_id(self, command_id, group_id);
+    }
+    return ifaces_[i]->set_group_id(self, command_id, group_id);
+  }
+
+  bool set_group_id_at(const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t group_id) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->set_group_id_at(self, index, group_id);
+    }
+    return ifaces_[i]->set_group_id_at(self, index, group_id);
+  }
+
+  void get_sub_menu( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& self, const int32_t command_id) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->get_sub_menu(_return, self, command_id);
+    }
+    ifaces_[i]->get_sub_menu(_return, self, command_id);
+    return;
+  }
+
+  void get_sub_menu_at( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& self, const int32_t index) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->get_sub_menu_at(_return, self, index);
+    }
+    ifaces_[i]->get_sub_menu_at(_return, self, index);
+    return;
+  }
+
+  bool is_visible(const  ::thrift_codegen::RObject& self, const int32_t command_id) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->is_visible(self, command_id);
+    }
+    return ifaces_[i]->is_visible(self, command_id);
+  }
+
+  bool is_visible_at(const  ::thrift_codegen::RObject& self, const int32_t index) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->is_visible_at(self, index);
+    }
+    return ifaces_[i]->is_visible_at(self, index);
+  }
+
+  bool set_visible(const  ::thrift_codegen::RObject& self, const int32_t command_id, const bool visible) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->set_visible(self, command_id, visible);
+    }
+    return ifaces_[i]->set_visible(self, command_id, visible);
+  }
+
+  bool set_visible_at(const  ::thrift_codegen::RObject& self, const int32_t index, const bool visible) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->set_visible_at(self, index, visible);
+    }
+    return ifaces_[i]->set_visible_at(self, index, visible);
+  }
+
+  bool is_enabled(const  ::thrift_codegen::RObject& self, const int32_t command_id) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->is_enabled(self, command_id);
+    }
+    return ifaces_[i]->is_enabled(self, command_id);
+  }
+
+  bool is_enabled_at(const  ::thrift_codegen::RObject& self, const int32_t index) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->is_enabled_at(self, index);
+    }
+    return ifaces_[i]->is_enabled_at(self, index);
+  }
+
+  bool set_enabled(const  ::thrift_codegen::RObject& self, const int32_t command_id, const bool enabled) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->set_enabled(self, command_id, enabled);
+    }
+    return ifaces_[i]->set_enabled(self, command_id, enabled);
+  }
+
+  bool set_enabled_at(const  ::thrift_codegen::RObject& self, const int32_t index, const bool enabled) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->set_enabled_at(self, index, enabled);
+    }
+    return ifaces_[i]->set_enabled_at(self, index, enabled);
+  }
+
+  bool is_checked(const  ::thrift_codegen::RObject& self, const int32_t command_id) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->is_checked(self, command_id);
+    }
+    return ifaces_[i]->is_checked(self, command_id);
+  }
+
+  bool is_checked_at(const  ::thrift_codegen::RObject& self, const int32_t index) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->is_checked_at(self, index);
+    }
+    return ifaces_[i]->is_checked_at(self, index);
+  }
+
+  bool set_checked(const  ::thrift_codegen::RObject& self, const int32_t command_id, const bool checked) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->set_checked(self, command_id, checked);
+    }
+    return ifaces_[i]->set_checked(self, command_id, checked);
+  }
+
+  bool set_checked_at(const  ::thrift_codegen::RObject& self, const int32_t index, const bool checked) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->set_checked_at(self, index, checked);
+    }
+    return ifaces_[i]->set_checked_at(self, index, checked);
+  }
+
   void MessageRouter_Create( ::thrift_codegen::RObject& _return, const std::string& query, const std::string& cancel) override {
     size_t sz = ifaces_.size();
     size_t i = 0;
@@ -10425,17 +16461,152 @@ class ServerConcurrentClient : virtual public ServerIf {
   int32_t send_Response_SetHeaderMap(const  ::thrift_codegen::RObject& response, const std::map<std::string, std::string> & headerMap);
   void recv_Response_SetHeaderMap(const int32_t seqid);
   void Callback_Dispose(const  ::thrift_codegen::RObject& callback) override;
-  void send_Callback_Dispose(const  ::thrift_codegen::RObject& callback);
+  int32_t send_Callback_Dispose(const  ::thrift_codegen::RObject& callback);
+  void recv_Callback_Dispose(const int32_t seqid);
   void Callback_Continue(const  ::thrift_codegen::RObject& callback) override;
-  void send_Callback_Continue(const  ::thrift_codegen::RObject& callback);
+  int32_t send_Callback_Continue(const  ::thrift_codegen::RObject& callback);
+  void recv_Callback_Continue(const int32_t seqid);
   void Callback_Cancel(const  ::thrift_codegen::RObject& callback) override;
-  void send_Callback_Cancel(const  ::thrift_codegen::RObject& callback);
+  int32_t send_Callback_Cancel(const  ::thrift_codegen::RObject& callback);
+  void recv_Callback_Cancel(const int32_t seqid);
   void AuthCallback_Dispose(const  ::thrift_codegen::RObject& authCallback) override;
   void send_AuthCallback_Dispose(const  ::thrift_codegen::RObject& authCallback);
   void AuthCallback_Continue(const  ::thrift_codegen::RObject& authCallback, const std::string& username, const std::string& password) override;
   void send_AuthCallback_Continue(const  ::thrift_codegen::RObject& authCallback, const std::string& username, const std::string& password);
   void AuthCallback_Cancel(const  ::thrift_codegen::RObject& authCallback) override;
   void send_AuthCallback_Cancel(const  ::thrift_codegen::RObject& authCallback);
+  void CefRunContextMenuCallback_Dispose(const  ::thrift_codegen::RObject& self) override;
+  void send_CefRunContextMenuCallback_Dispose(const  ::thrift_codegen::RObject& self);
+  void CefRunContextMenuCallback_Continue(const  ::thrift_codegen::RObject& self, const int32_t command_id, const int32_t event_flag) override;
+  void send_CefRunContextMenuCallback_Continue(const  ::thrift_codegen::RObject& self, const int32_t command_id, const int32_t event_flag);
+  void CefRunContextMenuCallback_Cancel(const  ::thrift_codegen::RObject& self) override;
+  void send_CefRunContextMenuCallback_Cancel(const  ::thrift_codegen::RObject& self);
+  bool is_sub_menu(const  ::thrift_codegen::RObject& self) override;
+  int32_t send_is_sub_menu(const  ::thrift_codegen::RObject& self);
+  bool recv_is_sub_menu(const int32_t seqid);
+  bool clear(const  ::thrift_codegen::RObject& self) override;
+  int32_t send_clear(const  ::thrift_codegen::RObject& self);
+  bool recv_clear(const int32_t seqid);
+  int32_t get_count(const  ::thrift_codegen::RObject& self) override;
+  int32_t send_get_count(const  ::thrift_codegen::RObject& self);
+  int32_t recv_get_count(const int32_t seqid);
+  bool add_separator(const  ::thrift_codegen::RObject& self) override;
+  int32_t send_add_separator(const  ::thrift_codegen::RObject& self);
+  bool recv_add_separator(const int32_t seqid);
+  bool add_item(const  ::thrift_codegen::RObject& self, const int32_t command_id, const std::string& label) override;
+  int32_t send_add_item(const  ::thrift_codegen::RObject& self, const int32_t command_id, const std::string& label);
+  bool recv_add_item(const int32_t seqid);
+  bool add_check_item(const  ::thrift_codegen::RObject& self, const int32_t command_id, const std::string& label) override;
+  int32_t send_add_check_item(const  ::thrift_codegen::RObject& self, const int32_t command_id, const std::string& label);
+  bool recv_add_check_item(const int32_t seqid);
+  bool add_radio_item(const  ::thrift_codegen::RObject& self, const int32_t command_id, const std::string& label, const int32_t group_id) override;
+  int32_t send_add_radio_item(const  ::thrift_codegen::RObject& self, const int32_t command_id, const std::string& label, const int32_t group_id);
+  bool recv_add_radio_item(const int32_t seqid);
+  void add_sub_menu( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& self, const int32_t command_id, const std::string& label) override;
+  int32_t send_add_sub_menu(const  ::thrift_codegen::RObject& self, const int32_t command_id, const std::string& label);
+  void recv_add_sub_menu( ::thrift_codegen::RObject& _return, const int32_t seqid);
+  bool insert_separator_at(const  ::thrift_codegen::RObject& self, const int32_t index) override;
+  int32_t send_insert_separator_at(const  ::thrift_codegen::RObject& self, const int32_t index);
+  bool recv_insert_separator_at(const int32_t seqid);
+  bool insert_item_at(const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t command_id, const std::string& label) override;
+  int32_t send_insert_item_at(const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t command_id, const std::string& label);
+  bool recv_insert_item_at(const int32_t seqid);
+  bool insert_check_item_at(const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t command_id, const std::string& label) override;
+  int32_t send_insert_check_item_at(const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t command_id, const std::string& label);
+  bool recv_insert_check_item_at(const int32_t seqid);
+  bool insert_radio_item_at(const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t command_id, const std::string& label, const int32_t group_id) override;
+  int32_t send_insert_radio_item_at(const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t command_id, const std::string& label, const int32_t group_id);
+  bool recv_insert_radio_item_at(const int32_t seqid);
+  void insert_sub_menu_at( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t command_id, const std::string& label) override;
+  int32_t send_insert_sub_menu_at(const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t command_id, const std::string& label);
+  void recv_insert_sub_menu_at( ::thrift_codegen::RObject& _return, const int32_t seqid);
+  bool remove(const  ::thrift_codegen::RObject& self, const int32_t command_id) override;
+  int32_t send_remove(const  ::thrift_codegen::RObject& self, const int32_t command_id);
+  bool recv_remove(const int32_t seqid);
+  bool remove_at(const  ::thrift_codegen::RObject& self, const int32_t index) override;
+  int32_t send_remove_at(const  ::thrift_codegen::RObject& self, const int32_t index);
+  bool recv_remove_at(const int32_t seqid);
+  int32_t get_index_of(const  ::thrift_codegen::RObject& self, const int32_t command_id) override;
+  int32_t send_get_index_of(const  ::thrift_codegen::RObject& self, const int32_t command_id);
+  int32_t recv_get_index_of(const int32_t seqid);
+  int32_t get_command_id_at(const  ::thrift_codegen::RObject& self, const int32_t index) override;
+  int32_t send_get_command_id_at(const  ::thrift_codegen::RObject& self, const int32_t index);
+  int32_t recv_get_command_id_at(const int32_t seqid);
+  bool set_command_id_at(const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t command_id) override;
+  int32_t send_set_command_id_at(const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t command_id);
+  bool recv_set_command_id_at(const int32_t seqid);
+  void get_label(std::string& _return, const  ::thrift_codegen::RObject& self, const int32_t command_id) override;
+  int32_t send_get_label(const  ::thrift_codegen::RObject& self, const int32_t command_id);
+  void recv_get_label(std::string& _return, const int32_t seqid);
+  void get_label_at(std::string& _return, const  ::thrift_codegen::RObject& self, const int32_t index) override;
+  int32_t send_get_label_at(const  ::thrift_codegen::RObject& self, const int32_t index);
+  void recv_get_label_at(std::string& _return, const int32_t seqid);
+  bool set_label(const  ::thrift_codegen::RObject& self, const int32_t command_id, const std::string& label) override;
+  int32_t send_set_label(const  ::thrift_codegen::RObject& self, const int32_t command_id, const std::string& label);
+  bool recv_set_label(const int32_t seqid);
+  bool set_label_at(const  ::thrift_codegen::RObject& self, const int32_t index, const std::string& label) override;
+  int32_t send_set_label_at(const  ::thrift_codegen::RObject& self, const int32_t index, const std::string& label);
+  bool recv_set_label_at(const int32_t seqid);
+  int32_t get_type(const  ::thrift_codegen::RObject& self, const int32_t command_id) override;
+  int32_t send_get_type(const  ::thrift_codegen::RObject& self, const int32_t command_id);
+  int32_t recv_get_type(const int32_t seqid);
+  int32_t get_type_at(const  ::thrift_codegen::RObject& self, const int32_t index) override;
+  int32_t send_get_type_at(const  ::thrift_codegen::RObject& self, const int32_t index);
+  int32_t recv_get_type_at(const int32_t seqid);
+  int32_t get_group_id(const  ::thrift_codegen::RObject& self, const int32_t command_id) override;
+  int32_t send_get_group_id(const  ::thrift_codegen::RObject& self, const int32_t command_id);
+  int32_t recv_get_group_id(const int32_t seqid);
+  int32_t get_group_id_at(const  ::thrift_codegen::RObject& self, const int32_t index) override;
+  int32_t send_get_group_id_at(const  ::thrift_codegen::RObject& self, const int32_t index);
+  int32_t recv_get_group_id_at(const int32_t seqid);
+  bool set_group_id(const  ::thrift_codegen::RObject& self, const int32_t command_id, const int32_t group_id) override;
+  int32_t send_set_group_id(const  ::thrift_codegen::RObject& self, const int32_t command_id, const int32_t group_id);
+  bool recv_set_group_id(const int32_t seqid);
+  bool set_group_id_at(const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t group_id) override;
+  int32_t send_set_group_id_at(const  ::thrift_codegen::RObject& self, const int32_t index, const int32_t group_id);
+  bool recv_set_group_id_at(const int32_t seqid);
+  void get_sub_menu( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& self, const int32_t command_id) override;
+  int32_t send_get_sub_menu(const  ::thrift_codegen::RObject& self, const int32_t command_id);
+  void recv_get_sub_menu( ::thrift_codegen::RObject& _return, const int32_t seqid);
+  void get_sub_menu_at( ::thrift_codegen::RObject& _return, const  ::thrift_codegen::RObject& self, const int32_t index) override;
+  int32_t send_get_sub_menu_at(const  ::thrift_codegen::RObject& self, const int32_t index);
+  void recv_get_sub_menu_at( ::thrift_codegen::RObject& _return, const int32_t seqid);
+  bool is_visible(const  ::thrift_codegen::RObject& self, const int32_t command_id) override;
+  int32_t send_is_visible(const  ::thrift_codegen::RObject& self, const int32_t command_id);
+  bool recv_is_visible(const int32_t seqid);
+  bool is_visible_at(const  ::thrift_codegen::RObject& self, const int32_t index) override;
+  int32_t send_is_visible_at(const  ::thrift_codegen::RObject& self, const int32_t index);
+  bool recv_is_visible_at(const int32_t seqid);
+  bool set_visible(const  ::thrift_codegen::RObject& self, const int32_t command_id, const bool visible) override;
+  int32_t send_set_visible(const  ::thrift_codegen::RObject& self, const int32_t command_id, const bool visible);
+  bool recv_set_visible(const int32_t seqid);
+  bool set_visible_at(const  ::thrift_codegen::RObject& self, const int32_t index, const bool visible) override;
+  int32_t send_set_visible_at(const  ::thrift_codegen::RObject& self, const int32_t index, const bool visible);
+  bool recv_set_visible_at(const int32_t seqid);
+  bool is_enabled(const  ::thrift_codegen::RObject& self, const int32_t command_id) override;
+  int32_t send_is_enabled(const  ::thrift_codegen::RObject& self, const int32_t command_id);
+  bool recv_is_enabled(const int32_t seqid);
+  bool is_enabled_at(const  ::thrift_codegen::RObject& self, const int32_t index) override;
+  int32_t send_is_enabled_at(const  ::thrift_codegen::RObject& self, const int32_t index);
+  bool recv_is_enabled_at(const int32_t seqid);
+  bool set_enabled(const  ::thrift_codegen::RObject& self, const int32_t command_id, const bool enabled) override;
+  int32_t send_set_enabled(const  ::thrift_codegen::RObject& self, const int32_t command_id, const bool enabled);
+  bool recv_set_enabled(const int32_t seqid);
+  bool set_enabled_at(const  ::thrift_codegen::RObject& self, const int32_t index, const bool enabled) override;
+  int32_t send_set_enabled_at(const  ::thrift_codegen::RObject& self, const int32_t index, const bool enabled);
+  bool recv_set_enabled_at(const int32_t seqid);
+  bool is_checked(const  ::thrift_codegen::RObject& self, const int32_t command_id) override;
+  int32_t send_is_checked(const  ::thrift_codegen::RObject& self, const int32_t command_id);
+  bool recv_is_checked(const int32_t seqid);
+  bool is_checked_at(const  ::thrift_codegen::RObject& self, const int32_t index) override;
+  int32_t send_is_checked_at(const  ::thrift_codegen::RObject& self, const int32_t index);
+  bool recv_is_checked_at(const int32_t seqid);
+  bool set_checked(const  ::thrift_codegen::RObject& self, const int32_t command_id, const bool checked) override;
+  int32_t send_set_checked(const  ::thrift_codegen::RObject& self, const int32_t command_id, const bool checked);
+  bool recv_set_checked(const int32_t seqid);
+  bool set_checked_at(const  ::thrift_codegen::RObject& self, const int32_t index, const bool checked) override;
+  int32_t send_set_checked_at(const  ::thrift_codegen::RObject& self, const int32_t index, const bool checked);
+  bool recv_set_checked_at(const int32_t seqid);
   void MessageRouter_Create( ::thrift_codegen::RObject& _return, const std::string& query, const std::string& cancel) override;
   int32_t send_MessageRouter_Create(const std::string& query, const std::string& cancel);
   void recv_MessageRouter_Create( ::thrift_codegen::RObject& _return, const int32_t seqid);

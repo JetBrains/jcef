@@ -273,7 +273,7 @@ if(OS_LINUX)
   set_target_properties(${JCEF_TARGET} PROPERTIES BUILD_WITH_INSTALL_RPATH TRUE)
 
   # Copy binary and resource files to the target output directory.
-  COPY_FILES("${JCEF_TARGET}" "${CEF_BINARY_FILES}" "${CEF_BINARY_DIR}" "${CEF_TARGET_OUT_DIR}")
+  COPY_FILES("${JCEF_TARGET}" "${CEF_BINARY_FILES}" "${CEF_BINARY_DIR_RELEASE}" "${CEF_TARGET_OUT_DIR}")
   COPY_FILES("${JCEF_TARGET}" "${CEF_RESOURCE_FILES}" "${CEF_RESOURCE_DIR}" "${CEF_TARGET_OUT_DIR}")
 
   # TODO(jcef): Eliminate the symlink requirement once we figure out how.
@@ -284,8 +284,8 @@ if(OS_LINUX)
     COMMAND ${CMAKE_COMMAND} -E echo ""
     COMMAND ${CMAKE_COMMAND} -E echo "*** Run the following commands manually to create necessary symlinks ***"
     COMMAND ${CMAKE_COMMAND} -E echo "sudo ln -s ${CEF_RESOURCE_DIR}/icudtl.dat ${JAVA_DIR}/bin/icudtl.dat"
-    COMMAND ${CMAKE_COMMAND} -E echo "sudo ln -s ${CEF_BINARY_DIR}/snapshot_blob.bin ${JAVA_DIR}/bin/snapshot_blob.bin"
-    COMMAND ${CMAKE_COMMAND} -E echo "sudo ln -s ${CEF_BINARY_DIR}/v8_context_snapshot.bin ${JAVA_DIR}/bin/v8_context_snapshot.bin"
+    COMMAND ${CMAKE_COMMAND} -E echo "sudo ln -s ${CEF_BINARY_DIR_RELEASE}/snapshot_blob.bin ${JAVA_DIR}/bin/snapshot_blob.bin"
+    COMMAND ${CMAKE_COMMAND} -E echo "sudo ln -s ${CEF_BINARY_DIR_RELEASE}/v8_context_snapshot.bin ${JAVA_DIR}/bin/v8_context_snapshot.bin"
     COMMAND ${CMAKE_COMMAND} -E echo ""
     VERBATIM
     )
@@ -348,7 +348,7 @@ if(OS_MAC)
             bundle
     # Copy the CEF framework into the main app bundle.
     COMMAND ${CMAKE_COMMAND} -E copy_directory
-            "${CEF_BINARY_DIR}/Chromium Embedded Framework.framework"
+            "${CEF_BINARY_DIR_RELEASE}/Chromium Embedded Framework.framework"
             "${JCEF_APP}/Contents/Frameworks/Chromium Embedded Framework.framework"
     # Copy the JCEF library into the main app bindle.
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
@@ -447,6 +447,6 @@ if(OS_WINDOWS)
   ADD_WINDOWS_MANIFEST("${CMAKE_CURRENT_SOURCE_DIR}" "${JCEF_HELPER_TARGET}" "exe")
 
   # Copy binary and resource files to the target output directory.
-  COPY_FILES("${JCEF_TARGET}" "${CEF_BINARY_FILES}" "${CEF_BINARY_DIR}" "${CEF_TARGET_OUT_DIR}")
+  COPY_FILES("${JCEF_TARGET}" "${CEF_BINARY_FILES}" "${CEF_BINARY_DIR_RELEASE}" "${CEF_TARGET_OUT_DIR}")
   COPY_FILES("${JCEF_TARGET}" "${CEF_RESOURCE_FILES}" "${CEF_RESOURCE_DIR}" "${CEF_TARGET_OUT_DIR}")
 endif()

@@ -17,11 +17,12 @@
 #include "RemoteObjects.h"
 #include "callback/RemoteAuthCallback.h"
 #include "callback/RemoteCallback.h"
-#include "callback/RemoteRegistration.h"
+#include "callback/RemoteCefRunContextMenuCallback.h"
 #include "callback/RemoteCompletionCallback.h"
+#include "callback/RemoteIntCallback.h"
+#include "callback/RemoteRegistration.h"
 #include "callback/RemoteSchemeHandlerFactory.h"
 #include "callback/RemoteStringVisitor.h"
-#include "callback/RemoteIntCallback.h"
 
 #include "include/base/cef_callback.h"
 #include "include/wrapper/cef_closure_task.h"
@@ -35,6 +36,7 @@
 
 #include "../native/critical_wait.h"
 #include "CefUtils.h"
+#include "callback/RemoteCefMenuModel.h"
 
 using namespace apache::thrift;
 
@@ -544,7 +546,7 @@ namespace {
     std::shared_ptr<CriticalWait> waitCond = std::make_shared<CriticalWait>(lock.get());
     LockGuard guard(*lock);
     CefPostTask(threadId, base::BindOnce(_runTaskAndWakeup, waitCond, std::move(task)));
-    waitCond->Wait(waitMillis);
+    waitCond->Wait(static_cast<unsigned>(waitMillis));
   }
 
   void getZoomLevel(CefRefPtr<CefBrowserHost> host, std::shared_ptr<double> result) {
@@ -858,6 +860,405 @@ void ServerHandler::Callback_Cancel(const thrift_codegen::RObject& callback) {
   if (rc == nullptr) return;
   rc->getDelegate().Cancel();
   RemoteCallback::dispose(callback.objId);
+}
+
+void ServerHandler::CefRunContextMenuCallback_Dispose(
+    const thrift_codegen::RObject& self) {
+  RemoteCefRunContextMenuCallback::dispose(self.objId);
+}
+
+void ServerHandler::CefRunContextMenuCallback_Continue(
+    const thrift_codegen::RObject& self,
+    const int32_t command_id,
+    const int32_t event_flag) {
+  const auto self_wrapper = RemoteCefRunContextMenuCallback::get(self.objId);
+  if (self_wrapper == nullptr) return;
+  self_wrapper->getDelegate().Continue(command_id,
+                              static_cast<cef_event_flags_t>(event_flag));
+  RemoteCefRunContextMenuCallback::dispose(self.objId);
+}
+
+void ServerHandler::CefRunContextMenuCallback_Cancel(
+    const thrift_codegen::RObject& self) {
+  const auto self_wrapper = RemoteCefRunContextMenuCallback::get(self.objId);
+  if (self_wrapper == nullptr)
+    return;
+  self_wrapper->getDelegate().Cancel();
+  RemoteCefRunContextMenuCallback::dispose(self.objId);
+}
+
+bool ServerHandler::is_sub_menu(const thrift_codegen::RObject& self) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return false;
+  return self_wrapper->getDelegate().IsSubMenu();
+}
+
+bool ServerHandler::clear(const thrift_codegen::RObject& self) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return false;
+  return self_wrapper->getDelegate().Clear();
+}
+
+int32_t ServerHandler::get_count(const thrift_codegen::RObject& self) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return 0;
+  return static_cast<int32_t>(self_wrapper->getDelegate().GetCount());
+}
+
+bool ServerHandler::add_separator(const thrift_codegen::RObject& self) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return false;
+  return self_wrapper->getDelegate().AddSeparator();
+}
+
+bool ServerHandler::add_item(const thrift_codegen::RObject& self,
+                             const int32_t command_id,
+                             const std::string& label) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return false;
+  return self_wrapper->getDelegate().AddItem(command_id, label);
+}
+
+bool ServerHandler::add_check_item(const thrift_codegen::RObject& self,
+                                   const int32_t command_id,
+                                   const std::string& label) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return false;
+  return self_wrapper->getDelegate().AddCheckItem(command_id, label);
+}
+
+bool ServerHandler::add_radio_item(const thrift_codegen::RObject& self,
+                                   const int32_t command_id,
+                                   const std::string& label,
+                                   const int32_t group_id) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return false;
+  return self_wrapper->getDelegate().AddRadioItem(command_id, label, group_id);
+}
+
+void ServerHandler::add_sub_menu(thrift_codegen::RObject& _return,
+                                 const thrift_codegen::RObject& self,
+                                 const int32_t command_id,
+                                 const std::string& label) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return;
+  const auto sub_menu = self_wrapper->getDelegate().AddSubMenu(command_id, label);
+
+  const auto return_wrapper = RemoteCefMenuModel::wrapDelegate(sub_menu);
+
+  _return = return_wrapper->serverIdWithMap();
+}
+
+bool ServerHandler::insert_separator_at(const thrift_codegen::RObject& self,
+                                        const int32_t index) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return false;
+  return self_wrapper->getDelegate().InsertSeparatorAt(index);
+}
+
+bool ServerHandler::insert_item_at(const thrift_codegen::RObject& self,
+                                   const int32_t index,
+                                   const int32_t command_id,
+                                   const std::string& label) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return false;
+  return self_wrapper->getDelegate().InsertItemAt(index, command_id, label);
+}
+
+bool ServerHandler::insert_check_item_at(const thrift_codegen::RObject& self,
+                                         const int32_t index,
+                                         const int32_t command_id,
+                                         const std::string& label) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return false;
+  return self_wrapper->getDelegate().InsertCheckItemAt(index, command_id, label);
+}
+
+bool ServerHandler::insert_radio_item_at(const thrift_codegen::RObject& self,
+                                         const int32_t index,
+                                         const int32_t command_id,
+                                         const std::string& label,
+                                         const int32_t group_id) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return false;
+  return self_wrapper->getDelegate().InsertRadioItemAt(index, command_id, label,
+                                                       group_id);
+}
+
+void ServerHandler::insert_sub_menu_at(thrift_codegen::RObject& _return,
+                                       const thrift_codegen::RObject& self,
+                                       const int32_t index,
+                                       const int32_t command_id,
+                                       const std::string& label) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return;
+  auto sub_menu =
+      self_wrapper->getDelegate().InsertSubMenuAt(index, command_id, label);
+  _return = RemoteCefMenuModel::wrapDelegate(sub_menu)->serverIdWithMap();
+}
+
+bool ServerHandler::remove(const thrift_codegen::RObject& self,
+                           const int32_t command_id) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return false;
+  return self_wrapper->getDelegate().Remove(command_id);
+}
+
+bool ServerHandler::remove_at(const thrift_codegen::RObject& self,
+                              const int32_t index) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return false;
+  return self_wrapper->getDelegate().RemoveAt(index);
+}
+
+int32_t ServerHandler::get_index_of(const thrift_codegen::RObject& self,
+                                    const int32_t command_id) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return false;
+  return self_wrapper->getDelegate().GetIndexOf(command_id);
+}
+
+int32_t ServerHandler::get_command_id_at(const thrift_codegen::RObject& self,
+                                         const int32_t index) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return false;
+  return self_wrapper->getDelegate().GetCommandIdAt(index);
+}
+
+bool ServerHandler::set_command_id_at(const thrift_codegen::RObject& self,
+                                      const int32_t index,
+                                      const int32_t command_id) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return false;
+
+  return self_wrapper->getDelegate().SetCommandIdAt(index, command_id);
+}
+
+void ServerHandler::get_label(std::string& _return,
+                              const thrift_codegen::RObject& self,
+                              const int32_t command_id) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return;
+  _return = self_wrapper->getDelegate().GetLabel(command_id);
+}
+
+void ServerHandler::get_label_at(std::string& _return,
+                                 const thrift_codegen::RObject& self,
+                                 const int32_t index) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return;
+  _return = self_wrapper->getDelegate().GetLabelAt(index);
+}
+
+bool ServerHandler::set_label(const thrift_codegen::RObject& self,
+                              const int32_t command_id,
+                              const std::string& label) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return false;
+  return self_wrapper->getDelegate().SetLabel(command_id, label);
+}
+
+bool ServerHandler::set_label_at(const thrift_codegen::RObject& self,
+                                 const int32_t index,
+                                 const std::string& label) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return false;
+  return self_wrapper->getDelegate().SetLabelAt(index, label);
+}
+
+int32_t ServerHandler::get_type(const thrift_codegen::RObject& self,
+                                const int32_t command_id) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return 0;
+  return self_wrapper->getDelegate().GetType(command_id);
+}
+
+int32_t ServerHandler::get_type_at(const thrift_codegen::RObject& self,
+                                   const int32_t index) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return 0;
+  return self_wrapper->getDelegate().GetTypeAt(index);
+}
+
+int32_t ServerHandler::get_group_id(const thrift_codegen::RObject& self,
+                                    const int32_t command_id) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return 0;
+  return self_wrapper->getDelegate().GetGroupId(command_id);
+}
+
+int32_t ServerHandler::get_group_id_at(const thrift_codegen::RObject& self,
+                                       const int32_t index) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return 0;
+  return self_wrapper->getDelegate().GetGroupIdAt(index);
+}
+
+bool ServerHandler::set_group_id(const thrift_codegen::RObject& self,
+                                 const int32_t command_id,
+                                 const int32_t group_id) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return false;
+  return self_wrapper->getDelegate().SetGroupId(command_id, group_id);
+}
+
+bool ServerHandler::set_group_id_at(const thrift_codegen::RObject& self,
+                                    const int32_t index,
+                                    const int32_t group_id) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return false;
+  return self_wrapper->getDelegate().SetGroupIdAt(index, group_id);
+}
+
+void ServerHandler::get_sub_menu(thrift_codegen::RObject& _return,
+                                 const thrift_codegen::RObject& self,
+                                 const int32_t command_id) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return;
+
+  const auto sub_menu = self_wrapper->getDelegate().GetSubMenu(command_id);
+  _return = RemoteCefMenuModel::wrapDelegate(sub_menu)->serverIdWithMap();
+}
+
+void ServerHandler::get_sub_menu_at(thrift_codegen::RObject& _return,
+                                    const thrift_codegen::RObject& self,
+                                    const int32_t index) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return;
+  const auto sub_menu = self_wrapper->getDelegate().GetSubMenuAt(index);
+  _return = RemoteCefMenuModel::wrapDelegate(sub_menu)->serverIdWithMap();
+}
+
+bool ServerHandler::is_visible(const thrift_codegen::RObject& self,
+                               const int32_t command_id) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return false;
+  return self_wrapper->getDelegate().IsVisible(command_id);
+}
+
+bool ServerHandler::is_visible_at(const thrift_codegen::RObject& self,
+                                  const int32_t index) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return false;
+  return self_wrapper->getDelegate().IsVisibleAt(index);
+}
+
+bool ServerHandler::set_visible(const thrift_codegen::RObject& self,
+                                const int32_t command_id,
+                                const bool visible) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return false;
+  return self_wrapper->getDelegate().SetVisible(command_id, visible);
+}
+
+bool ServerHandler::set_visible_at(const thrift_codegen::RObject& self,
+                                   const int32_t index,
+                                   const bool visible) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return false;
+  return self_wrapper->getDelegate().SetVisibleAt(index, visible);
+}
+
+bool ServerHandler::is_enabled(const thrift_codegen::RObject& self,
+                               const int32_t command_id) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return false;
+  return self_wrapper->getDelegate().IsEnabled(command_id);
+}
+
+bool ServerHandler::is_enabled_at(const thrift_codegen::RObject& self,
+                                  const int32_t index) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return false;
+  return self_wrapper->getDelegate().IsEnabledAt(index);
+}
+
+bool ServerHandler::set_enabled(const thrift_codegen::RObject& self,
+                                const int32_t command_id,
+                                const bool enabled) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return false;
+  return self_wrapper->getDelegate().SetEnabled(command_id, enabled);
+}
+
+bool ServerHandler::set_enabled_at(const thrift_codegen::RObject& self,
+                                   const int32_t index,
+                                   const bool enabled) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return false;
+  return self_wrapper->getDelegate().SetEnabledAt(index, enabled);
+}
+
+bool ServerHandler::is_checked(const thrift_codegen::RObject& self,
+                               const int32_t command_id) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return false;
+  return self_wrapper->getDelegate().IsChecked(command_id);
+}
+
+bool ServerHandler::is_checked_at(const thrift_codegen::RObject& self,
+                                  const int32_t index) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return false;
+  return self_wrapper->getDelegate().IsCheckedAt(index);
+}
+
+bool ServerHandler::set_checked(const thrift_codegen::RObject& self,
+                                const int32_t command_id,
+                                const bool checked) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return false;
+  return self_wrapper->getDelegate().SetChecked(command_id, checked);
+}
+
+bool ServerHandler::set_checked_at(const thrift_codegen::RObject& self,
+                                   const int32_t index,
+                                   const bool checked) {
+  const auto self_wrapper = RemoteCefMenuModel::get(self.objId);
+  if (self_wrapper == nullptr)
+    return false;
+  return self_wrapper->getDelegate().SetCheckedAt(index, checked);
 }
 
 void ServerHandler::MessageRouter_Create(thrift_codegen::RObject& _return,
