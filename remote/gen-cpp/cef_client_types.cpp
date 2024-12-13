@@ -13,6 +13,43 @@
 
 namespace thrift_codegen {
 
+int _kMenuItemTypeValues[] = {
+  MenuItemType::MENUITEMTYPE_NONE,
+  MenuItemType::MENUITEMTYPE_COMMAND,
+  MenuItemType::MENUITEMTYPE_CHECK,
+  MenuItemType::MENUITEMTYPE_RADIO,
+  MenuItemType::MENUITEMTYPE_SEPARATOR,
+  MenuItemType::MENUITEMTYPE_SUBMENU
+};
+const char* _kMenuItemTypeNames[] = {
+  "MENUITEMTYPE_NONE",
+  "MENUITEMTYPE_COMMAND",
+  "MENUITEMTYPE_CHECK",
+  "MENUITEMTYPE_RADIO",
+  "MENUITEMTYPE_SEPARATOR",
+  "MENUITEMTYPE_SUBMENU"
+};
+const std::map<int, const char*> _MenuItemType_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(6, _kMenuItemTypeValues, _kMenuItemTypeNames), ::apache::thrift::TEnumIterator(-1, nullptr, nullptr));
+
+std::ostream& operator<<(std::ostream& out, const MenuItemType::type& val) {
+  std::map<int, const char*>::const_iterator it = _MenuItemType_VALUES_TO_NAMES.find(val);
+  if (it != _MenuItemType_VALUES_TO_NAMES.end()) {
+    out << it->second;
+  } else {
+    out << static_cast<int>(val);
+  }
+  return out;
+}
+
+std::string to_string(const MenuItemType::type& val) {
+  std::map<int, const char*>::const_iterator it = _MenuItemType_VALUES_TO_NAMES.find(val);
+  if (it != _MenuItemType_VALUES_TO_NAMES.end()) {
+    return std::string(it->second);
+  } else {
+    return std::to_string(static_cast<int>(val));
+  }
+}
+
 
 Point::~Point() noexcept {
 }
@@ -493,6 +530,787 @@ void ScreenInfo::printTo(std::ostream& out) const {
   out << ", " << "is_monochrome=" << to_string(is_monochrome);
   out << ", " << "rect=" << to_string(rect);
   out << ", " << "available_rect=" << to_string(available_rect);
+  out << ")";
+}
+
+
+ContextMenuParams::~ContextMenuParams() noexcept {
+}
+
+
+void ContextMenuParams::__set_x(const int32_t val) {
+  this->x = val;
+}
+
+void ContextMenuParams::__set_y(const int32_t val) {
+  this->y = val;
+}
+
+void ContextMenuParams::__set_type_flags(const int32_t val) {
+  this->type_flags = val;
+}
+
+void ContextMenuParams::__set_link_url(const std::string& val) {
+  this->link_url = val;
+}
+
+void ContextMenuParams::__set_unfiltered_link_url(const std::string& val) {
+  this->unfiltered_link_url = val;
+}
+
+void ContextMenuParams::__set_source_url(const std::string& val) {
+  this->source_url = val;
+}
+
+void ContextMenuParams::__set_has_image_contents(const bool val) {
+  this->has_image_contents = val;
+}
+
+void ContextMenuParams::__set_title_text(const std::string& val) {
+  this->title_text = val;
+}
+
+void ContextMenuParams::__set_page_url(const std::string& val) {
+  this->page_url = val;
+}
+
+void ContextMenuParams::__set_frame_url(const std::string& val) {
+  this->frame_url = val;
+}
+
+void ContextMenuParams::__set_frame_charset(const std::string& val) {
+  this->frame_charset = val;
+}
+
+void ContextMenuParams::__set_media_type(const int32_t val) {
+  this->media_type = val;
+}
+
+void ContextMenuParams::__set_media_state_flags(const int32_t val) {
+  this->media_state_flags = val;
+}
+
+void ContextMenuParams::__set_selected_text(const std::string& val) {
+  this->selected_text = val;
+}
+
+void ContextMenuParams::__set_misspelled_word(const std::string& val) {
+  this->misspelled_word = val;
+}
+
+void ContextMenuParams::__set_is_editable(const bool val) {
+  this->is_editable = val;
+}
+
+void ContextMenuParams::__set_is_spellcheck_enabled(const bool val) {
+  this->is_spellcheck_enabled = val;
+}
+
+void ContextMenuParams::__set_edit_state_flags(const int32_t val) {
+  this->edit_state_flags = val;
+}
+
+void ContextMenuParams::__set_is_custom_menu(const bool val) {
+  this->is_custom_menu = val;
+}
+std::ostream& operator<<(std::ostream& out, const ContextMenuParams& obj)
+{
+  obj.printTo(out);
+  return out;
+}
+
+
+uint32_t ContextMenuParams::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+  bool isset_x = false;
+  bool isset_y = false;
+  bool isset_type_flags = false;
+  bool isset_link_url = false;
+  bool isset_unfiltered_link_url = false;
+  bool isset_source_url = false;
+  bool isset_has_image_contents = false;
+  bool isset_title_text = false;
+  bool isset_page_url = false;
+  bool isset_frame_url = false;
+  bool isset_frame_charset = false;
+  bool isset_media_type = false;
+  bool isset_media_state_flags = false;
+  bool isset_selected_text = false;
+  bool isset_misspelled_word = false;
+  bool isset_is_editable = false;
+  bool isset_is_spellcheck_enabled = false;
+  bool isset_edit_state_flags = false;
+  bool isset_is_custom_menu = false;
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->x);
+          isset_x = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->y);
+          isset_y = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->type_flags);
+          isset_type_flags = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->link_url);
+          isset_link_url = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 5:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->unfiltered_link_url);
+          isset_unfiltered_link_url = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 6:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->source_url);
+          isset_source_url = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 7:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->has_image_contents);
+          isset_has_image_contents = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 8:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->title_text);
+          isset_title_text = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 9:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->page_url);
+          isset_page_url = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 10:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->frame_url);
+          isset_frame_url = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 11:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->frame_charset);
+          isset_frame_charset = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 12:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->media_type);
+          isset_media_type = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 13:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->media_state_flags);
+          isset_media_state_flags = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 14:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->selected_text);
+          isset_selected_text = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 15:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->misspelled_word);
+          isset_misspelled_word = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 16:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->is_editable);
+          isset_is_editable = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 17:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->is_spellcheck_enabled);
+          isset_is_spellcheck_enabled = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 18:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->edit_state_flags);
+          isset_edit_state_flags = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 19:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->is_custom_menu);
+          isset_is_custom_menu = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  if (!isset_x)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_y)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_type_flags)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_link_url)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_unfiltered_link_url)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_source_url)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_has_image_contents)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_title_text)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_page_url)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_frame_url)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_frame_charset)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_media_type)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_media_state_flags)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_selected_text)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_misspelled_word)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_is_editable)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_is_spellcheck_enabled)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_edit_state_flags)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_is_custom_menu)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  return xfer;
+}
+
+uint32_t ContextMenuParams::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ContextMenuParams");
+
+  xfer += oprot->writeFieldBegin("x", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->x);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("y", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32(this->y);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("type_flags", ::apache::thrift::protocol::T_I32, 3);
+  xfer += oprot->writeI32(this->type_flags);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("link_url", ::apache::thrift::protocol::T_STRING, 4);
+  xfer += oprot->writeString(this->link_url);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("unfiltered_link_url", ::apache::thrift::protocol::T_STRING, 5);
+  xfer += oprot->writeString(this->unfiltered_link_url);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("source_url", ::apache::thrift::protocol::T_STRING, 6);
+  xfer += oprot->writeString(this->source_url);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("has_image_contents", ::apache::thrift::protocol::T_BOOL, 7);
+  xfer += oprot->writeBool(this->has_image_contents);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("title_text", ::apache::thrift::protocol::T_STRING, 8);
+  xfer += oprot->writeString(this->title_text);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("page_url", ::apache::thrift::protocol::T_STRING, 9);
+  xfer += oprot->writeString(this->page_url);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("frame_url", ::apache::thrift::protocol::T_STRING, 10);
+  xfer += oprot->writeString(this->frame_url);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("frame_charset", ::apache::thrift::protocol::T_STRING, 11);
+  xfer += oprot->writeString(this->frame_charset);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("media_type", ::apache::thrift::protocol::T_I32, 12);
+  xfer += oprot->writeI32(this->media_type);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("media_state_flags", ::apache::thrift::protocol::T_I32, 13);
+  xfer += oprot->writeI32(this->media_state_flags);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("selected_text", ::apache::thrift::protocol::T_STRING, 14);
+  xfer += oprot->writeString(this->selected_text);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("misspelled_word", ::apache::thrift::protocol::T_STRING, 15);
+  xfer += oprot->writeString(this->misspelled_word);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("is_editable", ::apache::thrift::protocol::T_BOOL, 16);
+  xfer += oprot->writeBool(this->is_editable);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("is_spellcheck_enabled", ::apache::thrift::protocol::T_BOOL, 17);
+  xfer += oprot->writeBool(this->is_spellcheck_enabled);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("edit_state_flags", ::apache::thrift::protocol::T_I32, 18);
+  xfer += oprot->writeI32(this->edit_state_flags);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("is_custom_menu", ::apache::thrift::protocol::T_BOOL, 19);
+  xfer += oprot->writeBool(this->is_custom_menu);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+void swap(ContextMenuParams &a, ContextMenuParams &b) {
+  using ::std::swap;
+  swap(a.x, b.x);
+  swap(a.y, b.y);
+  swap(a.type_flags, b.type_flags);
+  swap(a.link_url, b.link_url);
+  swap(a.unfiltered_link_url, b.unfiltered_link_url);
+  swap(a.source_url, b.source_url);
+  swap(a.has_image_contents, b.has_image_contents);
+  swap(a.title_text, b.title_text);
+  swap(a.page_url, b.page_url);
+  swap(a.frame_url, b.frame_url);
+  swap(a.frame_charset, b.frame_charset);
+  swap(a.media_type, b.media_type);
+  swap(a.media_state_flags, b.media_state_flags);
+  swap(a.selected_text, b.selected_text);
+  swap(a.misspelled_word, b.misspelled_word);
+  swap(a.is_editable, b.is_editable);
+  swap(a.is_spellcheck_enabled, b.is_spellcheck_enabled);
+  swap(a.edit_state_flags, b.edit_state_flags);
+  swap(a.is_custom_menu, b.is_custom_menu);
+}
+
+ContextMenuParams::ContextMenuParams(const ContextMenuParams& other6) {
+  x = other6.x;
+  y = other6.y;
+  type_flags = other6.type_flags;
+  link_url = other6.link_url;
+  unfiltered_link_url = other6.unfiltered_link_url;
+  source_url = other6.source_url;
+  has_image_contents = other6.has_image_contents;
+  title_text = other6.title_text;
+  page_url = other6.page_url;
+  frame_url = other6.frame_url;
+  frame_charset = other6.frame_charset;
+  media_type = other6.media_type;
+  media_state_flags = other6.media_state_flags;
+  selected_text = other6.selected_text;
+  misspelled_word = other6.misspelled_word;
+  is_editable = other6.is_editable;
+  is_spellcheck_enabled = other6.is_spellcheck_enabled;
+  edit_state_flags = other6.edit_state_flags;
+  is_custom_menu = other6.is_custom_menu;
+}
+ContextMenuParams& ContextMenuParams::operator=(const ContextMenuParams& other7) {
+  x = other7.x;
+  y = other7.y;
+  type_flags = other7.type_flags;
+  link_url = other7.link_url;
+  unfiltered_link_url = other7.unfiltered_link_url;
+  source_url = other7.source_url;
+  has_image_contents = other7.has_image_contents;
+  title_text = other7.title_text;
+  page_url = other7.page_url;
+  frame_url = other7.frame_url;
+  frame_charset = other7.frame_charset;
+  media_type = other7.media_type;
+  media_state_flags = other7.media_state_flags;
+  selected_text = other7.selected_text;
+  misspelled_word = other7.misspelled_word;
+  is_editable = other7.is_editable;
+  is_spellcheck_enabled = other7.is_spellcheck_enabled;
+  edit_state_flags = other7.edit_state_flags;
+  is_custom_menu = other7.is_custom_menu;
+  return *this;
+}
+void ContextMenuParams::printTo(std::ostream& out) const {
+  using ::apache::thrift::to_string;
+  out << "ContextMenuParams(";
+  out << "x=" << to_string(x);
+  out << ", " << "y=" << to_string(y);
+  out << ", " << "type_flags=" << to_string(type_flags);
+  out << ", " << "link_url=" << to_string(link_url);
+  out << ", " << "unfiltered_link_url=" << to_string(unfiltered_link_url);
+  out << ", " << "source_url=" << to_string(source_url);
+  out << ", " << "has_image_contents=" << to_string(has_image_contents);
+  out << ", " << "title_text=" << to_string(title_text);
+  out << ", " << "page_url=" << to_string(page_url);
+  out << ", " << "frame_url=" << to_string(frame_url);
+  out << ", " << "frame_charset=" << to_string(frame_charset);
+  out << ", " << "media_type=" << to_string(media_type);
+  out << ", " << "media_state_flags=" << to_string(media_state_flags);
+  out << ", " << "selected_text=" << to_string(selected_text);
+  out << ", " << "misspelled_word=" << to_string(misspelled_word);
+  out << ", " << "is_editable=" << to_string(is_editable);
+  out << ", " << "is_spellcheck_enabled=" << to_string(is_spellcheck_enabled);
+  out << ", " << "edit_state_flags=" << to_string(edit_state_flags);
+  out << ", " << "is_custom_menu=" << to_string(is_custom_menu);
+  out << ")";
+}
+
+
+MenuItem::~MenuItem() noexcept {
+}
+
+
+void MenuItem::__set_command_id(const int32_t val) {
+  this->command_id = val;
+}
+
+void MenuItem::__set_label(const std::string& val) {
+  this->label = val;
+}
+
+void MenuItem::__set_type(const MenuItemType::type val) {
+  this->type = val;
+}
+
+void MenuItem::__set_group_id(const int32_t val) {
+  this->group_id = val;
+}
+
+void MenuItem::__set_visible(const bool val) {
+  this->visible = val;
+}
+
+void MenuItem::__set_enabled(const bool val) {
+  this->enabled = val;
+}
+
+void MenuItem::__set_checked(const bool val) {
+  this->checked = val;
+}
+
+void MenuItem::__set_sub_menu(const std::vector<MenuItem> & val) {
+  this->sub_menu = val;
+}
+std::ostream& operator<<(std::ostream& out, const MenuItem& obj)
+{
+  obj.printTo(out);
+  return out;
+}
+
+
+uint32_t MenuItem::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+  bool isset_command_id = false;
+  bool isset_label = false;
+  bool isset_type = false;
+  bool isset_group_id = false;
+  bool isset_visible = false;
+  bool isset_enabled = false;
+  bool isset_checked = false;
+  bool isset_sub_menu = false;
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->command_id);
+          isset_command_id = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->label);
+          isset_label = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          int32_t ecast8;
+          xfer += iprot->readI32(ecast8);
+          this->type = static_cast<MenuItemType::type>(ecast8);
+          isset_type = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->group_id);
+          isset_group_id = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 5:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->visible);
+          isset_visible = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 6:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->enabled);
+          isset_enabled = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 7:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->checked);
+          isset_checked = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 8:
+        if (ftype == ::apache::thrift::protocol::T_LIST) {
+          {
+            this->sub_menu.clear();
+            uint32_t _size9;
+            ::apache::thrift::protocol::TType _etype12;
+            xfer += iprot->readListBegin(_etype12, _size9);
+            this->sub_menu.resize(_size9);
+            uint32_t _i13;
+            for (_i13 = 0; _i13 < _size9; ++_i13)
+            {
+              xfer += this->sub_menu[_i13].read(iprot);
+            }
+            xfer += iprot->readListEnd();
+          }
+          isset_sub_menu = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  if (!isset_command_id)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_label)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_type)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_group_id)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_visible)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_enabled)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_checked)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_sub_menu)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  return xfer;
+}
+
+uint32_t MenuItem::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("MenuItem");
+
+  xfer += oprot->writeFieldBegin("command_id", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->command_id);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("label", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString(this->label);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("type", ::apache::thrift::protocol::T_I32, 3);
+  xfer += oprot->writeI32(static_cast<int32_t>(this->type));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("group_id", ::apache::thrift::protocol::T_I32, 4);
+  xfer += oprot->writeI32(this->group_id);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("visible", ::apache::thrift::protocol::T_BOOL, 5);
+  xfer += oprot->writeBool(this->visible);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("enabled", ::apache::thrift::protocol::T_BOOL, 6);
+  xfer += oprot->writeBool(this->enabled);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("checked", ::apache::thrift::protocol::T_BOOL, 7);
+  xfer += oprot->writeBool(this->checked);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("sub_menu", ::apache::thrift::protocol::T_LIST, 8);
+  {
+    xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->sub_menu.size()));
+    std::vector<MenuItem> ::const_iterator _iter14;
+    for (_iter14 = this->sub_menu.begin(); _iter14 != this->sub_menu.end(); ++_iter14)
+    {
+      xfer += (*_iter14).write(oprot);
+    }
+    xfer += oprot->writeListEnd();
+  }
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+void swap(MenuItem &a, MenuItem &b) {
+  using ::std::swap;
+  swap(a.command_id, b.command_id);
+  swap(a.label, b.label);
+  swap(a.type, b.type);
+  swap(a.group_id, b.group_id);
+  swap(a.visible, b.visible);
+  swap(a.enabled, b.enabled);
+  swap(a.checked, b.checked);
+  swap(a.sub_menu, b.sub_menu);
+}
+
+MenuItem::MenuItem(const MenuItem& other15) {
+  command_id = other15.command_id;
+  label = other15.label;
+  type = other15.type;
+  group_id = other15.group_id;
+  visible = other15.visible;
+  enabled = other15.enabled;
+  checked = other15.checked;
+  sub_menu = other15.sub_menu;
+}
+MenuItem& MenuItem::operator=(const MenuItem& other16) {
+  command_id = other16.command_id;
+  label = other16.label;
+  type = other16.type;
+  group_id = other16.group_id;
+  visible = other16.visible;
+  enabled = other16.enabled;
+  checked = other16.checked;
+  sub_menu = other16.sub_menu;
+  return *this;
+}
+void MenuItem::printTo(std::ostream& out) const {
+  using ::apache::thrift::to_string;
+  out << "MenuItem(";
+  out << "command_id=" << to_string(command_id);
+  out << ", " << "label=" << to_string(label);
+  out << ", " << "type=" << to_string(type);
+  out << ", " << "group_id=" << to_string(group_id);
+  out << ", " << "visible=" << to_string(visible);
+  out << ", " << "enabled=" << to_string(enabled);
+  out << ", " << "checked=" << to_string(checked);
+  out << ", " << "sub_menu=" << to_string(sub_menu);
   out << ")";
 }
 

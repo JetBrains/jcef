@@ -265,6 +265,26 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
     printf("ResourceRequestHandler_OnProtocolExecution\n");
   }
 
+  void ContextMenuHandler_OnBeforeContextMenu(std::vector<MenuItem> & _return, const int32_t bid, const  ::thrift_codegen::RObject& frame, const ContextMenuParams& params, const std::vector<MenuItem> & menu_model) {
+    // Your implementation goes here
+    printf("ContextMenuHandler_OnBeforeContextMenu\n");
+  }
+
+  bool ContextMenuHandler_RunContextMenu(const int32_t bid, const  ::thrift_codegen::RObject& frame, const ContextMenuParams& params, const std::vector<MenuItem> & model, const  ::thrift_codegen::RObject& callback) {
+    // Your implementation goes here
+    printf("ContextMenuHandler_RunContextMenu\n");
+  }
+
+  bool ContextMenuHandler_OnContextMenuCommand(const int32_t bid, const  ::thrift_codegen::RObject& frame, const ContextMenuParams& params, const int32_t command_id, const int32_t event_flags) {
+    // Your implementation goes here
+    printf("ContextMenuHandler_OnContextMenuCommand\n");
+  }
+
+  void ContextMenuHandler_OnContextMenuDismissed(const int32_t bid, const  ::thrift_codegen::RObject& frame) {
+    // Your implementation goes here
+    printf("ContextMenuHandler_OnContextMenuDismissed\n");
+  }
+
   bool MessageRouterHandler_onQuery(const  ::thrift_codegen::RObject& handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const int64_t queryId, const std::string& request, const bool persistent, const  ::thrift_codegen::RObject& queryCallback) {
     // Your implementation goes here
     printf("MessageRouterHandler_onQuery\n");

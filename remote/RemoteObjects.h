@@ -100,6 +100,10 @@ class RemoteServerObject : public RemoteServerObjectBase<T> {
   explicit RemoteServerObject(int id, CefRefPtr<D> delegate) : RemoteServerObjectBase<T>(id), myDelegate(delegate.get()) {
     myDelegate->AddRef();
   }
+
+  RemoteServerObject(const RemoteServerObject&) = delete;
+  RemoteServerObject(RemoteServerObject&&) = delete;
+
   ~RemoteServerObject() override {
     myDelegate->Release();
   }
