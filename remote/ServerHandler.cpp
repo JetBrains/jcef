@@ -17,11 +17,12 @@
 #include "RemoteObjects.h"
 #include "callback/RemoteAuthCallback.h"
 #include "callback/RemoteCallback.h"
-#include "callback/RemoteRegistration.h"
+#include "callback/RemoteCefRunContextMenuCallback.h"
 #include "callback/RemoteCompletionCallback.h"
+#include "callback/RemoteIntCallback.h"
+#include "callback/RemoteRegistration.h"
 #include "callback/RemoteSchemeHandlerFactory.h"
 #include "callback/RemoteStringVisitor.h"
-#include "callback/RemoteIntCallback.h"
 
 #include "include/base/cef_callback.h"
 #include "include/wrapper/cef_closure_task.h"
@@ -544,7 +545,7 @@ namespace {
     std::shared_ptr<CriticalWait> waitCond = std::make_shared<CriticalWait>(lock.get());
     LockGuard guard(*lock);
     CefPostTask(threadId, base::BindOnce(_runTaskAndWakeup, waitCond, std::move(task)));
-    waitCond->Wait(waitMillis);
+    waitCond->Wait(static_cast<unsigned>(waitMillis));
   }
 
   void getZoomLevel(CefRefPtr<CefBrowserHost> host, std::shared_ptr<double> result) {
@@ -858,6 +859,31 @@ void ServerHandler::Callback_Cancel(const thrift_codegen::RObject& callback) {
   if (rc == nullptr) return;
   rc->getDelegate().Cancel();
   RemoteCallback::dispose(callback.objId);
+}
+
+void ServerHandler::CefRunContextMenuCallback_Dispose(
+    const thrift_codegen::RObject& self) {
+  RemoteCefRunContextMenuCallback::dispose(self.objId);
+}
+
+void ServerHandler::CefRunContextMenuCallback_Continue(
+    const thrift_codegen::RObject& self,
+    const int32_t command_id,
+    const int32_t event_flag) {
+  const auto self_wrapper = RemoteCefRunContextMenuCallback::get(self.objId);
+  if (self_wrapper == nullptr) return;
+  self_wrapper->getDelegate().Continue(command_id,
+                              static_cast<cef_event_flags_t>(event_flag));
+  RemoteCefRunContextMenuCallback::dispose(self.objId);
+}
+
+void ServerHandler::CefRunContextMenuCallback_Cancel(
+    const thrift_codegen::RObject& self) {
+  const auto self_wrapper = RemoteCefRunContextMenuCallback::get(self.objId);
+  if (self_wrapper == nullptr)
+    return;
+  self_wrapper->getDelegate().Cancel();
+  RemoteCefRunContextMenuCallback::dispose(self.objId);
 }
 
 void ServerHandler::MessageRouter_Create(thrift_codegen::RObject& _return,

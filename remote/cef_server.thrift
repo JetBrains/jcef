@@ -128,6 +128,13 @@ service Server {
     oneway void AuthCallback_Continue(1: shared.RObject authCallback, 2: string username, 3: string password),
     oneway void AuthCallback_Cancel(1: shared.RObject authCallback),
     //
+    // CefRunContextMenuCallback
+    //
+    void CefRunContextMenuCallback_Dispose(1: shared.RObject self),
+    void CefRunContextMenuCallback_Continue(1: shared.RObject self, 2: i32 command_id, 3: i32 event_flag),
+    void CefRunContextMenuCallback_Cancel(1: shared.RObject self),
+
+    //
     // CefMessageRouter
     //
     shared.RObject MessageRouter_Create(1: string query, 2: string cancel),

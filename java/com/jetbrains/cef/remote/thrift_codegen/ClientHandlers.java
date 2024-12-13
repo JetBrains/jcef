@@ -109,6 +109,14 @@ public class ClientHandlers {
 
     public boolean ResourceRequestHandler_OnProtocolExecution(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean allowOsExecution) throws com.jetbrains.cef.remote.thrift.TException;
 
+    public java.util.List<MenuItem> ContextMenuHandler_OnBeforeContextMenu(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, ContextMenuParams params, java.util.List<MenuItem> menu_model) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public boolean ContextMenuHandler_RunContextMenu(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, ContextMenuParams params, java.util.List<MenuItem> model, com.jetbrains.cef.remote.thrift_codegen.RObject callback) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public boolean ContextMenuHandler_OnContextMenuCommand(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, ContextMenuParams params, int command_id, int event_flags) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void ContextMenuHandler_OnContextMenuDismissed(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame) throws com.jetbrains.cef.remote.thrift.TException;
+
     public boolean MessageRouterHandler_onQuery(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, long queryId, java.lang.String request, boolean persistent, com.jetbrains.cef.remote.thrift_codegen.RObject queryCallback) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void MessageRouterHandler_onQueryCanceled(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, long queryId) throws com.jetbrains.cef.remote.thrift.TException;
@@ -240,6 +248,14 @@ public class ClientHandlers {
     public void ResourceRequestHandler_OnResourceLoadComplete(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, com.jetbrains.cef.remote.thrift_codegen.RObject response, java.lang.String status, long receivedContentLength, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void ResourceRequestHandler_OnProtocolExecution(int rrHandler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift_codegen.RObject request, boolean allowOsExecution, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void ContextMenuHandler_OnBeforeContextMenu(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, ContextMenuParams params, java.util.List<MenuItem> menu_model, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.util.List<MenuItem>> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void ContextMenuHandler_RunContextMenu(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, ContextMenuParams params, java.util.List<MenuItem> model, com.jetbrains.cef.remote.thrift_codegen.RObject callback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void ContextMenuHandler_OnContextMenuCommand(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, ContextMenuParams params, int command_id, int event_flags, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void ContextMenuHandler_OnContextMenuDismissed(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void MessageRouterHandler_onQuery(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, long queryId, java.lang.String request, boolean persistent, com.jetbrains.cef.remote.thrift_codegen.RObject queryCallback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
@@ -1362,6 +1378,111 @@ public class ClientHandlers {
         return result.success;
       }
       throw new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.MISSING_RESULT, "ResourceRequestHandler_OnProtocolExecution failed: unknown result");
+    }
+
+    @Override
+    public java.util.List<MenuItem> ContextMenuHandler_OnBeforeContextMenu(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, ContextMenuParams params, java.util.List<MenuItem> menu_model) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_ContextMenuHandler_OnBeforeContextMenu(bid, frame, params, menu_model);
+      return recv_ContextMenuHandler_OnBeforeContextMenu();
+    }
+
+    public void send_ContextMenuHandler_OnBeforeContextMenu(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, ContextMenuParams params, java.util.List<MenuItem> menu_model) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      ContextMenuHandler_OnBeforeContextMenu_args args = new ContextMenuHandler_OnBeforeContextMenu_args();
+      args.setBid(bid);
+      args.setFrame(frame);
+      args.setParams(params);
+      args.setMenu_model(menu_model);
+      sendBase("ContextMenuHandler_OnBeforeContextMenu", args);
+    }
+
+    public java.util.List<MenuItem> recv_ContextMenuHandler_OnBeforeContextMenu() throws com.jetbrains.cef.remote.thrift.TException
+    {
+      ContextMenuHandler_OnBeforeContextMenu_result result = new ContextMenuHandler_OnBeforeContextMenu_result();
+      receiveBase(result, "ContextMenuHandler_OnBeforeContextMenu");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.MISSING_RESULT, "ContextMenuHandler_OnBeforeContextMenu failed: unknown result");
+    }
+
+    @Override
+    public boolean ContextMenuHandler_RunContextMenu(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, ContextMenuParams params, java.util.List<MenuItem> model, com.jetbrains.cef.remote.thrift_codegen.RObject callback) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_ContextMenuHandler_RunContextMenu(bid, frame, params, model, callback);
+      return recv_ContextMenuHandler_RunContextMenu();
+    }
+
+    public void send_ContextMenuHandler_RunContextMenu(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, ContextMenuParams params, java.util.List<MenuItem> model, com.jetbrains.cef.remote.thrift_codegen.RObject callback) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      ContextMenuHandler_RunContextMenu_args args = new ContextMenuHandler_RunContextMenu_args();
+      args.setBid(bid);
+      args.setFrame(frame);
+      args.setParams(params);
+      args.setModel(model);
+      args.setCallback(callback);
+      sendBase("ContextMenuHandler_RunContextMenu", args);
+    }
+
+    public boolean recv_ContextMenuHandler_RunContextMenu() throws com.jetbrains.cef.remote.thrift.TException
+    {
+      ContextMenuHandler_RunContextMenu_result result = new ContextMenuHandler_RunContextMenu_result();
+      receiveBase(result, "ContextMenuHandler_RunContextMenu");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.MISSING_RESULT, "ContextMenuHandler_RunContextMenu failed: unknown result");
+    }
+
+    @Override
+    public boolean ContextMenuHandler_OnContextMenuCommand(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, ContextMenuParams params, int command_id, int event_flags) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_ContextMenuHandler_OnContextMenuCommand(bid, frame, params, command_id, event_flags);
+      return recv_ContextMenuHandler_OnContextMenuCommand();
+    }
+
+    public void send_ContextMenuHandler_OnContextMenuCommand(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, ContextMenuParams params, int command_id, int event_flags) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      ContextMenuHandler_OnContextMenuCommand_args args = new ContextMenuHandler_OnContextMenuCommand_args();
+      args.setBid(bid);
+      args.setFrame(frame);
+      args.setParams(params);
+      args.setCommand_id(command_id);
+      args.setEvent_flags(event_flags);
+      sendBase("ContextMenuHandler_OnContextMenuCommand", args);
+    }
+
+    public boolean recv_ContextMenuHandler_OnContextMenuCommand() throws com.jetbrains.cef.remote.thrift.TException
+    {
+      ContextMenuHandler_OnContextMenuCommand_result result = new ContextMenuHandler_OnContextMenuCommand_result();
+      receiveBase(result, "ContextMenuHandler_OnContextMenuCommand");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.MISSING_RESULT, "ContextMenuHandler_OnContextMenuCommand failed: unknown result");
+    }
+
+    @Override
+    public void ContextMenuHandler_OnContextMenuDismissed(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_ContextMenuHandler_OnContextMenuDismissed(bid, frame);
+      recv_ContextMenuHandler_OnContextMenuDismissed();
+    }
+
+    public void send_ContextMenuHandler_OnContextMenuDismissed(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      ContextMenuHandler_OnContextMenuDismissed_args args = new ContextMenuHandler_OnContextMenuDismissed_args();
+      args.setBid(bid);
+      args.setFrame(frame);
+      sendBase("ContextMenuHandler_OnContextMenuDismissed", args);
+    }
+
+    public void recv_ContextMenuHandler_OnContextMenuDismissed() throws com.jetbrains.cef.remote.thrift.TException
+    {
+      ContextMenuHandler_OnContextMenuDismissed_result result = new ContextMenuHandler_OnContextMenuDismissed_result();
+      receiveBase(result, "ContextMenuHandler_OnContextMenuDismissed");
+      return;
     }
 
     @Override
@@ -3682,6 +3803,183 @@ public class ClientHandlers {
     }
 
     @Override
+    public void ContextMenuHandler_OnBeforeContextMenu(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, ContextMenuParams params, java.util.List<MenuItem> menu_model, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.util.List<MenuItem>> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      ContextMenuHandler_OnBeforeContextMenu_call method_call = new ContextMenuHandler_OnBeforeContextMenu_call(bid, frame, params, menu_model, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class ContextMenuHandler_OnBeforeContextMenu_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<java.util.List<MenuItem>> {
+      private int bid;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject frame;
+      private ContextMenuParams params;
+      private java.util.List<MenuItem> menu_model;
+      public ContextMenuHandler_OnBeforeContextMenu_call(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, ContextMenuParams params, java.util.List<MenuItem> menu_model, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.util.List<MenuItem>> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.bid = bid;
+        this.frame = frame;
+        this.params = params;
+        this.menu_model = menu_model;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("ContextMenuHandler_OnBeforeContextMenu", com.jetbrains.cef.remote.thrift.protocol.TMessageType.CALL, 0));
+        ContextMenuHandler_OnBeforeContextMenu_args args = new ContextMenuHandler_OnBeforeContextMenu_args();
+        args.setBid(bid);
+        args.setFrame(frame);
+        args.setParams(params);
+        args.setMenu_model(menu_model);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public java.util.List<MenuItem> getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_ContextMenuHandler_OnBeforeContextMenu();
+      }
+    }
+
+    @Override
+    public void ContextMenuHandler_RunContextMenu(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, ContextMenuParams params, java.util.List<MenuItem> model, com.jetbrains.cef.remote.thrift_codegen.RObject callback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      ContextMenuHandler_RunContextMenu_call method_call = new ContextMenuHandler_RunContextMenu_call(bid, frame, params, model, callback, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class ContextMenuHandler_RunContextMenu_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<java.lang.Boolean> {
+      private int bid;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject frame;
+      private ContextMenuParams params;
+      private java.util.List<MenuItem> model;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject callback;
+      public ContextMenuHandler_RunContextMenu_call(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, ContextMenuParams params, java.util.List<MenuItem> model, com.jetbrains.cef.remote.thrift_codegen.RObject callback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.bid = bid;
+        this.frame = frame;
+        this.params = params;
+        this.model = model;
+        this.callback = callback;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("ContextMenuHandler_RunContextMenu", com.jetbrains.cef.remote.thrift.protocol.TMessageType.CALL, 0));
+        ContextMenuHandler_RunContextMenu_args args = new ContextMenuHandler_RunContextMenu_args();
+        args.setBid(bid);
+        args.setFrame(frame);
+        args.setParams(params);
+        args.setModel(model);
+        args.setCallback(callback);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public java.lang.Boolean getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_ContextMenuHandler_RunContextMenu();
+      }
+    }
+
+    @Override
+    public void ContextMenuHandler_OnContextMenuCommand(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, ContextMenuParams params, int command_id, int event_flags, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      ContextMenuHandler_OnContextMenuCommand_call method_call = new ContextMenuHandler_OnContextMenuCommand_call(bid, frame, params, command_id, event_flags, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class ContextMenuHandler_OnContextMenuCommand_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<java.lang.Boolean> {
+      private int bid;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject frame;
+      private ContextMenuParams params;
+      private int command_id;
+      private int event_flags;
+      public ContextMenuHandler_OnContextMenuCommand_call(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, ContextMenuParams params, int command_id, int event_flags, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.bid = bid;
+        this.frame = frame;
+        this.params = params;
+        this.command_id = command_id;
+        this.event_flags = event_flags;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("ContextMenuHandler_OnContextMenuCommand", com.jetbrains.cef.remote.thrift.protocol.TMessageType.CALL, 0));
+        ContextMenuHandler_OnContextMenuCommand_args args = new ContextMenuHandler_OnContextMenuCommand_args();
+        args.setBid(bid);
+        args.setFrame(frame);
+        args.setParams(params);
+        args.setCommand_id(command_id);
+        args.setEvent_flags(event_flags);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public java.lang.Boolean getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_ContextMenuHandler_OnContextMenuCommand();
+      }
+    }
+
+    @Override
+    public void ContextMenuHandler_OnContextMenuDismissed(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      ContextMenuHandler_OnContextMenuDismissed_call method_call = new ContextMenuHandler_OnContextMenuDismissed_call(bid, frame, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class ContextMenuHandler_OnContextMenuDismissed_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<Void> {
+      private int bid;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject frame;
+      public ContextMenuHandler_OnContextMenuDismissed_call(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.bid = bid;
+        this.frame = frame;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("ContextMenuHandler_OnContextMenuDismissed", com.jetbrains.cef.remote.thrift.protocol.TMessageType.CALL, 0));
+        ContextMenuHandler_OnContextMenuDismissed_args args = new ContextMenuHandler_OnContextMenuDismissed_args();
+        args.setBid(bid);
+        args.setFrame(frame);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public Void getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        (new Client(prot)).recv_ContextMenuHandler_OnContextMenuDismissed();
+        return null;
+      }
+    }
+
+    @Override
     public void MessageRouterHandler_onQuery(com.jetbrains.cef.remote.thrift_codegen.RObject handler, int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, long queryId, java.lang.String request, boolean persistent, com.jetbrains.cef.remote.thrift_codegen.RObject queryCallback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
       checkReady();
       MessageRouterHandler_onQuery_call method_call = new MessageRouterHandler_onQuery_call(handler, bid, frame, queryId, request, persistent, queryCallback, resultHandler, this, ___protocolFactory, ___transport);
@@ -4361,6 +4659,10 @@ public class ClientHandlers {
       processMap.put("ResourceRequestHandler_OnResourceResponse", new ResourceRequestHandler_OnResourceResponse());
       processMap.put("ResourceRequestHandler_OnResourceLoadComplete", new ResourceRequestHandler_OnResourceLoadComplete());
       processMap.put("ResourceRequestHandler_OnProtocolExecution", new ResourceRequestHandler_OnProtocolExecution());
+      processMap.put("ContextMenuHandler_OnBeforeContextMenu", new ContextMenuHandler_OnBeforeContextMenu());
+      processMap.put("ContextMenuHandler_RunContextMenu", new ContextMenuHandler_RunContextMenu());
+      processMap.put("ContextMenuHandler_OnContextMenuCommand", new ContextMenuHandler_OnContextMenuCommand());
+      processMap.put("ContextMenuHandler_OnContextMenuDismissed", new ContextMenuHandler_OnContextMenuDismissed());
       processMap.put("MessageRouterHandler_onQuery", new MessageRouterHandler_onQuery());
       processMap.put("MessageRouterHandler_onQueryCanceled", new MessageRouterHandler_onQueryCanceled());
       processMap.put("MessageRouterHandler_Dispose", new MessageRouterHandler_Dispose());
@@ -5751,6 +6053,120 @@ public class ClientHandlers {
       }
     }
 
+    public static class ContextMenuHandler_OnBeforeContextMenu<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, ContextMenuHandler_OnBeforeContextMenu_args> {
+      public ContextMenuHandler_OnBeforeContextMenu() {
+        super("ContextMenuHandler_OnBeforeContextMenu");
+      }
+
+      @Override
+      public ContextMenuHandler_OnBeforeContextMenu_args getEmptyArgsInstance() {
+        return new ContextMenuHandler_OnBeforeContextMenu_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public ContextMenuHandler_OnBeforeContextMenu_result getResult(I iface, ContextMenuHandler_OnBeforeContextMenu_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        ContextMenuHandler_OnBeforeContextMenu_result result = new ContextMenuHandler_OnBeforeContextMenu_result();
+        result.success = iface.ContextMenuHandler_OnBeforeContextMenu(args.bid, args.frame, args.params, args.menu_model);
+        return result;
+      }
+    }
+
+    public static class ContextMenuHandler_RunContextMenu<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, ContextMenuHandler_RunContextMenu_args> {
+      public ContextMenuHandler_RunContextMenu() {
+        super("ContextMenuHandler_RunContextMenu");
+      }
+
+      @Override
+      public ContextMenuHandler_RunContextMenu_args getEmptyArgsInstance() {
+        return new ContextMenuHandler_RunContextMenu_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public ContextMenuHandler_RunContextMenu_result getResult(I iface, ContextMenuHandler_RunContextMenu_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        ContextMenuHandler_RunContextMenu_result result = new ContextMenuHandler_RunContextMenu_result();
+        result.success = iface.ContextMenuHandler_RunContextMenu(args.bid, args.frame, args.params, args.model, args.callback);
+        result.setSuccessIsSet(true);
+        return result;
+      }
+    }
+
+    public static class ContextMenuHandler_OnContextMenuCommand<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, ContextMenuHandler_OnContextMenuCommand_args> {
+      public ContextMenuHandler_OnContextMenuCommand() {
+        super("ContextMenuHandler_OnContextMenuCommand");
+      }
+
+      @Override
+      public ContextMenuHandler_OnContextMenuCommand_args getEmptyArgsInstance() {
+        return new ContextMenuHandler_OnContextMenuCommand_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public ContextMenuHandler_OnContextMenuCommand_result getResult(I iface, ContextMenuHandler_OnContextMenuCommand_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        ContextMenuHandler_OnContextMenuCommand_result result = new ContextMenuHandler_OnContextMenuCommand_result();
+        result.success = iface.ContextMenuHandler_OnContextMenuCommand(args.bid, args.frame, args.params, args.command_id, args.event_flags);
+        result.setSuccessIsSet(true);
+        return result;
+      }
+    }
+
+    public static class ContextMenuHandler_OnContextMenuDismissed<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, ContextMenuHandler_OnContextMenuDismissed_args> {
+      public ContextMenuHandler_OnContextMenuDismissed() {
+        super("ContextMenuHandler_OnContextMenuDismissed");
+      }
+
+      @Override
+      public ContextMenuHandler_OnContextMenuDismissed_args getEmptyArgsInstance() {
+        return new ContextMenuHandler_OnContextMenuDismissed_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public ContextMenuHandler_OnContextMenuDismissed_result getResult(I iface, ContextMenuHandler_OnContextMenuDismissed_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        ContextMenuHandler_OnContextMenuDismissed_result result = new ContextMenuHandler_OnContextMenuDismissed_result();
+        iface.ContextMenuHandler_OnContextMenuDismissed(args.bid, args.frame);
+        return result;
+      }
+    }
+
     public static class MessageRouterHandler_onQuery<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, MessageRouterHandler_onQuery_args> {
       public MessageRouterHandler_onQuery() {
         super("MessageRouterHandler_onQuery");
@@ -6224,6 +6640,10 @@ public class ClientHandlers {
       processMap.put("ResourceRequestHandler_OnResourceResponse", new ResourceRequestHandler_OnResourceResponse());
       processMap.put("ResourceRequestHandler_OnResourceLoadComplete", new ResourceRequestHandler_OnResourceLoadComplete());
       processMap.put("ResourceRequestHandler_OnProtocolExecution", new ResourceRequestHandler_OnProtocolExecution());
+      processMap.put("ContextMenuHandler_OnBeforeContextMenu", new ContextMenuHandler_OnBeforeContextMenu());
+      processMap.put("ContextMenuHandler_RunContextMenu", new ContextMenuHandler_RunContextMenu());
+      processMap.put("ContextMenuHandler_OnContextMenuCommand", new ContextMenuHandler_OnContextMenuCommand());
+      processMap.put("ContextMenuHandler_OnContextMenuDismissed", new ContextMenuHandler_OnContextMenuDismissed());
       processMap.put("MessageRouterHandler_onQuery", new MessageRouterHandler_onQuery());
       processMap.put("MessageRouterHandler_onQueryCanceled", new MessageRouterHandler_onQueryCanceled());
       processMap.put("MessageRouterHandler_Dispose", new MessageRouterHandler_Dispose());
@@ -9050,6 +9470,275 @@ public class ClientHandlers {
       @Override
       public void start(I iface, ResourceRequestHandler_OnProtocolExecution_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
         iface.ResourceRequestHandler_OnProtocolExecution(args.rrHandler, args.bid, args.frame, args.request, args.allowOsExecution,resultHandler);
+      }
+    }
+
+    public static class ContextMenuHandler_OnBeforeContextMenu<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, ContextMenuHandler_OnBeforeContextMenu_args, java.util.List<MenuItem>> {
+      public ContextMenuHandler_OnBeforeContextMenu() {
+        super("ContextMenuHandler_OnBeforeContextMenu");
+      }
+
+      @Override
+      public ContextMenuHandler_OnBeforeContextMenu_args getEmptyArgsInstance() {
+        return new ContextMenuHandler_OnBeforeContextMenu_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.util.List<MenuItem>> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.util.List<MenuItem>>() { 
+          @Override
+          public void onComplete(java.util.List<MenuItem> o) {
+            ContextMenuHandler_OnBeforeContextMenu_result result = new ContextMenuHandler_OnBeforeContextMenu_result();
+            result.success = o;
+            try {
+              fcall.sendResponse(fb, result, com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (com.jetbrains.cef.remote.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            byte msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY;
+            com.jetbrains.cef.remote.thrift.TSerializable msg;
+            ContextMenuHandler_OnBeforeContextMenu_result result = new ContextMenuHandler_OnBeforeContextMenu_result();
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+              return;
+            } else if (e instanceof com.jetbrains.cef.remote.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (com.jetbrains.cef.remote.thrift.TApplicationException)e;
+            } else {
+              _LOGGER.error("Exception inside handler", e);
+              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      public void start(I iface, ContextMenuHandler_OnBeforeContextMenu_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.util.List<MenuItem>> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.ContextMenuHandler_OnBeforeContextMenu(args.bid, args.frame, args.params, args.menu_model,resultHandler);
+      }
+    }
+
+    public static class ContextMenuHandler_RunContextMenu<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, ContextMenuHandler_RunContextMenu_args, java.lang.Boolean> {
+      public ContextMenuHandler_RunContextMenu() {
+        super("ContextMenuHandler_RunContextMenu");
+      }
+
+      @Override
+      public ContextMenuHandler_RunContextMenu_args getEmptyArgsInstance() {
+        return new ContextMenuHandler_RunContextMenu_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean>() { 
+          @Override
+          public void onComplete(java.lang.Boolean o) {
+            ContextMenuHandler_RunContextMenu_result result = new ContextMenuHandler_RunContextMenu_result();
+            result.success = o;
+            result.setSuccessIsSet(true);
+            try {
+              fcall.sendResponse(fb, result, com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (com.jetbrains.cef.remote.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            byte msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY;
+            com.jetbrains.cef.remote.thrift.TSerializable msg;
+            ContextMenuHandler_RunContextMenu_result result = new ContextMenuHandler_RunContextMenu_result();
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+              return;
+            } else if (e instanceof com.jetbrains.cef.remote.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (com.jetbrains.cef.remote.thrift.TApplicationException)e;
+            } else {
+              _LOGGER.error("Exception inside handler", e);
+              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      public void start(I iface, ContextMenuHandler_RunContextMenu_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.ContextMenuHandler_RunContextMenu(args.bid, args.frame, args.params, args.model, args.callback,resultHandler);
+      }
+    }
+
+    public static class ContextMenuHandler_OnContextMenuCommand<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, ContextMenuHandler_OnContextMenuCommand_args, java.lang.Boolean> {
+      public ContextMenuHandler_OnContextMenuCommand() {
+        super("ContextMenuHandler_OnContextMenuCommand");
+      }
+
+      @Override
+      public ContextMenuHandler_OnContextMenuCommand_args getEmptyArgsInstance() {
+        return new ContextMenuHandler_OnContextMenuCommand_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean>() { 
+          @Override
+          public void onComplete(java.lang.Boolean o) {
+            ContextMenuHandler_OnContextMenuCommand_result result = new ContextMenuHandler_OnContextMenuCommand_result();
+            result.success = o;
+            result.setSuccessIsSet(true);
+            try {
+              fcall.sendResponse(fb, result, com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (com.jetbrains.cef.remote.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            byte msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY;
+            com.jetbrains.cef.remote.thrift.TSerializable msg;
+            ContextMenuHandler_OnContextMenuCommand_result result = new ContextMenuHandler_OnContextMenuCommand_result();
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+              return;
+            } else if (e instanceof com.jetbrains.cef.remote.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (com.jetbrains.cef.remote.thrift.TApplicationException)e;
+            } else {
+              _LOGGER.error("Exception inside handler", e);
+              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      public void start(I iface, ContextMenuHandler_OnContextMenuCommand_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.ContextMenuHandler_OnContextMenuCommand(args.bid, args.frame, args.params, args.command_id, args.event_flags,resultHandler);
+      }
+    }
+
+    public static class ContextMenuHandler_OnContextMenuDismissed<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, ContextMenuHandler_OnContextMenuDismissed_args, Void> {
+      public ContextMenuHandler_OnContextMenuDismissed() {
+        super("ContextMenuHandler_OnContextMenuDismissed");
+      }
+
+      @Override
+      public ContextMenuHandler_OnContextMenuDismissed_args getEmptyArgsInstance() {
+        return new ContextMenuHandler_OnContextMenuDismissed_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void>() { 
+          @Override
+          public void onComplete(Void o) {
+            ContextMenuHandler_OnContextMenuDismissed_result result = new ContextMenuHandler_OnContextMenuDismissed_result();
+            try {
+              fcall.sendResponse(fb, result, com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (com.jetbrains.cef.remote.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            byte msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY;
+            com.jetbrains.cef.remote.thrift.TSerializable msg;
+            ContextMenuHandler_OnContextMenuDismissed_result result = new ContextMenuHandler_OnContextMenuDismissed_result();
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+              return;
+            } else if (e instanceof com.jetbrains.cef.remote.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (com.jetbrains.cef.remote.thrift.TApplicationException)e;
+            } else {
+              _LOGGER.error("Exception inside handler", e);
+              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      public void start(I iface, ContextMenuHandler_OnContextMenuDismissed_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.ContextMenuHandler_OnContextMenuDismissed(args.bid, args.frame,resultHandler);
       }
     }
 
@@ -37698,13 +38387,13 @@ public class ClientHandlers {
             case 5: // COOKIE
               if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.LIST) {
                 {
-                  com.jetbrains.cef.remote.thrift.protocol.TList _list0 = iprot.readListBegin();
-                  struct.cookie = new java.util.ArrayList<java.lang.String>(_list0.size);
-                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _elem1;
-                  for (int _i2 = 0; _i2 < _list0.size; ++_i2)
+                  com.jetbrains.cef.remote.thrift.protocol.TList _list8 = iprot.readListBegin();
+                  struct.cookie = new java.util.ArrayList<java.lang.String>(_list8.size);
+                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _elem9;
+                  for (int _i10 = 0; _i10 < _list8.size; ++_i10)
                   {
-                    _elem1 = iprot.readString();
-                    struct.cookie.add(_elem1);
+                    _elem9 = iprot.readString();
+                    struct.cookie.add(_elem9);
                   }
                   iprot.readListEnd();
                 }
@@ -37749,9 +38438,9 @@ public class ClientHandlers {
           oprot.writeFieldBegin(COOKIE_FIELD_DESC);
           {
             oprot.writeListBegin(new com.jetbrains.cef.remote.thrift.protocol.TList(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, struct.cookie.size()));
-            for (java.lang.String _iter3 : struct.cookie)
+            for (java.lang.String _iter11 : struct.cookie)
             {
-              oprot.writeString(_iter3);
+              oprot.writeString(_iter11);
             }
             oprot.writeListEnd();
           }
@@ -37807,9 +38496,9 @@ public class ClientHandlers {
         if (struct.isSetCookie()) {
           {
             oprot.writeI32(struct.cookie.size());
-            for (java.lang.String _iter4 : struct.cookie)
+            for (java.lang.String _iter12 : struct.cookie)
             {
-              oprot.writeString(_iter4);
+              oprot.writeString(_iter12);
             }
           }
         }
@@ -37839,13 +38528,13 @@ public class ClientHandlers {
         }
         if (incoming.get(4)) {
           {
-            com.jetbrains.cef.remote.thrift.protocol.TList _list5 = iprot.readListBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRING);
-            struct.cookie = new java.util.ArrayList<java.lang.String>(_list5.size);
-            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _elem6;
-            for (int _i7 = 0; _i7 < _list5.size; ++_i7)
+            com.jetbrains.cef.remote.thrift.protocol.TList _list13 = iprot.readListBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRING);
+            struct.cookie = new java.util.ArrayList<java.lang.String>(_list13.size);
+            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _elem14;
+            for (int _i15 = 0; _i15 < _list13.size; ++_i15)
             {
-              _elem6 = iprot.readString();
-              struct.cookie.add(_elem6);
+              _elem14 = iprot.readString();
+              struct.cookie.add(_elem14);
             }
           }
           struct.setCookieIsSet(true);
@@ -39012,13 +39701,13 @@ public class ClientHandlers {
             case 6: // COOKIE
               if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.LIST) {
                 {
-                  com.jetbrains.cef.remote.thrift.protocol.TList _list8 = iprot.readListBegin();
-                  struct.cookie = new java.util.ArrayList<java.lang.String>(_list8.size);
-                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _elem9;
-                  for (int _i10 = 0; _i10 < _list8.size; ++_i10)
+                  com.jetbrains.cef.remote.thrift.protocol.TList _list16 = iprot.readListBegin();
+                  struct.cookie = new java.util.ArrayList<java.lang.String>(_list16.size);
+                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _elem17;
+                  for (int _i18 = 0; _i18 < _list16.size; ++_i18)
                   {
-                    _elem9 = iprot.readString();
-                    struct.cookie.add(_elem9);
+                    _elem17 = iprot.readString();
+                    struct.cookie.add(_elem17);
                   }
                   iprot.readListEnd();
                 }
@@ -39068,9 +39757,9 @@ public class ClientHandlers {
           oprot.writeFieldBegin(COOKIE_FIELD_DESC);
           {
             oprot.writeListBegin(new com.jetbrains.cef.remote.thrift.protocol.TList(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, struct.cookie.size()));
-            for (java.lang.String _iter11 : struct.cookie)
+            for (java.lang.String _iter19 : struct.cookie)
             {
-              oprot.writeString(_iter11);
+              oprot.writeString(_iter19);
             }
             oprot.writeListEnd();
           }
@@ -39132,9 +39821,9 @@ public class ClientHandlers {
         if (struct.isSetCookie()) {
           {
             oprot.writeI32(struct.cookie.size());
-            for (java.lang.String _iter12 : struct.cookie)
+            for (java.lang.String _iter20 : struct.cookie)
             {
-              oprot.writeString(_iter12);
+              oprot.writeString(_iter20);
             }
           }
         }
@@ -39169,13 +39858,13 @@ public class ClientHandlers {
         }
         if (incoming.get(5)) {
           {
-            com.jetbrains.cef.remote.thrift.protocol.TList _list13 = iprot.readListBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRING);
-            struct.cookie = new java.util.ArrayList<java.lang.String>(_list13.size);
-            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _elem14;
-            for (int _i15 = 0; _i15 < _list13.size; ++_i15)
+            com.jetbrains.cef.remote.thrift.protocol.TList _list21 = iprot.readListBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRING);
+            struct.cookie = new java.util.ArrayList<java.lang.String>(_list21.size);
+            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _elem22;
+            for (int _i23 = 0; _i23 < _list21.size; ++_i23)
             {
-              _elem14 = iprot.readString();
-              struct.cookie.add(_elem14);
+              _elem22 = iprot.readString();
+              struct.cookie.add(_elem22);
             }
           }
           struct.setCookieIsSet(true);
@@ -50125,6 +50814,4342 @@ public class ClientHandlers {
           struct.success = iprot.readBool();
           struct.setSuccessIsSet(true);
         }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class ContextMenuHandler_OnBeforeContextMenu_args implements com.jetbrains.cef.remote.thrift.TBase<ContextMenuHandler_OnBeforeContextMenu_args, ContextMenuHandler_OnBeforeContextMenu_args._Fields>, java.io.Serializable, Cloneable, Comparable<ContextMenuHandler_OnBeforeContextMenu_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("ContextMenuHandler_OnBeforeContextMenu_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField BID_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("bid", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)1);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField FRAME_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("frame", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)2);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField PARAMS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("params", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)3);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField MENU_MODEL_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("menu_model", com.jetbrains.cef.remote.thrift.protocol.TType.LIST, (short)4);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new ContextMenuHandler_OnBeforeContextMenu_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new ContextMenuHandler_OnBeforeContextMenu_argsTupleSchemeFactory();
+
+    public int bid; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable ContextMenuParams params; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.util.List<MenuItem> menu_model; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      BID((short)1, "bid"),
+      FRAME((short)2, "frame"),
+      PARAMS((short)3, "params"),
+      MENU_MODEL((short)4, "menu_model");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // BID
+            return BID;
+          case 2: // FRAME
+            return FRAME;
+          case 3: // PARAMS
+            return PARAMS;
+          case 4: // MENU_MODEL
+            return MENU_MODEL;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __BID_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.BID, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("bid", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.FRAME, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("frame", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      tmpMap.put(_Fields.PARAMS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("params", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, ContextMenuParams.class)));
+      tmpMap.put(_Fields.MENU_MODEL, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("menu_model", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.ListMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.LIST, 
+              new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, MenuItem.class))));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(ContextMenuHandler_OnBeforeContextMenu_args.class, metaDataMap);
+    }
+
+    public ContextMenuHandler_OnBeforeContextMenu_args() {
+    }
+
+    public ContextMenuHandler_OnBeforeContextMenu_args(
+      int bid,
+      com.jetbrains.cef.remote.thrift_codegen.RObject frame,
+      ContextMenuParams params,
+      java.util.List<MenuItem> menu_model)
+    {
+      this();
+      this.bid = bid;
+      setBidIsSet(true);
+      this.frame = frame;
+      this.params = params;
+      this.menu_model = menu_model;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public ContextMenuHandler_OnBeforeContextMenu_args(ContextMenuHandler_OnBeforeContextMenu_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.bid = other.bid;
+      if (other.isSetFrame()) {
+        this.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.frame);
+      }
+      if (other.isSetParams()) {
+        this.params = new ContextMenuParams(other.params);
+      }
+      if (other.isSetMenu_model()) {
+        java.util.List<MenuItem> __this__menu_model = new java.util.ArrayList<MenuItem>(other.menu_model.size());
+        for (MenuItem other_element : other.menu_model) {
+          __this__menu_model.add(new MenuItem(other_element));
+        }
+        this.menu_model = __this__menu_model;
+      }
+    }
+
+    @Override
+    public ContextMenuHandler_OnBeforeContextMenu_args deepCopy() {
+      return new ContextMenuHandler_OnBeforeContextMenu_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setBidIsSet(false);
+      this.bid = 0;
+      this.frame = null;
+      this.params = null;
+      this.menu_model = null;
+    }
+
+    public int getBid() {
+      return this.bid;
+    }
+
+    public ContextMenuHandler_OnBeforeContextMenu_args setBid(int bid) {
+      this.bid = bid;
+      setBidIsSet(true);
+      return this;
+    }
+
+    public void unsetBid() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    /** Returns true if field bid is set (has been assigned a value) and false otherwise */
+    public boolean isSetBid() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    public void setBidIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getFrame() {
+      return this.frame;
+    }
+
+    public ContextMenuHandler_OnBeforeContextMenu_args setFrame(@com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame) {
+      this.frame = frame;
+      return this;
+    }
+
+    public void unsetFrame() {
+      this.frame = null;
+    }
+
+    /** Returns true if field frame is set (has been assigned a value) and false otherwise */
+    public boolean isSetFrame() {
+      return this.frame != null;
+    }
+
+    public void setFrameIsSet(boolean value) {
+      if (!value) {
+        this.frame = null;
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public ContextMenuParams getParams() {
+      return this.params;
+    }
+
+    public ContextMenuHandler_OnBeforeContextMenu_args setParams(@com.jetbrains.cef.remote.thrift.annotation.Nullable ContextMenuParams params) {
+      this.params = params;
+      return this;
+    }
+
+    public void unsetParams() {
+      this.params = null;
+    }
+
+    /** Returns true if field params is set (has been assigned a value) and false otherwise */
+    public boolean isSetParams() {
+      return this.params != null;
+    }
+
+    public void setParamsIsSet(boolean value) {
+      if (!value) {
+        this.params = null;
+      }
+    }
+
+    public int getMenu_modelSize() {
+      return (this.menu_model == null) ? 0 : this.menu_model.size();
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.util.Iterator<MenuItem> getMenu_modelIterator() {
+      return (this.menu_model == null) ? null : this.menu_model.iterator();
+    }
+
+    public void addToMenu_model(MenuItem elem) {
+      if (this.menu_model == null) {
+        this.menu_model = new java.util.ArrayList<MenuItem>();
+      }
+      this.menu_model.add(elem);
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.util.List<MenuItem> getMenu_model() {
+      return this.menu_model;
+    }
+
+    public ContextMenuHandler_OnBeforeContextMenu_args setMenu_model(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.util.List<MenuItem> menu_model) {
+      this.menu_model = menu_model;
+      return this;
+    }
+
+    public void unsetMenu_model() {
+      this.menu_model = null;
+    }
+
+    /** Returns true if field menu_model is set (has been assigned a value) and false otherwise */
+    public boolean isSetMenu_model() {
+      return this.menu_model != null;
+    }
+
+    public void setMenu_modelIsSet(boolean value) {
+      if (!value) {
+        this.menu_model = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case BID:
+        if (value == null) {
+          unsetBid();
+        } else {
+          setBid((java.lang.Integer)value);
+        }
+        break;
+
+      case FRAME:
+        if (value == null) {
+          unsetFrame();
+        } else {
+          setFrame((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      case PARAMS:
+        if (value == null) {
+          unsetParams();
+        } else {
+          setParams((ContextMenuParams)value);
+        }
+        break;
+
+      case MENU_MODEL:
+        if (value == null) {
+          unsetMenu_model();
+        } else {
+          setMenu_model((java.util.List<MenuItem>)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case BID:
+        return getBid();
+
+      case FRAME:
+        return getFrame();
+
+      case PARAMS:
+        return getParams();
+
+      case MENU_MODEL:
+        return getMenu_model();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case BID:
+        return isSetBid();
+      case FRAME:
+        return isSetFrame();
+      case PARAMS:
+        return isSetParams();
+      case MENU_MODEL:
+        return isSetMenu_model();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof ContextMenuHandler_OnBeforeContextMenu_args)
+        return this.equals((ContextMenuHandler_OnBeforeContextMenu_args)that);
+      return false;
+    }
+
+    public boolean equals(ContextMenuHandler_OnBeforeContextMenu_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_bid = true;
+      boolean that_present_bid = true;
+      if (this_present_bid || that_present_bid) {
+        if (!(this_present_bid && that_present_bid))
+          return false;
+        if (this.bid != that.bid)
+          return false;
+      }
+
+      boolean this_present_frame = true && this.isSetFrame();
+      boolean that_present_frame = true && that.isSetFrame();
+      if (this_present_frame || that_present_frame) {
+        if (!(this_present_frame && that_present_frame))
+          return false;
+        if (!this.frame.equals(that.frame))
+          return false;
+      }
+
+      boolean this_present_params = true && this.isSetParams();
+      boolean that_present_params = true && that.isSetParams();
+      if (this_present_params || that_present_params) {
+        if (!(this_present_params && that_present_params))
+          return false;
+        if (!this.params.equals(that.params))
+          return false;
+      }
+
+      boolean this_present_menu_model = true && this.isSetMenu_model();
+      boolean that_present_menu_model = true && that.isSetMenu_model();
+      if (this_present_menu_model || that_present_menu_model) {
+        if (!(this_present_menu_model && that_present_menu_model))
+          return false;
+        if (!this.menu_model.equals(that.menu_model))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + bid;
+
+      hashCode = hashCode * 8191 + ((isSetFrame()) ? 131071 : 524287);
+      if (isSetFrame())
+        hashCode = hashCode * 8191 + frame.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetParams()) ? 131071 : 524287);
+      if (isSetParams())
+        hashCode = hashCode * 8191 + params.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetMenu_model()) ? 131071 : 524287);
+      if (isSetMenu_model())
+        hashCode = hashCode * 8191 + menu_model.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(ContextMenuHandler_OnBeforeContextMenu_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetBid()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetFrame(), other.isSetFrame());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetFrame()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.frame, other.frame);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetParams(), other.isSetParams());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetParams()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.params, other.params);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetMenu_model(), other.isSetMenu_model());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetMenu_model()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.menu_model, other.menu_model);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("ContextMenuHandler_OnBeforeContextMenu_args(");
+      boolean first = true;
+
+      sb.append("bid:");
+      sb.append(this.bid);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("frame:");
+      if (this.frame == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.frame);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("params:");
+      if (this.params == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.params);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("menu_model:");
+      if (this.menu_model == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.menu_model);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (frame != null) {
+        frame.validate();
+      }
+      if (params != null) {
+        params.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class ContextMenuHandler_OnBeforeContextMenu_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public ContextMenuHandler_OnBeforeContextMenu_argsStandardScheme getScheme() {
+        return new ContextMenuHandler_OnBeforeContextMenu_argsStandardScheme();
+      }
+    }
+
+    private static class ContextMenuHandler_OnBeforeContextMenu_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<ContextMenuHandler_OnBeforeContextMenu_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, ContextMenuHandler_OnBeforeContextMenu_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // BID
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
+                struct.bid = iprot.readI32();
+                struct.setBidIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // FRAME
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.frame.read(iprot);
+                struct.setFrameIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 3: // PARAMS
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                struct.params = new ContextMenuParams();
+                struct.params.read(iprot);
+                struct.setParamsIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 4: // MENU_MODEL
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.LIST) {
+                {
+                  com.jetbrains.cef.remote.thrift.protocol.TList _list24 = iprot.readListBegin();
+                  struct.menu_model = new java.util.ArrayList<MenuItem>(_list24.size);
+                  @com.jetbrains.cef.remote.thrift.annotation.Nullable MenuItem _elem25;
+                  for (int _i26 = 0; _i26 < _list24.size; ++_i26)
+                  {
+                    _elem25 = new MenuItem();
+                    _elem25.read(iprot);
+                    struct.menu_model.add(_elem25);
+                  }
+                  iprot.readListEnd();
+                }
+                struct.setMenu_modelIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, ContextMenuHandler_OnBeforeContextMenu_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(BID_FIELD_DESC);
+        oprot.writeI32(struct.bid);
+        oprot.writeFieldEnd();
+        if (struct.frame != null) {
+          oprot.writeFieldBegin(FRAME_FIELD_DESC);
+          struct.frame.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        if (struct.params != null) {
+          oprot.writeFieldBegin(PARAMS_FIELD_DESC);
+          struct.params.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        if (struct.menu_model != null) {
+          oprot.writeFieldBegin(MENU_MODEL_FIELD_DESC);
+          {
+            oprot.writeListBegin(new com.jetbrains.cef.remote.thrift.protocol.TList(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, struct.menu_model.size()));
+            for (MenuItem _iter27 : struct.menu_model)
+            {
+              _iter27.write(oprot);
+            }
+            oprot.writeListEnd();
+          }
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class ContextMenuHandler_OnBeforeContextMenu_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public ContextMenuHandler_OnBeforeContextMenu_argsTupleScheme getScheme() {
+        return new ContextMenuHandler_OnBeforeContextMenu_argsTupleScheme();
+      }
+    }
+
+    private static class ContextMenuHandler_OnBeforeContextMenu_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<ContextMenuHandler_OnBeforeContextMenu_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, ContextMenuHandler_OnBeforeContextMenu_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetBid()) {
+          optionals.set(0);
+        }
+        if (struct.isSetFrame()) {
+          optionals.set(1);
+        }
+        if (struct.isSetParams()) {
+          optionals.set(2);
+        }
+        if (struct.isSetMenu_model()) {
+          optionals.set(3);
+        }
+        oprot.writeBitSet(optionals, 4);
+        if (struct.isSetBid()) {
+          oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetFrame()) {
+          struct.frame.write(oprot);
+        }
+        if (struct.isSetParams()) {
+          struct.params.write(oprot);
+        }
+        if (struct.isSetMenu_model()) {
+          {
+            oprot.writeI32(struct.menu_model.size());
+            for (MenuItem _iter28 : struct.menu_model)
+            {
+              _iter28.write(oprot);
+            }
+          }
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, ContextMenuHandler_OnBeforeContextMenu_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(4);
+        if (incoming.get(0)) {
+          struct.bid = iprot.readI32();
+          struct.setBidIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.frame.read(iprot);
+          struct.setFrameIsSet(true);
+        }
+        if (incoming.get(2)) {
+          struct.params = new ContextMenuParams();
+          struct.params.read(iprot);
+          struct.setParamsIsSet(true);
+        }
+        if (incoming.get(3)) {
+          {
+            com.jetbrains.cef.remote.thrift.protocol.TList _list29 = iprot.readListBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT);
+            struct.menu_model = new java.util.ArrayList<MenuItem>(_list29.size);
+            @com.jetbrains.cef.remote.thrift.annotation.Nullable MenuItem _elem30;
+            for (int _i31 = 0; _i31 < _list29.size; ++_i31)
+            {
+              _elem30 = new MenuItem();
+              _elem30.read(iprot);
+              struct.menu_model.add(_elem30);
+            }
+          }
+          struct.setMenu_modelIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class ContextMenuHandler_OnBeforeContextMenu_result implements com.jetbrains.cef.remote.thrift.TBase<ContextMenuHandler_OnBeforeContextMenu_result, ContextMenuHandler_OnBeforeContextMenu_result._Fields>, java.io.Serializable, Cloneable, Comparable<ContextMenuHandler_OnBeforeContextMenu_result>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("ContextMenuHandler_OnBeforeContextMenu_result");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField SUCCESS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("success", com.jetbrains.cef.remote.thrift.protocol.TType.LIST, (short)0);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new ContextMenuHandler_OnBeforeContextMenu_resultStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new ContextMenuHandler_OnBeforeContextMenu_resultTupleSchemeFactory();
+
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.util.List<MenuItem> success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("success", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.ListMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.LIST, 
+              new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, MenuItem.class))));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(ContextMenuHandler_OnBeforeContextMenu_result.class, metaDataMap);
+    }
+
+    public ContextMenuHandler_OnBeforeContextMenu_result() {
+    }
+
+    public ContextMenuHandler_OnBeforeContextMenu_result(
+      java.util.List<MenuItem> success)
+    {
+      this();
+      this.success = success;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public ContextMenuHandler_OnBeforeContextMenu_result(ContextMenuHandler_OnBeforeContextMenu_result other) {
+      if (other.isSetSuccess()) {
+        java.util.List<MenuItem> __this__success = new java.util.ArrayList<MenuItem>(other.success.size());
+        for (MenuItem other_element : other.success) {
+          __this__success.add(new MenuItem(other_element));
+        }
+        this.success = __this__success;
+      }
+    }
+
+    @Override
+    public ContextMenuHandler_OnBeforeContextMenu_result deepCopy() {
+      return new ContextMenuHandler_OnBeforeContextMenu_result(this);
+    }
+
+    @Override
+    public void clear() {
+      this.success = null;
+    }
+
+    public int getSuccessSize() {
+      return (this.success == null) ? 0 : this.success.size();
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.util.Iterator<MenuItem> getSuccessIterator() {
+      return (this.success == null) ? null : this.success.iterator();
+    }
+
+    public void addToSuccess(MenuItem elem) {
+      if (this.success == null) {
+        this.success = new java.util.ArrayList<MenuItem>();
+      }
+      this.success.add(elem);
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.util.List<MenuItem> getSuccess() {
+      return this.success;
+    }
+
+    public ContextMenuHandler_OnBeforeContextMenu_result setSuccess(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.util.List<MenuItem> success) {
+      this.success = success;
+      return this;
+    }
+
+    public void unsetSuccess() {
+      this.success = null;
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return this.success != null;
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      if (!value) {
+        this.success = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((java.util.List<MenuItem>)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return getSuccess();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof ContextMenuHandler_OnBeforeContextMenu_result)
+        return this.equals((ContextMenuHandler_OnBeforeContextMenu_result)that);
+      return false;
+    }
+
+    public boolean equals(ContextMenuHandler_OnBeforeContextMenu_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_success = true && this.isSetSuccess();
+      boolean that_present_success = true && that.isSetSuccess();
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (!this.success.equals(that.success))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((isSetSuccess()) ? 131071 : 524287);
+      if (isSetSuccess())
+        hashCode = hashCode * 8191 + success.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(ContextMenuHandler_OnBeforeContextMenu_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetSuccess(), other.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.success, other.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("ContextMenuHandler_OnBeforeContextMenu_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      if (this.success == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.success);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class ContextMenuHandler_OnBeforeContextMenu_resultStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public ContextMenuHandler_OnBeforeContextMenu_resultStandardScheme getScheme() {
+        return new ContextMenuHandler_OnBeforeContextMenu_resultStandardScheme();
+      }
+    }
+
+    private static class ContextMenuHandler_OnBeforeContextMenu_resultStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<ContextMenuHandler_OnBeforeContextMenu_result> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, ContextMenuHandler_OnBeforeContextMenu_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 0: // SUCCESS
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.LIST) {
+                {
+                  com.jetbrains.cef.remote.thrift.protocol.TList _list32 = iprot.readListBegin();
+                  struct.success = new java.util.ArrayList<MenuItem>(_list32.size);
+                  @com.jetbrains.cef.remote.thrift.annotation.Nullable MenuItem _elem33;
+                  for (int _i34 = 0; _i34 < _list32.size; ++_i34)
+                  {
+                    _elem33 = new MenuItem();
+                    _elem33.read(iprot);
+                    struct.success.add(_elem33);
+                  }
+                  iprot.readListEnd();
+                }
+                struct.setSuccessIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, ContextMenuHandler_OnBeforeContextMenu_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.success != null) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          {
+            oprot.writeListBegin(new com.jetbrains.cef.remote.thrift.protocol.TList(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, struct.success.size()));
+            for (MenuItem _iter35 : struct.success)
+            {
+              _iter35.write(oprot);
+            }
+            oprot.writeListEnd();
+          }
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class ContextMenuHandler_OnBeforeContextMenu_resultTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public ContextMenuHandler_OnBeforeContextMenu_resultTupleScheme getScheme() {
+        return new ContextMenuHandler_OnBeforeContextMenu_resultTupleScheme();
+      }
+    }
+
+    private static class ContextMenuHandler_OnBeforeContextMenu_resultTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<ContextMenuHandler_OnBeforeContextMenu_result> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, ContextMenuHandler_OnBeforeContextMenu_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          {
+            oprot.writeI32(struct.success.size());
+            for (MenuItem _iter36 : struct.success)
+            {
+              _iter36.write(oprot);
+            }
+          }
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, ContextMenuHandler_OnBeforeContextMenu_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          {
+            com.jetbrains.cef.remote.thrift.protocol.TList _list37 = iprot.readListBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT);
+            struct.success = new java.util.ArrayList<MenuItem>(_list37.size);
+            @com.jetbrains.cef.remote.thrift.annotation.Nullable MenuItem _elem38;
+            for (int _i39 = 0; _i39 < _list37.size; ++_i39)
+            {
+              _elem38 = new MenuItem();
+              _elem38.read(iprot);
+              struct.success.add(_elem38);
+            }
+          }
+          struct.setSuccessIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class ContextMenuHandler_RunContextMenu_args implements com.jetbrains.cef.remote.thrift.TBase<ContextMenuHandler_RunContextMenu_args, ContextMenuHandler_RunContextMenu_args._Fields>, java.io.Serializable, Cloneable, Comparable<ContextMenuHandler_RunContextMenu_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("ContextMenuHandler_RunContextMenu_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField BID_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("bid", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)1);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField FRAME_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("frame", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)2);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField PARAMS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("params", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)3);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField MODEL_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("model", com.jetbrains.cef.remote.thrift.protocol.TType.LIST, (short)4);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField CALLBACK_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("callback", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)5);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new ContextMenuHandler_RunContextMenu_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new ContextMenuHandler_RunContextMenu_argsTupleSchemeFactory();
+
+    public int bid; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable ContextMenuParams params; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.util.List<MenuItem> model; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject callback; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      BID((short)1, "bid"),
+      FRAME((short)2, "frame"),
+      PARAMS((short)3, "params"),
+      MODEL((short)4, "model"),
+      CALLBACK((short)5, "callback");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // BID
+            return BID;
+          case 2: // FRAME
+            return FRAME;
+          case 3: // PARAMS
+            return PARAMS;
+          case 4: // MODEL
+            return MODEL;
+          case 5: // CALLBACK
+            return CALLBACK;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __BID_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.BID, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("bid", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.FRAME, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("frame", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      tmpMap.put(_Fields.PARAMS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("params", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, ContextMenuParams.class)));
+      tmpMap.put(_Fields.MODEL, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("model", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.ListMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.LIST, 
+              new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, MenuItem.class))));
+      tmpMap.put(_Fields.CALLBACK, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("callback", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(ContextMenuHandler_RunContextMenu_args.class, metaDataMap);
+    }
+
+    public ContextMenuHandler_RunContextMenu_args() {
+    }
+
+    public ContextMenuHandler_RunContextMenu_args(
+      int bid,
+      com.jetbrains.cef.remote.thrift_codegen.RObject frame,
+      ContextMenuParams params,
+      java.util.List<MenuItem> model,
+      com.jetbrains.cef.remote.thrift_codegen.RObject callback)
+    {
+      this();
+      this.bid = bid;
+      setBidIsSet(true);
+      this.frame = frame;
+      this.params = params;
+      this.model = model;
+      this.callback = callback;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public ContextMenuHandler_RunContextMenu_args(ContextMenuHandler_RunContextMenu_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.bid = other.bid;
+      if (other.isSetFrame()) {
+        this.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.frame);
+      }
+      if (other.isSetParams()) {
+        this.params = new ContextMenuParams(other.params);
+      }
+      if (other.isSetModel()) {
+        java.util.List<MenuItem> __this__model = new java.util.ArrayList<MenuItem>(other.model.size());
+        for (MenuItem other_element : other.model) {
+          __this__model.add(new MenuItem(other_element));
+        }
+        this.model = __this__model;
+      }
+      if (other.isSetCallback()) {
+        this.callback = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.callback);
+      }
+    }
+
+    @Override
+    public ContextMenuHandler_RunContextMenu_args deepCopy() {
+      return new ContextMenuHandler_RunContextMenu_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setBidIsSet(false);
+      this.bid = 0;
+      this.frame = null;
+      this.params = null;
+      this.model = null;
+      this.callback = null;
+    }
+
+    public int getBid() {
+      return this.bid;
+    }
+
+    public ContextMenuHandler_RunContextMenu_args setBid(int bid) {
+      this.bid = bid;
+      setBidIsSet(true);
+      return this;
+    }
+
+    public void unsetBid() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    /** Returns true if field bid is set (has been assigned a value) and false otherwise */
+    public boolean isSetBid() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    public void setBidIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getFrame() {
+      return this.frame;
+    }
+
+    public ContextMenuHandler_RunContextMenu_args setFrame(@com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame) {
+      this.frame = frame;
+      return this;
+    }
+
+    public void unsetFrame() {
+      this.frame = null;
+    }
+
+    /** Returns true if field frame is set (has been assigned a value) and false otherwise */
+    public boolean isSetFrame() {
+      return this.frame != null;
+    }
+
+    public void setFrameIsSet(boolean value) {
+      if (!value) {
+        this.frame = null;
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public ContextMenuParams getParams() {
+      return this.params;
+    }
+
+    public ContextMenuHandler_RunContextMenu_args setParams(@com.jetbrains.cef.remote.thrift.annotation.Nullable ContextMenuParams params) {
+      this.params = params;
+      return this;
+    }
+
+    public void unsetParams() {
+      this.params = null;
+    }
+
+    /** Returns true if field params is set (has been assigned a value) and false otherwise */
+    public boolean isSetParams() {
+      return this.params != null;
+    }
+
+    public void setParamsIsSet(boolean value) {
+      if (!value) {
+        this.params = null;
+      }
+    }
+
+    public int getModelSize() {
+      return (this.model == null) ? 0 : this.model.size();
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.util.Iterator<MenuItem> getModelIterator() {
+      return (this.model == null) ? null : this.model.iterator();
+    }
+
+    public void addToModel(MenuItem elem) {
+      if (this.model == null) {
+        this.model = new java.util.ArrayList<MenuItem>();
+      }
+      this.model.add(elem);
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.util.List<MenuItem> getModel() {
+      return this.model;
+    }
+
+    public ContextMenuHandler_RunContextMenu_args setModel(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.util.List<MenuItem> model) {
+      this.model = model;
+      return this;
+    }
+
+    public void unsetModel() {
+      this.model = null;
+    }
+
+    /** Returns true if field model is set (has been assigned a value) and false otherwise */
+    public boolean isSetModel() {
+      return this.model != null;
+    }
+
+    public void setModelIsSet(boolean value) {
+      if (!value) {
+        this.model = null;
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getCallback() {
+      return this.callback;
+    }
+
+    public ContextMenuHandler_RunContextMenu_args setCallback(@com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject callback) {
+      this.callback = callback;
+      return this;
+    }
+
+    public void unsetCallback() {
+      this.callback = null;
+    }
+
+    /** Returns true if field callback is set (has been assigned a value) and false otherwise */
+    public boolean isSetCallback() {
+      return this.callback != null;
+    }
+
+    public void setCallbackIsSet(boolean value) {
+      if (!value) {
+        this.callback = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case BID:
+        if (value == null) {
+          unsetBid();
+        } else {
+          setBid((java.lang.Integer)value);
+        }
+        break;
+
+      case FRAME:
+        if (value == null) {
+          unsetFrame();
+        } else {
+          setFrame((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      case PARAMS:
+        if (value == null) {
+          unsetParams();
+        } else {
+          setParams((ContextMenuParams)value);
+        }
+        break;
+
+      case MODEL:
+        if (value == null) {
+          unsetModel();
+        } else {
+          setModel((java.util.List<MenuItem>)value);
+        }
+        break;
+
+      case CALLBACK:
+        if (value == null) {
+          unsetCallback();
+        } else {
+          setCallback((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case BID:
+        return getBid();
+
+      case FRAME:
+        return getFrame();
+
+      case PARAMS:
+        return getParams();
+
+      case MODEL:
+        return getModel();
+
+      case CALLBACK:
+        return getCallback();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case BID:
+        return isSetBid();
+      case FRAME:
+        return isSetFrame();
+      case PARAMS:
+        return isSetParams();
+      case MODEL:
+        return isSetModel();
+      case CALLBACK:
+        return isSetCallback();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof ContextMenuHandler_RunContextMenu_args)
+        return this.equals((ContextMenuHandler_RunContextMenu_args)that);
+      return false;
+    }
+
+    public boolean equals(ContextMenuHandler_RunContextMenu_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_bid = true;
+      boolean that_present_bid = true;
+      if (this_present_bid || that_present_bid) {
+        if (!(this_present_bid && that_present_bid))
+          return false;
+        if (this.bid != that.bid)
+          return false;
+      }
+
+      boolean this_present_frame = true && this.isSetFrame();
+      boolean that_present_frame = true && that.isSetFrame();
+      if (this_present_frame || that_present_frame) {
+        if (!(this_present_frame && that_present_frame))
+          return false;
+        if (!this.frame.equals(that.frame))
+          return false;
+      }
+
+      boolean this_present_params = true && this.isSetParams();
+      boolean that_present_params = true && that.isSetParams();
+      if (this_present_params || that_present_params) {
+        if (!(this_present_params && that_present_params))
+          return false;
+        if (!this.params.equals(that.params))
+          return false;
+      }
+
+      boolean this_present_model = true && this.isSetModel();
+      boolean that_present_model = true && that.isSetModel();
+      if (this_present_model || that_present_model) {
+        if (!(this_present_model && that_present_model))
+          return false;
+        if (!this.model.equals(that.model))
+          return false;
+      }
+
+      boolean this_present_callback = true && this.isSetCallback();
+      boolean that_present_callback = true && that.isSetCallback();
+      if (this_present_callback || that_present_callback) {
+        if (!(this_present_callback && that_present_callback))
+          return false;
+        if (!this.callback.equals(that.callback))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + bid;
+
+      hashCode = hashCode * 8191 + ((isSetFrame()) ? 131071 : 524287);
+      if (isSetFrame())
+        hashCode = hashCode * 8191 + frame.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetParams()) ? 131071 : 524287);
+      if (isSetParams())
+        hashCode = hashCode * 8191 + params.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetModel()) ? 131071 : 524287);
+      if (isSetModel())
+        hashCode = hashCode * 8191 + model.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetCallback()) ? 131071 : 524287);
+      if (isSetCallback())
+        hashCode = hashCode * 8191 + callback.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(ContextMenuHandler_RunContextMenu_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetBid()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetFrame(), other.isSetFrame());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetFrame()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.frame, other.frame);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetParams(), other.isSetParams());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetParams()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.params, other.params);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetModel(), other.isSetModel());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetModel()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.model, other.model);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetCallback(), other.isSetCallback());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetCallback()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.callback, other.callback);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("ContextMenuHandler_RunContextMenu_args(");
+      boolean first = true;
+
+      sb.append("bid:");
+      sb.append(this.bid);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("frame:");
+      if (this.frame == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.frame);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("params:");
+      if (this.params == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.params);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("model:");
+      if (this.model == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.model);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("callback:");
+      if (this.callback == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.callback);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (frame != null) {
+        frame.validate();
+      }
+      if (params != null) {
+        params.validate();
+      }
+      if (callback != null) {
+        callback.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class ContextMenuHandler_RunContextMenu_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public ContextMenuHandler_RunContextMenu_argsStandardScheme getScheme() {
+        return new ContextMenuHandler_RunContextMenu_argsStandardScheme();
+      }
+    }
+
+    private static class ContextMenuHandler_RunContextMenu_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<ContextMenuHandler_RunContextMenu_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, ContextMenuHandler_RunContextMenu_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // BID
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
+                struct.bid = iprot.readI32();
+                struct.setBidIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // FRAME
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.frame.read(iprot);
+                struct.setFrameIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 3: // PARAMS
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                struct.params = new ContextMenuParams();
+                struct.params.read(iprot);
+                struct.setParamsIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 4: // MODEL
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.LIST) {
+                {
+                  com.jetbrains.cef.remote.thrift.protocol.TList _list40 = iprot.readListBegin();
+                  struct.model = new java.util.ArrayList<MenuItem>(_list40.size);
+                  @com.jetbrains.cef.remote.thrift.annotation.Nullable MenuItem _elem41;
+                  for (int _i42 = 0; _i42 < _list40.size; ++_i42)
+                  {
+                    _elem41 = new MenuItem();
+                    _elem41.read(iprot);
+                    struct.model.add(_elem41);
+                  }
+                  iprot.readListEnd();
+                }
+                struct.setModelIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 5: // CALLBACK
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                struct.callback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.callback.read(iprot);
+                struct.setCallbackIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, ContextMenuHandler_RunContextMenu_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(BID_FIELD_DESC);
+        oprot.writeI32(struct.bid);
+        oprot.writeFieldEnd();
+        if (struct.frame != null) {
+          oprot.writeFieldBegin(FRAME_FIELD_DESC);
+          struct.frame.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        if (struct.params != null) {
+          oprot.writeFieldBegin(PARAMS_FIELD_DESC);
+          struct.params.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        if (struct.model != null) {
+          oprot.writeFieldBegin(MODEL_FIELD_DESC);
+          {
+            oprot.writeListBegin(new com.jetbrains.cef.remote.thrift.protocol.TList(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, struct.model.size()));
+            for (MenuItem _iter43 : struct.model)
+            {
+              _iter43.write(oprot);
+            }
+            oprot.writeListEnd();
+          }
+          oprot.writeFieldEnd();
+        }
+        if (struct.callback != null) {
+          oprot.writeFieldBegin(CALLBACK_FIELD_DESC);
+          struct.callback.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class ContextMenuHandler_RunContextMenu_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public ContextMenuHandler_RunContextMenu_argsTupleScheme getScheme() {
+        return new ContextMenuHandler_RunContextMenu_argsTupleScheme();
+      }
+    }
+
+    private static class ContextMenuHandler_RunContextMenu_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<ContextMenuHandler_RunContextMenu_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, ContextMenuHandler_RunContextMenu_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetBid()) {
+          optionals.set(0);
+        }
+        if (struct.isSetFrame()) {
+          optionals.set(1);
+        }
+        if (struct.isSetParams()) {
+          optionals.set(2);
+        }
+        if (struct.isSetModel()) {
+          optionals.set(3);
+        }
+        if (struct.isSetCallback()) {
+          optionals.set(4);
+        }
+        oprot.writeBitSet(optionals, 5);
+        if (struct.isSetBid()) {
+          oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetFrame()) {
+          struct.frame.write(oprot);
+        }
+        if (struct.isSetParams()) {
+          struct.params.write(oprot);
+        }
+        if (struct.isSetModel()) {
+          {
+            oprot.writeI32(struct.model.size());
+            for (MenuItem _iter44 : struct.model)
+            {
+              _iter44.write(oprot);
+            }
+          }
+        }
+        if (struct.isSetCallback()) {
+          struct.callback.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, ContextMenuHandler_RunContextMenu_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(5);
+        if (incoming.get(0)) {
+          struct.bid = iprot.readI32();
+          struct.setBidIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.frame.read(iprot);
+          struct.setFrameIsSet(true);
+        }
+        if (incoming.get(2)) {
+          struct.params = new ContextMenuParams();
+          struct.params.read(iprot);
+          struct.setParamsIsSet(true);
+        }
+        if (incoming.get(3)) {
+          {
+            com.jetbrains.cef.remote.thrift.protocol.TList _list45 = iprot.readListBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT);
+            struct.model = new java.util.ArrayList<MenuItem>(_list45.size);
+            @com.jetbrains.cef.remote.thrift.annotation.Nullable MenuItem _elem46;
+            for (int _i47 = 0; _i47 < _list45.size; ++_i47)
+            {
+              _elem46 = new MenuItem();
+              _elem46.read(iprot);
+              struct.model.add(_elem46);
+            }
+          }
+          struct.setModelIsSet(true);
+        }
+        if (incoming.get(4)) {
+          struct.callback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.callback.read(iprot);
+          struct.setCallbackIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class ContextMenuHandler_RunContextMenu_result implements com.jetbrains.cef.remote.thrift.TBase<ContextMenuHandler_RunContextMenu_result, ContextMenuHandler_RunContextMenu_result._Fields>, java.io.Serializable, Cloneable, Comparable<ContextMenuHandler_RunContextMenu_result>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("ContextMenuHandler_RunContextMenu_result");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField SUCCESS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("success", com.jetbrains.cef.remote.thrift.protocol.TType.BOOL, (short)0);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new ContextMenuHandler_RunContextMenu_resultStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new ContextMenuHandler_RunContextMenu_resultTupleSchemeFactory();
+
+    public boolean success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __SUCCESS_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("success", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.BOOL)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(ContextMenuHandler_RunContextMenu_result.class, metaDataMap);
+    }
+
+    public ContextMenuHandler_RunContextMenu_result() {
+    }
+
+    public ContextMenuHandler_RunContextMenu_result(
+      boolean success)
+    {
+      this();
+      this.success = success;
+      setSuccessIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public ContextMenuHandler_RunContextMenu_result(ContextMenuHandler_RunContextMenu_result other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.success = other.success;
+    }
+
+    @Override
+    public ContextMenuHandler_RunContextMenu_result deepCopy() {
+      return new ContextMenuHandler_RunContextMenu_result(this);
+    }
+
+    @Override
+    public void clear() {
+      setSuccessIsSet(false);
+      this.success = false;
+    }
+
+    public boolean isSuccess() {
+      return this.success;
+    }
+
+    public ContextMenuHandler_RunContextMenu_result setSuccess(boolean success) {
+      this.success = success;
+      setSuccessIsSet(true);
+      return this;
+    }
+
+    public void unsetSuccess() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __SUCCESS_ISSET_ID, value);
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((java.lang.Boolean)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return isSuccess();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof ContextMenuHandler_RunContextMenu_result)
+        return this.equals((ContextMenuHandler_RunContextMenu_result)that);
+      return false;
+    }
+
+    public boolean equals(ContextMenuHandler_RunContextMenu_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_success = true;
+      boolean that_present_success = true;
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (this.success != that.success)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((success) ? 131071 : 524287);
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(ContextMenuHandler_RunContextMenu_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetSuccess(), other.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.success, other.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("ContextMenuHandler_RunContextMenu_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      sb.append(this.success);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class ContextMenuHandler_RunContextMenu_resultStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public ContextMenuHandler_RunContextMenu_resultStandardScheme getScheme() {
+        return new ContextMenuHandler_RunContextMenu_resultStandardScheme();
+      }
+    }
+
+    private static class ContextMenuHandler_RunContextMenu_resultStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<ContextMenuHandler_RunContextMenu_result> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, ContextMenuHandler_RunContextMenu_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 0: // SUCCESS
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.BOOL) {
+                struct.success = iprot.readBool();
+                struct.setSuccessIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, ContextMenuHandler_RunContextMenu_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.isSetSuccess()) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          oprot.writeBool(struct.success);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class ContextMenuHandler_RunContextMenu_resultTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public ContextMenuHandler_RunContextMenu_resultTupleScheme getScheme() {
+        return new ContextMenuHandler_RunContextMenu_resultTupleScheme();
+      }
+    }
+
+    private static class ContextMenuHandler_RunContextMenu_resultTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<ContextMenuHandler_RunContextMenu_result> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, ContextMenuHandler_RunContextMenu_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          oprot.writeBool(struct.success);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, ContextMenuHandler_RunContextMenu_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.success = iprot.readBool();
+          struct.setSuccessIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class ContextMenuHandler_OnContextMenuCommand_args implements com.jetbrains.cef.remote.thrift.TBase<ContextMenuHandler_OnContextMenuCommand_args, ContextMenuHandler_OnContextMenuCommand_args._Fields>, java.io.Serializable, Cloneable, Comparable<ContextMenuHandler_OnContextMenuCommand_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("ContextMenuHandler_OnContextMenuCommand_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField BID_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("bid", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)1);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField FRAME_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("frame", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)2);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField PARAMS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("params", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)3);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField COMMAND_ID_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("command_id", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)4);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField EVENT_FLAGS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("event_flags", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)-1);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new ContextMenuHandler_OnContextMenuCommand_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new ContextMenuHandler_OnContextMenuCommand_argsTupleSchemeFactory();
+
+    public int bid; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable ContextMenuParams params; // required
+    public int command_id; // required
+    public int event_flags; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      BID((short)1, "bid"),
+      FRAME((short)2, "frame"),
+      PARAMS((short)3, "params"),
+      COMMAND_ID((short)4, "command_id"),
+      EVENT_FLAGS((short)-1, "event_flags");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // BID
+            return BID;
+          case 2: // FRAME
+            return FRAME;
+          case 3: // PARAMS
+            return PARAMS;
+          case 4: // COMMAND_ID
+            return COMMAND_ID;
+          case -1: // EVENT_FLAGS
+            return EVENT_FLAGS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __BID_ISSET_ID = 0;
+    private static final int __COMMAND_ID_ISSET_ID = 1;
+    private static final int __EVENT_FLAGS_ISSET_ID = 2;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.BID, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("bid", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.FRAME, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("frame", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      tmpMap.put(_Fields.PARAMS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("params", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, ContextMenuParams.class)));
+      tmpMap.put(_Fields.COMMAND_ID, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("command_id", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.EVENT_FLAGS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("event_flags", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(ContextMenuHandler_OnContextMenuCommand_args.class, metaDataMap);
+    }
+
+    public ContextMenuHandler_OnContextMenuCommand_args() {
+    }
+
+    public ContextMenuHandler_OnContextMenuCommand_args(
+      int bid,
+      com.jetbrains.cef.remote.thrift_codegen.RObject frame,
+      ContextMenuParams params,
+      int command_id,
+      int event_flags)
+    {
+      this();
+      this.bid = bid;
+      setBidIsSet(true);
+      this.frame = frame;
+      this.params = params;
+      this.command_id = command_id;
+      setCommand_idIsSet(true);
+      this.event_flags = event_flags;
+      setEvent_flagsIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public ContextMenuHandler_OnContextMenuCommand_args(ContextMenuHandler_OnContextMenuCommand_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.bid = other.bid;
+      if (other.isSetFrame()) {
+        this.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.frame);
+      }
+      if (other.isSetParams()) {
+        this.params = new ContextMenuParams(other.params);
+      }
+      this.command_id = other.command_id;
+      this.event_flags = other.event_flags;
+    }
+
+    @Override
+    public ContextMenuHandler_OnContextMenuCommand_args deepCopy() {
+      return new ContextMenuHandler_OnContextMenuCommand_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setBidIsSet(false);
+      this.bid = 0;
+      this.frame = null;
+      this.params = null;
+      setCommand_idIsSet(false);
+      this.command_id = 0;
+      setEvent_flagsIsSet(false);
+      this.event_flags = 0;
+    }
+
+    public int getBid() {
+      return this.bid;
+    }
+
+    public ContextMenuHandler_OnContextMenuCommand_args setBid(int bid) {
+      this.bid = bid;
+      setBidIsSet(true);
+      return this;
+    }
+
+    public void unsetBid() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    /** Returns true if field bid is set (has been assigned a value) and false otherwise */
+    public boolean isSetBid() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    public void setBidIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getFrame() {
+      return this.frame;
+    }
+
+    public ContextMenuHandler_OnContextMenuCommand_args setFrame(@com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame) {
+      this.frame = frame;
+      return this;
+    }
+
+    public void unsetFrame() {
+      this.frame = null;
+    }
+
+    /** Returns true if field frame is set (has been assigned a value) and false otherwise */
+    public boolean isSetFrame() {
+      return this.frame != null;
+    }
+
+    public void setFrameIsSet(boolean value) {
+      if (!value) {
+        this.frame = null;
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public ContextMenuParams getParams() {
+      return this.params;
+    }
+
+    public ContextMenuHandler_OnContextMenuCommand_args setParams(@com.jetbrains.cef.remote.thrift.annotation.Nullable ContextMenuParams params) {
+      this.params = params;
+      return this;
+    }
+
+    public void unsetParams() {
+      this.params = null;
+    }
+
+    /** Returns true if field params is set (has been assigned a value) and false otherwise */
+    public boolean isSetParams() {
+      return this.params != null;
+    }
+
+    public void setParamsIsSet(boolean value) {
+      if (!value) {
+        this.params = null;
+      }
+    }
+
+    public int getCommand_id() {
+      return this.command_id;
+    }
+
+    public ContextMenuHandler_OnContextMenuCommand_args setCommand_id(int command_id) {
+      this.command_id = command_id;
+      setCommand_idIsSet(true);
+      return this;
+    }
+
+    public void unsetCommand_id() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __COMMAND_ID_ISSET_ID);
+    }
+
+    /** Returns true if field command_id is set (has been assigned a value) and false otherwise */
+    public boolean isSetCommand_id() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __COMMAND_ID_ISSET_ID);
+    }
+
+    public void setCommand_idIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __COMMAND_ID_ISSET_ID, value);
+    }
+
+    public int getEvent_flags() {
+      return this.event_flags;
+    }
+
+    public ContextMenuHandler_OnContextMenuCommand_args setEvent_flags(int event_flags) {
+      this.event_flags = event_flags;
+      setEvent_flagsIsSet(true);
+      return this;
+    }
+
+    public void unsetEvent_flags() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __EVENT_FLAGS_ISSET_ID);
+    }
+
+    /** Returns true if field event_flags is set (has been assigned a value) and false otherwise */
+    public boolean isSetEvent_flags() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __EVENT_FLAGS_ISSET_ID);
+    }
+
+    public void setEvent_flagsIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __EVENT_FLAGS_ISSET_ID, value);
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case BID:
+        if (value == null) {
+          unsetBid();
+        } else {
+          setBid((java.lang.Integer)value);
+        }
+        break;
+
+      case FRAME:
+        if (value == null) {
+          unsetFrame();
+        } else {
+          setFrame((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      case PARAMS:
+        if (value == null) {
+          unsetParams();
+        } else {
+          setParams((ContextMenuParams)value);
+        }
+        break;
+
+      case COMMAND_ID:
+        if (value == null) {
+          unsetCommand_id();
+        } else {
+          setCommand_id((java.lang.Integer)value);
+        }
+        break;
+
+      case EVENT_FLAGS:
+        if (value == null) {
+          unsetEvent_flags();
+        } else {
+          setEvent_flags((java.lang.Integer)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case BID:
+        return getBid();
+
+      case FRAME:
+        return getFrame();
+
+      case PARAMS:
+        return getParams();
+
+      case COMMAND_ID:
+        return getCommand_id();
+
+      case EVENT_FLAGS:
+        return getEvent_flags();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case BID:
+        return isSetBid();
+      case FRAME:
+        return isSetFrame();
+      case PARAMS:
+        return isSetParams();
+      case COMMAND_ID:
+        return isSetCommand_id();
+      case EVENT_FLAGS:
+        return isSetEvent_flags();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof ContextMenuHandler_OnContextMenuCommand_args)
+        return this.equals((ContextMenuHandler_OnContextMenuCommand_args)that);
+      return false;
+    }
+
+    public boolean equals(ContextMenuHandler_OnContextMenuCommand_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_bid = true;
+      boolean that_present_bid = true;
+      if (this_present_bid || that_present_bid) {
+        if (!(this_present_bid && that_present_bid))
+          return false;
+        if (this.bid != that.bid)
+          return false;
+      }
+
+      boolean this_present_frame = true && this.isSetFrame();
+      boolean that_present_frame = true && that.isSetFrame();
+      if (this_present_frame || that_present_frame) {
+        if (!(this_present_frame && that_present_frame))
+          return false;
+        if (!this.frame.equals(that.frame))
+          return false;
+      }
+
+      boolean this_present_params = true && this.isSetParams();
+      boolean that_present_params = true && that.isSetParams();
+      if (this_present_params || that_present_params) {
+        if (!(this_present_params && that_present_params))
+          return false;
+        if (!this.params.equals(that.params))
+          return false;
+      }
+
+      boolean this_present_command_id = true;
+      boolean that_present_command_id = true;
+      if (this_present_command_id || that_present_command_id) {
+        if (!(this_present_command_id && that_present_command_id))
+          return false;
+        if (this.command_id != that.command_id)
+          return false;
+      }
+
+      boolean this_present_event_flags = true;
+      boolean that_present_event_flags = true;
+      if (this_present_event_flags || that_present_event_flags) {
+        if (!(this_present_event_flags && that_present_event_flags))
+          return false;
+        if (this.event_flags != that.event_flags)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + bid;
+
+      hashCode = hashCode * 8191 + ((isSetFrame()) ? 131071 : 524287);
+      if (isSetFrame())
+        hashCode = hashCode * 8191 + frame.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetParams()) ? 131071 : 524287);
+      if (isSetParams())
+        hashCode = hashCode * 8191 + params.hashCode();
+
+      hashCode = hashCode * 8191 + command_id;
+
+      hashCode = hashCode * 8191 + event_flags;
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(ContextMenuHandler_OnContextMenuCommand_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetBid()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetFrame(), other.isSetFrame());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetFrame()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.frame, other.frame);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetParams(), other.isSetParams());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetParams()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.params, other.params);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetCommand_id(), other.isSetCommand_id());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetCommand_id()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.command_id, other.command_id);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetEvent_flags(), other.isSetEvent_flags());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetEvent_flags()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.event_flags, other.event_flags);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("ContextMenuHandler_OnContextMenuCommand_args(");
+      boolean first = true;
+
+      sb.append("bid:");
+      sb.append(this.bid);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("frame:");
+      if (this.frame == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.frame);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("params:");
+      if (this.params == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.params);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("command_id:");
+      sb.append(this.command_id);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("event_flags:");
+      sb.append(this.event_flags);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (frame != null) {
+        frame.validate();
+      }
+      if (params != null) {
+        params.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class ContextMenuHandler_OnContextMenuCommand_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public ContextMenuHandler_OnContextMenuCommand_argsStandardScheme getScheme() {
+        return new ContextMenuHandler_OnContextMenuCommand_argsStandardScheme();
+      }
+    }
+
+    private static class ContextMenuHandler_OnContextMenuCommand_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<ContextMenuHandler_OnContextMenuCommand_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, ContextMenuHandler_OnContextMenuCommand_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // BID
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
+                struct.bid = iprot.readI32();
+                struct.setBidIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // FRAME
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.frame.read(iprot);
+                struct.setFrameIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 3: // PARAMS
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                struct.params = new ContextMenuParams();
+                struct.params.read(iprot);
+                struct.setParamsIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 4: // COMMAND_ID
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
+                struct.command_id = iprot.readI32();
+                struct.setCommand_idIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case -1: // EVENT_FLAGS
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
+                struct.event_flags = iprot.readI32();
+                struct.setEvent_flagsIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, ContextMenuHandler_OnContextMenuCommand_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(EVENT_FLAGS_FIELD_DESC);
+        oprot.writeI32(struct.event_flags);
+        oprot.writeFieldEnd();
+        oprot.writeFieldBegin(BID_FIELD_DESC);
+        oprot.writeI32(struct.bid);
+        oprot.writeFieldEnd();
+        if (struct.frame != null) {
+          oprot.writeFieldBegin(FRAME_FIELD_DESC);
+          struct.frame.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        if (struct.params != null) {
+          oprot.writeFieldBegin(PARAMS_FIELD_DESC);
+          struct.params.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldBegin(COMMAND_ID_FIELD_DESC);
+        oprot.writeI32(struct.command_id);
+        oprot.writeFieldEnd();
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class ContextMenuHandler_OnContextMenuCommand_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public ContextMenuHandler_OnContextMenuCommand_argsTupleScheme getScheme() {
+        return new ContextMenuHandler_OnContextMenuCommand_argsTupleScheme();
+      }
+    }
+
+    private static class ContextMenuHandler_OnContextMenuCommand_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<ContextMenuHandler_OnContextMenuCommand_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, ContextMenuHandler_OnContextMenuCommand_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetBid()) {
+          optionals.set(0);
+        }
+        if (struct.isSetFrame()) {
+          optionals.set(1);
+        }
+        if (struct.isSetParams()) {
+          optionals.set(2);
+        }
+        if (struct.isSetCommand_id()) {
+          optionals.set(3);
+        }
+        if (struct.isSetEvent_flags()) {
+          optionals.set(4);
+        }
+        oprot.writeBitSet(optionals, 5);
+        if (struct.isSetBid()) {
+          oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetFrame()) {
+          struct.frame.write(oprot);
+        }
+        if (struct.isSetParams()) {
+          struct.params.write(oprot);
+        }
+        if (struct.isSetCommand_id()) {
+          oprot.writeI32(struct.command_id);
+        }
+        if (struct.isSetEvent_flags()) {
+          oprot.writeI32(struct.event_flags);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, ContextMenuHandler_OnContextMenuCommand_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(5);
+        if (incoming.get(0)) {
+          struct.bid = iprot.readI32();
+          struct.setBidIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.frame.read(iprot);
+          struct.setFrameIsSet(true);
+        }
+        if (incoming.get(2)) {
+          struct.params = new ContextMenuParams();
+          struct.params.read(iprot);
+          struct.setParamsIsSet(true);
+        }
+        if (incoming.get(3)) {
+          struct.command_id = iprot.readI32();
+          struct.setCommand_idIsSet(true);
+        }
+        if (incoming.get(4)) {
+          struct.event_flags = iprot.readI32();
+          struct.setEvent_flagsIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class ContextMenuHandler_OnContextMenuCommand_result implements com.jetbrains.cef.remote.thrift.TBase<ContextMenuHandler_OnContextMenuCommand_result, ContextMenuHandler_OnContextMenuCommand_result._Fields>, java.io.Serializable, Cloneable, Comparable<ContextMenuHandler_OnContextMenuCommand_result>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("ContextMenuHandler_OnContextMenuCommand_result");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField SUCCESS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("success", com.jetbrains.cef.remote.thrift.protocol.TType.BOOL, (short)0);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new ContextMenuHandler_OnContextMenuCommand_resultStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new ContextMenuHandler_OnContextMenuCommand_resultTupleSchemeFactory();
+
+    public boolean success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __SUCCESS_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("success", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.BOOL)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(ContextMenuHandler_OnContextMenuCommand_result.class, metaDataMap);
+    }
+
+    public ContextMenuHandler_OnContextMenuCommand_result() {
+    }
+
+    public ContextMenuHandler_OnContextMenuCommand_result(
+      boolean success)
+    {
+      this();
+      this.success = success;
+      setSuccessIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public ContextMenuHandler_OnContextMenuCommand_result(ContextMenuHandler_OnContextMenuCommand_result other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.success = other.success;
+    }
+
+    @Override
+    public ContextMenuHandler_OnContextMenuCommand_result deepCopy() {
+      return new ContextMenuHandler_OnContextMenuCommand_result(this);
+    }
+
+    @Override
+    public void clear() {
+      setSuccessIsSet(false);
+      this.success = false;
+    }
+
+    public boolean isSuccess() {
+      return this.success;
+    }
+
+    public ContextMenuHandler_OnContextMenuCommand_result setSuccess(boolean success) {
+      this.success = success;
+      setSuccessIsSet(true);
+      return this;
+    }
+
+    public void unsetSuccess() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __SUCCESS_ISSET_ID, value);
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((java.lang.Boolean)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return isSuccess();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof ContextMenuHandler_OnContextMenuCommand_result)
+        return this.equals((ContextMenuHandler_OnContextMenuCommand_result)that);
+      return false;
+    }
+
+    public boolean equals(ContextMenuHandler_OnContextMenuCommand_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_success = true;
+      boolean that_present_success = true;
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (this.success != that.success)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((success) ? 131071 : 524287);
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(ContextMenuHandler_OnContextMenuCommand_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetSuccess(), other.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.success, other.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("ContextMenuHandler_OnContextMenuCommand_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      sb.append(this.success);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class ContextMenuHandler_OnContextMenuCommand_resultStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public ContextMenuHandler_OnContextMenuCommand_resultStandardScheme getScheme() {
+        return new ContextMenuHandler_OnContextMenuCommand_resultStandardScheme();
+      }
+    }
+
+    private static class ContextMenuHandler_OnContextMenuCommand_resultStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<ContextMenuHandler_OnContextMenuCommand_result> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, ContextMenuHandler_OnContextMenuCommand_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 0: // SUCCESS
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.BOOL) {
+                struct.success = iprot.readBool();
+                struct.setSuccessIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, ContextMenuHandler_OnContextMenuCommand_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.isSetSuccess()) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          oprot.writeBool(struct.success);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class ContextMenuHandler_OnContextMenuCommand_resultTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public ContextMenuHandler_OnContextMenuCommand_resultTupleScheme getScheme() {
+        return new ContextMenuHandler_OnContextMenuCommand_resultTupleScheme();
+      }
+    }
+
+    private static class ContextMenuHandler_OnContextMenuCommand_resultTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<ContextMenuHandler_OnContextMenuCommand_result> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, ContextMenuHandler_OnContextMenuCommand_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          oprot.writeBool(struct.success);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, ContextMenuHandler_OnContextMenuCommand_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.success = iprot.readBool();
+          struct.setSuccessIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class ContextMenuHandler_OnContextMenuDismissed_args implements com.jetbrains.cef.remote.thrift.TBase<ContextMenuHandler_OnContextMenuDismissed_args, ContextMenuHandler_OnContextMenuDismissed_args._Fields>, java.io.Serializable, Cloneable, Comparable<ContextMenuHandler_OnContextMenuDismissed_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("ContextMenuHandler_OnContextMenuDismissed_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField BID_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("bid", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)1);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField FRAME_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("frame", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)2);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new ContextMenuHandler_OnContextMenuDismissed_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new ContextMenuHandler_OnContextMenuDismissed_argsTupleSchemeFactory();
+
+    public int bid; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      BID((short)1, "bid"),
+      FRAME((short)2, "frame");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // BID
+            return BID;
+          case 2: // FRAME
+            return FRAME;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __BID_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.BID, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("bid", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.FRAME, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("frame", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(ContextMenuHandler_OnContextMenuDismissed_args.class, metaDataMap);
+    }
+
+    public ContextMenuHandler_OnContextMenuDismissed_args() {
+    }
+
+    public ContextMenuHandler_OnContextMenuDismissed_args(
+      int bid,
+      com.jetbrains.cef.remote.thrift_codegen.RObject frame)
+    {
+      this();
+      this.bid = bid;
+      setBidIsSet(true);
+      this.frame = frame;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public ContextMenuHandler_OnContextMenuDismissed_args(ContextMenuHandler_OnContextMenuDismissed_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.bid = other.bid;
+      if (other.isSetFrame()) {
+        this.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.frame);
+      }
+    }
+
+    @Override
+    public ContextMenuHandler_OnContextMenuDismissed_args deepCopy() {
+      return new ContextMenuHandler_OnContextMenuDismissed_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setBidIsSet(false);
+      this.bid = 0;
+      this.frame = null;
+    }
+
+    public int getBid() {
+      return this.bid;
+    }
+
+    public ContextMenuHandler_OnContextMenuDismissed_args setBid(int bid) {
+      this.bid = bid;
+      setBidIsSet(true);
+      return this;
+    }
+
+    public void unsetBid() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    /** Returns true if field bid is set (has been assigned a value) and false otherwise */
+    public boolean isSetBid() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    public void setBidIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getFrame() {
+      return this.frame;
+    }
+
+    public ContextMenuHandler_OnContextMenuDismissed_args setFrame(@com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame) {
+      this.frame = frame;
+      return this;
+    }
+
+    public void unsetFrame() {
+      this.frame = null;
+    }
+
+    /** Returns true if field frame is set (has been assigned a value) and false otherwise */
+    public boolean isSetFrame() {
+      return this.frame != null;
+    }
+
+    public void setFrameIsSet(boolean value) {
+      if (!value) {
+        this.frame = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case BID:
+        if (value == null) {
+          unsetBid();
+        } else {
+          setBid((java.lang.Integer)value);
+        }
+        break;
+
+      case FRAME:
+        if (value == null) {
+          unsetFrame();
+        } else {
+          setFrame((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case BID:
+        return getBid();
+
+      case FRAME:
+        return getFrame();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case BID:
+        return isSetBid();
+      case FRAME:
+        return isSetFrame();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof ContextMenuHandler_OnContextMenuDismissed_args)
+        return this.equals((ContextMenuHandler_OnContextMenuDismissed_args)that);
+      return false;
+    }
+
+    public boolean equals(ContextMenuHandler_OnContextMenuDismissed_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_bid = true;
+      boolean that_present_bid = true;
+      if (this_present_bid || that_present_bid) {
+        if (!(this_present_bid && that_present_bid))
+          return false;
+        if (this.bid != that.bid)
+          return false;
+      }
+
+      boolean this_present_frame = true && this.isSetFrame();
+      boolean that_present_frame = true && that.isSetFrame();
+      if (this_present_frame || that_present_frame) {
+        if (!(this_present_frame && that_present_frame))
+          return false;
+        if (!this.frame.equals(that.frame))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + bid;
+
+      hashCode = hashCode * 8191 + ((isSetFrame()) ? 131071 : 524287);
+      if (isSetFrame())
+        hashCode = hashCode * 8191 + frame.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(ContextMenuHandler_OnContextMenuDismissed_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetBid()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetFrame(), other.isSetFrame());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetFrame()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.frame, other.frame);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("ContextMenuHandler_OnContextMenuDismissed_args(");
+      boolean first = true;
+
+      sb.append("bid:");
+      sb.append(this.bid);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("frame:");
+      if (this.frame == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.frame);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (frame != null) {
+        frame.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class ContextMenuHandler_OnContextMenuDismissed_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public ContextMenuHandler_OnContextMenuDismissed_argsStandardScheme getScheme() {
+        return new ContextMenuHandler_OnContextMenuDismissed_argsStandardScheme();
+      }
+    }
+
+    private static class ContextMenuHandler_OnContextMenuDismissed_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<ContextMenuHandler_OnContextMenuDismissed_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, ContextMenuHandler_OnContextMenuDismissed_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // BID
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
+                struct.bid = iprot.readI32();
+                struct.setBidIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // FRAME
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.frame.read(iprot);
+                struct.setFrameIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, ContextMenuHandler_OnContextMenuDismissed_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(BID_FIELD_DESC);
+        oprot.writeI32(struct.bid);
+        oprot.writeFieldEnd();
+        if (struct.frame != null) {
+          oprot.writeFieldBegin(FRAME_FIELD_DESC);
+          struct.frame.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class ContextMenuHandler_OnContextMenuDismissed_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public ContextMenuHandler_OnContextMenuDismissed_argsTupleScheme getScheme() {
+        return new ContextMenuHandler_OnContextMenuDismissed_argsTupleScheme();
+      }
+    }
+
+    private static class ContextMenuHandler_OnContextMenuDismissed_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<ContextMenuHandler_OnContextMenuDismissed_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, ContextMenuHandler_OnContextMenuDismissed_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetBid()) {
+          optionals.set(0);
+        }
+        if (struct.isSetFrame()) {
+          optionals.set(1);
+        }
+        oprot.writeBitSet(optionals, 2);
+        if (struct.isSetBid()) {
+          oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetFrame()) {
+          struct.frame.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, ContextMenuHandler_OnContextMenuDismissed_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(2);
+        if (incoming.get(0)) {
+          struct.bid = iprot.readI32();
+          struct.setBidIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.frame.read(iprot);
+          struct.setFrameIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class ContextMenuHandler_OnContextMenuDismissed_result implements com.jetbrains.cef.remote.thrift.TBase<ContextMenuHandler_OnContextMenuDismissed_result, ContextMenuHandler_OnContextMenuDismissed_result._Fields>, java.io.Serializable, Cloneable, Comparable<ContextMenuHandler_OnContextMenuDismissed_result>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("ContextMenuHandler_OnContextMenuDismissed_result");
+
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new ContextMenuHandler_OnContextMenuDismissed_resultStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new ContextMenuHandler_OnContextMenuDismissed_resultTupleSchemeFactory();
+
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+;
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(ContextMenuHandler_OnContextMenuDismissed_result.class, metaDataMap);
+    }
+
+    public ContextMenuHandler_OnContextMenuDismissed_result() {
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public ContextMenuHandler_OnContextMenuDismissed_result(ContextMenuHandler_OnContextMenuDismissed_result other) {
+    }
+
+    @Override
+    public ContextMenuHandler_OnContextMenuDismissed_result deepCopy() {
+      return new ContextMenuHandler_OnContextMenuDismissed_result(this);
+    }
+
+    @Override
+    public void clear() {
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof ContextMenuHandler_OnContextMenuDismissed_result)
+        return this.equals((ContextMenuHandler_OnContextMenuDismissed_result)that);
+      return false;
+    }
+
+    public boolean equals(ContextMenuHandler_OnContextMenuDismissed_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(ContextMenuHandler_OnContextMenuDismissed_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("ContextMenuHandler_OnContextMenuDismissed_result(");
+      boolean first = true;
+
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class ContextMenuHandler_OnContextMenuDismissed_resultStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public ContextMenuHandler_OnContextMenuDismissed_resultStandardScheme getScheme() {
+        return new ContextMenuHandler_OnContextMenuDismissed_resultStandardScheme();
+      }
+    }
+
+    private static class ContextMenuHandler_OnContextMenuDismissed_resultStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<ContextMenuHandler_OnContextMenuDismissed_result> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, ContextMenuHandler_OnContextMenuDismissed_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            default:
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, ContextMenuHandler_OnContextMenuDismissed_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class ContextMenuHandler_OnContextMenuDismissed_resultTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public ContextMenuHandler_OnContextMenuDismissed_resultTupleScheme getScheme() {
+        return new ContextMenuHandler_OnContextMenuDismissed_resultTupleScheme();
+      }
+    }
+
+    private static class ContextMenuHandler_OnContextMenuDismissed_resultTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<ContextMenuHandler_OnContextMenuDismissed_result> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, ContextMenuHandler_OnContextMenuDismissed_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, ContextMenuHandler_OnContextMenuDismissed_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
       }
     }
 

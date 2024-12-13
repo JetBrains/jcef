@@ -104,87 +104,93 @@ set(SERVER_SOURCES
         main.cpp
         CefUtils.cpp
         CefUtils.h
-        browser/KeyEventProcessing.cpp
-        browser/MouseEventProcessing.cpp
+        RemoteObjects.h
+        RpcExecutor.cpp
+        ServerApplication.cpp
         ServerHandler.cpp
+        ServerHandlerContext.cpp
+        ServerHandlerContext.cpp
+        ServerHandlerContext.h
         Utils.cpp
         Utils.h
-        log/Log.cpp
-        log/Log.h
+        browser/ClientsManager.cpp
+        browser/ClientsManager.h
+        browser/KeyEventProcessing.cpp
+        browser/MouseEventProcessing.cpp
+        browser/RemoteDevToolsMessageObserver.cpp
+        browser/RemoteDevToolsMessageObserver.h
+        browser/RemoteFrame.cpp
+        browser/RemoteFrame.h
+        callback/RemoteAuthCallback.h
+        callback/RemoteCallback.h
+        callback/RemoteCompletionCallback.cpp
+        callback/RemoteCompletionCallback.h
+        callback/RemoteIntCallback.cpp
+        callback/RemoteIntCallback.h
+        callback/RemoteRegistration.cpp
+        callback/RemoteRegistration.h
+        callback/RemoteSchemeHandlerFactory.cpp
+        callback/RemoteStringVisitor.cpp
+        callback/RemoteStringVisitor.h
         handlers/RemoteClientHandler.cpp
         handlers/RemoteClientHandler.h
-        handlers/RemoteRenderHandler.cpp
-        handlers/RemoteRenderHandler.h
+        handlers/RemoteContextMenuHandler.cpp
+        handlers/RemoteContextMenuHandler.h
+        handlers/RemoteDisplayHandler.cpp
+        handlers/RemoteDisplayHandler.h
+        handlers/RemoteFocusHandler.cpp
+        handlers/RemoteFocusHandler.h
+        handlers/RemoteKeyboardHandler.cpp
+        handlers/RemoteKeyboardHandler.h
         handlers/RemoteLifespanHandler.cpp
         handlers/RemoteLifespanHandler.h
         handlers/RemoteLoadHandler.cpp
         handlers/RemoteLoadHandler.h
+        handlers/RemoteRenderHandler.cpp
+        handlers/RemoteRenderHandler.h
+        handlers/SharedBufferManager.cpp
+        handlers/SharedBufferManager.h
+        handlers/app/HelperApp.cpp
+        handlers/app/HelperApp.h
         handlers/app/RemoteAppHandler.cpp
         handlers/app/RemoteAppHandler.h
         handlers/app/RemoteBrowserProcessHandler.cpp
         handlers/app/RemoteBrowserProcessHandler.h
-        handlers/RemoteDisplayHandler.cpp
-        handlers/RemoteDisplayHandler.h
-        RemoteObjects.h
-        network/RemoteRequestHandler.cpp
-        network/RemoteRequestHandler.h
-        network/RemoteRequest.cpp
-        network/RemoteRequest.h
-        network/RemoteResourceRequestHandler.cpp
-        network/RemoteResourceRequestHandler.h
+        log/Log.cpp
+        log/Log.h
         network/RemoteCookieAccessFilter.cpp
         network/RemoteCookieAccessFilter.h
-        network/RemoteResourceHandler.cpp
-        network/RemoteResourceHandler.h
-        network/RemoteResponse.cpp
-        network/RemoteResponse.h
-        network/RemotePostData.cpp
-        network/RemotePostData.h
-        network/RemotePostDataElement.cpp
-        network/RemotePostDataElement.h
-        callback/RemoteCallback.h
-        callback/RemoteAuthCallback.h
-        callback/RemoteSchemeHandlerFactory.cpp
-        router/RemoteMessageRouter.cpp
-        router/RemoteMessageRouter.h
-        router/MessageRoutersManager.cpp
-        router/MessageRoutersManager.h
-        router/RemoteMessageRouterHandler.cpp
-        router/RemoteMessageRouterHandler.h
-        router/RemoteQueryCallback.h
-        browser/ClientsManager.cpp
-        browser/ClientsManager.h
-        handlers/SharedBufferManager.cpp
-        handlers/SharedBufferManager.h
-        handlers/RemoteKeyboardHandler.cpp
-        handlers/RemoteKeyboardHandler.h
-        handlers/RemoteFocusHandler.cpp
-        handlers/RemoteFocusHandler.h
-        handlers/app/HelperApp.cpp
-        handlers/app/HelperApp.h
-        ServerApplication.cpp
-        RpcExecutor.cpp
-        browser/RemoteFrame.cpp
-        browser/RemoteFrame.h
-        network/RemoteRequestContextHandler.cpp
-        network/RemoteRequestContextHandler.h
-        ServerHandlerContext.h
-        ServerHandlerContext.cpp
-        ServerHandlerContext.cpp
-        callback/RemoteCompletionCallback.cpp
-        callback/RemoteCompletionCallback.h
         network/RemoteCookieManager.cpp
         network/RemoteCookieManager.h
         network/RemoteCookieVisitor.cpp
         network/RemoteCookieVisitor.h
-        callback/RemoteStringVisitor.cpp
-        callback/RemoteStringVisitor.h
-        browser/RemoteDevToolsMessageObserver.cpp
-        browser/RemoteDevToolsMessageObserver.h
-        callback/RemoteRegistration.cpp
-        callback/RemoteRegistration.h
-        callback/RemoteIntCallback.cpp
-        callback/RemoteIntCallback.h
+        network/RemotePostData.cpp
+        network/RemotePostData.h
+        network/RemotePostDataElement.cpp
+        network/RemotePostDataElement.h
+        network/RemoteRequest.cpp
+        network/RemoteRequest.h
+        network/RemoteRequestContextHandler.cpp
+        network/RemoteRequestContextHandler.h
+        network/RemoteRequestHandler.cpp
+        network/RemoteRequestHandler.h
+        network/RemoteResourceHandler.cpp
+        network/RemoteResourceHandler.h
+        network/RemoteResourceRequestHandler.cpp
+        network/RemoteResourceRequestHandler.h
+        network/RemoteResponse.cpp
+        network/RemoteResponse.h
+        router/MessageRoutersManager.cpp
+        router/MessageRoutersManager.h
+        router/RemoteMessageRouter.cpp
+        router/RemoteMessageRouter.h
+        router/RemoteMessageRouterHandler.cpp
+        router/RemoteMessageRouterHandler.h
+        router/RemoteQueryCallback.h
+        callback/RemoteCefRunContextMenuCallback.cpp
+        callback/RemoteCefRunContextMenuCallback.h
+        callback/RemoteCefRunContextMenuCallback.cpp
+        callback/RemoteCefRunContextMenuCallback.h
 )
 
 if (OS_WINDOWS)

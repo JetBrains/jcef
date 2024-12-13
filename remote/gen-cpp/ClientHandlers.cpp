@@ -5995,14 +5995,14 @@ uint32_t ClientHandlers_CookieAccessFilter_CanSendCookie_args::read(::apache::th
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->cookie.clear();
-            uint32_t _size6;
-            ::apache::thrift::protocol::TType _etype9;
-            xfer += iprot->readListBegin(_etype9, _size6);
-            this->cookie.resize(_size6);
-            uint32_t _i10;
-            for (_i10 = 0; _i10 < _size6; ++_i10)
+            uint32_t _size17;
+            ::apache::thrift::protocol::TType _etype20;
+            xfer += iprot->readListBegin(_etype20, _size17);
+            this->cookie.resize(_size17);
+            uint32_t _i21;
+            for (_i21 = 0; _i21 < _size17; ++_i21)
             {
-              xfer += iprot->readString(this->cookie[_i10]);
+              xfer += iprot->readString(this->cookie[_i21]);
             }
             xfer += iprot->readListEnd();
           }
@@ -6047,10 +6047,10 @@ uint32_t ClientHandlers_CookieAccessFilter_CanSendCookie_args::write(::apache::t
   xfer += oprot->writeFieldBegin("cookie", ::apache::thrift::protocol::T_LIST, 5);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->cookie.size()));
-    std::vector<std::string> ::const_iterator _iter11;
-    for (_iter11 = this->cookie.begin(); _iter11 != this->cookie.end(); ++_iter11)
+    std::vector<std::string> ::const_iterator _iter22;
+    for (_iter22 = this->cookie.begin(); _iter22 != this->cookie.end(); ++_iter22)
     {
-      xfer += oprot->writeString((*_iter11));
+      xfer += oprot->writeString((*_iter22));
     }
     xfer += oprot->writeListEnd();
   }
@@ -6090,10 +6090,10 @@ uint32_t ClientHandlers_CookieAccessFilter_CanSendCookie_pargs::write(::apache::
   xfer += oprot->writeFieldBegin("cookie", ::apache::thrift::protocol::T_LIST, 5);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*(this->cookie)).size()));
-    std::vector<std::string> ::const_iterator _iter12;
-    for (_iter12 = (*(this->cookie)).begin(); _iter12 != (*(this->cookie)).end(); ++_iter12)
+    std::vector<std::string> ::const_iterator _iter23;
+    for (_iter23 = (*(this->cookie)).begin(); _iter23 != (*(this->cookie)).end(); ++_iter23)
     {
-      xfer += oprot->writeString((*_iter12));
+      xfer += oprot->writeString((*_iter23));
     }
     xfer += oprot->writeListEnd();
   }
@@ -6282,14 +6282,14 @@ uint32_t ClientHandlers_CookieAccessFilter_CanSaveCookie_args::read(::apache::th
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->cookie.clear();
-            uint32_t _size13;
-            ::apache::thrift::protocol::TType _etype16;
-            xfer += iprot->readListBegin(_etype16, _size13);
-            this->cookie.resize(_size13);
-            uint32_t _i17;
-            for (_i17 = 0; _i17 < _size13; ++_i17)
+            uint32_t _size24;
+            ::apache::thrift::protocol::TType _etype27;
+            xfer += iprot->readListBegin(_etype27, _size24);
+            this->cookie.resize(_size24);
+            uint32_t _i28;
+            for (_i28 = 0; _i28 < _size24; ++_i28)
             {
-              xfer += iprot->readString(this->cookie[_i17]);
+              xfer += iprot->readString(this->cookie[_i28]);
             }
             xfer += iprot->readListEnd();
           }
@@ -6338,10 +6338,10 @@ uint32_t ClientHandlers_CookieAccessFilter_CanSaveCookie_args::write(::apache::t
   xfer += oprot->writeFieldBegin("cookie", ::apache::thrift::protocol::T_LIST, 6);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->cookie.size()));
-    std::vector<std::string> ::const_iterator _iter18;
-    for (_iter18 = this->cookie.begin(); _iter18 != this->cookie.end(); ++_iter18)
+    std::vector<std::string> ::const_iterator _iter29;
+    for (_iter29 = this->cookie.begin(); _iter29 != this->cookie.end(); ++_iter29)
     {
-      xfer += oprot->writeString((*_iter18));
+      xfer += oprot->writeString((*_iter29));
     }
     xfer += oprot->writeListEnd();
   }
@@ -6385,10 +6385,10 @@ uint32_t ClientHandlers_CookieAccessFilter_CanSaveCookie_pargs::write(::apache::
   xfer += oprot->writeFieldBegin("cookie", ::apache::thrift::protocol::T_LIST, 6);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*(this->cookie)).size()));
-    std::vector<std::string> ::const_iterator _iter19;
-    for (_iter19 = (*(this->cookie)).begin(); _iter19 != (*(this->cookie)).end(); ++_iter19)
+    std::vector<std::string> ::const_iterator _iter30;
+    for (_iter30 = (*(this->cookie)).begin(); _iter30 != (*(this->cookie)).end(); ++_iter30)
     {
-      xfer += oprot->writeString((*_iter19));
+      xfer += oprot->writeString((*_iter30));
     }
     xfer += oprot->writeListEnd();
   }
@@ -8789,6 +8789,1003 @@ uint32_t ClientHandlers_ResourceRequestHandler_OnProtocolExecution_presult::read
         xfer += iprot->skip(ftype);
         break;
     }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
+ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_args::~ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_args() noexcept {
+}
+
+
+uint32_t ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->bid);
+          this->__isset.bid = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->frame.read(iprot);
+          this->__isset.frame = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->params.read(iprot);
+          this->__isset.params = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_LIST) {
+          {
+            this->menu_model.clear();
+            uint32_t _size31;
+            ::apache::thrift::protocol::TType _etype34;
+            xfer += iprot->readListBegin(_etype34, _size31);
+            this->menu_model.resize(_size31);
+            uint32_t _i35;
+            for (_i35 = 0; _i35 < _size31; ++_i35)
+            {
+              xfer += this->menu_model[_i35].read(iprot);
+            }
+            xfer += iprot->readListEnd();
+          }
+          this->__isset.menu_model = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_args");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->bid);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("frame", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += this->frame.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("params", ::apache::thrift::protocol::T_STRUCT, 3);
+  xfer += this->params.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("menu_model", ::apache::thrift::protocol::T_LIST, 4);
+  {
+    xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->menu_model.size()));
+    std::vector<MenuItem> ::const_iterator _iter36;
+    for (_iter36 = this->menu_model.begin(); _iter36 != this->menu_model.end(); ++_iter36)
+    {
+      xfer += (*_iter36).write(oprot);
+    }
+    xfer += oprot->writeListEnd();
+  }
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_pargs::~ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_pargs() noexcept {
+}
+
+
+uint32_t ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_pargs");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->bid)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("frame", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += (*(this->frame)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("params", ::apache::thrift::protocol::T_STRUCT, 3);
+  xfer += (*(this->params)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("menu_model", ::apache::thrift::protocol::T_LIST, 4);
+  {
+    xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>((*(this->menu_model)).size()));
+    std::vector<MenuItem> ::const_iterator _iter37;
+    for (_iter37 = (*(this->menu_model)).begin(); _iter37 != (*(this->menu_model)).end(); ++_iter37)
+    {
+      xfer += (*_iter37).write(oprot);
+    }
+    xfer += oprot->writeListEnd();
+  }
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_result::~ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_result() noexcept {
+}
+
+
+uint32_t ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_LIST) {
+          {
+            this->success.clear();
+            uint32_t _size38;
+            ::apache::thrift::protocol::TType _etype41;
+            xfer += iprot->readListBegin(_etype41, _size38);
+            this->success.resize(_size38);
+            uint32_t _i42;
+            for (_i42 = 0; _i42 < _size38; ++_i42)
+            {
+              xfer += this->success[_i42].read(iprot);
+            }
+            xfer += iprot->readListEnd();
+          }
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_result");
+
+  if (this->__isset.success) {
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_LIST, 0);
+    {
+      xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->success.size()));
+      std::vector<MenuItem> ::const_iterator _iter43;
+      for (_iter43 = this->success.begin(); _iter43 != this->success.end(); ++_iter43)
+      {
+        xfer += (*_iter43).write(oprot);
+      }
+      xfer += oprot->writeListEnd();
+    }
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_presult::~ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_presult() noexcept {
+}
+
+
+uint32_t ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_LIST) {
+          {
+            (*(this->success)).clear();
+            uint32_t _size44;
+            ::apache::thrift::protocol::TType _etype47;
+            xfer += iprot->readListBegin(_etype47, _size44);
+            (*(this->success)).resize(_size44);
+            uint32_t _i48;
+            for (_i48 = 0; _i48 < _size44; ++_i48)
+            {
+              xfer += (*(this->success))[_i48].read(iprot);
+            }
+            xfer += iprot->readListEnd();
+          }
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
+ClientHandlers_ContextMenuHandler_RunContextMenu_args::~ClientHandlers_ContextMenuHandler_RunContextMenu_args() noexcept {
+}
+
+
+uint32_t ClientHandlers_ContextMenuHandler_RunContextMenu_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->bid);
+          this->__isset.bid = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->frame.read(iprot);
+          this->__isset.frame = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->params.read(iprot);
+          this->__isset.params = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_LIST) {
+          {
+            this->model.clear();
+            uint32_t _size49;
+            ::apache::thrift::protocol::TType _etype52;
+            xfer += iprot->readListBegin(_etype52, _size49);
+            this->model.resize(_size49);
+            uint32_t _i53;
+            for (_i53 = 0; _i53 < _size49; ++_i53)
+            {
+              xfer += this->model[_i53].read(iprot);
+            }
+            xfer += iprot->readListEnd();
+          }
+          this->__isset.model = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 5:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->callback.read(iprot);
+          this->__isset.callback = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_ContextMenuHandler_RunContextMenu_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_ContextMenuHandler_RunContextMenu_args");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->bid);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("frame", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += this->frame.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("params", ::apache::thrift::protocol::T_STRUCT, 3);
+  xfer += this->params.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("model", ::apache::thrift::protocol::T_LIST, 4);
+  {
+    xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->model.size()));
+    std::vector<MenuItem> ::const_iterator _iter54;
+    for (_iter54 = this->model.begin(); _iter54 != this->model.end(); ++_iter54)
+    {
+      xfer += (*_iter54).write(oprot);
+    }
+    xfer += oprot->writeListEnd();
+  }
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("callback", ::apache::thrift::protocol::T_STRUCT, 5);
+  xfer += this->callback.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_ContextMenuHandler_RunContextMenu_pargs::~ClientHandlers_ContextMenuHandler_RunContextMenu_pargs() noexcept {
+}
+
+
+uint32_t ClientHandlers_ContextMenuHandler_RunContextMenu_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_ContextMenuHandler_RunContextMenu_pargs");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->bid)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("frame", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += (*(this->frame)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("params", ::apache::thrift::protocol::T_STRUCT, 3);
+  xfer += (*(this->params)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("model", ::apache::thrift::protocol::T_LIST, 4);
+  {
+    xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>((*(this->model)).size()));
+    std::vector<MenuItem> ::const_iterator _iter55;
+    for (_iter55 = (*(this->model)).begin(); _iter55 != (*(this->model)).end(); ++_iter55)
+    {
+      xfer += (*_iter55).write(oprot);
+    }
+    xfer += oprot->writeListEnd();
+  }
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("callback", ::apache::thrift::protocol::T_STRUCT, 5);
+  xfer += (*(this->callback)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_ContextMenuHandler_RunContextMenu_result::~ClientHandlers_ContextMenuHandler_RunContextMenu_result() noexcept {
+}
+
+
+uint32_t ClientHandlers_ContextMenuHandler_RunContextMenu_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->success);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_ContextMenuHandler_RunContextMenu_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("ClientHandlers_ContextMenuHandler_RunContextMenu_result");
+
+  if (this->__isset.success) {
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_BOOL, 0);
+    xfer += oprot->writeBool(this->success);
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_ContextMenuHandler_RunContextMenu_presult::~ClientHandlers_ContextMenuHandler_RunContextMenu_presult() noexcept {
+}
+
+
+uint32_t ClientHandlers_ContextMenuHandler_RunContextMenu_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool((*(this->success)));
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
+ClientHandlers_ContextMenuHandler_OnContextMenuCommand_args::~ClientHandlers_ContextMenuHandler_OnContextMenuCommand_args() noexcept {
+}
+
+
+uint32_t ClientHandlers_ContextMenuHandler_OnContextMenuCommand_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->bid);
+          this->__isset.bid = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->frame.read(iprot);
+          this->__isset.frame = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->params.read(iprot);
+          this->__isset.params = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->command_id);
+          this->__isset.command_id = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case -1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->event_flags);
+          this->__isset.event_flags = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_ContextMenuHandler_OnContextMenuCommand_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_ContextMenuHandler_OnContextMenuCommand_args");
+
+  xfer += oprot->writeFieldBegin("event_flags", ::apache::thrift::protocol::T_I32, -1);
+  xfer += oprot->writeI32(this->event_flags);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->bid);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("frame", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += this->frame.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("params", ::apache::thrift::protocol::T_STRUCT, 3);
+  xfer += this->params.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("command_id", ::apache::thrift::protocol::T_I32, 4);
+  xfer += oprot->writeI32(this->command_id);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_ContextMenuHandler_OnContextMenuCommand_pargs::~ClientHandlers_ContextMenuHandler_OnContextMenuCommand_pargs() noexcept {
+}
+
+
+uint32_t ClientHandlers_ContextMenuHandler_OnContextMenuCommand_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_ContextMenuHandler_OnContextMenuCommand_pargs");
+
+  xfer += oprot->writeFieldBegin("event_flags", ::apache::thrift::protocol::T_I32, -1);
+  xfer += oprot->writeI32((*(this->event_flags)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->bid)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("frame", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += (*(this->frame)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("params", ::apache::thrift::protocol::T_STRUCT, 3);
+  xfer += (*(this->params)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("command_id", ::apache::thrift::protocol::T_I32, 4);
+  xfer += oprot->writeI32((*(this->command_id)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_ContextMenuHandler_OnContextMenuCommand_result::~ClientHandlers_ContextMenuHandler_OnContextMenuCommand_result() noexcept {
+}
+
+
+uint32_t ClientHandlers_ContextMenuHandler_OnContextMenuCommand_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->success);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_ContextMenuHandler_OnContextMenuCommand_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("ClientHandlers_ContextMenuHandler_OnContextMenuCommand_result");
+
+  if (this->__isset.success) {
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_BOOL, 0);
+    xfer += oprot->writeBool(this->success);
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_ContextMenuHandler_OnContextMenuCommand_presult::~ClientHandlers_ContextMenuHandler_OnContextMenuCommand_presult() noexcept {
+}
+
+
+uint32_t ClientHandlers_ContextMenuHandler_OnContextMenuCommand_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool((*(this->success)));
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
+ClientHandlers_ContextMenuHandler_OnContextMenuDismissed_args::~ClientHandlers_ContextMenuHandler_OnContextMenuDismissed_args() noexcept {
+}
+
+
+uint32_t ClientHandlers_ContextMenuHandler_OnContextMenuDismissed_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->bid);
+          this->__isset.bid = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->frame.read(iprot);
+          this->__isset.frame = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_ContextMenuHandler_OnContextMenuDismissed_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_ContextMenuHandler_OnContextMenuDismissed_args");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->bid);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("frame", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += this->frame.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_ContextMenuHandler_OnContextMenuDismissed_pargs::~ClientHandlers_ContextMenuHandler_OnContextMenuDismissed_pargs() noexcept {
+}
+
+
+uint32_t ClientHandlers_ContextMenuHandler_OnContextMenuDismissed_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_ContextMenuHandler_OnContextMenuDismissed_pargs");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->bid)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("frame", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += (*(this->frame)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_ContextMenuHandler_OnContextMenuDismissed_result::~ClientHandlers_ContextMenuHandler_OnContextMenuDismissed_result() noexcept {
+}
+
+
+uint32_t ClientHandlers_ContextMenuHandler_OnContextMenuDismissed_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_ContextMenuHandler_OnContextMenuDismissed_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("ClientHandlers_ContextMenuHandler_OnContextMenuDismissed_result");
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_ContextMenuHandler_OnContextMenuDismissed_presult::~ClientHandlers_ContextMenuHandler_OnContextMenuDismissed_presult() noexcept {
+}
+
+
+uint32_t ClientHandlers_ContextMenuHandler_OnContextMenuDismissed_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
     xfer += iprot->readFieldEnd();
   }
 
@@ -13133,6 +14130,245 @@ bool ClientHandlersClient::recv_ResourceRequestHandler_OnProtocolExecution()
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "ResourceRequestHandler_OnProtocolExecution failed: unknown result");
 }
 
+void ClientHandlersClient::ContextMenuHandler_OnBeforeContextMenu(std::vector<MenuItem> & _return, const int32_t bid, const  ::thrift_codegen::RObject& frame, const ContextMenuParams& params, const std::vector<MenuItem> & menu_model)
+{
+  send_ContextMenuHandler_OnBeforeContextMenu(bid, frame, params, menu_model);
+  recv_ContextMenuHandler_OnBeforeContextMenu(_return);
+}
+
+void ClientHandlersClient::send_ContextMenuHandler_OnBeforeContextMenu(const int32_t bid, const  ::thrift_codegen::RObject& frame, const ContextMenuParams& params, const std::vector<MenuItem> & menu_model)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("ContextMenuHandler_OnBeforeContextMenu", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_pargs args;
+  args.bid = &bid;
+  args.frame = &frame;
+  args.params = &params;
+  args.menu_model = &menu_model;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void ClientHandlersClient::recv_ContextMenuHandler_OnBeforeContextMenu(std::vector<MenuItem> & _return)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("ContextMenuHandler_OnBeforeContextMenu") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_presult result;
+  result.success = &_return;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  if (result.__isset.success) {
+    // _return pointer has now been filled
+    return;
+  }
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "ContextMenuHandler_OnBeforeContextMenu failed: unknown result");
+}
+
+bool ClientHandlersClient::ContextMenuHandler_RunContextMenu(const int32_t bid, const  ::thrift_codegen::RObject& frame, const ContextMenuParams& params, const std::vector<MenuItem> & model, const  ::thrift_codegen::RObject& callback)
+{
+  send_ContextMenuHandler_RunContextMenu(bid, frame, params, model, callback);
+  return recv_ContextMenuHandler_RunContextMenu();
+}
+
+void ClientHandlersClient::send_ContextMenuHandler_RunContextMenu(const int32_t bid, const  ::thrift_codegen::RObject& frame, const ContextMenuParams& params, const std::vector<MenuItem> & model, const  ::thrift_codegen::RObject& callback)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("ContextMenuHandler_RunContextMenu", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  ClientHandlers_ContextMenuHandler_RunContextMenu_pargs args;
+  args.bid = &bid;
+  args.frame = &frame;
+  args.params = &params;
+  args.model = &model;
+  args.callback = &callback;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+bool ClientHandlersClient::recv_ContextMenuHandler_RunContextMenu()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("ContextMenuHandler_RunContextMenu") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  bool _return;
+  ClientHandlers_ContextMenuHandler_RunContextMenu_presult result;
+  result.success = &_return;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  if (result.__isset.success) {
+    return _return;
+  }
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "ContextMenuHandler_RunContextMenu failed: unknown result");
+}
+
+bool ClientHandlersClient::ContextMenuHandler_OnContextMenuCommand(const int32_t bid, const  ::thrift_codegen::RObject& frame, const ContextMenuParams& params, const int32_t command_id, const int32_t event_flags)
+{
+  send_ContextMenuHandler_OnContextMenuCommand(bid, frame, params, command_id, event_flags);
+  return recv_ContextMenuHandler_OnContextMenuCommand();
+}
+
+void ClientHandlersClient::send_ContextMenuHandler_OnContextMenuCommand(const int32_t bid, const  ::thrift_codegen::RObject& frame, const ContextMenuParams& params, const int32_t command_id, const int32_t event_flags)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("ContextMenuHandler_OnContextMenuCommand", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  ClientHandlers_ContextMenuHandler_OnContextMenuCommand_pargs args;
+  args.bid = &bid;
+  args.frame = &frame;
+  args.params = &params;
+  args.command_id = &command_id;
+  args.event_flags = &event_flags;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+bool ClientHandlersClient::recv_ContextMenuHandler_OnContextMenuCommand()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("ContextMenuHandler_OnContextMenuCommand") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  bool _return;
+  ClientHandlers_ContextMenuHandler_OnContextMenuCommand_presult result;
+  result.success = &_return;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  if (result.__isset.success) {
+    return _return;
+  }
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "ContextMenuHandler_OnContextMenuCommand failed: unknown result");
+}
+
+void ClientHandlersClient::ContextMenuHandler_OnContextMenuDismissed(const int32_t bid, const  ::thrift_codegen::RObject& frame)
+{
+  send_ContextMenuHandler_OnContextMenuDismissed(bid, frame);
+  recv_ContextMenuHandler_OnContextMenuDismissed();
+}
+
+void ClientHandlersClient::send_ContextMenuHandler_OnContextMenuDismissed(const int32_t bid, const  ::thrift_codegen::RObject& frame)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("ContextMenuHandler_OnContextMenuDismissed", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  ClientHandlers_ContextMenuHandler_OnContextMenuDismissed_pargs args;
+  args.bid = &bid;
+  args.frame = &frame;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void ClientHandlersClient::recv_ContextMenuHandler_OnContextMenuDismissed()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("ContextMenuHandler_OnContextMenuDismissed") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  ClientHandlers_ContextMenuHandler_OnContextMenuDismissed_presult result;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  return;
+}
+
 bool ClientHandlersClient::MessageRouterHandler_onQuery(const  ::thrift_codegen::RObject& handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const int64_t queryId, const std::string& request, const bool persistent, const  ::thrift_codegen::RObject& queryCallback)
 {
   send_MessageRouterHandler_onQuery(handler, bid, frame, queryId, request, persistent, queryCallback);
@@ -15957,6 +17193,221 @@ void ClientHandlersProcessor::process_ResourceRequestHandler_OnProtocolExecution
 
   if (this->eventHandler_.get() != nullptr) {
     this->eventHandler_->postWrite(ctx, "ClientHandlers.ResourceRequestHandler_OnProtocolExecution", bytes);
+  }
+}
+
+void ClientHandlersProcessor::process_ContextMenuHandler_OnBeforeContextMenu(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("ClientHandlers.ContextMenuHandler_OnBeforeContextMenu", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ClientHandlers.ContextMenuHandler_OnBeforeContextMenu");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "ClientHandlers.ContextMenuHandler_OnBeforeContextMenu");
+  }
+
+  ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "ClientHandlers.ContextMenuHandler_OnBeforeContextMenu", bytes);
+  }
+
+  ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_result result;
+  try {
+    iface_->ContextMenuHandler_OnBeforeContextMenu(result.success, args.bid, args.frame, args.params, args.menu_model);
+    result.__isset.success = true;
+  } catch (const std::exception& e) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "ClientHandlers.ContextMenuHandler_OnBeforeContextMenu");
+    }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("ContextMenuHandler_OnBeforeContextMenu", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preWrite(ctx, "ClientHandlers.ContextMenuHandler_OnBeforeContextMenu");
+  }
+
+  oprot->writeMessageBegin("ContextMenuHandler_OnBeforeContextMenu", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "ClientHandlers.ContextMenuHandler_OnBeforeContextMenu", bytes);
+  }
+}
+
+void ClientHandlersProcessor::process_ContextMenuHandler_RunContextMenu(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("ClientHandlers.ContextMenuHandler_RunContextMenu", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ClientHandlers.ContextMenuHandler_RunContextMenu");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "ClientHandlers.ContextMenuHandler_RunContextMenu");
+  }
+
+  ClientHandlers_ContextMenuHandler_RunContextMenu_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "ClientHandlers.ContextMenuHandler_RunContextMenu", bytes);
+  }
+
+  ClientHandlers_ContextMenuHandler_RunContextMenu_result result;
+  try {
+    result.success = iface_->ContextMenuHandler_RunContextMenu(args.bid, args.frame, args.params, args.model, args.callback);
+    result.__isset.success = true;
+  } catch (const std::exception& e) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "ClientHandlers.ContextMenuHandler_RunContextMenu");
+    }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("ContextMenuHandler_RunContextMenu", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preWrite(ctx, "ClientHandlers.ContextMenuHandler_RunContextMenu");
+  }
+
+  oprot->writeMessageBegin("ContextMenuHandler_RunContextMenu", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "ClientHandlers.ContextMenuHandler_RunContextMenu", bytes);
+  }
+}
+
+void ClientHandlersProcessor::process_ContextMenuHandler_OnContextMenuCommand(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("ClientHandlers.ContextMenuHandler_OnContextMenuCommand", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ClientHandlers.ContextMenuHandler_OnContextMenuCommand");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "ClientHandlers.ContextMenuHandler_OnContextMenuCommand");
+  }
+
+  ClientHandlers_ContextMenuHandler_OnContextMenuCommand_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "ClientHandlers.ContextMenuHandler_OnContextMenuCommand", bytes);
+  }
+
+  ClientHandlers_ContextMenuHandler_OnContextMenuCommand_result result;
+  try {
+    result.success = iface_->ContextMenuHandler_OnContextMenuCommand(args.bid, args.frame, args.params, args.command_id, args.event_flags);
+    result.__isset.success = true;
+  } catch (const std::exception& e) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "ClientHandlers.ContextMenuHandler_OnContextMenuCommand");
+    }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("ContextMenuHandler_OnContextMenuCommand", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preWrite(ctx, "ClientHandlers.ContextMenuHandler_OnContextMenuCommand");
+  }
+
+  oprot->writeMessageBegin("ContextMenuHandler_OnContextMenuCommand", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "ClientHandlers.ContextMenuHandler_OnContextMenuCommand", bytes);
+  }
+}
+
+void ClientHandlersProcessor::process_ContextMenuHandler_OnContextMenuDismissed(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("ClientHandlers.ContextMenuHandler_OnContextMenuDismissed", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ClientHandlers.ContextMenuHandler_OnContextMenuDismissed");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "ClientHandlers.ContextMenuHandler_OnContextMenuDismissed");
+  }
+
+  ClientHandlers_ContextMenuHandler_OnContextMenuDismissed_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "ClientHandlers.ContextMenuHandler_OnContextMenuDismissed", bytes);
+  }
+
+  ClientHandlers_ContextMenuHandler_OnContextMenuDismissed_result result;
+  try {
+    iface_->ContextMenuHandler_OnContextMenuDismissed(args.bid, args.frame);
+  } catch (const std::exception& e) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "ClientHandlers.ContextMenuHandler_OnContextMenuDismissed");
+    }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("ContextMenuHandler_OnContextMenuDismissed", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preWrite(ctx, "ClientHandlers.ContextMenuHandler_OnContextMenuDismissed");
+  }
+
+  oprot->writeMessageBegin("ContextMenuHandler_OnContextMenuDismissed", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "ClientHandlers.ContextMenuHandler_OnContextMenuDismissed", bytes);
   }
 }
 
@@ -19660,6 +21111,348 @@ bool ClientHandlersConcurrentClient::recv_ResourceRequestHandler_OnProtocolExecu
       }
       // in a bad state, don't commit
       throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "ResourceRequestHandler_OnProtocolExecution failed: unknown result");
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
+}
+
+void ClientHandlersConcurrentClient::ContextMenuHandler_OnBeforeContextMenu(std::vector<MenuItem> & _return, const int32_t bid, const  ::thrift_codegen::RObject& frame, const ContextMenuParams& params, const std::vector<MenuItem> & menu_model)
+{
+  int32_t seqid = send_ContextMenuHandler_OnBeforeContextMenu(bid, frame, params, menu_model);
+  recv_ContextMenuHandler_OnBeforeContextMenu(_return, seqid);
+}
+
+int32_t ClientHandlersConcurrentClient::send_ContextMenuHandler_OnBeforeContextMenu(const int32_t bid, const  ::thrift_codegen::RObject& frame, const ContextMenuParams& params, const std::vector<MenuItem> & menu_model)
+{
+  int32_t cseqid = this->sync_->generateSeqId();
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("ContextMenuHandler_OnBeforeContextMenu", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_pargs args;
+  args.bid = &bid;
+  args.frame = &frame;
+  args.params = &params;
+  args.menu_model = &menu_model;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+  return cseqid;
+}
+
+void ClientHandlersConcurrentClient::recv_ContextMenuHandler_OnBeforeContextMenu(std::vector<MenuItem> & _return, const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("ContextMenuHandler_OnBeforeContextMenu") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_presult result;
+      result.success = &_return;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      if (result.__isset.success) {
+        // _return pointer has now been filled
+        sentry.commit();
+        return;
+      }
+      // in a bad state, don't commit
+      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "ContextMenuHandler_OnBeforeContextMenu failed: unknown result");
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
+}
+
+bool ClientHandlersConcurrentClient::ContextMenuHandler_RunContextMenu(const int32_t bid, const  ::thrift_codegen::RObject& frame, const ContextMenuParams& params, const std::vector<MenuItem> & model, const  ::thrift_codegen::RObject& callback)
+{
+  int32_t seqid = send_ContextMenuHandler_RunContextMenu(bid, frame, params, model, callback);
+  return recv_ContextMenuHandler_RunContextMenu(seqid);
+}
+
+int32_t ClientHandlersConcurrentClient::send_ContextMenuHandler_RunContextMenu(const int32_t bid, const  ::thrift_codegen::RObject& frame, const ContextMenuParams& params, const std::vector<MenuItem> & model, const  ::thrift_codegen::RObject& callback)
+{
+  int32_t cseqid = this->sync_->generateSeqId();
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("ContextMenuHandler_RunContextMenu", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  ClientHandlers_ContextMenuHandler_RunContextMenu_pargs args;
+  args.bid = &bid;
+  args.frame = &frame;
+  args.params = &params;
+  args.model = &model;
+  args.callback = &callback;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+  return cseqid;
+}
+
+bool ClientHandlersConcurrentClient::recv_ContextMenuHandler_RunContextMenu(const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("ContextMenuHandler_RunContextMenu") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      bool _return;
+      ClientHandlers_ContextMenuHandler_RunContextMenu_presult result;
+      result.success = &_return;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      if (result.__isset.success) {
+        sentry.commit();
+        return _return;
+      }
+      // in a bad state, don't commit
+      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "ContextMenuHandler_RunContextMenu failed: unknown result");
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
+}
+
+bool ClientHandlersConcurrentClient::ContextMenuHandler_OnContextMenuCommand(const int32_t bid, const  ::thrift_codegen::RObject& frame, const ContextMenuParams& params, const int32_t command_id, const int32_t event_flags)
+{
+  int32_t seqid = send_ContextMenuHandler_OnContextMenuCommand(bid, frame, params, command_id, event_flags);
+  return recv_ContextMenuHandler_OnContextMenuCommand(seqid);
+}
+
+int32_t ClientHandlersConcurrentClient::send_ContextMenuHandler_OnContextMenuCommand(const int32_t bid, const  ::thrift_codegen::RObject& frame, const ContextMenuParams& params, const int32_t command_id, const int32_t event_flags)
+{
+  int32_t cseqid = this->sync_->generateSeqId();
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("ContextMenuHandler_OnContextMenuCommand", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  ClientHandlers_ContextMenuHandler_OnContextMenuCommand_pargs args;
+  args.bid = &bid;
+  args.frame = &frame;
+  args.params = &params;
+  args.command_id = &command_id;
+  args.event_flags = &event_flags;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+  return cseqid;
+}
+
+bool ClientHandlersConcurrentClient::recv_ContextMenuHandler_OnContextMenuCommand(const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("ContextMenuHandler_OnContextMenuCommand") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      bool _return;
+      ClientHandlers_ContextMenuHandler_OnContextMenuCommand_presult result;
+      result.success = &_return;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      if (result.__isset.success) {
+        sentry.commit();
+        return _return;
+      }
+      // in a bad state, don't commit
+      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "ContextMenuHandler_OnContextMenuCommand failed: unknown result");
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
+}
+
+void ClientHandlersConcurrentClient::ContextMenuHandler_OnContextMenuDismissed(const int32_t bid, const  ::thrift_codegen::RObject& frame)
+{
+  int32_t seqid = send_ContextMenuHandler_OnContextMenuDismissed(bid, frame);
+  recv_ContextMenuHandler_OnContextMenuDismissed(seqid);
+}
+
+int32_t ClientHandlersConcurrentClient::send_ContextMenuHandler_OnContextMenuDismissed(const int32_t bid, const  ::thrift_codegen::RObject& frame)
+{
+  int32_t cseqid = this->sync_->generateSeqId();
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("ContextMenuHandler_OnContextMenuDismissed", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  ClientHandlers_ContextMenuHandler_OnContextMenuDismissed_pargs args;
+  args.bid = &bid;
+  args.frame = &frame;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+  return cseqid;
+}
+
+void ClientHandlersConcurrentClient::recv_ContextMenuHandler_OnContextMenuDismissed(const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("ContextMenuHandler_OnContextMenuDismissed") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      ClientHandlers_ContextMenuHandler_OnContextMenuDismissed_presult result;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      sentry.commit();
+      return;
     }
     // seqid != rseqid
     this->sync_->updatePending(fname, mtype, rseqid);

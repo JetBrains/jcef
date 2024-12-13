@@ -4,18 +4,18 @@ import com.jetbrains.cef.remote.callback.*;
 import com.jetbrains.cef.remote.browser.RemoteBrowser;
 import com.jetbrains.cef.remote.browser.RemoteDevToolsMessageObserver;
 import com.jetbrains.cef.remote.browser.RemoteFrame;
-import com.jetbrains.cef.remote.callback.*;
+import com.jetbrains.cef.remote.menu.RemoteMenuModel;
 import com.jetbrains.cef.remote.network.*;
 import com.jetbrains.cef.remote.router.RemoteMessageRouterHandler;
 import com.jetbrains.cef.remote.router.RemoteQueryCallback;
 import com.jetbrains.cef.remote.thrift_codegen.*;
+import com.jetbrains.cef.remote.thrift_codegen.MenuItem;
 import com.jetbrains.cef.remote.thrift_codegen.Point;
 import com.jetbrains.cef.remote.thrift_codegen.Rect;
 import com.jetbrains.cef.remote.thrift_codegen.ScreenInfo;
 import com.jetbrains.cef.remote.thrift.TException;
 import org.cef.CefSettings;
-import org.cef.callback.CefAuthCallback;
-import org.cef.callback.CefCallback;
+import org.cef.callback.*;
 import org.cef.handler.*;
 import org.cef.misc.*;
 import org.cef.network.CefCookie;
@@ -25,10 +25,8 @@ import org.cef.security.CefSSLInfo;
 
 import java.awt.*;
 import java.nio.ByteBuffer;
-import java.util.Arrays;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 //
 // Service for rpc from native to java
@@ -871,6 +869,82 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         BoolRef br = new BoolRef(allowOsExecution);
         rrrh.getDelegate().onProtocolExecution(getRemoteBrowser(bid), rframe, new RemoteRequest(rreq), br);
         return br.get();
+    }
+
+    @Override
+    public List<MenuItem> ContextMenuHandler_OnBeforeContextMenu(int bid, RObject frame, ContextMenuParams params, List<MenuItem> menu_model) throws TException {
+        RemoteBrowser cefBrowser = getRemoteBrowser(bid);
+        if (cefBrowser == null) {
+            CefLog.Error("CefContextMenuHandler::OnBeforeContextMenu: There is no browser with bid=%d", bid);
+            return menu_model;
+        }
+        RemoteFrame cefFrame = new RemoteFrame(myService, frame);
+        RemoteMenuModel cefMenuModel = new RemoteMenuModel(menu_model);
+        CefContextMenuParams cefParams = new com.jetbrains.cef.remote.menu.ContextMenuParams(params);
+
+        CefContextMenuHandler handler = cefBrowser.getOwner().getContextMenuHandler();
+        if (handler == null) {
+            CefLog.Error("CefContextMenuHandler::OnBeforeContextMenu: There is no CefContextMenuHandler for the browser with bid=%d", bid);
+            return menu_model;
+        }
+        handler.onBeforeContextMenu(cefBrowser, cefFrame, cefParams, cefMenuModel);
+
+        return cefMenuModel.getThriftModel();
+    }
+
+    @Override
+    public boolean ContextMenuHandler_RunContextMenu(int bid, RObject frame, ContextMenuParams params, List<MenuItem> model, RObject callback) throws TException {
+        RemoteBrowser cefBrowser = getRemoteBrowser(bid);
+        if (cefBrowser == null) {
+            CefLog.Error("CefContextMenuHandler::RunContextMenu: There is no browser with bid=%d", bid);
+            return false;
+        }
+        RemoteFrame cefFrame = new RemoteFrame(myService, frame);
+        CefContextMenuParams cefParams = new com.jetbrains.cef.remote.menu.ContextMenuParams(params);
+        RemoteMenuModel cefMenuModel = new RemoteMenuModel(model);
+        CefRunContextMenuCallback cefCallback = new RemoteRunContextMenuCallback(myService, callback);
+
+        CefContextMenuHandler handler = cefBrowser.getOwner().getContextMenuHandler();
+        if (handler == null) {
+            CefLog.Error("CefContextMenuHandler::OnBeforeContextMenu: There is no CefContextMenuHandler for the browser with bid=%d", bid);
+            return false;
+        }
+
+        return handler.runContextMenu(cefBrowser, cefFrame, cefParams, cefMenuModel, cefCallback);
+    }
+
+    @Override
+    public boolean ContextMenuHandler_OnContextMenuCommand(int bid, RObject frame, ContextMenuParams params, int command_id, int event_flags) throws TException {
+        RemoteBrowser cefBrowser = getRemoteBrowser(bid);
+        if (cefBrowser == null) {
+            CefLog.Error("CefContextMenuHandler::RunContextMenu: There is no browser with bid=%d", bid);
+            return false;
+        }
+        RemoteFrame cefFrame = new RemoteFrame(myService, frame);
+        CefContextMenuParams cefParams = new com.jetbrains.cef.remote.menu.ContextMenuParams(params);
+        CefContextMenuHandler handler = cefBrowser.getOwner().getContextMenuHandler();
+        if (handler == null) {
+            CefLog.Error("CefContextMenuHandler::OnBeforeContextMenu: There is no CefContextMenuHandler for the browser with bid=%d", bid);
+            return false;
+        }
+        return handler.onContextMenuCommand(cefBrowser, cefFrame, cefParams, command_id, event_flags);
+    }
+
+    @Override
+    public void ContextMenuHandler_OnContextMenuDismissed(int bid, RObject frame) throws TException {
+        RemoteBrowser cefBrowser = getRemoteBrowser(bid);
+        if (cefBrowser == null) {
+            CefLog.Error("CefContextMenuHandler::RunContextMenu: There is no browser with bid=%d", bid);
+            return;
+        }
+        RemoteFrame cefFrame = new RemoteFrame(myService, frame);
+        CefContextMenuHandler handler = cefBrowser.getOwner().getContextMenuHandler();
+        if (handler == null) {
+            CefLog.Error("CefContextMenuHandler::OnBeforeContextMenu: There is no CefContextMenuHandler for the browser with bid=%d", bid);
+            return;
+        }
+
+        handler.onContextMenuDismissed(cefBrowser, cefFrame);
     }
 
     @Override

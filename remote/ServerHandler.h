@@ -130,6 +130,10 @@ class ServerHandler : public thrift_codegen::ServerIf {
   void Callback_Continue(const thrift_codegen::RObject& callback) override;
   void Callback_Cancel(const thrift_codegen::RObject& callback) override;
 
+  void CefRunContextMenuCallback_Dispose(const thrift_codegen::RObject& self) override;
+  void CefRunContextMenuCallback_Continue(const thrift_codegen::RObject& self, const int32_t command_id, const int32_t event_flag) override;
+  void CefRunContextMenuCallback_Cancel(const thrift_codegen::RObject& self) override;
+
   //
   // CefMessageRouter
   //

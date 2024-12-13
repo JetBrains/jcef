@@ -104,6 +104,9 @@ class ServerIf {
   virtual void AuthCallback_Dispose(const  ::thrift_codegen::RObject& authCallback) = 0;
   virtual void AuthCallback_Continue(const  ::thrift_codegen::RObject& authCallback, const std::string& username, const std::string& password) = 0;
   virtual void AuthCallback_Cancel(const  ::thrift_codegen::RObject& authCallback) = 0;
+  virtual void CefRunContextMenuCallback_Dispose(const  ::thrift_codegen::RObject& self) = 0;
+  virtual void CefRunContextMenuCallback_Continue(const  ::thrift_codegen::RObject& self, const int32_t command_id, const int32_t event_flag) = 0;
+  virtual void CefRunContextMenuCallback_Cancel(const  ::thrift_codegen::RObject& self) = 0;
   virtual void MessageRouter_Create( ::thrift_codegen::RObject& _return, const std::string& query, const std::string& cancel) = 0;
   virtual void MessageRouter_Dispose(const  ::thrift_codegen::RObject& msgRouter) = 0;
   virtual void MessageRouter_AddMessageRouterToBrowser(const  ::thrift_codegen::RObject& msgRouter, const int32_t bid) = 0;
@@ -409,6 +412,15 @@ class ServerNull : virtual public ServerIf {
     return;
   }
   void AuthCallback_Cancel(const  ::thrift_codegen::RObject& /* authCallback */) override {
+    return;
+  }
+  void CefRunContextMenuCallback_Dispose(const  ::thrift_codegen::RObject& /* self */) override {
+    return;
+  }
+  void CefRunContextMenuCallback_Continue(const  ::thrift_codegen::RObject& /* self */, const int32_t /* command_id */, const int32_t /* event_flag */) override {
+    return;
+  }
+  void CefRunContextMenuCallback_Cancel(const  ::thrift_codegen::RObject& /* self */) override {
     return;
   }
   void MessageRouter_Create( ::thrift_codegen::RObject& /* _return */, const std::string& /* query */, const std::string& /* cancel */) override {
@@ -6898,6 +6910,280 @@ class Server_AuthCallback_Cancel_pargs {
 
 };
 
+typedef struct _Server_CefRunContextMenuCallback_Dispose_args__isset {
+  _Server_CefRunContextMenuCallback_Dispose_args__isset() : self(false) {}
+  bool self :1;
+} _Server_CefRunContextMenuCallback_Dispose_args__isset;
+
+class Server_CefRunContextMenuCallback_Dispose_args {
+ public:
+
+  Server_CefRunContextMenuCallback_Dispose_args(const Server_CefRunContextMenuCallback_Dispose_args&);
+  Server_CefRunContextMenuCallback_Dispose_args& operator=(const Server_CefRunContextMenuCallback_Dispose_args&);
+  Server_CefRunContextMenuCallback_Dispose_args() noexcept {
+  }
+
+  virtual ~Server_CefRunContextMenuCallback_Dispose_args() noexcept;
+   ::thrift_codegen::RObject self;
+
+  _Server_CefRunContextMenuCallback_Dispose_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_CefRunContextMenuCallback_Dispose_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_CefRunContextMenuCallback_Dispose_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_CefRunContextMenuCallback_Dispose_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_CefRunContextMenuCallback_Dispose_pargs {
+ public:
+
+
+  virtual ~Server_CefRunContextMenuCallback_Dispose_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_CefRunContextMenuCallback_Dispose_result {
+ public:
+
+  Server_CefRunContextMenuCallback_Dispose_result(const Server_CefRunContextMenuCallback_Dispose_result&) noexcept;
+  Server_CefRunContextMenuCallback_Dispose_result& operator=(const Server_CefRunContextMenuCallback_Dispose_result&) noexcept;
+  Server_CefRunContextMenuCallback_Dispose_result() noexcept {
+  }
+
+  virtual ~Server_CefRunContextMenuCallback_Dispose_result() noexcept;
+
+  bool operator == (const Server_CefRunContextMenuCallback_Dispose_result & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const Server_CefRunContextMenuCallback_Dispose_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_CefRunContextMenuCallback_Dispose_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_CefRunContextMenuCallback_Dispose_presult {
+ public:
+
+
+  virtual ~Server_CefRunContextMenuCallback_Dispose_presult() noexcept;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_CefRunContextMenuCallback_Continue_args__isset {
+  _Server_CefRunContextMenuCallback_Continue_args__isset() : self(false), command_id(false), event_flag(false) {}
+  bool self :1;
+  bool command_id :1;
+  bool event_flag :1;
+} _Server_CefRunContextMenuCallback_Continue_args__isset;
+
+class Server_CefRunContextMenuCallback_Continue_args {
+ public:
+
+  Server_CefRunContextMenuCallback_Continue_args(const Server_CefRunContextMenuCallback_Continue_args&);
+  Server_CefRunContextMenuCallback_Continue_args& operator=(const Server_CefRunContextMenuCallback_Continue_args&);
+  Server_CefRunContextMenuCallback_Continue_args() noexcept
+                                                 : command_id(0),
+                                                   event_flag(0) {
+  }
+
+  virtual ~Server_CefRunContextMenuCallback_Continue_args() noexcept;
+   ::thrift_codegen::RObject self;
+  int32_t command_id;
+  int32_t event_flag;
+
+  _Server_CefRunContextMenuCallback_Continue_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  void __set_command_id(const int32_t val);
+
+  void __set_event_flag(const int32_t val);
+
+  bool operator == (const Server_CefRunContextMenuCallback_Continue_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    if (!(command_id == rhs.command_id))
+      return false;
+    if (!(event_flag == rhs.event_flag))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_CefRunContextMenuCallback_Continue_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_CefRunContextMenuCallback_Continue_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_CefRunContextMenuCallback_Continue_pargs {
+ public:
+
+
+  virtual ~Server_CefRunContextMenuCallback_Continue_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+  const int32_t* command_id;
+  const int32_t* event_flag;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_CefRunContextMenuCallback_Continue_result {
+ public:
+
+  Server_CefRunContextMenuCallback_Continue_result(const Server_CefRunContextMenuCallback_Continue_result&) noexcept;
+  Server_CefRunContextMenuCallback_Continue_result& operator=(const Server_CefRunContextMenuCallback_Continue_result&) noexcept;
+  Server_CefRunContextMenuCallback_Continue_result() noexcept {
+  }
+
+  virtual ~Server_CefRunContextMenuCallback_Continue_result() noexcept;
+
+  bool operator == (const Server_CefRunContextMenuCallback_Continue_result & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const Server_CefRunContextMenuCallback_Continue_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_CefRunContextMenuCallback_Continue_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_CefRunContextMenuCallback_Continue_presult {
+ public:
+
+
+  virtual ~Server_CefRunContextMenuCallback_Continue_presult() noexcept;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_CefRunContextMenuCallback_Cancel_args__isset {
+  _Server_CefRunContextMenuCallback_Cancel_args__isset() : self(false) {}
+  bool self :1;
+} _Server_CefRunContextMenuCallback_Cancel_args__isset;
+
+class Server_CefRunContextMenuCallback_Cancel_args {
+ public:
+
+  Server_CefRunContextMenuCallback_Cancel_args(const Server_CefRunContextMenuCallback_Cancel_args&);
+  Server_CefRunContextMenuCallback_Cancel_args& operator=(const Server_CefRunContextMenuCallback_Cancel_args&);
+  Server_CefRunContextMenuCallback_Cancel_args() noexcept {
+  }
+
+  virtual ~Server_CefRunContextMenuCallback_Cancel_args() noexcept;
+   ::thrift_codegen::RObject self;
+
+  _Server_CefRunContextMenuCallback_Cancel_args__isset __isset;
+
+  void __set_self(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_CefRunContextMenuCallback_Cancel_args & rhs) const
+  {
+    if (!(self == rhs.self))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_CefRunContextMenuCallback_Cancel_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_CefRunContextMenuCallback_Cancel_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_CefRunContextMenuCallback_Cancel_pargs {
+ public:
+
+
+  virtual ~Server_CefRunContextMenuCallback_Cancel_pargs() noexcept;
+  const  ::thrift_codegen::RObject* self;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_CefRunContextMenuCallback_Cancel_result {
+ public:
+
+  Server_CefRunContextMenuCallback_Cancel_result(const Server_CefRunContextMenuCallback_Cancel_result&) noexcept;
+  Server_CefRunContextMenuCallback_Cancel_result& operator=(const Server_CefRunContextMenuCallback_Cancel_result&) noexcept;
+  Server_CefRunContextMenuCallback_Cancel_result() noexcept {
+  }
+
+  virtual ~Server_CefRunContextMenuCallback_Cancel_result() noexcept;
+
+  bool operator == (const Server_CefRunContextMenuCallback_Cancel_result & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const Server_CefRunContextMenuCallback_Cancel_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_CefRunContextMenuCallback_Cancel_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_CefRunContextMenuCallback_Cancel_presult {
+ public:
+
+
+  virtual ~Server_CefRunContextMenuCallback_Cancel_presult() noexcept;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
 typedef struct _Server_MessageRouter_Create_args__isset {
   _Server_MessageRouter_Create_args__isset() : query(false), cancel(false) {}
   bool query :1;
@@ -8938,6 +9224,15 @@ class ServerClient : virtual public ServerIf {
   void send_AuthCallback_Continue(const  ::thrift_codegen::RObject& authCallback, const std::string& username, const std::string& password);
   void AuthCallback_Cancel(const  ::thrift_codegen::RObject& authCallback) override;
   void send_AuthCallback_Cancel(const  ::thrift_codegen::RObject& authCallback);
+  void CefRunContextMenuCallback_Dispose(const  ::thrift_codegen::RObject& self) override;
+  void send_CefRunContextMenuCallback_Dispose(const  ::thrift_codegen::RObject& self);
+  void recv_CefRunContextMenuCallback_Dispose();
+  void CefRunContextMenuCallback_Continue(const  ::thrift_codegen::RObject& self, const int32_t command_id, const int32_t event_flag) override;
+  void send_CefRunContextMenuCallback_Continue(const  ::thrift_codegen::RObject& self, const int32_t command_id, const int32_t event_flag);
+  void recv_CefRunContextMenuCallback_Continue();
+  void CefRunContextMenuCallback_Cancel(const  ::thrift_codegen::RObject& self) override;
+  void send_CefRunContextMenuCallback_Cancel(const  ::thrift_codegen::RObject& self);
+  void recv_CefRunContextMenuCallback_Cancel();
   void MessageRouter_Create( ::thrift_codegen::RObject& _return, const std::string& query, const std::string& cancel) override;
   void send_MessageRouter_Create(const std::string& query, const std::string& cancel);
   void recv_MessageRouter_Create( ::thrift_codegen::RObject& _return);
@@ -9091,6 +9386,9 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_AuthCallback_Dispose(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_AuthCallback_Continue(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_AuthCallback_Cancel(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_CefRunContextMenuCallback_Dispose(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_CefRunContextMenuCallback_Continue(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_CefRunContextMenuCallback_Cancel(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_MessageRouter_Create(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_MessageRouter_Dispose(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_MessageRouter_AddMessageRouterToBrowser(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -9198,6 +9496,9 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["AuthCallback_Dispose"] = &ServerProcessor::process_AuthCallback_Dispose;
     processMap_["AuthCallback_Continue"] = &ServerProcessor::process_AuthCallback_Continue;
     processMap_["AuthCallback_Cancel"] = &ServerProcessor::process_AuthCallback_Cancel;
+    processMap_["CefRunContextMenuCallback_Dispose"] = &ServerProcessor::process_CefRunContextMenuCallback_Dispose;
+    processMap_["CefRunContextMenuCallback_Continue"] = &ServerProcessor::process_CefRunContextMenuCallback_Continue;
+    processMap_["CefRunContextMenuCallback_Cancel"] = &ServerProcessor::process_CefRunContextMenuCallback_Cancel;
     processMap_["MessageRouter_Create"] = &ServerProcessor::process_MessageRouter_Create;
     processMap_["MessageRouter_Dispose"] = &ServerProcessor::process_MessageRouter_Dispose;
     processMap_["MessageRouter_AddMessageRouterToBrowser"] = &ServerProcessor::process_MessageRouter_AddMessageRouterToBrowser;
@@ -10004,6 +10305,33 @@ class ServerMultiface : virtual public ServerIf {
     ifaces_[i]->AuthCallback_Cancel(authCallback);
   }
 
+  void CefRunContextMenuCallback_Dispose(const  ::thrift_codegen::RObject& self) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->CefRunContextMenuCallback_Dispose(self);
+    }
+    ifaces_[i]->CefRunContextMenuCallback_Dispose(self);
+  }
+
+  void CefRunContextMenuCallback_Continue(const  ::thrift_codegen::RObject& self, const int32_t command_id, const int32_t event_flag) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->CefRunContextMenuCallback_Continue(self, command_id, event_flag);
+    }
+    ifaces_[i]->CefRunContextMenuCallback_Continue(self, command_id, event_flag);
+  }
+
+  void CefRunContextMenuCallback_Cancel(const  ::thrift_codegen::RObject& self) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->CefRunContextMenuCallback_Cancel(self);
+    }
+    ifaces_[i]->CefRunContextMenuCallback_Cancel(self);
+  }
+
   void MessageRouter_Create( ::thrift_codegen::RObject& _return, const std::string& query, const std::string& cancel) override {
     size_t sz = ifaces_.size();
     size_t i = 0;
@@ -10436,6 +10764,15 @@ class ServerConcurrentClient : virtual public ServerIf {
   void send_AuthCallback_Continue(const  ::thrift_codegen::RObject& authCallback, const std::string& username, const std::string& password);
   void AuthCallback_Cancel(const  ::thrift_codegen::RObject& authCallback) override;
   void send_AuthCallback_Cancel(const  ::thrift_codegen::RObject& authCallback);
+  void CefRunContextMenuCallback_Dispose(const  ::thrift_codegen::RObject& self) override;
+  int32_t send_CefRunContextMenuCallback_Dispose(const  ::thrift_codegen::RObject& self);
+  void recv_CefRunContextMenuCallback_Dispose(const int32_t seqid);
+  void CefRunContextMenuCallback_Continue(const  ::thrift_codegen::RObject& self, const int32_t command_id, const int32_t event_flag) override;
+  int32_t send_CefRunContextMenuCallback_Continue(const  ::thrift_codegen::RObject& self, const int32_t command_id, const int32_t event_flag);
+  void recv_CefRunContextMenuCallback_Continue(const int32_t seqid);
+  void CefRunContextMenuCallback_Cancel(const  ::thrift_codegen::RObject& self) override;
+  int32_t send_CefRunContextMenuCallback_Cancel(const  ::thrift_codegen::RObject& self);
+  void recv_CefRunContextMenuCallback_Cancel(const int32_t seqid);
   void MessageRouter_Create( ::thrift_codegen::RObject& _return, const std::string& query, const std::string& cancel) override;
   int32_t send_MessageRouter_Create(const std::string& query, const std::string& cancel);
   void recv_MessageRouter_Create( ::thrift_codegen::RObject& _return, const int32_t seqid);

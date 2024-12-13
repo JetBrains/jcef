@@ -430,6 +430,21 @@ class ServerHandler : virtual public ServerIf {
     printf("AuthCallback_Cancel\n");
   }
 
+  void CefRunContextMenuCallback_Dispose(const  ::thrift_codegen::RObject& self) {
+    // Your implementation goes here
+    printf("CefRunContextMenuCallback_Dispose\n");
+  }
+
+  void CefRunContextMenuCallback_Continue(const  ::thrift_codegen::RObject& self, const int32_t command_id, const int32_t event_flag) {
+    // Your implementation goes here
+    printf("CefRunContextMenuCallback_Continue\n");
+  }
+
+  void CefRunContextMenuCallback_Cancel(const  ::thrift_codegen::RObject& self) {
+    // Your implementation goes here
+    printf("CefRunContextMenuCallback_Cancel\n");
+  }
+
   void MessageRouter_Create( ::thrift_codegen::RObject& _return, const std::string& query, const std::string& cancel) {
     // Your implementation goes here
     printf("MessageRouter_Create\n");
