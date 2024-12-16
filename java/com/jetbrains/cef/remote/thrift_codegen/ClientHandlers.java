@@ -53256,7 +53256,7 @@ public class ClientHandlers {
     private static final com.jetbrains.cef.remote.thrift.protocol.TField FRAME_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("frame", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)2);
     private static final com.jetbrains.cef.remote.thrift.protocol.TField PARAMS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("params", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)3);
     private static final com.jetbrains.cef.remote.thrift.protocol.TField COMMAND_ID_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("command_id", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)4);
-    private static final com.jetbrains.cef.remote.thrift.protocol.TField EVENT_FLAGS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("event_flags", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)-1);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField EVENT_FLAGS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("event_flags", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)5);
 
     private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new ContextMenuHandler_OnContextMenuCommand_argsStandardSchemeFactory();
     private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new ContextMenuHandler_OnContextMenuCommand_argsTupleSchemeFactory();
@@ -53273,7 +53273,7 @@ public class ClientHandlers {
       FRAME((short)2, "frame"),
       PARAMS((short)3, "params"),
       COMMAND_ID((short)4, "command_id"),
-      EVENT_FLAGS((short)-1, "event_flags");
+      EVENT_FLAGS((short)5, "event_flags");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -53297,7 +53297,7 @@ public class ClientHandlers {
             return PARAMS;
           case 4: // COMMAND_ID
             return COMMAND_ID;
-          case -1: // EVENT_FLAGS
+          case 5: // EVENT_FLAGS
             return EVENT_FLAGS;
           default:
             return null;
@@ -53905,7 +53905,7 @@ public class ClientHandlers {
                 com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case -1: // EVENT_FLAGS
+            case 5: // EVENT_FLAGS
               if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
                 struct.event_flags = iprot.readI32();
                 struct.setEvent_flagsIsSet(true);
@@ -53929,9 +53929,6 @@ public class ClientHandlers {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
-        oprot.writeFieldBegin(EVENT_FLAGS_FIELD_DESC);
-        oprot.writeI32(struct.event_flags);
-        oprot.writeFieldEnd();
         oprot.writeFieldBegin(BID_FIELD_DESC);
         oprot.writeI32(struct.bid);
         oprot.writeFieldEnd();
@@ -53947,6 +53944,9 @@ public class ClientHandlers {
         }
         oprot.writeFieldBegin(COMMAND_ID_FIELD_DESC);
         oprot.writeI32(struct.command_id);
+        oprot.writeFieldEnd();
+        oprot.writeFieldBegin(EVENT_FLAGS_FIELD_DESC);
+        oprot.writeI32(struct.event_flags);
         oprot.writeFieldEnd();
         oprot.writeFieldStop();
         oprot.writeStructEnd();
