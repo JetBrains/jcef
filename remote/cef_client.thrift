@@ -125,13 +125,13 @@ service ClientHandlers {
     // CefLoadHandler
     //
     oneway void LoadHandler_OnLoadingStateChange(1:i32 bid, 2: bool isLoading, 3:bool canGoBack, 4: bool canGoForward),
-    oneway void LoadHandler_OnLoadStart(1:i32 bid, 2:shared.RObject frame, 3:i32 transition_type),
-    oneway void LoadHandler_OnLoadEnd(1:i32 bid, 2:shared.RObject frame, 3:i32 httpStatusCode),
-    oneway void LoadHandler_OnLoadError(1:i32 bid, 2:shared.RObject frame, 3:i32 errorCode, 4:string errorText, 5:string failedUrl),
+    void        LoadHandler_OnLoadStart(1:i32 bid, 2:shared.RObject frame, 3:i32 transition_type),
+    void        LoadHandler_OnLoadEnd(1:i32 bid, 2:shared.RObject frame, 3:i32 httpStatusCode),
+    void        LoadHandler_OnLoadError(1:i32 bid, 2:shared.RObject frame, 3:i32 errorCode, 4:string errorText, 5:string failedUrl),
     //
     // CefDisplayHandler
     //
-    oneway void DisplayHandler_OnAddressChange(1:i32 bid, 2:shared.RObject frame, 3:string url),
+    void        DisplayHandler_OnAddressChange(1:i32 bid, 2:shared.RObject frame, 3:string url),
     oneway void DisplayHandler_OnTitleChange(1:i32 bid, 2:string title),
     bool        DisplayHandler_OnTooltip(1:i32 bid, 2:string text),
     oneway void DisplayHandler_OnStatusMessage(1:i32 bid, 2:string value),
@@ -185,7 +185,7 @@ service ClientHandlers {
     // CefMessageRouter
     //
     bool        MessageRouterHandler_onQuery(1: shared.RObject handler, 2:i32 bid, 3:shared.RObject frame, 4:i64 queryId, 5:string request, 6:bool persistent, 7:shared.RObject queryCallback),
-    oneway void MessageRouterHandler_onQueryCanceled(1: shared.RObject handler, 2:i32 bid, 3:shared.RObject frame, 4:i64 queryId),
+    void        MessageRouterHandler_onQueryCanceled(1: shared.RObject handler, 2:i32 bid, 3:shared.RObject frame, 4:i64 queryId),
     oneway void MessageRouterHandler_Dispose(1: i32 handler),
 
     //

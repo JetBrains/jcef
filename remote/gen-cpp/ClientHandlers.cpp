@@ -2351,6 +2351,83 @@ uint32_t ClientHandlers_LoadHandler_OnLoadStart_pargs::write(::apache::thrift::p
 }
 
 
+ClientHandlers_LoadHandler_OnLoadStart_result::~ClientHandlers_LoadHandler_OnLoadStart_result() noexcept {
+}
+
+
+uint32_t ClientHandlers_LoadHandler_OnLoadStart_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_LoadHandler_OnLoadStart_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("ClientHandlers_LoadHandler_OnLoadStart_result");
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_LoadHandler_OnLoadStart_presult::~ClientHandlers_LoadHandler_OnLoadStart_presult() noexcept {
+}
+
+
+uint32_t ClientHandlers_LoadHandler_OnLoadStart_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
 ClientHandlers_LoadHandler_OnLoadEnd_args::~ClientHandlers_LoadHandler_OnLoadEnd_args() noexcept {
 }
 
@@ -2458,6 +2535,83 @@ uint32_t ClientHandlers_LoadHandler_OnLoadEnd_pargs::write(::apache::thrift::pro
 
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_LoadHandler_OnLoadEnd_result::~ClientHandlers_LoadHandler_OnLoadEnd_result() noexcept {
+}
+
+
+uint32_t ClientHandlers_LoadHandler_OnLoadEnd_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_LoadHandler_OnLoadEnd_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("ClientHandlers_LoadHandler_OnLoadEnd_result");
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_LoadHandler_OnLoadEnd_presult::~ClientHandlers_LoadHandler_OnLoadEnd_presult() noexcept {
+}
+
+
+uint32_t ClientHandlers_LoadHandler_OnLoadEnd_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
   return xfer;
 }
 
@@ -2605,6 +2759,83 @@ uint32_t ClientHandlers_LoadHandler_OnLoadError_pargs::write(::apache::thrift::p
 }
 
 
+ClientHandlers_LoadHandler_OnLoadError_result::~ClientHandlers_LoadHandler_OnLoadError_result() noexcept {
+}
+
+
+uint32_t ClientHandlers_LoadHandler_OnLoadError_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_LoadHandler_OnLoadError_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("ClientHandlers_LoadHandler_OnLoadError_result");
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_LoadHandler_OnLoadError_presult::~ClientHandlers_LoadHandler_OnLoadError_presult() noexcept {
+}
+
+
+uint32_t ClientHandlers_LoadHandler_OnLoadError_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
 ClientHandlers_DisplayHandler_OnAddressChange_args::~ClientHandlers_DisplayHandler_OnAddressChange_args() noexcept {
 }
 
@@ -2712,6 +2943,83 @@ uint32_t ClientHandlers_DisplayHandler_OnAddressChange_pargs::write(::apache::th
 
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_DisplayHandler_OnAddressChange_result::~ClientHandlers_DisplayHandler_OnAddressChange_result() noexcept {
+}
+
+
+uint32_t ClientHandlers_DisplayHandler_OnAddressChange_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_DisplayHandler_OnAddressChange_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("ClientHandlers_DisplayHandler_OnAddressChange_result");
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_DisplayHandler_OnAddressChange_presult::~ClientHandlers_DisplayHandler_OnAddressChange_presult() noexcept {
+}
+
+
+uint32_t ClientHandlers_DisplayHandler_OnAddressChange_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
   return xfer;
 }
 
@@ -10205,6 +10513,83 @@ uint32_t ClientHandlers_MessageRouterHandler_onQueryCanceled_pargs::write(::apac
 }
 
 
+ClientHandlers_MessageRouterHandler_onQueryCanceled_result::~ClientHandlers_MessageRouterHandler_onQueryCanceled_result() noexcept {
+}
+
+
+uint32_t ClientHandlers_MessageRouterHandler_onQueryCanceled_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_MessageRouterHandler_onQueryCanceled_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("ClientHandlers_MessageRouterHandler_onQueryCanceled_result");
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_MessageRouterHandler_onQueryCanceled_presult::~ClientHandlers_MessageRouterHandler_onQueryCanceled_presult() noexcept {
+}
+
+
+uint32_t ClientHandlers_MessageRouterHandler_onQueryCanceled_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
 ClientHandlers_MessageRouterHandler_Dispose_args::~ClientHandlers_MessageRouterHandler_Dispose_args() noexcept {
 }
 
@@ -12528,12 +12913,13 @@ void ClientHandlersClient::send_LoadHandler_OnLoadingStateChange(const int32_t b
 void ClientHandlersClient::LoadHandler_OnLoadStart(const int32_t bid, const  ::thrift_codegen::RObject& frame, const int32_t transition_type)
 {
   send_LoadHandler_OnLoadStart(bid, frame, transition_type);
+  recv_LoadHandler_OnLoadStart();
 }
 
 void ClientHandlersClient::send_LoadHandler_OnLoadStart(const int32_t bid, const  ::thrift_codegen::RObject& frame, const int32_t transition_type)
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("LoadHandler_OnLoadStart", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("LoadHandler_OnLoadStart", ::apache::thrift::protocol::T_CALL, cseqid);
 
   ClientHandlers_LoadHandler_OnLoadStart_pargs args;
   args.bid = &bid;
@@ -12546,15 +12932,49 @@ void ClientHandlersClient::send_LoadHandler_OnLoadStart(const int32_t bid, const
   oprot_->getTransport()->flush();
 }
 
+void ClientHandlersClient::recv_LoadHandler_OnLoadStart()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("LoadHandler_OnLoadStart") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  ClientHandlers_LoadHandler_OnLoadStart_presult result;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  return;
+}
+
 void ClientHandlersClient::LoadHandler_OnLoadEnd(const int32_t bid, const  ::thrift_codegen::RObject& frame, const int32_t httpStatusCode)
 {
   send_LoadHandler_OnLoadEnd(bid, frame, httpStatusCode);
+  recv_LoadHandler_OnLoadEnd();
 }
 
 void ClientHandlersClient::send_LoadHandler_OnLoadEnd(const int32_t bid, const  ::thrift_codegen::RObject& frame, const int32_t httpStatusCode)
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("LoadHandler_OnLoadEnd", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("LoadHandler_OnLoadEnd", ::apache::thrift::protocol::T_CALL, cseqid);
 
   ClientHandlers_LoadHandler_OnLoadEnd_pargs args;
   args.bid = &bid;
@@ -12567,15 +12987,49 @@ void ClientHandlersClient::send_LoadHandler_OnLoadEnd(const int32_t bid, const  
   oprot_->getTransport()->flush();
 }
 
+void ClientHandlersClient::recv_LoadHandler_OnLoadEnd()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("LoadHandler_OnLoadEnd") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  ClientHandlers_LoadHandler_OnLoadEnd_presult result;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  return;
+}
+
 void ClientHandlersClient::LoadHandler_OnLoadError(const int32_t bid, const  ::thrift_codegen::RObject& frame, const int32_t errorCode, const std::string& errorText, const std::string& failedUrl)
 {
   send_LoadHandler_OnLoadError(bid, frame, errorCode, errorText, failedUrl);
+  recv_LoadHandler_OnLoadError();
 }
 
 void ClientHandlersClient::send_LoadHandler_OnLoadError(const int32_t bid, const  ::thrift_codegen::RObject& frame, const int32_t errorCode, const std::string& errorText, const std::string& failedUrl)
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("LoadHandler_OnLoadError", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("LoadHandler_OnLoadError", ::apache::thrift::protocol::T_CALL, cseqid);
 
   ClientHandlers_LoadHandler_OnLoadError_pargs args;
   args.bid = &bid;
@@ -12590,15 +13044,49 @@ void ClientHandlersClient::send_LoadHandler_OnLoadError(const int32_t bid, const
   oprot_->getTransport()->flush();
 }
 
+void ClientHandlersClient::recv_LoadHandler_OnLoadError()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("LoadHandler_OnLoadError") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  ClientHandlers_LoadHandler_OnLoadError_presult result;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  return;
+}
+
 void ClientHandlersClient::DisplayHandler_OnAddressChange(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& url)
 {
   send_DisplayHandler_OnAddressChange(bid, frame, url);
+  recv_DisplayHandler_OnAddressChange();
 }
 
 void ClientHandlersClient::send_DisplayHandler_OnAddressChange(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& url)
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("DisplayHandler_OnAddressChange", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("DisplayHandler_OnAddressChange", ::apache::thrift::protocol::T_CALL, cseqid);
 
   ClientHandlers_DisplayHandler_OnAddressChange_pargs args;
   args.bid = &bid;
@@ -12609,6 +13097,39 @@ void ClientHandlersClient::send_DisplayHandler_OnAddressChange(const int32_t bid
   oprot_->writeMessageEnd();
   oprot_->getTransport()->writeEnd();
   oprot_->getTransport()->flush();
+}
+
+void ClientHandlersClient::recv_DisplayHandler_OnAddressChange()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("DisplayHandler_OnAddressChange") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  ClientHandlers_DisplayHandler_OnAddressChange_presult result;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  return;
 }
 
 void ClientHandlersClient::DisplayHandler_OnTitleChange(const int32_t bid, const std::string& title)
@@ -14436,12 +14957,13 @@ bool ClientHandlersClient::recv_MessageRouterHandler_onQuery()
 void ClientHandlersClient::MessageRouterHandler_onQueryCanceled(const  ::thrift_codegen::RObject& handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const int64_t queryId)
 {
   send_MessageRouterHandler_onQueryCanceled(handler, bid, frame, queryId);
+  recv_MessageRouterHandler_onQueryCanceled();
 }
 
 void ClientHandlersClient::send_MessageRouterHandler_onQueryCanceled(const  ::thrift_codegen::RObject& handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const int64_t queryId)
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("MessageRouterHandler_onQueryCanceled", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("MessageRouterHandler_onQueryCanceled", ::apache::thrift::protocol::T_CALL, cseqid);
 
   ClientHandlers_MessageRouterHandler_onQueryCanceled_pargs args;
   args.handler = &handler;
@@ -14453,6 +14975,39 @@ void ClientHandlersClient::send_MessageRouterHandler_onQueryCanceled(const  ::th
   oprot_->writeMessageEnd();
   oprot_->getTransport()->writeEnd();
   oprot_->getTransport()->flush();
+}
+
+void ClientHandlersClient::recv_MessageRouterHandler_onQueryCanceled()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("MessageRouterHandler_onQueryCanceled") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  ClientHandlers_MessageRouterHandler_onQueryCanceled_presult result;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  return;
 }
 
 void ClientHandlersClient::MessageRouterHandler_Dispose(const int32_t handler)
@@ -15528,7 +16083,7 @@ void ClientHandlersProcessor::process_LoadHandler_OnLoadingStateChange(int32_t, 
   return;
 }
 
-void ClientHandlersProcessor::process_LoadHandler_OnLoadStart(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+void ClientHandlersProcessor::process_LoadHandler_OnLoadStart(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = nullptr;
   if (this->eventHandler_.get() != nullptr) {
@@ -15549,23 +16104,39 @@ void ClientHandlersProcessor::process_LoadHandler_OnLoadStart(int32_t, ::apache:
     this->eventHandler_->postRead(ctx, "ClientHandlers.LoadHandler_OnLoadStart", bytes);
   }
 
+  ClientHandlers_LoadHandler_OnLoadStart_result result;
   try {
     iface_->LoadHandler_OnLoadStart(args.bid, args.frame, args.transition_type);
-  } catch (const std::exception&) {
+  } catch (const std::exception& e) {
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "ClientHandlers.LoadHandler_OnLoadStart");
     }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("LoadHandler_OnLoadStart", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
     return;
   }
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->asyncComplete(ctx, "ClientHandlers.LoadHandler_OnLoadStart");
+    this->eventHandler_->preWrite(ctx, "ClientHandlers.LoadHandler_OnLoadStart");
   }
 
-  return;
+  oprot->writeMessageBegin("LoadHandler_OnLoadStart", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "ClientHandlers.LoadHandler_OnLoadStart", bytes);
+  }
 }
 
-void ClientHandlersProcessor::process_LoadHandler_OnLoadEnd(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+void ClientHandlersProcessor::process_LoadHandler_OnLoadEnd(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = nullptr;
   if (this->eventHandler_.get() != nullptr) {
@@ -15586,23 +16157,39 @@ void ClientHandlersProcessor::process_LoadHandler_OnLoadEnd(int32_t, ::apache::t
     this->eventHandler_->postRead(ctx, "ClientHandlers.LoadHandler_OnLoadEnd", bytes);
   }
 
+  ClientHandlers_LoadHandler_OnLoadEnd_result result;
   try {
     iface_->LoadHandler_OnLoadEnd(args.bid, args.frame, args.httpStatusCode);
-  } catch (const std::exception&) {
+  } catch (const std::exception& e) {
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "ClientHandlers.LoadHandler_OnLoadEnd");
     }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("LoadHandler_OnLoadEnd", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
     return;
   }
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->asyncComplete(ctx, "ClientHandlers.LoadHandler_OnLoadEnd");
+    this->eventHandler_->preWrite(ctx, "ClientHandlers.LoadHandler_OnLoadEnd");
   }
 
-  return;
+  oprot->writeMessageBegin("LoadHandler_OnLoadEnd", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "ClientHandlers.LoadHandler_OnLoadEnd", bytes);
+  }
 }
 
-void ClientHandlersProcessor::process_LoadHandler_OnLoadError(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+void ClientHandlersProcessor::process_LoadHandler_OnLoadError(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = nullptr;
   if (this->eventHandler_.get() != nullptr) {
@@ -15623,23 +16210,39 @@ void ClientHandlersProcessor::process_LoadHandler_OnLoadError(int32_t, ::apache:
     this->eventHandler_->postRead(ctx, "ClientHandlers.LoadHandler_OnLoadError", bytes);
   }
 
+  ClientHandlers_LoadHandler_OnLoadError_result result;
   try {
     iface_->LoadHandler_OnLoadError(args.bid, args.frame, args.errorCode, args.errorText, args.failedUrl);
-  } catch (const std::exception&) {
+  } catch (const std::exception& e) {
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "ClientHandlers.LoadHandler_OnLoadError");
     }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("LoadHandler_OnLoadError", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
     return;
   }
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->asyncComplete(ctx, "ClientHandlers.LoadHandler_OnLoadError");
+    this->eventHandler_->preWrite(ctx, "ClientHandlers.LoadHandler_OnLoadError");
   }
 
-  return;
+  oprot->writeMessageBegin("LoadHandler_OnLoadError", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "ClientHandlers.LoadHandler_OnLoadError", bytes);
+  }
 }
 
-void ClientHandlersProcessor::process_DisplayHandler_OnAddressChange(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+void ClientHandlersProcessor::process_DisplayHandler_OnAddressChange(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = nullptr;
   if (this->eventHandler_.get() != nullptr) {
@@ -15660,20 +16263,36 @@ void ClientHandlersProcessor::process_DisplayHandler_OnAddressChange(int32_t, ::
     this->eventHandler_->postRead(ctx, "ClientHandlers.DisplayHandler_OnAddressChange", bytes);
   }
 
+  ClientHandlers_DisplayHandler_OnAddressChange_result result;
   try {
     iface_->DisplayHandler_OnAddressChange(args.bid, args.frame, args.url);
-  } catch (const std::exception&) {
+  } catch (const std::exception& e) {
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "ClientHandlers.DisplayHandler_OnAddressChange");
     }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("DisplayHandler_OnAddressChange", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
     return;
   }
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->asyncComplete(ctx, "ClientHandlers.DisplayHandler_OnAddressChange");
+    this->eventHandler_->preWrite(ctx, "ClientHandlers.DisplayHandler_OnAddressChange");
   }
 
-  return;
+  oprot->writeMessageBegin("DisplayHandler_OnAddressChange", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "ClientHandlers.DisplayHandler_OnAddressChange", bytes);
+  }
 }
 
 void ClientHandlersProcessor::process_DisplayHandler_OnTitleChange(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
@@ -17465,7 +18084,7 @@ void ClientHandlersProcessor::process_MessageRouterHandler_onQuery(int32_t seqid
   }
 }
 
-void ClientHandlersProcessor::process_MessageRouterHandler_onQueryCanceled(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+void ClientHandlersProcessor::process_MessageRouterHandler_onQueryCanceled(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = nullptr;
   if (this->eventHandler_.get() != nullptr) {
@@ -17486,20 +18105,36 @@ void ClientHandlersProcessor::process_MessageRouterHandler_onQueryCanceled(int32
     this->eventHandler_->postRead(ctx, "ClientHandlers.MessageRouterHandler_onQueryCanceled", bytes);
   }
 
+  ClientHandlers_MessageRouterHandler_onQueryCanceled_result result;
   try {
     iface_->MessageRouterHandler_onQueryCanceled(args.handler, args.bid, args.frame, args.queryId);
-  } catch (const std::exception&) {
+  } catch (const std::exception& e) {
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "ClientHandlers.MessageRouterHandler_onQueryCanceled");
     }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("MessageRouterHandler_onQueryCanceled", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
     return;
   }
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->asyncComplete(ctx, "ClientHandlers.MessageRouterHandler_onQueryCanceled");
+    this->eventHandler_->preWrite(ctx, "ClientHandlers.MessageRouterHandler_onQueryCanceled");
   }
 
-  return;
+  oprot->writeMessageBegin("MessageRouterHandler_onQueryCanceled", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "ClientHandlers.MessageRouterHandler_onQueryCanceled", bytes);
+  }
 }
 
 void ClientHandlersProcessor::process_MessageRouterHandler_Dispose(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
@@ -18907,14 +19542,15 @@ void ClientHandlersConcurrentClient::send_LoadHandler_OnLoadingStateChange(const
 
 void ClientHandlersConcurrentClient::LoadHandler_OnLoadStart(const int32_t bid, const  ::thrift_codegen::RObject& frame, const int32_t transition_type)
 {
-  send_LoadHandler_OnLoadStart(bid, frame, transition_type);
+  int32_t seqid = send_LoadHandler_OnLoadStart(bid, frame, transition_type);
+  recv_LoadHandler_OnLoadStart(seqid);
 }
 
-void ClientHandlersConcurrentClient::send_LoadHandler_OnLoadStart(const int32_t bid, const  ::thrift_codegen::RObject& frame, const int32_t transition_type)
+int32_t ClientHandlersConcurrentClient::send_LoadHandler_OnLoadStart(const int32_t bid, const  ::thrift_codegen::RObject& frame, const int32_t transition_type)
 {
-  int32_t cseqid = 0;
+  int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
-  oprot_->writeMessageBegin("LoadHandler_OnLoadStart", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("LoadHandler_OnLoadStart", ::apache::thrift::protocol::T_CALL, cseqid);
 
   ClientHandlers_LoadHandler_OnLoadStart_pargs args;
   args.bid = &bid;
@@ -18927,18 +19563,74 @@ void ClientHandlersConcurrentClient::send_LoadHandler_OnLoadStart(const int32_t 
   oprot_->getTransport()->flush();
 
   sentry.commit();
+  return cseqid;
+}
+
+void ClientHandlersConcurrentClient::recv_LoadHandler_OnLoadStart(const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("LoadHandler_OnLoadStart") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      ClientHandlers_LoadHandler_OnLoadStart_presult result;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      sentry.commit();
+      return;
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
 }
 
 void ClientHandlersConcurrentClient::LoadHandler_OnLoadEnd(const int32_t bid, const  ::thrift_codegen::RObject& frame, const int32_t httpStatusCode)
 {
-  send_LoadHandler_OnLoadEnd(bid, frame, httpStatusCode);
+  int32_t seqid = send_LoadHandler_OnLoadEnd(bid, frame, httpStatusCode);
+  recv_LoadHandler_OnLoadEnd(seqid);
 }
 
-void ClientHandlersConcurrentClient::send_LoadHandler_OnLoadEnd(const int32_t bid, const  ::thrift_codegen::RObject& frame, const int32_t httpStatusCode)
+int32_t ClientHandlersConcurrentClient::send_LoadHandler_OnLoadEnd(const int32_t bid, const  ::thrift_codegen::RObject& frame, const int32_t httpStatusCode)
 {
-  int32_t cseqid = 0;
+  int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
-  oprot_->writeMessageBegin("LoadHandler_OnLoadEnd", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("LoadHandler_OnLoadEnd", ::apache::thrift::protocol::T_CALL, cseqid);
 
   ClientHandlers_LoadHandler_OnLoadEnd_pargs args;
   args.bid = &bid;
@@ -18951,18 +19643,74 @@ void ClientHandlersConcurrentClient::send_LoadHandler_OnLoadEnd(const int32_t bi
   oprot_->getTransport()->flush();
 
   sentry.commit();
+  return cseqid;
+}
+
+void ClientHandlersConcurrentClient::recv_LoadHandler_OnLoadEnd(const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("LoadHandler_OnLoadEnd") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      ClientHandlers_LoadHandler_OnLoadEnd_presult result;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      sentry.commit();
+      return;
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
 }
 
 void ClientHandlersConcurrentClient::LoadHandler_OnLoadError(const int32_t bid, const  ::thrift_codegen::RObject& frame, const int32_t errorCode, const std::string& errorText, const std::string& failedUrl)
 {
-  send_LoadHandler_OnLoadError(bid, frame, errorCode, errorText, failedUrl);
+  int32_t seqid = send_LoadHandler_OnLoadError(bid, frame, errorCode, errorText, failedUrl);
+  recv_LoadHandler_OnLoadError(seqid);
 }
 
-void ClientHandlersConcurrentClient::send_LoadHandler_OnLoadError(const int32_t bid, const  ::thrift_codegen::RObject& frame, const int32_t errorCode, const std::string& errorText, const std::string& failedUrl)
+int32_t ClientHandlersConcurrentClient::send_LoadHandler_OnLoadError(const int32_t bid, const  ::thrift_codegen::RObject& frame, const int32_t errorCode, const std::string& errorText, const std::string& failedUrl)
 {
-  int32_t cseqid = 0;
+  int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
-  oprot_->writeMessageBegin("LoadHandler_OnLoadError", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("LoadHandler_OnLoadError", ::apache::thrift::protocol::T_CALL, cseqid);
 
   ClientHandlers_LoadHandler_OnLoadError_pargs args;
   args.bid = &bid;
@@ -18977,18 +19725,74 @@ void ClientHandlersConcurrentClient::send_LoadHandler_OnLoadError(const int32_t 
   oprot_->getTransport()->flush();
 
   sentry.commit();
+  return cseqid;
+}
+
+void ClientHandlersConcurrentClient::recv_LoadHandler_OnLoadError(const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("LoadHandler_OnLoadError") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      ClientHandlers_LoadHandler_OnLoadError_presult result;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      sentry.commit();
+      return;
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
 }
 
 void ClientHandlersConcurrentClient::DisplayHandler_OnAddressChange(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& url)
 {
-  send_DisplayHandler_OnAddressChange(bid, frame, url);
+  int32_t seqid = send_DisplayHandler_OnAddressChange(bid, frame, url);
+  recv_DisplayHandler_OnAddressChange(seqid);
 }
 
-void ClientHandlersConcurrentClient::send_DisplayHandler_OnAddressChange(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& url)
+int32_t ClientHandlersConcurrentClient::send_DisplayHandler_OnAddressChange(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& url)
 {
-  int32_t cseqid = 0;
+  int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
-  oprot_->writeMessageBegin("DisplayHandler_OnAddressChange", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("DisplayHandler_OnAddressChange", ::apache::thrift::protocol::T_CALL, cseqid);
 
   ClientHandlers_DisplayHandler_OnAddressChange_pargs args;
   args.bid = &bid;
@@ -19001,6 +19805,61 @@ void ClientHandlersConcurrentClient::send_DisplayHandler_OnAddressChange(const i
   oprot_->getTransport()->flush();
 
   sentry.commit();
+  return cseqid;
+}
+
+void ClientHandlersConcurrentClient::recv_DisplayHandler_OnAddressChange(const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("DisplayHandler_OnAddressChange") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      ClientHandlers_DisplayHandler_OnAddressChange_presult result;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      sentry.commit();
+      return;
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
 }
 
 void ClientHandlersConcurrentClient::DisplayHandler_OnTitleChange(const int32_t bid, const std::string& title)
@@ -21554,14 +22413,15 @@ bool ClientHandlersConcurrentClient::recv_MessageRouterHandler_onQuery(const int
 
 void ClientHandlersConcurrentClient::MessageRouterHandler_onQueryCanceled(const  ::thrift_codegen::RObject& handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const int64_t queryId)
 {
-  send_MessageRouterHandler_onQueryCanceled(handler, bid, frame, queryId);
+  int32_t seqid = send_MessageRouterHandler_onQueryCanceled(handler, bid, frame, queryId);
+  recv_MessageRouterHandler_onQueryCanceled(seqid);
 }
 
-void ClientHandlersConcurrentClient::send_MessageRouterHandler_onQueryCanceled(const  ::thrift_codegen::RObject& handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const int64_t queryId)
+int32_t ClientHandlersConcurrentClient::send_MessageRouterHandler_onQueryCanceled(const  ::thrift_codegen::RObject& handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const int64_t queryId)
 {
-  int32_t cseqid = 0;
+  int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
-  oprot_->writeMessageBegin("MessageRouterHandler_onQueryCanceled", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("MessageRouterHandler_onQueryCanceled", ::apache::thrift::protocol::T_CALL, cseqid);
 
   ClientHandlers_MessageRouterHandler_onQueryCanceled_pargs args;
   args.handler = &handler;
@@ -21575,6 +22435,61 @@ void ClientHandlersConcurrentClient::send_MessageRouterHandler_onQueryCanceled(c
   oprot_->getTransport()->flush();
 
   sentry.commit();
+  return cseqid;
+}
+
+void ClientHandlersConcurrentClient::recv_MessageRouterHandler_onQueryCanceled(const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("MessageRouterHandler_onQueryCanceled") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      ClientHandlers_MessageRouterHandler_onQueryCanceled_presult result;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      sentry.commit();
+      return;
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
 }
 
 void ClientHandlersConcurrentClient::MessageRouterHandler_Dispose(const int32_t handler)
