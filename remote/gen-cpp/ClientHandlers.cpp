@@ -9429,7 +9429,7 @@ uint32_t ClientHandlers_ContextMenuHandler_OnContextMenuCommand_args::read(::apa
           xfer += iprot->skip(ftype);
         }
         break;
-      case -1:
+      case 5:
         if (ftype == ::apache::thrift::protocol::T_I32) {
           xfer += iprot->readI32(this->event_flags);
           this->__isset.event_flags = true;
@@ -9454,10 +9454,6 @@ uint32_t ClientHandlers_ContextMenuHandler_OnContextMenuCommand_args::write(::ap
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
   xfer += oprot->writeStructBegin("ClientHandlers_ContextMenuHandler_OnContextMenuCommand_args");
 
-  xfer += oprot->writeFieldBegin("event_flags", ::apache::thrift::protocol::T_I32, -1);
-  xfer += oprot->writeI32(this->event_flags);
-  xfer += oprot->writeFieldEnd();
-
   xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
   xfer += oprot->writeI32(this->bid);
   xfer += oprot->writeFieldEnd();
@@ -9472,6 +9468,10 @@ uint32_t ClientHandlers_ContextMenuHandler_OnContextMenuCommand_args::write(::ap
 
   xfer += oprot->writeFieldBegin("command_id", ::apache::thrift::protocol::T_I32, 4);
   xfer += oprot->writeI32(this->command_id);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("event_flags", ::apache::thrift::protocol::T_I32, 5);
+  xfer += oprot->writeI32(this->event_flags);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -9489,10 +9489,6 @@ uint32_t ClientHandlers_ContextMenuHandler_OnContextMenuCommand_pargs::write(::a
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
   xfer += oprot->writeStructBegin("ClientHandlers_ContextMenuHandler_OnContextMenuCommand_pargs");
 
-  xfer += oprot->writeFieldBegin("event_flags", ::apache::thrift::protocol::T_I32, -1);
-  xfer += oprot->writeI32((*(this->event_flags)));
-  xfer += oprot->writeFieldEnd();
-
   xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
   xfer += oprot->writeI32((*(this->bid)));
   xfer += oprot->writeFieldEnd();
@@ -9507,6 +9503,10 @@ uint32_t ClientHandlers_ContextMenuHandler_OnContextMenuCommand_pargs::write(::a
 
   xfer += oprot->writeFieldBegin("command_id", ::apache::thrift::protocol::T_I32, 4);
   xfer += oprot->writeI32((*(this->command_id)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("event_flags", ::apache::thrift::protocol::T_I32, 5);
+  xfer += oprot->writeI32((*(this->event_flags)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
