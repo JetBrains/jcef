@@ -1672,6 +1672,43 @@ class ClientHandlers_LoadHandler_OnLoadStart_pargs {
 
 };
 
+
+class ClientHandlers_LoadHandler_OnLoadStart_result {
+ public:
+
+  ClientHandlers_LoadHandler_OnLoadStart_result(const ClientHandlers_LoadHandler_OnLoadStart_result&) noexcept;
+  ClientHandlers_LoadHandler_OnLoadStart_result& operator=(const ClientHandlers_LoadHandler_OnLoadStart_result&) noexcept;
+  ClientHandlers_LoadHandler_OnLoadStart_result() noexcept {
+  }
+
+  virtual ~ClientHandlers_LoadHandler_OnLoadStart_result() noexcept;
+
+  bool operator == (const ClientHandlers_LoadHandler_OnLoadStart_result & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const ClientHandlers_LoadHandler_OnLoadStart_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_LoadHandler_OnLoadStart_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_LoadHandler_OnLoadStart_presult {
+ public:
+
+
+  virtual ~ClientHandlers_LoadHandler_OnLoadStart_presult() noexcept;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
 typedef struct _ClientHandlers_LoadHandler_OnLoadEnd_args__isset {
   _ClientHandlers_LoadHandler_OnLoadEnd_args__isset() : bid(false), frame(false), httpStatusCode(false) {}
   bool bid :1;
@@ -1734,6 +1771,43 @@ class ClientHandlers_LoadHandler_OnLoadEnd_pargs {
   const int32_t* httpStatusCode;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_LoadHandler_OnLoadEnd_result {
+ public:
+
+  ClientHandlers_LoadHandler_OnLoadEnd_result(const ClientHandlers_LoadHandler_OnLoadEnd_result&) noexcept;
+  ClientHandlers_LoadHandler_OnLoadEnd_result& operator=(const ClientHandlers_LoadHandler_OnLoadEnd_result&) noexcept;
+  ClientHandlers_LoadHandler_OnLoadEnd_result() noexcept {
+  }
+
+  virtual ~ClientHandlers_LoadHandler_OnLoadEnd_result() noexcept;
+
+  bool operator == (const ClientHandlers_LoadHandler_OnLoadEnd_result & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const ClientHandlers_LoadHandler_OnLoadEnd_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_LoadHandler_OnLoadEnd_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_LoadHandler_OnLoadEnd_presult {
+ public:
+
+
+  virtual ~ClientHandlers_LoadHandler_OnLoadEnd_presult() noexcept;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
 };
 
@@ -1818,6 +1892,43 @@ class ClientHandlers_LoadHandler_OnLoadError_pargs {
 
 };
 
+
+class ClientHandlers_LoadHandler_OnLoadError_result {
+ public:
+
+  ClientHandlers_LoadHandler_OnLoadError_result(const ClientHandlers_LoadHandler_OnLoadError_result&) noexcept;
+  ClientHandlers_LoadHandler_OnLoadError_result& operator=(const ClientHandlers_LoadHandler_OnLoadError_result&) noexcept;
+  ClientHandlers_LoadHandler_OnLoadError_result() noexcept {
+  }
+
+  virtual ~ClientHandlers_LoadHandler_OnLoadError_result() noexcept;
+
+  bool operator == (const ClientHandlers_LoadHandler_OnLoadError_result & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const ClientHandlers_LoadHandler_OnLoadError_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_LoadHandler_OnLoadError_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_LoadHandler_OnLoadError_presult {
+ public:
+
+
+  virtual ~ClientHandlers_LoadHandler_OnLoadError_presult() noexcept;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
 typedef struct _ClientHandlers_DisplayHandler_OnAddressChange_args__isset {
   _ClientHandlers_DisplayHandler_OnAddressChange_args__isset() : bid(false), frame(false), url(false) {}
   bool bid :1;
@@ -1880,6 +1991,43 @@ class ClientHandlers_DisplayHandler_OnAddressChange_pargs {
   const std::string* url;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_DisplayHandler_OnAddressChange_result {
+ public:
+
+  ClientHandlers_DisplayHandler_OnAddressChange_result(const ClientHandlers_DisplayHandler_OnAddressChange_result&) noexcept;
+  ClientHandlers_DisplayHandler_OnAddressChange_result& operator=(const ClientHandlers_DisplayHandler_OnAddressChange_result&) noexcept;
+  ClientHandlers_DisplayHandler_OnAddressChange_result() noexcept {
+  }
+
+  virtual ~ClientHandlers_DisplayHandler_OnAddressChange_result() noexcept;
+
+  bool operator == (const ClientHandlers_DisplayHandler_OnAddressChange_result & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const ClientHandlers_DisplayHandler_OnAddressChange_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_DisplayHandler_OnAddressChange_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_DisplayHandler_OnAddressChange_presult {
+ public:
+
+
+  virtual ~ClientHandlers_DisplayHandler_OnAddressChange_presult() noexcept;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
 };
 
@@ -5933,6 +6081,43 @@ class ClientHandlers_MessageRouterHandler_onQueryCanceled_pargs {
 
 };
 
+
+class ClientHandlers_MessageRouterHandler_onQueryCanceled_result {
+ public:
+
+  ClientHandlers_MessageRouterHandler_onQueryCanceled_result(const ClientHandlers_MessageRouterHandler_onQueryCanceled_result&) noexcept;
+  ClientHandlers_MessageRouterHandler_onQueryCanceled_result& operator=(const ClientHandlers_MessageRouterHandler_onQueryCanceled_result&) noexcept;
+  ClientHandlers_MessageRouterHandler_onQueryCanceled_result() noexcept {
+  }
+
+  virtual ~ClientHandlers_MessageRouterHandler_onQueryCanceled_result() noexcept;
+
+  bool operator == (const ClientHandlers_MessageRouterHandler_onQueryCanceled_result & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const ClientHandlers_MessageRouterHandler_onQueryCanceled_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_MessageRouterHandler_onQueryCanceled_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_MessageRouterHandler_onQueryCanceled_presult {
+ public:
+
+
+  virtual ~ClientHandlers_MessageRouterHandler_onQueryCanceled_presult() noexcept;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
 typedef struct _ClientHandlers_MessageRouterHandler_Dispose_args__isset {
   _ClientHandlers_MessageRouterHandler_Dispose_args__isset() : handler(false) {}
   bool handler :1;
@@ -6984,12 +7169,16 @@ class ClientHandlersClient : virtual public ClientHandlersIf {
   void send_LoadHandler_OnLoadingStateChange(const int32_t bid, const bool isLoading, const bool canGoBack, const bool canGoForward);
   void LoadHandler_OnLoadStart(const int32_t bid, const  ::thrift_codegen::RObject& frame, const int32_t transition_type) override;
   void send_LoadHandler_OnLoadStart(const int32_t bid, const  ::thrift_codegen::RObject& frame, const int32_t transition_type);
+  void recv_LoadHandler_OnLoadStart();
   void LoadHandler_OnLoadEnd(const int32_t bid, const  ::thrift_codegen::RObject& frame, const int32_t httpStatusCode) override;
   void send_LoadHandler_OnLoadEnd(const int32_t bid, const  ::thrift_codegen::RObject& frame, const int32_t httpStatusCode);
+  void recv_LoadHandler_OnLoadEnd();
   void LoadHandler_OnLoadError(const int32_t bid, const  ::thrift_codegen::RObject& frame, const int32_t errorCode, const std::string& errorText, const std::string& failedUrl) override;
   void send_LoadHandler_OnLoadError(const int32_t bid, const  ::thrift_codegen::RObject& frame, const int32_t errorCode, const std::string& errorText, const std::string& failedUrl);
+  void recv_LoadHandler_OnLoadError();
   void DisplayHandler_OnAddressChange(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& url) override;
   void send_DisplayHandler_OnAddressChange(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& url);
+  void recv_DisplayHandler_OnAddressChange();
   void DisplayHandler_OnTitleChange(const int32_t bid, const std::string& title) override;
   void send_DisplayHandler_OnTitleChange(const int32_t bid, const std::string& title);
   bool DisplayHandler_OnTooltip(const int32_t bid, const std::string& text) override;
@@ -7091,6 +7280,7 @@ class ClientHandlersClient : virtual public ClientHandlersIf {
   bool recv_MessageRouterHandler_onQuery();
   void MessageRouterHandler_onQueryCanceled(const  ::thrift_codegen::RObject& handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const int64_t queryId) override;
   void send_MessageRouterHandler_onQueryCanceled(const  ::thrift_codegen::RObject& handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const int64_t queryId);
+  void recv_MessageRouterHandler_onQueryCanceled();
   void MessageRouterHandler_Dispose(const int32_t handler) override;
   void send_MessageRouterHandler_Dispose(const int32_t handler);
   void SchemeHandlerFactory_CreateHandler( ::thrift_codegen::RObject& _return, const int32_t schemeHandlerFactory, const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& scheme_name, const  ::thrift_codegen::RObject& request) override;
@@ -7996,13 +8186,17 @@ class ClientHandlersConcurrentClient : virtual public ClientHandlersIf {
   void LoadHandler_OnLoadingStateChange(const int32_t bid, const bool isLoading, const bool canGoBack, const bool canGoForward) override;
   void send_LoadHandler_OnLoadingStateChange(const int32_t bid, const bool isLoading, const bool canGoBack, const bool canGoForward);
   void LoadHandler_OnLoadStart(const int32_t bid, const  ::thrift_codegen::RObject& frame, const int32_t transition_type) override;
-  void send_LoadHandler_OnLoadStart(const int32_t bid, const  ::thrift_codegen::RObject& frame, const int32_t transition_type);
+  int32_t send_LoadHandler_OnLoadStart(const int32_t bid, const  ::thrift_codegen::RObject& frame, const int32_t transition_type);
+  void recv_LoadHandler_OnLoadStart(const int32_t seqid);
   void LoadHandler_OnLoadEnd(const int32_t bid, const  ::thrift_codegen::RObject& frame, const int32_t httpStatusCode) override;
-  void send_LoadHandler_OnLoadEnd(const int32_t bid, const  ::thrift_codegen::RObject& frame, const int32_t httpStatusCode);
+  int32_t send_LoadHandler_OnLoadEnd(const int32_t bid, const  ::thrift_codegen::RObject& frame, const int32_t httpStatusCode);
+  void recv_LoadHandler_OnLoadEnd(const int32_t seqid);
   void LoadHandler_OnLoadError(const int32_t bid, const  ::thrift_codegen::RObject& frame, const int32_t errorCode, const std::string& errorText, const std::string& failedUrl) override;
-  void send_LoadHandler_OnLoadError(const int32_t bid, const  ::thrift_codegen::RObject& frame, const int32_t errorCode, const std::string& errorText, const std::string& failedUrl);
+  int32_t send_LoadHandler_OnLoadError(const int32_t bid, const  ::thrift_codegen::RObject& frame, const int32_t errorCode, const std::string& errorText, const std::string& failedUrl);
+  void recv_LoadHandler_OnLoadError(const int32_t seqid);
   void DisplayHandler_OnAddressChange(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& url) override;
-  void send_DisplayHandler_OnAddressChange(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& url);
+  int32_t send_DisplayHandler_OnAddressChange(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& url);
+  void recv_DisplayHandler_OnAddressChange(const int32_t seqid);
   void DisplayHandler_OnTitleChange(const int32_t bid, const std::string& title) override;
   void send_DisplayHandler_OnTitleChange(const int32_t bid, const std::string& title);
   bool DisplayHandler_OnTooltip(const int32_t bid, const std::string& text) override;
@@ -8103,7 +8297,8 @@ class ClientHandlersConcurrentClient : virtual public ClientHandlersIf {
   int32_t send_MessageRouterHandler_onQuery(const  ::thrift_codegen::RObject& handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const int64_t queryId, const std::string& request, const bool persistent, const  ::thrift_codegen::RObject& queryCallback);
   bool recv_MessageRouterHandler_onQuery(const int32_t seqid);
   void MessageRouterHandler_onQueryCanceled(const  ::thrift_codegen::RObject& handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const int64_t queryId) override;
-  void send_MessageRouterHandler_onQueryCanceled(const  ::thrift_codegen::RObject& handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const int64_t queryId);
+  int32_t send_MessageRouterHandler_onQueryCanceled(const  ::thrift_codegen::RObject& handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const int64_t queryId);
+  void recv_MessageRouterHandler_onQueryCanceled(const int32_t seqid);
   void MessageRouterHandler_Dispose(const int32_t handler) override;
   void send_MessageRouterHandler_Dispose(const int32_t handler);
   void SchemeHandlerFactory_CreateHandler( ::thrift_codegen::RObject& _return, const int32_t schemeHandlerFactory, const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& scheme_name, const  ::thrift_codegen::RObject& request) override;
