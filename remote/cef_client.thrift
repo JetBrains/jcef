@@ -178,7 +178,7 @@ service ClientHandlers {
     //
     list<MenuItem> ContextMenuHandler_OnBeforeContextMenu(1: i32 bid, 2: shared.RObject frame, 3: ContextMenuParams params, 4: list<MenuItem> menu_model)
     bool ContextMenuHandler_RunContextMenu(1: i32 bid, 2: shared.RObject frame, 3: ContextMenuParams params, 4: list<MenuItem> model, 5: shared.RObject callback)
-    bool ContextMenuHandler_OnContextMenuCommand(1: i32 bid, 2: shared.RObject frame, 3: ContextMenuParams params, 4: i32 command_id, i32 event_flags)
+    bool ContextMenuHandler_OnContextMenuCommand(1: i32 bid, 2: shared.RObject frame, 3: ContextMenuParams params, 4: i32 command_id, 5: i32 event_flags)
     void ContextMenuHandler_OnContextMenuDismissed(1: i32 bid, 2: shared.RObject frame);
 
     //
