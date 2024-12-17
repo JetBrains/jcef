@@ -1,6 +1,6 @@
 #include "RemoteIntCallback.h"
 
-RemoteIntCallback::RemoteIntCallback(std::shared_ptr<RpcExecutor> service, thrift_codegen::RObject peer) : RemoteJavaObject<RemoteIntCallback>(
+RemoteIntCallback::RemoteIntCallback(std::shared_ptr<ServerHandlerContext> service, thrift_codegen::RObject peer) : RemoteJavaObject<RemoteIntCallback>(
           service,
           peer.objId,
           [=](std::shared_ptr<thrift_codegen::ClientHandlersClient> service) {
@@ -9,7 +9,7 @@ RemoteIntCallback::RemoteIntCallback(std::shared_ptr<RpcExecutor> service, thrif
 
 void RemoteIntCallback::OnComplete(int result) {
   LNDCT();
-  myService->exec([&](RpcExecutor::Service s){
+  myCtx->javaService()->exec([&](RpcExecutor::Service s){
     s->IntCallback_OnComplete(myPeerId, result);
   });
 }

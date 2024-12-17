@@ -15,11 +15,12 @@ struct cmpCfg {
 };
 class RemoteMessageRouter;
 class RpcExecutor;
+class ServerHandlerContext;
 
 // Manages lifetime of stored routers
 class MessageRoutersManager {
  public:
-  RemoteMessageRouter * CreateRemoteMessageRouter(std::shared_ptr<RpcExecutor> service, const std::string& query, const std::string& cancel);
+  RemoteMessageRouter * CreateRemoteMessageRouter(std::shared_ptr<ServerHandlerContext> ctx, const std::string& query, const std::string& cancel);
   void DisposeRemoteMessageRouter(int objId);
   virtual ~MessageRoutersManager();
 

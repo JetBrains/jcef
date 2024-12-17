@@ -515,13 +515,13 @@ void ServerHandler::Browser_ViewSource(const int32_t bid) {
 void ServerHandler::Browser_GetSource(const int32_t bid, const thrift_codegen::RObject& stringVisitor) {
   LNDCT();
   GET_BROWSER_OR_RETURN()
-  browser->GetMainFrame()->GetSource(new RemoteStringVisitor(myCtx->javaService(), stringVisitor));
+  browser->GetMainFrame()->GetSource(new RemoteStringVisitor(myCtx, stringVisitor));
 }
 
 void ServerHandler::Browser_GetText(const int32_t bid, const thrift_codegen::RObject& stringVisitor) {
   LNDCT();
   GET_BROWSER_OR_RETURN()
-  browser->GetMainFrame()->GetText(new RemoteStringVisitor(myCtx->javaService(), stringVisitor));
+  browser->GetMainFrame()->GetText(new RemoteStringVisitor(myCtx, stringVisitor));
 }
 
 void ServerHandler::Browser_SetFocus(const int32_t bid, bool enable) {
@@ -606,7 +606,7 @@ void ServerHandler::Browser_AddDevToolsMessageObserver(thrift_codegen::RObject& 
   LNDCT();
   GET_BROWSER_OR_RETURN()
 
-  CefRefPtr<RemoteDevToolsMessageObserver> robserver(new RemoteDevToolsMessageObserver(myCtx->clientsManager(), myCtx->javaService(), observer));
+  CefRefPtr<RemoteDevToolsMessageObserver> robserver(new RemoteDevToolsMessageObserver(myCtx->clientsManager(), myCtx, observer));
   CefRefPtr<CefRegistration> registration = browser->GetHost()->AddDevToolsMessageObserver(robserver);
   _return = RemoteRegistration::create(registration)->serverId();
 }
@@ -620,7 +620,7 @@ void ServerHandler::Browser_ExecuteDevToolsMethod(
   LNDCT();
   GET_BROWSER_OR_RETURN()
 
-  CefRefPtr<RemoteIntCallback> callback = new RemoteIntCallback(myCtx->javaService(), intCallback);
+  CefRefPtr<RemoteIntCallback> callback = new RemoteIntCallback(myCtx, intCallback);
   if (!browser.get()) {
     callback->OnComplete(0);
     return;
@@ -889,7 +889,7 @@ void ServerHandler::CefRunContextMenuCallback_Cancel(
 void ServerHandler::MessageRouter_Create(thrift_codegen::RObject& _return,
                                         const std::string& query,
                                         const std::string& cancel) {
-  _return = myCtx->routersManager()->CreateRemoteMessageRouter(myCtx->javaService(), query, cancel)->serverId();
+  _return = myCtx->routersManager()->CreateRemoteMessageRouter(myCtx, query, cancel)->serverId();
 }
 
 void ServerHandler::MessageRouter_Dispose(const thrift_codegen::RObject& msgRouter) {
@@ -1057,7 +1057,7 @@ void ServerHandler::SchemeHandlerFactory_Register(
     const std::string& schemeName,
     const std::string& domainName,
     const thrift_codegen::RObject& schemeHandlerFactory) {
-  CefRefPtr<RemoteSchemeHandlerFactory> factory = new RemoteSchemeHandlerFactory(myCtx->clientsManager(), myCtx->javaService(), schemeHandlerFactory);
+  CefRefPtr<RemoteSchemeHandlerFactory> factory = new RemoteSchemeHandlerFactory(myCtx->clientsManager(), myCtx, schemeHandlerFactory);
   const bool result = CefRegisterSchemeHandlerFactory(schemeName,domainName, factory);
   if (result)
     Log::trace("Registered SchemeHandlerFactory: schemeName=%s, domainName=%s, peer-id=%d", schemeName.c_str(), domainName.c_str(), schemeHandlerFactory.objId);
@@ -1074,7 +1074,7 @@ void ServerHandler::RequestContext_ClearCertificateExceptions(const int32_t bid,
   LNDCT();
   CefRefPtr<RemoteCompletionCallback> cb;
   if (rcompletionCallback.objId >= 0)
-    cb = new RemoteCompletionCallback(myCtx->javaService(), rcompletionCallback);
+    cb = new RemoteCompletionCallback(myCtx, rcompletionCallback);
   if (bid < 0) {
     // NOTE: assume that GlobalContext is linked with negative bid.
     CefRefPtr<CefRequestContext> globalContext = CefRequestContext::GetGlobalContext();
@@ -1092,7 +1092,7 @@ void ServerHandler::RequestContext_CloseAllConnections(const int32_t bid, const 
   LNDCT();
   CefRefPtr<RemoteCompletionCallback> cb;
   if (rcompletionCallback.objId >= 0)
-    cb = new RemoteCompletionCallback(myCtx->javaService(), rcompletionCallback);
+    cb = new RemoteCompletionCallback(myCtx, rcompletionCallback);
   if (bid < 0) {
     // NOTE: assume that GlobalContext is linked with negative bid.
     CefRefPtr<CefRequestContext> globalContext = CefRequestContext::GetGlobalContext();
@@ -1123,7 +1123,7 @@ void ServerHandler::CookieManager_Dispose(const thrift_codegen::RObject& cookieM
 
 bool ServerHandler::CookieManager_VisitAllCookies(const thrift_codegen::RObject& cookieManager, const thrift_codegen::RObject& visitor) {
   GET_COOKIE_MANAGER_OR_RETURN_VAL(false);
-  CefRefPtr<RemoteCookieVisitor> rvisitor(new RemoteCookieVisitor(myCtx->javaService(), visitor));
+  CefRefPtr<RemoteCookieVisitor> rvisitor(new RemoteCookieVisitor(myCtx, visitor));
   return manager->getDelegate().VisitAllCookies(rvisitor);
 }
 
@@ -1134,7 +1134,7 @@ bool ServerHandler::CookieManager_VisitUrlCookies(
     const bool includeHttpOnly
 ) {
   GET_COOKIE_MANAGER_OR_RETURN_VAL(false);
-  CefRefPtr<RemoteCookieVisitor> rvisitor(new RemoteCookieVisitor(myCtx->javaService(), visitor));
+  CefRefPtr<RemoteCookieVisitor> rvisitor(new RemoteCookieVisitor(myCtx, visitor));
   return manager->getDelegate().VisitUrlCookies(url, includeHttpOnly, rvisitor);
 }
 
@@ -1186,7 +1186,7 @@ bool ServerHandler::CookieManager_FlushStore(
 
   CefRefPtr<RemoteCompletionCallback> cb;
   if (rcompletionCallback.objId >= 0)
-    cb = new RemoteCompletionCallback(myCtx->javaService(), rcompletionCallback);
+    cb = new RemoteCompletionCallback(myCtx, rcompletionCallback);
   return manager->getDelegate().FlushStore(cb);
 }
 

@@ -6,7 +6,7 @@
 
 class RemoteStringVisitor : public CefStringVisitor, public RemoteJavaObject<RemoteStringVisitor> {
  public:
-  explicit RemoteStringVisitor(std::shared_ptr<RpcExecutor> service, thrift_codegen::RObject peer);
+  explicit RemoteStringVisitor(std::shared_ptr<ServerHandlerContext> service, thrift_codegen::RObject peer);
   void Visit(const CefString& string) override;
 
  private:

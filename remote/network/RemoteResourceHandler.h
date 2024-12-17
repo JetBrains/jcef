@@ -6,7 +6,7 @@
 
 class RemoteResourceHandler : public CefResourceHandler, public RemoteJavaObject<RemoteResourceHandler> {
  public:
-  explicit RemoteResourceHandler(int bid, std::shared_ptr<RpcExecutor> service, thrift_codegen::RObject peer);
+  explicit RemoteResourceHandler(int bid, std::shared_ptr<ServerHandlerContext> service, thrift_codegen::RObject peer);
   ~RemoteResourceHandler();
 
   bool ProcessRequest(CefRefPtr<CefRequest> request,

@@ -6,7 +6,7 @@
 const bool doTrace = getBoolEnv("CEF_SERVER_TRACE_RemoteMessageRouterHandler");
 
 RemoteMessageRouterHandler::RemoteMessageRouterHandler(
-    std::shared_ptr<RpcExecutor> service,
+    std::shared_ptr<ServerHandlerContext> service,
     std::shared_ptr<ClientsManager> manager,
     thrift_codegen::RObject peer)
     : RemoteJavaObject(
@@ -51,7 +51,7 @@ bool RemoteMessageRouterHandler::OnQuery(CefRefPtr<CefBrowser> browser,
   }
   RemoteFrame::Holder frm(frame);
   RemoteQueryCallback* rcb = RemoteQueryCallback::wrapDelegate(callback);
-  bool handled = myService->exec<bool>([&](RpcExecutor::Service s){
+  bool handled = myCtx->javaService()->exec<bool>([&](RpcExecutor::Service s){
     return s->MessageRouterHandler_onQuery(javaId(), bid, frm.get()->serverIdWithMap(), query_id, request, persistent, rcb->serverId());
   }, false);
   if (!handled) // NOTE: must delete callback when onQuery returns false
@@ -71,7 +71,7 @@ void RemoteMessageRouterHandler::OnQueryCanceled(CefRefPtr<CefBrowser> browser,
     return;
   }
   RemoteFrame::Holder frm(frame);
-  myService->exec([&](RpcExecutor::Service s){
+  myCtx->javaService()->exec([&](RpcExecutor::Service s){
     return s->MessageRouterHandler_onQueryCanceled(javaId(), bid, frm.get()->serverIdWithMap(), query_id);
   });
 }

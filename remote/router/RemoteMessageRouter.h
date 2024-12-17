@@ -13,7 +13,7 @@ class RemoteMessageRouterHandler;
 // Stores (and manages lifetime) RemoteMessageRouterHandlers.
 class RemoteMessageRouter : public RemoteServerObject<RemoteMessageRouter, CefMessageRouter> {
  public:
-  static RemoteMessageRouter * create(std::shared_ptr<RpcExecutor> service, CefRefPtr<CefMessageRouter> delegate, CefMessageRouterConfig config);
+  static RemoteMessageRouter * create(std::shared_ptr<ServerHandlerContext> ctx, CefRefPtr<CefMessageRouter> delegate, CefMessageRouterConfig config);
 
   const CefMessageRouterConfig& getConfig() const { return myConfig; }
 
@@ -22,13 +22,13 @@ class RemoteMessageRouter : public RemoteServerObject<RemoteMessageRouter, CefMe
   std::shared_ptr<RemoteMessageRouterHandler> FindRemoteHandler(int objId);
 
  private:
-  std::shared_ptr<RpcExecutor> myService;
+  std::shared_ptr<ServerHandlerContext> myCtx;
 
   CefMessageRouterConfig myConfig;
   std::map<int, std::shared_ptr<RemoteMessageRouterHandler>> myHandlers;
   std::recursive_mutex myMutex;
 
-  explicit RemoteMessageRouter(std::shared_ptr<RpcExecutor> service, int id, CefRefPtr<CefMessageRouter> delegate, CefMessageRouterConfig config);
+  explicit RemoteMessageRouter(std::shared_ptr<ServerHandlerContext> ctx, int id, CefRefPtr<CefMessageRouter> delegate, CefMessageRouterConfig config);
 };
 
 #endif  // JCEF_REMOTEMESSAGEROUTER_H

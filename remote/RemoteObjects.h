@@ -6,6 +6,7 @@
 #include "RpcExecutor.h"
 #include "include/internal/cef_ptr.h"
 #include "log/Log.h"
+#include "ServerHandlerContext.h"
 
 template <class T>
 class ServerObjectsFactory {
@@ -148,13 +149,13 @@ class RemoteServerObjectUpdatable : public RemoteServerObject<T, D> {
 template <class T>
 class RemoteJavaObject {
  public:
-  explicit RemoteJavaObject(std::shared_ptr<RpcExecutor> service, int peerId, std::function<void(RpcExecutor::Service)> disposer)
-      : myService(service),
+  explicit RemoteJavaObject(std::shared_ptr<ServerHandlerContext> ctx, int peerId, std::function<void(RpcExecutor::Service)> disposer)
+      : myCtx(ctx),
         myPeerId(peerId),
         myDisposer(disposer) {}
 
   virtual ~RemoteJavaObject() {
-    myService->exec([&](RpcExecutor::Service s){
+    myDisposeService->exec([&](RpcExecutor::Service s){
       myDisposer(s);
     });
   }
@@ -168,7 +169,8 @@ class RemoteJavaObject {
  protected:
   const int myPeerId; // java-peer (delegate)
   std::recursive_mutex myMutex;
-  std::shared_ptr<RpcExecutor> myService;
+  std::shared_ptr<ServerHandlerContext> myCtx;
+  std::shared_ptr<RpcExecutor> myDisposeService;
   std::function<void(RpcExecutor::Service)> myDisposer;
 };
 

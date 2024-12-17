@@ -3,13 +3,14 @@
 #include "include/cef_browser.h"
 
 #include "../browser/ClientsManager.h"
+#include "../ServerHandlerContext.h"
 
 RemoteDevToolsMessageObserver::RemoteDevToolsMessageObserver(
     std::shared_ptr<ClientsManager> clientsManager,
-    std::shared_ptr<RpcExecutor> service,
+    std::shared_ptr<ServerHandlerContext> ctx,
     thrift_codegen::RObject peer)
     : RemoteJavaObject<RemoteDevToolsMessageObserver>(
-          service,
+          ctx,
           peer.objId,
           [=](std::shared_ptr<thrift_codegen::ClientHandlersClient> service) {
             service->DevToolsMessageObserver_Dispose(peer.objId);
@@ -31,7 +32,7 @@ void RemoteDevToolsMessageObserver::OnDevToolsEvent(
   }
 
   std::string strParams(static_cast<const char*>(params), params_size);
-  myService->exec([&](RpcExecutor::Service s){
+  myCtx->javaService()->exec([&](RpcExecutor::Service s){
     s->DevToolsMessageObserver_OnDevToolsEvent(myPeerId, bid, method, strParams);
   });
 }
@@ -50,7 +51,7 @@ void RemoteDevToolsMessageObserver::OnDevToolsMethodResult(
   }
 
   std::string strResult(static_cast<const char*>(result), result_size);
-  myService->exec([&](RpcExecutor::Service s){
+  myCtx->javaService()->exec([&](RpcExecutor::Service s){
     s->DevToolsMessageObserver_OnDevToolsMethodResult(myPeerId, bid, message_id, success, strResult);
   });
 }

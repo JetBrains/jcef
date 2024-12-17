@@ -5,7 +5,7 @@
 
 class RemoteIntCallback : public virtual CefBaseRefCounted, public RemoteJavaObject<RemoteIntCallback> {
  public:
-  explicit RemoteIntCallback(std::shared_ptr<RpcExecutor> service, thrift_codegen::RObject peer);
+  explicit RemoteIntCallback(std::shared_ptr<ServerHandlerContext> service, thrift_codegen::RObject peer);
   void OnComplete(int result);
 
  private:
