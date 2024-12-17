@@ -11,48 +11,46 @@ template <class T>
 class ServerObjectsFactory {
  public:
   T* create(std::function<T*(int)> creator) {
-    if (!myName.empty()) Log::trace("[%s] create", myName.c_str());
+    if (!myTracePrefix.empty()) Log::trace("[%s] create", myTracePrefix.c_str());
     Lock lock(MUTEX);
 
     static int id = 0;
     const int newId = id++;
     T* result = creator(newId);
     INSTANCES[newId] = result;
-    if (!myName.empty()) Log::trace("[%s] created %d", myName.c_str(), newId);
+    if (!myTracePrefix.empty()) Log::trace("[%s] created %d", myTracePrefix.c_str(), newId);
     return result;
   }
 
   T* find(int id) {
-    if (!myName.empty()) Log::trace("[%s] find %d", myName.c_str(), id);
+    if (!myTracePrefix.empty()) Log::trace("[%s] find %d", myTracePrefix.c_str(), id);
     Lock lock(MUTEX);
     return INSTANCES[id];
   }
 
   void dispose(int id, bool doDelete) {
-    if (!myName.empty()) Log::trace("[%s] dispose %d [del=%d]", myName.c_str(), id, (int)doDelete);
+    if (!myTracePrefix.empty()) Log::trace("[%s] dispose %d [del=%d]", myTracePrefix.c_str(), id, (int)doDelete);
     T* r = nullptr;
     {
       Lock lock(MUTEX);
-      if (!myName.empty()) Log::trace("[%s] locked mutex", myName.c_str());
       r = INSTANCES[id];
       if (r != nullptr)
         INSTANCES.erase(id);
-      if (!myName.empty()) Log::trace("[%s] unlocked mutex", myName.c_str());
     }
 
     if (r != nullptr && doDelete) {
-      if (!myName.empty()) Log::trace("[%s] delete %d", myName.c_str(), id);
+      if (!myTracePrefix.empty()) Log::trace("[%s] delete %d", myTracePrefix.c_str(), id);
       delete r;
-      if (!myName.empty()) Log::trace("[%s] disposed %d", myName.c_str(), id);
+      if (!myTracePrefix.empty()) Log::trace("[%s] disposed %d", myTracePrefix.c_str(), id);
     }
   }
 
-  void trace(const std::string & prefix) { myName = prefix; }
+  void trace(const std::string & prefix) { myTracePrefix = prefix; }
 
  private:
   std::map<int, T*> INSTANCES;
   std::recursive_mutex MUTEX;
-  std::string myName;
+  std::string myTracePrefix;
 };
 
 template <class T, class D>

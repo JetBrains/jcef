@@ -8,8 +8,6 @@ namespace {
   cef_referrer_policy_t str2policy(std::string policy);
   std::string type2str(cef_resource_type_t type);
   std::string ttype2str(cef_transition_type_t type);
-
-  const bool TEST_READONLY_MODIFICATIONS = getBoolEnv("TEST_READONLY_MODIFICATIONS");
 }
 
 RemoteRequest * RemoteRequest::create(CefRefPtr<CefRequest> delegate) {
@@ -20,7 +18,7 @@ RemoteRequest * RemoteRequest::create(CefRefPtr<CefRequest> delegate) {
 }
 
 void RemoteRequest::updateImpl(const std::map<std::string, std::string>& requestInfo) {
-  if (!TEST_READONLY_MODIFICATIONS && myDelegate->IsReadOnly()) {
+  if (myDelegate->IsReadOnly()) {
     const std::string url = myDelegate->GetURL().ToString();
     Log::error("RemoteRequest::updateImpl: object is read-only, ulr=%s", url.c_str());
     return;
