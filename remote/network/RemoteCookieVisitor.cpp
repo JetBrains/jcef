@@ -1,6 +1,6 @@
 #include "RemoteCookieVisitor.h"
 
-RemoteCookieVisitor::RemoteCookieVisitor(std::shared_ptr<RpcExecutor> service, thrift_codegen::RObject peer) : RemoteJavaObject<RemoteCookieVisitor>(
+RemoteCookieVisitor::RemoteCookieVisitor(std::shared_ptr<ServerHandlerContext> service, thrift_codegen::RObject peer) : RemoteJavaObject<RemoteCookieVisitor>(
           service,
           peer.objId,
           [=](std::shared_ptr<thrift_codegen::ClientHandlersClient> service) {
@@ -56,7 +56,7 @@ void RemoteCookieVisitor::toCefCookie(const thrift_codegen::Cookie& cookie, CefC
 
 bool RemoteCookieVisitor::Visit(const CefCookie& c, int count, int total, bool& deleteCookie) {
   LNDCT();
-  return myService->exec<bool>([&](RpcExecutor::Service s){
+  return myCtx->javaService()->exec<bool>([&](RpcExecutor::Service s){
     return s->CookieVisitor_Visit(myPeerId, toThriftCookie(c), count, total);
   }, false);
 }

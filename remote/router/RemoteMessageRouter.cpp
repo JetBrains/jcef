@@ -4,20 +4,20 @@
 
 const bool doTrace = getBoolEnv("CEF_SERVER_TRACE_RemoteMessageRouter");
 
-RemoteMessageRouter::RemoteMessageRouter(std::shared_ptr<RpcExecutor> service, int id, CefRefPtr<CefMessageRouter> delegate, CefMessageRouterConfig config)
-    : RemoteServerObject<RemoteMessageRouter, CefMessageRouter>(id, delegate), myService(service), myConfig(config)
+RemoteMessageRouter::RemoteMessageRouter(std::shared_ptr<ServerHandlerContext> ctx, int id, CefRefPtr<CefMessageRouter> delegate, CefMessageRouterConfig config)
+    : RemoteServerObject<RemoteMessageRouter, CefMessageRouter>(id, delegate), myCtx(ctx), myConfig(config)
 {
   TRACE();
 }
 
-RemoteMessageRouter * RemoteMessageRouter::create(std::shared_ptr<RpcExecutor> service, CefRefPtr<CefMessageRouter> delegate, CefMessageRouterConfig config) {
+RemoteMessageRouter * RemoteMessageRouter::create(std::shared_ptr<ServerHandlerContext> ctx, CefRefPtr<CefMessageRouter> delegate, CefMessageRouterConfig config) {
   FACTORY_TRACE("CEF_SERVER_OBJTRACE_MessageRouter", "RemoteMessageRouter");
-  return FACTORY.create([&](int id) -> RemoteMessageRouter* {return new RemoteMessageRouter(service, id, delegate, config);});
+  return FACTORY.create([&](int id) -> RemoteMessageRouter* {return new RemoteMessageRouter(ctx, id, delegate, config);});
 }
 
 void RemoteMessageRouter::AddRemoteHandler(std::shared_ptr<ClientsManager> manager, const thrift_codegen::RObject& handler, bool first) {
   TRACE();
-  std::shared_ptr<RemoteMessageRouterHandler> rmrh = std::make_shared<RemoteMessageRouterHandler>(myService, manager, handler);
+  std::shared_ptr<RemoteMessageRouterHandler> rmrh = std::make_shared<RemoteMessageRouterHandler>(myCtx, manager, handler);
   myDelegate->AddHandler(rmrh.get(), first);
 
   Lock lock(myMutex);

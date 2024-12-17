@@ -106,13 +106,13 @@ void MessageRoutersManager::ClearAllConfigs() {
   router_cfg_.clear();
 }
 
-RemoteMessageRouter * MessageRoutersManager::CreateRemoteMessageRouter(std::shared_ptr<RpcExecutor> service, const std::string& query, const std::string& cancel) {
+RemoteMessageRouter * MessageRoutersManager::CreateRemoteMessageRouter(std::shared_ptr<ServerHandlerContext> ctx, const std::string& query, const std::string& cancel) {
   TRACE();
   CefMessageRouterConfig config;
   config.js_query_function = query;
   config.js_cancel_function = cancel;
   CefRefPtr<CefMessageRouterBrowserSide> msgRouter = CefMessageRouterBrowserSide::Create(config);
-  RemoteMessageRouter * result = RemoteMessageRouter::create(service, msgRouter, config);
+  RemoteMessageRouter * result = RemoteMessageRouter::create(ctx, msgRouter, config);
   {
     base::AutoLock lock_scope(myRoutersLock);
     myRouters.insert(result);

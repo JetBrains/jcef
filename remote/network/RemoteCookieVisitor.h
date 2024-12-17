@@ -8,7 +8,7 @@
 // Deleted in CefRefPrt dtor (when visiting finished)
 class RemoteCookieVisitor : public CefCookieVisitor, public RemoteJavaObject<RemoteCookieVisitor> {
  public:
-  explicit RemoteCookieVisitor(std::shared_ptr<RpcExecutor> service, thrift_codegen::RObject peer);
+  explicit RemoteCookieVisitor(std::shared_ptr<ServerHandlerContext> service, thrift_codegen::RObject peer);
   ///
   /// Method that will be called once for each cookie. |count| is the 0-based
   /// index for the current cookie. |total| is the total number of cookies.

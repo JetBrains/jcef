@@ -1,6 +1,6 @@
 #include "RemoteCompletionCallback.h"
 
-RemoteCompletionCallback::RemoteCompletionCallback(std::shared_ptr<RpcExecutor> service, thrift_codegen::RObject peer) : RemoteJavaObject<RemoteCompletionCallback>(
+RemoteCompletionCallback::RemoteCompletionCallback(std::shared_ptr<ServerHandlerContext> service, thrift_codegen::RObject peer) : RemoteJavaObject<RemoteCompletionCallback>(
     service,
     peer.objId,
     [=](std::shared_ptr<thrift_codegen::ClientHandlersClient> service) {
@@ -9,7 +9,7 @@ RemoteCompletionCallback::RemoteCompletionCallback(std::shared_ptr<RpcExecutor> 
 
 void RemoteCompletionCallback::OnComplete() {
   LNDCT();
-  myService->exec([&](RpcExecutor::Service s){
+  myCtx->javaService()->exec([&](RpcExecutor::Service s){
     s->CompletionCallback_OnComplete(myPeerId);
   });
 }

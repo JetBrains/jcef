@@ -9,7 +9,7 @@ const bool doTrace = getBoolEnv("CEF_SERVER_TRACE_RemoteRequestContextHandler");
 
 RemoteRequestContextHandler::RemoteRequestContextHandler(std::shared_ptr<ServerHandlerContext> ctx, thrift_codegen::RObject peer) :
       RemoteJavaObject<RemoteRequestContextHandler>(
-            ctx->javaService(),
+            ctx,
             peer.objId,
             [=](std::shared_ptr<thrift_codegen::ClientHandlersClient> service) {
               // Nothing to do, because lifetime of java-peer is managed by java owner (RemoteRequestContext)
@@ -36,11 +36,11 @@ CefRefPtr<CefResourceRequestHandler> RemoteRequestContextHandler::GetResourceReq
   RemoteFrame::Holder frm(frame);
   thrift_codegen::RObject peer;
   peer.__set_objId(-1);
-  myService->exec([&](RpcExecutor::Service s){
+  myCtx->javaService()->exec([&](RpcExecutor::Service s){
     s->RequestContextHandler_GetResourceRequestHandler(
         peer, myPeerId, bid, frm.get()->serverIdWithMap(), req.get()->serverIdWithMap(), is_navigation, is_download, request_initiator.ToString());
   });
 
   disable_default_handling = peer.__isset.flags ? peer.flags != 0 : false;
-  return peer.objId != -1 ? new RemoteResourceRequestHandler(bid, myCtx->javaServiceIO(), peer) : nullptr;
+  return peer.objId != -1 ? new RemoteResourceRequestHandler(bid, myCtx, peer) : nullptr;
 }

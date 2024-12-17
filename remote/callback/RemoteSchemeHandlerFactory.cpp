@@ -6,7 +6,7 @@
 
 RemoteSchemeHandlerFactory::RemoteSchemeHandlerFactory(
     std::shared_ptr<ClientsManager> clientsManager,
-    std::shared_ptr<RpcExecutor> service,
+    std::shared_ptr<ServerHandlerContext> service,
     thrift_codegen::RObject peer)
     : RemoteJavaObject<RemoteSchemeHandlerFactory>(
           service,
@@ -33,8 +33,8 @@ CefRefPtr<CefResourceHandler> RemoteSchemeHandlerFactory::Create(
   RemoteRequest::Holder req(request);
   RemoteFrame::Holder frm(frame);
   thrift_codegen::RObject resultHandler;
-  myService->exec([&](RpcExecutor::Service s){
+  myCtx->javaService()->exec([&](RpcExecutor::Service s){
     s->SchemeHandlerFactory_CreateHandler(resultHandler, myPeerId, bid, frm.get()->serverIdWithMap(), scheme_name.ToString(), req.get()->serverIdWithMap());
   });
-  return resultHandler.objId != -1 ? new RemoteResourceHandler(bid, myService, resultHandler) : nullptr;
+  return resultHandler.objId != -1 ? new RemoteResourceHandler(bid, myCtx, resultHandler) : nullptr;
 }
