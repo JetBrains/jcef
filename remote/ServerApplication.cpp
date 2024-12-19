@@ -103,6 +103,7 @@ class MyServerProcessorFactory : public ::apache::thrift::TProcessorFactory {
   void forEach(std::function<void(const MyServerProcessor*)> visitor);
 
   bool hasMaster();
+  std::shared_ptr<ServerHandlerContext> findCtx(int cid);
 
  protected:
   std::recursive_mutex myMutex;
@@ -115,6 +116,14 @@ bool MyServerProcessorFactory::hasMaster() {
     if (p->getServerHandler()->isMaster() && !p->getServerHandler()->isClosed())
       return true;
   return false;
+}
+
+std::shared_ptr<ServerHandlerContext> MyServerProcessorFactory::findCtx(int cid) {
+  Lock lock(myMutex);
+  for (auto p: myProcessors)
+    if (p->getServerHandler()->getCid() == cid)
+      return p->getServerHandler()->getCtx();
+  return nullptr;
 }
 
 void MyServerProcessorFactory::forEach(std::function<void(const MyServerProcessor*)> visitor) {
@@ -300,6 +309,10 @@ void ServerApplication::shutdownHard() {
 
 const std::chrono::high_resolution_clock::time_point& ServerApplication::getStartTime() const {
   return myStartTime;
+}
+
+std::shared_ptr<ServerHandlerContext> ServerApplication::getCtx(int cid) {
+    return myFactory-> findCtx(cid);
 }
 
 CommandLineArgs::CommandLineArgs() {

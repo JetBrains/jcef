@@ -179,7 +179,7 @@ void RemoteContextMenuHandler::OnBeforeContextMenu(
   const std::vector<thrift_codegen::MenuItem> menu_model = to_thrift(model);
 
   std::vector<thrift_codegen::MenuItem> result;
-  myService->exec([&](const RpcExecutor::Service& s) {
+  myService->exec([&](const JavaService& s) {
     s->ContextMenuHandler_OnBeforeContextMenu(
         result, myBid, frm.get()->serverIdWithMap(), thriftParams, menu_model);
   });
@@ -200,7 +200,7 @@ bool RemoteContextMenuHandler::RunContextMenu(
   RemoteCefRunContextMenuCallback* callback_wrapper =
       RemoteCefRunContextMenuCallback::wrapDelegate(callback);
   bool result = myService->exec<bool>(
-      [&](const RpcExecutor::Service& s) -> bool {
+      [&](const JavaService& s) -> bool {
         return s->ContextMenuHandler_RunContextMenu(
             myBid, frm.get()->serverIdWithMap(), thriftParams, menu_model,
             callback_wrapper->serverIdWithMap());
@@ -222,7 +222,7 @@ bool RemoteContextMenuHandler::OnContextMenuCommand(
   LNDC();
   RemoteFrame::Holder frm(frame);
   const auto thriftParams = convertParams(params);
-  return myService->exec<bool>([&](const RpcExecutor::Service& s) {
+  return myService->exec<bool>([&](const JavaService& s) {
     return s->ContextMenuHandler_OnContextMenuCommand(
         myBid, frm.get()->serverIdWithMap(), thriftParams, command_id,
         event_flags);
@@ -234,7 +234,7 @@ void RemoteContextMenuHandler::OnContextMenuDismissed(
     CefRefPtr<CefFrame> frame) {
   LNDC();
   RemoteFrame::Holder frm(frame);
-  myService->exec([&](const RpcExecutor::Service& s) {
+  myService->exec([&](const JavaService& s) {
     s->ContextMenuHandler_OnContextMenuDismissed(myBid, frm.get()->serverIdWithMap());
   });
 }

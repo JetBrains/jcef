@@ -45,7 +45,7 @@ void RemoteRenderHandler::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& re
     fillDummy(rect);
     Rect result;
     result.w = -1; // invalidate
-    myService->exec([&](const RpcExecutor::Service& s){
+    myService->exec([&](const JavaService& s){
       s->RenderHandler_GetViewRect(result, myBid);
     });
     if (result.w < 0) return;
@@ -94,7 +94,7 @@ bool RemoteRenderHandler::GetScreenInfo(CefRefPtr<CefBrowser> browser,
     fillDummy(screen_info);
     ScreenInfo result;
     result.depth = -1;// invalidate
-    myService->exec([&](const RpcExecutor::Service& s){
+    myService->exec([&](const JavaService& s){
       s->RenderHandler_GetScreenInfo(result, myBid);
     });
     if (result.depth == -1) return false;
@@ -125,7 +125,7 @@ bool RemoteRenderHandler::GetScreenPoint(CefRefPtr<CefBrowser> browser,
     LNDCT();
     Point result;
     result.x = INT32_MIN;// invalidate
-    myService->exec([&](const RpcExecutor::Service& s){
+    myService->exec([&](const JavaService& s){
       s->RenderHandler_GetScreenPoint(result, myBid, viewX, viewY);
     });
     if (result.x == INT32_MIN) return false;
@@ -137,7 +137,7 @@ bool RemoteRenderHandler::GetScreenPoint(CefRefPtr<CefBrowser> browser,
 
 void RemoteRenderHandler::OnPopupShow(CefRefPtr<CefBrowser> browser, bool show) {
   LNDCT();
-  myService->exec([&](const RpcExecutor::Service& s){
+  myService->exec([&](const JavaService& s){
     s->OnPopupShow(myBid, show);
   });
 }
@@ -145,7 +145,7 @@ void RemoteRenderHandler::OnPopupShow(CefRefPtr<CefBrowser> browser, bool show) 
 void RemoteRenderHandler::OnPopupSize(CefRefPtr<CefBrowser> browser,
                                       const CefRect& rect) {
   LNDCT();
-  myService->exec([&](const RpcExecutor::Service& s) {
+  myService->exec([&](const JavaService& s) {
     Rect size;
     size.x = rect.x;
     size.y = rect.y;
@@ -297,7 +297,7 @@ void RemoteRenderHandler::OnPaint(CefRefPtr<CefBrowser> browser,
 
     buff.unlock();
 
-    myService->exec([&](const RpcExecutor::Service& s){
+    myService->exec([&](const JavaService& s){
       s->RenderHandler_OnPaint(myBid, type != PET_VIEW, static_cast<int>(dirtyRects.size()),
                  buff.uid(), buff.handle(),
                  width, height);

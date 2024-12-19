@@ -82,7 +82,7 @@ void RpcExecutor::close() {
   }
 }
 
-void RpcExecutor::exec(std::function<void(Service)> rpc) {
+void RpcExecutor::exec(std::function<void(JavaService)> rpc) {
   Lock lock(myMutex);
 
   if (myService == nullptr) {

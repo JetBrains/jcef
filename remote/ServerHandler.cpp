@@ -62,11 +62,12 @@ namespace {
   }
 }
 
-ServerHandler::ServerHandler() : myCtx(std::make_shared<ServerHandlerContext>()) {}
+ServerHandler::ServerHandler() : myCtx(nullptr) {}
 
 ServerHandler::~ServerHandler() {
   close();
-  myCtx->closeJavaServiceTransport();
+  if (myCtx)
+    myCtx->closeJavaServiceTransport();
 }
 
 void ServerHandler::close() {
@@ -74,24 +75,23 @@ void ServerHandler::close() {
     return;
 
   myIsClosed = true;
-  const bool isEmpty = myCtx->clientsManager()->closeAllBrowsers();
   ServerApplication::instance().onServerHandlerClosed(*this);
-  try {
-    // NOTE: if some browser wasn't closed than client won't receive onBeforeClose callback
-    // if we close transport here. So do it in destructor.
-    if (isEmpty)
-      myCtx->closeJavaServiceTransport();
-  } catch (TException& e) {
-    Log::error("Thrift exception in ServerHandler::close: %s", e.what());
-  }
+  if (myCtx)
+    myCtx->close();
 }
 
 int ServerHandler::connectImpl(std::function<void()> openBackwardTransport) {
+  if (myCtx != nullptr) {
+    Log::error("Client already connected, other attempts will be ignored.");
+    return -1;
+  }
+
   static int s_counter = 0;
   const int counter = s_counter++;
   setThreadName(string_format("ServerHandler_%d", counter));
 
   // Connect to client's side (for cef-callbacks execution on java side)
+  myCtx = std::make_shared<ServerHandlerContext>();
   try {
     openBackwardTransport();
     RemoteAppHandler::instance()->setService(myCtx->javaService());
@@ -101,15 +101,10 @@ int ServerHandler::connectImpl(std::function<void()> openBackwardTransport) {
     return -1;
   }
 
-  return counter;
+  return myCid = counter;
 }
 
 int32_t ServerHandler::connect(const std::string& backwardConnectionPipe, bool isMaster) {
-  if (myCtx->javaService() != nullptr) {
-    Log::error("Client already connected, other attempts will be ignored.");
-    return -1;
-  }
-
   myIsMaster = isMaster;
 
   return connectImpl([&](){
@@ -118,16 +113,15 @@ int32_t ServerHandler::connect(const std::string& backwardConnectionPipe, bool i
 }
 
 int32_t ServerHandler::connectTcp(int backwardConnectionPort, bool isMaster) {
-  if (myCtx->javaService() != nullptr) {
-    Log::error("Client already connected (tcp), other attempts will be ignored.");
-    return -1;
-  }
-
   myIsMaster = isMaster;
 
   return connectImpl([&](){
     myCtx->initJavaServicePort(backwardConnectionPort);
   });
+}
+
+void ServerHandler::attach(int cid) {
+  myCtx = ServerApplication::instance().getCtx(cid);
 }
 
 int32_t ServerHandler::Browser_Create(int cid, int handlersMask, const thrift_codegen::RObject& requestContextHandler) {

@@ -22,6 +22,7 @@ class ServerHandler : public thrift_codegen::ServerIf {
   //
   int32_t connect(const std::string& backwardConnectionPipe, bool isMaster) override;
   int32_t connectTcp(int backwardConnectionPort, bool isMaster) override;
+  void attach(int cid) override;
   void log(const std::string& msg) override { Log::info("received message from client: %s", msg.c_str()); }
   void echo(std::string& _return, const std::string& msg) override { _return.assign(msg); }
   void stop() override;
@@ -182,9 +183,12 @@ class ServerHandler : public thrift_codegen::ServerIf {
       const thrift_codegen::RObject& registration) override;
 
   std::shared_ptr<ServerHandlerContext> getCtx() const { return myCtx; }
+  int getCid() const { return myCid; }
+
  private:
   bool myIsMaster = false;
   bool myIsClosed = false;
+  int myCid = -1;
   std::shared_ptr<ServerHandlerContext> myCtx;
 
   int connectImpl(std::function<void()> openBackwardTransport);

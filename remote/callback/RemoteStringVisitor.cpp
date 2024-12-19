@@ -3,13 +3,13 @@
 RemoteStringVisitor::RemoteStringVisitor(std::shared_ptr<ServerHandlerContext> service, thrift_codegen::RObject peer) : RemoteJavaObject<RemoteStringVisitor>(
           service,
           peer.objId,
-          [=](std::shared_ptr<thrift_codegen::ClientHandlersClient> service) {
+          [=](JavaService service) {
             service->StringVisitor_Dispose(myPeerId);
           }) {}
 
 void RemoteStringVisitor::Visit(const CefString& str){
   LNDCT();
-  myCtx->javaService()->exec([&](RpcExecutor::Service s){
+  myCtx->javaService()->exec([&](JavaService s){
      s->StringVisitor_Visit(myPeerId, str);
   });
 }

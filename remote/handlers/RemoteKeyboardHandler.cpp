@@ -36,7 +36,7 @@ bool RemoteKeyboardHandler::OnPreKeyEvent(CefRefPtr<CefBrowser> browser,
                    bool* is_keyboard_shortcut) {
   thrift_codegen::KeyEvent keyEvent;
   fillKeyEvent(keyEvent, event);
-  return myService->exec<bool>([&](const RpcExecutor::Service& s){
+  return myService->exec<bool>([&](const JavaService& s){
     return s->KeyboardHandler_OnPreKeyEvent(myBid, keyEvent);
   },false);
 }
@@ -46,7 +46,7 @@ bool RemoteKeyboardHandler::OnKeyEvent(CefRefPtr<CefBrowser> browser,
                 CefEventHandle os_event) {
   thrift_codegen::KeyEvent keyEvent;
   fillKeyEvent(keyEvent, event);
-  return myService->exec<bool>([&](const RpcExecutor::Service& s){
+  return myService->exec<bool>([&](const JavaService& s){
     return s->KeyboardHandler_OnKeyEvent(myBid, keyEvent);
   },false);
 }

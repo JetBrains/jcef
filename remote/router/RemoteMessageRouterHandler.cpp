@@ -12,7 +12,7 @@ RemoteMessageRouterHandler::RemoteMessageRouterHandler(
     : RemoteJavaObject(
           service,
           peer.objId,
-          [=](std::shared_ptr<thrift_codegen::ClientHandlersClient> service) {
+          [=](JavaService service) {
             service->MessageRouterHandler_Dispose(peer.objId);
           }),
       myClientsManager(manager) {
@@ -51,7 +51,7 @@ bool RemoteMessageRouterHandler::OnQuery(CefRefPtr<CefBrowser> browser,
   }
   RemoteFrame::Holder frm(frame);
   RemoteQueryCallback* rcb = RemoteQueryCallback::wrapDelegate(callback);
-  bool handled = myCtx->javaService()->exec<bool>([&](RpcExecutor::Service s){
+  bool handled = myCtx->javaService()->exec<bool>([&](JavaService s){
     return s->MessageRouterHandler_onQuery(javaId(), bid, frm.get()->serverIdWithMap(), query_id, request, persistent, rcb->serverId());
   }, false);
   if (!handled) // NOTE: must delete callback when onQuery returns false
@@ -71,7 +71,7 @@ void RemoteMessageRouterHandler::OnQueryCanceled(CefRefPtr<CefBrowser> browser,
     return;
   }
   RemoteFrame::Holder frm(frame);
-  myCtx->javaService()->exec([&](RpcExecutor::Service s){
+  myCtx->javaService()->exec([&](JavaService s){
     return s->MessageRouterHandler_onQueryCanceled(javaId(), bid, frm.get()->serverIdWithMap(), query_id);
   });
 }

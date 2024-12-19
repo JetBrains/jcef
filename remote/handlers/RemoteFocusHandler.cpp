@@ -7,7 +7,7 @@ RemoteFocusHandler::RemoteFocusHandler(int bid, std::shared_ptr<RpcExecutor> ser
 // NOTE: all RemoteFocusHandler methods will be called on the UI thread.
 
 void RemoteFocusHandler::OnTakeFocus(CefRefPtr<CefBrowser> browser, bool next) {
-  myService->exec([&](const RpcExecutor::Service& s){
+  myService->exec([&](const JavaService& s){
     s->FocusHandler_OnTakeFocus(myBid, next);
   });
 }
@@ -23,13 +23,13 @@ std::string source2string(CefFocusHandler::FocusSource source) {
 }
 
 bool RemoteFocusHandler::OnSetFocus(CefRefPtr<CefBrowser> browser, FocusSource source) {
-  return myService->exec<bool>([&](const RpcExecutor::Service& s){
+  return myService->exec<bool>([&](const JavaService& s){
     return s->FocusHandler_OnSetFocus(myBid, source2string(source));
   }, false);
 }
 
 void RemoteFocusHandler::OnGotFocus(CefRefPtr<CefBrowser> browser) {
-  myService->exec([&](const RpcExecutor::Service& s){
+  myService->exec([&](const JavaService& s){
     s->FocusHandler_OnGotFocus(myBid);
   });
 }

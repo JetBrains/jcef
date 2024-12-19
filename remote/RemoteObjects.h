@@ -149,15 +149,21 @@ class RemoteServerObjectUpdatable : public RemoteServerObject<T, D> {
 template <class T>
 class RemoteJavaObject {
  public:
-  explicit RemoteJavaObject(std::shared_ptr<ServerHandlerContext> ctx, int peerId, std::function<void(RpcExecutor::Service)> disposer)
+  explicit RemoteJavaObject(std::shared_ptr<ServerHandlerContext> ctx, int peerId, std::function<void(JavaService)> disposer)
       : myCtx(ctx),
         myPeerId(peerId),
-        myDisposer(disposer) {}
+        myDisposer(std::make_shared<std::function<void(JavaService)>>(disposer)) {}
+
+  explicit RemoteJavaObject(std::shared_ptr<ServerHandlerContext> ctx, int peerId)
+      : myCtx(ctx),
+        myPeerId(peerId),
+        myDisposer(nullptr) {}
 
   virtual ~RemoteJavaObject() {
-    myDisposeService->exec([&](RpcExecutor::Service s){
-      myDisposer(s);
-    });
+    if (myDisposer != nullptr) {
+      std::shared_ptr<std::function<void(JavaService)>> d = myDisposer;
+      myCtx->invokeLater([=](JavaService s) { d->operator()(s); });
+    }
   }
 
   thrift_codegen::RObject javaId() {
@@ -170,8 +176,7 @@ class RemoteJavaObject {
   const int myPeerId; // java-peer (delegate)
   std::recursive_mutex myMutex;
   std::shared_ptr<ServerHandlerContext> myCtx;
-  std::shared_ptr<RpcExecutor> myDisposeService;
-  std::function<void(RpcExecutor::Service)> myDisposer;
+  std::shared_ptr<std::function<void(JavaService)>> myDisposer;
 };
 
 template <class T, class D>
