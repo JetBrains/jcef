@@ -11,6 +11,7 @@
 
 class ServerHandler;
 class MyServerProcessorFactory;
+class ServerHandlerContext;
 
 class CommandLineArgs {
  public:
@@ -60,6 +61,8 @@ class ServerApplication {
   void stopWatcher() { myStopWatcher = true; }
 
   static ServerApplication& instance() { return ourInstance; }
+
+  std::shared_ptr<ServerHandlerContext> getCtx(int cid);
 
  private:
   CommandLineArgs myCmdArgs;

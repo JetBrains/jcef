@@ -49,10 +49,10 @@ public:
 
     // Convenience methods
     template<typename T>
-    T exec(std::function<T(RpcExecutor::Service)> rpc, T defVal) {
+    T exec(std::function<T(JavaService)> rpc, T defVal) {
       return myService->exec(std::move(rpc), defVal);
     }
-    void exec(std::function<void(RpcExecutor::Service)> rpc) { myService->exec(std::move(rpc)); }
+    void exec(std::function<void(JavaService)> rpc) { myService->exec(std::move(rpc)); }
 
   private:
     const int myCid;

@@ -15,6 +15,8 @@ public class Server {
 
     public int connectTcp(int backwardConnectionPort, boolean isMaster) throws com.jetbrains.cef.remote.thrift.TException;
 
+    public void attach(int cid) throws com.jetbrains.cef.remote.thrift.TException;
+
     public void log(java.lang.String msg) throws com.jetbrains.cef.remote.thrift.TException;
 
     public java.lang.String echo(java.lang.String msg) throws com.jetbrains.cef.remote.thrift.TException;
@@ -232,6 +234,8 @@ public class Server {
     public void connect(java.lang.String backwardConnectionPipe, boolean isMaster, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void connectTcp(int backwardConnectionPort, boolean isMaster, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void attach(int cid, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void log(java.lang.String msg, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
@@ -515,6 +519,27 @@ public class Server {
         return result.success;
       }
       throw new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.MISSING_RESULT, "connectTcp failed: unknown result");
+    }
+
+    @Override
+    public void attach(int cid) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_attach(cid);
+      recv_attach();
+    }
+
+    public void send_attach(int cid) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      attach_args args = new attach_args();
+      args.setCid(cid);
+      sendBase("attach", args);
+    }
+
+    public void recv_attach() throws com.jetbrains.cef.remote.thrift.TException
+    {
+      attach_result result = new attach_result();
+      receiveBase(result, "attach");
+      return;
     }
 
     @Override
@@ -2551,6 +2576,42 @@ public class Server {
         com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
         com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_connectTcp();
+      }
+    }
+
+    @Override
+    public void attach(int cid, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      attach_call method_call = new attach_call(cid, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class attach_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<Void> {
+      private int cid;
+      public attach_call(int cid, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.cid = cid;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("attach", com.jetbrains.cef.remote.thrift.protocol.TMessageType.CALL, 0));
+        attach_args args = new attach_args();
+        args.setCid(cid);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public Void getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        (new Client(prot)).recv_attach();
+        return null;
       }
     }
 
@@ -6518,6 +6579,7 @@ public class Server {
     private static <I extends Iface> java.util.Map<java.lang.String,  com.jetbrains.cef.remote.thrift.ProcessFunction<I, ? extends com.jetbrains.cef.remote.thrift.TBase>> getProcessMap(java.util.Map<java.lang.String, com.jetbrains.cef.remote.thrift.ProcessFunction<I, ? extends  com.jetbrains.cef.remote.thrift.TBase>> processMap) {
       processMap.put("connect", new connect());
       processMap.put("connectTcp", new connectTcp());
+      processMap.put("attach", new attach());
       processMap.put("log", new log());
       processMap.put("echo", new echo());
       processMap.put("version", new version());
@@ -6680,6 +6742,34 @@ public class Server {
         connectTcp_result result = new connectTcp_result();
         result.success = iface.connectTcp(args.backwardConnectionPort, args.isMaster);
         result.setSuccessIsSet(true);
+        return result;
+      }
+    }
+
+    public static class attach<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, attach_args> {
+      public attach() {
+        super("attach");
+      }
+
+      @Override
+      public attach_args getEmptyArgsInstance() {
+        return new attach_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public attach_result getResult(I iface, attach_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        attach_result result = new attach_result();
+        iface.attach(args.cid);
         return result;
       }
     }
@@ -9596,6 +9686,7 @@ public class Server {
     private static <I extends AsyncIface> java.util.Map<java.lang.String,  com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, ? extends  com.jetbrains.cef.remote.thrift.TBase,?>> getProcessMap(java.util.Map<java.lang.String,  com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, ? extends  com.jetbrains.cef.remote.thrift.TBase, ?>> processMap) {
       processMap.put("connect", new connect());
       processMap.put("connectTcp", new connectTcp());
+      processMap.put("attach", new attach());
       processMap.put("log", new log());
       processMap.put("echo", new echo());
       processMap.put("version", new version());
@@ -9837,6 +9928,72 @@ public class Server {
       @Override
       public void start(I iface, connectTcp_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
         iface.connectTcp(args.backwardConnectionPort, args.isMaster,resultHandler);
+      }
+    }
+
+    public static class attach<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, attach_args, Void> {
+      public attach() {
+        super("attach");
+      }
+
+      @Override
+      public attach_args getEmptyArgsInstance() {
+        return new attach_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void>() { 
+          @Override
+          public void onComplete(Void o) {
+            attach_result result = new attach_result();
+            try {
+              fcall.sendResponse(fb, result, com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (com.jetbrains.cef.remote.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            byte msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY;
+            com.jetbrains.cef.remote.thrift.TSerializable msg;
+            attach_result result = new attach_result();
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+              return;
+            } else if (e instanceof com.jetbrains.cef.remote.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (com.jetbrains.cef.remote.thrift.TApplicationException)e;
+            } else {
+              _LOGGER.error("Exception inside handler", e);
+              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      public void start(I iface, attach_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.attach(args.cid,resultHandler);
       }
     }
 
@@ -17053,6 +17210,645 @@ public class Server {
           struct.success = iprot.readI32();
           struct.setSuccessIsSet(true);
         }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class attach_args implements com.jetbrains.cef.remote.thrift.TBase<attach_args, attach_args._Fields>, java.io.Serializable, Cloneable, Comparable<attach_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("attach_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField CID_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("cid", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)1);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new attach_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new attach_argsTupleSchemeFactory();
+
+    public int cid; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      CID((short)1, "cid");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // CID
+            return CID;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __CID_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CID, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("cid", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(attach_args.class, metaDataMap);
+    }
+
+    public attach_args() {
+    }
+
+    public attach_args(
+      int cid)
+    {
+      this();
+      this.cid = cid;
+      setCidIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public attach_args(attach_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.cid = other.cid;
+    }
+
+    @Override
+    public attach_args deepCopy() {
+      return new attach_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setCidIsSet(false);
+      this.cid = 0;
+    }
+
+    public int getCid() {
+      return this.cid;
+    }
+
+    public attach_args setCid(int cid) {
+      this.cid = cid;
+      setCidIsSet(true);
+      return this;
+    }
+
+    public void unsetCid() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __CID_ISSET_ID);
+    }
+
+    /** Returns true if field cid is set (has been assigned a value) and false otherwise */
+    public boolean isSetCid() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __CID_ISSET_ID);
+    }
+
+    public void setCidIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __CID_ISSET_ID, value);
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case CID:
+        if (value == null) {
+          unsetCid();
+        } else {
+          setCid((java.lang.Integer)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case CID:
+        return getCid();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case CID:
+        return isSetCid();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof attach_args)
+        return this.equals((attach_args)that);
+      return false;
+    }
+
+    public boolean equals(attach_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_cid = true;
+      boolean that_present_cid = true;
+      if (this_present_cid || that_present_cid) {
+        if (!(this_present_cid && that_present_cid))
+          return false;
+        if (this.cid != that.cid)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + cid;
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(attach_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetCid(), other.isSetCid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetCid()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.cid, other.cid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("attach_args(");
+      boolean first = true;
+
+      sb.append("cid:");
+      sb.append(this.cid);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class attach_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public attach_argsStandardScheme getScheme() {
+        return new attach_argsStandardScheme();
+      }
+    }
+
+    private static class attach_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<attach_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, attach_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // CID
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
+                struct.cid = iprot.readI32();
+                struct.setCidIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, attach_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(CID_FIELD_DESC);
+        oprot.writeI32(struct.cid);
+        oprot.writeFieldEnd();
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class attach_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public attach_argsTupleScheme getScheme() {
+        return new attach_argsTupleScheme();
+      }
+    }
+
+    private static class attach_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<attach_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, attach_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetCid()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetCid()) {
+          oprot.writeI32(struct.cid);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, attach_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.cid = iprot.readI32();
+          struct.setCidIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class attach_result implements com.jetbrains.cef.remote.thrift.TBase<attach_result, attach_result._Fields>, java.io.Serializable, Cloneable, Comparable<attach_result>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("attach_result");
+
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new attach_resultStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new attach_resultTupleSchemeFactory();
+
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+;
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(attach_result.class, metaDataMap);
+    }
+
+    public attach_result() {
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public attach_result(attach_result other) {
+    }
+
+    @Override
+    public attach_result deepCopy() {
+      return new attach_result(this);
+    }
+
+    @Override
+    public void clear() {
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof attach_result)
+        return this.equals((attach_result)that);
+      return false;
+    }
+
+    public boolean equals(attach_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(attach_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("attach_result(");
+      boolean first = true;
+
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class attach_resultStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public attach_resultStandardScheme getScheme() {
+        return new attach_resultStandardScheme();
+      }
+    }
+
+    private static class attach_resultStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<attach_result> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, attach_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            default:
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, attach_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class attach_resultTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public attach_resultTupleScheme getScheme() {
+        return new attach_resultTupleScheme();
+      }
+    }
+
+    private static class attach_resultTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<attach_result> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, attach_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, attach_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
       }
     }
 

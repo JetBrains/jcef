@@ -15,7 +15,7 @@ RemoteResourceHandler::RemoteResourceHandler(
     : RemoteJavaObject(
           service,
           peer.objId,
-          [=](std::shared_ptr<thrift_codegen::ClientHandlersClient> service) {
+          [=](JavaService service) {
             service->ResourceHandler_Dispose(peer.objId);
           }), myBid(bid) {
   TRACE()
@@ -44,7 +44,7 @@ bool RemoteResourceHandler::ProcessRequest(CefRefPtr<CefRequest> request,
   LNDCT();
   RemoteRequest::Holder req(request);
   RemoteCallback * rc = RemoteCallback::wrapDelegate(callback);
-  const bool handled = myCtx->javaServiceIO()->exec<bool>([&](RpcExecutor::Service s){
+  const bool handled = myCtx->javaServiceIO()->exec<bool>([&](JavaService s){
     return s->ResourceHandler_ProcessRequest(myPeerId, req.get()->serverIdWithMap(), rc->serverId());
   }, false);
   if (!handled)
@@ -76,7 +76,7 @@ void RemoteResourceHandler::GetResponseHeaders(CefRefPtr<CefResponse> response,
   LNDCT();
   RemoteResponse::Holder resp(response);
   thrift_codegen::ResponseHeaders _return;
-  myCtx->javaServiceIO()->exec([&](RpcExecutor::Service s){
+  myCtx->javaServiceIO()->exec([&](JavaService s){
     s->ResourceHandler_GetResponseHeaders(_return, myPeerId, resp.get()->serverIdWithMap());
   });
   response_length = _return.length;
@@ -97,7 +97,7 @@ bool RemoteResourceHandler::ReadResponse(void* data_out,
   RemoteCallback* rc = RemoteCallback::wrapDelegate(callback);
   thrift_codegen::ResponseData _return;
   _return.bytes_read = 0;
-  myCtx->javaServiceIO()->exec([&](RpcExecutor::Service s){
+  myCtx->javaServiceIO()->exec([&](JavaService s){
     s->ResourceHandler_ReadResponse(_return, myPeerId, bytes_to_read, rc->serverId());
   });
   if (!_return.continueRead)
@@ -112,7 +112,7 @@ bool RemoteResourceHandler::ReadResponse(void* data_out,
 
 void RemoteResourceHandler::Cancel() {
   TRACE()
-  myCtx->javaServiceIO()->exec([&](RpcExecutor::Service s){
+  myCtx->javaServiceIO()->exec([&](JavaService s){
     s->ResourceHandler_Cancel(myPeerId);
   });
 }

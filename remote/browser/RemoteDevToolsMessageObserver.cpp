@@ -12,7 +12,7 @@ RemoteDevToolsMessageObserver::RemoteDevToolsMessageObserver(
     : RemoteJavaObject<RemoteDevToolsMessageObserver>(
           ctx,
           peer.objId,
-          [=](std::shared_ptr<thrift_codegen::ClientHandlersClient> service) {
+          [=](JavaService service) {
             service->DevToolsMessageObserver_Dispose(peer.objId);
             Log::trace("Disposed DevToolsMessageObserver, peer-id=%d", peer.objId);
           }), myClientsManager(clientsManager) {
@@ -32,7 +32,7 @@ void RemoteDevToolsMessageObserver::OnDevToolsEvent(
   }
 
   std::string strParams(static_cast<const char*>(params), params_size);
-  myCtx->javaService()->exec([&](RpcExecutor::Service s){
+  myCtx->javaService()->exec([&](JavaService s){
     s->DevToolsMessageObserver_OnDevToolsEvent(myPeerId, bid, method, strParams);
   });
 }
@@ -51,7 +51,7 @@ void RemoteDevToolsMessageObserver::OnDevToolsMethodResult(
   }
 
   std::string strResult(static_cast<const char*>(result), result_size);
-  myCtx->javaService()->exec([&](RpcExecutor::Service s){
+  myCtx->javaService()->exec([&](JavaService s){
     s->DevToolsMessageObserver_OnDevToolsMethodResult(myPeerId, bid, message_id, success, strResult);
   });
 }

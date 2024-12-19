@@ -24,6 +24,7 @@ class ServerIf {
   virtual ~ServerIf() {}
   virtual int32_t connect(const std::string& backwardConnectionPipe, const bool isMaster) = 0;
   virtual int32_t connectTcp(const int32_t backwardConnectionPort, const bool isMaster) = 0;
+  virtual void attach(const int32_t cid) = 0;
   virtual void log(const std::string& msg) = 0;
   virtual void echo(std::string& _return, const std::string& msg) = 0;
   virtual void version(std::string& _return) = 0;
@@ -165,6 +166,9 @@ class ServerNull : virtual public ServerIf {
   int32_t connectTcp(const int32_t /* backwardConnectionPort */, const bool /* isMaster */) override {
     int32_t _return = 0;
     return _return;
+  }
+  void attach(const int32_t /* cid */) override {
+    return;
   }
   void log(const std::string& /* msg */) override {
     return;
@@ -719,6 +723,93 @@ class Server_connectTcp_presult {
   int32_t* success;
 
   _Server_connectTcp_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Server_attach_args__isset {
+  _Server_attach_args__isset() : cid(false) {}
+  bool cid :1;
+} _Server_attach_args__isset;
+
+class Server_attach_args {
+ public:
+
+  Server_attach_args(const Server_attach_args&) noexcept;
+  Server_attach_args& operator=(const Server_attach_args&) noexcept;
+  Server_attach_args() noexcept
+                     : cid(0) {
+  }
+
+  virtual ~Server_attach_args() noexcept;
+  int32_t cid;
+
+  _Server_attach_args__isset __isset;
+
+  void __set_cid(const int32_t val);
+
+  bool operator == (const Server_attach_args & rhs) const
+  {
+    if (!(cid == rhs.cid))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_attach_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_attach_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_attach_pargs {
+ public:
+
+
+  virtual ~Server_attach_pargs() noexcept;
+  const int32_t* cid;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_attach_result {
+ public:
+
+  Server_attach_result(const Server_attach_result&) noexcept;
+  Server_attach_result& operator=(const Server_attach_result&) noexcept;
+  Server_attach_result() noexcept {
+  }
+
+  virtual ~Server_attach_result() noexcept;
+
+  bool operator == (const Server_attach_result & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const Server_attach_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_attach_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_attach_presult {
+ public:
+
+
+  virtual ~Server_attach_presult() noexcept;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
@@ -9030,6 +9121,9 @@ class ServerClient : virtual public ServerIf {
   int32_t connectTcp(const int32_t backwardConnectionPort, const bool isMaster) override;
   void send_connectTcp(const int32_t backwardConnectionPort, const bool isMaster);
   int32_t recv_connectTcp();
+  void attach(const int32_t cid) override;
+  void send_attach(const int32_t cid);
+  void recv_attach();
   void log(const std::string& msg) override;
   void send_log(const std::string& msg);
   void echo(std::string& _return, const std::string& msg) override;
@@ -9306,6 +9400,7 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
   ProcessMap processMap_;
   void process_connect(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_connectTcp(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_attach(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_log(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_echo(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_version(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -9416,6 +9511,7 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
     iface_(iface) {
     processMap_["connect"] = &ServerProcessor::process_connect;
     processMap_["connectTcp"] = &ServerProcessor::process_connectTcp;
+    processMap_["attach"] = &ServerProcessor::process_attach;
     processMap_["log"] = &ServerProcessor::process_log;
     processMap_["echo"] = &ServerProcessor::process_echo;
     processMap_["version"] = &ServerProcessor::process_version;
@@ -9565,6 +9661,15 @@ class ServerMultiface : virtual public ServerIf {
       ifaces_[i]->connectTcp(backwardConnectionPort, isMaster);
     }
     return ifaces_[i]->connectTcp(backwardConnectionPort, isMaster);
+  }
+
+  void attach(const int32_t cid) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->attach(cid);
+    }
+    ifaces_[i]->attach(cid);
   }
 
   void log(const std::string& msg) override {
@@ -10570,6 +10675,9 @@ class ServerConcurrentClient : virtual public ServerIf {
   int32_t connectTcp(const int32_t backwardConnectionPort, const bool isMaster) override;
   int32_t send_connectTcp(const int32_t backwardConnectionPort, const bool isMaster);
   int32_t recv_connectTcp(const int32_t seqid);
+  void attach(const int32_t cid) override;
+  int32_t send_attach(const int32_t cid);
+  void recv_attach(const int32_t seqid);
   void log(const std::string& msg) override;
   void send_log(const std::string& msg);
   void echo(std::string& _return, const std::string& msg) override;

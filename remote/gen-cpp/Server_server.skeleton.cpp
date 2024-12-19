@@ -30,6 +30,11 @@ class ServerHandler : virtual public ServerIf {
     printf("connectTcp\n");
   }
 
+  void attach(const int32_t cid) {
+    // Your implementation goes here
+    printf("attach\n");
+  }
+
   void log(const std::string& msg) {
     // Your implementation goes here
     printf("log\n");

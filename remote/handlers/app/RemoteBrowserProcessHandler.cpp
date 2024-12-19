@@ -23,7 +23,7 @@ void RemoteBrowserProcessHandler::setService(std::shared_ptr<RpcExecutor> servic
   }
   if (myService && needInvokeCallback) {
     // Service was created after OnContextInitialized happened, so notify client immediately.
-    myService->exec([&](const RpcExecutor::Service& s) {
+    myService->exec([&](const JavaService& s) {
       s->AppHandler_OnContextInitialized();
     });
   }
@@ -44,7 +44,7 @@ void RemoteBrowserProcessHandler::OnContextInitialized() {
     needInvokeCallback = myService != nullptr;
   }
   if (needInvokeCallback)
-    myService->exec([&](const RpcExecutor::Service& s){
+    myService->exec([&](const JavaService& s){
       s->AppHandler_OnContextInitialized();
     });
 }

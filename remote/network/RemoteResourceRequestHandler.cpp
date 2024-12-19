@@ -21,7 +21,7 @@ RemoteResourceRequestHandler::RemoteResourceRequestHandler(
     : RemoteJavaObject(
           serviceIO,
           peer.objId,
-          [=](std::shared_ptr<thrift_codegen::ClientHandlersClient> service) {
+          [=](JavaService service) {
             service->ResourceRequestHandler_Dispose(peer.objId);
           }), myBid(bid) {
   TRACE();
@@ -45,7 +45,7 @@ CefRefPtr<CefCookieAccessFilter> RemoteResourceRequestHandler::GetCookieAccessFi
   RemoteFrame::Holder frm(frame);
   thrift_codegen::RObject remoteHandler;
   
-  myCtx->javaServiceIO()->exec([&](RpcExecutor::Service s){
+  myCtx->javaServiceIO()->exec([&](JavaService s){
     s->ResourceRequestHandler_GetCookieAccessFilter(remoteHandler, myPeerId, myBid, frm.get()->serverIdWithMap(), req.get()->serverIdWithMap());
   });
   return remoteHandler.objId != -1 ? new RemoteCookieAccessFilter(myBid, myCtx, remoteHandler) : nullptr;
@@ -73,7 +73,7 @@ CefResourceRequestHandler::ReturnValue RemoteResourceRequestHandler::OnBeforeRes
   RemoteRequest::Holder req(request);
   RemoteFrame::Holder frm(frame);
   CefResourceRequestHandler::ReturnValue result = RV_CONTINUE;
-  myCtx->javaServiceIO()->exec([&](RpcExecutor::Service s){
+  myCtx->javaServiceIO()->exec([&](JavaService s){
     bool boolRes = s->ResourceRequestHandler_OnBeforeResourceLoad(myPeerId, myBid, frm.get()->serverIdWithMap(), req.get()->serverIdWithMap());
     result = (boolRes ? RV_CANCEL : RV_CONTINUE);
   });
@@ -98,7 +98,7 @@ CefRefPtr<CefResourceHandler> RemoteResourceRequestHandler::GetResourceHandler(
   RemoteRequest::Holder req(request);
   RemoteFrame::Holder frm(frame);
   thrift_codegen::RObject remoteHandler;
-  myCtx->javaServiceIO()->exec([&](RpcExecutor::Service s){
+  myCtx->javaServiceIO()->exec([&](JavaService s){
     s->ResourceRequestHandler_GetResourceHandler(remoteHandler, myPeerId, myBid, frm.get()->serverIdWithMap(), req.get()->serverIdWithMap());
   });
   return remoteHandler.objId != -1 ? new RemoteResourceHandler(myBid, myCtx, remoteHandler) : nullptr;
@@ -127,7 +127,7 @@ void RemoteResourceRequestHandler::OnResourceRedirect(
   RemoteResponse::Holder resp(response);
   RemoteFrame::Holder frm(frame);
   std::string result;
-  myCtx->javaServiceIO()->exec([&](RpcExecutor::Service s){
+  myCtx->javaServiceIO()->exec([&](JavaService s){
     s->ResourceRequestHandler_OnResourceRedirect(result, myPeerId, myBid, frm.get()->serverIdWithMap(), req.get()->serverIdWithMap(),
                                                  resp.get()->serverIdWithMap(), new_url.ToString());
   });
@@ -159,7 +159,7 @@ bool RemoteResourceRequestHandler::OnResourceResponse(
   RemoteRequest::Holder req(request);
   RemoteResponse::Holder resp(response);
   RemoteFrame::Holder frm(frame);
-  return myCtx->javaServiceIO()->exec<bool>([&](RpcExecutor::Service s){
+  return myCtx->javaServiceIO()->exec<bool>([&](JavaService s){
     return s->ResourceRequestHandler_OnResourceResponse(myPeerId, myBid, frm.get()->serverIdWithMap(), req.get()->serverIdWithMap(),
                                                         resp.get()->serverIdWithMap());
   }, false);
@@ -194,7 +194,7 @@ void RemoteResourceRequestHandler::OnResourceLoadComplete(
   RemoteRequest::Holder req(request);
   RemoteResponse::Holder resp(response);
   RemoteFrame::Holder frm(frame);
-  myCtx->javaServiceIO()->exec([&](RpcExecutor::Service s){
+  myCtx->javaServiceIO()->exec([&](JavaService s){
     s->ResourceRequestHandler_OnResourceLoadComplete(myPeerId, myBid, frm.get()->serverIdWithMap(), req.get()->serverIdWithMap(),
                                                      resp.get()->serverIdWithMap(), status2str(status), received_content_length);
   });
@@ -219,7 +219,7 @@ void RemoteResourceRequestHandler::OnProtocolExecution(
   TRACE();
   RemoteRequest::Holder req(request);
   RemoteFrame::Holder frm(frame);
-  myCtx->javaServiceIO()->exec([&](RpcExecutor::Service s){
+  myCtx->javaServiceIO()->exec([&](JavaService s){
     allow_os_execution = s->ResourceRequestHandler_OnProtocolExecution(myPeerId, myBid, frm.get()->serverIdWithMap(), req.get()->serverIdWithMap(), allow_os_execution);
   });
 }

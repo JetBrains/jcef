@@ -10,7 +10,7 @@ void RemoteDisplayHandler::OnAddressChange(CefRefPtr<CefBrowser> browser,
                      const CefString& url) {
   LNDCT();
   RemoteFrame::Holder frm(frame);
-  myService->exec([&](const RpcExecutor::Service& s){
+  myService->exec([&](const JavaService& s){
     s->DisplayHandler_OnAddressChange(myBid, frm.get()->serverIdWithMap(), url.ToString());
   });
 }
@@ -18,14 +18,14 @@ void RemoteDisplayHandler::OnAddressChange(CefRefPtr<CefBrowser> browser,
 void RemoteDisplayHandler::OnTitleChange(CefRefPtr<CefBrowser> browser,
                    const CefString& title) {
   LNDCT();
-  myService->exec([&](const RpcExecutor::Service& s){
+  myService->exec([&](const JavaService& s){
     s->DisplayHandler_OnTitleChange(myBid, title.ToString());
   });
 }
 
 bool RemoteDisplayHandler::OnTooltip(CefRefPtr<CefBrowser> browser, CefString& text) {
   LNDCT();
-  return myService->exec<bool>([&](const RpcExecutor::Service& s){
+  return myService->exec<bool>([&](const JavaService& s){
     return s->DisplayHandler_OnTooltip(myBid, text.ToString());
   }, false);
 }
@@ -33,7 +33,7 @@ bool RemoteDisplayHandler::OnTooltip(CefRefPtr<CefBrowser> browser, CefString& t
 void RemoteDisplayHandler::OnStatusMessage(CefRefPtr<CefBrowser> browser,
                      const CefString& value) {
   LNDCT();
-  myService->exec([&](const RpcExecutor::Service& s){
+  myService->exec([&](const JavaService& s){
     s->DisplayHandler_OnStatusMessage(myBid, value.ToString());
   });
 }
@@ -44,7 +44,7 @@ bool RemoteDisplayHandler::OnConsoleMessage(CefRefPtr<CefBrowser> browser,
                       const CefString& source,
                       int line) {
   LNDCT();
-  return myService->exec<bool>([&](const RpcExecutor::Service& s){
+  return myService->exec<bool>([&](const JavaService& s){
     return s->DisplayHandler_OnConsoleMessage(myBid, level, message.ToString(), source.ToString(), line);
   }, false);
 }

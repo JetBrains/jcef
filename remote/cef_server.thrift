@@ -24,6 +24,7 @@ service Server {
     // The server will stops itself after last master-client disconnected.
     i32 connect(1: string backwardConnectionPipe, 2: bool isMaster),
     i32 connectTcp(1: i32 backwardConnectionPort, 2: bool isMaster),
+    void attach(1: i32 cid),
     oneway void log(1: string msg),
     string echo(1: string msg),
     string version(),
