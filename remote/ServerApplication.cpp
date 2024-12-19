@@ -234,6 +234,7 @@ void ServerApplication::init(int argc, char* argv[]) {
       }
     }
   });
+  myThreadWatcher.detach();
 }
 
 std::shared_ptr<apache::thrift::TProcessorFactory> ServerApplication::getProcessorFactory() const {
