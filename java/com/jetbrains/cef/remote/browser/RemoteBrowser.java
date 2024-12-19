@@ -640,9 +640,7 @@ public class RemoteBrowser implements CefBrowser {
             return;
 
         execWhenCreated(()->{
-            myRpc.main.exec((s)->{
-                s.Browser_WasResized(myBid);
-            });
+            myRpc.invokeLater(s -> s.Browser_WasResized(myBid));
         }, "wasResized");
     }
 
@@ -652,9 +650,7 @@ public class RemoteBrowser implements CefBrowser {
             return;
 
         execWhenCreated(()->{
-            myRpc.main.exec((s)->{
-                s.Browser_NotifyScreenInfoChanged(myBid);
-            });
+            myRpc.invokeLater(s -> s.Browser_NotifyScreenInfoChanged(myBid));
         }, "notifyScreenInfoChanged");
     }
 
@@ -667,10 +663,7 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing)
             return;
 
-        myRpc.main.exec((s)->{
-            // TODO: get e.scancode via reflection (windows only)
-            s.Browser_SendKeyEvent(myBid, e.getID(), e.getModifiersEx(), (short)e.getKeyChar(), 0, e.getKeyCode());
-        });
+        myRpc.invokeLater(s -> s.Browser_SendKeyEvent(myBid, e.getID(), e.getModifiersEx(), (short)e.getKeyChar(), 0, e.getKeyCode())); // TODO: get e.scancode via reflection (windows only)
     }
 
     @Override
@@ -682,9 +675,7 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing)
             return;
 
-        myRpc.main.exec((s)->{
-            s.Browser_SendMouseEvent(myBid, e.getID(), e.getX(), e.getY(), e.getModifiersEx(), e.getClickCount(), e.getButton());
-        });
+        myRpc.invokeLater(s -> s.Browser_SendMouseEvent(myBid, e.getID(), e.getX(), e.getY(), e.getModifiersEx(), e.getClickCount(), e.getButton()));
     }
 
     @Override
@@ -696,9 +687,7 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing)
             return;
 
-        myRpc.main.exec((s)->{
-            s.Browser_SendMouseWheelEvent(myBid, e.getScrollType(), e.getX(), e.getY(), e.getModifiersEx(), e.getWheelRotation(), e.getUnitsToScroll());
-        });
+        myRpc.invokeLater(s -> s.Browser_SendMouseWheelEvent(myBid, e.getScrollType(), e.getX(), e.getY(), e.getModifiersEx(), e.getWheelRotation(), e.getUnitsToScroll()));
     }
 
     @Override
