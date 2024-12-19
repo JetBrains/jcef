@@ -18,12 +18,12 @@ import java.util.Map;
 // Java object peer will be destroyed via usual gc.
 public abstract class RemoteServerObjectLocal {
     protected final int myId;
-    protected final RpcExecutor myServer;
+    protected final RpcContext myRpc;
     protected final Map<String, String> myCache = new HashMap<>();
 
-    public RemoteServerObjectLocal(RpcExecutor server, RObject robj) {
+    public RemoteServerObjectLocal(RpcContext rpcContext, RObject robj) {
         myId = robj.objId;
-        myServer = server;
+        myRpc = rpcContext;
         if (robj.objInfo != null)
             myCache.putAll(robj.objInfo);
     }

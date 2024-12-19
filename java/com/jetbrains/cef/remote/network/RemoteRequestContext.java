@@ -24,7 +24,7 @@ public class RemoteRequestContext extends CefRequestContext {
         myHandler = null;
         CefServer.instance().onConnected(()->{
             synchronized (myDelayedActions) {
-                myRpc = CefServer.instance().getService();
+                myRpc = CefServer.instance().getRpcContext().main;
                 myDelayedActions.forEach(r -> r.run());
                 myDelayedActions.clear();
             }
@@ -41,7 +41,7 @@ public class RemoteRequestContext extends CefRequestContext {
         assert bid >= 0;
         myBid = bid;
         synchronized (myDelayedActions) {
-            myRpc = CefServer.instance().getService();// bid is obtained => server is connected
+            myRpc = CefServer.instance().getRpcContext().main;// bid is obtained => server is connected
             myDelayedActions.forEach(r -> r.run());
             myDelayedActions.clear();
         }

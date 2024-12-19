@@ -14,8 +14,8 @@ public abstract class RemoteServerObject extends RemoteServerObjectLocal {
     private final Object myDisposeMutex = new Object();
     private boolean myIsDisposed = false;
 
-    public RemoteServerObject(RpcExecutor server, RObject robj) {
-        super(server, robj);
+    public RemoteServerObject(RpcContext rpcContext, RObject robj) {
+        super(rpcContext, robj);
     }
 
     @Override

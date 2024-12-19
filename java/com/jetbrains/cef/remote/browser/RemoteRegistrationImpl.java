@@ -1,6 +1,7 @@
 package com.jetbrains.cef.remote.browser;
 
 import com.jetbrains.cef.remote.RemoteServerObject;
+import com.jetbrains.cef.remote.RpcContext;
 import com.jetbrains.cef.remote.RpcExecutor;
 import com.jetbrains.cef.remote.thrift_codegen.RObject;
 
@@ -10,13 +11,13 @@ import com.jetbrains.cef.remote.thrift_codegen.RObject;
 // 3. Lifetime of remote native peer is managed by java: native object
 // peer will be destroyed when java object destroyed via usual gc (or when user invokes dispose())
 public class RemoteRegistrationImpl extends RemoteServerObject {
-    public RemoteRegistrationImpl(RpcExecutor server, RObject robj) {
-        super(server, robj);
+    public RemoteRegistrationImpl(RpcContext rpcContext, RObject robj) {
+        super(rpcContext, robj);
     }
 
     @Override
     protected void disposeOnServerImpl() {
-        myServer.exec((s)-> s.Registration_Dispose(thriftId()));
+        myRpc.bg.exec((s)-> s.Registration_Dispose(thriftId()));
     }
 
     @Override

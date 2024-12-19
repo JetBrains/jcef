@@ -15,7 +15,7 @@ public class RemoteCookieManager extends CefCookieManager {
 
     private RemoteCookieManager() {
         CefServer.instance().onConnected(()->{
-            myImpl = RemoteCookieManagerImpl.create(CefServer.instance().getService());
+            myImpl = RemoteCookieManagerImpl.create(CefServer.instance().getRpcContext());
         }, "CookieManager_Create", true);
     }
 
