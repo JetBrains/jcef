@@ -35,7 +35,8 @@ public class RemoteCookieManagerImpl extends RemoteServerObject {
 
     @Override
     protected void disposeOnServerImpl() {
-        myRpc.bg.exec((s)->s.CookieManager_Dispose(thriftId()));
+        final RObject id = thriftId();
+        myRpc.invokeLater(s -> s.CookieManager_Dispose(id));
     }
 
     @Override

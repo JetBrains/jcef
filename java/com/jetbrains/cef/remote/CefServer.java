@@ -19,15 +19,13 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class CefServer {
-    private static final boolean CONNECT_AS_SLAVE = Utils.getBoolean("JCEF_CONNECT_AS_SLAVE");
-
     private static final CefServer INSTANCE = CefApp.isRemoteEnabled() ? new CefServer() : null;
 
     // Fields for cef-handlers execution on java side
     private Thread myClientHandlersThread;
     private TServer myClientHandlersServer;
     private TServerTransport myClientHandlersTransport;
-    private RpcContext myRpc;
+    private RpcContext myRpc = new RpcContext();
     private final Map<Integer, RemoteBrowser> myBid2Browser = new ConcurrentHashMap<>();
     private final ClientHandlersImpl myClientHandlersImpl = new ClientHandlersImpl(myRpc, myBid2Browser);
 
@@ -144,7 +142,7 @@ public class CefServer {
             myClientHandlersThread.start();
 
             // 3. Connect to CefServer
-            int cid = myRpc.main.connect(!CONNECT_AS_SLAVE);
+            int cid = myRpc.connect();
             synchronized (myDelayedActions) {
                 myIsConnected = true;
                 myDelayedActions.forEach(r -> r.run());
@@ -167,7 +165,7 @@ public class CefServer {
         CefLog.Debug("Disconnect from native server (it will be automatically stopped soon because we were connected as master).");
         myIsConnected = false;
 
-        myRpc.closeTransport();
+        myRpc.close();
 
         if (myClientHandlersTransport != null) {
             myClientHandlersTransport.close();

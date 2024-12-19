@@ -17,7 +17,8 @@ public class RemoteRegistrationImpl extends RemoteServerObject {
 
     @Override
     protected void disposeOnServerImpl() {
-        myRpc.bg.exec((s)-> s.Registration_Dispose(thriftId()));
+        final RObject id = thriftId();
+        myRpc.invokeLater(s -> s.Registration_Dispose(id));
     }
 
     @Override

@@ -19,9 +19,7 @@ public class RemoteFrame extends RemoteServerObject implements CefFrame {
 
     @Override
     protected void disposeOnServerImpl() {
-        myRpc.bg.exec((s)->{
-            s.Frame_Dispose(myId);
-        });
+        myRpc.invokeLater(s -> s.Frame_Dispose(myId));
     }
 
     @Override
