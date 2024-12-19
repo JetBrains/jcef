@@ -25,9 +25,7 @@ public class RemoteRequestImpl extends RemoteServerObject {
 
     @Override
     protected void disposeOnServerImpl() {
-        myRpc.bg.exec((s)->{
-            s.Request_Dispose(myId);
-        });
+        myRpc.invokeLater(s -> s.Request_Dispose(myId));
     }
 
     @Override

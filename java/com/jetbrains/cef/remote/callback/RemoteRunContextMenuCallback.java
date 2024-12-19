@@ -13,7 +13,8 @@ public class RemoteRunContextMenuCallback extends RemoteServerObject implements 
 
     @Override
     protected void disposeOnServerImpl() {
-        myRpc.bg.exec((s) -> s.CefRunContextMenuCallback_Dispose(thriftId()));
+        final RObject id = thriftId();
+        myRpc.invokeLater(s -> s.CefRunContextMenuCallback_Dispose(id));
     }
 
     @Override

@@ -56,7 +56,8 @@ public class RemoteMessageRouterImpl extends RemoteServerObject {
                 RemoteMessageRouterHandler.FACTORY.dispose(h.getId());
             myHandlers.clear();
         }
-        myRpc.bg.exec((s)->s.MessageRouter_Dispose(thriftId()));
+        final RObject id = thriftId();
+        myRpc.invokeLater(s -> s.MessageRouter_Dispose(id));
     }
 
     // Creates remote wrapper of java handler and stores ref in map.
