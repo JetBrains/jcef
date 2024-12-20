@@ -5,6 +5,7 @@
 #include <string>
 #include <thread>
 #include <queue>
+#include <functional>
 
 class RpcExecutor;
 class ClientsManager;
