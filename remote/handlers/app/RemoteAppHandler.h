@@ -6,9 +6,7 @@
 
 class RemoteAppHandler : public CefApp {
  public:
-  static RemoteAppHandler* instance();
-  static void initialize(
-      std::vector<std::string> switches, CefSettings settings, std::vector<std::pair<std::string, int>> schemes);
+  explicit RemoteAppHandler(std::vector<std::string> switches, CefSettings settings, std::vector<std::pair<std::string, int>> schemes);
 
   void setService(std::shared_ptr<RpcExecutor> service) {
     myBrowserProcessHandler->setService(service);
@@ -23,6 +21,9 @@ class RemoteAppHandler : public CefApp {
 
   CefRefPtr<CefBrowserProcessHandler> GetBrowserProcessHandler() override { return myBrowserProcessHandler; }
 
+  const CefSettings & getCefSettings() const { return mySettings; }
+  std::string getRootPath() const;
+
  private:
   std::vector<std::string> myArgs;
   CefSettings mySettings;
@@ -30,9 +31,6 @@ class RemoteAppHandler : public CefApp {
 
   CefRefPtr<RemoteBrowserProcessHandler> myBrowserProcessHandler;
 
-  explicit RemoteAppHandler(std::vector<std::string> switches, CefSettings settings, std::vector<std::pair<std::string, int>> schemes);
-
-  static RemoteAppHandler * sInstance;
   IMPLEMENT_REFCOUNTING(RemoteAppHandler);
 };
 

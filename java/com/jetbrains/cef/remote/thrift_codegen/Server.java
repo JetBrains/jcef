@@ -21,9 +21,7 @@ public class Server {
 
     public java.lang.String echo(java.lang.String msg) throws com.jetbrains.cef.remote.thrift.TException;
 
-    public java.lang.String version() throws com.jetbrains.cef.remote.thrift.TException;
-
-    public java.lang.String state() throws com.jetbrains.cef.remote.thrift.TException;
+    public java.lang.String getServerInfo(java.lang.String request) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void stop() throws com.jetbrains.cef.remote.thrift.TException;
 
@@ -241,9 +239,7 @@ public class Server {
 
     public void echo(java.lang.String msg, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
-    public void version(com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
-
-    public void state(com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+    public void getServerInfo(java.lang.String request, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void stop(com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
@@ -580,49 +576,27 @@ public class Server {
     }
 
     @Override
-    public java.lang.String version() throws com.jetbrains.cef.remote.thrift.TException
+    public java.lang.String getServerInfo(java.lang.String request) throws com.jetbrains.cef.remote.thrift.TException
     {
-      send_version();
-      return recv_version();
+      send_getServerInfo(request);
+      return recv_getServerInfo();
     }
 
-    public void send_version() throws com.jetbrains.cef.remote.thrift.TException
+    public void send_getServerInfo(java.lang.String request) throws com.jetbrains.cef.remote.thrift.TException
     {
-      version_args args = new version_args();
-      sendBase("version", args);
+      getServerInfo_args args = new getServerInfo_args();
+      args.setRequest(request);
+      sendBase("getServerInfo", args);
     }
 
-    public java.lang.String recv_version() throws com.jetbrains.cef.remote.thrift.TException
+    public java.lang.String recv_getServerInfo() throws com.jetbrains.cef.remote.thrift.TException
     {
-      version_result result = new version_result();
-      receiveBase(result, "version");
+      getServerInfo_result result = new getServerInfo_result();
+      receiveBase(result, "getServerInfo");
       if (result.isSetSuccess()) {
         return result.success;
       }
-      throw new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.MISSING_RESULT, "version failed: unknown result");
-    }
-
-    @Override
-    public java.lang.String state() throws com.jetbrains.cef.remote.thrift.TException
-    {
-      send_state();
-      return recv_state();
-    }
-
-    public void send_state() throws com.jetbrains.cef.remote.thrift.TException
-    {
-      state_args args = new state_args();
-      sendBase("state", args);
-    }
-
-    public java.lang.String recv_state() throws com.jetbrains.cef.remote.thrift.TException
-    {
-      state_result result = new state_result();
-      receiveBase(result, "state");
-      if (result.isSetSuccess()) {
-        return result.success;
-      }
-      throw new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.MISSING_RESULT, "state failed: unknown result");
+      throw new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.MISSING_RESULT, "getServerInfo failed: unknown result");
     }
 
     @Override
@@ -2682,22 +2656,25 @@ public class Server {
     }
 
     @Override
-    public void version(com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+    public void getServerInfo(java.lang.String request, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
       checkReady();
-      version_call method_call = new version_call(resultHandler, this, ___protocolFactory, ___transport);
+      getServerInfo_call method_call = new getServerInfo_call(request, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class version_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<java.lang.String> {
-      public version_call(com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+    public static class getServerInfo_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<java.lang.String> {
+      private java.lang.String request;
+      public getServerInfo_call(java.lang.String request, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
+        this.request = request;
       }
 
       @Override
       public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
-        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("version", com.jetbrains.cef.remote.thrift.protocol.TMessageType.CALL, 0));
-        version_args args = new version_args();
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("getServerInfo", com.jetbrains.cef.remote.thrift.protocol.TMessageType.CALL, 0));
+        getServerInfo_args args = new getServerInfo_args();
+        args.setRequest(request);
         args.write(prot);
         prot.writeMessageEnd();
       }
@@ -2709,39 +2686,7 @@ public class Server {
         }
         com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
         com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
-        return (new Client(prot)).recv_version();
-      }
-    }
-
-    @Override
-    public void state(com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
-      checkReady();
-      state_call method_call = new state_call(resultHandler, this, ___protocolFactory, ___transport);
-      this.___currentMethod = method_call;
-      ___manager.call(method_call);
-    }
-
-    public static class state_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<java.lang.String> {
-      public state_call(com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
-        super(client, protocolFactory, transport, resultHandler, false);
-      }
-
-      @Override
-      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
-        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("state", com.jetbrains.cef.remote.thrift.protocol.TMessageType.CALL, 0));
-        state_args args = new state_args();
-        args.write(prot);
-        prot.writeMessageEnd();
-      }
-
-      @Override
-      public java.lang.String getResult() throws com.jetbrains.cef.remote.thrift.TException {
-        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
-          throw new java.lang.IllegalStateException("Method call not finished!");
-        }
-        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
-        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
-        return (new Client(prot)).recv_state();
+        return (new Client(prot)).recv_getServerInfo();
       }
     }
 
@@ -6566,8 +6511,7 @@ public class Server {
       processMap.put("attach", new attach());
       processMap.put("log", new log());
       processMap.put("echo", new echo());
-      processMap.put("version", new version());
-      processMap.put("state", new state());
+      processMap.put("getServerInfo", new getServerInfo());
       processMap.put("stop", new stop());
       processMap.put("Browser_Create", new Browser_Create());
       processMap.put("Browser_StartNativeCreation", new Browser_StartNativeCreation());
@@ -6813,42 +6757,14 @@ public class Server {
       }
     }
 
-    public static class version<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, version_args> {
-      public version() {
-        super("version");
+    public static class getServerInfo<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, getServerInfo_args> {
+      public getServerInfo() {
+        super("getServerInfo");
       }
 
       @Override
-      public version_args getEmptyArgsInstance() {
-        return new version_args();
-      }
-
-      @Override
-      protected boolean isOneway() {
-        return false;
-      }
-
-      @Override
-      protected boolean rethrowUnhandledExceptions() {
-        return false;
-      }
-
-      @Override
-      public version_result getResult(I iface, version_args args) throws com.jetbrains.cef.remote.thrift.TException {
-        version_result result = new version_result();
-        result.success = iface.version();
-        return result;
-      }
-    }
-
-    public static class state<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, state_args> {
-      public state() {
-        super("state");
-      }
-
-      @Override
-      public state_args getEmptyArgsInstance() {
-        return new state_args();
+      public getServerInfo_args getEmptyArgsInstance() {
+        return new getServerInfo_args();
       }
 
       @Override
@@ -6862,9 +6778,9 @@ public class Server {
       }
 
       @Override
-      public state_result getResult(I iface, state_args args) throws com.jetbrains.cef.remote.thrift.TException {
-        state_result result = new state_result();
-        result.success = iface.state();
+      public getServerInfo_result getResult(I iface, getServerInfo_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        getServerInfo_result result = new getServerInfo_result();
+        result.success = iface.getServerInfo(args.request);
         return result;
       }
     }
@@ -9673,8 +9589,7 @@ public class Server {
       processMap.put("attach", new attach());
       processMap.put("log", new log());
       processMap.put("echo", new echo());
-      processMap.put("version", new version());
-      processMap.put("state", new state());
+      processMap.put("getServerInfo", new getServerInfo());
       processMap.put("stop", new stop());
       processMap.put("Browser_Create", new Browser_Create());
       processMap.put("Browser_StartNativeCreation", new Browser_StartNativeCreation());
@@ -10088,14 +10003,14 @@ public class Server {
       }
     }
 
-    public static class version<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, version_args, java.lang.String> {
-      public version() {
-        super("version");
+    public static class getServerInfo<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, getServerInfo_args, java.lang.String> {
+      public getServerInfo() {
+        super("getServerInfo");
       }
 
       @Override
-      public version_args getEmptyArgsInstance() {
-        return new version_args();
+      public getServerInfo_args getEmptyArgsInstance() {
+        return new getServerInfo_args();
       }
 
       @Override
@@ -10104,7 +10019,7 @@ public class Server {
         return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.String>() { 
           @Override
           public void onComplete(java.lang.String o) {
-            version_result result = new version_result();
+            getServerInfo_result result = new getServerInfo_result();
             result.success = o;
             try {
               fcall.sendResponse(fb, result, com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY,seqid);
@@ -10120,7 +10035,7 @@ public class Server {
           public void onError(java.lang.Exception e) {
             byte msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY;
             com.jetbrains.cef.remote.thrift.TSerializable msg;
-            version_result result = new version_result();
+            getServerInfo_result result = new getServerInfo_result();
             if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
               _LOGGER.error("TTransportException inside handler", e);
               fb.close();
@@ -10150,75 +10065,8 @@ public class Server {
       }
 
       @Override
-      public void start(I iface, version_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
-        iface.version(resultHandler);
-      }
-    }
-
-    public static class state<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, state_args, java.lang.String> {
-      public state() {
-        super("state");
-      }
-
-      @Override
-      public state_args getEmptyArgsInstance() {
-        return new state_args();
-      }
-
-      @Override
-      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.String> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
-        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
-        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.String>() { 
-          @Override
-          public void onComplete(java.lang.String o) {
-            state_result result = new state_result();
-            result.success = o;
-            try {
-              fcall.sendResponse(fb, result, com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY,seqid);
-            } catch (com.jetbrains.cef.remote.thrift.transport.TTransportException e) {
-              _LOGGER.error("TTransportException writing to internal frame buffer", e);
-              fb.close();
-            } catch (java.lang.Exception e) {
-              _LOGGER.error("Exception writing to internal frame buffer", e);
-              onError(e);
-            }
-          }
-          @Override
-          public void onError(java.lang.Exception e) {
-            byte msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY;
-            com.jetbrains.cef.remote.thrift.TSerializable msg;
-            state_result result = new state_result();
-            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
-              _LOGGER.error("TTransportException inside handler", e);
-              fb.close();
-              return;
-            } else if (e instanceof com.jetbrains.cef.remote.thrift.TApplicationException) {
-              _LOGGER.error("TApplicationException inside handler", e);
-              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
-              msg = (com.jetbrains.cef.remote.thrift.TApplicationException)e;
-            } else {
-              _LOGGER.error("Exception inside handler", e);
-              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
-              msg = new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
-            }
-            try {
-              fcall.sendResponse(fb,msg,msgType,seqid);
-            } catch (java.lang.Exception ex) {
-              _LOGGER.error("Exception writing to internal frame buffer", ex);
-              fb.close();
-            }
-          }
-        };
-      }
-
-      @Override
-      protected boolean isOneway() {
-        return false;
-      }
-
-      @Override
-      public void start(I iface, state_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
-        iface.state(resultHandler);
+      public void start(I iface, getServerInfo_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.getServerInfo(args.request,resultHandler);
       }
     }
 
@@ -18978,17 +18826,19 @@ public class Server {
   }
 
   @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
-  public static class version_args implements com.jetbrains.cef.remote.thrift.TBase<version_args, version_args._Fields>, java.io.Serializable, Cloneable, Comparable<version_args>   {
-    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("version_args");
+  public static class getServerInfo_args implements com.jetbrains.cef.remote.thrift.TBase<getServerInfo_args, getServerInfo_args._Fields>, java.io.Serializable, Cloneable, Comparable<getServerInfo_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("getServerInfo_args");
 
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField REQUEST_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("request", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)1);
 
-    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new version_argsStandardSchemeFactory();
-    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new version_argsTupleSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new getServerInfo_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new getServerInfo_argsTupleSchemeFactory();
 
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String request; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
-;
+      REQUEST((short)1, "request");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -19004,276 +18854,8 @@ public class Server {
       @com.jetbrains.cef.remote.thrift.annotation.Nullable
       public static _Fields findByThriftId(int fieldId) {
         switch(fieldId) {
-          default:
-            return null;
-        }
-      }
-
-      /**
-       * Find the _Fields constant that matches fieldId, throwing an exception
-       * if it is not found.
-       */
-      public static _Fields findByThriftIdOrThrow(int fieldId) {
-        _Fields fields = findByThriftId(fieldId);
-        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
-        return fields;
-      }
-
-      /**
-       * Find the _Fields constant that matches name, or null if its not found.
-       */
-      @com.jetbrains.cef.remote.thrift.annotation.Nullable
-      public static _Fields findByName(java.lang.String name) {
-        return byName.get(name);
-      }
-
-      private final short _thriftId;
-      private final java.lang.String _fieldName;
-
-      _Fields(short thriftId, java.lang.String fieldName) {
-        _thriftId = thriftId;
-        _fieldName = fieldName;
-      }
-
-      @Override
-      public short getThriftFieldId() {
-        return _thriftId;
-      }
-
-      @Override
-      public java.lang.String getFieldName() {
-        return _fieldName;
-      }
-    }
-    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
-    static {
-      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
-      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(version_args.class, metaDataMap);
-    }
-
-    public version_args() {
-    }
-
-    /**
-     * Performs a deep copy on <i>other</i>.
-     */
-    public version_args(version_args other) {
-    }
-
-    @Override
-    public version_args deepCopy() {
-      return new version_args(this);
-    }
-
-    @Override
-    public void clear() {
-    }
-
-    @Override
-    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
-      switch (field) {
-      }
-    }
-
-    @com.jetbrains.cef.remote.thrift.annotation.Nullable
-    @Override
-    public java.lang.Object getFieldValue(_Fields field) {
-      switch (field) {
-      }
-      throw new java.lang.IllegalStateException();
-    }
-
-    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
-    @Override
-    public boolean isSet(_Fields field) {
-      if (field == null) {
-        throw new java.lang.IllegalArgumentException();
-      }
-
-      switch (field) {
-      }
-      throw new java.lang.IllegalStateException();
-    }
-
-    @Override
-    public boolean equals(java.lang.Object that) {
-      if (that instanceof version_args)
-        return this.equals((version_args)that);
-      return false;
-    }
-
-    public boolean equals(version_args that) {
-      if (that == null)
-        return false;
-      if (this == that)
-        return true;
-
-      return true;
-    }
-
-    @Override
-    public int hashCode() {
-      int hashCode = 1;
-
-      return hashCode;
-    }
-
-    @Override
-    public int compareTo(version_args other) {
-      if (!getClass().equals(other.getClass())) {
-        return getClass().getName().compareTo(other.getClass().getName());
-      }
-
-      int lastComparison = 0;
-
-      return 0;
-    }
-
-    @com.jetbrains.cef.remote.thrift.annotation.Nullable
-    @Override
-    public _Fields fieldForId(int fieldId) {
-      return _Fields.findByThriftId(fieldId);
-    }
-
-    @Override
-    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
-      scheme(iprot).read(iprot, this);
-    }
-
-    @Override
-    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
-      scheme(oprot).write(oprot, this);
-    }
-
-    @Override
-    public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("version_args(");
-      boolean first = true;
-
-      sb.append(")");
-      return sb.toString();
-    }
-
-    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
-      // check for required fields
-      // check for sub-struct validity
-    }
-
-    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
-      try {
-        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
-      } catch (com.jetbrains.cef.remote.thrift.TException te) {
-        throw new java.io.IOException(te);
-      }
-    }
-
-    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
-      try {
-        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
-      } catch (com.jetbrains.cef.remote.thrift.TException te) {
-        throw new java.io.IOException(te);
-      }
-    }
-
-    private static class version_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
-      @Override
-      public version_argsStandardScheme getScheme() {
-        return new version_argsStandardScheme();
-      }
-    }
-
-    private static class version_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<version_args> {
-
-      @Override
-      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, version_args struct) throws com.jetbrains.cef.remote.thrift.TException {
-        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
-        iprot.readStructBegin();
-        while (true)
-        {
-          schemeField = iprot.readFieldBegin();
-          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
-            break;
-          }
-          switch (schemeField.id) {
-            default:
-              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-          }
-          iprot.readFieldEnd();
-        }
-        iprot.readStructEnd();
-
-        // check for required fields of primitive type, which can't be checked in the validate method
-        struct.validate();
-      }
-
-      @Override
-      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, version_args struct) throws com.jetbrains.cef.remote.thrift.TException {
-        struct.validate();
-
-        oprot.writeStructBegin(STRUCT_DESC);
-        oprot.writeFieldStop();
-        oprot.writeStructEnd();
-      }
-
-    }
-
-    private static class version_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
-      @Override
-      public version_argsTupleScheme getScheme() {
-        return new version_argsTupleScheme();
-      }
-    }
-
-    private static class version_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<version_args> {
-
-      @Override
-      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, version_args struct) throws com.jetbrains.cef.remote.thrift.TException {
-        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
-      }
-
-      @Override
-      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, version_args struct) throws com.jetbrains.cef.remote.thrift.TException {
-        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
-      }
-    }
-
-    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
-      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
-    }
-  }
-
-  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
-  public static class version_result implements com.jetbrains.cef.remote.thrift.TBase<version_result, version_result._Fields>, java.io.Serializable, Cloneable, Comparable<version_result>   {
-    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("version_result");
-
-    private static final com.jetbrains.cef.remote.thrift.protocol.TField SUCCESS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("success", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)0);
-
-    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new version_resultStandardSchemeFactory();
-    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new version_resultTupleSchemeFactory();
-
-    public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String success; // required
-
-    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
-      SUCCESS((short)0, "success");
-
-      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
-
-      static {
-        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
-          byName.put(field.getFieldName(), field);
-        }
-      }
-
-      /**
-       * Find the _Fields constant that matches fieldId, or null if its not found.
-       */
-      @com.jetbrains.cef.remote.thrift.annotation.Nullable
-      public static _Fields findByThriftId(int fieldId) {
-        switch(fieldId) {
-          case 0: // SUCCESS
-            return SUCCESS;
+          case 1: // REQUEST
+            return REQUEST;
           default:
             return null;
         }
@@ -19320,74 +18902,74 @@ public class Server {
     public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("success", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+      tmpMap.put(_Fields.REQUEST, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("request", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
           new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(version_result.class, metaDataMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getServerInfo_args.class, metaDataMap);
     }
 
-    public version_result() {
+    public getServerInfo_args() {
     }
 
-    public version_result(
-      java.lang.String success)
+    public getServerInfo_args(
+      java.lang.String request)
     {
       this();
-      this.success = success;
+      this.request = request;
     }
 
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public version_result(version_result other) {
-      if (other.isSetSuccess()) {
-        this.success = other.success;
+    public getServerInfo_args(getServerInfo_args other) {
+      if (other.isSetRequest()) {
+        this.request = other.request;
       }
     }
 
     @Override
-    public version_result deepCopy() {
-      return new version_result(this);
+    public getServerInfo_args deepCopy() {
+      return new getServerInfo_args(this);
     }
 
     @Override
     public void clear() {
-      this.success = null;
+      this.request = null;
     }
 
     @com.jetbrains.cef.remote.thrift.annotation.Nullable
-    public java.lang.String getSuccess() {
-      return this.success;
+    public java.lang.String getRequest() {
+      return this.request;
     }
 
-    public version_result setSuccess(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String success) {
-      this.success = success;
+    public getServerInfo_args setRequest(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String request) {
+      this.request = request;
       return this;
     }
 
-    public void unsetSuccess() {
-      this.success = null;
+    public void unsetRequest() {
+      this.request = null;
     }
 
-    /** Returns true if field success is set (has been assigned a value) and false otherwise */
-    public boolean isSetSuccess() {
-      return this.success != null;
+    /** Returns true if field request is set (has been assigned a value) and false otherwise */
+    public boolean isSetRequest() {
+      return this.request != null;
     }
 
-    public void setSuccessIsSet(boolean value) {
+    public void setRequestIsSet(boolean value) {
       if (!value) {
-        this.success = null;
+        this.request = null;
       }
     }
 
     @Override
     public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
       switch (field) {
-      case SUCCESS:
+      case REQUEST:
         if (value == null) {
-          unsetSuccess();
+          unsetRequest();
         } else {
-          setSuccess((java.lang.String)value);
+          setRequest((java.lang.String)value);
         }
         break;
 
@@ -19398,8 +18980,8 @@ public class Server {
     @Override
     public java.lang.Object getFieldValue(_Fields field) {
       switch (field) {
-      case SUCCESS:
-        return getSuccess();
+      case REQUEST:
+        return getRequest();
 
       }
       throw new java.lang.IllegalStateException();
@@ -19413,31 +18995,31 @@ public class Server {
       }
 
       switch (field) {
-      case SUCCESS:
-        return isSetSuccess();
+      case REQUEST:
+        return isSetRequest();
       }
       throw new java.lang.IllegalStateException();
     }
 
     @Override
     public boolean equals(java.lang.Object that) {
-      if (that instanceof version_result)
-        return this.equals((version_result)that);
+      if (that instanceof getServerInfo_args)
+        return this.equals((getServerInfo_args)that);
       return false;
     }
 
-    public boolean equals(version_result that) {
+    public boolean equals(getServerInfo_args that) {
       if (that == null)
         return false;
       if (this == that)
         return true;
 
-      boolean this_present_success = true && this.isSetSuccess();
-      boolean that_present_success = true && that.isSetSuccess();
-      if (this_present_success || that_present_success) {
-        if (!(this_present_success && that_present_success))
+      boolean this_present_request = true && this.isSetRequest();
+      boolean that_present_request = true && that.isSetRequest();
+      if (this_present_request || that_present_request) {
+        if (!(this_present_request && that_present_request))
           return false;
-        if (!this.success.equals(that.success))
+        if (!this.request.equals(that.request))
           return false;
       }
 
@@ -19448,27 +19030,27 @@ public class Server {
     public int hashCode() {
       int hashCode = 1;
 
-      hashCode = hashCode * 8191 + ((isSetSuccess()) ? 131071 : 524287);
-      if (isSetSuccess())
-        hashCode = hashCode * 8191 + success.hashCode();
+      hashCode = hashCode * 8191 + ((isSetRequest()) ? 131071 : 524287);
+      if (isSetRequest())
+        hashCode = hashCode * 8191 + request.hashCode();
 
       return hashCode;
     }
 
     @Override
-    public int compareTo(version_result other) {
+    public int compareTo(getServerInfo_args other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
 
       int lastComparison = 0;
 
-      lastComparison = java.lang.Boolean.compare(isSetSuccess(), other.isSetSuccess());
+      lastComparison = java.lang.Boolean.compare(isSetRequest(), other.isSetRequest());
       if (lastComparison != 0) {
         return lastComparison;
       }
-      if (isSetSuccess()) {
-        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.success, other.success);
+      if (isSetRequest()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.request, other.request);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -19487,20 +19069,21 @@ public class Server {
       scheme(iprot).read(iprot, this);
     }
 
+    @Override
     public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
       scheme(oprot).write(oprot, this);
-      }
+    }
 
     @Override
     public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("version_result(");
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("getServerInfo_args(");
       boolean first = true;
 
-      sb.append("success:");
-      if (this.success == null) {
+      sb.append("request:");
+      if (this.request == null) {
         sb.append("null");
       } else {
-        sb.append(this.success);
+        sb.append(this.request);
       }
       first = false;
       sb.append(")");
@@ -19528,17 +19111,17 @@ public class Server {
       }
     }
 
-    private static class version_resultStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+    private static class getServerInfo_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
       @Override
-      public version_resultStandardScheme getScheme() {
-        return new version_resultStandardScheme();
+      public getServerInfo_argsStandardScheme getScheme() {
+        return new getServerInfo_argsStandardScheme();
       }
     }
 
-    private static class version_resultStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<version_result> {
+    private static class getServerInfo_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<getServerInfo_args> {
 
       @Override
-      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, version_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, getServerInfo_args struct) throws com.jetbrains.cef.remote.thrift.TException {
         com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -19548,10 +19131,10 @@ public class Server {
             break;
           }
           switch (schemeField.id) {
-            case 0: // SUCCESS
+            case 1: // REQUEST
               if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRING) {
-                struct.success = iprot.readString();
-                struct.setSuccessIsSet(true);
+                struct.request = iprot.readString();
+                struct.setRequestIsSet(true);
               } else { 
                 com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
@@ -19568,13 +19151,13 @@ public class Server {
       }
 
       @Override
-      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, version_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, getServerInfo_args struct) throws com.jetbrains.cef.remote.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
-        if (struct.success != null) {
-          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
-          oprot.writeString(struct.success);
+        if (struct.request != null) {
+          oprot.writeFieldBegin(REQUEST_FIELD_DESC);
+          oprot.writeString(struct.request);
           oprot.writeFieldEnd();
         }
         oprot.writeFieldStop();
@@ -19583,35 +19166,35 @@ public class Server {
 
     }
 
-    private static class version_resultTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+    private static class getServerInfo_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
       @Override
-      public version_resultTupleScheme getScheme() {
-        return new version_resultTupleScheme();
+      public getServerInfo_argsTupleScheme getScheme() {
+        return new getServerInfo_argsTupleScheme();
       }
     }
 
-    private static class version_resultTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<version_result> {
+    private static class getServerInfo_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<getServerInfo_args> {
 
       @Override
-      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, version_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, getServerInfo_args struct) throws com.jetbrains.cef.remote.thrift.TException {
         com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet optionals = new java.util.BitSet();
-        if (struct.isSetSuccess()) {
+        if (struct.isSetRequest()) {
           optionals.set(0);
         }
         oprot.writeBitSet(optionals, 1);
-        if (struct.isSetSuccess()) {
-          oprot.writeString(struct.success);
+        if (struct.isSetRequest()) {
+          oprot.writeString(struct.request);
         }
       }
 
       @Override
-      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, version_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, getServerInfo_args struct) throws com.jetbrains.cef.remote.thrift.TException {
         com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
-          struct.success = iprot.readString();
-          struct.setSuccessIsSet(true);
+          struct.request = iprot.readString();
+          struct.setRequestIsSet(true);
         }
       }
     }
@@ -19622,279 +19205,13 @@ public class Server {
   }
 
   @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
-  public static class state_args implements com.jetbrains.cef.remote.thrift.TBase<state_args, state_args._Fields>, java.io.Serializable, Cloneable, Comparable<state_args>   {
-    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("state_args");
-
-
-    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new state_argsStandardSchemeFactory();
-    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new state_argsTupleSchemeFactory();
-
-
-    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
-;
-
-      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
-
-      static {
-        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
-          byName.put(field.getFieldName(), field);
-        }
-      }
-
-      /**
-       * Find the _Fields constant that matches fieldId, or null if its not found.
-       */
-      @com.jetbrains.cef.remote.thrift.annotation.Nullable
-      public static _Fields findByThriftId(int fieldId) {
-        switch(fieldId) {
-          default:
-            return null;
-        }
-      }
-
-      /**
-       * Find the _Fields constant that matches fieldId, throwing an exception
-       * if it is not found.
-       */
-      public static _Fields findByThriftIdOrThrow(int fieldId) {
-        _Fields fields = findByThriftId(fieldId);
-        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
-        return fields;
-      }
-
-      /**
-       * Find the _Fields constant that matches name, or null if its not found.
-       */
-      @com.jetbrains.cef.remote.thrift.annotation.Nullable
-      public static _Fields findByName(java.lang.String name) {
-        return byName.get(name);
-      }
-
-      private final short _thriftId;
-      private final java.lang.String _fieldName;
-
-      _Fields(short thriftId, java.lang.String fieldName) {
-        _thriftId = thriftId;
-        _fieldName = fieldName;
-      }
-
-      @Override
-      public short getThriftFieldId() {
-        return _thriftId;
-      }
-
-      @Override
-      public java.lang.String getFieldName() {
-        return _fieldName;
-      }
-    }
-    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
-    static {
-      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
-      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(state_args.class, metaDataMap);
-    }
-
-    public state_args() {
-    }
-
-    /**
-     * Performs a deep copy on <i>other</i>.
-     */
-    public state_args(state_args other) {
-    }
-
-    @Override
-    public state_args deepCopy() {
-      return new state_args(this);
-    }
-
-    @Override
-    public void clear() {
-    }
-
-    @Override
-    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
-      switch (field) {
-      }
-    }
-
-    @com.jetbrains.cef.remote.thrift.annotation.Nullable
-    @Override
-    public java.lang.Object getFieldValue(_Fields field) {
-      switch (field) {
-      }
-      throw new java.lang.IllegalStateException();
-    }
-
-    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
-    @Override
-    public boolean isSet(_Fields field) {
-      if (field == null) {
-        throw new java.lang.IllegalArgumentException();
-      }
-
-      switch (field) {
-      }
-      throw new java.lang.IllegalStateException();
-    }
-
-    @Override
-    public boolean equals(java.lang.Object that) {
-      if (that instanceof state_args)
-        return this.equals((state_args)that);
-      return false;
-    }
-
-    public boolean equals(state_args that) {
-      if (that == null)
-        return false;
-      if (this == that)
-        return true;
-
-      return true;
-    }
-
-    @Override
-    public int hashCode() {
-      int hashCode = 1;
-
-      return hashCode;
-    }
-
-    @Override
-    public int compareTo(state_args other) {
-      if (!getClass().equals(other.getClass())) {
-        return getClass().getName().compareTo(other.getClass().getName());
-      }
-
-      int lastComparison = 0;
-
-      return 0;
-    }
-
-    @com.jetbrains.cef.remote.thrift.annotation.Nullable
-    @Override
-    public _Fields fieldForId(int fieldId) {
-      return _Fields.findByThriftId(fieldId);
-    }
-
-    @Override
-    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
-      scheme(iprot).read(iprot, this);
-    }
-
-    @Override
-    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
-      scheme(oprot).write(oprot, this);
-    }
-
-    @Override
-    public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("state_args(");
-      boolean first = true;
-
-      sb.append(")");
-      return sb.toString();
-    }
-
-    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
-      // check for required fields
-      // check for sub-struct validity
-    }
-
-    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
-      try {
-        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
-      } catch (com.jetbrains.cef.remote.thrift.TException te) {
-        throw new java.io.IOException(te);
-      }
-    }
-
-    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
-      try {
-        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
-      } catch (com.jetbrains.cef.remote.thrift.TException te) {
-        throw new java.io.IOException(te);
-      }
-    }
-
-    private static class state_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
-      @Override
-      public state_argsStandardScheme getScheme() {
-        return new state_argsStandardScheme();
-      }
-    }
-
-    private static class state_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<state_args> {
-
-      @Override
-      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, state_args struct) throws com.jetbrains.cef.remote.thrift.TException {
-        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
-        iprot.readStructBegin();
-        while (true)
-        {
-          schemeField = iprot.readFieldBegin();
-          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
-            break;
-          }
-          switch (schemeField.id) {
-            default:
-              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-          }
-          iprot.readFieldEnd();
-        }
-        iprot.readStructEnd();
-
-        // check for required fields of primitive type, which can't be checked in the validate method
-        struct.validate();
-      }
-
-      @Override
-      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, state_args struct) throws com.jetbrains.cef.remote.thrift.TException {
-        struct.validate();
-
-        oprot.writeStructBegin(STRUCT_DESC);
-        oprot.writeFieldStop();
-        oprot.writeStructEnd();
-      }
-
-    }
-
-    private static class state_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
-      @Override
-      public state_argsTupleScheme getScheme() {
-        return new state_argsTupleScheme();
-      }
-    }
-
-    private static class state_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<state_args> {
-
-      @Override
-      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, state_args struct) throws com.jetbrains.cef.remote.thrift.TException {
-        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
-      }
-
-      @Override
-      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, state_args struct) throws com.jetbrains.cef.remote.thrift.TException {
-        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
-      }
-    }
-
-    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
-      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
-    }
-  }
-
-  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
-  public static class state_result implements com.jetbrains.cef.remote.thrift.TBase<state_result, state_result._Fields>, java.io.Serializable, Cloneable, Comparable<state_result>   {
-    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("state_result");
+  public static class getServerInfo_result implements com.jetbrains.cef.remote.thrift.TBase<getServerInfo_result, getServerInfo_result._Fields>, java.io.Serializable, Cloneable, Comparable<getServerInfo_result>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("getServerInfo_result");
 
     private static final com.jetbrains.cef.remote.thrift.protocol.TField SUCCESS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("success", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)0);
 
-    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new state_resultStandardSchemeFactory();
-    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new state_resultTupleSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new getServerInfo_resultStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new getServerInfo_resultTupleSchemeFactory();
 
     public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String success; // required
 
@@ -19967,13 +19284,13 @@ public class Server {
       tmpMap.put(_Fields.SUCCESS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("success", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
           new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(state_result.class, metaDataMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getServerInfo_result.class, metaDataMap);
     }
 
-    public state_result() {
+    public getServerInfo_result() {
     }
 
-    public state_result(
+    public getServerInfo_result(
       java.lang.String success)
     {
       this();
@@ -19983,15 +19300,15 @@ public class Server {
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public state_result(state_result other) {
+    public getServerInfo_result(getServerInfo_result other) {
       if (other.isSetSuccess()) {
         this.success = other.success;
       }
     }
 
     @Override
-    public state_result deepCopy() {
-      return new state_result(this);
+    public getServerInfo_result deepCopy() {
+      return new getServerInfo_result(this);
     }
 
     @Override
@@ -20004,7 +19321,7 @@ public class Server {
       return this.success;
     }
 
-    public state_result setSuccess(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String success) {
+    public getServerInfo_result setSuccess(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String success) {
       this.success = success;
       return this;
     }
@@ -20065,12 +19382,12 @@ public class Server {
 
     @Override
     public boolean equals(java.lang.Object that) {
-      if (that instanceof state_result)
-        return this.equals((state_result)that);
+      if (that instanceof getServerInfo_result)
+        return this.equals((getServerInfo_result)that);
       return false;
     }
 
-    public boolean equals(state_result that) {
+    public boolean equals(getServerInfo_result that) {
       if (that == null)
         return false;
       if (this == that)
@@ -20100,7 +19417,7 @@ public class Server {
     }
 
     @Override
-    public int compareTo(state_result other) {
+    public int compareTo(getServerInfo_result other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
@@ -20137,7 +19454,7 @@ public class Server {
 
     @Override
     public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("state_result(");
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("getServerInfo_result(");
       boolean first = true;
 
       sb.append("success:");
@@ -20172,17 +19489,17 @@ public class Server {
       }
     }
 
-    private static class state_resultStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+    private static class getServerInfo_resultStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
       @Override
-      public state_resultStandardScheme getScheme() {
-        return new state_resultStandardScheme();
+      public getServerInfo_resultStandardScheme getScheme() {
+        return new getServerInfo_resultStandardScheme();
       }
     }
 
-    private static class state_resultStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<state_result> {
+    private static class getServerInfo_resultStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<getServerInfo_result> {
 
       @Override
-      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, state_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, getServerInfo_result struct) throws com.jetbrains.cef.remote.thrift.TException {
         com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -20212,7 +19529,7 @@ public class Server {
       }
 
       @Override
-      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, state_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, getServerInfo_result struct) throws com.jetbrains.cef.remote.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -20227,17 +19544,17 @@ public class Server {
 
     }
 
-    private static class state_resultTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+    private static class getServerInfo_resultTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
       @Override
-      public state_resultTupleScheme getScheme() {
-        return new state_resultTupleScheme();
+      public getServerInfo_resultTupleScheme getScheme() {
+        return new getServerInfo_resultTupleScheme();
       }
     }
 
-    private static class state_resultTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<state_result> {
+    private static class getServerInfo_resultTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<getServerInfo_result> {
 
       @Override
-      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, state_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, getServerInfo_result struct) throws com.jetbrains.cef.remote.thrift.TException {
         com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet optionals = new java.util.BitSet();
         if (struct.isSetSuccess()) {
@@ -20250,7 +19567,7 @@ public class Server {
       }
 
       @Override
-      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, state_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, getServerInfo_result struct) throws com.jetbrains.cef.remote.thrift.TException {
         com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
