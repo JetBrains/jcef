@@ -26,8 +26,7 @@ class ServerHandler : public thrift_codegen::ServerIf {
   void log(const std::string& msg) override { Log::info("received message from client: %s", msg.c_str()); }
   void echo(std::string& _return, const std::string& msg) override { _return.assign(msg); }
   void stop() override;
-  void state(std::string& _return) override;
-  void version(std::string& _return) override;
+  void getServerInfo(std::string& _return, const std::string& request) override;
 
   //
   // CefBrowser

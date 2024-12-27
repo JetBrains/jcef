@@ -45,14 +45,9 @@ class ServerHandler : virtual public ServerIf {
     printf("echo\n");
   }
 
-  void version(std::string& _return) {
+  void getServerInfo(std::string& _return, const std::string& request) {
     // Your implementation goes here
-    printf("version\n");
-  }
-
-  void state(std::string& _return) {
-    // Your implementation goes here
-    printf("state\n");
+    printf("getServerInfo\n");
   }
 
   void stop() {

@@ -191,6 +191,8 @@ set(SERVER_SOURCES
         callback/RemoteCefRunContextMenuCallback.h
         callback/RemoteCefRunContextMenuCallback.cpp
         callback/RemoteCefRunContextMenuCallback.h
+        CefSettingsParser.cpp
+        CefSettingsParser.h
 )
 
 if (OS_WINDOWS)

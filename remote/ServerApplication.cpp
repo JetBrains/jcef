@@ -14,6 +14,8 @@
 #include "RpcExecutor.h"
 
 #include <sstream>
+#include "CefSettingsParser.h"
+#include "handlers/app/RemoteAppHandler.h"
 
 using namespace apache::thrift;
 using namespace thrift_codegen;
@@ -136,10 +138,23 @@ ServerApplication ServerApplication::ourInstance;
 
 ServerApplication::ServerApplication() : myFactory(new MyServerProcessorFactory) {}
 
+ServerApplication::~ServerApplication() {
+  myAppHandler->Release();
+}
+
 void ServerApplication::init(int argc, char* argv[]) {
   myStartTime = Clock::now();
   myCmdArgs.init(argc, argv);
   Log::init(myCmdArgs.getLogLevel(), myCmdArgs.getLogFile());
+
+  std::vector<std::string> cmdlineSwitches;
+  CefSettings settings;
+  std::vector<std::pair<std::string, int>> schemes;
+  CefSettingsParser::parseSettings(myCmdArgs.getParamsFile(), cmdlineSwitches, settings, schemes);
+  CefSettingsParser::fixLoggingSettings(settings, myCmdArgs.getLogLevel(), myCmdArgs.getLogFile());
+
+  myAppHandler = new RemoteAppHandler(cmdlineSwitches, settings, schemes);
+  myAppHandler->AddRef();
 
   // Read constants from env
   TRACE_HANDLERS_LIFESPAN = getBoolEnv("CEF_SERVER_TRACE_HANDLERS_LIFESPAN");

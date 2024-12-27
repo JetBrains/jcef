@@ -27,8 +27,7 @@ class ServerIf {
   virtual void attach(const int32_t cid) = 0;
   virtual void log(const std::string& msg) = 0;
   virtual void echo(std::string& _return, const std::string& msg) = 0;
-  virtual void version(std::string& _return) = 0;
-  virtual void state(std::string& _return) = 0;
+  virtual void getServerInfo(std::string& _return, const std::string& request) = 0;
   virtual void stop() = 0;
   virtual int32_t Browser_Create(const int32_t cid, const int32_t handlersMask, const  ::thrift_codegen::RObject& requestContextHandler) = 0;
   virtual void Browser_StartNativeCreation(const int32_t bid, const std::string& url) = 0;
@@ -176,10 +175,7 @@ class ServerNull : virtual public ServerIf {
   void echo(std::string& /* _return */, const std::string& /* msg */) override {
     return;
   }
-  void version(std::string& /* _return */) override {
-    return;
-  }
-  void state(std::string& /* _return */) override {
+  void getServerInfo(std::string& /* _return */, const std::string& /* request */) override {
     return;
   }
   void stop() override {
@@ -971,26 +967,38 @@ class Server_echo_presult {
 
 };
 
+typedef struct _Server_getServerInfo_args__isset {
+  _Server_getServerInfo_args__isset() : request(false) {}
+  bool request :1;
+} _Server_getServerInfo_args__isset;
 
-class Server_version_args {
+class Server_getServerInfo_args {
  public:
 
-  Server_version_args(const Server_version_args&) noexcept;
-  Server_version_args& operator=(const Server_version_args&) noexcept;
-  Server_version_args() noexcept {
+  Server_getServerInfo_args(const Server_getServerInfo_args&);
+  Server_getServerInfo_args& operator=(const Server_getServerInfo_args&);
+  Server_getServerInfo_args() noexcept
+                            : request() {
   }
 
-  virtual ~Server_version_args() noexcept;
+  virtual ~Server_getServerInfo_args() noexcept;
+  std::string request;
 
-  bool operator == (const Server_version_args & /* rhs */) const
+  _Server_getServerInfo_args__isset __isset;
+
+  void __set_request(const std::string& val);
+
+  bool operator == (const Server_getServerInfo_args & rhs) const
   {
+    if (!(request == rhs.request))
+      return false;
     return true;
   }
-  bool operator != (const Server_version_args &rhs) const {
+  bool operator != (const Server_getServerInfo_args &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const Server_version_args & ) const;
+  bool operator < (const Server_getServerInfo_args & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -998,160 +1006,68 @@ class Server_version_args {
 };
 
 
-class Server_version_pargs {
+class Server_getServerInfo_pargs {
  public:
 
 
-  virtual ~Server_version_pargs() noexcept;
+  virtual ~Server_getServerInfo_pargs() noexcept;
+  const std::string* request;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
 };
 
-typedef struct _Server_version_result__isset {
-  _Server_version_result__isset() : success(false) {}
+typedef struct _Server_getServerInfo_result__isset {
+  _Server_getServerInfo_result__isset() : success(false) {}
   bool success :1;
-} _Server_version_result__isset;
+} _Server_getServerInfo_result__isset;
 
-class Server_version_result {
+class Server_getServerInfo_result {
  public:
 
-  Server_version_result(const Server_version_result&);
-  Server_version_result& operator=(const Server_version_result&);
-  Server_version_result() noexcept
-                        : success() {
+  Server_getServerInfo_result(const Server_getServerInfo_result&);
+  Server_getServerInfo_result& operator=(const Server_getServerInfo_result&);
+  Server_getServerInfo_result() noexcept
+                              : success() {
   }
 
-  virtual ~Server_version_result() noexcept;
+  virtual ~Server_getServerInfo_result() noexcept;
   std::string success;
 
-  _Server_version_result__isset __isset;
+  _Server_getServerInfo_result__isset __isset;
 
   void __set_success(const std::string& val);
 
-  bool operator == (const Server_version_result & rhs) const
+  bool operator == (const Server_getServerInfo_result & rhs) const
   {
     if (!(success == rhs.success))
       return false;
     return true;
   }
-  bool operator != (const Server_version_result &rhs) const {
+  bool operator != (const Server_getServerInfo_result &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const Server_version_result & ) const;
+  bool operator < (const Server_getServerInfo_result & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
 };
 
-typedef struct _Server_version_presult__isset {
-  _Server_version_presult__isset() : success(false) {}
+typedef struct _Server_getServerInfo_presult__isset {
+  _Server_getServerInfo_presult__isset() : success(false) {}
   bool success :1;
-} _Server_version_presult__isset;
+} _Server_getServerInfo_presult__isset;
 
-class Server_version_presult {
+class Server_getServerInfo_presult {
  public:
 
 
-  virtual ~Server_version_presult() noexcept;
+  virtual ~Server_getServerInfo_presult() noexcept;
   std::string* success;
 
-  _Server_version_presult__isset __isset;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-
-};
-
-
-class Server_state_args {
- public:
-
-  Server_state_args(const Server_state_args&) noexcept;
-  Server_state_args& operator=(const Server_state_args&) noexcept;
-  Server_state_args() noexcept {
-  }
-
-  virtual ~Server_state_args() noexcept;
-
-  bool operator == (const Server_state_args & /* rhs */) const
-  {
-    return true;
-  }
-  bool operator != (const Server_state_args &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const Server_state_args & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-
-class Server_state_pargs {
- public:
-
-
-  virtual ~Server_state_pargs() noexcept;
-
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-typedef struct _Server_state_result__isset {
-  _Server_state_result__isset() : success(false) {}
-  bool success :1;
-} _Server_state_result__isset;
-
-class Server_state_result {
- public:
-
-  Server_state_result(const Server_state_result&);
-  Server_state_result& operator=(const Server_state_result&);
-  Server_state_result() noexcept
-                      : success() {
-  }
-
-  virtual ~Server_state_result() noexcept;
-  std::string success;
-
-  _Server_state_result__isset __isset;
-
-  void __set_success(const std::string& val);
-
-  bool operator == (const Server_state_result & rhs) const
-  {
-    if (!(success == rhs.success))
-      return false;
-    return true;
-  }
-  bool operator != (const Server_state_result &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const Server_state_result & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-typedef struct _Server_state_presult__isset {
-  _Server_state_presult__isset() : success(false) {}
-  bool success :1;
-} _Server_state_presult__isset;
-
-class Server_state_presult {
- public:
-
-
-  virtual ~Server_state_presult() noexcept;
-  std::string* success;
-
-  _Server_state_presult__isset __isset;
+  _Server_getServerInfo_presult__isset __isset;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
@@ -9129,12 +9045,9 @@ class ServerClient : virtual public ServerIf {
   void echo(std::string& _return, const std::string& msg) override;
   void send_echo(const std::string& msg);
   void recv_echo(std::string& _return);
-  void version(std::string& _return) override;
-  void send_version();
-  void recv_version(std::string& _return);
-  void state(std::string& _return) override;
-  void send_state();
-  void recv_state(std::string& _return);
+  void getServerInfo(std::string& _return, const std::string& request) override;
+  void send_getServerInfo(const std::string& request);
+  void recv_getServerInfo(std::string& _return);
   void stop() override;
   void send_stop();
   int32_t Browser_Create(const int32_t cid, const int32_t handlersMask, const  ::thrift_codegen::RObject& requestContextHandler) override;
@@ -9403,8 +9316,7 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_attach(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_log(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_echo(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
-  void process_version(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
-  void process_state(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_getServerInfo(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_stop(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_Create(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_StartNativeCreation(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -9514,8 +9426,7 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["attach"] = &ServerProcessor::process_attach;
     processMap_["log"] = &ServerProcessor::process_log;
     processMap_["echo"] = &ServerProcessor::process_echo;
-    processMap_["version"] = &ServerProcessor::process_version;
-    processMap_["state"] = &ServerProcessor::process_state;
+    processMap_["getServerInfo"] = &ServerProcessor::process_getServerInfo;
     processMap_["stop"] = &ServerProcessor::process_stop;
     processMap_["Browser_Create"] = &ServerProcessor::process_Browser_Create;
     processMap_["Browser_StartNativeCreation"] = &ServerProcessor::process_Browser_StartNativeCreation;
@@ -9691,23 +9602,13 @@ class ServerMultiface : virtual public ServerIf {
     return;
   }
 
-  void version(std::string& _return) override {
+  void getServerInfo(std::string& _return, const std::string& request) override {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->version(_return);
+      ifaces_[i]->getServerInfo(_return, request);
     }
-    ifaces_[i]->version(_return);
-    return;
-  }
-
-  void state(std::string& _return) override {
-    size_t sz = ifaces_.size();
-    size_t i = 0;
-    for (; i < (sz - 1); ++i) {
-      ifaces_[i]->state(_return);
-    }
-    ifaces_[i]->state(_return);
+    ifaces_[i]->getServerInfo(_return, request);
     return;
   }
 
@@ -10683,12 +10584,9 @@ class ServerConcurrentClient : virtual public ServerIf {
   void echo(std::string& _return, const std::string& msg) override;
   int32_t send_echo(const std::string& msg);
   void recv_echo(std::string& _return, const int32_t seqid);
-  void version(std::string& _return) override;
-  int32_t send_version();
-  void recv_version(std::string& _return, const int32_t seqid);
-  void state(std::string& _return) override;
-  int32_t send_state();
-  void recv_state(std::string& _return, const int32_t seqid);
+  void getServerInfo(std::string& _return, const std::string& request) override;
+  int32_t send_getServerInfo(const std::string& request);
+  void recv_getServerInfo(std::string& _return, const int32_t seqid);
   void stop() override;
   void send_stop();
   int32_t Browser_Create(const int32_t cid, const int32_t handlersMask, const  ::thrift_codegen::RObject& requestContextHandler) override;

@@ -27,8 +27,7 @@ service Server {
     void attach(1: i32 cid),
     oneway void log(1: string msg),
     string echo(1: string msg),
-    string version(),
-    string state(),
+    string getServerInfo(1:string request)
     oneway void stop(),
 
     //

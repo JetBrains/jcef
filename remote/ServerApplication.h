@@ -12,6 +12,7 @@
 class ServerHandler;
 class MyServerProcessorFactory;
 class ServerHandlerContext;
+class RemoteAppHandler;
 
 class CommandLineArgs {
  public:
@@ -41,6 +42,8 @@ class CommandLineArgs {
 class ServerApplication {
   explicit ServerApplication();
  public:
+  ~ServerApplication();
+
   void init(int argc, char* argv[]);
   void startShuttingDown();
   bool isShuttingDown();
@@ -57,6 +60,7 @@ class ServerApplication {
   void onServerHandlerClosed(const ServerHandler & handler);
   void onClientDestroyed();
 
+  RemoteAppHandler* getCefAppHandler() { return myAppHandler; }
   const CommandLineArgs& getCmdArgs() const { return myCmdArgs; }
   void stopWatcher() { myStopWatcher = true; }
 
@@ -66,6 +70,7 @@ class ServerApplication {
 
  private:
   CommandLineArgs myCmdArgs;
+  RemoteAppHandler* myAppHandler;
   std::shared_ptr<MyServerProcessorFactory> myFactory;
   std::string myStateDesc = "New";
   std::string myRemainingBrowsersDesc = "";

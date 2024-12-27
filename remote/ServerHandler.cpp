@@ -94,7 +94,7 @@ int ServerHandler::connectImpl(std::function<void()> openBackwardTransport) {
   myCtx = std::make_shared<ServerHandlerContext>();
   try {
     openBackwardTransport();
-    RemoteAppHandler::instance()->setService(myCtx->javaService());
+    ServerApplication::instance().getCefAppHandler()->setService(myCtx->javaService());
   } catch (TException& tx) {
     Log::error(tx.what());
     myCtx->closeJavaServiceTransport();
@@ -155,12 +155,15 @@ void ServerHandler::stop() {
   close();
 }
 
-void ServerHandler::state(std::string& _return) {
-  _return = ServerApplication::instance().getStateDesc();
-}
-
-void ServerHandler::version(std::string& _return) {
-  _return.assign(CefUtils::getVersionWithSha());
+void ServerHandler::getServerInfo(std::string& _return, const std::string& request) {
+  if (request.compare("version") == 0)
+    _return.assign(CefUtils::getVersionWithSha());
+  else if (request.compare("state") == 0)
+    _return = ServerApplication::instance().getStateDesc();
+  else if (request.compare("root") == 0)
+    _return = ServerApplication::instance().getCefAppHandler()->getRootPath();
+  else
+    _return = "Unknown request: " + request;
 }
 
 #define GET_BROWSER_OR_RETURN()                               \
