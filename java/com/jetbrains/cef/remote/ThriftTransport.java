@@ -6,7 +6,10 @@ import org.cef.misc.CefLog;
 import org.cef.misc.Utils;
 
 import java.io.*;
-import java.net.*;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.StandardProtocolFamily;
+import java.net.UnixDomainSocketAddress;
 import java.nio.channels.Channels;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
@@ -15,25 +18,22 @@ import java.nio.file.Path;
 public class ThriftTransport {
     private static int PORT_CEF_SERVER = Utils.getInteger("ALT_CEF_SERVER_PORT", -1);
     private static int PORT_JAVA_HANDLERS = Utils.getInteger("ALT_JAVA_HANDLERS_PORT", -1);
-    private static final String PIPENAME_JAVA_HANDLERS;
+    private static final String PIPENAME_JAVA_HANDLERS = Utils.getString("ALT_JAVA_HANDLERS_PIPE", "client_pipe");
     private static final String PIPENAME_CEF_SERVER = Utils.getString("ALT_CEF_SERVER_PIPE", "cef_server_pipe");
-
-    static {
-        // NOTE: we should use unique names under windows, so let's add suffix
-        final String suffix = OS.isWindows() ? "_" + System.currentTimeMillis(): "";
-        PIPENAME_JAVA_HANDLERS = Utils.getString("ALT_JAVA_HANDLERS_PIPE", "client_pipe" + suffix);
-    }
+    private static final long PID = ProcessHandle.current().pid();
+    private static final String SUFFIX = "_" + PID;
+    private static final Path PIPE_DIR = Path.of(System.getProperty("java.io.tmpdir"));
 
     static String getJavaHandlersPipe() {
         if (OS.isWindows())
-            return PIPENAME_JAVA_HANDLERS;
-        return Path.of(System.getProperty("java.io.tmpdir")).resolve(PIPENAME_JAVA_HANDLERS).toString();
+            return PIPENAME_JAVA_HANDLERS + SUFFIX;
+        return PIPE_DIR.resolve(PIPENAME_JAVA_HANDLERS + SUFFIX).toString();
     }
 
     public static String getServerPipe() {
         if (OS.isWindows())
-            return PIPENAME_CEF_SERVER;
-        return Path.of(System.getProperty("java.io.tmpdir")).resolve(PIPENAME_CEF_SERVER).toString();
+            return PIPENAME_CEF_SERVER + SUFFIX;
+        return PIPE_DIR.resolve(PIPENAME_CEF_SERVER + SUFFIX).toString();
     }
 
     static boolean isTcp() { return Utils.getBoolean("CEF_SERVER_USE_TCP"); }
@@ -177,5 +177,14 @@ public class ThriftTransport {
         } catch (IOException e) {
             throw new TTransportException(e.getMessage());
         }
+    }
+
+    public static File[] findPipes() {
+        if (OS.isWindows()) {
+            CefLog.Error("TODO: implement findPipes via Win32");
+            return null;
+        }
+
+        return PIPE_DIR.toFile().listFiles((dir, name) -> name.startsWith(PIPENAME_JAVA_HANDLERS));
     }
 }

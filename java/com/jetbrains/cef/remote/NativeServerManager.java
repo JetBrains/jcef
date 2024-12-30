@@ -189,26 +189,27 @@ public class NativeServerManager {
         return false;
     }
 
-    public static boolean isRunning() {
+    public static String isRunning() {
         return isRunning(false);
     }
 
-    public static boolean isRunning(boolean withDebug) {
+    // returns root_cache_path of running server (or null if not running)
+    public static String isRunning(boolean withDebug) {
         if (CHECK_PROCESS_ALIVE && ourNativeServerProcess != null && !ourNativeServerProcess.isAlive()) {
             if (withDebug)
                 CefLog.Debug("isRunning: server process is not alive.");
-            return false;
+            return null;
         }
         try {
             if (ThriftTransport.isTcp()) {
                 // At first, we check whether the server socket is busy.
                 if (!isServerSocketBusy(withDebug))
-                    return false;
+                    return null;
                 // Well, socket is busy and server seems to be running. Let's try to connect to it.
             }
 
             if (!isConnectable(withDebug))
-                return false;
+                return null;
 
             // Successfully connected to server transport => server seems to be running. Let's connect and check an echo.
             RpcExecutor test;
@@ -217,27 +218,31 @@ public class NativeServerManager {
             } catch (TTransportException e) {
                 if (withDebug)
                     CefLog.Debug("isRunning: TTransportException occurred when open server transport: %s", e.getMessage());
-                return false;
+                return null;
             }
             String testMsg = "test_message786";
             String echoMsg = test.execObj(s -> s.echo(testMsg));
-            test.closeTransport();
-            final boolean result = echoMsg != null && echoMsg.equals(testMsg);
-            if (!result)
+            String root = null;
+            final boolean isEchoCorrect = echoMsg != null && echoMsg.equals(testMsg);
+            if (!isEchoCorrect)
                 CefLog.Error("isRunning: cef_server seems to be running, but echo is incorrect: '%s' (original '%s')", echoMsg, testMsg);
-            else if (withDebug)
-                CefLog.Debug("isRunning: cef_server is running and echo is correct.");
-            return result;
+            else {
+                root = test.execObj(s -> s.getServerInfo("root"));
+                if (withDebug)
+                    CefLog.Debug("isRunning: cef_server is running and echo is correct, root='%s'", root);
+            }
+            test.closeTransport();
+            return isEchoCorrect ? root : null;
         } catch (Throwable e) {
             CefLog.Error("isRunning: exception %s", e.getMessage());
         }
-        return false;
+        return null;
     }
 
     public static String getServerState() {
         try {
             RpcExecutor test = new RpcExecutor().openTransport();
-            String state = test.execObj(s -> s.state());
+            String state = test.execObj(s -> s.getServerInfo("state"));
             test.closeTransport();
             return state;
         } catch (TTransportException e) {
@@ -250,7 +255,7 @@ public class NativeServerManager {
         CefLog.Debug("Stop running cef_server instance.");
         try {
             RpcExecutor test = new RpcExecutor().openTransport();
-            String state = test.execObj(s -> s.state());
+            String state = test.execObj(s -> s.getServerInfo("state"));
             CefLog.Debug("Server state before stop: %s", state);
             test.exec(s -> s.stop());
             test.closeTransport();
@@ -270,11 +275,11 @@ public class NativeServerManager {
     }
 
     public static boolean waitForRunning(long timeoutMs) {
-        return waitFor(NativeServerManager::isRunning, timeoutMs, "starting");
+        return waitFor(() -> isRunning() != null, timeoutMs, "starting");
     }
 
     public static boolean waitForStopped(long timeoutMs) {
-        return waitFor(()->!isRunning(), timeoutMs, "stopping");
+        return waitFor(() -> isRunning() == null, timeoutMs, "stopping");
     }
 
     private static boolean waitFor(BooleanSupplier checker, long timeoutMs, String hint) {
@@ -469,7 +474,7 @@ public class NativeServerManager {
         // Wait for native server
         final long t1 = System.nanoTime();
         boolean running = waitForRunning(timeoutMs);
-        if (!running && !(running = isRunning(true))) {
+        if (!running && !(running = (isRunning(true) != null))) {
             if (ourNativeServerProcess.isAlive())
                 CefLog.Error("Native cef_server was started but client can't connect.");
             else {

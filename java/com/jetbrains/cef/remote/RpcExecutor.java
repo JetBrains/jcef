@@ -8,7 +8,6 @@ import com.jetbrains.cef.remote.thrift.transport.TSocket;
 import com.jetbrains.cef.remote.thrift.transport.TTransport;
 import com.jetbrains.cef.remote.thrift.transport.TTransportException;
 import org.cef.misc.CefLog;
-import org.cef.misc.Utils;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -22,13 +21,13 @@ public class RpcExecutor {
 
     public RpcExecutor openTransport() throws TTransportException {
         if (ThriftTransport.isTcp())
-            initTcp(ThriftTransport.getServerPort());
+            openTcpTransport(ThriftTransport.getServerPort());
         else
-            initPipe(ThriftTransport.getServerPipe().toString());
+            openPipeTransport(ThriftTransport.getServerPipe().toString());
         return this;
     }
 
-    private void initTcp(int port) throws TTransportException {
+    private void openTcpTransport(int port) throws TTransportException {
         try {
             myTransport = new TSocket("localhost", port);
             myTransport.open();
@@ -40,7 +39,7 @@ public class RpcExecutor {
         }
     }
 
-    private void initPipe(String pipeName) throws TTransportException {
+    public void openPipeTransport(String pipeName) throws TTransportException {
         myTransport = ThriftTransport.openPipeTransport(pipeName);
         myProtocol = new TBinaryProtocol(myTransport);
         myServer = new Server.Client(myProtocol);
