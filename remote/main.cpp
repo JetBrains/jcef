@@ -197,6 +197,10 @@ int main(int argc, char* argv[]) {
   server->stop();
   servThread.join();
   app.stopWatcher();
+#ifndef WIN32
+  if (!cmdArgs.useTcp())
+    std::remove(cmdArgs.getPipe().c_str());
+#endif //WIN32
   Log::debug("Buy!");
   return 0;
 }

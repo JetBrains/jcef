@@ -90,7 +90,7 @@ public class BasicJcefTest {
     }
 
     void testServerManagerImpl(long waitTimeoutMs, boolean testStopManually) {
-        if (NativeServerManager.isRunning()) {
+        if (NativeServerManager.isRunning() != null) {
             CefLog.Info("Old cef_server instance is running, will stop.");
             boolean success = NativeServerManager.stopAndWait(waitTimeoutMs);
             if (!success)
@@ -112,7 +112,7 @@ public class BasicJcefTest {
             throw new AssertionError("Can't start server.");
         if (!NativeServerManager.isProcessAlive())
             throw new AssertionError("Server process is dead.");
-        if (!NativeServerManager.isRunning(true))
+        if (NativeServerManager.isRunning(true) == null)
             throw new AssertionError("Server isn't running.");
 
         //
@@ -188,7 +188,7 @@ public class BasicJcefTest {
         //
         if (NativeServerManager.isProcessAlive())
             throw new AssertionError("Server process is alive.");
-        if (NativeServerManager.isRunning(true))
+        if (NativeServerManager.isRunning(true) != null)
             throw new AssertionError("Server is still running.");
 
         CefLog.Info("Server was successfully stopped.");
