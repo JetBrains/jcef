@@ -8,6 +8,8 @@
 namespace CefUtils {
   std::string getFrameworkDir();
 }
+#elif defined(OS_WIN)
+#include <boost/filesystem.hpp>
 #endif
 
 namespace CefSettingsParser {
