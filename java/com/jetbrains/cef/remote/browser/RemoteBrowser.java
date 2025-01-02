@@ -794,4 +794,9 @@ public class RemoteBrowser implements CefBrowser {
 
         return future;
     }
+
+    @Override
+    public boolean isWindowless() {
+        return true;
+    }
 }
