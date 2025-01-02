@@ -13,7 +13,7 @@ RUN apt-get update && \
         libxkbcommon-x11-dev=0.10.0-1 \
         bison=2:3.5.1+dfsg-1 \
         build-essential=12.8ubuntu1.1 \
-        curl=7.68.0-1ubuntu2.24 \
+        curl=7.68.0-1ubuntu2.25 \
         ninja-build=1.10.0-1build1 \
         flex=2.6.4-6.2 \
         git=1:2.25.1-1ubuntu3.13 \
