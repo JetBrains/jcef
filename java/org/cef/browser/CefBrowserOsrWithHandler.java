@@ -98,4 +98,9 @@ public class CefBrowserOsrWithHandler extends CefBrowser_N  {
     public CompletableFuture<BufferedImage> createScreenshot(boolean nativeResolution) {
         throw new UnsupportedOperationException("createScreenshot is not yet supported in this class");
     }
+
+    @Override
+    public boolean isWindowless() {
+        return true;
+    }
 }

@@ -90,7 +90,7 @@ public class CefClient extends CefClientHandler
     protected final PropertyChangeListener propertyChangeListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
-            if (focusedBrowser_ != null) {
+            if (focusedBrowser_ != null && !focusedBrowser_.isWindowless()) {
                 Component browserUI = focusedBrowser_.getUIComponent();
                 if (browserUI == null) return;
                 Object oldUI = evt.getOldValue();

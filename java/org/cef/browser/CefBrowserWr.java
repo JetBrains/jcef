@@ -541,4 +541,9 @@ class CefBrowserWr extends CefBrowser_N {
         throw new UnsupportedOperationException(
                 "You can only get windowless framerate on OSR browser");
     }
+
+    @Override
+    public boolean isWindowless() {
+        return false;
+    }
 }
