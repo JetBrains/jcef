@@ -39,7 +39,7 @@ void Java_org_cef_callback_CefRunContextMenuCallback_1N_N_1Cancel(
     JNIEnv* env,
     jobject object,
     jlong self) {
-  CefRefPtr<CefRunContextMenuCallback> callback = GetSelf(0);
+  CefRefPtr<CefRunContextMenuCallback> callback = GetSelf(self);
   if (!callback)
     return;
   callback->Cancel();
