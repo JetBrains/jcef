@@ -54,7 +54,7 @@ RpcExecutor::RpcExecutor(std::string pipeName) {
 
   myTransport->open();
   const int32_t backwardCid = myService->connect();
-  Log::trace("Backward pipe connection to client established, backwardCid=%d.", backwardCid);
+  Log::trace("Backward pipe connection to client established: pipe='%s', backwardCid=%d.", pipeName.c_str(), backwardCid);
 }
 
 std::string RpcExecutor::getProcessingName() const { return myProtocol->getLastMessageName(); }

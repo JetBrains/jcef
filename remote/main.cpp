@@ -123,7 +123,7 @@ int main(int argc, char* argv[]) {
 #endif
 
   const boost::posix_time::ptime t1 =  boost::posix_time::microsec_clock::local_time();
-  fprintf(stdout, "Starting cer server. Pre-initialize spent %d mcs.\n", (int)(t1 - t0).total_microseconds());
+  fprintf(stdout, "Starting cer server. Pre-initialize spent %d ms.\n", (int)(t1 - t0).total_milliseconds());
   ServerApplication& app = ServerApplication::instance();
   app.init(argc, argv);
   const CommandLineArgs& cmdArgs = app.getCmdArgs();
@@ -134,10 +134,9 @@ int main(int argc, char* argv[]) {
   }
 #endif
 
-
   setThreadName("main");
   boost::posix_time::ptime t2 = boost::posix_time::microsec_clock::local_time();
-  Log::trace("Start CEF initialization. ServerState initialization spent %d mcs.", (t2 - t1).total_microseconds());
+  Log::trace("Start CEF initialization. ServerApplication initialization spent %d ms.", (t2 - t1).total_milliseconds());
   const bool success = CefUtils::initializeCef();
   if (!success) {
     Log::error("Cef initialization failed");
@@ -145,7 +144,7 @@ int main(int argc, char* argv[]) {
   }
 
   const boost::posix_time::ptime t3 =  boost::posix_time::microsec_clock::local_time();
-  Log::trace("Create server transport. CEF initialization spent %d mcs.", (t3 - t2).total_microseconds());
+  Log::trace("Create server transport. CEF initialization spent %d ms.", (t3 - t2).total_milliseconds());
   std::shared_ptr<TServerTransport> serverTransport;
   if (cmdArgs.useTcp()) {
     Log::info("TCP transport will be used, port=%d", cmdArgs.getPort());
@@ -175,7 +174,7 @@ int main(int argc, char* argv[]) {
       std::make_shared<TBinaryProtocolFactory>());
 
   const boost::posix_time::ptime t4 =  boost::posix_time::microsec_clock::local_time();
-  Log::trace("Start listening thread. Transport initialization spent %d mcs.", (t4 - t3).total_microseconds());
+  Log::trace("Start listening thread. Transport initialization spent %d ms.", (t4 - t3).total_milliseconds());
   std::thread servThread([=]() {
     setThreadName("ServerListener");
     try {
@@ -190,7 +189,7 @@ int main(int argc, char* argv[]) {
   });
 
   const boost::posix_time::ptime t6 =  boost::posix_time::microsec_clock::local_time();
-  Log::trace("Run CEF loop. Total initialization time %d mcs.", (t6 - t0).total_microseconds());
+  Log::trace("Run CEF loop. Total initialization time %d ms.", (t6 - t0).total_milliseconds());
 
   CefUtils::runCefLoop();
   Log::debug("Finished message loop.");

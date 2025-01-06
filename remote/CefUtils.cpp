@@ -108,7 +108,7 @@ namespace CefUtils {
       return g_pathFrameworkDir;
     }
 
-    bool doLoadCefLibrary() {
+    bool loadCefFramework() {
       if (!findFramework())
         return false;
       if (!cef_load_library(g_pathFramework.c_str())) {
@@ -129,19 +129,6 @@ namespace CefUtils {
     }
 
     bool initializeCef() {
-#if defined(OS_MAC)
-      const Clock::time_point startTime = Clock::now();
-      if (!doLoadCefLibrary())
-        return false;
-
-      const Clock::time_point t1 = Clock::now();
-      if (Log::isDebugEnabled()) {
-        Duration d1 = std::chrono::duration_cast<std::chrono::microseconds>(t1 - startTime);
-        Log::debug("Loaded cef library, spent %d ms", (int)d1.count()/1000);
-      }
-#elif defined(OS_LINUX)
-      XInitThreads();
-#endif
       CefMainArgs main_args;
       RemoteAppHandler* app = ServerApplication::instance().getCefAppHandler();
       const bool isInitialized = CefInitialize(main_args, app->getCefSettings(), app, nullptr);
