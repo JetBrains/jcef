@@ -1,6 +1,7 @@
 package tests.performance;
 
 import com.jetbrains.cef.remote.NativeServerManager;
+import com.jetbrains.cef.remote.ThriftTransport;
 import org.cef.CefApp;
 import org.cef.CefClient;
 import org.cef.CefSettings;
@@ -107,7 +108,7 @@ public class Basic {
             CefInitHelper.shutdonwCef();
             if (CefApp.isRemoteEnabled()) {
                 // Ensure that server process is stopped
-                boolean stopped = NativeServerManager.waitForStopped(1000);
+                boolean stopped = NativeServerManager.waitForStopped(ThriftTransport.ourDefaultServer, 1000);
                 if (!stopped)
                     CefLog.Error("Can't stop server in %d ms.", 1000);
             }

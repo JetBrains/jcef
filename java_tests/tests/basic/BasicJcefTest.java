@@ -23,7 +23,6 @@ import tests.CefInitHelper;
 import tests.OsrSupport;
 import tests.junittests.LoggingLifeSpanHandler;
 import tests.junittests.LoggingLoadHandler;
-import tests.junittests.TestSetupExtension;
 
 import javax.swing.*;
 import java.awt.*;
@@ -90,7 +89,8 @@ public class BasicJcefTest {
     }
 
     void testServerManagerImpl(long waitTimeoutMs, boolean testStopManually) {
-        if (NativeServerManager.isRunning() != null) {
+        ThriftTransport thriftServer = ThriftTransport.ourDefaultServer;
+        if (NativeServerManager.isRunning(thriftServer) != null) {
             CefLog.Info("Old cef_server instance is running, will stop.");
             boolean success = NativeServerManager.stopAndWait(waitTimeoutMs);
             if (!success)
@@ -107,12 +107,12 @@ public class BasicJcefTest {
         settings.log_severity = CefSettings.LogSeverity.LOGSEVERITY_VERBOSE;
         settings.no_sandbox = true;
         CefAppHandler appHandler = new CefAppHandlerAdapter(appArgs.toArray(new String[0])){};
-        boolean started = NativeServerManager.startProcessAndWait(appHandler, settings, waitTimeoutMs);
+        boolean started = NativeServerManager.startProcessAndWait(thriftServer, appHandler, settings, waitTimeoutMs);
         if (!started)
             throw new AssertionError("Can't start server.");
         if (!NativeServerManager.isProcessAlive())
             throw new AssertionError("Server process is dead.");
-        if (NativeServerManager.isRunning(true) == null)
+        if (NativeServerManager.isRunning(thriftServer, true) == null)
             throw new AssertionError("Server isn't running.");
 
         //
@@ -125,7 +125,7 @@ public class BasicJcefTest {
                 CefLog.Debug("Can't stop server, additional debug:");
                 if (NativeServerManager.isProcessAlive())
                     CefLog.Debug("\t server process is alive.");
-                CefLog.Debug("\t isRunning returns %s.", String.valueOf(NativeServerManager.isRunning(true)));
+                CefLog.Debug("\t isRunning returns %s.", String.valueOf(NativeServerManager.isRunning(thriftServer, true)));
                 throw new AssertionError("Can't stop server.");
             }
         } else {
@@ -138,8 +138,8 @@ public class BasicJcefTest {
                 RpcExecutor test = new RpcExecutor();
                 CefLog.Info("Test 'slave' connection.");
                 try {
-                    test.openTransport();
-                    int cid = test.connect(false);
+                    test.openTransport(thriftServer);
+                    int cid = test.connect(ThriftTransport.ourDefaultClient, false);
                     if (cid < 0)
                         throw new AssertionError("'connect' returns invalid cid=" + cid);
                 } catch (TTransportException e) {
@@ -152,15 +152,15 @@ public class BasicJcefTest {
                     Thread.sleep(500);
                 } catch (InterruptedException e) {}
 
-                boolean running = NativeServerManager.waitForRunning(2000);
+                boolean running = NativeServerManager.waitForRunning(thriftServer, 2000);
                 if (!running)
                     throw new AssertionError("Server was stopped after slave-client disconnected.");
 
                 CefLog.Info("Test 'master' connection.");
                 test = new RpcExecutor();
                 try {
-                    test.openTransport();
-                    int cid = test.connect(true);
+                    test.openTransport(thriftServer);
+                    int cid = test.connect(ThriftTransport.ourDefaultClient, true);
                     if (cid < 0)
                         throw new AssertionError("'connect' returns invalid cid=" + cid);
                 } catch (TTransportException e) {
@@ -169,9 +169,9 @@ public class BasicJcefTest {
                     test.closeTransport();
                 }
 
-                boolean stopped = NativeServerManager.waitForStopped(5000);
+                boolean stopped = NativeServerManager.waitForStopped(thriftServer, 5000);
                 if (!stopped) {
-                    NativeServerManager.isRunning(true); // just for debug logging
+                    NativeServerManager.isRunning(thriftServer, true); // just for debug logging
                     throw new AssertionError("Server wasn't stopped after last master-client disconnected.");
                 }
             } finally {
@@ -188,7 +188,7 @@ public class BasicJcefTest {
         //
         if (NativeServerManager.isProcessAlive())
             throw new AssertionError("Server process is alive.");
-        if (NativeServerManager.isRunning(true) != null)
+        if (NativeServerManager.isRunning(thriftServer, true) != null)
             throw new AssertionError("Server is still running.");
 
         CefLog.Info("Server was successfully stopped.");
@@ -330,7 +330,7 @@ public class BasicJcefTest {
 
             if (CefApp.isRemoteEnabled()) {
                 // Ensure that server process is stopped
-                boolean stopped = NativeServerManager.waitForStopped(WAIT_TIMEOUT_MS);
+                boolean stopped = NativeServerManager.waitForStopped(ThriftTransport.ourDefaultServer, WAIT_TIMEOUT_MS);
                 if (!stopped)
                     CefLog.Error("Can't stop server in %d ms.", WAIT_TIMEOUT_MS);
             }

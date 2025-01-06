@@ -19,11 +19,11 @@ public class RpcExecutor {
 
     public RpcExecutor() {}
 
-    public RpcExecutor openTransport() throws TTransportException {
-        if (ThriftTransport.isTcp())
-            openTcpTransport(ThriftTransport.getServerPort());
+    public RpcExecutor openTransport(ThriftTransport thriftServer) throws TTransportException {
+        if (thriftServer.isTcp())
+            openTcpTransport(thriftServer.getPort());
         else
-            openPipeTransport(ThriftTransport.getServerPipe().toString());
+            openPipeTransport(thriftServer);
         return this;
     }
 
@@ -39,8 +39,8 @@ public class RpcExecutor {
         }
     }
 
-    public void openPipeTransport(String pipeName) throws TTransportException {
-        myTransport = ThriftTransport.openPipeTransport(pipeName);
+    public void openPipeTransport(ThriftTransport thriftServer) throws TTransportException {
+        myTransport = thriftServer.openPipeTransport();
         myProtocol = new TBinaryProtocol(myTransport);
         myServer = new Server.Client(myProtocol);
     }
@@ -62,13 +62,13 @@ public class RpcExecutor {
     }
 
     synchronized
-    public int connect(boolean asMaster) {
+    public int connect(ThriftTransport thriftBackward, boolean asMaster) {
         if (myTransport == null)
             return -1;
         try {
-            return ThriftTransport.isTcp() ?
-                    myServer.connectTcp(ThriftTransport.getJavaHandlersPort(), asMaster) :
-                    myServer.connect(ThriftTransport.getJavaHandlersPipe(), asMaster);
+            return thriftBackward.isTcp() ?
+                    myServer.connectTcp(thriftBackward.getPort(), asMaster) :
+                    myServer.connect(thriftBackward.getPipe(), asMaster);
         } catch (TException e) {
             onThriftException(e);
         }
