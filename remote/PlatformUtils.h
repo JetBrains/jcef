@@ -9,10 +9,10 @@ extern "C" {
 #endif
 /*
  * Class:     com_jetbrains_cef_remote_PlatformUtils
- * Method:    toCefKeyEvent
- * Signature: (Ljava/awt/event/KeyEvent;)Lcom/jetbrains/cef/remote/thrift_codegen/CefKeyEvent;
+ * Method:    getCefKeyEventAttributes
+ * Signature: (Ljava/awt/event/KeyEvent;)Lcom/jetbrains/cef/remote/thrift_codegen/CefKeyEventAttributes;
  */
-JNIEXPORT jobject JNICALL Java_com_jetbrains_cef_remote_PlatformUtils_toCefKeyEvent
+JNIEXPORT jobject JNICALL Java_com_jetbrains_cef_remote_PlatformUtils_getCefKeyEventAttributes
   (JNIEnv *, jclass, jobject);
 
 #ifdef __cplusplus

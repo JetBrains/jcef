@@ -120,7 +120,7 @@ class ServerHandler : virtual public ServerIf {
     printf("Browser_NotifyScreenInfoChanged\n");
   }
 
-  void Browser_SendCefKeyEvent(const int32_t bid, const CefKeyEvent& event) {
+  void Browser_SendCefKeyEvent(const int32_t bid, const CefKeyEventAttributes& event) {
     // Your implementation goes here
     printf("Browser_SendCefKeyEvent\n");
   }

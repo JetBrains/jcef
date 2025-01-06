@@ -14,45 +14,45 @@
 namespace thrift_codegen {
 
 
-CefKeyEvent::~CefKeyEvent() noexcept {
+CefKeyEventAttributes::~CefKeyEventAttributes() noexcept {
 }
 
 
-void CefKeyEvent::__set_type(const int32_t val) {
+void CefKeyEventAttributes::__set_type(const int32_t val) {
   this->type = val;
 }
 
-void CefKeyEvent::__set_modifiers(const int32_t val) {
+void CefKeyEventAttributes::__set_modifiers(const int32_t val) {
   this->modifiers = val;
 }
 
-void CefKeyEvent::__set_windows_key_code(const int32_t val) {
+void CefKeyEventAttributes::__set_windows_key_code(const int32_t val) {
   this->windows_key_code = val;
 }
 
-void CefKeyEvent::__set_native_key_code(const int32_t val) {
+void CefKeyEventAttributes::__set_native_key_code(const int32_t val) {
   this->native_key_code = val;
 }
 
-void CefKeyEvent::__set_character(const int16_t val) {
+void CefKeyEventAttributes::__set_character(const int16_t val) {
   this->character = val;
 }
 
-void CefKeyEvent::__set_unmodified_character(const int16_t val) {
+void CefKeyEventAttributes::__set_unmodified_character(const int16_t val) {
   this->unmodified_character = val;
 }
 
-void CefKeyEvent::__set_is_system_key(const bool val) {
+void CefKeyEventAttributes::__set_is_system_key(const bool val) {
   this->is_system_key = val;
 }
-std::ostream& operator<<(std::ostream& out, const CefKeyEvent& obj)
+std::ostream& operator<<(std::ostream& out, const CefKeyEventAttributes& obj)
 {
   obj.printTo(out);
   return out;
 }
 
 
-uint32_t CefKeyEvent::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t CefKeyEventAttributes::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -162,10 +162,10 @@ uint32_t CefKeyEvent::read(::apache::thrift::protocol::TProtocol* iprot) {
   return xfer;
 }
 
-uint32_t CefKeyEvent::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t CefKeyEventAttributes::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("CefKeyEvent");
+  xfer += oprot->writeStructBegin("CefKeyEventAttributes");
 
   xfer += oprot->writeFieldBegin("type", ::apache::thrift::protocol::T_I32, 1);
   xfer += oprot->writeI32(this->type);
@@ -200,7 +200,7 @@ uint32_t CefKeyEvent::write(::apache::thrift::protocol::TProtocol* oprot) const 
   return xfer;
 }
 
-void swap(CefKeyEvent &a, CefKeyEvent &b) {
+void swap(CefKeyEventAttributes &a, CefKeyEventAttributes &b) {
   using ::std::swap;
   swap(a.type, b.type);
   swap(a.modifiers, b.modifiers);
@@ -211,7 +211,7 @@ void swap(CefKeyEvent &a, CefKeyEvent &b) {
   swap(a.is_system_key, b.is_system_key);
 }
 
-CefKeyEvent::CefKeyEvent(const CefKeyEvent& other0) noexcept {
+CefKeyEventAttributes::CefKeyEventAttributes(const CefKeyEventAttributes& other0) noexcept {
   type = other0.type;
   modifiers = other0.modifiers;
   windows_key_code = other0.windows_key_code;
@@ -220,7 +220,7 @@ CefKeyEvent::CefKeyEvent(const CefKeyEvent& other0) noexcept {
   unmodified_character = other0.unmodified_character;
   is_system_key = other0.is_system_key;
 }
-CefKeyEvent& CefKeyEvent::operator=(const CefKeyEvent& other1) noexcept {
+CefKeyEventAttributes& CefKeyEventAttributes::operator=(const CefKeyEventAttributes& other1) noexcept {
   type = other1.type;
   modifiers = other1.modifiers;
   windows_key_code = other1.windows_key_code;
@@ -230,9 +230,9 @@ CefKeyEvent& CefKeyEvent::operator=(const CefKeyEvent& other1) noexcept {
   is_system_key = other1.is_system_key;
   return *this;
 }
-void CefKeyEvent::printTo(std::ostream& out) const {
+void CefKeyEventAttributes::printTo(std::ostream& out) const {
   using ::apache::thrift::to_string;
-  out << "CefKeyEvent(";
+  out << "CefKeyEventAttributes(";
   out << "type=" << to_string(type);
   out << ", " << "modifiers=" << to_string(modifiers);
   out << ", " << "windows_key_code=" << to_string(windows_key_code);
