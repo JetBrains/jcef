@@ -1,6 +1,6 @@
 #include "RemoteClientHandler.h"
 
-#include <strstream>
+#include <sstream>
 
 #include "../ServerHandlerContext.h"
 #include "../network/RemoteRequestContextHandler.h"
