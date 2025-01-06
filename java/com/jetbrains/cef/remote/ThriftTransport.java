@@ -24,20 +24,52 @@ public class ThriftTransport {
     private static final String SUFFIX = "_" + PID;
     private static final Path PIPE_DIR = Path.of(System.getProperty("java.io.tmpdir"));
 
-    static String getJavaHandlersPipe() {
+    private final String myPipe;
+    private final int myPort;
+
+    public static final ThriftTransport ourDefaultServer;
+    public static final ThriftTransport ourDefaultClient;
+
+    static {
+        ourDefaultServer = isTcpUsed() ? new ThriftTransport(getServerPort()) : new ThriftTransport(getServerPipe());
+        ourDefaultClient = isTcpUsed() ? new ThriftTransport(getJavaHandlersPort()) : new ThriftTransport(getJavaHandlersPipe());
+    }
+
+    public ThriftTransport(String pipe) {
+        this.myPipe = pipe;
+        this.myPort = 0;
+    }
+
+    public ThriftTransport(int port) {
+        this.myPipe = null;
+        this.myPort = port;
+    }
+
+    public boolean isTcp() { return myPipe == null; }
+
+    public String getPipe() { return myPipe; }
+    public int getPort() { return myPort; }
+
+    public void close() {
+        if (!OS.isWindows() && !isTcp())
+            new File(myPipe).delete();
+    }
+
+    private static String getJavaHandlersPipe() {
         if (OS.isWindows())
             return PIPENAME_JAVA_HANDLERS + SUFFIX;
         return PIPE_DIR.resolve(PIPENAME_JAVA_HANDLERS + SUFFIX).toString();
     }
 
-    public static String getServerPipe() {
+    private static String getServerPipe() {
         if (OS.isWindows())
             return PIPENAME_CEF_SERVER + SUFFIX;
         return PIPE_DIR.resolve(PIPENAME_CEF_SERVER + SUFFIX).toString();
     }
 
-    static boolean isTcp() { return Utils.getBoolean("CEF_SERVER_USE_TCP"); }
-    static int getServerPort() {
+    public static boolean isTcpUsed() { return Utils.getBoolean("CEF_SERVER_USE_TCP"); }
+
+    private static int getServerPort() {
         if (PORT_CEF_SERVER == -1) {
             PORT_CEF_SERVER = findFreePort();
             if (PORT_CEF_SERVER == -1)
@@ -47,7 +79,7 @@ public class ThriftTransport {
         }
         return PORT_CEF_SERVER;
     }
-    static int getJavaHandlersPort() {
+    private static int getJavaHandlersPort() {
         if (PORT_JAVA_HANDLERS == -1) {
             PORT_JAVA_HANDLERS = findFreePort();
             if (PORT_JAVA_HANDLERS == -1)
@@ -58,9 +90,9 @@ public class ThriftTransport {
         return PORT_JAVA_HANDLERS;
     }
 
-    static int findFreePort() { return findFreePort(6188, 7777); }
+    private static int findFreePort() { return findFreePort(6188, 7777); }
 
-    static int findFreePort(int from, int to) {
+    private static int findFreePort(int from, int to) {
         for (int port = from; port < to; ++port) {
             try {
                 ServerSocket ss = new ServerSocket(port);
@@ -71,12 +103,12 @@ public class ThriftTransport {
         return -1;
     }
 
-    public static TServerTransport createServerTransport() throws Exception {
+    public TServerTransport createServerTransport() throws Exception {
         if (isTcp())
-            return new TServerSocket(getJavaHandlersPort());
+            return new TServerSocket(myPort);
 
         if (OS.isWindows()) {
-            WindowsPipeServerSocket pipeSocket = new WindowsPipeServerSocket(getJavaHandlersPipe());
+            WindowsPipeServerSocket pipeSocket = new WindowsPipeServerSocket(myPipe);
             return new TServerTransport() {
                 @Override
                 public void listen() {}
@@ -105,13 +137,10 @@ public class ThriftTransport {
         }
 
         // Linux or OSX
-
-        final String pipePath = getJavaHandlersPipe();
-
-        new File(pipePath).delete(); // cleanup file remaining from prev process
+        new File(myPipe).delete(); // cleanup file remaining from prev process
 
         ServerSocketChannel serverChannel = ServerSocketChannel.open(StandardProtocolFamily.UNIX);
-        serverChannel.bind(UnixDomainSocketAddress.of(pipePath));
+        serverChannel.bind(UnixDomainSocketAddress.of(myPipe));
 
         return new TServerTransport() {
             @Override
@@ -141,13 +170,13 @@ public class ThriftTransport {
         };
     }
 
-    public static TIOStreamTransport openPipeTransport(String pipeName) throws TTransportException {
+    public TIOStreamTransport openPipeTransport() throws TTransportException {
         try {
             InputStream is;
             OutputStream os;
             final Runnable closer;
             if (OS.isWindows()) {
-                WindowsPipeSocket pipe = new WindowsPipeSocket(pipeName);
+                WindowsPipeSocket pipe = new WindowsPipeSocket(myPipe);
                 is = pipe.getInputStream();
                 os = pipe.getOutputStream();
                 closer = ()->{
@@ -157,7 +186,7 @@ public class ThriftTransport {
                 };
             } else {
                 SocketChannel channel = SocketChannel.open(StandardProtocolFamily.UNIX);
-                UnixDomainSocketAddress socketAddress = UnixDomainSocketAddress.of(pipeName);
+                UnixDomainSocketAddress socketAddress = UnixDomainSocketAddress.of(myPipe);
                 channel.connect(socketAddress);
                 is = Channels.newInputStream(channel);
                 os = Channels.newOutputStream(channel);
@@ -185,6 +214,6 @@ public class ThriftTransport {
             return null;
         }
 
-        return PIPE_DIR.toFile().listFiles((dir, name) -> name.startsWith(PIPENAME_JAVA_HANDLERS));
+        return PIPE_DIR.toFile().listFiles((dir, name) -> name.startsWith(PIPENAME_CEF_SERVER));
     }
 }

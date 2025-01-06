@@ -36,13 +36,13 @@ public class RpcContext {
         myThread.start();
     }
 
-    public void openTransport() throws TTransportException {
-        main.openTransport();
-        myBackground.openTransport();
+    public void openTransport(ThriftTransport thriftServer) throws TTransportException {
+        main.openTransport(thriftServer);
+        myBackground.openTransport(thriftServer);
     }
 
-    public int connect() {
-        int cid = main.connect(!CONNECT_AS_SLAVE);
+    public int connect(ThriftTransport thriftBackward) {
+        int cid = main.connect(thriftBackward, !CONNECT_AS_SLAVE);
         myBackground.exec(s -> s.attach(cid));
         return cid;
     }
