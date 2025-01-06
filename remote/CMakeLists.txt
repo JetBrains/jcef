@@ -363,11 +363,18 @@ if (OS_MAC)
     endforeach ()
 endif ()
 
-set(shared_mem_helper_SOURCES shared_mem_helper.cpp)
+set(shared_mem_helper_SOURCES
+        shared_mem_helper.cpp
+        ../native/keyboard_utils.cpp
+        ../native/keyboard_utils.h
+        PlatformUtils.cpp
+)
 if (OS_WINDOWS)
     list(APPEND shared_mem_helper_SOURCES
         windows/WindowsPipe.cpp
     )
+elseif (OS_LINUX)
+    list(APPEND shared_mem_helper_SOURCES ../native/JavaKeyCode2X11.cpp)
 endif ()
 add_library(shared_mem_helper SHARED ${shared_mem_helper_SOURCES})
 target_include_directories(shared_mem_helper PUBLIC ${JNI_INCLUDE_DIRS})
