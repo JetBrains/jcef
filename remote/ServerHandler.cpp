@@ -356,7 +356,7 @@ extern void processKeyEvent(
 
 void ServerHandler::Browser_SendCefKeyEvent(
     const int32_t bid,
-    const thrift_codegen::CefKeyEvent& event) {
+    const thrift_codegen::CefKeyEventAttributes& event) {
   LNDCT();
   GET_BROWSER_OR_RETURN()
   CefKeyEvent cef_event{};

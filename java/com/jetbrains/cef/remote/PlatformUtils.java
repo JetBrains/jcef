@@ -1,6 +1,6 @@
 package com.jetbrains.cef.remote;
 
-import com.jetbrains.cef.remote.thrift_codegen.CefKeyEvent;
+import com.jetbrains.cef.remote.thrift_codegen.CefKeyEventAttributes;
 
 import java.awt.event.KeyEvent;
 
@@ -9,5 +9,5 @@ public class PlatformUtils {
         System.loadLibrary("shared_mem_helper");
     }
 
-    public static native CefKeyEvent toCefKeyEvent(KeyEvent e);
+    public static native CefKeyEventAttributes getCefKeyEventAttributes(KeyEvent e);
 }

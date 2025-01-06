@@ -12,7 +12,7 @@ jobject Java_com_jetbrains_cef_remote_PlatformUtils_toCefKeyEvent(
   }
 
   jclass jCefKeyEventClass =
-      env->FindClass("com/jetbrains/cef/remote/thrift_codegen/CefKeyEvent");
+      env->FindClass("com/jetbrains/cef/remote/thrift_codegen/CefKeyEventAttributes");
   if (!jCefKeyEventClass) {
     return nullptr;
   }

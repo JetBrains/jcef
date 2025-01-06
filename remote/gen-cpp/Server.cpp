@@ -15691,12 +15691,12 @@ void ServerClient::send_Browser_NotifyScreenInfoChanged(const int32_t bid)
   oprot_->getTransport()->flush();
 }
 
-void ServerClient::Browser_SendCefKeyEvent(const int32_t bid, const CefKeyEvent& event)
+void ServerClient::Browser_SendCefKeyEvent(const int32_t bid, const CefKeyEventAttributes& event)
 {
   send_Browser_SendCefKeyEvent(bid, event);
 }
 
-void ServerClient::send_Browser_SendCefKeyEvent(const int32_t bid, const CefKeyEvent& event)
+void ServerClient::send_Browser_SendCefKeyEvent(const int32_t bid, const CefKeyEventAttributes& event)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("Browser_SendCefKeyEvent", ::apache::thrift::protocol::T_ONEWAY, cseqid);
@@ -24774,12 +24774,12 @@ void ServerConcurrentClient::send_Browser_NotifyScreenInfoChanged(const int32_t 
   sentry.commit();
 }
 
-void ServerConcurrentClient::Browser_SendCefKeyEvent(const int32_t bid, const CefKeyEvent& event)
+void ServerConcurrentClient::Browser_SendCefKeyEvent(const int32_t bid, const CefKeyEventAttributes& event)
 {
   send_Browser_SendCefKeyEvent(bid, event);
 }
 
-void ServerConcurrentClient::send_Browser_SendCefKeyEvent(const int32_t bid, const CefKeyEvent& event)
+void ServerConcurrentClient::send_Browser_SendCefKeyEvent(const int32_t bid, const CefKeyEventAttributes& event)
 {
   int32_t cseqid = 0;
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());

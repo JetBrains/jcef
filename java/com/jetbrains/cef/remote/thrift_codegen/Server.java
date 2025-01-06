@@ -51,7 +51,7 @@ public class Server {
 
     public void Browser_NotifyScreenInfoChanged(int bid) throws com.jetbrains.cef.remote.thrift.TException;
 
-    public void Browser_SendCefKeyEvent(int bid, CefKeyEvent event) throws com.jetbrains.cef.remote.thrift.TException;
+    public void Browser_SendCefKeyEvent(int bid, CefKeyEventAttributes event) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void Browser_SendMouseEvent(int bid, int event_type, int x, int y, int modifiers, int click_count, int button) throws com.jetbrains.cef.remote.thrift.TException;
 
@@ -269,7 +269,7 @@ public class Server {
 
     public void Browser_NotifyScreenInfoChanged(int bid, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
-    public void Browser_SendCefKeyEvent(int bid, CefKeyEvent event, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+    public void Browser_SendCefKeyEvent(int bid, CefKeyEventAttributes event, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void Browser_SendMouseEvent(int bid, int event_type, int x, int y, int modifiers, int click_count, int button, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
@@ -815,12 +815,12 @@ public class Server {
     }
 
     @Override
-    public void Browser_SendCefKeyEvent(int bid, CefKeyEvent event) throws com.jetbrains.cef.remote.thrift.TException
+    public void Browser_SendCefKeyEvent(int bid, CefKeyEventAttributes event) throws com.jetbrains.cef.remote.thrift.TException
     {
       send_Browser_SendCefKeyEvent(bid, event);
     }
 
-    public void send_Browser_SendCefKeyEvent(int bid, CefKeyEvent event) throws com.jetbrains.cef.remote.thrift.TException
+    public void send_Browser_SendCefKeyEvent(int bid, CefKeyEventAttributes event) throws com.jetbrains.cef.remote.thrift.TException
     {
       Browser_SendCefKeyEvent_args args = new Browser_SendCefKeyEvent_args();
       args.setBid(bid);
@@ -3205,7 +3205,7 @@ public class Server {
     }
 
     @Override
-    public void Browser_SendCefKeyEvent(int bid, CefKeyEvent event, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+    public void Browser_SendCefKeyEvent(int bid, CefKeyEventAttributes event, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
       checkReady();
       Browser_SendCefKeyEvent_call method_call = new Browser_SendCefKeyEvent_call(bid, event, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -3214,8 +3214,8 @@ public class Server {
 
     public static class Browser_SendCefKeyEvent_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<Void> {
       private int bid;
-      private CefKeyEvent event;
-      public Browser_SendCefKeyEvent_call(int bid, CefKeyEvent event, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+      private CefKeyEventAttributes event;
+      public Browser_SendCefKeyEvent_call(int bid, CefKeyEventAttributes event, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
         this.bid = bid;
         this.event = event;
@@ -26481,7 +26481,7 @@ public class Server {
     private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new Browser_SendCefKeyEvent_argsTupleSchemeFactory();
 
     public int bid; // required
-    public @com.jetbrains.cef.remote.thrift.annotation.Nullable CefKeyEvent event; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable CefKeyEventAttributes event; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
@@ -26557,7 +26557,7 @@ public class Server {
       tmpMap.put(_Fields.BID, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("bid", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
           new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.EVENT, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("event", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
-          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, CefKeyEvent.class)));
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, CefKeyEventAttributes.class)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Browser_SendCefKeyEvent_args.class, metaDataMap);
     }
@@ -26567,7 +26567,7 @@ public class Server {
 
     public Browser_SendCefKeyEvent_args(
       int bid,
-      CefKeyEvent event)
+      CefKeyEventAttributes event)
     {
       this();
       this.bid = bid;
@@ -26582,7 +26582,7 @@ public class Server {
       __isset_bitfield = other.__isset_bitfield;
       this.bid = other.bid;
       if (other.isSetEvent()) {
-        this.event = new CefKeyEvent(other.event);
+        this.event = new CefKeyEventAttributes(other.event);
       }
     }
 
@@ -26622,11 +26622,11 @@ public class Server {
     }
 
     @com.jetbrains.cef.remote.thrift.annotation.Nullable
-    public CefKeyEvent getEvent() {
+    public CefKeyEventAttributes getEvent() {
       return this.event;
     }
 
-    public Browser_SendCefKeyEvent_args setEvent(@com.jetbrains.cef.remote.thrift.annotation.Nullable CefKeyEvent event) {
+    public Browser_SendCefKeyEvent_args setEvent(@com.jetbrains.cef.remote.thrift.annotation.Nullable CefKeyEventAttributes event) {
       this.event = event;
       return this;
     }
@@ -26661,7 +26661,7 @@ public class Server {
         if (value == null) {
           unsetEvent();
         } else {
-          setEvent((CefKeyEvent)value);
+          setEvent((CefKeyEventAttributes)value);
         }
         break;
 
@@ -26868,7 +26868,7 @@ public class Server {
               break;
             case 2: // EVENT
               if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
-                struct.event = new CefKeyEvent();
+                struct.event = new CefKeyEventAttributes();
                 struct.event.read(iprot);
                 struct.setEventIsSet(true);
               } else { 
@@ -26942,7 +26942,7 @@ public class Server {
           struct.setBidIsSet(true);
         }
         if (incoming.get(1)) {
-          struct.event = new CefKeyEvent();
+          struct.event = new CefKeyEventAttributes();
           struct.event.read(iprot);
           struct.setEventIsSet(true);
         }

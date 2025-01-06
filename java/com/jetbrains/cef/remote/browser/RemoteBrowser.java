@@ -666,7 +666,7 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing)
             return;
 
-        var cefKeyEvent = PlatformUtils.toCefKeyEvent(e);
+        var cefKeyEvent = PlatformUtils.getCefKeyEventAttributes(e);
 
         myService.exec(s -> s.Browser_SendCefKeyEvent(myBid, cefKeyEvent));
     }
