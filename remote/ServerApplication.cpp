@@ -142,10 +142,32 @@ ServerApplication::~ServerApplication() {
   myAppHandler->Release();
 }
 
+#if defined(OS_MAC)
+namespace CefUtils {
+  bool loadCefFramework();
+}
+#endif
+
 void ServerApplication::init(int argc, char* argv[]) {
   myStartTime = Clock::now();
   myCmdArgs.init(argc, argv);
   Log::init(myCmdArgs.getLogLevel(), myCmdArgs.getLogFile());
+
+#if defined(OS_MAC)
+  const Clock::time_point t0 = Clock::now();
+  if (!CefUtils::loadCefFramework()) {
+    Log::error("Can't load CEF framework library.");
+    return;
+  }
+
+  const Clock::time_point t1 = Clock::now();
+  if (Log::isDebugEnabled()) {
+    Duration d1 = std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0);
+    Log::debug("Loaded CEF framework library, spent %d ms", (int)d1.count());
+  }
+#elif defined(OS_LINUX)
+  XInitThreads();
+#endif
 
   std::vector<std::string> cmdlineSwitches;
   CefSettings settings;

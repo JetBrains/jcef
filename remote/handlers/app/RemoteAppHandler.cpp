@@ -40,7 +40,15 @@ std::string RemoteAppHandler::getRootPath() const {
   if (!root.empty())
     return root;
   std::string cache = CefString(&mySettings.cache_path).ToString();
-  return cache.empty() ? "default" : cache;
+  if (!cache.empty())
+    return cache;
+#if defined(OS_WIN)
+  return "~\\AppData\\Local\\CEF\\User Data";
+#elif defined(OS_LINUX)
+  return "~/.config/cef_user_data";
+#elif defined(OS_MAC)
+  return "~/Library/Application Support/CEF/User Data";
+#endif
 }
 
 void RemoteAppHandler::OnBeforeCommandLineProcessing(
