@@ -51,7 +51,7 @@ public class Server {
 
     public void Browser_NotifyScreenInfoChanged(int bid) throws com.jetbrains.cef.remote.thrift.TException;
 
-    public void Browser_SendKeyEvent(int bid, int event_type, int modifiers, short key_char, long scanCode, int key_code) throws com.jetbrains.cef.remote.thrift.TException;
+    public void Browser_SendCefKeyEvent(int bid, CefKeyEvent event) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void Browser_SendMouseEvent(int bid, int event_type, int x, int y, int modifiers, int click_count, int button) throws com.jetbrains.cef.remote.thrift.TException;
 
@@ -269,7 +269,7 @@ public class Server {
 
     public void Browser_NotifyScreenInfoChanged(int bid, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
-    public void Browser_SendKeyEvent(int bid, int event_type, int modifiers, short key_char, long scanCode, int key_code, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+    public void Browser_SendCefKeyEvent(int bid, CefKeyEvent event, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void Browser_SendMouseEvent(int bid, int event_type, int x, int y, int modifiers, int click_count, int button, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
@@ -814,21 +814,17 @@ public class Server {
     }
 
     @Override
-    public void Browser_SendKeyEvent(int bid, int event_type, int modifiers, short key_char, long scanCode, int key_code) throws com.jetbrains.cef.remote.thrift.TException
+    public void Browser_SendCefKeyEvent(int bid, CefKeyEvent event) throws com.jetbrains.cef.remote.thrift.TException
     {
-      send_Browser_SendKeyEvent(bid, event_type, modifiers, key_char, scanCode, key_code);
+      send_Browser_SendCefKeyEvent(bid, event);
     }
 
-    public void send_Browser_SendKeyEvent(int bid, int event_type, int modifiers, short key_char, long scanCode, int key_code) throws com.jetbrains.cef.remote.thrift.TException
+    public void send_Browser_SendCefKeyEvent(int bid, CefKeyEvent event) throws com.jetbrains.cef.remote.thrift.TException
     {
-      Browser_SendKeyEvent_args args = new Browser_SendKeyEvent_args();
+      Browser_SendCefKeyEvent_args args = new Browser_SendCefKeyEvent_args();
       args.setBid(bid);
-      args.setEvent_type(event_type);
-      args.setModifiers(modifiers);
-      args.setKey_char(key_char);
-      args.setScanCode(scanCode);
-      args.setKey_code(key_code);
-      sendBaseOneway("Browser_SendKeyEvent", args);
+      args.setEvent(event);
+      sendBaseOneway("Browser_SendCefKeyEvent", args);
     }
 
     @Override
@@ -3215,40 +3211,28 @@ public class Server {
     }
 
     @Override
-    public void Browser_SendKeyEvent(int bid, int event_type, int modifiers, short key_char, long scanCode, int key_code, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+    public void Browser_SendCefKeyEvent(int bid, CefKeyEvent event, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
       checkReady();
-      Browser_SendKeyEvent_call method_call = new Browser_SendKeyEvent_call(bid, event_type, modifiers, key_char, scanCode, key_code, resultHandler, this, ___protocolFactory, ___transport);
+      Browser_SendCefKeyEvent_call method_call = new Browser_SendCefKeyEvent_call(bid, event, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class Browser_SendKeyEvent_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<Void> {
+    public static class Browser_SendCefKeyEvent_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<Void> {
       private int bid;
-      private int event_type;
-      private int modifiers;
-      private short key_char;
-      private long scanCode;
-      private int key_code;
-      public Browser_SendKeyEvent_call(int bid, int event_type, int modifiers, short key_char, long scanCode, int key_code, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+      private CefKeyEvent event;
+      public Browser_SendCefKeyEvent_call(int bid, CefKeyEvent event, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
         this.bid = bid;
-        this.event_type = event_type;
-        this.modifiers = modifiers;
-        this.key_char = key_char;
-        this.scanCode = scanCode;
-        this.key_code = key_code;
+        this.event = event;
       }
 
       @Override
       public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
-        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("Browser_SendKeyEvent", com.jetbrains.cef.remote.thrift.protocol.TMessageType.ONEWAY, 0));
-        Browser_SendKeyEvent_args args = new Browser_SendKeyEvent_args();
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("Browser_SendCefKeyEvent", com.jetbrains.cef.remote.thrift.protocol.TMessageType.ONEWAY, 0));
+        Browser_SendCefKeyEvent_args args = new Browser_SendCefKeyEvent_args();
         args.setBid(bid);
-        args.setEvent_type(event_type);
-        args.setModifiers(modifiers);
-        args.setKey_char(key_char);
-        args.setScanCode(scanCode);
-        args.setKey_code(key_code);
+        args.setEvent(event);
         args.write(prot);
         prot.writeMessageEnd();
       }
@@ -6542,7 +6526,7 @@ public class Server {
       processMap.put("Browser_ExecuteJavaScript", new Browser_ExecuteJavaScript());
       processMap.put("Browser_WasResized", new Browser_WasResized());
       processMap.put("Browser_NotifyScreenInfoChanged", new Browser_NotifyScreenInfoChanged());
-      processMap.put("Browser_SendKeyEvent", new Browser_SendKeyEvent());
+      processMap.put("Browser_SendCefKeyEvent", new Browser_SendCefKeyEvent());
       processMap.put("Browser_SendMouseEvent", new Browser_SendMouseEvent());
       processMap.put("Browser_SendMouseWheelEvent", new Browser_SendMouseWheelEvent());
       processMap.put("Browser_CanGoForward", new Browser_CanGoForward());
@@ -7182,14 +7166,14 @@ public class Server {
       }
     }
 
-    public static class Browser_SendKeyEvent<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, Browser_SendKeyEvent_args> {
-      public Browser_SendKeyEvent() {
-        super("Browser_SendKeyEvent");
+    public static class Browser_SendCefKeyEvent<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, Browser_SendCefKeyEvent_args> {
+      public Browser_SendCefKeyEvent() {
+        super("Browser_SendCefKeyEvent");
       }
 
       @Override
-      public Browser_SendKeyEvent_args getEmptyArgsInstance() {
-        return new Browser_SendKeyEvent_args();
+      public Browser_SendCefKeyEvent_args getEmptyArgsInstance() {
+        return new Browser_SendCefKeyEvent_args();
       }
 
       @Override
@@ -7203,8 +7187,8 @@ public class Server {
       }
 
       @Override
-      public com.jetbrains.cef.remote.thrift.TBase getResult(I iface, Browser_SendKeyEvent_args args) throws com.jetbrains.cef.remote.thrift.TException {
-        iface.Browser_SendKeyEvent(args.bid, args.event_type, args.modifiers, args.key_char, args.scanCode, args.key_code);
+      public com.jetbrains.cef.remote.thrift.TBase getResult(I iface, Browser_SendCefKeyEvent_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.Browser_SendCefKeyEvent(args.bid, args.event);
         return null;
       }
     }
@@ -9620,7 +9604,7 @@ public class Server {
       processMap.put("Browser_ExecuteJavaScript", new Browser_ExecuteJavaScript());
       processMap.put("Browser_WasResized", new Browser_WasResized());
       processMap.put("Browser_NotifyScreenInfoChanged", new Browser_NotifyScreenInfoChanged());
-      processMap.put("Browser_SendKeyEvent", new Browser_SendKeyEvent());
+      processMap.put("Browser_SendCefKeyEvent", new Browser_SendCefKeyEvent());
       processMap.put("Browser_SendMouseEvent", new Browser_SendMouseEvent());
       processMap.put("Browser_SendMouseWheelEvent", new Browser_SendMouseWheelEvent());
       processMap.put("Browser_CanGoForward", new Browser_CanGoForward());
@@ -10701,14 +10685,14 @@ public class Server {
       }
     }
 
-    public static class Browser_SendKeyEvent<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, Browser_SendKeyEvent_args, Void> {
-      public Browser_SendKeyEvent() {
-        super("Browser_SendKeyEvent");
+    public static class Browser_SendCefKeyEvent<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, Browser_SendCefKeyEvent_args, Void> {
+      public Browser_SendCefKeyEvent() {
+        super("Browser_SendCefKeyEvent");
       }
 
       @Override
-      public Browser_SendKeyEvent_args getEmptyArgsInstance() {
-        return new Browser_SendKeyEvent_args();
+      public Browser_SendCefKeyEvent_args getEmptyArgsInstance() {
+        return new Browser_SendCefKeyEvent_args();
       }
 
       @Override
@@ -10736,8 +10720,8 @@ public class Server {
       }
 
       @Override
-      public void start(I iface, Browser_SendKeyEvent_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
-        iface.Browser_SendKeyEvent(args.bid, args.event_type, args.modifiers, args.key_char, args.scanCode, args.key_code,resultHandler);
+      public void start(I iface, Browser_SendCefKeyEvent_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.Browser_SendCefKeyEvent(args.bid, args.event,resultHandler);
       }
     }
 
@@ -26600,34 +26584,22 @@ public class Server {
   }
 
   @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
-  public static class Browser_SendKeyEvent_args implements com.jetbrains.cef.remote.thrift.TBase<Browser_SendKeyEvent_args, Browser_SendKeyEvent_args._Fields>, java.io.Serializable, Cloneable, Comparable<Browser_SendKeyEvent_args>   {
-    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("Browser_SendKeyEvent_args");
+  public static class Browser_SendCefKeyEvent_args implements com.jetbrains.cef.remote.thrift.TBase<Browser_SendCefKeyEvent_args, Browser_SendCefKeyEvent_args._Fields>, java.io.Serializable, Cloneable, Comparable<Browser_SendCefKeyEvent_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("Browser_SendCefKeyEvent_args");
 
     private static final com.jetbrains.cef.remote.thrift.protocol.TField BID_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("bid", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)1);
-    private static final com.jetbrains.cef.remote.thrift.protocol.TField EVENT_TYPE_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("event_type", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)2);
-    private static final com.jetbrains.cef.remote.thrift.protocol.TField MODIFIERS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("modifiers", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)3);
-    private static final com.jetbrains.cef.remote.thrift.protocol.TField KEY_CHAR_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("key_char", com.jetbrains.cef.remote.thrift.protocol.TType.I16, (short)4);
-    private static final com.jetbrains.cef.remote.thrift.protocol.TField SCAN_CODE_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("scanCode", com.jetbrains.cef.remote.thrift.protocol.TType.I64, (short)5);
-    private static final com.jetbrains.cef.remote.thrift.protocol.TField KEY_CODE_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("key_code", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)6);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField EVENT_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("event", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)2);
 
-    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new Browser_SendKeyEvent_argsStandardSchemeFactory();
-    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new Browser_SendKeyEvent_argsTupleSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new Browser_SendCefKeyEvent_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new Browser_SendCefKeyEvent_argsTupleSchemeFactory();
 
     public int bid; // required
-    public int event_type; // required
-    public int modifiers; // required
-    public short key_char; // required
-    public long scanCode; // required
-    public int key_code; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable CefKeyEvent event; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
       BID((short)1, "bid"),
-      EVENT_TYPE((short)2, "event_type"),
-      MODIFIERS((short)3, "modifiers"),
-      KEY_CHAR((short)4, "key_char"),
-      SCAN_CODE((short)5, "scanCode"),
-      KEY_CODE((short)6, "key_code");
+      EVENT((short)2, "event");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -26645,16 +26617,8 @@ public class Server {
         switch(fieldId) {
           case 1: // BID
             return BID;
-          case 2: // EVENT_TYPE
-            return EVENT_TYPE;
-          case 3: // MODIFIERS
-            return MODIFIERS;
-          case 4: // KEY_CHAR
-            return KEY_CHAR;
-          case 5: // SCAN_CODE
-            return SCAN_CODE;
-          case 6: // KEY_CODE
-            return KEY_CODE;
+          case 2: // EVENT
+            return EVENT;
           default:
             return null;
         }
@@ -26699,96 +26663,59 @@ public class Server {
 
     // isset id assignments
     private static final int __BID_ISSET_ID = 0;
-    private static final int __EVENT_TYPE_ISSET_ID = 1;
-    private static final int __MODIFIERS_ISSET_ID = 2;
-    private static final int __KEY_CHAR_ISSET_ID = 3;
-    private static final int __SCANCODE_ISSET_ID = 4;
-    private static final int __KEY_CODE_ISSET_ID = 5;
     private byte __isset_bitfield = 0;
     public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.BID, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("bid", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
           new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
-      tmpMap.put(_Fields.EVENT_TYPE, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("event_type", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
-          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
-      tmpMap.put(_Fields.MODIFIERS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("modifiers", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
-          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
-      tmpMap.put(_Fields.KEY_CHAR, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("key_char", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
-          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I16)));
-      tmpMap.put(_Fields.SCAN_CODE, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("scanCode", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
-          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I64)));
-      tmpMap.put(_Fields.KEY_CODE, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("key_code", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
-          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.EVENT, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("event", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, CefKeyEvent.class)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Browser_SendKeyEvent_args.class, metaDataMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Browser_SendCefKeyEvent_args.class, metaDataMap);
     }
 
-    public Browser_SendKeyEvent_args() {
+    public Browser_SendCefKeyEvent_args() {
     }
 
-    public Browser_SendKeyEvent_args(
+    public Browser_SendCefKeyEvent_args(
       int bid,
-      int event_type,
-      int modifiers,
-      short key_char,
-      long scanCode,
-      int key_code)
+      CefKeyEvent event)
     {
       this();
       this.bid = bid;
       setBidIsSet(true);
-      this.event_type = event_type;
-      setEvent_typeIsSet(true);
-      this.modifiers = modifiers;
-      setModifiersIsSet(true);
-      this.key_char = key_char;
-      setKey_charIsSet(true);
-      this.scanCode = scanCode;
-      setScanCodeIsSet(true);
-      this.key_code = key_code;
-      setKey_codeIsSet(true);
+      this.event = event;
     }
 
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public Browser_SendKeyEvent_args(Browser_SendKeyEvent_args other) {
+    public Browser_SendCefKeyEvent_args(Browser_SendCefKeyEvent_args other) {
       __isset_bitfield = other.__isset_bitfield;
       this.bid = other.bid;
-      this.event_type = other.event_type;
-      this.modifiers = other.modifiers;
-      this.key_char = other.key_char;
-      this.scanCode = other.scanCode;
-      this.key_code = other.key_code;
+      if (other.isSetEvent()) {
+        this.event = new CefKeyEvent(other.event);
+      }
     }
 
     @Override
-    public Browser_SendKeyEvent_args deepCopy() {
-      return new Browser_SendKeyEvent_args(this);
+    public Browser_SendCefKeyEvent_args deepCopy() {
+      return new Browser_SendCefKeyEvent_args(this);
     }
 
     @Override
     public void clear() {
       setBidIsSet(false);
       this.bid = 0;
-      setEvent_typeIsSet(false);
-      this.event_type = 0;
-      setModifiersIsSet(false);
-      this.modifiers = 0;
-      setKey_charIsSet(false);
-      this.key_char = 0;
-      setScanCodeIsSet(false);
-      this.scanCode = 0;
-      setKey_codeIsSet(false);
-      this.key_code = 0;
+      this.event = null;
     }
 
     public int getBid() {
       return this.bid;
     }
 
-    public Browser_SendKeyEvent_args setBid(int bid) {
+    public Browser_SendCefKeyEvent_args setBid(int bid) {
       this.bid = bid;
       setBidIsSet(true);
       return this;
@@ -26807,119 +26734,29 @@ public class Server {
       __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
     }
 
-    public int getEvent_type() {
-      return this.event_type;
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public CefKeyEvent getEvent() {
+      return this.event;
     }
 
-    public Browser_SendKeyEvent_args setEvent_type(int event_type) {
-      this.event_type = event_type;
-      setEvent_typeIsSet(true);
+    public Browser_SendCefKeyEvent_args setEvent(@com.jetbrains.cef.remote.thrift.annotation.Nullable CefKeyEvent event) {
+      this.event = event;
       return this;
     }
 
-    public void unsetEvent_type() {
-      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __EVENT_TYPE_ISSET_ID);
+    public void unsetEvent() {
+      this.event = null;
     }
 
-    /** Returns true if field event_type is set (has been assigned a value) and false otherwise */
-    public boolean isSetEvent_type() {
-      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __EVENT_TYPE_ISSET_ID);
+    /** Returns true if field event is set (has been assigned a value) and false otherwise */
+    public boolean isSetEvent() {
+      return this.event != null;
     }
 
-    public void setEvent_typeIsSet(boolean value) {
-      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __EVENT_TYPE_ISSET_ID, value);
-    }
-
-    public int getModifiers() {
-      return this.modifiers;
-    }
-
-    public Browser_SendKeyEvent_args setModifiers(int modifiers) {
-      this.modifiers = modifiers;
-      setModifiersIsSet(true);
-      return this;
-    }
-
-    public void unsetModifiers() {
-      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __MODIFIERS_ISSET_ID);
-    }
-
-    /** Returns true if field modifiers is set (has been assigned a value) and false otherwise */
-    public boolean isSetModifiers() {
-      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __MODIFIERS_ISSET_ID);
-    }
-
-    public void setModifiersIsSet(boolean value) {
-      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __MODIFIERS_ISSET_ID, value);
-    }
-
-    public short getKey_char() {
-      return this.key_char;
-    }
-
-    public Browser_SendKeyEvent_args setKey_char(short key_char) {
-      this.key_char = key_char;
-      setKey_charIsSet(true);
-      return this;
-    }
-
-    public void unsetKey_char() {
-      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __KEY_CHAR_ISSET_ID);
-    }
-
-    /** Returns true if field key_char is set (has been assigned a value) and false otherwise */
-    public boolean isSetKey_char() {
-      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __KEY_CHAR_ISSET_ID);
-    }
-
-    public void setKey_charIsSet(boolean value) {
-      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __KEY_CHAR_ISSET_ID, value);
-    }
-
-    public long getScanCode() {
-      return this.scanCode;
-    }
-
-    public Browser_SendKeyEvent_args setScanCode(long scanCode) {
-      this.scanCode = scanCode;
-      setScanCodeIsSet(true);
-      return this;
-    }
-
-    public void unsetScanCode() {
-      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __SCANCODE_ISSET_ID);
-    }
-
-    /** Returns true if field scanCode is set (has been assigned a value) and false otherwise */
-    public boolean isSetScanCode() {
-      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __SCANCODE_ISSET_ID);
-    }
-
-    public void setScanCodeIsSet(boolean value) {
-      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __SCANCODE_ISSET_ID, value);
-    }
-
-    public int getKey_code() {
-      return this.key_code;
-    }
-
-    public Browser_SendKeyEvent_args setKey_code(int key_code) {
-      this.key_code = key_code;
-      setKey_codeIsSet(true);
-      return this;
-    }
-
-    public void unsetKey_code() {
-      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __KEY_CODE_ISSET_ID);
-    }
-
-    /** Returns true if field key_code is set (has been assigned a value) and false otherwise */
-    public boolean isSetKey_code() {
-      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __KEY_CODE_ISSET_ID);
-    }
-
-    public void setKey_codeIsSet(boolean value) {
-      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __KEY_CODE_ISSET_ID, value);
+    public void setEventIsSet(boolean value) {
+      if (!value) {
+        this.event = null;
+      }
     }
 
     @Override
@@ -26933,43 +26770,11 @@ public class Server {
         }
         break;
 
-      case EVENT_TYPE:
+      case EVENT:
         if (value == null) {
-          unsetEvent_type();
+          unsetEvent();
         } else {
-          setEvent_type((java.lang.Integer)value);
-        }
-        break;
-
-      case MODIFIERS:
-        if (value == null) {
-          unsetModifiers();
-        } else {
-          setModifiers((java.lang.Integer)value);
-        }
-        break;
-
-      case KEY_CHAR:
-        if (value == null) {
-          unsetKey_char();
-        } else {
-          setKey_char((java.lang.Short)value);
-        }
-        break;
-
-      case SCAN_CODE:
-        if (value == null) {
-          unsetScanCode();
-        } else {
-          setScanCode((java.lang.Long)value);
-        }
-        break;
-
-      case KEY_CODE:
-        if (value == null) {
-          unsetKey_code();
-        } else {
-          setKey_code((java.lang.Integer)value);
+          setEvent((CefKeyEvent)value);
         }
         break;
 
@@ -26983,20 +26788,8 @@ public class Server {
       case BID:
         return getBid();
 
-      case EVENT_TYPE:
-        return getEvent_type();
-
-      case MODIFIERS:
-        return getModifiers();
-
-      case KEY_CHAR:
-        return getKey_char();
-
-      case SCAN_CODE:
-        return getScanCode();
-
-      case KEY_CODE:
-        return getKey_code();
+      case EVENT:
+        return getEvent();
 
       }
       throw new java.lang.IllegalStateException();
@@ -27012,28 +26805,20 @@ public class Server {
       switch (field) {
       case BID:
         return isSetBid();
-      case EVENT_TYPE:
-        return isSetEvent_type();
-      case MODIFIERS:
-        return isSetModifiers();
-      case KEY_CHAR:
-        return isSetKey_char();
-      case SCAN_CODE:
-        return isSetScanCode();
-      case KEY_CODE:
-        return isSetKey_code();
+      case EVENT:
+        return isSetEvent();
       }
       throw new java.lang.IllegalStateException();
     }
 
     @Override
     public boolean equals(java.lang.Object that) {
-      if (that instanceof Browser_SendKeyEvent_args)
-        return this.equals((Browser_SendKeyEvent_args)that);
+      if (that instanceof Browser_SendCefKeyEvent_args)
+        return this.equals((Browser_SendCefKeyEvent_args)that);
       return false;
     }
 
-    public boolean equals(Browser_SendKeyEvent_args that) {
+    public boolean equals(Browser_SendCefKeyEvent_args that) {
       if (that == null)
         return false;
       if (this == that)
@@ -27048,48 +26833,12 @@ public class Server {
           return false;
       }
 
-      boolean this_present_event_type = true;
-      boolean that_present_event_type = true;
-      if (this_present_event_type || that_present_event_type) {
-        if (!(this_present_event_type && that_present_event_type))
+      boolean this_present_event = true && this.isSetEvent();
+      boolean that_present_event = true && that.isSetEvent();
+      if (this_present_event || that_present_event) {
+        if (!(this_present_event && that_present_event))
           return false;
-        if (this.event_type != that.event_type)
-          return false;
-      }
-
-      boolean this_present_modifiers = true;
-      boolean that_present_modifiers = true;
-      if (this_present_modifiers || that_present_modifiers) {
-        if (!(this_present_modifiers && that_present_modifiers))
-          return false;
-        if (this.modifiers != that.modifiers)
-          return false;
-      }
-
-      boolean this_present_key_char = true;
-      boolean that_present_key_char = true;
-      if (this_present_key_char || that_present_key_char) {
-        if (!(this_present_key_char && that_present_key_char))
-          return false;
-        if (this.key_char != that.key_char)
-          return false;
-      }
-
-      boolean this_present_scanCode = true;
-      boolean that_present_scanCode = true;
-      if (this_present_scanCode || that_present_scanCode) {
-        if (!(this_present_scanCode && that_present_scanCode))
-          return false;
-        if (this.scanCode != that.scanCode)
-          return false;
-      }
-
-      boolean this_present_key_code = true;
-      boolean that_present_key_code = true;
-      if (this_present_key_code || that_present_key_code) {
-        if (!(this_present_key_code && that_present_key_code))
-          return false;
-        if (this.key_code != that.key_code)
+        if (!this.event.equals(that.event))
           return false;
       }
 
@@ -27102,21 +26851,15 @@ public class Server {
 
       hashCode = hashCode * 8191 + bid;
 
-      hashCode = hashCode * 8191 + event_type;
-
-      hashCode = hashCode * 8191 + modifiers;
-
-      hashCode = hashCode * 8191 + key_char;
-
-      hashCode = hashCode * 8191 + com.jetbrains.cef.remote.thrift.TBaseHelper.hashCode(scanCode);
-
-      hashCode = hashCode * 8191 + key_code;
+      hashCode = hashCode * 8191 + ((isSetEvent()) ? 131071 : 524287);
+      if (isSetEvent())
+        hashCode = hashCode * 8191 + event.hashCode();
 
       return hashCode;
     }
 
     @Override
-    public int compareTo(Browser_SendKeyEvent_args other) {
+    public int compareTo(Browser_SendCefKeyEvent_args other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
@@ -27133,52 +26876,12 @@ public class Server {
           return lastComparison;
         }
       }
-      lastComparison = java.lang.Boolean.compare(isSetEvent_type(), other.isSetEvent_type());
+      lastComparison = java.lang.Boolean.compare(isSetEvent(), other.isSetEvent());
       if (lastComparison != 0) {
         return lastComparison;
       }
-      if (isSetEvent_type()) {
-        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.event_type, other.event_type);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
-      lastComparison = java.lang.Boolean.compare(isSetModifiers(), other.isSetModifiers());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetModifiers()) {
-        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.modifiers, other.modifiers);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
-      lastComparison = java.lang.Boolean.compare(isSetKey_char(), other.isSetKey_char());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetKey_char()) {
-        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.key_char, other.key_char);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
-      lastComparison = java.lang.Boolean.compare(isSetScanCode(), other.isSetScanCode());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetScanCode()) {
-        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.scanCode, other.scanCode);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
-      lastComparison = java.lang.Boolean.compare(isSetKey_code(), other.isSetKey_code());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetKey_code()) {
-        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.key_code, other.key_code);
+      if (isSetEvent()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.event, other.event);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -27204,31 +26907,19 @@ public class Server {
 
     @Override
     public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("Browser_SendKeyEvent_args(");
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("Browser_SendCefKeyEvent_args(");
       boolean first = true;
 
       sb.append("bid:");
       sb.append(this.bid);
       first = false;
       if (!first) sb.append(", ");
-      sb.append("event_type:");
-      sb.append(this.event_type);
-      first = false;
-      if (!first) sb.append(", ");
-      sb.append("modifiers:");
-      sb.append(this.modifiers);
-      first = false;
-      if (!first) sb.append(", ");
-      sb.append("key_char:");
-      sb.append(this.key_char);
-      first = false;
-      if (!first) sb.append(", ");
-      sb.append("scanCode:");
-      sb.append(this.scanCode);
-      first = false;
-      if (!first) sb.append(", ");
-      sb.append("key_code:");
-      sb.append(this.key_code);
+      sb.append("event:");
+      if (this.event == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.event);
+      }
       first = false;
       sb.append(")");
       return sb.toString();
@@ -27237,6 +26928,9 @@ public class Server {
     public void validate() throws com.jetbrains.cef.remote.thrift.TException {
       // check for required fields
       // check for sub-struct validity
+      if (event != null) {
+        event.validate();
+      }
     }
 
     private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
@@ -27257,17 +26951,17 @@ public class Server {
       }
     }
 
-    private static class Browser_SendKeyEvent_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+    private static class Browser_SendCefKeyEvent_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
       @Override
-      public Browser_SendKeyEvent_argsStandardScheme getScheme() {
-        return new Browser_SendKeyEvent_argsStandardScheme();
+      public Browser_SendCefKeyEvent_argsStandardScheme getScheme() {
+        return new Browser_SendCefKeyEvent_argsStandardScheme();
       }
     }
 
-    private static class Browser_SendKeyEvent_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<Browser_SendKeyEvent_args> {
+    private static class Browser_SendCefKeyEvent_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<Browser_SendCefKeyEvent_args> {
 
       @Override
-      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, Browser_SendKeyEvent_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, Browser_SendCefKeyEvent_args struct) throws com.jetbrains.cef.remote.thrift.TException {
         com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -27285,42 +26979,11 @@ public class Server {
                 com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 2: // EVENT_TYPE
-              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
-                struct.event_type = iprot.readI32();
-                struct.setEvent_typeIsSet(true);
-              } else { 
-                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
-            case 3: // MODIFIERS
-              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
-                struct.modifiers = iprot.readI32();
-                struct.setModifiersIsSet(true);
-              } else { 
-                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
-            case 4: // KEY_CHAR
-              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I16) {
-                struct.key_char = iprot.readI16();
-                struct.setKey_charIsSet(true);
-              } else { 
-                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
-            case 5: // SCAN_CODE
-              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I64) {
-                struct.scanCode = iprot.readI64();
-                struct.setScanCodeIsSet(true);
-              } else { 
-                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
-            case 6: // KEY_CODE
-              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
-                struct.key_code = iprot.readI32();
-                struct.setKey_codeIsSet(true);
+            case 2: // EVENT
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                struct.event = new CefKeyEvent();
+                struct.event.read(iprot);
+                struct.setEventIsSet(true);
               } else { 
                 com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
@@ -27337,113 +27000,64 @@ public class Server {
       }
 
       @Override
-      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, Browser_SendKeyEvent_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, Browser_SendCefKeyEvent_args struct) throws com.jetbrains.cef.remote.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
         oprot.writeFieldBegin(BID_FIELD_DESC);
         oprot.writeI32(struct.bid);
         oprot.writeFieldEnd();
-        oprot.writeFieldBegin(EVENT_TYPE_FIELD_DESC);
-        oprot.writeI32(struct.event_type);
-        oprot.writeFieldEnd();
-        oprot.writeFieldBegin(MODIFIERS_FIELD_DESC);
-        oprot.writeI32(struct.modifiers);
-        oprot.writeFieldEnd();
-        oprot.writeFieldBegin(KEY_CHAR_FIELD_DESC);
-        oprot.writeI16(struct.key_char);
-        oprot.writeFieldEnd();
-        oprot.writeFieldBegin(SCAN_CODE_FIELD_DESC);
-        oprot.writeI64(struct.scanCode);
-        oprot.writeFieldEnd();
-        oprot.writeFieldBegin(KEY_CODE_FIELD_DESC);
-        oprot.writeI32(struct.key_code);
-        oprot.writeFieldEnd();
+        if (struct.event != null) {
+          oprot.writeFieldBegin(EVENT_FIELD_DESC);
+          struct.event.write(oprot);
+          oprot.writeFieldEnd();
+        }
         oprot.writeFieldStop();
         oprot.writeStructEnd();
       }
 
     }
 
-    private static class Browser_SendKeyEvent_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+    private static class Browser_SendCefKeyEvent_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
       @Override
-      public Browser_SendKeyEvent_argsTupleScheme getScheme() {
-        return new Browser_SendKeyEvent_argsTupleScheme();
+      public Browser_SendCefKeyEvent_argsTupleScheme getScheme() {
+        return new Browser_SendCefKeyEvent_argsTupleScheme();
       }
     }
 
-    private static class Browser_SendKeyEvent_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<Browser_SendKeyEvent_args> {
+    private static class Browser_SendCefKeyEvent_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<Browser_SendCefKeyEvent_args> {
 
       @Override
-      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, Browser_SendKeyEvent_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, Browser_SendCefKeyEvent_args struct) throws com.jetbrains.cef.remote.thrift.TException {
         com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet optionals = new java.util.BitSet();
         if (struct.isSetBid()) {
           optionals.set(0);
         }
-        if (struct.isSetEvent_type()) {
+        if (struct.isSetEvent()) {
           optionals.set(1);
         }
-        if (struct.isSetModifiers()) {
-          optionals.set(2);
-        }
-        if (struct.isSetKey_char()) {
-          optionals.set(3);
-        }
-        if (struct.isSetScanCode()) {
-          optionals.set(4);
-        }
-        if (struct.isSetKey_code()) {
-          optionals.set(5);
-        }
-        oprot.writeBitSet(optionals, 6);
+        oprot.writeBitSet(optionals, 2);
         if (struct.isSetBid()) {
           oprot.writeI32(struct.bid);
         }
-        if (struct.isSetEvent_type()) {
-          oprot.writeI32(struct.event_type);
-        }
-        if (struct.isSetModifiers()) {
-          oprot.writeI32(struct.modifiers);
-        }
-        if (struct.isSetKey_char()) {
-          oprot.writeI16(struct.key_char);
-        }
-        if (struct.isSetScanCode()) {
-          oprot.writeI64(struct.scanCode);
-        }
-        if (struct.isSetKey_code()) {
-          oprot.writeI32(struct.key_code);
+        if (struct.isSetEvent()) {
+          struct.event.write(oprot);
         }
       }
 
       @Override
-      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, Browser_SendKeyEvent_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, Browser_SendCefKeyEvent_args struct) throws com.jetbrains.cef.remote.thrift.TException {
         com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(6);
+        java.util.BitSet incoming = iprot.readBitSet(2);
         if (incoming.get(0)) {
           struct.bid = iprot.readI32();
           struct.setBidIsSet(true);
         }
         if (incoming.get(1)) {
-          struct.event_type = iprot.readI32();
-          struct.setEvent_typeIsSet(true);
-        }
-        if (incoming.get(2)) {
-          struct.modifiers = iprot.readI32();
-          struct.setModifiersIsSet(true);
-        }
-        if (incoming.get(3)) {
-          struct.key_char = iprot.readI16();
-          struct.setKey_charIsSet(true);
-        }
-        if (incoming.get(4)) {
-          struct.scanCode = iprot.readI64();
-          struct.setScanCodeIsSet(true);
-        }
-        if (incoming.get(5)) {
-          struct.key_code = iprot.readI32();
-          struct.setKey_codeIsSet(true);
+          struct.event = new CefKeyEvent();
+          struct.event.read(iprot);
+          struct.setEventIsSet(true);
         }
       }
     }

@@ -1,6 +1,7 @@
 package com.jetbrains.cef.remote.browser;
 
 import com.jetbrains.cef.remote.CefServer;
+import com.jetbrains.cef.remote.PlatformUtils;
 import com.jetbrains.cef.remote.RpcContext;
 import com.jetbrains.cef.remote.callback.RemoteIntCallback;
 import com.jetbrains.cef.remote.callback.RemoteStringVisitor;
@@ -663,7 +664,9 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing)
             return;
 
-        myRpc.invokeLater(s -> s.Browser_SendKeyEvent(myBid, e.getID(), e.getModifiersEx(), (short)e.getKeyChar(), 0, e.getKeyCode())); // TODO: get e.scancode via reflection (windows only)
+        var cefKeyEvent = PlatformUtils.toCefKeyEvent(e);
+
+        myRpc.invokeLater(s -> s.Browser_SendCefKeyEvent(myBid, cefKeyEvent));
     }
 
     @Override
