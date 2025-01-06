@@ -33,6 +33,8 @@ import java.net.UnixDomainSocketAddress;
 import java.nio.channels.Channels;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -196,6 +198,63 @@ public class BasicJcefTest {
 
     @Test
     @Order(3)
+    void testMultipleInstances() {
+        if (ThriftTransport.isTcpUsed()) {
+            CefLog.Error("TODO: implement testMultipleInstances for tcp transport.");
+            return;
+        }
+
+        ThriftTransport thriftServer = ThriftTransport.ourDefaultServer;
+        final String root = NativeServerManager.isRunning(thriftServer);
+        if (root != null) {
+            // Shouldn't be here because pipe-names are unique for each client process.
+            CefLog.Error("Found running cef_server instance with root '%s'", root);
+            return;
+        }
+
+        JCefAppConfig config = JCefAppConfig.getInstance();
+        List<String> appArgs = config.getAppArgsAsList();
+        if (OS.isLinux())
+            appArgs.add("--password-store=basic");
+        CefSettings basicSettings = config.getCefSettings();
+        basicSettings.windowless_rendering_enabled = true;
+        basicSettings.log_severity = CefSettings.LogSeverity.LOGSEVERITY_VERBOSE;
+        basicSettings.no_sandbox = true;
+
+        final int count = 3;
+        List<CefServer> servers = new ArrayList<>(count);
+        for (int i = 0; i < count; i++) {
+            CefAppHandler appHandler = new CefAppHandlerAdapter(appArgs.toArray(new String[0])){};
+            ThriftTransport ts = new ThriftTransport(ThriftTransport.getServerPipe(String.format("test_%d", i)));
+            ThriftTransport tb = new ThriftTransport(ThriftTransport.getJavaHandlersPipe(String.format("test_%d", i)));
+            CefSettings settings = basicSettings.clone();
+
+            NativeServerManager.fixRootInSettings(settings, "cef_cache_test_" + i);
+
+            CefLog.Info("Starting server #%d over %s(%s)", i, ts, tb);
+            CefServer s = new CefServer(ts, tb);
+            boolean started = s.start(appHandler, settings);
+            if (!started)
+                throw new AssertionError("Can't start server.");
+            servers.add(s);
+            String newRoot = s.getRpcContext().main.execObj(r -> r.getServerInfo("root"));
+            CefLog.Info("Successfully stared new CefServer instance with root '%s'", newRoot);
+        }
+
+        for (CefServer cs: servers) {
+            cs.disconnect();
+            boolean stopped = NativeServerManager.waitForStopped(cs.getThriftServer(), 5000);
+            if (!stopped) {
+                NativeServerManager.isRunning(cs.getThriftServer(), true); // just for debug logging
+                throw new AssertionError("Server wasn't stopped after last master-client disconnected.");
+            }
+        }
+
+        CefLog.Info("Multiple instances test was successfully finished.");
+    }
+
+    @Test
+    @Order(4)
     void testBrowserCreation() {
         if (SKIP_BASIC_CHECK)
             return;
@@ -506,8 +565,9 @@ public class BasicJcefTest {
     }
 
     public static void main(String[] args) {
-        new BasicJcefTest().testServerManagerPipe();
-        new BasicJcefTest().testServerManagerTcp();
+        //new BasicJcefTest().testServerManagerPipe();
+        //new BasicJcefTest().testServerManagerTcp();
+        new BasicJcefTest().testMultipleInstances();
         new BasicJcefTest().testBrowserCreation();
     }
 }

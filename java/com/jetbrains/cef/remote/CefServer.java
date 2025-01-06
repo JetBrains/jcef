@@ -42,6 +42,9 @@ public class CefServer {
         myThriftBackward = thriftBackward;
     }
 
+    public ThriftTransport getThriftServer() { return myThriftServer; }
+    public ThriftTransport getThriftBackward() { return myThriftBackward; }
+
     public static CefServer createDefault() { return new CefServer(ThriftTransport.ourDefaultServer, ThriftTransport.ourDefaultClient); }
 
     // Connects to CefServer and start cef-handlers service.

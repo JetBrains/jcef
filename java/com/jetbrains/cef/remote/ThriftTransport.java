@@ -72,6 +72,18 @@ public class ThriftTransport {
         return PIPE_DIR.resolve(PIPENAME_CEF_SERVER + SUFFIX).toString();
     }
 
+    public static String getJavaHandlersPipe(String suffix) {
+        if (OS.isWindows())
+            return PIPENAME_JAVA_HANDLERS + "_" + suffix;
+        return PIPE_DIR.resolve(PIPENAME_JAVA_HANDLERS + "_" + suffix).toString();
+    }
+
+    public static String getServerPipe(String suffix) {
+        if (OS.isWindows())
+            return PIPENAME_CEF_SERVER + "_" + suffix;
+        return PIPE_DIR.resolve(PIPENAME_CEF_SERVER + "_" + suffix).toString();
+    }
+
     public static boolean isTcpUsed() { return Utils.getBoolean("CEF_SERVER_USE_TCP"); }
 
     private static int getServerPort() {
