@@ -1,8 +1,7 @@
 package com.jetbrains.cef.remote.router;
 
-import com.jetbrains.cef.remote.CefServer;
 import com.jetbrains.cef.remote.RpcContext;
-import com.jetbrains.cef.remote.RpcExecutor;
+import org.cef.CefApp;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefMessageRouter;
 import org.cef.handler.CefMessageRouterHandler;
@@ -60,8 +59,8 @@ public class RemoteMessageRouter extends CefMessageRouter {
     public RemoteMessageRouter(CefMessageRouterConfig config) {
         super(config);
         // NOTE: message router must be registered before browser created, so use flag 'first' here
-        CefServer.instance().onConnected(()->{
-            RpcContext rpcContext = CefServer.instance().getRpcContext();
+        CefApp.getInstance().getServer().onConnected(()->{
+            RpcContext rpcContext = CefApp.getInstance().getServer().getRpcContext();
             if (!rpcContext.main.isValid()) // impossible, add logging just for insurance
                 CefLog.Error("Trying to create RemoteMessageRouter when not connected to server.");
             myImpl = RemoteMessageRouterImpl.create(rpcContext, getMessageRouterConfig());

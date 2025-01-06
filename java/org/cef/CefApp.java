@@ -137,6 +137,7 @@ public class CefApp extends CefAppHandlerAdapter {
     private Timer workTimer_ = null;
     private final HashSet<CefClient> clients_ = new HashSet<CefClient>();
     private CefSettings settings_ = null;
+    private CefServer server_ = null;
 
     //
     // Background initialization support
@@ -174,7 +175,8 @@ public class CefApp extends CefAppHandlerAdapter {
             // execute successfully)
             // TODO: ensure and make all initialization steps in single bg thread.
             if (IS_REMOTE_ENABLED) {
-                if (CefServer.start(appHandler_, settings_)) {
+                server_ = CefServer.createDefault();
+                if (server_.start(appHandler_, settings_)) {
                     CefLog.Debug("CefApp: native CefServer is initialized.");
                     setState(CefAppState.INITIALIZED);
                     synchronized (initializationListeners_) {
@@ -313,6 +315,8 @@ public class CefApp extends CefAppHandlerAdapter {
 
     public static final boolean isRemoteEnabled() { return IS_REMOTE_ENABLED; }
 
+    public final CefServer getServer() { return server_; }
+
     /**
      * Returns the current state of CefApp.
      *
@@ -418,9 +422,9 @@ public class CefApp extends CefAppHandlerAdapter {
      */
     public boolean registerSchemeHandlerFactory(String schemeName, String domainName, CefSchemeHandlerFactory factory) {
         if (IS_REMOTE_ENABLED) {
-            CefServer.instance().onConnected(()->{
+            server_.onConnected(()->{
                 RemoteSchemeHandlerFactory rf = RemoteSchemeHandlerFactory.create(factory);
-                CefServer.instance().getRpcContext().main.exec(s -> s.SchemeHandlerFactory_Register(schemeName, domainName, rf.thriftId()));
+                server_.getRpcContext().main.exec(s -> s.SchemeHandlerFactory_Register(schemeName, domainName, rf.thriftId()));
             }, "registerSchemeHandlerFactory", true);
             return true;
         }
@@ -438,8 +442,8 @@ public class CefApp extends CefAppHandlerAdapter {
      */
     public boolean clearSchemeHandlerFactories() {
         if (IS_REMOTE_ENABLED) {
-            CefServer.instance().onConnected(()->{
-                CefServer.instance().getRpcContext().main.exec(s -> s.ClearAllSchemeHandlerFactories());
+            server_.onConnected(()->{
+                server_.getRpcContext().main.exec(s -> s.ClearAllSchemeHandlerFactories());
             }, "clearSchemeHandlerFactories", false);
             return true;
         }
@@ -512,7 +516,7 @@ public class CefApp extends CefAppHandlerAdapter {
      */
     private void finishShutdown() {
         if (IS_REMOTE_ENABLED) {
-            CefServer.instance().disconnect();
+            server_.disconnect();
             synchronized (this) {
                 setState(CefAppState.TERMINATED);
                 CefApp.self = null;

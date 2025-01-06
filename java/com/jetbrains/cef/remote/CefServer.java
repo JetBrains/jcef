@@ -21,7 +21,8 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class CefServer {
-    private static final CefServer INSTANCE = CefApp.isRemoteEnabled() ? new CefServer() : null;
+    private final ThriftTransport myThriftServer;
+    private final ThriftTransport myThriftBackward;
 
     // Fields for cef-handlers execution on java side
     private Thread myClientHandlersThread;
@@ -35,12 +36,18 @@ public class CefServer {
     private volatile boolean myIsContextInitialized = false;
 
     private final LinkedList<Runnable> myDelayedActions = new LinkedList<>();
-    private ThriftTransport myBackwardThrift;
+
+    public CefServer(ThriftTransport thriftServer, ThriftTransport thriftBackward) {
+        myThriftServer = thriftServer;
+        myThriftBackward = thriftBackward;
+    }
+
+    public static CefServer createDefault() { return new CefServer(ThriftTransport.ourDefaultServer, ThriftTransport.ourDefaultClient); }
 
     // Connects to CefServer and start cef-handlers service.
     // Should be executed in bg thread.
     // NOTE: appHandler is necessary for (1) cmdLineArgs, (2) custom schemes, (3) onContextInitialized callback
-    public static boolean start(CefAppHandler appHandler, CefSettings settings) {
+    public boolean start(CefAppHandler appHandler, CefSettings settings) {
         if (!CefApp.isRemoteEnabled())
             return false;
         if (appHandler == null) { // just for simplicity
@@ -48,27 +55,24 @@ public class CefServer {
             return false;
         }
 
-        ThriftTransport thriftServer = ThriftTransport.ourDefaultServer;
-        final String root = NativeServerManager.isRunning(thriftServer);
+        final String root = NativeServerManager.isRunning(myThriftServer);
         if (root != null) {
             // Shouldn't be here because pipe-names are unique for each client process.
             CefLog.Error("Found running cef_server instance with root '%s'", root);
         } else {
             NativeServerManager.fixRootInSettings(settings, "cef_cache_" + ProcessHandle.current().pid());
             final long waitTimeoutMs = Utils.getInteger("WAIT_SERVER_TIMEOUT_MS", 15000);
-            final boolean success = NativeServerManager.startProcessAndWait(thriftServer, appHandler, settings, waitTimeoutMs);
+            final boolean success = NativeServerManager.startProcessAndWait(myThriftServer, appHandler, settings, waitTimeoutMs);
             if (!success)
                 return false;
         }
 
-        if (!INSTANCE.connect(thriftServer, ThriftTransport.ourDefaultClient, appHandler::onContextInitialized)) {
+        if (!connect(appHandler::onContextInitialized)) {
             CefLog.Error("Can't initialize client for native server.");
             return false;
         }
         return true;
     }
-
-    public static CefServer instance() { return INSTANCE; }
 
     // returns true when server is connected and action was executed immediately
     public boolean onConnected(Runnable r, String name, boolean first) {
@@ -96,12 +100,12 @@ public class CefServer {
     }
 
     public static String getVersion() {
-        if (CefApp.isRemoteEnabled() && INSTANCE.myIsConnected)
-            return INSTANCE.myRpc.main.execObj(r->r.getServerInfo("version"));
+        if (CefApp.isRemoteEnabled() && CefApp.getInstance().getServer().myIsConnected)
+            return CefApp.getInstance().getServer().myRpc.main.execObj(r->r.getServerInfo("version"));
         return "unknown(not connected)";
     }
 
-    private boolean connect(ThriftTransport thriftServer, ThriftTransport thriftBackward, Runnable onContextInitialized) {
+    private boolean connect(Runnable onContextInitialized) {
         myClientHandlersImpl.setOnContextInitialized(() -> {
             myIsContextInitialized = true;
             if (onContextInitialized != null)
@@ -112,24 +116,23 @@ public class CefServer {
             // 1. Start server for cef-handlers execution. Open transport for rpc-handlers
             try {
                 CefLog.Debug("Initialize CefServer, open server transport.");
-                myRpc.openTransport(thriftServer);
+                myRpc.openTransport(myThriftServer);
             } catch (TException x) {
-                CefLog.Error("TException when opening server %s : %s", thriftServer.isTcp() ? "tcp-socket" : "pipe", x.getMessage());
+                CefLog.Error("TException when opening server %s : %s", myThriftServer.isTcp() ? "tcp-socket" : "pipe", x.getMessage());
                 return false;
             }
 
             CefLog.Info("cef_server version: %s", (String)myRpc.main.execObj(r->r.getServerInfo("version")));
 
             // 2. Start service for backward rpc calls (from native to java)
-            myBackwardThrift = thriftBackward;
             try {
-                myClientHandlersTransport = myBackwardThrift.createServerTransport();
+                myClientHandlersTransport = myThriftBackward.createServerTransport();
             } catch (Exception e) {
-                CefLog.Error("Exception when opening client %s : %s", thriftBackward.isTcp() ? "tcp-socket" : "pipe", e.getMessage());
-                if (thriftBackward.isTcp())
-                    CefLog.Error("Port : %d", thriftBackward.getPort());
+                CefLog.Error("Exception when opening client %s : %s", myThriftBackward.isTcp() ? "tcp-socket" : "pipe", e.getMessage());
+                if (myThriftBackward.isTcp())
+                    CefLog.Error("Port : %d", myThriftBackward.getPort());
                 else
-                    CefLog.Error("Pipe : %s", thriftBackward.getPipe());
+                    CefLog.Error("Pipe : %s", myThriftBackward.getPipe());
                 return false;
             }
 
@@ -150,7 +153,7 @@ public class CefServer {
             myClientHandlersThread.start();
 
             // 3. Connect to CefServer
-            int cid = myRpc.connect(myBackwardThrift);
+            int cid = myRpc.connect(myThriftBackward);
             synchronized (myDelayedActions) {
                 myIsConnected = true;
                 myDelayedActions.forEach(r -> r.run());
@@ -184,8 +187,8 @@ public class CefServer {
             myClientHandlersServer = null;
         }
 
-        if (myBackwardThrift != null)
-            myBackwardThrift.close();
+        if (myThriftBackward != null)
+            myThriftBackward.close();
     }
 
     public static TServer startTestHandlersService(CountDownLatch finished) {
