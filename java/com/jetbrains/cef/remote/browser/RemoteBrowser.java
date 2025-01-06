@@ -2,6 +2,7 @@ package com.jetbrains.cef.remote.browser;
 
 import com.jetbrains.cef.remote.callback.RemoteStringVisitor;
 import com.jetbrains.cef.remote.CefServer;
+import com.jetbrains.cef.remote.PlatformUtils;
 import com.jetbrains.cef.remote.RpcExecutor;
 import com.jetbrains.cef.remote.callback.RemoteIntCallback;
 import com.jetbrains.cef.remote.network.RemoteCookieAccessFilter;
@@ -665,10 +666,9 @@ public class RemoteBrowser implements CefBrowser {
         if (myIsClosing)
             return;
 
-        myService.exec((s)->{
-            // TODO: get e.scancode via reflection (windows only)
-            s.Browser_SendKeyEvent(myBid, e.getID(), e.getModifiersEx(), (short)e.getKeyChar(), 0, e.getKeyCode());
-        });
+        var cefKeyEvent = PlatformUtils.toCefKeyEvent(e);
+
+        myService.exec(s -> s.Browser_SendCefKeyEvent(myBid, cefKeyEvent));
     }
 
     @Override

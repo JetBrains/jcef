@@ -68,6 +68,7 @@ set(thrift_codegen_SOURCES
         gen-cpp/Server.cpp
         gen-cpp/ClientHandlers.cpp
         gen-cpp/cef_client_types.cpp
+        gen-cpp/cef_server_types.cpp
         gen-cpp/shared_types.cpp
         )
 add_library(thrift_codegen STATIC ${thrift_codegen_SOURCES})
