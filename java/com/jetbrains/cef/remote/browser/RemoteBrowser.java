@@ -10,6 +10,7 @@ import com.jetbrains.cef.remote.network.RemoteRequest;
 import com.jetbrains.cef.remote.network.RemoteRequestContext;
 import com.jetbrains.cef.remote.network.RemoteRequestImpl;
 import com.jetbrains.cef.remote.thrift_codegen.RObject;
+import org.cef.CefApp;
 import org.cef.CefBrowserSettings;
 import org.cef.CefClient;
 import org.cef.browser.*;
@@ -117,7 +118,7 @@ public class RemoteBrowser implements CefBrowser {
     @Override
     public void createImmediately() {
         if (!myIsNativeBrowserCreationRequested.getAndSet(true))
-            CefServer.instance().onConnected(this::requestBid, "requestBid", false);
+            CefApp.getInstance().getServer().onConnected(this::requestBid, "requestBid", false);
     }
 
     private void requestBid() {

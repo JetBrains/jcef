@@ -252,11 +252,10 @@ public class NativeServerManager {
     }
 
     // returns true when server was stopped successfully
-    public static boolean stopAndWait(long timeoutMs) {
+    public static boolean stopAndWait(ThriftTransport thriftServer, long timeoutMs) {
         CefLog.Debug("Stop running cef_server instance.");
-        ThriftTransport t = ThriftTransport.ourDefaultServer;
         try {
-            RpcExecutor test = new RpcExecutor().openTransport(t);
+            RpcExecutor test = new RpcExecutor().openTransport(thriftServer);
             String state = test.execObj(s -> s.getServerInfo("state"));
             CefLog.Debug("Server state before stop: %s", state);
             test.exec(s -> s.stop());
@@ -266,7 +265,7 @@ public class NativeServerManager {
         }
 
         // Wait for stopping
-        boolean stopped = waitForStopped(t, timeoutMs);
+        boolean stopped = waitForStopped(thriftServer, timeoutMs);
         if (!stopped) {
             CefLog.Error("Can't stop server in %d ms (process is %s)", timeoutMs, isProcessAlive() ? "alive" : "dead");
             CefLog.Debug("Server state: %s", getServerState());

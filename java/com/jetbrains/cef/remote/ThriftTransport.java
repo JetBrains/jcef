@@ -50,6 +50,11 @@ public class ThriftTransport {
     public String getPipe() { return myPipe; }
     public int getPort() { return myPort; }
 
+    @Override
+    public String toString() {
+        return myPipe != null ? String.format("pipe='%s'", myPipe) : String.format("port=%d", myPort);
+    }
+
     public void close() {
         if (!OS.isWindows() && !isTcp())
             new File(myPipe).delete();

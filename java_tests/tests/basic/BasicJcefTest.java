@@ -92,7 +92,7 @@ public class BasicJcefTest {
         ThriftTransport thriftServer = ThriftTransport.ourDefaultServer;
         if (NativeServerManager.isRunning(thriftServer) != null) {
             CefLog.Info("Old cef_server instance is running, will stop.");
-            boolean success = NativeServerManager.stopAndWait(waitTimeoutMs);
+            boolean success = NativeServerManager.stopAndWait(thriftServer, waitTimeoutMs);
             if (!success)
                 throw new AssertionError("Can't stop old server instance.");
         }
@@ -120,7 +120,7 @@ public class BasicJcefTest {
         //
         if (testStopManually) {
             CefLog.Info("Server is running, try to stop it now (via rpc 'stop').");
-            final boolean stopped = NativeServerManager.stopAndWait(waitTimeoutMs);
+            final boolean stopped = NativeServerManager.stopAndWait(thriftServer, waitTimeoutMs);
             if (!stopped) {
                 CefLog.Debug("Can't stop server, additional debug:");
                 if (NativeServerManager.isProcessAlive())
