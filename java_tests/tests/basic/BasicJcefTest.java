@@ -199,6 +199,9 @@ public class BasicJcefTest {
     @Test
     @Order(3)
     void testMultipleInstances() {
+        if (SKIP_BASIC_CHECK || !CefApp.isRemoteEnabled())
+            return;
+
         if (ThriftTransport.isTcpUsed()) {
             CefLog.Error("TODO: implement testMultipleInstances for tcp transport.");
             return;
