@@ -17,6 +17,10 @@
 #include "CefSettingsParser.h"
 #include "handlers/app/RemoteAppHandler.h"
 
+#if defined(OS_LINUX)
+#include <X11/Xlib.h>
+#endif
+
 using namespace apache::thrift;
 using namespace thrift_codegen;
 

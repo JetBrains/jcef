@@ -12,10 +12,6 @@
 #include <errno.h>
 #endif
 
-#if defined(OS_LINUX)
-#include <X11/Xlib.h>
-#endif
-
 #include "log/Log.h"
 
 #include "handlers/app/RemoteAppHandler.h"
