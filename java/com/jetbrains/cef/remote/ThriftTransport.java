@@ -35,6 +35,11 @@ public class ThriftTransport {
         ourDefaultClient = isTcpUsed() ? new ThriftTransport(getJavaHandlersPort()) : new ThriftTransport(getJavaHandlersPipe());
     }
 
+    public ThriftTransport(File pipe) {
+        this.myPipe = OS.isWindows() ? pipe.getName() : pipe.getAbsolutePath() ;
+        this.myPort = 0;
+    }
+
     public ThriftTransport(String pipe) {
         this.myPipe = pipe;
         this.myPort = 0;
@@ -227,8 +232,13 @@ public class ThriftTransport {
 
     public static File[] findPipes() {
         if (OS.isWindows()) {
-            CefLog.Error("TODO: implement findPipes via Win32");
-            return null;
+            String[] pipes = WindowsPipe.findPipes(PIPENAME_CEF_SERVER + "*");
+            if (pipes == null || pipes.length == 0)
+                return null;
+            File[] result = new File[pipes.length];
+            for (int i = 0; i < pipes.length; i++)
+                result[i] = new File(pipes[i]);
+            return result;
         }
 
         return PIPE_DIR.toFile().listFiles((dir, name) -> name.startsWith(PIPENAME_CEF_SERVER));

@@ -30,6 +30,9 @@ class WindowsPipe {
     static String normalizePipePath(String path) {
         return path.startsWith(WIN32_PIPE_PREFIX) ? path : WIN32_PIPE_PREFIX + path;
     }
+
+    static native String[] findPipes(String fileName);
+
     static native long CreateNamedPipe(
             String lpName,
             int dwOpenMode,

@@ -287,7 +287,7 @@ public class NativeServerManager {
             for (File pipe: pipes) {
                 RpcExecutor exec = new RpcExecutor();
                 try {
-                    exec.openPipeTransport(new ThriftTransport(pipe.getAbsolutePath()));
+                    exec.openPipeTransport(new ThriftTransport(pipe));
                     String newRoot = exec.execObj(s -> s.getServerInfo("root"));
                     existingRoots.add(newRoot);
                     CefLog.Info("Found cef_server instance root_cache_path '%s' (pipe=%s).", newRoot, pipe.getName());
