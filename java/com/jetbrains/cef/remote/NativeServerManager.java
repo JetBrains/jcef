@@ -278,7 +278,7 @@ public class NativeServerManager {
 
     public static List<String> findRoots() {
         if (ThriftTransport.isTcpUsed()) {
-            CefLog.Error("TODO: implement findRoots for tcp transport.");
+            CefLog.Warn("Try implement findRoots for tcp transport.");
             return null;
         }
         List<String> existingRoots = new ArrayList<>();
@@ -311,6 +311,11 @@ public class NativeServerManager {
     }
 
     public static void fixRootInSettings(CefSettings settings, String newRootDirName) {
+        if (ThriftTransport.isTcpUsed()) {
+            settings.cache_path = Path.of(System.getProperty("java.io.tmpdir")).resolve(newRootDirName).toString();
+            CefLog.Info("settings.cache_path will be replaced with '%s' (because root search isn't implemented for TCP transport)", settings.cache_path);
+            return;
+        }
         List<String> existingRoots = NativeServerManager.findRoots();
         if (existingRoots == null || existingRoots.isEmpty())
             return;
