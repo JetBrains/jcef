@@ -14,10 +14,13 @@ import java.nio.channels.Channels;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.nio.file.Path;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ThriftTransport {
-    private static int PORT_CEF_SERVER = Utils.getInteger("ALT_CEF_SERVER_PORT", -1);
-    private static int PORT_JAVA_HANDLERS = Utils.getInteger("ALT_JAVA_HANDLERS_PORT", -1);
+    private static final boolean IS_TCP_USED;
+    private static final int PORT_CEF_SERVER;
+    private static final int PORT_JAVA_HANDLERS;
     private static final String PIPENAME_JAVA_HANDLERS = Utils.getString("ALT_JAVA_HANDLERS_PIPE", "client_pipe");
     private static final String PIPENAME_CEF_SERVER = Utils.getString("ALT_CEF_SERVER_PIPE", "cef_server_pipe");
     private static final long PID = ProcessHandle.current().pid();
@@ -31,8 +34,47 @@ public class ThriftTransport {
     public static final ThriftTransport ourDefaultClient;
 
     static {
-        ourDefaultServer = isTcpUsed() ? new ThriftTransport(getServerPort()) : new ThriftTransport(getServerPipe());
-        ourDefaultClient = isTcpUsed() ? new ThriftTransport(getJavaHandlersPort()) : new ThriftTransport(getJavaHandlersPipe());
+        if (OS.isWindows()) {
+            IS_TCP_USED = !Utils.getBoolean("CEF_SERVER_USE_PIPE");
+        } else {
+            IS_TCP_USED = Utils.getBoolean("CEF_SERVER_USE_TCP");
+        }
+
+        if (IS_TCP_USED) {
+            int customPort = Utils.getInteger("ALT_CEF_SERVER_PORT", -1);
+            if (customPort == -1) {
+                PORT_CEF_SERVER = findFreePort(null);
+                if (PORT_CEF_SERVER == -1)
+                    CefLog.Error("Can't find free tcp-port for server.");
+                else
+                    CefLog.Info("Found free tcp-port %d for server.", PORT_CEF_SERVER);
+            } else {
+                CefLog.Info("Use custom tcp-port %d for server.", customPort);
+                PORT_CEF_SERVER = customPort;
+            }
+
+            customPort = Utils.getInteger("ALT_JAVA_HANDLERS_PORT", -1);
+            if (customPort == -1) {
+                Set<Integer> exclude = new HashSet<>(); exclude.add(PORT_CEF_SERVER);
+                PORT_JAVA_HANDLERS = findFreePort(exclude);
+                if (PORT_JAVA_HANDLERS == -1)
+                    CefLog.Error("Can't find free tcp-port for java-handlers.");
+                else
+                    CefLog.Info("Found free tcp-port %d for java-handlers.", PORT_JAVA_HANDLERS);
+            } else {
+                CefLog.Info("Use custom tcp-port %d for java-handlers.", customPort);
+                PORT_JAVA_HANDLERS = customPort;
+            }
+
+            ourDefaultServer = new ThriftTransport(getServerPort());
+            ourDefaultClient = new ThriftTransport(getJavaHandlersPort());
+        } else {
+            PORT_CEF_SERVER = 0;
+            PORT_JAVA_HANDLERS = 0;
+
+            ourDefaultServer = new ThriftTransport(getServerPipe());
+            ourDefaultClient = new ThriftTransport(getJavaHandlersPipe());
+        }
     }
 
     public ThriftTransport(File pipe) {
@@ -89,33 +131,22 @@ public class ThriftTransport {
         return PIPE_DIR.resolve(PIPENAME_CEF_SERVER + "_" + suffix).toString();
     }
 
-    public static boolean isTcpUsed() { return Utils.getBoolean("CEF_SERVER_USE_TCP"); }
+    public static boolean isTcpUsed() { return IS_TCP_USED; }
 
     private static int getServerPort() {
-        if (PORT_CEF_SERVER == -1) {
-            PORT_CEF_SERVER = findFreePort();
-            if (PORT_CEF_SERVER == -1)
-                CefLog.Error("Can't find free tcp-port for server.");
-            else
-                CefLog.Info("Found free tcp-port %d for server.", PORT_CEF_SERVER);
-        }
+
         return PORT_CEF_SERVER;
     }
     private static int getJavaHandlersPort() {
-        if (PORT_JAVA_HANDLERS == -1) {
-            PORT_JAVA_HANDLERS = findFreePort();
-            if (PORT_JAVA_HANDLERS == -1)
-                CefLog.Error("Can't find free tcp-port for java-handlers.");
-            else
-                CefLog.Info("Found free tcp-port %d for java-handlers.", PORT_JAVA_HANDLERS);
-        }
         return PORT_JAVA_HANDLERS;
     }
 
-    private static int findFreePort() { return findFreePort(6188, 7777); }
+    public static int findFreePort(Set<Integer> exclude) { return findFreePort(6188, 7777, exclude); }
 
-    private static int findFreePort(int from, int to) {
+    public static int findFreePort(int from, int to, Set<Integer> exclude) {
         for (int port = from; port < to; ++port) {
+            if (exclude != null && exclude.contains(port))
+                continue;
             try {
                 ServerSocket ss = new ServerSocket(port);
                 ss.close();

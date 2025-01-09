@@ -46,10 +46,14 @@ public class CefServer {
 
     public static CefServer createDefault() { return new CefServer(ThriftTransport.ourDefaultServer, ThriftTransport.ourDefaultClient); }
 
+    public boolean start(CefAppHandler appHandler, CefSettings settings) {
+        return start(appHandler, settings, true);
+    }
+
     // Connects to CefServer and start cef-handlers service.
     // Should be executed in bg thread.
     // NOTE: appHandler is necessary for (1) cmdLineArgs, (2) custom schemes, (3) onContextInitialized callback
-    public boolean start(CefAppHandler appHandler, CefSettings settings) {
+    public boolean start(CefAppHandler appHandler, CefSettings settings, boolean fixRoot) {
         if (!CefApp.isRemoteEnabled())
             return false;
         if (appHandler == null) { // just for simplicity
@@ -57,12 +61,13 @@ public class CefServer {
             return false;
         }
 
-        final String root = NativeServerManager.isRunning(myThriftServer);
-        if (root != null) {
+        final String prevRoot = NativeServerManager.isRunning(myThriftServer);
+        if (prevRoot != null) {
             // Shouldn't be here because pipe-names are unique for each client process.
-            CefLog.Error("Found running cef_server instance with root '%s'", root);
+            CefLog.Error("Found running cef_server instance with root '%s'", prevRoot);
         } else {
-            NativeServerManager.fixRootInSettings(settings, "cef_cache_" + ProcessHandle.current().pid());
+            if (fixRoot)
+                NativeServerManager.fixRootInSettings(settings, "cef_cache_" + ProcessHandle.current().pid());
             final long waitTimeoutMs = Utils.getInteger("WAIT_SERVER_TIMEOUT_MS", 15000);
             final boolean success = NativeServerManager.startProcessAndWait(myThriftServer, appHandler, settings, waitTimeoutMs);
             if (!success)
