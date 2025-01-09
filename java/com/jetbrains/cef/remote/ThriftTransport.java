@@ -21,8 +21,8 @@ public class ThriftTransport {
     private static final boolean IS_TCP_USED;
     private static final int PORT_CEF_SERVER;
     private static final int PORT_JAVA_HANDLERS;
-    private static final String PIPENAME_JAVA_HANDLERS = Utils.getString("ALT_JAVA_HANDLERS_PIPE", "client_pipe");
-    private static final String PIPENAME_CEF_SERVER = Utils.getString("ALT_CEF_SERVER_PIPE", "cef_server_pipe");
+    private static final String PIPENAME_JAVA_HANDLERS;
+    private static final String PIPENAME_CEF_SERVER;
     private static final long PID = ProcessHandle.current().pid();
     private static final String SUFFIX = "_" + PID;
     private static final Path PIPE_DIR = Path.of(System.getProperty("java.io.tmpdir"));
@@ -68,12 +68,47 @@ public class ThriftTransport {
 
             ourDefaultServer = new ThriftTransport(getServerPort());
             ourDefaultClient = new ThriftTransport(getJavaHandlersPort());
+
+            PIPENAME_JAVA_HANDLERS = "";
+            PIPENAME_CEF_SERVER = "";
         } else {
             PORT_CEF_SERVER = 0;
             PORT_JAVA_HANDLERS = 0;
 
-            ourDefaultServer = new ThriftTransport(getServerPipe());
-            ourDefaultClient = new ThriftTransport(getJavaHandlersPipe());
+            final String pipeServerDefault = "cef_server_pipe";
+            final String pipeServerCustom = Utils.getString("ALT_CEF_SERVER_PIPE");
+            final String suffixServer;
+            if (pipeServerCustom == null || pipeServerCustom.isEmpty()) {
+                PIPENAME_CEF_SERVER = pipeServerDefault;
+                suffixServer = SUFFIX;
+            } else {
+                PIPENAME_CEF_SERVER = pipeServerCustom;
+                suffixServer = "";
+            }
+
+            String pipeJavaDefault = "client_pipe";
+            String pipeJavaCustom = Utils.getString("ALT_JAVA_HANDLERS_PIPE");
+            final String suffixJava;
+            if (pipeJavaCustom == null || pipeJavaCustom.isEmpty()) {
+                PIPENAME_JAVA_HANDLERS = pipeJavaDefault;
+                suffixJava = SUFFIX;
+            } else {
+                PIPENAME_JAVA_HANDLERS = pipeJavaCustom;
+                suffixJava = "";
+            }
+
+            String pipe;
+            if (OS.isWindows())
+                pipe = PIPENAME_CEF_SERVER + suffixServer;
+            else
+                pipe = PIPE_DIR.resolve(PIPENAME_CEF_SERVER + suffixServer).toString();
+            ourDefaultServer = new ThriftTransport(pipe);
+
+            if (OS.isWindows())
+                pipe = PIPENAME_JAVA_HANDLERS + suffixJava;
+            else
+                pipe = PIPE_DIR.resolve(PIPENAME_JAVA_HANDLERS + suffixJava).toString();
+            ourDefaultClient = new ThriftTransport(pipe);
         }
     }
 
@@ -105,18 +140,6 @@ public class ThriftTransport {
     public void close() {
         if (!OS.isWindows() && !isTcp())
             new File(myPipe).delete();
-    }
-
-    private static String getJavaHandlersPipe() {
-        if (OS.isWindows())
-            return PIPENAME_JAVA_HANDLERS + SUFFIX;
-        return PIPE_DIR.resolve(PIPENAME_JAVA_HANDLERS + SUFFIX).toString();
-    }
-
-    private static String getServerPipe() {
-        if (OS.isWindows())
-            return PIPENAME_CEF_SERVER + SUFFIX;
-        return PIPE_DIR.resolve(PIPENAME_CEF_SERVER + SUFFIX).toString();
     }
 
     public static String getJavaHandlersPipe(String suffix) {
