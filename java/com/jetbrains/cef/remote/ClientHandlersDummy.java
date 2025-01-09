@@ -11,6 +11,10 @@ public class ClientHandlersDummy implements ClientHandlers.Iface{
     public void log(String msg) throws TException {
 
     }
+    @Override
+    public String echo(String msg) {
+        return msg;
+    }
 
     @Override
     public void AppHandler_OnContextInitialized() throws TException {

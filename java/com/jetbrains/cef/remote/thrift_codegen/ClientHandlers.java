@@ -11,6 +11,8 @@ public class ClientHandlers {
 
   public interface Iface {
 
+    public java.lang.String echo(java.lang.String msg) throws com.jetbrains.cef.remote.thrift.TException;
+
     public void log(java.lang.String msg) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void AppHandler_OnContextInitialized() throws com.jetbrains.cef.remote.thrift.TException;
@@ -148,6 +150,8 @@ public class ClientHandlers {
   }
 
   public interface AsyncIface {
+
+    public void echo(java.lang.String msg, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void log(java.lang.String msg, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
@@ -305,6 +309,30 @@ public class ClientHandlers {
 
     public Client(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) {
       super(iprot, oprot);
+    }
+
+    @Override
+    public java.lang.String echo(java.lang.String msg) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_echo(msg);
+      return recv_echo();
+    }
+
+    public void send_echo(java.lang.String msg) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      echo_args args = new echo_args();
+      args.setMsg(msg);
+      sendBase("echo", args);
+    }
+
+    public java.lang.String recv_echo() throws com.jetbrains.cef.remote.thrift.TException
+    {
+      echo_result result = new echo_result();
+      receiveBase(result, "echo");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.MISSING_RESULT, "echo failed: unknown result");
     }
 
     @Override
@@ -1785,6 +1813,41 @@ public class ClientHandlers {
 
     public AsyncClient(com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.async.TAsyncClientManager clientManager, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) {
       super(protocolFactory, clientManager, transport);
+    }
+
+    @Override
+    public void echo(java.lang.String msg, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      echo_call method_call = new echo_call(msg, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class echo_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<java.lang.String> {
+      private java.lang.String msg;
+      public echo_call(java.lang.String msg, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.msg = msg;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("echo", com.jetbrains.cef.remote.thrift.protocol.TMessageType.CALL, 0));
+        echo_args args = new echo_args();
+        args.setMsg(msg);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public java.lang.String getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_echo();
+      }
     }
 
     @Override
@@ -4596,6 +4659,7 @@ public class ClientHandlers {
     }
 
     private static <I extends Iface> java.util.Map<java.lang.String,  com.jetbrains.cef.remote.thrift.ProcessFunction<I, ? extends com.jetbrains.cef.remote.thrift.TBase>> getProcessMap(java.util.Map<java.lang.String, com.jetbrains.cef.remote.thrift.ProcessFunction<I, ? extends  com.jetbrains.cef.remote.thrift.TBase>> processMap) {
+      processMap.put("echo", new echo());
       processMap.put("log", new log());
       processMap.put("AppHandler_OnContextInitialized", new AppHandler_OnContextInitialized());
       processMap.put("RenderHandler_GetViewRect", new RenderHandler_GetViewRect());
@@ -4664,6 +4728,34 @@ public class ClientHandlers {
       processMap.put("DevToolsMessageObserver_OnDevToolsMethodResult", new DevToolsMessageObserver_OnDevToolsMethodResult());
       processMap.put("DevToolsMessageObserver_OnDevToolsEvent", new DevToolsMessageObserver_OnDevToolsEvent());
       return processMap;
+    }
+
+    public static class echo<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, echo_args> {
+      public echo() {
+        super("echo");
+      }
+
+      @Override
+      public echo_args getEmptyArgsInstance() {
+        return new echo_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public echo_result getResult(I iface, echo_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        echo_result result = new echo_result();
+        result.success = iface.echo(args.msg);
+        return result;
+      }
     }
 
     public static class log<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, log_args> {
@@ -6552,6 +6644,7 @@ public class ClientHandlers {
     }
 
     private static <I extends AsyncIface> java.util.Map<java.lang.String,  com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, ? extends  com.jetbrains.cef.remote.thrift.TBase,?>> getProcessMap(java.util.Map<java.lang.String,  com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, ? extends  com.jetbrains.cef.remote.thrift.TBase, ?>> processMap) {
+      processMap.put("echo", new echo());
       processMap.put("log", new log());
       processMap.put("AppHandler_OnContextInitialized", new AppHandler_OnContextInitialized());
       processMap.put("RenderHandler_GetViewRect", new RenderHandler_GetViewRect());
@@ -6620,6 +6713,73 @@ public class ClientHandlers {
       processMap.put("DevToolsMessageObserver_OnDevToolsMethodResult", new DevToolsMessageObserver_OnDevToolsMethodResult());
       processMap.put("DevToolsMessageObserver_OnDevToolsEvent", new DevToolsMessageObserver_OnDevToolsEvent());
       return processMap;
+    }
+
+    public static class echo<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, echo_args, java.lang.String> {
+      public echo() {
+        super("echo");
+      }
+
+      @Override
+      public echo_args getEmptyArgsInstance() {
+        return new echo_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.String> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.String>() { 
+          @Override
+          public void onComplete(java.lang.String o) {
+            echo_result result = new echo_result();
+            result.success = o;
+            try {
+              fcall.sendResponse(fb, result, com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (com.jetbrains.cef.remote.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            byte msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY;
+            com.jetbrains.cef.remote.thrift.TSerializable msg;
+            echo_result result = new echo_result();
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+              return;
+            } else if (e instanceof com.jetbrains.cef.remote.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (com.jetbrains.cef.remote.thrift.TApplicationException)e;
+            } else {
+              _LOGGER.error("Exception inside handler", e);
+              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      public void start(I iface, echo_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.String> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.echo(args.msg,resultHandler);
+      }
     }
 
     public static class log<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, log_args, Void> {
@@ -10474,6 +10634,763 @@ public class ClientHandlers {
       }
     }
 
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class echo_args implements com.jetbrains.cef.remote.thrift.TBase<echo_args, echo_args._Fields>, java.io.Serializable, Cloneable, Comparable<echo_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("echo_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField MSG_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("msg", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)1);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new echo_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new echo_argsTupleSchemeFactory();
+
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String msg; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      MSG((short)1, "msg");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // MSG
+            return MSG;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.MSG, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("msg", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(echo_args.class, metaDataMap);
+    }
+
+    public echo_args() {
+    }
+
+    public echo_args(
+      java.lang.String msg)
+    {
+      this();
+      this.msg = msg;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public echo_args(echo_args other) {
+      if (other.isSetMsg()) {
+        this.msg = other.msg;
+      }
+    }
+
+    @Override
+    public echo_args deepCopy() {
+      return new echo_args(this);
+    }
+
+    @Override
+    public void clear() {
+      this.msg = null;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.lang.String getMsg() {
+      return this.msg;
+    }
+
+    public echo_args setMsg(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String msg) {
+      this.msg = msg;
+      return this;
+    }
+
+    public void unsetMsg() {
+      this.msg = null;
+    }
+
+    /** Returns true if field msg is set (has been assigned a value) and false otherwise */
+    public boolean isSetMsg() {
+      return this.msg != null;
+    }
+
+    public void setMsgIsSet(boolean value) {
+      if (!value) {
+        this.msg = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case MSG:
+        if (value == null) {
+          unsetMsg();
+        } else {
+          setMsg((java.lang.String)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case MSG:
+        return getMsg();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case MSG:
+        return isSetMsg();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof echo_args)
+        return this.equals((echo_args)that);
+      return false;
+    }
+
+    public boolean equals(echo_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_msg = true && this.isSetMsg();
+      boolean that_present_msg = true && that.isSetMsg();
+      if (this_present_msg || that_present_msg) {
+        if (!(this_present_msg && that_present_msg))
+          return false;
+        if (!this.msg.equals(that.msg))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((isSetMsg()) ? 131071 : 524287);
+      if (isSetMsg())
+        hashCode = hashCode * 8191 + msg.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(echo_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetMsg(), other.isSetMsg());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetMsg()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.msg, other.msg);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("echo_args(");
+      boolean first = true;
+
+      sb.append("msg:");
+      if (this.msg == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.msg);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class echo_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public echo_argsStandardScheme getScheme() {
+        return new echo_argsStandardScheme();
+      }
+    }
+
+    private static class echo_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<echo_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, echo_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // MSG
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRING) {
+                struct.msg = iprot.readString();
+                struct.setMsgIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, echo_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.msg != null) {
+          oprot.writeFieldBegin(MSG_FIELD_DESC);
+          oprot.writeString(struct.msg);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class echo_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public echo_argsTupleScheme getScheme() {
+        return new echo_argsTupleScheme();
+      }
+    }
+
+    private static class echo_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<echo_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, echo_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetMsg()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetMsg()) {
+          oprot.writeString(struct.msg);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, echo_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.msg = iprot.readString();
+          struct.setMsgIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class echo_result implements com.jetbrains.cef.remote.thrift.TBase<echo_result, echo_result._Fields>, java.io.Serializable, Cloneable, Comparable<echo_result>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("echo_result");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField SUCCESS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("success", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)0);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new echo_resultStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new echo_resultTupleSchemeFactory();
+
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("success", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(echo_result.class, metaDataMap);
+    }
+
+    public echo_result() {
+    }
+
+    public echo_result(
+      java.lang.String success)
+    {
+      this();
+      this.success = success;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public echo_result(echo_result other) {
+      if (other.isSetSuccess()) {
+        this.success = other.success;
+      }
+    }
+
+    @Override
+    public echo_result deepCopy() {
+      return new echo_result(this);
+    }
+
+    @Override
+    public void clear() {
+      this.success = null;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.lang.String getSuccess() {
+      return this.success;
+    }
+
+    public echo_result setSuccess(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String success) {
+      this.success = success;
+      return this;
+    }
+
+    public void unsetSuccess() {
+      this.success = null;
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return this.success != null;
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      if (!value) {
+        this.success = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((java.lang.String)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return getSuccess();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof echo_result)
+        return this.equals((echo_result)that);
+      return false;
+    }
+
+    public boolean equals(echo_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_success = true && this.isSetSuccess();
+      boolean that_present_success = true && that.isSetSuccess();
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (!this.success.equals(that.success))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((isSetSuccess()) ? 131071 : 524287);
+      if (isSetSuccess())
+        hashCode = hashCode * 8191 + success.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(echo_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetSuccess(), other.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.success, other.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("echo_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      if (this.success == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.success);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class echo_resultStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public echo_resultStandardScheme getScheme() {
+        return new echo_resultStandardScheme();
+      }
+    }
+
+    private static class echo_resultStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<echo_result> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, echo_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 0: // SUCCESS
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRING) {
+                struct.success = iprot.readString();
+                struct.setSuccessIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, echo_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.success != null) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          oprot.writeString(struct.success);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class echo_resultTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public echo_resultTupleScheme getScheme() {
+        return new echo_resultTupleScheme();
+      }
+    }
+
+    private static class echo_resultTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<echo_result> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, echo_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          oprot.writeString(struct.success);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, echo_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.success = iprot.readString();
+          struct.setSuccessIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
   }
 
   @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})

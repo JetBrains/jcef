@@ -91,6 +91,7 @@ struct MenuItem {
 }
 
 service ClientHandlers {
+    string echo(1:string msg),
     oneway void log(1: string msg),
     //
     // CefAppHandler

@@ -60,6 +60,11 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         CefLog.Debug("received message from CefServer: " + msg);
     }
 
+    @Override
+    public String echo(String msg) {
+        return msg;
+    }
+
     //
     // CefApp
     //
