@@ -2,25 +2,24 @@ package com.jetbrains.cef.remote;
 
 import com.jetbrains.cef.remote.browser.RemoteBrowser;
 import com.jetbrains.cef.remote.browser.RemoteClient;
-import com.jetbrains.cef.remote.thrift_codegen.ClientHandlers;
 import com.jetbrains.cef.remote.thrift.TException;
 import com.jetbrains.cef.remote.thrift.server.TServer;
 import com.jetbrains.cef.remote.thrift.server.TThreadPoolServer;
 import com.jetbrains.cef.remote.thrift.transport.TServerTransport;
+import com.jetbrains.cef.remote.thrift_codegen.ClientHandlers;
 import org.cef.CefApp;
 import org.cef.CefSettings;
 import org.cef.handler.CefAppHandler;
 import org.cef.misc.CefLog;
 import org.cef.misc.Utils;
 
-import java.nio.file.Path;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class CefServer {
+    private static final Integer WAIT_FOR_SERVER_EXIT_SEC = Utils.getInteger("JCEF_WAIT_FOR_SERVER_EXIT_SEC", 0);
     private final ThriftTransport myThriftServer;
     private final ThriftTransport myThriftBackward;
 
@@ -192,6 +191,17 @@ public class CefServer {
 
         if (myThriftBackward != null)
             myThriftBackward.close();
+
+        if (WAIT_FOR_SERVER_EXIT_SEC > 0) {
+            final long startMs = System.currentTimeMillis();
+            new Thread(() -> {
+                boolean stopped = NativeServerManager.waitForStopped(myThriftServer, WAIT_FOR_SERVER_EXIT_SEC*1000);
+                if (stopped)
+                    CefLog.Info("Server [%s] was stopped in %d ms.", myThriftServer, System.currentTimeMillis() - startMs);
+                else
+                    CefLog.Error("Can't stop server [%s] in %d seconds.", myThriftServer, WAIT_FOR_SERVER_EXIT_SEC);
+            }, "CEF-shutdown-thread").start();
+        }
     }
 
     public static TServer startTestHandlersService(CountDownLatch finished) {
