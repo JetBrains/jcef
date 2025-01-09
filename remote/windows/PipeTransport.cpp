@@ -3,8 +3,8 @@
 #include "thrift/transport/TTransportException.h"
 #include "thrift/windows/Sync.h"
 
-uint32_t pseudo_sync_read(HANDLE pipe, HANDLE event, uint8_t* buf, uint32_t len);
-void pseudo_sync_write(HANDLE pipe, HANDLE event, const uint8_t* buf, uint32_t len);
+uint32_t pseudo_sync_read(const std::string & pipename_, HANDLE pipe, HANDLE event, uint8_t* buf, uint32_t len);
+void pseudo_sync_write(const std::string & pipename_, HANDLE pipe, HANDLE event, const uint8_t* buf, uint32_t len);
 
 class WindowsPipeImpl : apache::thrift::TNonCopyable {
  public:
@@ -22,13 +22,13 @@ class WindowsPipeImpl : apache::thrift::TNonCopyable {
 
 class WindowsNamedPipeImpl : public WindowsPipeImpl {
  public:
-  explicit WindowsNamedPipeImpl(TAutoHandle &pipehandle) : Pipe_(pipehandle.release()) {}
+  explicit WindowsNamedPipeImpl(TAutoHandle &pipehandle, std::string pipename) : Pipe_(pipehandle.release()), pipename_(pipename) {}
   virtual ~WindowsNamedPipeImpl() {}
   virtual uint32_t read(uint8_t* buf, uint32_t len) {
-    return pseudo_sync_read(Pipe_.h, read_event_.h, buf, len);
+    return pseudo_sync_read(pipename_, Pipe_.h, read_event_.h, buf, len);
   }
   virtual void write(const uint8_t* buf, uint32_t len) {
-    pseudo_sync_write(Pipe_.h, write_event_.h, buf, len);
+    pseudo_sync_write(pipename_, Pipe_.h, write_event_.h, buf, len);
   }
 
   virtual HANDLE getPipeHandle() { return Pipe_.h; }
@@ -38,9 +38,10 @@ class WindowsNamedPipeImpl : public WindowsPipeImpl {
   TManualResetEvent read_event_;
   TManualResetEvent write_event_;
   TAutoHandle Pipe_;
+  std::string pipename_;
 };
 
-void pseudo_sync_write(HANDLE pipe, HANDLE event, const uint8_t* buf, uint32_t len) {
+void pseudo_sync_write(const std::string & pipename_, HANDLE pipe, HANDLE event, const uint8_t* buf, uint32_t len) {
   OVERLAPPED tempOverlap;
   memset(&tempOverlap, 0, sizeof(tempOverlap));
   tempOverlap.hEvent = event;
@@ -51,20 +52,20 @@ void pseudo_sync_write(HANDLE pipe, HANDLE event, const uint8_t* buf, uint32_t l
 
     if (result == FALSE && ::GetLastError() != ERROR_IO_PENDING) {
       DWORD err = ::GetLastError();
-      throw TTransportException(TTransportException::UNKNOWN, "PipeTransport: WriteFile failed, err: " + TOutput::strerror_s(err));
+      throw TTransportException(TTransportException::UNKNOWN, "PipeTransport: WriteFile '" + pipename_ + "' failed, err: [" + std::to_string(err) + "] " + TOutput::strerror_s(err));
     }
 
     DWORD bytes = 0;
     result = ::GetOverlappedResult(pipe, &tempOverlap, &bytes, TRUE);
     if (!result) {
       DWORD err = ::GetLastError();
-      throw TTransportException(TTransportException::UNKNOWN, "PipeTransport: GetOverlappedResult failed, err: " + TOutput::strerror_s(err));
+      throw TTransportException(TTransportException::UNKNOWN, "PipeTransport: GetOverlappedResult '" + pipename_ + "' failed, err: [" + std::to_string(err) + "] " + TOutput::strerror_s(err));
     }
     written += bytes;
   }
 }
 
-uint32_t pseudo_sync_read(HANDLE pipe, HANDLE event, uint8_t* buf, uint32_t len) {
+uint32_t pseudo_sync_read(const std::string & pipename_, HANDLE pipe, HANDLE event, uint8_t* buf, uint32_t len) {
   OVERLAPPED tempOverlap;
   memset(&tempOverlap, 0, sizeof(tempOverlap));
   tempOverlap.hEvent = event;
@@ -73,7 +74,9 @@ uint32_t pseudo_sync_read(HANDLE pipe, HANDLE event, uint8_t* buf, uint32_t len)
 
   int err = ::GetLastError();
   if (result == FALSE && err != ERROR_IO_PENDING) {
-    throw TTransportException(TTransportException::UNKNOWN, "PipeTransport: ReadFile failed, err: " + TOutput::strerror_s(err));
+    if (err == ERROR_BROKEN_PIPE)
+      throw TTransportException(TTransportException::END_OF_FILE, "PipeTransport: ReadFile '" + pipename_ + "' failed, err: broken pipe");
+    throw TTransportException(TTransportException::UNKNOWN, "PipeTransport: ReadFile '" + pipename_ + "' failed, err: [" + std::to_string(err) + "] " + TOutput::strerror_s(err));
   }
 
   DWORD bytes = 0;
@@ -81,8 +84,8 @@ uint32_t pseudo_sync_read(HANDLE pipe, HANDLE event, uint8_t* buf, uint32_t len)
   if (!result) {
     err = ::GetLastError();
     if (err == ERROR_BROKEN_PIPE)
-      throw TTransportException(TTransportException::END_OF_FILE, "PipeTransport: GetOverlappedResult failed, err: broken pipe");
-    throw TTransportException(TTransportException::UNKNOWN, "PipeTransport: GetOverlappedResult failed, err: " + TOutput::strerror_s(err));
+      throw TTransportException(TTransportException::END_OF_FILE, "PipeTransport: GetOverlappedResult '" + pipename_ + "' failed, err: broken pipe");
+    throw TTransportException(TTransportException::UNKNOWN, "PipeTransport: GetOverlappedResult '" + pipename_ + "' failed, err: [" + std::to_string(err) + "] " + TOutput::strerror_s(err));
   }
   return bytes;
 }
@@ -99,9 +102,9 @@ PipeTransport::PipeTransport(const std::string& pipename, std::shared_ptr<TConfi
   setPipename(pipename);
 }
 
-PipeTransport::PipeTransport(TAutoHandle &Pipe, std::shared_ptr<TConfiguration> config)
-    : impl_(new WindowsNamedPipeImpl(Pipe)), TimeoutSeconds_(3),
-      isAnonymous_(false), TVirtualTransport(config) {
+PipeTransport::PipeTransport(TAutoHandle &Pipe, const std::string & pipename)
+    : impl_(new WindowsNamedPipeImpl(Pipe, pipename)), pipename_(pipename), TimeoutSeconds_(3),
+      isAnonymous_(false), TVirtualTransport(nullptr) {
 }
 
 PipeTransport::PipeTransport(std::shared_ptr<TConfiguration> config) : TimeoutSeconds_(3), isAnonymous_(false),
@@ -142,16 +145,16 @@ void PipeTransport::open() {
 
     if (::GetLastError() != ERROR_PIPE_BUSY) {
       int err = ::GetLastError();
-      throw TTransportException(TTransportException::NOT_OPEN, "PipeTransport::open CreateFile failed, err: " + TOutput::strerror_s(err));
+      throw TTransportException(TTransportException::NOT_OPEN, "PipeTransport::open CreateFile '" + pipename_ + "' failed, err: " + TOutput::strerror_s(err));
     }
   } while (::WaitNamedPipeA(pipename_.c_str(), TimeoutSeconds_ * 1000));
 
   if (hPipe.h == INVALID_HANDLE_VALUE) {
     int err = ::GetLastError();
-    throw TTransportException(TTransportException::NOT_OPEN, "PipeTransport::open CreateFile failed, err: " + TOutput::strerror_s(err));
+    throw TTransportException(TTransportException::NOT_OPEN, "PipeTransport::open CreateFile '" + pipename_ + "' failed, err: " + TOutput::strerror_s(err));
   }
 
-  impl_.reset(new WindowsNamedPipeImpl(hPipe));
+  impl_.reset(new WindowsNamedPipeImpl(hPipe, pipename_));
 }
 
 void PipeTransport::close() {
@@ -161,13 +164,13 @@ void PipeTransport::close() {
 uint32_t PipeTransport::read(uint8_t* buf, uint32_t len) {
   checkReadBytesAvailable(len);
   if (!isOpen())
-    throw TTransportException(TTransportException::NOT_OPEN, "PipeTransport::read, called read on non-open pipe.");
+    throw TTransportException(TTransportException::NOT_OPEN, "PipeTransport::read '" + pipename_ + "' is called read on non-open pipe.");
   return impl_->read(buf, len);
 }
 
 void PipeTransport::write(const uint8_t* buf, uint32_t len) {
   if (!isOpen())
-    throw TTransportException(TTransportException::NOT_OPEN, "PipeTransport::write, called write on non-open pipe.");
+    throw TTransportException(TTransportException::NOT_OPEN, "PipeTransport::write '" + pipename_ + "' is called write on non-open pipe.");
   impl_->write(buf, len);
 }
 
@@ -198,7 +201,7 @@ void PipeTransport::setPipeHandle(HANDLE pipehandle) {
   else
   {
     TAutoHandle pipe(pipehandle);
-    impl_.reset(new WindowsNamedPipeImpl(pipe));
+    impl_.reset(new WindowsNamedPipeImpl(pipe, pipename_));
   }
 }
 

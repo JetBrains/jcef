@@ -173,7 +173,7 @@ void WindowsNamedPipeServer::initiateNamedConnect(const TAutoCrit &lockProof) {
   // function returns a nonzero value. If the function returns
   // zero, GetLastError should return ERROR_PIPE_CONNECTED.
   if (connectOverlap_.success) {
-    cached_client_.reset(new PipeTransport(Pipe_));
+    cached_client_.reset(new PipeTransport(Pipe_, pipename_));
     // make sure people know that a connection is ready
     SetEvent(listen_event_.h);
     return;
@@ -182,7 +182,7 @@ void WindowsNamedPipeServer::initiateNamedConnect(const TAutoCrit &lockProof) {
   DWORD dwErr = connectOverlap_.last_error;
   switch (dwErr) {
     case ERROR_PIPE_CONNECTED:
-      cached_client_.reset(new PipeTransport(Pipe_));
+      cached_client_.reset(new PipeTransport(Pipe_, pipename_));
       // make sure people know that a connection is ready
       SetEvent(listen_event_.h);
       return;
@@ -225,7 +225,7 @@ shared_ptr<TTransport> WindowsNamedPipeServer::acceptImpl() {
     TAutoCrit lock(pipe_protect_);
     shared_ptr<PipeTransport> client;
     try {
-      client.reset(new PipeTransport(Pipe_));
+      client.reset(new PipeTransport(Pipe_, pipename_));
     } catch (TTransportException& ttx) {
       if (ttx.getType() == TTransportException::INTERRUPTED) {
         throw;
