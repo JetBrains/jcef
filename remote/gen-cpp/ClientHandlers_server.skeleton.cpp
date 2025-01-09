@@ -20,11 +20,6 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
     // Your initialization goes here
   }
 
-  int32_t connect() {
-    // Your implementation goes here
-    printf("connect\n");
-  }
-
   void log(const std::string& msg) {
     // Your implementation goes here
     printf("log\n");
