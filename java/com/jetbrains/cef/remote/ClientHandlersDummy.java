@@ -7,12 +7,6 @@ import java.nio.ByteBuffer;
 import java.util.List;
 
 public class ClientHandlersDummy implements ClientHandlers.Iface{
-
-    @Override
-    public int connect() throws TException {
-        return 0;
-    }
-
     @Override
     public void log(String msg) throws TException {
 

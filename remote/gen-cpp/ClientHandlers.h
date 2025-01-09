@@ -22,7 +22,6 @@ namespace thrift_codegen {
 class ClientHandlersIf {
  public:
   virtual ~ClientHandlersIf() {}
-  virtual int32_t connect() = 0;
   virtual void log(const std::string& msg) = 0;
   virtual void AppHandler_OnContextInitialized() = 0;
   virtual void RenderHandler_GetViewRect(Rect& _return, const int32_t bid) = 0;
@@ -119,10 +118,6 @@ class ClientHandlersIfSingletonFactory : virtual public ClientHandlersIfFactory 
 class ClientHandlersNull : virtual public ClientHandlersIf {
  public:
   virtual ~ClientHandlersNull() {}
-  int32_t connect() override {
-    int32_t _return = 0;
-    return _return;
-  }
   void log(const std::string& /* msg */) override {
     return;
   }
@@ -345,99 +340,6 @@ class ClientHandlersNull : virtual public ClientHandlersIf {
   void DevToolsMessageObserver_OnDevToolsEvent(const int32_t /* observer */, const int32_t /* bid */, const std::string& /* method */, const std::string& /* parameters */) override {
     return;
   }
-};
-
-
-class ClientHandlers_connect_args {
- public:
-
-  ClientHandlers_connect_args(const ClientHandlers_connect_args&) noexcept;
-  ClientHandlers_connect_args& operator=(const ClientHandlers_connect_args&) noexcept;
-  ClientHandlers_connect_args() noexcept {
-  }
-
-  virtual ~ClientHandlers_connect_args() noexcept;
-
-  bool operator == (const ClientHandlers_connect_args & /* rhs */) const
-  {
-    return true;
-  }
-  bool operator != (const ClientHandlers_connect_args &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const ClientHandlers_connect_args & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-
-class ClientHandlers_connect_pargs {
- public:
-
-
-  virtual ~ClientHandlers_connect_pargs() noexcept;
-
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-typedef struct _ClientHandlers_connect_result__isset {
-  _ClientHandlers_connect_result__isset() : success(false) {}
-  bool success :1;
-} _ClientHandlers_connect_result__isset;
-
-class ClientHandlers_connect_result {
- public:
-
-  ClientHandlers_connect_result(const ClientHandlers_connect_result&) noexcept;
-  ClientHandlers_connect_result& operator=(const ClientHandlers_connect_result&) noexcept;
-  ClientHandlers_connect_result() noexcept
-                                : success(0) {
-  }
-
-  virtual ~ClientHandlers_connect_result() noexcept;
-  int32_t success;
-
-  _ClientHandlers_connect_result__isset __isset;
-
-  void __set_success(const int32_t val);
-
-  bool operator == (const ClientHandlers_connect_result & rhs) const
-  {
-    if (!(success == rhs.success))
-      return false;
-    return true;
-  }
-  bool operator != (const ClientHandlers_connect_result &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const ClientHandlers_connect_result & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-typedef struct _ClientHandlers_connect_presult__isset {
-  _ClientHandlers_connect_presult__isset() : success(false) {}
-  bool success :1;
-} _ClientHandlers_connect_presult__isset;
-
-class ClientHandlers_connect_presult {
- public:
-
-
-  virtual ~ClientHandlers_connect_presult() noexcept;
-  int32_t* success;
-
-  _ClientHandlers_connect_presult__isset __isset;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-
 };
 
 typedef struct _ClientHandlers_log_args__isset {
@@ -7130,9 +7032,6 @@ class ClientHandlersClient : virtual public ClientHandlersIf {
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> getOutputProtocol() {
     return poprot_;
   }
-  int32_t connect() override;
-  void send_connect();
-  int32_t recv_connect();
   void log(const std::string& msg) override;
   void send_log(const std::string& msg);
   void AppHandler_OnContextInitialized() override;
@@ -7325,7 +7224,6 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
   typedef  void (ClientHandlersProcessor::*ProcessFunction)(int32_t, ::apache::thrift::protocol::TProtocol*, ::apache::thrift::protocol::TProtocol*, void*);
   typedef std::map<std::string, ProcessFunction> ProcessMap;
   ProcessMap processMap_;
-  void process_connect(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_log(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_AppHandler_OnContextInitialized(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_RenderHandler_GetViewRect(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -7396,7 +7294,6 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
  public:
   ClientHandlersProcessor(::std::shared_ptr<ClientHandlersIf> iface) :
     iface_(iface) {
-    processMap_["connect"] = &ClientHandlersProcessor::process_connect;
     processMap_["log"] = &ClientHandlersProcessor::process_log;
     processMap_["AppHandler_OnContextInitialized"] = &ClientHandlersProcessor::process_AppHandler_OnContextInitialized;
     processMap_["RenderHandler_GetViewRect"] = &ClientHandlersProcessor::process_RenderHandler_GetViewRect;
@@ -7492,15 +7389,6 @@ class ClientHandlersMultiface : virtual public ClientHandlersIf {
     ifaces_.push_back(iface);
   }
  public:
-  int32_t connect() override {
-    size_t sz = ifaces_.size();
-    size_t i = 0;
-    for (; i < (sz - 1); ++i) {
-      ifaces_[i]->connect();
-    }
-    return ifaces_[i]->connect();
-  }
-
   void log(const std::string& msg) override {
     size_t sz = ifaces_.size();
     size_t i = 0;
@@ -8148,9 +8036,6 @@ class ClientHandlersConcurrentClient : virtual public ClientHandlersIf {
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> getOutputProtocol() {
     return poprot_;
   }
-  int32_t connect() override;
-  int32_t send_connect();
-  int32_t recv_connect(const int32_t seqid);
   void log(const std::string& msg) override;
   void send_log(const std::string& msg);
   void AppHandler_OnContextInitialized() override;

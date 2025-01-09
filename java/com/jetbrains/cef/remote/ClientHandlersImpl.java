@@ -56,11 +56,6 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     }
 
     @Override
-    public int connect() {
-        return 0;
-    }
-
-    @Override
     public void log(String msg) {
         CefLog.Debug("received message from CefServer: " + msg);
     }

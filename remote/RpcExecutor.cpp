@@ -39,8 +39,6 @@ RpcExecutor::RpcExecutor(int port) {
   myService = std::make_shared<ClientHandlersClient>(myProtocol);
 
   myTransport->open();
-  const int32_t backwardCid = myService->connect();
-  Log::trace("Backward tcp connection to client established, backwardCid=%d.", backwardCid);
 }
 
 RpcExecutor::RpcExecutor(std::string pipeName) {
@@ -53,8 +51,6 @@ RpcExecutor::RpcExecutor(std::string pipeName) {
   myService = std::make_shared<ClientHandlersClient>(myProtocol);
 
   myTransport->open();
-  const int32_t backwardCid = myService->connect();
-  Log::trace("Backward pipe connection to client established: pipe='%s', backwardCid=%d.", pipeName.c_str(), backwardCid);
 }
 
 std::string RpcExecutor::getProcessingName() const { return myProtocol->getLastMessageName(); }
