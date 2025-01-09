@@ -112,7 +112,7 @@ public class BasicJcefTest {
         boolean started = NativeServerManager.startProcessAndWait(thriftServer, appHandler, settings, waitTimeoutMs);
         if (!started)
             throw new AssertionError("Can't start server.");
-        if (!NativeServerManager.isProcessAlive())
+        if (!NativeServerManager.isProcessAlive(thriftServer))
             throw new AssertionError("Server process is dead.");
         if (NativeServerManager.isRunning(thriftServer, true) == null)
             throw new AssertionError("Server isn't running.");
@@ -125,7 +125,7 @@ public class BasicJcefTest {
             final boolean stopped = NativeServerManager.stopAndWait(thriftServer, waitTimeoutMs);
             if (!stopped) {
                 CefLog.Debug("Can't stop server, additional debug:");
-                if (NativeServerManager.isProcessAlive())
+                if (NativeServerManager.isProcessAlive(thriftServer))
                     CefLog.Debug("\t server process is alive.");
                 CefLog.Debug("\t isRunning returns %s.", String.valueOf(NativeServerManager.isRunning(thriftServer, true)));
                 throw new AssertionError("Can't stop server.");
@@ -188,7 +188,7 @@ public class BasicJcefTest {
         //
         // Server was stopped
         //
-        if (NativeServerManager.isProcessAlive())
+        if (NativeServerManager.isProcessAlive(thriftServer))
             throw new AssertionError("Server process is alive.");
         if (NativeServerManager.isRunning(thriftServer, true) != null)
             throw new AssertionError("Server is still running.");
