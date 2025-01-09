@@ -142,7 +142,7 @@ Java_com_jetbrains_cef_remote_WindowsPipe_write(
   if (!immediate) {
     if (GetLastError() != ERROR_IO_PENDING) {
       char buf[256];
-      FILL_ERROR("ReadFile() failed: %s (error code %ld)", buf);
+      FILL_ERROR("WriteFile() failed: %s (error code %ld)", buf);
       THROW_IO(NULL, buf);
     }
   }

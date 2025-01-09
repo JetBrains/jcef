@@ -18,7 +18,7 @@ class PipeTransport : public TVirtualTransport<PipeTransport> {
   PipeTransport(std::shared_ptr<TConfiguration> config = nullptr);
   explicit PipeTransport(const char* pipename, std::shared_ptr<TConfiguration> config = nullptr);
   explicit PipeTransport(const std::string& pipename, std::shared_ptr<TConfiguration> config = nullptr);
-  explicit PipeTransport(TAutoHandle& Pipe, std::shared_ptr<TConfiguration> config = nullptr); // this ctor will clear out / move from Pipe
+  explicit PipeTransport(TAutoHandle& Pipe, const std::string & pipename); // this ctor will clear out / move from Pipe
 
   // Destroys the pipe object, closing it if necessary.
   virtual ~PipeTransport();
