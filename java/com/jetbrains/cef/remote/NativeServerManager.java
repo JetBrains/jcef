@@ -18,6 +18,7 @@ import java.nio.channels.SocketChannel;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BooleanSupplier;
@@ -28,7 +29,7 @@ public class NativeServerManager {
     private static final String ALT_SUBPROCESS_PATH = Utils.getString("ALT_SUBPROCESS_PATH");
     private static final boolean CHECK_PROCESS_ALIVE = Utils.getBoolean("JCEF_CHECK_PROCESS_ALIVE", true); // for debug, TODO: remove
 
-    private static Process ourNativeServerProcess = null;
+    private static Map<String, Process> ourNativeServerProcesses = new HashMap<>();
 
     // Should be called in bg thread
     public static boolean startProcessAndWait(ThriftTransport thriftServer, CefAppHandler appHandler, CefSettings settings, long timeoutMs) {
@@ -125,8 +126,8 @@ public class NativeServerManager {
         return startProcessAndWait(thriftServer, f.getAbsolutePath(), timeoutMs, settings.log_file, settings.log_severity);
     }
 
-    public static boolean isProcessAlive() {
-        Process p = ourNativeServerProcess;
+    public static boolean isProcessAlive(ThriftTransport thriftServer) {
+        Process p = ourNativeServerProcesses.get(thriftServer.toString());
         return p != null && p.isAlive();
     }
 
@@ -196,7 +197,7 @@ public class NativeServerManager {
 
     // returns root_cache_path of running server (or null if not running)
     public static String isRunning(ThriftTransport transport, boolean withDebug) {
-        if (CHECK_PROCESS_ALIVE && ourNativeServerProcess != null && !ourNativeServerProcess.isAlive()) {
+        if (CHECK_PROCESS_ALIVE && ourNativeServerProcesses.get(transport.toString()) != null && !ourNativeServerProcesses.get(transport.toString()).isAlive()) {
             if (withDebug)
                 CefLog.Debug("isRunning: server process is not alive.");
             return null;
@@ -267,11 +268,11 @@ public class NativeServerManager {
         // Wait for stopping
         boolean stopped = waitForStopped(thriftServer, timeoutMs);
         if (!stopped) {
-            CefLog.Error("Can't stop server in %d ms (process is %s)", timeoutMs, isProcessAlive() ? "alive" : "dead");
+            CefLog.Error("Can't stop server in %d ms (process is %s)", timeoutMs, isProcessAlive(thriftServer) ? "alive" : "dead");
             CefLog.Debug("Server state: %s", getServerState());
             return false;
         }
-        ourNativeServerProcess = null;
+        ourNativeServerProcesses.remove(thriftServer.toString());
         return true;
     }
 
@@ -470,9 +471,9 @@ public class NativeServerManager {
     // returns true when server was started successfully
     private static boolean startProcessAndWait(ThriftTransport thriftServer, String paramsPath, long timeoutMs, String logPath, CefSettings.LogSeverity logLevel) {
         final long t0 = System.nanoTime();
-        if (ourNativeServerProcess != null)
+        if (ourNativeServerProcesses.get(thriftServer.toString()) != null)
             CefLog.Debug("Handle of server process will be overwritten.");
-        ourNativeServerProcess = null;
+        ourNativeServerProcesses.remove(thriftServer.toString());
 
         File serverExe = getServerExe();
         if (serverExe == null)
@@ -538,8 +539,10 @@ public class NativeServerManager {
         builder.command().add(String.format("--params=%s", paramsPath));
         builder.redirectOutput(ProcessBuilder.Redirect.INHERIT);
         builder.redirectError(ProcessBuilder.Redirect.INHERIT);
+        Process p;
         try {
-            ourNativeServerProcess = builder.start();
+            p = builder.start();
+            ourNativeServerProcesses.put(thriftServer.toString(), p);
         } catch (IOException e) {
             CefLog.Error("Can't start native cef_server, exception: %s", e.getMessage());
             return false;
@@ -549,11 +552,11 @@ public class NativeServerManager {
         final long t1 = System.nanoTime();
         boolean running = waitForRunning(thriftServer, timeoutMs);
         if (!running && !(running = (isRunning(thriftServer, true) != null))) {
-            if (ourNativeServerProcess.isAlive())
+            if (p.isAlive())
                 CefLog.Error("Native cef_server was started but client can't connect.");
             else {
                 CefLog.Error("Can't start native cef_server, process is dead.");
-                ourNativeServerProcess = null;
+                ourNativeServerProcesses.remove(thriftServer.toString());
             }
         }
         CefLog.Debug("\t spent mcs: process starting %d, waiting %d", (t1 - t0)/1000, (System.nanoTime() - t1)/1000);
