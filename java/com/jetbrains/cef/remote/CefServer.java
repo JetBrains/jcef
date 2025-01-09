@@ -175,7 +175,7 @@ public class CefServer {
     }
 
     public void disconnect() {
-        CefLog.Debug("Disconnect from native server (it will be automatically stopped soon because we were connected as master).");
+        CefLog.Debug("Disconnect from native server '%s' (it will be automatically stopped soon because we were connected as master).", myThriftServer);
         myIsConnected = false;
 
         myRpc.close();

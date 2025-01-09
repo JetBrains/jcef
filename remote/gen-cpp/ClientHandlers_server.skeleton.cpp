@@ -20,6 +20,11 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
     // Your initialization goes here
   }
 
+  void echo(std::string& _return, const std::string& msg) {
+    // Your implementation goes here
+    printf("echo\n");
+  }
+
   void log(const std::string& msg) {
     // Your implementation goes here
     printf("log\n");

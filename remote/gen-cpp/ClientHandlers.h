@@ -22,6 +22,7 @@ namespace thrift_codegen {
 class ClientHandlersIf {
  public:
   virtual ~ClientHandlersIf() {}
+  virtual void echo(std::string& _return, const std::string& msg) = 0;
   virtual void log(const std::string& msg) = 0;
   virtual void AppHandler_OnContextInitialized() = 0;
   virtual void RenderHandler_GetViewRect(Rect& _return, const int32_t bid) = 0;
@@ -118,6 +119,9 @@ class ClientHandlersIfSingletonFactory : virtual public ClientHandlersIfFactory 
 class ClientHandlersNull : virtual public ClientHandlersIf {
  public:
   virtual ~ClientHandlersNull() {}
+  void echo(std::string& /* _return */, const std::string& /* msg */) override {
+    return;
+  }
   void log(const std::string& /* msg */) override {
     return;
   }
@@ -340,6 +344,112 @@ class ClientHandlersNull : virtual public ClientHandlersIf {
   void DevToolsMessageObserver_OnDevToolsEvent(const int32_t /* observer */, const int32_t /* bid */, const std::string& /* method */, const std::string& /* parameters */) override {
     return;
   }
+};
+
+typedef struct _ClientHandlers_echo_args__isset {
+  _ClientHandlers_echo_args__isset() : msg(false) {}
+  bool msg :1;
+} _ClientHandlers_echo_args__isset;
+
+class ClientHandlers_echo_args {
+ public:
+
+  ClientHandlers_echo_args(const ClientHandlers_echo_args&);
+  ClientHandlers_echo_args& operator=(const ClientHandlers_echo_args&);
+  ClientHandlers_echo_args() noexcept
+                           : msg() {
+  }
+
+  virtual ~ClientHandlers_echo_args() noexcept;
+  std::string msg;
+
+  _ClientHandlers_echo_args__isset __isset;
+
+  void __set_msg(const std::string& val);
+
+  bool operator == (const ClientHandlers_echo_args & rhs) const
+  {
+    if (!(msg == rhs.msg))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_echo_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_echo_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_echo_pargs {
+ public:
+
+
+  virtual ~ClientHandlers_echo_pargs() noexcept;
+  const std::string* msg;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_echo_result__isset {
+  _ClientHandlers_echo_result__isset() : success(false) {}
+  bool success :1;
+} _ClientHandlers_echo_result__isset;
+
+class ClientHandlers_echo_result {
+ public:
+
+  ClientHandlers_echo_result(const ClientHandlers_echo_result&);
+  ClientHandlers_echo_result& operator=(const ClientHandlers_echo_result&);
+  ClientHandlers_echo_result() noexcept
+                             : success() {
+  }
+
+  virtual ~ClientHandlers_echo_result() noexcept;
+  std::string success;
+
+  _ClientHandlers_echo_result__isset __isset;
+
+  void __set_success(const std::string& val);
+
+  bool operator == (const ClientHandlers_echo_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_echo_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_echo_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_echo_presult__isset {
+  _ClientHandlers_echo_presult__isset() : success(false) {}
+  bool success :1;
+} _ClientHandlers_echo_presult__isset;
+
+class ClientHandlers_echo_presult {
+ public:
+
+
+  virtual ~ClientHandlers_echo_presult() noexcept;
+  std::string* success;
+
+  _ClientHandlers_echo_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
 };
 
 typedef struct _ClientHandlers_log_args__isset {
@@ -7032,6 +7142,9 @@ class ClientHandlersClient : virtual public ClientHandlersIf {
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> getOutputProtocol() {
     return poprot_;
   }
+  void echo(std::string& _return, const std::string& msg) override;
+  void send_echo(const std::string& msg);
+  void recv_echo(std::string& _return);
   void log(const std::string& msg) override;
   void send_log(const std::string& msg);
   void AppHandler_OnContextInitialized() override;
@@ -7224,6 +7337,7 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
   typedef  void (ClientHandlersProcessor::*ProcessFunction)(int32_t, ::apache::thrift::protocol::TProtocol*, ::apache::thrift::protocol::TProtocol*, void*);
   typedef std::map<std::string, ProcessFunction> ProcessMap;
   ProcessMap processMap_;
+  void process_echo(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_log(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_AppHandler_OnContextInitialized(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_RenderHandler_GetViewRect(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -7294,6 +7408,7 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
  public:
   ClientHandlersProcessor(::std::shared_ptr<ClientHandlersIf> iface) :
     iface_(iface) {
+    processMap_["echo"] = &ClientHandlersProcessor::process_echo;
     processMap_["log"] = &ClientHandlersProcessor::process_log;
     processMap_["AppHandler_OnContextInitialized"] = &ClientHandlersProcessor::process_AppHandler_OnContextInitialized;
     processMap_["RenderHandler_GetViewRect"] = &ClientHandlersProcessor::process_RenderHandler_GetViewRect;
@@ -7389,6 +7504,16 @@ class ClientHandlersMultiface : virtual public ClientHandlersIf {
     ifaces_.push_back(iface);
   }
  public:
+  void echo(std::string& _return, const std::string& msg) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->echo(_return, msg);
+    }
+    ifaces_[i]->echo(_return, msg);
+    return;
+  }
+
   void log(const std::string& msg) override {
     size_t sz = ifaces_.size();
     size_t i = 0;
@@ -8036,6 +8161,9 @@ class ClientHandlersConcurrentClient : virtual public ClientHandlersIf {
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> getOutputProtocol() {
     return poprot_;
   }
+  void echo(std::string& _return, const std::string& msg) override;
+  int32_t send_echo(const std::string& msg);
+  void recv_echo(std::string& _return, const int32_t seqid);
   void log(const std::string& msg) override;
   void send_log(const std::string& msg);
   void AppHandler_OnContextInitialized() override;

@@ -94,6 +94,19 @@ int ServerHandler::connectImpl(std::function<void()> openBackwardTransport) {
   myCtx = std::make_shared<ServerHandlerContext>();
   try {
     openBackwardTransport();
+    static const bool testBackwardTransport = getBoolEnv("CEF_SERVER_TEST_BACKWARD_TRANSPORT");
+    if (testBackwardTransport) {
+      // simple test for connection
+      std::string testMsg = "123test!!";
+      std::string returnVal;
+      myCtx->javaService()->exec(
+          [&](JavaService s) { s->echo(returnVal, testMsg); });
+      if (testMsg.compare(returnVal) != 0) {
+        Log::error("JavaClient returns invalid echo '%s'", returnVal.c_str());
+        myCtx->closeJavaServiceTransport();
+        return -1;
+      }
+    }
     ServerApplication::instance().getCefAppHandler()->setService(myCtx->javaService());
   } catch (TException& tx) {
     Log::error(tx.what());
