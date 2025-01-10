@@ -166,6 +166,8 @@ public class CefApp extends CefAppHandlerAdapter {
         if (settings != null) settings_ = settings.clone();
         CefLog.init(settings);
         setState(CefAppState.NEW);
+        if (IS_REMOTE_ENABLED)
+            server_ = CefServer.createDefault();
 
         ourStartupFeature.thenRunAsync(() -> {
             // Perform native pre-initialization.
@@ -175,7 +177,6 @@ public class CefApp extends CefAppHandlerAdapter {
             // execute successfully)
             // TODO: ensure and make all initialization steps in single bg thread.
             if (IS_REMOTE_ENABLED) {
-                server_ = CefServer.createDefault();
                 if (server_.start(appHandler_, settings_)) {
                     CefLog.Debug("CefApp: native CefServer is initialized.");
                     setState(CefAppState.INITIALIZED);
