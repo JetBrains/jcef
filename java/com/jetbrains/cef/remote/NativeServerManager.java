@@ -123,7 +123,18 @@ public class NativeServerManager {
         ps.close();
 
         CefLog.Debug("Settings were written to file, spent %d mcs", (System.nanoTime() - t0)/1000);
-        return startProcessAndWait(thriftServer, f.getAbsolutePath(), timeoutMs, settings.log_file, settings.log_severity);
+
+        // Select log path
+        String serverLogPath = Utils.getString("CEF_SERVER_LOG_PATH");
+        if (serverLogPath == null || serverLogPath.trim().isEmpty())
+            serverLogPath = settings.log_file;
+
+        // Select log level
+        int serverLogLevel = Utils.getInteger("CEF_SERVER_LOG_LEVEL", -1);
+        if (serverLogLevel == -1)
+            serverLogLevel = ServerLogLevel.cef2native(settings.log_severity);
+
+        return startProcessAndWait(thriftServer, f.getAbsolutePath(), timeoutMs, serverLogPath, serverLogLevel);
     }
 
     public static boolean isProcessAlive(ThriftTransport thriftServer) {
@@ -474,7 +485,7 @@ public class NativeServerManager {
     }
 
     // returns true when server was started successfully
-    private static boolean startProcessAndWait(ThriftTransport thriftServer, String paramsPath, long timeoutMs, String logPath, CefSettings.LogSeverity logLevel) {
+    private static boolean startProcessAndWait(ThriftTransport thriftServer, String paramsPath, long timeoutMs, String logPath, int logLevel) {
         final long t0 = System.nanoTime();
         if (ourNativeServerProcesses.get(thriftServer.toString()) != null)
             CefLog.Debug("Handle of server process will be overwritten.");
@@ -500,42 +511,13 @@ public class NativeServerManager {
             CefLog.Debug("\tUse pipe %s", thriftServer.getPipe());
             builder.command().add(String.format("--pipe=%s", thriftServer.getPipe()));
         }
-        String serverLog = logPath;
-        if (serverLog == null || serverLog.trim().isEmpty())
-            serverLog = Utils.getString("CEF_SERVER_LOG_PATH");
-        if (serverLog != null && !serverLog.isEmpty()) {
-            CefLog.Debug("\tLog file %s", serverLog);
-            builder.command().add(String.format("--logfile=%s", serverLog.trim()));
+        if (logPath != null && !logPath.isEmpty()) {
+            CefLog.Debug("\tLog file %s", logPath);
+            builder.command().add(String.format("--logfile=%s", logPath.trim()));
         }
-        {   // Select native log level
-            final int LEVEL_DISABLED = 100;
-            final int LEVEL_FATAL = 10;
-            final int LEVEL_ERROR = 9;
-            final int LEVEL_WARN = 8;
-            final int LEVEL_INFO = 7;
-            final int LEVEL_DEBUG = 6;
-            final int LEVEL_TRACE = 5;
-            int nativeLogLevel = LEVEL_DISABLED;
-            if (logLevel != null) {
-                if (logLevel == CefSettings.LogSeverity.LOGSEVERITY_DISABLE)
-                    nativeLogLevel = LEVEL_DISABLED;
-                else if (logLevel == CefSettings.LogSeverity.LOGSEVERITY_DEFAULT)
-                    nativeLogLevel = LEVEL_INFO;
-                else if (logLevel == CefSettings.LogSeverity.LOGSEVERITY_FATAL)
-                    nativeLogLevel = LEVEL_FATAL;
-                else if (logLevel == CefSettings.LogSeverity.LOGSEVERITY_ERROR)
-                    nativeLogLevel = LEVEL_ERROR;
-                else if (logLevel == CefSettings.LogSeverity.LOGSEVERITY_WARNING)
-                    nativeLogLevel = LEVEL_WARN;
-                else if (logLevel == CefSettings.LogSeverity.LOGSEVERITY_INFO)
-                    nativeLogLevel = LEVEL_DEBUG;
-                else if (logLevel == CefSettings.LogSeverity.LOGSEVERITY_VERBOSE)
-                    nativeLogLevel = LEVEL_TRACE;
-            }
 
-            CefLog.Debug("\tLog level (native) %d", nativeLogLevel);
-            builder.command().add(String.format("--loglevel=%d", nativeLogLevel));
-        }
+        CefLog.Debug("\tLog level %s [%d]", ServerLogLevel.nativeDesc(logLevel), logLevel);
+        builder.command().add(String.format("--loglevel=%d", logLevel));
 
         if (System.getenv().containsKey("DEBUG_CEF_SERVER")) {
             builder.command().add("--cef-server-wait-debugger");
@@ -566,5 +548,51 @@ public class NativeServerManager {
         }
         CefLog.Debug("\t spent mcs: process starting %d, waiting %d", (t1 - t0)/1000, (System.nanoTime() - t1)/1000);
         return running;
+    }
+
+    private static class ServerLogLevel {
+        final static int LEVEL_DISABLED = 100;
+        final static int LEVEL_FATAL = 10;
+        final static int LEVEL_ERROR = 9;
+        final static int LEVEL_WARN = 8;
+        final static int LEVEL_INFO = 7;
+        final static int LEVEL_DEBUG = 6;
+        final static int LEVEL_TRACE = 5;
+
+        static int cef2native(CefSettings.LogSeverity severity) {
+            if (severity == CefSettings.LogSeverity.LOGSEVERITY_DISABLE)
+                return LEVEL_DISABLED;
+            else if (severity == CefSettings.LogSeverity.LOGSEVERITY_DEFAULT)
+                return LEVEL_INFO;
+            else if (severity == CefSettings.LogSeverity.LOGSEVERITY_FATAL)
+                return LEVEL_FATAL;
+            else if (severity == CefSettings.LogSeverity.LOGSEVERITY_ERROR)
+                return LEVEL_ERROR;
+            else if (severity == CefSettings.LogSeverity.LOGSEVERITY_WARNING)
+                return LEVEL_WARN;
+            else if (severity == CefSettings.LogSeverity.LOGSEVERITY_INFO)
+                return LEVEL_DEBUG;
+            else if (severity == CefSettings.LogSeverity.LOGSEVERITY_VERBOSE)
+                return LEVEL_TRACE;
+            return LEVEL_DISABLED;
+        }
+
+        static String nativeDesc(int level) {
+            if (level == LEVEL_DISABLED)
+                return "disabled";
+            if (level == LEVEL_FATAL)
+                return "fatal";
+            if (level == LEVEL_ERROR)
+                return "error";
+            if (level == LEVEL_WARN)
+                return "warn";
+            if (level == LEVEL_INFO)
+                return "info";
+            if (level == LEVEL_DEBUG)
+                return "debug";
+            if (level == LEVEL_TRACE)
+                return "trace";
+            return "unknown";
+        }
     }
 }
