@@ -38,22 +38,26 @@ public class CefLog {
         if (log_severity == CefSettings.LogSeverity.LOGSEVERITY_DISABLE)
             return;
 
+        boolean useStdOut = false; // stderr isn't buffered
         if (log_file != null && !log_file.trim().isEmpty()) {
-            if (log_severity != CefSettings.LogSeverity.LOGSEVERITY_DEFAULT) {
-                try {
-                    System.out.printf("JCEF(%s): initialized file logger, severity=%s, path='%s'\n", ourTimeFormat.format(new Date()), log_severity, log_file);
-                    PrintStream ps = new PrintStream(new FileOutputStream(log_file, true), true);
-                    INSTANCE = new CefLog(ps, log_severity);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+            useStdOut = log_file.trim().equalsIgnoreCase("stdout");
+            if (!useStdOut) {
+                if (log_severity != CefSettings.LogSeverity.LOGSEVERITY_DEFAULT) {
+                    try {
+                        System.out.printf("JCEF(%s): initialized file logger, severity=%s, path='%s'\n", ourTimeFormat.format(new Date()), log_severity, log_file);
+                        PrintStream ps = new PrintStream(new FileOutputStream(log_file, true), true);
+                        INSTANCE = new CefLog(ps, log_severity);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
                 }
+                return;
             }
-            return;
         }
 
         CefSettings.LogSeverity severity = log_severity == null ? CefSettings.LogSeverity.LOGSEVERITY_INFO : log_severity;
-        System.out.printf("JCEF(%s): initialized stderr logger, severity=%s\n", ourTimeFormat.format(new Date()), severity);
-        INSTANCE = new CefLog(System.err, severity);
+        System.out.printf("JCEF(%s): initialized %s logger, severity=%s\n", useStdOut ? "stdout" : "stderr", ourTimeFormat.format(new Date()), severity);
+        INSTANCE = new CefLog(useStdOut ? System.out : System.err, severity);
     }
 
     private CefLog(PrintStream ps, CefSettings.LogSeverity log_severity) {

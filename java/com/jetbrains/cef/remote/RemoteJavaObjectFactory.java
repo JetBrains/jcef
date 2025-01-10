@@ -1,7 +1,10 @@
 package com.jetbrains.cef.remote;
 
 import org.cef.misc.CefLog;
+import org.cef.misc.Utils;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Map;
@@ -11,6 +14,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class RemoteJavaObjectFactory<T> {
+    private static boolean DEBUG = Utils.getBoolean("JCEF_DEBUG_REMOTE_JAVA_OBJECTS");
     private final Map<Integer, T> INSTANCES = new ConcurrentHashMap<>();
     private AtomicInteger COUNTER = new AtomicInteger(0);
 
@@ -34,8 +38,11 @@ public class RemoteJavaObjectFactory<T> {
 
     public T get(int id) {
         T result = INSTANCES.get(id);
-        if (result == null)
-            CefLog.Error("Can't find instance in '%s' by id %d", INSTANCES, id);
+        if (result == null && DEBUG) {
+            StringWriter sw = new StringWriter();
+            new Throwable().printStackTrace(new PrintWriter(sw));
+            CefLog.Error("Can't find instance in '%s' by id %d, stacktrace:\n%s", INSTANCES, id, sw.getBuffer().toString());
+        }
         return result;
     }
 
