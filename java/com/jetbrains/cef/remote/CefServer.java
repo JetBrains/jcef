@@ -19,7 +19,7 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class CefServer {
-    private static final Integer WAIT_FOR_SERVER_EXIT_SEC = Utils.getInteger("JCEF_WAIT_FOR_SERVER_EXIT_SEC", 0);
+    private static final Integer WAIT_FOR_SERVER_EXIT_SEC = Utils.getInteger("JCEF_WAIT_FOR_SERVER_EXIT_SEC", 10);
     private final ThriftTransport myThriftServer;
     private final ThriftTransport myThriftBackward;
 
@@ -200,13 +200,15 @@ public class CefServer {
         if (WAIT_FOR_SERVER_EXIT_SEC > 0) {
             CefLog.Debug("Waiting for server stop (max %d sec).", WAIT_FOR_SERVER_EXIT_SEC);
             final long startMs = System.currentTimeMillis();
-            new Thread(() -> {
+            final Thread t = new Thread(() -> {
                 boolean stopped = NativeServerManager.waitForStopped(myThriftServer, WAIT_FOR_SERVER_EXIT_SEC*1000);
                 if (stopped)
                     CefLog.Info("Server [%s] was stopped in %d ms.", myThriftServer, System.currentTimeMillis() - startMs);
                 else
                     CefLog.Error("Can't stop server [%s] in %d seconds.", myThriftServer, WAIT_FOR_SERVER_EXIT_SEC);
-            }, "CEF-shutdown-thread").start();
+            }, "CEF-shutdown-thread");
+            t.setDaemon(false);
+            t.start();
         }
     }
 
