@@ -23,6 +23,7 @@ class CommandLineArgs {
   bool waitDebugger() const { return myWaitDebugger; }
   int getPort() const { return myPort; }
   std::string getPipe() const { return myPathPipe; }
+  std::string getTransportDesc() const { return myUseTcp ? "port " + std::to_string(myPort) : "pipe " + myPathPipe; }
   std::string getLogFile() const { return myPathLogFile; }
   std::string getParamsFile() const { return myPathParamsFile; }
   int getLogLevel() const { return myLogLevel; }

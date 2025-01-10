@@ -198,6 +198,7 @@ public class CefServer {
             myThriftBackward.close();
 
         if (WAIT_FOR_SERVER_EXIT_SEC > 0) {
+            CefLog.Debug("Waiting for server stop (max %d sec).", WAIT_FOR_SERVER_EXIT_SEC);
             final long startMs = System.currentTimeMillis();
             new Thread(() -> {
                 boolean stopped = NativeServerManager.waitForStopped(myThriftServer, WAIT_FOR_SERVER_EXIT_SEC*1000);

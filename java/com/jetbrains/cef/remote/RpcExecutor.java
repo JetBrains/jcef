@@ -107,9 +107,9 @@ public class RpcExecutor {
     }
 
     private void onThriftException(TException e) {
-        CefLog.Error("thrift exception '%s'", e.getMessage());
+        CefLog.Debug("thrift exception '%s'", e.getMessage());
         StringWriter sw = new StringWriter();
         e.printStackTrace(new PrintWriter(sw));
-        CefLog.Error(sw.getBuffer().toString());
+        CefLog.Debug(sw.getBuffer().toString());
     }
 }
