@@ -200,6 +200,6 @@ int main(int argc, char* argv[]) {
   if (!cmdArgs.useTcp())
     std::remove(cmdArgs.getPipe().c_str());
 #endif //WIN32
-  Log::debug("Buy!");
+  Log::debug("Buy [%s]!", cmdArgs.getTransportDesc().c_str());
   return 0;
 }

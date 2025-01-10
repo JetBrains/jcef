@@ -156,6 +156,7 @@ void ServerApplication::init(int argc, char* argv[]) {
   myStartTime = Clock::now();
   myCmdArgs.init(argc, argv);
   Log::init(myCmdArgs.getLogLevel(), myCmdArgs.getLogFile());
+  Log::info("Init ServerApplication with transport %s.\n", myCmdArgs.getTransportDesc().c_str());
 
 #if defined(OS_MAC)
   const Clock::time_point t0 = Clock::now();
@@ -333,7 +334,7 @@ void ServerApplication::onClientDestroyed() {
 void ServerApplication::onServerHandlerClosed(const ServerHandler & handler) {
   if (handler.isMaster() && !myFactory->hasMaster()) {
     setState(SS_SHUTTING_DOWN, string_format("shutting down (closed last master handler %p)", &handler));
-    Log::debug("ServerHandler %p was closed and there are no master handlers now, so shutting down server.", &handler);
+    Log::debug("ServerHandler %p was closed and there are no master handlers now, so shutting down server [%s].", &handler, myCmdArgs.getTransportDesc().c_str());
   }
 
   processShuttingDownIfNecessary();
@@ -344,7 +345,7 @@ void ServerApplication::shutdownHard() {
   CefPostTask(TID_UI, base::BindOnce(CefQuitMessageLoop));
   Log::debug("CefQuitMessageLoop is posted (to be executed on UI thread), wait a little before exit...");
   std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-  Log::info("Buy!");
+  Log::debug("Buy [%s]!", myCmdArgs.getTransportDesc().c_str());
   std::exit(0);
 }
 
