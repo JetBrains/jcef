@@ -14,6 +14,8 @@ import java.nio.channels.Channels;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.nio.file.Path;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,7 +26,7 @@ public class ThriftTransport {
     private static final String PIPENAME_JAVA_HANDLERS;
     private static final String PIPENAME_CEF_SERVER;
     private static final long PID = ProcessHandle.current().pid();
-    private static final String SUFFIX = "_" + PID;
+    private static final String SUFFIX;
     private static final Path PIPE_DIR = Path.of(System.getProperty("java.io.tmpdir"));
 
     private final String myPipe;
@@ -39,6 +41,12 @@ public class ThriftTransport {
         } else {
             IS_TCP_USED = Utils.getBoolean("CEF_SERVER_USE_TCP");
         }
+
+        if (!Utils.getBoolean("DONT_JCEF_USE_UNIQUE_NAMES")) {
+            final SimpleDateFormat f = new SimpleDateFormat("hh_mm_ss_SSS");
+            SUFFIX = "_" + PID + "_" + f.format(new Date());
+        } else
+            SUFFIX = "_" + PID;
 
         if (IS_TCP_USED) {
             int customPort = Utils.getInteger("ALT_CEF_SERVER_PORT", -1);
@@ -155,6 +163,8 @@ public class ThriftTransport {
     }
 
     public static boolean isTcpUsed() { return IS_TCP_USED; }
+
+    public static String getUniqueSuffix() { return SUFFIX; }
 
     private static int getServerPort() {
 

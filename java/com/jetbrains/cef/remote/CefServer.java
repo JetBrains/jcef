@@ -67,7 +67,7 @@ public class CefServer {
             CefLog.Error("Found running cef_server instance with root '%s'", prevRoot);
         } else {
             if (fixRoot)
-                NativeServerManager.fixRootInSettings(settings, "cef_cache_" + ProcessHandle.current().pid());
+                NativeServerManager.fixRootInSettings(settings, "cef_cache" + ThriftTransport.getUniqueSuffix());
             final long waitTimeoutMs = Utils.getInteger("WAIT_SERVER_TIMEOUT_MS", 15000);
             final boolean success = NativeServerManager.startProcessAndWait(myThriftServer, appHandler, settings, waitTimeoutMs);
             if (!success)
