@@ -517,7 +517,7 @@ public class CefApp extends CefAppHandlerAdapter {
      */
     private void finishShutdown() {
         if (IS_REMOTE_ENABLED) {
-            server_.disconnect();
+            server_.stop();
             synchronized (this) {
                 setState(CefAppState.TERMINATED);
                 CefApp.self = null;

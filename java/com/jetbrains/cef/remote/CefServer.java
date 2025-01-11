@@ -20,6 +20,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class CefServer {
     private static final Integer WAIT_FOR_SERVER_EXIT_SEC = Utils.getInteger("JCEF_WAIT_FOR_SERVER_EXIT_SEC", 10);
+    private static final boolean DONT_STOP_SERVER_MANUALLY = Utils.getBoolean("JCEF_DONT_STOP_SERVER_MANUALLY"); // TODO: remove after platform tests debugging
     private final ThriftTransport myThriftServer;
     private final ThriftTransport myThriftBackward;
 
@@ -179,10 +180,12 @@ public class CefServer {
         return true;
     }
 
-    public void disconnect() {
-        CefLog.Debug("Disconnect from native server '%s' (it will be automatically stopped soon because we were connected as master).", myThriftServer);
+    public void stop() {
+        CefLog.Debug("Stop native server '%s'.", myThriftServer);
         myIsConnected = false;
 
+        if (!DONT_STOP_SERVER_MANUALLY)
+            myRpc.main.exec(r -> r.stop());
         myRpc.close();
 
         if (myClientHandlersTransport != null) {

@@ -33,7 +33,6 @@ import java.net.UnixDomainSocketAddress;
 import java.nio.channels.Channels;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -251,7 +250,7 @@ public class BasicJcefTest {
         }
 
         for (CefServer cs: servers) {
-            cs.disconnect();
+            cs.stop();
             boolean stopped = NativeServerManager.waitForStopped(cs.getThriftServer(), 5000);
             if (!stopped) {
                 NativeServerManager.isRunning(cs.getThriftServer(), true); // just for debug logging
