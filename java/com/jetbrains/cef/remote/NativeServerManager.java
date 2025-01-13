@@ -318,8 +318,11 @@ public class NativeServerManager {
                 try {
                     exec.openPipeTransport(new ThriftTransport(pipe));
                     String newRoot = exec.execObj(s -> s.getServerInfo("root"));
-                    existingRoots.add(newRoot);
-                    CefLog.Info("Found cef_server instance root_cache_path '%s' (pipe=%s).", newRoot, pipe.getName());
+                    if (newRoot != null) {
+                        existingRoots.add(newRoot);
+                        CefLog.Info("Found cef_server instance root_cache_path '%s' (pipe=%s).", newRoot, pipe.getName());
+                    } else
+                        CefLog.Debug("cef_server instance (pipe=%s) returns null root", pipe.getName());
                     exec.closeTransport();
                 } catch (TTransportException e) {
                     CefLog.Debug("getServerInfo (with pipe '%s') failed with exception: %s", pipe.getAbsolutePath(), e.getMessage());
@@ -339,6 +342,14 @@ public class NativeServerManager {
     }
 
     public static void fixRootInSettings(CefSettings settings, String newRootDirName) {
+        try {
+            fixRootInSettingsImpl(settings, newRootDirName);
+        } catch (Throwable e) {
+            CefLog.Error("Can't fix root_cache_path in settings: %s", e.getMessage());
+        }
+    }
+
+    private static void fixRootInSettingsImpl(CefSettings settings, String newRootDirName) {
         if (ThriftTransport.isTcpUsed()) {
             settings.cache_path = Path.of(System.getProperty("java.io.tmpdir")).resolve(newRootDirName).toString();
             CefLog.Info("settings.cache_path will be replaced with '%s' (because root search isn't implemented for TCP transport)", settings.cache_path);
