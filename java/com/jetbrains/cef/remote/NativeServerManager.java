@@ -25,11 +25,28 @@ import java.util.function.BooleanSupplier;
 
 public class NativeServerManager {
     private static final Boolean DISABLE_GPU = Utils.getBoolean("JCEF_DISABLE_GPU");
+    private static final Boolean KILL_SERVER_ON_SHUTDOWN = Utils.getBoolean("JCEF_KILL_SERVER_ON_SHUTDOWN");
     private static final String ALT_CEF_SERVER_PATH = Utils.getString("ALT_CEF_SERVER_PATH");
     private static final String ALT_SUBPROCESS_PATH = Utils.getString("ALT_SUBPROCESS_PATH");
     private static final boolean CHECK_PROCESS_ALIVE = Utils.getBoolean("JCEF_CHECK_PROCESS_ALIVE", true); // for debug, TODO: remove
 
     private static Map<String, Process> ourNativeServerProcesses = new HashMap<>();
+
+    static {
+        if (KILL_SERVER_ON_SHUTDOWN) {
+            CefLog.Debug("All cef_server instances will be killed at JVM exit.");
+            Thread task = new Thread(() -> {
+                for (String servTransport: ourNativeServerProcesses.keySet()) {
+                    Process p = ourNativeServerProcesses.get(servTransport);
+                    if (p != null) {
+                        p.destroyForcibly();
+                        CefLog.Debug("Killed cef_server process [%s].", servTransport);
+                    }
+                }
+            });
+            Runtime.getRuntime().addShutdownHook(task);
+        }
+    }
 
     // Should be called in bg thread
     public static boolean startProcessAndWait(ThriftTransport thriftServer, CefAppHandler appHandler, CefSettings settings, long timeoutMs) {
