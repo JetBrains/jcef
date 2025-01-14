@@ -12,7 +12,25 @@ RemoteAppHandler::RemoteAppHandler(
       mySchemes(schemes),
       myBrowserProcessHandler(new RemoteBrowserProcessHandler()) {}
 
+bool RemoteAppHandler::isDefaultRoot() const {
+  return getSettingRootPath().empty();
+}
+
 std::string RemoteAppHandler::getRootPath() const {
+  std::string rootFromSettings = getSettingRootPath();
+  if (!rootFromSettings.empty())
+    return rootFromSettings;
+
+#if defined(OS_WIN)
+  return "~\\AppData\\Local\\CEF\\User Data";
+#elif defined(OS_LINUX)
+  return "~/.config/cef_user_data";
+#elif defined(OS_MAC)
+  return "~/Library/Application Support/CEF/User Data";
+#endif
+}
+
+std::string RemoteAppHandler::getSettingRootPath() const {
   /// The root directory for installation-specific data and the parent directory
   /// for profile-specific data. All CefSettings.cache_path and
   /// CefRequestContextSettings.cache_path values must have this parent
@@ -42,13 +60,8 @@ std::string RemoteAppHandler::getRootPath() const {
   std::string cache = CefString(&mySettings.cache_path).ToString();
   if (!cache.empty())
     return cache;
-#if defined(OS_WIN)
-  return "~\\AppData\\Local\\CEF\\User Data";
-#elif defined(OS_LINUX)
-  return "~/.config/cef_user_data";
-#elif defined(OS_MAC)
-  return "~/Library/Application Support/CEF/User Data";
-#endif
+
+  return "";
 }
 
 void RemoteAppHandler::OnBeforeCommandLineProcessing(

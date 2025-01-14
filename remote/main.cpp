@@ -13,6 +13,7 @@
 #include "log/Log.h"
 
 #include <boost/date_time/posix_time/posix_time.hpp>
+#include <filesystem>
 
 using namespace apache::thrift;
 using namespace apache::thrift::transport;
@@ -199,7 +200,11 @@ int main(int argc, char* argv[]) {
 #ifndef WIN32
   if (!cmdArgs.useTcp())
     std::remove(cmdArgs.getPipe().c_str());
-#endif //WIN32
+#endif  // WIN32
+  if (cmdArgs.deleteRootCacheDir() && !app.isDefaultRoot()) {
+    Log::debug("Remove root cache dir '%s'", app.getRootPath().c_str());
+    std::filesystem::remove_all(app.getRootPath());
+  }
   Log::debug("Buy [%s]!", cmdArgs.getTransportDesc().c_str());
   return 0;
 }

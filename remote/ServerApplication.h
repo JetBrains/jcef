@@ -21,6 +21,7 @@ class CommandLineArgs {
 
   bool useTcp() const { return myUseTcp; }
   bool waitDebugger() const { return myWaitDebugger; }
+  bool deleteRootCacheDir() const { return myDeleteRootCacheDir; }
   int getPort() const { return myPort; }
   std::string getPipe() const { return myPathPipe; }
   std::string getTransportDesc() const { return myUseTcp ? "port " + std::to_string(myPort) : "pipe " + myPathPipe; }
@@ -32,6 +33,7 @@ class CommandLineArgs {
  private:
   bool myUseTcp = false;
   bool myWaitDebugger = false;
+  bool myDeleteRootCacheDir = false;
   int myPort = -1;
   std::string myPathPipe;
   std::string myPathLogFile;
@@ -63,6 +65,8 @@ class ServerApplication {
 
   RemoteAppHandler* getCefAppHandler() { return myAppHandler; }
   const CommandLineArgs& getCmdArgs() const { return myCmdArgs; }
+  std::string getRootPath() const;
+  bool isDefaultRoot() const;
   void stopWatcher() { myStopWatcher = true; }
 
   static ServerApplication& instance() { return ourInstance; }

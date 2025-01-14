@@ -349,6 +349,14 @@ void ServerApplication::shutdownHard() {
   std::exit(0);
 }
 
+std::string ServerApplication::getRootPath() const {
+  return myAppHandler->getRootPath();
+}
+
+bool ServerApplication::isDefaultRoot() const {
+  return myAppHandler->isDefaultRoot();
+}
+
 const std::chrono::high_resolution_clock::time_point& ServerApplication::getStartTime() const {
   return myStartTime;
 }
@@ -397,6 +405,8 @@ void CommandLineArgs::init(int argc, char* argv[]) {
       if (myLogLevel > LEVEL_FATAL) myLogLevel = LEVEL_FATAL;
     } else if ((tokenPos = str.find("--params=")) != str.npos) {
       myPathParamsFile = str.substr(tokenPos + 9);
+    } else if ((tokenPos = str.find("--deleteRootCacheDir")) != str.npos) {
+      myDeleteRootCacheDir = true;
     }
   }
 }

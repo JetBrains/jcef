@@ -49,7 +49,7 @@ public class NativeServerManager {
     }
 
     // Should be called in bg thread
-    public static boolean startProcessAndWait(ThriftTransport thriftServer, CefAppHandler appHandler, CefSettings settings, long timeoutMs) {
+    public static boolean startProcessAndWait(ThriftTransport thriftServer, CefAppHandler appHandler, CefSettings settings, boolean deleteRootDir, long timeoutMs) {
         final long t0 = System.nanoTime();
         final Path settingsFileName = Path.of(System.getProperty("java.io.tmpdir")).resolve("cef_server_params.txt");
         File f = new File(settingsFileName.toString());
@@ -151,7 +151,7 @@ public class NativeServerManager {
         if (serverLogLevel == -1)
             serverLogLevel = ServerLogLevel.cef2native(settings.log_severity);
 
-        return startProcessAndWait(thriftServer, f.getAbsolutePath(), timeoutMs, serverLogPath, serverLogLevel);
+        return startProcessAndWait(thriftServer, f.getAbsolutePath(), timeoutMs, serverLogPath, serverLogLevel, deleteRootDir);
     }
 
     public static boolean isProcessAlive(ThriftTransport thriftServer) {
@@ -341,23 +341,24 @@ public class NativeServerManager {
         return rootPath.compareToIgnoreCase("~/Library/Application Support/CEF/User Data") == 0;
     }
 
-    public static void fixRootInSettings(CefSettings settings, String newRootDirName) {
+    public static boolean fixRootInSettings(CefSettings settings, String newRootDirName) {
         try {
-            fixRootInSettingsImpl(settings, newRootDirName);
+            return fixRootInSettingsImpl(settings, newRootDirName);
         } catch (Throwable e) {
             CefLog.Error("Can't fix root_cache_path in settings: %s", e.getMessage());
         }
+        return false;
     }
 
-    private static void fixRootInSettingsImpl(CefSettings settings, String newRootDirName) {
+    private static boolean fixRootInSettingsImpl(CefSettings settings, String newRootDirName) {
         if (ThriftTransport.isTcpUsed()) {
             settings.cache_path = Path.of(System.getProperty("java.io.tmpdir")).resolve(newRootDirName).toString();
             CefLog.Info("settings.cache_path will be replaced with '%s' (because root search isn't implemented for TCP transport)", settings.cache_path);
-            return;
+            return true;
         }
         List<String> existingRoots = NativeServerManager.findRoots();
         if (existingRoots == null || existingRoots.isEmpty())
-            return;
+            return false;
 
         if (settings.cache_path != null && !settings.cache_path.isEmpty()) {
             Path settingsRoot;
@@ -365,7 +366,7 @@ public class NativeServerManager {
                 settingsRoot = Path.of(settings.cache_path);
             } catch (InvalidPathException e) {
                 CefLog.Error("Can't find path '%s': %s", settings.cache_path, e.getMessage());
-                return;
+                return false;
             }
             for (String sr : existingRoots) {
                 Path r;
@@ -378,7 +379,7 @@ public class NativeServerManager {
                 if (r.equals(settingsRoot)) {
                     settings.cache_path = Path.of(System.getProperty("java.io.tmpdir")).resolve(newRootDirName).toString();
                     CefLog.Info("Non-empty settings.cache_path='%s' conflicts with existing root_cache_path, will be replaced with '%s'.", r, settings.cache_path);
-                    break;
+                    return true;
                 }
             }
         } else {
@@ -387,10 +388,11 @@ public class NativeServerManager {
                 if (NativeServerManager.isDefaultRoot(sr)) {
                     settings.cache_path = Path.of(System.getProperty("java.io.tmpdir")).resolve(newRootDirName).toString();
                     CefLog.Info("Empty settings.cache_path will be replaced with '%s' (because found CEF instance with system-default root_cache_path '%s')", settings.cache_path, sr);
-                    break;
+                    return true;
                 }
             }
         }
+        return false;
     }
 
     public static boolean waitForRunning(ThriftTransport thriftServer, long timeoutMs) {
@@ -513,7 +515,7 @@ public class NativeServerManager {
     }
 
     // returns true when server was started successfully
-    private static boolean startProcessAndWait(ThriftTransport thriftServer, String paramsPath, long timeoutMs, String logPath, int logLevel) {
+    private static boolean startProcessAndWait(ThriftTransport thriftServer, String paramsPath, long timeoutMs, String logPath, int logLevel, boolean deleteRootDir) {
         final long t0 = System.nanoTime();
         if (ourNativeServerProcesses.get(thriftServer.toString()) != null)
             CefLog.Debug("Handle of server process will be overwritten.");
@@ -550,6 +552,9 @@ public class NativeServerManager {
         if (System.getenv().containsKey("DEBUG_CEF_SERVER")) {
             builder.command().add("--cef-server-wait-debugger");
         }
+
+        if (deleteRootDir)
+            builder.command().add("--deleteRootCacheDir");
 
         builder.command().add(String.format("--params=%s", paramsPath));
         builder.redirectOutput(ProcessBuilder.Redirect.INHERIT);

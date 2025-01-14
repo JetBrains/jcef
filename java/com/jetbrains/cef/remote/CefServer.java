@@ -21,6 +21,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class CefServer {
     private static final Integer WAIT_FOR_SERVER_EXIT_SEC = Utils.getInteger("JCEF_WAIT_FOR_SERVER_EXIT_SEC", 10);
     private static final boolean DONT_STOP_SERVER_MANUALLY = Utils.getBoolean("JCEF_DONT_STOP_SERVER_MANUALLY"); // TODO: remove after platform tests debugging
+    private static final boolean DONT_USE_UNIQUE_ROOTS = Utils.getBoolean("JCEF_DONT_USE_UNIQUE_ROOTS"); // TODO: remove after platform tests debugging
     private final ThriftTransport myThriftServer;
     private final ThriftTransport myThriftBackward;
 
@@ -67,10 +68,11 @@ public class CefServer {
             // Shouldn't be here because pipe-names are unique for each client process.
             CefLog.Error("Found running cef_server instance with root '%s'", prevRoot);
         } else {
-            if (fixRoot)
-                NativeServerManager.fixRootInSettings(settings, "cef_cache" + ThriftTransport.getUniqueSuffix());
+            boolean deleteRoot = false;
+            if (fixRoot && !DONT_USE_UNIQUE_ROOTS)
+                deleteRoot = NativeServerManager.fixRootInSettings(settings, "cef_cache" + ThriftTransport.getUniqueSuffix());
             final long waitTimeoutMs = Utils.getInteger("WAIT_SERVER_TIMEOUT_MS", 15000);
-            final boolean success = NativeServerManager.startProcessAndWait(myThriftServer, appHandler, settings, waitTimeoutMs);
+            final boolean success = NativeServerManager.startProcessAndWait(myThriftServer, appHandler, settings, deleteRoot, waitTimeoutMs);
             if (!success)
                 return false;
         }
