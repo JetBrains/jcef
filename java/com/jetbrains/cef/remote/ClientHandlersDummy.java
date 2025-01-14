@@ -42,12 +42,12 @@ public class ClientHandlersDummy implements ClientHandlers.Iface{
     }
 
     @Override
-    public void OnPopupShow(int bid, boolean show) throws TException {
+    public void RenderHandler_OnPopupShow(int bid, boolean show) throws TException {
 
     }
 
     @Override
-    public void OnPopupSize(int bid, Rect rect) throws TException {
+    public void RenderHandler_OnPopupSize(int bid, Rect rect) throws TException {
 
     }
 

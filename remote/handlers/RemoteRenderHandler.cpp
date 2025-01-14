@@ -138,7 +138,7 @@ bool RemoteRenderHandler::GetScreenPoint(CefRefPtr<CefBrowser> browser,
 void RemoteRenderHandler::OnPopupShow(CefRefPtr<CefBrowser> browser, bool show) {
   LNDCT();
   myService->exec([&](const JavaService& s){
-    s->OnPopupShow(myBid, show);
+    s->RenderHandler_OnPopupShow(myBid, show);
   });
 }
 
@@ -151,7 +151,7 @@ void RemoteRenderHandler::OnPopupSize(CefRefPtr<CefBrowser> browser,
     size.y = rect.y;
     size.w = rect.width;
     size.h = rect.height;
-    s->OnPopupSize(myBid, size);
+    s->RenderHandler_OnPopupSize(myBid, size);
   });
 }
 

@@ -52,7 +52,7 @@ service Server {
     oneway void    Browser_Reload(1: i32 bid),
     oneway void    Browser_ReloadIgnoreCache(1: i32 bid),
     oneway void    Browser_LoadURL(1: i32 bid, 2: string url),
-    oneway void    Browser_LoadRequest(1: i32 bid, 2: shared.RObject request),
+    void           Browser_LoadRequest(1: i32 bid, 2: shared.RObject request),
     string         Browser_GetURL(1: i32 bid),
     oneway void    Browser_ExecuteJavaScript(1: i32 bid, 2: string code, 3: string url, 4: i32 line),
     oneway void    Browser_WasResized(1: i32 bid), // The browser will then call CefRenderHandler#GetViewRect to update the size of view area with the new values.
@@ -76,8 +76,8 @@ service Server {
     bool           Browser_IsPopup(1: i32 bid),
     bool           Browser_HasDocument(1: i32 bid),
     oneway void    Browser_ViewSource(1: i32 bid),
-    oneway void    Browser_GetSource(1: i32 bid, 2:shared.RObject stringVisitor),
-    oneway void    Browser_GetText(1: i32 bid, 2:shared.RObject stringVisitor),
+    oneway void    Browser_GetSource(1: i32 bid, 2:shared.RObject stringVisitor), // NOTE: can be oneway (because java peer of visitor is disposed (via server request) after callback execution)
+    oneway void    Browser_GetText(1: i32 bid, 2:shared.RObject stringVisitor),   // NOTE: can be oneway (because java peer of visitor is disposed (via server request) after callback execution)
     oneway void    Browser_SetFocus(1: i32 bid, 2:bool enable),
     double         Browser_GetZoomLevel(1: i32 bid),
     oneway void    Browser_SetZoomLevel(1: i32 bid, 2:double val),
@@ -87,7 +87,7 @@ service Server {
     oneway void    Browser_ReplaceMisspelling(1: i32 bid, 2:string word),
     oneway void    Browser_SetFrameRate(1: i32 bid, 2:i32 val),
     shared.RObject Browser_AddDevToolsMessageObserver(1: i32 bid, 2:shared.RObject observer), // creates and returns CefRegistration object
-    oneway void    Browser_ExecuteDevToolsMethod(1: i32 bid, 2:string method, 3:string parametersAsJson, 4:shared.RObject intCallback),
+    oneway void    Browser_ExecuteDevToolsMethod(1: i32 bid, 2:string method, 3:string parametersAsJson, 4:shared.RObject intCallback), // NOTE: can be oneway (because java peer of IntCallback is disposed (on java side) in the end of IntCallback.onComplete)
 
     //
     // CefFrame
@@ -129,14 +129,14 @@ service Server {
     // Callback
     //
     oneway void Callback_Dispose(1: shared.RObject callback),
-    oneway void Callback_Continue(1: shared.RObject callback),
-    oneway void Callback_Cancel(1: shared.RObject callback),
+    oneway void Callback_Continue(1: shared.RObject callback), // NOTE: can be oneway (because callback is server-side object (and will be disposed after Continue execution))
+    oneway void Callback_Cancel(1: shared.RObject callback),   // NOTE: can be oneway (because callback is server-side object (and will be disposed after Cancel execution))
     //
     // CefAuthCallback
     //
     oneway void AuthCallback_Dispose(1: shared.RObject authCallback),
-    oneway void AuthCallback_Continue(1: shared.RObject authCallback, 2: string username, 3: string password),
-    oneway void AuthCallback_Cancel(1: shared.RObject authCallback),
+    oneway void AuthCallback_Continue(1: shared.RObject authCallback, 2: string username, 3: string password), // NOTE: can be oneway (because authCallback is server-side object (and will be disposed after Continue execution))
+    oneway void AuthCallback_Cancel(1: shared.RObject authCallback),                                           // NOTE: can be oneway (because authCallback is server-side object (and will be disposed after Cancel execution))
     //
     // CefRunContextMenuCallback
     //
@@ -155,8 +155,8 @@ service Server {
     void MessageRouter_RemoveHandler(1: shared.RObject msgRouter, 2: shared.RObject handler),
     void MessageRouter_CancelPending(1: shared.RObject msgRouter, 2: i32 bid, 3: shared.RObject handler),
     oneway void QueryCallback_Dispose(1: shared.RObject qcallback),
-    oneway void QueryCallback_Success(1: shared.RObject qcallback, 2: string response),
-    oneway void QueryCallback_Failure(1: shared.RObject qcallback, 2: i32 error_code, 3: string error_message),
+    oneway void QueryCallback_Success(1: shared.RObject qcallback, 2: string response),                             // NOTE: can be oneway (because qcallback is server-side object (and will be disposed after Success execution))
+    oneway void QueryCallback_Failure(1: shared.RObject qcallback, 2: i32 error_code, 3: string error_message),     // NOTE: can be oneway (because qcallback is server-side object (and will be disposed after Failure execution))
 
     //
     // Custom schemes
@@ -167,8 +167,8 @@ service Server {
     //
     // CefRequestContext
     //
-    oneway void RequestContext_ClearCertificateExceptions(1:i32 bid, 2:shared.RObject completionCallback),
-    oneway void RequestContext_CloseAllConnections(1:i32 bid, 2:shared.RObject completionCallback),
+    oneway void RequestContext_ClearCertificateExceptions(1:i32 bid, 2:shared.RObject completionCallback),  // NOTE: can be oneway (because java peer of completionCallback is disposed (on java side) after callback execution)
+    oneway void RequestContext_CloseAllConnections(1:i32 bid, 2:shared.RObject completionCallback),         // NOTE: can be oneway (because java peer of completionCallback is disposed (on java side) after callback execution)
 
     //
     // CefCookieManager
