@@ -23,6 +23,7 @@ class RemoteAppHandler : public CefApp {
 
   const CefSettings & getCefSettings() const { return mySettings; }
   std::string getRootPath() const;
+  bool isDefaultRoot() const;
 
  private:
   std::vector<std::string> myArgs;
@@ -30,6 +31,8 @@ class RemoteAppHandler : public CefApp {
   std::vector<std::pair<std::string, int>> mySchemes;
 
   CefRefPtr<RemoteBrowserProcessHandler> myBrowserProcessHandler;
+
+  std::string getSettingRootPath() const;
 
   IMPLEMENT_REFCOUNTING(RemoteAppHandler);
 };

@@ -110,7 +110,7 @@ public class BasicJcefTest {
         settings.log_severity = CefSettings.LogSeverity.LOGSEVERITY_VERBOSE;
         settings.no_sandbox = true;
         CefAppHandler appHandler = new CefAppHandlerAdapter(appArgs.toArray(new String[0])){};
-        boolean started = NativeServerManager.startProcessAndWait(thriftServer, appHandler, settings, waitTimeoutMs);
+        boolean started = NativeServerManager.startProcessAndWait(thriftServer, appHandler, settings, true, waitTimeoutMs);
         if (!started)
             throw new AssertionError("Can't start server.");
         if (!NativeServerManager.isProcessAlive(thriftServer))
