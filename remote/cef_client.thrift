@@ -103,15 +103,15 @@ service ClientHandlers {
     // TODO: remake logic to avoid non-oneway-void calls:
     //  1. notify server with screen-data changes immediately
     //  2. calculate screen-data directly on server by request from CEF
-    Rect RenderHandler_GetViewRect(1:i32 bid),
-    ScreenInfo RenderHandler_GetScreenInfo(1:i32 bid),
-    Point RenderHandler_GetScreenPoint(1:i32 bid, 2:i32 viewX, 3:i32 viewY),
-    void RenderHandler_OnPaint(1:i32 bid, 2: bool popup, 3:i32 dirtyRectsCount, 4: string sharedMemName, 5: i64 sharedMemHandle, 6: i32 width, 7: i32 height),
-    void OnPopupShow(1:i32 bid, 2: bool show) // TODO: rename, make oneway
-    void OnPopupSize(1:i32 bid, 2: Rect rect) // TODO: rename, make oneway
+    Rect         RenderHandler_GetViewRect(1:i32 bid),
+    ScreenInfo   RenderHandler_GetScreenInfo(1:i32 bid),
+    Point        RenderHandler_GetScreenPoint(1:i32 bid, 2:i32 viewX, 3:i32 viewY),
+    void         RenderHandler_OnPaint(1:i32 bid, 2: bool popup, 3:i32 dirtyRectsCount, 4: string sharedMemName, 5: i64 sharedMemHandle, 6: i32 width, 7: i32 height),
+    oneway void  RenderHandler_OnPopupShow(1:i32 bid, 2: bool show)
+    oneway void  RenderHandler_OnPopupSize(1:i32 bid, 2: Rect rect)
     // TODO: implement
-    // StartDragging(1:i32 bid, CefRefPtr<CefDragData> drag_data, DragOperationsMask allowed_ops, int x, int y)
-    // UpdateDragCursor(1:i32 bid, DragOperation operation)
+    // RenderHandler_StartDragging(1:i32 bid, CefRefPtr<CefDragData> drag_data, DragOperationsMask allowed_ops, int x, int y)
+    // RenderHandler_UpdateDragCursor(1:i32 bid, DragOperation operation)
 
     //
     //
@@ -137,12 +137,12 @@ service ClientHandlers {
     oneway void DisplayHandler_OnStatusMessage(1:i32 bid, 2:string value),
     bool        DisplayHandler_OnConsoleMessage(1:i32 bid, 2:i32 level, 3:string message, 4: string source, 5: i32 line),
     //
-    // CefKeyboardHandler (will be called on the UI thread).
+    // CefKeyboardHandler (will be called on the UI thread). TODO: do we really need CefKeyboardHandler in OSR ?
     //
     bool KeyboardHandler_OnPreKeyEvent(1:i32 bid, 2: shared.KeyEvent event) // TODO: support bool* is_keyboard_shortcut
     bool KeyboardHandler_OnKeyEvent(1:i32 bid, 2: shared.KeyEvent event)
     //
-    // CefFocusHandler (will be called on the UI thread).
+    // CefFocusHandler (will be called on the UI thread). TODO: do we really need CefFocusHandler in OSR ?
     //
     oneway void FocusHandler_OnTakeFocus(1:i32 bid, 2: bool next)
     bool        FocusHandler_OnSetFocus(1:i32 bid, 2:string source)
@@ -167,7 +167,7 @@ service ClientHandlers {
     bool                   ResourceHandler_ProcessRequest(1:i32 resourceHandler, 2:shared.RObject request, 3:shared.RObject callback)
     shared.ResponseHeaders ResourceHandler_GetResponseHeaders(1:i32 resourceHandler, 2:shared.RObject response)
     shared.ResponseData    ResourceHandler_ReadResponse(1:i32 resourceHandler, 2:i32 bytes_to_read, 3:shared.RObject callback)
-    oneway void            ResourceHandler_Cancel(1:i32 resourceHandler)
+    void                   ResourceHandler_Cancel(1:i32 resourceHandler)    // NOTE: can't be oneway (because server can dispose java peer before callback execution)
     string            ResourceRequestHandler_OnResourceRedirect(1: i32 rrHandler, 2:i32 bid, 3:shared.RObject frame, 4:shared.RObject request, 5:shared.RObject response, 6:string new_url),
     bool              ResourceRequestHandler_OnResourceResponse(1: i32 rrHandler, 2:i32 bid, 3:shared.RObject frame, 4:shared.RObject request, 5:shared.RObject response),
     void              ResourceRequestHandler_OnResourceLoadComplete(1: i32 rrHandler, 2:i32 bid, 3:shared.RObject frame, 4:shared.RObject request, 5:shared.RObject response, 6:string status, 7:i64 receivedContentLength),
@@ -197,9 +197,9 @@ service ClientHandlers {
     //
     // CefCompletionCallback
     //
-    oneway void CompletionCallback_OnComplete(1:i32 completionCallback),
+    oneway void CompletionCallback_OnComplete(1:i32 completionCallback), // NOTE: can be oneway (because java peer is disposed on java side after callback execution)
 
-    oneway void IntCallback_OnComplete(1:i32 intCallback, 2:i32 result),
+    oneway void IntCallback_OnComplete(1:i32 intCallback, 2:i32 result), // NOTE: can be oneway (because java peer is disposed on java side after callback execution)
 
     //
     // CefRequestContextHandler
@@ -215,7 +215,7 @@ service ClientHandlers {
     //
     // CefStringVisitor
     //
-    oneway void StringVisitor_Visit(1:i32 stringVisitor, 2:string str),
+    void StringVisitor_Visit(1:i32 stringVisitor, 2:string str), // NOTE: can't be oneway (because server can dispose java peer before callback execution)
     oneway void StringVisitor_Dispose(1:i32 stringVisitor),
 
     //

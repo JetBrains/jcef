@@ -137,7 +137,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     }
 
     @Override
-    public void OnPopupShow(int bid, boolean show) throws TException {
+    public void RenderHandler_OnPopupShow(int bid, boolean show) throws TException {
         RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return;
         CefRenderHandler rh = browser.getRenderHandler();
@@ -146,7 +146,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     }
 
     @Override
-    public void OnPopupSize(int bid, Rect rect) throws TException {
+    public void RenderHandler_OnPopupSize(int bid, Rect rect) throws TException {
         RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return;
         CefRenderHandler rh = browser.getRenderHandler();
