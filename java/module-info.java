@@ -12,6 +12,7 @@ module jcef {
     exports org.cef.security;
 
     exports com.jetbrains.cef;
+    exports com.jetbrains.cef.remote to tests.basic.BasicJcefTest;
 
     opens org.cef; // [tav] todo: provide necessary API instead
 }
