@@ -1,6 +1,7 @@
 package com.jetbrains.cef.remote.network;
 
 import com.jetbrains.cef.remote.RemoteServerObject;
+import com.jetbrains.cef.remote.RpcContext;
 import com.jetbrains.cef.remote.RpcExecutor;
 import com.jetbrains.cef.remote.callback.RemoteCompletionCallback;
 import com.jetbrains.cef.remote.thrift_codegen.Cookie;
@@ -19,22 +20,22 @@ import java.util.Set;
 // 3. Lifetime of remote native peer is managed by java: native object
 // peer will be destroyed when java object destroyed via usual gc.
 public class RemoteCookieManagerImpl extends RemoteServerObject {
-    private RemoteCookieManagerImpl(RpcExecutor server, RObject robj) {
-        super(server, robj);
+    private RemoteCookieManagerImpl(RpcContext rpcContext, RObject robj) {
+        super(rpcContext, robj);
     }
 
-    public static RemoteCookieManagerImpl create(RpcExecutor server) {
-        RObject robj = server.execObj(s->s.CookieManager_Create());
+    public static RemoteCookieManagerImpl create(RpcContext rpcContext) {
+        RObject robj = rpcContext.main.execObj(s->s.CookieManager_Create());
         if (robj.objId < 0) {
             CefLog.Error("CookieManager_Create returns invalid objId %d.", robj.objId);
             return null;
         }
-        return new RemoteCookieManagerImpl(server, robj);
+        return new RemoteCookieManagerImpl(rpcContext, robj);
     }
 
     @Override
     protected void disposeOnServerImpl() {
-        myServer.exec((s)->s.CookieManager_Dispose(thriftId()));
+        myRpc.bg.exec((s)->s.CookieManager_Dispose(thriftId()));
     }
 
     @Override
@@ -46,26 +47,26 @@ public class RemoteCookieManagerImpl extends RemoteServerObject {
         if (visitor == null)
             return false;
         RemoteCookieVisitor rvisitor = RemoteCookieVisitor.create(visitor);
-        return myServer.execObj(s -> s.CookieManager_VisitAllCookies(thriftId(), rvisitor.thriftId()));
+        return myRpc.main.execObj(s -> s.CookieManager_VisitAllCookies(thriftId(), rvisitor.thriftId()));
     }
 
     public boolean visitUrlCookies(String url, boolean includeHttpOnly, CefCookieVisitor visitor) {
         if (visitor == null)
             return false;
         RemoteCookieVisitor rvisitor = RemoteCookieVisitor.create(visitor);
-        return myServer.execObj(s -> s.CookieManager_VisitUrlCookies(thriftId(), rvisitor.thriftId(), url, includeHttpOnly));
+        return myRpc.main.execObj(s -> s.CookieManager_VisitUrlCookies(thriftId(), rvisitor.thriftId(), url, includeHttpOnly));
     }
 
     public boolean setCookie(String url, CefCookie cookie) {
-        return myServer.execObj(s -> s.CookieManager_SetCookie(thriftId(), url, RemoteCookieManager.toThriftCookie(cookie)));
+        return myRpc.main.execObj(s -> s.CookieManager_SetCookie(thriftId(), url, RemoteCookieManager.toThriftCookie(cookie)));
     }
 
     public boolean deleteCookies(String url, String cookieName) {
-        return myServer.execObj(s -> s.CookieManager_DeleteCookies(thriftId(), url, cookieName));
+        return myRpc.main.execObj(s -> s.CookieManager_DeleteCookies(thriftId(), url, cookieName));
     }
 
     public boolean flushStore(CefCompletionCallback callback) {
         RObject cbId = callback != null ? RemoteCompletionCallback.create(callback).thriftId() : new RObject(-1);
-        return myServer.execObj(s -> s.CookieManager_FlushStore(thriftId(), cbId));
+        return myRpc.main.execObj(s -> s.CookieManager_FlushStore(thriftId(), cbId));
     }
 }

@@ -1,6 +1,7 @@
 package com.jetbrains.cef.remote.browser;
 
 import com.jetbrains.cef.remote.MultiHandler;
+import com.jetbrains.cef.remote.RpcContext;
 import com.jetbrains.cef.remote.RpcExecutor;
 import com.jetbrains.cef.remote.network.RemoteRequestContext;
 import com.jetbrains.cef.remote.router.RemoteMessageRouter;
@@ -21,7 +22,7 @@ public class RemoteClient {
     private static AtomicInteger ourCounter = new AtomicInteger(0);
 
     private final int myCid;
-    private final RpcExecutor myService;
+    private final RpcContext myRpc;
     private final Map<Integer, RemoteBrowser> ourBid2Browser; // global storage
     private final Map<Integer, RemoteBrowser> myNativeIdentifier2Browser = new ConcurrentHashMap<>();
     private final List<RemoteBrowser> myBrowsers = Collections.synchronizedList(new ArrayList<>());
@@ -45,9 +46,9 @@ public class RemoteClient {
     // MessageRouter support
     private Vector<RemoteMessageRouterImpl> msgRouters = new Vector<>();
 
-    public RemoteClient(RpcExecutor service, Map<Integer, RemoteBrowser> bid2browser) {
+    public RemoteClient(RpcContext rpcContext, Map<Integer, RemoteBrowser> bid2browser) {
         myCid = ourCounter.getAndIncrement();
-        myService = service;
+        myRpc = rpcContext;
         ourBid2Browser = bid2browser;
     }
 
@@ -152,7 +153,7 @@ public class RemoteClient {
         else if (context != null)
             CefLog.Error("Unsupported class %s, will be used default (global) request context. Please use RemoteRequestContext.", context.getClass());
 
-        RemoteBrowser browser = new RemoteBrowser(myService, this, client, url, ctx, settings);
+        RemoteBrowser browser = new RemoteBrowser(myRpc, this, client, url, ctx, settings);
         browser.setComponent(component, renderHandler);
         myBrowsers.add(browser);
         return browser;

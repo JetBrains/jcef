@@ -27,7 +27,7 @@ public class CefServer {
     private Thread myClientHandlersThread;
     private TServer myClientHandlersServer;
     private TServerTransport myClientHandlersTransport;
-    private final RpcExecutor myRpc = new RpcExecutor();
+    private RpcContext myRpc;
     private final Map<Integer, RemoteBrowser> myBid2Browser = new ConcurrentHashMap<>();
     private final ClientHandlersImpl myClientHandlersImpl = new ClientHandlersImpl(myRpc, myBid2Browser);
 
@@ -84,7 +84,7 @@ public class CefServer {
         }
     }
 
-    public RpcExecutor getService() { return myRpc; }
+    public RpcContext getRpcContext() { return myRpc; }
 
     public RemoteClient createClient() {
         return new RemoteClient(myRpc, myBid2Browser);
@@ -92,7 +92,7 @@ public class CefServer {
 
     public static String getVersion() {
         if (CefApp.isRemoteEnabled() && INSTANCE.myIsConnected)
-            return INSTANCE.myRpc.execObj(r->r.version());
+            return INSTANCE.myRpc.main.execObj(r->r.version());
         return "unknown(not connected)";
     }
 
@@ -113,7 +113,7 @@ public class CefServer {
                 return false;
             }
 
-            CefLog.Info("cef_server version: %s", (String)myRpc.execObj(r->r.version()));
+            CefLog.Info("cef_server version: %s", (String)myRpc.main.execObj(r->r.version()));
 
             // 2. Start service for backward rpc calls (from native to java)
             try {
@@ -129,7 +129,7 @@ public class CefServer {
 
             ClientHandlers.Processor processor = new ClientHandlers.Processor(myClientHandlersImpl);
             TThreadPoolServer.Args serverArgs = new TThreadPoolServer.Args(myClientHandlersTransport)
-                .processor(processor).executorService(new ThreadPoolExecutor(2, 10, 60L, TimeUnit.SECONDS, new SynchronousQueue(), new ThreadFactory() {
+                .processor(processor).executorService(new ThreadPoolExecutor(3, 10, 60L, TimeUnit.SECONDS, new SynchronousQueue(), new ThreadFactory() {
                     final AtomicLong count = new AtomicLong();
                     public Thread newThread(Runnable r) {
                         final String name = String.format("CefHandlers-execution-%d", this.count.getAndIncrement());
@@ -144,7 +144,7 @@ public class CefServer {
             myClientHandlersThread.start();
 
             // 3. Connect to CefServer
-            int cid = myRpc.connect(!CONNECT_AS_SLAVE);
+            int cid = myRpc.main.connect(!CONNECT_AS_SLAVE);
             synchronized (myDelayedActions) {
                 myIsConnected = true;
                 myDelayedActions.forEach(r -> r.run());

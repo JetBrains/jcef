@@ -1,6 +1,7 @@
 package com.jetbrains.cef.remote.browser;
 
 import com.jetbrains.cef.remote.RemoteServerObject;
+import com.jetbrains.cef.remote.RpcContext;
 import com.jetbrains.cef.remote.RpcExecutor;
 import com.jetbrains.cef.remote.thrift_codegen.RObject;
 import org.cef.browser.CefFrame;
@@ -12,13 +13,13 @@ import org.cef.browser.CefFrame;
 // 3. Lifetime of remote native peer is managed by java: native object
 // peer will be destroyed when java object destroyed via usual gc.
 public class RemoteFrame extends RemoteServerObject implements CefFrame {
-    public RemoteFrame(RpcExecutor server, RObject frame) {
-        super(server, frame);
+    public RemoteFrame(RpcContext rpcContext, RObject frame) {
+        super(rpcContext, frame);
     }
 
     @Override
     protected void disposeOnServerImpl() {
-        myServer.exec((s)->{
+        myRpc.bg.exec((s)->{
             s.Frame_Dispose(myId);
         });
     }
@@ -65,47 +66,47 @@ public class RemoteFrame extends RemoteServerObject implements CefFrame {
 
     @Override
     public CefFrame getParent() {
-        RObject parent = myServer.execObj((s)-> s.Frame_GetParent(myId));
-        return parent == null || parent.objId < 0 ? null : new RemoteFrame(myServer, parent);
+        RObject parent = myRpc.main.execObj((s)-> s.Frame_GetParent(myId));
+        return parent == null || parent.objId < 0 ? null : new RemoteFrame(myRpc, parent);
     }
 
     @Override
     public void executeJavaScript(String code, String url, int line) {
-        myServer.exec((s)->{
+        myRpc.main.exec((s)->{
             s.Frame_ExecuteJavaScript(myId, code, url, line);
         });
     }
 
     @Override
-    public void undo() { myServer.exec((s)-> s.Frame_Undo(myId)); }
+    public void undo() { myRpc.main.exec((s)-> s.Frame_Undo(myId)); }
 
     @Override
     public void redo() {
-        myServer.exec((s)-> s.Frame_Redo(myId));
+        myRpc.main.exec((s)-> s.Frame_Redo(myId));
     }
 
     @Override
     public void cut() {
-        myServer.exec((s)-> s.Frame_Cut(myId));
+        myRpc.main.exec((s)-> s.Frame_Cut(myId));
     }
 
     @Override
     public void copy() {
-        myServer.exec((s)-> s.Frame_Copy(myId));
+        myRpc.main.exec((s)-> s.Frame_Copy(myId));
     }
 
     @Override
     public void paste() {
-        myServer.exec((s)-> s.Frame_Paste(myId));
+        myRpc.main.exec((s)-> s.Frame_Paste(myId));
     }
 
     @Override
     public void delete() {
-        myServer.exec((s)-> s.Frame_Delete(myId));
+        myRpc.main.exec((s)-> s.Frame_Delete(myId));
     }
 
     @Override
     public void selectAll() {
-        myServer.exec((s)-> s.Frame_SelectAll(myId));
+        myRpc.main.exec((s)-> s.Frame_SelectAll(myId));
     }
 }
