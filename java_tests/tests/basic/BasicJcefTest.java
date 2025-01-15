@@ -573,9 +573,20 @@ public class BasicJcefTest {
     }
 
     public static void main(String[] args) {
+        // Init VERBOSE java logging
+        final CefSettings.LogSeverity logLevel = CefSettings.LogSeverity.LOGSEVERITY_VERBOSE;
+        CefLog.init(null, logLevel);
+
+        // Init VERBOSE native logging to the same stream
+        System.setProperty("CEF_SERVER_LOG_LEVEL", "VERBOSE");
+
+        // Init vmodule chromium logging to the same stream
+        System.setProperty("JCEF_TESTS_LOG_LEVEL", "info");
+        System.setProperty("JCEF_TESTS_EXTRA_ARGS", "--enable-logging=stderr;--vmodule=statistics_recorder*=0;--v=2");
+
         //new BasicJcefTest().testServerManagerPipe();
         //new BasicJcefTest().testServerManagerTcp();
-        new BasicJcefTest().testMultipleInstances();
+        //new BasicJcefTest().testMultipleInstances();
         new BasicJcefTest().testBrowserCreation();
     }
 }
