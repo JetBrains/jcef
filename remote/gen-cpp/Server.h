@@ -1678,6 +1678,43 @@ class Server_Browser_LoadRequest_pargs {
 
 };
 
+
+class Server_Browser_LoadRequest_result {
+ public:
+
+  Server_Browser_LoadRequest_result(const Server_Browser_LoadRequest_result&) noexcept;
+  Server_Browser_LoadRequest_result& operator=(const Server_Browser_LoadRequest_result&) noexcept;
+  Server_Browser_LoadRequest_result() noexcept {
+  }
+
+  virtual ~Server_Browser_LoadRequest_result() noexcept;
+
+  bool operator == (const Server_Browser_LoadRequest_result & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const Server_Browser_LoadRequest_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Browser_LoadRequest_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Browser_LoadRequest_presult {
+ public:
+
+
+  virtual ~Server_Browser_LoadRequest_presult() noexcept;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
 typedef struct _Server_Browser_GetURL_args__isset {
   _Server_Browser_GetURL_args__isset() : bid(false) {}
   bool bid :1;
@@ -9036,6 +9073,7 @@ class ServerClient : virtual public ServerIf {
   void send_Browser_LoadURL(const int32_t bid, const std::string& url);
   void Browser_LoadRequest(const int32_t bid, const  ::thrift_codegen::RObject& request) override;
   void send_Browser_LoadRequest(const int32_t bid, const  ::thrift_codegen::RObject& request);
+  void recv_Browser_LoadRequest();
   void Browser_GetURL(std::string& _return, const int32_t bid) override;
   void send_Browser_GetURL(const int32_t bid);
   void recv_Browser_GetURL(std::string& _return);
@@ -10574,7 +10612,8 @@ class ServerConcurrentClient : virtual public ServerIf {
   void Browser_LoadURL(const int32_t bid, const std::string& url) override;
   void send_Browser_LoadURL(const int32_t bid, const std::string& url);
   void Browser_LoadRequest(const int32_t bid, const  ::thrift_codegen::RObject& request) override;
-  void send_Browser_LoadRequest(const int32_t bid, const  ::thrift_codegen::RObject& request);
+  int32_t send_Browser_LoadRequest(const int32_t bid, const  ::thrift_codegen::RObject& request);
+  void recv_Browser_LoadRequest(const int32_t seqid);
   void Browser_GetURL(std::string& _return, const int32_t bid) override;
   int32_t send_Browser_GetURL(const int32_t bid);
   void recv_Browser_GetURL(std::string& _return, const int32_t seqid);

@@ -1178,11 +1178,11 @@ uint32_t ClientHandlers_RenderHandler_OnPaint_presult::read(::apache::thrift::pr
 }
 
 
-ClientHandlers_OnPopupShow_args::~ClientHandlers_OnPopupShow_args() noexcept {
+ClientHandlers_RenderHandler_OnPopupShow_args::~ClientHandlers_RenderHandler_OnPopupShow_args() noexcept {
 }
 
 
-uint32_t ClientHandlers_OnPopupShow_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ClientHandlers_RenderHandler_OnPopupShow_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -1231,10 +1231,10 @@ uint32_t ClientHandlers_OnPopupShow_args::read(::apache::thrift::protocol::TProt
   return xfer;
 }
 
-uint32_t ClientHandlers_OnPopupShow_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ClientHandlers_RenderHandler_OnPopupShow_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("ClientHandlers_OnPopupShow_args");
+  xfer += oprot->writeStructBegin("ClientHandlers_RenderHandler_OnPopupShow_args");
 
   xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
   xfer += oprot->writeI32(this->bid);
@@ -1250,14 +1250,14 @@ uint32_t ClientHandlers_OnPopupShow_args::write(::apache::thrift::protocol::TPro
 }
 
 
-ClientHandlers_OnPopupShow_pargs::~ClientHandlers_OnPopupShow_pargs() noexcept {
+ClientHandlers_RenderHandler_OnPopupShow_pargs::~ClientHandlers_RenderHandler_OnPopupShow_pargs() noexcept {
 }
 
 
-uint32_t ClientHandlers_OnPopupShow_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ClientHandlers_RenderHandler_OnPopupShow_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("ClientHandlers_OnPopupShow_pargs");
+  xfer += oprot->writeStructBegin("ClientHandlers_RenderHandler_OnPopupShow_pargs");
 
   xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
   xfer += oprot->writeI32((*(this->bid)));
@@ -1273,88 +1273,11 @@ uint32_t ClientHandlers_OnPopupShow_pargs::write(::apache::thrift::protocol::TPr
 }
 
 
-ClientHandlers_OnPopupShow_result::~ClientHandlers_OnPopupShow_result() noexcept {
+ClientHandlers_RenderHandler_OnPopupSize_args::~ClientHandlers_RenderHandler_OnPopupSize_args() noexcept {
 }
 
 
-uint32_t ClientHandlers_OnPopupShow_result::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    xfer += iprot->skip(ftype);
-    xfer += iprot->readFieldEnd();
-  }
-
-  xfer += iprot->readStructEnd();
-
-  return xfer;
-}
-
-uint32_t ClientHandlers_OnPopupShow_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
-
-  uint32_t xfer = 0;
-
-  xfer += oprot->writeStructBegin("ClientHandlers_OnPopupShow_result");
-
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  return xfer;
-}
-
-
-ClientHandlers_OnPopupShow_presult::~ClientHandlers_OnPopupShow_presult() noexcept {
-}
-
-
-uint32_t ClientHandlers_OnPopupShow_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    xfer += iprot->skip(ftype);
-    xfer += iprot->readFieldEnd();
-  }
-
-  xfer += iprot->readStructEnd();
-
-  return xfer;
-}
-
-
-ClientHandlers_OnPopupSize_args::~ClientHandlers_OnPopupSize_args() noexcept {
-}
-
-
-uint32_t ClientHandlers_OnPopupSize_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ClientHandlers_RenderHandler_OnPopupSize_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -1403,10 +1326,10 @@ uint32_t ClientHandlers_OnPopupSize_args::read(::apache::thrift::protocol::TProt
   return xfer;
 }
 
-uint32_t ClientHandlers_OnPopupSize_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ClientHandlers_RenderHandler_OnPopupSize_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("ClientHandlers_OnPopupSize_args");
+  xfer += oprot->writeStructBegin("ClientHandlers_RenderHandler_OnPopupSize_args");
 
   xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
   xfer += oprot->writeI32(this->bid);
@@ -1422,14 +1345,14 @@ uint32_t ClientHandlers_OnPopupSize_args::write(::apache::thrift::protocol::TPro
 }
 
 
-ClientHandlers_OnPopupSize_pargs::~ClientHandlers_OnPopupSize_pargs() noexcept {
+ClientHandlers_RenderHandler_OnPopupSize_pargs::~ClientHandlers_RenderHandler_OnPopupSize_pargs() noexcept {
 }
 
 
-uint32_t ClientHandlers_OnPopupSize_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ClientHandlers_RenderHandler_OnPopupSize_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("ClientHandlers_OnPopupSize_pargs");
+  xfer += oprot->writeStructBegin("ClientHandlers_RenderHandler_OnPopupSize_pargs");
 
   xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
   xfer += oprot->writeI32((*(this->bid)));
@@ -1441,83 +1364,6 @@ uint32_t ClientHandlers_OnPopupSize_pargs::write(::apache::thrift::protocol::TPr
 
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
-  return xfer;
-}
-
-
-ClientHandlers_OnPopupSize_result::~ClientHandlers_OnPopupSize_result() noexcept {
-}
-
-
-uint32_t ClientHandlers_OnPopupSize_result::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    xfer += iprot->skip(ftype);
-    xfer += iprot->readFieldEnd();
-  }
-
-  xfer += iprot->readStructEnd();
-
-  return xfer;
-}
-
-uint32_t ClientHandlers_OnPopupSize_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
-
-  uint32_t xfer = 0;
-
-  xfer += oprot->writeStructBegin("ClientHandlers_OnPopupSize_result");
-
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  return xfer;
-}
-
-
-ClientHandlers_OnPopupSize_presult::~ClientHandlers_OnPopupSize_presult() noexcept {
-}
-
-
-uint32_t ClientHandlers_OnPopupSize_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    xfer += iprot->skip(ftype);
-    xfer += iprot->readFieldEnd();
-  }
-
-  xfer += iprot->readStructEnd();
-
   return xfer;
 }
 
@@ -8106,6 +7952,83 @@ uint32_t ClientHandlers_ResourceHandler_Cancel_pargs::write(::apache::thrift::pr
 }
 
 
+ClientHandlers_ResourceHandler_Cancel_result::~ClientHandlers_ResourceHandler_Cancel_result() noexcept {
+}
+
+
+uint32_t ClientHandlers_ResourceHandler_Cancel_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_ResourceHandler_Cancel_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("ClientHandlers_ResourceHandler_Cancel_result");
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_ResourceHandler_Cancel_presult::~ClientHandlers_ResourceHandler_Cancel_presult() noexcept {
+}
+
+
+uint32_t ClientHandlers_ResourceHandler_Cancel_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
 ClientHandlers_ResourceRequestHandler_OnResourceRedirect_args::~ClientHandlers_ResourceRequestHandler_OnResourceRedirect_args() noexcept {
 }
 
@@ -11886,6 +11809,83 @@ uint32_t ClientHandlers_StringVisitor_Visit_pargs::write(::apache::thrift::proto
 }
 
 
+ClientHandlers_StringVisitor_Visit_result::~ClientHandlers_StringVisitor_Visit_result() noexcept {
+}
+
+
+uint32_t ClientHandlers_StringVisitor_Visit_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_StringVisitor_Visit_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("ClientHandlers_StringVisitor_Visit_result");
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_StringVisitor_Visit_presult::~ClientHandlers_StringVisitor_Visit_presult() noexcept {
+}
+
+
+uint32_t ClientHandlers_StringVisitor_Visit_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
 ClientHandlers_StringVisitor_Dispose_args::~ClientHandlers_StringVisitor_Dispose_args() noexcept {
 }
 
@@ -12643,18 +12643,17 @@ void ClientHandlersClient::recv_RenderHandler_OnPaint()
   return;
 }
 
-void ClientHandlersClient::OnPopupShow(const int32_t bid, const bool show)
+void ClientHandlersClient::RenderHandler_OnPopupShow(const int32_t bid, const bool show)
 {
-  send_OnPopupShow(bid, show);
-  recv_OnPopupShow();
+  send_RenderHandler_OnPopupShow(bid, show);
 }
 
-void ClientHandlersClient::send_OnPopupShow(const int32_t bid, const bool show)
+void ClientHandlersClient::send_RenderHandler_OnPopupShow(const int32_t bid, const bool show)
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("OnPopupShow", ::apache::thrift::protocol::T_CALL, cseqid);
+  oprot_->writeMessageBegin("RenderHandler_OnPopupShow", ::apache::thrift::protocol::T_ONEWAY, cseqid);
 
-  ClientHandlers_OnPopupShow_pargs args;
+  ClientHandlers_RenderHandler_OnPopupShow_pargs args;
   args.bid = &bid;
   args.show = &show;
   args.write(oprot_);
@@ -12664,51 +12663,17 @@ void ClientHandlersClient::send_OnPopupShow(const int32_t bid, const bool show)
   oprot_->getTransport()->flush();
 }
 
-void ClientHandlersClient::recv_OnPopupShow()
+void ClientHandlersClient::RenderHandler_OnPopupSize(const int32_t bid, const Rect& rect)
 {
-
-  int32_t rseqid = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TMessageType mtype;
-
-  iprot_->readMessageBegin(fname, mtype, rseqid);
-  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
-    ::apache::thrift::TApplicationException x;
-    x.read(iprot_);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-    throw x;
-  }
-  if (mtype != ::apache::thrift::protocol::T_REPLY) {
-    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-  }
-  if (fname.compare("OnPopupShow") != 0) {
-    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-  }
-  ClientHandlers_OnPopupShow_presult result;
-  result.read(iprot_);
-  iprot_->readMessageEnd();
-  iprot_->getTransport()->readEnd();
-
-  return;
+  send_RenderHandler_OnPopupSize(bid, rect);
 }
 
-void ClientHandlersClient::OnPopupSize(const int32_t bid, const Rect& rect)
-{
-  send_OnPopupSize(bid, rect);
-  recv_OnPopupSize();
-}
-
-void ClientHandlersClient::send_OnPopupSize(const int32_t bid, const Rect& rect)
+void ClientHandlersClient::send_RenderHandler_OnPopupSize(const int32_t bid, const Rect& rect)
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("OnPopupSize", ::apache::thrift::protocol::T_CALL, cseqid);
+  oprot_->writeMessageBegin("RenderHandler_OnPopupSize", ::apache::thrift::protocol::T_ONEWAY, cseqid);
 
-  ClientHandlers_OnPopupSize_pargs args;
+  ClientHandlers_RenderHandler_OnPopupSize_pargs args;
   args.bid = &bid;
   args.rect = &rect;
   args.write(oprot_);
@@ -12716,39 +12681,6 @@ void ClientHandlersClient::send_OnPopupSize(const int32_t bid, const Rect& rect)
   oprot_->writeMessageEnd();
   oprot_->getTransport()->writeEnd();
   oprot_->getTransport()->flush();
-}
-
-void ClientHandlersClient::recv_OnPopupSize()
-{
-
-  int32_t rseqid = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TMessageType mtype;
-
-  iprot_->readMessageBegin(fname, mtype, rseqid);
-  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
-    ::apache::thrift::TApplicationException x;
-    x.read(iprot_);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-    throw x;
-  }
-  if (mtype != ::apache::thrift::protocol::T_REPLY) {
-    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-  }
-  if (fname.compare("OnPopupSize") != 0) {
-    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-  }
-  ClientHandlers_OnPopupSize_presult result;
-  result.read(iprot_);
-  iprot_->readMessageEnd();
-  iprot_->getTransport()->readEnd();
-
-  return;
 }
 
 bool ClientHandlersClient::LifeSpanHandler_OnBeforePopup(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& url, const std::string& frameName, const bool gesture)
@@ -14411,12 +14343,13 @@ void ClientHandlersClient::recv_ResourceHandler_ReadResponse( ::thrift_codegen::
 void ClientHandlersClient::ResourceHandler_Cancel(const int32_t resourceHandler)
 {
   send_ResourceHandler_Cancel(resourceHandler);
+  recv_ResourceHandler_Cancel();
 }
 
 void ClientHandlersClient::send_ResourceHandler_Cancel(const int32_t resourceHandler)
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("ResourceHandler_Cancel", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("ResourceHandler_Cancel", ::apache::thrift::protocol::T_CALL, cseqid);
 
   ClientHandlers_ResourceHandler_Cancel_pargs args;
   args.resourceHandler = &resourceHandler;
@@ -14425,6 +14358,39 @@ void ClientHandlersClient::send_ResourceHandler_Cancel(const int32_t resourceHan
   oprot_->writeMessageEnd();
   oprot_->getTransport()->writeEnd();
   oprot_->getTransport()->flush();
+}
+
+void ClientHandlersClient::recv_ResourceHandler_Cancel()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("ResourceHandler_Cancel") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  ClientHandlers_ResourceHandler_Cancel_presult result;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  return;
 }
 
 void ClientHandlersClient::ResourceRequestHandler_OnResourceRedirect(std::string& _return, const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& response, const std::string& new_url)
@@ -15318,12 +15284,13 @@ void ClientHandlersClient::send_CookieVisitor_Dispose(const int32_t visitor)
 void ClientHandlersClient::StringVisitor_Visit(const int32_t stringVisitor, const std::string& str)
 {
   send_StringVisitor_Visit(stringVisitor, str);
+  recv_StringVisitor_Visit();
 }
 
 void ClientHandlersClient::send_StringVisitor_Visit(const int32_t stringVisitor, const std::string& str)
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("StringVisitor_Visit", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("StringVisitor_Visit", ::apache::thrift::protocol::T_CALL, cseqid);
 
   ClientHandlers_StringVisitor_Visit_pargs args;
   args.stringVisitor = &stringVisitor;
@@ -15333,6 +15300,39 @@ void ClientHandlersClient::send_StringVisitor_Visit(const int32_t stringVisitor,
   oprot_->writeMessageEnd();
   oprot_->getTransport()->writeEnd();
   oprot_->getTransport()->flush();
+}
+
+void ClientHandlersClient::recv_StringVisitor_Visit()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("StringVisitor_Visit") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  ClientHandlers_StringVisitor_Visit_presult result;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  return;
 }
 
 void ClientHandlersClient::StringVisitor_Dispose(const int32_t stringVisitor)
@@ -15780,110 +15780,78 @@ void ClientHandlersProcessor::process_RenderHandler_OnPaint(int32_t seqid, ::apa
   }
 }
 
-void ClientHandlersProcessor::process_OnPopupShow(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+void ClientHandlersProcessor::process_RenderHandler_OnPopupShow(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
 {
   void* ctx = nullptr;
   if (this->eventHandler_.get() != nullptr) {
-    ctx = this->eventHandler_->getContext("ClientHandlers.OnPopupShow", callContext);
+    ctx = this->eventHandler_->getContext("ClientHandlers.RenderHandler_OnPopupShow", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ClientHandlers.OnPopupShow");
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ClientHandlers.RenderHandler_OnPopupShow");
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->preRead(ctx, "ClientHandlers.OnPopupShow");
+    this->eventHandler_->preRead(ctx, "ClientHandlers.RenderHandler_OnPopupShow");
   }
 
-  ClientHandlers_OnPopupShow_args args;
+  ClientHandlers_RenderHandler_OnPopupShow_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->postRead(ctx, "ClientHandlers.OnPopupShow", bytes);
+    this->eventHandler_->postRead(ctx, "ClientHandlers.RenderHandler_OnPopupShow", bytes);
   }
 
-  ClientHandlers_OnPopupShow_result result;
   try {
-    iface_->OnPopupShow(args.bid, args.show);
-  } catch (const std::exception& e) {
+    iface_->RenderHandler_OnPopupShow(args.bid, args.show);
+  } catch (const std::exception&) {
     if (this->eventHandler_.get() != nullptr) {
-      this->eventHandler_->handlerError(ctx, "ClientHandlers.OnPopupShow");
+      this->eventHandler_->handlerError(ctx, "ClientHandlers.RenderHandler_OnPopupShow");
     }
-
-    ::apache::thrift::TApplicationException x(e.what());
-    oprot->writeMessageBegin("OnPopupShow", ::apache::thrift::protocol::T_EXCEPTION, seqid);
-    x.write(oprot);
-    oprot->writeMessageEnd();
-    oprot->getTransport()->writeEnd();
-    oprot->getTransport()->flush();
     return;
   }
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->preWrite(ctx, "ClientHandlers.OnPopupShow");
+    this->eventHandler_->asyncComplete(ctx, "ClientHandlers.RenderHandler_OnPopupShow");
   }
 
-  oprot->writeMessageBegin("OnPopupShow", ::apache::thrift::protocol::T_REPLY, seqid);
-  result.write(oprot);
-  oprot->writeMessageEnd();
-  bytes = oprot->getTransport()->writeEnd();
-  oprot->getTransport()->flush();
-
-  if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->postWrite(ctx, "ClientHandlers.OnPopupShow", bytes);
-  }
+  return;
 }
 
-void ClientHandlersProcessor::process_OnPopupSize(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+void ClientHandlersProcessor::process_RenderHandler_OnPopupSize(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
 {
   void* ctx = nullptr;
   if (this->eventHandler_.get() != nullptr) {
-    ctx = this->eventHandler_->getContext("ClientHandlers.OnPopupSize", callContext);
+    ctx = this->eventHandler_->getContext("ClientHandlers.RenderHandler_OnPopupSize", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ClientHandlers.OnPopupSize");
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ClientHandlers.RenderHandler_OnPopupSize");
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->preRead(ctx, "ClientHandlers.OnPopupSize");
+    this->eventHandler_->preRead(ctx, "ClientHandlers.RenderHandler_OnPopupSize");
   }
 
-  ClientHandlers_OnPopupSize_args args;
+  ClientHandlers_RenderHandler_OnPopupSize_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->postRead(ctx, "ClientHandlers.OnPopupSize", bytes);
+    this->eventHandler_->postRead(ctx, "ClientHandlers.RenderHandler_OnPopupSize", bytes);
   }
 
-  ClientHandlers_OnPopupSize_result result;
   try {
-    iface_->OnPopupSize(args.bid, args.rect);
-  } catch (const std::exception& e) {
+    iface_->RenderHandler_OnPopupSize(args.bid, args.rect);
+  } catch (const std::exception&) {
     if (this->eventHandler_.get() != nullptr) {
-      this->eventHandler_->handlerError(ctx, "ClientHandlers.OnPopupSize");
+      this->eventHandler_->handlerError(ctx, "ClientHandlers.RenderHandler_OnPopupSize");
     }
-
-    ::apache::thrift::TApplicationException x(e.what());
-    oprot->writeMessageBegin("OnPopupSize", ::apache::thrift::protocol::T_EXCEPTION, seqid);
-    x.write(oprot);
-    oprot->writeMessageEnd();
-    oprot->getTransport()->writeEnd();
-    oprot->getTransport()->flush();
     return;
   }
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->preWrite(ctx, "ClientHandlers.OnPopupSize");
+    this->eventHandler_->asyncComplete(ctx, "ClientHandlers.RenderHandler_OnPopupSize");
   }
 
-  oprot->writeMessageBegin("OnPopupSize", ::apache::thrift::protocol::T_REPLY, seqid);
-  result.write(oprot);
-  oprot->writeMessageEnd();
-  bytes = oprot->getTransport()->writeEnd();
-  oprot->getTransport()->flush();
-
-  if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->postWrite(ctx, "ClientHandlers.OnPopupSize", bytes);
-  }
+  return;
 }
 
 void ClientHandlersProcessor::process_LifeSpanHandler_OnBeforePopup(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
@@ -17585,7 +17553,7 @@ void ClientHandlersProcessor::process_ResourceHandler_ReadResponse(int32_t seqid
   }
 }
 
-void ClientHandlersProcessor::process_ResourceHandler_Cancel(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+void ClientHandlersProcessor::process_ResourceHandler_Cancel(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = nullptr;
   if (this->eventHandler_.get() != nullptr) {
@@ -17606,20 +17574,36 @@ void ClientHandlersProcessor::process_ResourceHandler_Cancel(int32_t, ::apache::
     this->eventHandler_->postRead(ctx, "ClientHandlers.ResourceHandler_Cancel", bytes);
   }
 
+  ClientHandlers_ResourceHandler_Cancel_result result;
   try {
     iface_->ResourceHandler_Cancel(args.resourceHandler);
-  } catch (const std::exception&) {
+  } catch (const std::exception& e) {
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "ClientHandlers.ResourceHandler_Cancel");
     }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("ResourceHandler_Cancel", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
     return;
   }
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->asyncComplete(ctx, "ClientHandlers.ResourceHandler_Cancel");
+    this->eventHandler_->preWrite(ctx, "ClientHandlers.ResourceHandler_Cancel");
   }
 
-  return;
+  oprot->writeMessageBegin("ResourceHandler_Cancel", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "ClientHandlers.ResourceHandler_Cancel", bytes);
+  }
 }
 
 void ClientHandlersProcessor::process_ResourceRequestHandler_OnResourceRedirect(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
@@ -18506,7 +18490,7 @@ void ClientHandlersProcessor::process_CookieVisitor_Dispose(int32_t, ::apache::t
   return;
 }
 
-void ClientHandlersProcessor::process_StringVisitor_Visit(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+void ClientHandlersProcessor::process_StringVisitor_Visit(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = nullptr;
   if (this->eventHandler_.get() != nullptr) {
@@ -18527,20 +18511,36 @@ void ClientHandlersProcessor::process_StringVisitor_Visit(int32_t, ::apache::thr
     this->eventHandler_->postRead(ctx, "ClientHandlers.StringVisitor_Visit", bytes);
   }
 
+  ClientHandlers_StringVisitor_Visit_result result;
   try {
     iface_->StringVisitor_Visit(args.stringVisitor, args.str);
-  } catch (const std::exception&) {
+  } catch (const std::exception& e) {
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "ClientHandlers.StringVisitor_Visit");
     }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("StringVisitor_Visit", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
     return;
   }
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->asyncComplete(ctx, "ClientHandlers.StringVisitor_Visit");
+    this->eventHandler_->preWrite(ctx, "ClientHandlers.StringVisitor_Visit");
   }
 
-  return;
+  oprot->writeMessageBegin("StringVisitor_Visit", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "ClientHandlers.StringVisitor_Visit", bytes);
+  }
 }
 
 void ClientHandlersProcessor::process_StringVisitor_Dispose(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
@@ -19163,19 +19163,18 @@ void ClientHandlersConcurrentClient::recv_RenderHandler_OnPaint(const int32_t se
   } // end while(true)
 }
 
-void ClientHandlersConcurrentClient::OnPopupShow(const int32_t bid, const bool show)
+void ClientHandlersConcurrentClient::RenderHandler_OnPopupShow(const int32_t bid, const bool show)
 {
-  int32_t seqid = send_OnPopupShow(bid, show);
-  recv_OnPopupShow(seqid);
+  send_RenderHandler_OnPopupShow(bid, show);
 }
 
-int32_t ClientHandlersConcurrentClient::send_OnPopupShow(const int32_t bid, const bool show)
+void ClientHandlersConcurrentClient::send_RenderHandler_OnPopupShow(const int32_t bid, const bool show)
 {
-  int32_t cseqid = this->sync_->generateSeqId();
+  int32_t cseqid = 0;
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
-  oprot_->writeMessageBegin("OnPopupShow", ::apache::thrift::protocol::T_CALL, cseqid);
+  oprot_->writeMessageBegin("RenderHandler_OnPopupShow", ::apache::thrift::protocol::T_ONEWAY, cseqid);
 
-  ClientHandlers_OnPopupShow_pargs args;
+  ClientHandlers_RenderHandler_OnPopupShow_pargs args;
   args.bid = &bid;
   args.show = &show;
   args.write(oprot_);
@@ -19185,76 +19184,20 @@ int32_t ClientHandlersConcurrentClient::send_OnPopupShow(const int32_t bid, cons
   oprot_->getTransport()->flush();
 
   sentry.commit();
-  return cseqid;
 }
 
-void ClientHandlersConcurrentClient::recv_OnPopupShow(const int32_t seqid)
+void ClientHandlersConcurrentClient::RenderHandler_OnPopupSize(const int32_t bid, const Rect& rect)
 {
-
-  int32_t rseqid = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TMessageType mtype;
-
-  // the read mutex gets dropped and reacquired as part of waitForWork()
-  // The destructor of this sentry wakes up other clients
-  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
-
-  while(true) {
-    if(!this->sync_->getPending(fname, mtype, rseqid)) {
-      iprot_->readMessageBegin(fname, mtype, rseqid);
-    }
-    if(seqid == rseqid) {
-      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
-        ::apache::thrift::TApplicationException x;
-        x.read(iprot_);
-        iprot_->readMessageEnd();
-        iprot_->getTransport()->readEnd();
-        sentry.commit();
-        throw x;
-      }
-      if (mtype != ::apache::thrift::protocol::T_REPLY) {
-        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-        iprot_->readMessageEnd();
-        iprot_->getTransport()->readEnd();
-      }
-      if (fname.compare("OnPopupShow") != 0) {
-        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-        iprot_->readMessageEnd();
-        iprot_->getTransport()->readEnd();
-
-        // in a bad state, don't commit
-        using ::apache::thrift::protocol::TProtocolException;
-        throw TProtocolException(TProtocolException::INVALID_DATA);
-      }
-      ClientHandlers_OnPopupShow_presult result;
-      result.read(iprot_);
-      iprot_->readMessageEnd();
-      iprot_->getTransport()->readEnd();
-
-      sentry.commit();
-      return;
-    }
-    // seqid != rseqid
-    this->sync_->updatePending(fname, mtype, rseqid);
-
-    // this will temporarily unlock the readMutex, and let other clients get work done
-    this->sync_->waitForWork(seqid);
-  } // end while(true)
+  send_RenderHandler_OnPopupSize(bid, rect);
 }
 
-void ClientHandlersConcurrentClient::OnPopupSize(const int32_t bid, const Rect& rect)
+void ClientHandlersConcurrentClient::send_RenderHandler_OnPopupSize(const int32_t bid, const Rect& rect)
 {
-  int32_t seqid = send_OnPopupSize(bid, rect);
-  recv_OnPopupSize(seqid);
-}
-
-int32_t ClientHandlersConcurrentClient::send_OnPopupSize(const int32_t bid, const Rect& rect)
-{
-  int32_t cseqid = this->sync_->generateSeqId();
+  int32_t cseqid = 0;
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
-  oprot_->writeMessageBegin("OnPopupSize", ::apache::thrift::protocol::T_CALL, cseqid);
+  oprot_->writeMessageBegin("RenderHandler_OnPopupSize", ::apache::thrift::protocol::T_ONEWAY, cseqid);
 
-  ClientHandlers_OnPopupSize_pargs args;
+  ClientHandlers_RenderHandler_OnPopupSize_pargs args;
   args.bid = &bid;
   args.rect = &rect;
   args.write(oprot_);
@@ -19264,61 +19207,6 @@ int32_t ClientHandlersConcurrentClient::send_OnPopupSize(const int32_t bid, cons
   oprot_->getTransport()->flush();
 
   sentry.commit();
-  return cseqid;
-}
-
-void ClientHandlersConcurrentClient::recv_OnPopupSize(const int32_t seqid)
-{
-
-  int32_t rseqid = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TMessageType mtype;
-
-  // the read mutex gets dropped and reacquired as part of waitForWork()
-  // The destructor of this sentry wakes up other clients
-  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
-
-  while(true) {
-    if(!this->sync_->getPending(fname, mtype, rseqid)) {
-      iprot_->readMessageBegin(fname, mtype, rseqid);
-    }
-    if(seqid == rseqid) {
-      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
-        ::apache::thrift::TApplicationException x;
-        x.read(iprot_);
-        iprot_->readMessageEnd();
-        iprot_->getTransport()->readEnd();
-        sentry.commit();
-        throw x;
-      }
-      if (mtype != ::apache::thrift::protocol::T_REPLY) {
-        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-        iprot_->readMessageEnd();
-        iprot_->getTransport()->readEnd();
-      }
-      if (fname.compare("OnPopupSize") != 0) {
-        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-        iprot_->readMessageEnd();
-        iprot_->getTransport()->readEnd();
-
-        // in a bad state, don't commit
-        using ::apache::thrift::protocol::TProtocolException;
-        throw TProtocolException(TProtocolException::INVALID_DATA);
-      }
-      ClientHandlers_OnPopupSize_presult result;
-      result.read(iprot_);
-      iprot_->readMessageEnd();
-      iprot_->getTransport()->readEnd();
-
-      sentry.commit();
-      return;
-    }
-    // seqid != rseqid
-    this->sync_->updatePending(fname, mtype, rseqid);
-
-    // this will temporarily unlock the readMutex, and let other clients get work done
-    this->sync_->waitForWork(seqid);
-  } // end while(true)
 }
 
 bool ClientHandlersConcurrentClient::LifeSpanHandler_OnBeforePopup(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& url, const std::string& frameName, const bool gesture)
@@ -21633,14 +21521,15 @@ void ClientHandlersConcurrentClient::recv_ResourceHandler_ReadResponse( ::thrift
 
 void ClientHandlersConcurrentClient::ResourceHandler_Cancel(const int32_t resourceHandler)
 {
-  send_ResourceHandler_Cancel(resourceHandler);
+  int32_t seqid = send_ResourceHandler_Cancel(resourceHandler);
+  recv_ResourceHandler_Cancel(seqid);
 }
 
-void ClientHandlersConcurrentClient::send_ResourceHandler_Cancel(const int32_t resourceHandler)
+int32_t ClientHandlersConcurrentClient::send_ResourceHandler_Cancel(const int32_t resourceHandler)
 {
-  int32_t cseqid = 0;
+  int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
-  oprot_->writeMessageBegin("ResourceHandler_Cancel", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("ResourceHandler_Cancel", ::apache::thrift::protocol::T_CALL, cseqid);
 
   ClientHandlers_ResourceHandler_Cancel_pargs args;
   args.resourceHandler = &resourceHandler;
@@ -21651,6 +21540,61 @@ void ClientHandlersConcurrentClient::send_ResourceHandler_Cancel(const int32_t r
   oprot_->getTransport()->flush();
 
   sentry.commit();
+  return cseqid;
+}
+
+void ClientHandlersConcurrentClient::recv_ResourceHandler_Cancel(const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("ResourceHandler_Cancel") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      ClientHandlers_ResourceHandler_Cancel_presult result;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      sentry.commit();
+      return;
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
 }
 
 void ClientHandlersConcurrentClient::ResourceRequestHandler_OnResourceRedirect(std::string& _return, const int32_t rrHandler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const  ::thrift_codegen::RObject& response, const std::string& new_url)
@@ -22893,14 +22837,15 @@ void ClientHandlersConcurrentClient::send_CookieVisitor_Dispose(const int32_t vi
 
 void ClientHandlersConcurrentClient::StringVisitor_Visit(const int32_t stringVisitor, const std::string& str)
 {
-  send_StringVisitor_Visit(stringVisitor, str);
+  int32_t seqid = send_StringVisitor_Visit(stringVisitor, str);
+  recv_StringVisitor_Visit(seqid);
 }
 
-void ClientHandlersConcurrentClient::send_StringVisitor_Visit(const int32_t stringVisitor, const std::string& str)
+int32_t ClientHandlersConcurrentClient::send_StringVisitor_Visit(const int32_t stringVisitor, const std::string& str)
 {
-  int32_t cseqid = 0;
+  int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
-  oprot_->writeMessageBegin("StringVisitor_Visit", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("StringVisitor_Visit", ::apache::thrift::protocol::T_CALL, cseqid);
 
   ClientHandlers_StringVisitor_Visit_pargs args;
   args.stringVisitor = &stringVisitor;
@@ -22912,6 +22857,61 @@ void ClientHandlersConcurrentClient::send_StringVisitor_Visit(const int32_t stri
   oprot_->getTransport()->flush();
 
   sentry.commit();
+  return cseqid;
+}
+
+void ClientHandlersConcurrentClient::recv_StringVisitor_Visit(const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("StringVisitor_Visit") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      ClientHandlers_StringVisitor_Visit_presult result;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      sentry.commit();
+      return;
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
 }
 
 void ClientHandlersConcurrentClient::StringVisitor_Dispose(const int32_t stringVisitor)
