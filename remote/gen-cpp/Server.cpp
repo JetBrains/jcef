@@ -2029,6 +2029,83 @@ uint32_t Server_Browser_LoadRequest_pargs::write(::apache::thrift::protocol::TPr
 }
 
 
+Server_Browser_LoadRequest_result::~Server_Browser_LoadRequest_result() noexcept {
+}
+
+
+uint32_t Server_Browser_LoadRequest_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_Browser_LoadRequest_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("Server_Browser_LoadRequest_result");
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Browser_LoadRequest_presult::~Server_Browser_LoadRequest_presult() noexcept {
+}
+
+
+uint32_t Server_Browser_LoadRequest_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
 Server_Browser_GetURL_args::~Server_Browser_GetURL_args() noexcept {
 }
 
@@ -15564,12 +15641,13 @@ void ServerClient::send_Browser_LoadURL(const int32_t bid, const std::string& ur
 void ServerClient::Browser_LoadRequest(const int32_t bid, const  ::thrift_codegen::RObject& request)
 {
   send_Browser_LoadRequest(bid, request);
+  recv_Browser_LoadRequest();
 }
 
 void ServerClient::send_Browser_LoadRequest(const int32_t bid, const  ::thrift_codegen::RObject& request)
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("Browser_LoadRequest", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("Browser_LoadRequest", ::apache::thrift::protocol::T_CALL, cseqid);
 
   Server_Browser_LoadRequest_pargs args;
   args.bid = &bid;
@@ -15579,6 +15657,39 @@ void ServerClient::send_Browser_LoadRequest(const int32_t bid, const  ::thrift_c
   oprot_->writeMessageEnd();
   oprot_->getTransport()->writeEnd();
   oprot_->getTransport()->flush();
+}
+
+void ServerClient::recv_Browser_LoadRequest()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("Browser_LoadRequest") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  Server_Browser_LoadRequest_presult result;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  return;
 }
 
 void ServerClient::Browser_GetURL(std::string& _return, const int32_t bid)
@@ -19737,7 +19848,7 @@ void ServerProcessor::process_Browser_LoadURL(int32_t, ::apache::thrift::protoco
   return;
 }
 
-void ServerProcessor::process_Browser_LoadRequest(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+void ServerProcessor::process_Browser_LoadRequest(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = nullptr;
   if (this->eventHandler_.get() != nullptr) {
@@ -19758,20 +19869,36 @@ void ServerProcessor::process_Browser_LoadRequest(int32_t, ::apache::thrift::pro
     this->eventHandler_->postRead(ctx, "Server.Browser_LoadRequest", bytes);
   }
 
+  Server_Browser_LoadRequest_result result;
   try {
     iface_->Browser_LoadRequest(args.bid, args.request);
-  } catch (const std::exception&) {
+  } catch (const std::exception& e) {
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "Server.Browser_LoadRequest");
     }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("Browser_LoadRequest", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
     return;
   }
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->asyncComplete(ctx, "Server.Browser_LoadRequest");
+    this->eventHandler_->preWrite(ctx, "Server.Browser_LoadRequest");
   }
 
-  return;
+  oprot->writeMessageBegin("Browser_LoadRequest", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "Server.Browser_LoadRequest", bytes);
+  }
 }
 
 void ServerProcessor::process_Browser_GetURL(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
@@ -24603,14 +24730,15 @@ void ServerConcurrentClient::send_Browser_LoadURL(const int32_t bid, const std::
 
 void ServerConcurrentClient::Browser_LoadRequest(const int32_t bid, const  ::thrift_codegen::RObject& request)
 {
-  send_Browser_LoadRequest(bid, request);
+  int32_t seqid = send_Browser_LoadRequest(bid, request);
+  recv_Browser_LoadRequest(seqid);
 }
 
-void ServerConcurrentClient::send_Browser_LoadRequest(const int32_t bid, const  ::thrift_codegen::RObject& request)
+int32_t ServerConcurrentClient::send_Browser_LoadRequest(const int32_t bid, const  ::thrift_codegen::RObject& request)
 {
-  int32_t cseqid = 0;
+  int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
-  oprot_->writeMessageBegin("Browser_LoadRequest", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("Browser_LoadRequest", ::apache::thrift::protocol::T_CALL, cseqid);
 
   Server_Browser_LoadRequest_pargs args;
   args.bid = &bid;
@@ -24622,6 +24750,61 @@ void ServerConcurrentClient::send_Browser_LoadRequest(const int32_t bid, const  
   oprot_->getTransport()->flush();
 
   sentry.commit();
+  return cseqid;
+}
+
+void ServerConcurrentClient::recv_Browser_LoadRequest(const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("Browser_LoadRequest") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      Server_Browser_LoadRequest_presult result;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      sentry.commit();
+      return;
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
 }
 
 void ServerConcurrentClient::Browser_GetURL(std::string& _return, const int32_t bid)
