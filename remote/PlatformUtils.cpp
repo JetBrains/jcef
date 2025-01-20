@@ -2,7 +2,7 @@
 
 #include "../native/keyboard_utils.h"
 
-jobject Java_com_jetbrains_cef_remote_PlatformUtils_toCefKeyEvent(
+jobject Java_com_jetbrains_cef_remote_PlatformUtils_getCefKeyEventAttributes(
     JNIEnv* env,
     jclass,
     jobject jKeyEvent) {
