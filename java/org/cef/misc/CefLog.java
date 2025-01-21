@@ -56,7 +56,7 @@ public class CefLog {
         }
 
         CefSettings.LogSeverity severity = log_severity == null ? CefSettings.LogSeverity.LOGSEVERITY_INFO : log_severity;
-        System.out.printf("JCEF(%s): initialized %s logger, severity=%s\n", useStdOut ? "stdout" : "stderr", ourTimeFormat.format(new Date()), severity);
+        System.out.printf("JCEF(%s): initialized %s logger, severity=%s\n", ourTimeFormat.format(new Date()), useStdOut ? "stdout" : "stderr", severity);
         INSTANCE = new CefLog(useStdOut ? System.out : System.err, severity);
     }
 

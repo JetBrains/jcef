@@ -207,11 +207,11 @@ public class NativeServerManager {
                 serverSocket = new TServerSocket(port);
             } catch (TTransportException e) {
                 if (withDebug)
-                    CefLog.Debug("isServerTransportBusy: tcp-port %d, TTransportException occurred: %s", port, e.getMessage());
+                    CefLog.Debug("isServerSocketBusy: can't open tcp-port %d, TTransportException occurred: %s", port, e.getMessage());
                 return true;
             }
             if (withDebug)
-                CefLog.Debug("isServerTransportBusy: tcp-port %d, opened and connected.", port);
+                CefLog.Debug("isServerSocketBusy: tcp-port %d, successfully opened.", port);
             serverSocket.close();
         } catch (Throwable e) {
             CefLog.Error("isServerSocketBusy: exception %s", e.getMessage());
