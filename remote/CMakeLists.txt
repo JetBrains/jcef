@@ -80,13 +80,11 @@ target_link_libraries(thrift_codegen thrift::thrift libcef_dll_wrapper ${CEF_STA
 if (OS_MAC)
     set(CEFSIMPLE_RESOURCES_MAC_SRCS_MAC
             mac/Info.plist
-            mac/cefsimple.icns
             )
     APPEND_PLATFORM_SOURCES(CEFSIMPLE_RESOURCES_MAC_SRCS)
 
     set(CEFSIMPLE_RESOURCES_MAC_ENGLISH_LPROJ_SRCS_MAC
             mac/English.lproj/InfoPlist.strings
-            mac/English.lproj/MainMenu.xib
             )
     APPEND_PLATFORM_SOURCES(CEFSIMPLE_RESOURCES_MAC_ENGLISH_LPROJ_SRCS)
 
