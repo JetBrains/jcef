@@ -29,6 +29,7 @@ public class NativeServerManager {
     private static final String ALT_CEF_SERVER_PATH = Utils.getString("ALT_CEF_SERVER_PATH");
     private static final String ALT_SUBPROCESS_PATH = Utils.getString("ALT_SUBPROCESS_PATH");
     private static final boolean CHECK_PROCESS_ALIVE = Utils.getBoolean("JCEF_CHECK_PROCESS_ALIVE", true); // for debug, TODO: remove
+    private static final int WAIT_LOOP_SLEEP_MS = Utils.getInteger("JCEF_WAIT_LOOP_SLEEP_MS", 200);
 
     private static Map<String, Process> ourNativeServerProcesses = new HashMap<>();
 
@@ -408,7 +409,7 @@ public class NativeServerManager {
         boolean success;
         do {
             try {
-                Thread.sleep(100);
+                Thread.sleep(WAIT_LOOP_SLEEP_MS);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
