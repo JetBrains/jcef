@@ -11,7 +11,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 // Created on java side when doing async request to server.
-// Disposed (remove reference in factory) when onComplete executed.
+// Disposed (remove reference in factory) immediately after delegate.onComplete is executed.
 public class RemoteIntCallback extends RemoteJavaObject<Consumer<Integer>> {
     public static final RemoteJavaObjectFactory<RemoteIntCallback> FACTORY = new RemoteJavaObjectFactory<>();
 

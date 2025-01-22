@@ -225,6 +225,12 @@ public class Server {
 
     public void Registration_Dispose(com.jetbrains.cef.remote.thrift_codegen.RObject registration) throws com.jetbrains.cef.remote.thrift.TException;
 
+    public void MediaAccessCallback_Dispose(com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void MediaAccessCallback_Continue(com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback, int allowed_permissions) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void MediaAccessCallback_Cancel(com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback) throws com.jetbrains.cef.remote.thrift.TException;
+
   }
 
   public interface AsyncIface {
@@ -442,6 +448,12 @@ public class Server {
     public void CookieManager_FlushStore(com.jetbrains.cef.remote.thrift_codegen.RObject cookieManager, com.jetbrains.cef.remote.thrift_codegen.RObject completionCallback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void Registration_Dispose(com.jetbrains.cef.remote.thrift_codegen.RObject registration, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void MediaAccessCallback_Dispose(com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void MediaAccessCallback_Continue(com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback, int allowed_permissions, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void MediaAccessCallback_Cancel(com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
   }
 
@@ -2460,6 +2472,46 @@ public class Server {
       Registration_Dispose_args args = new Registration_Dispose_args();
       args.setRegistration(registration);
       sendBaseOneway("Registration_Dispose", args);
+    }
+
+    @Override
+    public void MediaAccessCallback_Dispose(com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_MediaAccessCallback_Dispose(mediaAccessCallback);
+    }
+
+    public void send_MediaAccessCallback_Dispose(com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      MediaAccessCallback_Dispose_args args = new MediaAccessCallback_Dispose_args();
+      args.setMediaAccessCallback(mediaAccessCallback);
+      sendBaseOneway("MediaAccessCallback_Dispose", args);
+    }
+
+    @Override
+    public void MediaAccessCallback_Continue(com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback, int allowed_permissions) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_MediaAccessCallback_Continue(mediaAccessCallback, allowed_permissions);
+    }
+
+    public void send_MediaAccessCallback_Continue(com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback, int allowed_permissions) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      MediaAccessCallback_Continue_args args = new MediaAccessCallback_Continue_args();
+      args.setMediaAccessCallback(mediaAccessCallback);
+      args.setAllowed_permissions(allowed_permissions);
+      sendBaseOneway("MediaAccessCallback_Continue", args);
+    }
+
+    @Override
+    public void MediaAccessCallback_Cancel(com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_MediaAccessCallback_Cancel(mediaAccessCallback);
+    }
+
+    public void send_MediaAccessCallback_Cancel(com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      MediaAccessCallback_Cancel_args args = new MediaAccessCallback_Cancel_args();
+      args.setMediaAccessCallback(mediaAccessCallback);
+      sendBaseOneway("MediaAccessCallback_Cancel", args);
     }
 
   }
@@ -6502,6 +6554,114 @@ public class Server {
       }
     }
 
+    @Override
+    public void MediaAccessCallback_Dispose(com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      MediaAccessCallback_Dispose_call method_call = new MediaAccessCallback_Dispose_call(mediaAccessCallback, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class MediaAccessCallback_Dispose_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<Void> {
+      private com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback;
+      public MediaAccessCallback_Dispose_call(com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, true);
+        this.mediaAccessCallback = mediaAccessCallback;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("MediaAccessCallback_Dispose", com.jetbrains.cef.remote.thrift.protocol.TMessageType.ONEWAY, 0));
+        MediaAccessCallback_Dispose_args args = new MediaAccessCallback_Dispose_args();
+        args.setMediaAccessCallback(mediaAccessCallback);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public Void getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return null;
+      }
+    }
+
+    @Override
+    public void MediaAccessCallback_Continue(com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback, int allowed_permissions, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      MediaAccessCallback_Continue_call method_call = new MediaAccessCallback_Continue_call(mediaAccessCallback, allowed_permissions, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class MediaAccessCallback_Continue_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<Void> {
+      private com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback;
+      private int allowed_permissions;
+      public MediaAccessCallback_Continue_call(com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback, int allowed_permissions, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, true);
+        this.mediaAccessCallback = mediaAccessCallback;
+        this.allowed_permissions = allowed_permissions;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("MediaAccessCallback_Continue", com.jetbrains.cef.remote.thrift.protocol.TMessageType.ONEWAY, 0));
+        MediaAccessCallback_Continue_args args = new MediaAccessCallback_Continue_args();
+        args.setMediaAccessCallback(mediaAccessCallback);
+        args.setAllowed_permissions(allowed_permissions);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public Void getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return null;
+      }
+    }
+
+    @Override
+    public void MediaAccessCallback_Cancel(com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      MediaAccessCallback_Cancel_call method_call = new MediaAccessCallback_Cancel_call(mediaAccessCallback, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class MediaAccessCallback_Cancel_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<Void> {
+      private com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback;
+      public MediaAccessCallback_Cancel_call(com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, true);
+        this.mediaAccessCallback = mediaAccessCallback;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("MediaAccessCallback_Cancel", com.jetbrains.cef.remote.thrift.protocol.TMessageType.ONEWAY, 0));
+        MediaAccessCallback_Cancel_args args = new MediaAccessCallback_Cancel_args();
+        args.setMediaAccessCallback(mediaAccessCallback);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public Void getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return null;
+      }
+    }
+
   }
 
   public static class Processor<I extends Iface> extends com.jetbrains.cef.remote.thrift.TBaseProcessor<I> implements com.jetbrains.cef.remote.thrift.TProcessor {
@@ -6622,6 +6782,9 @@ public class Server {
       processMap.put("CookieManager_DeleteCookies", new CookieManager_DeleteCookies());
       processMap.put("CookieManager_FlushStore", new CookieManager_FlushStore());
       processMap.put("Registration_Dispose", new Registration_Dispose());
+      processMap.put("MediaAccessCallback_Dispose", new MediaAccessCallback_Dispose());
+      processMap.put("MediaAccessCallback_Continue", new MediaAccessCallback_Continue());
+      processMap.put("MediaAccessCallback_Cancel", new MediaAccessCallback_Cancel());
       return processMap;
     }
 
@@ -9581,6 +9744,87 @@ public class Server {
       }
     }
 
+    public static class MediaAccessCallback_Dispose<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, MediaAccessCallback_Dispose_args> {
+      public MediaAccessCallback_Dispose() {
+        super("MediaAccessCallback_Dispose");
+      }
+
+      @Override
+      public MediaAccessCallback_Dispose_args getEmptyArgsInstance() {
+        return new MediaAccessCallback_Dispose_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.TBase getResult(I iface, MediaAccessCallback_Dispose_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.MediaAccessCallback_Dispose(args.mediaAccessCallback);
+        return null;
+      }
+    }
+
+    public static class MediaAccessCallback_Continue<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, MediaAccessCallback_Continue_args> {
+      public MediaAccessCallback_Continue() {
+        super("MediaAccessCallback_Continue");
+      }
+
+      @Override
+      public MediaAccessCallback_Continue_args getEmptyArgsInstance() {
+        return new MediaAccessCallback_Continue_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.TBase getResult(I iface, MediaAccessCallback_Continue_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.MediaAccessCallback_Continue(args.mediaAccessCallback, args.allowed_permissions);
+        return null;
+      }
+    }
+
+    public static class MediaAccessCallback_Cancel<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, MediaAccessCallback_Cancel_args> {
+      public MediaAccessCallback_Cancel() {
+        super("MediaAccessCallback_Cancel");
+      }
+
+      @Override
+      public MediaAccessCallback_Cancel_args getEmptyArgsInstance() {
+        return new MediaAccessCallback_Cancel_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.TBase getResult(I iface, MediaAccessCallback_Cancel_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.MediaAccessCallback_Cancel(args.mediaAccessCallback);
+        return null;
+      }
+    }
+
   }
 
   public static class AsyncProcessor<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.TBaseAsyncProcessor<I> {
@@ -9701,6 +9945,9 @@ public class Server {
       processMap.put("CookieManager_DeleteCookies", new CookieManager_DeleteCookies());
       processMap.put("CookieManager_FlushStore", new CookieManager_FlushStore());
       processMap.put("Registration_Dispose", new Registration_Dispose());
+      processMap.put("MediaAccessCallback_Dispose", new MediaAccessCallback_Dispose());
+      processMap.put("MediaAccessCallback_Continue", new MediaAccessCallback_Continue());
+      processMap.put("MediaAccessCallback_Cancel", new MediaAccessCallback_Cancel());
       return processMap;
     }
 
@@ -15382,6 +15629,126 @@ public class Server {
       @Override
       public void start(I iface, Registration_Dispose_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
         iface.Registration_Dispose(args.registration,resultHandler);
+      }
+    }
+
+    public static class MediaAccessCallback_Dispose<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, MediaAccessCallback_Dispose_args, Void> {
+      public MediaAccessCallback_Dispose() {
+        super("MediaAccessCallback_Dispose");
+      }
+
+      @Override
+      public MediaAccessCallback_Dispose_args getEmptyArgsInstance() {
+        return new MediaAccessCallback_Dispose_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void>() { 
+          @Override
+          public void onComplete(Void o) {
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+            } else {
+              _LOGGER.error("Exception inside oneway handler", e);
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      public void start(I iface, MediaAccessCallback_Dispose_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.MediaAccessCallback_Dispose(args.mediaAccessCallback,resultHandler);
+      }
+    }
+
+    public static class MediaAccessCallback_Continue<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, MediaAccessCallback_Continue_args, Void> {
+      public MediaAccessCallback_Continue() {
+        super("MediaAccessCallback_Continue");
+      }
+
+      @Override
+      public MediaAccessCallback_Continue_args getEmptyArgsInstance() {
+        return new MediaAccessCallback_Continue_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void>() { 
+          @Override
+          public void onComplete(Void o) {
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+            } else {
+              _LOGGER.error("Exception inside oneway handler", e);
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      public void start(I iface, MediaAccessCallback_Continue_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.MediaAccessCallback_Continue(args.mediaAccessCallback, args.allowed_permissions,resultHandler);
+      }
+    }
+
+    public static class MediaAccessCallback_Cancel<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, MediaAccessCallback_Cancel_args, Void> {
+      public MediaAccessCallback_Cancel() {
+        super("MediaAccessCallback_Cancel");
+      }
+
+      @Override
+      public MediaAccessCallback_Cancel_args getEmptyArgsInstance() {
+        return new MediaAccessCallback_Cancel_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void>() { 
+          @Override
+          public void onComplete(Void o) {
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+            } else {
+              _LOGGER.error("Exception inside oneway handler", e);
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      public void start(I iface, MediaAccessCallback_Cancel_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.MediaAccessCallback_Cancel(args.mediaAccessCallback,resultHandler);
       }
     }
 
@@ -82613,6 +82980,1258 @@ public class Server {
           struct.registration = new com.jetbrains.cef.remote.thrift_codegen.RObject();
           struct.registration.read(iprot);
           struct.setRegistrationIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class MediaAccessCallback_Dispose_args implements com.jetbrains.cef.remote.thrift.TBase<MediaAccessCallback_Dispose_args, MediaAccessCallback_Dispose_args._Fields>, java.io.Serializable, Cloneable, Comparable<MediaAccessCallback_Dispose_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("MediaAccessCallback_Dispose_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField MEDIA_ACCESS_CALLBACK_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("mediaAccessCallback", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)1);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new MediaAccessCallback_Dispose_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new MediaAccessCallback_Dispose_argsTupleSchemeFactory();
+
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      MEDIA_ACCESS_CALLBACK((short)1, "mediaAccessCallback");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // MEDIA_ACCESS_CALLBACK
+            return MEDIA_ACCESS_CALLBACK;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.MEDIA_ACCESS_CALLBACK, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("mediaAccessCallback", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(MediaAccessCallback_Dispose_args.class, metaDataMap);
+    }
+
+    public MediaAccessCallback_Dispose_args() {
+    }
+
+    public MediaAccessCallback_Dispose_args(
+      com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback)
+    {
+      this();
+      this.mediaAccessCallback = mediaAccessCallback;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public MediaAccessCallback_Dispose_args(MediaAccessCallback_Dispose_args other) {
+      if (other.isSetMediaAccessCallback()) {
+        this.mediaAccessCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.mediaAccessCallback);
+      }
+    }
+
+    @Override
+    public MediaAccessCallback_Dispose_args deepCopy() {
+      return new MediaAccessCallback_Dispose_args(this);
+    }
+
+    @Override
+    public void clear() {
+      this.mediaAccessCallback = null;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getMediaAccessCallback() {
+      return this.mediaAccessCallback;
+    }
+
+    public MediaAccessCallback_Dispose_args setMediaAccessCallback(@com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback) {
+      this.mediaAccessCallback = mediaAccessCallback;
+      return this;
+    }
+
+    public void unsetMediaAccessCallback() {
+      this.mediaAccessCallback = null;
+    }
+
+    /** Returns true if field mediaAccessCallback is set (has been assigned a value) and false otherwise */
+    public boolean isSetMediaAccessCallback() {
+      return this.mediaAccessCallback != null;
+    }
+
+    public void setMediaAccessCallbackIsSet(boolean value) {
+      if (!value) {
+        this.mediaAccessCallback = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case MEDIA_ACCESS_CALLBACK:
+        if (value == null) {
+          unsetMediaAccessCallback();
+        } else {
+          setMediaAccessCallback((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case MEDIA_ACCESS_CALLBACK:
+        return getMediaAccessCallback();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case MEDIA_ACCESS_CALLBACK:
+        return isSetMediaAccessCallback();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof MediaAccessCallback_Dispose_args)
+        return this.equals((MediaAccessCallback_Dispose_args)that);
+      return false;
+    }
+
+    public boolean equals(MediaAccessCallback_Dispose_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_mediaAccessCallback = true && this.isSetMediaAccessCallback();
+      boolean that_present_mediaAccessCallback = true && that.isSetMediaAccessCallback();
+      if (this_present_mediaAccessCallback || that_present_mediaAccessCallback) {
+        if (!(this_present_mediaAccessCallback && that_present_mediaAccessCallback))
+          return false;
+        if (!this.mediaAccessCallback.equals(that.mediaAccessCallback))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((isSetMediaAccessCallback()) ? 131071 : 524287);
+      if (isSetMediaAccessCallback())
+        hashCode = hashCode * 8191 + mediaAccessCallback.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(MediaAccessCallback_Dispose_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetMediaAccessCallback(), other.isSetMediaAccessCallback());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetMediaAccessCallback()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.mediaAccessCallback, other.mediaAccessCallback);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("MediaAccessCallback_Dispose_args(");
+      boolean first = true;
+
+      sb.append("mediaAccessCallback:");
+      if (this.mediaAccessCallback == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.mediaAccessCallback);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (mediaAccessCallback != null) {
+        mediaAccessCallback.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class MediaAccessCallback_Dispose_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public MediaAccessCallback_Dispose_argsStandardScheme getScheme() {
+        return new MediaAccessCallback_Dispose_argsStandardScheme();
+      }
+    }
+
+    private static class MediaAccessCallback_Dispose_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<MediaAccessCallback_Dispose_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, MediaAccessCallback_Dispose_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // MEDIA_ACCESS_CALLBACK
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                struct.mediaAccessCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.mediaAccessCallback.read(iprot);
+                struct.setMediaAccessCallbackIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, MediaAccessCallback_Dispose_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.mediaAccessCallback != null) {
+          oprot.writeFieldBegin(MEDIA_ACCESS_CALLBACK_FIELD_DESC);
+          struct.mediaAccessCallback.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class MediaAccessCallback_Dispose_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public MediaAccessCallback_Dispose_argsTupleScheme getScheme() {
+        return new MediaAccessCallback_Dispose_argsTupleScheme();
+      }
+    }
+
+    private static class MediaAccessCallback_Dispose_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<MediaAccessCallback_Dispose_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, MediaAccessCallback_Dispose_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetMediaAccessCallback()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetMediaAccessCallback()) {
+          struct.mediaAccessCallback.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, MediaAccessCallback_Dispose_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.mediaAccessCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.mediaAccessCallback.read(iprot);
+          struct.setMediaAccessCallbackIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class MediaAccessCallback_Continue_args implements com.jetbrains.cef.remote.thrift.TBase<MediaAccessCallback_Continue_args, MediaAccessCallback_Continue_args._Fields>, java.io.Serializable, Cloneable, Comparable<MediaAccessCallback_Continue_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("MediaAccessCallback_Continue_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField MEDIA_ACCESS_CALLBACK_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("mediaAccessCallback", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)1);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField ALLOWED_PERMISSIONS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("allowed_permissions", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)2);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new MediaAccessCallback_Continue_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new MediaAccessCallback_Continue_argsTupleSchemeFactory();
+
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback; // required
+    public int allowed_permissions; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      MEDIA_ACCESS_CALLBACK((short)1, "mediaAccessCallback"),
+      ALLOWED_PERMISSIONS((short)2, "allowed_permissions");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // MEDIA_ACCESS_CALLBACK
+            return MEDIA_ACCESS_CALLBACK;
+          case 2: // ALLOWED_PERMISSIONS
+            return ALLOWED_PERMISSIONS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __ALLOWED_PERMISSIONS_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.MEDIA_ACCESS_CALLBACK, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("mediaAccessCallback", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      tmpMap.put(_Fields.ALLOWED_PERMISSIONS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("allowed_permissions", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(MediaAccessCallback_Continue_args.class, metaDataMap);
+    }
+
+    public MediaAccessCallback_Continue_args() {
+    }
+
+    public MediaAccessCallback_Continue_args(
+      com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback,
+      int allowed_permissions)
+    {
+      this();
+      this.mediaAccessCallback = mediaAccessCallback;
+      this.allowed_permissions = allowed_permissions;
+      setAllowed_permissionsIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public MediaAccessCallback_Continue_args(MediaAccessCallback_Continue_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      if (other.isSetMediaAccessCallback()) {
+        this.mediaAccessCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.mediaAccessCallback);
+      }
+      this.allowed_permissions = other.allowed_permissions;
+    }
+
+    @Override
+    public MediaAccessCallback_Continue_args deepCopy() {
+      return new MediaAccessCallback_Continue_args(this);
+    }
+
+    @Override
+    public void clear() {
+      this.mediaAccessCallback = null;
+      setAllowed_permissionsIsSet(false);
+      this.allowed_permissions = 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getMediaAccessCallback() {
+      return this.mediaAccessCallback;
+    }
+
+    public MediaAccessCallback_Continue_args setMediaAccessCallback(@com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback) {
+      this.mediaAccessCallback = mediaAccessCallback;
+      return this;
+    }
+
+    public void unsetMediaAccessCallback() {
+      this.mediaAccessCallback = null;
+    }
+
+    /** Returns true if field mediaAccessCallback is set (has been assigned a value) and false otherwise */
+    public boolean isSetMediaAccessCallback() {
+      return this.mediaAccessCallback != null;
+    }
+
+    public void setMediaAccessCallbackIsSet(boolean value) {
+      if (!value) {
+        this.mediaAccessCallback = null;
+      }
+    }
+
+    public int getAllowed_permissions() {
+      return this.allowed_permissions;
+    }
+
+    public MediaAccessCallback_Continue_args setAllowed_permissions(int allowed_permissions) {
+      this.allowed_permissions = allowed_permissions;
+      setAllowed_permissionsIsSet(true);
+      return this;
+    }
+
+    public void unsetAllowed_permissions() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __ALLOWED_PERMISSIONS_ISSET_ID);
+    }
+
+    /** Returns true if field allowed_permissions is set (has been assigned a value) and false otherwise */
+    public boolean isSetAllowed_permissions() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __ALLOWED_PERMISSIONS_ISSET_ID);
+    }
+
+    public void setAllowed_permissionsIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __ALLOWED_PERMISSIONS_ISSET_ID, value);
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case MEDIA_ACCESS_CALLBACK:
+        if (value == null) {
+          unsetMediaAccessCallback();
+        } else {
+          setMediaAccessCallback((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      case ALLOWED_PERMISSIONS:
+        if (value == null) {
+          unsetAllowed_permissions();
+        } else {
+          setAllowed_permissions((java.lang.Integer)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case MEDIA_ACCESS_CALLBACK:
+        return getMediaAccessCallback();
+
+      case ALLOWED_PERMISSIONS:
+        return getAllowed_permissions();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case MEDIA_ACCESS_CALLBACK:
+        return isSetMediaAccessCallback();
+      case ALLOWED_PERMISSIONS:
+        return isSetAllowed_permissions();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof MediaAccessCallback_Continue_args)
+        return this.equals((MediaAccessCallback_Continue_args)that);
+      return false;
+    }
+
+    public boolean equals(MediaAccessCallback_Continue_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_mediaAccessCallback = true && this.isSetMediaAccessCallback();
+      boolean that_present_mediaAccessCallback = true && that.isSetMediaAccessCallback();
+      if (this_present_mediaAccessCallback || that_present_mediaAccessCallback) {
+        if (!(this_present_mediaAccessCallback && that_present_mediaAccessCallback))
+          return false;
+        if (!this.mediaAccessCallback.equals(that.mediaAccessCallback))
+          return false;
+      }
+
+      boolean this_present_allowed_permissions = true;
+      boolean that_present_allowed_permissions = true;
+      if (this_present_allowed_permissions || that_present_allowed_permissions) {
+        if (!(this_present_allowed_permissions && that_present_allowed_permissions))
+          return false;
+        if (this.allowed_permissions != that.allowed_permissions)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((isSetMediaAccessCallback()) ? 131071 : 524287);
+      if (isSetMediaAccessCallback())
+        hashCode = hashCode * 8191 + mediaAccessCallback.hashCode();
+
+      hashCode = hashCode * 8191 + allowed_permissions;
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(MediaAccessCallback_Continue_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetMediaAccessCallback(), other.isSetMediaAccessCallback());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetMediaAccessCallback()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.mediaAccessCallback, other.mediaAccessCallback);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetAllowed_permissions(), other.isSetAllowed_permissions());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetAllowed_permissions()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.allowed_permissions, other.allowed_permissions);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("MediaAccessCallback_Continue_args(");
+      boolean first = true;
+
+      sb.append("mediaAccessCallback:");
+      if (this.mediaAccessCallback == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.mediaAccessCallback);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("allowed_permissions:");
+      sb.append(this.allowed_permissions);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (mediaAccessCallback != null) {
+        mediaAccessCallback.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class MediaAccessCallback_Continue_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public MediaAccessCallback_Continue_argsStandardScheme getScheme() {
+        return new MediaAccessCallback_Continue_argsStandardScheme();
+      }
+    }
+
+    private static class MediaAccessCallback_Continue_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<MediaAccessCallback_Continue_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, MediaAccessCallback_Continue_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // MEDIA_ACCESS_CALLBACK
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                struct.mediaAccessCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.mediaAccessCallback.read(iprot);
+                struct.setMediaAccessCallbackIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // ALLOWED_PERMISSIONS
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
+                struct.allowed_permissions = iprot.readI32();
+                struct.setAllowed_permissionsIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, MediaAccessCallback_Continue_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.mediaAccessCallback != null) {
+          oprot.writeFieldBegin(MEDIA_ACCESS_CALLBACK_FIELD_DESC);
+          struct.mediaAccessCallback.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldBegin(ALLOWED_PERMISSIONS_FIELD_DESC);
+        oprot.writeI32(struct.allowed_permissions);
+        oprot.writeFieldEnd();
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class MediaAccessCallback_Continue_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public MediaAccessCallback_Continue_argsTupleScheme getScheme() {
+        return new MediaAccessCallback_Continue_argsTupleScheme();
+      }
+    }
+
+    private static class MediaAccessCallback_Continue_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<MediaAccessCallback_Continue_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, MediaAccessCallback_Continue_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetMediaAccessCallback()) {
+          optionals.set(0);
+        }
+        if (struct.isSetAllowed_permissions()) {
+          optionals.set(1);
+        }
+        oprot.writeBitSet(optionals, 2);
+        if (struct.isSetMediaAccessCallback()) {
+          struct.mediaAccessCallback.write(oprot);
+        }
+        if (struct.isSetAllowed_permissions()) {
+          oprot.writeI32(struct.allowed_permissions);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, MediaAccessCallback_Continue_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(2);
+        if (incoming.get(0)) {
+          struct.mediaAccessCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.mediaAccessCallback.read(iprot);
+          struct.setMediaAccessCallbackIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.allowed_permissions = iprot.readI32();
+          struct.setAllowed_permissionsIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class MediaAccessCallback_Cancel_args implements com.jetbrains.cef.remote.thrift.TBase<MediaAccessCallback_Cancel_args, MediaAccessCallback_Cancel_args._Fields>, java.io.Serializable, Cloneable, Comparable<MediaAccessCallback_Cancel_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("MediaAccessCallback_Cancel_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField MEDIA_ACCESS_CALLBACK_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("mediaAccessCallback", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)1);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new MediaAccessCallback_Cancel_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new MediaAccessCallback_Cancel_argsTupleSchemeFactory();
+
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      MEDIA_ACCESS_CALLBACK((short)1, "mediaAccessCallback");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // MEDIA_ACCESS_CALLBACK
+            return MEDIA_ACCESS_CALLBACK;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.MEDIA_ACCESS_CALLBACK, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("mediaAccessCallback", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(MediaAccessCallback_Cancel_args.class, metaDataMap);
+    }
+
+    public MediaAccessCallback_Cancel_args() {
+    }
+
+    public MediaAccessCallback_Cancel_args(
+      com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback)
+    {
+      this();
+      this.mediaAccessCallback = mediaAccessCallback;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public MediaAccessCallback_Cancel_args(MediaAccessCallback_Cancel_args other) {
+      if (other.isSetMediaAccessCallback()) {
+        this.mediaAccessCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.mediaAccessCallback);
+      }
+    }
+
+    @Override
+    public MediaAccessCallback_Cancel_args deepCopy() {
+      return new MediaAccessCallback_Cancel_args(this);
+    }
+
+    @Override
+    public void clear() {
+      this.mediaAccessCallback = null;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getMediaAccessCallback() {
+      return this.mediaAccessCallback;
+    }
+
+    public MediaAccessCallback_Cancel_args setMediaAccessCallback(@com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback) {
+      this.mediaAccessCallback = mediaAccessCallback;
+      return this;
+    }
+
+    public void unsetMediaAccessCallback() {
+      this.mediaAccessCallback = null;
+    }
+
+    /** Returns true if field mediaAccessCallback is set (has been assigned a value) and false otherwise */
+    public boolean isSetMediaAccessCallback() {
+      return this.mediaAccessCallback != null;
+    }
+
+    public void setMediaAccessCallbackIsSet(boolean value) {
+      if (!value) {
+        this.mediaAccessCallback = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case MEDIA_ACCESS_CALLBACK:
+        if (value == null) {
+          unsetMediaAccessCallback();
+        } else {
+          setMediaAccessCallback((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case MEDIA_ACCESS_CALLBACK:
+        return getMediaAccessCallback();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case MEDIA_ACCESS_CALLBACK:
+        return isSetMediaAccessCallback();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof MediaAccessCallback_Cancel_args)
+        return this.equals((MediaAccessCallback_Cancel_args)that);
+      return false;
+    }
+
+    public boolean equals(MediaAccessCallback_Cancel_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_mediaAccessCallback = true && this.isSetMediaAccessCallback();
+      boolean that_present_mediaAccessCallback = true && that.isSetMediaAccessCallback();
+      if (this_present_mediaAccessCallback || that_present_mediaAccessCallback) {
+        if (!(this_present_mediaAccessCallback && that_present_mediaAccessCallback))
+          return false;
+        if (!this.mediaAccessCallback.equals(that.mediaAccessCallback))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((isSetMediaAccessCallback()) ? 131071 : 524287);
+      if (isSetMediaAccessCallback())
+        hashCode = hashCode * 8191 + mediaAccessCallback.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(MediaAccessCallback_Cancel_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetMediaAccessCallback(), other.isSetMediaAccessCallback());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetMediaAccessCallback()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.mediaAccessCallback, other.mediaAccessCallback);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("MediaAccessCallback_Cancel_args(");
+      boolean first = true;
+
+      sb.append("mediaAccessCallback:");
+      if (this.mediaAccessCallback == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.mediaAccessCallback);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (mediaAccessCallback != null) {
+        mediaAccessCallback.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class MediaAccessCallback_Cancel_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public MediaAccessCallback_Cancel_argsStandardScheme getScheme() {
+        return new MediaAccessCallback_Cancel_argsStandardScheme();
+      }
+    }
+
+    private static class MediaAccessCallback_Cancel_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<MediaAccessCallback_Cancel_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, MediaAccessCallback_Cancel_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // MEDIA_ACCESS_CALLBACK
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                struct.mediaAccessCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.mediaAccessCallback.read(iprot);
+                struct.setMediaAccessCallbackIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, MediaAccessCallback_Cancel_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.mediaAccessCallback != null) {
+          oprot.writeFieldBegin(MEDIA_ACCESS_CALLBACK_FIELD_DESC);
+          struct.mediaAccessCallback.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class MediaAccessCallback_Cancel_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public MediaAccessCallback_Cancel_argsTupleScheme getScheme() {
+        return new MediaAccessCallback_Cancel_argsTupleScheme();
+      }
+    }
+
+    private static class MediaAccessCallback_Cancel_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<MediaAccessCallback_Cancel_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, MediaAccessCallback_Cancel_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetMediaAccessCallback()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetMediaAccessCallback()) {
+          struct.mediaAccessCallback.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, MediaAccessCallback_Cancel_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.mediaAccessCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.mediaAccessCallback.read(iprot);
+          struct.setMediaAccessCallbackIsSet(true);
         }
       }
     }

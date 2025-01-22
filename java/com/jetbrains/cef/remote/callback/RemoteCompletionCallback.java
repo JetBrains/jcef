@@ -5,7 +5,7 @@ import com.jetbrains.cef.remote.RemoteJavaObjectFactory;
 import org.cef.callback.CefCompletionCallback;
 
 // Created on java side when doing async request to server.
-// Disposed (remove reference in factory) when onComplete executed.
+// Disposed (remove reference in factory) immediately after delegate.onComplete is executed.
 public class RemoteCompletionCallback extends RemoteJavaObject<CefCompletionCallback> {
     public static final RemoteJavaObjectFactory<RemoteCompletionCallback> FACTORY = new RemoteJavaObjectFactory<>();
 

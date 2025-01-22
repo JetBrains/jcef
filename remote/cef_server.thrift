@@ -185,4 +185,11 @@ service Server {
     // CefRegistration
     //
     oneway void    Registration_Dispose(1:shared.RObject registration),
+
+    //
+    // CefMediaAccessCallback
+    //
+    oneway void MediaAccessCallback_Dispose(1: shared.RObject mediaAccessCallback),
+    oneway void MediaAccessCallback_Continue(1: shared.RObject mediaAccessCallback, 2: i32 allowed_permissions),    // NOTE: can be oneway (because mediaAccessCallback is server-side object (and will be disposed after Continue execution))
+    oneway void MediaAccessCallback_Cancel(1: shared.RObject mediaAccessCallback),                                  // NOTE: can be oneway (because mediaAccessCallback is server-side object (and will be disposed after Cancel execution))
 }

@@ -192,6 +192,9 @@ set(SERVER_SOURCES
         callback/RemoteCefRunContextMenuCallback.h
         CefSettingsParser.cpp
         CefSettingsParser.h
+        handlers/RemotePermissionHandler.cpp
+        handlers/RemotePermissionHandler.h
+        callback/RemoteMediaAccessCallback.h
 )
 
 if (OS_WINDOWS)

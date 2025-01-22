@@ -12313,6 +12313,257 @@ uint32_t ClientHandlers_DevToolsMessageObserver_OnDevToolsEvent_pargs::write(::a
   return xfer;
 }
 
+
+ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_args::~ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_args() noexcept {
+}
+
+
+uint32_t ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->bid);
+          this->__isset.bid = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->frame.read(iprot);
+          this->__isset.frame = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->requesting_origin);
+          this->__isset.requesting_origin = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->requested_permissions);
+          this->__isset.requested_permissions = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 5:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->mediaAccessCallback.read(iprot);
+          this->__isset.mediaAccessCallback = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_args");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->bid);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("frame", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += this->frame.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("requesting_origin", ::apache::thrift::protocol::T_STRING, 3);
+  xfer += oprot->writeString(this->requesting_origin);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("requested_permissions", ::apache::thrift::protocol::T_I32, 4);
+  xfer += oprot->writeI32(this->requested_permissions);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("mediaAccessCallback", ::apache::thrift::protocol::T_STRUCT, 5);
+  xfer += this->mediaAccessCallback.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_pargs::~ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_pargs() noexcept {
+}
+
+
+uint32_t ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_pargs");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->bid)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("frame", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += (*(this->frame)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("requesting_origin", ::apache::thrift::protocol::T_STRING, 3);
+  xfer += oprot->writeString((*(this->requesting_origin)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("requested_permissions", ::apache::thrift::protocol::T_I32, 4);
+  xfer += oprot->writeI32((*(this->requested_permissions)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("mediaAccessCallback", ::apache::thrift::protocol::T_STRUCT, 5);
+  xfer += (*(this->mediaAccessCallback)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_result::~ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_result() noexcept {
+}
+
+
+uint32_t ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->success);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_result");
+
+  if (this->__isset.success) {
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_BOOL, 0);
+    xfer += oprot->writeBool(this->success);
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_presult::~ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_presult() noexcept {
+}
+
+
+uint32_t ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool((*(this->success)));
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
 void ClientHandlersClient::echo(std::string& _return, const std::string& msg)
 {
   send_echo(msg);
@@ -15416,6 +15667,68 @@ void ClientHandlersClient::send_DevToolsMessageObserver_OnDevToolsEvent(const in
   oprot_->writeMessageEnd();
   oprot_->getTransport()->writeEnd();
   oprot_->getTransport()->flush();
+}
+
+bool ClientHandlersClient::PermissionHandler_OnRequestMediaAccessPermission(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& requesting_origin, const int32_t requested_permissions, const  ::thrift_codegen::RObject& mediaAccessCallback)
+{
+  send_PermissionHandler_OnRequestMediaAccessPermission(bid, frame, requesting_origin, requested_permissions, mediaAccessCallback);
+  return recv_PermissionHandler_OnRequestMediaAccessPermission();
+}
+
+void ClientHandlersClient::send_PermissionHandler_OnRequestMediaAccessPermission(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& requesting_origin, const int32_t requested_permissions, const  ::thrift_codegen::RObject& mediaAccessCallback)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("PermissionHandler_OnRequestMediaAccessPermission", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_pargs args;
+  args.bid = &bid;
+  args.frame = &frame;
+  args.requesting_origin = &requesting_origin;
+  args.requested_permissions = &requested_permissions;
+  args.mediaAccessCallback = &mediaAccessCallback;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+bool ClientHandlersClient::recv_PermissionHandler_OnRequestMediaAccessPermission()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("PermissionHandler_OnRequestMediaAccessPermission") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  bool _return;
+  ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_presult result;
+  result.success = &_return;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  if (result.__isset.success) {
+    return _return;
+  }
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "PermissionHandler_OnRequestMediaAccessPermission failed: unknown result");
 }
 
 bool ClientHandlersProcessor::dispatchCall(::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, const std::string& fname, int32_t seqid, void* callContext) {
@@ -18689,6 +19002,60 @@ void ClientHandlersProcessor::process_DevToolsMessageObserver_OnDevToolsEvent(in
   }
 
   return;
+}
+
+void ClientHandlersProcessor::process_PermissionHandler_OnRequestMediaAccessPermission(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("ClientHandlers.PermissionHandler_OnRequestMediaAccessPermission", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ClientHandlers.PermissionHandler_OnRequestMediaAccessPermission");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "ClientHandlers.PermissionHandler_OnRequestMediaAccessPermission");
+  }
+
+  ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "ClientHandlers.PermissionHandler_OnRequestMediaAccessPermission", bytes);
+  }
+
+  ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_result result;
+  try {
+    result.success = iface_->PermissionHandler_OnRequestMediaAccessPermission(args.bid, args.frame, args.requesting_origin, args.requested_permissions, args.mediaAccessCallback);
+    result.__isset.success = true;
+  } catch (const std::exception& e) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "ClientHandlers.PermissionHandler_OnRequestMediaAccessPermission");
+    }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("PermissionHandler_OnRequestMediaAccessPermission", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preWrite(ctx, "ClientHandlers.PermissionHandler_OnRequestMediaAccessPermission");
+  }
+
+  oprot->writeMessageBegin("PermissionHandler_OnRequestMediaAccessPermission", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "ClientHandlers.PermissionHandler_OnRequestMediaAccessPermission", bytes);
+  }
 }
 
 ::std::shared_ptr< ::apache::thrift::TProcessor > ClientHandlersProcessorFactory::getProcessor(const ::apache::thrift::TConnectionInfo& connInfo) {
@@ -23007,6 +23374,94 @@ void ClientHandlersConcurrentClient::send_DevToolsMessageObserver_OnDevToolsEven
   oprot_->getTransport()->flush();
 
   sentry.commit();
+}
+
+bool ClientHandlersConcurrentClient::PermissionHandler_OnRequestMediaAccessPermission(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& requesting_origin, const int32_t requested_permissions, const  ::thrift_codegen::RObject& mediaAccessCallback)
+{
+  int32_t seqid = send_PermissionHandler_OnRequestMediaAccessPermission(bid, frame, requesting_origin, requested_permissions, mediaAccessCallback);
+  return recv_PermissionHandler_OnRequestMediaAccessPermission(seqid);
+}
+
+int32_t ClientHandlersConcurrentClient::send_PermissionHandler_OnRequestMediaAccessPermission(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& requesting_origin, const int32_t requested_permissions, const  ::thrift_codegen::RObject& mediaAccessCallback)
+{
+  int32_t cseqid = this->sync_->generateSeqId();
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("PermissionHandler_OnRequestMediaAccessPermission", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_pargs args;
+  args.bid = &bid;
+  args.frame = &frame;
+  args.requesting_origin = &requesting_origin;
+  args.requested_permissions = &requested_permissions;
+  args.mediaAccessCallback = &mediaAccessCallback;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+  return cseqid;
+}
+
+bool ClientHandlersConcurrentClient::recv_PermissionHandler_OnRequestMediaAccessPermission(const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("PermissionHandler_OnRequestMediaAccessPermission") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      bool _return;
+      ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_presult result;
+      result.success = &_return;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      if (result.__isset.success) {
+        sentry.commit();
+        return _return;
+      }
+      // in a bad state, don't commit
+      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "PermissionHandler_OnRequestMediaAccessPermission failed: unknown result");
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
 }
 
 } // namespace

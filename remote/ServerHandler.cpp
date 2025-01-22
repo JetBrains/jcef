@@ -3,16 +3,17 @@
 #include "include/cef_base.h"
 #include "include/cef_parser.h"
 
+#include "browser/ClientsManager.h"
+#include "browser/RemoteDevToolsMessageObserver.h"
+#include "browser/RemoteFrame.h"
+#include "callback/RemoteMediaAccessCallback.h"
+#include "handlers/RemoteClientHandler.h"
 #include "handlers/app/RemoteAppHandler.h"
+#include "network/RemoteCookieManager.h"
+#include "network/RemoteCookieVisitor.h"
 #include "network/RemotePostData.h"
 #include "network/RemoteRequest.h"
 #include "network/RemoteResponse.h"
-#include "network/RemoteCookieManager.h"
-#include "network/RemoteCookieVisitor.h"
-#include "browser/RemoteFrame.h"
-#include "browser/RemoteDevToolsMessageObserver.h"
-#include "browser/ClientsManager.h"
-#include "handlers/RemoteClientHandler.h"
 
 #include "RemoteObjects.h"
 #include "callback/RemoteAuthCallback.h"
@@ -1213,3 +1214,20 @@ void ServerHandler::Registration_Dispose(const thrift_codegen::RObject& registra
   RemoteRegistration::dispose(registration.objId);
 }
 
+void ServerHandler::MediaAccessCallback_Dispose(const thrift_codegen::RObject& mediaAccessCallback) {
+  RemoteMediaAccessCallback::dispose(mediaAccessCallback.objId);
+}
+
+void ServerHandler::MediaAccessCallback_Continue(const thrift_codegen::RObject& mediaAccessCallback, const int32_t allowed_permissions) {
+  RemoteMediaAccessCallback * rc = RemoteMediaAccessCallback::get(mediaAccessCallback.objId);
+  if (rc == nullptr) return;
+  rc->getDelegate().Continue(allowed_permissions);
+  RemoteMediaAccessCallback::dispose(mediaAccessCallback.objId);
+}
+
+void ServerHandler::MediaAccessCallback_Cancel(const thrift_codegen::RObject& mediaAccessCallback) {
+  RemoteMediaAccessCallback * rc = RemoteMediaAccessCallback::get(mediaAccessCallback.objId);
+  if (rc == nullptr) return;
+  rc->getDelegate().Cancel();
+  RemoteMediaAccessCallback::dispose(mediaAccessCallback.objId);
+}

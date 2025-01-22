@@ -345,4 +345,9 @@ public class ClientHandlersDummy implements ClientHandlers.Iface{
     public void DevToolsMessageObserver_OnDevToolsEvent(int observer, int bid, String method, String parameters) throws TException {
 
     }
+
+    @Override
+    public boolean PermissionHandler_OnRequestMediaAccessPermission(int bid, RObject frame, String requesting_origin, int requested_permissions, RObject mediaAccessCallback) throws TException {
+        return false;
+    }
 }

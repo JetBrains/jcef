@@ -1064,6 +1064,16 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     }
 
     @Override
+    public boolean PermissionHandler_OnRequestMediaAccessPermission(int bid, RObject frame, String requesting_origin, int requested_permissions, RObject mediaAccessCallback) throws TException {
+        RemoteBrowser browser = getRemoteBrowser(bid);
+        if (browser == null) return false;
+        CefPermissionHandler permissionHandler = browser.getOwner().getPermissionHandler();
+        if (permissionHandler == null) return false;
+        RemoteFrame remoteFrame = frame.objId == -1 ? null : new RemoteFrame(myRpc, frame);
+        return permissionHandler.onRequestMediaAccessPermission(browser, remoteFrame, requesting_origin, requested_permissions, new RemoteMediaAccessCallback(myRpc, mediaAccessCallback));
+    }
+
+    @Override
     public void DevToolsMessageObserver_OnDevToolsMethodResult(int observer, int bid, int messageId, boolean success, String result) throws TException {
         RemoteDevToolsMessageObserver ro = RemoteDevToolsMessageObserver.FACTORY.get(observer);
         if (ro == null) return;

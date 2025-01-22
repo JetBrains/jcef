@@ -555,6 +555,21 @@ class ServerHandler : virtual public ServerIf {
     printf("Registration_Dispose\n");
   }
 
+  void MediaAccessCallback_Dispose(const  ::thrift_codegen::RObject& mediaAccessCallback) {
+    // Your implementation goes here
+    printf("MediaAccessCallback_Dispose\n");
+  }
+
+  void MediaAccessCallback_Continue(const  ::thrift_codegen::RObject& mediaAccessCallback, const int32_t allowed_permissions) {
+    // Your implementation goes here
+    printf("MediaAccessCallback_Continue\n");
+  }
+
+  void MediaAccessCallback_Cancel(const  ::thrift_codegen::RObject& mediaAccessCallback) {
+    // Your implementation goes here
+    printf("MediaAccessCallback_Cancel\n");
+  }
+
 };
 
 int main(int argc, char **argv) {

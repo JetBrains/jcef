@@ -70,6 +70,7 @@ public:
     CefRefPtr<CefKeyboardHandler> myRemoteKeyboardHandler;
     CefRefPtr<CefFocusHandler> myRemoteFocusHandler;
     CefRefPtr<CefContextMenuHandler> myRemoteContextMenuHandler;
+    CefRefPtr<CefPermissionHandler> myRemotePermissionHandler;
 
     bool myIsClosing = false;
 

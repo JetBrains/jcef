@@ -129,6 +129,9 @@ class ServerIf {
   virtual bool CookieManager_DeleteCookies(const  ::thrift_codegen::RObject& cookieManager, const std::string& url, const std::string& cookieName) = 0;
   virtual bool CookieManager_FlushStore(const  ::thrift_codegen::RObject& cookieManager, const  ::thrift_codegen::RObject& completionCallback) = 0;
   virtual void Registration_Dispose(const  ::thrift_codegen::RObject& registration) = 0;
+  virtual void MediaAccessCallback_Dispose(const  ::thrift_codegen::RObject& mediaAccessCallback) = 0;
+  virtual void MediaAccessCallback_Continue(const  ::thrift_codegen::RObject& mediaAccessCallback, const int32_t allowed_permissions) = 0;
+  virtual void MediaAccessCallback_Cancel(const  ::thrift_codegen::RObject& mediaAccessCallback) = 0;
 };
 
 class ServerIfFactory {
@@ -492,6 +495,15 @@ class ServerNull : virtual public ServerIf {
     return _return;
   }
   void Registration_Dispose(const  ::thrift_codegen::RObject& /* registration */) override {
+    return;
+  }
+  void MediaAccessCallback_Dispose(const  ::thrift_codegen::RObject& /* mediaAccessCallback */) override {
+    return;
+  }
+  void MediaAccessCallback_Continue(const  ::thrift_codegen::RObject& /* mediaAccessCallback */, const int32_t /* allowed_permissions */) override {
+    return;
+  }
+  void MediaAccessCallback_Cancel(const  ::thrift_codegen::RObject& /* mediaAccessCallback */) override {
     return;
   }
 };
@@ -9010,6 +9022,161 @@ class Server_Registration_Dispose_pargs {
 
 };
 
+typedef struct _Server_MediaAccessCallback_Dispose_args__isset {
+  _Server_MediaAccessCallback_Dispose_args__isset() : mediaAccessCallback(false) {}
+  bool mediaAccessCallback :1;
+} _Server_MediaAccessCallback_Dispose_args__isset;
+
+class Server_MediaAccessCallback_Dispose_args {
+ public:
+
+  Server_MediaAccessCallback_Dispose_args(const Server_MediaAccessCallback_Dispose_args&);
+  Server_MediaAccessCallback_Dispose_args& operator=(const Server_MediaAccessCallback_Dispose_args&);
+  Server_MediaAccessCallback_Dispose_args() noexcept {
+  }
+
+  virtual ~Server_MediaAccessCallback_Dispose_args() noexcept;
+   ::thrift_codegen::RObject mediaAccessCallback;
+
+  _Server_MediaAccessCallback_Dispose_args__isset __isset;
+
+  void __set_mediaAccessCallback(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_MediaAccessCallback_Dispose_args & rhs) const
+  {
+    if (!(mediaAccessCallback == rhs.mediaAccessCallback))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_MediaAccessCallback_Dispose_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_MediaAccessCallback_Dispose_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_MediaAccessCallback_Dispose_pargs {
+ public:
+
+
+  virtual ~Server_MediaAccessCallback_Dispose_pargs() noexcept;
+  const  ::thrift_codegen::RObject* mediaAccessCallback;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_MediaAccessCallback_Continue_args__isset {
+  _Server_MediaAccessCallback_Continue_args__isset() : mediaAccessCallback(false), allowed_permissions(false) {}
+  bool mediaAccessCallback :1;
+  bool allowed_permissions :1;
+} _Server_MediaAccessCallback_Continue_args__isset;
+
+class Server_MediaAccessCallback_Continue_args {
+ public:
+
+  Server_MediaAccessCallback_Continue_args(const Server_MediaAccessCallback_Continue_args&);
+  Server_MediaAccessCallback_Continue_args& operator=(const Server_MediaAccessCallback_Continue_args&);
+  Server_MediaAccessCallback_Continue_args() noexcept
+                                           : allowed_permissions(0) {
+  }
+
+  virtual ~Server_MediaAccessCallback_Continue_args() noexcept;
+   ::thrift_codegen::RObject mediaAccessCallback;
+  int32_t allowed_permissions;
+
+  _Server_MediaAccessCallback_Continue_args__isset __isset;
+
+  void __set_mediaAccessCallback(const  ::thrift_codegen::RObject& val);
+
+  void __set_allowed_permissions(const int32_t val);
+
+  bool operator == (const Server_MediaAccessCallback_Continue_args & rhs) const
+  {
+    if (!(mediaAccessCallback == rhs.mediaAccessCallback))
+      return false;
+    if (!(allowed_permissions == rhs.allowed_permissions))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_MediaAccessCallback_Continue_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_MediaAccessCallback_Continue_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_MediaAccessCallback_Continue_pargs {
+ public:
+
+
+  virtual ~Server_MediaAccessCallback_Continue_pargs() noexcept;
+  const  ::thrift_codegen::RObject* mediaAccessCallback;
+  const int32_t* allowed_permissions;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_MediaAccessCallback_Cancel_args__isset {
+  _Server_MediaAccessCallback_Cancel_args__isset() : mediaAccessCallback(false) {}
+  bool mediaAccessCallback :1;
+} _Server_MediaAccessCallback_Cancel_args__isset;
+
+class Server_MediaAccessCallback_Cancel_args {
+ public:
+
+  Server_MediaAccessCallback_Cancel_args(const Server_MediaAccessCallback_Cancel_args&);
+  Server_MediaAccessCallback_Cancel_args& operator=(const Server_MediaAccessCallback_Cancel_args&);
+  Server_MediaAccessCallback_Cancel_args() noexcept {
+  }
+
+  virtual ~Server_MediaAccessCallback_Cancel_args() noexcept;
+   ::thrift_codegen::RObject mediaAccessCallback;
+
+  _Server_MediaAccessCallback_Cancel_args__isset __isset;
+
+  void __set_mediaAccessCallback(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_MediaAccessCallback_Cancel_args & rhs) const
+  {
+    if (!(mediaAccessCallback == rhs.mediaAccessCallback))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_MediaAccessCallback_Cancel_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_MediaAccessCallback_Cancel_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_MediaAccessCallback_Cancel_pargs {
+ public:
+
+
+  virtual ~Server_MediaAccessCallback_Cancel_pargs() noexcept;
+  const  ::thrift_codegen::RObject* mediaAccessCallback;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
 class ServerClient : virtual public ServerIf {
  public:
   ServerClient(std::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
@@ -9301,6 +9468,12 @@ class ServerClient : virtual public ServerIf {
   bool recv_CookieManager_FlushStore();
   void Registration_Dispose(const  ::thrift_codegen::RObject& registration) override;
   void send_Registration_Dispose(const  ::thrift_codegen::RObject& registration);
+  void MediaAccessCallback_Dispose(const  ::thrift_codegen::RObject& mediaAccessCallback) override;
+  void send_MediaAccessCallback_Dispose(const  ::thrift_codegen::RObject& mediaAccessCallback);
+  void MediaAccessCallback_Continue(const  ::thrift_codegen::RObject& mediaAccessCallback, const int32_t allowed_permissions) override;
+  void send_MediaAccessCallback_Continue(const  ::thrift_codegen::RObject& mediaAccessCallback, const int32_t allowed_permissions);
+  void MediaAccessCallback_Cancel(const  ::thrift_codegen::RObject& mediaAccessCallback) override;
+  void send_MediaAccessCallback_Cancel(const  ::thrift_codegen::RObject& mediaAccessCallback);
  protected:
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -9423,6 +9596,9 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_CookieManager_DeleteCookies(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_CookieManager_FlushStore(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Registration_Dispose(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_MediaAccessCallback_Dispose(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_MediaAccessCallback_Continue(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_MediaAccessCallback_Cancel(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   ServerProcessor(::std::shared_ptr<ServerIf> iface) :
     iface_(iface) {
@@ -9533,6 +9709,9 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["CookieManager_DeleteCookies"] = &ServerProcessor::process_CookieManager_DeleteCookies;
     processMap_["CookieManager_FlushStore"] = &ServerProcessor::process_CookieManager_FlushStore;
     processMap_["Registration_Dispose"] = &ServerProcessor::process_Registration_Dispose;
+    processMap_["MediaAccessCallback_Dispose"] = &ServerProcessor::process_MediaAccessCallback_Dispose;
+    processMap_["MediaAccessCallback_Continue"] = &ServerProcessor::process_MediaAccessCallback_Continue;
+    processMap_["MediaAccessCallback_Cancel"] = &ServerProcessor::process_MediaAccessCallback_Cancel;
   }
 
   virtual ~ServerProcessor() {}
@@ -10543,6 +10722,33 @@ class ServerMultiface : virtual public ServerIf {
     ifaces_[i]->Registration_Dispose(registration);
   }
 
+  void MediaAccessCallback_Dispose(const  ::thrift_codegen::RObject& mediaAccessCallback) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->MediaAccessCallback_Dispose(mediaAccessCallback);
+    }
+    ifaces_[i]->MediaAccessCallback_Dispose(mediaAccessCallback);
+  }
+
+  void MediaAccessCallback_Continue(const  ::thrift_codegen::RObject& mediaAccessCallback, const int32_t allowed_permissions) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->MediaAccessCallback_Continue(mediaAccessCallback, allowed_permissions);
+    }
+    ifaces_[i]->MediaAccessCallback_Continue(mediaAccessCallback, allowed_permissions);
+  }
+
+  void MediaAccessCallback_Cancel(const  ::thrift_codegen::RObject& mediaAccessCallback) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->MediaAccessCallback_Cancel(mediaAccessCallback);
+    }
+    ifaces_[i]->MediaAccessCallback_Cancel(mediaAccessCallback);
+  }
+
 };
 
 // The 'concurrent' client is a thread safe client that correctly handles
@@ -10841,6 +11047,12 @@ class ServerConcurrentClient : virtual public ServerIf {
   bool recv_CookieManager_FlushStore(const int32_t seqid);
   void Registration_Dispose(const  ::thrift_codegen::RObject& registration) override;
   void send_Registration_Dispose(const  ::thrift_codegen::RObject& registration);
+  void MediaAccessCallback_Dispose(const  ::thrift_codegen::RObject& mediaAccessCallback) override;
+  void send_MediaAccessCallback_Dispose(const  ::thrift_codegen::RObject& mediaAccessCallback);
+  void MediaAccessCallback_Continue(const  ::thrift_codegen::RObject& mediaAccessCallback, const int32_t allowed_permissions) override;
+  void send_MediaAccessCallback_Continue(const  ::thrift_codegen::RObject& mediaAccessCallback, const int32_t allowed_permissions);
+  void MediaAccessCallback_Cancel(const  ::thrift_codegen::RObject& mediaAccessCallback) override;
+  void send_MediaAccessCallback_Cancel(const  ::thrift_codegen::RObject& mediaAccessCallback);
  protected:
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;

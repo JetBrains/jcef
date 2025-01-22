@@ -360,6 +360,11 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
     printf("DevToolsMessageObserver_OnDevToolsEvent\n");
   }
 
+  bool PermissionHandler_OnRequestMediaAccessPermission(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& requesting_origin, const int32_t requested_permissions, const  ::thrift_codegen::RObject& mediaAccessCallback) {
+    // Your implementation goes here
+    printf("PermissionHandler_OnRequestMediaAccessPermission\n");
+  }
+
 };
 
 int main(int argc, char **argv) {

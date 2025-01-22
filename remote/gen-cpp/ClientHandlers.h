@@ -90,6 +90,7 @@ class ClientHandlersIf {
   virtual void DevToolsMessageObserver_Dispose(const int32_t observer) = 0;
   virtual void DevToolsMessageObserver_OnDevToolsMethodResult(const int32_t observer, const int32_t bid, const int32_t messageId, const bool success, const std::string& result) = 0;
   virtual void DevToolsMessageObserver_OnDevToolsEvent(const int32_t observer, const int32_t bid, const std::string& method, const std::string& parameters) = 0;
+  virtual bool PermissionHandler_OnRequestMediaAccessPermission(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& requesting_origin, const int32_t requested_permissions, const  ::thrift_codegen::RObject& mediaAccessCallback) = 0;
 };
 
 class ClientHandlersIfFactory {
@@ -343,6 +344,10 @@ class ClientHandlersNull : virtual public ClientHandlersIf {
   }
   void DevToolsMessageObserver_OnDevToolsEvent(const int32_t /* observer */, const int32_t /* bid */, const std::string& /* method */, const std::string& /* parameters */) override {
     return;
+  }
+  bool PermissionHandler_OnRequestMediaAccessPermission(const int32_t /* bid */, const  ::thrift_codegen::RObject& /* frame */, const std::string& /* requesting_origin */, const int32_t /* requested_permissions */, const  ::thrift_codegen::RObject& /* mediaAccessCallback */) override {
+    bool _return = false;
+    return _return;
   }
 };
 
@@ -7117,6 +7122,142 @@ class ClientHandlers_DevToolsMessageObserver_OnDevToolsEvent_pargs {
 
 };
 
+typedef struct _ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_args__isset {
+  _ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_args__isset() : bid(false), frame(false), requesting_origin(false), requested_permissions(false), mediaAccessCallback(false) {}
+  bool bid :1;
+  bool frame :1;
+  bool requesting_origin :1;
+  bool requested_permissions :1;
+  bool mediaAccessCallback :1;
+} _ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_args__isset;
+
+class ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_args {
+ public:
+
+  ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_args(const ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_args&);
+  ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_args& operator=(const ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_args&);
+  ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_args() noexcept
+                                                                       : bid(0),
+                                                                         requesting_origin(),
+                                                                         requested_permissions(0) {
+  }
+
+  virtual ~ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_args() noexcept;
+  int32_t bid;
+   ::thrift_codegen::RObject frame;
+  std::string requesting_origin;
+  int32_t requested_permissions;
+   ::thrift_codegen::RObject mediaAccessCallback;
+
+  _ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_args__isset __isset;
+
+  void __set_bid(const int32_t val);
+
+  void __set_frame(const  ::thrift_codegen::RObject& val);
+
+  void __set_requesting_origin(const std::string& val);
+
+  void __set_requested_permissions(const int32_t val);
+
+  void __set_mediaAccessCallback(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_args & rhs) const
+  {
+    if (!(bid == rhs.bid))
+      return false;
+    if (!(frame == rhs.frame))
+      return false;
+    if (!(requesting_origin == rhs.requesting_origin))
+      return false;
+    if (!(requested_permissions == rhs.requested_permissions))
+      return false;
+    if (!(mediaAccessCallback == rhs.mediaAccessCallback))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_pargs {
+ public:
+
+
+  virtual ~ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_pargs() noexcept;
+  const int32_t* bid;
+  const  ::thrift_codegen::RObject* frame;
+  const std::string* requesting_origin;
+  const int32_t* requested_permissions;
+  const  ::thrift_codegen::RObject* mediaAccessCallback;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_result__isset {
+  _ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_result__isset() : success(false) {}
+  bool success :1;
+} _ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_result__isset;
+
+class ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_result {
+ public:
+
+  ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_result(const ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_result&) noexcept;
+  ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_result& operator=(const ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_result&) noexcept;
+  ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_result() noexcept
+                                                                         : success(0) {
+  }
+
+  virtual ~ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_result() noexcept;
+  bool success;
+
+  _ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  bool operator == (const ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_presult__isset {
+  _ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_presult__isset() : success(false) {}
+  bool success :1;
+} _ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_presult__isset;
+
+class ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_presult {
+ public:
+
+
+  virtual ~ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_presult() noexcept;
+  bool* success;
+
+  _ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
 class ClientHandlersClient : virtual public ClientHandlersIf {
  public:
   ClientHandlersClient(std::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
@@ -7322,6 +7463,9 @@ class ClientHandlersClient : virtual public ClientHandlersIf {
   void send_DevToolsMessageObserver_OnDevToolsMethodResult(const int32_t observer, const int32_t bid, const int32_t messageId, const bool success, const std::string& result);
   void DevToolsMessageObserver_OnDevToolsEvent(const int32_t observer, const int32_t bid, const std::string& method, const std::string& parameters) override;
   void send_DevToolsMessageObserver_OnDevToolsEvent(const int32_t observer, const int32_t bid, const std::string& method, const std::string& parameters);
+  bool PermissionHandler_OnRequestMediaAccessPermission(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& requesting_origin, const int32_t requested_permissions, const  ::thrift_codegen::RObject& mediaAccessCallback) override;
+  void send_PermissionHandler_OnRequestMediaAccessPermission(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& requesting_origin, const int32_t requested_permissions, const  ::thrift_codegen::RObject& mediaAccessCallback);
+  bool recv_PermissionHandler_OnRequestMediaAccessPermission();
  protected:
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -7405,6 +7549,7 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_DevToolsMessageObserver_Dispose(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_DevToolsMessageObserver_OnDevToolsMethodResult(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_DevToolsMessageObserver_OnDevToolsEvent(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_PermissionHandler_OnRequestMediaAccessPermission(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   ClientHandlersProcessor(::std::shared_ptr<ClientHandlersIf> iface) :
     iface_(iface) {
@@ -7476,6 +7621,7 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["DevToolsMessageObserver_Dispose"] = &ClientHandlersProcessor::process_DevToolsMessageObserver_Dispose;
     processMap_["DevToolsMessageObserver_OnDevToolsMethodResult"] = &ClientHandlersProcessor::process_DevToolsMessageObserver_OnDevToolsMethodResult;
     processMap_["DevToolsMessageObserver_OnDevToolsEvent"] = &ClientHandlersProcessor::process_DevToolsMessageObserver_OnDevToolsEvent;
+    processMap_["PermissionHandler_OnRequestMediaAccessPermission"] = &ClientHandlersProcessor::process_PermissionHandler_OnRequestMediaAccessPermission;
   }
 
   virtual ~ClientHandlersProcessor() {}
@@ -8129,6 +8275,15 @@ class ClientHandlersMultiface : virtual public ClientHandlersIf {
     ifaces_[i]->DevToolsMessageObserver_OnDevToolsEvent(observer, bid, method, parameters);
   }
 
+  bool PermissionHandler_OnRequestMediaAccessPermission(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& requesting_origin, const int32_t requested_permissions, const  ::thrift_codegen::RObject& mediaAccessCallback) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->PermissionHandler_OnRequestMediaAccessPermission(bid, frame, requesting_origin, requested_permissions, mediaAccessCallback);
+    }
+    return ifaces_[i]->PermissionHandler_OnRequestMediaAccessPermission(bid, frame, requesting_origin, requested_permissions, mediaAccessCallback);
+  }
+
 };
 
 // The 'concurrent' client is a thread safe client that correctly handles
@@ -8341,6 +8496,9 @@ class ClientHandlersConcurrentClient : virtual public ClientHandlersIf {
   void send_DevToolsMessageObserver_OnDevToolsMethodResult(const int32_t observer, const int32_t bid, const int32_t messageId, const bool success, const std::string& result);
   void DevToolsMessageObserver_OnDevToolsEvent(const int32_t observer, const int32_t bid, const std::string& method, const std::string& parameters) override;
   void send_DevToolsMessageObserver_OnDevToolsEvent(const int32_t observer, const int32_t bid, const std::string& method, const std::string& parameters);
+  bool PermissionHandler_OnRequestMediaAccessPermission(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& requesting_origin, const int32_t requested_permissions, const  ::thrift_codegen::RObject& mediaAccessCallback) override;
+  int32_t send_PermissionHandler_OnRequestMediaAccessPermission(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& requesting_origin, const int32_t requested_permissions, const  ::thrift_codegen::RObject& mediaAccessCallback);
+  bool recv_PermissionHandler_OnRequestMediaAccessPermission(const int32_t seqid);
  protected:
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;

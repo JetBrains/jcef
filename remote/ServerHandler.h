@@ -181,6 +181,11 @@ class ServerHandler : public thrift_codegen::ServerIf {
   void Registration_Dispose(
       const thrift_codegen::RObject& registration) override;
 
+  // CefMediaAccessCallback
+  void MediaAccessCallback_Dispose(const thrift_codegen::RObject& mediaAccessCallback) override;
+  void MediaAccessCallback_Continue(const thrift_codegen::RObject& mediaAccessCallback, const int32_t allowed_permissions) override;
+  void MediaAccessCallback_Cancel( const thrift_codegen::RObject& mediaAccessCallback) override;
+
   std::shared_ptr<ServerHandlerContext> getCtx() const { return myCtx; }
   int getCid() const { return myCid; }
 
