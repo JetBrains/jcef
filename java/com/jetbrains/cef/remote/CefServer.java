@@ -19,7 +19,10 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class CefServer {
-    private static final Integer WAIT_FOR_SERVER_EXIT_SEC = Utils.getInteger("JCEF_WAIT_FOR_SERVER_EXIT_SEC", 10);
+    // NOTE: TeamCity runs tests in parallel with downloading (and other processes), and because of that
+    // first CEF initialization takes a long time (more than 15 sec in 1% of test runs). So use a large constant here.
+    private static final int WAIT_FOR_SERVER_START_SEC = Utils.getInteger("JCEF_WAIT_FOR_SERVER_START_SEC", 60);
+    private static final int WAIT_FOR_SERVER_EXIT_SEC = Utils.getInteger("JCEF_WAIT_FOR_SERVER_EXIT_SEC", 10);
     private static final boolean DONT_STOP_SERVER_MANUALLY = Utils.getBoolean("JCEF_DONT_STOP_SERVER_MANUALLY"); // TODO: remove after platform tests debugging
     private static final boolean DONT_USE_UNIQUE_ROOTS = Utils.getBoolean("JCEF_DONT_USE_UNIQUE_ROOTS"); // TODO: remove after platform tests debugging
     private final ThriftTransport myThriftServer;
@@ -71,8 +74,8 @@ public class CefServer {
             boolean deleteRoot = false;
             if (fixRoot && !DONT_USE_UNIQUE_ROOTS)
                 deleteRoot = NativeServerManager.fixRootInSettings(settings, "cef_cache" + ThriftTransport.getUniqueSuffix());
-            final long waitTimeoutMs = Utils.getInteger("WAIT_SERVER_TIMEOUT_MS", 15000);
-            final boolean success = NativeServerManager.startProcessAndWait(myThriftServer, appHandler, settings, deleteRoot, waitTimeoutMs);
+
+            final boolean success = NativeServerManager.startProcessAndWait(myThriftServer, appHandler, settings, deleteRoot, WAIT_FOR_SERVER_START_SEC*1000l);
             if (!success)
                 return false;
         }
