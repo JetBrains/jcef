@@ -24,7 +24,7 @@ void RemoteLoadHandler::OnLoadStart(CefRefPtr<CefBrowser> browser,
   LNDCT();
   RemoteFrame::Holder frm(frame);
   myService->exec([&](const JavaService& s){
-    s->LoadHandler_OnLoadStart(myBid, frm.get()->serverIdWithMap(), transition_type);
+    s->LoadHandler_OnLoadStart(myBid, frm.serverId(), transition_type);
   });
 }
 
@@ -34,7 +34,7 @@ void RemoteLoadHandler::OnLoadEnd(CefRefPtr<CefBrowser> browser,
   LNDCT();
   RemoteFrame::Holder frm(frame);
   myService->exec([&](const JavaService& s){
-    s->LoadHandler_OnLoadEnd(myBid, frm.get()->serverIdWithMap(), httpStatusCode);
+    s->LoadHandler_OnLoadEnd(myBid, frm.serverId(), httpStatusCode);
   });
 }
 
@@ -46,6 +46,6 @@ void RemoteLoadHandler::OnLoadError(CefRefPtr<CefBrowser> browser,
   LNDCT();
   RemoteFrame::Holder frm(frame);
   myService->exec([&](const JavaService& s){
-    s->LoadHandler_OnLoadError(myBid, frm.get()->serverIdWithMap(), errorCode, errorText.ToString(), failedUrl.ToString());
+    s->LoadHandler_OnLoadError(myBid, frm.serverId(), errorCode, errorText.ToString(), failedUrl.ToString());
   });
 }

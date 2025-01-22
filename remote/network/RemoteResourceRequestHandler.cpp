@@ -46,7 +46,7 @@ CefRefPtr<CefCookieAccessFilter> RemoteResourceRequestHandler::GetCookieAccessFi
   thrift_codegen::RObject remoteHandler;
   
   myCtx->javaServiceIO()->exec([&](JavaService s){
-    s->ResourceRequestHandler_GetCookieAccessFilter(remoteHandler, myPeerId, myBid, frm.get()->serverIdWithMap(), req.get()->serverIdWithMap());
+    s->ResourceRequestHandler_GetCookieAccessFilter(remoteHandler, myPeerId, myBid, frm.serverId(), req.serverId());
   });
   return remoteHandler.objId != -1 ? new RemoteCookieAccessFilter(myBid, myCtx, remoteHandler) : nullptr;
 }
@@ -74,7 +74,7 @@ CefResourceRequestHandler::ReturnValue RemoteResourceRequestHandler::OnBeforeRes
   RemoteFrame::Holder frm(frame);
   CefResourceRequestHandler::ReturnValue result = RV_CONTINUE;
   myCtx->javaServiceIO()->exec([&](JavaService s){
-    bool boolRes = s->ResourceRequestHandler_OnBeforeResourceLoad(myPeerId, myBid, frm.get()->serverIdWithMap(), req.get()->serverIdWithMap());
+    bool boolRes = s->ResourceRequestHandler_OnBeforeResourceLoad(myPeerId, myBid, frm.serverId(), req.serverId());
     result = (boolRes ? RV_CANCEL : RV_CONTINUE);
   });
   return result;
@@ -99,7 +99,7 @@ CefRefPtr<CefResourceHandler> RemoteResourceRequestHandler::GetResourceHandler(
   RemoteFrame::Holder frm(frame);
   thrift_codegen::RObject remoteHandler;
   myCtx->javaServiceIO()->exec([&](JavaService s){
-    s->ResourceRequestHandler_GetResourceHandler(remoteHandler, myPeerId, myBid, frm.get()->serverIdWithMap(), req.get()->serverIdWithMap());
+    s->ResourceRequestHandler_GetResourceHandler(remoteHandler, myPeerId, myBid, frm.serverId(), req.serverId());
   });
   return remoteHandler.objId != -1 ? new RemoteResourceHandler(myBid, myCtx, remoteHandler) : nullptr;
 }
@@ -128,8 +128,8 @@ void RemoteResourceRequestHandler::OnResourceRedirect(
   RemoteFrame::Holder frm(frame);
   std::string result;
   myCtx->javaServiceIO()->exec([&](JavaService s){
-    s->ResourceRequestHandler_OnResourceRedirect(result, myPeerId, myBid, frm.get()->serverIdWithMap(), req.get()->serverIdWithMap(),
-                                                 resp.get()->serverIdWithMap(), new_url.ToString());
+    s->ResourceRequestHandler_OnResourceRedirect(result, myPeerId, myBid, frm.serverId(), req.serverId(),
+                                                 resp.serverId(), new_url.ToString());
   });
   CefString tmp(result);
   new_url.swap(tmp);
@@ -160,8 +160,8 @@ bool RemoteResourceRequestHandler::OnResourceResponse(
   RemoteResponse::Holder resp(response);
   RemoteFrame::Holder frm(frame);
   return myCtx->javaServiceIO()->exec<bool>([&](JavaService s){
-    return s->ResourceRequestHandler_OnResourceResponse(myPeerId, myBid, frm.get()->serverIdWithMap(), req.get()->serverIdWithMap(),
-                                                        resp.get()->serverIdWithMap());
+    return s->ResourceRequestHandler_OnResourceResponse(myPeerId, myBid, frm.serverId(), req.serverId(),
+                                                        resp.serverId());
   }, false);
 }
 
@@ -195,8 +195,8 @@ void RemoteResourceRequestHandler::OnResourceLoadComplete(
   RemoteResponse::Holder resp(response);
   RemoteFrame::Holder frm(frame);
   myCtx->javaServiceIO()->exec([&](JavaService s){
-    s->ResourceRequestHandler_OnResourceLoadComplete(myPeerId, myBid, frm.get()->serverIdWithMap(), req.get()->serverIdWithMap(),
-                                                     resp.get()->serverIdWithMap(), status2str(status), received_content_length);
+    s->ResourceRequestHandler_OnResourceLoadComplete(myPeerId, myBid, frm.serverId(), req.serverId(),
+                                                     resp.serverId(), status2str(status), received_content_length);
   });
 }
 
@@ -220,7 +220,7 @@ void RemoteResourceRequestHandler::OnProtocolExecution(
   RemoteRequest::Holder req(request);
   RemoteFrame::Holder frm(frame);
   myCtx->javaServiceIO()->exec([&](JavaService s){
-    allow_os_execution = s->ResourceRequestHandler_OnProtocolExecution(myPeerId, myBid, frm.get()->serverIdWithMap(), req.get()->serverIdWithMap(), allow_os_execution);
+    allow_os_execution = s->ResourceRequestHandler_OnProtocolExecution(myPeerId, myBid, frm.serverId(), req.serverId(), allow_os_execution);
   });
 }
 

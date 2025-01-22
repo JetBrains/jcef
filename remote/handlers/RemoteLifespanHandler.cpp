@@ -31,7 +31,7 @@ bool RemoteLifespanHandler::OnBeforePopup(
   return myService->exec<bool>([&](const JavaService& s){
     // TODO: support other params and return values
     Log::error("Unimplemented some params transferring");
-    return s->LifeSpanHandler_OnBeforePopup(myBid, frm.get()->serverIdWithMap(), target_url.ToString(), target_frame_name.ToString(), user_gesture);
+    return s->LifeSpanHandler_OnBeforePopup(myBid, frm.serverId(), target_url.ToString(), target_frame_name.ToString(), user_gesture);
   }, false);
 }
 

@@ -33,7 +33,7 @@ CefRefPtr<CefResourceRequestHandler> RemoteRequestContextHandler::GetResourceReq
   peer.__set_objId(-1);
   myCtx->javaService()->exec([&](JavaService s){
     s->RequestContextHandler_GetResourceRequestHandler(
-        peer, myPeerId, bid, frm.get()->serverIdWithMap(), req.get()->serverIdWithMap(), is_navigation, is_download, request_initiator.ToString());
+        peer, myPeerId, bid, frm.serverId(), req.serverId(), is_navigation, is_download, request_initiator.ToString());
   });
 
   disable_default_handling = peer.__isset.flags ? peer.flags != 0 : false;

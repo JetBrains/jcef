@@ -34,7 +34,7 @@ CefRefPtr<CefResourceHandler> RemoteSchemeHandlerFactory::Create(
   RemoteFrame::Holder frm(frame);
   thrift_codegen::RObject resultHandler;
   myCtx->javaService()->exec([&](JavaService s){
-    s->SchemeHandlerFactory_CreateHandler(resultHandler, myPeerId, bid, frm.get()->serverIdWithMap(), scheme_name.ToString(), req.get()->serverIdWithMap());
+    s->SchemeHandlerFactory_CreateHandler(resultHandler, myPeerId, bid, frm.serverId(), scheme_name.ToString(), req.serverId());
   });
   return resultHandler.objId != -1 ? new RemoteResourceHandler(bid, myCtx, resultHandler) : nullptr;
 }
