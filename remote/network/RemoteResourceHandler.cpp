@@ -45,7 +45,7 @@ bool RemoteResourceHandler::ProcessRequest(CefRefPtr<CefRequest> request,
   RemoteRequest::Holder req(request);
   RemoteCallback * rc = RemoteCallback::wrapDelegate(callback);
   const bool handled = myCtx->javaServiceIO()->exec<bool>([&](JavaService s){
-    return s->ResourceHandler_ProcessRequest(myPeerId, req.get()->serverIdWithMap(), rc->serverId());
+    return s->ResourceHandler_ProcessRequest(myPeerId, req.serverId(), rc->serverId());
   }, false);
   if (!handled)
     RemoteCallback::dispose(rc->getId());
@@ -77,7 +77,7 @@ void RemoteResourceHandler::GetResponseHeaders(CefRefPtr<CefResponse> response,
   RemoteResponse::Holder resp(response);
   thrift_codegen::ResponseHeaders _return;
   myCtx->javaServiceIO()->exec([&](JavaService s){
-    s->ResourceHandler_GetResponseHeaders(_return, myPeerId, resp.get()->serverIdWithMap());
+    s->ResourceHandler_GetResponseHeaders(_return, myPeerId, resp.serverId());
   });
   response_length = _return.length;
   if (_return.__isset.redirectUrl)

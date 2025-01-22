@@ -43,7 +43,7 @@ bool RemoteCookieAccessFilter::CanSendCookie(CefRefPtr<CefBrowser> browser,
   RemoteRequest::Holder req(request);
   RemoteFrame::Holder frm(frame);
   return myCtx->javaServiceIO()->exec<bool>([&](JavaService s){
-    return s->CookieAccessFilter_CanSendCookie(myPeerId, myBid, frm.get()->serverIdWithMap(), req.get()->serverIdWithMap(), cookie2list(cookie));
+    return s->CookieAccessFilter_CanSendCookie(myPeerId, myBid, frm.serverId(), req.serverId(), cookie2list(cookie));
   }, true);
 }
 
@@ -67,8 +67,8 @@ bool RemoteCookieAccessFilter::CanSaveCookie(CefRefPtr<CefBrowser> browser,
   RemoteResponse::Holder resp(response);
   RemoteFrame::Holder frm(frame);
   return myCtx->javaServiceIO()->exec<bool>([&](JavaService s){
-    return s->CookieAccessFilter_CanSaveCookie(myPeerId, myBid, frm.get()->serverIdWithMap(), req.get()->serverIdWithMap(),
-                                               resp.get()->serverIdWithMap(), cookie2list(cookie));
+    return s->CookieAccessFilter_CanSaveCookie(myPeerId, myBid, frm.serverId(), req.serverId(),
+                                               resp.serverId(), cookie2list(cookie));
   }, true);
 }
 

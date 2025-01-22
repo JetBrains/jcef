@@ -292,7 +292,7 @@ void ServerHandler::Frame_GetParent(thrift_codegen::RObject & _return, int frame
 
   RemoteFrame* rparent = RemoteFrame::create(rf->getDelegate().GetParent());
   if (rparent != nullptr)
-    _return = rparent->serverIdWithMap();
+    _return = rparent->serverId();
 }
 
 void ServerHandler::Frame_Undo(int frameId) {
@@ -456,7 +456,7 @@ void ServerHandler::Browser_GetMainFrame(thrift_codegen::RObject& _return, const
   CefRefPtr<CefFrame> frame = browser->GetMainFrame();
   RemoteFrame* rf = RemoteFrame::create(frame);
   if (rf != nullptr)
-    _return = rf->serverIdWithMap();
+    _return = rf->serverId();
 }
 
 void ServerHandler::Browser_GetFocusedFrame(thrift_codegen::RObject& _return, const int32_t bid) {
@@ -466,7 +466,7 @@ void ServerHandler::Browser_GetFocusedFrame(thrift_codegen::RObject& _return, co
   CefRefPtr<CefFrame> frame = browser->GetFocusedFrame();
   RemoteFrame* rf = RemoteFrame::create(frame);
   if (rf != nullptr)
-    _return = rf->serverIdWithMap();
+    _return = rf->serverId();
 }
 
 void ServerHandler::Browser_GetFrameByIdentifier(thrift_codegen::RObject& _return, const int32_t bid, const std::string& id) {
@@ -476,7 +476,7 @@ void ServerHandler::Browser_GetFrameByIdentifier(thrift_codegen::RObject& _retur
   CefRefPtr<CefFrame> frame = browser->GetFrameByIdentifier(id);
   RemoteFrame* rf = RemoteFrame::create(frame);
   if (rf != nullptr)
-    _return = rf->serverIdWithMap();
+    _return = rf->serverId();
 }
 
 void ServerHandler::Browser_GetFrameByName(thrift_codegen::RObject& _return, const int32_t bid, const std::string& name) {
@@ -486,7 +486,7 @@ void ServerHandler::Browser_GetFrameByName(thrift_codegen::RObject& _return, con
   CefRefPtr<CefFrame> frame = browser->GetFrameByName(name);
   RemoteFrame* rf = RemoteFrame::create(frame);
   if (rf != nullptr)
-    _return = rf->serverIdWithMap();
+    _return = rf->serverId();
 }
 
 void ServerHandler::Browser_GetFrameIdentifiers(std::vector<std::string>& _return, const int32_t bid) {
@@ -660,7 +660,7 @@ void ServerHandler::Request_Create(thrift_codegen::RObject& result) {
   CefRefPtr<CefRequest> request = CefRequest::Create();
   RemoteRequest* rr = RemoteRequest::create(request);
   if (rr != nullptr)
-    result = rr->serverIdWithMap();
+    result = rr->serverId();
 }
 
 void ServerHandler::Request_Dispose(int requestId) {

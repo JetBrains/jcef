@@ -11,7 +11,7 @@ void RemoteDisplayHandler::OnAddressChange(CefRefPtr<CefBrowser> browser,
   LNDCT();
   RemoteFrame::Holder frm(frame);
   myService->exec([&](const JavaService& s){
-    s->DisplayHandler_OnAddressChange(myBid, frm.get()->serverIdWithMap(), url.ToString());
+    s->DisplayHandler_OnAddressChange(myBid, frm.serverId(), url.ToString());
   });
 }
 

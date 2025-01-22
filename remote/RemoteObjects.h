@@ -65,7 +65,7 @@ class RemoteServerObjectBase {
 
   int getId() { return myId; }
 
-  thrift_codegen::RObject serverId() {
+  virtual thrift_codegen::RObject serverId() {
     thrift_codegen::RObject robj;
     robj.__set_objId(myId);
     return robj;
@@ -110,6 +110,10 @@ class RemoteServerObject : public RemoteServerObjectBase<T> {
   D& getDelegate() { return *myDelegate; }
 
   static T* wrapDelegate(CefRefPtr<D> delegate) {
+    if (!delegate) {
+      Log::error("wrapDelegate: null delegate");
+      return nullptr;
+    }
     return RemoteServerObjectBase<T>::create([&](int id) -> T* {return new T(delegate, id);});
   }
 
@@ -123,7 +127,7 @@ class RemoteServerObjectUpdatable : public RemoteServerObject<T, D> {
   explicit RemoteServerObjectUpdatable(int id, CefRefPtr<D> delegate) : RemoteServerObject<T, D>(id, delegate) {}
   ~RemoteServerObjectUpdatable() override {}
 
-  thrift_codegen::RObject serverIdWithMap() {
+  virtual thrift_codegen::RObject serverId() override {
     thrift_codegen::RObject robj;
     robj.__set_objId(RemoteServerObject<T, D>::myId);
     robj.__set_objInfo(toMap());
@@ -183,10 +187,21 @@ template <class T, class D>
 class RemoteServerObjectHolder {
  public:
   explicit RemoteServerObjectHolder(CefRefPtr<D>& delegate) {
-    myRemoteObj = RemoteServerObjectBase<T>::create([&](int id) -> T* {return new T(delegate, id);});
+    if (delegate)
+      myRemoteObj = RemoteServerObjectBase<T>::create([&](int id) -> T* {return new T(delegate, id);});
   }
   ~RemoteServerObjectHolder() {
-    RemoteServerObject<T, D>::dispose(myRemoteObj->getId());
+    if (myRemoteObj != nullptr)
+      RemoteServerObject<T, D>::dispose(myRemoteObj->getId());
+  }
+
+  thrift_codegen::RObject serverId() {
+    if (myRemoteObj != nullptr)
+      return myRemoteObj->serverId();
+
+    thrift_codegen::RObject result;
+    result.__set_objId(-1);
+    return result;
   }
 
   T * get() { return myRemoteObj; }

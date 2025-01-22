@@ -65,7 +65,7 @@ bool RemoteRequestHandler::OnBeforeBrowse(CefRefPtr<CefBrowser> browser,
   RemoteRequest::Holder req(request);
   RemoteFrame::Holder frm(frame);
   return myCtx->javaService()->exec<bool>([&](JavaService s){
-    return s->RequestHandler_OnBeforeBrowse(myBid, frm.get()->serverIdWithMap(), req.get()->serverIdWithMap(), user_gesture, is_redirect);
+    return s->RequestHandler_OnBeforeBrowse(myBid, frm.serverId(), req.serverId(), user_gesture, is_redirect);
   }, false);
 }
 
@@ -83,7 +83,7 @@ bool RemoteRequestHandler::OnOpenURLFromTab(CefRefPtr<CefBrowser> browser,
   }
   RemoteFrame::Holder frm(frame);
   return myCtx->javaService()->exec<bool>([&](JavaService s){
-    return s->RequestHandler_OnOpenURLFromTab(myBid, frm.get()->serverIdWithMap(), target_url.ToString(), user_gesture);
+    return s->RequestHandler_OnOpenURLFromTab(myBid, frm.serverId(), target_url.ToString(), user_gesture);
   }, false);
 }
 
@@ -126,7 +126,7 @@ CefRefPtr<CefResourceRequestHandler> RemoteRequestHandler::GetResourceRequestHan
   peer.__set_objId(-1);
   myCtx->javaServiceIO()->exec([&](JavaService s){
     s->RequestHandler_GetResourceRequestHandler(
-        peer, myBid, frm.get()->serverIdWithMap(), req.get()->serverIdWithMap(), is_navigation, is_download, request_initiator.ToString());
+        peer, myBid, frm.serverId(), req.serverId(), is_navigation, is_download, request_initiator.ToString());
   });
 
   disable_default_handling = peer.__isset.flags ? peer.flags != 0 : false;
