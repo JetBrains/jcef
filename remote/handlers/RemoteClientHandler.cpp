@@ -13,6 +13,7 @@
 #include "RemoteLifespanHandler.h"
 #include "RemoteLoadHandler.h"
 #include "RemoteRenderHandler.h"
+#include "RemotePermissionHandler.h"
 
 namespace {
 
@@ -74,6 +75,21 @@ RemoteClientHandler::RemoteClientHandler(
   if (handlersMask & HandlerMasks::ContextMenu)
     myRemoteContextMenuHandler = new RemoteContextMenuHandler(bid, ctx->javaService());
 
+  if (handlersMask & HandlerMasks::Permission)
+    myRemotePermissionHandler = new RemotePermissionHandler(bid, ctx->javaService());
+
+  // TODO: implement remaining handlers
+  //  if (handlersMask & HandlerMasks::Dialog)
+  //    ;
+  //  if (handlersMask & HandlerMasks::JSDialog)
+  //    ;
+  //  if (handlersMask & HandlerMasks::Print)
+  //    ;
+  //  if (handlersMask & HandlerMasks::Download)
+  //    ;
+  //  if (handlersMask & HandlerMasks::Drag)
+  //    ;
+
   // TODO: Expose CefRequestContextSettings.
   CefRequestContextSettings settings;
   myRequestContext = requestContextHandler.objId < 0
@@ -86,7 +102,7 @@ CefRefPtr<CefContextMenuHandler> RemoteClientHandler::GetContextMenuHandler() {
 }
 
 CefRefPtr<CefDialogHandler> RemoteClientHandler::GetDialogHandler() {
-    Log::error("UNIMPLEMENTED: RemoteClientHandler::GetDialogHandler");
+    Log::error("TODO: implement: RemoteClientHandler::GetDialogHandler");
     return nullptr;
 }
 
@@ -95,12 +111,12 @@ CefRefPtr<CefDisplayHandler> RemoteClientHandler::GetDisplayHandler() {
 }
 
 CefRefPtr<CefDownloadHandler> RemoteClientHandler::GetDownloadHandler() {
-    Log::error("UNIMPLEMENTED: RemoteClientHandler::GetDownloadHandler");
+    Log::error("TODO: implement: RemoteClientHandler::GetDownloadHandler");
     return nullptr;
 }
 
 CefRefPtr<CefDragHandler> RemoteClientHandler::GetDragHandler() {
-    Log::error("UNIMPLEMENTED: RemoteClientHandler::GetDragHandler");
+    Log::error("TODO: implement: RemoteClientHandler::GetDragHandler");
     return nullptr;
 }
 
@@ -109,12 +125,11 @@ CefRefPtr<CefFocusHandler> RemoteClientHandler::GetFocusHandler() {
 }
 
 CefRefPtr<CefPermissionHandler> RemoteClientHandler::GetPermissionHandler() {
-    Log::error("UNIMPLEMENTED: RemoteClientHandler::GetPermissionHandler");
-    return nullptr;
+    return myRemotePermissionHandler;
 }
 
 CefRefPtr<CefJSDialogHandler> RemoteClientHandler::GetJSDialogHandler() {
-    Log::error("UNIMPLEMENTED: RemoteClientHandler::GetJSDialogHandler");
+    Log::error("TODO: implement: RemoteClientHandler::GetJSDialogHandler");
     return nullptr;
 }
 
@@ -131,7 +146,7 @@ CefRefPtr<CefLoadHandler> RemoteClientHandler::GetLoadHandler() {
 }
 
 CefRefPtr<CefPrintHandler> RemoteClientHandler::GetPrintHandler() {
-    Log::error("UNIMPLEMENTED: RemoteClientHandler::GetPrintHandler");
+    Log::error("TODO: implement: RemoteClientHandler::GetPrintHandler");
     return nullptr;
 }
 

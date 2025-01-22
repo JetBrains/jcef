@@ -147,6 +147,8 @@ public class ClientHandlers {
 
     public void DevToolsMessageObserver_OnDevToolsEvent(int observer, int bid, java.lang.String method, java.lang.String parameters) throws com.jetbrains.cef.remote.thrift.TException;
 
+    public boolean PermissionHandler_OnRequestMediaAccessPermission(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, java.lang.String requesting_origin, int requested_permissions, com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback) throws com.jetbrains.cef.remote.thrift.TException;
+
   }
 
   public interface AsyncIface {
@@ -286,6 +288,8 @@ public class ClientHandlers {
     public void DevToolsMessageObserver_OnDevToolsMethodResult(int observer, int bid, int messageId, boolean success, java.lang.String result, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void DevToolsMessageObserver_OnDevToolsEvent(int observer, int bid, java.lang.String method, java.lang.String parameters, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void PermissionHandler_OnRequestMediaAccessPermission(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, java.lang.String requesting_origin, int requested_permissions, com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
   }
 
@@ -1794,6 +1798,34 @@ public class ClientHandlers {
       args.setMethod(method);
       args.setParameters(parameters);
       sendBaseOneway("DevToolsMessageObserver_OnDevToolsEvent", args);
+    }
+
+    @Override
+    public boolean PermissionHandler_OnRequestMediaAccessPermission(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, java.lang.String requesting_origin, int requested_permissions, com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_PermissionHandler_OnRequestMediaAccessPermission(bid, frame, requesting_origin, requested_permissions, mediaAccessCallback);
+      return recv_PermissionHandler_OnRequestMediaAccessPermission();
+    }
+
+    public void send_PermissionHandler_OnRequestMediaAccessPermission(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, java.lang.String requesting_origin, int requested_permissions, com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      PermissionHandler_OnRequestMediaAccessPermission_args args = new PermissionHandler_OnRequestMediaAccessPermission_args();
+      args.setBid(bid);
+      args.setFrame(frame);
+      args.setRequesting_origin(requesting_origin);
+      args.setRequested_permissions(requested_permissions);
+      args.setMediaAccessCallback(mediaAccessCallback);
+      sendBase("PermissionHandler_OnRequestMediaAccessPermission", args);
+    }
+
+    public boolean recv_PermissionHandler_OnRequestMediaAccessPermission() throws com.jetbrains.cef.remote.thrift.TException
+    {
+      PermissionHandler_OnRequestMediaAccessPermission_result result = new PermissionHandler_OnRequestMediaAccessPermission_result();
+      receiveBase(result, "PermissionHandler_OnRequestMediaAccessPermission");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.MISSING_RESULT, "PermissionHandler_OnRequestMediaAccessPermission failed: unknown result");
     }
 
   }
@@ -4646,6 +4678,53 @@ public class ClientHandlers {
       }
     }
 
+    @Override
+    public void PermissionHandler_OnRequestMediaAccessPermission(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, java.lang.String requesting_origin, int requested_permissions, com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      PermissionHandler_OnRequestMediaAccessPermission_call method_call = new PermissionHandler_OnRequestMediaAccessPermission_call(bid, frame, requesting_origin, requested_permissions, mediaAccessCallback, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class PermissionHandler_OnRequestMediaAccessPermission_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<java.lang.Boolean> {
+      private int bid;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject frame;
+      private java.lang.String requesting_origin;
+      private int requested_permissions;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback;
+      public PermissionHandler_OnRequestMediaAccessPermission_call(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, java.lang.String requesting_origin, int requested_permissions, com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.bid = bid;
+        this.frame = frame;
+        this.requesting_origin = requesting_origin;
+        this.requested_permissions = requested_permissions;
+        this.mediaAccessCallback = mediaAccessCallback;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("PermissionHandler_OnRequestMediaAccessPermission", com.jetbrains.cef.remote.thrift.protocol.TMessageType.CALL, 0));
+        PermissionHandler_OnRequestMediaAccessPermission_args args = new PermissionHandler_OnRequestMediaAccessPermission_args();
+        args.setBid(bid);
+        args.setFrame(frame);
+        args.setRequesting_origin(requesting_origin);
+        args.setRequested_permissions(requested_permissions);
+        args.setMediaAccessCallback(mediaAccessCallback);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public java.lang.Boolean getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_PermissionHandler_OnRequestMediaAccessPermission();
+      }
+    }
+
   }
 
   public static class Processor<I extends Iface> extends com.jetbrains.cef.remote.thrift.TBaseProcessor<I> implements com.jetbrains.cef.remote.thrift.TProcessor {
@@ -4727,6 +4806,7 @@ public class ClientHandlers {
       processMap.put("DevToolsMessageObserver_Dispose", new DevToolsMessageObserver_Dispose());
       processMap.put("DevToolsMessageObserver_OnDevToolsMethodResult", new DevToolsMessageObserver_OnDevToolsMethodResult());
       processMap.put("DevToolsMessageObserver_OnDevToolsEvent", new DevToolsMessageObserver_OnDevToolsEvent());
+      processMap.put("PermissionHandler_OnRequestMediaAccessPermission", new PermissionHandler_OnRequestMediaAccessPermission());
       return processMap;
     }
 
@@ -6631,6 +6711,35 @@ public class ClientHandlers {
       }
     }
 
+    public static class PermissionHandler_OnRequestMediaAccessPermission<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, PermissionHandler_OnRequestMediaAccessPermission_args> {
+      public PermissionHandler_OnRequestMediaAccessPermission() {
+        super("PermissionHandler_OnRequestMediaAccessPermission");
+      }
+
+      @Override
+      public PermissionHandler_OnRequestMediaAccessPermission_args getEmptyArgsInstance() {
+        return new PermissionHandler_OnRequestMediaAccessPermission_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public PermissionHandler_OnRequestMediaAccessPermission_result getResult(I iface, PermissionHandler_OnRequestMediaAccessPermission_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        PermissionHandler_OnRequestMediaAccessPermission_result result = new PermissionHandler_OnRequestMediaAccessPermission_result();
+        result.success = iface.PermissionHandler_OnRequestMediaAccessPermission(args.bid, args.frame, args.requesting_origin, args.requested_permissions, args.mediaAccessCallback);
+        result.setSuccessIsSet(true);
+        return result;
+      }
+    }
+
   }
 
   public static class AsyncProcessor<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.TBaseAsyncProcessor<I> {
@@ -6712,6 +6821,7 @@ public class ClientHandlers {
       processMap.put("DevToolsMessageObserver_Dispose", new DevToolsMessageObserver_Dispose());
       processMap.put("DevToolsMessageObserver_OnDevToolsMethodResult", new DevToolsMessageObserver_OnDevToolsMethodResult());
       processMap.put("DevToolsMessageObserver_OnDevToolsEvent", new DevToolsMessageObserver_OnDevToolsEvent());
+      processMap.put("PermissionHandler_OnRequestMediaAccessPermission", new PermissionHandler_OnRequestMediaAccessPermission());
       return processMap;
     }
 
@@ -10631,6 +10741,74 @@ public class ClientHandlers {
       @Override
       public void start(I iface, DevToolsMessageObserver_OnDevToolsEvent_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
         iface.DevToolsMessageObserver_OnDevToolsEvent(args.observer, args.bid, args.method, args.parameters,resultHandler);
+      }
+    }
+
+    public static class PermissionHandler_OnRequestMediaAccessPermission<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, PermissionHandler_OnRequestMediaAccessPermission_args, java.lang.Boolean> {
+      public PermissionHandler_OnRequestMediaAccessPermission() {
+        super("PermissionHandler_OnRequestMediaAccessPermission");
+      }
+
+      @Override
+      public PermissionHandler_OnRequestMediaAccessPermission_args getEmptyArgsInstance() {
+        return new PermissionHandler_OnRequestMediaAccessPermission_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean>() { 
+          @Override
+          public void onComplete(java.lang.Boolean o) {
+            PermissionHandler_OnRequestMediaAccessPermission_result result = new PermissionHandler_OnRequestMediaAccessPermission_result();
+            result.success = o;
+            result.setSuccessIsSet(true);
+            try {
+              fcall.sendResponse(fb, result, com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (com.jetbrains.cef.remote.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            byte msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.REPLY;
+            com.jetbrains.cef.remote.thrift.TSerializable msg;
+            PermissionHandler_OnRequestMediaAccessPermission_result result = new PermissionHandler_OnRequestMediaAccessPermission_result();
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+              return;
+            } else if (e instanceof com.jetbrains.cef.remote.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (com.jetbrains.cef.remote.thrift.TApplicationException)e;
+            } else {
+              _LOGGER.error("Exception inside handler", e);
+              msgType = com.jetbrains.cef.remote.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      public void start(I iface, PermissionHandler_OnRequestMediaAccessPermission_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.PermissionHandler_OnRequestMediaAccessPermission(args.bid, args.frame, args.requesting_origin, args.requested_permissions, args.mediaAccessCallback,resultHandler);
       }
     }
 
@@ -67077,6 +67255,1176 @@ public class ClientHandlers {
         if (incoming.get(3)) {
           struct.parameters = iprot.readString();
           struct.setParametersIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class PermissionHandler_OnRequestMediaAccessPermission_args implements com.jetbrains.cef.remote.thrift.TBase<PermissionHandler_OnRequestMediaAccessPermission_args, PermissionHandler_OnRequestMediaAccessPermission_args._Fields>, java.io.Serializable, Cloneable, Comparable<PermissionHandler_OnRequestMediaAccessPermission_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("PermissionHandler_OnRequestMediaAccessPermission_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField BID_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("bid", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)1);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField FRAME_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("frame", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)2);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField REQUESTING_ORIGIN_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("requesting_origin", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)3);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField REQUESTED_PERMISSIONS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("requested_permissions", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)4);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField MEDIA_ACCESS_CALLBACK_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("mediaAccessCallback", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)5);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new PermissionHandler_OnRequestMediaAccessPermission_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new PermissionHandler_OnRequestMediaAccessPermission_argsTupleSchemeFactory();
+
+    public int bid; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String requesting_origin; // required
+    public int requested_permissions; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      BID((short)1, "bid"),
+      FRAME((short)2, "frame"),
+      REQUESTING_ORIGIN((short)3, "requesting_origin"),
+      REQUESTED_PERMISSIONS((short)4, "requested_permissions"),
+      MEDIA_ACCESS_CALLBACK((short)5, "mediaAccessCallback");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // BID
+            return BID;
+          case 2: // FRAME
+            return FRAME;
+          case 3: // REQUESTING_ORIGIN
+            return REQUESTING_ORIGIN;
+          case 4: // REQUESTED_PERMISSIONS
+            return REQUESTED_PERMISSIONS;
+          case 5: // MEDIA_ACCESS_CALLBACK
+            return MEDIA_ACCESS_CALLBACK;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __BID_ISSET_ID = 0;
+    private static final int __REQUESTED_PERMISSIONS_ISSET_ID = 1;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.BID, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("bid", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.FRAME, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("frame", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      tmpMap.put(_Fields.REQUESTING_ORIGIN, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("requesting_origin", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.REQUESTED_PERMISSIONS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("requested_permissions", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.MEDIA_ACCESS_CALLBACK, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("mediaAccessCallback", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(PermissionHandler_OnRequestMediaAccessPermission_args.class, metaDataMap);
+    }
+
+    public PermissionHandler_OnRequestMediaAccessPermission_args() {
+    }
+
+    public PermissionHandler_OnRequestMediaAccessPermission_args(
+      int bid,
+      com.jetbrains.cef.remote.thrift_codegen.RObject frame,
+      java.lang.String requesting_origin,
+      int requested_permissions,
+      com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback)
+    {
+      this();
+      this.bid = bid;
+      setBidIsSet(true);
+      this.frame = frame;
+      this.requesting_origin = requesting_origin;
+      this.requested_permissions = requested_permissions;
+      setRequested_permissionsIsSet(true);
+      this.mediaAccessCallback = mediaAccessCallback;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public PermissionHandler_OnRequestMediaAccessPermission_args(PermissionHandler_OnRequestMediaAccessPermission_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.bid = other.bid;
+      if (other.isSetFrame()) {
+        this.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.frame);
+      }
+      if (other.isSetRequesting_origin()) {
+        this.requesting_origin = other.requesting_origin;
+      }
+      this.requested_permissions = other.requested_permissions;
+      if (other.isSetMediaAccessCallback()) {
+        this.mediaAccessCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.mediaAccessCallback);
+      }
+    }
+
+    @Override
+    public PermissionHandler_OnRequestMediaAccessPermission_args deepCopy() {
+      return new PermissionHandler_OnRequestMediaAccessPermission_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setBidIsSet(false);
+      this.bid = 0;
+      this.frame = null;
+      this.requesting_origin = null;
+      setRequested_permissionsIsSet(false);
+      this.requested_permissions = 0;
+      this.mediaAccessCallback = null;
+    }
+
+    public int getBid() {
+      return this.bid;
+    }
+
+    public PermissionHandler_OnRequestMediaAccessPermission_args setBid(int bid) {
+      this.bid = bid;
+      setBidIsSet(true);
+      return this;
+    }
+
+    public void unsetBid() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    /** Returns true if field bid is set (has been assigned a value) and false otherwise */
+    public boolean isSetBid() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    public void setBidIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getFrame() {
+      return this.frame;
+    }
+
+    public PermissionHandler_OnRequestMediaAccessPermission_args setFrame(@com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject frame) {
+      this.frame = frame;
+      return this;
+    }
+
+    public void unsetFrame() {
+      this.frame = null;
+    }
+
+    /** Returns true if field frame is set (has been assigned a value) and false otherwise */
+    public boolean isSetFrame() {
+      return this.frame != null;
+    }
+
+    public void setFrameIsSet(boolean value) {
+      if (!value) {
+        this.frame = null;
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.lang.String getRequesting_origin() {
+      return this.requesting_origin;
+    }
+
+    public PermissionHandler_OnRequestMediaAccessPermission_args setRequesting_origin(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String requesting_origin) {
+      this.requesting_origin = requesting_origin;
+      return this;
+    }
+
+    public void unsetRequesting_origin() {
+      this.requesting_origin = null;
+    }
+
+    /** Returns true if field requesting_origin is set (has been assigned a value) and false otherwise */
+    public boolean isSetRequesting_origin() {
+      return this.requesting_origin != null;
+    }
+
+    public void setRequesting_originIsSet(boolean value) {
+      if (!value) {
+        this.requesting_origin = null;
+      }
+    }
+
+    public int getRequested_permissions() {
+      return this.requested_permissions;
+    }
+
+    public PermissionHandler_OnRequestMediaAccessPermission_args setRequested_permissions(int requested_permissions) {
+      this.requested_permissions = requested_permissions;
+      setRequested_permissionsIsSet(true);
+      return this;
+    }
+
+    public void unsetRequested_permissions() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __REQUESTED_PERMISSIONS_ISSET_ID);
+    }
+
+    /** Returns true if field requested_permissions is set (has been assigned a value) and false otherwise */
+    public boolean isSetRequested_permissions() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __REQUESTED_PERMISSIONS_ISSET_ID);
+    }
+
+    public void setRequested_permissionsIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __REQUESTED_PERMISSIONS_ISSET_ID, value);
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getMediaAccessCallback() {
+      return this.mediaAccessCallback;
+    }
+
+    public PermissionHandler_OnRequestMediaAccessPermission_args setMediaAccessCallback(@com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback) {
+      this.mediaAccessCallback = mediaAccessCallback;
+      return this;
+    }
+
+    public void unsetMediaAccessCallback() {
+      this.mediaAccessCallback = null;
+    }
+
+    /** Returns true if field mediaAccessCallback is set (has been assigned a value) and false otherwise */
+    public boolean isSetMediaAccessCallback() {
+      return this.mediaAccessCallback != null;
+    }
+
+    public void setMediaAccessCallbackIsSet(boolean value) {
+      if (!value) {
+        this.mediaAccessCallback = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case BID:
+        if (value == null) {
+          unsetBid();
+        } else {
+          setBid((java.lang.Integer)value);
+        }
+        break;
+
+      case FRAME:
+        if (value == null) {
+          unsetFrame();
+        } else {
+          setFrame((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      case REQUESTING_ORIGIN:
+        if (value == null) {
+          unsetRequesting_origin();
+        } else {
+          setRequesting_origin((java.lang.String)value);
+        }
+        break;
+
+      case REQUESTED_PERMISSIONS:
+        if (value == null) {
+          unsetRequested_permissions();
+        } else {
+          setRequested_permissions((java.lang.Integer)value);
+        }
+        break;
+
+      case MEDIA_ACCESS_CALLBACK:
+        if (value == null) {
+          unsetMediaAccessCallback();
+        } else {
+          setMediaAccessCallback((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case BID:
+        return getBid();
+
+      case FRAME:
+        return getFrame();
+
+      case REQUESTING_ORIGIN:
+        return getRequesting_origin();
+
+      case REQUESTED_PERMISSIONS:
+        return getRequested_permissions();
+
+      case MEDIA_ACCESS_CALLBACK:
+        return getMediaAccessCallback();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case BID:
+        return isSetBid();
+      case FRAME:
+        return isSetFrame();
+      case REQUESTING_ORIGIN:
+        return isSetRequesting_origin();
+      case REQUESTED_PERMISSIONS:
+        return isSetRequested_permissions();
+      case MEDIA_ACCESS_CALLBACK:
+        return isSetMediaAccessCallback();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof PermissionHandler_OnRequestMediaAccessPermission_args)
+        return this.equals((PermissionHandler_OnRequestMediaAccessPermission_args)that);
+      return false;
+    }
+
+    public boolean equals(PermissionHandler_OnRequestMediaAccessPermission_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_bid = true;
+      boolean that_present_bid = true;
+      if (this_present_bid || that_present_bid) {
+        if (!(this_present_bid && that_present_bid))
+          return false;
+        if (this.bid != that.bid)
+          return false;
+      }
+
+      boolean this_present_frame = true && this.isSetFrame();
+      boolean that_present_frame = true && that.isSetFrame();
+      if (this_present_frame || that_present_frame) {
+        if (!(this_present_frame && that_present_frame))
+          return false;
+        if (!this.frame.equals(that.frame))
+          return false;
+      }
+
+      boolean this_present_requesting_origin = true && this.isSetRequesting_origin();
+      boolean that_present_requesting_origin = true && that.isSetRequesting_origin();
+      if (this_present_requesting_origin || that_present_requesting_origin) {
+        if (!(this_present_requesting_origin && that_present_requesting_origin))
+          return false;
+        if (!this.requesting_origin.equals(that.requesting_origin))
+          return false;
+      }
+
+      boolean this_present_requested_permissions = true;
+      boolean that_present_requested_permissions = true;
+      if (this_present_requested_permissions || that_present_requested_permissions) {
+        if (!(this_present_requested_permissions && that_present_requested_permissions))
+          return false;
+        if (this.requested_permissions != that.requested_permissions)
+          return false;
+      }
+
+      boolean this_present_mediaAccessCallback = true && this.isSetMediaAccessCallback();
+      boolean that_present_mediaAccessCallback = true && that.isSetMediaAccessCallback();
+      if (this_present_mediaAccessCallback || that_present_mediaAccessCallback) {
+        if (!(this_present_mediaAccessCallback && that_present_mediaAccessCallback))
+          return false;
+        if (!this.mediaAccessCallback.equals(that.mediaAccessCallback))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + bid;
+
+      hashCode = hashCode * 8191 + ((isSetFrame()) ? 131071 : 524287);
+      if (isSetFrame())
+        hashCode = hashCode * 8191 + frame.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetRequesting_origin()) ? 131071 : 524287);
+      if (isSetRequesting_origin())
+        hashCode = hashCode * 8191 + requesting_origin.hashCode();
+
+      hashCode = hashCode * 8191 + requested_permissions;
+
+      hashCode = hashCode * 8191 + ((isSetMediaAccessCallback()) ? 131071 : 524287);
+      if (isSetMediaAccessCallback())
+        hashCode = hashCode * 8191 + mediaAccessCallback.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(PermissionHandler_OnRequestMediaAccessPermission_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetBid()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetFrame(), other.isSetFrame());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetFrame()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.frame, other.frame);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetRequesting_origin(), other.isSetRequesting_origin());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetRequesting_origin()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.requesting_origin, other.requesting_origin);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetRequested_permissions(), other.isSetRequested_permissions());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetRequested_permissions()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.requested_permissions, other.requested_permissions);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetMediaAccessCallback(), other.isSetMediaAccessCallback());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetMediaAccessCallback()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.mediaAccessCallback, other.mediaAccessCallback);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("PermissionHandler_OnRequestMediaAccessPermission_args(");
+      boolean first = true;
+
+      sb.append("bid:");
+      sb.append(this.bid);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("frame:");
+      if (this.frame == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.frame);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("requesting_origin:");
+      if (this.requesting_origin == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.requesting_origin);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("requested_permissions:");
+      sb.append(this.requested_permissions);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("mediaAccessCallback:");
+      if (this.mediaAccessCallback == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.mediaAccessCallback);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (frame != null) {
+        frame.validate();
+      }
+      if (mediaAccessCallback != null) {
+        mediaAccessCallback.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class PermissionHandler_OnRequestMediaAccessPermission_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public PermissionHandler_OnRequestMediaAccessPermission_argsStandardScheme getScheme() {
+        return new PermissionHandler_OnRequestMediaAccessPermission_argsStandardScheme();
+      }
+    }
+
+    private static class PermissionHandler_OnRequestMediaAccessPermission_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<PermissionHandler_OnRequestMediaAccessPermission_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, PermissionHandler_OnRequestMediaAccessPermission_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // BID
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
+                struct.bid = iprot.readI32();
+                struct.setBidIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // FRAME
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.frame.read(iprot);
+                struct.setFrameIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 3: // REQUESTING_ORIGIN
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRING) {
+                struct.requesting_origin = iprot.readString();
+                struct.setRequesting_originIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 4: // REQUESTED_PERMISSIONS
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
+                struct.requested_permissions = iprot.readI32();
+                struct.setRequested_permissionsIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 5: // MEDIA_ACCESS_CALLBACK
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                struct.mediaAccessCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.mediaAccessCallback.read(iprot);
+                struct.setMediaAccessCallbackIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, PermissionHandler_OnRequestMediaAccessPermission_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(BID_FIELD_DESC);
+        oprot.writeI32(struct.bid);
+        oprot.writeFieldEnd();
+        if (struct.frame != null) {
+          oprot.writeFieldBegin(FRAME_FIELD_DESC);
+          struct.frame.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        if (struct.requesting_origin != null) {
+          oprot.writeFieldBegin(REQUESTING_ORIGIN_FIELD_DESC);
+          oprot.writeString(struct.requesting_origin);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldBegin(REQUESTED_PERMISSIONS_FIELD_DESC);
+        oprot.writeI32(struct.requested_permissions);
+        oprot.writeFieldEnd();
+        if (struct.mediaAccessCallback != null) {
+          oprot.writeFieldBegin(MEDIA_ACCESS_CALLBACK_FIELD_DESC);
+          struct.mediaAccessCallback.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class PermissionHandler_OnRequestMediaAccessPermission_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public PermissionHandler_OnRequestMediaAccessPermission_argsTupleScheme getScheme() {
+        return new PermissionHandler_OnRequestMediaAccessPermission_argsTupleScheme();
+      }
+    }
+
+    private static class PermissionHandler_OnRequestMediaAccessPermission_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<PermissionHandler_OnRequestMediaAccessPermission_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, PermissionHandler_OnRequestMediaAccessPermission_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetBid()) {
+          optionals.set(0);
+        }
+        if (struct.isSetFrame()) {
+          optionals.set(1);
+        }
+        if (struct.isSetRequesting_origin()) {
+          optionals.set(2);
+        }
+        if (struct.isSetRequested_permissions()) {
+          optionals.set(3);
+        }
+        if (struct.isSetMediaAccessCallback()) {
+          optionals.set(4);
+        }
+        oprot.writeBitSet(optionals, 5);
+        if (struct.isSetBid()) {
+          oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetFrame()) {
+          struct.frame.write(oprot);
+        }
+        if (struct.isSetRequesting_origin()) {
+          oprot.writeString(struct.requesting_origin);
+        }
+        if (struct.isSetRequested_permissions()) {
+          oprot.writeI32(struct.requested_permissions);
+        }
+        if (struct.isSetMediaAccessCallback()) {
+          struct.mediaAccessCallback.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, PermissionHandler_OnRequestMediaAccessPermission_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(5);
+        if (incoming.get(0)) {
+          struct.bid = iprot.readI32();
+          struct.setBidIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.frame = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.frame.read(iprot);
+          struct.setFrameIsSet(true);
+        }
+        if (incoming.get(2)) {
+          struct.requesting_origin = iprot.readString();
+          struct.setRequesting_originIsSet(true);
+        }
+        if (incoming.get(3)) {
+          struct.requested_permissions = iprot.readI32();
+          struct.setRequested_permissionsIsSet(true);
+        }
+        if (incoming.get(4)) {
+          struct.mediaAccessCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.mediaAccessCallback.read(iprot);
+          struct.setMediaAccessCallbackIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class PermissionHandler_OnRequestMediaAccessPermission_result implements com.jetbrains.cef.remote.thrift.TBase<PermissionHandler_OnRequestMediaAccessPermission_result, PermissionHandler_OnRequestMediaAccessPermission_result._Fields>, java.io.Serializable, Cloneable, Comparable<PermissionHandler_OnRequestMediaAccessPermission_result>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("PermissionHandler_OnRequestMediaAccessPermission_result");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField SUCCESS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("success", com.jetbrains.cef.remote.thrift.protocol.TType.BOOL, (short)0);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new PermissionHandler_OnRequestMediaAccessPermission_resultStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new PermissionHandler_OnRequestMediaAccessPermission_resultTupleSchemeFactory();
+
+    public boolean success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __SUCCESS_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("success", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.BOOL)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(PermissionHandler_OnRequestMediaAccessPermission_result.class, metaDataMap);
+    }
+
+    public PermissionHandler_OnRequestMediaAccessPermission_result() {
+    }
+
+    public PermissionHandler_OnRequestMediaAccessPermission_result(
+      boolean success)
+    {
+      this();
+      this.success = success;
+      setSuccessIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public PermissionHandler_OnRequestMediaAccessPermission_result(PermissionHandler_OnRequestMediaAccessPermission_result other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.success = other.success;
+    }
+
+    @Override
+    public PermissionHandler_OnRequestMediaAccessPermission_result deepCopy() {
+      return new PermissionHandler_OnRequestMediaAccessPermission_result(this);
+    }
+
+    @Override
+    public void clear() {
+      setSuccessIsSet(false);
+      this.success = false;
+    }
+
+    public boolean isSuccess() {
+      return this.success;
+    }
+
+    public PermissionHandler_OnRequestMediaAccessPermission_result setSuccess(boolean success) {
+      this.success = success;
+      setSuccessIsSet(true);
+      return this;
+    }
+
+    public void unsetSuccess() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __SUCCESS_ISSET_ID, value);
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((java.lang.Boolean)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return isSuccess();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof PermissionHandler_OnRequestMediaAccessPermission_result)
+        return this.equals((PermissionHandler_OnRequestMediaAccessPermission_result)that);
+      return false;
+    }
+
+    public boolean equals(PermissionHandler_OnRequestMediaAccessPermission_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_success = true;
+      boolean that_present_success = true;
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (this.success != that.success)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((success) ? 131071 : 524287);
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(PermissionHandler_OnRequestMediaAccessPermission_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetSuccess(), other.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.success, other.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("PermissionHandler_OnRequestMediaAccessPermission_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      sb.append(this.success);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class PermissionHandler_OnRequestMediaAccessPermission_resultStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public PermissionHandler_OnRequestMediaAccessPermission_resultStandardScheme getScheme() {
+        return new PermissionHandler_OnRequestMediaAccessPermission_resultStandardScheme();
+      }
+    }
+
+    private static class PermissionHandler_OnRequestMediaAccessPermission_resultStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<PermissionHandler_OnRequestMediaAccessPermission_result> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, PermissionHandler_OnRequestMediaAccessPermission_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 0: // SUCCESS
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.BOOL) {
+                struct.success = iprot.readBool();
+                struct.setSuccessIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, PermissionHandler_OnRequestMediaAccessPermission_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.isSetSuccess()) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          oprot.writeBool(struct.success);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class PermissionHandler_OnRequestMediaAccessPermission_resultTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public PermissionHandler_OnRequestMediaAccessPermission_resultTupleScheme getScheme() {
+        return new PermissionHandler_OnRequestMediaAccessPermission_resultTupleScheme();
+      }
+    }
+
+    private static class PermissionHandler_OnRequestMediaAccessPermission_resultTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<PermissionHandler_OnRequestMediaAccessPermission_result> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, PermissionHandler_OnRequestMediaAccessPermission_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          oprot.writeBool(struct.success);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, PermissionHandler_OnRequestMediaAccessPermission_result struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.success = iprot.readBool();
+          struct.setSuccessIsSet(true);
         }
       }
     }

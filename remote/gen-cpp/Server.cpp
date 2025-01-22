@@ -15116,6 +15116,259 @@ uint32_t Server_Registration_Dispose_pargs::write(::apache::thrift::protocol::TP
   return xfer;
 }
 
+
+Server_MediaAccessCallback_Dispose_args::~Server_MediaAccessCallback_Dispose_args() noexcept {
+}
+
+
+uint32_t Server_MediaAccessCallback_Dispose_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->mediaAccessCallback.read(iprot);
+          this->__isset.mediaAccessCallback = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_MediaAccessCallback_Dispose_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_MediaAccessCallback_Dispose_args");
+
+  xfer += oprot->writeFieldBegin("mediaAccessCallback", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += this->mediaAccessCallback.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_MediaAccessCallback_Dispose_pargs::~Server_MediaAccessCallback_Dispose_pargs() noexcept {
+}
+
+
+uint32_t Server_MediaAccessCallback_Dispose_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_MediaAccessCallback_Dispose_pargs");
+
+  xfer += oprot->writeFieldBegin("mediaAccessCallback", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += (*(this->mediaAccessCallback)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_MediaAccessCallback_Continue_args::~Server_MediaAccessCallback_Continue_args() noexcept {
+}
+
+
+uint32_t Server_MediaAccessCallback_Continue_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->mediaAccessCallback.read(iprot);
+          this->__isset.mediaAccessCallback = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->allowed_permissions);
+          this->__isset.allowed_permissions = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_MediaAccessCallback_Continue_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_MediaAccessCallback_Continue_args");
+
+  xfer += oprot->writeFieldBegin("mediaAccessCallback", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += this->mediaAccessCallback.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("allowed_permissions", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32(this->allowed_permissions);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_MediaAccessCallback_Continue_pargs::~Server_MediaAccessCallback_Continue_pargs() noexcept {
+}
+
+
+uint32_t Server_MediaAccessCallback_Continue_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_MediaAccessCallback_Continue_pargs");
+
+  xfer += oprot->writeFieldBegin("mediaAccessCallback", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += (*(this->mediaAccessCallback)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("allowed_permissions", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32((*(this->allowed_permissions)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_MediaAccessCallback_Cancel_args::~Server_MediaAccessCallback_Cancel_args() noexcept {
+}
+
+
+uint32_t Server_MediaAccessCallback_Cancel_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->mediaAccessCallback.read(iprot);
+          this->__isset.mediaAccessCallback = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_MediaAccessCallback_Cancel_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_MediaAccessCallback_Cancel_args");
+
+  xfer += oprot->writeFieldBegin("mediaAccessCallback", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += this->mediaAccessCallback.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_MediaAccessCallback_Cancel_pargs::~Server_MediaAccessCallback_Cancel_pargs() noexcept {
+}
+
+
+uint32_t Server_MediaAccessCallback_Cancel_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_MediaAccessCallback_Cancel_pargs");
+
+  xfer += oprot->writeFieldBegin("mediaAccessCallback", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += (*(this->mediaAccessCallback)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
 int32_t ServerClient::connect(const std::string& backwardConnectionPipe, const bool isMaster)
 {
   send_connect(backwardConnectionPipe, isMaster);
@@ -19166,6 +19419,64 @@ void ServerClient::send_Registration_Dispose(const  ::thrift_codegen::RObject& r
 
   Server_Registration_Dispose_pargs args;
   args.registration = &registration;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void ServerClient::MediaAccessCallback_Dispose(const  ::thrift_codegen::RObject& mediaAccessCallback)
+{
+  send_MediaAccessCallback_Dispose(mediaAccessCallback);
+}
+
+void ServerClient::send_MediaAccessCallback_Dispose(const  ::thrift_codegen::RObject& mediaAccessCallback)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("MediaAccessCallback_Dispose", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_MediaAccessCallback_Dispose_pargs args;
+  args.mediaAccessCallback = &mediaAccessCallback;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void ServerClient::MediaAccessCallback_Continue(const  ::thrift_codegen::RObject& mediaAccessCallback, const int32_t allowed_permissions)
+{
+  send_MediaAccessCallback_Continue(mediaAccessCallback, allowed_permissions);
+}
+
+void ServerClient::send_MediaAccessCallback_Continue(const  ::thrift_codegen::RObject& mediaAccessCallback, const int32_t allowed_permissions)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("MediaAccessCallback_Continue", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_MediaAccessCallback_Continue_pargs args;
+  args.mediaAccessCallback = &mediaAccessCallback;
+  args.allowed_permissions = &allowed_permissions;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void ServerClient::MediaAccessCallback_Cancel(const  ::thrift_codegen::RObject& mediaAccessCallback)
+{
+  send_MediaAccessCallback_Cancel(mediaAccessCallback);
+}
+
+void ServerClient::send_MediaAccessCallback_Cancel(const  ::thrift_codegen::RObject& mediaAccessCallback)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("MediaAccessCallback_Cancel", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_MediaAccessCallback_Cancel_pargs args;
+  args.mediaAccessCallback = &mediaAccessCallback;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -24012,6 +24323,117 @@ void ServerProcessor::process_Registration_Dispose(int32_t, ::apache::thrift::pr
 
   if (this->eventHandler_.get() != nullptr) {
     this->eventHandler_->asyncComplete(ctx, "Server.Registration_Dispose");
+  }
+
+  return;
+}
+
+void ServerProcessor::process_MediaAccessCallback_Dispose(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("Server.MediaAccessCallback_Dispose", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.MediaAccessCallback_Dispose");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "Server.MediaAccessCallback_Dispose");
+  }
+
+  Server_MediaAccessCallback_Dispose_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "Server.MediaAccessCallback_Dispose", bytes);
+  }
+
+  try {
+    iface_->MediaAccessCallback_Dispose(args.mediaAccessCallback);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "Server.MediaAccessCallback_Dispose");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "Server.MediaAccessCallback_Dispose");
+  }
+
+  return;
+}
+
+void ServerProcessor::process_MediaAccessCallback_Continue(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("Server.MediaAccessCallback_Continue", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.MediaAccessCallback_Continue");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "Server.MediaAccessCallback_Continue");
+  }
+
+  Server_MediaAccessCallback_Continue_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "Server.MediaAccessCallback_Continue", bytes);
+  }
+
+  try {
+    iface_->MediaAccessCallback_Continue(args.mediaAccessCallback, args.allowed_permissions);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "Server.MediaAccessCallback_Continue");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "Server.MediaAccessCallback_Continue");
+  }
+
+  return;
+}
+
+void ServerProcessor::process_MediaAccessCallback_Cancel(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("Server.MediaAccessCallback_Cancel", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.MediaAccessCallback_Cancel");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "Server.MediaAccessCallback_Cancel");
+  }
+
+  Server_MediaAccessCallback_Cancel_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "Server.MediaAccessCallback_Cancel", bytes);
+  }
+
+  try {
+    iface_->MediaAccessCallback_Cancel(args.mediaAccessCallback);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "Server.MediaAccessCallback_Cancel");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "Server.MediaAccessCallback_Cancel");
   }
 
   return;
@@ -29571,6 +29993,73 @@ void ServerConcurrentClient::send_Registration_Dispose(const  ::thrift_codegen::
 
   Server_Registration_Dispose_pargs args;
   args.registration = &registration;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
+void ServerConcurrentClient::MediaAccessCallback_Dispose(const  ::thrift_codegen::RObject& mediaAccessCallback)
+{
+  send_MediaAccessCallback_Dispose(mediaAccessCallback);
+}
+
+void ServerConcurrentClient::send_MediaAccessCallback_Dispose(const  ::thrift_codegen::RObject& mediaAccessCallback)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("MediaAccessCallback_Dispose", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_MediaAccessCallback_Dispose_pargs args;
+  args.mediaAccessCallback = &mediaAccessCallback;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
+void ServerConcurrentClient::MediaAccessCallback_Continue(const  ::thrift_codegen::RObject& mediaAccessCallback, const int32_t allowed_permissions)
+{
+  send_MediaAccessCallback_Continue(mediaAccessCallback, allowed_permissions);
+}
+
+void ServerConcurrentClient::send_MediaAccessCallback_Continue(const  ::thrift_codegen::RObject& mediaAccessCallback, const int32_t allowed_permissions)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("MediaAccessCallback_Continue", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_MediaAccessCallback_Continue_pargs args;
+  args.mediaAccessCallback = &mediaAccessCallback;
+  args.allowed_permissions = &allowed_permissions;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
+void ServerConcurrentClient::MediaAccessCallback_Cancel(const  ::thrift_codegen::RObject& mediaAccessCallback)
+{
+  send_MediaAccessCallback_Cancel(mediaAccessCallback);
+}
+
+void ServerConcurrentClient::send_MediaAccessCallback_Cancel(const  ::thrift_codegen::RObject& mediaAccessCallback)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("MediaAccessCallback_Cancel", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_MediaAccessCallback_Cancel_pargs args;
+  args.mediaAccessCallback = &mediaAccessCallback;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();

@@ -224,4 +224,9 @@ service ClientHandlers {
     oneway void DevToolsMessageObserver_Dispose(1:i32 observer),
     oneway void DevToolsMessageObserver_OnDevToolsMethodResult(1:i32 observer, 2:i32 bid, 3:i32 messageId, 4:bool success, 5:string result),
     oneway void DevToolsMessageObserver_OnDevToolsEvent(1:i32 observer, 2:i32 bid, 3:string method, 4:string parameters),
+
+    //
+    // CefPermissionHandler
+    //
+    bool PermissionHandler_OnRequestMediaAccessPermission(1:i32 bid, 2:shared.RObject frame, 3:string requesting_origin, 4:i32 requested_permissions, 5:shared.RObject mediaAccessCallback),
 }
