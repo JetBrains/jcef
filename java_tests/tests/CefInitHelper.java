@@ -15,8 +15,10 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 public class CefInitHelper {
-    private static final boolean WAIT_FOR_CEFAPP_INIT = Utils.getBoolean("WAIT_FOR_CEFAPP_INIT", true);
-    private static final boolean WAIT_FOR_CEFAPP_SHUTDOWN = Utils.getBoolean("WAIT_FOR_CEFAPP_SHUTDOWN", true);
+    private static final boolean WAIT_FOR_CEFAPP_INIT = Utils.getBoolean("JCEF_TESTS_WAIT_FOR_CEFAPP_INIT", true);
+    private static final boolean WAIT_FOR_CEFAPP_SHUTDOWN = Utils.getBoolean("JCEF_TESTS_WAIT_FOR_CEFAPP_SHUTDOWN", true);
+    private static final boolean EXIT_AFTER_CEFAPP_SHUTDOWN = Utils.getBoolean("JCEF_TESTS_EXIT_AFTER_CEFAPP_SHUTDOWN", true);
+    private static final int EXIT_WAIT_MS = Utils.getInteger("JCEF_TESTS_EXIT_WAIT_MS", 2000);
     private static final int TIMEOUT = 5;
     private static CountDownLatch ourStateTerminated = new CountDownLatch(1);
 
@@ -83,8 +85,20 @@ public class CefInitHelper {
                 if (state == CefApp.CefAppState.TERMINATED) {
                     // Signal completion of CEF shutdown.
                     ourStateTerminated.countDown();
-                    CefLog.Info("Shutdown test app because native CEF part is terminated.");
-                    System.exit(0);
+                    CefLog.Info("CEF is terminated.");
+                    if (EXIT_AFTER_CEFAPP_SHUTDOWN) {
+                        CefLog.Info("Schedule System.exit(0).");
+                        Thread t = new Thread(() -> {
+                            try {
+                                Thread.sleep(EXIT_WAIT_MS);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            System.exit(0);
+                        });
+                        t.setDaemon(true);
+                        t.start();
+                    }
                 }
             }
             @Override
