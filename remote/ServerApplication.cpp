@@ -1,6 +1,8 @@
 #include "ServerApplication.h"
 
 #include <thread>
+#include <mutex>
+#include <condition_variable>
 
 #include "include/base/cef_callback.h"
 #include "include/wrapper/cef_closure_task.h"
@@ -138,9 +140,34 @@ void MyServerProcessorFactory::forEach(std::function<void(const MyServerProcesso
     visitor(h);
 }
 
+struct cancelled_error {};
+
+class CancellationPoint {
+ public:
+  CancellationPoint() : myStop(false) {}
+
+  void cancel() {
+    std::unique_lock<std::mutex> lock(myMutex);
+    myStop = true;
+    myCond.notify_all();
+  }
+
+  template <typename P>
+  void wait(const P& period) {
+    std::unique_lock<std::mutex> lock(myMutex);
+    if (myStop || myCond.wait_for(lock, period) == std::cv_status::no_timeout)
+      throw cancelled_error();
+  }
+
+ private:
+  bool myStop;
+  std::mutex myMutex;
+  std::condition_variable myCond;
+};
+
 ServerApplication ServerApplication::ourInstance;
 
-ServerApplication::ServerApplication() : myFactory(new MyServerProcessorFactory) {}
+ServerApplication::ServerApplication() : myFactory(new MyServerProcessorFactory), myStopWatcher(std::make_shared<CancellationPoint>()) {}
 
 ServerApplication::~ServerApplication() {
   myAppHandler->Release();
@@ -151,6 +178,8 @@ namespace CefUtils {
   bool loadCefFramework();
 }
 #endif
+
+void ServerApplication::stopWatcher() { myStopWatcher->cancel(); }
 
 void ServerApplication::init(int argc, char* argv[]) {
   myStartTime = Clock::now();
@@ -196,7 +225,14 @@ void ServerApplication::init(int argc, char* argv[]) {
 
     Clock::time_point lastDebugLog = Clock::now() - ourTimeoutDebugLogMs;
 
-    while (!myStopWatcher) {
+    while (true) {
+      try {
+        myStopWatcher->wait(std::chrono::milliseconds(timeoutWatchMs));
+      } catch (const cancelled_error&) {
+        Log::debug("Watcher thread was stopped.");
+        return 0;
+      }
+
       std::this_thread::sleep_for(timeoutWatchMs);
       const std::chrono::time_point now(Clock::now());
       myFactory->forEach([&](const MyServerProcessor* p){
