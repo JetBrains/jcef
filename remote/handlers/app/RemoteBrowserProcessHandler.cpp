@@ -10,10 +10,6 @@
 
 RemoteBrowserProcessHandler::RemoteBrowserProcessHandler() : myService(nullptr), myCreationTime(Clock::now()) {}
 
-RemoteBrowserProcessHandler::~RemoteBrowserProcessHandler() {
-  MessageRoutersManager::ClearAllConfigs();
-}
-
 void RemoteBrowserProcessHandler::setService(std::shared_ptr<RpcExecutor> service) {
   bool needInvokeCallback = false;
   {

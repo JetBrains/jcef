@@ -12,7 +12,6 @@ class RpcExecutor;
 class RemoteBrowserProcessHandler : public CefBrowserProcessHandler {
  public:
   explicit RemoteBrowserProcessHandler();
-  ~RemoteBrowserProcessHandler() override;
 
   // NOTES: for the current JBCefApp implementation we needs only one this method.
   void OnContextInitialized() override;
