@@ -116,7 +116,6 @@ namespace CefUtils {
 #endif
 
     void runCefLoop() {
-        setThreadName("CefMain");
         CefRunMessageLoop();
         Log::debug("Cef going shutdown.");
         std::this_thread::sleep_for(std::chrono::milliseconds(100)); // sleep to prevent shutdown_checker::AssertNotShutdown() inside life_span_handler_on_before_close

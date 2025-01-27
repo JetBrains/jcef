@@ -62,7 +62,7 @@ class ServerApplication {
 
   std::shared_ptr<apache::thrift::TProcessorFactory> getProcessorFactory() const;
   void onServerHandlerClosed(const ServerHandler & handler);
-  void onClientDestroyed();
+  void onRemoteClientHandlerDestroyed();
 
   RemoteAppHandler* getCefAppHandler() { return myAppHandler; }
   const CommandLineArgs& getCmdArgs() const { return myCmdArgs; }

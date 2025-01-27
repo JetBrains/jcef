@@ -199,7 +199,7 @@ void ClientsManager::ClientsStorage::erase(int bid) {
     Lock lock(myMutex);
     myBid2Client.erase(bid);
   }
-  ServerApplication::instance().onClientDestroyed();
+  ServerApplication::instance().onRemoteClientHandlerDestroyed();
 }
 
 int ClientsManager::ClientsStorage::findRemoteBrowser(CefRefPtr<CefBrowser> browser) {
