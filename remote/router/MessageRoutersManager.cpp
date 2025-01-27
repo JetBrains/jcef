@@ -100,12 +100,6 @@ CefRefPtr<CefListValue> MessageRoutersManager::GetMessageRouterConfigs() {
   return router_configs;
 }
 
-void MessageRoutersManager::ClearAllConfigs() {
-  TRACE();
-  base::AutoLock lock_scope(router_cfg_lock_);
-  router_cfg_.clear();
-}
-
 RemoteMessageRouter * MessageRoutersManager::CreateRemoteMessageRouter(std::shared_ptr<ServerHandlerContext> ctx, const std::string& query, const std::string& cancel) {
   TRACE();
   CefMessageRouterConfig config;

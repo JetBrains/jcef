@@ -34,7 +34,6 @@ class MessageRoutersManager {
                                 CefRefPtr<CefProcessMessage> message);
 
   static CefRefPtr<CefListValue> GetMessageRouterConfigs();
-  static void ClearAllConfigs();
 
  private:
   std::set<RemoteMessageRouter*> myRouters;
