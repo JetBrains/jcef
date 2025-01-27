@@ -363,7 +363,7 @@ void ServerApplication::processShuttingDownIfNecessary() {
   Log::debug("Server state: %s", getStateDesc().c_str());
 }
 
-void ServerApplication::onClientDestroyed() {
+void ServerApplication::onRemoteClientHandlerDestroyed() {
   processShuttingDownIfNecessary();
 }
 
