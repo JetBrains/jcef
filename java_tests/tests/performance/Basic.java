@@ -108,9 +108,9 @@ public class Basic {
             CefInitHelper.shutdonwCef();
             if (CefApp.isRemoteEnabled()) {
                 // Ensure that server process is stopped
-                boolean stopped = NativeServerManager.waitForStopped(ThriftTransport.ourDefaultServer, 1000);
+                boolean stopped = NativeServerManager.waitForStopped(ThriftTransport.ourDefaultServer, 15000);
                 if (!stopped)
-                    CefLog.Error("Can't stop server in %d ms.", 1000);
+                    CefLog.Error("Can't stop server in %d ms.", 15000);
             }
         }
     }

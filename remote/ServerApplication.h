@@ -13,6 +13,7 @@ class ServerHandler;
 class MyServerProcessorFactory;
 class ServerHandlerContext;
 class RemoteAppHandler;
+class CancellationPoint;
 
 class CommandLineArgs {
  public:
@@ -67,7 +68,7 @@ class ServerApplication {
   const CommandLineArgs& getCmdArgs() const { return myCmdArgs; }
   std::string getRootPath() const;
   bool isDefaultRoot() const;
-  void stopWatcher() { myStopWatcher = true; }
+  void stopWatcher();
 
   static ServerApplication& instance() { return ourInstance; }
 
@@ -84,7 +85,7 @@ class ServerApplication {
   std::chrono::high_resolution_clock::time_point myStartTime;
   std::chrono::high_resolution_clock::time_point myLastStateChange;
   std::thread myThreadWatcher;
-  bool myStopWatcher = false;
+  std::shared_ptr<CancellationPoint> myStopWatcher;
 
   void processShuttingDownIfNecessary();
   void shutdownHard();

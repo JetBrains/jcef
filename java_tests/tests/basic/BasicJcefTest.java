@@ -172,7 +172,7 @@ public class BasicJcefTest {
                     test.closeTransport();
                 }
 
-                boolean stopped = NativeServerManager.waitForStopped(thriftServer, 5000);
+                boolean stopped = NativeServerManager.waitForStopped(thriftServer, WAIT_TIMEOUT_MS);
                 if (!stopped) {
                     NativeServerManager.isRunning(thriftServer, true); // just for debug logging
                     throw new AssertionError("Server wasn't stopped after last master-client disconnected.");
@@ -251,7 +251,7 @@ public class BasicJcefTest {
 
         for (CefServer cs: servers) {
             cs.stop();
-            boolean stopped = NativeServerManager.waitForStopped(cs.getThriftServer(), 5000);
+            boolean stopped = NativeServerManager.waitForStopped(cs.getThriftServer(), WAIT_TIMEOUT_MS);
             if (!stopped) {
                 NativeServerManager.isRunning(cs.getThriftServer(), true); // just for debug logging
                 throw new AssertionError("Server wasn't stopped after last master-client disconnected.");
@@ -584,8 +584,8 @@ public class BasicJcefTest {
         System.setProperty("JCEF_TESTS_LOG_LEVEL", "info");
         System.setProperty("JCEF_TESTS_EXTRA_ARGS", "--enable-logging=stderr;--vmodule=statistics_recorder*=0;--v=2");
 
-        //new BasicJcefTest().testServerManagerPipe();
-        //new BasicJcefTest().testServerManagerTcp();
+        new BasicJcefTest().testServerManagerPipe();
+        new BasicJcefTest().testServerManagerTcp();
         //new BasicJcefTest().testMultipleInstances();
         new BasicJcefTest().testBrowserCreation();
     }
