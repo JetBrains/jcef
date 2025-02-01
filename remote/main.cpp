@@ -88,6 +88,63 @@ void waitForDebug() {
 #endif
 #endif
 
+#if defined(OS_WIN)
+
+#include <signal.h>
+#include <dbghelp.h>
+
+void printStack(std::stringstream & os) {
+  unsigned int   i;
+  void         * stack[ 100 ];
+  unsigned short frames;
+  SYMBOL_INFO  * symbol;
+  HANDLE         process;
+
+  process = GetCurrentProcess();
+
+  SymInitialize( process, NULL, TRUE );
+
+  frames               = CaptureStackBackTrace( 0, 100, stack, NULL );
+  symbol               = ( SYMBOL_INFO * )calloc( sizeof( SYMBOL_INFO ) + 256 * sizeof( char ), 1 );
+  symbol->MaxNameLen   = 255;
+  symbol->SizeOfStruct = sizeof( SYMBOL_INFO );
+
+  for(i = 0; i < frames; i++) {
+    SymFromAddr( process, ( DWORD64 )( stack[ i ] ), 0, symbol );
+    os << frames - i - 1 << ": " << symbol->Name << " - " << string_format("0x%0llX", symbol->Address) << std::endl;
+  }
+
+  free( symbol );
+}
+
+void signalHandler(int signum) {
+  Log::error("Received SIGNAL %d.", signum);
+  std::stringstream os;
+  printStack(os);
+  Log::error("Stacktrace:\n%s", os.str().c_str());
+  std::exit(signum);
+}
+
+#else // OS_WIN
+
+#include <execinfo.h>
+#include <signal.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+void signalHandler(int signum) {
+  Log::error("Received SIGNAL %d.", signum);
+  void *array[64];
+  size_t size = backtrace(array, 64); // get void*'s for all entries on the stack
+
+  // print out all the frames to stderr
+  backtrace_symbols_fd(array, size, STDERR_FILENO);
+  Log::error("Stacktrace (size %d) was printed to stderr.", size);
+  std::exit(signum);
+}
+
+#endif // OS_WIN
+
 int main(int argc, char* argv[]) {
   const boost::posix_time::ptime t0 =  boost::posix_time::microsec_clock::local_time();
 #if defined(OS_LINUX)
@@ -122,6 +179,11 @@ int main(int argc, char* argv[]) {
 #elif OS_MAC
   initMacApplication();
 #endif
+
+  if (getBoolEnv("CEF_SERVER_CATCH_SIGNALS")) {
+    std::cout << "Install SIGNAL handlers." << std::endl;
+    signal(SIGSEGV, signalHandler);
+  }
 
   const boost::posix_time::ptime t1 =  boost::posix_time::microsec_clock::local_time();
   fprintf(stdout, "Starting cer server. Pre-initialize spent %d ms.\n", (int)(t1 - t0).total_milliseconds());

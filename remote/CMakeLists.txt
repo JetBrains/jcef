@@ -224,7 +224,7 @@ target_include_directories(${EXECUTABLE_NAME} PRIVATE ${CEF_INCLUDE_PATH})
 
 if (OS_WINDOWS)
     add_logical_target("libcef_lib" "${CEF_LIB_DEBUG}" "${CEF_LIB_RELEASE}")
-    target_link_libraries(${EXECUTABLE_NAME} libcef_lib)
+    target_link_libraries(${EXECUTABLE_NAME} libcef_lib "Dbghelp.dll")
 endif ()
 
 target_link_libraries(${EXECUTABLE_NAME} ${CEF_STANDARD_LIBS} thrift_codegen ${Boost_FILESYSTEM_LIBRARY})
