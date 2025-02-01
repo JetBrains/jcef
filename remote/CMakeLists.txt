@@ -204,6 +204,7 @@ if (OS_WINDOWS)
         windows/PipeTransportServer.cpp
         windows/PipeTransportServer.h
         ../native/critical_wait_win.cpp
+        cef_server.rc
     )
     add_executable(${EXECUTABLE_NAME} ${SERVER_SOURCES})
     target_link_options(${EXECUTABLE_NAME} PRIVATE "/SUBSYSTEM:console")
