@@ -34,7 +34,7 @@ class MyBinaryProtocol : public TBinaryProtocolT<TTransport> {
 };
 
 RpcExecutor::RpcExecutor(int port) {
-  myTransport = std::make_shared<TBufferedTransport>(std::make_shared<TSocket>("localhost", port));
+  myTransport = std::make_shared<TBufferedTransport>(std::make_shared<TSocket>("127.0.0.1", port));
   myProtocol = std::make_shared<MyBinaryProtocol>(myTransport);
   myService = std::make_shared<ClientHandlersClient>(myProtocol);
 

@@ -149,7 +149,7 @@ int main(int argc, char* argv[]) {
   std::shared_ptr<TServerTransport> serverTransport;
   if (cmdArgs.useTcp()) {
     Log::info("TCP transport will be used, port=%d", cmdArgs.getPort());
-    serverTransport = std::make_shared<TServerSocket>(cmdArgs.getPort());
+    serverTransport = std::make_shared<TServerSocket>("127.0.0.1", cmdArgs.getPort());
   } else {
     std::string pipePath = cmdArgs.getPipe();
     if (pipePath.empty()) {

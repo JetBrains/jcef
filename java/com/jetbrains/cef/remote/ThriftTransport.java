@@ -6,10 +6,7 @@ import org.cef.misc.CefLog;
 import org.cef.misc.Utils;
 
 import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.StandardProtocolFamily;
-import java.net.UnixDomainSocketAddress;
+import java.net.*;
 import java.nio.channels.Channels;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
@@ -181,7 +178,7 @@ public class ThriftTransport {
             if (exclude != null && exclude.contains(port))
                 continue;
             try {
-                ServerSocket ss = new ServerSocket(port);
+                ServerSocket ss = new ServerSocket(port, 0, InetAddress.getByName(null));
                 ss.close();
                 return port;
             } catch (IOException e) {}
@@ -191,7 +188,7 @@ public class ThriftTransport {
 
     public TServerTransport createServerTransport() throws Exception {
         if (isTcp())
-            return new TServerSocket(myPort);
+            return new TServerSocket(new InetSocketAddress(InetAddress.getByName(null), myPort));
 
         if (OS.isWindows()) {
             WindowsPipeServerSocket pipeSocket = new WindowsPipeServerSocket(myPipe);
