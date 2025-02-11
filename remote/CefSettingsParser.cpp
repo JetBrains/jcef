@@ -1,6 +1,7 @@
 #include "CefSettingsParser.h"
 
 #include <fstream>
+#include <algorithm>
 #include "Utils.h"
 #include "log/Log.h"
 
@@ -41,6 +42,12 @@ bool parseSettingItem(CefSettings & out, const std::string & settingLine) {
   } else if (name.find("log_file") != name.npos) {
     CefString(&out.log_file) = val;
   } else if (name.find("log_severity") != name.npos) {
+    std::transform(val.begin(), val.end(), val.begin(),
+                   [](unsigned char in){
+                     if (in <= 'Z' && in >= 'A')
+                       return in - ('Z' - 'z');
+                     return (int)in;
+                   });
     if (val.find("verb") != val.npos)
       out.log_severity = LOGSEVERITY_VERBOSE;
     else if (val.find("debug") != val.npos)
@@ -114,7 +121,7 @@ void parseSettings(const std::string & paramsFilePath, std::vector<std::string> 
     std::string line;
     while (std::getline(infile, line)) {
       //Log::trace("\tprocess settings line: %s", line.c_str());
-      if (line.empty())
+      if (line.empty() || line[0] == '#')
         continue;
 
       if (line.find("[COMMAND_LINE]:") != line.npos) {
