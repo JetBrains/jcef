@@ -23,12 +23,14 @@
 #include <X11/Xlib.h>
 #endif
 
+#include <regex>
+
 using namespace apache::thrift;
 using namespace thrift_codegen;
 
 namespace {
 bool TRACE_HANDLERS_LIFESPAN = false;
-bool TRACE_THRIFT_MESSAGES = false;
+std::regex * TRACE_THRIFT_MESSAGES_REGEXP = nullptr;
 
 std::chrono::milliseconds ourTimeoutDebugLogMs(30 * 1000);
 std::chrono::milliseconds ourTimeoutExecutionMs(5 * 1000);
@@ -56,8 +58,11 @@ class MyServerProcessor : public ServerProcessor {
     myStartDispatch = Clock::now();
     myFuncName = fname;
 
-    if (TRACE_THRIFT_MESSAGES)
-      Log::trace("\t process %s", fname.c_str());
+    if (TRACE_THRIFT_MESSAGES_REGEXP != nullptr) {
+      std::smatch m;
+      if(std::regex_match(fname, m, *TRACE_THRIFT_MESSAGES_REGEXP))
+        Log::trace("\t process %s", fname.c_str());
+    }
 
     const bool dispatchResult = dispatchCall(in.get(), out.get(), fname, seqid, connectionContext);
     myIsProcessing = false;
@@ -216,7 +221,10 @@ void ServerApplication::init(int argc, char* argv[]) {
 
   // Read constants from env
   TRACE_HANDLERS_LIFESPAN = getBoolEnv("CEF_SERVER_TRACE_HANDLERS_LIFESPAN");
-  TRACE_THRIFT_MESSAGES = getBoolEnv("CEF_SERVER_TRACE_MESSAGES");
+  const char* envTraceMessagesRegexp = getenv("CEF_SERVER_TRACE_THRIFT_MESSAGES_REGEXP");
+  if (envTraceMessagesRegexp != nullptr)
+    TRACE_THRIFT_MESSAGES_REGEXP = new std::regex(envTraceMessagesRegexp);
+
   ourTimeoutDebugLogMs = std::chrono::milliseconds(getLongEnv("CEF_SERVER_TimeoutStacktraceLogMs", ourTimeoutDebugLogMs.count()));
   ourTimeoutExecutionMs = std::chrono::milliseconds(getLongEnv("CEF_SERVER_ourTimeoutExecutionMs", ourTimeoutExecutionMs.count()));
   ourTimeoutShuttingDownMs = std::chrono::milliseconds(getLongEnv("CEF_SERVER_ourTimeoutShuttingDownMs", ourTimeoutShuttingDownMs.count()));
