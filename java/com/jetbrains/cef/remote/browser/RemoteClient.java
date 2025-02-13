@@ -44,7 +44,7 @@ public class RemoteClient {
     private int myHandlersMask = 0;
 
     // MessageRouter support
-    private Vector<RemoteMessageRouterImpl> msgRouters = new Vector<>();
+    private Vector<RemoteMessageRouter> msgRouters = new Vector<>();
 
     public RemoteClient(RpcContext rpcContext, Map<Integer, RemoteBrowser> bid2browser) {
         myCid = ourCounter.getAndIncrement();
@@ -345,7 +345,7 @@ public class RemoteClient {
         // with java handlers (internally will remote wrappers over java objects). CefMessageRouter is used only to
         // add/remove handlers. So we can't create remote wrapper over "java" CefMessageRouter here.
         RemoteMessageRouter router = (RemoteMessageRouter)messageRouter;
-        msgRouters.add(router.getImpl());
+        msgRouters.add(router);
         myBrowsers.forEach(rb -> {
             final int bid = rb != null ? rb.getBid() : -1;
             if (bid >= 0)
@@ -360,7 +360,7 @@ public class RemoteClient {
             if (bid >= 0)
                 router.getImpl().removeFromBrowser(bid);
         });
-        msgRouters.remove(router.getImpl());
+        msgRouters.remove(router);
     }
 
     public void dispose() {
