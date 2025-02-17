@@ -346,20 +346,20 @@ public class RemoteClient {
         // add/remove handlers. So we can't create remote wrapper over "java" CefMessageRouter here.
         RemoteMessageRouter router = (RemoteMessageRouter)messageRouter;
         msgRouters.add(router);
-        myBrowsers.forEach(rb -> {
-            final int bid = rb != null ? rb.getBid() : -1;
-            if (bid >= 0)
-                router.getImpl().addToBrowser(bid);
-        });
+
+        List<Integer> bids = new ArrayList<>();
+        myBrowsers.forEach(rb -> {if (rb != null) bids.add(rb.getBid());});
+
+        router.addToBrowsers(bids);
     }
 
     public void removeMessageRouter(CefMessageRouter messageRouter) {
         RemoteMessageRouter router = (RemoteMessageRouter)messageRouter;
-        myBrowsers.forEach(rb -> {
-            final int bid = rb != null ? rb.getBid() : -1;
-            if (bid >= 0)
-                router.getImpl().removeFromBrowser(bid);
-        });
+
+        List<Integer> bids = new ArrayList<>();
+        myBrowsers.forEach(rb -> {if (rb != null) bids.add(rb.getBid());});
+
+        router.removeFromBrowsers(bids);
         msgRouters.remove(router);
     }
 

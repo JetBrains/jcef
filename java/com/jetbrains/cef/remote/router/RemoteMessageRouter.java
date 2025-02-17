@@ -74,4 +74,28 @@ public class RemoteMessageRouter extends CefMessageRouter {
     public RemoteMessageRouterImpl getImpl() {
         return myImpl;
     }
+
+    public void addToBrowsers(List<Integer> bids) {
+        if (bids == null || bids.isEmpty())
+            return;
+
+        execute(()->{
+            for (int bid: bids) {
+                if (bid >= 0)
+                    myImpl.addToBrowser(bid);
+            }
+        }, "addToBrowsers");
+    }
+
+    public void removeFromBrowsers(List<Integer> bids) {
+        if (bids == null || bids.isEmpty())
+            return;
+
+        execute(()->{
+            for (int bid: bids) {
+                if (bid >= 0)
+                    myImpl.removeFromBrowser(bid);
+            }
+        }, "removeFromBrowsers");
+    }
 }
