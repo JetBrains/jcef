@@ -94,27 +94,28 @@ void waitForDebug() {
 #include <dbghelp.h>
 
 void printStack(std::stringstream & os) {
-  unsigned int   i;
-  void         * stack[ 100 ];
-  unsigned short frames;
-  SYMBOL_INFO  * symbol;
-  HANDLE         process;
-
-  process = GetCurrentProcess();
-
-  SymInitialize( process, NULL, TRUE );
-
-  frames               = CaptureStackBackTrace( 0, 100, stack, NULL );
-  symbol               = ( SYMBOL_INFO * )calloc( sizeof( SYMBOL_INFO ) + 256 * sizeof( char ), 1 );
-  symbol->MaxNameLen   = 255;
-  symbol->SizeOfStruct = sizeof( SYMBOL_INFO );
-
-  for(i = 0; i < frames; i++) {
-    SymFromAddr( process, ( DWORD64 )( stack[ i ] ), 0, symbol );
-    os << frames - i - 1 << ": " << symbol->Name << " - " << string_format("0x%0llX", symbol->Address) << std::endl;
-  }
-
-  free( symbol );
+// TODO: make compilable with Visual Studio 2019 OR increase compiler version
+//  unsigned int   i;
+//  void         * stack[ 100 ];
+//  unsigned short frames;
+//  SYMBOL_INFO  * symbol;
+//  HANDLE         process;
+//
+//  process = GetCurrentProcess();
+//
+//  SymInitialize( process, NULL, TRUE );
+//
+//  frames               = CaptureStackBackTrace( 0, 100, stack, NULL );
+//  symbol               = ( SYMBOL_INFO * )calloc( sizeof( SYMBOL_INFO ) + 256 * sizeof( char ), 1 );
+//  symbol->MaxNameLen   = 255;
+//  symbol->SizeOfStruct = sizeof( SYMBOL_INFO );
+//
+//  for(i = 0; i < frames; i++) {
+//    SymFromAddr( process, ( DWORD64 )( stack[ i ] ), 0, symbol );
+//    os << frames - i - 1 << ": " << symbol->Name << " - " << string_format("0x%0llX", symbol->Address) << std::endl;
+//  }
+//
+//  free( symbol );
 }
 
 void signalHandler(int signum) {
