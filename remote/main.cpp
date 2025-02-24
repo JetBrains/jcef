@@ -1,6 +1,8 @@
 #ifdef WIN32
 #include <windows.h>
 #include "windows/PipeTransportServer.h"
+#include <thread>
+#include <TlHelp32.h>
 #endif //WIN32
 
 #include <thrift/server/TThreadedServer.h>
@@ -88,6 +90,30 @@ void waitForDebug() {
 #endif
 #endif
 
+#if defined(OS_WIN)
+
+DWORD GetParentProcessPid() {
+  HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+  if (hSnapshot == INVALID_HANDLE_VALUE)
+    return 0;
+
+  PROCESSENTRY32 processEntry = {};
+  processEntry.dwSize = sizeof(PROCESSENTRY32);
+
+  if (Process32First(hSnapshot, &processEntry)) {
+    DWORD CurrentProcessId = GetCurrentProcessId();
+    do {
+      if (processEntry.th32ProcessID == CurrentProcessId)
+        break;
+    } while (Process32Next(hSnapshot, &processEntry));
+  }
+
+  CloseHandle(hSnapshot);
+  return processEntry.th32ParentProcessID;
+}
+
+#endif // OS_WIN
+
 int main(int argc, char* argv[]) {
   const boost::posix_time::ptime t0 =  boost::posix_time::microsec_clock::local_time();
 #if defined(OS_LINUX)
@@ -107,16 +133,31 @@ int main(int argc, char* argv[]) {
     return exit_code;
   }
 #elif WIN32
+  // Execute subprocess (if necessary)
   CefRefPtr<CefApp> cefApp = nullptr;
   CefRefPtr<CefCommandLine> command_line = CefCommandLine::CreateCommandLine();
   command_line->InitFromString(::GetCommandLineW());
   const std::string& process_type = command_line->GetSwitchValue("type");
+  const bool isMainBrowserProcess = process_type.empty();
+  if (!isMainBrowserProcess) {
+    // Initialize watchdog thread.
+    DWORD parentProcessPid = GetParentProcessPid();
+    HANDLE hParentProcess = OpenProcess(SYNCHRONIZE, FALSE, parentProcessPid);
+
+    std::thread([hParentProcess]() {
+      WaitForSingleObject(hParentProcess, INFINITE);
+      ExitProcess(0);
+    }).detach();
+  }
+
   if (process_type == "renderer")
     cefApp = new HelperApp();
 
   CefMainArgs main_args(GetModuleHandle(0));
   const int result = CefExecuteProcess(main_args, cefApp, nullptr);
   if (result >= 0) {
+    // If CefExecuteProcess called for the browser process (identified by no "type" command-line value)
+    // it will return immediately with a value of -1.
     return result;
   }
 #elif OS_MAC
