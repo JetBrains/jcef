@@ -43,7 +43,7 @@ class ClientHandlersIf {
   virtual void DisplayHandler_OnTitleChange(const int32_t bid, const std::string& title) = 0;
   virtual bool DisplayHandler_OnTooltip(const int32_t bid, const std::string& text) = 0;
   virtual void DisplayHandler_OnStatusMessage(const int32_t bid, const std::string& value) = 0;
-  virtual bool DisplayHandler_OnConsoleMessage(const int32_t bid, const int32_t level, const std::string& message, const std::string& source, const int32_t line) = 0;
+  virtual bool DisplayHandler_OnConsoleMessage(const int32_t bid, const std::string& level, const std::string& message, const std::string& source, const int32_t line) = 0;
   virtual bool KeyboardHandler_OnPreKeyEvent(const int32_t bid, const  ::thrift_codegen::KeyEvent& event) = 0;
   virtual bool KeyboardHandler_OnKeyEvent(const int32_t bid, const  ::thrift_codegen::KeyEvent& event) = 0;
   virtual void FocusHandler_OnTakeFocus(const int32_t bid, const bool next) = 0;
@@ -186,7 +186,7 @@ class ClientHandlersNull : virtual public ClientHandlersIf {
   void DisplayHandler_OnStatusMessage(const int32_t /* bid */, const std::string& /* value */) override {
     return;
   }
-  bool DisplayHandler_OnConsoleMessage(const int32_t /* bid */, const int32_t /* level */, const std::string& /* message */, const std::string& /* source */, const int32_t /* line */) override {
+  bool DisplayHandler_OnConsoleMessage(const int32_t /* bid */, const std::string& /* level */, const std::string& /* message */, const std::string& /* source */, const int32_t /* line */) override {
     bool _return = false;
     return _return;
   }
@@ -2220,7 +2220,7 @@ class ClientHandlers_DisplayHandler_OnConsoleMessage_args {
   ClientHandlers_DisplayHandler_OnConsoleMessage_args& operator=(const ClientHandlers_DisplayHandler_OnConsoleMessage_args&);
   ClientHandlers_DisplayHandler_OnConsoleMessage_args() noexcept
                                                       : bid(0),
-                                                        level(0),
+                                                        level(),
                                                         message(),
                                                         source(),
                                                         line(0) {
@@ -2228,7 +2228,7 @@ class ClientHandlers_DisplayHandler_OnConsoleMessage_args {
 
   virtual ~ClientHandlers_DisplayHandler_OnConsoleMessage_args() noexcept;
   int32_t bid;
-  int32_t level;
+  std::string level;
   std::string message;
   std::string source;
   int32_t line;
@@ -2237,7 +2237,7 @@ class ClientHandlers_DisplayHandler_OnConsoleMessage_args {
 
   void __set_bid(const int32_t val);
 
-  void __set_level(const int32_t val);
+  void __set_level(const std::string& val);
 
   void __set_message(const std::string& val);
 
@@ -2277,7 +2277,7 @@ class ClientHandlers_DisplayHandler_OnConsoleMessage_pargs {
 
   virtual ~ClientHandlers_DisplayHandler_OnConsoleMessage_pargs() noexcept;
   const int32_t* bid;
-  const int32_t* level;
+  const std::string* level;
   const std::string* message;
   const std::string* source;
   const int32_t* line;
@@ -7337,8 +7337,8 @@ class ClientHandlersClient : virtual public ClientHandlersIf {
   bool recv_DisplayHandler_OnTooltip();
   void DisplayHandler_OnStatusMessage(const int32_t bid, const std::string& value) override;
   void send_DisplayHandler_OnStatusMessage(const int32_t bid, const std::string& value);
-  bool DisplayHandler_OnConsoleMessage(const int32_t bid, const int32_t level, const std::string& message, const std::string& source, const int32_t line) override;
-  void send_DisplayHandler_OnConsoleMessage(const int32_t bid, const int32_t level, const std::string& message, const std::string& source, const int32_t line);
+  bool DisplayHandler_OnConsoleMessage(const int32_t bid, const std::string& level, const std::string& message, const std::string& source, const int32_t line) override;
+  void send_DisplayHandler_OnConsoleMessage(const int32_t bid, const std::string& level, const std::string& message, const std::string& source, const int32_t line);
   bool recv_DisplayHandler_OnConsoleMessage();
   bool KeyboardHandler_OnPreKeyEvent(const int32_t bid, const  ::thrift_codegen::KeyEvent& event) override;
   void send_KeyboardHandler_OnPreKeyEvent(const int32_t bid, const  ::thrift_codegen::KeyEvent& event);
@@ -7843,7 +7843,7 @@ class ClientHandlersMultiface : virtual public ClientHandlersIf {
     ifaces_[i]->DisplayHandler_OnStatusMessage(bid, value);
   }
 
-  bool DisplayHandler_OnConsoleMessage(const int32_t bid, const int32_t level, const std::string& message, const std::string& source, const int32_t line) override {
+  bool DisplayHandler_OnConsoleMessage(const int32_t bid, const std::string& level, const std::string& message, const std::string& source, const int32_t line) override {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
@@ -8370,8 +8370,8 @@ class ClientHandlersConcurrentClient : virtual public ClientHandlersIf {
   bool recv_DisplayHandler_OnTooltip(const int32_t seqid);
   void DisplayHandler_OnStatusMessage(const int32_t bid, const std::string& value) override;
   void send_DisplayHandler_OnStatusMessage(const int32_t bid, const std::string& value);
-  bool DisplayHandler_OnConsoleMessage(const int32_t bid, const int32_t level, const std::string& message, const std::string& source, const int32_t line) override;
-  int32_t send_DisplayHandler_OnConsoleMessage(const int32_t bid, const int32_t level, const std::string& message, const std::string& source, const int32_t line);
+  bool DisplayHandler_OnConsoleMessage(const int32_t bid, const std::string& level, const std::string& message, const std::string& source, const int32_t line) override;
+  int32_t send_DisplayHandler_OnConsoleMessage(const int32_t bid, const std::string& level, const std::string& message, const std::string& source, const int32_t line);
   bool recv_DisplayHandler_OnConsoleMessage(const int32_t seqid);
   bool KeyboardHandler_OnPreKeyEvent(const int32_t bid, const  ::thrift_codegen::KeyEvent& event) override;
   int32_t send_KeyboardHandler_OnPreKeyEvent(const int32_t bid, const  ::thrift_codegen::KeyEvent& event);

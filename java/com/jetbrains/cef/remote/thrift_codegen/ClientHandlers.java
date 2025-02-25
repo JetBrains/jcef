@@ -53,7 +53,7 @@ public class ClientHandlers {
 
     public void DisplayHandler_OnStatusMessage(int bid, java.lang.String value) throws com.jetbrains.cef.remote.thrift.TException;
 
-    public boolean DisplayHandler_OnConsoleMessage(int bid, int level, java.lang.String message, java.lang.String source, int line) throws com.jetbrains.cef.remote.thrift.TException;
+    public boolean DisplayHandler_OnConsoleMessage(int bid, java.lang.String level, java.lang.String message, java.lang.String source, int line) throws com.jetbrains.cef.remote.thrift.TException;
 
     public boolean KeyboardHandler_OnPreKeyEvent(int bid, com.jetbrains.cef.remote.thrift_codegen.KeyEvent event) throws com.jetbrains.cef.remote.thrift.TException;
 
@@ -195,7 +195,7 @@ public class ClientHandlers {
 
     public void DisplayHandler_OnStatusMessage(int bid, java.lang.String value, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
-    public void DisplayHandler_OnConsoleMessage(int bid, int level, java.lang.String message, java.lang.String source, int line, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+    public void DisplayHandler_OnConsoleMessage(int bid, java.lang.String level, java.lang.String message, java.lang.String source, int line, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void KeyboardHandler_OnPreKeyEvent(int bid, com.jetbrains.cef.remote.thrift_codegen.KeyEvent event, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
@@ -736,13 +736,13 @@ public class ClientHandlers {
     }
 
     @Override
-    public boolean DisplayHandler_OnConsoleMessage(int bid, int level, java.lang.String message, java.lang.String source, int line) throws com.jetbrains.cef.remote.thrift.TException
+    public boolean DisplayHandler_OnConsoleMessage(int bid, java.lang.String level, java.lang.String message, java.lang.String source, int line) throws com.jetbrains.cef.remote.thrift.TException
     {
       send_DisplayHandler_OnConsoleMessage(bid, level, message, source, line);
       return recv_DisplayHandler_OnConsoleMessage();
     }
 
-    public void send_DisplayHandler_OnConsoleMessage(int bid, int level, java.lang.String message, java.lang.String source, int line) throws com.jetbrains.cef.remote.thrift.TException
+    public void send_DisplayHandler_OnConsoleMessage(int bid, java.lang.String level, java.lang.String message, java.lang.String source, int line) throws com.jetbrains.cef.remote.thrift.TException
     {
       DisplayHandler_OnConsoleMessage_args args = new DisplayHandler_OnConsoleMessage_args();
       args.setBid(bid);
@@ -2678,7 +2678,7 @@ public class ClientHandlers {
     }
 
     @Override
-    public void DisplayHandler_OnConsoleMessage(int bid, int level, java.lang.String message, java.lang.String source, int line, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+    public void DisplayHandler_OnConsoleMessage(int bid, java.lang.String level, java.lang.String message, java.lang.String source, int line, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
       checkReady();
       DisplayHandler_OnConsoleMessage_call method_call = new DisplayHandler_OnConsoleMessage_call(bid, level, message, source, line, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -2687,11 +2687,11 @@ public class ClientHandlers {
 
     public static class DisplayHandler_OnConsoleMessage_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<java.lang.Boolean> {
       private int bid;
-      private int level;
+      private java.lang.String level;
       private java.lang.String message;
       private java.lang.String source;
       private int line;
-      public DisplayHandler_OnConsoleMessage_call(int bid, int level, java.lang.String message, java.lang.String source, int line, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+      public DisplayHandler_OnConsoleMessage_call(int bid, java.lang.String level, java.lang.String message, java.lang.String source, int line, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.bid = bid;
         this.level = level;
@@ -25693,7 +25693,7 @@ public class ClientHandlers {
     private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("DisplayHandler_OnConsoleMessage_args");
 
     private static final com.jetbrains.cef.remote.thrift.protocol.TField BID_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("bid", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)1);
-    private static final com.jetbrains.cef.remote.thrift.protocol.TField LEVEL_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("level", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)2);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField LEVEL_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("level", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)2);
     private static final com.jetbrains.cef.remote.thrift.protocol.TField MESSAGE_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("message", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)3);
     private static final com.jetbrains.cef.remote.thrift.protocol.TField SOURCE_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("source", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)4);
     private static final com.jetbrains.cef.remote.thrift.protocol.TField LINE_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("line", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)5);
@@ -25702,7 +25702,7 @@ public class ClientHandlers {
     private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new DisplayHandler_OnConsoleMessage_argsTupleSchemeFactory();
 
     public int bid; // required
-    public int level; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String level; // required
     public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String message; // required
     public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String source; // required
     public int line; // required
@@ -25783,8 +25783,7 @@ public class ClientHandlers {
 
     // isset id assignments
     private static final int __BID_ISSET_ID = 0;
-    private static final int __LEVEL_ISSET_ID = 1;
-    private static final int __LINE_ISSET_ID = 2;
+    private static final int __LINE_ISSET_ID = 1;
     private byte __isset_bitfield = 0;
     public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
@@ -25792,7 +25791,7 @@ public class ClientHandlers {
       tmpMap.put(_Fields.BID, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("bid", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
           new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.LEVEL, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("level", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
-          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING)));
       tmpMap.put(_Fields.MESSAGE, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("message", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
           new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING)));
       tmpMap.put(_Fields.SOURCE, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("source", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
@@ -25808,7 +25807,7 @@ public class ClientHandlers {
 
     public DisplayHandler_OnConsoleMessage_args(
       int bid,
-      int level,
+      java.lang.String level,
       java.lang.String message,
       java.lang.String source,
       int line)
@@ -25817,7 +25816,6 @@ public class ClientHandlers {
       this.bid = bid;
       setBidIsSet(true);
       this.level = level;
-      setLevelIsSet(true);
       this.message = message;
       this.source = source;
       this.line = line;
@@ -25830,7 +25828,9 @@ public class ClientHandlers {
     public DisplayHandler_OnConsoleMessage_args(DisplayHandler_OnConsoleMessage_args other) {
       __isset_bitfield = other.__isset_bitfield;
       this.bid = other.bid;
-      this.level = other.level;
+      if (other.isSetLevel()) {
+        this.level = other.level;
+      }
       if (other.isSetMessage()) {
         this.message = other.message;
       }
@@ -25849,8 +25849,7 @@ public class ClientHandlers {
     public void clear() {
       setBidIsSet(false);
       this.bid = 0;
-      setLevelIsSet(false);
-      this.level = 0;
+      this.level = null;
       this.message = null;
       this.source = null;
       setLineIsSet(false);
@@ -25880,27 +25879,29 @@ public class ClientHandlers {
       __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
     }
 
-    public int getLevel() {
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.lang.String getLevel() {
       return this.level;
     }
 
-    public DisplayHandler_OnConsoleMessage_args setLevel(int level) {
+    public DisplayHandler_OnConsoleMessage_args setLevel(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String level) {
       this.level = level;
-      setLevelIsSet(true);
       return this;
     }
 
     public void unsetLevel() {
-      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __LEVEL_ISSET_ID);
+      this.level = null;
     }
 
     /** Returns true if field level is set (has been assigned a value) and false otherwise */
     public boolean isSetLevel() {
-      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __LEVEL_ISSET_ID);
+      return this.level != null;
     }
 
     public void setLevelIsSet(boolean value) {
-      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __LEVEL_ISSET_ID, value);
+      if (!value) {
+        this.level = null;
+      }
     }
 
     @com.jetbrains.cef.remote.thrift.annotation.Nullable
@@ -25991,7 +25992,7 @@ public class ClientHandlers {
         if (value == null) {
           unsetLevel();
         } else {
-          setLevel((java.lang.Integer)value);
+          setLevel((java.lang.String)value);
         }
         break;
 
@@ -26089,12 +26090,12 @@ public class ClientHandlers {
           return false;
       }
 
-      boolean this_present_level = true;
-      boolean that_present_level = true;
+      boolean this_present_level = true && this.isSetLevel();
+      boolean that_present_level = true && that.isSetLevel();
       if (this_present_level || that_present_level) {
         if (!(this_present_level && that_present_level))
           return false;
-        if (this.level != that.level)
+        if (!this.level.equals(that.level))
           return false;
       }
 
@@ -26134,7 +26135,9 @@ public class ClientHandlers {
 
       hashCode = hashCode * 8191 + bid;
 
-      hashCode = hashCode * 8191 + level;
+      hashCode = hashCode * 8191 + ((isSetLevel()) ? 131071 : 524287);
+      if (isSetLevel())
+        hashCode = hashCode * 8191 + level.hashCode();
 
       hashCode = hashCode * 8191 + ((isSetMessage()) ? 131071 : 524287);
       if (isSetMessage())
@@ -26236,7 +26239,11 @@ public class ClientHandlers {
       first = false;
       if (!first) sb.append(", ");
       sb.append("level:");
-      sb.append(this.level);
+      if (this.level == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.level);
+      }
       first = false;
       if (!first) sb.append(", ");
       sb.append("message:");
@@ -26314,8 +26321,8 @@ public class ClientHandlers {
               }
               break;
             case 2: // LEVEL
-              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
-                struct.level = iprot.readI32();
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRING) {
+                struct.level = iprot.readString();
                 struct.setLevelIsSet(true);
               } else { 
                 com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
@@ -26364,9 +26371,11 @@ public class ClientHandlers {
         oprot.writeFieldBegin(BID_FIELD_DESC);
         oprot.writeI32(struct.bid);
         oprot.writeFieldEnd();
-        oprot.writeFieldBegin(LEVEL_FIELD_DESC);
-        oprot.writeI32(struct.level);
-        oprot.writeFieldEnd();
+        if (struct.level != null) {
+          oprot.writeFieldBegin(LEVEL_FIELD_DESC);
+          oprot.writeString(struct.level);
+          oprot.writeFieldEnd();
+        }
         if (struct.message != null) {
           oprot.writeFieldBegin(MESSAGE_FIELD_DESC);
           oprot.writeString(struct.message);
@@ -26419,7 +26428,7 @@ public class ClientHandlers {
           oprot.writeI32(struct.bid);
         }
         if (struct.isSetLevel()) {
-          oprot.writeI32(struct.level);
+          oprot.writeString(struct.level);
         }
         if (struct.isSetMessage()) {
           oprot.writeString(struct.message);
@@ -26441,7 +26450,7 @@ public class ClientHandlers {
           struct.setBidIsSet(true);
         }
         if (incoming.get(1)) {
-          struct.level = iprot.readI32();
+          struct.level = iprot.readString();
           struct.setLevelIsSet(true);
         }
         if (incoming.get(2)) {

@@ -125,7 +125,7 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
     printf("DisplayHandler_OnStatusMessage\n");
   }
 
-  bool DisplayHandler_OnConsoleMessage(const int32_t bid, const int32_t level, const std::string& message, const std::string& source, const int32_t line) {
+  bool DisplayHandler_OnConsoleMessage(const int32_t bid, const std::string& level, const std::string& message, const std::string& source, const int32_t line) {
     // Your implementation goes here
     printf("DisplayHandler_OnConsoleMessage\n");
   }

@@ -311,15 +311,27 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     }
 
     @Override
-    public boolean DisplayHandler_OnConsoleMessage(int bid, int level, String message, String source, int line) {
+    public boolean DisplayHandler_OnConsoleMessage(int bid, String level, String message, String source, int line) {
         RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return false;
         CefDisplayHandler dh = browser.getOwner().getDisplayHandler();
         if (dh == null) return false;
 
-        // TODO: fix log level
-        CefLog.Error("onConsoleMessage: used incorrect log level");
-        return dh.onConsoleMessage(browser, CefSettings.LogSeverity.LOGSEVERITY_DEFAULT, message, source, line);
+        CefSettings.LogSeverity logSeverity = CefSettings.LogSeverity.LOGSEVERITY_DEFAULT;
+        if ("verbose".equals(level))
+            logSeverity = CefSettings.LogSeverity.LOGSEVERITY_VERBOSE;
+        else if ("info".equals(level))
+            logSeverity = CefSettings.LogSeverity.LOGSEVERITY_INFO;
+        else if ("warning".equals(level))
+            logSeverity = CefSettings.LogSeverity.LOGSEVERITY_WARNING;
+        else if ("error".equals(level))
+            logSeverity = CefSettings.LogSeverity.LOGSEVERITY_ERROR;
+        else if ("fatal".equals(level))
+            logSeverity = CefSettings.LogSeverity.LOGSEVERITY_FATAL;
+        else if ("disable".equals(level))
+            logSeverity = CefSettings.LogSeverity.LOGSEVERITY_DISABLE;
+
+        return dh.onConsoleMessage(browser, logSeverity, message, source, line);
     }
 
     //

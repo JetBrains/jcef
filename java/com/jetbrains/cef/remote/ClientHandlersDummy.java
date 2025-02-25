@@ -112,7 +112,7 @@ public class ClientHandlersDummy implements ClientHandlers.Iface{
     }
 
     @Override
-    public boolean DisplayHandler_OnConsoleMessage(int bid, int level, String message, String source, int line) throws TException {
+    public boolean DisplayHandler_OnConsoleMessage(int bid, String level, String message, String source, int line) throws TException {
         return false;
     }
 
