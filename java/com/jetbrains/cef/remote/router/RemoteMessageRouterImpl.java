@@ -30,12 +30,16 @@ public class RemoteMessageRouterImpl extends RemoteServerObject {
     }
 
     public static RemoteMessageRouterImpl create(RpcContext rpcContext, CefMessageRouter.CefMessageRouterConfig config) {
-        RObject robj = rpcContext.main.execObj((s)->s.MessageRouter_Create(config.jsQueryFunction, config.jsCancelFunction));
+        if (config == null)
+            config = new CefMessageRouter.CefMessageRouterConfig(); // Use default config (the same logic as in CefMessageRouter_N).
+        final String jsQueryFunction = config.jsQueryFunction;
+        final String jsCancelFunction = config.jsCancelFunction;
+        RObject robj = rpcContext.main.execObj((s)->s.MessageRouter_Create(jsQueryFunction, jsCancelFunction));
         if (robj.objId < 0) {
-            CefLog.Error("MessageRouter_Create returns invalid objId %d.", robj.objId);
+            CefLog.Error("MessageRouter_Create returns invalid objId %d (queryFunction='%s', cancelFunction='%s')", robj.objId, jsQueryFunction, jsCancelFunction);
             return null;
         }
-        return new RemoteMessageRouterImpl(rpcContext, robj, config.jsQueryFunction, config.jsCancelFunction);
+        return new RemoteMessageRouterImpl(rpcContext, robj, jsQueryFunction, jsCancelFunction);
     }
 
     public void addToBrowser(int bid) {
