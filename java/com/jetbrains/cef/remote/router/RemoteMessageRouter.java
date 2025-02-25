@@ -61,8 +61,6 @@ public class RemoteMessageRouter extends CefMessageRouter {
         // NOTE: message router must be registered before browser created, so use flag 'first' here
         CefApp.getInstance().getServer().onConnected(()->{
             RpcContext rpcContext = CefApp.getInstance().getServer().getRpcContext();
-            if (!rpcContext.main.isValid()) // impossible, add logging just for insurance
-                CefLog.Error("Trying to create RemoteMessageRouter when not connected to server.");
             myImpl = RemoteMessageRouterImpl.create(rpcContext, getMessageRouterConfig());
             synchronized (myDelayedActions) {
                 myDelayedActions.forEach(r -> r.run());
