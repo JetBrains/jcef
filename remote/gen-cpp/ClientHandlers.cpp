@@ -3318,8 +3318,8 @@ uint32_t ClientHandlers_DisplayHandler_OnConsoleMessage_args::read(::apache::thr
         }
         break;
       case 2:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->level);
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->level);
           this->__isset.level = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -3370,8 +3370,8 @@ uint32_t ClientHandlers_DisplayHandler_OnConsoleMessage_args::write(::apache::th
   xfer += oprot->writeI32(this->bid);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("level", ::apache::thrift::protocol::T_I32, 2);
-  xfer += oprot->writeI32(this->level);
+  xfer += oprot->writeFieldBegin("level", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString(this->level);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldBegin("message", ::apache::thrift::protocol::T_STRING, 3);
@@ -3405,8 +3405,8 @@ uint32_t ClientHandlers_DisplayHandler_OnConsoleMessage_pargs::write(::apache::t
   xfer += oprot->writeI32((*(this->bid)));
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("level", ::apache::thrift::protocol::T_I32, 2);
-  xfer += oprot->writeI32((*(this->level)));
+  xfer += oprot->writeFieldBegin("level", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString((*(this->level)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldBegin("message", ::apache::thrift::protocol::T_STRING, 3);
@@ -13436,13 +13436,13 @@ void ClientHandlersClient::send_DisplayHandler_OnStatusMessage(const int32_t bid
   oprot_->getTransport()->flush();
 }
 
-bool ClientHandlersClient::DisplayHandler_OnConsoleMessage(const int32_t bid, const int32_t level, const std::string& message, const std::string& source, const int32_t line)
+bool ClientHandlersClient::DisplayHandler_OnConsoleMessage(const int32_t bid, const std::string& level, const std::string& message, const std::string& source, const int32_t line)
 {
   send_DisplayHandler_OnConsoleMessage(bid, level, message, source, line);
   return recv_DisplayHandler_OnConsoleMessage();
 }
 
-void ClientHandlersClient::send_DisplayHandler_OnConsoleMessage(const int32_t bid, const int32_t level, const std::string& message, const std::string& source, const int32_t line)
+void ClientHandlersClient::send_DisplayHandler_OnConsoleMessage(const int32_t bid, const std::string& level, const std::string& message, const std::string& source, const int32_t line)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("DisplayHandler_OnConsoleMessage", ::apache::thrift::protocol::T_CALL, cseqid);
@@ -20271,13 +20271,13 @@ void ClientHandlersConcurrentClient::send_DisplayHandler_OnStatusMessage(const i
   sentry.commit();
 }
 
-bool ClientHandlersConcurrentClient::DisplayHandler_OnConsoleMessage(const int32_t bid, const int32_t level, const std::string& message, const std::string& source, const int32_t line)
+bool ClientHandlersConcurrentClient::DisplayHandler_OnConsoleMessage(const int32_t bid, const std::string& level, const std::string& message, const std::string& source, const int32_t line)
 {
   int32_t seqid = send_DisplayHandler_OnConsoleMessage(bid, level, message, source, line);
   return recv_DisplayHandler_OnConsoleMessage(seqid);
 }
 
-int32_t ClientHandlersConcurrentClient::send_DisplayHandler_OnConsoleMessage(const int32_t bid, const int32_t level, const std::string& message, const std::string& source, const int32_t line)
+int32_t ClientHandlersConcurrentClient::send_DisplayHandler_OnConsoleMessage(const int32_t bid, const std::string& level, const std::string& message, const std::string& source, const int32_t line)
 {
   int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());

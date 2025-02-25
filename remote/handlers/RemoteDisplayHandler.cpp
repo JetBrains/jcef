@@ -44,7 +44,18 @@ bool RemoteDisplayHandler::OnConsoleMessage(CefRefPtr<CefBrowser> browser,
                       const CefString& source,
                       int line) {
   LNDCT();
+  std::string slevel;
+  switch (level) {
+    case LOGSEVERITY_VERBOSE: slevel = "verbose"; break;
+    case LOGSEVERITY_INFO: slevel = "info"; break;
+    case LOGSEVERITY_WARNING: slevel = "warning"; break;
+    case LOGSEVERITY_ERROR: slevel = "error"; break;
+    case LOGSEVERITY_FATAL: slevel = "fatal"; break;
+    case LOGSEVERITY_DISABLE: slevel = "disable"; break;
+    case LOGSEVERITY_DEFAULT:
+      break;
+  }
   return myService->exec<bool>([&](const JavaService& s){
-    return s->DisplayHandler_OnConsoleMessage(myBid, level, message.ToString(), source.ToString(), line);
+    return s->DisplayHandler_OnConsoleMessage(myBid, slevel, message.ToString(), source.ToString(), line);
   }, false);
 }
