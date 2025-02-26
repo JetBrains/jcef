@@ -176,7 +176,7 @@ public class CefApp extends CefAppHandlerAdapter {
             // NOTE: in practice it seems that this method can be called from any thread (at tests
             // execute successfully)
             // TODO: ensure and make all initialization steps in single bg thread.
-            if (IS_REMOTE_ENABLED) {
+            if (server_ != null) {
                 if (server_.start(appHandler_, settings_)) {
                     CefLog.Debug("CefApp: native CefServer is initialized.");
                     setState(CefAppState.INITIALIZED);
@@ -293,16 +293,16 @@ public class CefApp extends CefAppHandlerAdapter {
     }
 
     public final CefVersion getVersion() {
-        if (IS_REMOTE_ENABLED) {
+        if (server_ != null) {
             // TODO: request remaining params from server
             return new CefVersion(0, "0", 0, 0, 0, 0, 0, 0, 0, 0) {
                 @Override
                 public String toString() {
-                    return "remote_" + CefServer.getVersion();
+                    return "remote_" + server_.getVersion();
                 }
                 @Override
                 public String getJcefVersion() {
-                    return "remote_" + CefServer.getVersion();
+                    return "remote_" + server_.getVersion();
                 }
             };
         }
@@ -402,7 +402,7 @@ public class CefApp extends CefAppHandlerAdapter {
             throw new IllegalStateException(errMsg);
         }
 
-        CefClient client = new CefClient();
+        CefClient client = server_ != null ? new CefClient(server_.createClient()) : new CefClient();
         onInitialization(client, true);
         clients_.add(client);
         return client;
@@ -422,7 +422,7 @@ public class CefApp extends CefAppHandlerAdapter {
      * called on any thread in the browser process.
      */
     public boolean registerSchemeHandlerFactory(String schemeName, String domainName, CefSchemeHandlerFactory factory) {
-        if (IS_REMOTE_ENABLED) {
+        if (server_ != null) {
             server_.onConnected(()->{
                 RemoteSchemeHandlerFactory rf = RemoteSchemeHandlerFactory.create(factory);
                 server_.getRpcContext().main.exec(s -> s.SchemeHandlerFactory_Register(schemeName, domainName, rf.thriftId()));
@@ -442,7 +442,7 @@ public class CefApp extends CefAppHandlerAdapter {
      * function may be called on any thread in the browser process.
      */
     public boolean clearSchemeHandlerFactories() {
-        if (IS_REMOTE_ENABLED) {
+        if (server_ != null) {
             server_.onConnected(()->{
                 server_.getRpcContext().main.exec(s -> s.ClearAllSchemeHandlerFactories());
             }, "clearSchemeHandlerFactories", false);
@@ -516,7 +516,7 @@ public class CefApp extends CefAppHandlerAdapter {
      * Shut down the context.
      */
     private void finishShutdown() {
-        if (IS_REMOTE_ENABLED) {
+        if (server_ != null) {
             server_.stop();
             synchronized (this) {
                 setState(CefAppState.TERMINATED);
@@ -552,7 +552,7 @@ public class CefApp extends CefAppHandlerAdapter {
      * Windows with windowed rendering.
      */
     public final void doMessageLoopWork(final long delay_ms) {
-        if (IS_REMOTE_ENABLED) {
+        if (server_ != null) {
             CefLog.Error("doMessageLoopWork musn't be called in remote mode.");
             return;
         }

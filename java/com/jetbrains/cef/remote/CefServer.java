@@ -81,7 +81,7 @@ public class CefServer {
         }
 
         if (!connect(appHandler::onContextInitialized)) {
-            CefLog.Error("Can't initialize client for native server.");
+            CefLog.Error("Can't initialize thrift client for native server.");
             return false;
         }
         return true;
@@ -112,9 +112,9 @@ public class CefServer {
         return new RemoteClient(myRpc, myBid2Browser);
     }
 
-    public static String getVersion() {
-        if (CefApp.isRemoteEnabled() && CefApp.getInstance().getServer().myIsConnected)
-            return CefApp.getInstance().getServer().myRpc.main.execObj(r->r.getServerInfo("version"));
+    public String getVersion() {
+        if (myIsConnected)
+            return myRpc.main.execObj(r->r.getServerInfo("version"));
         return "unknown(not connected)";
     }
 

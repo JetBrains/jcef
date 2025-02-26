@@ -111,12 +111,15 @@ public class CefClient extends CefClientHandler
      */
     protected CefClient() throws UnsatisfiedLinkError {
         super();
+        remoteClient = null;
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addPropertyChangeListener(propertyChangeListener);
+        if (TRACE_LIFESPAN) CefLog.Debug("CefClient %s: created in-process instance", this);
+    }
 
-        remoteClient = CefApp.isRemoteEnabled() ? CefApp.getInstance().getServer().createClient() : null;
-        if (remoteClient == null)
-            KeyboardFocusManager.getCurrentKeyboardFocusManager().addPropertyChangeListener(propertyChangeListener);
-
-        if (TRACE_LIFESPAN) CefLog.Debug("CefClient: created client %s [remote=%s]", this, remoteClient);
+    protected CefClient(RemoteClient _remoteClient) {
+        super();
+        remoteClient = _remoteClient;
+        if (TRACE_LIFESPAN) CefLog.Debug("CefClient %s: created remote client %s", this, remoteClient);
     }
 
     private boolean isPartOf(Object obj, Component browserUI) {
