@@ -19,11 +19,11 @@ public class RemoteRequest extends CefRequest {
         myImpl = impl;
     }
 
-    public RemoteRequest() {
+    public RemoteRequest(CefServer server) {
         super();
-        CefApp.getInstance().getServer().onConnected(()-> {
-            RpcContext rpcContext = CefApp.getInstance().getServer().getRpcContext();
-            RObject remoteRequest = rpcContext.main.execObj(s -> s.Request_Create());
+        server.onConnected(()-> {
+            RpcContext rpcContext = server.getRpcContext();
+            RObject remoteRequest = rpcContext.execObj(s -> s.Request_Create());
             if (remoteRequest.objId < 0) {
                 CefLog.Error("Request_Create returns invalid objId %d.", remoteRequest.objId);
                 return;

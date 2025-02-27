@@ -37,7 +37,7 @@ public abstract class CefRequestContext extends CefNativeAdapter {
      */
     public static final CefRequestContext getGlobalContext() {
         if (CefApp.isRemoteEnabled())
-            return new RemoteRequestContext();
+            return new RemoteRequestContext(CefApp.getInstance().getServer());
 
         return CefRequestContext_N.getGlobalContextNative();
     }

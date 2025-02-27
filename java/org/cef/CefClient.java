@@ -4,53 +4,29 @@
 
 package org.cef;
 
-import com.jetbrains.cef.remote.browser.RemoteBrowser;
-import org.cef.browser.*;
 import com.jetbrains.cef.JCefAppConfig;
 import com.jetbrains.cef.JdkEx;
-
-import com.jetbrains.cef.remote.CefServer;
+import com.jetbrains.cef.remote.browser.RemoteBrowser;
 import com.jetbrains.cef.remote.browser.RemoteClient;
+import org.cef.browser.*;
 import org.cef.callback.*;
-import org.cef.handler.CefClientHandler;
-import org.cef.handler.CefContextMenuHandler;
-import org.cef.handler.CefDialogHandler;
-import org.cef.handler.CefDisplayHandler;
-import org.cef.handler.CefDownloadHandler;
-import org.cef.handler.CefDragHandler;
-import org.cef.handler.CefFocusHandler;
-import org.cef.handler.CefJSDialogHandler;
-import org.cef.handler.CefKeyboardHandler;
-import org.cef.handler.CefLifeSpanHandler;
-import org.cef.handler.CefLoadHandler;
-import org.cef.handler.CefPrintHandler;
-import org.cef.handler.CefRenderHandler;
-import org.cef.handler.CefRequestHandler;
-import org.cef.handler.CefResourceRequestHandler;
-import org.cef.handler.CefScreenInfo;
-import org.cef.handler.CefWindowHandler;
-import org.cef.handler.CefPermissionHandler;
+import org.cef.handler.*;
 import org.cef.misc.BoolRef;
-import org.cef.misc.CefPrintSettings;
 import org.cef.misc.CefLog;
+import org.cef.misc.CefPrintSettings;
 import org.cef.misc.CefRange;
 import org.cef.network.CefRequest;
 import org.cef.network.CefRequest.TransitionType;
 import org.cef.security.CefSSLInfo;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.FocusTraversalPolicy;
-import java.awt.KeyboardFocusManager;
-import java.awt.Point;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Vector;
-import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -139,8 +115,8 @@ public class CefClient extends CefClientHandler
         isDisposed_ = true;
         if (remoteClient != null) {
             // NOTE: super.dispose() shouldn't be called here
+            CefApp app = remoteClient.getServer().getCefApp();
             remoteClient.dispose();
-            CefApp app = CefApp.getInstanceIfAny();
             if (app != null) app.clientWasDisposed(this);
             if (onDisposed_ != null) onDisposed_.run();
         } else

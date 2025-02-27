@@ -12,12 +12,15 @@ public class RpcContext {
     private static final RpcExecutor.Rpc NO_RPC = s -> {};
     public final RpcExecutor main = new RpcExecutor();
 
+
+    public final CefServer server;
     private final RpcExecutor myBackground = new RpcExecutor();
     private final LinkedBlockingQueue<RpcExecutor.Rpc> myQueue = new LinkedBlockingQueue();
     private final Thread myThread;
     private volatile boolean myClosed = false;
 
-    public RpcContext() {
+    public RpcContext(CefServer server) {
+        this.server = server;
         myThread = new Thread(() -> {
             while (true) {
                 try {

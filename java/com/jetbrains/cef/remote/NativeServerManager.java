@@ -7,11 +7,13 @@ import org.cef.CefSettings;
 import org.cef.OS;
 import org.cef.callback.CefSchemeRegistrar;
 import org.cef.handler.CefAppHandler;
-import org.cef.handler.CefAppHandlerAdapter;
 import org.cef.misc.CefLog;
 import org.cef.misc.Utils;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.net.StandardProtocolFamily;
 import java.net.UnixDomainSocketAddress;
 import java.nio.channels.SocketChannel;
@@ -50,7 +52,7 @@ public class NativeServerManager {
     }
 
     // Should be called in bg thread
-    public static boolean startProcessAndWait(ThriftTransport thriftServer, CefAppHandler appHandler, CefSettings settings, boolean deleteRootDir, long timeoutMs) {
+    public static boolean startProcessAndWait(ThriftTransport thriftServer, CefAppHandler appHandler, String[] args, CefSettings settings, boolean deleteRootDir, long timeoutMs) {
         final long t0 = System.nanoTime();
         final Path settingsFileName = Path.of(System.getProperty("java.io.tmpdir")).resolve("cef_server_params.txt");
         File f = new File(settingsFileName.toString());
@@ -67,29 +69,23 @@ public class NativeServerManager {
         // 1. command line args
         final String sectionCmdLine = "[COMMAND_LINE]:";
         ps.printf("%s\n", sectionCmdLine);
-        if (appHandler instanceof CefAppHandlerAdapter) {
-            CefAppHandlerAdapter h = (CefAppHandlerAdapter)appHandler;
-            String[] commandLineArgs = h.getArgs();
-            if (commandLineArgs != null && commandLineArgs.length > 0)
-                for (String arg: commandLineArgs) {
-                    boolean skip = arg.startsWith("--browser-subprocess-path=")
-                            || arg.startsWith("--main-bundle-path=")
-                            || arg.startsWith("--framework-dir-path=");
-                    if (skip)
-                        CefLog.Debug("Skip cmdline swintch '%s'", arg);
-                    else
-                        ps.printf("%s\n", arg);
-                }
-            if (DISABLE_GPU) {
-                ps.println("--disable-gpu");
-                ps.println("--disable-gpu-compositing");
-                ps.println("--disable-gpu-vsync");
-                ps.println("--disable-software-rasterizer");
-                ps.println("--disable-extensions");
+        if (args != null && args.length > 0)
+            for (String arg: args) {
+                boolean skip = arg.startsWith("--browser-subprocess-path=")
+                        || arg.startsWith("--main-bundle-path=")
+                        || arg.startsWith("--framework-dir-path=");
+                if (skip)
+                    CefLog.Debug("Skip cmdline swintch '%s'", arg);
+                else
+                    ps.printf("%s\n", arg);
             }
-
-        } else if (appHandler != null)
-            CefLog.Error("Unsupported class of CefAppHandler %s. Overridden command-line arguments will be ignored.", CefAppHandler.class);
+        if (DISABLE_GPU) {
+            ps.println("--disable-gpu");
+            ps.println("--disable-gpu-compositing");
+            ps.println("--disable-gpu-vsync");
+            ps.println("--disable-software-rasterizer");
+            ps.println("--disable-extensions");
+        }
 
         // 2. settings
         ps.printf("[SETTINGS]:\n");
@@ -141,6 +137,7 @@ public class NativeServerManager {
         ps.close();
 
         CefLog.Debug("Settings were written to file, spent %d mcs", (System.nanoTime() - t0)/1000);
+        CefLog.Info("Start native cef_server with cache path: %s", settings.cache_path);
 
         // Select log path
         String serverLogPath = Utils.getString("CEF_SERVER_LOG_PATH");
@@ -526,7 +523,7 @@ public class NativeServerManager {
         if (serverExe == null)
             return false;
 
-        CefLog.Debug("Start native cef_server, path='%s', params path='%s'", serverExe.getAbsolutePath(), paramsPath);
+        CefLog.Debug("cef_server executable path='%s', params path='%s'", serverExe.getAbsolutePath(), paramsPath);
         if (!serverExe.exists()) {
             CefLog.Error("Can't start native cef_server, file doesn't exist: %s", serverExe.getAbsolutePath());
             return false;
@@ -542,12 +539,13 @@ public class NativeServerManager {
             CefLog.Debug("\tUse pipe %s", thriftServer.getPipe());
             builder.command().add(String.format("--pipe=%s", thriftServer.getPipe()));
         }
+        String logStream = "stderr";
         if (logPath != null && !logPath.isEmpty()) {
-            CefLog.Debug("\tLog file %s", logPath);
+            logStream = "file '" + logPath + "'";
             builder.command().add(String.format("--logfile=%s", logPath.trim()));
         }
 
-        CefLog.Debug("\tLog level %s [%d]", ServerLogLevel.nativeDesc(logLevel), logLevel);
+        CefLog.Info("Native server logging: level %s [%d], stream: '%s'", ServerLogLevel.nativeDesc(logLevel), logLevel, logStream);
         builder.command().add(String.format("--loglevel=%d", logLevel));
 
         if (System.getenv().containsKey("DEBUG_CEF_SERVER")) {

@@ -109,8 +109,9 @@ public class BasicJcefTest {
         settings.windowless_rendering_enabled = true;
         settings.log_severity = CefSettings.LogSeverity.LOGSEVERITY_VERBOSE;
         settings.no_sandbox = true;
-        CefAppHandler appHandler = new CefAppHandlerAdapter(appArgs.toArray(new String[0])){};
-        boolean started = NativeServerManager.startProcessAndWait(thriftServer, appHandler, settings, true, waitTimeoutMs);
+        final String[] argsArr = appArgs.toArray(new String[0]);
+        CefAppHandlerAdapter appHandler = new CefAppHandlerAdapter(argsArr){};
+        boolean started = NativeServerManager.startProcessAndWait(thriftServer, appHandler, argsArr, settings, true, waitTimeoutMs);
         if (!started)
             throw new AssertionError("Can't start server.");
         if (!NativeServerManager.isProcessAlive(thriftServer))
@@ -215,6 +216,7 @@ public class BasicJcefTest {
         List<String> appArgs = config.getAppArgsAsList();
         if (OS.isLinux())
             appArgs.add("--password-store=basic");
+        final String[] argsArr = appArgs.toArray(new String[0]);
         CefSettings basicSettings = config.getCefSettings();
         basicSettings.windowless_rendering_enabled = true;
         basicSettings.log_severity = CefSettings.LogSeverity.LOGSEVERITY_VERBOSE;
@@ -224,7 +226,7 @@ public class BasicJcefTest {
         List<CefServer> servers = new ArrayList<>(count);
         Set<Integer> ports = new HashSet<>();
         for (int i = 0; i < count; i++) {
-            CefAppHandler appHandler = new CefAppHandlerAdapter(appArgs.toArray(new String[0])){};
+            CefAppHandler appHandler = new CefAppHandlerAdapter(argsArr){};
             ThriftTransport ts, tb;
             if (ThriftTransport.isTcpUsed()) {
                 ts = new ThriftTransport(ThriftTransport.findFreePort(ports));
@@ -240,8 +242,8 @@ public class BasicJcefTest {
             NativeServerManager.fixRootInSettings(settings, "cef_cache_test_" + i);
 
             CefLog.Info("Starting server #%d over %s(%s)", i, ts, tb);
-            CefServer s = new CefServer(ts, tb);
-            boolean started = s.start(appHandler, settings, false);
+            CefServer s = new CefServer(ts, tb, argsArr, settings);
+            boolean started = s.start(appHandler, false);
             if (!started)
                 throw new AssertionError("Can't start server.");
             servers.add(s);

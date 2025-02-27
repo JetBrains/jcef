@@ -33,7 +33,7 @@ public abstract class CefCookieManager extends CefNativeAdapter {
      */
     public static final CefCookieManager getGlobalManager() {
         if (CefApp.isRemoteEnabled())
-            return RemoteCookieManager.createGlobal();
+            return RemoteCookieManager.createGlobal(CefApp.getInstance().getServer());
 
         CookieManagerWrapper instance = new CookieManagerWrapper();
         CefApp.getInstance().onInitialization(state -> {

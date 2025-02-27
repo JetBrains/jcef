@@ -216,7 +216,7 @@ public abstract class CefMessageRouter extends CefNativeAdapter {
     public static final CefMessageRouter create(
             CefMessageRouterConfig config, CefMessageRouterHandler handler) {
         CefMessageRouter router = CefApp.isRemoteEnabled() ?
-                new RemoteMessageRouter(config)
+                new RemoteMessageRouter(CefApp.getInstance().getServer(), config)
                 : new CefMessageRouter_N(config);
         if (handler != null) router.addHandler(handler, true);
         return router;

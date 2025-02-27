@@ -1,5 +1,6 @@
 package com.jetbrains.cef.remote.network;
 
+import com.jetbrains.cef.remote.CefServer;
 import com.jetbrains.cef.remote.thrift_codegen.Cookie;
 import org.cef.CefApp;
 import org.cef.callback.CefCompletionCallback;
@@ -13,14 +14,14 @@ public class RemoteCookieManager extends CefCookieManager {
     RemoteCookieManagerImpl myImpl;
     private volatile boolean myIsDisposed = false;
 
-    private RemoteCookieManager() {
-        CefApp.getInstance().getServer().onConnected(()->{
-            myImpl = RemoteCookieManagerImpl.create(CefApp.getInstance().getServer().getRpcContext());
+    private RemoteCookieManager(CefServer server) {
+        server.onConnected(()->{
+            myImpl = RemoteCookieManagerImpl.create(server.getRpcContext());
         }, "CookieManager_Create", true);
     }
 
-    public static RemoteCookieManager createGlobal() {
-        return new RemoteCookieManager();
+    public static RemoteCookieManager createGlobal(CefServer server) {
+        return new RemoteCookieManager(server);
     }
 
     @Override

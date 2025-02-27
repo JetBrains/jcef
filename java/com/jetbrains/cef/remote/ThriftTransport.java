@@ -142,6 +142,10 @@ public class ThriftTransport {
         return myPipe != null ? String.format("pipe='%s'", myPipe) : String.format("port=%d", myPort);
     }
 
+    public String toStringShort() {
+        return myPipe != null ? String.format("pipe_%s", myPipe).trim().replace(" ","") : String.format("port_%d", myPort);
+    }
+
     public void close() {
         if (!OS.isWindows() && !isTcp())
             new File(myPipe).delete();
@@ -163,10 +167,8 @@ public class ThriftTransport {
 
     public static String getUniqueSuffix() { return SUFFIX; }
 
-    private static int getServerPort() {
+    private static int getServerPort() { return PORT_CEF_SERVER; }
 
-        return PORT_CEF_SERVER;
-    }
     private static int getJavaHandlersPort() {
         return PORT_JAVA_HANDLERS;
     }

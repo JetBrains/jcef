@@ -76,7 +76,7 @@ public class RemoteBrowser implements CefBrowser {
         myOwner = owner;
         myCefClient = cefClient;
         myUrl = url;
-        myRequestContext = requestContext != null ? requestContext : new RemoteRequestContext();
+        myRequestContext = requestContext != null ? requestContext : new RemoteRequestContext(myRpc.server);
         mySettings = settings;
     }
 
@@ -121,7 +121,7 @@ public class RemoteBrowser implements CefBrowser {
     @Override
     public void createImmediately() {
         if (!myIsNativeBrowserCreationRequested.getAndSet(true))
-            CefApp.getInstance().getServer().onConnected(this::requestBid, "requestBid", false);
+            myRpc.server.onConnected(this::requestBid, "requestBid", false);
     }
 
     private void requestBid() {
@@ -152,7 +152,7 @@ public class RemoteBrowser implements CefBrowser {
         }
 
         if (myBid >= 0)
-            myRequestContext.setBid(myBid);
+            myRequestContext.setBid(myBid, myRpc);
     }
 
     @Override
