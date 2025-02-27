@@ -13,13 +13,11 @@ import org.cef.CefSettings;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefFrame;
 import org.cef.browser.CefMessageRouter;
-import org.cef.browser.CefRendering;
 import org.cef.handler.CefDisplayHandlerAdapter;
 import org.cef.handler.CefFocusHandlerAdapter;
 import org.cef.handler.CefLoadHandlerAdapter;
 import org.cef.network.CefCookieManager;
 import tests.JBCefOsrComponent;
-import tests.JBCefOsrHandler;
 import tests.OsrSupport;
 import tests.detailed.dialog.DownloadDialog;
 import tests.detailed.handler.*;
@@ -37,7 +35,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Supplier;
 
 public class MainFrame extends BrowserFrame {
     private static final long serialVersionUID = -2295538706810864538L;
@@ -101,8 +98,8 @@ public class MainFrame extends BrowserFrame {
         this.osr_enabled_ = osrEnabled;
         this.transparent_painting_enabled_ = transparentPaintingEnabled;
 
-        CefApp myApp;
-        if (CefApp.getState() != CefApp.CefAppState.INITIALIZED) {
+        CefApp myApp = CefApp.getInstanceIfAny();
+        if (myApp == null) {
             JCefAppConfig config = JCefAppConfig.getInstance();
             List<String> appArgs = new ArrayList<>(Arrays.asList(args));
             appArgs.addAll(config.getAppArgsAsList());
@@ -126,8 +123,6 @@ public class MainFrame extends BrowserFrame {
 
             CefVersion version = myApp.getVersion();
             System.out.println("Using:\n" + version);
-        } else {
-            myApp = CefApp.getInstance();
         }
 
         //    By calling the method createClient() the native part
