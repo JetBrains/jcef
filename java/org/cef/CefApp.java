@@ -6,6 +6,7 @@ package org.cef;
 
 import com.jetbrains.cef.JCefAppConfig;
 import com.jetbrains.cef.remote.CefServer;
+import com.jetbrains.cef.remote.ThriftTransport;
 import com.jetbrains.cef.remote.callback.RemoteSchemeHandlerFactory;
 import org.cef.callback.CefSchemeHandlerFactory;
 import org.cef.handler.CefAppHandler;
@@ -21,6 +22,7 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -131,8 +133,9 @@ public class CefApp extends CefAppHandlerAdapter {
      * one single object of this class.
      */
     private static CefApp self = null;
-    private static CefAppHandler appHandler_ = null;
+    private static CefAppHandler userAppHandler_ = null;
     private static final CompletableFuture<Void> ourStartupFeature = new CompletableFuture<>();
+    private final CefAppHandler appHandler_;
     private CefAppState state_ = CefAppState.NONE;
     private Timer workTimer_ = null;
     private final HashSet<CefClient> clients_ = new HashSet<CefClient>();
@@ -160,24 +163,21 @@ public class CefApp extends CefAppHandlerAdapter {
      * The CTOR is called by getInstance() as needed and
      * loads all required JCEF libraries.
      */
-    private CefApp(String[] args, CefSettings settings) {
+    private CefApp(String[] args, CefSettings settings, CefServer server) {
         super(args);
-
+        appHandler_ = userAppHandler_;
+        userAppHandler_ = null;
         if (settings != null) settings_ = settings.clone();
         CefLog.init(settings);
         setState(CefAppState.NEW);
-        if (IS_REMOTE_ENABLED)
-            server_ = CefServer.createDefault();
+        server_ = server;
 
-        ourStartupFeature.thenRunAsync(() -> {
-            // Perform native pre-initialization.
-            // This code will save global pointer to JVM instance.
-            // Execute on the AWT event dispatching thread to store JNI context from EDT
-            // NOTE: in practice it seems that this method can be called from any thread (at tests
-            // execute successfully)
-            // TODO: ensure and make all initialization steps in single bg thread.
-            if (server_ != null) {
-                if (server_.start(appHandler_, settings_)) {
+        if (server_ != null) {
+            server_.setCefApp(this);
+
+            // Perform CefServer initialization in separate thread.
+            new Thread(()->{
+                if (server_.start(appHandler_)) {
                     CefLog.Debug("CefApp: native CefServer is initialized.");
                     setState(CefAppState.INITIALIZED);
                     synchronized (initializationListeners_) {
@@ -187,10 +187,19 @@ public class CefApp extends CefAppHandlerAdapter {
                     }
                     CefLog.Info("Connected to CefServer. JCEF version: %s", getVersion());
                 }
-            } else {
-                preinit(args);
-                initialize();
-            }
+            }, "CefInitialize-thread").start();
+            return;
+        }
+
+        ourStartupFeature.thenRunAsync(() -> {
+            // Perform native pre-initialization.
+            // This code will save global pointer to JVM instance.
+            // Execute on the AWT event dispatching thread to store JNI context from EDT
+            // NOTE: in practice it seems that this method can be called from any thread (at tests
+            // execute successfully)
+            // TODO: ensure and make all initialization steps in single bg thread.
+            preinit(args);
+            initialize();
         },
         new NamedThreadExecutor("CefInitialize-thread"));
     }
@@ -243,9 +252,9 @@ public class CefApp extends CefAppHandlerAdapter {
      * @throws IllegalStateException in case of CefApp is already initialized
      */
     public static void addAppHandler(CefAppHandler appHandler) throws IllegalStateException {
-        if (self != null)
+        if (self != null && !IS_REMOTE_ENABLED)
             throw new IllegalStateException("Must be called before CefApp is initialized");
-        appHandler_ = appHandler;
+        userAppHandler_ = appHandler;
     }
 
     /**
@@ -254,6 +263,11 @@ public class CefApp extends CefAppHandlerAdapter {
      * @return an instance of this class
      */
     public static synchronized CefApp getInstance() {
+        if (IS_REMOTE_ENABLED) {
+            // Return default instance if exists.
+            if (self != null)
+                return self;
+        }
         return getInstance(null, null);
     }
 
@@ -261,27 +275,82 @@ public class CefApp extends CefAppHandlerAdapter {
         return getInstance(args, null);
     }
 
-    public static synchronized CefApp getInstance(CefSettings settings)
-            throws UnsatisfiedLinkError {
+    public static synchronized CefApp getInstance(CefSettings settings) {
         return getInstance(null, settings);
     }
 
     public static synchronized CefApp getInstance(String[] args, CefSettings settings) {
+        if (IS_REMOTE_ENABLED) {
+            // 1. Get command line args (from passed arguments and userAppHandler_)
+            final String[] realArgs;
+            if (args != null && args.length > 0)
+                realArgs = args;
+            else if (userAppHandler_ instanceof CefAppHandlerAdapter) {
+                realArgs = ((CefAppHandlerAdapter)userAppHandler_).getArgs();
+            } else {
+                if (userAppHandler_ != null)
+                    CefLog.Error("Unsupported class of CefAppHandler %s. Overridden command-line arguments will be ignored.", CefAppHandler.class);
+                realArgs = null;
+            }
+
+            // 2. Try to find the existing instance with the same args and settings.
+            CefServer s = CefServer.findInstance(realArgs, settings);
+            if (s != null)
+                return s.getCefApp();
+
+            // 3. Create new CefApp instance.
+            ThriftTransport st = ThriftTransport.ourDefaultServer;
+            ThriftTransport ct = ThriftTransport.ourDefaultClient;
+            if (CefServer.getInstancesCount() > 0) {
+                if (ThriftTransport.isTcpUsed()) {
+                    // change tcp transport with use of new free port
+                    ct = new ThriftTransport(ThriftTransport.findFreePort(null));
+                    Set<Integer> exclude = new HashSet<>(); exclude.add(ct.getPort());
+                    st = new ThriftTransport(ThriftTransport.findFreePort(exclude));
+                } else {
+                    // Change pipe transport with use of suffix.
+                    final String suffix = "" + System.currentTimeMillis();
+                    ct = new ThriftTransport(ThriftTransport.getJavaHandlersPipe(suffix));
+                    st = new ThriftTransport(ThriftTransport.getServerPipe(suffix));
+                }
+            }
+            s = new CefServer(st, ct, realArgs, settings);
+            CefApp result = new CefApp(realArgs, settings, s);
+
+            // 4. Set default instance
+            if (self == null)
+                self = result;
+
+            return result;
+        }
+
         if (settings != null) {
             if (self != null)
                 throw new IllegalStateException("Settings can only be passed to CEF"
                         + " before createClient is called the first time. Current state is " + self.state_);
         }
         if (self == null)
-            self = new CefApp(args, settings);
+            self = new CefApp(args, settings, null);
         else if (self.isTerminated())
             throw new IllegalStateException("CefApp was terminated");
 
         return self;
     }
 
-    public static synchronized CefApp getInstanceIfAny() throws UnsatisfiedLinkError {
+    public static synchronized CefApp findInstance(String[] args, CefSettings settings) {
+        if (!IS_REMOTE_ENABLED)
+            return null;
+
+        final CefServer s = CefServer.findInstance(args, settings);
+        return s != null ? s.getCefApp() : null;
+    }
+
+    public static synchronized CefApp getInstanceIfAny() {
         return self;
+    }
+
+    public static synchronized void setDefaultInstance(CefApp cefApp) {
+        self = cefApp;
     }
 
     public final synchronized void setSettings(CefSettings settings) throws IllegalStateException {
@@ -341,7 +410,7 @@ public class CefApp extends CefAppHandlerAdapter {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                CefAppHandler handler = appHandler_ == null ? CefApp.self : appHandler_;
+                CefAppHandler handler = appHandler_ == null ? CefApp.this : appHandler_;
                 if (handler != null) handler.stateHasChanged(state);
             }
         });
@@ -499,7 +568,7 @@ public class CefApp extends CefAppHandlerAdapter {
 
         CefSettings settings = settings_ != null ? settings_ : new CefSettings();
 
-        boolean success = N_Initialize(appHandler_ == null ? CefApp.this : appHandler_, settings, false);
+        boolean success = N_Initialize(appHandler_ == null ? this : appHandler_, settings, false);
         if (success) {
             CefLog.Debug("CefApp: native initialization is finished.");
             setState(CefAppState.INITIALIZED);
@@ -604,6 +673,9 @@ public class CefApp extends CefAppHandlerAdapter {
      * @param args Command-line arguments were used only to get CEF framework path in OSX.
      */
     public static boolean startup(String[] args) {
+        if (IS_REMOTE_ENABLED)
+            return true;
+
         if (OS.isMacintosh() && args.length == 0) {
             // this condition is to be removed after adapting IJ
             startupAsync(JCefAppConfig.getJbrFrameworkPathOSX());
@@ -647,10 +719,8 @@ public class CefApp extends CefAppHandlerAdapter {
      *                      Used only on macOS.
      */
     public static void startupAsync(String frameworkPath) {
-        if (IS_REMOTE_ENABLED) {
-            ourStartupFeature.complete(null);
+        if (IS_REMOTE_ENABLED)
             return;
-        }
 
         new NamedThreadExecutor("CefStartup-thread").execute(()->{
             try {

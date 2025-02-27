@@ -13,8 +13,7 @@ import org.cef.handler.CefAppHandler;
 import org.cef.misc.CefLog;
 import org.cef.misc.Utils;
 
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -25,46 +24,67 @@ public class CefServer {
     private static final int WAIT_FOR_SERVER_EXIT_SEC = Utils.getInteger("JCEF_WAIT_FOR_SERVER_EXIT_SEC", 10);
     private static final boolean DONT_STOP_SERVER_MANUALLY = Utils.getBoolean("JCEF_DONT_STOP_SERVER_MANUALLY"); // TODO: remove after platform tests debugging
     private static final boolean DONT_USE_UNIQUE_ROOTS = Utils.getBoolean("JCEF_DONT_USE_UNIQUE_ROOTS"); // TODO: remove after platform tests debugging
+
+    private static Map<CefParams, CefServer> ourInstances = new ConcurrentHashMap<>();
+
     private final ThriftTransport myThriftServer;
     private final ThriftTransport myThriftBackward;
+    private final String[] myArgs;
+    private final CefSettings mySettings;
+
+    private CefApp myCefApp = null;
 
     // Fields for cef-handlers execution on java side
     private Thread myClientHandlersThread;
     private TServer myClientHandlersServer;
     private TServerTransport myClientHandlersTransport;
-    private RpcContext myRpc = new RpcContext();
+    private final RpcContext myRpc;
     private final Map<Integer, RemoteBrowser> myBid2Browser = new ConcurrentHashMap<>();
-    private final ClientHandlersImpl myClientHandlersImpl = new ClientHandlersImpl(myRpc, myBid2Browser);
+    private final ClientHandlersImpl myClientHandlersImpl;
 
     private volatile boolean myIsConnected = false;
     private volatile boolean myIsContextInitialized = false;
 
     private final LinkedList<Runnable> myDelayedActions = new LinkedList<>();
 
-    public CefServer(ThriftTransport thriftServer, ThriftTransport thriftBackward) {
+    public CefServer(ThriftTransport thriftServer, ThriftTransport thriftBackward, String[] args, CefSettings settings) {
         myThriftServer = thriftServer;
         myThriftBackward = thriftBackward;
+        myArgs = args == null ? new String[0] : Arrays.copyOf(args, args.length);
+        mySettings = settings == null ? new CefSettings() : settings.clone();
+
+        myRpc = new RpcContext(this);
+        myClientHandlersImpl = new ClientHandlersImpl(myRpc, myBid2Browser);
+
+        CefParams p = new CefParams(mySettings, myArgs);
+        if (ourInstances.get(p) != null)
+            CefLog.Error("CefServer instance already created for params:\n%s", p);
+        ourInstances.put(p, this);
+        CefLog.Debug("Created CefServer instance. Transport %s (backward %s). Params:\n%s", thriftServer, thriftBackward, p);
     }
+
+    public static CefServer findInstance(String[] args, CefSettings settings) {
+        return ourInstances.get(new CefParams(settings, args));
+    }
+
+    public static int getInstancesCount() { return ourInstances.size(); }
 
     public ThriftTransport getThriftServer() { return myThriftServer; }
     public ThriftTransport getThriftBackward() { return myThriftBackward; }
 
-    public static CefServer createDefault() { return new CefServer(ThriftTransport.ourDefaultServer, ThriftTransport.ourDefaultClient); }
+    public CefApp getCefApp() { return myCefApp; }
+    public void setCefApp(CefApp cefApp) { myCefApp = cefApp; }
 
-    public boolean start(CefAppHandler appHandler, CefSettings settings) {
-        return start(appHandler, settings, true);
+    public boolean start(CefAppHandler appHandler) {
+        return start(appHandler, true);
     }
 
     // Connects to CefServer and start cef-handlers service.
     // Should be executed in bg thread.
-    // NOTE: appHandler is necessary for (1) cmdLineArgs, (2) custom schemes, (3) onContextInitialized callback
-    public boolean start(CefAppHandler appHandler, CefSettings settings, boolean fixRoot) {
+    // NOTE: appHandler is necessary for (1) custom schemes, (2) onContextInitialized callback
+    public boolean start(CefAppHandler appHandler, boolean fixRoot) {
         if (!CefApp.isRemoteEnabled())
             return false;
-        if (appHandler == null) { // just for simplicity
-            CefLog.Error("Can't initialize client for native server because CefAppHandler is null.");
-            return false;
-        }
 
         final String prevRoot = NativeServerManager.isRunning(myThriftServer);
         if (prevRoot != null) {
@@ -73,14 +93,14 @@ public class CefServer {
         } else {
             boolean deleteRoot = false;
             if (fixRoot && !DONT_USE_UNIQUE_ROOTS)
-                deleteRoot = NativeServerManager.fixRootInSettings(settings, "cef_cache" + ThriftTransport.getUniqueSuffix());
+                deleteRoot = NativeServerManager.fixRootInSettings(mySettings, "cef_cache_" + myThriftServer.toStringShort());
 
-            final boolean success = NativeServerManager.startProcessAndWait(myThriftServer, appHandler, settings, deleteRoot, WAIT_FOR_SERVER_START_SEC*1000l);
+            final boolean success = NativeServerManager.startProcessAndWait(myThriftServer, appHandler, myArgs, mySettings, deleteRoot, WAIT_FOR_SERVER_START_SEC*1000l);
             if (!success)
                 return false;
         }
 
-        if (!connect(appHandler::onContextInitialized)) {
+        if (!connect(appHandler == null ? null : appHandler::onContextInitialized)) {
             CefLog.Error("Can't initialize thrift client for native server.");
             return false;
         }
@@ -218,6 +238,8 @@ public class CefServer {
             t.setDaemon(false);
             t.start();
         }
+
+        ourInstances.remove(new CefParams(mySettings, myArgs));
     }
 
     public static TServer startTestHandlersService(CountDownLatch finished) {
@@ -264,5 +286,49 @@ public class CefServer {
         t.setName("CefHandlers(dummy)-listening");
         t.start();
         return result;
+    }
+
+    public static class CefParams {
+        final Set<String> chromiumArgs = new HashSet<>();
+        final CefSettings settings;
+
+        public CefParams(CefSettings settings, String[] args) {
+            this.settings = settings == null ? new CefSettings() : settings.clone();
+            if (args != null && args.length > 0) {
+                for (String arg: args)
+                    if (arg != null)
+                        chromiumArgs.add(arg.trim());
+            }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj instanceof CefParams) {
+                final CefParams cp = (CefParams)obj;
+                if (!chromiumArgs.equals(cp.chromiumArgs))
+                    return false;
+                return Objects.equals(settings.log_file, cp.settings.log_file)
+                       && Objects.equals(settings.log_severity, cp.settings.log_severity);
+                // TODO: add another significant fields from CefSettings.
+                // Candidates: javascript_flags, remote_debugging_port, etc
+            }
+            return false;
+        }
+
+        @Override
+        public int hashCode() {
+            final int argsHash = chromiumArgs.hashCode();
+            if (settings == null)
+                return argsHash;
+
+            final int f = settings.log_file == null ? 0 : settings.log_file.hashCode();
+            final int l = settings.log_severity == null ? 0 : settings.log_severity.hashCode();
+            return f + l + argsHash;
+        }
+
+        @Override
+        public String toString() {
+            return chromiumArgs + "| log_file=" + settings.log_file + ", log_severity=" + settings.log_severity;
+        }
     }
 }

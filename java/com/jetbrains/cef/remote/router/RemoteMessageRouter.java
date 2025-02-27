@@ -1,5 +1,6 @@
 package com.jetbrains.cef.remote.router;
 
+import com.jetbrains.cef.remote.CefServer;
 import com.jetbrains.cef.remote.RpcContext;
 import org.cef.CefApp;
 import org.cef.browser.CefBrowser;
@@ -56,11 +57,11 @@ public class RemoteMessageRouter extends CefMessageRouter {
         execute(() -> myImpl.cancelPending(browser, handler), "cancelPending");
     }
 
-    public RemoteMessageRouter(CefMessageRouterConfig config) {
+    public RemoteMessageRouter(CefServer server, CefMessageRouterConfig config) {
         super(config);
         // NOTE: message router must be registered before browser created, so use flag 'first' here
-        CefApp.getInstance().getServer().onConnected(()->{
-            RpcContext rpcContext = CefApp.getInstance().getServer().getRpcContext();
+        server.onConnected(()->{
+            RpcContext rpcContext = server.getRpcContext();
             myImpl = RemoteMessageRouterImpl.create(rpcContext, getMessageRouterConfig());
             synchronized (myDelayedActions) {
                 myDelayedActions.forEach(r -> r.run());

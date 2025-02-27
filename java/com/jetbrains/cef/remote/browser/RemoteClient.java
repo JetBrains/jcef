@@ -1,19 +1,22 @@
 package com.jetbrains.cef.remote.browser;
 
+import com.jetbrains.cef.remote.CefServer;
 import com.jetbrains.cef.remote.MultiHandler;
 import com.jetbrains.cef.remote.RpcContext;
-import com.jetbrains.cef.remote.RpcExecutor;
 import com.jetbrains.cef.remote.network.RemoteRequestContext;
 import com.jetbrains.cef.remote.router.RemoteMessageRouter;
-import com.jetbrains.cef.remote.router.RemoteMessageRouterImpl;
 import org.cef.CefBrowserSettings;
 import org.cef.CefClient;
-import org.cef.browser.*;
+import org.cef.browser.CefBrowser;
+import org.cef.browser.CefMessageRouter;
+import org.cef.browser.CefRendering;
+import org.cef.browser.CefRequestContext;
 import org.cef.handler.*;
 import org.cef.misc.CefLog;
 
-import java.awt.Component;
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
@@ -51,6 +54,8 @@ public class RemoteClient {
         myRpc = rpcContext;
         ourBid2Browser = bid2browser;
     }
+
+    public CefServer getServer() { return myRpc.server; }
 
     public MultiHandler<CefLifeSpanHandler> getLifeSpanHandler() { return hLifeSpan; }
 

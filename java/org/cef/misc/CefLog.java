@@ -22,9 +22,9 @@ public class CefLog {
 
     public static void init(CefSettings settings) {
         if (settings != null)
-            init(settings.log_file, settings.log_severity, false);
+            init(settings.log_file, settings.log_severity, true);
         else
-            init(null, null, false);
+            init(null, null, true);
     }
 
     public static void init(String log_file, CefSettings.LogSeverity log_severity) {
