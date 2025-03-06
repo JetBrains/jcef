@@ -167,10 +167,11 @@ class CancellationPoint {
 
 ServerApplication ServerApplication::ourInstance;
 
-ServerApplication::ServerApplication() : myFactory(new MyServerProcessorFactory), myStopWatcher(std::make_shared<CancellationPoint>()) {}
+ServerApplication::ServerApplication() {}
 
 ServerApplication::~ServerApplication() {
-  myAppHandler->Release();
+  if (myAppHandler != nullptr)
+    myAppHandler->Release();
 }
 
 #if defined(OS_MAC)
@@ -186,6 +187,8 @@ void ServerApplication::init(int argc, char* argv[]) {
   myCmdArgs.init(argc, argv);
   Log::init(myCmdArgs.getLogLevel(), myCmdArgs.getLogFile());
   Log::info("Init ServerApplication with transport %s.\n", myCmdArgs.getTransportDesc().c_str());
+
+  myFactory = std::make_shared<MyServerProcessorFactory>();
 
 #if defined(OS_MAC)
   const Clock::time_point t0 = Clock::now();
@@ -219,6 +222,7 @@ void ServerApplication::init(int argc, char* argv[]) {
   ourTimeoutShuttingDownMs = std::chrono::milliseconds(getLongEnv("CEF_SERVER_ourTimeoutShuttingDownMs", ourTimeoutShuttingDownMs.count()));
 
   // Init watcher thread
+  myStopWatcher = std::make_shared<CancellationPoint>();
   myThreadWatcher = std::thread([&]() {
     setThreadName("Watcher");
     const std::chrono::milliseconds timeoutWatchMs(getLongEnv("CEF_SERVER_timeoutWatchMs", 5000));

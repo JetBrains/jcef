@@ -303,7 +303,11 @@ int main(int argc, char* argv[]) {
 #endif  // WIN32
   if (cmdArgs.deleteRootCacheDir() && !app.isDefaultRoot()) {
     Log::debug("Remove root cache dir '%s'", app.getRootPath().c_str());
-    std::filesystem::remove_all(app.getRootPath());
+    try {
+      std::filesystem::remove_all(app.getRootPath());
+    } catch (const std::filesystem::filesystem_error& ex) {
+      Log::error("Failed to remove root cache dir '%s'. Error: %s. Error code: %s", app.getRootPath().c_str(), ex.what(), ex.code().message().c_str());
+    }
   }
   Log::debug("Buy [%s]!", cmdArgs.getTransportDesc().c_str());
   return 0;

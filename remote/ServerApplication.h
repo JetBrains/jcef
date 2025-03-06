@@ -76,7 +76,7 @@ class ServerApplication {
 
  private:
   CommandLineArgs myCmdArgs;
-  RemoteAppHandler* myAppHandler;
+  RemoteAppHandler* myAppHandler = nullptr;
   std::shared_ptr<MyServerProcessorFactory> myFactory;
   std::string myStateDesc = "New";
   std::string myRemainingBrowsersDesc = "";
