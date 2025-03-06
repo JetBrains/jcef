@@ -58,6 +58,8 @@ bool parseSettingItem(CefSettings & out, const std::string & settingLine) {
       out.log_severity = LOGSEVERITY_WARNING;
     else if (val.find("err") != val.npos)
       out.log_severity = LOGSEVERITY_ERROR;
+    else if (val.find("disable") != val.npos)
+      out.log_severity = LOGSEVERITY_DISABLE;
     else
       out.log_severity = LOGSEVERITY_DEFAULT;
   } else if (name.find("javascript_flags") != name.npos) {
