@@ -73,6 +73,9 @@ class ServerIf {
   virtual void Browser_SetFrameRate(const int32_t bid, const int32_t val) = 0;
   virtual void Browser_AddDevToolsMessageObserver( ::thrift_codegen::RObject& _return, const int32_t bid, const  ::thrift_codegen::RObject& observer) = 0;
   virtual void Browser_ExecuteDevToolsMethod(const int32_t bid, const std::string& method, const std::string& parametersAsJson, const  ::thrift_codegen::RObject& intCallback) = 0;
+  virtual void Browser_RunFileDialog(const int32_t bid, const std::string& mode, const std::string& title, const std::string& defaultFilePath, const std::vector<std::string> & acceptFilters, const  ::thrift_codegen::RObject& runFileDialogCallback) = 0;
+  virtual void Browser_PrintToPDF(const int32_t bid, const std::string& path, const std::map<std::string, std::string> & pdfPrintSettings, const  ::thrift_codegen::RObject& pdfPrintCallback) = 0;
+  virtual void Browser_Print(const int32_t bid) = 0;
   virtual void Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line) = 0;
   virtual void Frame_Dispose(const int32_t frameId) = 0;
   virtual void Frame_GetParent( ::thrift_codegen::RObject& _return, const int32_t frameId) = 0;
@@ -322,6 +325,15 @@ class ServerNull : virtual public ServerIf {
     return;
   }
   void Browser_ExecuteDevToolsMethod(const int32_t /* bid */, const std::string& /* method */, const std::string& /* parametersAsJson */, const  ::thrift_codegen::RObject& /* intCallback */) override {
+    return;
+  }
+  void Browser_RunFileDialog(const int32_t /* bid */, const std::string& /* mode */, const std::string& /* title */, const std::string& /* defaultFilePath */, const std::vector<std::string> & /* acceptFilters */, const  ::thrift_codegen::RObject& /* runFileDialogCallback */) override {
+    return;
+  }
+  void Browser_PrintToPDF(const int32_t /* bid */, const std::string& /* path */, const std::map<std::string, std::string> & /* pdfPrintSettings */, const  ::thrift_codegen::RObject& /* pdfPrintCallback */) override {
+    return;
+  }
+  void Browser_Print(const int32_t /* bid */) override {
     return;
   }
   void Frame_ExecuteJavaScript(const int32_t /* frameId */, const std::string& /* code */, const std::string& /* url */, const int32_t /* line */) override {
@@ -4572,6 +4584,216 @@ class Server_Browser_ExecuteDevToolsMethod_pargs {
   const std::string* method;
   const std::string* parametersAsJson;
   const  ::thrift_codegen::RObject* intCallback;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_Browser_RunFileDialog_args__isset {
+  _Server_Browser_RunFileDialog_args__isset() : bid(false), mode(false), title(false), defaultFilePath(false), acceptFilters(false), runFileDialogCallback(false) {}
+  bool bid :1;
+  bool mode :1;
+  bool title :1;
+  bool defaultFilePath :1;
+  bool acceptFilters :1;
+  bool runFileDialogCallback :1;
+} _Server_Browser_RunFileDialog_args__isset;
+
+class Server_Browser_RunFileDialog_args {
+ public:
+
+  Server_Browser_RunFileDialog_args(const Server_Browser_RunFileDialog_args&);
+  Server_Browser_RunFileDialog_args& operator=(const Server_Browser_RunFileDialog_args&);
+  Server_Browser_RunFileDialog_args() noexcept
+                                    : bid(0),
+                                      mode(),
+                                      title(),
+                                      defaultFilePath() {
+  }
+
+  virtual ~Server_Browser_RunFileDialog_args() noexcept;
+  int32_t bid;
+  std::string mode;
+  std::string title;
+  std::string defaultFilePath;
+  std::vector<std::string>  acceptFilters;
+   ::thrift_codegen::RObject runFileDialogCallback;
+
+  _Server_Browser_RunFileDialog_args__isset __isset;
+
+  void __set_bid(const int32_t val);
+
+  void __set_mode(const std::string& val);
+
+  void __set_title(const std::string& val);
+
+  void __set_defaultFilePath(const std::string& val);
+
+  void __set_acceptFilters(const std::vector<std::string> & val);
+
+  void __set_runFileDialogCallback(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_Browser_RunFileDialog_args & rhs) const
+  {
+    if (!(bid == rhs.bid))
+      return false;
+    if (!(mode == rhs.mode))
+      return false;
+    if (!(title == rhs.title))
+      return false;
+    if (!(defaultFilePath == rhs.defaultFilePath))
+      return false;
+    if (!(acceptFilters == rhs.acceptFilters))
+      return false;
+    if (!(runFileDialogCallback == rhs.runFileDialogCallback))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_Browser_RunFileDialog_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Browser_RunFileDialog_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Browser_RunFileDialog_pargs {
+ public:
+
+
+  virtual ~Server_Browser_RunFileDialog_pargs() noexcept;
+  const int32_t* bid;
+  const std::string* mode;
+  const std::string* title;
+  const std::string* defaultFilePath;
+  const std::vector<std::string> * acceptFilters;
+  const  ::thrift_codegen::RObject* runFileDialogCallback;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_Browser_PrintToPDF_args__isset {
+  _Server_Browser_PrintToPDF_args__isset() : bid(false), path(false), pdfPrintSettings(false), pdfPrintCallback(false) {}
+  bool bid :1;
+  bool path :1;
+  bool pdfPrintSettings :1;
+  bool pdfPrintCallback :1;
+} _Server_Browser_PrintToPDF_args__isset;
+
+class Server_Browser_PrintToPDF_args {
+ public:
+
+  Server_Browser_PrintToPDF_args(const Server_Browser_PrintToPDF_args&);
+  Server_Browser_PrintToPDF_args& operator=(const Server_Browser_PrintToPDF_args&);
+  Server_Browser_PrintToPDF_args() noexcept
+                                 : bid(0),
+                                   path() {
+  }
+
+  virtual ~Server_Browser_PrintToPDF_args() noexcept;
+  int32_t bid;
+  std::string path;
+  std::map<std::string, std::string>  pdfPrintSettings;
+   ::thrift_codegen::RObject pdfPrintCallback;
+
+  _Server_Browser_PrintToPDF_args__isset __isset;
+
+  void __set_bid(const int32_t val);
+
+  void __set_path(const std::string& val);
+
+  void __set_pdfPrintSettings(const std::map<std::string, std::string> & val);
+
+  void __set_pdfPrintCallback(const  ::thrift_codegen::RObject& val);
+
+  bool operator == (const Server_Browser_PrintToPDF_args & rhs) const
+  {
+    if (!(bid == rhs.bid))
+      return false;
+    if (!(path == rhs.path))
+      return false;
+    if (!(pdfPrintSettings == rhs.pdfPrintSettings))
+      return false;
+    if (!(pdfPrintCallback == rhs.pdfPrintCallback))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_Browser_PrintToPDF_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Browser_PrintToPDF_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Browser_PrintToPDF_pargs {
+ public:
+
+
+  virtual ~Server_Browser_PrintToPDF_pargs() noexcept;
+  const int32_t* bid;
+  const std::string* path;
+  const std::map<std::string, std::string> * pdfPrintSettings;
+  const  ::thrift_codegen::RObject* pdfPrintCallback;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_Browser_Print_args__isset {
+  _Server_Browser_Print_args__isset() : bid(false) {}
+  bool bid :1;
+} _Server_Browser_Print_args__isset;
+
+class Server_Browser_Print_args {
+ public:
+
+  Server_Browser_Print_args(const Server_Browser_Print_args&) noexcept;
+  Server_Browser_Print_args& operator=(const Server_Browser_Print_args&) noexcept;
+  Server_Browser_Print_args() noexcept
+                            : bid(0) {
+  }
+
+  virtual ~Server_Browser_Print_args() noexcept;
+  int32_t bid;
+
+  _Server_Browser_Print_args__isset __isset;
+
+  void __set_bid(const int32_t val);
+
+  bool operator == (const Server_Browser_Print_args & rhs) const
+  {
+    if (!(bid == rhs.bid))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_Browser_Print_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Browser_Print_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Browser_Print_pargs {
+ public:
+
+
+  virtual ~Server_Browser_Print_pargs() noexcept;
+  const int32_t* bid;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -9326,6 +9548,12 @@ class ServerClient : virtual public ServerIf {
   void recv_Browser_AddDevToolsMessageObserver( ::thrift_codegen::RObject& _return);
   void Browser_ExecuteDevToolsMethod(const int32_t bid, const std::string& method, const std::string& parametersAsJson, const  ::thrift_codegen::RObject& intCallback) override;
   void send_Browser_ExecuteDevToolsMethod(const int32_t bid, const std::string& method, const std::string& parametersAsJson, const  ::thrift_codegen::RObject& intCallback);
+  void Browser_RunFileDialog(const int32_t bid, const std::string& mode, const std::string& title, const std::string& defaultFilePath, const std::vector<std::string> & acceptFilters, const  ::thrift_codegen::RObject& runFileDialogCallback) override;
+  void send_Browser_RunFileDialog(const int32_t bid, const std::string& mode, const std::string& title, const std::string& defaultFilePath, const std::vector<std::string> & acceptFilters, const  ::thrift_codegen::RObject& runFileDialogCallback);
+  void Browser_PrintToPDF(const int32_t bid, const std::string& path, const std::map<std::string, std::string> & pdfPrintSettings, const  ::thrift_codegen::RObject& pdfPrintCallback) override;
+  void send_Browser_PrintToPDF(const int32_t bid, const std::string& path, const std::map<std::string, std::string> & pdfPrintSettings, const  ::thrift_codegen::RObject& pdfPrintCallback);
+  void Browser_Print(const int32_t bid) override;
+  void send_Browser_Print(const int32_t bid);
   void Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line) override;
   void send_Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line);
   void Frame_Dispose(const int32_t frameId) override;
@@ -9540,6 +9768,9 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_Browser_SetFrameRate(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_AddDevToolsMessageObserver(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_ExecuteDevToolsMethod(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_Browser_RunFileDialog(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_Browser_PrintToPDF(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_Browser_Print(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Frame_ExecuteJavaScript(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Frame_Dispose(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Frame_GetParent(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -9653,6 +9884,9 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["Browser_SetFrameRate"] = &ServerProcessor::process_Browser_SetFrameRate;
     processMap_["Browser_AddDevToolsMessageObserver"] = &ServerProcessor::process_Browser_AddDevToolsMessageObserver;
     processMap_["Browser_ExecuteDevToolsMethod"] = &ServerProcessor::process_Browser_ExecuteDevToolsMethod;
+    processMap_["Browser_RunFileDialog"] = &ServerProcessor::process_Browser_RunFileDialog;
+    processMap_["Browser_PrintToPDF"] = &ServerProcessor::process_Browser_PrintToPDF;
+    processMap_["Browser_Print"] = &ServerProcessor::process_Browser_Print;
     processMap_["Frame_ExecuteJavaScript"] = &ServerProcessor::process_Frame_ExecuteJavaScript;
     processMap_["Frame_Dispose"] = &ServerProcessor::process_Frame_Dispose;
     processMap_["Frame_GetParent"] = &ServerProcessor::process_Frame_GetParent;
@@ -10207,6 +10441,33 @@ class ServerMultiface : virtual public ServerIf {
       ifaces_[i]->Browser_ExecuteDevToolsMethod(bid, method, parametersAsJson, intCallback);
     }
     ifaces_[i]->Browser_ExecuteDevToolsMethod(bid, method, parametersAsJson, intCallback);
+  }
+
+  void Browser_RunFileDialog(const int32_t bid, const std::string& mode, const std::string& title, const std::string& defaultFilePath, const std::vector<std::string> & acceptFilters, const  ::thrift_codegen::RObject& runFileDialogCallback) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->Browser_RunFileDialog(bid, mode, title, defaultFilePath, acceptFilters, runFileDialogCallback);
+    }
+    ifaces_[i]->Browser_RunFileDialog(bid, mode, title, defaultFilePath, acceptFilters, runFileDialogCallback);
+  }
+
+  void Browser_PrintToPDF(const int32_t bid, const std::string& path, const std::map<std::string, std::string> & pdfPrintSettings, const  ::thrift_codegen::RObject& pdfPrintCallback) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->Browser_PrintToPDF(bid, path, pdfPrintSettings, pdfPrintCallback);
+    }
+    ifaces_[i]->Browser_PrintToPDF(bid, path, pdfPrintSettings, pdfPrintCallback);
+  }
+
+  void Browser_Print(const int32_t bid) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->Browser_Print(bid);
+    }
+    ifaces_[i]->Browser_Print(bid);
   }
 
   void Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line) override {
@@ -10905,6 +11166,12 @@ class ServerConcurrentClient : virtual public ServerIf {
   void recv_Browser_AddDevToolsMessageObserver( ::thrift_codegen::RObject& _return, const int32_t seqid);
   void Browser_ExecuteDevToolsMethod(const int32_t bid, const std::string& method, const std::string& parametersAsJson, const  ::thrift_codegen::RObject& intCallback) override;
   void send_Browser_ExecuteDevToolsMethod(const int32_t bid, const std::string& method, const std::string& parametersAsJson, const  ::thrift_codegen::RObject& intCallback);
+  void Browser_RunFileDialog(const int32_t bid, const std::string& mode, const std::string& title, const std::string& defaultFilePath, const std::vector<std::string> & acceptFilters, const  ::thrift_codegen::RObject& runFileDialogCallback) override;
+  void send_Browser_RunFileDialog(const int32_t bid, const std::string& mode, const std::string& title, const std::string& defaultFilePath, const std::vector<std::string> & acceptFilters, const  ::thrift_codegen::RObject& runFileDialogCallback);
+  void Browser_PrintToPDF(const int32_t bid, const std::string& path, const std::map<std::string, std::string> & pdfPrintSettings, const  ::thrift_codegen::RObject& pdfPrintCallback) override;
+  void send_Browser_PrintToPDF(const int32_t bid, const std::string& path, const std::map<std::string, std::string> & pdfPrintSettings, const  ::thrift_codegen::RObject& pdfPrintCallback);
+  void Browser_Print(const int32_t bid) override;
+  void send_Browser_Print(const int32_t bid);
   void Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line) override;
   void send_Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line);
   void Frame_Dispose(const int32_t frameId) override;

@@ -84,6 +84,19 @@ class ServerHandler : public thrift_codegen::ServerIf {
       const std::string& method,
       const std::string& parametersAsJson,
       const thrift_codegen::RObject& intCallback) override;
+  void Browser_RunFileDialog(
+      const int32_t bid,
+      const std::string& mode,
+      const std::string& title,
+      const std::string& defaultFilePath,
+      const std::vector<std::string>& acceptFilters,
+      const thrift_codegen::RObject& runFileDialogCallback) override;
+  void Browser_PrintToPDF(
+      const int32_t bid,
+      const std::string& path,
+      const std::map<std::string, std::string>& pdfPrintSettings,
+      const thrift_codegen::RObject& pdfPrintCallback) override;
+  void Browser_Print(const int32_t bid) override;
 
   //
   // CefFrame

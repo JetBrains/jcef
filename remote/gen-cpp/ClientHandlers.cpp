@@ -12564,6 +12564,240 @@ uint32_t ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_presult
   return xfer;
 }
 
+
+ClientHandlers_PdfPrintCallback_OnPdfPrintFinished_args::~ClientHandlers_PdfPrintCallback_OnPdfPrintFinished_args() noexcept {
+}
+
+
+uint32_t ClientHandlers_PdfPrintCallback_OnPdfPrintFinished_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->pdfPrintCallback);
+          this->__isset.pdfPrintCallback = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->path);
+          this->__isset.path = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->ok);
+          this->__isset.ok = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_PdfPrintCallback_OnPdfPrintFinished_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_PdfPrintCallback_OnPdfPrintFinished_args");
+
+  xfer += oprot->writeFieldBegin("pdfPrintCallback", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->pdfPrintCallback);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("path", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString(this->path);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("ok", ::apache::thrift::protocol::T_BOOL, 3);
+  xfer += oprot->writeBool(this->ok);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_PdfPrintCallback_OnPdfPrintFinished_pargs::~ClientHandlers_PdfPrintCallback_OnPdfPrintFinished_pargs() noexcept {
+}
+
+
+uint32_t ClientHandlers_PdfPrintCallback_OnPdfPrintFinished_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_PdfPrintCallback_OnPdfPrintFinished_pargs");
+
+  xfer += oprot->writeFieldBegin("pdfPrintCallback", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->pdfPrintCallback)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("path", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString((*(this->path)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("ok", ::apache::thrift::protocol::T_BOOL, 3);
+  xfer += oprot->writeBool((*(this->ok)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_RunFileDialogCallback_OnFileDialogDismissed_args::~ClientHandlers_RunFileDialogCallback_OnFileDialogDismissed_args() noexcept {
+}
+
+
+uint32_t ClientHandlers_RunFileDialogCallback_OnFileDialogDismissed_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->runFileDialogCallback);
+          this->__isset.runFileDialogCallback = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_LIST) {
+          {
+            this->filePaths.clear();
+            uint32_t _size56;
+            ::apache::thrift::protocol::TType _etype59;
+            xfer += iprot->readListBegin(_etype59, _size56);
+            this->filePaths.resize(_size56);
+            uint32_t _i60;
+            for (_i60 = 0; _i60 < _size56; ++_i60)
+            {
+              xfer += iprot->readString(this->filePaths[_i60]);
+            }
+            xfer += iprot->readListEnd();
+          }
+          this->__isset.filePaths = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_RunFileDialogCallback_OnFileDialogDismissed_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_RunFileDialogCallback_OnFileDialogDismissed_args");
+
+  xfer += oprot->writeFieldBegin("runFileDialogCallback", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->runFileDialogCallback);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("filePaths", ::apache::thrift::protocol::T_LIST, 2);
+  {
+    xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->filePaths.size()));
+    std::vector<std::string> ::const_iterator _iter61;
+    for (_iter61 = this->filePaths.begin(); _iter61 != this->filePaths.end(); ++_iter61)
+    {
+      xfer += oprot->writeString((*_iter61));
+    }
+    xfer += oprot->writeListEnd();
+  }
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_RunFileDialogCallback_OnFileDialogDismissed_pargs::~ClientHandlers_RunFileDialogCallback_OnFileDialogDismissed_pargs() noexcept {
+}
+
+
+uint32_t ClientHandlers_RunFileDialogCallback_OnFileDialogDismissed_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_RunFileDialogCallback_OnFileDialogDismissed_pargs");
+
+  xfer += oprot->writeFieldBegin("runFileDialogCallback", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->runFileDialogCallback)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("filePaths", ::apache::thrift::protocol::T_LIST, 2);
+  {
+    xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*(this->filePaths)).size()));
+    std::vector<std::string> ::const_iterator _iter62;
+    for (_iter62 = (*(this->filePaths)).begin(); _iter62 != (*(this->filePaths)).end(); ++_iter62)
+    {
+      xfer += oprot->writeString((*_iter62));
+    }
+    xfer += oprot->writeListEnd();
+  }
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
 void ClientHandlersClient::echo(std::string& _return, const std::string& msg)
 {
   send_echo(msg);
@@ -15729,6 +15963,47 @@ bool ClientHandlersClient::recv_PermissionHandler_OnRequestMediaAccessPermission
     return _return;
   }
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "PermissionHandler_OnRequestMediaAccessPermission failed: unknown result");
+}
+
+void ClientHandlersClient::PdfPrintCallback_OnPdfPrintFinished(const int32_t pdfPrintCallback, const std::string& path, const bool ok)
+{
+  send_PdfPrintCallback_OnPdfPrintFinished(pdfPrintCallback, path, ok);
+}
+
+void ClientHandlersClient::send_PdfPrintCallback_OnPdfPrintFinished(const int32_t pdfPrintCallback, const std::string& path, const bool ok)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("PdfPrintCallback_OnPdfPrintFinished", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  ClientHandlers_PdfPrintCallback_OnPdfPrintFinished_pargs args;
+  args.pdfPrintCallback = &pdfPrintCallback;
+  args.path = &path;
+  args.ok = &ok;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void ClientHandlersClient::RunFileDialogCallback_OnFileDialogDismissed(const int32_t runFileDialogCallback, const std::vector<std::string> & filePaths)
+{
+  send_RunFileDialogCallback_OnFileDialogDismissed(runFileDialogCallback, filePaths);
+}
+
+void ClientHandlersClient::send_RunFileDialogCallback_OnFileDialogDismissed(const int32_t runFileDialogCallback, const std::vector<std::string> & filePaths)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("RunFileDialogCallback_OnFileDialogDismissed", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  ClientHandlers_RunFileDialogCallback_OnFileDialogDismissed_pargs args;
+  args.runFileDialogCallback = &runFileDialogCallback;
+  args.filePaths = &filePaths;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
 }
 
 bool ClientHandlersProcessor::dispatchCall(::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, const std::string& fname, int32_t seqid, void* callContext) {
@@ -19056,6 +19331,80 @@ void ClientHandlersProcessor::process_PermissionHandler_OnRequestMediaAccessPerm
   if (this->eventHandler_.get() != nullptr) {
     this->eventHandler_->postWrite(ctx, "ClientHandlers.PermissionHandler_OnRequestMediaAccessPermission", bytes);
   }
+}
+
+void ClientHandlersProcessor::process_PdfPrintCallback_OnPdfPrintFinished(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("ClientHandlers.PdfPrintCallback_OnPdfPrintFinished", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ClientHandlers.PdfPrintCallback_OnPdfPrintFinished");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "ClientHandlers.PdfPrintCallback_OnPdfPrintFinished");
+  }
+
+  ClientHandlers_PdfPrintCallback_OnPdfPrintFinished_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "ClientHandlers.PdfPrintCallback_OnPdfPrintFinished", bytes);
+  }
+
+  try {
+    iface_->PdfPrintCallback_OnPdfPrintFinished(args.pdfPrintCallback, args.path, args.ok);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "ClientHandlers.PdfPrintCallback_OnPdfPrintFinished");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "ClientHandlers.PdfPrintCallback_OnPdfPrintFinished");
+  }
+
+  return;
+}
+
+void ClientHandlersProcessor::process_RunFileDialogCallback_OnFileDialogDismissed(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("ClientHandlers.RunFileDialogCallback_OnFileDialogDismissed", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ClientHandlers.RunFileDialogCallback_OnFileDialogDismissed");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "ClientHandlers.RunFileDialogCallback_OnFileDialogDismissed");
+  }
+
+  ClientHandlers_RunFileDialogCallback_OnFileDialogDismissed_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "ClientHandlers.RunFileDialogCallback_OnFileDialogDismissed", bytes);
+  }
+
+  try {
+    iface_->RunFileDialogCallback_OnFileDialogDismissed(args.runFileDialogCallback, args.filePaths);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "ClientHandlers.RunFileDialogCallback_OnFileDialogDismissed");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "ClientHandlers.RunFileDialogCallback_OnFileDialogDismissed");
+  }
+
+  return;
 }
 
 ::std::shared_ptr< ::apache::thrift::TProcessor > ClientHandlersProcessorFactory::getProcessor(const ::apache::thrift::TConnectionInfo& connInfo) {
@@ -23462,6 +23811,53 @@ bool ClientHandlersConcurrentClient::recv_PermissionHandler_OnRequestMediaAccess
     // this will temporarily unlock the readMutex, and let other clients get work done
     this->sync_->waitForWork(seqid);
   } // end while(true)
+}
+
+void ClientHandlersConcurrentClient::PdfPrintCallback_OnPdfPrintFinished(const int32_t pdfPrintCallback, const std::string& path, const bool ok)
+{
+  send_PdfPrintCallback_OnPdfPrintFinished(pdfPrintCallback, path, ok);
+}
+
+void ClientHandlersConcurrentClient::send_PdfPrintCallback_OnPdfPrintFinished(const int32_t pdfPrintCallback, const std::string& path, const bool ok)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("PdfPrintCallback_OnPdfPrintFinished", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  ClientHandlers_PdfPrintCallback_OnPdfPrintFinished_pargs args;
+  args.pdfPrintCallback = &pdfPrintCallback;
+  args.path = &path;
+  args.ok = &ok;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
+void ClientHandlersConcurrentClient::RunFileDialogCallback_OnFileDialogDismissed(const int32_t runFileDialogCallback, const std::vector<std::string> & filePaths)
+{
+  send_RunFileDialogCallback_OnFileDialogDismissed(runFileDialogCallback, filePaths);
+}
+
+void ClientHandlersConcurrentClient::send_RunFileDialogCallback_OnFileDialogDismissed(const int32_t runFileDialogCallback, const std::vector<std::string> & filePaths)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("RunFileDialogCallback_OnFileDialogDismissed", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  ClientHandlers_RunFileDialogCallback_OnFileDialogDismissed_pargs args;
+  args.runFileDialogCallback = &runFileDialogCallback;
+  args.filePaths = &filePaths;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
 }
 
 } // namespace

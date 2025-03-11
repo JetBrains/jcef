@@ -365,6 +365,16 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
     printf("PermissionHandler_OnRequestMediaAccessPermission\n");
   }
 
+  void PdfPrintCallback_OnPdfPrintFinished(const int32_t pdfPrintCallback, const std::string& path, const bool ok) {
+    // Your implementation goes here
+    printf("PdfPrintCallback_OnPdfPrintFinished\n");
+  }
+
+  void RunFileDialogCallback_OnFileDialogDismissed(const int32_t runFileDialogCallback, const std::vector<std::string> & filePaths) {
+    // Your implementation goes here
+    printf("RunFileDialogCallback_OnFileDialogDismissed\n");
+  }
+
 };
 
 int main(int argc, char **argv) {

@@ -1,10 +1,11 @@
 package com.jetbrains.cef.remote.browser;
 
-import com.jetbrains.cef.remote.CefServer;
 import com.jetbrains.cef.remote.PlatformUtils;
 import com.jetbrains.cef.remote.RpcExecutor;
 import com.jetbrains.cef.remote.RpcContext;
 import com.jetbrains.cef.remote.callback.RemoteIntCallback;
+import com.jetbrains.cef.remote.callback.RemotePdfPrintCallback;
+import com.jetbrains.cef.remote.callback.RemoteRunFileDialogCallback;
 import com.jetbrains.cef.remote.callback.RemoteStringVisitor;
 import com.jetbrains.cef.remote.network.RemoteRequest;
 import com.jetbrains.cef.remote.network.RemoteRequestContext;
@@ -33,9 +34,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Vector;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
@@ -544,7 +544,19 @@ public class RemoteBrowser implements CefBrowser {
 
     @Override
     public void runFileDialog(CefDialogHandler.FileDialogMode mode, String title, String defaultFilePath, Vector<String> acceptFilters, CefRunFileDialogCallback callback) {
-        CefLog.Error("TODO: implement runFileDialog.");
+        if (myIsClosing)
+            return;
+        if (callback == null) {
+            CefLog.Error("Can't run file dialog because callback is null.");
+            return;
+        }
+        RemoteRunFileDialogCallback rcallback = RemoteRunFileDialogCallback.create(callback);
+        final Vector<String> filters = acceptFilters == null ? new Vector<>() : acceptFilters;
+        execWhenCreated(()->{
+            myRpc.main.exec((s)->{
+                s.Browser_RunFileDialog(myBid, mode.name(), title, defaultFilePath, filters, rcallback.thriftId());
+            });
+        }, "runFileDialog");
     }
 
     @Override
@@ -561,12 +573,51 @@ public class RemoteBrowser implements CefBrowser {
 
     @Override
     public void print() {
-        CefLog.Error("TODO: implement print.");
+        if (myIsClosing)
+            return;
+        execWhenCreated(()->{
+            myRpc.main.exec((s)->{
+                s.Browser_Print(myBid);
+            });
+        }, "print");
     }
 
     @Override
     public void printToPDF(String path, CefPdfPrintSettings settings, CefPdfPrintCallback callback) {
-        CefLog.Error("TODO: implement printToPDF.");
+        if (myIsClosing)
+            return;
+        if (callback == null) {
+            CefLog.Error("Can't print to pdf because callback is null.");
+            return;
+        }
+        RemotePdfPrintCallback rcallback = RemotePdfPrintCallback.create(callback);
+        Map<String, String> printSettings = new HashMap<>();
+        if (settings != null) {
+            printSettings.put("landscape", String.valueOf(settings.landscape));
+            printSettings.put("print_background", String.valueOf(settings.print_background));
+            printSettings.put("scale", String.valueOf(settings.scale));
+            printSettings.put("paper_width", String.valueOf(settings.paper_width));
+            printSettings.put("paper_height", String.valueOf(settings.paper_height));
+            printSettings.put("prefer_css_page_size", String.valueOf(settings.prefer_css_page_size));
+            if (settings.margin_type != null)
+                printSettings.put("margin_type", String.valueOf(settings.margin_type));
+            printSettings.put("margin_top", String.valueOf(settings.margin_top));
+            printSettings.put("margin_bottom", String.valueOf(settings.margin_bottom));
+            printSettings.put("margin_right", String.valueOf(settings.margin_right));
+            printSettings.put("margin_left", String.valueOf(settings.margin_left));
+            if (settings.page_ranges != null && !settings.page_ranges.isEmpty())
+                printSettings.put("page_ranges", settings.page_ranges);
+            printSettings.put("display_header_footer", String.valueOf(settings.display_header_footer));
+            if (settings.header_template != null && !settings.header_template.isEmpty())
+                printSettings.put("header_template", settings.header_template);
+            if (settings.footer_template != null && !settings.footer_template.isEmpty())
+                printSettings.put("footer_template", settings.footer_template);
+        }
+        execWhenCreated(()->{
+            myRpc.main.exec((s)->{
+                s.Browser_PrintToPDF(myBid, path, printSettings, rcallback.thriftId());
+            });
+        }, "printToPDF");
     }
 
     @Override

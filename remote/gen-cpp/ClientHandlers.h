@@ -91,6 +91,8 @@ class ClientHandlersIf {
   virtual void DevToolsMessageObserver_OnDevToolsMethodResult(const int32_t observer, const int32_t bid, const int32_t messageId, const bool success, const std::string& result) = 0;
   virtual void DevToolsMessageObserver_OnDevToolsEvent(const int32_t observer, const int32_t bid, const std::string& method, const std::string& parameters) = 0;
   virtual bool PermissionHandler_OnRequestMediaAccessPermission(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& requesting_origin, const int32_t requested_permissions, const  ::thrift_codegen::RObject& mediaAccessCallback) = 0;
+  virtual void PdfPrintCallback_OnPdfPrintFinished(const int32_t pdfPrintCallback, const std::string& path, const bool ok) = 0;
+  virtual void RunFileDialogCallback_OnFileDialogDismissed(const int32_t runFileDialogCallback, const std::vector<std::string> & filePaths) = 0;
 };
 
 class ClientHandlersIfFactory {
@@ -348,6 +350,12 @@ class ClientHandlersNull : virtual public ClientHandlersIf {
   bool PermissionHandler_OnRequestMediaAccessPermission(const int32_t /* bid */, const  ::thrift_codegen::RObject& /* frame */, const std::string& /* requesting_origin */, const int32_t /* requested_permissions */, const  ::thrift_codegen::RObject& /* mediaAccessCallback */) override {
     bool _return = false;
     return _return;
+  }
+  void PdfPrintCallback_OnPdfPrintFinished(const int32_t /* pdfPrintCallback */, const std::string& /* path */, const bool /* ok */) override {
+    return;
+  }
+  void RunFileDialogCallback_OnFileDialogDismissed(const int32_t /* runFileDialogCallback */, const std::vector<std::string> & /* filePaths */) override {
+    return;
   }
 };
 
@@ -7258,6 +7266,129 @@ class ClientHandlers_PermissionHandler_OnRequestMediaAccessPermission_presult {
 
 };
 
+typedef struct _ClientHandlers_PdfPrintCallback_OnPdfPrintFinished_args__isset {
+  _ClientHandlers_PdfPrintCallback_OnPdfPrintFinished_args__isset() : pdfPrintCallback(false), path(false), ok(false) {}
+  bool pdfPrintCallback :1;
+  bool path :1;
+  bool ok :1;
+} _ClientHandlers_PdfPrintCallback_OnPdfPrintFinished_args__isset;
+
+class ClientHandlers_PdfPrintCallback_OnPdfPrintFinished_args {
+ public:
+
+  ClientHandlers_PdfPrintCallback_OnPdfPrintFinished_args(const ClientHandlers_PdfPrintCallback_OnPdfPrintFinished_args&);
+  ClientHandlers_PdfPrintCallback_OnPdfPrintFinished_args& operator=(const ClientHandlers_PdfPrintCallback_OnPdfPrintFinished_args&);
+  ClientHandlers_PdfPrintCallback_OnPdfPrintFinished_args() noexcept
+                                                          : pdfPrintCallback(0),
+                                                            path(),
+                                                            ok(0) {
+  }
+
+  virtual ~ClientHandlers_PdfPrintCallback_OnPdfPrintFinished_args() noexcept;
+  int32_t pdfPrintCallback;
+  std::string path;
+  bool ok;
+
+  _ClientHandlers_PdfPrintCallback_OnPdfPrintFinished_args__isset __isset;
+
+  void __set_pdfPrintCallback(const int32_t val);
+
+  void __set_path(const std::string& val);
+
+  void __set_ok(const bool val);
+
+  bool operator == (const ClientHandlers_PdfPrintCallback_OnPdfPrintFinished_args & rhs) const
+  {
+    if (!(pdfPrintCallback == rhs.pdfPrintCallback))
+      return false;
+    if (!(path == rhs.path))
+      return false;
+    if (!(ok == rhs.ok))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_PdfPrintCallback_OnPdfPrintFinished_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_PdfPrintCallback_OnPdfPrintFinished_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_PdfPrintCallback_OnPdfPrintFinished_pargs {
+ public:
+
+
+  virtual ~ClientHandlers_PdfPrintCallback_OnPdfPrintFinished_pargs() noexcept;
+  const int32_t* pdfPrintCallback;
+  const std::string* path;
+  const bool* ok;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_RunFileDialogCallback_OnFileDialogDismissed_args__isset {
+  _ClientHandlers_RunFileDialogCallback_OnFileDialogDismissed_args__isset() : runFileDialogCallback(false), filePaths(false) {}
+  bool runFileDialogCallback :1;
+  bool filePaths :1;
+} _ClientHandlers_RunFileDialogCallback_OnFileDialogDismissed_args__isset;
+
+class ClientHandlers_RunFileDialogCallback_OnFileDialogDismissed_args {
+ public:
+
+  ClientHandlers_RunFileDialogCallback_OnFileDialogDismissed_args(const ClientHandlers_RunFileDialogCallback_OnFileDialogDismissed_args&);
+  ClientHandlers_RunFileDialogCallback_OnFileDialogDismissed_args& operator=(const ClientHandlers_RunFileDialogCallback_OnFileDialogDismissed_args&);
+  ClientHandlers_RunFileDialogCallback_OnFileDialogDismissed_args() noexcept
+                                                                  : runFileDialogCallback(0) {
+  }
+
+  virtual ~ClientHandlers_RunFileDialogCallback_OnFileDialogDismissed_args() noexcept;
+  int32_t runFileDialogCallback;
+  std::vector<std::string>  filePaths;
+
+  _ClientHandlers_RunFileDialogCallback_OnFileDialogDismissed_args__isset __isset;
+
+  void __set_runFileDialogCallback(const int32_t val);
+
+  void __set_filePaths(const std::vector<std::string> & val);
+
+  bool operator == (const ClientHandlers_RunFileDialogCallback_OnFileDialogDismissed_args & rhs) const
+  {
+    if (!(runFileDialogCallback == rhs.runFileDialogCallback))
+      return false;
+    if (!(filePaths == rhs.filePaths))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_RunFileDialogCallback_OnFileDialogDismissed_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_RunFileDialogCallback_OnFileDialogDismissed_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_RunFileDialogCallback_OnFileDialogDismissed_pargs {
+ public:
+
+
+  virtual ~ClientHandlers_RunFileDialogCallback_OnFileDialogDismissed_pargs() noexcept;
+  const int32_t* runFileDialogCallback;
+  const std::vector<std::string> * filePaths;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
 class ClientHandlersClient : virtual public ClientHandlersIf {
  public:
   ClientHandlersClient(std::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
@@ -7466,6 +7597,10 @@ class ClientHandlersClient : virtual public ClientHandlersIf {
   bool PermissionHandler_OnRequestMediaAccessPermission(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& requesting_origin, const int32_t requested_permissions, const  ::thrift_codegen::RObject& mediaAccessCallback) override;
   void send_PermissionHandler_OnRequestMediaAccessPermission(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& requesting_origin, const int32_t requested_permissions, const  ::thrift_codegen::RObject& mediaAccessCallback);
   bool recv_PermissionHandler_OnRequestMediaAccessPermission();
+  void PdfPrintCallback_OnPdfPrintFinished(const int32_t pdfPrintCallback, const std::string& path, const bool ok) override;
+  void send_PdfPrintCallback_OnPdfPrintFinished(const int32_t pdfPrintCallback, const std::string& path, const bool ok);
+  void RunFileDialogCallback_OnFileDialogDismissed(const int32_t runFileDialogCallback, const std::vector<std::string> & filePaths) override;
+  void send_RunFileDialogCallback_OnFileDialogDismissed(const int32_t runFileDialogCallback, const std::vector<std::string> & filePaths);
  protected:
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -7550,6 +7685,8 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_DevToolsMessageObserver_OnDevToolsMethodResult(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_DevToolsMessageObserver_OnDevToolsEvent(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_PermissionHandler_OnRequestMediaAccessPermission(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_PdfPrintCallback_OnPdfPrintFinished(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_RunFileDialogCallback_OnFileDialogDismissed(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   ClientHandlersProcessor(::std::shared_ptr<ClientHandlersIf> iface) :
     iface_(iface) {
@@ -7622,6 +7759,8 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["DevToolsMessageObserver_OnDevToolsMethodResult"] = &ClientHandlersProcessor::process_DevToolsMessageObserver_OnDevToolsMethodResult;
     processMap_["DevToolsMessageObserver_OnDevToolsEvent"] = &ClientHandlersProcessor::process_DevToolsMessageObserver_OnDevToolsEvent;
     processMap_["PermissionHandler_OnRequestMediaAccessPermission"] = &ClientHandlersProcessor::process_PermissionHandler_OnRequestMediaAccessPermission;
+    processMap_["PdfPrintCallback_OnPdfPrintFinished"] = &ClientHandlersProcessor::process_PdfPrintCallback_OnPdfPrintFinished;
+    processMap_["RunFileDialogCallback_OnFileDialogDismissed"] = &ClientHandlersProcessor::process_RunFileDialogCallback_OnFileDialogDismissed;
   }
 
   virtual ~ClientHandlersProcessor() {}
@@ -8284,6 +8423,24 @@ class ClientHandlersMultiface : virtual public ClientHandlersIf {
     return ifaces_[i]->PermissionHandler_OnRequestMediaAccessPermission(bid, frame, requesting_origin, requested_permissions, mediaAccessCallback);
   }
 
+  void PdfPrintCallback_OnPdfPrintFinished(const int32_t pdfPrintCallback, const std::string& path, const bool ok) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->PdfPrintCallback_OnPdfPrintFinished(pdfPrintCallback, path, ok);
+    }
+    ifaces_[i]->PdfPrintCallback_OnPdfPrintFinished(pdfPrintCallback, path, ok);
+  }
+
+  void RunFileDialogCallback_OnFileDialogDismissed(const int32_t runFileDialogCallback, const std::vector<std::string> & filePaths) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->RunFileDialogCallback_OnFileDialogDismissed(runFileDialogCallback, filePaths);
+    }
+    ifaces_[i]->RunFileDialogCallback_OnFileDialogDismissed(runFileDialogCallback, filePaths);
+  }
+
 };
 
 // The 'concurrent' client is a thread safe client that correctly handles
@@ -8499,6 +8656,10 @@ class ClientHandlersConcurrentClient : virtual public ClientHandlersIf {
   bool PermissionHandler_OnRequestMediaAccessPermission(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& requesting_origin, const int32_t requested_permissions, const  ::thrift_codegen::RObject& mediaAccessCallback) override;
   int32_t send_PermissionHandler_OnRequestMediaAccessPermission(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& requesting_origin, const int32_t requested_permissions, const  ::thrift_codegen::RObject& mediaAccessCallback);
   bool recv_PermissionHandler_OnRequestMediaAccessPermission(const int32_t seqid);
+  void PdfPrintCallback_OnPdfPrintFinished(const int32_t pdfPrintCallback, const std::string& path, const bool ok) override;
+  void send_PdfPrintCallback_OnPdfPrintFinished(const int32_t pdfPrintCallback, const std::string& path, const bool ok);
+  void RunFileDialogCallback_OnFileDialogDismissed(const int32_t runFileDialogCallback, const std::vector<std::string> & filePaths) override;
+  void send_RunFileDialogCallback_OnFileDialogDismissed(const int32_t runFileDialogCallback, const std::vector<std::string> & filePaths);
  protected:
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;

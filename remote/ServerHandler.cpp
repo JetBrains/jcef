@@ -24,6 +24,8 @@
 #include "callback/RemoteRegistration.h"
 #include "callback/RemoteSchemeHandlerFactory.h"
 #include "callback/RemoteStringVisitor.h"
+#include "callback/RemoteRunFileDialogCallback.h"
+#include "callback/RemotePdfPrintCallback.h"
 
 #include "include/base/cef_callback.h"
 #include "include/wrapper/cef_closure_task.h"
@@ -653,6 +655,118 @@ void ServerHandler::Browser_ExecuteDevToolsMethod(
                 base::BindOnce(executeDevToolsMethod,
                                browser->GetHost(), method, parametersAsJson, callback));
   }
+}
+
+void ServerHandler::Browser_RunFileDialog(
+    const int32_t bid,
+    const std::string& mode,
+    const std::string& title,
+    const std::string& defaultFilePath,
+    const std::vector<std::string>& acceptFilters,
+    const thrift_codegen::RObject& runFileDialogCallback) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN()
+
+  CefRefPtr<RemoteRunFileDialogCallback> callback = new RemoteRunFileDialogCallback(myCtx, runFileDialogCallback);
+  if (!browser.get()) {
+    callback->OnFileDialogDismissed(std::vector<CefString>());
+    return;
+  }
+
+  std::vector<CefString> accept_types;
+  for (const auto & fp: acceptFilters)
+    accept_types.push_back(CefString(fp));
+
+  CefBrowserHost::FileDialogMode fdMode;
+  if (mode.find("FILE_DIALOG_OPEN_MULTIPLE") != std::string::npos)
+    fdMode = FILE_DIALOG_OPEN_MULTIPLE;
+  else if (mode.find("FILE_DIALOG_OPEN") != std::string::npos)
+    fdMode = FILE_DIALOG_OPEN;
+  else if (mode.find("FILE_DIALOG_SAVE") != std::string::npos)
+    fdMode = FILE_DIALOG_SAVE;
+  else
+    fdMode = FILE_DIALOG_OPEN;
+
+  browser->GetHost()->RunFileDialog(fdMode, CefString(title), CefString(defaultFilePath), accept_types, callback);
+}
+
+namespace {
+void setFieldValueD(double & field, const std::string & val) {
+  try {
+    field = stod(val);
+  } catch (const std::logic_error & ex) {
+    Log::error("PrintToPDF: can't convert string '%s' to double. Error: %s", val.c_str(), ex.what());
+    field = 1.f;
+  }
+}
+void setFieldValueB(int & field, const std::string & val) {
+  field = (val.compare("true") == 0);
+}
+}
+
+void ServerHandler::Browser_PrintToPDF(
+    const int32_t bid,
+    const std::string& path,
+    const std::map<std::string, std::string>& pdfPrintSettings,
+    const thrift_codegen::RObject& pdfPrintCallback) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN()
+
+  CefRefPtr<RemotePdfPrintCallback> callback = new RemotePdfPrintCallback(myCtx, pdfPrintCallback);
+  if (!browser.get()) {
+    callback->OnPdfPrintFinished(CefString(path), false);
+    return;
+  }
+
+  CefPdfPrintSettings settings;
+  for (const auto & kv: pdfPrintSettings) {
+    if (kv.first.compare("landscape") == 0)
+      setFieldValueB(settings.landscape, kv.second);
+    else if (kv.first.compare("print_background") == 0)
+      setFieldValueB(settings.print_background, kv.second);
+    else if (kv.first.compare("scale") == 0)
+      setFieldValueD(settings.scale, kv.second);
+    else if (kv.first.compare("paper_width") == 0)
+      setFieldValueD(settings.paper_width, kv.second);
+    else if (kv.first.compare("paper_height") == 0)
+      setFieldValueD(settings.paper_height, kv.second);
+    else if (kv.first.compare("prefer_css_page_size") == 0)
+      setFieldValueB(settings.prefer_css_page_size, kv.second);
+    else if (kv.first.compare("margin_type") == 0) {
+      settings.margin_type = PDF_PRINT_MARGIN_DEFAULT;
+      if (kv.second.find("NONE") != std::string::npos)
+        settings.margin_type = PDF_PRINT_MARGIN_NONE;
+      else if (kv.second.find("CUSTOM") != std::string::npos)
+        settings.margin_type = PDF_PRINT_MARGIN_CUSTOM;
+    } else if (kv.first.compare("margin_top") == 0)
+      setFieldValueD(settings.margin_top, kv.second);
+    else if (kv.first.compare("margin_bottom") == 0)
+      setFieldValueD(settings.margin_bottom, kv.second);
+    else if (kv.first.compare("margin_right") == 0)
+      setFieldValueD(settings.margin_right, kv.second);
+    else if (kv.first.compare("margin_left") == 0)
+      setFieldValueD(settings.margin_left, kv.second);
+    else if (kv.first.compare("page_ranges") == 0) {
+      std::string ranges = kv.second;
+      CefString(&settings.page_ranges) = ranges;
+    } else if (kv.first.compare("display_header_footer") == 0)
+      setFieldValueB(settings.display_header_footer, kv.second);
+    else if (kv.first.compare("header_template") == 0) {
+      std::string templ = kv.second;
+      CefString(&settings.header_template) = templ;
+    } else if (kv.first.compare("footer_template") == 0) {
+      std::string templ = kv.second;
+      CefString(&settings.footer_template) = templ;
+    }
+  }
+
+  browser->GetHost()->PrintToPDF(path, settings, callback);
+}
+
+void ServerHandler::Browser_Print(const int32_t bid) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN()
+  browser->GetHost()->Print();
 }
 
 void ServerHandler::Request_Create(thrift_codegen::RObject& result) {

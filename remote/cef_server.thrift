@@ -87,7 +87,10 @@ service Server {
     oneway void    Browser_ReplaceMisspelling(1: i32 bid, 2:string word),
     oneway void    Browser_SetFrameRate(1: i32 bid, 2:i32 val),
     shared.RObject Browser_AddDevToolsMessageObserver(1: i32 bid, 2:shared.RObject observer), // creates and returns CefRegistration object
-    oneway void    Browser_ExecuteDevToolsMethod(1: i32 bid, 2:string method, 3:string parametersAsJson, 4:shared.RObject intCallback), // NOTE: can be oneway (because java peer of IntCallback is disposed (on java side) in the end of IntCallback.onComplete)
+    oneway void    Browser_ExecuteDevToolsMethod(1:i32 bid, 2:string method, 3:string parametersAsJson, 4:shared.RObject intCallback), // NOTE: can be oneway (because java peer of IntCallback is disposed (on java side) in the end of IntCallback.onComplete)
+    oneway void    Browser_RunFileDialog(1:i32 bid, 2:string mode, 3:string title, 4:string defaultFilePath, 5:list<string> acceptFilters, 6:shared.RObject runFileDialogCallback), // NOTE: can be oneway (because java peer of RunFileDialogCallback is disposed (on java side) in the end of RunFileDialogCallback.onFileDialogDismissed)
+    oneway void    Browser_PrintToPDF(1:i32 bid, 2:string path, 3:map<string, string> pdfPrintSettings, 4:shared.RObject pdfPrintCallback), // NOTE: can be oneway (because java peer of PdfPrintCallback is disposed (on java side) in the end of PdfPrintCallback.onPdfPrintFinished)
+    oneway void    Browser_Print(1:i32 bid),
 
     //
     // CefFrame
