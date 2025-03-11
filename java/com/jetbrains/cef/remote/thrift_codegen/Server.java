@@ -113,6 +113,12 @@ public class Server {
 
     public void Browser_ExecuteDevToolsMethod(int bid, java.lang.String method, java.lang.String parametersAsJson, com.jetbrains.cef.remote.thrift_codegen.RObject intCallback) throws com.jetbrains.cef.remote.thrift.TException;
 
+    public void Browser_RunFileDialog(int bid, java.lang.String mode, java.lang.String title, java.lang.String defaultFilePath, java.util.List<java.lang.String> acceptFilters, com.jetbrains.cef.remote.thrift_codegen.RObject runFileDialogCallback) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void Browser_PrintToPDF(int bid, java.lang.String path, java.util.Map<java.lang.String,java.lang.String> pdfPrintSettings, com.jetbrains.cef.remote.thrift_codegen.RObject pdfPrintCallback) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void Browser_Print(int bid) throws com.jetbrains.cef.remote.thrift.TException;
+
     public void Frame_ExecuteJavaScript(int frameId, java.lang.String code, java.lang.String url, int line) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void Frame_Dispose(int frameId) throws com.jetbrains.cef.remote.thrift.TException;
@@ -336,6 +342,12 @@ public class Server {
     public void Browser_AddDevToolsMessageObserver(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject observer, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<com.jetbrains.cef.remote.thrift_codegen.RObject> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void Browser_ExecuteDevToolsMethod(int bid, java.lang.String method, java.lang.String parametersAsJson, com.jetbrains.cef.remote.thrift_codegen.RObject intCallback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void Browser_RunFileDialog(int bid, java.lang.String mode, java.lang.String title, java.lang.String defaultFilePath, java.util.List<java.lang.String> acceptFilters, com.jetbrains.cef.remote.thrift_codegen.RObject runFileDialogCallback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void Browser_PrintToPDF(int bid, java.lang.String path, java.util.Map<java.lang.String,java.lang.String> pdfPrintSettings, com.jetbrains.cef.remote.thrift_codegen.RObject pdfPrintCallback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void Browser_Print(int bid, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void Frame_ExecuteJavaScript(int frameId, java.lang.String code, java.lang.String url, int line, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
@@ -1419,6 +1431,53 @@ public class Server {
       args.setParametersAsJson(parametersAsJson);
       args.setIntCallback(intCallback);
       sendBaseOneway("Browser_ExecuteDevToolsMethod", args);
+    }
+
+    @Override
+    public void Browser_RunFileDialog(int bid, java.lang.String mode, java.lang.String title, java.lang.String defaultFilePath, java.util.List<java.lang.String> acceptFilters, com.jetbrains.cef.remote.thrift_codegen.RObject runFileDialogCallback) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_Browser_RunFileDialog(bid, mode, title, defaultFilePath, acceptFilters, runFileDialogCallback);
+    }
+
+    public void send_Browser_RunFileDialog(int bid, java.lang.String mode, java.lang.String title, java.lang.String defaultFilePath, java.util.List<java.lang.String> acceptFilters, com.jetbrains.cef.remote.thrift_codegen.RObject runFileDialogCallback) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      Browser_RunFileDialog_args args = new Browser_RunFileDialog_args();
+      args.setBid(bid);
+      args.setMode(mode);
+      args.setTitle(title);
+      args.setDefaultFilePath(defaultFilePath);
+      args.setAcceptFilters(acceptFilters);
+      args.setRunFileDialogCallback(runFileDialogCallback);
+      sendBaseOneway("Browser_RunFileDialog", args);
+    }
+
+    @Override
+    public void Browser_PrintToPDF(int bid, java.lang.String path, java.util.Map<java.lang.String,java.lang.String> pdfPrintSettings, com.jetbrains.cef.remote.thrift_codegen.RObject pdfPrintCallback) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_Browser_PrintToPDF(bid, path, pdfPrintSettings, pdfPrintCallback);
+    }
+
+    public void send_Browser_PrintToPDF(int bid, java.lang.String path, java.util.Map<java.lang.String,java.lang.String> pdfPrintSettings, com.jetbrains.cef.remote.thrift_codegen.RObject pdfPrintCallback) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      Browser_PrintToPDF_args args = new Browser_PrintToPDF_args();
+      args.setBid(bid);
+      args.setPath(path);
+      args.setPdfPrintSettings(pdfPrintSettings);
+      args.setPdfPrintCallback(pdfPrintCallback);
+      sendBaseOneway("Browser_PrintToPDF", args);
+    }
+
+    @Override
+    public void Browser_Print(int bid) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_Browser_Print(bid);
+    }
+
+    public void send_Browser_Print(int bid) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      Browser_Print_args args = new Browser_Print_args();
+      args.setBid(bid);
+      sendBaseOneway("Browser_Print", args);
     }
 
     @Override
@@ -4450,6 +4509,135 @@ public class Server {
     }
 
     @Override
+    public void Browser_RunFileDialog(int bid, java.lang.String mode, java.lang.String title, java.lang.String defaultFilePath, java.util.List<java.lang.String> acceptFilters, com.jetbrains.cef.remote.thrift_codegen.RObject runFileDialogCallback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      Browser_RunFileDialog_call method_call = new Browser_RunFileDialog_call(bid, mode, title, defaultFilePath, acceptFilters, runFileDialogCallback, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class Browser_RunFileDialog_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<Void> {
+      private int bid;
+      private java.lang.String mode;
+      private java.lang.String title;
+      private java.lang.String defaultFilePath;
+      private java.util.List<java.lang.String> acceptFilters;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject runFileDialogCallback;
+      public Browser_RunFileDialog_call(int bid, java.lang.String mode, java.lang.String title, java.lang.String defaultFilePath, java.util.List<java.lang.String> acceptFilters, com.jetbrains.cef.remote.thrift_codegen.RObject runFileDialogCallback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, true);
+        this.bid = bid;
+        this.mode = mode;
+        this.title = title;
+        this.defaultFilePath = defaultFilePath;
+        this.acceptFilters = acceptFilters;
+        this.runFileDialogCallback = runFileDialogCallback;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("Browser_RunFileDialog", com.jetbrains.cef.remote.thrift.protocol.TMessageType.ONEWAY, 0));
+        Browser_RunFileDialog_args args = new Browser_RunFileDialog_args();
+        args.setBid(bid);
+        args.setMode(mode);
+        args.setTitle(title);
+        args.setDefaultFilePath(defaultFilePath);
+        args.setAcceptFilters(acceptFilters);
+        args.setRunFileDialogCallback(runFileDialogCallback);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public Void getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return null;
+      }
+    }
+
+    @Override
+    public void Browser_PrintToPDF(int bid, java.lang.String path, java.util.Map<java.lang.String,java.lang.String> pdfPrintSettings, com.jetbrains.cef.remote.thrift_codegen.RObject pdfPrintCallback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      Browser_PrintToPDF_call method_call = new Browser_PrintToPDF_call(bid, path, pdfPrintSettings, pdfPrintCallback, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class Browser_PrintToPDF_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<Void> {
+      private int bid;
+      private java.lang.String path;
+      private java.util.Map<java.lang.String,java.lang.String> pdfPrintSettings;
+      private com.jetbrains.cef.remote.thrift_codegen.RObject pdfPrintCallback;
+      public Browser_PrintToPDF_call(int bid, java.lang.String path, java.util.Map<java.lang.String,java.lang.String> pdfPrintSettings, com.jetbrains.cef.remote.thrift_codegen.RObject pdfPrintCallback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, true);
+        this.bid = bid;
+        this.path = path;
+        this.pdfPrintSettings = pdfPrintSettings;
+        this.pdfPrintCallback = pdfPrintCallback;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("Browser_PrintToPDF", com.jetbrains.cef.remote.thrift.protocol.TMessageType.ONEWAY, 0));
+        Browser_PrintToPDF_args args = new Browser_PrintToPDF_args();
+        args.setBid(bid);
+        args.setPath(path);
+        args.setPdfPrintSettings(pdfPrintSettings);
+        args.setPdfPrintCallback(pdfPrintCallback);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public Void getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return null;
+      }
+    }
+
+    @Override
+    public void Browser_Print(int bid, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      Browser_Print_call method_call = new Browser_Print_call(bid, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class Browser_Print_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<Void> {
+      private int bid;
+      public Browser_Print_call(int bid, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, true);
+        this.bid = bid;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("Browser_Print", com.jetbrains.cef.remote.thrift.protocol.TMessageType.ONEWAY, 0));
+        Browser_Print_args args = new Browser_Print_args();
+        args.setBid(bid);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public Void getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return null;
+      }
+    }
+
+    @Override
     public void Frame_ExecuteJavaScript(int frameId, java.lang.String code, java.lang.String url, int line, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
       checkReady();
       Frame_ExecuteJavaScript_call method_call = new Frame_ExecuteJavaScript_call(frameId, code, url, line, resultHandler, this, ___protocolFactory, ___transport);
@@ -6726,6 +6914,9 @@ public class Server {
       processMap.put("Browser_SetFrameRate", new Browser_SetFrameRate());
       processMap.put("Browser_AddDevToolsMessageObserver", new Browser_AddDevToolsMessageObserver());
       processMap.put("Browser_ExecuteDevToolsMethod", new Browser_ExecuteDevToolsMethod());
+      processMap.put("Browser_RunFileDialog", new Browser_RunFileDialog());
+      processMap.put("Browser_PrintToPDF", new Browser_PrintToPDF());
+      processMap.put("Browser_Print", new Browser_Print());
       processMap.put("Frame_ExecuteJavaScript", new Frame_ExecuteJavaScript());
       processMap.put("Frame_Dispose", new Frame_Dispose());
       processMap.put("Frame_GetParent", new Frame_GetParent());
@@ -8193,6 +8384,87 @@ public class Server {
       @Override
       public com.jetbrains.cef.remote.thrift.TBase getResult(I iface, Browser_ExecuteDevToolsMethod_args args) throws com.jetbrains.cef.remote.thrift.TException {
         iface.Browser_ExecuteDevToolsMethod(args.bid, args.method, args.parametersAsJson, args.intCallback);
+        return null;
+      }
+    }
+
+    public static class Browser_RunFileDialog<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, Browser_RunFileDialog_args> {
+      public Browser_RunFileDialog() {
+        super("Browser_RunFileDialog");
+      }
+
+      @Override
+      public Browser_RunFileDialog_args getEmptyArgsInstance() {
+        return new Browser_RunFileDialog_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.TBase getResult(I iface, Browser_RunFileDialog_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.Browser_RunFileDialog(args.bid, args.mode, args.title, args.defaultFilePath, args.acceptFilters, args.runFileDialogCallback);
+        return null;
+      }
+    }
+
+    public static class Browser_PrintToPDF<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, Browser_PrintToPDF_args> {
+      public Browser_PrintToPDF() {
+        super("Browser_PrintToPDF");
+      }
+
+      @Override
+      public Browser_PrintToPDF_args getEmptyArgsInstance() {
+        return new Browser_PrintToPDF_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.TBase getResult(I iface, Browser_PrintToPDF_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.Browser_PrintToPDF(args.bid, args.path, args.pdfPrintSettings, args.pdfPrintCallback);
+        return null;
+      }
+    }
+
+    public static class Browser_Print<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, Browser_Print_args> {
+      public Browser_Print() {
+        super("Browser_Print");
+      }
+
+      @Override
+      public Browser_Print_args getEmptyArgsInstance() {
+        return new Browser_Print_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.TBase getResult(I iface, Browser_Print_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.Browser_Print(args.bid);
         return null;
       }
     }
@@ -9889,6 +10161,9 @@ public class Server {
       processMap.put("Browser_SetFrameRate", new Browser_SetFrameRate());
       processMap.put("Browser_AddDevToolsMessageObserver", new Browser_AddDevToolsMessageObserver());
       processMap.put("Browser_ExecuteDevToolsMethod", new Browser_ExecuteDevToolsMethod());
+      processMap.put("Browser_RunFileDialog", new Browser_RunFileDialog());
+      processMap.put("Browser_PrintToPDF", new Browser_PrintToPDF());
+      processMap.put("Browser_Print", new Browser_Print());
       processMap.put("Frame_ExecuteJavaScript", new Frame_ExecuteJavaScript());
       processMap.put("Frame_Dispose", new Frame_Dispose());
       processMap.put("Frame_GetParent", new Frame_GetParent());
@@ -12590,6 +12865,126 @@ public class Server {
       @Override
       public void start(I iface, Browser_ExecuteDevToolsMethod_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
         iface.Browser_ExecuteDevToolsMethod(args.bid, args.method, args.parametersAsJson, args.intCallback,resultHandler);
+      }
+    }
+
+    public static class Browser_RunFileDialog<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, Browser_RunFileDialog_args, Void> {
+      public Browser_RunFileDialog() {
+        super("Browser_RunFileDialog");
+      }
+
+      @Override
+      public Browser_RunFileDialog_args getEmptyArgsInstance() {
+        return new Browser_RunFileDialog_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void>() { 
+          @Override
+          public void onComplete(Void o) {
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+            } else {
+              _LOGGER.error("Exception inside oneway handler", e);
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      public void start(I iface, Browser_RunFileDialog_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.Browser_RunFileDialog(args.bid, args.mode, args.title, args.defaultFilePath, args.acceptFilters, args.runFileDialogCallback,resultHandler);
+      }
+    }
+
+    public static class Browser_PrintToPDF<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, Browser_PrintToPDF_args, Void> {
+      public Browser_PrintToPDF() {
+        super("Browser_PrintToPDF");
+      }
+
+      @Override
+      public Browser_PrintToPDF_args getEmptyArgsInstance() {
+        return new Browser_PrintToPDF_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void>() { 
+          @Override
+          public void onComplete(Void o) {
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+            } else {
+              _LOGGER.error("Exception inside oneway handler", e);
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      public void start(I iface, Browser_PrintToPDF_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.Browser_PrintToPDF(args.bid, args.path, args.pdfPrintSettings, args.pdfPrintCallback,resultHandler);
+      }
+    }
+
+    public static class Browser_Print<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, Browser_Print_args, Void> {
+      public Browser_Print() {
+        super("Browser_Print");
+      }
+
+      @Override
+      public Browser_Print_args getEmptyArgsInstance() {
+        return new Browser_Print_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void>() { 
+          @Override
+          public void onComplete(Void o) {
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+            } else {
+              _LOGGER.error("Exception inside oneway handler", e);
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      public void start(I iface, Browser_Print_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.Browser_Print(args.bid,resultHandler);
       }
     }
 
@@ -47351,6 +47746,2080 @@ public class Server {
   }
 
   @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class Browser_RunFileDialog_args implements com.jetbrains.cef.remote.thrift.TBase<Browser_RunFileDialog_args, Browser_RunFileDialog_args._Fields>, java.io.Serializable, Cloneable, Comparable<Browser_RunFileDialog_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("Browser_RunFileDialog_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField BID_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("bid", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)1);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField MODE_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("mode", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)2);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField TITLE_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("title", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)3);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField DEFAULT_FILE_PATH_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("defaultFilePath", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)4);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField ACCEPT_FILTERS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("acceptFilters", com.jetbrains.cef.remote.thrift.protocol.TType.LIST, (short)5);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField RUN_FILE_DIALOG_CALLBACK_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("runFileDialogCallback", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)6);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new Browser_RunFileDialog_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new Browser_RunFileDialog_argsTupleSchemeFactory();
+
+    public int bid; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String mode; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String title; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String defaultFilePath; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.util.List<java.lang.String> acceptFilters; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject runFileDialogCallback; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      BID((short)1, "bid"),
+      MODE((short)2, "mode"),
+      TITLE((short)3, "title"),
+      DEFAULT_FILE_PATH((short)4, "defaultFilePath"),
+      ACCEPT_FILTERS((short)5, "acceptFilters"),
+      RUN_FILE_DIALOG_CALLBACK((short)6, "runFileDialogCallback");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // BID
+            return BID;
+          case 2: // MODE
+            return MODE;
+          case 3: // TITLE
+            return TITLE;
+          case 4: // DEFAULT_FILE_PATH
+            return DEFAULT_FILE_PATH;
+          case 5: // ACCEPT_FILTERS
+            return ACCEPT_FILTERS;
+          case 6: // RUN_FILE_DIALOG_CALLBACK
+            return RUN_FILE_DIALOG_CALLBACK;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __BID_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.BID, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("bid", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.MODE, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("mode", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.TITLE, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("title", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.DEFAULT_FILE_PATH, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("defaultFilePath", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.ACCEPT_FILTERS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("acceptFilters", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.ListMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.LIST, 
+              new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING))));
+      tmpMap.put(_Fields.RUN_FILE_DIALOG_CALLBACK, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("runFileDialogCallback", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Browser_RunFileDialog_args.class, metaDataMap);
+    }
+
+    public Browser_RunFileDialog_args() {
+    }
+
+    public Browser_RunFileDialog_args(
+      int bid,
+      java.lang.String mode,
+      java.lang.String title,
+      java.lang.String defaultFilePath,
+      java.util.List<java.lang.String> acceptFilters,
+      com.jetbrains.cef.remote.thrift_codegen.RObject runFileDialogCallback)
+    {
+      this();
+      this.bid = bid;
+      setBidIsSet(true);
+      this.mode = mode;
+      this.title = title;
+      this.defaultFilePath = defaultFilePath;
+      this.acceptFilters = acceptFilters;
+      this.runFileDialogCallback = runFileDialogCallback;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public Browser_RunFileDialog_args(Browser_RunFileDialog_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.bid = other.bid;
+      if (other.isSetMode()) {
+        this.mode = other.mode;
+      }
+      if (other.isSetTitle()) {
+        this.title = other.title;
+      }
+      if (other.isSetDefaultFilePath()) {
+        this.defaultFilePath = other.defaultFilePath;
+      }
+      if (other.isSetAcceptFilters()) {
+        java.util.List<java.lang.String> __this__acceptFilters = new java.util.ArrayList<java.lang.String>(other.acceptFilters);
+        this.acceptFilters = __this__acceptFilters;
+      }
+      if (other.isSetRunFileDialogCallback()) {
+        this.runFileDialogCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.runFileDialogCallback);
+      }
+    }
+
+    @Override
+    public Browser_RunFileDialog_args deepCopy() {
+      return new Browser_RunFileDialog_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setBidIsSet(false);
+      this.bid = 0;
+      this.mode = null;
+      this.title = null;
+      this.defaultFilePath = null;
+      this.acceptFilters = null;
+      this.runFileDialogCallback = null;
+    }
+
+    public int getBid() {
+      return this.bid;
+    }
+
+    public Browser_RunFileDialog_args setBid(int bid) {
+      this.bid = bid;
+      setBidIsSet(true);
+      return this;
+    }
+
+    public void unsetBid() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    /** Returns true if field bid is set (has been assigned a value) and false otherwise */
+    public boolean isSetBid() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    public void setBidIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.lang.String getMode() {
+      return this.mode;
+    }
+
+    public Browser_RunFileDialog_args setMode(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String mode) {
+      this.mode = mode;
+      return this;
+    }
+
+    public void unsetMode() {
+      this.mode = null;
+    }
+
+    /** Returns true if field mode is set (has been assigned a value) and false otherwise */
+    public boolean isSetMode() {
+      return this.mode != null;
+    }
+
+    public void setModeIsSet(boolean value) {
+      if (!value) {
+        this.mode = null;
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.lang.String getTitle() {
+      return this.title;
+    }
+
+    public Browser_RunFileDialog_args setTitle(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String title) {
+      this.title = title;
+      return this;
+    }
+
+    public void unsetTitle() {
+      this.title = null;
+    }
+
+    /** Returns true if field title is set (has been assigned a value) and false otherwise */
+    public boolean isSetTitle() {
+      return this.title != null;
+    }
+
+    public void setTitleIsSet(boolean value) {
+      if (!value) {
+        this.title = null;
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.lang.String getDefaultFilePath() {
+      return this.defaultFilePath;
+    }
+
+    public Browser_RunFileDialog_args setDefaultFilePath(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String defaultFilePath) {
+      this.defaultFilePath = defaultFilePath;
+      return this;
+    }
+
+    public void unsetDefaultFilePath() {
+      this.defaultFilePath = null;
+    }
+
+    /** Returns true if field defaultFilePath is set (has been assigned a value) and false otherwise */
+    public boolean isSetDefaultFilePath() {
+      return this.defaultFilePath != null;
+    }
+
+    public void setDefaultFilePathIsSet(boolean value) {
+      if (!value) {
+        this.defaultFilePath = null;
+      }
+    }
+
+    public int getAcceptFiltersSize() {
+      return (this.acceptFilters == null) ? 0 : this.acceptFilters.size();
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.util.Iterator<java.lang.String> getAcceptFiltersIterator() {
+      return (this.acceptFilters == null) ? null : this.acceptFilters.iterator();
+    }
+
+    public void addToAcceptFilters(java.lang.String elem) {
+      if (this.acceptFilters == null) {
+        this.acceptFilters = new java.util.ArrayList<java.lang.String>();
+      }
+      this.acceptFilters.add(elem);
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.util.List<java.lang.String> getAcceptFilters() {
+      return this.acceptFilters;
+    }
+
+    public Browser_RunFileDialog_args setAcceptFilters(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.util.List<java.lang.String> acceptFilters) {
+      this.acceptFilters = acceptFilters;
+      return this;
+    }
+
+    public void unsetAcceptFilters() {
+      this.acceptFilters = null;
+    }
+
+    /** Returns true if field acceptFilters is set (has been assigned a value) and false otherwise */
+    public boolean isSetAcceptFilters() {
+      return this.acceptFilters != null;
+    }
+
+    public void setAcceptFiltersIsSet(boolean value) {
+      if (!value) {
+        this.acceptFilters = null;
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getRunFileDialogCallback() {
+      return this.runFileDialogCallback;
+    }
+
+    public Browser_RunFileDialog_args setRunFileDialogCallback(@com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject runFileDialogCallback) {
+      this.runFileDialogCallback = runFileDialogCallback;
+      return this;
+    }
+
+    public void unsetRunFileDialogCallback() {
+      this.runFileDialogCallback = null;
+    }
+
+    /** Returns true if field runFileDialogCallback is set (has been assigned a value) and false otherwise */
+    public boolean isSetRunFileDialogCallback() {
+      return this.runFileDialogCallback != null;
+    }
+
+    public void setRunFileDialogCallbackIsSet(boolean value) {
+      if (!value) {
+        this.runFileDialogCallback = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case BID:
+        if (value == null) {
+          unsetBid();
+        } else {
+          setBid((java.lang.Integer)value);
+        }
+        break;
+
+      case MODE:
+        if (value == null) {
+          unsetMode();
+        } else {
+          setMode((java.lang.String)value);
+        }
+        break;
+
+      case TITLE:
+        if (value == null) {
+          unsetTitle();
+        } else {
+          setTitle((java.lang.String)value);
+        }
+        break;
+
+      case DEFAULT_FILE_PATH:
+        if (value == null) {
+          unsetDefaultFilePath();
+        } else {
+          setDefaultFilePath((java.lang.String)value);
+        }
+        break;
+
+      case ACCEPT_FILTERS:
+        if (value == null) {
+          unsetAcceptFilters();
+        } else {
+          setAcceptFilters((java.util.List<java.lang.String>)value);
+        }
+        break;
+
+      case RUN_FILE_DIALOG_CALLBACK:
+        if (value == null) {
+          unsetRunFileDialogCallback();
+        } else {
+          setRunFileDialogCallback((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case BID:
+        return getBid();
+
+      case MODE:
+        return getMode();
+
+      case TITLE:
+        return getTitle();
+
+      case DEFAULT_FILE_PATH:
+        return getDefaultFilePath();
+
+      case ACCEPT_FILTERS:
+        return getAcceptFilters();
+
+      case RUN_FILE_DIALOG_CALLBACK:
+        return getRunFileDialogCallback();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case BID:
+        return isSetBid();
+      case MODE:
+        return isSetMode();
+      case TITLE:
+        return isSetTitle();
+      case DEFAULT_FILE_PATH:
+        return isSetDefaultFilePath();
+      case ACCEPT_FILTERS:
+        return isSetAcceptFilters();
+      case RUN_FILE_DIALOG_CALLBACK:
+        return isSetRunFileDialogCallback();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof Browser_RunFileDialog_args)
+        return this.equals((Browser_RunFileDialog_args)that);
+      return false;
+    }
+
+    public boolean equals(Browser_RunFileDialog_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_bid = true;
+      boolean that_present_bid = true;
+      if (this_present_bid || that_present_bid) {
+        if (!(this_present_bid && that_present_bid))
+          return false;
+        if (this.bid != that.bid)
+          return false;
+      }
+
+      boolean this_present_mode = true && this.isSetMode();
+      boolean that_present_mode = true && that.isSetMode();
+      if (this_present_mode || that_present_mode) {
+        if (!(this_present_mode && that_present_mode))
+          return false;
+        if (!this.mode.equals(that.mode))
+          return false;
+      }
+
+      boolean this_present_title = true && this.isSetTitle();
+      boolean that_present_title = true && that.isSetTitle();
+      if (this_present_title || that_present_title) {
+        if (!(this_present_title && that_present_title))
+          return false;
+        if (!this.title.equals(that.title))
+          return false;
+      }
+
+      boolean this_present_defaultFilePath = true && this.isSetDefaultFilePath();
+      boolean that_present_defaultFilePath = true && that.isSetDefaultFilePath();
+      if (this_present_defaultFilePath || that_present_defaultFilePath) {
+        if (!(this_present_defaultFilePath && that_present_defaultFilePath))
+          return false;
+        if (!this.defaultFilePath.equals(that.defaultFilePath))
+          return false;
+      }
+
+      boolean this_present_acceptFilters = true && this.isSetAcceptFilters();
+      boolean that_present_acceptFilters = true && that.isSetAcceptFilters();
+      if (this_present_acceptFilters || that_present_acceptFilters) {
+        if (!(this_present_acceptFilters && that_present_acceptFilters))
+          return false;
+        if (!this.acceptFilters.equals(that.acceptFilters))
+          return false;
+      }
+
+      boolean this_present_runFileDialogCallback = true && this.isSetRunFileDialogCallback();
+      boolean that_present_runFileDialogCallback = true && that.isSetRunFileDialogCallback();
+      if (this_present_runFileDialogCallback || that_present_runFileDialogCallback) {
+        if (!(this_present_runFileDialogCallback && that_present_runFileDialogCallback))
+          return false;
+        if (!this.runFileDialogCallback.equals(that.runFileDialogCallback))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + bid;
+
+      hashCode = hashCode * 8191 + ((isSetMode()) ? 131071 : 524287);
+      if (isSetMode())
+        hashCode = hashCode * 8191 + mode.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetTitle()) ? 131071 : 524287);
+      if (isSetTitle())
+        hashCode = hashCode * 8191 + title.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetDefaultFilePath()) ? 131071 : 524287);
+      if (isSetDefaultFilePath())
+        hashCode = hashCode * 8191 + defaultFilePath.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetAcceptFilters()) ? 131071 : 524287);
+      if (isSetAcceptFilters())
+        hashCode = hashCode * 8191 + acceptFilters.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetRunFileDialogCallback()) ? 131071 : 524287);
+      if (isSetRunFileDialogCallback())
+        hashCode = hashCode * 8191 + runFileDialogCallback.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(Browser_RunFileDialog_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetBid()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetMode(), other.isSetMode());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetMode()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.mode, other.mode);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetTitle(), other.isSetTitle());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetTitle()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.title, other.title);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetDefaultFilePath(), other.isSetDefaultFilePath());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetDefaultFilePath()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.defaultFilePath, other.defaultFilePath);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetAcceptFilters(), other.isSetAcceptFilters());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetAcceptFilters()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.acceptFilters, other.acceptFilters);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetRunFileDialogCallback(), other.isSetRunFileDialogCallback());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetRunFileDialogCallback()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.runFileDialogCallback, other.runFileDialogCallback);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("Browser_RunFileDialog_args(");
+      boolean first = true;
+
+      sb.append("bid:");
+      sb.append(this.bid);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("mode:");
+      if (this.mode == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.mode);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("title:");
+      if (this.title == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.title);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("defaultFilePath:");
+      if (this.defaultFilePath == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.defaultFilePath);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("acceptFilters:");
+      if (this.acceptFilters == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.acceptFilters);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("runFileDialogCallback:");
+      if (this.runFileDialogCallback == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.runFileDialogCallback);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (runFileDialogCallback != null) {
+        runFileDialogCallback.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class Browser_RunFileDialog_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public Browser_RunFileDialog_argsStandardScheme getScheme() {
+        return new Browser_RunFileDialog_argsStandardScheme();
+      }
+    }
+
+    private static class Browser_RunFileDialog_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<Browser_RunFileDialog_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, Browser_RunFileDialog_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // BID
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
+                struct.bid = iprot.readI32();
+                struct.setBidIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // MODE
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRING) {
+                struct.mode = iprot.readString();
+                struct.setModeIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 3: // TITLE
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRING) {
+                struct.title = iprot.readString();
+                struct.setTitleIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 4: // DEFAULT_FILE_PATH
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRING) {
+                struct.defaultFilePath = iprot.readString();
+                struct.setDefaultFilePathIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 5: // ACCEPT_FILTERS
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.LIST) {
+                {
+                  com.jetbrains.cef.remote.thrift.protocol.TList _list16 = iprot.readListBegin();
+                  struct.acceptFilters = new java.util.ArrayList<java.lang.String>(_list16.size);
+                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _elem17;
+                  for (int _i18 = 0; _i18 < _list16.size; ++_i18)
+                  {
+                    _elem17 = iprot.readString();
+                    struct.acceptFilters.add(_elem17);
+                  }
+                  iprot.readListEnd();
+                }
+                struct.setAcceptFiltersIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 6: // RUN_FILE_DIALOG_CALLBACK
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                struct.runFileDialogCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.runFileDialogCallback.read(iprot);
+                struct.setRunFileDialogCallbackIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, Browser_RunFileDialog_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(BID_FIELD_DESC);
+        oprot.writeI32(struct.bid);
+        oprot.writeFieldEnd();
+        if (struct.mode != null) {
+          oprot.writeFieldBegin(MODE_FIELD_DESC);
+          oprot.writeString(struct.mode);
+          oprot.writeFieldEnd();
+        }
+        if (struct.title != null) {
+          oprot.writeFieldBegin(TITLE_FIELD_DESC);
+          oprot.writeString(struct.title);
+          oprot.writeFieldEnd();
+        }
+        if (struct.defaultFilePath != null) {
+          oprot.writeFieldBegin(DEFAULT_FILE_PATH_FIELD_DESC);
+          oprot.writeString(struct.defaultFilePath);
+          oprot.writeFieldEnd();
+        }
+        if (struct.acceptFilters != null) {
+          oprot.writeFieldBegin(ACCEPT_FILTERS_FIELD_DESC);
+          {
+            oprot.writeListBegin(new com.jetbrains.cef.remote.thrift.protocol.TList(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, struct.acceptFilters.size()));
+            for (java.lang.String _iter19 : struct.acceptFilters)
+            {
+              oprot.writeString(_iter19);
+            }
+            oprot.writeListEnd();
+          }
+          oprot.writeFieldEnd();
+        }
+        if (struct.runFileDialogCallback != null) {
+          oprot.writeFieldBegin(RUN_FILE_DIALOG_CALLBACK_FIELD_DESC);
+          struct.runFileDialogCallback.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class Browser_RunFileDialog_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public Browser_RunFileDialog_argsTupleScheme getScheme() {
+        return new Browser_RunFileDialog_argsTupleScheme();
+      }
+    }
+
+    private static class Browser_RunFileDialog_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<Browser_RunFileDialog_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, Browser_RunFileDialog_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetBid()) {
+          optionals.set(0);
+        }
+        if (struct.isSetMode()) {
+          optionals.set(1);
+        }
+        if (struct.isSetTitle()) {
+          optionals.set(2);
+        }
+        if (struct.isSetDefaultFilePath()) {
+          optionals.set(3);
+        }
+        if (struct.isSetAcceptFilters()) {
+          optionals.set(4);
+        }
+        if (struct.isSetRunFileDialogCallback()) {
+          optionals.set(5);
+        }
+        oprot.writeBitSet(optionals, 6);
+        if (struct.isSetBid()) {
+          oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetMode()) {
+          oprot.writeString(struct.mode);
+        }
+        if (struct.isSetTitle()) {
+          oprot.writeString(struct.title);
+        }
+        if (struct.isSetDefaultFilePath()) {
+          oprot.writeString(struct.defaultFilePath);
+        }
+        if (struct.isSetAcceptFilters()) {
+          {
+            oprot.writeI32(struct.acceptFilters.size());
+            for (java.lang.String _iter20 : struct.acceptFilters)
+            {
+              oprot.writeString(_iter20);
+            }
+          }
+        }
+        if (struct.isSetRunFileDialogCallback()) {
+          struct.runFileDialogCallback.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, Browser_RunFileDialog_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(6);
+        if (incoming.get(0)) {
+          struct.bid = iprot.readI32();
+          struct.setBidIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.mode = iprot.readString();
+          struct.setModeIsSet(true);
+        }
+        if (incoming.get(2)) {
+          struct.title = iprot.readString();
+          struct.setTitleIsSet(true);
+        }
+        if (incoming.get(3)) {
+          struct.defaultFilePath = iprot.readString();
+          struct.setDefaultFilePathIsSet(true);
+        }
+        if (incoming.get(4)) {
+          {
+            com.jetbrains.cef.remote.thrift.protocol.TList _list21 = iprot.readListBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRING);
+            struct.acceptFilters = new java.util.ArrayList<java.lang.String>(_list21.size);
+            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _elem22;
+            for (int _i23 = 0; _i23 < _list21.size; ++_i23)
+            {
+              _elem22 = iprot.readString();
+              struct.acceptFilters.add(_elem22);
+            }
+          }
+          struct.setAcceptFiltersIsSet(true);
+        }
+        if (incoming.get(5)) {
+          struct.runFileDialogCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.runFileDialogCallback.read(iprot);
+          struct.setRunFileDialogCallbackIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class Browser_PrintToPDF_args implements com.jetbrains.cef.remote.thrift.TBase<Browser_PrintToPDF_args, Browser_PrintToPDF_args._Fields>, java.io.Serializable, Cloneable, Comparable<Browser_PrintToPDF_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("Browser_PrintToPDF_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField BID_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("bid", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)1);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField PATH_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("path", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)2);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField PDF_PRINT_SETTINGS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("pdfPrintSettings", com.jetbrains.cef.remote.thrift.protocol.TType.MAP, (short)3);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField PDF_PRINT_CALLBACK_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("pdfPrintCallback", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)4);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new Browser_PrintToPDF_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new Browser_PrintToPDF_argsTupleSchemeFactory();
+
+    public int bid; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String path; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.util.Map<java.lang.String,java.lang.String> pdfPrintSettings; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject pdfPrintCallback; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      BID((short)1, "bid"),
+      PATH((short)2, "path"),
+      PDF_PRINT_SETTINGS((short)3, "pdfPrintSettings"),
+      PDF_PRINT_CALLBACK((short)4, "pdfPrintCallback");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // BID
+            return BID;
+          case 2: // PATH
+            return PATH;
+          case 3: // PDF_PRINT_SETTINGS
+            return PDF_PRINT_SETTINGS;
+          case 4: // PDF_PRINT_CALLBACK
+            return PDF_PRINT_CALLBACK;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __BID_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.BID, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("bid", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.PATH, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("path", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.PDF_PRINT_SETTINGS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("pdfPrintSettings", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.MapMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.MAP, 
+              new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING), 
+              new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING))));
+      tmpMap.put(_Fields.PDF_PRINT_CALLBACK, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("pdfPrintCallback", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.RObject.class)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Browser_PrintToPDF_args.class, metaDataMap);
+    }
+
+    public Browser_PrintToPDF_args() {
+    }
+
+    public Browser_PrintToPDF_args(
+      int bid,
+      java.lang.String path,
+      java.util.Map<java.lang.String,java.lang.String> pdfPrintSettings,
+      com.jetbrains.cef.remote.thrift_codegen.RObject pdfPrintCallback)
+    {
+      this();
+      this.bid = bid;
+      setBidIsSet(true);
+      this.path = path;
+      this.pdfPrintSettings = pdfPrintSettings;
+      this.pdfPrintCallback = pdfPrintCallback;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public Browser_PrintToPDF_args(Browser_PrintToPDF_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.bid = other.bid;
+      if (other.isSetPath()) {
+        this.path = other.path;
+      }
+      if (other.isSetPdfPrintSettings()) {
+        java.util.Map<java.lang.String,java.lang.String> __this__pdfPrintSettings = new java.util.HashMap<java.lang.String,java.lang.String>(other.pdfPrintSettings);
+        this.pdfPrintSettings = __this__pdfPrintSettings;
+      }
+      if (other.isSetPdfPrintCallback()) {
+        this.pdfPrintCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject(other.pdfPrintCallback);
+      }
+    }
+
+    @Override
+    public Browser_PrintToPDF_args deepCopy() {
+      return new Browser_PrintToPDF_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setBidIsSet(false);
+      this.bid = 0;
+      this.path = null;
+      this.pdfPrintSettings = null;
+      this.pdfPrintCallback = null;
+    }
+
+    public int getBid() {
+      return this.bid;
+    }
+
+    public Browser_PrintToPDF_args setBid(int bid) {
+      this.bid = bid;
+      setBidIsSet(true);
+      return this;
+    }
+
+    public void unsetBid() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    /** Returns true if field bid is set (has been assigned a value) and false otherwise */
+    public boolean isSetBid() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    public void setBidIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.lang.String getPath() {
+      return this.path;
+    }
+
+    public Browser_PrintToPDF_args setPath(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String path) {
+      this.path = path;
+      return this;
+    }
+
+    public void unsetPath() {
+      this.path = null;
+    }
+
+    /** Returns true if field path is set (has been assigned a value) and false otherwise */
+    public boolean isSetPath() {
+      return this.path != null;
+    }
+
+    public void setPathIsSet(boolean value) {
+      if (!value) {
+        this.path = null;
+      }
+    }
+
+    public int getPdfPrintSettingsSize() {
+      return (this.pdfPrintSettings == null) ? 0 : this.pdfPrintSettings.size();
+    }
+
+    public void putToPdfPrintSettings(java.lang.String key, java.lang.String val) {
+      if (this.pdfPrintSettings == null) {
+        this.pdfPrintSettings = new java.util.HashMap<java.lang.String,java.lang.String>();
+      }
+      this.pdfPrintSettings.put(key, val);
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.util.Map<java.lang.String,java.lang.String> getPdfPrintSettings() {
+      return this.pdfPrintSettings;
+    }
+
+    public Browser_PrintToPDF_args setPdfPrintSettings(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.util.Map<java.lang.String,java.lang.String> pdfPrintSettings) {
+      this.pdfPrintSettings = pdfPrintSettings;
+      return this;
+    }
+
+    public void unsetPdfPrintSettings() {
+      this.pdfPrintSettings = null;
+    }
+
+    /** Returns true if field pdfPrintSettings is set (has been assigned a value) and false otherwise */
+    public boolean isSetPdfPrintSettings() {
+      return this.pdfPrintSettings != null;
+    }
+
+    public void setPdfPrintSettingsIsSet(boolean value) {
+      if (!value) {
+        this.pdfPrintSettings = null;
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.RObject getPdfPrintCallback() {
+      return this.pdfPrintCallback;
+    }
+
+    public Browser_PrintToPDF_args setPdfPrintCallback(@com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.RObject pdfPrintCallback) {
+      this.pdfPrintCallback = pdfPrintCallback;
+      return this;
+    }
+
+    public void unsetPdfPrintCallback() {
+      this.pdfPrintCallback = null;
+    }
+
+    /** Returns true if field pdfPrintCallback is set (has been assigned a value) and false otherwise */
+    public boolean isSetPdfPrintCallback() {
+      return this.pdfPrintCallback != null;
+    }
+
+    public void setPdfPrintCallbackIsSet(boolean value) {
+      if (!value) {
+        this.pdfPrintCallback = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case BID:
+        if (value == null) {
+          unsetBid();
+        } else {
+          setBid((java.lang.Integer)value);
+        }
+        break;
+
+      case PATH:
+        if (value == null) {
+          unsetPath();
+        } else {
+          setPath((java.lang.String)value);
+        }
+        break;
+
+      case PDF_PRINT_SETTINGS:
+        if (value == null) {
+          unsetPdfPrintSettings();
+        } else {
+          setPdfPrintSettings((java.util.Map<java.lang.String,java.lang.String>)value);
+        }
+        break;
+
+      case PDF_PRINT_CALLBACK:
+        if (value == null) {
+          unsetPdfPrintCallback();
+        } else {
+          setPdfPrintCallback((com.jetbrains.cef.remote.thrift_codegen.RObject)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case BID:
+        return getBid();
+
+      case PATH:
+        return getPath();
+
+      case PDF_PRINT_SETTINGS:
+        return getPdfPrintSettings();
+
+      case PDF_PRINT_CALLBACK:
+        return getPdfPrintCallback();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case BID:
+        return isSetBid();
+      case PATH:
+        return isSetPath();
+      case PDF_PRINT_SETTINGS:
+        return isSetPdfPrintSettings();
+      case PDF_PRINT_CALLBACK:
+        return isSetPdfPrintCallback();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof Browser_PrintToPDF_args)
+        return this.equals((Browser_PrintToPDF_args)that);
+      return false;
+    }
+
+    public boolean equals(Browser_PrintToPDF_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_bid = true;
+      boolean that_present_bid = true;
+      if (this_present_bid || that_present_bid) {
+        if (!(this_present_bid && that_present_bid))
+          return false;
+        if (this.bid != that.bid)
+          return false;
+      }
+
+      boolean this_present_path = true && this.isSetPath();
+      boolean that_present_path = true && that.isSetPath();
+      if (this_present_path || that_present_path) {
+        if (!(this_present_path && that_present_path))
+          return false;
+        if (!this.path.equals(that.path))
+          return false;
+      }
+
+      boolean this_present_pdfPrintSettings = true && this.isSetPdfPrintSettings();
+      boolean that_present_pdfPrintSettings = true && that.isSetPdfPrintSettings();
+      if (this_present_pdfPrintSettings || that_present_pdfPrintSettings) {
+        if (!(this_present_pdfPrintSettings && that_present_pdfPrintSettings))
+          return false;
+        if (!this.pdfPrintSettings.equals(that.pdfPrintSettings))
+          return false;
+      }
+
+      boolean this_present_pdfPrintCallback = true && this.isSetPdfPrintCallback();
+      boolean that_present_pdfPrintCallback = true && that.isSetPdfPrintCallback();
+      if (this_present_pdfPrintCallback || that_present_pdfPrintCallback) {
+        if (!(this_present_pdfPrintCallback && that_present_pdfPrintCallback))
+          return false;
+        if (!this.pdfPrintCallback.equals(that.pdfPrintCallback))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + bid;
+
+      hashCode = hashCode * 8191 + ((isSetPath()) ? 131071 : 524287);
+      if (isSetPath())
+        hashCode = hashCode * 8191 + path.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetPdfPrintSettings()) ? 131071 : 524287);
+      if (isSetPdfPrintSettings())
+        hashCode = hashCode * 8191 + pdfPrintSettings.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetPdfPrintCallback()) ? 131071 : 524287);
+      if (isSetPdfPrintCallback())
+        hashCode = hashCode * 8191 + pdfPrintCallback.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(Browser_PrintToPDF_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetBid()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetPath(), other.isSetPath());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetPath()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.path, other.path);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetPdfPrintSettings(), other.isSetPdfPrintSettings());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetPdfPrintSettings()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.pdfPrintSettings, other.pdfPrintSettings);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetPdfPrintCallback(), other.isSetPdfPrintCallback());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetPdfPrintCallback()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.pdfPrintCallback, other.pdfPrintCallback);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("Browser_PrintToPDF_args(");
+      boolean first = true;
+
+      sb.append("bid:");
+      sb.append(this.bid);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("path:");
+      if (this.path == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.path);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("pdfPrintSettings:");
+      if (this.pdfPrintSettings == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.pdfPrintSettings);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("pdfPrintCallback:");
+      if (this.pdfPrintCallback == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.pdfPrintCallback);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (pdfPrintCallback != null) {
+        pdfPrintCallback.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class Browser_PrintToPDF_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public Browser_PrintToPDF_argsStandardScheme getScheme() {
+        return new Browser_PrintToPDF_argsStandardScheme();
+      }
+    }
+
+    private static class Browser_PrintToPDF_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<Browser_PrintToPDF_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, Browser_PrintToPDF_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // BID
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
+                struct.bid = iprot.readI32();
+                struct.setBidIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // PATH
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRING) {
+                struct.path = iprot.readString();
+                struct.setPathIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 3: // PDF_PRINT_SETTINGS
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.MAP) {
+                {
+                  com.jetbrains.cef.remote.thrift.protocol.TMap _map24 = iprot.readMapBegin();
+                  struct.pdfPrintSettings = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map24.size);
+                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key25;
+                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val26;
+                  for (int _i27 = 0; _i27 < _map24.size; ++_i27)
+                  {
+                    _key25 = iprot.readString();
+                    _val26 = iprot.readString();
+                    struct.pdfPrintSettings.put(_key25, _val26);
+                  }
+                  iprot.readMapEnd();
+                }
+                struct.setPdfPrintSettingsIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 4: // PDF_PRINT_CALLBACK
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                struct.pdfPrintCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+                struct.pdfPrintCallback.read(iprot);
+                struct.setPdfPrintCallbackIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, Browser_PrintToPDF_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(BID_FIELD_DESC);
+        oprot.writeI32(struct.bid);
+        oprot.writeFieldEnd();
+        if (struct.path != null) {
+          oprot.writeFieldBegin(PATH_FIELD_DESC);
+          oprot.writeString(struct.path);
+          oprot.writeFieldEnd();
+        }
+        if (struct.pdfPrintSettings != null) {
+          oprot.writeFieldBegin(PDF_PRINT_SETTINGS_FIELD_DESC);
+          {
+            oprot.writeMapBegin(new com.jetbrains.cef.remote.thrift.protocol.TMap(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, com.jetbrains.cef.remote.thrift.protocol.TType.STRING, struct.pdfPrintSettings.size()));
+            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter28 : struct.pdfPrintSettings.entrySet())
+            {
+              oprot.writeString(_iter28.getKey());
+              oprot.writeString(_iter28.getValue());
+            }
+            oprot.writeMapEnd();
+          }
+          oprot.writeFieldEnd();
+        }
+        if (struct.pdfPrintCallback != null) {
+          oprot.writeFieldBegin(PDF_PRINT_CALLBACK_FIELD_DESC);
+          struct.pdfPrintCallback.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class Browser_PrintToPDF_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public Browser_PrintToPDF_argsTupleScheme getScheme() {
+        return new Browser_PrintToPDF_argsTupleScheme();
+      }
+    }
+
+    private static class Browser_PrintToPDF_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<Browser_PrintToPDF_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, Browser_PrintToPDF_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetBid()) {
+          optionals.set(0);
+        }
+        if (struct.isSetPath()) {
+          optionals.set(1);
+        }
+        if (struct.isSetPdfPrintSettings()) {
+          optionals.set(2);
+        }
+        if (struct.isSetPdfPrintCallback()) {
+          optionals.set(3);
+        }
+        oprot.writeBitSet(optionals, 4);
+        if (struct.isSetBid()) {
+          oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetPath()) {
+          oprot.writeString(struct.path);
+        }
+        if (struct.isSetPdfPrintSettings()) {
+          {
+            oprot.writeI32(struct.pdfPrintSettings.size());
+            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter29 : struct.pdfPrintSettings.entrySet())
+            {
+              oprot.writeString(_iter29.getKey());
+              oprot.writeString(_iter29.getValue());
+            }
+          }
+        }
+        if (struct.isSetPdfPrintCallback()) {
+          struct.pdfPrintCallback.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, Browser_PrintToPDF_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(4);
+        if (incoming.get(0)) {
+          struct.bid = iprot.readI32();
+          struct.setBidIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.path = iprot.readString();
+          struct.setPathIsSet(true);
+        }
+        if (incoming.get(2)) {
+          {
+            com.jetbrains.cef.remote.thrift.protocol.TMap _map30 = iprot.readMapBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, com.jetbrains.cef.remote.thrift.protocol.TType.STRING); 
+            struct.pdfPrintSettings = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map30.size);
+            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key31;
+            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val32;
+            for (int _i33 = 0; _i33 < _map30.size; ++_i33)
+            {
+              _key31 = iprot.readString();
+              _val32 = iprot.readString();
+              struct.pdfPrintSettings.put(_key31, _val32);
+            }
+          }
+          struct.setPdfPrintSettingsIsSet(true);
+        }
+        if (incoming.get(3)) {
+          struct.pdfPrintCallback = new com.jetbrains.cef.remote.thrift_codegen.RObject();
+          struct.pdfPrintCallback.read(iprot);
+          struct.setPdfPrintCallbackIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class Browser_Print_args implements com.jetbrains.cef.remote.thrift.TBase<Browser_Print_args, Browser_Print_args._Fields>, java.io.Serializable, Cloneable, Comparable<Browser_Print_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("Browser_Print_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField BID_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("bid", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)1);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new Browser_Print_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new Browser_Print_argsTupleSchemeFactory();
+
+    public int bid; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      BID((short)1, "bid");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // BID
+            return BID;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __BID_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.BID, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("bid", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Browser_Print_args.class, metaDataMap);
+    }
+
+    public Browser_Print_args() {
+    }
+
+    public Browser_Print_args(
+      int bid)
+    {
+      this();
+      this.bid = bid;
+      setBidIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public Browser_Print_args(Browser_Print_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.bid = other.bid;
+    }
+
+    @Override
+    public Browser_Print_args deepCopy() {
+      return new Browser_Print_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setBidIsSet(false);
+      this.bid = 0;
+    }
+
+    public int getBid() {
+      return this.bid;
+    }
+
+    public Browser_Print_args setBid(int bid) {
+      this.bid = bid;
+      setBidIsSet(true);
+      return this;
+    }
+
+    public void unsetBid() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    /** Returns true if field bid is set (has been assigned a value) and false otherwise */
+    public boolean isSetBid() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    public void setBidIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case BID:
+        if (value == null) {
+          unsetBid();
+        } else {
+          setBid((java.lang.Integer)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case BID:
+        return getBid();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case BID:
+        return isSetBid();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof Browser_Print_args)
+        return this.equals((Browser_Print_args)that);
+      return false;
+    }
+
+    public boolean equals(Browser_Print_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_bid = true;
+      boolean that_present_bid = true;
+      if (this_present_bid || that_present_bid) {
+        if (!(this_present_bid && that_present_bid))
+          return false;
+        if (this.bid != that.bid)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + bid;
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(Browser_Print_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetBid()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("Browser_Print_args(");
+      boolean first = true;
+
+      sb.append("bid:");
+      sb.append(this.bid);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class Browser_Print_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public Browser_Print_argsStandardScheme getScheme() {
+        return new Browser_Print_argsStandardScheme();
+      }
+    }
+
+    private static class Browser_Print_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<Browser_Print_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, Browser_Print_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // BID
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
+                struct.bid = iprot.readI32();
+                struct.setBidIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, Browser_Print_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(BID_FIELD_DESC);
+        oprot.writeI32(struct.bid);
+        oprot.writeFieldEnd();
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class Browser_Print_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public Browser_Print_argsTupleScheme getScheme() {
+        return new Browser_Print_argsTupleScheme();
+      }
+    }
+
+    private static class Browser_Print_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<Browser_Print_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, Browser_Print_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetBid()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetBid()) {
+          oprot.writeI32(struct.bid);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, Browser_Print_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.bid = iprot.readI32();
+          struct.setBidIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
   public static class Frame_ExecuteJavaScript_args implements com.jetbrains.cef.remote.thrift.TBase<Frame_ExecuteJavaScript_args, Frame_ExecuteJavaScript_args._Fields>, java.io.Serializable, Cloneable, Comparable<Frame_ExecuteJavaScript_args>   {
     private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("Frame_ExecuteJavaScript_args");
 
@@ -57509,15 +59978,15 @@ public class Server {
             case 0: // SUCCESS
               if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.MAP) {
                 {
-                  com.jetbrains.cef.remote.thrift.protocol.TMap _map16 = iprot.readMapBegin();
-                  struct.success = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map16.size);
-                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key17;
-                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val18;
-                  for (int _i19 = 0; _i19 < _map16.size; ++_i19)
+                  com.jetbrains.cef.remote.thrift.protocol.TMap _map34 = iprot.readMapBegin();
+                  struct.success = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map34.size);
+                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key35;
+                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val36;
+                  for (int _i37 = 0; _i37 < _map34.size; ++_i37)
                   {
-                    _key17 = iprot.readString();
-                    _val18 = iprot.readString();
-                    struct.success.put(_key17, _val18);
+                    _key35 = iprot.readString();
+                    _val36 = iprot.readString();
+                    struct.success.put(_key35, _val36);
                   }
                   iprot.readMapEnd();
                 }
@@ -57546,10 +60015,10 @@ public class Server {
           oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
           {
             oprot.writeMapBegin(new com.jetbrains.cef.remote.thrift.protocol.TMap(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, com.jetbrains.cef.remote.thrift.protocol.TType.STRING, struct.success.size()));
-            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter20 : struct.success.entrySet())
+            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter38 : struct.success.entrySet())
             {
-              oprot.writeString(_iter20.getKey());
-              oprot.writeString(_iter20.getValue());
+              oprot.writeString(_iter38.getKey());
+              oprot.writeString(_iter38.getValue());
             }
             oprot.writeMapEnd();
           }
@@ -57581,10 +60050,10 @@ public class Server {
         if (struct.isSetSuccess()) {
           {
             oprot.writeI32(struct.success.size());
-            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter21 : struct.success.entrySet())
+            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter39 : struct.success.entrySet())
             {
-              oprot.writeString(_iter21.getKey());
-              oprot.writeString(_iter21.getValue());
+              oprot.writeString(_iter39.getKey());
+              oprot.writeString(_iter39.getValue());
             }
           }
         }
@@ -57596,15 +60065,15 @@ public class Server {
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
           {
-            com.jetbrains.cef.remote.thrift.protocol.TMap _map22 = iprot.readMapBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, com.jetbrains.cef.remote.thrift.protocol.TType.STRING); 
-            struct.success = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map22.size);
-            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key23;
-            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val24;
-            for (int _i25 = 0; _i25 < _map22.size; ++_i25)
+            com.jetbrains.cef.remote.thrift.protocol.TMap _map40 = iprot.readMapBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, com.jetbrains.cef.remote.thrift.protocol.TType.STRING); 
+            struct.success = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map40.size);
+            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key41;
+            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val42;
+            for (int _i43 = 0; _i43 < _map40.size; ++_i43)
             {
-              _key23 = iprot.readString();
-              _val24 = iprot.readString();
-              struct.success.put(_key23, _val24);
+              _key41 = iprot.readString();
+              _val42 = iprot.readString();
+              struct.success.put(_key41, _val42);
             }
           }
           struct.setSuccessIsSet(true);
@@ -58034,15 +60503,15 @@ public class Server {
             case 2: // HEADER_MAP
               if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.MAP) {
                 {
-                  com.jetbrains.cef.remote.thrift.protocol.TMap _map26 = iprot.readMapBegin();
-                  struct.headerMap = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map26.size);
-                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key27;
-                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val28;
-                  for (int _i29 = 0; _i29 < _map26.size; ++_i29)
+                  com.jetbrains.cef.remote.thrift.protocol.TMap _map44 = iprot.readMapBegin();
+                  struct.headerMap = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map44.size);
+                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key45;
+                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val46;
+                  for (int _i47 = 0; _i47 < _map44.size; ++_i47)
                   {
-                    _key27 = iprot.readString();
-                    _val28 = iprot.readString();
-                    struct.headerMap.put(_key27, _val28);
+                    _key45 = iprot.readString();
+                    _val46 = iprot.readString();
+                    struct.headerMap.put(_key45, _val46);
                   }
                   iprot.readMapEnd();
                 }
@@ -58076,10 +60545,10 @@ public class Server {
           oprot.writeFieldBegin(HEADER_MAP_FIELD_DESC);
           {
             oprot.writeMapBegin(new com.jetbrains.cef.remote.thrift.protocol.TMap(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, com.jetbrains.cef.remote.thrift.protocol.TType.STRING, struct.headerMap.size()));
-            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter30 : struct.headerMap.entrySet())
+            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter48 : struct.headerMap.entrySet())
             {
-              oprot.writeString(_iter30.getKey());
-              oprot.writeString(_iter30.getValue());
+              oprot.writeString(_iter48.getKey());
+              oprot.writeString(_iter48.getValue());
             }
             oprot.writeMapEnd();
           }
@@ -58117,10 +60586,10 @@ public class Server {
         if (struct.isSetHeaderMap()) {
           {
             oprot.writeI32(struct.headerMap.size());
-            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter31 : struct.headerMap.entrySet())
+            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter49 : struct.headerMap.entrySet())
             {
-              oprot.writeString(_iter31.getKey());
-              oprot.writeString(_iter31.getValue());
+              oprot.writeString(_iter49.getKey());
+              oprot.writeString(_iter49.getValue());
             }
           }
         }
@@ -58137,15 +60606,15 @@ public class Server {
         }
         if (incoming.get(1)) {
           {
-            com.jetbrains.cef.remote.thrift.protocol.TMap _map32 = iprot.readMapBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, com.jetbrains.cef.remote.thrift.protocol.TType.STRING); 
-            struct.headerMap = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map32.size);
-            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key33;
-            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val34;
-            for (int _i35 = 0; _i35 < _map32.size; ++_i35)
+            com.jetbrains.cef.remote.thrift.protocol.TMap _map50 = iprot.readMapBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, com.jetbrains.cef.remote.thrift.protocol.TType.STRING); 
+            struct.headerMap = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map50.size);
+            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key51;
+            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val52;
+            for (int _i53 = 0; _i53 < _map50.size; ++_i53)
             {
-              _key33 = iprot.readString();
-              _val34 = iprot.readString();
-              struct.headerMap.put(_key33, _val34);
+              _key51 = iprot.readString();
+              _val52 = iprot.readString();
+              struct.headerMap.put(_key51, _val52);
             }
           }
           struct.setHeaderMapIsSet(true);
@@ -59114,15 +61583,15 @@ public class Server {
             case 5: // HEADER_MAP
               if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.MAP) {
                 {
-                  com.jetbrains.cef.remote.thrift.protocol.TMap _map36 = iprot.readMapBegin();
-                  struct.headerMap = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map36.size);
-                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key37;
-                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val38;
-                  for (int _i39 = 0; _i39 < _map36.size; ++_i39)
+                  com.jetbrains.cef.remote.thrift.protocol.TMap _map54 = iprot.readMapBegin();
+                  struct.headerMap = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map54.size);
+                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key55;
+                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val56;
+                  for (int _i57 = 0; _i57 < _map54.size; ++_i57)
                   {
-                    _key37 = iprot.readString();
-                    _val38 = iprot.readString();
-                    struct.headerMap.put(_key37, _val38);
+                    _key55 = iprot.readString();
+                    _val56 = iprot.readString();
+                    struct.headerMap.put(_key55, _val56);
                   }
                   iprot.readMapEnd();
                 }
@@ -59171,10 +61640,10 @@ public class Server {
           oprot.writeFieldBegin(HEADER_MAP_FIELD_DESC);
           {
             oprot.writeMapBegin(new com.jetbrains.cef.remote.thrift.protocol.TMap(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, com.jetbrains.cef.remote.thrift.protocol.TType.STRING, struct.headerMap.size()));
-            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter40 : struct.headerMap.entrySet())
+            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter58 : struct.headerMap.entrySet())
             {
-              oprot.writeString(_iter40.getKey());
-              oprot.writeString(_iter40.getValue());
+              oprot.writeString(_iter58.getKey());
+              oprot.writeString(_iter58.getValue());
             }
             oprot.writeMapEnd();
           }
@@ -59230,10 +61699,10 @@ public class Server {
         if (struct.isSetHeaderMap()) {
           {
             oprot.writeI32(struct.headerMap.size());
-            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter41 : struct.headerMap.entrySet())
+            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter59 : struct.headerMap.entrySet())
             {
-              oprot.writeString(_iter41.getKey());
-              oprot.writeString(_iter41.getValue());
+              oprot.writeString(_iter59.getKey());
+              oprot.writeString(_iter59.getValue());
             }
           }
         }
@@ -59263,15 +61732,15 @@ public class Server {
         }
         if (incoming.get(4)) {
           {
-            com.jetbrains.cef.remote.thrift.protocol.TMap _map42 = iprot.readMapBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, com.jetbrains.cef.remote.thrift.protocol.TType.STRING); 
-            struct.headerMap = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map42.size);
-            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key43;
-            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val44;
-            for (int _i45 = 0; _i45 < _map42.size; ++_i45)
+            com.jetbrains.cef.remote.thrift.protocol.TMap _map60 = iprot.readMapBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, com.jetbrains.cef.remote.thrift.protocol.TType.STRING); 
+            struct.headerMap = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map60.size);
+            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key61;
+            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val62;
+            for (int _i63 = 0; _i63 < _map60.size; ++_i63)
             {
-              _key43 = iprot.readString();
-              _val44 = iprot.readString();
-              struct.headerMap.put(_key43, _val44);
+              _key61 = iprot.readString();
+              _val62 = iprot.readString();
+              struct.headerMap.put(_key61, _val62);
             }
           }
           struct.setHeaderMapIsSet(true);
@@ -62730,15 +65199,15 @@ public class Server {
             case 0: // SUCCESS
               if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.MAP) {
                 {
-                  com.jetbrains.cef.remote.thrift.protocol.TMap _map46 = iprot.readMapBegin();
-                  struct.success = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map46.size);
-                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key47;
-                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val48;
-                  for (int _i49 = 0; _i49 < _map46.size; ++_i49)
+                  com.jetbrains.cef.remote.thrift.protocol.TMap _map64 = iprot.readMapBegin();
+                  struct.success = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map64.size);
+                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key65;
+                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val66;
+                  for (int _i67 = 0; _i67 < _map64.size; ++_i67)
                   {
-                    _key47 = iprot.readString();
-                    _val48 = iprot.readString();
-                    struct.success.put(_key47, _val48);
+                    _key65 = iprot.readString();
+                    _val66 = iprot.readString();
+                    struct.success.put(_key65, _val66);
                   }
                   iprot.readMapEnd();
                 }
@@ -62767,10 +65236,10 @@ public class Server {
           oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
           {
             oprot.writeMapBegin(new com.jetbrains.cef.remote.thrift.protocol.TMap(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, com.jetbrains.cef.remote.thrift.protocol.TType.STRING, struct.success.size()));
-            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter50 : struct.success.entrySet())
+            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter68 : struct.success.entrySet())
             {
-              oprot.writeString(_iter50.getKey());
-              oprot.writeString(_iter50.getValue());
+              oprot.writeString(_iter68.getKey());
+              oprot.writeString(_iter68.getValue());
             }
             oprot.writeMapEnd();
           }
@@ -62802,10 +65271,10 @@ public class Server {
         if (struct.isSetSuccess()) {
           {
             oprot.writeI32(struct.success.size());
-            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter51 : struct.success.entrySet())
+            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter69 : struct.success.entrySet())
             {
-              oprot.writeString(_iter51.getKey());
-              oprot.writeString(_iter51.getValue());
+              oprot.writeString(_iter69.getKey());
+              oprot.writeString(_iter69.getValue());
             }
           }
         }
@@ -62817,15 +65286,15 @@ public class Server {
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
           {
-            com.jetbrains.cef.remote.thrift.protocol.TMap _map52 = iprot.readMapBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, com.jetbrains.cef.remote.thrift.protocol.TType.STRING); 
-            struct.success = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map52.size);
-            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key53;
-            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val54;
-            for (int _i55 = 0; _i55 < _map52.size; ++_i55)
+            com.jetbrains.cef.remote.thrift.protocol.TMap _map70 = iprot.readMapBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, com.jetbrains.cef.remote.thrift.protocol.TType.STRING); 
+            struct.success = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map70.size);
+            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key71;
+            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val72;
+            for (int _i73 = 0; _i73 < _map70.size; ++_i73)
             {
-              _key53 = iprot.readString();
-              _val54 = iprot.readString();
-              struct.success.put(_key53, _val54);
+              _key71 = iprot.readString();
+              _val72 = iprot.readString();
+              struct.success.put(_key71, _val72);
             }
           }
           struct.setSuccessIsSet(true);
@@ -63255,15 +65724,15 @@ public class Server {
             case 2: // HEADER_MAP
               if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.MAP) {
                 {
-                  com.jetbrains.cef.remote.thrift.protocol.TMap _map56 = iprot.readMapBegin();
-                  struct.headerMap = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map56.size);
-                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key57;
-                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val58;
-                  for (int _i59 = 0; _i59 < _map56.size; ++_i59)
+                  com.jetbrains.cef.remote.thrift.protocol.TMap _map74 = iprot.readMapBegin();
+                  struct.headerMap = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map74.size);
+                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key75;
+                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val76;
+                  for (int _i77 = 0; _i77 < _map74.size; ++_i77)
                   {
-                    _key57 = iprot.readString();
-                    _val58 = iprot.readString();
-                    struct.headerMap.put(_key57, _val58);
+                    _key75 = iprot.readString();
+                    _val76 = iprot.readString();
+                    struct.headerMap.put(_key75, _val76);
                   }
                   iprot.readMapEnd();
                 }
@@ -63297,10 +65766,10 @@ public class Server {
           oprot.writeFieldBegin(HEADER_MAP_FIELD_DESC);
           {
             oprot.writeMapBegin(new com.jetbrains.cef.remote.thrift.protocol.TMap(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, com.jetbrains.cef.remote.thrift.protocol.TType.STRING, struct.headerMap.size()));
-            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter60 : struct.headerMap.entrySet())
+            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter78 : struct.headerMap.entrySet())
             {
-              oprot.writeString(_iter60.getKey());
-              oprot.writeString(_iter60.getValue());
+              oprot.writeString(_iter78.getKey());
+              oprot.writeString(_iter78.getValue());
             }
             oprot.writeMapEnd();
           }
@@ -63338,10 +65807,10 @@ public class Server {
         if (struct.isSetHeaderMap()) {
           {
             oprot.writeI32(struct.headerMap.size());
-            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter61 : struct.headerMap.entrySet())
+            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter79 : struct.headerMap.entrySet())
             {
-              oprot.writeString(_iter61.getKey());
-              oprot.writeString(_iter61.getValue());
+              oprot.writeString(_iter79.getKey());
+              oprot.writeString(_iter79.getValue());
             }
           }
         }
@@ -63358,15 +65827,15 @@ public class Server {
         }
         if (incoming.get(1)) {
           {
-            com.jetbrains.cef.remote.thrift.protocol.TMap _map62 = iprot.readMapBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, com.jetbrains.cef.remote.thrift.protocol.TType.STRING); 
-            struct.headerMap = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map62.size);
-            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key63;
-            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val64;
-            for (int _i65 = 0; _i65 < _map62.size; ++_i65)
+            com.jetbrains.cef.remote.thrift.protocol.TMap _map80 = iprot.readMapBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, com.jetbrains.cef.remote.thrift.protocol.TType.STRING); 
+            struct.headerMap = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map80.size);
+            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key81;
+            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val82;
+            for (int _i83 = 0; _i83 < _map80.size; ++_i83)
             {
-              _key63 = iprot.readString();
-              _val64 = iprot.readString();
-              struct.headerMap.put(_key63, _val64);
+              _key81 = iprot.readString();
+              _val82 = iprot.readString();
+              struct.headerMap.put(_key81, _val82);
             }
           }
           struct.setHeaderMapIsSet(true);

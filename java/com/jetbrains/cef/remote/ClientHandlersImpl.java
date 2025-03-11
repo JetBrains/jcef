@@ -1105,4 +1105,22 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         rcb.onComplete(result);
         RemoteIntCallback.FACTORY.dispose(intCallback);
     }
+
+    @Override
+    public void RunFileDialogCallback_OnFileDialogDismissed(int runFileDialogCallback, List<String> filePaths) throws TException {
+        RemoteRunFileDialogCallback rcb = RemoteRunFileDialogCallback.FACTORY.get(runFileDialogCallback);
+        if (rcb == null) return;
+
+        rcb.getDelegate().onFileDialogDismissed(new Vector(filePaths));
+        RemoteRunFileDialogCallback.FACTORY.dispose(runFileDialogCallback);
+    }
+
+    @Override
+    public void PdfPrintCallback_OnPdfPrintFinished(int pdfPrintCallback, String path, boolean ok) throws TException {
+        RemotePdfPrintCallback rcb = RemotePdfPrintCallback.FACTORY.get(pdfPrintCallback);
+        if (rcb == null) return;
+
+        rcb.getDelegate().onPdfPrintFinished(path, ok);
+        RemotePdfPrintCallback.FACTORY.dispose(pdfPrintCallback);
+    }
 }

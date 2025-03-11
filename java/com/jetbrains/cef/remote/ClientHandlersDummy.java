@@ -350,4 +350,10 @@ public class ClientHandlersDummy implements ClientHandlers.Iface{
     public boolean PermissionHandler_OnRequestMediaAccessPermission(int bid, RObject frame, String requesting_origin, int requested_permissions, RObject mediaAccessCallback) throws TException {
         return false;
     }
+
+    @Override
+    public void PdfPrintCallback_OnPdfPrintFinished(int bid, String path, boolean ok) throws TException {}
+
+    @Override
+    public void RunFileDialogCallback_OnFileDialogDismissed(int bid, List<String> filePaths) throws TException {}
 }

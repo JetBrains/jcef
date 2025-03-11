@@ -195,6 +195,10 @@ set(SERVER_SOURCES
         handlers/RemotePermissionHandler.cpp
         handlers/RemotePermissionHandler.h
         callback/RemoteMediaAccessCallback.h
+        callback/RemoteRunFileDialogCallback.cpp
+        callback/RemoteRunFileDialogCallback.h
+        callback/RemotePdfPrintCallback.cpp
+        callback/RemotePdfPrintCallback.h
 )
 
 if (OS_WINDOWS)

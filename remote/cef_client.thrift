@@ -229,4 +229,14 @@ service ClientHandlers {
     // CefPermissionHandler
     //
     bool PermissionHandler_OnRequestMediaAccessPermission(1:i32 bid, 2:shared.RObject frame, 3:string requesting_origin, 4:i32 requested_permissions, 5:shared.RObject mediaAccessCallback),
+
+    //
+    // CefPdfPrintCallback
+    //
+    oneway void PdfPrintCallback_OnPdfPrintFinished(1:i32 pdfPrintCallback, 2:string path, 3:bool ok),
+
+    //
+    // CefRunFileDialogCallback
+    //
+    oneway void RunFileDialogCallback_OnFileDialogDismissed(1:i32 runFileDialogCallback, 2:list<string> filePaths),
 }

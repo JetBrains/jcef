@@ -275,6 +275,21 @@ class ServerHandler : virtual public ServerIf {
     printf("Browser_ExecuteDevToolsMethod\n");
   }
 
+  void Browser_RunFileDialog(const int32_t bid, const std::string& mode, const std::string& title, const std::string& defaultFilePath, const std::vector<std::string> & acceptFilters, const  ::thrift_codegen::RObject& runFileDialogCallback) {
+    // Your implementation goes here
+    printf("Browser_RunFileDialog\n");
+  }
+
+  void Browser_PrintToPDF(const int32_t bid, const std::string& path, const std::map<std::string, std::string> & pdfPrintSettings, const  ::thrift_codegen::RObject& pdfPrintCallback) {
+    // Your implementation goes here
+    printf("Browser_PrintToPDF\n");
+  }
+
+  void Browser_Print(const int32_t bid) {
+    // Your implementation goes here
+    printf("Browser_Print\n");
+  }
+
   void Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line) {
     // Your implementation goes here
     printf("Frame_ExecuteJavaScript\n");

@@ -149,6 +149,10 @@ public class ClientHandlers {
 
     public boolean PermissionHandler_OnRequestMediaAccessPermission(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, java.lang.String requesting_origin, int requested_permissions, com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback) throws com.jetbrains.cef.remote.thrift.TException;
 
+    public void PdfPrintCallback_OnPdfPrintFinished(int pdfPrintCallback, java.lang.String path, boolean ok) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void RunFileDialogCallback_OnFileDialogDismissed(int runFileDialogCallback, java.util.List<java.lang.String> filePaths) throws com.jetbrains.cef.remote.thrift.TException;
+
   }
 
   public interface AsyncIface {
@@ -290,6 +294,10 @@ public class ClientHandlers {
     public void DevToolsMessageObserver_OnDevToolsEvent(int observer, int bid, java.lang.String method, java.lang.String parameters, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void PermissionHandler_OnRequestMediaAccessPermission(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, java.lang.String requesting_origin, int requested_permissions, com.jetbrains.cef.remote.thrift_codegen.RObject mediaAccessCallback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void PdfPrintCallback_OnPdfPrintFinished(int pdfPrintCallback, java.lang.String path, boolean ok, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void RunFileDialogCallback_OnFileDialogDismissed(int runFileDialogCallback, java.util.List<java.lang.String> filePaths, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
   }
 
@@ -1826,6 +1834,35 @@ public class ClientHandlers {
         return result.success;
       }
       throw new com.jetbrains.cef.remote.thrift.TApplicationException(com.jetbrains.cef.remote.thrift.TApplicationException.MISSING_RESULT, "PermissionHandler_OnRequestMediaAccessPermission failed: unknown result");
+    }
+
+    @Override
+    public void PdfPrintCallback_OnPdfPrintFinished(int pdfPrintCallback, java.lang.String path, boolean ok) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_PdfPrintCallback_OnPdfPrintFinished(pdfPrintCallback, path, ok);
+    }
+
+    public void send_PdfPrintCallback_OnPdfPrintFinished(int pdfPrintCallback, java.lang.String path, boolean ok) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      PdfPrintCallback_OnPdfPrintFinished_args args = new PdfPrintCallback_OnPdfPrintFinished_args();
+      args.setPdfPrintCallback(pdfPrintCallback);
+      args.setPath(path);
+      args.setOk(ok);
+      sendBaseOneway("PdfPrintCallback_OnPdfPrintFinished", args);
+    }
+
+    @Override
+    public void RunFileDialogCallback_OnFileDialogDismissed(int runFileDialogCallback, java.util.List<java.lang.String> filePaths) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_RunFileDialogCallback_OnFileDialogDismissed(runFileDialogCallback, filePaths);
+    }
+
+    public void send_RunFileDialogCallback_OnFileDialogDismissed(int runFileDialogCallback, java.util.List<java.lang.String> filePaths) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      RunFileDialogCallback_OnFileDialogDismissed_args args = new RunFileDialogCallback_OnFileDialogDismissed_args();
+      args.setRunFileDialogCallback(runFileDialogCallback);
+      args.setFilePaths(filePaths);
+      sendBaseOneway("RunFileDialogCallback_OnFileDialogDismissed", args);
     }
 
   }
@@ -4725,6 +4762,85 @@ public class ClientHandlers {
       }
     }
 
+    @Override
+    public void PdfPrintCallback_OnPdfPrintFinished(int pdfPrintCallback, java.lang.String path, boolean ok, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      PdfPrintCallback_OnPdfPrintFinished_call method_call = new PdfPrintCallback_OnPdfPrintFinished_call(pdfPrintCallback, path, ok, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class PdfPrintCallback_OnPdfPrintFinished_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<Void> {
+      private int pdfPrintCallback;
+      private java.lang.String path;
+      private boolean ok;
+      public PdfPrintCallback_OnPdfPrintFinished_call(int pdfPrintCallback, java.lang.String path, boolean ok, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, true);
+        this.pdfPrintCallback = pdfPrintCallback;
+        this.path = path;
+        this.ok = ok;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("PdfPrintCallback_OnPdfPrintFinished", com.jetbrains.cef.remote.thrift.protocol.TMessageType.ONEWAY, 0));
+        PdfPrintCallback_OnPdfPrintFinished_args args = new PdfPrintCallback_OnPdfPrintFinished_args();
+        args.setPdfPrintCallback(pdfPrintCallback);
+        args.setPath(path);
+        args.setOk(ok);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public Void getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return null;
+      }
+    }
+
+    @Override
+    public void RunFileDialogCallback_OnFileDialogDismissed(int runFileDialogCallback, java.util.List<java.lang.String> filePaths, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      RunFileDialogCallback_OnFileDialogDismissed_call method_call = new RunFileDialogCallback_OnFileDialogDismissed_call(runFileDialogCallback, filePaths, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class RunFileDialogCallback_OnFileDialogDismissed_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<Void> {
+      private int runFileDialogCallback;
+      private java.util.List<java.lang.String> filePaths;
+      public RunFileDialogCallback_OnFileDialogDismissed_call(int runFileDialogCallback, java.util.List<java.lang.String> filePaths, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, true);
+        this.runFileDialogCallback = runFileDialogCallback;
+        this.filePaths = filePaths;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("RunFileDialogCallback_OnFileDialogDismissed", com.jetbrains.cef.remote.thrift.protocol.TMessageType.ONEWAY, 0));
+        RunFileDialogCallback_OnFileDialogDismissed_args args = new RunFileDialogCallback_OnFileDialogDismissed_args();
+        args.setRunFileDialogCallback(runFileDialogCallback);
+        args.setFilePaths(filePaths);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public Void getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return null;
+      }
+    }
+
   }
 
   public static class Processor<I extends Iface> extends com.jetbrains.cef.remote.thrift.TBaseProcessor<I> implements com.jetbrains.cef.remote.thrift.TProcessor {
@@ -4807,6 +4923,8 @@ public class ClientHandlers {
       processMap.put("DevToolsMessageObserver_OnDevToolsMethodResult", new DevToolsMessageObserver_OnDevToolsMethodResult());
       processMap.put("DevToolsMessageObserver_OnDevToolsEvent", new DevToolsMessageObserver_OnDevToolsEvent());
       processMap.put("PermissionHandler_OnRequestMediaAccessPermission", new PermissionHandler_OnRequestMediaAccessPermission());
+      processMap.put("PdfPrintCallback_OnPdfPrintFinished", new PdfPrintCallback_OnPdfPrintFinished());
+      processMap.put("RunFileDialogCallback_OnFileDialogDismissed", new RunFileDialogCallback_OnFileDialogDismissed());
       return processMap;
     }
 
@@ -6740,6 +6858,60 @@ public class ClientHandlers {
       }
     }
 
+    public static class PdfPrintCallback_OnPdfPrintFinished<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, PdfPrintCallback_OnPdfPrintFinished_args> {
+      public PdfPrintCallback_OnPdfPrintFinished() {
+        super("PdfPrintCallback_OnPdfPrintFinished");
+      }
+
+      @Override
+      public PdfPrintCallback_OnPdfPrintFinished_args getEmptyArgsInstance() {
+        return new PdfPrintCallback_OnPdfPrintFinished_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.TBase getResult(I iface, PdfPrintCallback_OnPdfPrintFinished_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.PdfPrintCallback_OnPdfPrintFinished(args.pdfPrintCallback, args.path, args.ok);
+        return null;
+      }
+    }
+
+    public static class RunFileDialogCallback_OnFileDialogDismissed<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, RunFileDialogCallback_OnFileDialogDismissed_args> {
+      public RunFileDialogCallback_OnFileDialogDismissed() {
+        super("RunFileDialogCallback_OnFileDialogDismissed");
+      }
+
+      @Override
+      public RunFileDialogCallback_OnFileDialogDismissed_args getEmptyArgsInstance() {
+        return new RunFileDialogCallback_OnFileDialogDismissed_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.TBase getResult(I iface, RunFileDialogCallback_OnFileDialogDismissed_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.RunFileDialogCallback_OnFileDialogDismissed(args.runFileDialogCallback, args.filePaths);
+        return null;
+      }
+    }
+
   }
 
   public static class AsyncProcessor<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.TBaseAsyncProcessor<I> {
@@ -6822,6 +6994,8 @@ public class ClientHandlers {
       processMap.put("DevToolsMessageObserver_OnDevToolsMethodResult", new DevToolsMessageObserver_OnDevToolsMethodResult());
       processMap.put("DevToolsMessageObserver_OnDevToolsEvent", new DevToolsMessageObserver_OnDevToolsEvent());
       processMap.put("PermissionHandler_OnRequestMediaAccessPermission", new PermissionHandler_OnRequestMediaAccessPermission());
+      processMap.put("PdfPrintCallback_OnPdfPrintFinished", new PdfPrintCallback_OnPdfPrintFinished());
+      processMap.put("RunFileDialogCallback_OnFileDialogDismissed", new RunFileDialogCallback_OnFileDialogDismissed());
       return processMap;
     }
 
@@ -10809,6 +10983,86 @@ public class ClientHandlers {
       @Override
       public void start(I iface, PermissionHandler_OnRequestMediaAccessPermission_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
         iface.PermissionHandler_OnRequestMediaAccessPermission(args.bid, args.frame, args.requesting_origin, args.requested_permissions, args.mediaAccessCallback,resultHandler);
+      }
+    }
+
+    public static class PdfPrintCallback_OnPdfPrintFinished<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, PdfPrintCallback_OnPdfPrintFinished_args, Void> {
+      public PdfPrintCallback_OnPdfPrintFinished() {
+        super("PdfPrintCallback_OnPdfPrintFinished");
+      }
+
+      @Override
+      public PdfPrintCallback_OnPdfPrintFinished_args getEmptyArgsInstance() {
+        return new PdfPrintCallback_OnPdfPrintFinished_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void>() { 
+          @Override
+          public void onComplete(Void o) {
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+            } else {
+              _LOGGER.error("Exception inside oneway handler", e);
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      public void start(I iface, PdfPrintCallback_OnPdfPrintFinished_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.PdfPrintCallback_OnPdfPrintFinished(args.pdfPrintCallback, args.path, args.ok,resultHandler);
+      }
+    }
+
+    public static class RunFileDialogCallback_OnFileDialogDismissed<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, RunFileDialogCallback_OnFileDialogDismissed_args, Void> {
+      public RunFileDialogCallback_OnFileDialogDismissed() {
+        super("RunFileDialogCallback_OnFileDialogDismissed");
+      }
+
+      @Override
+      public RunFileDialogCallback_OnFileDialogDismissed_args getEmptyArgsInstance() {
+        return new RunFileDialogCallback_OnFileDialogDismissed_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void>() { 
+          @Override
+          public void onComplete(Void o) {
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+            } else {
+              _LOGGER.error("Exception inside oneway handler", e);
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      public void start(I iface, RunFileDialogCallback_OnFileDialogDismissed_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.RunFileDialogCallback_OnFileDialogDismissed(args.runFileDialogCallback, args.filePaths,resultHandler);
       }
     }
 
@@ -68434,6 +68688,1110 @@ public class ClientHandlers {
         if (incoming.get(0)) {
           struct.success = iprot.readBool();
           struct.setSuccessIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class PdfPrintCallback_OnPdfPrintFinished_args implements com.jetbrains.cef.remote.thrift.TBase<PdfPrintCallback_OnPdfPrintFinished_args, PdfPrintCallback_OnPdfPrintFinished_args._Fields>, java.io.Serializable, Cloneable, Comparable<PdfPrintCallback_OnPdfPrintFinished_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("PdfPrintCallback_OnPdfPrintFinished_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField PDF_PRINT_CALLBACK_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("pdfPrintCallback", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)1);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField PATH_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("path", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)2);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField OK_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("ok", com.jetbrains.cef.remote.thrift.protocol.TType.BOOL, (short)3);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new PdfPrintCallback_OnPdfPrintFinished_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new PdfPrintCallback_OnPdfPrintFinished_argsTupleSchemeFactory();
+
+    public int pdfPrintCallback; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String path; // required
+    public boolean ok; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      PDF_PRINT_CALLBACK((short)1, "pdfPrintCallback"),
+      PATH((short)2, "path"),
+      OK((short)3, "ok");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // PDF_PRINT_CALLBACK
+            return PDF_PRINT_CALLBACK;
+          case 2: // PATH
+            return PATH;
+          case 3: // OK
+            return OK;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __PDFPRINTCALLBACK_ISSET_ID = 0;
+    private static final int __OK_ISSET_ID = 1;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.PDF_PRINT_CALLBACK, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("pdfPrintCallback", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.PATH, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("path", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.OK, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("ok", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.BOOL)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(PdfPrintCallback_OnPdfPrintFinished_args.class, metaDataMap);
+    }
+
+    public PdfPrintCallback_OnPdfPrintFinished_args() {
+    }
+
+    public PdfPrintCallback_OnPdfPrintFinished_args(
+      int pdfPrintCallback,
+      java.lang.String path,
+      boolean ok)
+    {
+      this();
+      this.pdfPrintCallback = pdfPrintCallback;
+      setPdfPrintCallbackIsSet(true);
+      this.path = path;
+      this.ok = ok;
+      setOkIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public PdfPrintCallback_OnPdfPrintFinished_args(PdfPrintCallback_OnPdfPrintFinished_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.pdfPrintCallback = other.pdfPrintCallback;
+      if (other.isSetPath()) {
+        this.path = other.path;
+      }
+      this.ok = other.ok;
+    }
+
+    @Override
+    public PdfPrintCallback_OnPdfPrintFinished_args deepCopy() {
+      return new PdfPrintCallback_OnPdfPrintFinished_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setPdfPrintCallbackIsSet(false);
+      this.pdfPrintCallback = 0;
+      this.path = null;
+      setOkIsSet(false);
+      this.ok = false;
+    }
+
+    public int getPdfPrintCallback() {
+      return this.pdfPrintCallback;
+    }
+
+    public PdfPrintCallback_OnPdfPrintFinished_args setPdfPrintCallback(int pdfPrintCallback) {
+      this.pdfPrintCallback = pdfPrintCallback;
+      setPdfPrintCallbackIsSet(true);
+      return this;
+    }
+
+    public void unsetPdfPrintCallback() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __PDFPRINTCALLBACK_ISSET_ID);
+    }
+
+    /** Returns true if field pdfPrintCallback is set (has been assigned a value) and false otherwise */
+    public boolean isSetPdfPrintCallback() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __PDFPRINTCALLBACK_ISSET_ID);
+    }
+
+    public void setPdfPrintCallbackIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __PDFPRINTCALLBACK_ISSET_ID, value);
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.lang.String getPath() {
+      return this.path;
+    }
+
+    public PdfPrintCallback_OnPdfPrintFinished_args setPath(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String path) {
+      this.path = path;
+      return this;
+    }
+
+    public void unsetPath() {
+      this.path = null;
+    }
+
+    /** Returns true if field path is set (has been assigned a value) and false otherwise */
+    public boolean isSetPath() {
+      return this.path != null;
+    }
+
+    public void setPathIsSet(boolean value) {
+      if (!value) {
+        this.path = null;
+      }
+    }
+
+    public boolean isOk() {
+      return this.ok;
+    }
+
+    public PdfPrintCallback_OnPdfPrintFinished_args setOk(boolean ok) {
+      this.ok = ok;
+      setOkIsSet(true);
+      return this;
+    }
+
+    public void unsetOk() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __OK_ISSET_ID);
+    }
+
+    /** Returns true if field ok is set (has been assigned a value) and false otherwise */
+    public boolean isSetOk() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __OK_ISSET_ID);
+    }
+
+    public void setOkIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __OK_ISSET_ID, value);
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case PDF_PRINT_CALLBACK:
+        if (value == null) {
+          unsetPdfPrintCallback();
+        } else {
+          setPdfPrintCallback((java.lang.Integer)value);
+        }
+        break;
+
+      case PATH:
+        if (value == null) {
+          unsetPath();
+        } else {
+          setPath((java.lang.String)value);
+        }
+        break;
+
+      case OK:
+        if (value == null) {
+          unsetOk();
+        } else {
+          setOk((java.lang.Boolean)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case PDF_PRINT_CALLBACK:
+        return getPdfPrintCallback();
+
+      case PATH:
+        return getPath();
+
+      case OK:
+        return isOk();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case PDF_PRINT_CALLBACK:
+        return isSetPdfPrintCallback();
+      case PATH:
+        return isSetPath();
+      case OK:
+        return isSetOk();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof PdfPrintCallback_OnPdfPrintFinished_args)
+        return this.equals((PdfPrintCallback_OnPdfPrintFinished_args)that);
+      return false;
+    }
+
+    public boolean equals(PdfPrintCallback_OnPdfPrintFinished_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_pdfPrintCallback = true;
+      boolean that_present_pdfPrintCallback = true;
+      if (this_present_pdfPrintCallback || that_present_pdfPrintCallback) {
+        if (!(this_present_pdfPrintCallback && that_present_pdfPrintCallback))
+          return false;
+        if (this.pdfPrintCallback != that.pdfPrintCallback)
+          return false;
+      }
+
+      boolean this_present_path = true && this.isSetPath();
+      boolean that_present_path = true && that.isSetPath();
+      if (this_present_path || that_present_path) {
+        if (!(this_present_path && that_present_path))
+          return false;
+        if (!this.path.equals(that.path))
+          return false;
+      }
+
+      boolean this_present_ok = true;
+      boolean that_present_ok = true;
+      if (this_present_ok || that_present_ok) {
+        if (!(this_present_ok && that_present_ok))
+          return false;
+        if (this.ok != that.ok)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + pdfPrintCallback;
+
+      hashCode = hashCode * 8191 + ((isSetPath()) ? 131071 : 524287);
+      if (isSetPath())
+        hashCode = hashCode * 8191 + path.hashCode();
+
+      hashCode = hashCode * 8191 + ((ok) ? 131071 : 524287);
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(PdfPrintCallback_OnPdfPrintFinished_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetPdfPrintCallback(), other.isSetPdfPrintCallback());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetPdfPrintCallback()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.pdfPrintCallback, other.pdfPrintCallback);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetPath(), other.isSetPath());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetPath()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.path, other.path);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetOk(), other.isSetOk());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetOk()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.ok, other.ok);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("PdfPrintCallback_OnPdfPrintFinished_args(");
+      boolean first = true;
+
+      sb.append("pdfPrintCallback:");
+      sb.append(this.pdfPrintCallback);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("path:");
+      if (this.path == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.path);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("ok:");
+      sb.append(this.ok);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class PdfPrintCallback_OnPdfPrintFinished_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public PdfPrintCallback_OnPdfPrintFinished_argsStandardScheme getScheme() {
+        return new PdfPrintCallback_OnPdfPrintFinished_argsStandardScheme();
+      }
+    }
+
+    private static class PdfPrintCallback_OnPdfPrintFinished_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<PdfPrintCallback_OnPdfPrintFinished_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, PdfPrintCallback_OnPdfPrintFinished_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // PDF_PRINT_CALLBACK
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
+                struct.pdfPrintCallback = iprot.readI32();
+                struct.setPdfPrintCallbackIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // PATH
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRING) {
+                struct.path = iprot.readString();
+                struct.setPathIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 3: // OK
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.BOOL) {
+                struct.ok = iprot.readBool();
+                struct.setOkIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, PdfPrintCallback_OnPdfPrintFinished_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(PDF_PRINT_CALLBACK_FIELD_DESC);
+        oprot.writeI32(struct.pdfPrintCallback);
+        oprot.writeFieldEnd();
+        if (struct.path != null) {
+          oprot.writeFieldBegin(PATH_FIELD_DESC);
+          oprot.writeString(struct.path);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldBegin(OK_FIELD_DESC);
+        oprot.writeBool(struct.ok);
+        oprot.writeFieldEnd();
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class PdfPrintCallback_OnPdfPrintFinished_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public PdfPrintCallback_OnPdfPrintFinished_argsTupleScheme getScheme() {
+        return new PdfPrintCallback_OnPdfPrintFinished_argsTupleScheme();
+      }
+    }
+
+    private static class PdfPrintCallback_OnPdfPrintFinished_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<PdfPrintCallback_OnPdfPrintFinished_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, PdfPrintCallback_OnPdfPrintFinished_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetPdfPrintCallback()) {
+          optionals.set(0);
+        }
+        if (struct.isSetPath()) {
+          optionals.set(1);
+        }
+        if (struct.isSetOk()) {
+          optionals.set(2);
+        }
+        oprot.writeBitSet(optionals, 3);
+        if (struct.isSetPdfPrintCallback()) {
+          oprot.writeI32(struct.pdfPrintCallback);
+        }
+        if (struct.isSetPath()) {
+          oprot.writeString(struct.path);
+        }
+        if (struct.isSetOk()) {
+          oprot.writeBool(struct.ok);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, PdfPrintCallback_OnPdfPrintFinished_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(3);
+        if (incoming.get(0)) {
+          struct.pdfPrintCallback = iprot.readI32();
+          struct.setPdfPrintCallbackIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.path = iprot.readString();
+          struct.setPathIsSet(true);
+        }
+        if (incoming.get(2)) {
+          struct.ok = iprot.readBool();
+          struct.setOkIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class RunFileDialogCallback_OnFileDialogDismissed_args implements com.jetbrains.cef.remote.thrift.TBase<RunFileDialogCallback_OnFileDialogDismissed_args, RunFileDialogCallback_OnFileDialogDismissed_args._Fields>, java.io.Serializable, Cloneable, Comparable<RunFileDialogCallback_OnFileDialogDismissed_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("RunFileDialogCallback_OnFileDialogDismissed_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField RUN_FILE_DIALOG_CALLBACK_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("runFileDialogCallback", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)1);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField FILE_PATHS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("filePaths", com.jetbrains.cef.remote.thrift.protocol.TType.LIST, (short)2);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RunFileDialogCallback_OnFileDialogDismissed_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RunFileDialogCallback_OnFileDialogDismissed_argsTupleSchemeFactory();
+
+    public int runFileDialogCallback; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.util.List<java.lang.String> filePaths; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      RUN_FILE_DIALOG_CALLBACK((short)1, "runFileDialogCallback"),
+      FILE_PATHS((short)2, "filePaths");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // RUN_FILE_DIALOG_CALLBACK
+            return RUN_FILE_DIALOG_CALLBACK;
+          case 2: // FILE_PATHS
+            return FILE_PATHS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __RUNFILEDIALOGCALLBACK_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.RUN_FILE_DIALOG_CALLBACK, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("runFileDialogCallback", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.FILE_PATHS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("filePaths", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.ListMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.LIST, 
+              new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING))));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(RunFileDialogCallback_OnFileDialogDismissed_args.class, metaDataMap);
+    }
+
+    public RunFileDialogCallback_OnFileDialogDismissed_args() {
+    }
+
+    public RunFileDialogCallback_OnFileDialogDismissed_args(
+      int runFileDialogCallback,
+      java.util.List<java.lang.String> filePaths)
+    {
+      this();
+      this.runFileDialogCallback = runFileDialogCallback;
+      setRunFileDialogCallbackIsSet(true);
+      this.filePaths = filePaths;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public RunFileDialogCallback_OnFileDialogDismissed_args(RunFileDialogCallback_OnFileDialogDismissed_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.runFileDialogCallback = other.runFileDialogCallback;
+      if (other.isSetFilePaths()) {
+        java.util.List<java.lang.String> __this__filePaths = new java.util.ArrayList<java.lang.String>(other.filePaths);
+        this.filePaths = __this__filePaths;
+      }
+    }
+
+    @Override
+    public RunFileDialogCallback_OnFileDialogDismissed_args deepCopy() {
+      return new RunFileDialogCallback_OnFileDialogDismissed_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setRunFileDialogCallbackIsSet(false);
+      this.runFileDialogCallback = 0;
+      this.filePaths = null;
+    }
+
+    public int getRunFileDialogCallback() {
+      return this.runFileDialogCallback;
+    }
+
+    public RunFileDialogCallback_OnFileDialogDismissed_args setRunFileDialogCallback(int runFileDialogCallback) {
+      this.runFileDialogCallback = runFileDialogCallback;
+      setRunFileDialogCallbackIsSet(true);
+      return this;
+    }
+
+    public void unsetRunFileDialogCallback() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __RUNFILEDIALOGCALLBACK_ISSET_ID);
+    }
+
+    /** Returns true if field runFileDialogCallback is set (has been assigned a value) and false otherwise */
+    public boolean isSetRunFileDialogCallback() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __RUNFILEDIALOGCALLBACK_ISSET_ID);
+    }
+
+    public void setRunFileDialogCallbackIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __RUNFILEDIALOGCALLBACK_ISSET_ID, value);
+    }
+
+    public int getFilePathsSize() {
+      return (this.filePaths == null) ? 0 : this.filePaths.size();
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.util.Iterator<java.lang.String> getFilePathsIterator() {
+      return (this.filePaths == null) ? null : this.filePaths.iterator();
+    }
+
+    public void addToFilePaths(java.lang.String elem) {
+      if (this.filePaths == null) {
+        this.filePaths = new java.util.ArrayList<java.lang.String>();
+      }
+      this.filePaths.add(elem);
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.util.List<java.lang.String> getFilePaths() {
+      return this.filePaths;
+    }
+
+    public RunFileDialogCallback_OnFileDialogDismissed_args setFilePaths(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.util.List<java.lang.String> filePaths) {
+      this.filePaths = filePaths;
+      return this;
+    }
+
+    public void unsetFilePaths() {
+      this.filePaths = null;
+    }
+
+    /** Returns true if field filePaths is set (has been assigned a value) and false otherwise */
+    public boolean isSetFilePaths() {
+      return this.filePaths != null;
+    }
+
+    public void setFilePathsIsSet(boolean value) {
+      if (!value) {
+        this.filePaths = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case RUN_FILE_DIALOG_CALLBACK:
+        if (value == null) {
+          unsetRunFileDialogCallback();
+        } else {
+          setRunFileDialogCallback((java.lang.Integer)value);
+        }
+        break;
+
+      case FILE_PATHS:
+        if (value == null) {
+          unsetFilePaths();
+        } else {
+          setFilePaths((java.util.List<java.lang.String>)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case RUN_FILE_DIALOG_CALLBACK:
+        return getRunFileDialogCallback();
+
+      case FILE_PATHS:
+        return getFilePaths();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case RUN_FILE_DIALOG_CALLBACK:
+        return isSetRunFileDialogCallback();
+      case FILE_PATHS:
+        return isSetFilePaths();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof RunFileDialogCallback_OnFileDialogDismissed_args)
+        return this.equals((RunFileDialogCallback_OnFileDialogDismissed_args)that);
+      return false;
+    }
+
+    public boolean equals(RunFileDialogCallback_OnFileDialogDismissed_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_runFileDialogCallback = true;
+      boolean that_present_runFileDialogCallback = true;
+      if (this_present_runFileDialogCallback || that_present_runFileDialogCallback) {
+        if (!(this_present_runFileDialogCallback && that_present_runFileDialogCallback))
+          return false;
+        if (this.runFileDialogCallback != that.runFileDialogCallback)
+          return false;
+      }
+
+      boolean this_present_filePaths = true && this.isSetFilePaths();
+      boolean that_present_filePaths = true && that.isSetFilePaths();
+      if (this_present_filePaths || that_present_filePaths) {
+        if (!(this_present_filePaths && that_present_filePaths))
+          return false;
+        if (!this.filePaths.equals(that.filePaths))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + runFileDialogCallback;
+
+      hashCode = hashCode * 8191 + ((isSetFilePaths()) ? 131071 : 524287);
+      if (isSetFilePaths())
+        hashCode = hashCode * 8191 + filePaths.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(RunFileDialogCallback_OnFileDialogDismissed_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetRunFileDialogCallback(), other.isSetRunFileDialogCallback());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetRunFileDialogCallback()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.runFileDialogCallback, other.runFileDialogCallback);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetFilePaths(), other.isSetFilePaths());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetFilePaths()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.filePaths, other.filePaths);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("RunFileDialogCallback_OnFileDialogDismissed_args(");
+      boolean first = true;
+
+      sb.append("runFileDialogCallback:");
+      sb.append(this.runFileDialogCallback);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("filePaths:");
+      if (this.filePaths == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.filePaths);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class RunFileDialogCallback_OnFileDialogDismissed_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public RunFileDialogCallback_OnFileDialogDismissed_argsStandardScheme getScheme() {
+        return new RunFileDialogCallback_OnFileDialogDismissed_argsStandardScheme();
+      }
+    }
+
+    private static class RunFileDialogCallback_OnFileDialogDismissed_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<RunFileDialogCallback_OnFileDialogDismissed_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, RunFileDialogCallback_OnFileDialogDismissed_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // RUN_FILE_DIALOG_CALLBACK
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
+                struct.runFileDialogCallback = iprot.readI32();
+                struct.setRunFileDialogCallbackIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // FILE_PATHS
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.LIST) {
+                {
+                  com.jetbrains.cef.remote.thrift.protocol.TList _list48 = iprot.readListBegin();
+                  struct.filePaths = new java.util.ArrayList<java.lang.String>(_list48.size);
+                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _elem49;
+                  for (int _i50 = 0; _i50 < _list48.size; ++_i50)
+                  {
+                    _elem49 = iprot.readString();
+                    struct.filePaths.add(_elem49);
+                  }
+                  iprot.readListEnd();
+                }
+                struct.setFilePathsIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, RunFileDialogCallback_OnFileDialogDismissed_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(RUN_FILE_DIALOG_CALLBACK_FIELD_DESC);
+        oprot.writeI32(struct.runFileDialogCallback);
+        oprot.writeFieldEnd();
+        if (struct.filePaths != null) {
+          oprot.writeFieldBegin(FILE_PATHS_FIELD_DESC);
+          {
+            oprot.writeListBegin(new com.jetbrains.cef.remote.thrift.protocol.TList(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, struct.filePaths.size()));
+            for (java.lang.String _iter51 : struct.filePaths)
+            {
+              oprot.writeString(_iter51);
+            }
+            oprot.writeListEnd();
+          }
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class RunFileDialogCallback_OnFileDialogDismissed_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public RunFileDialogCallback_OnFileDialogDismissed_argsTupleScheme getScheme() {
+        return new RunFileDialogCallback_OnFileDialogDismissed_argsTupleScheme();
+      }
+    }
+
+    private static class RunFileDialogCallback_OnFileDialogDismissed_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<RunFileDialogCallback_OnFileDialogDismissed_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, RunFileDialogCallback_OnFileDialogDismissed_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetRunFileDialogCallback()) {
+          optionals.set(0);
+        }
+        if (struct.isSetFilePaths()) {
+          optionals.set(1);
+        }
+        oprot.writeBitSet(optionals, 2);
+        if (struct.isSetRunFileDialogCallback()) {
+          oprot.writeI32(struct.runFileDialogCallback);
+        }
+        if (struct.isSetFilePaths()) {
+          {
+            oprot.writeI32(struct.filePaths.size());
+            for (java.lang.String _iter52 : struct.filePaths)
+            {
+              oprot.writeString(_iter52);
+            }
+          }
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, RunFileDialogCallback_OnFileDialogDismissed_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(2);
+        if (incoming.get(0)) {
+          struct.runFileDialogCallback = iprot.readI32();
+          struct.setRunFileDialogCallbackIsSet(true);
+        }
+        if (incoming.get(1)) {
+          {
+            com.jetbrains.cef.remote.thrift.protocol.TList _list53 = iprot.readListBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRING);
+            struct.filePaths = new java.util.ArrayList<java.lang.String>(_list53.size);
+            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _elem54;
+            for (int _i55 = 0; _i55 < _list53.size; ++_i55)
+            {
+              _elem54 = iprot.readString();
+              struct.filePaths.add(_elem54);
+            }
+          }
+          struct.setFilePathsIsSet(true);
         }
       }
     }
