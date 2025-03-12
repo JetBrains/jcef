@@ -31,12 +31,12 @@ public class RemoteAuthCallback extends RemoteServerObject implements CefAuthCal
     @Override
     public void Continue(String username, String password) {
         // NOTE: server object will be disposed after this call
-        myRpc.main.exec((s)-> s.AuthCallback_Continue(thriftId(), username, password));
+        myRpc.exec((s)-> s.AuthCallback_Continue(thriftId(), username, password));
     }
 
     @Override
     public void cancel() {
         // NOTE: server object will be disposed after this call
-        myRpc.main.exec((s)-> s.AuthCallback_Cancel(thriftId()));
+        myRpc.exec((s)-> s.AuthCallback_Cancel(thriftId()));
     }
 }

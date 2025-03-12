@@ -495,7 +495,7 @@ public class CefApp extends CefAppHandlerAdapter {
         if (server_ != null) {
             server_.onConnected(()->{
                 RemoteSchemeHandlerFactory rf = RemoteSchemeHandlerFactory.create(factory);
-                server_.getRpcContext().main.exec(s -> s.SchemeHandlerFactory_Register(schemeName, domainName, rf.thriftId()));
+                server_.exec(s -> s.SchemeHandlerFactory_Register(schemeName, domainName, rf.thriftId()));
             }, "registerSchemeHandlerFactory", true);
             return true;
         }
@@ -514,7 +514,7 @@ public class CefApp extends CefAppHandlerAdapter {
     public boolean clearSchemeHandlerFactories() {
         if (server_ != null) {
             server_.onConnected(()->{
-                server_.getRpcContext().main.exec(s -> s.ClearAllSchemeHandlerFactories());
+                server_.exec(s -> s.ClearAllSchemeHandlerFactories());
             }, "clearSchemeHandlerFactories", false);
             return true;
         }

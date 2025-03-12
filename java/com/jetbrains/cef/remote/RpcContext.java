@@ -10,10 +10,8 @@ public class RpcContext {
     private static final boolean REWIND_QUEUE = Utils.getBoolean("JCEF_REWIND_QUEUE"); // temporary key for advanced teamcity tests
     private static final boolean CONNECT_AS_SLAVE = Utils.getBoolean("JCEF_CONNECT_AS_SLAVE");
     private static final RpcExecutor.Rpc NO_RPC = s -> {};
-    public final RpcExecutor main = new RpcExecutor();
-
-
     public final CefServer server;
+    private final RpcExecutor myMain = new RpcExecutor();
     private final RpcExecutor myBackground = new RpcExecutor();
     private final LinkedBlockingQueue<RpcExecutor.Rpc> myQueue = new LinkedBlockingQueue();
     private final Thread myThread;
@@ -40,12 +38,12 @@ public class RpcContext {
     }
 
     public void openTransport(ThriftTransport thriftServer) throws TTransportException {
-        main.openTransport(thriftServer);
+        myMain.openTransport(thriftServer);
         myBackground.openTransport(thriftServer);
     }
 
     public int connect(ThriftTransport thriftBackward) {
-        int cid = main.connect(thriftBackward, !CONNECT_AS_SLAVE);
+        int cid = myMain.connect(thriftBackward, !CONNECT_AS_SLAVE);
         myBackground.exec(s -> s.attach(cid));
         return cid;
     }
@@ -66,7 +64,18 @@ public class RpcContext {
                 CefLog.Debug("RpcContext join interrupted: %s", e.getMessage());
             }
         }
-        main.closeTransport();
+        myMain.closeTransport();
         myBackground.closeTransport();
+    }
+
+    //
+    // Convenience methods
+    //
+    public void exec(RpcExecutor.Rpc r) {
+        myMain.exec(r);
+    }
+
+    public <T> T execObj(RpcExecutor.RpcObj<T> r) {
+        return myMain.execObj(r);
     }
 }

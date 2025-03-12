@@ -25,7 +25,7 @@ public class RemoteCookieManagerImpl extends RemoteServerObject {
     }
 
     public static RemoteCookieManagerImpl create(RpcContext rpcContext) {
-        RObject robj = rpcContext.main.execObj(s->s.CookieManager_Create());
+        RObject robj = rpcContext.execObj(s->s.CookieManager_Create());
         if (robj.objId < 0) {
             CefLog.Error("CookieManager_Create returns invalid objId %d.", robj.objId);
             return null;
@@ -48,26 +48,26 @@ public class RemoteCookieManagerImpl extends RemoteServerObject {
         if (visitor == null)
             return false;
         RemoteCookieVisitor rvisitor = RemoteCookieVisitor.create(visitor);
-        return myRpc.main.execObj(s -> s.CookieManager_VisitAllCookies(thriftId(), rvisitor.thriftId()));
+        return myRpc.execObj(s -> s.CookieManager_VisitAllCookies(thriftId(), rvisitor.thriftId()));
     }
 
     public boolean visitUrlCookies(String url, boolean includeHttpOnly, CefCookieVisitor visitor) {
         if (visitor == null)
             return false;
         RemoteCookieVisitor rvisitor = RemoteCookieVisitor.create(visitor);
-        return myRpc.main.execObj(s -> s.CookieManager_VisitUrlCookies(thriftId(), rvisitor.thriftId(), url, includeHttpOnly));
+        return myRpc.execObj(s -> s.CookieManager_VisitUrlCookies(thriftId(), rvisitor.thriftId(), url, includeHttpOnly));
     }
 
     public boolean setCookie(String url, CefCookie cookie) {
-        return myRpc.main.execObj(s -> s.CookieManager_SetCookie(thriftId(), url, RemoteCookieManager.toThriftCookie(cookie)));
+        return myRpc.execObj(s -> s.CookieManager_SetCookie(thriftId(), url, RemoteCookieManager.toThriftCookie(cookie)));
     }
 
     public boolean deleteCookies(String url, String cookieName) {
-        return myRpc.main.execObj(s -> s.CookieManager_DeleteCookies(thriftId(), url, cookieName));
+        return myRpc.execObj(s -> s.CookieManager_DeleteCookies(thriftId(), url, cookieName));
     }
 
     public boolean flushStore(CefCompletionCallback callback) {
         RObject cbId = callback != null ? RemoteCompletionCallback.create(callback).thriftId() : new RObject(-1);
-        return myRpc.main.execObj(s -> s.CookieManager_FlushStore(thriftId(), cbId));
+        return myRpc.execObj(s -> s.CookieManager_FlushStore(thriftId(), cbId));
     }
 }

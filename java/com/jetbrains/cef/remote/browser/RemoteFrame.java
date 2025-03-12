@@ -64,47 +64,47 @@ public class RemoteFrame extends RemoteServerObject implements CefFrame {
 
     @Override
     public CefFrame getParent() {
-        RObject parent = myRpc.main.execObj((s)-> s.Frame_GetParent(myId));
+        RObject parent = myRpc.execObj((s)-> s.Frame_GetParent(myId));
         return parent == null || parent.objId < 0 ? null : new RemoteFrame(myRpc, parent);
     }
 
     @Override
     public void executeJavaScript(String code, String url, int line) {
-        myRpc.main.exec((s)->{
+        myRpc.exec((s)->{
             s.Frame_ExecuteJavaScript(myId, code, url, line);
         });
     }
 
     @Override
-    public void undo() { myRpc.main.exec((s)-> s.Frame_Undo(myId)); }
+    public void undo() { myRpc.exec((s)-> s.Frame_Undo(myId)); }
 
     @Override
     public void redo() {
-        myRpc.main.exec((s)-> s.Frame_Redo(myId));
+        myRpc.exec((s)-> s.Frame_Redo(myId));
     }
 
     @Override
     public void cut() {
-        myRpc.main.exec((s)-> s.Frame_Cut(myId));
+        myRpc.exec((s)-> s.Frame_Cut(myId));
     }
 
     @Override
     public void copy() {
-        myRpc.main.exec((s)-> s.Frame_Copy(myId));
+        myRpc.exec((s)-> s.Frame_Copy(myId));
     }
 
     @Override
     public void paste() {
-        myRpc.main.exec((s)-> s.Frame_Paste(myId));
+        myRpc.exec((s)-> s.Frame_Paste(myId));
     }
 
     @Override
     public void delete() {
-        myRpc.main.exec((s)-> s.Frame_Delete(myId));
+        myRpc.exec((s)-> s.Frame_Delete(myId));
     }
 
     @Override
     public void selectAll() {
-        myRpc.main.exec((s)-> s.Frame_SelectAll(myId));
+        myRpc.exec((s)-> s.Frame_SelectAll(myId));
     }
 }
