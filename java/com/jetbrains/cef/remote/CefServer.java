@@ -134,7 +134,7 @@ public class CefServer {
 
     public String getVersion() {
         if (myIsConnected)
-            return myRpc.main.execObj(r->r.getServerInfo("version"));
+            return myRpc.execObj(r->r.getServerInfo("version"));
         return "unknown(not connected)";
     }
 
@@ -155,7 +155,7 @@ public class CefServer {
                 return false;
             }
 
-            CefLog.Info("cef_server version: %s", (String)myRpc.main.execObj(r->r.getServerInfo("version")));
+            CefLog.Info("cef_server version: %s", (String)myRpc.execObj(r->r.getServerInfo("version")));
 
             // 2. Start service for backward rpc calls (from native to java)
             try {
@@ -210,7 +210,7 @@ public class CefServer {
         myIsConnected = false;
 
         if (!DONT_STOP_SERVER_MANUALLY)
-            myRpc.main.exec(r -> r.stop());
+            myRpc.exec(r -> r.stop());
         myRpc.close();
 
         if (myClientHandlersTransport != null) {
@@ -286,6 +286,17 @@ public class CefServer {
         t.setName("CefHandlers(dummy)-listening");
         t.start();
         return result;
+    }
+
+    //
+    // Convenience methods
+    //
+    public void exec(RpcExecutor.Rpc r) {
+        myRpc.exec(r);
+    }
+
+    public <T> T execObj(RpcExecutor.RpcObj<T> r) {
+        return myRpc.execObj(r);
     }
 
     public static class CefParams {

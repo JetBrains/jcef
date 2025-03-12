@@ -20,13 +20,13 @@ public class RemoteMediaAccessCallback extends RemoteServerObject implements Cef
     @Override
     public void Continue(int allowed_permissions) {
         // NOTE: server object will be disposed after this call
-        myRpc.main.exec((s)-> s.MediaAccessCallback_Continue(thriftId(), allowed_permissions));
+        myRpc.exec((s)-> s.MediaAccessCallback_Continue(thriftId(), allowed_permissions));
     }
 
     @Override
     public void Cancel() {
         // NOTE: server object will be disposed after this call
-        myRpc.main.exec((s)-> s.MediaAccessCallback_Cancel(thriftId()));
+        myRpc.exec((s)-> s.MediaAccessCallback_Cancel(thriftId()));
     }
 
     @Override

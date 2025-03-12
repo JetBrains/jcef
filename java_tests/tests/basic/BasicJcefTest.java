@@ -247,7 +247,7 @@ public class BasicJcefTest {
             if (!started)
                 throw new AssertionError("Can't start server.");
             servers.add(s);
-            String newRoot = s.getRpcContext().main.execObj(r -> r.getServerInfo("root"));
+            String newRoot = s.execObj(r -> r.getServerInfo("root"));
             CefLog.Info("Successfully stared new CefServer instance with root '%s'", newRoot);
         }
 

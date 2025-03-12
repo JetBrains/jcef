@@ -22,7 +22,7 @@ public class RemoteResponseImpl extends RemoteServerObjectLocal {
 
     @Override
     public void flush() {
-        myRpc.main.exec((s)->{
+        myRpc.exec((s)->{
             s.Response_Update(thriftIdWithCache());
         });
     }
@@ -62,23 +62,23 @@ public class RemoteResponseImpl extends RemoteServerObjectLocal {
     public void setMimeType(String mimeType) { setStrVal("MimeType", mimeType); }
 
     public String getHeaderByName(String name) {
-        return myRpc.main.execObj((s)-> s.Response_GetHeaderByName(thriftId(), name));
+        return myRpc.execObj((s)-> s.Response_GetHeaderByName(thriftId(), name));
     }
 
     public void setHeaderByName(String name, String value, boolean overwrite) {
-        myRpc.main.exec((s)-> s.Response_SetHeaderByName(thriftId(), name, value, overwrite));
+        myRpc.exec((s)-> s.Response_SetHeaderByName(thriftId(), name, value, overwrite));
     }
 
     public void getHeaderMap(Map<String, String> headerMap) {
         if (headerMap == null)
             return;
-        Map<String, String> result = myRpc.main.execObj((s)-> s.Response_GetHeaderMap(thriftId()));
+        Map<String, String> result = myRpc.execObj((s)-> s.Response_GetHeaderMap(thriftId()));
         if (result != null)
             headerMap.putAll(result);
     }
 
     public void setHeaderMap(Map<String, String> headerMap) {
-        myRpc.main.exec((s)-> s.Response_SetHeaderMap(thriftId(), headerMap));
+        myRpc.exec((s)-> s.Response_SetHeaderMap(thriftId(), headerMap));
     }
 
     @Override

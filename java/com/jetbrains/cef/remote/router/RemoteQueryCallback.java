@@ -29,11 +29,11 @@ public class RemoteQueryCallback extends RemoteServerObject implements CefQueryC
 
     @Override
     public void success(String response) {
-        myRpc.main.exec((s)-> s.QueryCallback_Success(thriftId(), response));
+        myRpc.exec((s)-> s.QueryCallback_Success(thriftId(), response));
     }
 
     @Override
     public void failure(int error_code, String error_message) {
-        myRpc.main.exec((s)-> s.QueryCallback_Failure(thriftId(), error_code, error_message));
+        myRpc.exec((s)-> s.QueryCallback_Failure(thriftId(), error_code, error_message));
     }
 }

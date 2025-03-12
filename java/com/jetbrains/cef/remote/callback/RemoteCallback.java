@@ -31,13 +31,13 @@ public class RemoteCallback extends RemoteServerObject implements CefCallback {
     @Override
     public void Continue() {
         // NOTE: server object will be disposed after this call
-        myRpc.main.exec((s)-> s.Callback_Continue(thriftId()));
+        myRpc.exec((s)-> s.Callback_Continue(thriftId()));
     }
 
     @Override
     public void cancel() {
         // NOTE: server object will be disposed after this call
-        myRpc.main.exec((s)-> s.Callback_Cancel(thriftId()));
+        myRpc.exec((s)-> s.Callback_Cancel(thriftId()));
     }
 }
 
