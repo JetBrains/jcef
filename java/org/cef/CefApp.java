@@ -140,7 +140,7 @@ public class CefApp extends CefAppHandlerAdapter {
     private Timer workTimer_ = null;
     private final HashSet<CefClient> clients_ = new HashSet<CefClient>();
     private CefSettings settings_ = null;
-    private CefServer server_ = null;
+    private final CefServer server_;
 
     //
     // Background initialization support
@@ -178,14 +178,14 @@ public class CefApp extends CefAppHandlerAdapter {
             // Perform CefServer initialization in separate thread.
             new Thread(()->{
                 if (server_.start(appHandler_)) {
-                    CefLog.Debug("CefApp: native CefServer is initialized.");
+                    CefLog.Debug("%s: native CefServer is initialized.", this);
                     setState(CefAppState.INITIALIZED);
                     synchronized (initializationListeners_) {
                         isInitialized_ = true;
                         initializationListeners_.forEach(l -> l.stateHasChanged(CefAppState.INITIALIZED));
                         initializationListeners_.clear();
                     }
-                    CefLog.Info("Connected to CefServer. JCEF version: %s", getVersion());
+                    CefLog.Info("%s: connected to CefServer. JCEF version: %s", this, getVersion());
                 }
             }, "CefInitialize-thread").start();
             return;
@@ -386,6 +386,13 @@ public class CefApp extends CefAppHandlerAdapter {
 
     public final CefServer getServer() { return server_; }
 
+    @Override
+    public String toString() {
+        if (server_ == null)
+            return "CefApp";
+        return "CefApp(" + server_.toStringShort() + ")";
+    }
+
     /**
      * Returns the current state of CefApp.
      *
@@ -400,11 +407,11 @@ public class CefApp extends CefAppHandlerAdapter {
 
     private synchronized void setState(final CefAppState state) {
         if (state.compareTo(state_) < 0) {
-            String errMsg = "CefApp: state cannot go backward. Current state " + state_ + ". Proposed state " + state;
+            String errMsg = "" + this + ": state cannot go backward. Current state " + state_ + ". Proposed state " + state;
             CefLog.Error(errMsg);
             throw new IllegalStateException(errMsg);
         }
-        CefLog.Info("CefApp: set state %s", state);
+        CefLog.Info("%s: set state %s", this, state);
         state_ = state;
         // Execute on the AWT event dispatching thread.
         SwingUtilities.invokeLater(new Runnable() {
@@ -439,10 +446,10 @@ public class CefApp extends CefAppHandlerAdapter {
                     // shutdown() will be called from clientWasDisposed() when the last
                     // client is gone.
                     // Use a copy of the HashSet to avoid iterating during modification.
-                    CefLog.Debug("CefApp: dispose clients before shutting down");
+                    CefLog.Debug("%s: dispose clients before shutting down", this);
                     HashSet<CefClient> clients = new HashSet<CefClient>(clients_);
                     for (CefClient c : clients) {
-                        CefLog.Debug("CefApp: dispose %s", c);
+                        CefLog.Debug("%s: dispose client %s", this, c);
                         c.dispose();
                     }
                 }
@@ -467,7 +474,7 @@ public class CefApp extends CefAppHandlerAdapter {
      */
     public synchronized CefClient createClient() {
         if (state_.compareTo(CefAppState.SHUTTING_DOWN) >= 0) {
-            String errMsg = "Can't create client in state " + state_;
+            String errMsg = "" + this + ": can't create client in state " + state_;
             CefLog.Error(errMsg);
             throw new IllegalStateException(errMsg);
         }
@@ -536,7 +543,7 @@ public class CefApp extends CefAppHandlerAdapter {
         synchronized (initializationListeners_) {
             initializationListeners_.remove(client);
         }
-        CefLog.Debug("CefApp: client was disposed: %s [clients count %d]", client, clients_.size());
+        CefLog.Debug("%s: client was disposed: %s [clients count %d]", this, client, clients_.size());
         if (clients_.isEmpty() && state_.compareTo(CefAppState.SHUTTING_DOWN) >= 0) {
             // Shutdown native system.
             finishShutdown();
