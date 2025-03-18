@@ -72,6 +72,8 @@ public class CefServer {
     public ThriftTransport getThriftServer() { return myThriftServer; }
     public ThriftTransport getThriftBackward() { return myThriftBackward; }
 
+    public String toStringShort() { return myThriftServer.toStringShort(); }
+
     public CefApp getCefApp() { return myCefApp; }
     public void setCefApp(CefApp cefApp) { myCefApp = cefApp; }
 
