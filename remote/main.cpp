@@ -1,24 +1,23 @@
 #ifdef WIN32
 #include <windows.h>
 #include "windows/PipeTransportServer.h"
-#include "include/cef_app.h"
+#include <thread>
+#include <TlHelp32.h>
 #endif //WIN32
 
-#include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/server/TThreadedServer.h>
 #include <thrift/transport/TServerSocket.h>
-#include <thrift/transport/TSocket.h>
 #include <thrift/transport/TTransportUtils.h>
 
 #include "CefUtils.h"
+#include "ServerApplication.h"
 #include "ServerHandler.h"
-#include "ServerState.h"
 #include "log/Log.h"
 
-#include "handlers/app/HelperApp.h"
+#include <boost/date_time/posix_time/posix_time.hpp>
+#include <filesystem>
 
 using namespace apache::thrift;
-using namespace apache::thrift::protocol;
 using namespace apache::thrift::transport;
 using namespace apache::thrift::server;
 
@@ -26,99 +25,231 @@ using namespace thrift_codegen;
 
 #ifdef OS_MAC
 extern void initMacApplication();
+#else
+#include "include/cef_app.h"
+#include "handlers/app/HelperApp.h"
 #endif
 
-class MyServerProcessor : public ServerProcessor {
- public:
-  MyServerProcessor(::std::shared_ptr<ServerIf> iface) : ServerProcessor(iface) {}
+#ifndef NDEBUG
+#if defined(OS_WIN)
+void waitForDebug() {
+  // Likely the call to
+  // https://learn.microsoft.com/en-us/windows/win32/api/debugapi/nf-debugapi-isdebuggerpresent
+  // can help
+  printf("Waiting for debugger is not supported on windows");
+}
+#elif defined(OS_LINUX)
+void waitForDebug() {
+  printf("Waiting for debugger is not supported on linux");
+// Probably something like this could work:
+// bool isDebuggerAttached() {
+//   std::ifstream statusFile("/proc/self/status");
+//   std::string line;
+//   while (std::getline(statusFile, line)) {
+//     if (line.compare(0, 11, "TracerPid:") == 0) {
+//       // Extract the tracer PID value
+//       int tracerPid = std::stoi(line.substr(11));
+//       return tracerPid != 0;
+//     }
+//   }
+//   return false;
+// }
+}
+#elif defined(OS_MAC)
+#include <sys/types.h>
+#include <sys/sysctl.h>
 
-  bool process(std::shared_ptr<protocol::TProtocol> in,
-               std::shared_ptr<protocol::TProtocol> out,
-               void* connectionContext) override {
-    std::string fname;
-    protocol::TMessageType mtype;
-    int32_t seqid;
-    in->readMessageBegin(fname, mtype, seqid);
+bool isDebuggerAttached() {
+  int mib[4];
+  mib[0] = CTL_KERN;
+  mib[1] = KERN_PROC;
+  mib[2] = KERN_PROC_PID;
+  mib[3] = getpid();
 
-    if (mtype != protocol::T_CALL && mtype != protocol::T_ONEWAY) {
-      Log::error("received invalid message type %d from client", mtype);
-      return false;
-    }
+  kinfo_proc info;
+  info.kp_proc.p_flag = 0;
+  size_t size = sizeof(info);
 
-    //Log::trace("\t process %s", fname.c_str());
-    return dispatchCall(in.get(), out.get(), fname, seqid, connectionContext);
+  if (sysctl(mib, 4, &info, &size, nullptr, 0) == -1) {
+    perror("sysctl failure");
+    return false;
   }
-};
 
-class MyServerProcessorFactory : public ::apache::thrift::TProcessorFactory {
- public:
-  MyServerProcessorFactory(const ::std::shared_ptr< ServerIfFactory >& handlerFactory) noexcept :
-        handlerFactory_(handlerFactory) {}
+  return (info.kp_proc.p_flag & P_TRACED) != 0;
+}
 
-  ::std::shared_ptr< ::apache::thrift::TProcessor > getProcessor(const ::apache::thrift::TConnectionInfo& connInfo) override {
-    ::apache::thrift::ReleaseHandler< ServerIfFactory > cleanup(handlerFactory_);
-    ::std::shared_ptr< ServerIf > handler(handlerFactory_->getHandler(connInfo), cleanup);
-    ::std::shared_ptr< ::apache::thrift::TProcessor > processor(new MyServerProcessor(handler));
-    return processor;
+void waitForDebug() {
+  printf("Waiting for debugger(PID=%d)...", getpid());
+
+  while (!isDebuggerAttached()) {
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+  }
+  printf("Attached");
+}
+
+#endif
+#endif
+
+#if defined(OS_WIN)
+
+#include <signal.h>
+#include <dbghelp.h>
+
+void printStack(std::stringstream & os) {
+// TODO: make compilable with Visual Studio 2019 OR increase compiler version
+//  unsigned int   i;
+//  void         * stack[ 100 ];
+//  unsigned short frames;
+//  SYMBOL_INFO  * symbol;
+//  HANDLE         process;
+//
+//  process = GetCurrentProcess();
+//
+//  SymInitialize( process, NULL, TRUE );
+//
+//  frames               = CaptureStackBackTrace( 0, 100, stack, NULL );
+//  symbol               = ( SYMBOL_INFO * )calloc( sizeof( SYMBOL_INFO ) + 256 * sizeof( char ), 1 );
+//  symbol->MaxNameLen   = 255;
+//  symbol->SizeOfStruct = sizeof( SYMBOL_INFO );
+//
+//  for(i = 0; i < frames; i++) {
+//    SymFromAddr( process, ( DWORD64 )( stack[ i ] ), 0, symbol );
+//    os << frames - i - 1 << ": " << symbol->Name << " - " << string_format("0x%0llX", symbol->Address) << std::endl;
+//  }
+//
+//  free( symbol );
+}
+
+void signalHandler(int signum) {
+  Log::error("Received SIGNAL %d.", signum);
+  std::stringstream os;
+  printStack(os);
+  Log::error("Stacktrace:\n%s", os.str().c_str());
+  std::exit(signum);
+}
+
+DWORD GetParentProcessPid() {
+  HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+  if (hSnapshot == INVALID_HANDLE_VALUE)
+    return 0;
+
+  PROCESSENTRY32 processEntry = {};
+  processEntry.dwSize = sizeof(PROCESSENTRY32);
+
+  if (Process32First(hSnapshot, &processEntry)) {
+    DWORD CurrentProcessId = GetCurrentProcessId();
+    do {
+      if (processEntry.th32ProcessID == CurrentProcessId)
+        break;
+    } while (Process32Next(hSnapshot, &processEntry));
   }
 
- protected:
-  ::std::shared_ptr< ServerIfFactory > handlerFactory_;
-};
+  CloseHandle(hSnapshot);
+  return processEntry.th32ParentProcessID;
+}
+
+#else // OS_WIN
+
+#include <execinfo.h>
+#include <signal.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+void signalHandler(int signum) {
+  Log::error("Received SIGNAL %d.", signum);
+  void *array[64];
+  size_t size = backtrace(array, 64); // get void*'s for all entries on the stack
+
+  // print out all the frames to stderr
+  backtrace_symbols_fd(array, size, STDERR_FILENO);
+  Log::error("Stacktrace (size %d) was printed to stderr.", size);
+  std::exit(signum);
+}
+
+#endif // OS_WIN
 
 int main(int argc, char* argv[]) {
+  const boost::posix_time::ptime t0 =  boost::posix_time::microsec_clock::local_time();
 #if defined(OS_LINUX)
-  CefRefPtr<CefApp> app = nullptr;
+  CefRefPtr<CefApp> cefApp = nullptr;
   CefRefPtr<CefCommandLine> command_line = CefCommandLine::CreateCommandLine();
   command_line->InitFromArgv(argc, argv);
   const std::string& process_type = command_line->GetSwitchValue("type");
   if (process_type == "renderer" || process_type == "zygote")
-    app = new HelperApp();
+    cefApp = new HelperApp();
   // On Linux the zygote process is used to spawn other process types. Since
   // we don't know what type of process it will be give it the renderer
   // client.
 
   CefMainArgs main_args(argc, argv);
-  int exit_code = CefExecuteProcess(main_args, app, nullptr);
+  int exit_code = CefExecuteProcess(main_args, cefApp, nullptr);
   if (exit_code >= 0) {
     return exit_code;
   }
 #elif WIN32
-  CefRefPtr<CefApp> app = nullptr;
+  // Execute subprocess (if necessary)
+  CefRefPtr<CefApp> cefApp = nullptr;
   CefRefPtr<CefCommandLine> command_line = CefCommandLine::CreateCommandLine();
   command_line->InitFromString(::GetCommandLineW());
   const std::string& process_type = command_line->GetSwitchValue("type");
+  const bool isMainBrowserProcess = process_type.empty();
+  if (!isMainBrowserProcess) {
+    // Initialize watchdog thread.
+    DWORD parentProcessPid = GetParentProcessPid();
+    HANDLE hParentProcess = OpenProcess(SYNCHRONIZE, FALSE, parentProcessPid);
+
+    std::thread([hParentProcess]() {
+      WaitForSingleObject(hParentProcess, INFINITE);
+      ExitProcess(0);
+    }).detach();
+  }
+
   if (process_type == "renderer")
-    app = new HelperApp();
+    cefApp = new HelperApp();
 
   CefMainArgs main_args(GetModuleHandle(0));
-  const int result = CefExecuteProcess(main_args, app, nullptr);
+  const int result = CefExecuteProcess(main_args, cefApp, nullptr);
   if (result >= 0) {
+    // If CefExecuteProcess called for the browser process (identified by no "type" command-line value)
+    // it will return immediately with a value of -1.
     return result;
   }
 #elif OS_MAC
   initMacApplication();
 #endif
 
-  fprintf(stderr, "Starting cer server.\n");
-  ServerState::instance().init(argc, argv);
+  if (getBoolEnv("CEF_SERVER_CATCH_SIGNALS")) {
+    std::cout << "Install SIGNAL handlers." << std::endl;
+    signal(SIGSEGV, signalHandler);
+  }
+
+  const boost::posix_time::ptime t1 =  boost::posix_time::microsec_clock::local_time();
+  fprintf(stdout, "Starting cer server. Pre-initialize spent %d ms.\n", (int)(t1 - t0).total_milliseconds());
+  ServerApplication& app = ServerApplication::instance();
+  app.init(argc, argv);
+  const CommandLineArgs& cmdArgs = app.getCmdArgs();
+
+#ifndef NDEBUG
+  if (cmdArgs.waitDebugger()) {
+    waitForDebug();
+  }
+#endif
 
   setThreadName("main");
-  const Clock::time_point startTime = Clock::now();
-
-  Log::trace("Start CEF initialization.");
+  boost::posix_time::ptime t2 = boost::posix_time::microsec_clock::local_time();
+  Log::trace("Start CEF initialization. ServerApplication initialization spent %d ms.", (t2 - t1).total_milliseconds());
   const bool success = CefUtils::initializeCef();
   if (!success) {
     Log::error("Cef initialization failed");
     return -2;
   }
 
-  Log::trace("Create server transport.");
-  const CommandLineArgs& cmdArgs = ServerState::instance().getCmdArgs();
+  const boost::posix_time::ptime t3 =  boost::posix_time::microsec_clock::local_time();
+  Log::trace("Create server transport. CEF initialization spent %d ms.", (t3 - t2).total_milliseconds());
   std::shared_ptr<TServerTransport> serverTransport;
   if (cmdArgs.useTcp()) {
     Log::info("TCP transport will be used, port=%d", cmdArgs.getPort());
-    serverTransport = std::make_shared<TServerSocket>(cmdArgs.getPort());
+    serverTransport = std::make_shared<TServerSocket>("127.0.0.1", cmdArgs.getPort());
   } else {
     std::string pipePath = cmdArgs.getPipe();
     if (pipePath.empty()) {
@@ -136,20 +267,15 @@ int main(int argc, char* argv[]) {
     serverTransport = std::make_shared<TServerSocket>(pipePath.c_str());
 #endif //WIN32
   }
-  std::shared_ptr<ServerHandlerFactory> handlersFactory = ServerState::instance().getServerHandlerFactory();
-  std::shared_ptr<apache::thrift::TProcessorFactory> processorFactory = std::make_shared<MyServerProcessorFactory>(handlersFactory);
+  std::shared_ptr<apache::thrift::TProcessorFactory> processorFactory = app.getProcessorFactory();
   std::shared_ptr<TThreadedServer> server = std::make_shared<TThreadedServer>(
       processorFactory,
       serverTransport,
       std::make_shared<TBufferedTransportFactory>(),
       std::make_shared<TBinaryProtocolFactory>());
 
-  if (Log::isDebugEnabled()) {
-    const Clock::time_point endTime = Clock::now();
-    Duration d2 = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
-    Log::debug("Starting the server. Initialization spent %d ms", (int)d2.count()/1000);
-  }
-
+  const boost::posix_time::ptime t4 =  boost::posix_time::microsec_clock::local_time();
+  Log::trace("Start listening thread. Transport initialization spent %d ms.", (t4 - t3).total_milliseconds());
   std::thread servThread([=]() {
     setThreadName("ServerListener");
     try {
@@ -163,31 +289,26 @@ int main(int argc, char* argv[]) {
     Log::debug("Done, server stopped.");
   });
 
-  std::thread testThread;
-  if (cmdArgs.isTestMode()) {
-    const int timeoutSec = 30;
-    Log::info("Server will be started in test mode, exit timeout = %d sec.", timeoutSec);
-    testThread = std::thread([&]() {
-      setThreadName("TestMonitor");
-      std::chrono::time_point startTime(Clock::now());
-      std::chrono::duration<float, std::milli> elapsed;
-      std::chrono::duration<float, std::milli> timeout(timeoutSec*1000);
-      while ((elapsed = (Clock::now() - startTime)) < timeout) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-        const int remainMs = (timeout - elapsed).count();
-        Log::debug("\t will exit in %d sec...", remainMs);
-      }
+  const boost::posix_time::ptime t6 =  boost::posix_time::microsec_clock::local_time();
+  Log::trace("Run CEF loop. Total initialization time %d ms.", (t6 - t0).total_milliseconds());
 
-      Log::info("Timeout elapsed, do hard exit.");
-      ServerState::shutdownHard();
-    });
-  }
-
-  Log::trace("Run CEF loop.");
   CefUtils::runCefLoop();
   Log::debug("Finished message loop.");
   server->stop();
   servThread.join();
-  Log::debug("Buy!");
+  app.stopWatcher();
+#ifndef WIN32
+  if (!cmdArgs.useTcp())
+    std::remove(cmdArgs.getPipe().c_str());
+#endif  // WIN32
+  if (cmdArgs.deleteRootCacheDir() && !app.isDefaultRoot()) {
+    Log::debug("Remove root cache dir '%s'", app.getRootPath().c_str());
+    try {
+      std::filesystem::remove_all(app.getRootPath());
+    } catch (const std::filesystem::filesystem_error& ex) {
+      Log::error("Failed to remove root cache dir '%s'. Error: %s. Error code: %s", app.getRootPath().c_str(), ex.what(), ex.code().message().c_str());
+    }
+  }
+  Log::debug("Buy [%s]!", cmdArgs.getTransportDesc().c_str());
   return 0;
 }

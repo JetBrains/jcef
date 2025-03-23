@@ -1,23 +1,31 @@
 #include "ServerHandler.h"
 
-#include "include/cef_version.h"
 #include "include/cef_base.h"
+#include "include/cef_parser.h"
 
+#include "browser/ClientsManager.h"
+#include "browser/RemoteDevToolsMessageObserver.h"
+#include "browser/RemoteFrame.h"
+#include "callback/RemoteMediaAccessCallback.h"
+#include "handlers/RemoteClientHandler.h"
 #include "handlers/app/RemoteAppHandler.h"
+#include "network/RemoteCookieManager.h"
+#include "network/RemoteCookieVisitor.h"
 #include "network/RemotePostData.h"
 #include "network/RemoteRequest.h"
 #include "network/RemoteResponse.h"
-#include "network/RemoteCookieManager.h"
-#include "network/RemoteCookieVisitor.h"
-#include "browser/RemoteFrame.h"
-#include "browser/ClientsManager.h"
-#include "handlers/RemoteClientHandler.h"
 
 #include "RemoteObjects.h"
 #include "callback/RemoteAuthCallback.h"
 #include "callback/RemoteCallback.h"
+#include "callback/RemoteCefRunContextMenuCallback.h"
 #include "callback/RemoteCompletionCallback.h"
+#include "callback/RemoteIntCallback.h"
+#include "callback/RemoteRegistration.h"
 #include "callback/RemoteSchemeHandlerFactory.h"
+#include "callback/RemoteStringVisitor.h"
+#include "callback/RemoteRunFileDialogCallback.h"
+#include "callback/RemotePdfPrintCallback.h"
 
 #include "include/base/cef_callback.h"
 #include "include/wrapper/cef_closure_task.h"
@@ -26,18 +34,43 @@
 #include "router/RemoteMessageRouterHandler.h"
 #include "router/RemoteQueryCallback.h"
 
-#include "ServerState.h"
+#include "ServerApplication.h"
 #include "ServerHandlerContext.h"
 
 #include "../native/critical_wait.h"
+#include "CefUtils.h"
 
 using namespace apache::thrift;
 
-ServerHandler::ServerHandler() : myCtx(std::make_shared<ServerHandlerContext>()) {}
+namespace {
+  void executeDevToolsMethod(CefRefPtr<CefBrowserHost> host,
+                             const CefString& method,
+                             const CefString& parametersAsJson,
+                             CefRefPtr<RemoteIntCallback> callback
+  ) {
+    CefRefPtr<CefDictionaryValue> parameters = nullptr;
+    if (!parametersAsJson.empty()) {
+      CefRefPtr<CefValue> value = CefParseJSON(
+          parametersAsJson, cef_json_parser_options_t::JSON_PARSER_RFC);
+
+      if (!value || value->GetType() != VTYPE_DICTIONARY) {
+        callback->OnComplete(0);
+        return;
+      }
+
+      parameters = value->GetDictionary();
+    }
+
+    callback->OnComplete(host->ExecuteDevToolsMethod(0, method, parameters));
+  }
+}
+
+ServerHandler::ServerHandler() : myCtx(nullptr) {}
 
 ServerHandler::~ServerHandler() {
   close();
-  myCtx->closeJavaServiceTransport();
+  if (myCtx)
+    myCtx->closeJavaServiceTransport();
 }
 
 void ServerHandler::close() {
@@ -45,42 +78,49 @@ void ServerHandler::close() {
     return;
 
   myIsClosed = true;
-  std::string remaining = myCtx->clientsManager()->closeAllBrowsers();
-  ServerState::instance().onServerHandlerClosed(*this, remaining);
-  try {
-    // NOTE: if some browser wasn't closed than client won't receive onBeforeClose callback
-    // if we close transport here. So do it in destructor.
-    if (remaining.empty())
-      myCtx->closeJavaServiceTransport();
-  } catch (TException& e) {
-    Log::error("Thrift exception in ServerHandler::close: %s", e.what());
-  }
+  ServerApplication::instance().onServerHandlerClosed(*this);
+  if (myCtx)
+    myCtx->close();
 }
 
 int ServerHandler::connectImpl(std::function<void()> openBackwardTransport) {
+  if (myCtx != nullptr) {
+    Log::error("Client already connected, other attempts will be ignored.");
+    return -1;
+  }
+
   static int s_counter = 0;
   const int counter = s_counter++;
   setThreadName(string_format("ServerHandler_%d", counter));
 
   // Connect to client's side (for cef-callbacks execution on java side)
+  myCtx = std::make_shared<ServerHandlerContext>();
   try {
     openBackwardTransport();
-    RemoteAppHandler::instance()->setService(myCtx->javaService());
+    static const bool testBackwardTransport = getBoolEnv("CEF_SERVER_TEST_BACKWARD_TRANSPORT");
+    if (testBackwardTransport) {
+      // simple test for connection
+      std::string testMsg = "123test!!";
+      std::string returnVal;
+      myCtx->javaService()->exec(
+          [&](JavaService s) { s->echo(returnVal, testMsg); });
+      if (testMsg.compare(returnVal) != 0) {
+        Log::error("JavaClient returns invalid echo '%s'", returnVal.c_str());
+        myCtx->closeJavaServiceTransport();
+        return -1;
+      }
+    }
+    ServerApplication::instance().getCefAppHandler()->setService(myCtx->javaService());
   } catch (TException& tx) {
     Log::error(tx.what());
     myCtx->closeJavaServiceTransport();
     return -1;
   }
 
-  return counter;
+  return myCid = counter;
 }
 
 int32_t ServerHandler::connect(const std::string& backwardConnectionPipe, bool isMaster) {
-  if (myCtx->javaService() != nullptr) {
-    Log::error("Client already connected, other attempts will be ignored.");
-    return -1;
-  }
-
   myIsMaster = isMaster;
 
   return connectImpl([&](){
@@ -89,16 +129,15 @@ int32_t ServerHandler::connect(const std::string& backwardConnectionPipe, bool i
 }
 
 int32_t ServerHandler::connectTcp(int backwardConnectionPort, bool isMaster) {
-  if (myCtx->javaService() != nullptr) {
-    Log::error("Client already connected (tcp), other attempts will be ignored.");
-    return -1;
-  }
-
   myIsMaster = isMaster;
 
   return connectImpl([&](){
     myCtx->initJavaServicePort(backwardConnectionPort);
   });
+}
+
+void ServerHandler::attach(int cid) {
+  myCtx = ServerApplication::instance().getCtx(cid);
 }
 
 int32_t ServerHandler::Browser_Create(int cid, int handlersMask, const thrift_codegen::RObject& requestContextHandler) {
@@ -117,27 +156,30 @@ void ServerHandler::Browser_StartNativeCreation(int bid, const std::string& url)
   Log::trace("Started creation of native CefBrowser of remote browser bid=%d, url=%s", bid, url.c_str());
 }
 
+void ServerHandler::Browser_StartNativeDevToolsCreation(int bid, int parentBid, int x, int y) {
+  myCtx->clientsManager()->startNativeDevToolsCreation(bid, parentBid, x, y);
+  Log::trace("Started creation of dev-tools of remote browser bid=%d, parentBid=%d ", bid, parentBid);
+}
+
 void ServerHandler::Browser_Close(const int32_t bid) {
   myCtx->clientsManager()->closeBrowser(bid);
 }
 
 void ServerHandler::stop() {
   Log::debug("ServerHandler %p asked to stop server.", this);
-  ServerState::instance().startShuttingDown();
+  ServerApplication::instance().startShuttingDown();
   close();
 }
 
-void ServerHandler::state(std::string& _return) {
-  _return = ServerState::instance().getStateDesc();
-}
-
-void ServerHandler::version(std::string& _return) {
-  _return.assign(string_format("%d.%d.%d.%d",
-    cef_version_info(0),   // CEF_VERSION_MAJOR
-    cef_version_info(1),   // CEF_VERSION_MINOR
-    cef_version_info(2),   // CEF_VERSION_PATCH
-    cef_version_info(3)   // CEF_COMMIT_NUMBER
-  ));
+void ServerHandler::getServerInfo(std::string& _return, const std::string& request) {
+  if (request.compare("version") == 0)
+    _return.assign(CefUtils::getVersionWithSha());
+  else if (request.compare("state") == 0)
+    _return = ServerApplication::instance().getStateDesc();
+  else if (request.compare("root") == 0)
+    _return = ServerApplication::instance().getCefAppHandler()->getRootPath();
+  else
+    _return = "Unknown request: " + request;
 }
 
 #define GET_BROWSER_OR_RETURN()                               \
@@ -181,6 +223,11 @@ void ServerHandler::version(std::string& _return) {
     Log::error("Can't find RemoteCookieManager by id=%d", cookieManager.objId);   \
     return val;                                                                       \
   }
+
+void ServerHandler::Browser_CloseDevTools(const int32_t bid) {
+  GET_BROWSER_OR_RETURN()
+  browser->GetHost()->CloseDevTools();
+}
 
 void ServerHandler::Browser_Reload(const int32_t bid) {
   LNDCT();
@@ -247,7 +294,7 @@ void ServerHandler::Frame_GetParent(thrift_codegen::RObject & _return, int frame
 
   RemoteFrame* rparent = RemoteFrame::create(rf->getDelegate().GetParent());
   if (rparent != nullptr)
-    _return = rparent->serverIdWithMap();
+    _return = rparent->serverId();
 }
 
 void ServerHandler::Frame_Undo(int frameId) {
@@ -320,11 +367,20 @@ extern void processKeyEvent(
     int key_code   // event.getKeyCode()
 );
 
-void ServerHandler::Browser_SendKeyEvent(const int32_t bid,const int32_t event_type,const int32_t modifiers,const int16_t key_char,const int64_t scanCode,const int32_t key_code) {
+void ServerHandler::Browser_SendCefKeyEvent(
+    const int32_t bid,
+    const thrift_codegen::CefKeyEventAttributes& event) {
   LNDCT();
   GET_BROWSER_OR_RETURN()
-  CefKeyEvent cef_event;
-  processKeyEvent(cef_event, event_type, modifiers, key_char, scanCode, key_char);
+  CefKeyEvent cef_event{};
+  cef_event.type = static_cast<cef_key_event_type_t>(event.type);
+  cef_event.modifiers = event.modifiers;
+  cef_event.windows_key_code = event.windows_key_code;
+  cef_event.native_key_code = event.native_key_code;
+  cef_event.is_system_key = event.is_system_key;
+  cef_event.character = event.character;
+  cef_event.unmodified_character = event.unmodified_character;
+
   browser->GetHost()->SendKeyEvent(cef_event);
 }
 
@@ -402,7 +458,7 @@ void ServerHandler::Browser_GetMainFrame(thrift_codegen::RObject& _return, const
   CefRefPtr<CefFrame> frame = browser->GetMainFrame();
   RemoteFrame* rf = RemoteFrame::create(frame);
   if (rf != nullptr)
-    _return = rf->serverIdWithMap();
+    _return = rf->serverId();
 }
 
 void ServerHandler::Browser_GetFocusedFrame(thrift_codegen::RObject& _return, const int32_t bid) {
@@ -412,7 +468,7 @@ void ServerHandler::Browser_GetFocusedFrame(thrift_codegen::RObject& _return, co
   CefRefPtr<CefFrame> frame = browser->GetFocusedFrame();
   RemoteFrame* rf = RemoteFrame::create(frame);
   if (rf != nullptr)
-    _return = rf->serverIdWithMap();
+    _return = rf->serverId();
 }
 
 void ServerHandler::Browser_GetFrameByIdentifier(thrift_codegen::RObject& _return, const int32_t bid, const std::string& id) {
@@ -422,7 +478,7 @@ void ServerHandler::Browser_GetFrameByIdentifier(thrift_codegen::RObject& _retur
   CefRefPtr<CefFrame> frame = browser->GetFrameByIdentifier(id);
   RemoteFrame* rf = RemoteFrame::create(frame);
   if (rf != nullptr)
-    _return = rf->serverIdWithMap();
+    _return = rf->serverId();
 }
 
 void ServerHandler::Browser_GetFrameByName(thrift_codegen::RObject& _return, const int32_t bid, const std::string& name) {
@@ -432,7 +488,7 @@ void ServerHandler::Browser_GetFrameByName(thrift_codegen::RObject& _return, con
   CefRefPtr<CefFrame> frame = browser->GetFrameByName(name);
   RemoteFrame* rf = RemoteFrame::create(frame);
   if (rf != nullptr)
-    _return = rf->serverIdWithMap();
+    _return = rf->serverId();
 }
 
 void ServerHandler::Browser_GetFrameIdentifiers(std::vector<std::string>& _return, const int32_t bid) {
@@ -480,12 +536,14 @@ void ServerHandler::Browser_ViewSource(const int32_t bid) {
 
 void ServerHandler::Browser_GetSource(const int32_t bid, const thrift_codegen::RObject& stringVisitor) {
   LNDCT();
-  Log::error("TODO: implement Browser_GetSource.");
+  GET_BROWSER_OR_RETURN()
+  browser->GetMainFrame()->GetSource(new RemoteStringVisitor(myCtx, stringVisitor));
 }
 
 void ServerHandler::Browser_GetText(const int32_t bid, const thrift_codegen::RObject& stringVisitor) {
   LNDCT();
-  Log::error("TODO: implement Browser_GetText.");
+  GET_BROWSER_OR_RETURN()
+  browser->GetMainFrame()->GetText(new RemoteStringVisitor(myCtx, stringVisitor));
 }
 
 void ServerHandler::Browser_SetFocus(const int32_t bid, bool enable) {
@@ -509,7 +567,7 @@ namespace {
     std::shared_ptr<CriticalWait> waitCond = std::make_shared<CriticalWait>(lock.get());
     LockGuard guard(*lock);
     CefPostTask(threadId, base::BindOnce(_runTaskAndWakeup, waitCond, std::move(task)));
-    waitCond->Wait(waitMillis);
+    waitCond->Wait(static_cast<unsigned>(waitMillis));
   }
 
   void getZoomLevel(CefRefPtr<CefBrowserHost> host, std::shared_ptr<double> result) {
@@ -566,12 +624,157 @@ void ServerHandler::Browser_SetFrameRate(const int32_t bid, int32_t val) {
   browser->GetHost()->SetWindowlessFrameRate(val);
 }
 
+void ServerHandler::Browser_AddDevToolsMessageObserver(thrift_codegen::RObject& _return, const int32_t bid, const thrift_codegen::RObject& observer) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN()
+
+  CefRefPtr<RemoteDevToolsMessageObserver> robserver(new RemoteDevToolsMessageObserver(myCtx->clientsManager(), myCtx, observer));
+  CefRefPtr<CefRegistration> registration = browser->GetHost()->AddDevToolsMessageObserver(robserver);
+  _return = RemoteRegistration::create(registration)->serverId();
+}
+
+void ServerHandler::Browser_ExecuteDevToolsMethod(
+    const int32_t bid,
+    const std::string& method,
+    const std::string& parametersAsJson,
+    const thrift_codegen::RObject& intCallback
+) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN()
+
+  CefRefPtr<RemoteIntCallback> callback = new RemoteIntCallback(myCtx, intCallback);
+  if (!browser.get()) {
+    callback->OnComplete(0);
+    return;
+  }
+
+  if (CefCurrentlyOn(TID_UI)) {
+    executeDevToolsMethod(browser->GetHost(), method, parametersAsJson, callback);
+  } else {
+    CefPostTask(TID_UI,
+                base::BindOnce(executeDevToolsMethod,
+                               browser->GetHost(), method, parametersAsJson, callback));
+  }
+}
+
+void ServerHandler::Browser_RunFileDialog(
+    const int32_t bid,
+    const std::string& mode,
+    const std::string& title,
+    const std::string& defaultFilePath,
+    const std::vector<std::string>& acceptFilters,
+    const thrift_codegen::RObject& runFileDialogCallback) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN()
+
+  CefRefPtr<RemoteRunFileDialogCallback> callback = new RemoteRunFileDialogCallback(myCtx, runFileDialogCallback);
+  if (!browser.get()) {
+    callback->OnFileDialogDismissed(std::vector<CefString>());
+    return;
+  }
+
+  std::vector<CefString> accept_types;
+  for (const auto & fp: acceptFilters)
+    accept_types.push_back(CefString(fp));
+
+  CefBrowserHost::FileDialogMode fdMode;
+  if (mode.find("FILE_DIALOG_OPEN_MULTIPLE") != std::string::npos)
+    fdMode = FILE_DIALOG_OPEN_MULTIPLE;
+  else if (mode.find("FILE_DIALOG_OPEN") != std::string::npos)
+    fdMode = FILE_DIALOG_OPEN;
+  else if (mode.find("FILE_DIALOG_SAVE") != std::string::npos)
+    fdMode = FILE_DIALOG_SAVE;
+  else
+    fdMode = FILE_DIALOG_OPEN;
+
+  browser->GetHost()->RunFileDialog(fdMode, CefString(title), CefString(defaultFilePath), accept_types, callback);
+}
+
+namespace {
+void setFieldValueD(double & field, const std::string & val) {
+  try {
+    field = stod(val);
+  } catch (const std::logic_error & ex) {
+    Log::error("PrintToPDF: can't convert string '%s' to double. Error: %s", val.c_str(), ex.what());
+    field = 1.f;
+  }
+}
+void setFieldValueB(int & field, const std::string & val) {
+  field = (val.compare("true") == 0);
+}
+}
+
+void ServerHandler::Browser_PrintToPDF(
+    const int32_t bid,
+    const std::string& path,
+    const std::map<std::string, std::string>& pdfPrintSettings,
+    const thrift_codegen::RObject& pdfPrintCallback) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN()
+
+  CefRefPtr<RemotePdfPrintCallback> callback = new RemotePdfPrintCallback(myCtx, pdfPrintCallback);
+  if (!browser.get()) {
+    callback->OnPdfPrintFinished(CefString(path), false);
+    return;
+  }
+
+  CefPdfPrintSettings settings;
+  for (const auto & kv: pdfPrintSettings) {
+    if (kv.first.compare("landscape") == 0)
+      setFieldValueB(settings.landscape, kv.second);
+    else if (kv.first.compare("print_background") == 0)
+      setFieldValueB(settings.print_background, kv.second);
+    else if (kv.first.compare("scale") == 0)
+      setFieldValueD(settings.scale, kv.second);
+    else if (kv.first.compare("paper_width") == 0)
+      setFieldValueD(settings.paper_width, kv.second);
+    else if (kv.first.compare("paper_height") == 0)
+      setFieldValueD(settings.paper_height, kv.second);
+    else if (kv.first.compare("prefer_css_page_size") == 0)
+      setFieldValueB(settings.prefer_css_page_size, kv.second);
+    else if (kv.first.compare("margin_type") == 0) {
+      settings.margin_type = PDF_PRINT_MARGIN_DEFAULT;
+      if (kv.second.find("NONE") != std::string::npos)
+        settings.margin_type = PDF_PRINT_MARGIN_NONE;
+      else if (kv.second.find("CUSTOM") != std::string::npos)
+        settings.margin_type = PDF_PRINT_MARGIN_CUSTOM;
+    } else if (kv.first.compare("margin_top") == 0)
+      setFieldValueD(settings.margin_top, kv.second);
+    else if (kv.first.compare("margin_bottom") == 0)
+      setFieldValueD(settings.margin_bottom, kv.second);
+    else if (kv.first.compare("margin_right") == 0)
+      setFieldValueD(settings.margin_right, kv.second);
+    else if (kv.first.compare("margin_left") == 0)
+      setFieldValueD(settings.margin_left, kv.second);
+    else if (kv.first.compare("page_ranges") == 0) {
+      std::string ranges = kv.second;
+      CefString(&settings.page_ranges) = ranges;
+    } else if (kv.first.compare("display_header_footer") == 0)
+      setFieldValueB(settings.display_header_footer, kv.second);
+    else if (kv.first.compare("header_template") == 0) {
+      std::string templ = kv.second;
+      CefString(&settings.header_template) = templ;
+    } else if (kv.first.compare("footer_template") == 0) {
+      std::string templ = kv.second;
+      CefString(&settings.footer_template) = templ;
+    }
+  }
+
+  browser->GetHost()->PrintToPDF(path, settings, callback);
+}
+
+void ServerHandler::Browser_Print(const int32_t bid) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN()
+  browser->GetHost()->Print();
+}
+
 void ServerHandler::Request_Create(thrift_codegen::RObject& result) {
   result.objId = -1;
   CefRefPtr<CefRequest> request = CefRequest::Create();
   RemoteRequest* rr = RemoteRequest::create(request);
   if (rr != nullptr)
-    result = rr->serverIdWithMap();
+    result = rr->serverId();
 }
 
 void ServerHandler::Request_Dispose(int requestId) {
@@ -792,10 +995,35 @@ void ServerHandler::Callback_Cancel(const thrift_codegen::RObject& callback) {
   RemoteCallback::dispose(callback.objId);
 }
 
+void ServerHandler::CefRunContextMenuCallback_Dispose(
+    const thrift_codegen::RObject& self) {
+  RemoteCefRunContextMenuCallback::dispose(self.objId);
+}
+
+void ServerHandler::CefRunContextMenuCallback_Continue(
+    const thrift_codegen::RObject& self,
+    const int32_t command_id,
+    const int32_t event_flag) {
+  const auto self_wrapper = RemoteCefRunContextMenuCallback::get(self.objId);
+  if (self_wrapper == nullptr) return;
+  self_wrapper->getDelegate().Continue(command_id,
+                              static_cast<cef_event_flags_t>(event_flag));
+  RemoteCefRunContextMenuCallback::dispose(self.objId);
+}
+
+void ServerHandler::CefRunContextMenuCallback_Cancel(
+    const thrift_codegen::RObject& self) {
+  const auto self_wrapper = RemoteCefRunContextMenuCallback::get(self.objId);
+  if (self_wrapper == nullptr)
+    return;
+  self_wrapper->getDelegate().Cancel();
+  RemoteCefRunContextMenuCallback::dispose(self.objId);
+}
+
 void ServerHandler::MessageRouter_Create(thrift_codegen::RObject& _return,
                                         const std::string& query,
                                         const std::string& cancel) {
-  _return = myCtx->routersManager()->CreateRemoteMessageRouter(myCtx->javaService(), query, cancel)->serverId();
+  _return = myCtx->routersManager()->CreateRemoteMessageRouter(myCtx, query, cancel)->serverId();
 }
 
 void ServerHandler::MessageRouter_Dispose(const thrift_codegen::RObject& msgRouter) {
@@ -963,7 +1191,7 @@ void ServerHandler::SchemeHandlerFactory_Register(
     const std::string& schemeName,
     const std::string& domainName,
     const thrift_codegen::RObject& schemeHandlerFactory) {
-  CefRefPtr<RemoteSchemeHandlerFactory> factory = new RemoteSchemeHandlerFactory(myCtx->clientsManager(), myCtx->javaService(), schemeHandlerFactory);
+  CefRefPtr<RemoteSchemeHandlerFactory> factory = new RemoteSchemeHandlerFactory(myCtx->clientsManager(), myCtx, schemeHandlerFactory);
   const bool result = CefRegisterSchemeHandlerFactory(schemeName,domainName, factory);
   if (result)
     Log::trace("Registered SchemeHandlerFactory: schemeName=%s, domainName=%s, peer-id=%d", schemeName.c_str(), domainName.c_str(), schemeHandlerFactory.objId);
@@ -980,7 +1208,7 @@ void ServerHandler::RequestContext_ClearCertificateExceptions(const int32_t bid,
   LNDCT();
   CefRefPtr<RemoteCompletionCallback> cb;
   if (rcompletionCallback.objId >= 0)
-    cb = new RemoteCompletionCallback(myCtx->javaService(), rcompletionCallback);
+    cb = new RemoteCompletionCallback(myCtx, rcompletionCallback);
   if (bid < 0) {
     // NOTE: assume that GlobalContext is linked with negative bid.
     CefRefPtr<CefRequestContext> globalContext = CefRequestContext::GetGlobalContext();
@@ -998,7 +1226,7 @@ void ServerHandler::RequestContext_CloseAllConnections(const int32_t bid, const 
   LNDCT();
   CefRefPtr<RemoteCompletionCallback> cb;
   if (rcompletionCallback.objId >= 0)
-    cb = new RemoteCompletionCallback(myCtx->javaService(), rcompletionCallback);
+    cb = new RemoteCompletionCallback(myCtx, rcompletionCallback);
   if (bid < 0) {
     // NOTE: assume that GlobalContext is linked with negative bid.
     CefRefPtr<CefRequestContext> globalContext = CefRequestContext::GetGlobalContext();
@@ -1029,7 +1257,7 @@ void ServerHandler::CookieManager_Dispose(const thrift_codegen::RObject& cookieM
 
 bool ServerHandler::CookieManager_VisitAllCookies(const thrift_codegen::RObject& cookieManager, const thrift_codegen::RObject& visitor) {
   GET_COOKIE_MANAGER_OR_RETURN_VAL(false);
-  CefRefPtr<RemoteCookieVisitor> rvisitor(new RemoteCookieVisitor(myCtx->javaService(), visitor));
+  CefRefPtr<RemoteCookieVisitor> rvisitor(new RemoteCookieVisitor(myCtx, visitor));
   return manager->getDelegate().VisitAllCookies(rvisitor);
 }
 
@@ -1040,7 +1268,7 @@ bool ServerHandler::CookieManager_VisitUrlCookies(
     const bool includeHttpOnly
 ) {
   GET_COOKIE_MANAGER_OR_RETURN_VAL(false);
-  CefRefPtr<RemoteCookieVisitor> rvisitor(new RemoteCookieVisitor(myCtx->javaService(), visitor));
+  CefRefPtr<RemoteCookieVisitor> rvisitor(new RemoteCookieVisitor(myCtx, visitor));
   return manager->getDelegate().VisitUrlCookies(url, includeHttpOnly, rvisitor);
 }
 
@@ -1092,6 +1320,28 @@ bool ServerHandler::CookieManager_FlushStore(
 
   CefRefPtr<RemoteCompletionCallback> cb;
   if (rcompletionCallback.objId >= 0)
-    cb = new RemoteCompletionCallback(myCtx->javaService(), rcompletionCallback);
+    cb = new RemoteCompletionCallback(myCtx, rcompletionCallback);
   return manager->getDelegate().FlushStore(cb);
+}
+
+void ServerHandler::Registration_Dispose(const thrift_codegen::RObject& registration) {
+  RemoteRegistration::dispose(registration.objId);
+}
+
+void ServerHandler::MediaAccessCallback_Dispose(const thrift_codegen::RObject& mediaAccessCallback) {
+  RemoteMediaAccessCallback::dispose(mediaAccessCallback.objId);
+}
+
+void ServerHandler::MediaAccessCallback_Continue(const thrift_codegen::RObject& mediaAccessCallback, const int32_t allowed_permissions) {
+  RemoteMediaAccessCallback * rc = RemoteMediaAccessCallback::get(mediaAccessCallback.objId);
+  if (rc == nullptr) return;
+  rc->getDelegate().Continue(allowed_permissions);
+  RemoteMediaAccessCallback::dispose(mediaAccessCallback.objId);
+}
+
+void ServerHandler::MediaAccessCallback_Cancel(const thrift_codegen::RObject& mediaAccessCallback) {
+  RemoteMediaAccessCallback * rc = RemoteMediaAccessCallback::get(mediaAccessCallback.objId);
+  if (rc == nullptr) return;
+  rc->getDelegate().Cancel();
+  RemoteMediaAccessCallback::dispose(mediaAccessCallback.objId);
 }

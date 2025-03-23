@@ -49,7 +49,7 @@ public class TestApp extends JFrame {
         CountDownLatch latch = new CountDownLatch(1);
         app.onInitialization(s -> latch.countDown());
         if (IS_REMOTE) {
-            if (!CefServer.instance().onConnected(null, "", false)) {
+            if (!app.getServer().onConnected(null, "", false)) {
                 CefLog.Error("Not connected.");
                 return;
             }

@@ -20,9 +20,9 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
     // Your initialization goes here
   }
 
-  int32_t connect() {
+  void echo(std::string& _return, const std::string& msg) {
     // Your implementation goes here
-    printf("connect\n");
+    printf("echo\n");
   }
 
   void log(const std::string& msg) {
@@ -55,14 +55,14 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
     printf("RenderHandler_OnPaint\n");
   }
 
-  void OnPopupShow(const int32_t bid, const bool show) {
+  void RenderHandler_OnPopupShow(const int32_t bid, const bool show) {
     // Your implementation goes here
-    printf("OnPopupShow\n");
+    printf("RenderHandler_OnPopupShow\n");
   }
 
-  void OnPopupSize(const int32_t bid, const Rect& rect) {
+  void RenderHandler_OnPopupSize(const int32_t bid, const Rect& rect) {
     // Your implementation goes here
-    printf("OnPopupSize\n");
+    printf("RenderHandler_OnPopupSize\n");
   }
 
   bool LifeSpanHandler_OnBeforePopup(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& url, const std::string& frameName, const bool gesture) {
@@ -125,7 +125,7 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
     printf("DisplayHandler_OnStatusMessage\n");
   }
 
-  bool DisplayHandler_OnConsoleMessage(const int32_t bid, const int32_t level, const std::string& message, const std::string& source, const int32_t line) {
+  bool DisplayHandler_OnConsoleMessage(const int32_t bid, const std::string& level, const std::string& message, const std::string& source, const int32_t line) {
     // Your implementation goes here
     printf("DisplayHandler_OnConsoleMessage\n");
   }
@@ -265,6 +265,26 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
     printf("ResourceRequestHandler_OnProtocolExecution\n");
   }
 
+  void ContextMenuHandler_OnBeforeContextMenu(std::vector<MenuItem> & _return, const int32_t bid, const  ::thrift_codegen::RObject& frame, const ContextMenuParams& params, const std::vector<MenuItem> & menu_model) {
+    // Your implementation goes here
+    printf("ContextMenuHandler_OnBeforeContextMenu\n");
+  }
+
+  bool ContextMenuHandler_RunContextMenu(const int32_t bid, const  ::thrift_codegen::RObject& frame, const ContextMenuParams& params, const std::vector<MenuItem> & model, const  ::thrift_codegen::RObject& callback) {
+    // Your implementation goes here
+    printf("ContextMenuHandler_RunContextMenu\n");
+  }
+
+  bool ContextMenuHandler_OnContextMenuCommand(const int32_t bid, const  ::thrift_codegen::RObject& frame, const ContextMenuParams& params, const int32_t command_id, const int32_t event_flags) {
+    // Your implementation goes here
+    printf("ContextMenuHandler_OnContextMenuCommand\n");
+  }
+
+  void ContextMenuHandler_OnContextMenuDismissed(const int32_t bid, const  ::thrift_codegen::RObject& frame) {
+    // Your implementation goes here
+    printf("ContextMenuHandler_OnContextMenuDismissed\n");
+  }
+
   bool MessageRouterHandler_onQuery(const  ::thrift_codegen::RObject& handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const int64_t queryId, const std::string& request, const bool persistent, const  ::thrift_codegen::RObject& queryCallback) {
     // Your implementation goes here
     printf("MessageRouterHandler_onQuery\n");
@@ -295,6 +315,11 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
     printf("CompletionCallback_OnComplete\n");
   }
 
+  void IntCallback_OnComplete(const int32_t intCallback, const int32_t result) {
+    // Your implementation goes here
+    printf("IntCallback_OnComplete\n");
+  }
+
   void RequestContextHandler_GetResourceRequestHandler( ::thrift_codegen::RObject& _return, const int32_t handler, const int32_t bid, const  ::thrift_codegen::RObject& frame, const  ::thrift_codegen::RObject& request, const bool isNavigation, const bool isDownload, const std::string& requestInitiator) {
     // Your implementation goes here
     printf("RequestContextHandler_GetResourceRequestHandler\n");
@@ -308,6 +333,46 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
   void CookieVisitor_Dispose(const int32_t visitor) {
     // Your implementation goes here
     printf("CookieVisitor_Dispose\n");
+  }
+
+  void StringVisitor_Visit(const int32_t stringVisitor, const std::string& str) {
+    // Your implementation goes here
+    printf("StringVisitor_Visit\n");
+  }
+
+  void StringVisitor_Dispose(const int32_t stringVisitor) {
+    // Your implementation goes here
+    printf("StringVisitor_Dispose\n");
+  }
+
+  void DevToolsMessageObserver_Dispose(const int32_t observer) {
+    // Your implementation goes here
+    printf("DevToolsMessageObserver_Dispose\n");
+  }
+
+  void DevToolsMessageObserver_OnDevToolsMethodResult(const int32_t observer, const int32_t bid, const int32_t messageId, const bool success, const std::string& result) {
+    // Your implementation goes here
+    printf("DevToolsMessageObserver_OnDevToolsMethodResult\n");
+  }
+
+  void DevToolsMessageObserver_OnDevToolsEvent(const int32_t observer, const int32_t bid, const std::string& method, const std::string& parameters) {
+    // Your implementation goes here
+    printf("DevToolsMessageObserver_OnDevToolsEvent\n");
+  }
+
+  bool PermissionHandler_OnRequestMediaAccessPermission(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& requesting_origin, const int32_t requested_permissions, const  ::thrift_codegen::RObject& mediaAccessCallback) {
+    // Your implementation goes here
+    printf("PermissionHandler_OnRequestMediaAccessPermission\n");
+  }
+
+  void PdfPrintCallback_OnPdfPrintFinished(const int32_t pdfPrintCallback, const std::string& path, const bool ok) {
+    // Your implementation goes here
+    printf("PdfPrintCallback_OnPdfPrintFinished\n");
+  }
+
+  void RunFileDialogCallback_OnFileDialogDismissed(const int32_t runFileDialogCallback, const std::vector<std::string> & filePaths) {
+    // Your implementation goes here
+    printf("RunFileDialogCallback_OnFileDialogDismissed\n");
   }
 
 };

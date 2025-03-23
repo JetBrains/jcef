@@ -3,20 +3,16 @@
 #include "../browser/ClientsManager.h"
 #include "../browser/RemoteFrame.h"
 
-// remove to enable tracing
-#ifdef TRACE
-#undef TRACE
-#define TRACE()
-#endif
+const bool doTrace = getBoolEnv("CEF_SERVER_TRACE_RemoteMessageRouterHandler");
 
 RemoteMessageRouterHandler::RemoteMessageRouterHandler(
-    std::shared_ptr<RpcExecutor> service,
+    std::shared_ptr<ServerHandlerContext> service,
     std::shared_ptr<ClientsManager> manager,
     thrift_codegen::RObject peer)
     : RemoteJavaObject(
           service,
           peer.objId,
-          [=](std::shared_ptr<thrift_codegen::ClientHandlersClient> service) {
+          [=](JavaService service) {
             service->MessageRouterHandler_Dispose(peer.objId);
           }),
       myClientsManager(manager) {
@@ -25,6 +21,7 @@ RemoteMessageRouterHandler::RemoteMessageRouterHandler(
 }
 
 RemoteMessageRouterHandler::~RemoteMessageRouterHandler() {
+  TRACE();
   //Log::trace("delete RouterHandler: peerId=%d", myPeerId);
   for (auto cb: myCallbacks) // simple protection for leaking via callbacks
     RemoteQueryCallback::dispose(cb);
@@ -54,8 +51,8 @@ bool RemoteMessageRouterHandler::OnQuery(CefRefPtr<CefBrowser> browser,
   }
   RemoteFrame::Holder frm(frame);
   RemoteQueryCallback* rcb = RemoteQueryCallback::wrapDelegate(callback);
-  bool handled = myService->exec<bool>([&](RpcExecutor::Service s){
-    return s->MessageRouterHandler_onQuery(javaId(), bid, frm.get()->serverIdWithMap(), query_id, request, persistent, rcb->serverId());
+  bool handled = myCtx->javaService()->exec<bool>([&](JavaService s){
+    return s->MessageRouterHandler_onQuery(javaId(), bid, frm.serverId(), query_id, request, persistent, rcb->serverId());
   }, false);
   if (!handled) // NOTE: must delete callback when onQuery returns false
     RemoteQueryCallback::dispose(rcb->getId());
@@ -74,8 +71,8 @@ void RemoteMessageRouterHandler::OnQueryCanceled(CefRefPtr<CefBrowser> browser,
     return;
   }
   RemoteFrame::Holder frm(frame);
-  myService->exec([&](RpcExecutor::Service s){
-    return s->MessageRouterHandler_onQueryCanceled(javaId(), bid, frm.get()->serverIdWithMap(), query_id);
+  myCtx->javaService()->exec([&](JavaService s){
+    return s->MessageRouterHandler_onQueryCanceled(javaId(), bid, frm.serverId(), query_id);
   });
 }
 

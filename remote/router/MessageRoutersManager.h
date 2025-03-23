@@ -15,11 +15,12 @@ struct cmpCfg {
 };
 class RemoteMessageRouter;
 class RpcExecutor;
+class ServerHandlerContext;
 
 // Manages lifetime of stored routers
 class MessageRoutersManager {
  public:
-  RemoteMessageRouter * CreateRemoteMessageRouter(std::shared_ptr<RpcExecutor> service, const std::string& query, const std::string& cancel);
+  RemoteMessageRouter * CreateRemoteMessageRouter(std::shared_ptr<ServerHandlerContext> ctx, const std::string& query, const std::string& cancel);
   void DisposeRemoteMessageRouter(int objId);
   virtual ~MessageRoutersManager();
 
@@ -33,7 +34,6 @@ class MessageRoutersManager {
                                 CefRefPtr<CefProcessMessage> message);
 
   static CefRefPtr<CefListValue> GetMessageRouterConfigs();
-  static void ClearAllConfigs();
 
  private:
   std::set<RemoteMessageRouter*> myRouters;
@@ -41,6 +41,8 @@ class MessageRoutersManager {
 
   static std::set<CefMessageRouterConfig, cmpCfg> router_cfg_;
   static base::Lock router_cfg_lock_;
+
+  std::set<CefRefPtr<CefMessageRouterBrowserSide>> getMessageRouters();
 };
 
 #endif  // JCEF_MESSAGEROUTERSMANAGER_H

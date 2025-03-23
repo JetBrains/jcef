@@ -1,5 +1,6 @@
 package com.jetbrains.cef.remote.network;
 
+import com.jetbrains.cef.remote.RpcContext;
 import com.jetbrains.cef.remote.RpcExecutor;
 import com.jetbrains.cef.remote.RemoteServerObjectLocal;
 import com.jetbrains.cef.remote.thrift_codegen.RObject;
@@ -15,13 +16,13 @@ import java.util.Map;
 // moment all requests from java to native will return errors (or default values).
 // Java object will be destroyed via usual gc.
 public class RemoteResponseImpl extends RemoteServerObjectLocal {
-    public RemoteResponseImpl(RpcExecutor server, RObject resp) {
-        super(server, resp);
+    public RemoteResponseImpl(RpcContext rpcContext, RObject resp) {
+        super(rpcContext, resp);
     }
 
     @Override
     public void flush() {
-        myServer.exec((s)->{
+        myRpc.exec((s)->{
             s.Response_Update(thriftIdWithCache());
         });
     }
@@ -61,23 +62,23 @@ public class RemoteResponseImpl extends RemoteServerObjectLocal {
     public void setMimeType(String mimeType) { setStrVal("MimeType", mimeType); }
 
     public String getHeaderByName(String name) {
-        return myServer.execObj((s)-> s.Response_GetHeaderByName(thriftId(), name));
+        return myRpc.execObj((s)-> s.Response_GetHeaderByName(thriftId(), name));
     }
 
     public void setHeaderByName(String name, String value, boolean overwrite) {
-        myServer.exec((s)-> s.Response_SetHeaderByName(thriftId(), name, value, overwrite));
+        myRpc.exec((s)-> s.Response_SetHeaderByName(thriftId(), name, value, overwrite));
     }
 
     public void getHeaderMap(Map<String, String> headerMap) {
         if (headerMap == null)
             return;
-        Map<String, String> result = myServer.execObj((s)-> s.Response_GetHeaderMap(thriftId()));
+        Map<String, String> result = myRpc.execObj((s)-> s.Response_GetHeaderMap(thriftId()));
         if (result != null)
             headerMap.putAll(result);
     }
 
     public void setHeaderMap(Map<String, String> headerMap) {
-        myServer.exec((s)-> s.Response_SetHeaderMap(thriftId(), headerMap));
+        myRpc.exec((s)-> s.Response_SetHeaderMap(thriftId(), headerMap));
     }
 
     @Override

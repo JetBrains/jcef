@@ -523,4 +523,6 @@ public interface CefBrowser {
      * @throws UnsupportedOperationException if not supported
      */
     public CompletableFuture<Integer> getWindowlessFrameRate();
+
+    boolean isWindowless();
 }

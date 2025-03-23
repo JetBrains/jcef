@@ -10,16 +10,16 @@
 
 RemoteBrowserProcessHandler::RemoteBrowserProcessHandler() : myService(nullptr), myCreationTime(Clock::now()) {}
 
-RemoteBrowserProcessHandler::~RemoteBrowserProcessHandler() {
-  MessageRoutersManager::ClearAllConfigs();
-}
-
 void RemoteBrowserProcessHandler::setService(std::shared_ptr<RpcExecutor> service) {
-  Lock lock(myMutex);
-  myService = service;
-  if (myService && myIsContextInitialized) {
+  bool needInvokeCallback = false;
+  {
+    Lock lock(myMutex);
+    myService = service;
+    needInvokeCallback = myIsContextInitialized;
+  }
+  if (myService && needInvokeCallback) {
     // Service was created after OnContextInitialized happened, so notify client immediately.
-    myService->exec([&](const RpcExecutor::Service& s) {
+    myService->exec([&](const JavaService& s) {
       s->AppHandler_OnContextInitialized();
     });
   }
@@ -30,13 +30,17 @@ void RemoteBrowserProcessHandler::OnContextInitialized() {
 
   if (Log::isTraceEnabled()) {
     Duration dur = std::chrono::duration_cast<std::chrono::microseconds>(Clock::now() - myCreationTime);
-    Log::trace("Native CEF context initialization spent %d ms.", (int)dur.count()/1000);
+    Log::trace("CEF context is initialized, spent %d mcs", (int)dur.count());
   }
 
-  Lock lock(myMutex);
-  myIsContextInitialized = true;
-  if (myService)
-    myService->exec([&](const RpcExecutor::Service& s){
+  bool needInvokeCallback = false;
+  {
+    Lock lock(myMutex);
+    myIsContextInitialized = true;
+    needInvokeCallback = myService != nullptr;
+  }
+  if (needInvokeCallback)
+    myService->exec([&](const JavaService& s){
       s->AppHandler_OnContextInitialized();
     });
 }

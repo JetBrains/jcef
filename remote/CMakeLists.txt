@@ -35,15 +35,17 @@ foreach (FILE ${THRIFT_FILES})
     if (thrift_result AND NOT STATUS EQUAL 0)
         message(FATAL_ERROR "Failed to compile ${FILE}: ${thrift_result}")
     endif ()
-
-    message(STATUS "Cleanup java thrift codegen...")
-    execute_process(
-            COMMAND ${PYTHON_EXECUTABLE} "${CMAKE_SOURCE_DIR}/jb/tools/common/cleanup_codegen.py"
-            WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
-    )
-
-
 endforeach ()
+
+message(STATUS "Patching java interfaces at ${CMAKE_SOURCE_DIR}/java/com/jetbrains/cef/remote/thrift_codegen...")
+execute_process(
+        COMMAND ${PYTHON_EXECUTABLE} "${CMAKE_SOURCE_DIR}/jb/tools/common/patch_thrift_interfaces.py" "${CMAKE_SOURCE_DIR}/java/com/jetbrains/cef/remote/thrift_codegen/"
+        RESULT_VARIABLE result
+)
+
+if (result AND NOT STATUS EQUAL 0)
+    message(FATAL_ERROR "Failed to run the patch script: ${thrift_result}")
+endif ()
 
 set(CMAKE_CXX_STANDARD 17)
 include_directories(${Boost_INCLUDE_DIRS})
@@ -66,6 +68,7 @@ set(thrift_codegen_SOURCES
         gen-cpp/Server.cpp
         gen-cpp/ClientHandlers.cpp
         gen-cpp/cef_client_types.cpp
+        gen-cpp/cef_server_types.cpp
         gen-cpp/shared_types.cpp
         )
 add_library(thrift_codegen STATIC ${thrift_codegen_SOURCES})
@@ -77,13 +80,11 @@ target_link_libraries(thrift_codegen thrift::thrift libcef_dll_wrapper ${CEF_STA
 if (OS_MAC)
     set(CEFSIMPLE_RESOURCES_MAC_SRCS_MAC
             mac/Info.plist
-            mac/cefsimple.icns
             )
     APPEND_PLATFORM_SOURCES(CEFSIMPLE_RESOURCES_MAC_SRCS)
 
     set(CEFSIMPLE_RESOURCES_MAC_ENGLISH_LPROJ_SRCS_MAC
             mac/English.lproj/InfoPlist.strings
-            mac/English.lproj/MainMenu.xib
             )
     APPEND_PLATFORM_SOURCES(CEFSIMPLE_RESOURCES_MAC_ENGLISH_LPROJ_SRCS)
 
@@ -102,79 +103,102 @@ set(SERVER_SOURCES
         main.cpp
         CefUtils.cpp
         CefUtils.h
-        browser/KeyEventProcessing.cpp
-        browser/MouseEventProcessing.cpp
+        RemoteObjects.h
+        RpcExecutor.cpp
+        ServerApplication.cpp
         ServerHandler.cpp
+        ServerHandlerContext.cpp
+        ServerHandlerContext.cpp
+        ServerHandlerContext.h
         Utils.cpp
         Utils.h
-        log/Log.cpp
-        log/Log.h
+        browser/ClientsManager.cpp
+        browser/ClientsManager.h
+        browser/KeyEventProcessing.cpp
+        browser/MouseEventProcessing.cpp
+        browser/RemoteDevToolsMessageObserver.cpp
+        browser/RemoteDevToolsMessageObserver.h
+        browser/RemoteFrame.cpp
+        browser/RemoteFrame.h
+        callback/RemoteAuthCallback.h
+        callback/RemoteCallback.h
+        callback/RemoteCompletionCallback.cpp
+        callback/RemoteCompletionCallback.h
+        callback/RemoteIntCallback.cpp
+        callback/RemoteIntCallback.h
+        callback/RemoteRegistration.cpp
+        callback/RemoteRegistration.h
+        callback/RemoteSchemeHandlerFactory.cpp
+        callback/RemoteStringVisitor.cpp
+        callback/RemoteStringVisitor.h
         handlers/RemoteClientHandler.cpp
         handlers/RemoteClientHandler.h
-        handlers/RemoteRenderHandler.cpp
-        handlers/RemoteRenderHandler.h
+        handlers/RemoteContextMenuHandler.cpp
+        handlers/RemoteContextMenuHandler.h
+        handlers/RemoteDisplayHandler.cpp
+        handlers/RemoteDisplayHandler.h
+        handlers/RemoteFocusHandler.cpp
+        handlers/RemoteFocusHandler.h
+        handlers/RemoteKeyboardHandler.cpp
+        handlers/RemoteKeyboardHandler.h
         handlers/RemoteLifespanHandler.cpp
         handlers/RemoteLifespanHandler.h
         handlers/RemoteLoadHandler.cpp
         handlers/RemoteLoadHandler.h
+        handlers/RemoteRenderHandler.cpp
+        handlers/RemoteRenderHandler.h
+        handlers/SharedBufferManager.cpp
+        handlers/SharedBufferManager.h
+        handlers/app/HelperApp.cpp
+        handlers/app/HelperApp.h
         handlers/app/RemoteAppHandler.cpp
         handlers/app/RemoteAppHandler.h
         handlers/app/RemoteBrowserProcessHandler.cpp
         handlers/app/RemoteBrowserProcessHandler.h
-        handlers/RemoteDisplayHandler.cpp
-        handlers/RemoteDisplayHandler.h
-        RemoteObjects.h
-        network/RemoteRequestHandler.cpp
-        network/RemoteRequestHandler.h
-        network/RemoteRequest.cpp
-        network/RemoteRequest.h
-        network/RemoteResourceRequestHandler.cpp
-        network/RemoteResourceRequestHandler.h
+        log/Log.cpp
+        log/Log.h
         network/RemoteCookieAccessFilter.cpp
         network/RemoteCookieAccessFilter.h
-        network/RemoteResourceHandler.cpp
-        network/RemoteResourceHandler.h
-        network/RemoteResponse.cpp
-        network/RemoteResponse.h
-        network/RemotePostData.cpp
-        network/RemotePostData.h
-        network/RemotePostDataElement.cpp
-        network/RemotePostDataElement.h
-        callback/RemoteCallback.h
-        callback/RemoteAuthCallback.h
-        callback/RemoteSchemeHandlerFactory.cpp
-        router/RemoteMessageRouter.cpp
-        router/RemoteMessageRouter.h
-        router/MessageRoutersManager.cpp
-        router/MessageRoutersManager.h
-        router/RemoteMessageRouterHandler.cpp
-        router/RemoteMessageRouterHandler.h
-        router/RemoteQueryCallback.h
-        browser/ClientsManager.cpp
-        browser/ClientsManager.h
-        handlers/SharedBufferManager.cpp
-        handlers/SharedBufferManager.h
-        handlers/RemoteKeyboardHandler.cpp
-        handlers/RemoteKeyboardHandler.h
-        handlers/RemoteFocusHandler.cpp
-        handlers/RemoteFocusHandler.h
-        handlers/app/HelperApp.cpp
-        handlers/app/HelperApp.h
-        ServerState.cpp
-        RpcExecutor.cpp
-        browser/RemoteFrame.cpp
-        browser/RemoteFrame.h
-        network/RemoteRequestContextHandler.cpp
-        network/RemoteRequestContextHandler.h
-        ServerHandlerContext.h
-        ServerHandlerContext.cpp
-        ServerHandlerContext.cpp
-        callback/RemoteCompletionCallback.cpp
-        callback/RemoteCompletionCallback.h
         network/RemoteCookieManager.cpp
         network/RemoteCookieManager.h
         network/RemoteCookieVisitor.cpp
         network/RemoteCookieVisitor.h
+        network/RemotePostData.cpp
+        network/RemotePostData.h
+        network/RemotePostDataElement.cpp
+        network/RemotePostDataElement.h
+        network/RemoteRequest.cpp
+        network/RemoteRequest.h
+        network/RemoteRequestContextHandler.cpp
+        network/RemoteRequestContextHandler.h
+        network/RemoteRequestHandler.cpp
+        network/RemoteRequestHandler.h
+        network/RemoteResourceHandler.cpp
+        network/RemoteResourceHandler.h
+        network/RemoteResourceRequestHandler.cpp
+        network/RemoteResourceRequestHandler.h
+        network/RemoteResponse.cpp
+        network/RemoteResponse.h
+        router/MessageRoutersManager.cpp
+        router/MessageRoutersManager.h
+        router/RemoteMessageRouter.cpp
+        router/RemoteMessageRouter.h
+        router/RemoteMessageRouterHandler.cpp
+        router/RemoteMessageRouterHandler.h
+        router/RemoteQueryCallback.h
+        callback/RemoteCefRunContextMenuCallback.cpp
+        callback/RemoteCefRunContextMenuCallback.h
+        callback/RemoteCefRunContextMenuCallback.cpp
+        callback/RemoteCefRunContextMenuCallback.h
+        CefSettingsParser.cpp
+        CefSettingsParser.h
+        handlers/RemotePermissionHandler.cpp
+        handlers/RemotePermissionHandler.h
+        callback/RemoteMediaAccessCallback.h
+        callback/RemoteRunFileDialogCallback.cpp
+        callback/RemoteRunFileDialogCallback.h
+        callback/RemotePdfPrintCallback.cpp
+        callback/RemotePdfPrintCallback.h
 )
 
 if (OS_WINDOWS)
@@ -184,6 +208,7 @@ if (OS_WINDOWS)
         windows/PipeTransportServer.cpp
         windows/PipeTransportServer.h
         ../native/critical_wait_win.cpp
+        cef_server.rc
     )
     add_executable(${EXECUTABLE_NAME} ${SERVER_SOURCES})
     target_link_options(${EXECUTABLE_NAME} PRIVATE "/SUBSYSTEM:console")
@@ -203,7 +228,7 @@ target_include_directories(${EXECUTABLE_NAME} PRIVATE ${CEF_INCLUDE_PATH})
 
 if (OS_WINDOWS)
     add_logical_target("libcef_lib" "${CEF_LIB_DEBUG}" "${CEF_LIB_RELEASE}")
-    target_link_libraries(${EXECUTABLE_NAME} libcef_lib)
+    target_link_libraries(${EXECUTABLE_NAME} libcef_lib "Dbghelp.dll")
 endif ()
 
 target_link_libraries(${EXECUTABLE_NAME} ${CEF_STANDARD_LIBS} thrift_codegen ${Boost_FILESYSTEM_LIBRARY})
@@ -216,6 +241,14 @@ if (OS_WINDOWS)
     target_compile_options(${EXECUTABLE_NAME} PRIVATE /MP;/Gy;/GR;/W4;/WX;/wd4100;/wd4127;/wd4244;/wd4324;/wd4481;/wd4512;/wd4701;/wd4702;/wd4996;/wd4706;/wd4005;/wd4245;/Zi ${CEF_CXX_COMPILER_FLAGS})
     target_compile_options(${EXECUTABLE_NAME} PRIVATE $<$<CONFIG:Debug>:/MTd;/RTC1;/Od ${CEF_CXX_COMPILER_FLAGS_DEBUG}>)
     target_compile_options(${EXECUTABLE_NAME} PRIVATE $<$<CONFIG:Release>:/MT;/O2;/Ob2;/GF ${CEF_CXX_COMPILER_FLAGS_RELEASE}>)
+
+    # Ensure PDB files are generated
+    set(CMAKE_EXE_LINKER_FLAGS_DEBUG "${CMAKE_EXE_LINKER_FLAGS_DEBUG} /DEBUG")
+    set(CMAKE_SHARED_LINKER_FLAGS_DEBUG "${CMAKE_SHARED_LINKER_FLAGS_DEBUG} /DEBUG")
+    set(CMAKE_MODULE_LINKER_FLAGS_DEBUG "${CMAKE_MODULE_LINKER_FLAGS_DEBUG} /DEBUG")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /DEBUG")
+    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /DEBUG")
+    set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} /DEBUG")
 
     list(TRANSFORM CEF_COMPILER_DEFINES REPLACE "_HAS_EXCEPTIONS=0" "_HAS_EXCEPTIONS=1" OUTPUT_VARIABLE CEF_SERVER_COMPILER_DEFINES)
     message(STATUS "Added exception preprocessor definition. List of all defines: ${CEF_SERVER_COMPILER_DEFINES}")
@@ -345,11 +378,18 @@ if (OS_MAC)
     endforeach ()
 endif ()
 
-set(shared_mem_helper_SOURCES shared_mem_helper.cpp)
+set(shared_mem_helper_SOURCES
+        shared_mem_helper.cpp
+        ../native/keyboard_utils.cpp
+        ../native/keyboard_utils.h
+        PlatformUtils.cpp
+)
 if (OS_WINDOWS)
     list(APPEND shared_mem_helper_SOURCES
         windows/WindowsPipe.cpp
     )
+elseif (OS_LINUX)
+    list(APPEND shared_mem_helper_SOURCES ../native/JavaKeyCode2X11.cpp)
 endif ()
 add_library(shared_mem_helper SHARED ${shared_mem_helper_SOURCES})
 target_include_directories(shared_mem_helper PUBLIC ${JNI_INCLUDE_DIRS})

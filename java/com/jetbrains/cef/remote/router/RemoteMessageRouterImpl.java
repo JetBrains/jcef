@@ -1,7 +1,7 @@
 package com.jetbrains.cef.remote.router;
 
-import com.jetbrains.cef.remote.CefServer;
-import com.jetbrains.cef.remote.RemoteBrowser;
+import com.jetbrains.cef.remote.RpcContext;
+import com.jetbrains.cef.remote.browser.RemoteBrowser;
 import com.jetbrains.cef.remote.RemoteServerObject;
 import com.jetbrains.cef.remote.RpcExecutor;
 import com.jetbrains.cef.remote.thrift_codegen.RObject;
@@ -23,27 +23,31 @@ public class RemoteMessageRouterImpl extends RemoteServerObject {
     private String myQuery;
     private String myCancel;
 
-    private RemoteMessageRouterImpl(RpcExecutor server, RObject robj, String query, String cancel) {
-        super(server, robj);
+    private RemoteMessageRouterImpl(RpcContext rpcContext, RObject robj, String query, String cancel) {
+        super(rpcContext, robj);
         myQuery = query;
         myCancel = cancel;
     }
 
-    public static RemoteMessageRouterImpl create(RpcExecutor server, CefMessageRouter.CefMessageRouterConfig config) {
-        RObject robj = server.execObj((s)->s.MessageRouter_Create(config.jsQueryFunction, config.jsCancelFunction));
+    public static RemoteMessageRouterImpl create(RpcContext rpcContext, CefMessageRouter.CefMessageRouterConfig config) {
+        if (config == null)
+            config = new CefMessageRouter.CefMessageRouterConfig(); // Use default config (the same logic as in CefMessageRouter_N).
+        final String jsQueryFunction = config.jsQueryFunction;
+        final String jsCancelFunction = config.jsCancelFunction;
+        RObject robj = rpcContext.execObj((s)->s.MessageRouter_Create(jsQueryFunction, jsCancelFunction));
         if (robj.objId < 0) {
-            CefLog.Error("MessageRouter_Create returns invalid objId %d.", robj.objId);
+            CefLog.Error("MessageRouter_Create returns invalid objId %d (queryFunction='%s', cancelFunction='%s')", robj.objId, jsQueryFunction, jsCancelFunction);
             return null;
         }
-        return new RemoteMessageRouterImpl(server, robj, config.jsQueryFunction, config.jsCancelFunction);
+        return new RemoteMessageRouterImpl(rpcContext, robj, jsQueryFunction, jsCancelFunction);
     }
 
     public void addToBrowser(int bid) {
-        myServer.exec((s)->s.MessageRouter_AddMessageRouterToBrowser(thriftId(), bid));
+        myRpc.exec((s)->s.MessageRouter_AddMessageRouterToBrowser(thriftId(), bid));
     }
 
     public void removeFromBrowser(int bid) {
-        myServer.exec((s)->s.MessageRouter_RemoveMessageRouterFromBrowser(thriftId(), bid));
+        myRpc.exec((s)->s.MessageRouter_RemoveMessageRouterFromBrowser(thriftId(), bid));
     }
 
     @Override
@@ -56,7 +60,8 @@ public class RemoteMessageRouterImpl extends RemoteServerObject {
                 RemoteMessageRouterHandler.FACTORY.dispose(h.getId());
             myHandlers.clear();
         }
-        myServer.exec((s)->s.MessageRouter_Dispose(thriftId()));
+        final RObject id = thriftId();
+        myRpc.invokeLater(s -> s.MessageRouter_Dispose(id));
     }
 
     // Creates remote wrapper of java handler and stores ref in map.
@@ -67,7 +72,7 @@ public class RemoteMessageRouterImpl extends RemoteServerObject {
         synchronized (myHandlers) {
             myHandlers.add(rhandler);
         }
-        myServer.exec((s)->s.MessageRouter_AddHandler(thriftId(), rhandler.thriftId(), first));
+        myRpc.exec((s)->s.MessageRouter_AddHandler(thriftId(), rhandler.thriftId(), first));
         return true;
     }
 
@@ -81,7 +86,7 @@ public class RemoteMessageRouterImpl extends RemoteServerObject {
             boolean removed = myHandlers.remove(rhandler);
             if (!removed) CefLog.Error("RemoteMessageRouterHandler %s wasn't found in myHandlers list");
         }
-        myServer.exec((s)->s.MessageRouter_RemoveHandler(thriftId(), rhandler.thriftId()));
+        myRpc.exec((s)->s.MessageRouter_RemoveHandler(thriftId(), rhandler.thriftId()));
         RemoteMessageRouterHandler.FACTORY.dispose(rhandler.getId());
         return true;
     }
@@ -95,7 +100,7 @@ public class RemoteMessageRouterImpl extends RemoteServerObject {
             CefLog.Error("Can't cancelPending on non-remote browser " + browser);
         else {
             int bid = browser == null ? -1 : ((RemoteBrowser)browser).getBid();
-            myServer.exec((s) -> s.MessageRouter_CancelPending(thriftId(), bid, rhandler.thriftId()));
+            myRpc.exec((s) -> s.MessageRouter_CancelPending(thriftId(), bid, rhandler.thriftId()));
         }
     }
 

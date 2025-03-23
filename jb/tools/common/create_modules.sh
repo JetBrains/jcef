@@ -3,8 +3,6 @@
 set -euo pipefail
 
 export JOGAMP_DIR="$JCEF_ROOT_DIR"/third_party/jogamp/jar
-export THRIFT_DIR="$JCEF_ROOT_DIR"/third_party/thrift
-export THRIFT_JAR=libthrift-0.19.0.jar
 
 function extract_jar {
   __jar=$1
@@ -66,16 +64,6 @@ if [ "${OS}" == "macosx" ] || [ "${TARGET_ARCH}" == "x86_64" ]; then
 fi
 "$JAVA_HOME"/bin/jmod create --module-path . --class-path jogl-all.jar --libs lib jogl.all.jmod
 rm -rf jogl-all.jar lib
-
-echo "*** create thrift module..."
-
-cp "$THRIFT_DIR"/"$THRIFT_JAR" .
-cp "$JB_TOOLS_DIR"/common/thrift-module-info.java module-info.java
-"$JAVA_HOME"/bin/javac --patch-module org.apache.thrift=$THRIFT_JAR module-info.java
-"$JAVA_HOME"/bin/jar uf $THRIFT_JAR module-info.class
-rm module-info.class module-info.java
-"$JAVA_HOME"/bin/jmod create --class-path $THRIFT_JAR org.apache.thrift.jmod
-rm -rf "$THRIFT_JAR"
 
 echo "*** create jcef module..."
 cp "$OUT_CLS_DIR"/jcef.jar .

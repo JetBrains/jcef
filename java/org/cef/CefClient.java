@@ -4,55 +4,32 @@
 
 package org.cef;
 
-import com.jetbrains.cef.remote.RemoteBrowser;
-import org.cef.browser.*;
 import com.jetbrains.cef.JCefAppConfig;
 import com.jetbrains.cef.JdkEx;
-
-import com.jetbrains.cef.remote.CefServer;
-import com.jetbrains.cef.remote.RemoteClient;
+import com.jetbrains.cef.remote.browser.RemoteBrowser;
+import com.jetbrains.cef.remote.browser.RemoteClient;
+import org.cef.browser.*;
 import org.cef.callback.*;
-import org.cef.handler.CefClientHandler;
-import org.cef.handler.CefContextMenuHandler;
-import org.cef.handler.CefDialogHandler;
-import org.cef.handler.CefDisplayHandler;
-import org.cef.handler.CefDownloadHandler;
-import org.cef.handler.CefDragHandler;
-import org.cef.handler.CefFocusHandler;
-import org.cef.handler.CefJSDialogHandler;
-import org.cef.handler.CefKeyboardHandler;
-import org.cef.handler.CefLifeSpanHandler;
-import org.cef.handler.CefLoadHandler;
-import org.cef.handler.CefPrintHandler;
-import org.cef.handler.CefRenderHandler;
-import org.cef.handler.CefRequestHandler;
-import org.cef.handler.CefResourceRequestHandler;
-import org.cef.handler.CefScreenInfo;
-import org.cef.handler.CefWindowHandler;
-import org.cef.handler.CefPermissionHandler;
+import org.cef.handler.*;
 import org.cef.misc.BoolRef;
-import org.cef.misc.CefPrintSettings;
 import org.cef.misc.CefLog;
+import org.cef.misc.CefPrintSettings;
 import org.cef.misc.CefRange;
 import org.cef.network.CefRequest;
 import org.cef.network.CefRequest.TransitionType;
 import org.cef.security.CefSSLInfo;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.FocusTraversalPolicy;
-import java.awt.KeyboardFocusManager;
-import java.awt.Point;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Vector;
-import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * Client that owns a browser and renderer.
@@ -89,7 +66,7 @@ public class CefClient extends CefClientHandler
     protected final PropertyChangeListener propertyChangeListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
-            if (focusedBrowser_ != null) {
+            if (focusedBrowser_ != null && !focusedBrowser_.isWindowless()) {
                 Component browserUI = focusedBrowser_.getUIComponent();
                 if (browserUI == null) return;
                 Object oldUI = evt.getOldValue();
@@ -110,12 +87,15 @@ public class CefClient extends CefClientHandler
      */
     protected CefClient() throws UnsatisfiedLinkError {
         super();
+        remoteClient = null;
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addPropertyChangeListener(propertyChangeListener);
+        if (TRACE_LIFESPAN) CefLog.Debug("CefClient %s: created in-process instance", this);
+    }
 
-        remoteClient = CefApp.isRemoteEnabled() ? CefServer.instance().createClient() : null;
-        if (remoteClient == null)
-            KeyboardFocusManager.getCurrentKeyboardFocusManager().addPropertyChangeListener(propertyChangeListener);
-
-        if (TRACE_LIFESPAN) CefLog.Debug("CefClient: created client %s [remote=%s]", this, remoteClient);
+    protected CefClient(RemoteClient _remoteClient) {
+        super();
+        remoteClient = _remoteClient;
+        if (TRACE_LIFESPAN) CefLog.Debug("CefClient %s: created remote client %s", this, remoteClient);
     }
 
     private boolean isPartOf(Object obj, Component browserUI) {
@@ -135,8 +115,8 @@ public class CefClient extends CefClientHandler
         isDisposed_ = true;
         if (remoteClient != null) {
             // NOTE: super.dispose() shouldn't be called here
+            CefApp app = remoteClient.getServer().getCefApp();
             remoteClient.dispose();
-            CefApp app = CefApp.getInstanceIfAny();
             if (app != null) app.clientWasDisposed(this);
             if (onDisposed_ != null) onDisposed_.run();
         } else
@@ -182,7 +162,7 @@ public class CefClient extends CefClientHandler
         if (isDisposed_)
             throw new IllegalStateException("Can't create browser. CefClient is disposed");
         if (remoteClient != null)
-            return remoteClient.createBrowser(url, context, this, rendering);
+            return remoteClient.createBrowser(url, context, this, rendering, null);
         return CefBrowserFactory.create(this, url, rendering, isTransparent, context, null);
     }
 
@@ -190,11 +170,20 @@ public class CefClient extends CefClientHandler
                                     CefRequestContext context, CefBrowserSettings settings) {
         if (isDisposed_)
             throw new IllegalStateException("Can't create browser. CefClient is disposed");
-        // TODO: add CefBrowserSettings to RemoteClient#createBrowser
         if (remoteClient != null)
-            return remoteClient.createBrowser(url, context, this, rendering);
+            return remoteClient.createBrowser(url, context, this, rendering, settings);
         return CefBrowserFactory.create(
                 this, url, rendering, isTransparent, context, settings);
+    }
+
+    public CefBrowser createBrowser(String url, Supplier<CefRendering> rendering, boolean isTransparent,
+                                    CefRequestContext context, CefBrowserSettings settings) {
+        if (isDisposed_)
+            throw new IllegalStateException("Can't create browser. CefClient is disposed");
+        if (remoteClient != null)
+            return remoteClient.createBrowser(url, context, this, rendering, settings);
+        return CefBrowserFactory.create(
+                this, url, rendering.get(), isTransparent, context, settings);
     }
 
     @Override
@@ -343,6 +332,15 @@ public class CefClient extends CefClientHandler
         if (remoteClient != null) CefLog.Error("onBeforeContextMenu mustn't be called in remote mode (it seems that user manually called this method).");
         if (contextMenuHandler_ != null && browser != null)
             contextMenuHandler_.onBeforeContextMenu(browser, frame, params, model);
+    }
+
+    @Override
+    public boolean runContextMenu(CefBrowser browser, CefFrame frame, CefContextMenuParams params, CefMenuModel model, CefRunContextMenuCallback callback) {
+        if (remoteClient != null) CefLog.Error("The implementation for out-of-process is to be provided");
+        if (contextMenuHandler_ != null && browser != null) {
+            return contextMenuHandler_.runContextMenu(browser, frame, params, model, callback);
+        }
+        return false;
     }
 
     @Override
@@ -1233,10 +1231,21 @@ public class CefClient extends CefClientHandler
     }
 
     public static boolean isNativeBrowserCreationStarted(CefBrowser browser) {
-        if (browser instanceof CefNativeAdapter)
-            return ((CefNativeAdapter)browser).getNativeRef("CefBrowser") != 0;
         if (browser instanceof RemoteBrowser)
             return ((RemoteBrowser)browser).isNativeBrowserCreationStarted();
+        // Fallback to old logic (incorrect in general, since creation is always started before native ref obtained)
+        if (browser instanceof CefNativeAdapter)
+            return ((CefNativeAdapter)browser).getNativeRef("CefBrowser") != 0;
+
+        CefLog.Error("Unsupported CefBrowser: %s", browser);
+        return false;
+    }
+
+    public static boolean isNativeBrowserCreated(CefBrowser cefBrowser) {
+        if (cefBrowser instanceof RemoteBrowser)
+            return ((RemoteBrowser)cefBrowser).isNativeBrowserCreated();
+        if (cefBrowser instanceof CefNativeAdapter)
+            return ((CefNativeAdapter)cefBrowser).getNativeRef("CefBrowser") != 0;
         return false;
     }
 }

@@ -1,20 +1,32 @@
 #include "MessageRoutersManager.h"
 #include "RemoteMessageRouter.h"
 
-// remove to enable tracing
-#ifdef TRACE
-#undef TRACE
-#define TRACE()
-#endif
+static const bool doTrace = getBoolEnv("CEF_SERVER_TRACE_MessageRoutersManager");
 
 MessageRoutersManager::~MessageRoutersManager() {
-  base::AutoLock lockR(myRoutersLock);
-  base::AutoLock lockC(router_cfg_lock_);
-  for (auto router: myRouters) {
-    router_cfg_.erase(router->getConfig());
-    RemoteMessageRouter::dispose(router->getId());
+  TRACE();
+  std::vector<int> toDelete;
+  {
+    base::AutoLock lockR(myRoutersLock);
+    base::AutoLock lockC(router_cfg_lock_);
+    for (auto router : myRouters) {
+      router_cfg_.erase(router->getConfig());
+      toDelete.push_back(router->getId());
+    }
+    myRouters.clear();
   }
-  myRouters.clear();
+
+  for (int id: toDelete)
+    RemoteMessageRouter::dispose(id);
+}
+
+std::set<CefRefPtr<CefMessageRouterBrowserSide>> MessageRoutersManager::getMessageRouters() {
+  TRACE();
+  std::set<CefRefPtr<CefMessageRouterBrowserSide>> message_routers;
+  base::AutoLock lock_scope(myRoutersLock);
+  for (auto r: myRouters)
+    message_routers.insert(CefRefPtr<CefMessageRouterBrowserSide>(&r->getDelegate()));
+  return message_routers;
 }
 
 bool MessageRoutersManager::OnProcessMessageReceived(
@@ -28,12 +40,7 @@ bool MessageRoutersManager::OnProcessMessageReceived(
   // Iterate on a copy of |myRouters| to avoid re-entrancy of
   // |myRoutersLock| if the client CefMessageRouterHandler impl
   // calls CefClientHandler.addMessageRouter/removeMessageRouter.
-  std::set<CefRefPtr<CefMessageRouterBrowserSide>> message_routers;
-  {
-    base::AutoLock lock_scope(myRoutersLock);
-    for (auto r: myRouters)
-      message_routers.insert(CefRefPtr<CefMessageRouterBrowserSide>(&r->getDelegate()));
-  }
+  std::set<CefRefPtr<CefMessageRouterBrowserSide>> message_routers = getMessageRouters();
 
   for (auto& router : message_routers) {
     handled = router->OnProcessMessageReceived(browser, frame, source_process, message);
@@ -46,28 +53,25 @@ bool MessageRoutersManager::OnProcessMessageReceived(
 void MessageRoutersManager::OnBeforeClose(CefRefPtr<CefBrowser> browser) {
   TRACE();
   // NOTE: invoked on UI thread
-  base::AutoLock lock_scope(myRoutersLock);
-  for (auto& router : myRouters) {
-    router->getDelegate().OnBeforeClose(browser);
-  }
+  std::set<CefRefPtr<CefMessageRouterBrowserSide>> message_routers = getMessageRouters();
+  for (auto& router : message_routers)
+    router->OnBeforeClose(browser);
 }
 
 void MessageRoutersManager::OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame) {
   TRACE();
   // NOTE: invoked on UI thread
-  base::AutoLock lock_scope(myRoutersLock);
-  for (auto& router : myRouters) {
-    router->getDelegate().OnBeforeBrowse(browser, frame);
-  }
+  std::set<CefRefPtr<CefMessageRouterBrowserSide>> message_routers = getMessageRouters();
+  for (auto& router : message_routers)
+    router->OnBeforeBrowse(browser, frame);
 }
 
 void MessageRoutersManager::OnRenderProcessTerminated(CefRefPtr<CefBrowser> browser) {
   TRACE();
   // NOTE: invoked on UI thread
-  base::AutoLock lock_scope(myRoutersLock);
-  for (auto& router : myRouters) {
-    router->getDelegate().OnRenderProcessTerminated(browser);
-  }
+  std::set<CefRefPtr<CefMessageRouterBrowserSide>> message_routers = getMessageRouters();
+  for (auto& router : message_routers)
+    router->OnRenderProcessTerminated(browser);
 }
 
 // instantiate static values
@@ -96,19 +100,13 @@ CefRefPtr<CefListValue> MessageRoutersManager::GetMessageRouterConfigs() {
   return router_configs;
 }
 
-void MessageRoutersManager::ClearAllConfigs() {
-  TRACE();
-  base::AutoLock lock_scope(router_cfg_lock_);
-  router_cfg_.clear();
-}
-
-RemoteMessageRouter * MessageRoutersManager::CreateRemoteMessageRouter(std::shared_ptr<RpcExecutor> service, const std::string& query, const std::string& cancel) {
+RemoteMessageRouter * MessageRoutersManager::CreateRemoteMessageRouter(std::shared_ptr<ServerHandlerContext> ctx, const std::string& query, const std::string& cancel) {
   TRACE();
   CefMessageRouterConfig config;
   config.js_query_function = query;
   config.js_cancel_function = cancel;
   CefRefPtr<CefMessageRouterBrowserSide> msgRouter = CefMessageRouterBrowserSide::Create(config);
-  RemoteMessageRouter * result = RemoteMessageRouter::create(service, msgRouter, config);
+  RemoteMessageRouter * result = RemoteMessageRouter::create(ctx, msgRouter, config);
   {
     base::AutoLock lock_scope(myRoutersLock);
     myRouters.insert(result);

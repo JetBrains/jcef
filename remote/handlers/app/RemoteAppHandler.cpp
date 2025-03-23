@@ -3,22 +3,6 @@
 
 #include <fstream>
 
-#ifdef LNDCT
-#undef LNDCT
-#define LNDCT()
-#endif
-
-RemoteAppHandler* RemoteAppHandler::sInstance = nullptr;
-
-RemoteAppHandler* RemoteAppHandler::instance() {
-  return sInstance;
-}
-
-void RemoteAppHandler::initialize(
-    std::vector<std::string> switches, CefSettings settings, std::vector<std::pair<std::string, int>> schemes) {
-  sInstance = new RemoteAppHandler(switches, settings, schemes);
-}
-
 RemoteAppHandler::RemoteAppHandler(
     std::vector<std::string> switches,
     CefSettings settings,
@@ -28,11 +12,62 @@ RemoteAppHandler::RemoteAppHandler(
       mySchemes(schemes),
       myBrowserProcessHandler(new RemoteBrowserProcessHandler()) {}
 
+bool RemoteAppHandler::isDefaultRoot() const {
+  return getSettingRootPath().empty();
+}
+
+std::string RemoteAppHandler::getRootPath() const {
+  std::string rootFromSettings = getSettingRootPath();
+  if (!rootFromSettings.empty())
+    return rootFromSettings;
+
+#if defined(OS_WIN)
+  return "~\\AppData\\Local\\CEF\\User Data";
+#elif defined(OS_LINUX)
+  return "~/.config/cef_user_data";
+#elif defined(OS_MAC)
+  return "~/Library/Application Support/CEF/User Data";
+#endif
+}
+
+std::string RemoteAppHandler::getSettingRootPath() const {
+  /// The root directory for installation-specific data and the parent directory
+  /// for profile-specific data. All CefSettings.cache_path and
+  /// CefRequestContextSettings.cache_path values must have this parent
+  /// directory in common. If this value is empty and CefSettings.cache_path is
+  /// non-empty then it will default to the CefSettings.cache_path value. If both values are empty then
+  /// the default platform-specific directory will be used
+  /// ("~/.config/cef_user_data" directory on Linux, "~/Library/Application
+  /// Support/CEF/User Data" directory on MacOS, "AppData\Local\CEF\User Data"
+  /// directory under the user profile directory on Windows).
+  ///
+  /// Multiple application instances writing to the same root_cache_path
+  /// directory could result in data corruption. A process singleton lock based
+  /// on the root_cache_path value is therefore used to protect against this.
+  /// This singleton behavior applies to all CEF-based applications using
+  /// version 120 or newer. You should customize root_cache_path for your
+  /// application and implement CefBrowserProcessHandler::
+  /// OnAlreadyRunningAppRelaunch, which will then be called on any app relaunch
+  /// with the same root_cache_path value.
+  ///
+  /// Failure to set the root_cache_path value correctly may result in startup
+  /// crashes or other unexpected behaviors (for example, the sandbox blocking
+  /// read/write access to certain files).
+  ///
+  std::string root = CefString(&mySettings.root_cache_path).ToString();
+  if (!root.empty())
+    return root;
+  std::string cache = CefString(&mySettings.cache_path).ToString();
+  if (!cache.empty())
+    return cache;
+
+  return "";
+}
+
 void RemoteAppHandler::OnBeforeCommandLineProcessing(
     const CefString& process_type,
     CefRefPtr<CefCommandLine> command_line
 ) {
-  LNDCT();
   if (!process_type.empty())
     return;
 
@@ -107,8 +142,6 @@ void RemoteAppHandler::OnBeforeCommandLineProcessing(
 
 void RemoteAppHandler::OnRegisterCustomSchemes(
     CefRawPtr<CefSchemeRegistrar> registrar) {
-  LNDCT();
-
   // The registered scheme has to be forwarded to all other processes which will
   // be created by the browser process (e.g. the render-process). Otherwise
   // things like JS "localStorage" get/set will end up in a crashed

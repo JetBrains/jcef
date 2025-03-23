@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="javaLauncher" default="default" basedir=".">
 
-  <property name="jcef.version" value="122.1.9-gd14e051-chromium-122.0.6261.94-api-1.17"/>
+  <property name="jcef.version" value="122.1.9-gd14e051-chromium-122.0.6261.94-api-1.18"/>
 
   <property environment="env"/>
   <property name="out.path"   value="${env.OUT_PATH}"/>
@@ -12,7 +12,6 @@
   <path id="module.path">
     <pathelement location="third_party/jogamp/jar"/>
     <pathelement location="third_party/jogamp/jar/gluegen-rt.jar"/>
-    <pathelement location="third_party/thrift/libthrift-0.19.0.jar"/>
   </path>
 
   <condition property="jvm.opts"
@@ -70,7 +69,6 @@
     <fileset dir="third_party/junit" includes="junit-platform-console-standalone-1.10.0.jar"/>
     <fileset dir="third_party/jakarta" includes="jakarta.xml.bind-api-2.3.2.jar"/>
     <fileset dir="third_party/jbrapi" includes="jbr-api-17.1.10.0.jar"/>
-    <fileset dir="third_party/thrift" includes="libthrift-0.19.0.jar"/>
     <fileset dir="${out.path}" includes="jcef.jar"/>
   </path>
 

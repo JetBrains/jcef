@@ -1,7 +1,7 @@
 package com.jetbrains.cef.remote;
 
 import com.jetbrains.cef.remote.thrift_codegen.RObject;
-import org.apache.thrift.TException;
+import com.jetbrains.cef.remote.thrift.TException;
 import org.cef.misc.CefLog;
 
 import java.io.PrintWriter;
@@ -18,26 +18,24 @@ import java.util.Map;
 // Java object peer will be destroyed via usual gc.
 public abstract class RemoteServerObjectLocal {
     protected final int myId;
-    protected final RpcExecutor myServer;
+    protected final RpcContext myRpc;
     protected final Map<String, String> myCache = new HashMap<>();
 
-    public RemoteServerObjectLocal(RpcExecutor server, RObject robj) {
+    public RemoteServerObjectLocal(RpcContext rpcContext, RObject robj) {
         myId = robj.objId;
-        myServer = server;
+        myRpc = rpcContext;
         if (robj.objInfo != null)
             myCache.putAll(robj.objInfo);
     }
 
     public abstract void flush();
 
+    public RObject thriftId() { return new RObject(myId); }
+    public RObject thriftIdWithCache() { return new RObject(myId).setObjInfo(myCache); }
+
     //
     // Protected API
     //
-
-    protected RObject thriftId() { return new RObject(myId); }
-    protected RObject thriftIdWithCache() {
-        return new RObject(myId).setObjInfo(myCache);
-    }
 
     protected void onThriftException(TException e) {
         CefLog.Error("thrift exception '%s'", e.getMessage());

@@ -21,6 +21,29 @@
 
 #if defined(OS_WIN)
 #include <windows.h>
+#include <thread>
+#include <TlHelp32.h>
+
+DWORD GetParentProcessPid() {
+  HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+  if (hSnapshot == INVALID_HANDLE_VALUE)
+    return 0;
+
+  PROCESSENTRY32 processEntry = {};
+  processEntry.dwSize = sizeof(PROCESSENTRY32);
+
+  if (Process32First(hSnapshot, &processEntry)) {
+    DWORD CurrentProcessId = GetCurrentProcessId();
+    do {
+      if (processEntry.th32ProcessID == CurrentProcessId)
+        break;
+    } while (Process32Next(hSnapshot, &processEntry));
+  }
+
+  CloseHandle(hSnapshot);
+  return processEntry.th32ParentProcessID;
+}
+
 #endif
 
 namespace {
@@ -37,7 +60,18 @@ struct cmpCfg {
 
 class CefHelperApp : public CefApp, public CefRenderProcessHandler {
  public:
-  CefHelperApp() {}
+  CefHelperApp() {
+#if defined(OS_WIN)
+    // Initialize watchdog thread.
+    DWORD parentProcessPid = GetParentProcessPid();
+    HANDLE hParentProcess = OpenProcess(SYNCHRONIZE, FALSE, parentProcessPid);
+
+    std::thread([hParentProcess]() {
+      WaitForSingleObject(hParentProcess, INFINITE);
+      ExitProcess(0);
+    }).detach();
+#endif
+  }
 
   void OnRegisterCustomSchemes(
       CefRawPtr<CefSchemeRegistrar> registrar) override {

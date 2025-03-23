@@ -28,10 +28,10 @@ bool RemoteLifespanHandler::OnBeforePopup(
 {
   //LNDCT();
   RemoteFrame::Holder frm(frame);
-  return myService->exec<bool>([&](const RpcExecutor::Service& s){
+  return myService->exec<bool>([&](const JavaService& s){
     // TODO: support other params and return values
     Log::error("Unimplemented some params transferring");
-    return s->LifeSpanHandler_OnBeforePopup(myBid, frm.get()->serverIdWithMap(), target_url.ToString(), target_frame_name.ToString(), user_gesture);
+    return s->LifeSpanHandler_OnBeforePopup(myBid, frm.serverId(), target_url.ToString(), target_frame_name.ToString(), user_gesture);
   }, false);
 }
 
@@ -39,14 +39,14 @@ void RemoteLifespanHandler::OnAfterCreated(CefRefPtr<CefBrowser> browser) {
   LNDCT();
   myBrowser = browser;
   Log::trace("Created native browser id=%d [bid=%d]", browser->GetIdentifier(), myBid);
-  myService->exec([&](const RpcExecutor::Service& s){
+  myService->exec([&](const JavaService& s){
     s->LifeSpanHandler_OnAfterCreated(myBid, browser->GetIdentifier());
   });
 }
 
 bool RemoteLifespanHandler::DoClose(CefRefPtr<CefBrowser> browser) {
   LNDCT();
-  return myService->exec<bool>([&](const RpcExecutor::Service& s){
+  return myService->exec<bool>([&](const JavaService& s){
     return s->LifeSpanHandler_DoClose(myBid);
   }, false);
 }
@@ -56,7 +56,7 @@ void RemoteLifespanHandler::OnBeforeClose(CefRefPtr<CefBrowser> browser) {
   myBrowser = nullptr;
   myClientsManager->erase(myBid);
   myRoutersManager->OnBeforeClose(browser);
-  myService->exec([&](const RpcExecutor::Service& s){
+  myService->exec([&](const JavaService& s){
     s->LifeSpanHandler_OnBeforeClose(myBid);
   });
   Log::trace("Destroyed native browser, bid=%d", myBid);

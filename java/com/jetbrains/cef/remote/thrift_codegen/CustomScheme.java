@@ -7,20 +7,20 @@
 package com.jetbrains.cef.remote.thrift_codegen;
 
 @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
-public class CustomScheme implements org.apache.thrift.TBase<CustomScheme, CustomScheme._Fields>, java.io.Serializable, Cloneable, Comparable<CustomScheme> {
-  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("CustomScheme");
+public class CustomScheme implements com.jetbrains.cef.remote.thrift.TBase<CustomScheme, CustomScheme._Fields>, java.io.Serializable, Cloneable, Comparable<CustomScheme> {
+  private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("CustomScheme");
 
-  private static final org.apache.thrift.protocol.TField SCHEME_NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("schemeName", org.apache.thrift.protocol.TType.STRING, (short)1);
-  private static final org.apache.thrift.protocol.TField OPTIONS_FIELD_DESC = new org.apache.thrift.protocol.TField("options", org.apache.thrift.protocol.TType.I32, (short)2);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField SCHEME_NAME_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("schemeName", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)1);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField OPTIONS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("options", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)2);
 
-  private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new CustomSchemeStandardSchemeFactory();
-  private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new CustomSchemeTupleSchemeFactory();
+  private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new CustomSchemeStandardSchemeFactory();
+  private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new CustomSchemeTupleSchemeFactory();
 
-  public @org.apache.thrift.annotation.Nullable java.lang.String schemeName; // required
+  public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String schemeName; // required
   public int options; // required
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-  public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+  public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
     SCHEME_NAME((short)1, "schemeName"),
     OPTIONS((short)2, "options");
 
@@ -35,7 +35,7 @@ public class CustomScheme implements org.apache.thrift.TBase<CustomScheme, Custo
     /**
      * Find the _Fields constant that matches fieldId, or null if its not found.
      */
-    @org.apache.thrift.annotation.Nullable
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
     public static _Fields findByThriftId(int fieldId) {
       switch(fieldId) {
         case 1: // SCHEME_NAME
@@ -60,7 +60,7 @@ public class CustomScheme implements org.apache.thrift.TBase<CustomScheme, Custo
     /**
      * Find the _Fields constant that matches name, or null if its not found.
      */
-    @org.apache.thrift.annotation.Nullable
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
     public static _Fields findByName(java.lang.String name) {
       return byName.get(name);
     }
@@ -87,15 +87,15 @@ public class CustomScheme implements org.apache.thrift.TBase<CustomScheme, Custo
   // isset id assignments
   private static final int __OPTIONS_ISSET_ID = 0;
   private byte __isset_bitfield = 0;
-  public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+  public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
-    java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.SCHEME_NAME, new org.apache.thrift.meta_data.FieldMetaData("schemeName", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-    tmpMap.put(_Fields.OPTIONS, new org.apache.thrift.meta_data.FieldMetaData("options", org.apache.thrift.TFieldRequirementType.REQUIRED, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+    java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+    tmpMap.put(_Fields.SCHEME_NAME, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("schemeName", com.jetbrains.cef.remote.thrift.TFieldRequirementType.REQUIRED,
+        new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.OPTIONS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("options", com.jetbrains.cef.remote.thrift.TFieldRequirementType.REQUIRED,
+        new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
     metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(CustomScheme.class, metaDataMap);
+    com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(CustomScheme.class, metaDataMap);
   }
 
   public CustomScheme() {
@@ -134,12 +134,12 @@ public class CustomScheme implements org.apache.thrift.TBase<CustomScheme, Custo
     this.options = 0;
   }
 
-  @org.apache.thrift.annotation.Nullable
+  @com.jetbrains.cef.remote.thrift.annotation.Nullable
   public java.lang.String getSchemeName() {
     return this.schemeName;
   }
 
-  public CustomScheme setSchemeName(@org.apache.thrift.annotation.Nullable java.lang.String schemeName) {
+  public CustomScheme setSchemeName(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String schemeName) {
     this.schemeName = schemeName;
     return this;
   }
@@ -170,20 +170,20 @@ public class CustomScheme implements org.apache.thrift.TBase<CustomScheme, Custo
   }
 
   public void unsetOptions() {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __OPTIONS_ISSET_ID);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __OPTIONS_ISSET_ID);
   }
 
   /** Returns true if field options is set (has been assigned a value) and false otherwise */
   public boolean isSetOptions() {
-    return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __OPTIONS_ISSET_ID);
+    return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __OPTIONS_ISSET_ID);
   }
 
   public void setOptionsIsSet(boolean value) {
-    __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __OPTIONS_ISSET_ID, value);
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __OPTIONS_ISSET_ID, value);
   }
 
   @Override
-  public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+  public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
     switch (field) {
     case SCHEME_NAME:
       if (value == null) {
@@ -204,7 +204,7 @@ public class CustomScheme implements org.apache.thrift.TBase<CustomScheme, Custo
     }
   }
 
-  @org.apache.thrift.annotation.Nullable
+  @com.jetbrains.cef.remote.thrift.annotation.Nullable
   @Override
   public java.lang.Object getFieldValue(_Fields field) {
     switch (field) {
@@ -294,7 +294,7 @@ public class CustomScheme implements org.apache.thrift.TBase<CustomScheme, Custo
       return lastComparison;
     }
     if (isSetSchemeName()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.schemeName, other.schemeName);
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.schemeName, other.schemeName);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -304,7 +304,7 @@ public class CustomScheme implements org.apache.thrift.TBase<CustomScheme, Custo
       return lastComparison;
     }
     if (isSetOptions()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.options, other.options);
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.options, other.options);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -312,19 +312,19 @@ public class CustomScheme implements org.apache.thrift.TBase<CustomScheme, Custo
     return 0;
   }
 
-  @org.apache.thrift.annotation.Nullable
+  @com.jetbrains.cef.remote.thrift.annotation.Nullable
   @Override
   public _Fields fieldForId(int fieldId) {
     return _Fields.findByThriftId(fieldId);
   }
 
   @Override
-  public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+  public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
     scheme(iprot).read(iprot, this);
   }
 
   @Override
-  public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+  public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
     scheme(oprot).write(oprot, this);
   }
 
@@ -348,10 +348,10 @@ public class CustomScheme implements org.apache.thrift.TBase<CustomScheme, Custo
     return sb.toString();
   }
 
-  public void validate() throws org.apache.thrift.TException {
+  public void validate() throws com.jetbrains.cef.remote.thrift.TException {
     // check for required fields
     if (schemeName == null) {
-      throw new org.apache.thrift.protocol.TProtocolException("Required field 'schemeName' was not present! Struct: " + toString());
+      throw new com.jetbrains.cef.remote.thrift.protocol.TProtocolException("Required field 'schemeName' was not present! Struct: " + toString());
     }
     // alas, we cannot check 'options' because it's a primitive and you chose the non-beans generator.
     // check for sub-struct validity
@@ -359,8 +359,8 @@ public class CustomScheme implements org.apache.thrift.TBase<CustomScheme, Custo
 
   private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
     try {
-      write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-    } catch (org.apache.thrift.TException te) {
+      write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+    } catch (com.jetbrains.cef.remote.thrift.TException te) {
       throw new java.io.IOException(te);
     }
   }
@@ -369,50 +369,50 @@ public class CustomScheme implements org.apache.thrift.TBase<CustomScheme, Custo
     try {
       // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
       __isset_bitfield = 0;
-      read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-    } catch (org.apache.thrift.TException te) {
+      read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+    } catch (com.jetbrains.cef.remote.thrift.TException te) {
       throw new java.io.IOException(te);
     }
   }
 
-  private static class CustomSchemeStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+  private static class CustomSchemeStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
     @Override
     public CustomSchemeStandardScheme getScheme() {
       return new CustomSchemeStandardScheme();
     }
   }
 
-  private static class CustomSchemeStandardScheme extends org.apache.thrift.scheme.StandardScheme<CustomScheme> {
+  private static class CustomSchemeStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<CustomScheme> {
 
     @Override
-    public void read(org.apache.thrift.protocol.TProtocol iprot, CustomScheme struct) throws org.apache.thrift.TException {
-      org.apache.thrift.protocol.TField schemeField;
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, CustomScheme struct) throws com.jetbrains.cef.remote.thrift.TException {
+      com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
       iprot.readStructBegin();
       while (true)
       {
         schemeField = iprot.readFieldBegin();
-        if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+        if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) {
           break;
         }
         switch (schemeField.id) {
           case 1: // SCHEME_NAME
-            if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRING) {
               struct.schemeName = iprot.readString();
               struct.setSchemeNameIsSet(true);
             } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           case 2: // OPTIONS
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
               struct.options = iprot.readI32();
               struct.setOptionsIsSet(true);
             } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
           default:
-            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
         }
         iprot.readFieldEnd();
       }
@@ -420,13 +420,13 @@ public class CustomScheme implements org.apache.thrift.TBase<CustomScheme, Custo
 
       // check for required fields of primitive type, which can't be checked in the validate method
       if (!struct.isSetOptions()) {
-        throw new org.apache.thrift.protocol.TProtocolException("Required field 'options' was not found in serialized data! Struct: " + toString());
+        throw new com.jetbrains.cef.remote.thrift.protocol.TProtocolException("Required field 'options' was not found in serialized data! Struct: " + toString());
       }
       struct.validate();
     }
 
     @Override
-    public void write(org.apache.thrift.protocol.TProtocol oprot, CustomScheme struct) throws org.apache.thrift.TException {
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, CustomScheme struct) throws com.jetbrains.cef.remote.thrift.TException {
       struct.validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -444,25 +444,25 @@ public class CustomScheme implements org.apache.thrift.TBase<CustomScheme, Custo
 
   }
 
-  private static class CustomSchemeTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+  private static class CustomSchemeTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
     @Override
     public CustomSchemeTupleScheme getScheme() {
       return new CustomSchemeTupleScheme();
     }
   }
 
-  private static class CustomSchemeTupleScheme extends org.apache.thrift.scheme.TupleScheme<CustomScheme> {
+  private static class CustomSchemeTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<CustomScheme> {
 
     @Override
-    public void write(org.apache.thrift.protocol.TProtocol prot, CustomScheme struct) throws org.apache.thrift.TException {
-      org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, CustomScheme struct) throws com.jetbrains.cef.remote.thrift.TException {
+      com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
       oprot.writeString(struct.schemeName);
       oprot.writeI32(struct.options);
     }
 
     @Override
-    public void read(org.apache.thrift.protocol.TProtocol prot, CustomScheme struct) throws org.apache.thrift.TException {
-      org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, CustomScheme struct) throws com.jetbrains.cef.remote.thrift.TException {
+      com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
       struct.schemeName = iprot.readString();
       struct.setSchemeNameIsSet(true);
       struct.options = iprot.readI32();
@@ -470,8 +470,8 @@ public class CustomScheme implements org.apache.thrift.TBase<CustomScheme, Custo
     }
   }
 
-  private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
-    return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+  private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+    return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
   }
 }
 

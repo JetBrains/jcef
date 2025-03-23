@@ -16,13 +16,29 @@ using namespace apache::thrift::transport;
 
 using namespace thrift_codegen;
 
+class MyBinaryProtocol : public TBinaryProtocolT<TTransport> {
+ public:
+  explicit MyBinaryProtocol(const std::shared_ptr<TTransport>& trans) : TBinaryProtocolT(trans) {}
+
+  uint32_t writeMessageBegin_virt(const std::string& name,
+                                  const TMessageType messageType,
+                                  const int32_t seqid) override {
+    myLastMessageName = name;
+    return TVirtualProtocol::writeMessageBegin_virt(name, messageType, seqid);
+  }
+
+  const std::string& getLastMessageName() const { return myLastMessageName; }
+
+ private:
+  std::string myLastMessageName = "";
+};
+
 RpcExecutor::RpcExecutor(int port) {
-  myTransport = std::make_shared<TBufferedTransport>(std::make_shared<TSocket>("localhost", port));
-  myService = std::make_shared<ClientHandlersClient>(std::make_shared<TBinaryProtocol>(myTransport));
+  myTransport = std::make_shared<TBufferedTransport>(std::make_shared<TSocket>("127.0.0.1", port));
+  myProtocol = std::make_shared<MyBinaryProtocol>(myTransport);
+  myService = std::make_shared<ClientHandlersClient>(myProtocol);
 
   myTransport->open();
-  const int32_t backwardCid = myService->connect();
-  Log::trace("Backward tcp connection to client established, backwardCid=%d.", backwardCid);
 }
 
 RpcExecutor::RpcExecutor(std::string pipeName) {
@@ -31,11 +47,21 @@ RpcExecutor::RpcExecutor(std::string pipeName) {
 #else
   myTransport = std::make_shared<TSocket>(pipeName.c_str());
 #endif
-  myService = std::make_shared<ClientHandlersClient>(std::make_shared<TBinaryProtocol>(myTransport));
+  myProtocol = std::make_shared<MyBinaryProtocol>(myTransport);
+  myService = std::make_shared<ClientHandlersClient>(myProtocol);
 
   myTransport->open();
-  const int32_t backwardCid = myService->connect();
-  Log::trace("Backward pipe connection to client established, backwardCid=%d.", backwardCid);
+}
+
+std::string RpcExecutor::getProcessingName() const { return myProtocol->getLastMessageName(); }
+
+void RpcExecutor::beforeExec() {
+  myIsProcessing = true;
+  myStartExec = Clock::now();
+}
+
+void RpcExecutor::afterExec() {
+  myIsProcessing = false;
 }
 
 void RpcExecutor::close() {
@@ -52,7 +78,7 @@ void RpcExecutor::close() {
   }
 }
 
-void RpcExecutor::exec(std::function<void(Service)> rpc) {
+void RpcExecutor::exec(std::function<void(JavaService)> rpc) {
   Lock lock(myMutex);
 
   if (myService == nullptr) {
@@ -61,9 +87,13 @@ void RpcExecutor::exec(std::function<void(Service)> rpc) {
   }
 
   try {
+    beforeExec();
     rpc(myService);
+    afterExec();
+    return;
   } catch (apache::thrift::TException& tx) {
     Log::debug("thrift exception occured: %s", tx.what());
     close();
   }
+  afterExec();
 }

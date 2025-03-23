@@ -6,6 +6,8 @@ import org.cef.browser.CefBrowser;
 import org.cef.browser.CefRendering;
 import org.cef.handler.CefRenderHandler;
 
+import java.util.function.Supplier;
+
 public class OsrSupport {
     public static boolean isEnabled() {
         return CefApp.isRemoteEnabled() || Boolean.getBoolean("jcef.tests.osr");
@@ -17,5 +19,16 @@ public class OsrSupport {
         CefBrowser browser = client.createBrowser(startURL, new CefRendering.CefRenderingWithHandler(osrHandler, osrComponent), false);
         osrComponent.setBrowser(browser);
         return browser;
+    }
+
+    public static Supplier<CefRendering> createRenderingFactory() {
+        return new Supplier<CefRendering>() {
+            @Override
+            public CefRendering get() {
+                JBCefOsrComponent osrComponent = new JBCefOsrComponent();
+                JBCefOsrHandler osrHandler = new JBCefOsrHandler(osrComponent, null);
+                return new CefRendering.CefRenderingWithHandler(osrHandler, osrComponent);
+            }
+        };
     }
 }

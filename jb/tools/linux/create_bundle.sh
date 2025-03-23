@@ -51,7 +51,6 @@ rm -rf "$ARTIFACT"
 ls -lah "$ARTIFACT.tar.gz"
 
 echo "*** create cef_server archive..."
-cp third_party/thrift/libthrift-0.19.0.jar cef_server
 tar -cvzf "$ARTIFACT_SERVER.tar.gz" -C "cef_server" $(ls "cef_server")
 rm -rf "cef_server"
 ls -lah "$ARTIFACT_SERVER.tar.gz"

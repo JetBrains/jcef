@@ -662,4 +662,9 @@ class CefBrowserOsr extends CefBrowser_N implements CefRenderHandler {
             return future;
         }
     }
+
+    @Override
+    public boolean isWindowless() {
+        return true;
+    }
 }

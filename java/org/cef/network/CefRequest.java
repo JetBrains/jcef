@@ -337,7 +337,7 @@ public abstract class CefRequest extends CefNativeAdapter {
      * Create a new CefRequest object.
      */
     public static final CefRequest create() {
-        return CefApp.isRemoteEnabled() ? new RemoteRequest() : CefRequest_N.createNative();
+        return CefApp.isRemoteEnabled() ? new RemoteRequest(CefApp.getInstance().getServer()) : CefRequest_N.createNative();
     }
 
     /**

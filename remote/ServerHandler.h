@@ -22,18 +22,20 @@ class ServerHandler : public thrift_codegen::ServerIf {
   //
   int32_t connect(const std::string& backwardConnectionPipe, bool isMaster) override;
   int32_t connectTcp(int backwardConnectionPort, bool isMaster) override;
+  void attach(int cid) override;
   void log(const std::string& msg) override { Log::info("received message from client: %s", msg.c_str()); }
   void echo(std::string& _return, const std::string& msg) override { _return.assign(msg); }
   void stop() override;
-  void state(std::string& _return) override;
-  void version(std::string& _return) override;
+  void getServerInfo(std::string& _return, const std::string& request) override;
 
   //
   // CefBrowser
   //
   int32_t Browser_Create(int cid, int handlersMask, const thrift_codegen::RObject& requestContextHandler) override;
   void Browser_StartNativeCreation(int bid, const std::string& url) override;
+  void Browser_StartNativeDevToolsCreation(int bid, int parentBid, int x, int y) override;
   void Browser_Close(const int32_t bid) override;
+  void Browser_CloseDevTools(const int32_t bid) override;
 
   void Browser_Reload(const int32_t bid) override;
   void Browser_ReloadIgnoreCache(const int32_t bid) override;
@@ -43,7 +45,7 @@ class ServerHandler : public thrift_codegen::ServerIf {
   void Browser_ExecuteJavaScript(const int32_t bid,const std::string& code,const std::string& url,const int32_t line) override;
   void Browser_WasResized(const int32_t bid) override;
   void Browser_NotifyScreenInfoChanged(const int32_t bid) override;
-  void Browser_SendKeyEvent(const int32_t bid,const int32_t event_type,const int32_t modifiers,const int16_t key_char,const int64_t scanCode,const int32_t key_code) override;
+  void Browser_SendCefKeyEvent(const int32_t bid, const thrift_codegen::CefKeyEventAttributes& event) override;
   void Browser_SendMouseEvent(const int32_t bid,const int32_t event_type,const int32_t x,const int32_t y,const int32_t modifiers,const int32_t click_count,const int32_t button) override;
   void Browser_SendMouseWheelEvent(const int32_t bid,const int32_t scroll_type,const int32_t x,const int32_t y,const int32_t modifiers,const int32_t delta,const int32_t units_to_scroll) override;
 
@@ -73,6 +75,28 @@ class ServerHandler : public thrift_codegen::ServerIf {
   void Browser_StopFinding(const int32_t bid, const bool clearSelection) override;
   void Browser_ReplaceMisspelling(const int32_t bid, const std::string& word) override;
   void Browser_SetFrameRate(const int32_t bid, int32_t val) override;
+  void Browser_AddDevToolsMessageObserver(
+      thrift_codegen::RObject& _return,
+      const int32_t bid,
+      const thrift_codegen::RObject& observer) override;
+  void Browser_ExecuteDevToolsMethod(
+      const int32_t bid,
+      const std::string& method,
+      const std::string& parametersAsJson,
+      const thrift_codegen::RObject& intCallback) override;
+  void Browser_RunFileDialog(
+      const int32_t bid,
+      const std::string& mode,
+      const std::string& title,
+      const std::string& defaultFilePath,
+      const std::vector<std::string>& acceptFilters,
+      const thrift_codegen::RObject& runFileDialogCallback) override;
+  void Browser_PrintToPDF(
+      const int32_t bid,
+      const std::string& path,
+      const std::map<std::string, std::string>& pdfPrintSettings,
+      const thrift_codegen::RObject& pdfPrintCallback) override;
+  void Browser_Print(const int32_t bid) override;
 
   //
   // CefFrame
@@ -119,6 +143,10 @@ class ServerHandler : public thrift_codegen::ServerIf {
   void Callback_Continue(const thrift_codegen::RObject& callback) override;
   void Callback_Cancel(const thrift_codegen::RObject& callback) override;
 
+  void CefRunContextMenuCallback_Dispose(const thrift_codegen::RObject& self) override;
+  void CefRunContextMenuCallback_Continue(const thrift_codegen::RObject& self, const int32_t command_id, const int32_t event_flag) override;
+  void CefRunContextMenuCallback_Cancel(const thrift_codegen::RObject& self) override;
+
   //
   // CefMessageRouter
   //
@@ -163,13 +191,26 @@ class ServerHandler : public thrift_codegen::ServerIf {
       const thrift_codegen::RObject& cookieManager,
       const thrift_codegen::RObject& completionCallback) override;
 
+  void Registration_Dispose(
+      const thrift_codegen::RObject& registration) override;
+
+  // CefMediaAccessCallback
+  void MediaAccessCallback_Dispose(const thrift_codegen::RObject& mediaAccessCallback) override;
+  void MediaAccessCallback_Continue(const thrift_codegen::RObject& mediaAccessCallback, const int32_t allowed_permissions) override;
+  void MediaAccessCallback_Cancel( const thrift_codegen::RObject& mediaAccessCallback) override;
+
+  std::shared_ptr<ServerHandlerContext> getCtx() const { return myCtx; }
+  int getCid() const { return myCid; }
+
  private:
   bool myIsMaster = false;
   bool myIsClosed = false;
+  int myCid = -1;
   std::shared_ptr<ServerHandlerContext> myCtx;
 
   int connectImpl(std::function<void()> openBackwardTransport);
   void close();
+
 };
 
 #endif  // JCEF_SERVERHANDLER_H

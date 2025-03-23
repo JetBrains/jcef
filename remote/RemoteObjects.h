@@ -6,38 +6,52 @@
 #include "RpcExecutor.h"
 #include "include/internal/cef_ptr.h"
 #include "log/Log.h"
+#include "ServerHandlerContext.h"
 
 template <class T>
 class ServerObjectsFactory {
  public:
   T* create(std::function<T*(int)> creator) {
+    if (!myTracePrefix.empty()) Log::trace("[%s] create", myTracePrefix.c_str());
     Lock lock(MUTEX);
 
     static int id = 0;
     const int newId = id++;
     T* result = creator(newId);
     INSTANCES[newId] = result;
+    if (!myTracePrefix.empty()) Log::trace("[%s] created %d", myTracePrefix.c_str(), newId);
     return result;
   }
 
   T* find(int id) {
+    if (!myTracePrefix.empty()) Log::trace("[%s] find %d", myTracePrefix.c_str(), id);
     Lock lock(MUTEX);
     return INSTANCES[id];
   }
 
   void dispose(int id, bool doDelete) {
-    Lock lock(MUTEX);
-    T* r = INSTANCES[id];
-    if (r != nullptr) {
-      if (doDelete)
-        delete r;
-      INSTANCES.erase(id);
+    if (!myTracePrefix.empty()) Log::trace("[%s] dispose %d [del=%d]", myTracePrefix.c_str(), id, (int)doDelete);
+    T* r = nullptr;
+    {
+      Lock lock(MUTEX);
+      r = INSTANCES[id];
+      if (r != nullptr)
+        INSTANCES.erase(id);
+    }
+
+    if (r != nullptr && doDelete) {
+      if (!myTracePrefix.empty()) Log::trace("[%s] delete %d", myTracePrefix.c_str(), id);
+      delete r;
+      if (!myTracePrefix.empty()) Log::trace("[%s] disposed %d", myTracePrefix.c_str(), id);
     }
   }
+
+  void trace(const std::string & prefix) { myTracePrefix = prefix; }
 
  private:
   std::map<int, T*> INSTANCES;
   std::recursive_mutex MUTEX;
+  std::string myTracePrefix;
 };
 
 template <class T, class D>
@@ -51,7 +65,7 @@ class RemoteServerObjectBase {
 
   int getId() { return myId; }
 
-  thrift_codegen::RObject serverId() {
+  virtual thrift_codegen::RObject serverId() {
     thrift_codegen::RObject robj;
     robj.__set_objId(myId);
     return robj;
@@ -85,6 +99,10 @@ class RemoteServerObject : public RemoteServerObjectBase<T> {
   explicit RemoteServerObject(int id, CefRefPtr<D> delegate) : RemoteServerObjectBase<T>(id), myDelegate(delegate.get()) {
     myDelegate->AddRef();
   }
+
+  RemoteServerObject(const RemoteServerObject&) = delete;
+  RemoteServerObject(RemoteServerObject&&) = delete;
+
   ~RemoteServerObject() override {
     myDelegate->Release();
   }
@@ -92,6 +110,10 @@ class RemoteServerObject : public RemoteServerObjectBase<T> {
   D& getDelegate() { return *myDelegate; }
 
   static T* wrapDelegate(CefRefPtr<D> delegate) {
+    if (!delegate) {
+      Log::error("wrapDelegate: null delegate");
+      return nullptr;
+    }
     return RemoteServerObjectBase<T>::create([&](int id) -> T* {return new T(delegate, id);});
   }
 
@@ -105,7 +127,7 @@ class RemoteServerObjectUpdatable : public RemoteServerObject<T, D> {
   explicit RemoteServerObjectUpdatable(int id, CefRefPtr<D> delegate) : RemoteServerObject<T, D>(id, delegate) {}
   ~RemoteServerObjectUpdatable() override {}
 
-  thrift_codegen::RObject serverIdWithMap() {
+  virtual thrift_codegen::RObject serverId() override {
     thrift_codegen::RObject robj;
     robj.__set_objId(RemoteServerObject<T, D>::myId);
     robj.__set_objInfo(toMap());
@@ -131,15 +153,21 @@ class RemoteServerObjectUpdatable : public RemoteServerObject<T, D> {
 template <class T>
 class RemoteJavaObject {
  public:
-  explicit RemoteJavaObject(std::shared_ptr<RpcExecutor> service, int peerId, std::function<void(RpcExecutor::Service)> disposer)
-      : myService(service),
+  explicit RemoteJavaObject(std::shared_ptr<ServerHandlerContext> ctx, int peerId, std::function<void(JavaService)> disposer)
+      : myCtx(ctx),
         myPeerId(peerId),
-        myDisposer(disposer) {}
+        myDisposer(std::make_shared<std::function<void(JavaService)>>(disposer)) {}
+
+  explicit RemoteJavaObject(std::shared_ptr<ServerHandlerContext> ctx, int peerId)
+      : myCtx(ctx),
+        myPeerId(peerId),
+        myDisposer(nullptr) {}
 
   virtual ~RemoteJavaObject() {
-    myService->exec([&](RpcExecutor::Service s){
-      myDisposer(s);
-    });
+    if (myDisposer != nullptr) {
+      std::shared_ptr<std::function<void(JavaService)>> d = myDisposer;
+      myCtx->invokeLater([=](JavaService s) { d->operator()(s); });
+    }
   }
 
   thrift_codegen::RObject javaId() {
@@ -151,18 +179,29 @@ class RemoteJavaObject {
  protected:
   const int myPeerId; // java-peer (delegate)
   std::recursive_mutex myMutex;
-  std::shared_ptr<RpcExecutor> myService;
-  std::function<void(RpcExecutor::Service)> myDisposer;
+  std::shared_ptr<ServerHandlerContext> myCtx;
+  std::shared_ptr<std::function<void(JavaService)>> myDisposer;
 };
 
 template <class T, class D>
 class RemoteServerObjectHolder {
  public:
   explicit RemoteServerObjectHolder(CefRefPtr<D>& delegate) {
-    myRemoteObj = RemoteServerObjectBase<T>::create([&](int id) -> T* {return new T(delegate, id);});
+    if (delegate)
+      myRemoteObj = RemoteServerObjectBase<T>::create([&](int id) -> T* {return new T(delegate, id);});
   }
   ~RemoteServerObjectHolder() {
-    RemoteServerObject<T, D>::dispose(myRemoteObj->getId());
+    if (myRemoteObj != nullptr)
+      RemoteServerObject<T, D>::dispose(myRemoteObj->getId());
+  }
+
+  thrift_codegen::RObject serverId() {
+    if (myRemoteObj != nullptr)
+      return myRemoteObj->serverId();
+
+    thrift_codegen::RObject result;
+    result.__set_objId(-1);
+    return result;
   }
 
   T * get() { return myRemoteObj; }

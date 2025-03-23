@@ -1,9 +1,11 @@
 package com.jetbrains.cef.remote.network;
 
 import com.jetbrains.cef.remote.CefServer;
+import com.jetbrains.cef.remote.RpcContext;
 import com.jetbrains.cef.remote.RpcExecutor;
 import com.jetbrains.cef.remote.callback.RemoteCompletionCallback;
 import com.jetbrains.cef.remote.thrift_codegen.RObject;
+import org.cef.CefApp;
 import org.cef.browser.CefRequestContext;
 import org.cef.callback.CefCompletionCallback;
 import org.cef.handler.CefRequestContextHandler;
@@ -17,14 +19,14 @@ public class RemoteRequestContext extends CefRequestContext {
     private final CefRequestContextHandler myHandler;
     private RemoteRequestContextHandler myRemoteWrapper;
     private int myBid = -1;
-    private RpcExecutor myRpc;
+    private RpcContext myRpc;
 
     // Creates wrapper for global CefRequestContext instance
-    public RemoteRequestContext() {
+    public RemoteRequestContext(CefServer server) {
         myHandler = null;
-        CefServer.instance().onConnected(()->{
+        server.onConnected(()->{
             synchronized (myDelayedActions) {
-                myRpc = CefServer.instance().getService();
+                myRpc = server.getRpcContext();
                 myDelayedActions.forEach(r -> r.run());
                 myDelayedActions.clear();
             }
@@ -37,11 +39,11 @@ public class RemoteRequestContext extends CefRequestContext {
     }
 
     // Will be called for browser's instance immediately after bid obtained.
-    public void setBid(int bid) {
+    public void setBid(int bid, RpcContext ctx) {
         assert bid >= 0;
         myBid = bid;
         synchronized (myDelayedActions) {
-            myRpc = CefServer.instance().getService();// bid is obtained => server is connected
+            myRpc = ctx;// bid is obtained => server is connected
             myDelayedActions.forEach(r -> r.run());
             myDelayedActions.clear();
         }

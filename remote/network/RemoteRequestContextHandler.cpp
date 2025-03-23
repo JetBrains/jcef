@@ -5,13 +5,12 @@
 #include "../browser/RemoteFrame.h"
 #include "../browser/ClientsManager.h"
 
+const bool doTrace = getBoolEnv("CEF_SERVER_TRACE_RemoteRequestContextHandler");
+
 RemoteRequestContextHandler::RemoteRequestContextHandler(std::shared_ptr<ServerHandlerContext> ctx, thrift_codegen::RObject peer) :
-      RemoteJavaObject<RemoteRequestContextHandler>(
-            ctx->javaService(),
-            peer.objId,
-            [=](std::shared_ptr<thrift_codegen::ClientHandlersClient> service) {
-              // Nothing to do, because lifetime of java-peer is managed by java owner (RemoteRequestContext)
-            }), myCtx(ctx) {}
+      RemoteJavaObject<RemoteRequestContextHandler>(ctx, peer.objId), myCtx(ctx) { // Empty disposer because lifetime of java-peer is managed by java owner (RemoteRequestContext)
+  TRACE();
+}
 
 CefRefPtr<CefResourceRequestHandler> RemoteRequestContextHandler::GetResourceRequestHandler(
     CefRefPtr<CefBrowser> browser,
@@ -23,6 +22,7 @@ CefRefPtr<CefResourceRequestHandler> RemoteRequestContextHandler::GetResourceReq
     bool& disable_default_handling
 ) {
   // Called on the browser process IO thread before a resource request is initiated.
+  TRACE();
   LogNdc ndc(__FILE_NAME__, __FUNCTION__, 500, false, false, "ChromeIO");
 
   int bid = myCtx->clientsManager()->findRemoteBrowser(browser);
@@ -31,11 +31,11 @@ CefRefPtr<CefResourceRequestHandler> RemoteRequestContextHandler::GetResourceReq
   RemoteFrame::Holder frm(frame);
   thrift_codegen::RObject peer;
   peer.__set_objId(-1);
-  myService->exec([&](RpcExecutor::Service s){
+  myCtx->javaService()->exec([&](JavaService s){
     s->RequestContextHandler_GetResourceRequestHandler(
-        peer, myPeerId, bid, frm.get()->serverIdWithMap(), req.get()->serverIdWithMap(), is_navigation, is_download, request_initiator.ToString());
+        peer, myPeerId, bid, frm.serverId(), req.serverId(), is_navigation, is_download, request_initiator.ToString());
   });
 
   disable_default_handling = peer.__isset.flags ? peer.flags != 0 : false;
-  return peer.objId != -1 ? new RemoteResourceRequestHandler(bid, myCtx->javaServiceIO(), peer) : nullptr;
+  return peer.objId != -1 ? new RemoteResourceRequestHandler(bid, myCtx, peer) : nullptr;
 }

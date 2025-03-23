@@ -76,4 +76,21 @@ std::string GetTempFile(const std::string& identifer, bool useParentId) {
   return tmpName.str();
 }
 } // namespace utils
-#endif
+
+#endif // OS_WIN
+
+bool getBoolEnv(const std::string & envName) {
+  const char* sval = getenv(envName.c_str());
+  if (sval == nullptr)
+    return false;
+
+  return strcmp(sval, "1") == 0 || strcmp(sval, "true") == 0;
+}
+
+long getLongEnv(const std::string & envName, long defVal) {
+  const char* sval = getenv(envName.c_str());
+  if (sval == nullptr)
+    return defVal;
+
+  return atol(sval);
+}

@@ -1,25 +1,41 @@
 #include "ClientsManager.h"
-#include "../ServerState.h"
+#include "../ServerApplication.h"
 #include "../handlers/RemoteClientHandler.h"
 #include "../router/MessageRoutersManager.h"
 #include "include/base/cef_callback.h"
+#include "include/cef_app.h"
 #include "include/cef_task.h"
 #include "include/wrapper/cef_closure_task.h"
-#include "include/cef_app.h"
+
+struct CreationParams {
+  int bid;
+  CefRefPtr<CefBrowser> parentBrowser;
+  CefPoint inspectAt;
+  std::string url;
+};
 
 ClientsManager::ClientsManager() : myRemoteClients(std::make_shared<ClientsStorage>()) {}
 
 namespace {
   void createBrowserImpl(
       int cid, int bid, CefRefPtr<RemoteClientHandler> clienthandler,
-      const std::string& url,
+      std::shared_ptr<CreationParams> params,
       std::function<void(int)> onCreationFailed
   ) {
     // Should be called on UI thread
     CefWindowInfo windowInfo;
     windowInfo.SetAsWindowless(0);
 
+    // TODO: get real CefBrowserSettings from java
     CefBrowserSettings settings;
+
+    // If parentBrowser is set, we want to show the DEV-Tools for that browser
+    if (params->parentBrowser.get() != nullptr) {
+      //Log::trace( "CefBrowserHost::ShowDevTools cid=%d, bid=%d", cid, bid);
+      params->parentBrowser->GetHost()->ShowDevTools(windowInfo, clienthandler,
+                                             settings, params->inspectAt);
+      return;
+    }
 
     CefRefPtr<CefDictionaryValue> extra_info;
     auto router_configs = MessageRoutersManager::GetMessageRouterConfigs();
@@ -30,7 +46,7 @@ namespace {
     }
 
     //Log::trace( "CefBrowserHost::CreateBrowser cid=%d, bid=%d", cid, bid);
-    bool result = CefBrowserHost::CreateBrowser(windowInfo, clienthandler, url,
+    bool result = CefBrowserHost::CreateBrowser(windowInfo, clienthandler, params->url,
                                                 settings, extra_info, clienthandler->getRequestContext());
     if (!result) {
       Log::error( "Failed to create browser with cid=%d, bid=%d", cid, bid);
@@ -57,8 +73,8 @@ int ClientsManager::createBrowser(
   return bid;
 }
 
-void ClientsManager::startNativeBrowserCreation(int bid, const std::string & url) {
-  CefRefPtr<RemoteClientHandler> clienthandler = myRemoteClients->get(bid);
+void ClientsManager::startCreationImpl(std::shared_ptr<CreationParams> params) {
+  CefRefPtr<RemoteClientHandler> clienthandler = myRemoteClients->get(params->bid);
   if (!clienthandler)
     return;
 
@@ -67,10 +83,35 @@ void ClientsManager::startNativeBrowserCreation(int bid, const std::string & url
     storage->erase(bid);
   };
   if (CefCurrentlyOn(TID_UI)) {
-    createBrowserImpl(clienthandler->getCid(), bid, clienthandler, url, remove);
+    createBrowserImpl(clienthandler->getCid(), params->bid, clienthandler, params, remove);
   } else {
-    CefPostTask(TID_UI, base::BindOnce(&createBrowserImpl, clienthandler->getCid(), bid, clienthandler, url, remove));
+    CefPostTask(TID_UI, base::BindOnce(&createBrowserImpl, clienthandler->getCid(), params->bid, clienthandler, params, remove));
   }
+}
+
+void ClientsManager::startNativeBrowserCreation(int bid, const std::string & url) {
+  std::shared_ptr<CreationParams> params = std::make_shared<CreationParams>();
+  params->bid = bid;
+  params->url = url;
+  startCreationImpl(params);
+}
+
+void ClientsManager::startNativeDevToolsCreation(int bid, int parentBid, int x, int y) {
+  CefRefPtr<RemoteClientHandler> parentHandler = myRemoteClients->get(parentBid);
+  if (!parentHandler)
+    return;
+
+  CefRefPtr<CefBrowser> parentBrowser = parentHandler->getCefBrowser();
+  if (!parentBrowser) {
+    Log::error("Can't create dev-tools for bid=%d,parentBid=%d because native CefBrowser wasn't created yet.", bid, parentBid);
+    return;
+  }
+  std::shared_ptr<CreationParams> params = std::make_shared<CreationParams>();
+  params->bid = bid;
+  params->parentBrowser = parentBrowser;
+  params->inspectAt.x = x;
+  params->inspectAt.y = y;
+  startCreationImpl(params);
 }
 
 CefRefPtr<CefBrowser> ClientsManager::getCefBrowser(int bid) {
@@ -107,8 +148,12 @@ void ClientsManager::closeBrowser(const int32_t bid) {
   client->closeBrowser();
 }
 
-std::string ClientsManager::closeAllBrowsers() {
+bool ClientsManager::closeAllBrowsers() {
   return myRemoteClients->closeAll();
+}
+
+std::vector<int> ClientsManager::enumAllBrowsers() {
+  return myRemoteClients->enumClients();
 }
 
 void ClientsManager::erase(int bid) {
@@ -120,24 +165,28 @@ CefRefPtr<RemoteClientHandler> ClientsManager::ClientsStorage::get(int bid) {
   return myBid2Client[bid];
 }
 
-std::string ClientsManager::ClientsStorage::enumClients() {
-  std::stringstream ss;
+std::vector<int> ClientsManager::ClientsStorage::enumClients() {
+  Lock lock(myMutex);
+  std::vector<int> result;
   for (auto const& rc : myBid2Client) {
     CefRefPtr<RemoteClientHandler> client = rc.second;
     if (client)
-      ss << client->getBid() << ", ";
+      result.push_back(client->getBid());
   }
-  return ss.str();
+  return result;
 }
 
-std::string ClientsManager::ClientsStorage::closeAll() {
+bool ClientsManager::ClientsStorage::closeAll() {
+  bool isEmpty = true;
   Lock lock(myMutex);
   for (auto const& rc : myBid2Client) {
     CefRefPtr<RemoteClientHandler> client = rc.second;
-    if (client)
+    if (client) {
       client->closeBrowser();
+      isEmpty = false;
+    }
   }
-  return enumClients();
+  return isEmpty;
 }
 
 void ClientsManager::ClientsStorage::set(int bid, CefRefPtr<RemoteClientHandler> val) {
@@ -146,9 +195,11 @@ void ClientsManager::ClientsStorage::set(int bid, CefRefPtr<RemoteClientHandler>
 }
 
 void ClientsManager::ClientsStorage::erase(int bid) {
-  Lock lock(myMutex);
-  myBid2Client.erase(bid);
-  ServerState::instance().onClientDestroyed(enumClients());
+  {
+    Lock lock(myMutex);
+    myBid2Client.erase(bid);
+  }
+  ServerApplication::instance().onRemoteClientHandlerDestroyed();
 }
 
 int ClientsManager::ClientsStorage::findRemoteBrowser(CefRefPtr<CefBrowser> browser) {

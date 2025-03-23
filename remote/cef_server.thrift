@@ -19,15 +19,25 @@ include "shared.thrift"
 namespace cpp thrift_codegen
 namespace java com.jetbrains.cef.remote.thrift_codegen
 
+struct CefKeyEventAttributes {
+    1: required i32 type,
+    2: required i32 modifiers,
+    3: required i32 windows_key_code,
+    4: required i32 native_key_code,
+    5: required i16 character,
+    6: required i16 unmodified_character,
+    7: required bool is_system_key,
+}
+
 service Server {
     // Pass isMaster=true to mark client as 'master'.
     // The server will stops itself after last master-client disconnected.
     i32 connect(1: string backwardConnectionPipe, 2: bool isMaster),
     i32 connectTcp(1: i32 backwardConnectionPort, 2: bool isMaster),
+    void attach(1: i32 cid),
     oneway void log(1: string msg),
     string echo(1: string msg),
-    string version(),
-    string state(),
+    string getServerInfo(1:string request)
     oneway void stop(),
 
     //
@@ -35,17 +45,19 @@ service Server {
     //
     i32            Browser_Create(1: i32 cid, 2: i32 handlersMask, 3:shared.RObject requestContextHandler),
     oneway void    Browser_StartNativeCreation(1: i32 bid, 2: string url),
+    oneway void    Browser_StartNativeDevToolsCreation(1: i32 bid, 2: i32 parentBid, 3: i32 x, 4: i32 y),
     oneway void    Browser_Close(1: i32 bid),
+    oneway void    Browser_CloseDevTools(1: i32 bid),
 
     oneway void    Browser_Reload(1: i32 bid),
     oneway void    Browser_ReloadIgnoreCache(1: i32 bid),
     oneway void    Browser_LoadURL(1: i32 bid, 2: string url),
-    oneway void    Browser_LoadRequest(1: i32 bid, 2: shared.RObject request),
+    void           Browser_LoadRequest(1: i32 bid, 2: shared.RObject request),
     string         Browser_GetURL(1: i32 bid),
     oneway void    Browser_ExecuteJavaScript(1: i32 bid, 2: string code, 3: string url, 4: i32 line),
     oneway void    Browser_WasResized(1: i32 bid), // The browser will then call CefRenderHandler#GetViewRect to update the size of view area with the new values.
     oneway void    Browser_NotifyScreenInfoChanged(1: i32 bid),  // The browser will then call CefRenderHandler#GetScreenInfo to update the screen information with the new values.
-    oneway void    Browser_SendKeyEvent(1: i32 bid, 2: i32 event_type, 3: i32 modifiers, 4: i16 key_char, 5: i64 scanCode, 6: i32 key_code),
+    oneway void    Browser_SendCefKeyEvent(1: i32 bid, 2: CefKeyEventAttributes event),
     oneway void    Browser_SendMouseEvent(1: i32 bid, 2: i32 event_type, 3: i32 x, 4: i32 y, 5: i32 modifiers, 6: i32 click_count, 7: i32 button),
     oneway void    Browser_SendMouseWheelEvent(1: i32 bid, 2: i32 scroll_type, 3: i32 x, 4: i32 y, 5: i32 modifiers, 6: i32 delta, 7: i32 units_to_scroll),
     bool           Browser_CanGoForward(1: i32 bid),
@@ -64,8 +76,8 @@ service Server {
     bool           Browser_IsPopup(1: i32 bid),
     bool           Browser_HasDocument(1: i32 bid),
     oneway void    Browser_ViewSource(1: i32 bid),
-    oneway void    Browser_GetSource(1: i32 bid, 2:shared.RObject stringVisitor),
-    oneway void    Browser_GetText(1: i32 bid, 2:shared.RObject stringVisitor),
+    oneway void    Browser_GetSource(1: i32 bid, 2:shared.RObject stringVisitor), // NOTE: can be oneway (because java peer of visitor is disposed (via server request) after callback execution)
+    oneway void    Browser_GetText(1: i32 bid, 2:shared.RObject stringVisitor),   // NOTE: can be oneway (because java peer of visitor is disposed (via server request) after callback execution)
     oneway void    Browser_SetFocus(1: i32 bid, 2:bool enable),
     double         Browser_GetZoomLevel(1: i32 bid),
     oneway void    Browser_SetZoomLevel(1: i32 bid, 2:double val),
@@ -74,6 +86,11 @@ service Server {
     oneway void    Browser_StopFinding(1: i32 bid, 2:bool clearSelection),
     oneway void    Browser_ReplaceMisspelling(1: i32 bid, 2:string word),
     oneway void    Browser_SetFrameRate(1: i32 bid, 2:i32 val),
+    shared.RObject Browser_AddDevToolsMessageObserver(1: i32 bid, 2:shared.RObject observer), // creates and returns CefRegistration object
+    oneway void    Browser_ExecuteDevToolsMethod(1:i32 bid, 2:string method, 3:string parametersAsJson, 4:shared.RObject intCallback), // NOTE: can be oneway (because java peer of IntCallback is disposed (on java side) in the end of IntCallback.onComplete)
+    oneway void    Browser_RunFileDialog(1:i32 bid, 2:string mode, 3:string title, 4:string defaultFilePath, 5:list<string> acceptFilters, 6:shared.RObject runFileDialogCallback), // NOTE: can be oneway (because java peer of RunFileDialogCallback is disposed (on java side) in the end of RunFileDialogCallback.onFileDialogDismissed)
+    oneway void    Browser_PrintToPDF(1:i32 bid, 2:string path, 3:map<string, string> pdfPrintSettings, 4:shared.RObject pdfPrintCallback), // NOTE: can be oneway (because java peer of PdfPrintCallback is disposed (on java side) in the end of PdfPrintCallback.onPdfPrintFinished)
+    oneway void    Browser_Print(1:i32 bid),
 
     //
     // CefFrame
@@ -106,23 +123,30 @@ service Server {
     //
     // CefResponse
     //
-    void Response_Update(1: shared.RObject response),
-    string Response_GetHeaderByName(1: shared.RObject response, 2: string name),
-    void Response_SetHeaderByName(1: shared.RObject response, 2: string name, 3: string value, 4: bool overwrite),
+    void                Response_Update(1: shared.RObject response),
+    string              Response_GetHeaderByName(1: shared.RObject response, 2: string name),
+    void                Response_SetHeaderByName(1: shared.RObject response, 2: string name, 3: string value, 4: bool overwrite),
     map<string, string> Response_GetHeaderMap(1: shared.RObject response),                                                                               // TODO: support multimaps
-    void Response_SetHeaderMap(1: shared.RObject response, 2: map<string, string> headerMap),
+    void                Response_SetHeaderMap(1: shared.RObject response, 2: map<string, string> headerMap),
     //
     // Callback
     //
     oneway void Callback_Dispose(1: shared.RObject callback),
-    oneway void Callback_Continue(1: shared.RObject callback),
-    oneway void Callback_Cancel(1: shared.RObject callback),
+    oneway void Callback_Continue(1: shared.RObject callback), // NOTE: can be oneway (because callback is server-side object (and will be disposed after Continue execution))
+    oneway void Callback_Cancel(1: shared.RObject callback),   // NOTE: can be oneway (because callback is server-side object (and will be disposed after Cancel execution))
     //
     // CefAuthCallback
     //
     oneway void AuthCallback_Dispose(1: shared.RObject authCallback),
-    oneway void AuthCallback_Continue(1: shared.RObject authCallback, 2: string username, 3: string password),
-    oneway void AuthCallback_Cancel(1: shared.RObject authCallback),
+    oneway void AuthCallback_Continue(1: shared.RObject authCallback, 2: string username, 3: string password), // NOTE: can be oneway (because authCallback is server-side object (and will be disposed after Continue execution))
+    oneway void AuthCallback_Cancel(1: shared.RObject authCallback),                                           // NOTE: can be oneway (because authCallback is server-side object (and will be disposed after Cancel execution))
+    //
+    // CefRunContextMenuCallback
+    //
+    void CefRunContextMenuCallback_Dispose(1: shared.RObject self),
+    void CefRunContextMenuCallback_Continue(1: shared.RObject self, 2: i32 command_id, 3: i32 event_flag),
+    void CefRunContextMenuCallback_Cancel(1: shared.RObject self),
+
     //
     // CefMessageRouter
     //
@@ -134,8 +158,8 @@ service Server {
     void MessageRouter_RemoveHandler(1: shared.RObject msgRouter, 2: shared.RObject handler),
     void MessageRouter_CancelPending(1: shared.RObject msgRouter, 2: i32 bid, 3: shared.RObject handler),
     oneway void QueryCallback_Dispose(1: shared.RObject qcallback),
-    oneway void QueryCallback_Success(1: shared.RObject qcallback, 2: string response),
-    oneway void QueryCallback_Failure(1: shared.RObject qcallback, 2: i32 error_code, 3: string error_message),
+    oneway void QueryCallback_Success(1: shared.RObject qcallback, 2: string response),                             // NOTE: can be oneway (because qcallback is server-side object (and will be disposed after Success execution))
+    oneway void QueryCallback_Failure(1: shared.RObject qcallback, 2: i32 error_code, 3: string error_message),     // NOTE: can be oneway (because qcallback is server-side object (and will be disposed after Failure execution))
 
     //
     // Custom schemes
@@ -146,14 +170,29 @@ service Server {
     //
     // CefRequestContext
     //
-    oneway void RequestContext_ClearCertificateExceptions(1:i32 bid, 2:shared.RObject completionCallback),
-    oneway void RequestContext_CloseAllConnections(1:i32 bid, 2:shared.RObject completionCallback),
+    oneway void RequestContext_ClearCertificateExceptions(1:i32 bid, 2:shared.RObject completionCallback),  // NOTE: can be oneway (because java peer of completionCallback is disposed (on java side) after callback execution)
+    oneway void RequestContext_CloseAllConnections(1:i32 bid, 2:shared.RObject completionCallback),         // NOTE: can be oneway (because java peer of completionCallback is disposed (on java side) after callback execution)
 
+    //
+    // CefCookieManager
+    //
     shared.RObject CookieManager_Create(),
-    oneway void CookieManager_Dispose(1:shared.RObject cookieManager),
-    bool CookieManager_VisitAllCookies(1:shared.RObject cookieManager, 2:shared.RObject visitor),
-    bool CookieManager_VisitUrlCookies(1:shared.RObject cookieManager, 2:shared.RObject visitor, 3:string url, 4:bool includeHttpOnly),
-    bool CookieManager_SetCookie(1:shared.RObject cookieManager, 2:string url, 3:shared.Cookie cookie),
-    bool CookieManager_DeleteCookies(1:shared.RObject cookieManager, 2:string url, 3:string cookieName),
-    bool CookieManager_FlushStore(1:shared.RObject cookieManager, 2:shared.RObject completionCallback),
+    oneway void    CookieManager_Dispose(1:shared.RObject cookieManager),
+    bool           CookieManager_VisitAllCookies(1:shared.RObject cookieManager, 2:shared.RObject visitor),
+    bool           CookieManager_VisitUrlCookies(1:shared.RObject cookieManager, 2:shared.RObject visitor, 3:string url, 4:bool includeHttpOnly),
+    bool           CookieManager_SetCookie(1:shared.RObject cookieManager, 2:string url, 3:shared.Cookie cookie),
+    bool           CookieManager_DeleteCookies(1:shared.RObject cookieManager, 2:string url, 3:string cookieName),
+    bool           CookieManager_FlushStore(1:shared.RObject cookieManager, 2:shared.RObject completionCallback),
+
+    //
+    // CefRegistration
+    //
+    oneway void    Registration_Dispose(1:shared.RObject registration),
+
+    //
+    // CefMediaAccessCallback
+    //
+    oneway void MediaAccessCallback_Dispose(1: shared.RObject mediaAccessCallback),
+    oneway void MediaAccessCallback_Continue(1: shared.RObject mediaAccessCallback, 2: i32 allowed_permissions),    // NOTE: can be oneway (because mediaAccessCallback is server-side object (and will be disposed after Continue execution))
+    oneway void MediaAccessCallback_Cancel(1: shared.RObject mediaAccessCallback),                                  // NOTE: can be oneway (because mediaAccessCallback is server-side object (and will be disposed after Cancel execution))
 }

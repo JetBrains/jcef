@@ -10,7 +10,7 @@ package org.cef.browser;
  * Callback interface for {@link CefBrowser#addDevToolsMessageObserver(CefDevToolsMessageObserver)}.
  * The methods of this class will be called on the CEF UI thread.
  */
-interface CefDevToolsMessageObserver {
+public interface CefDevToolsMessageObserver {
     /**
      * Method that will be called after attempted execution of a DevTools protocol method.
      *

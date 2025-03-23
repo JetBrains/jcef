@@ -1,72 +1,91 @@
 package com.jetbrains.cef.remote;
 
-import org.apache.thrift.transport.TServerSocket;
-import org.apache.thrift.transport.TSocket;
-import org.apache.thrift.transport.TTransportException;
+import com.jetbrains.cef.remote.thrift.transport.TServerSocket;
+import com.jetbrains.cef.remote.thrift.transport.TSocket;
+import com.jetbrains.cef.remote.thrift.transport.TTransportException;
 import org.cef.CefSettings;
 import org.cef.OS;
 import org.cef.callback.CefSchemeRegistrar;
 import org.cef.handler.CefAppHandler;
-import org.cef.handler.CefAppHandlerAdapter;
 import org.cef.misc.CefLog;
 import org.cef.misc.Utils;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.net.StandardProtocolFamily;
 import java.net.UnixDomainSocketAddress;
 import java.nio.channels.SocketChannel;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.BooleanSupplier;
 
 public class NativeServerManager {
     private static final Boolean DISABLE_GPU = Utils.getBoolean("JCEF_DISABLE_GPU");
+    private static final Boolean KILL_SERVER_ON_SHUTDOWN = Utils.getBoolean("JCEF_KILL_SERVER_ON_SHUTDOWN");
     private static final String ALT_CEF_SERVER_PATH = Utils.getString("ALT_CEF_SERVER_PATH");
     private static final String ALT_SUBPROCESS_PATH = Utils.getString("ALT_SUBPROCESS_PATH");
     private static final boolean CHECK_PROCESS_ALIVE = Utils.getBoolean("JCEF_CHECK_PROCESS_ALIVE", true); // for debug, TODO: remove
+    private static final int WAIT_LOOP_SLEEP_MS = Utils.getInteger("JCEF_WAIT_LOOP_SLEEP_MS", 200);
 
-    private static Process ourNativeServerProcess = null;
+    private static Map<String, Process> ourNativeServerProcesses = new HashMap<>();
+
+    static {
+        if (KILL_SERVER_ON_SHUTDOWN) {
+            CefLog.Debug("All cef_server instances will be killed at JVM exit.");
+            Thread task = new Thread(() -> {
+                for (String servTransport: ourNativeServerProcesses.keySet()) {
+                    Process p = ourNativeServerProcesses.get(servTransport);
+                    if (p != null) {
+                        p.destroyForcibly();
+                        CefLog.Debug("Killed cef_server process [%s].", servTransport);
+                    }
+                }
+            });
+            Runtime.getRuntime().addShutdownHook(task);
+        }
+    }
 
     // Should be called in bg thread
-    public static boolean startProcessAndWait(CefAppHandler appHandler, CefSettings settings, long timeoutMs) {
-        final Path pipeName = Path.of(System.getProperty("java.io.tmpdir")).resolve("cef_server_params.txt");
-        File f = new File(pipeName.toString());
+    public static boolean startProcessAndWait(ThriftTransport thriftServer, CefAppHandler appHandler, String[] args, CefSettings settings, boolean deleteRootDir, long timeoutMs) {
+        final long t0 = System.nanoTime();
+        final Path settingsFileName = Path.of(System.getProperty("java.io.tmpdir")).resolve("cef_server_params.txt");
+        File f = new File(settingsFileName.toString());
         PrintStream ps;
         try {
             new FileOutputStream(f).close(); // delete the content of the file
             f.createNewFile();
             ps = new PrintStream(new FileOutputStream(f, false));
         } catch (IOException e) {
-            CefLog.Error("Can't create temp file with server params path=%s, msg=%s", pipeName.toString(), e.getMessage());
+            CefLog.Error("Can't create temp file with server params path=%s, msg=%s", settingsFileName.toString(), e.getMessage());
             return false;
         }
 
         // 1. command line args
         final String sectionCmdLine = "[COMMAND_LINE]:";
         ps.printf("%s\n", sectionCmdLine);
-        if (appHandler instanceof CefAppHandlerAdapter) {
-            CefAppHandlerAdapter h = (CefAppHandlerAdapter)appHandler;
-            String[] commandLineArgs = h.getArgs();
-            if (commandLineArgs != null && commandLineArgs.length > 0)
-                for (String arg: commandLineArgs) {
-                    boolean skip = arg.startsWith("--browser-subprocess-path=")
-                            || arg.startsWith("--main-bundle-path=")
-                            || arg.startsWith("--framework-dir-path=");
-                    if (skip)
-                        CefLog.Debug("Skip cmdline swintch '%s'", arg);
-                    else
-                        ps.printf("%s\n", arg);
-                }
-            if (DISABLE_GPU) {
-                ps.println("--disable-gpu");
-                ps.println("--disable-gpu-compositing");
-                ps.println("--disable-gpu-vsync");
-                ps.println("--disable-software-rasterizer");
-                ps.println("--disable-extensions");
+        if (args != null && args.length > 0)
+            for (String arg: args) {
+                boolean skip = arg.startsWith("--browser-subprocess-path=")
+                        || arg.startsWith("--main-bundle-path=")
+                        || arg.startsWith("--framework-dir-path=");
+                if (skip)
+                    CefLog.Debug("Skip cmdline swintch '%s'", arg);
+                else
+                    ps.printf("%s\n", arg);
             }
-
-        } else if (appHandler != null)
-            CefLog.Error("Unsupported class of CefAppHandler %s. Overridden command-line arguments will be ignored.", CefAppHandler.class);
+        if (DISABLE_GPU) {
+            ps.println("--disable-gpu");
+            ps.println("--disable-gpu-compositing");
+            ps.println("--disable-gpu-vsync");
+            ps.println("--disable-software-rasterizer");
+            ps.println("--disable-extensions");
+        }
 
         // 2. settings
         ps.printf("[SETTINGS]:\n");
@@ -117,65 +136,61 @@ public class NativeServerManager {
         ps.flush();
         ps.close();
 
-        // Ensure file written
-        BufferedReader reader;
-        try {
-            reader = new BufferedReader(new FileReader(f));
-            String line = reader.readLine();
-            if (line == null || line.isEmpty() || !line.contains(sectionCmdLine)) {
-                CefLog.Error("Write errors (when write temp file with server params), was written:");
-                while (line != null) {
-                    CefLog.Error("\t%s", line);
-                    line = reader.readLine();
-                }
-            }
-            reader.close();
-        } catch (IOException e) {
-            CefLog.Error("Can't read temp file with server params: %s", e.getMessage());
-        }
+        CefLog.Debug("Settings were written to file, spent %d mcs", (System.nanoTime() - t0)/1000);
+        CefLog.Info("Start native cef_server with cache path: %s", settings.cache_path);
 
-        return startProcessAndWait(f.getAbsolutePath(), timeoutMs);
+        // Select log path
+        String serverLogPath = Utils.getString("CEF_SERVER_LOG_PATH");
+        if (serverLogPath == null || serverLogPath.trim().isEmpty())
+            serverLogPath = settings.log_file;
+
+        // Select log level
+        int serverLogLevel = Utils.getInteger("CEF_SERVER_LOG_LEVEL", -1);
+        if (serverLogLevel == -1)
+            serverLogLevel = ServerLogLevel.cef2native(settings.log_severity);
+
+        return startProcessAndWait(thriftServer, f.getAbsolutePath(), timeoutMs, serverLogPath, serverLogLevel, deleteRootDir);
     }
 
-    public static boolean isProcessAlive() {
-        Process p = ourNativeServerProcess;
+    public static boolean isProcessAlive(ThriftTransport thriftServer) {
+        Process p = ourNativeServerProcesses.get(thriftServer.toString());
         return p != null && p.isAlive();
     }
 
-    private static boolean isConnectable(boolean withDebug) {
+    private static boolean isConnectable(ThriftTransport thriftServer, boolean withDebug) {
         try {
-            if (ThriftTransport.isTcp()) {
+            if (thriftServer.isTcp()) {
                 try {
-                    TSocket socket = new TSocket("localhost", ThriftTransport.getServerPort());
+                    TSocket socket = new TSocket("localhost", thriftServer.getPort());
                     socket.open();
                     socket.close();
                     if (withDebug)
-                        CefLog.Debug("isConnectable: tcp-port %d, opened and connected.", ThriftTransport.getServerPort());
+                        CefLog.Debug("isConnectable: tcp-port %d, opened and connected.", thriftServer.getPort());
                     return true;
                 } catch (TTransportException e) {
                     if (withDebug)
-                        CefLog.Debug("isConnectable: tcp-port %d, TTransportException occurred: %s", ThriftTransport.getServerPort(), e.getMessage());
+                        CefLog.Debug("isConnectable: tcp-port %d, TTransportException occurred: %s", thriftServer.getPort(), e.getMessage());
                 }
                 return false;
             }
             try {
                 if (OS.isWindows()) {
-                    WindowsPipeSocket pipe = new WindowsPipeSocket(ThriftTransport.getServerPipe());
+                    WindowsPipeSocket pipe = new WindowsPipeSocket(thriftServer.getPipe());
                     pipe.close();
                     if (withDebug)
-                        CefLog.Debug("isConnectable: win-pipe '%s', opened and connected.", ThriftTransport.getServerPipe());
+                        CefLog.Debug("isConnectable: win-pipe '%s', opened and connected.", thriftServer.getPipe());
                     return true;
                 }
-                UnixDomainSocketAddress socketAddress = UnixDomainSocketAddress.of(ThriftTransport.getServerPipe());
+                UnixDomainSocketAddress socketAddress = UnixDomainSocketAddress.of(thriftServer.getPipe());
                 SocketChannel channel = SocketChannel.open(StandardProtocolFamily.UNIX);
                 channel.connect(socketAddress);
                 channel.close();
                 if (withDebug)
-                    CefLog.Debug("isConnectable: pipe '%s', opened and connected.", ThriftTransport.getServerPipe());
+                    CefLog.Debug("isConnectable: pipe '%s', opened and connected.", thriftServer.getPipe());
                 return true;
             } catch (IOException e) {
                 if (withDebug)
-                    CefLog.Debug("isConnectable: pipe '%s', IOException occurred: %s", ThriftTransport.getServerPipe(), e.getMessage());
+                    CefLog.Debug("isConnectable: pipe '%s', IOException occurred: %s", thriftServer.getPipe(), e.getMessage());
             }
         } catch (Throwable e) {
             CefLog.Error("isConnectable: exception %s", e.getMessage());
@@ -183,76 +198,79 @@ public class NativeServerManager {
         return false;
     }
 
-    private static boolean isServerSocketBusy(boolean withDebug) {
+    private static boolean isServerSocketBusy(int port, boolean withDebug) {
         try {
-            if (ThriftTransport.isTcp()) {
-                TServerSocket serverSocket = null;
-                try {
-                    serverSocket = new TServerSocket(ThriftTransport.getServerPort());
-                } catch (TTransportException e) {
-                    if (withDebug)
-                        CefLog.Debug("isServerTransportBusy: tcp-port %d, TTransportException occurred: %s", ThriftTransport.getServerPort(), e.getMessage());
-                    return true;
-                }
+            TServerSocket serverSocket = null;
+            try {
+                serverSocket = new TServerSocket(port);
+            } catch (TTransportException e) {
                 if (withDebug)
-                    CefLog.Debug("isServerTransportBusy: tcp-port %d, opened and connected.", ThriftTransport.getServerPort());
-                serverSocket.close();
+                    CefLog.Debug("isServerSocketBusy: can't open tcp-port %d, TTransportException occurred: %s", port, e.getMessage());
+                return true;
             }
+            if (withDebug)
+                CefLog.Debug("isServerSocketBusy: tcp-port %d, successfully opened.", port);
+            serverSocket.close();
         } catch (Throwable e) {
             CefLog.Error("isServerSocketBusy: exception %s", e.getMessage());
         }
         return false;
     }
 
-    public static boolean isRunning() {
-        return isRunning(false);
+    public static String isRunning(ThriftTransport thriftServer) {
+        return isRunning(thriftServer, false);
     }
 
-    public static boolean isRunning(boolean withDebug) {
-        if (CHECK_PROCESS_ALIVE && ourNativeServerProcess != null && !ourNativeServerProcess.isAlive()) {
+    // returns root_cache_path of running server (or null if not running)
+    public static String isRunning(ThriftTransport transport, boolean withDebug) {
+        if (CHECK_PROCESS_ALIVE && ourNativeServerProcesses.get(transport.toString()) != null && !ourNativeServerProcesses.get(transport.toString()).isAlive()) {
             if (withDebug)
                 CefLog.Debug("isRunning: server process is not alive.");
-            return false;
+            return null;
         }
         try {
-            if (ThriftTransport.isTcp()) {
+            if (transport.isTcp()) {
                 // At first, we check whether the server socket is busy.
-                if (!isServerSocketBusy(withDebug))
-                    return false;
+                if (!isServerSocketBusy(transport.getPort(), withDebug))
+                    return null;
                 // Well, socket is busy and server seems to be running. Let's try to connect to it.
             }
 
-            if (!isConnectable(withDebug))
-                return false;
+            if (!isConnectable(transport, withDebug))
+                return null;
 
             // Successfully connected to server transport => server seems to be running. Let's connect and check an echo.
             RpcExecutor test;
             try {
-                test = new RpcExecutor().openTransport();
+                test = new RpcExecutor().openTransport(transport);
             } catch (TTransportException e) {
                 if (withDebug)
                     CefLog.Debug("isRunning: TTransportException occurred when open server transport: %s", e.getMessage());
-                return false;
+                return null;
             }
             String testMsg = "test_message786";
             String echoMsg = test.execObj(s -> s.echo(testMsg));
-            test.closeTransport();
-            final boolean result = echoMsg != null && echoMsg.equals(testMsg);
-            if (!result)
+            String root = null;
+            final boolean isEchoCorrect = echoMsg != null && echoMsg.equals(testMsg);
+            if (!isEchoCorrect)
                 CefLog.Error("isRunning: cef_server seems to be running, but echo is incorrect: '%s' (original '%s')", echoMsg, testMsg);
-            else if (withDebug)
-                CefLog.Debug("isRunning: cef_server is running and echo is correct.");
-            return result;
+            else {
+                root = test.execObj(s -> s.getServerInfo("root"));
+                if (withDebug)
+                    CefLog.Debug("isRunning: cef_server is running and echo is correct, root='%s'", root);
+            }
+            test.closeTransport();
+            return isEchoCorrect ? root : null;
         } catch (Throwable e) {
             CefLog.Error("isRunning: exception %s", e.getMessage());
         }
-        return false;
+        return null;
     }
 
     public static String getServerState() {
         try {
-            RpcExecutor test = new RpcExecutor().openTransport();
-            String state = test.execObj(s -> s.state());
+            RpcExecutor test = new RpcExecutor().openTransport(ThriftTransport.ourDefaultServer);
+            String state = test.execObj(s -> s.getServerInfo("state"));
             test.closeTransport();
             return state;
         } catch (TTransportException e) {
@@ -261,11 +279,11 @@ public class NativeServerManager {
     }
 
     // returns true when server was stopped successfully
-    public static boolean stopAndWait(long timeoutMs) {
+    public static boolean stopAndWait(ThriftTransport thriftServer, long timeoutMs) {
         CefLog.Debug("Stop running cef_server instance.");
         try {
-            RpcExecutor test = new RpcExecutor().openTransport();
-            String state = test.execObj(s -> s.state());
+            RpcExecutor test = new RpcExecutor().openTransport(thriftServer);
+            String state = test.execObj(s -> s.getServerInfo("state"));
             CefLog.Debug("Server state before stop: %s", state);
             test.exec(s -> s.stop());
             test.closeTransport();
@@ -274,22 +292,113 @@ public class NativeServerManager {
         }
 
         // Wait for stopping
-        boolean stopped = waitForStopped(timeoutMs);
+        boolean stopped = waitForStopped(thriftServer, timeoutMs);
         if (!stopped) {
-            CefLog.Error("Can't stop server in %d ms (process is %s)", timeoutMs, isProcessAlive() ? "alive" : "dead");
+            CefLog.Error("Can't stop server in %d ms (process is %s)", timeoutMs, isProcessAlive(thriftServer) ? "alive" : "dead");
             CefLog.Debug("Server state: %s", getServerState());
             return false;
         }
-        ourNativeServerProcess = null;
+        ourNativeServerProcesses.remove(thriftServer.toString());
         return true;
     }
 
-    public static boolean waitForRunning(long timeoutMs) {
-        return waitFor(NativeServerManager::isRunning, timeoutMs, "starting");
+    public static List<String> findRoots() {
+        if (ThriftTransport.isTcpUsed()) {
+            CefLog.Warn("Try implement findRoots for tcp transport.");
+            return null;
+        }
+        List<String> existingRoots = new ArrayList<>();
+        File[] pipes = ThriftTransport.findPipes();
+        if (pipes != null && pipes.length > 0) {
+            CefLog.Debug("Found %d pipes.", pipes.length);
+            for (File pipe: pipes) {
+                RpcExecutor exec = new RpcExecutor();
+                try {
+                    exec.openPipeTransport(new ThriftTransport(pipe));
+                    String newRoot = exec.execObj(s -> s.getServerInfo("root"));
+                    if (newRoot != null) {
+                        existingRoots.add(newRoot);
+                        CefLog.Info("Found cef_server instance root_cache_path '%s' (pipe=%s).", newRoot, pipe.getName());
+                    } else
+                        CefLog.Debug("cef_server instance (pipe=%s) returns null root", pipe.getName());
+                    exec.closeTransport();
+                } catch (TTransportException e) {
+                    CefLog.Debug("getServerInfo (with pipe '%s') failed with exception: %s", pipe.getAbsolutePath(), e.getMessage());
+                }
+            }
+        }
+
+        return existingRoots.isEmpty() ? null : existingRoots;
     }
 
-    public static boolean waitForStopped(long timeoutMs) {
-        return waitFor(()->!isRunning(), timeoutMs, "stopping");
+    private static boolean isDefaultRoot(String rootPath) {
+        if (OS.isWindows())
+            return rootPath.compareToIgnoreCase("~\\AppData\\Local\\CEF\\User Data") == 0;
+        if (OS.isLinux())
+            return rootPath.compareToIgnoreCase("~/.config/cef_user_data") == 0;
+        return rootPath.compareToIgnoreCase("~/Library/Application Support/CEF/User Data") == 0;
+    }
+
+    public static boolean fixRootInSettings(CefSettings settings, String newRootDirName) {
+        try {
+            return fixRootInSettingsImpl(settings, newRootDirName);
+        } catch (Throwable e) {
+            CefLog.Error("Can't fix root_cache_path in settings: %s", e.getMessage());
+        }
+        return false;
+    }
+
+    private static boolean fixRootInSettingsImpl(CefSettings settings, String newRootDirName) {
+        if (ThriftTransport.isTcpUsed()) {
+            settings.cache_path = Path.of(System.getProperty("java.io.tmpdir")).resolve(newRootDirName).toString();
+            CefLog.Info("settings.cache_path will be replaced with '%s' (because root search isn't implemented for TCP transport)", settings.cache_path);
+            return true;
+        }
+        List<String> existingRoots = NativeServerManager.findRoots();
+        if (existingRoots == null || existingRoots.isEmpty())
+            return false;
+
+        if (settings.cache_path != null && !settings.cache_path.isEmpty()) {
+            Path settingsRoot;
+            try {
+                settingsRoot = Path.of(settings.cache_path);
+            } catch (InvalidPathException e) {
+                CefLog.Error("Can't find path '%s': %s", settings.cache_path, e.getMessage());
+                return false;
+            }
+            for (String sr : existingRoots) {
+                Path r;
+                try {
+                    r = Path.of(sr);
+                } catch (InvalidPathException e) {
+                    CefLog.Error("Can't find path '%s': %s", sr, e.getMessage());
+                    continue;
+                }
+                if (r.equals(settingsRoot)) {
+                    settings.cache_path = Path.of(System.getProperty("java.io.tmpdir")).resolve(newRootDirName).toString();
+                    CefLog.Info("Non-empty settings.cache_path='%s' conflicts with existing root_cache_path, will be replaced with '%s'.", r, settings.cache_path);
+                    return true;
+                }
+            }
+        } else {
+            // settings.cache_path == null
+            for (String sr: existingRoots) {
+                if (NativeServerManager.isDefaultRoot(sr)) {
+                    settings.cache_path = Path.of(System.getProperty("java.io.tmpdir")).resolve(newRootDirName).toString();
+                    CefLog.Info("Empty settings.cache_path will be replaced with '%s' (because found CEF instance with system-default root_cache_path '%s')", settings.cache_path, sr);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean waitForRunning(ThriftTransport thriftServer, long timeoutMs) {
+        return waitFor(() -> isRunning(thriftServer) != null, timeoutMs, "starting");
+    }
+
+    public static boolean waitForStopped(ThriftTransport thriftServer, long timeoutMs) {
+        return waitFor(() -> isRunning(thriftServer) == null, timeoutMs, "stopping");
     }
 
     private static boolean waitFor(BooleanSupplier checker, long timeoutMs, String hint) {
@@ -297,7 +406,7 @@ public class NativeServerManager {
         boolean success;
         do {
             try {
-                Thread.sleep(500);
+                Thread.sleep(WAIT_LOOP_SLEEP_MS);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -404,16 +513,17 @@ public class NativeServerManager {
     }
 
     // returns true when server was started successfully
-    private static boolean startProcessAndWait(String paramsPath, long timeoutMs) {
-        if (ourNativeServerProcess != null)
+    private static boolean startProcessAndWait(ThriftTransport thriftServer, String paramsPath, long timeoutMs, String logPath, int logLevel, boolean deleteRootDir) {
+        final long t0 = System.nanoTime();
+        if (ourNativeServerProcesses.get(thriftServer.toString()) != null)
             CefLog.Debug("Handle of server process will be overwritten.");
-        ourNativeServerProcess = null;
+        ourNativeServerProcesses.remove(thriftServer.toString());
 
         File serverExe = getServerExe();
         if (serverExe == null)
             return false;
 
-        CefLog.Debug("Start native cef_server, path='%s', params path='%s'", serverExe.getAbsolutePath(), paramsPath);
+        CefLog.Debug("cef_server executable path='%s', params path='%s'", serverExe.getAbsolutePath(), paramsPath);
         if (!serverExe.exists()) {
             CefLog.Error("Can't start native cef_server, file doesn't exist: %s", serverExe.getAbsolutePath());
             return false;
@@ -422,38 +532,99 @@ public class NativeServerManager {
         ProcessBuilder builder = new ProcessBuilder(serverExe.getAbsolutePath());
         CefLog.Debug("\tWorking dir %s", serverExe.getParentFile());
         builder.directory(serverExe.getParentFile());
-        if (ThriftTransport.isTcp()) {
-            CefLog.Debug("\tUse tcp-port %d", ThriftTransport.getServerPort());
-            builder.command().add(String.format("--port=%d", ThriftTransport.getServerPort()));
+        if (thriftServer.isTcp()) {
+            CefLog.Debug("\tUse tcp-port %d", thriftServer.getPort());
+            builder.command().add(String.format("--port=%d", thriftServer.getPort()));
         } else {
-            CefLog.Debug("\tUse pipe %s", ThriftTransport.getServerPipe());
-            builder.command().add(String.format("--pipe=%s", ThriftTransport.getServerPipe()));
+            CefLog.Debug("\tUse pipe %s", thriftServer.getPipe());
+            builder.command().add(String.format("--pipe=%s", thriftServer.getPipe()));
         }
-        final String serverLog = Utils.getString("CEF_SERVER_LOG_PATH");
-        if (serverLog != null && !serverLog.isEmpty()) {
-            CefLog.Debug("\tLog file %s", serverLog);
-            builder.command().add(String.format("--logfile=%s", serverLog.trim()));
+        String logStream = "stderr";
+        if (logPath != null && !logPath.isEmpty()) {
+            logStream = "file '" + logPath + "'";
+            builder.command().add(String.format("--logfile=%s", logPath.trim()));
         }
+
+        CefLog.Info("Native server logging: level %s [%d], stream: '%s'", ServerLogLevel.nativeDesc(logLevel), logLevel, logStream);
+        builder.command().add(String.format("--loglevel=%d", logLevel));
+
+        if (System.getenv().containsKey("DEBUG_CEF_SERVER")) {
+            builder.command().add("--cef-server-wait-debugger");
+        }
+
+        if (deleteRootDir)
+            builder.command().add("--deleteRootCacheDir");
+
         builder.command().add(String.format("--params=%s", paramsPath));
         builder.redirectOutput(ProcessBuilder.Redirect.INHERIT);
         builder.redirectError(ProcessBuilder.Redirect.INHERIT);
+        Process p;
         try {
-            ourNativeServerProcess = builder.start();
+            p = builder.start();
+            ourNativeServerProcesses.put(thriftServer.toString(), p);
         } catch (IOException e) {
             CefLog.Error("Can't start native cef_server, exception: %s", e.getMessage());
             return false;
         }
 
         // Wait for native server
-        boolean running = waitForRunning(timeoutMs);
-        if (!running && !(running = isRunning(true))) {
-            if (ourNativeServerProcess.isAlive())
+        final long t1 = System.nanoTime();
+        boolean running = waitForRunning(thriftServer, timeoutMs);
+        if (!running && !(running = (isRunning(thriftServer, true) != null))) {
+            if (p.isAlive())
                 CefLog.Error("Native cef_server was started but client can't connect.");
             else {
                 CefLog.Error("Can't start native cef_server, process is dead.");
-                ourNativeServerProcess = null;
+                ourNativeServerProcesses.remove(thriftServer.toString());
             }
         }
+        CefLog.Debug("\t spent mcs: process starting %d, waiting %d", (t1 - t0)/1000, (System.nanoTime() - t1)/1000);
         return running;
+    }
+
+    private static class ServerLogLevel {
+        final static int LEVEL_DISABLED = 100;
+        final static int LEVEL_FATAL = 10;
+        final static int LEVEL_ERROR = 9;
+        final static int LEVEL_WARN = 8;
+        final static int LEVEL_INFO = 7;
+        final static int LEVEL_DEBUG = 6;
+        final static int LEVEL_TRACE = 5;
+
+        static int cef2native(CefSettings.LogSeverity severity) {
+            if (severity == CefSettings.LogSeverity.LOGSEVERITY_DISABLE)
+                return LEVEL_DISABLED;
+            else if (severity == CefSettings.LogSeverity.LOGSEVERITY_DEFAULT)
+                return LEVEL_INFO;
+            else if (severity == CefSettings.LogSeverity.LOGSEVERITY_FATAL)
+                return LEVEL_FATAL;
+            else if (severity == CefSettings.LogSeverity.LOGSEVERITY_ERROR)
+                return LEVEL_ERROR;
+            else if (severity == CefSettings.LogSeverity.LOGSEVERITY_WARNING)
+                return LEVEL_WARN;
+            else if (severity == CefSettings.LogSeverity.LOGSEVERITY_INFO)
+                return LEVEL_DEBUG;
+            else if (severity == CefSettings.LogSeverity.LOGSEVERITY_VERBOSE)
+                return LEVEL_TRACE;
+            return LEVEL_DISABLED;
+        }
+
+        static String nativeDesc(int level) {
+            if (level == LEVEL_DISABLED)
+                return "disabled";
+            if (level == LEVEL_FATAL)
+                return "fatal";
+            if (level == LEVEL_ERROR)
+                return "error";
+            if (level == LEVEL_WARN)
+                return "warn";
+            if (level == LEVEL_INFO)
+                return "info";
+            if (level == LEVEL_DEBUG)
+                return "debug";
+            if (level == LEVEL_TRACE)
+                return "trace";
+            return "unknown";
+        }
     }
 }

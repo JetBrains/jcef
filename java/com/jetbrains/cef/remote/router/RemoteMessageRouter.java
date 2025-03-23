@@ -1,7 +1,8 @@
 package com.jetbrains.cef.remote.router;
 
 import com.jetbrains.cef.remote.CefServer;
-import com.jetbrains.cef.remote.RpcExecutor;
+import com.jetbrains.cef.remote.RpcContext;
+import org.cef.CefApp;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefMessageRouter;
 import org.cef.handler.CefMessageRouterHandler;
@@ -56,14 +57,12 @@ public class RemoteMessageRouter extends CefMessageRouter {
         execute(() -> myImpl.cancelPending(browser, handler), "cancelPending");
     }
 
-    public RemoteMessageRouter(CefMessageRouterConfig config) {
+    public RemoteMessageRouter(CefServer server, CefMessageRouterConfig config) {
         super(config);
         // NOTE: message router must be registered before browser created, so use flag 'first' here
-        CefServer.instance().onConnected(()->{
-            RpcExecutor service = CefServer.instance().getService();
-            if (!service.isValid()) // impossible, add logging just for insurance
-                CefLog.Error("Trying to create RemoteMessageRouter when not connected to server.");
-            myImpl = RemoteMessageRouterImpl.create(service, getMessageRouterConfig());
+        server.onConnected(()->{
+            RpcContext rpcContext = server.getRpcContext();
+            myImpl = RemoteMessageRouterImpl.create(rpcContext, getMessageRouterConfig());
             synchronized (myDelayedActions) {
                 myDelayedActions.forEach(r -> r.run());
                 myDelayedActions.clear();
@@ -75,5 +74,29 @@ public class RemoteMessageRouter extends CefMessageRouter {
 
     public RemoteMessageRouterImpl getImpl() {
         return myImpl;
+    }
+
+    public void addToBrowsers(List<Integer> bids) {
+        if (bids == null || bids.isEmpty())
+            return;
+
+        execute(()->{
+            for (int bid: bids) {
+                if (bid >= 0)
+                    myImpl.addToBrowser(bid);
+            }
+        }, "addToBrowsers");
+    }
+
+    public void removeFromBrowsers(List<Integer> bids) {
+        if (bids == null || bids.isEmpty())
+            return;
+
+        execute(()->{
+            for (int bid: bids) {
+                if (bid >= 0)
+                    myImpl.removeFromBrowser(bid);
+            }
+        }, "removeFromBrowsers");
     }
 }

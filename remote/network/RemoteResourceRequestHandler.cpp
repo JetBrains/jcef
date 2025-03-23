@@ -12,22 +12,20 @@ namespace {
   std::string status2str(cef_urlrequest_status_t type);
 }
 
-// Disable logging until optimized
-#ifdef LNDCT
-#undef LNDCT
-#define LNDCT()
-#endif
+const bool doTrace = getBoolEnv("CEF_SERVER_TRACE_RemoteResourceRequestHandler");
 
 RemoteResourceRequestHandler::RemoteResourceRequestHandler(
     int bid,
-    std::shared_ptr<RpcExecutor> serviceIO,
+    std::shared_ptr<ServerHandlerContext> serviceIO,
     thrift_codegen::RObject peer)
     : RemoteJavaObject(
           serviceIO,
           peer.objId,
-          [=](std::shared_ptr<thrift_codegen::ClientHandlersClient> service) {
+          [=](JavaService service) {
             service->ResourceRequestHandler_Dispose(peer.objId);
-          }), myBid(bid) {}
+          }), myBid(bid) {
+  TRACE();
+}
 
 ///
 /// Called on the IO thread before a resource request is loaded. The |browser|
@@ -42,16 +40,15 @@ CefRefPtr<CefCookieAccessFilter> RemoteResourceRequestHandler::GetCookieAccessFi
     CefRefPtr<CefFrame> frame,
     CefRefPtr<CefRequest> request
 ) {
-  LNDCT();
-
+  TRACE();
   RemoteRequest::Holder req(request);
   RemoteFrame::Holder frm(frame);
   thrift_codegen::RObject remoteHandler;
   
-  myService->exec([&](RpcExecutor::Service s){
-    s->ResourceRequestHandler_GetCookieAccessFilter(remoteHandler, myPeerId, myBid, frm.get()->serverIdWithMap(), req.get()->serverIdWithMap());
+  myCtx->javaServiceIO()->exec([&](JavaService s){
+    s->ResourceRequestHandler_GetCookieAccessFilter(remoteHandler, myPeerId, myBid, frm.serverId(), req.serverId());
   });
-  return remoteHandler.objId != -1 ? new RemoteCookieAccessFilter(myBid, myService, remoteHandler) : nullptr;
+  return remoteHandler.objId != -1 ? new RemoteCookieAccessFilter(myBid, myCtx, remoteHandler) : nullptr;
 }
 
 ///
@@ -72,12 +69,12 @@ CefResourceRequestHandler::ReturnValue RemoteResourceRequestHandler::OnBeforeRes
     CefRefPtr<CefRequest> request,
     CefRefPtr<CefCallback> callback
 ) {
-  LNDCT();
+  TRACE();
   RemoteRequest::Holder req(request);
   RemoteFrame::Holder frm(frame);
   CefResourceRequestHandler::ReturnValue result = RV_CONTINUE;
-  myService->exec([&](RpcExecutor::Service s){
-    bool boolRes = s->ResourceRequestHandler_OnBeforeResourceLoad(myPeerId, myBid, frm.get()->serverIdWithMap(), req.get()->serverIdWithMap());
+  myCtx->javaServiceIO()->exec([&](JavaService s){
+    bool boolRes = s->ResourceRequestHandler_OnBeforeResourceLoad(myPeerId, myBid, frm.serverId(), req.serverId());
     result = (boolRes ? RV_CANCEL : RV_CONTINUE);
   });
   return result;
@@ -97,15 +94,14 @@ CefRefPtr<CefResourceHandler> RemoteResourceRequestHandler::GetResourceHandler(
     CefRefPtr<CefFrame> frame,
     CefRefPtr<CefRequest> request
 ) {
-  LNDCT();
-
+  TRACE();
   RemoteRequest::Holder req(request);
   RemoteFrame::Holder frm(frame);
   thrift_codegen::RObject remoteHandler;
-  myService->exec([&](RpcExecutor::Service s){
-    s->ResourceRequestHandler_GetResourceHandler(remoteHandler, myPeerId, myBid, frm.get()->serverIdWithMap(), req.get()->serverIdWithMap());
+  myCtx->javaServiceIO()->exec([&](JavaService s){
+    s->ResourceRequestHandler_GetResourceHandler(remoteHandler, myPeerId, myBid, frm.serverId(), req.serverId());
   });
-  return remoteHandler.objId != -1 ? new RemoteResourceHandler(myBid, myService, remoteHandler) : nullptr;
+  return remoteHandler.objId != -1 ? new RemoteResourceHandler(myBid, myCtx, remoteHandler) : nullptr;
 }
 
 ///
@@ -126,14 +122,14 @@ void RemoteResourceRequestHandler::OnResourceRedirect(
     CefRefPtr<CefResponse> response,
     CefString& new_url
 ) {
-  LNDCT();
+  TRACE();
   RemoteRequest::Holder req(request);
   RemoteResponse::Holder resp(response);
   RemoteFrame::Holder frm(frame);
   std::string result;
-  myService->exec([&](RpcExecutor::Service s){
-    s->ResourceRequestHandler_OnResourceRedirect(result, myPeerId, myBid, frm.get()->serverIdWithMap(), req.get()->serverIdWithMap(),
-                                                 resp.get()->serverIdWithMap(), new_url.ToString());
+  myCtx->javaServiceIO()->exec([&](JavaService s){
+    s->ResourceRequestHandler_OnResourceRedirect(result, myPeerId, myBid, frm.serverId(), req.serverId(),
+                                                 resp.serverId(), new_url.ToString());
   });
   CefString tmp(result);
   new_url.swap(tmp);
@@ -159,13 +155,13 @@ bool RemoteResourceRequestHandler::OnResourceResponse(
     CefRefPtr<CefRequest> request,
     CefRefPtr<CefResponse> response
 ) {
-  LNDCT();
+  TRACE();
   RemoteRequest::Holder req(request);
   RemoteResponse::Holder resp(response);
   RemoteFrame::Holder frm(frame);
-  return myService->exec<bool>([&](RpcExecutor::Service s){
-    return s->ResourceRequestHandler_OnResourceResponse(myPeerId, myBid, frm.get()->serverIdWithMap(), req.get()->serverIdWithMap(),
-                                                        resp.get()->serverIdWithMap());
+  return myCtx->javaServiceIO()->exec<bool>([&](JavaService s){
+    return s->ResourceRequestHandler_OnResourceResponse(myPeerId, myBid, frm.serverId(), req.serverId(),
+                                                        resp.serverId());
   }, false);
 }
 
@@ -194,13 +190,13 @@ void RemoteResourceRequestHandler::OnResourceLoadComplete(
     CefResourceRequestHandler::URLRequestStatus status,
     int64_t received_content_length
 ) {
-  LNDCT();
+  TRACE();
   RemoteRequest::Holder req(request);
   RemoteResponse::Holder resp(response);
   RemoteFrame::Holder frm(frame);
-  myService->exec([&](RpcExecutor::Service s){
-    s->ResourceRequestHandler_OnResourceLoadComplete(myPeerId, myBid, frm.get()->serverIdWithMap(), req.get()->serverIdWithMap(),
-                                                     resp.get()->serverIdWithMap(), status2str(status), received_content_length);
+  myCtx->javaServiceIO()->exec([&](JavaService s){
+    s->ResourceRequestHandler_OnResourceLoadComplete(myPeerId, myBid, frm.serverId(), req.serverId(),
+                                                     resp.serverId(), status2str(status), received_content_length);
   });
 }
 
@@ -220,11 +216,11 @@ void RemoteResourceRequestHandler::OnProtocolExecution(
     CefRefPtr<CefFrame> frame,
     CefRefPtr<CefRequest> request,
     bool& allow_os_execution) {
-  LNDCT();
+  TRACE();
   RemoteRequest::Holder req(request);
   RemoteFrame::Holder frm(frame);
-  myService->exec([&](RpcExecutor::Service s){
-    allow_os_execution = s->ResourceRequestHandler_OnProtocolExecution(myPeerId, myBid, frm.get()->serverIdWithMap(), req.get()->serverIdWithMap(), allow_os_execution);
+  myCtx->javaServiceIO()->exec([&](JavaService s){
+    allow_os_execution = s->ResourceRequestHandler_OnProtocolExecution(myPeerId, myBid, frm.serverId(), req.serverId(), allow_os_execution);
   });
 }
 

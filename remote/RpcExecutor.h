@@ -5,9 +5,12 @@
 #include "./gen-cpp/ClientHandlers.h"
 #include "log/Log.h"
 
+class MyBinaryProtocol;
+
+typedef std::shared_ptr<thrift_codegen::ClientHandlersClient> JavaService;
+
 class RpcExecutor {
  public:
-  typedef std::shared_ptr<thrift_codegen::ClientHandlersClient> Service;
   RpcExecutor(int port);
   RpcExecutor(std::string pipeName);
 
@@ -16,27 +19,41 @@ class RpcExecutor {
 
   // Thread-safe RPC execution.
   template<typename T>
-  T exec(std::function<T(Service)> rpc, T defVal) {
+  T exec(std::function<T(JavaService)> rpc, T defVal) {
     std::unique_lock<std::recursive_mutex> lock(myMutex);
     if (myService == nullptr) {
       //Log::debug("null remote service");
       return defVal;
     }
     try {
-      return rpc(myService);
+      beforeExec();
+      T returnVal = rpc(myService);
+      afterExec();
+      return returnVal;
     } catch (apache::thrift::TException& tx) {
       Log::debug("thrift exception occured: %s", tx.what());
       close();
     }
+    afterExec();
     return defVal;
   }
 
-  void exec(std::function<void(Service)> rpc);
+  void exec(std::function<void(JavaService)> rpc);
+
+  bool isProcessing() const { return myIsProcessing; }
+  Clock::time_point getProcessingStart() const { return myStartExec; }
+  std::string getProcessingName() const;
 
  private:
-  std::shared_ptr<thrift_codegen::ClientHandlersClient> myService = nullptr;
+  JavaService myService = nullptr;
   std::shared_ptr<apache::thrift::transport::TTransport> myTransport;
+  std::shared_ptr<MyBinaryProtocol> myProtocol;
   std::recursive_mutex myMutex;
+
+  Clock::time_point myStartExec;
+  volatile bool myIsProcessing = false;
+  void beforeExec();
+  void afterExec();
 };
 
 typedef std::unique_lock<std::recursive_mutex> Lock;

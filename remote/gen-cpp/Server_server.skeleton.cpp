@@ -30,6 +30,11 @@ class ServerHandler : virtual public ServerIf {
     printf("connectTcp\n");
   }
 
+  void attach(const int32_t cid) {
+    // Your implementation goes here
+    printf("attach\n");
+  }
+
   void log(const std::string& msg) {
     // Your implementation goes here
     printf("log\n");
@@ -40,14 +45,9 @@ class ServerHandler : virtual public ServerIf {
     printf("echo\n");
   }
 
-  void version(std::string& _return) {
+  void getServerInfo(std::string& _return, const std::string& request) {
     // Your implementation goes here
-    printf("version\n");
-  }
-
-  void state(std::string& _return) {
-    // Your implementation goes here
-    printf("state\n");
+    printf("getServerInfo\n");
   }
 
   void stop() {
@@ -65,9 +65,19 @@ class ServerHandler : virtual public ServerIf {
     printf("Browser_StartNativeCreation\n");
   }
 
+  void Browser_StartNativeDevToolsCreation(const int32_t bid, const int32_t parentBid, const int32_t x, const int32_t y) {
+    // Your implementation goes here
+    printf("Browser_StartNativeDevToolsCreation\n");
+  }
+
   void Browser_Close(const int32_t bid) {
     // Your implementation goes here
     printf("Browser_Close\n");
+  }
+
+  void Browser_CloseDevTools(const int32_t bid) {
+    // Your implementation goes here
+    printf("Browser_CloseDevTools\n");
   }
 
   void Browser_Reload(const int32_t bid) {
@@ -110,9 +120,9 @@ class ServerHandler : virtual public ServerIf {
     printf("Browser_NotifyScreenInfoChanged\n");
   }
 
-  void Browser_SendKeyEvent(const int32_t bid, const int32_t event_type, const int32_t modifiers, const int16_t key_char, const int64_t scanCode, const int32_t key_code) {
+  void Browser_SendCefKeyEvent(const int32_t bid, const CefKeyEventAttributes& event) {
     // Your implementation goes here
-    printf("Browser_SendKeyEvent\n");
+    printf("Browser_SendCefKeyEvent\n");
   }
 
   void Browser_SendMouseEvent(const int32_t bid, const int32_t event_type, const int32_t x, const int32_t y, const int32_t modifiers, const int32_t click_count, const int32_t button) {
@@ -253,6 +263,31 @@ class ServerHandler : virtual public ServerIf {
   void Browser_SetFrameRate(const int32_t bid, const int32_t val) {
     // Your implementation goes here
     printf("Browser_SetFrameRate\n");
+  }
+
+  void Browser_AddDevToolsMessageObserver( ::thrift_codegen::RObject& _return, const int32_t bid, const  ::thrift_codegen::RObject& observer) {
+    // Your implementation goes here
+    printf("Browser_AddDevToolsMessageObserver\n");
+  }
+
+  void Browser_ExecuteDevToolsMethod(const int32_t bid, const std::string& method, const std::string& parametersAsJson, const  ::thrift_codegen::RObject& intCallback) {
+    // Your implementation goes here
+    printf("Browser_ExecuteDevToolsMethod\n");
+  }
+
+  void Browser_RunFileDialog(const int32_t bid, const std::string& mode, const std::string& title, const std::string& defaultFilePath, const std::vector<std::string> & acceptFilters, const  ::thrift_codegen::RObject& runFileDialogCallback) {
+    // Your implementation goes here
+    printf("Browser_RunFileDialog\n");
+  }
+
+  void Browser_PrintToPDF(const int32_t bid, const std::string& path, const std::map<std::string, std::string> & pdfPrintSettings, const  ::thrift_codegen::RObject& pdfPrintCallback) {
+    // Your implementation goes here
+    printf("Browser_PrintToPDF\n");
+  }
+
+  void Browser_Print(const int32_t bid) {
+    // Your implementation goes here
+    printf("Browser_Print\n");
   }
 
   void Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line) {
@@ -410,6 +445,21 @@ class ServerHandler : virtual public ServerIf {
     printf("AuthCallback_Cancel\n");
   }
 
+  void CefRunContextMenuCallback_Dispose(const  ::thrift_codegen::RObject& self) {
+    // Your implementation goes here
+    printf("CefRunContextMenuCallback_Dispose\n");
+  }
+
+  void CefRunContextMenuCallback_Continue(const  ::thrift_codegen::RObject& self, const int32_t command_id, const int32_t event_flag) {
+    // Your implementation goes here
+    printf("CefRunContextMenuCallback_Continue\n");
+  }
+
+  void CefRunContextMenuCallback_Cancel(const  ::thrift_codegen::RObject& self) {
+    // Your implementation goes here
+    printf("CefRunContextMenuCallback_Cancel\n");
+  }
+
   void MessageRouter_Create( ::thrift_codegen::RObject& _return, const std::string& query, const std::string& cancel) {
     // Your implementation goes here
     printf("MessageRouter_Create\n");
@@ -513,6 +563,26 @@ class ServerHandler : virtual public ServerIf {
   bool CookieManager_FlushStore(const  ::thrift_codegen::RObject& cookieManager, const  ::thrift_codegen::RObject& completionCallback) {
     // Your implementation goes here
     printf("CookieManager_FlushStore\n");
+  }
+
+  void Registration_Dispose(const  ::thrift_codegen::RObject& registration) {
+    // Your implementation goes here
+    printf("Registration_Dispose\n");
+  }
+
+  void MediaAccessCallback_Dispose(const  ::thrift_codegen::RObject& mediaAccessCallback) {
+    // Your implementation goes here
+    printf("MediaAccessCallback_Dispose\n");
+  }
+
+  void MediaAccessCallback_Continue(const  ::thrift_codegen::RObject& mediaAccessCallback, const int32_t allowed_permissions) {
+    // Your implementation goes here
+    printf("MediaAccessCallback_Continue\n");
+  }
+
+  void MediaAccessCallback_Cancel(const  ::thrift_codegen::RObject& mediaAccessCallback) {
+    // Your implementation goes here
+    printf("MediaAccessCallback_Cancel\n");
   }
 
 };

@@ -1,6 +1,7 @@
 package com.jetbrains.cef.remote.network;
 
 import com.jetbrains.cef.remote.CefServer;
+import com.jetbrains.cef.remote.RpcContext;
 import com.jetbrains.cef.remote.RpcExecutor;
 import com.jetbrains.cef.remote.thrift_codegen.RObject;
 import org.cef.CefApp;
@@ -18,16 +19,16 @@ public class RemoteRequest extends CefRequest {
         myImpl = impl;
     }
 
-    public RemoteRequest() {
+    public RemoteRequest(CefServer server) {
         super();
-        CefServer.instance().onConnected(()-> {
-            RpcExecutor service = CefServer.instance().getService();
-            RObject remoteRequest = service.execObj(s -> s.Request_Create());
+        server.onConnected(()-> {
+            RpcContext rpcContext = server.getRpcContext();
+            RObject remoteRequest = rpcContext.execObj(s -> s.Request_Create());
             if (remoteRequest.objId < 0) {
                 CefLog.Error("Request_Create returns invalid objId %d.", remoteRequest.objId);
                 return;
             }
-            myImpl = new RemoteRequestImpl(service, remoteRequest);
+            myImpl = new RemoteRequestImpl(rpcContext, remoteRequest);
         }, "Request_Create", false);
     }
 

@@ -1,21 +1,19 @@
 package com.jetbrains.cef.remote;
 
 import com.jetbrains.cef.remote.thrift_codegen.*;
-import org.apache.thrift.TException;
+import com.jetbrains.cef.remote.thrift.TException;
 
 import java.nio.ByteBuffer;
 import java.util.List;
 
 public class ClientHandlersDummy implements ClientHandlers.Iface{
-
-    @Override
-    public int connect() throws TException {
-        return 0;
-    }
-
     @Override
     public void log(String msg) throws TException {
 
+    }
+    @Override
+    public String echo(String msg) {
+        return msg;
     }
 
     @Override
@@ -44,12 +42,12 @@ public class ClientHandlersDummy implements ClientHandlers.Iface{
     }
 
     @Override
-    public void OnPopupShow(int bid, boolean show) throws TException {
+    public void RenderHandler_OnPopupShow(int bid, boolean show) throws TException {
 
     }
 
     @Override
-    public void OnPopupSize(int bid, Rect rect) throws TException {
+    public void RenderHandler_OnPopupSize(int bid, Rect rect) throws TException {
 
     }
 
@@ -114,7 +112,7 @@ public class ClientHandlersDummy implements ClientHandlers.Iface{
     }
 
     @Override
-    public boolean DisplayHandler_OnConsoleMessage(int bid, int level, String message, String source, int line) throws TException {
+    public boolean DisplayHandler_OnConsoleMessage(int bid, String level, String message, String source, int line) throws TException {
         return false;
     }
 
@@ -254,6 +252,26 @@ public class ClientHandlersDummy implements ClientHandlers.Iface{
     }
 
     @Override
+    public List<MenuItem> ContextMenuHandler_OnBeforeContextMenu(int bid, RObject frame, ContextMenuParams params, List<MenuItem> menu_model) throws TException {
+        return List.of();
+    }
+
+    @Override
+    public boolean ContextMenuHandler_RunContextMenu(int bid, RObject frame, ContextMenuParams params, List<MenuItem> model, RObject callback) throws TException {
+        return false;
+    }
+
+    @Override
+    public boolean ContextMenuHandler_OnContextMenuCommand(int bid, RObject frame, ContextMenuParams params, int command_id, int event_flags) throws TException {
+        return false;
+    }
+
+    @Override
+    public void ContextMenuHandler_OnContextMenuDismissed(int bid, RObject frame) throws TException {
+
+    }
+
+    @Override
     public boolean MessageRouterHandler_onQuery(RObject handler, int bid, RObject frame, long queryId, String request, boolean persistent, RObject queryCallback) throws TException {
         return false;
     }
@@ -284,6 +302,11 @@ public class ClientHandlersDummy implements ClientHandlers.Iface{
     }
 
     @Override
+    public void IntCallback_OnComplete(int intCallback, int result) throws TException {
+
+    }
+
+    @Override
     public RObject RequestContextHandler_GetResourceRequestHandler(int handler, int bid, RObject frame, RObject request, boolean isNavigation, boolean isDownload, String requestInitiator) throws TException {
         return null;
     }
@@ -297,4 +320,40 @@ public class ClientHandlersDummy implements ClientHandlers.Iface{
     public void CookieVisitor_Dispose(int visitor) throws TException {
 
     }
+
+    @Override
+    public void StringVisitor_Visit(int stringVisitor, String str) throws TException {
+
+    }
+
+    @Override
+    public void StringVisitor_Dispose(int stringVisitor) throws TException {
+
+    }
+
+    @Override
+    public void DevToolsMessageObserver_Dispose(int observer) throws TException {
+
+    }
+
+    @Override
+    public void DevToolsMessageObserver_OnDevToolsMethodResult(int observer, int bid, int messageId, boolean success, String result) throws TException {
+
+    }
+
+    @Override
+    public void DevToolsMessageObserver_OnDevToolsEvent(int observer, int bid, String method, String parameters) throws TException {
+
+    }
+
+    @Override
+    public boolean PermissionHandler_OnRequestMediaAccessPermission(int bid, RObject frame, String requesting_origin, int requested_permissions, RObject mediaAccessCallback) throws TException {
+        return false;
+    }
+
+    @Override
+    public void PdfPrintCallback_OnPdfPrintFinished(int bid, String path, boolean ok) throws TException {}
+
+    @Override
+    public void RunFileDialogCallback_OnFileDialogDismissed(int bid, List<String> filePaths) throws TException {}
 }

@@ -1,14 +1,13 @@
 package com.jetbrains.cef.remote;
 
 import com.jetbrains.cef.remote.thrift_codegen.Server;
-import org.apache.thrift.TException;
-import org.apache.thrift.protocol.TBinaryProtocol;
-import org.apache.thrift.protocol.TProtocol;
-import org.apache.thrift.transport.TSocket;
-import org.apache.thrift.transport.TTransport;
-import org.apache.thrift.transport.TTransportException;
+import com.jetbrains.cef.remote.thrift.TException;
+import com.jetbrains.cef.remote.thrift.protocol.TBinaryProtocol;
+import com.jetbrains.cef.remote.thrift.protocol.TProtocol;
+import com.jetbrains.cef.remote.thrift.transport.TSocket;
+import com.jetbrains.cef.remote.thrift.transport.TTransport;
+import com.jetbrains.cef.remote.thrift.transport.TTransportException;
 import org.cef.misc.CefLog;
-import org.cef.misc.Utils;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -20,15 +19,15 @@ public class RpcExecutor {
 
     public RpcExecutor() {}
 
-    public RpcExecutor openTransport() throws TTransportException {
-        if (ThriftTransport.isTcp())
-            initTcp(ThriftTransport.getServerPort());
+    public RpcExecutor openTransport(ThriftTransport thriftServer) throws TTransportException {
+        if (thriftServer.isTcp())
+            openTcpTransport(thriftServer.getPort());
         else
-            initPipe(ThriftTransport.getServerPipe().toString());
+            openPipeTransport(thriftServer);
         return this;
     }
 
-    private void initTcp(int port) throws TTransportException {
+    private void openTcpTransport(int port) throws TTransportException {
         try {
             myTransport = new TSocket("localhost", port);
             myTransport.open();
@@ -40,8 +39,8 @@ public class RpcExecutor {
         }
     }
 
-    private void initPipe(String pipeName) throws TTransportException {
-        myTransport = ThriftTransport.openPipeTransport(pipeName);
+    public void openPipeTransport(ThriftTransport thriftServer) throws TTransportException {
+        myTransport = thriftServer.openPipeTransport();
         myProtocol = new TBinaryProtocol(myTransport);
         myServer = new Server.Client(myProtocol);
     }
@@ -63,13 +62,13 @@ public class RpcExecutor {
     }
 
     synchronized
-    public int connect(boolean asMaster) {
+    public int connect(ThriftTransport thriftBackward, boolean asMaster) {
         if (myTransport == null)
             return -1;
         try {
-            return ThriftTransport.isTcp() ?
-                    myServer.connectTcp(ThriftTransport.getJavaHandlersPort(), asMaster) :
-                    myServer.connect(ThriftTransport.getJavaHandlersPipe(), asMaster);
+            return thriftBackward.isTcp() ?
+                    myServer.connectTcp(thriftBackward.getPort(), asMaster) :
+                    myServer.connect(thriftBackward.getPipe(), asMaster);
         } catch (TException e) {
             onThriftException(e);
         }
@@ -108,9 +107,9 @@ public class RpcExecutor {
     }
 
     private void onThriftException(TException e) {
-        CefLog.Error("thrift exception '%s'", e.getMessage());
+        CefLog.Debug("thrift exception '%s'", e.getMessage());
         StringWriter sw = new StringWriter();
         e.printStackTrace(new PrintWriter(sw));
-        CefLog.Error(sw.getBuffer().toString());
+        CefLog.Debug(sw.getBuffer().toString());
     }
 }

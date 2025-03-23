@@ -8,7 +8,7 @@ class ClientsManager;
 
 class RemoteSchemeHandlerFactory : public CefSchemeHandlerFactory, public RemoteJavaObject<RemoteSchemeHandlerFactory>  {
  public:
-  RemoteSchemeHandlerFactory(std::shared_ptr<ClientsManager> clientsManager, std::shared_ptr<RpcExecutor> service, thrift_codegen::RObject peer);
+  RemoteSchemeHandlerFactory(std::shared_ptr<ClientsManager> clientsManager, std::shared_ptr<ServerHandlerContext> ctx, thrift_codegen::RObject peer);
 
   CefRefPtr<CefResourceHandler> Create(CefRefPtr<CefBrowser> browser,
                                        CefRefPtr<CefFrame> frame,

@@ -28,7 +28,6 @@ public class SwingComponentsTest {
 
     static {
         CefLog.init(null);
-        TestSetupExtension.enableVerboseLogging();
     }
 
     @Test

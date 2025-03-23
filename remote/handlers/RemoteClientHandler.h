@@ -16,7 +16,7 @@ public:
      std::shared_ptr<ServerHandlerContext> ctx, int cid, int bid, int handlersMask,
      const thrift_codegen::RObject& requestContextHandler);
 
- CefRefPtr<CefContextMenuHandler> GetContextMenuHandler() override;
+    CefRefPtr<CefContextMenuHandler> GetContextMenuHandler() override;
     CefRefPtr<CefDialogHandler> GetDialogHandler() override;
     CefRefPtr<CefDisplayHandler> GetDisplayHandler() override;
     CefRefPtr<CefDownloadHandler> GetDownloadHandler() override;
@@ -49,10 +49,10 @@ public:
 
     // Convenience methods
     template<typename T>
-    T exec(std::function<T(RpcExecutor::Service)> rpc, T defVal) {
+    T exec(std::function<T(JavaService)> rpc, T defVal) {
       return myService->exec(std::move(rpc), defVal);
     }
-    void exec(std::function<void(RpcExecutor::Service)> rpc) { myService->exec(std::move(rpc)); }
+    void exec(std::function<void(JavaService)> rpc) { myService->exec(std::move(rpc)); }
 
   private:
     const int myCid;
@@ -69,6 +69,8 @@ public:
     CefRefPtr<CefRequestHandler> myRemoteRequestHandler;
     CefRefPtr<CefKeyboardHandler> myRemoteKeyboardHandler;
     CefRefPtr<CefFocusHandler> myRemoteFocusHandler;
+    CefRefPtr<CefContextMenuHandler> myRemoteContextMenuHandler;
+    CefRefPtr<CefPermissionHandler> myRemotePermissionHandler;
 
     bool myIsClosing = false;
 

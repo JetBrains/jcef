@@ -4,6 +4,8 @@
 
 package org.cef.browser;
 
+import com.jetbrains.cef.remote.browser.RemoteBrowser;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -17,15 +19,15 @@ public class CefDevToolsClient implements AutoCloseable {
     private final Set<EventListener> eventListeners_ =
             Collections.synchronizedSet(new LinkedHashSet<>());
     private CefRegistration registration_;
-    private final CefBrowser_N browser_;
+    private final CefBrowser browser_;
 
     /**
      * Use {@link CefBrowser#getDevToolsClient()} to get an instance of this class.
      */
-    CefDevToolsClient(CefBrowser_N browser) {
+    public CefDevToolsClient(CefBrowser browser) {
         this.browser_ = browser;
 
-        registration_ = browser.addDevToolsMessageObserver(new CefDevToolsMessageObserver() {
+        CefDevToolsMessageObserver observer = new CefDevToolsMessageObserver() {
             @Override
             public void onDevToolsMethodResult(
                     CefBrowser browser, int messageId, boolean success, String result) {
@@ -44,7 +46,13 @@ public class CefDevToolsClient implements AutoCloseable {
                     eventListener.onEvent(method, parameters);
                 }
             }
-        });
+        };
+        if (browser instanceof CefBrowser_N)
+            registration_ = ((CefBrowser_N)browser).addDevToolsMessageObserver(observer);
+        else if (browser instanceof RemoteBrowser)
+            registration_ = ((RemoteBrowser)browser).addDevToolsMessageObserver(observer);
+        else
+            throw new IllegalArgumentException("Unsupported browser type: " + browser);
     }
 
     @Override
@@ -100,8 +108,11 @@ public class CefDevToolsClient implements AutoCloseable {
             return future;
         }
 
-        return browser_.executeDevToolsMethod(method, parametersAsJson)
-                .thenCompose(this::getQueuedCommand);
+        if (browser_ instanceof CefBrowser_N)
+            return ((CefBrowser_N)browser_).executeDevToolsMethod(method, parametersAsJson).thenCompose(this::getQueuedCommand);
+        if (browser_ instanceof RemoteBrowser)
+            return ((RemoteBrowser)browser_).executeDevToolsMethod(method, parametersAsJson).thenCompose(this::getQueuedCommand);
+        throw new IllegalArgumentException("Unsupported browser type: " + browser_);
     }
 
     /**

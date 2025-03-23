@@ -12,7 +12,6 @@ class RpcExecutor;
 class RemoteBrowserProcessHandler : public CefBrowserProcessHandler {
  public:
   explicit RemoteBrowserProcessHandler();
-  ~RemoteBrowserProcessHandler() override;
 
   // NOTES: for the current JBCefApp implementation we needs only one this method.
   void OnContextInitialized() override;
@@ -27,6 +26,7 @@ class RemoteBrowserProcessHandler : public CefBrowserProcessHandler {
   std::recursive_mutex myMutex;
   const std::chrono::high_resolution_clock::time_point myCreationTime; // just for logging
   bool myIsContextInitialized = false;
+  bool myIsCallbackInvoked = false;
   IMPLEMENT_REFCOUNTING(RemoteBrowserProcessHandler);
 };
 #endif  // JCEF_REMOTEBROWSERPROCESSHANDLER_H

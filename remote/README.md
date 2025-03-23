@@ -1,4 +1,6 @@
-# The Chromium Embedded Framework RPC server
+# The article is out of date. To be updated.
+
+## The Chromium Embedded Framework RPC server
 
 ## TL;DR
 Just run cmake with `BUILD_CEF_SERVER=1`. Install missing tools if needed. There might be problems with `bison`.

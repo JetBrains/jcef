@@ -1,6 +1,7 @@
 package com.jetbrains.cef.remote.network;
 
 import com.jetbrains.cef.remote.RemoteServerObject;
+import com.jetbrains.cef.remote.RpcContext;
 import com.jetbrains.cef.remote.RpcExecutor;
 import com.jetbrains.cef.remote.RemoteServerObjectLocal;
 import com.jetbrains.cef.remote.thrift_codegen.PostData;
@@ -18,20 +19,18 @@ import java.util.Map;
 // 3. Lifetime of remote native peer is managed by java: native object
 // peer will be destroyed when java object destroyed via usual gc.
 public class RemoteRequestImpl extends RemoteServerObject {
-    public RemoteRequestImpl(RpcExecutor server, RObject request) {
-        super(server, request);
+    public RemoteRequestImpl(RpcContext rpcContext, RObject request) {
+        super(rpcContext, request);
     }
 
     @Override
     protected void disposeOnServerImpl() {
-        myServer.exec((s)->{
-            s.Request_Dispose(myId);
-        });
+        myRpc.invokeLater(s -> s.Request_Dispose(myId));
     }
 
     @Override
     public void flush() {
-        myServer.exec((s)->{
+        myRpc.exec((s)->{
             s.Request_Update(thriftIdWithCache());
         });
     }
@@ -68,28 +67,28 @@ public class RemoteRequestImpl extends RemoteServerObject {
     }
 
     public CefPostData getPostData() {
-        PostData pd = myServer.execObj((s)-> s.Request_GetPostData(thriftId()));
+        PostData pd = myRpc.execObj((s)-> s.Request_GetPostData(thriftId()));
         return pd == null ? null : new RemotePostData(pd);
     }
 
     public void setPostData(CefPostData postData) {
-        myServer.exec((s)->{
+        myRpc.exec((s)->{
             s.Request_SetPostData(thriftId(), RemotePostData.toThriftWithMap(postData));
         });
     }
 
     public void set(String url, String method, CefPostData postData, Map<String, String> headerMap) {
-        myServer.exec((s)->{
+        myRpc.exec((s)->{
             s.Request_Set(thriftId(), url, method, RemotePostData.toThriftWithMap(postData), headerMap);
         });
     }
 
     public String getHeaderByName(String name) {
-        return myServer.execObj((s)->s.Request_GetHeaderByName(thriftId(), name));
+        return myRpc.execObj((s)->s.Request_GetHeaderByName(thriftId(), name));
     }
 
     public void setHeaderByName(String name, String value, boolean overwrite) {
-        myServer.exec((s)->{
+        myRpc.exec((s)->{
             s.Request_SetHeaderByName(thriftId(), name, value, overwrite);
         });
     }
@@ -97,13 +96,13 @@ public class RemoteRequestImpl extends RemoteServerObject {
     public void getHeaderMap(Map<String, String> headerMap) {
         if (headerMap == null)
             return;
-        Map<String, String> result = myServer.execObj((s)-> s.Request_GetHeaderMap(thriftId()));
+        Map<String, String> result = myRpc.execObj((s)-> s.Request_GetHeaderMap(thriftId()));
         if (result != null)
             headerMap.putAll(result);
     }
 
     public void setHeaderMap(Map<String, String> headerMap) {
-        myServer.exec((s)->{
+        myRpc.exec((s)->{
             s.Request_SetHeaderMap(thriftId(), headerMap);
         });
     }

@@ -6,12 +6,12 @@
 
 RemoteSchemeHandlerFactory::RemoteSchemeHandlerFactory(
     std::shared_ptr<ClientsManager> clientsManager,
-    std::shared_ptr<RpcExecutor> service,
+    std::shared_ptr<ServerHandlerContext> service,
     thrift_codegen::RObject peer)
     : RemoteJavaObject<RemoteSchemeHandlerFactory>(
           service,
           peer.objId,
-          [=](std::shared_ptr<thrift_codegen::ClientHandlersClient> service) {
+          [=](JavaService service) {
             service->SchemeHandlerFactory_Dispose(peer.objId);
             Log::trace("Disposed SchemeHandlerFactory, peer-id=%d", peer.objId);
           }), myClientsManager(clientsManager) {
@@ -33,8 +33,8 @@ CefRefPtr<CefResourceHandler> RemoteSchemeHandlerFactory::Create(
   RemoteRequest::Holder req(request);
   RemoteFrame::Holder frm(frame);
   thrift_codegen::RObject resultHandler;
-  myService->exec([&](RpcExecutor::Service s){
-    s->SchemeHandlerFactory_CreateHandler(resultHandler, myPeerId, bid, frm.get()->serverIdWithMap(), scheme_name.ToString(), req.get()->serverIdWithMap());
+  myCtx->javaService()->exec([&](JavaService s){
+    s->SchemeHandlerFactory_CreateHandler(resultHandler, myPeerId, bid, frm.serverId(), scheme_name.ToString(), req.serverId());
   });
-  return resultHandler.objId != -1 ? new RemoteResourceHandler(bid, myService, resultHandler) : nullptr;
+  return resultHandler.objId != -1 ? new RemoteResourceHandler(bid, myCtx, resultHandler) : nullptr;
 }

@@ -11,12 +11,18 @@ namespace {
 }
 
 RemoteRequest * RemoteRequest::create(CefRefPtr<CefRequest> delegate) {
+  FACTORY_TRACE("CEF_SERVER_OBJTRACE_Request", "RemoteRequest");
   if (!delegate)
     return nullptr;
   return FACTORY.create([&](int id) -> RemoteRequest* {return new RemoteRequest(delegate, id);});
 }
 
 void RemoteRequest::updateImpl(const std::map<std::string, std::string>& requestInfo) {
+  if (myDelegate->IsReadOnly()) {
+    const std::string url = myDelegate->GetURL().ToString();
+    Log::error("RemoteRequest::updateImpl: object is read-only, ulr=%s", url.c_str());
+    return;
+  }
   SET_STR(requestInfo, URL);
   SET_STR(requestInfo, Method);
   SET_INT(requestInfo, Flags);

@@ -3,6 +3,7 @@
 #include <winerror.h>
 #include <winnt.h>
 #include <vector>
+#include <string>
 
 #define THROW_IO(prefix, ...)                                                  \
   do {                                                                         \
@@ -141,7 +142,7 @@ Java_com_jetbrains_cef_remote_WindowsPipe_write(
   if (!immediate) {
     if (GetLastError() != ERROR_IO_PENDING) {
       char buf[256];
-      FILL_ERROR("ReadFile() failed: %s (error code %ld)", buf);
+      FILL_ERROR("WriteFile() failed: %s (error code %ld)", buf);
       THROW_IO(NULL, buf);
     }
   }
@@ -284,6 +285,37 @@ JNIEXPORT jint JNICALL
 Java_com_jetbrains_cef_remote_WindowsPipe_PIPE_1ACCESS_1DUPLEX(
     JNIEnv *env, jclass clazz) {
   return PIPE_ACCESS_DUPLEX;
+}
+
+JNIEXPORT jobjectArray JNICALL
+Java_com_jetbrains_cef_remote_WindowsPipe_findPipes(JNIEnv *env, jclass clazz, jstring jFileName) {
+  std::string fileName = "*";
+  const char* strFileName = env->GetStringUTFChars(jFileName, nullptr);
+  if (strFileName)
+    fileName.assign(strFileName);
+  env->ReleaseStringUTFChars(jFileName, strFileName);
+
+  WIN32_FIND_DATA data;
+  std::string lpFileName = "\\\\.\\pipe\\" + fileName;
+  HANDLE hFind = FindFirstFile(lpFileName.c_str(), &data);
+
+  if (hFind == INVALID_HANDLE_VALUE)
+    return nullptr;
+
+  std::vector<std::string> pipes;
+  do {
+    pipes.push_back(std::string(data.cFileName));
+  } while (FindNextFile(hFind, &data));
+  FindClose(hFind);
+
+  jobjectArray ret = (jobjectArray)env->NewObjectArray(pipes.size(),
+                                          env->FindClass("java/lang/String"),
+                                          env->NewStringUTF(""));
+  int c = 0;
+  for(auto& pipe: pipes)
+    env->SetObjectArrayElement(ret,c++,env->NewStringUTF(pipe.c_str()));
+
+  return ret;
 }
 
 #ifdef __cplusplus

@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "../CefUtils.h"
+#include "../Utils.h"
 #include "../log/Log.h"
 
 using namespace std::chrono;
@@ -44,7 +45,7 @@ void RemoteRenderHandler::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& re
     fillDummy(rect);
     Rect result;
     result.w = -1; // invalidate
-    myService->exec([&](const RpcExecutor::Service& s){
+    myService->exec([&](const JavaService& s){
       s->RenderHandler_GetViewRect(result, myBid);
     });
     if (result.w < 0) return;
@@ -93,7 +94,7 @@ bool RemoteRenderHandler::GetScreenInfo(CefRefPtr<CefBrowser> browser,
     fillDummy(screen_info);
     ScreenInfo result;
     result.depth = -1;// invalidate
-    myService->exec([&](const RpcExecutor::Service& s){
+    myService->exec([&](const JavaService& s){
       s->RenderHandler_GetScreenInfo(result, myBid);
     });
     if (result.depth == -1) return false;
@@ -124,7 +125,7 @@ bool RemoteRenderHandler::GetScreenPoint(CefRefPtr<CefBrowser> browser,
     LNDCT();
     Point result;
     result.x = INT32_MIN;// invalidate
-    myService->exec([&](const RpcExecutor::Service& s){
+    myService->exec([&](const JavaService& s){
       s->RenderHandler_GetScreenPoint(result, myBid, viewX, viewY);
     });
     if (result.x == INT32_MIN) return false;
@@ -136,21 +137,21 @@ bool RemoteRenderHandler::GetScreenPoint(CefRefPtr<CefBrowser> browser,
 
 void RemoteRenderHandler::OnPopupShow(CefRefPtr<CefBrowser> browser, bool show) {
   LNDCT();
-  myService->exec([&](const RpcExecutor::Service& s){
-    s->OnPopupShow(myBid, show);
+  myService->exec([&](const JavaService& s){
+    s->RenderHandler_OnPopupShow(myBid, show);
   });
 }
 
 void RemoteRenderHandler::OnPopupSize(CefRefPtr<CefBrowser> browser,
                                       const CefRect& rect) {
   LNDCT();
-  myService->exec([&](const RpcExecutor::Service& s) {
+  myService->exec([&](const JavaService& s) {
     Rect size;
     size.x = rect.x;
     size.y = rect.y;
     size.w = rect.width;
     size.h = rect.height;
-    s->OnPopupSize(myBid, size);
+    s->RenderHandler_OnPopupSize(myBid, size);
   });
 }
 
@@ -282,12 +283,8 @@ void RemoteRenderHandler::OnPaint(CefRefPtr<CefBrowser> browser,
 
     { // Draw debug
       static int drawDebug = -1;
-        if (drawDebug < 0) {
-          drawDebug = 0;
-          const char* sval = getenv("CEF_SERVER_DRAW_DEBUG");
-          if (sval != nullptr && std::string(sval).compare("true") == 0)
-            drawDebug = 1;
-        }
+        if (drawDebug < 0)
+          drawDebug = getBoolEnv("CEF_SERVER_DRAW_DEBUG") ? 1 : 0;
         if (drawDebug > 0) {
           const int stride = width*4;
           const int th = 30;
@@ -300,7 +297,7 @@ void RemoteRenderHandler::OnPaint(CefRefPtr<CefBrowser> browser,
 
     buff.unlock();
 
-    myService->exec([&](const RpcExecutor::Service& s){
+    myService->exec([&](const JavaService& s){
       s->RenderHandler_OnPaint(myBid, type != PET_VIEW, static_cast<int>(dirtyRects.size()),
                  buff.uid(), buff.handle(),
                  width, height);

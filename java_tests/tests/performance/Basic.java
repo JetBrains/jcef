@@ -1,6 +1,7 @@
 package tests.performance;
 
 import com.jetbrains.cef.remote.NativeServerManager;
+import com.jetbrains.cef.remote.ThriftTransport;
 import org.cef.CefApp;
 import org.cef.CefClient;
 import org.cef.CefSettings;
@@ -8,10 +9,10 @@ import org.cef.browser.CefBrowser;
 import org.cef.browser.CefFrame;
 import org.cef.misc.CefLog;
 import org.cef.network.CefRequest;
+import tests.CefInitHelper;
 import tests.OsrSupport;
 import tests.junittests.LoggingLifeSpanHandler;
 import tests.junittests.LoggingLoadHandler;
-import tests.junittests.TestSetupExtension;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -22,7 +23,7 @@ public class Basic {
     //
     public static void main(String[] args) {
         final long timeStartNs = System.nanoTime();
-        TestSetupExtension.initializeCef();
+        CefInitHelper.initializeCef();
         final boolean isRemote = CefApp.isRemoteEnabled();
 
         CountDownLatch appInitializationLatch = new CountDownLatch(1);
@@ -104,12 +105,12 @@ public class Basic {
             client.dispose();
 
             // dispose CefApp
-            TestSetupExtension.shutdonwCef();
+            CefInitHelper.shutdonwCef();
             if (CefApp.isRemoteEnabled()) {
                 // Ensure that server process is stopped
-                boolean stopped = NativeServerManager.waitForStopped(1000);
+                boolean stopped = NativeServerManager.waitForStopped(ThriftTransport.ourDefaultServer, 15000);
                 if (!stopped)
-                    CefLog.Error("Can't stop server in %d ms.", 1000);
+                    CefLog.Error("Can't stop server in %d ms.", 15000);
             }
         }
     }
