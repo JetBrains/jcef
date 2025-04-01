@@ -14,6 +14,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.net.InetAddress;
+import java.net.ServerSocket;
 import java.net.StandardProtocolFamily;
 import java.net.UnixDomainSocketAddress;
 import java.nio.channels.SocketChannel;
@@ -200,12 +202,12 @@ public class NativeServerManager {
 
     private static boolean isServerSocketBusy(int port, boolean withDebug) {
         try {
-            TServerSocket serverSocket = null;
+            ServerSocket serverSocket = null;
             try {
-                serverSocket = new TServerSocket(port);
-            } catch (TTransportException e) {
+                serverSocket = new ServerSocket(port, 1, InetAddress.getByName("localhost"));
+            } catch (Throwable e) {
                 if (withDebug)
-                    CefLog.Debug("isServerSocketBusy: can't open tcp-port %d, TTransportException occurred: %s", port, e.getMessage());
+                    CefLog.Debug("isServerSocketBusy: can't open tcp-port %d, exception occurred: %s", port, e.getMessage());
                 return true;
             }
             if (withDebug)
