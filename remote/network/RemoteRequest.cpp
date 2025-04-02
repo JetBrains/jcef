@@ -36,7 +36,7 @@ void RemoteRequest::updateImpl(const std::map<std::string, std::string>& request
 
 std::map<std::string, std::string> RemoteRequest::toMapImpl() {
     std::map<std::string, std::string> result;
-    GET_INT(result, Identifier);
+    GET_LONG(result, Identifier);
     result["IsReadOnly"] = std::to_string(myDelegate->IsReadOnly());
     GET_STR(result, URL);
     GET_STR(result, Method);
