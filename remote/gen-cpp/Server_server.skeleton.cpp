@@ -290,6 +290,26 @@ class ServerHandler : virtual public ServerIf {
     printf("Browser_Print\n");
   }
 
+  void Browser_ImeSetComposition(const int32_t bid, const std::string& text, const std::vector< ::thrift_codegen::CompositionUnderline> & underlines, const  ::thrift_codegen::Range& replacementRange, const  ::thrift_codegen::Range& selectionRange) {
+    // Your implementation goes here
+    printf("Browser_ImeSetComposition\n");
+  }
+
+  void Browser_ImeCommitText(const int32_t bid, const std::string& text, const  ::thrift_codegen::Range& replacementRange, const int32_t relativeCursorPos) {
+    // Your implementation goes here
+    printf("Browser_ImeCommitText\n");
+  }
+
+  void Browser_ImeFinishComposingText(const int32_t bid, const bool keepSelection) {
+    // Your implementation goes here
+    printf("Browser_ImeFinishComposingText\n");
+  }
+
+  void Browser_ImeCancelComposing(const int32_t bid) {
+    // Your implementation goes here
+    printf("Browser_ImeCancelComposing\n");
+  }
+
   void Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line) {
     // Your implementation goes here
     printf("Frame_ExecuteJavaScript\n");

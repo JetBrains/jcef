@@ -7525,6 +7525,478 @@ uint32_t Server_Browser_Print_pargs::write(::apache::thrift::protocol::TProtocol
 }
 
 
+Server_Browser_ImeSetComposition_args::~Server_Browser_ImeSetComposition_args() noexcept {
+}
+
+
+uint32_t Server_Browser_ImeSetComposition_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->bid);
+          this->__isset.bid = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->text);
+          this->__isset.text = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_LIST) {
+          {
+            this->underlines.clear();
+            uint32_t _size40;
+            ::apache::thrift::protocol::TType _etype43;
+            xfer += iprot->readListBegin(_etype43, _size40);
+            this->underlines.resize(_size40);
+            uint32_t _i44;
+            for (_i44 = 0; _i44 < _size40; ++_i44)
+            {
+              xfer += this->underlines[_i44].read(iprot);
+            }
+            xfer += iprot->readListEnd();
+          }
+          this->__isset.underlines = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->replacementRange.read(iprot);
+          this->__isset.replacementRange = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 5:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->selectionRange.read(iprot);
+          this->__isset.selectionRange = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_Browser_ImeSetComposition_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_Browser_ImeSetComposition_args");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->bid);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("text", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString(this->text);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("underlines", ::apache::thrift::protocol::T_LIST, 3);
+  {
+    xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->underlines.size()));
+    std::vector< ::thrift_codegen::CompositionUnderline> ::const_iterator _iter45;
+    for (_iter45 = this->underlines.begin(); _iter45 != this->underlines.end(); ++_iter45)
+    {
+      xfer += (*_iter45).write(oprot);
+    }
+    xfer += oprot->writeListEnd();
+  }
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("replacementRange", ::apache::thrift::protocol::T_STRUCT, 4);
+  xfer += this->replacementRange.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("selectionRange", ::apache::thrift::protocol::T_STRUCT, 5);
+  xfer += this->selectionRange.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Browser_ImeSetComposition_pargs::~Server_Browser_ImeSetComposition_pargs() noexcept {
+}
+
+
+uint32_t Server_Browser_ImeSetComposition_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_Browser_ImeSetComposition_pargs");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->bid)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("text", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString((*(this->text)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("underlines", ::apache::thrift::protocol::T_LIST, 3);
+  {
+    xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>((*(this->underlines)).size()));
+    std::vector< ::thrift_codegen::CompositionUnderline> ::const_iterator _iter46;
+    for (_iter46 = (*(this->underlines)).begin(); _iter46 != (*(this->underlines)).end(); ++_iter46)
+    {
+      xfer += (*_iter46).write(oprot);
+    }
+    xfer += oprot->writeListEnd();
+  }
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("replacementRange", ::apache::thrift::protocol::T_STRUCT, 4);
+  xfer += (*(this->replacementRange)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("selectionRange", ::apache::thrift::protocol::T_STRUCT, 5);
+  xfer += (*(this->selectionRange)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Browser_ImeCommitText_args::~Server_Browser_ImeCommitText_args() noexcept {
+}
+
+
+uint32_t Server_Browser_ImeCommitText_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->bid);
+          this->__isset.bid = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->text);
+          this->__isset.text = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->replacementRange.read(iprot);
+          this->__isset.replacementRange = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->relativeCursorPos);
+          this->__isset.relativeCursorPos = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_Browser_ImeCommitText_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_Browser_ImeCommitText_args");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->bid);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("text", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString(this->text);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("replacementRange", ::apache::thrift::protocol::T_STRUCT, 3);
+  xfer += this->replacementRange.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("relativeCursorPos", ::apache::thrift::protocol::T_I32, 4);
+  xfer += oprot->writeI32(this->relativeCursorPos);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Browser_ImeCommitText_pargs::~Server_Browser_ImeCommitText_pargs() noexcept {
+}
+
+
+uint32_t Server_Browser_ImeCommitText_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_Browser_ImeCommitText_pargs");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->bid)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("text", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString((*(this->text)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("replacementRange", ::apache::thrift::protocol::T_STRUCT, 3);
+  xfer += (*(this->replacementRange)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("relativeCursorPos", ::apache::thrift::protocol::T_I32, 4);
+  xfer += oprot->writeI32((*(this->relativeCursorPos)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Browser_ImeFinishComposingText_args::~Server_Browser_ImeFinishComposingText_args() noexcept {
+}
+
+
+uint32_t Server_Browser_ImeFinishComposingText_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->bid);
+          this->__isset.bid = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->keepSelection);
+          this->__isset.keepSelection = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_Browser_ImeFinishComposingText_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_Browser_ImeFinishComposingText_args");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->bid);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("keepSelection", ::apache::thrift::protocol::T_BOOL, 2);
+  xfer += oprot->writeBool(this->keepSelection);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Browser_ImeFinishComposingText_pargs::~Server_Browser_ImeFinishComposingText_pargs() noexcept {
+}
+
+
+uint32_t Server_Browser_ImeFinishComposingText_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_Browser_ImeFinishComposingText_pargs");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->bid)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("keepSelection", ::apache::thrift::protocol::T_BOOL, 2);
+  xfer += oprot->writeBool((*(this->keepSelection)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Browser_ImeCancelComposing_args::~Server_Browser_ImeCancelComposing_args() noexcept {
+}
+
+
+uint32_t Server_Browser_ImeCancelComposing_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->bid);
+          this->__isset.bid = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_Browser_ImeCancelComposing_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_Browser_ImeCancelComposing_args");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->bid);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Browser_ImeCancelComposing_pargs::~Server_Browser_ImeCancelComposing_pargs() noexcept {
+}
+
+
+uint32_t Server_Browser_ImeCancelComposing_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_Browser_ImeCancelComposing_pargs");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->bid)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
 Server_Frame_ExecuteJavaScript_args::~Server_Frame_ExecuteJavaScript_args() noexcept {
 }
 
@@ -9746,17 +10218,17 @@ uint32_t Server_Request_GetHeaderMap_result::read(::apache::thrift::protocol::TP
         if (ftype == ::apache::thrift::protocol::T_MAP) {
           {
             this->success.clear();
-            uint32_t _size40;
-            ::apache::thrift::protocol::TType _ktype41;
-            ::apache::thrift::protocol::TType _vtype42;
-            xfer += iprot->readMapBegin(_ktype41, _vtype42, _size40);
-            uint32_t _i44;
-            for (_i44 = 0; _i44 < _size40; ++_i44)
+            uint32_t _size47;
+            ::apache::thrift::protocol::TType _ktype48;
+            ::apache::thrift::protocol::TType _vtype49;
+            xfer += iprot->readMapBegin(_ktype48, _vtype49, _size47);
+            uint32_t _i51;
+            for (_i51 = 0; _i51 < _size47; ++_i51)
             {
-              std::string _key45;
-              xfer += iprot->readString(_key45);
-              std::string& _val46 = this->success[_key45];
-              xfer += iprot->readString(_val46);
+              std::string _key52;
+              xfer += iprot->readString(_key52);
+              std::string& _val53 = this->success[_key52];
+              xfer += iprot->readString(_val53);
             }
             xfer += iprot->readMapEnd();
           }
@@ -9787,11 +10259,11 @@ uint32_t Server_Request_GetHeaderMap_result::write(::apache::thrift::protocol::T
     xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_MAP, 0);
     {
       xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->success.size()));
-      std::map<std::string, std::string> ::const_iterator _iter47;
-      for (_iter47 = this->success.begin(); _iter47 != this->success.end(); ++_iter47)
+      std::map<std::string, std::string> ::const_iterator _iter54;
+      for (_iter54 = this->success.begin(); _iter54 != this->success.end(); ++_iter54)
       {
-        xfer += oprot->writeString(_iter47->first);
-        xfer += oprot->writeString(_iter47->second);
+        xfer += oprot->writeString(_iter54->first);
+        xfer += oprot->writeString(_iter54->second);
       }
       xfer += oprot->writeMapEnd();
     }
@@ -9832,17 +10304,17 @@ uint32_t Server_Request_GetHeaderMap_presult::read(::apache::thrift::protocol::T
         if (ftype == ::apache::thrift::protocol::T_MAP) {
           {
             (*(this->success)).clear();
-            uint32_t _size48;
-            ::apache::thrift::protocol::TType _ktype49;
-            ::apache::thrift::protocol::TType _vtype50;
-            xfer += iprot->readMapBegin(_ktype49, _vtype50, _size48);
-            uint32_t _i52;
-            for (_i52 = 0; _i52 < _size48; ++_i52)
+            uint32_t _size55;
+            ::apache::thrift::protocol::TType _ktype56;
+            ::apache::thrift::protocol::TType _vtype57;
+            xfer += iprot->readMapBegin(_ktype56, _vtype57, _size55);
+            uint32_t _i59;
+            for (_i59 = 0; _i59 < _size55; ++_i59)
             {
-              std::string _key53;
-              xfer += iprot->readString(_key53);
-              std::string& _val54 = (*(this->success))[_key53];
-              xfer += iprot->readString(_val54);
+              std::string _key60;
+              xfer += iprot->readString(_key60);
+              std::string& _val61 = (*(this->success))[_key60];
+              xfer += iprot->readString(_val61);
             }
             xfer += iprot->readMapEnd();
           }
@@ -9901,17 +10373,17 @@ uint32_t Server_Request_SetHeaderMap_args::read(::apache::thrift::protocol::TPro
         if (ftype == ::apache::thrift::protocol::T_MAP) {
           {
             this->headerMap.clear();
-            uint32_t _size55;
-            ::apache::thrift::protocol::TType _ktype56;
-            ::apache::thrift::protocol::TType _vtype57;
-            xfer += iprot->readMapBegin(_ktype56, _vtype57, _size55);
-            uint32_t _i59;
-            for (_i59 = 0; _i59 < _size55; ++_i59)
+            uint32_t _size62;
+            ::apache::thrift::protocol::TType _ktype63;
+            ::apache::thrift::protocol::TType _vtype64;
+            xfer += iprot->readMapBegin(_ktype63, _vtype64, _size62);
+            uint32_t _i66;
+            for (_i66 = 0; _i66 < _size62; ++_i66)
             {
-              std::string _key60;
-              xfer += iprot->readString(_key60);
-              std::string& _val61 = this->headerMap[_key60];
-              xfer += iprot->readString(_val61);
+              std::string _key67;
+              xfer += iprot->readString(_key67);
+              std::string& _val68 = this->headerMap[_key67];
+              xfer += iprot->readString(_val68);
             }
             xfer += iprot->readMapEnd();
           }
@@ -9944,11 +10416,11 @@ uint32_t Server_Request_SetHeaderMap_args::write(::apache::thrift::protocol::TPr
   xfer += oprot->writeFieldBegin("headerMap", ::apache::thrift::protocol::T_MAP, 2);
   {
     xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->headerMap.size()));
-    std::map<std::string, std::string> ::const_iterator _iter62;
-    for (_iter62 = this->headerMap.begin(); _iter62 != this->headerMap.end(); ++_iter62)
+    std::map<std::string, std::string> ::const_iterator _iter69;
+    for (_iter69 = this->headerMap.begin(); _iter69 != this->headerMap.end(); ++_iter69)
     {
-      xfer += oprot->writeString(_iter62->first);
-      xfer += oprot->writeString(_iter62->second);
+      xfer += oprot->writeString(_iter69->first);
+      xfer += oprot->writeString(_iter69->second);
     }
     xfer += oprot->writeMapEnd();
   }
@@ -9976,11 +10448,11 @@ uint32_t Server_Request_SetHeaderMap_pargs::write(::apache::thrift::protocol::TP
   xfer += oprot->writeFieldBegin("headerMap", ::apache::thrift::protocol::T_MAP, 2);
   {
     xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*(this->headerMap)).size()));
-    std::map<std::string, std::string> ::const_iterator _iter63;
-    for (_iter63 = (*(this->headerMap)).begin(); _iter63 != (*(this->headerMap)).end(); ++_iter63)
+    std::map<std::string, std::string> ::const_iterator _iter70;
+    for (_iter70 = (*(this->headerMap)).begin(); _iter70 != (*(this->headerMap)).end(); ++_iter70)
     {
-      xfer += oprot->writeString(_iter63->first);
-      xfer += oprot->writeString(_iter63->second);
+      xfer += oprot->writeString(_iter70->first);
+      xfer += oprot->writeString(_iter70->second);
     }
     xfer += oprot->writeMapEnd();
   }
@@ -10130,17 +10602,17 @@ uint32_t Server_Request_Set_args::read(::apache::thrift::protocol::TProtocol* ip
         if (ftype == ::apache::thrift::protocol::T_MAP) {
           {
             this->headerMap.clear();
-            uint32_t _size64;
-            ::apache::thrift::protocol::TType _ktype65;
-            ::apache::thrift::protocol::TType _vtype66;
-            xfer += iprot->readMapBegin(_ktype65, _vtype66, _size64);
-            uint32_t _i68;
-            for (_i68 = 0; _i68 < _size64; ++_i68)
+            uint32_t _size71;
+            ::apache::thrift::protocol::TType _ktype72;
+            ::apache::thrift::protocol::TType _vtype73;
+            xfer += iprot->readMapBegin(_ktype72, _vtype73, _size71);
+            uint32_t _i75;
+            for (_i75 = 0; _i75 < _size71; ++_i75)
             {
-              std::string _key69;
-              xfer += iprot->readString(_key69);
-              std::string& _val70 = this->headerMap[_key69];
-              xfer += iprot->readString(_val70);
+              std::string _key76;
+              xfer += iprot->readString(_key76);
+              std::string& _val77 = this->headerMap[_key76];
+              xfer += iprot->readString(_val77);
             }
             xfer += iprot->readMapEnd();
           }
@@ -10185,11 +10657,11 @@ uint32_t Server_Request_Set_args::write(::apache::thrift::protocol::TProtocol* o
   xfer += oprot->writeFieldBegin("headerMap", ::apache::thrift::protocol::T_MAP, 5);
   {
     xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->headerMap.size()));
-    std::map<std::string, std::string> ::const_iterator _iter71;
-    for (_iter71 = this->headerMap.begin(); _iter71 != this->headerMap.end(); ++_iter71)
+    std::map<std::string, std::string> ::const_iterator _iter78;
+    for (_iter78 = this->headerMap.begin(); _iter78 != this->headerMap.end(); ++_iter78)
     {
-      xfer += oprot->writeString(_iter71->first);
-      xfer += oprot->writeString(_iter71->second);
+      xfer += oprot->writeString(_iter78->first);
+      xfer += oprot->writeString(_iter78->second);
     }
     xfer += oprot->writeMapEnd();
   }
@@ -10229,11 +10701,11 @@ uint32_t Server_Request_Set_pargs::write(::apache::thrift::protocol::TProtocol* 
   xfer += oprot->writeFieldBegin("headerMap", ::apache::thrift::protocol::T_MAP, 5);
   {
     xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*(this->headerMap)).size()));
-    std::map<std::string, std::string> ::const_iterator _iter72;
-    for (_iter72 = (*(this->headerMap)).begin(); _iter72 != (*(this->headerMap)).end(); ++_iter72)
+    std::map<std::string, std::string> ::const_iterator _iter79;
+    for (_iter79 = (*(this->headerMap)).begin(); _iter79 != (*(this->headerMap)).end(); ++_iter79)
     {
-      xfer += oprot->writeString(_iter72->first);
-      xfer += oprot->writeString(_iter72->second);
+      xfer += oprot->writeString(_iter79->first);
+      xfer += oprot->writeString(_iter79->second);
     }
     xfer += oprot->writeMapEnd();
   }
@@ -10993,17 +11465,17 @@ uint32_t Server_Response_GetHeaderMap_result::read(::apache::thrift::protocol::T
         if (ftype == ::apache::thrift::protocol::T_MAP) {
           {
             this->success.clear();
-            uint32_t _size73;
-            ::apache::thrift::protocol::TType _ktype74;
-            ::apache::thrift::protocol::TType _vtype75;
-            xfer += iprot->readMapBegin(_ktype74, _vtype75, _size73);
-            uint32_t _i77;
-            for (_i77 = 0; _i77 < _size73; ++_i77)
+            uint32_t _size80;
+            ::apache::thrift::protocol::TType _ktype81;
+            ::apache::thrift::protocol::TType _vtype82;
+            xfer += iprot->readMapBegin(_ktype81, _vtype82, _size80);
+            uint32_t _i84;
+            for (_i84 = 0; _i84 < _size80; ++_i84)
             {
-              std::string _key78;
-              xfer += iprot->readString(_key78);
-              std::string& _val79 = this->success[_key78];
-              xfer += iprot->readString(_val79);
+              std::string _key85;
+              xfer += iprot->readString(_key85);
+              std::string& _val86 = this->success[_key85];
+              xfer += iprot->readString(_val86);
             }
             xfer += iprot->readMapEnd();
           }
@@ -11034,11 +11506,11 @@ uint32_t Server_Response_GetHeaderMap_result::write(::apache::thrift::protocol::
     xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_MAP, 0);
     {
       xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->success.size()));
-      std::map<std::string, std::string> ::const_iterator _iter80;
-      for (_iter80 = this->success.begin(); _iter80 != this->success.end(); ++_iter80)
+      std::map<std::string, std::string> ::const_iterator _iter87;
+      for (_iter87 = this->success.begin(); _iter87 != this->success.end(); ++_iter87)
       {
-        xfer += oprot->writeString(_iter80->first);
-        xfer += oprot->writeString(_iter80->second);
+        xfer += oprot->writeString(_iter87->first);
+        xfer += oprot->writeString(_iter87->second);
       }
       xfer += oprot->writeMapEnd();
     }
@@ -11079,17 +11551,17 @@ uint32_t Server_Response_GetHeaderMap_presult::read(::apache::thrift::protocol::
         if (ftype == ::apache::thrift::protocol::T_MAP) {
           {
             (*(this->success)).clear();
-            uint32_t _size81;
-            ::apache::thrift::protocol::TType _ktype82;
-            ::apache::thrift::protocol::TType _vtype83;
-            xfer += iprot->readMapBegin(_ktype82, _vtype83, _size81);
-            uint32_t _i85;
-            for (_i85 = 0; _i85 < _size81; ++_i85)
+            uint32_t _size88;
+            ::apache::thrift::protocol::TType _ktype89;
+            ::apache::thrift::protocol::TType _vtype90;
+            xfer += iprot->readMapBegin(_ktype89, _vtype90, _size88);
+            uint32_t _i92;
+            for (_i92 = 0; _i92 < _size88; ++_i92)
             {
-              std::string _key86;
-              xfer += iprot->readString(_key86);
-              std::string& _val87 = (*(this->success))[_key86];
-              xfer += iprot->readString(_val87);
+              std::string _key93;
+              xfer += iprot->readString(_key93);
+              std::string& _val94 = (*(this->success))[_key93];
+              xfer += iprot->readString(_val94);
             }
             xfer += iprot->readMapEnd();
           }
@@ -11148,17 +11620,17 @@ uint32_t Server_Response_SetHeaderMap_args::read(::apache::thrift::protocol::TPr
         if (ftype == ::apache::thrift::protocol::T_MAP) {
           {
             this->headerMap.clear();
-            uint32_t _size88;
-            ::apache::thrift::protocol::TType _ktype89;
-            ::apache::thrift::protocol::TType _vtype90;
-            xfer += iprot->readMapBegin(_ktype89, _vtype90, _size88);
-            uint32_t _i92;
-            for (_i92 = 0; _i92 < _size88; ++_i92)
+            uint32_t _size95;
+            ::apache::thrift::protocol::TType _ktype96;
+            ::apache::thrift::protocol::TType _vtype97;
+            xfer += iprot->readMapBegin(_ktype96, _vtype97, _size95);
+            uint32_t _i99;
+            for (_i99 = 0; _i99 < _size95; ++_i99)
             {
-              std::string _key93;
-              xfer += iprot->readString(_key93);
-              std::string& _val94 = this->headerMap[_key93];
-              xfer += iprot->readString(_val94);
+              std::string _key100;
+              xfer += iprot->readString(_key100);
+              std::string& _val101 = this->headerMap[_key100];
+              xfer += iprot->readString(_val101);
             }
             xfer += iprot->readMapEnd();
           }
@@ -11191,11 +11663,11 @@ uint32_t Server_Response_SetHeaderMap_args::write(::apache::thrift::protocol::TP
   xfer += oprot->writeFieldBegin("headerMap", ::apache::thrift::protocol::T_MAP, 2);
   {
     xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->headerMap.size()));
-    std::map<std::string, std::string> ::const_iterator _iter95;
-    for (_iter95 = this->headerMap.begin(); _iter95 != this->headerMap.end(); ++_iter95)
+    std::map<std::string, std::string> ::const_iterator _iter102;
+    for (_iter102 = this->headerMap.begin(); _iter102 != this->headerMap.end(); ++_iter102)
     {
-      xfer += oprot->writeString(_iter95->first);
-      xfer += oprot->writeString(_iter95->second);
+      xfer += oprot->writeString(_iter102->first);
+      xfer += oprot->writeString(_iter102->second);
     }
     xfer += oprot->writeMapEnd();
   }
@@ -11223,11 +11695,11 @@ uint32_t Server_Response_SetHeaderMap_pargs::write(::apache::thrift::protocol::T
   xfer += oprot->writeFieldBegin("headerMap", ::apache::thrift::protocol::T_MAP, 2);
   {
     xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*(this->headerMap)).size()));
-    std::map<std::string, std::string> ::const_iterator _iter96;
-    for (_iter96 = (*(this->headerMap)).begin(); _iter96 != (*(this->headerMap)).end(); ++_iter96)
+    std::map<std::string, std::string> ::const_iterator _iter103;
+    for (_iter103 = (*(this->headerMap)).begin(); _iter103 != (*(this->headerMap)).end(); ++_iter103)
     {
-      xfer += oprot->writeString(_iter96->first);
-      xfer += oprot->writeString(_iter96->second);
+      xfer += oprot->writeString(_iter103->first);
+      xfer += oprot->writeString(_iter103->second);
     }
     xfer += oprot->writeMapEnd();
   }
@@ -17720,6 +18192,90 @@ void ServerClient::send_Browser_Print(const int32_t bid)
   oprot_->getTransport()->flush();
 }
 
+void ServerClient::Browser_ImeSetComposition(const int32_t bid, const std::string& text, const std::vector< ::thrift_codegen::CompositionUnderline> & underlines, const  ::thrift_codegen::Range& replacementRange, const  ::thrift_codegen::Range& selectionRange)
+{
+  send_Browser_ImeSetComposition(bid, text, underlines, replacementRange, selectionRange);
+}
+
+void ServerClient::send_Browser_ImeSetComposition(const int32_t bid, const std::string& text, const std::vector< ::thrift_codegen::CompositionUnderline> & underlines, const  ::thrift_codegen::Range& replacementRange, const  ::thrift_codegen::Range& selectionRange)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("Browser_ImeSetComposition", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_Browser_ImeSetComposition_pargs args;
+  args.bid = &bid;
+  args.text = &text;
+  args.underlines = &underlines;
+  args.replacementRange = &replacementRange;
+  args.selectionRange = &selectionRange;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void ServerClient::Browser_ImeCommitText(const int32_t bid, const std::string& text, const  ::thrift_codegen::Range& replacementRange, const int32_t relativeCursorPos)
+{
+  send_Browser_ImeCommitText(bid, text, replacementRange, relativeCursorPos);
+}
+
+void ServerClient::send_Browser_ImeCommitText(const int32_t bid, const std::string& text, const  ::thrift_codegen::Range& replacementRange, const int32_t relativeCursorPos)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("Browser_ImeCommitText", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_Browser_ImeCommitText_pargs args;
+  args.bid = &bid;
+  args.text = &text;
+  args.replacementRange = &replacementRange;
+  args.relativeCursorPos = &relativeCursorPos;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void ServerClient::Browser_ImeFinishComposingText(const int32_t bid, const bool keepSelection)
+{
+  send_Browser_ImeFinishComposingText(bid, keepSelection);
+}
+
+void ServerClient::send_Browser_ImeFinishComposingText(const int32_t bid, const bool keepSelection)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("Browser_ImeFinishComposingText", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_Browser_ImeFinishComposingText_pargs args;
+  args.bid = &bid;
+  args.keepSelection = &keepSelection;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void ServerClient::Browser_ImeCancelComposing(const int32_t bid)
+{
+  send_Browser_ImeCancelComposing(bid);
+}
+
+void ServerClient::send_Browser_ImeCancelComposing(const int32_t bid)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("Browser_ImeCancelComposing", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_Browser_ImeCancelComposing_pargs args;
+  args.bid = &bid;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
 void ServerClient::Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line)
 {
   send_Frame_ExecuteJavaScript(frameId, code, url, line);
@@ -22359,6 +22915,154 @@ void ServerProcessor::process_Browser_Print(int32_t, ::apache::thrift::protocol:
 
   if (this->eventHandler_.get() != nullptr) {
     this->eventHandler_->asyncComplete(ctx, "Server.Browser_Print");
+  }
+
+  return;
+}
+
+void ServerProcessor::process_Browser_ImeSetComposition(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("Server.Browser_ImeSetComposition", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.Browser_ImeSetComposition");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "Server.Browser_ImeSetComposition");
+  }
+
+  Server_Browser_ImeSetComposition_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "Server.Browser_ImeSetComposition", bytes);
+  }
+
+  try {
+    iface_->Browser_ImeSetComposition(args.bid, args.text, args.underlines, args.replacementRange, args.selectionRange);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "Server.Browser_ImeSetComposition");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "Server.Browser_ImeSetComposition");
+  }
+
+  return;
+}
+
+void ServerProcessor::process_Browser_ImeCommitText(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("Server.Browser_ImeCommitText", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.Browser_ImeCommitText");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "Server.Browser_ImeCommitText");
+  }
+
+  Server_Browser_ImeCommitText_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "Server.Browser_ImeCommitText", bytes);
+  }
+
+  try {
+    iface_->Browser_ImeCommitText(args.bid, args.text, args.replacementRange, args.relativeCursorPos);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "Server.Browser_ImeCommitText");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "Server.Browser_ImeCommitText");
+  }
+
+  return;
+}
+
+void ServerProcessor::process_Browser_ImeFinishComposingText(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("Server.Browser_ImeFinishComposingText", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.Browser_ImeFinishComposingText");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "Server.Browser_ImeFinishComposingText");
+  }
+
+  Server_Browser_ImeFinishComposingText_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "Server.Browser_ImeFinishComposingText", bytes);
+  }
+
+  try {
+    iface_->Browser_ImeFinishComposingText(args.bid, args.keepSelection);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "Server.Browser_ImeFinishComposingText");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "Server.Browser_ImeFinishComposingText");
+  }
+
+  return;
+}
+
+void ServerProcessor::process_Browser_ImeCancelComposing(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("Server.Browser_ImeCancelComposing", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.Browser_ImeCancelComposing");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "Server.Browser_ImeCancelComposing");
+  }
+
+  Server_Browser_ImeCancelComposing_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "Server.Browser_ImeCancelComposing", bytes);
+  }
+
+  try {
+    iface_->Browser_ImeCancelComposing(args.bid);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "Server.Browser_ImeCancelComposing");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "Server.Browser_ImeCancelComposing");
   }
 
   return;
@@ -27629,6 +28333,102 @@ void ServerConcurrentClient::send_Browser_Print(const int32_t bid)
   oprot_->writeMessageBegin("Browser_Print", ::apache::thrift::protocol::T_ONEWAY, cseqid);
 
   Server_Browser_Print_pargs args;
+  args.bid = &bid;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
+void ServerConcurrentClient::Browser_ImeSetComposition(const int32_t bid, const std::string& text, const std::vector< ::thrift_codegen::CompositionUnderline> & underlines, const  ::thrift_codegen::Range& replacementRange, const  ::thrift_codegen::Range& selectionRange)
+{
+  send_Browser_ImeSetComposition(bid, text, underlines, replacementRange, selectionRange);
+}
+
+void ServerConcurrentClient::send_Browser_ImeSetComposition(const int32_t bid, const std::string& text, const std::vector< ::thrift_codegen::CompositionUnderline> & underlines, const  ::thrift_codegen::Range& replacementRange, const  ::thrift_codegen::Range& selectionRange)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("Browser_ImeSetComposition", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_Browser_ImeSetComposition_pargs args;
+  args.bid = &bid;
+  args.text = &text;
+  args.underlines = &underlines;
+  args.replacementRange = &replacementRange;
+  args.selectionRange = &selectionRange;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
+void ServerConcurrentClient::Browser_ImeCommitText(const int32_t bid, const std::string& text, const  ::thrift_codegen::Range& replacementRange, const int32_t relativeCursorPos)
+{
+  send_Browser_ImeCommitText(bid, text, replacementRange, relativeCursorPos);
+}
+
+void ServerConcurrentClient::send_Browser_ImeCommitText(const int32_t bid, const std::string& text, const  ::thrift_codegen::Range& replacementRange, const int32_t relativeCursorPos)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("Browser_ImeCommitText", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_Browser_ImeCommitText_pargs args;
+  args.bid = &bid;
+  args.text = &text;
+  args.replacementRange = &replacementRange;
+  args.relativeCursorPos = &relativeCursorPos;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
+void ServerConcurrentClient::Browser_ImeFinishComposingText(const int32_t bid, const bool keepSelection)
+{
+  send_Browser_ImeFinishComposingText(bid, keepSelection);
+}
+
+void ServerConcurrentClient::send_Browser_ImeFinishComposingText(const int32_t bid, const bool keepSelection)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("Browser_ImeFinishComposingText", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_Browser_ImeFinishComposingText_pargs args;
+  args.bid = &bid;
+  args.keepSelection = &keepSelection;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
+void ServerConcurrentClient::Browser_ImeCancelComposing(const int32_t bid)
+{
+  send_Browser_ImeCancelComposing(bid);
+}
+
+void ServerConcurrentClient::send_Browser_ImeCancelComposing(const int32_t bid)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("Browser_ImeCancelComposing", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_Browser_ImeCancelComposing_pargs args;
   args.bid = &bid;
   args.write(oprot_);
 

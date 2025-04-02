@@ -29,6 +29,10 @@ public class ClientHandlers {
 
     public void RenderHandler_OnPopupSize(int bid, Rect rect) throws com.jetbrains.cef.remote.thrift.TException;
 
+    public void RenderHandler_OnImeCompositionRangeChanged(int bid, com.jetbrains.cef.remote.thrift_codegen.Range selectionRange, java.util.List<Rect> characterBounds) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void RenderHandler_OnTextSelectionChanged(int bid, java.lang.String selectedText, com.jetbrains.cef.remote.thrift_codegen.Range selectionRange) throws com.jetbrains.cef.remote.thrift.TException;
+
     public boolean LifeSpanHandler_OnBeforePopup(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, java.lang.String url, java.lang.String frameName, boolean gesture) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void LifeSpanHandler_OnAfterCreated(int bid, int nativeBrowserIdentifier) throws com.jetbrains.cef.remote.thrift.TException;
@@ -174,6 +178,10 @@ public class ClientHandlers {
     public void RenderHandler_OnPopupShow(int bid, boolean show, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void RenderHandler_OnPopupSize(int bid, Rect rect, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void RenderHandler_OnImeCompositionRangeChanged(int bid, com.jetbrains.cef.remote.thrift_codegen.Range selectionRange, java.util.List<Rect> characterBounds, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void RenderHandler_OnTextSelectionChanged(int bid, java.lang.String selectedText, com.jetbrains.cef.remote.thrift_codegen.Range selectionRange, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void LifeSpanHandler_OnBeforePopup(int bid, com.jetbrains.cef.remote.thrift_codegen.RObject frame, java.lang.String url, java.lang.String frameName, boolean gesture, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<java.lang.Boolean> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
@@ -499,6 +507,36 @@ public class ClientHandlers {
       args.setBid(bid);
       args.setRect(rect);
       sendBaseOneway("RenderHandler_OnPopupSize", args);
+    }
+
+    @Override
+    public void RenderHandler_OnImeCompositionRangeChanged(int bid, com.jetbrains.cef.remote.thrift_codegen.Range selectionRange, java.util.List<Rect> characterBounds) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_RenderHandler_OnImeCompositionRangeChanged(bid, selectionRange, characterBounds);
+    }
+
+    public void send_RenderHandler_OnImeCompositionRangeChanged(int bid, com.jetbrains.cef.remote.thrift_codegen.Range selectionRange, java.util.List<Rect> characterBounds) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      RenderHandler_OnImeCompositionRangeChanged_args args = new RenderHandler_OnImeCompositionRangeChanged_args();
+      args.setBid(bid);
+      args.setSelectionRange(selectionRange);
+      args.setCharacterBounds(characterBounds);
+      sendBaseOneway("RenderHandler_OnImeCompositionRangeChanged", args);
+    }
+
+    @Override
+    public void RenderHandler_OnTextSelectionChanged(int bid, java.lang.String selectedText, com.jetbrains.cef.remote.thrift_codegen.Range selectionRange) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_RenderHandler_OnTextSelectionChanged(bid, selectedText, selectionRange);
+    }
+
+    public void send_RenderHandler_OnTextSelectionChanged(int bid, java.lang.String selectedText, com.jetbrains.cef.remote.thrift_codegen.Range selectionRange) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      RenderHandler_OnTextSelectionChanged_args args = new RenderHandler_OnTextSelectionChanged_args();
+      args.setBid(bid);
+      args.setSelectedText(selectedText);
+      args.setSelectionRange(selectionRange);
+      sendBaseOneway("RenderHandler_OnTextSelectionChanged", args);
     }
 
     @Override
@@ -2212,6 +2250,88 @@ public class ClientHandlers {
         RenderHandler_OnPopupSize_args args = new RenderHandler_OnPopupSize_args();
         args.setBid(bid);
         args.setRect(rect);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public Void getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return null;
+      }
+    }
+
+    @Override
+    public void RenderHandler_OnImeCompositionRangeChanged(int bid, com.jetbrains.cef.remote.thrift_codegen.Range selectionRange, java.util.List<Rect> characterBounds, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      RenderHandler_OnImeCompositionRangeChanged_call method_call = new RenderHandler_OnImeCompositionRangeChanged_call(bid, selectionRange, characterBounds, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class RenderHandler_OnImeCompositionRangeChanged_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<Void> {
+      private int bid;
+      private com.jetbrains.cef.remote.thrift_codegen.Range selectionRange;
+      private java.util.List<Rect> characterBounds;
+      public RenderHandler_OnImeCompositionRangeChanged_call(int bid, com.jetbrains.cef.remote.thrift_codegen.Range selectionRange, java.util.List<Rect> characterBounds, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, true);
+        this.bid = bid;
+        this.selectionRange = selectionRange;
+        this.characterBounds = characterBounds;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("RenderHandler_OnImeCompositionRangeChanged", com.jetbrains.cef.remote.thrift.protocol.TMessageType.ONEWAY, 0));
+        RenderHandler_OnImeCompositionRangeChanged_args args = new RenderHandler_OnImeCompositionRangeChanged_args();
+        args.setBid(bid);
+        args.setSelectionRange(selectionRange);
+        args.setCharacterBounds(characterBounds);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public Void getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return null;
+      }
+    }
+
+    @Override
+    public void RenderHandler_OnTextSelectionChanged(int bid, java.lang.String selectedText, com.jetbrains.cef.remote.thrift_codegen.Range selectionRange, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      RenderHandler_OnTextSelectionChanged_call method_call = new RenderHandler_OnTextSelectionChanged_call(bid, selectedText, selectionRange, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class RenderHandler_OnTextSelectionChanged_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<Void> {
+      private int bid;
+      private java.lang.String selectedText;
+      private com.jetbrains.cef.remote.thrift_codegen.Range selectionRange;
+      public RenderHandler_OnTextSelectionChanged_call(int bid, java.lang.String selectedText, com.jetbrains.cef.remote.thrift_codegen.Range selectionRange, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, true);
+        this.bid = bid;
+        this.selectedText = selectedText;
+        this.selectionRange = selectionRange;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("RenderHandler_OnTextSelectionChanged", com.jetbrains.cef.remote.thrift.protocol.TMessageType.ONEWAY, 0));
+        RenderHandler_OnTextSelectionChanged_args args = new RenderHandler_OnTextSelectionChanged_args();
+        args.setBid(bid);
+        args.setSelectedText(selectedText);
+        args.setSelectionRange(selectionRange);
         args.write(prot);
         prot.writeMessageEnd();
       }
@@ -4863,6 +4983,8 @@ public class ClientHandlers {
       processMap.put("RenderHandler_OnPaint", new RenderHandler_OnPaint());
       processMap.put("RenderHandler_OnPopupShow", new RenderHandler_OnPopupShow());
       processMap.put("RenderHandler_OnPopupSize", new RenderHandler_OnPopupSize());
+      processMap.put("RenderHandler_OnImeCompositionRangeChanged", new RenderHandler_OnImeCompositionRangeChanged());
+      processMap.put("RenderHandler_OnTextSelectionChanged", new RenderHandler_OnTextSelectionChanged());
       processMap.put("LifeSpanHandler_OnBeforePopup", new LifeSpanHandler_OnBeforePopup());
       processMap.put("LifeSpanHandler_OnAfterCreated", new LifeSpanHandler_OnAfterCreated());
       processMap.put("LifeSpanHandler_DoClose", new LifeSpanHandler_DoClose());
@@ -5172,6 +5294,60 @@ public class ClientHandlers {
       @Override
       public com.jetbrains.cef.remote.thrift.TBase getResult(I iface, RenderHandler_OnPopupSize_args args) throws com.jetbrains.cef.remote.thrift.TException {
         iface.RenderHandler_OnPopupSize(args.bid, args.rect);
+        return null;
+      }
+    }
+
+    public static class RenderHandler_OnImeCompositionRangeChanged<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, RenderHandler_OnImeCompositionRangeChanged_args> {
+      public RenderHandler_OnImeCompositionRangeChanged() {
+        super("RenderHandler_OnImeCompositionRangeChanged");
+      }
+
+      @Override
+      public RenderHandler_OnImeCompositionRangeChanged_args getEmptyArgsInstance() {
+        return new RenderHandler_OnImeCompositionRangeChanged_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.TBase getResult(I iface, RenderHandler_OnImeCompositionRangeChanged_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.RenderHandler_OnImeCompositionRangeChanged(args.bid, args.selectionRange, args.characterBounds);
+        return null;
+      }
+    }
+
+    public static class RenderHandler_OnTextSelectionChanged<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, RenderHandler_OnTextSelectionChanged_args> {
+      public RenderHandler_OnTextSelectionChanged() {
+        super("RenderHandler_OnTextSelectionChanged");
+      }
+
+      @Override
+      public RenderHandler_OnTextSelectionChanged_args getEmptyArgsInstance() {
+        return new RenderHandler_OnTextSelectionChanged_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.TBase getResult(I iface, RenderHandler_OnTextSelectionChanged_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.RenderHandler_OnTextSelectionChanged(args.bid, args.selectedText, args.selectionRange);
         return null;
       }
     }
@@ -6934,6 +7110,8 @@ public class ClientHandlers {
       processMap.put("RenderHandler_OnPaint", new RenderHandler_OnPaint());
       processMap.put("RenderHandler_OnPopupShow", new RenderHandler_OnPopupShow());
       processMap.put("RenderHandler_OnPopupSize", new RenderHandler_OnPopupSize());
+      processMap.put("RenderHandler_OnImeCompositionRangeChanged", new RenderHandler_OnImeCompositionRangeChanged());
+      processMap.put("RenderHandler_OnTextSelectionChanged", new RenderHandler_OnTextSelectionChanged());
       processMap.put("LifeSpanHandler_OnBeforePopup", new LifeSpanHandler_OnBeforePopup());
       processMap.put("LifeSpanHandler_OnAfterCreated", new LifeSpanHandler_OnAfterCreated());
       processMap.put("LifeSpanHandler_DoClose", new LifeSpanHandler_DoClose());
@@ -7490,6 +7668,86 @@ public class ClientHandlers {
       @Override
       public void start(I iface, RenderHandler_OnPopupSize_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
         iface.RenderHandler_OnPopupSize(args.bid, args.rect,resultHandler);
+      }
+    }
+
+    public static class RenderHandler_OnImeCompositionRangeChanged<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, RenderHandler_OnImeCompositionRangeChanged_args, Void> {
+      public RenderHandler_OnImeCompositionRangeChanged() {
+        super("RenderHandler_OnImeCompositionRangeChanged");
+      }
+
+      @Override
+      public RenderHandler_OnImeCompositionRangeChanged_args getEmptyArgsInstance() {
+        return new RenderHandler_OnImeCompositionRangeChanged_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void>() { 
+          @Override
+          public void onComplete(Void o) {
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+            } else {
+              _LOGGER.error("Exception inside oneway handler", e);
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      public void start(I iface, RenderHandler_OnImeCompositionRangeChanged_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.RenderHandler_OnImeCompositionRangeChanged(args.bid, args.selectionRange, args.characterBounds,resultHandler);
+      }
+    }
+
+    public static class RenderHandler_OnTextSelectionChanged<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, RenderHandler_OnTextSelectionChanged_args, Void> {
+      public RenderHandler_OnTextSelectionChanged() {
+        super("RenderHandler_OnTextSelectionChanged");
+      }
+
+      @Override
+      public RenderHandler_OnTextSelectionChanged_args getEmptyArgsInstance() {
+        return new RenderHandler_OnTextSelectionChanged_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void>() { 
+          @Override
+          public void onComplete(Void o) {
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+            } else {
+              _LOGGER.error("Exception inside oneway handler", e);
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      public void start(I iface, RenderHandler_OnTextSelectionChanged_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.RenderHandler_OnTextSelectionChanged(args.bid, args.selectedText, args.selectionRange,resultHandler);
       }
     }
 
@@ -17102,6 +17360,1239 @@ public class ClientHandlers {
           struct.rect = new Rect();
           struct.rect.read(iprot);
           struct.setRectIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class RenderHandler_OnImeCompositionRangeChanged_args implements com.jetbrains.cef.remote.thrift.TBase<RenderHandler_OnImeCompositionRangeChanged_args, RenderHandler_OnImeCompositionRangeChanged_args._Fields>, java.io.Serializable, Cloneable, Comparable<RenderHandler_OnImeCompositionRangeChanged_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("RenderHandler_OnImeCompositionRangeChanged_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField BID_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("bid", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)1);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField SELECTION_RANGE_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("selectionRange", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)2);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField CHARACTER_BOUNDS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("characterBounds", com.jetbrains.cef.remote.thrift.protocol.TType.LIST, (short)3);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RenderHandler_OnImeCompositionRangeChanged_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RenderHandler_OnImeCompositionRangeChanged_argsTupleSchemeFactory();
+
+    public int bid; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.Range selectionRange; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.util.List<Rect> characterBounds; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      BID((short)1, "bid"),
+      SELECTION_RANGE((short)2, "selectionRange"),
+      CHARACTER_BOUNDS((short)3, "characterBounds");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // BID
+            return BID;
+          case 2: // SELECTION_RANGE
+            return SELECTION_RANGE;
+          case 3: // CHARACTER_BOUNDS
+            return CHARACTER_BOUNDS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __BID_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.BID, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("bid", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.SELECTION_RANGE, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("selectionRange", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.Range.class)));
+      tmpMap.put(_Fields.CHARACTER_BOUNDS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("characterBounds", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.ListMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.LIST, 
+              new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, Rect.class))));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(RenderHandler_OnImeCompositionRangeChanged_args.class, metaDataMap);
+    }
+
+    public RenderHandler_OnImeCompositionRangeChanged_args() {
+    }
+
+    public RenderHandler_OnImeCompositionRangeChanged_args(
+      int bid,
+      com.jetbrains.cef.remote.thrift_codegen.Range selectionRange,
+      java.util.List<Rect> characterBounds)
+    {
+      this();
+      this.bid = bid;
+      setBidIsSet(true);
+      this.selectionRange = selectionRange;
+      this.characterBounds = characterBounds;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public RenderHandler_OnImeCompositionRangeChanged_args(RenderHandler_OnImeCompositionRangeChanged_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.bid = other.bid;
+      if (other.isSetSelectionRange()) {
+        this.selectionRange = new com.jetbrains.cef.remote.thrift_codegen.Range(other.selectionRange);
+      }
+      if (other.isSetCharacterBounds()) {
+        java.util.List<Rect> __this__characterBounds = new java.util.ArrayList<Rect>(other.characterBounds.size());
+        for (Rect other_element : other.characterBounds) {
+          __this__characterBounds.add(new Rect(other_element));
+        }
+        this.characterBounds = __this__characterBounds;
+      }
+    }
+
+    @Override
+    public RenderHandler_OnImeCompositionRangeChanged_args deepCopy() {
+      return new RenderHandler_OnImeCompositionRangeChanged_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setBidIsSet(false);
+      this.bid = 0;
+      this.selectionRange = null;
+      this.characterBounds = null;
+    }
+
+    public int getBid() {
+      return this.bid;
+    }
+
+    public RenderHandler_OnImeCompositionRangeChanged_args setBid(int bid) {
+      this.bid = bid;
+      setBidIsSet(true);
+      return this;
+    }
+
+    public void unsetBid() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    /** Returns true if field bid is set (has been assigned a value) and false otherwise */
+    public boolean isSetBid() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    public void setBidIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.Range getSelectionRange() {
+      return this.selectionRange;
+    }
+
+    public RenderHandler_OnImeCompositionRangeChanged_args setSelectionRange(@com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.Range selectionRange) {
+      this.selectionRange = selectionRange;
+      return this;
+    }
+
+    public void unsetSelectionRange() {
+      this.selectionRange = null;
+    }
+
+    /** Returns true if field selectionRange is set (has been assigned a value) and false otherwise */
+    public boolean isSetSelectionRange() {
+      return this.selectionRange != null;
+    }
+
+    public void setSelectionRangeIsSet(boolean value) {
+      if (!value) {
+        this.selectionRange = null;
+      }
+    }
+
+    public int getCharacterBoundsSize() {
+      return (this.characterBounds == null) ? 0 : this.characterBounds.size();
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.util.Iterator<Rect> getCharacterBoundsIterator() {
+      return (this.characterBounds == null) ? null : this.characterBounds.iterator();
+    }
+
+    public void addToCharacterBounds(Rect elem) {
+      if (this.characterBounds == null) {
+        this.characterBounds = new java.util.ArrayList<Rect>();
+      }
+      this.characterBounds.add(elem);
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.util.List<Rect> getCharacterBounds() {
+      return this.characterBounds;
+    }
+
+    public RenderHandler_OnImeCompositionRangeChanged_args setCharacterBounds(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.util.List<Rect> characterBounds) {
+      this.characterBounds = characterBounds;
+      return this;
+    }
+
+    public void unsetCharacterBounds() {
+      this.characterBounds = null;
+    }
+
+    /** Returns true if field characterBounds is set (has been assigned a value) and false otherwise */
+    public boolean isSetCharacterBounds() {
+      return this.characterBounds != null;
+    }
+
+    public void setCharacterBoundsIsSet(boolean value) {
+      if (!value) {
+        this.characterBounds = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case BID:
+        if (value == null) {
+          unsetBid();
+        } else {
+          setBid((java.lang.Integer)value);
+        }
+        break;
+
+      case SELECTION_RANGE:
+        if (value == null) {
+          unsetSelectionRange();
+        } else {
+          setSelectionRange((com.jetbrains.cef.remote.thrift_codegen.Range)value);
+        }
+        break;
+
+      case CHARACTER_BOUNDS:
+        if (value == null) {
+          unsetCharacterBounds();
+        } else {
+          setCharacterBounds((java.util.List<Rect>)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case BID:
+        return getBid();
+
+      case SELECTION_RANGE:
+        return getSelectionRange();
+
+      case CHARACTER_BOUNDS:
+        return getCharacterBounds();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case BID:
+        return isSetBid();
+      case SELECTION_RANGE:
+        return isSetSelectionRange();
+      case CHARACTER_BOUNDS:
+        return isSetCharacterBounds();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof RenderHandler_OnImeCompositionRangeChanged_args)
+        return this.equals((RenderHandler_OnImeCompositionRangeChanged_args)that);
+      return false;
+    }
+
+    public boolean equals(RenderHandler_OnImeCompositionRangeChanged_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_bid = true;
+      boolean that_present_bid = true;
+      if (this_present_bid || that_present_bid) {
+        if (!(this_present_bid && that_present_bid))
+          return false;
+        if (this.bid != that.bid)
+          return false;
+      }
+
+      boolean this_present_selectionRange = true && this.isSetSelectionRange();
+      boolean that_present_selectionRange = true && that.isSetSelectionRange();
+      if (this_present_selectionRange || that_present_selectionRange) {
+        if (!(this_present_selectionRange && that_present_selectionRange))
+          return false;
+        if (!this.selectionRange.equals(that.selectionRange))
+          return false;
+      }
+
+      boolean this_present_characterBounds = true && this.isSetCharacterBounds();
+      boolean that_present_characterBounds = true && that.isSetCharacterBounds();
+      if (this_present_characterBounds || that_present_characterBounds) {
+        if (!(this_present_characterBounds && that_present_characterBounds))
+          return false;
+        if (!this.characterBounds.equals(that.characterBounds))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + bid;
+
+      hashCode = hashCode * 8191 + ((isSetSelectionRange()) ? 131071 : 524287);
+      if (isSetSelectionRange())
+        hashCode = hashCode * 8191 + selectionRange.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetCharacterBounds()) ? 131071 : 524287);
+      if (isSetCharacterBounds())
+        hashCode = hashCode * 8191 + characterBounds.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(RenderHandler_OnImeCompositionRangeChanged_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetBid()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetSelectionRange(), other.isSetSelectionRange());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSelectionRange()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.selectionRange, other.selectionRange);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetCharacterBounds(), other.isSetCharacterBounds());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetCharacterBounds()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.characterBounds, other.characterBounds);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("RenderHandler_OnImeCompositionRangeChanged_args(");
+      boolean first = true;
+
+      sb.append("bid:");
+      sb.append(this.bid);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("selectionRange:");
+      if (this.selectionRange == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.selectionRange);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("characterBounds:");
+      if (this.characterBounds == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.characterBounds);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (selectionRange != null) {
+        selectionRange.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class RenderHandler_OnImeCompositionRangeChanged_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public RenderHandler_OnImeCompositionRangeChanged_argsStandardScheme getScheme() {
+        return new RenderHandler_OnImeCompositionRangeChanged_argsStandardScheme();
+      }
+    }
+
+    private static class RenderHandler_OnImeCompositionRangeChanged_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<RenderHandler_OnImeCompositionRangeChanged_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, RenderHandler_OnImeCompositionRangeChanged_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // BID
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
+                struct.bid = iprot.readI32();
+                struct.setBidIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // SELECTION_RANGE
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                struct.selectionRange = new com.jetbrains.cef.remote.thrift_codegen.Range();
+                struct.selectionRange.read(iprot);
+                struct.setSelectionRangeIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 3: // CHARACTER_BOUNDS
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.LIST) {
+                {
+                  com.jetbrains.cef.remote.thrift.protocol.TList _list8 = iprot.readListBegin();
+                  struct.characterBounds = new java.util.ArrayList<Rect>(_list8.size);
+                  @com.jetbrains.cef.remote.thrift.annotation.Nullable Rect _elem9;
+                  for (int _i10 = 0; _i10 < _list8.size; ++_i10)
+                  {
+                    _elem9 = new Rect();
+                    _elem9.read(iprot);
+                    struct.characterBounds.add(_elem9);
+                  }
+                  iprot.readListEnd();
+                }
+                struct.setCharacterBoundsIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, RenderHandler_OnImeCompositionRangeChanged_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(BID_FIELD_DESC);
+        oprot.writeI32(struct.bid);
+        oprot.writeFieldEnd();
+        if (struct.selectionRange != null) {
+          oprot.writeFieldBegin(SELECTION_RANGE_FIELD_DESC);
+          struct.selectionRange.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        if (struct.characterBounds != null) {
+          oprot.writeFieldBegin(CHARACTER_BOUNDS_FIELD_DESC);
+          {
+            oprot.writeListBegin(new com.jetbrains.cef.remote.thrift.protocol.TList(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, struct.characterBounds.size()));
+            for (Rect _iter11 : struct.characterBounds)
+            {
+              _iter11.write(oprot);
+            }
+            oprot.writeListEnd();
+          }
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class RenderHandler_OnImeCompositionRangeChanged_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public RenderHandler_OnImeCompositionRangeChanged_argsTupleScheme getScheme() {
+        return new RenderHandler_OnImeCompositionRangeChanged_argsTupleScheme();
+      }
+    }
+
+    private static class RenderHandler_OnImeCompositionRangeChanged_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<RenderHandler_OnImeCompositionRangeChanged_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, RenderHandler_OnImeCompositionRangeChanged_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetBid()) {
+          optionals.set(0);
+        }
+        if (struct.isSetSelectionRange()) {
+          optionals.set(1);
+        }
+        if (struct.isSetCharacterBounds()) {
+          optionals.set(2);
+        }
+        oprot.writeBitSet(optionals, 3);
+        if (struct.isSetBid()) {
+          oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetSelectionRange()) {
+          struct.selectionRange.write(oprot);
+        }
+        if (struct.isSetCharacterBounds()) {
+          {
+            oprot.writeI32(struct.characterBounds.size());
+            for (Rect _iter12 : struct.characterBounds)
+            {
+              _iter12.write(oprot);
+            }
+          }
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, RenderHandler_OnImeCompositionRangeChanged_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(3);
+        if (incoming.get(0)) {
+          struct.bid = iprot.readI32();
+          struct.setBidIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.selectionRange = new com.jetbrains.cef.remote.thrift_codegen.Range();
+          struct.selectionRange.read(iprot);
+          struct.setSelectionRangeIsSet(true);
+        }
+        if (incoming.get(2)) {
+          {
+            com.jetbrains.cef.remote.thrift.protocol.TList _list13 = iprot.readListBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT);
+            struct.characterBounds = new java.util.ArrayList<Rect>(_list13.size);
+            @com.jetbrains.cef.remote.thrift.annotation.Nullable Rect _elem14;
+            for (int _i15 = 0; _i15 < _list13.size; ++_i15)
+            {
+              _elem14 = new Rect();
+              _elem14.read(iprot);
+              struct.characterBounds.add(_elem14);
+            }
+          }
+          struct.setCharacterBoundsIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class RenderHandler_OnTextSelectionChanged_args implements com.jetbrains.cef.remote.thrift.TBase<RenderHandler_OnTextSelectionChanged_args, RenderHandler_OnTextSelectionChanged_args._Fields>, java.io.Serializable, Cloneable, Comparable<RenderHandler_OnTextSelectionChanged_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("RenderHandler_OnTextSelectionChanged_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField BID_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("bid", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)1);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField SELECTED_TEXT_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("selectedText", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)2);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField SELECTION_RANGE_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("selectionRange", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)3);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RenderHandler_OnTextSelectionChanged_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RenderHandler_OnTextSelectionChanged_argsTupleSchemeFactory();
+
+    public int bid; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String selectedText; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.Range selectionRange; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      BID((short)1, "bid"),
+      SELECTED_TEXT((short)2, "selectedText"),
+      SELECTION_RANGE((short)3, "selectionRange");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // BID
+            return BID;
+          case 2: // SELECTED_TEXT
+            return SELECTED_TEXT;
+          case 3: // SELECTION_RANGE
+            return SELECTION_RANGE;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __BID_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.BID, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("bid", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.SELECTED_TEXT, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("selectedText", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.SELECTION_RANGE, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("selectionRange", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.Range.class)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(RenderHandler_OnTextSelectionChanged_args.class, metaDataMap);
+    }
+
+    public RenderHandler_OnTextSelectionChanged_args() {
+    }
+
+    public RenderHandler_OnTextSelectionChanged_args(
+      int bid,
+      java.lang.String selectedText,
+      com.jetbrains.cef.remote.thrift_codegen.Range selectionRange)
+    {
+      this();
+      this.bid = bid;
+      setBidIsSet(true);
+      this.selectedText = selectedText;
+      this.selectionRange = selectionRange;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public RenderHandler_OnTextSelectionChanged_args(RenderHandler_OnTextSelectionChanged_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.bid = other.bid;
+      if (other.isSetSelectedText()) {
+        this.selectedText = other.selectedText;
+      }
+      if (other.isSetSelectionRange()) {
+        this.selectionRange = new com.jetbrains.cef.remote.thrift_codegen.Range(other.selectionRange);
+      }
+    }
+
+    @Override
+    public RenderHandler_OnTextSelectionChanged_args deepCopy() {
+      return new RenderHandler_OnTextSelectionChanged_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setBidIsSet(false);
+      this.bid = 0;
+      this.selectedText = null;
+      this.selectionRange = null;
+    }
+
+    public int getBid() {
+      return this.bid;
+    }
+
+    public RenderHandler_OnTextSelectionChanged_args setBid(int bid) {
+      this.bid = bid;
+      setBidIsSet(true);
+      return this;
+    }
+
+    public void unsetBid() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    /** Returns true if field bid is set (has been assigned a value) and false otherwise */
+    public boolean isSetBid() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    public void setBidIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.lang.String getSelectedText() {
+      return this.selectedText;
+    }
+
+    public RenderHandler_OnTextSelectionChanged_args setSelectedText(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String selectedText) {
+      this.selectedText = selectedText;
+      return this;
+    }
+
+    public void unsetSelectedText() {
+      this.selectedText = null;
+    }
+
+    /** Returns true if field selectedText is set (has been assigned a value) and false otherwise */
+    public boolean isSetSelectedText() {
+      return this.selectedText != null;
+    }
+
+    public void setSelectedTextIsSet(boolean value) {
+      if (!value) {
+        this.selectedText = null;
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.Range getSelectionRange() {
+      return this.selectionRange;
+    }
+
+    public RenderHandler_OnTextSelectionChanged_args setSelectionRange(@com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.Range selectionRange) {
+      this.selectionRange = selectionRange;
+      return this;
+    }
+
+    public void unsetSelectionRange() {
+      this.selectionRange = null;
+    }
+
+    /** Returns true if field selectionRange is set (has been assigned a value) and false otherwise */
+    public boolean isSetSelectionRange() {
+      return this.selectionRange != null;
+    }
+
+    public void setSelectionRangeIsSet(boolean value) {
+      if (!value) {
+        this.selectionRange = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case BID:
+        if (value == null) {
+          unsetBid();
+        } else {
+          setBid((java.lang.Integer)value);
+        }
+        break;
+
+      case SELECTED_TEXT:
+        if (value == null) {
+          unsetSelectedText();
+        } else {
+          setSelectedText((java.lang.String)value);
+        }
+        break;
+
+      case SELECTION_RANGE:
+        if (value == null) {
+          unsetSelectionRange();
+        } else {
+          setSelectionRange((com.jetbrains.cef.remote.thrift_codegen.Range)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case BID:
+        return getBid();
+
+      case SELECTED_TEXT:
+        return getSelectedText();
+
+      case SELECTION_RANGE:
+        return getSelectionRange();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case BID:
+        return isSetBid();
+      case SELECTED_TEXT:
+        return isSetSelectedText();
+      case SELECTION_RANGE:
+        return isSetSelectionRange();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof RenderHandler_OnTextSelectionChanged_args)
+        return this.equals((RenderHandler_OnTextSelectionChanged_args)that);
+      return false;
+    }
+
+    public boolean equals(RenderHandler_OnTextSelectionChanged_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_bid = true;
+      boolean that_present_bid = true;
+      if (this_present_bid || that_present_bid) {
+        if (!(this_present_bid && that_present_bid))
+          return false;
+        if (this.bid != that.bid)
+          return false;
+      }
+
+      boolean this_present_selectedText = true && this.isSetSelectedText();
+      boolean that_present_selectedText = true && that.isSetSelectedText();
+      if (this_present_selectedText || that_present_selectedText) {
+        if (!(this_present_selectedText && that_present_selectedText))
+          return false;
+        if (!this.selectedText.equals(that.selectedText))
+          return false;
+      }
+
+      boolean this_present_selectionRange = true && this.isSetSelectionRange();
+      boolean that_present_selectionRange = true && that.isSetSelectionRange();
+      if (this_present_selectionRange || that_present_selectionRange) {
+        if (!(this_present_selectionRange && that_present_selectionRange))
+          return false;
+        if (!this.selectionRange.equals(that.selectionRange))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + bid;
+
+      hashCode = hashCode * 8191 + ((isSetSelectedText()) ? 131071 : 524287);
+      if (isSetSelectedText())
+        hashCode = hashCode * 8191 + selectedText.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetSelectionRange()) ? 131071 : 524287);
+      if (isSetSelectionRange())
+        hashCode = hashCode * 8191 + selectionRange.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(RenderHandler_OnTextSelectionChanged_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetBid()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetSelectedText(), other.isSetSelectedText());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSelectedText()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.selectedText, other.selectedText);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetSelectionRange(), other.isSetSelectionRange());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSelectionRange()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.selectionRange, other.selectionRange);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("RenderHandler_OnTextSelectionChanged_args(");
+      boolean first = true;
+
+      sb.append("bid:");
+      sb.append(this.bid);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("selectedText:");
+      if (this.selectedText == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.selectedText);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("selectionRange:");
+      if (this.selectionRange == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.selectionRange);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (selectionRange != null) {
+        selectionRange.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class RenderHandler_OnTextSelectionChanged_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public RenderHandler_OnTextSelectionChanged_argsStandardScheme getScheme() {
+        return new RenderHandler_OnTextSelectionChanged_argsStandardScheme();
+      }
+    }
+
+    private static class RenderHandler_OnTextSelectionChanged_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<RenderHandler_OnTextSelectionChanged_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, RenderHandler_OnTextSelectionChanged_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // BID
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
+                struct.bid = iprot.readI32();
+                struct.setBidIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // SELECTED_TEXT
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRING) {
+                struct.selectedText = iprot.readString();
+                struct.setSelectedTextIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 3: // SELECTION_RANGE
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                struct.selectionRange = new com.jetbrains.cef.remote.thrift_codegen.Range();
+                struct.selectionRange.read(iprot);
+                struct.setSelectionRangeIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, RenderHandler_OnTextSelectionChanged_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(BID_FIELD_DESC);
+        oprot.writeI32(struct.bid);
+        oprot.writeFieldEnd();
+        if (struct.selectedText != null) {
+          oprot.writeFieldBegin(SELECTED_TEXT_FIELD_DESC);
+          oprot.writeString(struct.selectedText);
+          oprot.writeFieldEnd();
+        }
+        if (struct.selectionRange != null) {
+          oprot.writeFieldBegin(SELECTION_RANGE_FIELD_DESC);
+          struct.selectionRange.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class RenderHandler_OnTextSelectionChanged_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public RenderHandler_OnTextSelectionChanged_argsTupleScheme getScheme() {
+        return new RenderHandler_OnTextSelectionChanged_argsTupleScheme();
+      }
+    }
+
+    private static class RenderHandler_OnTextSelectionChanged_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<RenderHandler_OnTextSelectionChanged_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, RenderHandler_OnTextSelectionChanged_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetBid()) {
+          optionals.set(0);
+        }
+        if (struct.isSetSelectedText()) {
+          optionals.set(1);
+        }
+        if (struct.isSetSelectionRange()) {
+          optionals.set(2);
+        }
+        oprot.writeBitSet(optionals, 3);
+        if (struct.isSetBid()) {
+          oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetSelectedText()) {
+          oprot.writeString(struct.selectedText);
+        }
+        if (struct.isSetSelectionRange()) {
+          struct.selectionRange.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, RenderHandler_OnTextSelectionChanged_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(3);
+        if (incoming.get(0)) {
+          struct.bid = iprot.readI32();
+          struct.setBidIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.selectedText = iprot.readString();
+          struct.setSelectedTextIsSet(true);
+        }
+        if (incoming.get(2)) {
+          struct.selectionRange = new com.jetbrains.cef.remote.thrift_codegen.Range();
+          struct.selectionRange.read(iprot);
+          struct.setSelectionRangeIsSet(true);
         }
       }
     }
@@ -39656,13 +41147,13 @@ public class ClientHandlers {
             case 5: // COOKIE
               if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.LIST) {
                 {
-                  com.jetbrains.cef.remote.thrift.protocol.TList _list8 = iprot.readListBegin();
-                  struct.cookie = new java.util.ArrayList<java.lang.String>(_list8.size);
-                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _elem9;
-                  for (int _i10 = 0; _i10 < _list8.size; ++_i10)
+                  com.jetbrains.cef.remote.thrift.protocol.TList _list16 = iprot.readListBegin();
+                  struct.cookie = new java.util.ArrayList<java.lang.String>(_list16.size);
+                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _elem17;
+                  for (int _i18 = 0; _i18 < _list16.size; ++_i18)
                   {
-                    _elem9 = iprot.readString();
-                    struct.cookie.add(_elem9);
+                    _elem17 = iprot.readString();
+                    struct.cookie.add(_elem17);
                   }
                   iprot.readListEnd();
                 }
@@ -39707,9 +41198,9 @@ public class ClientHandlers {
           oprot.writeFieldBegin(COOKIE_FIELD_DESC);
           {
             oprot.writeListBegin(new com.jetbrains.cef.remote.thrift.protocol.TList(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, struct.cookie.size()));
-            for (java.lang.String _iter11 : struct.cookie)
+            for (java.lang.String _iter19 : struct.cookie)
             {
-              oprot.writeString(_iter11);
+              oprot.writeString(_iter19);
             }
             oprot.writeListEnd();
           }
@@ -39765,9 +41256,9 @@ public class ClientHandlers {
         if (struct.isSetCookie()) {
           {
             oprot.writeI32(struct.cookie.size());
-            for (java.lang.String _iter12 : struct.cookie)
+            for (java.lang.String _iter20 : struct.cookie)
             {
-              oprot.writeString(_iter12);
+              oprot.writeString(_iter20);
             }
           }
         }
@@ -39797,13 +41288,13 @@ public class ClientHandlers {
         }
         if (incoming.get(4)) {
           {
-            com.jetbrains.cef.remote.thrift.protocol.TList _list13 = iprot.readListBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRING);
-            struct.cookie = new java.util.ArrayList<java.lang.String>(_list13.size);
-            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _elem14;
-            for (int _i15 = 0; _i15 < _list13.size; ++_i15)
+            com.jetbrains.cef.remote.thrift.protocol.TList _list21 = iprot.readListBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRING);
+            struct.cookie = new java.util.ArrayList<java.lang.String>(_list21.size);
+            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _elem22;
+            for (int _i23 = 0; _i23 < _list21.size; ++_i23)
             {
-              _elem14 = iprot.readString();
-              struct.cookie.add(_elem14);
+              _elem22 = iprot.readString();
+              struct.cookie.add(_elem22);
             }
           }
           struct.setCookieIsSet(true);
@@ -40970,13 +42461,13 @@ public class ClientHandlers {
             case 6: // COOKIE
               if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.LIST) {
                 {
-                  com.jetbrains.cef.remote.thrift.protocol.TList _list16 = iprot.readListBegin();
-                  struct.cookie = new java.util.ArrayList<java.lang.String>(_list16.size);
-                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _elem17;
-                  for (int _i18 = 0; _i18 < _list16.size; ++_i18)
+                  com.jetbrains.cef.remote.thrift.protocol.TList _list24 = iprot.readListBegin();
+                  struct.cookie = new java.util.ArrayList<java.lang.String>(_list24.size);
+                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _elem25;
+                  for (int _i26 = 0; _i26 < _list24.size; ++_i26)
                   {
-                    _elem17 = iprot.readString();
-                    struct.cookie.add(_elem17);
+                    _elem25 = iprot.readString();
+                    struct.cookie.add(_elem25);
                   }
                   iprot.readListEnd();
                 }
@@ -41026,9 +42517,9 @@ public class ClientHandlers {
           oprot.writeFieldBegin(COOKIE_FIELD_DESC);
           {
             oprot.writeListBegin(new com.jetbrains.cef.remote.thrift.protocol.TList(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, struct.cookie.size()));
-            for (java.lang.String _iter19 : struct.cookie)
+            for (java.lang.String _iter27 : struct.cookie)
             {
-              oprot.writeString(_iter19);
+              oprot.writeString(_iter27);
             }
             oprot.writeListEnd();
           }
@@ -41090,9 +42581,9 @@ public class ClientHandlers {
         if (struct.isSetCookie()) {
           {
             oprot.writeI32(struct.cookie.size());
-            for (java.lang.String _iter20 : struct.cookie)
+            for (java.lang.String _iter28 : struct.cookie)
             {
-              oprot.writeString(_iter20);
+              oprot.writeString(_iter28);
             }
           }
         }
@@ -41127,13 +42618,13 @@ public class ClientHandlers {
         }
         if (incoming.get(5)) {
           {
-            com.jetbrains.cef.remote.thrift.protocol.TList _list21 = iprot.readListBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRING);
-            struct.cookie = new java.util.ArrayList<java.lang.String>(_list21.size);
-            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _elem22;
-            for (int _i23 = 0; _i23 < _list21.size; ++_i23)
+            com.jetbrains.cef.remote.thrift.protocol.TList _list29 = iprot.readListBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRING);
+            struct.cookie = new java.util.ArrayList<java.lang.String>(_list29.size);
+            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _elem30;
+            for (int _i31 = 0; _i31 < _list29.size; ++_i31)
             {
-              _elem22 = iprot.readString();
-              struct.cookie.add(_elem22);
+              _elem30 = iprot.readString();
+              struct.cookie.add(_elem30);
             }
           }
           struct.setCookieIsSet(true);
@@ -52961,14 +54452,14 @@ public class ClientHandlers {
             case 4: // MENU_MODEL
               if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.LIST) {
                 {
-                  com.jetbrains.cef.remote.thrift.protocol.TList _list24 = iprot.readListBegin();
-                  struct.menu_model = new java.util.ArrayList<MenuItem>(_list24.size);
-                  @com.jetbrains.cef.remote.thrift.annotation.Nullable MenuItem _elem25;
-                  for (int _i26 = 0; _i26 < _list24.size; ++_i26)
+                  com.jetbrains.cef.remote.thrift.protocol.TList _list32 = iprot.readListBegin();
+                  struct.menu_model = new java.util.ArrayList<MenuItem>(_list32.size);
+                  @com.jetbrains.cef.remote.thrift.annotation.Nullable MenuItem _elem33;
+                  for (int _i34 = 0; _i34 < _list32.size; ++_i34)
                   {
-                    _elem25 = new MenuItem();
-                    _elem25.read(iprot);
-                    struct.menu_model.add(_elem25);
+                    _elem33 = new MenuItem();
+                    _elem33.read(iprot);
+                    struct.menu_model.add(_elem33);
                   }
                   iprot.readListEnd();
                 }
@@ -53010,9 +54501,9 @@ public class ClientHandlers {
           oprot.writeFieldBegin(MENU_MODEL_FIELD_DESC);
           {
             oprot.writeListBegin(new com.jetbrains.cef.remote.thrift.protocol.TList(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, struct.menu_model.size()));
-            for (MenuItem _iter27 : struct.menu_model)
+            for (MenuItem _iter35 : struct.menu_model)
             {
-              _iter27.write(oprot);
+              _iter35.write(oprot);
             }
             oprot.writeListEnd();
           }
@@ -53062,9 +54553,9 @@ public class ClientHandlers {
         if (struct.isSetMenu_model()) {
           {
             oprot.writeI32(struct.menu_model.size());
-            for (MenuItem _iter28 : struct.menu_model)
+            for (MenuItem _iter36 : struct.menu_model)
             {
-              _iter28.write(oprot);
+              _iter36.write(oprot);
             }
           }
         }
@@ -53090,14 +54581,14 @@ public class ClientHandlers {
         }
         if (incoming.get(3)) {
           {
-            com.jetbrains.cef.remote.thrift.protocol.TList _list29 = iprot.readListBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT);
-            struct.menu_model = new java.util.ArrayList<MenuItem>(_list29.size);
-            @com.jetbrains.cef.remote.thrift.annotation.Nullable MenuItem _elem30;
-            for (int _i31 = 0; _i31 < _list29.size; ++_i31)
+            com.jetbrains.cef.remote.thrift.protocol.TList _list37 = iprot.readListBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT);
+            struct.menu_model = new java.util.ArrayList<MenuItem>(_list37.size);
+            @com.jetbrains.cef.remote.thrift.annotation.Nullable MenuItem _elem38;
+            for (int _i39 = 0; _i39 < _list37.size; ++_i39)
             {
-              _elem30 = new MenuItem();
-              _elem30.read(iprot);
-              struct.menu_model.add(_elem30);
+              _elem38 = new MenuItem();
+              _elem38.read(iprot);
+              struct.menu_model.add(_elem38);
             }
           }
           struct.setMenu_modelIsSet(true);
@@ -53439,14 +54930,14 @@ public class ClientHandlers {
             case 0: // SUCCESS
               if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.LIST) {
                 {
-                  com.jetbrains.cef.remote.thrift.protocol.TList _list32 = iprot.readListBegin();
-                  struct.success = new java.util.ArrayList<MenuItem>(_list32.size);
-                  @com.jetbrains.cef.remote.thrift.annotation.Nullable MenuItem _elem33;
-                  for (int _i34 = 0; _i34 < _list32.size; ++_i34)
+                  com.jetbrains.cef.remote.thrift.protocol.TList _list40 = iprot.readListBegin();
+                  struct.success = new java.util.ArrayList<MenuItem>(_list40.size);
+                  @com.jetbrains.cef.remote.thrift.annotation.Nullable MenuItem _elem41;
+                  for (int _i42 = 0; _i42 < _list40.size; ++_i42)
                   {
-                    _elem33 = new MenuItem();
-                    _elem33.read(iprot);
-                    struct.success.add(_elem33);
+                    _elem41 = new MenuItem();
+                    _elem41.read(iprot);
+                    struct.success.add(_elem41);
                   }
                   iprot.readListEnd();
                 }
@@ -53475,9 +54966,9 @@ public class ClientHandlers {
           oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
           {
             oprot.writeListBegin(new com.jetbrains.cef.remote.thrift.protocol.TList(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, struct.success.size()));
-            for (MenuItem _iter35 : struct.success)
+            for (MenuItem _iter43 : struct.success)
             {
-              _iter35.write(oprot);
+              _iter43.write(oprot);
             }
             oprot.writeListEnd();
           }
@@ -53509,9 +55000,9 @@ public class ClientHandlers {
         if (struct.isSetSuccess()) {
           {
             oprot.writeI32(struct.success.size());
-            for (MenuItem _iter36 : struct.success)
+            for (MenuItem _iter44 : struct.success)
             {
-              _iter36.write(oprot);
+              _iter44.write(oprot);
             }
           }
         }
@@ -53523,14 +55014,14 @@ public class ClientHandlers {
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
           {
-            com.jetbrains.cef.remote.thrift.protocol.TList _list37 = iprot.readListBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT);
-            struct.success = new java.util.ArrayList<MenuItem>(_list37.size);
-            @com.jetbrains.cef.remote.thrift.annotation.Nullable MenuItem _elem38;
-            for (int _i39 = 0; _i39 < _list37.size; ++_i39)
+            com.jetbrains.cef.remote.thrift.protocol.TList _list45 = iprot.readListBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT);
+            struct.success = new java.util.ArrayList<MenuItem>(_list45.size);
+            @com.jetbrains.cef.remote.thrift.annotation.Nullable MenuItem _elem46;
+            for (int _i47 = 0; _i47 < _list45.size; ++_i47)
             {
-              _elem38 = new MenuItem();
-              _elem38.read(iprot);
-              struct.success.add(_elem38);
+              _elem46 = new MenuItem();
+              _elem46.read(iprot);
+              struct.success.add(_elem46);
             }
           }
           struct.setSuccessIsSet(true);
@@ -54233,14 +55724,14 @@ public class ClientHandlers {
             case 4: // MODEL
               if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.LIST) {
                 {
-                  com.jetbrains.cef.remote.thrift.protocol.TList _list40 = iprot.readListBegin();
-                  struct.model = new java.util.ArrayList<MenuItem>(_list40.size);
-                  @com.jetbrains.cef.remote.thrift.annotation.Nullable MenuItem _elem41;
-                  for (int _i42 = 0; _i42 < _list40.size; ++_i42)
+                  com.jetbrains.cef.remote.thrift.protocol.TList _list48 = iprot.readListBegin();
+                  struct.model = new java.util.ArrayList<MenuItem>(_list48.size);
+                  @com.jetbrains.cef.remote.thrift.annotation.Nullable MenuItem _elem49;
+                  for (int _i50 = 0; _i50 < _list48.size; ++_i50)
                   {
-                    _elem41 = new MenuItem();
-                    _elem41.read(iprot);
-                    struct.model.add(_elem41);
+                    _elem49 = new MenuItem();
+                    _elem49.read(iprot);
+                    struct.model.add(_elem49);
                   }
                   iprot.readListEnd();
                 }
@@ -54291,9 +55782,9 @@ public class ClientHandlers {
           oprot.writeFieldBegin(MODEL_FIELD_DESC);
           {
             oprot.writeListBegin(new com.jetbrains.cef.remote.thrift.protocol.TList(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, struct.model.size()));
-            for (MenuItem _iter43 : struct.model)
+            for (MenuItem _iter51 : struct.model)
             {
-              _iter43.write(oprot);
+              _iter51.write(oprot);
             }
             oprot.writeListEnd();
           }
@@ -54351,9 +55842,9 @@ public class ClientHandlers {
         if (struct.isSetModel()) {
           {
             oprot.writeI32(struct.model.size());
-            for (MenuItem _iter44 : struct.model)
+            for (MenuItem _iter52 : struct.model)
             {
-              _iter44.write(oprot);
+              _iter52.write(oprot);
             }
           }
         }
@@ -54382,14 +55873,14 @@ public class ClientHandlers {
         }
         if (incoming.get(3)) {
           {
-            com.jetbrains.cef.remote.thrift.protocol.TList _list45 = iprot.readListBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT);
-            struct.model = new java.util.ArrayList<MenuItem>(_list45.size);
-            @com.jetbrains.cef.remote.thrift.annotation.Nullable MenuItem _elem46;
-            for (int _i47 = 0; _i47 < _list45.size; ++_i47)
+            com.jetbrains.cef.remote.thrift.protocol.TList _list53 = iprot.readListBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT);
+            struct.model = new java.util.ArrayList<MenuItem>(_list53.size);
+            @com.jetbrains.cef.remote.thrift.annotation.Nullable MenuItem _elem54;
+            for (int _i55 = 0; _i55 < _list53.size; ++_i55)
             {
-              _elem46 = new MenuItem();
-              _elem46.read(iprot);
-              struct.model.add(_elem46);
+              _elem54 = new MenuItem();
+              _elem54.read(iprot);
+              struct.model.add(_elem54);
             }
           }
           struct.setModelIsSet(true);
@@ -69686,13 +71177,13 @@ public class ClientHandlers {
             case 2: // FILE_PATHS
               if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.LIST) {
                 {
-                  com.jetbrains.cef.remote.thrift.protocol.TList _list48 = iprot.readListBegin();
-                  struct.filePaths = new java.util.ArrayList<java.lang.String>(_list48.size);
-                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _elem49;
-                  for (int _i50 = 0; _i50 < _list48.size; ++_i50)
+                  com.jetbrains.cef.remote.thrift.protocol.TList _list56 = iprot.readListBegin();
+                  struct.filePaths = new java.util.ArrayList<java.lang.String>(_list56.size);
+                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _elem57;
+                  for (int _i58 = 0; _i58 < _list56.size; ++_i58)
                   {
-                    _elem49 = iprot.readString();
-                    struct.filePaths.add(_elem49);
+                    _elem57 = iprot.readString();
+                    struct.filePaths.add(_elem57);
                   }
                   iprot.readListEnd();
                 }
@@ -69724,9 +71215,9 @@ public class ClientHandlers {
           oprot.writeFieldBegin(FILE_PATHS_FIELD_DESC);
           {
             oprot.writeListBegin(new com.jetbrains.cef.remote.thrift.protocol.TList(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, struct.filePaths.size()));
-            for (java.lang.String _iter51 : struct.filePaths)
+            for (java.lang.String _iter59 : struct.filePaths)
             {
-              oprot.writeString(_iter51);
+              oprot.writeString(_iter59);
             }
             oprot.writeListEnd();
           }
@@ -69764,9 +71255,9 @@ public class ClientHandlers {
         if (struct.isSetFilePaths()) {
           {
             oprot.writeI32(struct.filePaths.size());
-            for (java.lang.String _iter52 : struct.filePaths)
+            for (java.lang.String _iter60 : struct.filePaths)
             {
-              oprot.writeString(_iter52);
+              oprot.writeString(_iter60);
             }
           }
         }
@@ -69782,13 +71273,13 @@ public class ClientHandlers {
         }
         if (incoming.get(1)) {
           {
-            com.jetbrains.cef.remote.thrift.protocol.TList _list53 = iprot.readListBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRING);
-            struct.filePaths = new java.util.ArrayList<java.lang.String>(_list53.size);
-            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _elem54;
-            for (int _i55 = 0; _i55 < _list53.size; ++_i55)
+            com.jetbrains.cef.remote.thrift.protocol.TList _list61 = iprot.readListBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRING);
+            struct.filePaths = new java.util.ArrayList<java.lang.String>(_list61.size);
+            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _elem62;
+            for (int _i63 = 0; _i63 < _list61.size; ++_i63)
             {
-              _elem54 = iprot.readString();
-              struct.filePaths.add(_elem54);
+              _elem62 = iprot.readString();
+              struct.filePaths.add(_elem62);
             }
           }
           struct.setFilePathsIsSet(true);

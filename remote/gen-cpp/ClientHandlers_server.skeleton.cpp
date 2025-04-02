@@ -65,6 +65,16 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
     printf("RenderHandler_OnPopupSize\n");
   }
 
+  void RenderHandler_OnImeCompositionRangeChanged(const int32_t bid, const  ::thrift_codegen::Range& selectionRange, const std::vector<Rect> & characterBounds) {
+    // Your implementation goes here
+    printf("RenderHandler_OnImeCompositionRangeChanged\n");
+  }
+
+  void RenderHandler_OnTextSelectionChanged(const int32_t bid, const std::string& selectedText, const  ::thrift_codegen::Range& selectionRange) {
+    // Your implementation goes here
+    printf("RenderHandler_OnTextSelectionChanged\n");
+  }
+
   bool LifeSpanHandler_OnBeforePopup(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& url, const std::string& frameName, const bool gesture) {
     // Your implementation goes here
     printf("LifeSpanHandler_OnBeforePopup\n");

@@ -21,6 +21,21 @@
 
 namespace thrift_codegen {
 
+struct Style {
+  enum type {
+    SOLID = 0,
+    DOT = 1,
+    DASH = 2,
+    NONE = 3
+  };
+};
+
+extern const std::map<int, const char*> _Style_VALUES_TO_NAMES;
+
+std::ostream& operator<<(std::ostream& out, const Style::type& val);
+
+std::string to_string(const Style::type& val);
+
 class RObject;
 
 class ResponseHeaders;
@@ -34,6 +49,12 @@ class PostData;
 class KeyEvent;
 
 class Cookie;
+
+class Range;
+
+class Color;
+
+class CompositionUnderline;
 
 typedef struct _RObject__isset {
   _RObject__isset() : flags(false), objInfo(false) {}
@@ -498,6 +519,175 @@ class Cookie : public virtual ::apache::thrift::TBase {
 void swap(Cookie &a, Cookie &b);
 
 std::ostream& operator<<(std::ostream& out, const Cookie& obj);
+
+
+class Range : public virtual ::apache::thrift::TBase {
+ public:
+
+  Range(const Range&) noexcept;
+  Range& operator=(const Range&) noexcept;
+  Range() noexcept
+        : from(0),
+          to(0) {
+  }
+
+  virtual ~Range() noexcept;
+  int64_t from;
+  int64_t to;
+
+  void __set_from(const int64_t val);
+
+  void __set_to(const int64_t val);
+
+  bool operator == (const Range & rhs) const
+  {
+    if (!(from == rhs.from))
+      return false;
+    if (!(to == rhs.to))
+      return false;
+    return true;
+  }
+  bool operator != (const Range &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Range & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
+
+  virtual void printTo(std::ostream& out) const;
+};
+
+void swap(Range &a, Range &b);
+
+std::ostream& operator<<(std::ostream& out, const Range& obj);
+
+typedef struct _Color__isset {
+  _Color__isset() : red(false), green(false), blue(false), alpha(false) {}
+  bool red :1;
+  bool green :1;
+  bool blue :1;
+  bool alpha :1;
+} _Color__isset;
+
+class Color : public virtual ::apache::thrift::TBase {
+ public:
+
+  Color(const Color&) noexcept;
+  Color& operator=(const Color&) noexcept;
+  Color() noexcept
+        : red(0),
+          green(0),
+          blue(0),
+          alpha(0) {
+  }
+
+  virtual ~Color() noexcept;
+  int32_t red;
+  int32_t green;
+  int32_t blue;
+  int32_t alpha;
+
+  _Color__isset __isset;
+
+  void __set_red(const int32_t val);
+
+  void __set_green(const int32_t val);
+
+  void __set_blue(const int32_t val);
+
+  void __set_alpha(const int32_t val);
+
+  bool operator == (const Color & rhs) const
+  {
+    if (!(red == rhs.red))
+      return false;
+    if (!(green == rhs.green))
+      return false;
+    if (!(blue == rhs.blue))
+      return false;
+    if (!(alpha == rhs.alpha))
+      return false;
+    return true;
+  }
+  bool operator != (const Color &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Color & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
+
+  virtual void printTo(std::ostream& out) const;
+};
+
+void swap(Color &a, Color &b);
+
+std::ostream& operator<<(std::ostream& out, const Color& obj);
+
+
+class CompositionUnderline : public virtual ::apache::thrift::TBase {
+ public:
+
+  CompositionUnderline(const CompositionUnderline&) noexcept;
+  CompositionUnderline& operator=(const CompositionUnderline&) noexcept;
+  CompositionUnderline() noexcept
+                       : thick(0),
+                         style(static_cast<Style::type>(0)) {
+  }
+
+  virtual ~CompositionUnderline() noexcept;
+  Range range;
+  Color color;
+  Color backgroundColor;
+  int32_t thick;
+  /**
+   * 
+   * @see Style
+   */
+  Style::type style;
+
+  void __set_range(const Range& val);
+
+  void __set_color(const Color& val);
+
+  void __set_backgroundColor(const Color& val);
+
+  void __set_thick(const int32_t val);
+
+  void __set_style(const Style::type val);
+
+  bool operator == (const CompositionUnderline & rhs) const
+  {
+    if (!(range == rhs.range))
+      return false;
+    if (!(color == rhs.color))
+      return false;
+    if (!(backgroundColor == rhs.backgroundColor))
+      return false;
+    if (!(thick == rhs.thick))
+      return false;
+    if (!(style == rhs.style))
+      return false;
+    return true;
+  }
+  bool operator != (const CompositionUnderline &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const CompositionUnderline & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
+
+  virtual void printTo(std::ostream& out) const;
+};
+
+void swap(CompositionUnderline &a, CompositionUnderline &b);
+
+std::ostream& operator<<(std::ostream& out, const CompositionUnderline& obj);
 
 } // namespace
 
