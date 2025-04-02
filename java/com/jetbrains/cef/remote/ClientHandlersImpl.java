@@ -381,8 +381,8 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         CefKeyboardHandler.CefKeyEvent.EventType type;
         try {
             type = CefKeyboardHandler.CefKeyEvent.EventType.valueOf(event.type);
-        } catch (IllegalArgumentException e) {
-            CefLog.Error("Unknown key event type: ", e.getMessage());
+        } catch (Throwable e) {
+            CefLog.Error("Unknown key event type: event.type=%s, exception: %s", event.type, e.getMessage());
             return null;
         }
 
@@ -424,8 +424,8 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         if (source != null && !source.isEmpty()) {
             try {
                 src = CefFocusHandler.FocusSource.valueOf(source);
-            } catch (IllegalArgumentException e) {
-                CefLog.Error("FocusHandler_OnSetFocus: ", e.getMessage());
+            } catch (Throwable e) {
+                CefLog.Error("FocusHandler_OnSetFocus: source=%s, exception: %s", source, e.getMessage());
             }
         }
 
@@ -632,8 +632,8 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         if (cert_error != null && !cert_error.isEmpty()) {
             try {
                 err = CefLoadHandler.ErrorCode.valueOf(cert_error);
-            } catch (IllegalArgumentException e) {
-                CefLog.Error("OnCertificateError: ", e.getMessage());
+            } catch (Throwable e) {
+                CefLog.Error("OnCertificateError: cert_error=%s, exception: %s", cert_error, e.getMessage());
             }
         }
         return rh.onCertificateError(browser, err, request_url, ssl, cb);
@@ -650,8 +650,8 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         if (status != null && !status.isEmpty()) {
             try {
                 s = CefRequestHandler.TerminationStatus.valueOf(status);
-            } catch (IllegalArgumentException e) {
-                CefLog.Error("onRenderProcessTerminated: ", e.getMessage());
+            } catch (Throwable e) {
+                CefLog.Error("onRenderProcessTerminated: status=%s, exception: %s", status, e.getMessage());
             }
         }
         rh.onRenderProcessTerminated(browser, s);
@@ -874,8 +874,8 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         if (status != null && !status.isEmpty()) {
             try {
                 s = CefURLRequest.Status.valueOf(status);
-            } catch (IllegalArgumentException e) {
-                CefLog.Error("OnResourceLoadComplete: ", e.getMessage());
+            } catch (Throwable e) {
+                CefLog.Error("OnResourceLoadComplete: status=%s, exception: %s", status, e.getMessage());
             }
         }
         RemoteFrame rframe = new RemoteFrame(myRpc, frame);
@@ -1062,7 +1062,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         BoolRef delete = new BoolRef(false);
         boolean continueTraverse = rvisitor.getDelegate().visit(RemoteCookieManager.toCefCookie(cookie), count, total, delete);
         if (delete.get())
-            CefLog.Error("Can't delete cookie %s via CefCookieVisitor, please use CefCookieManager.deleteCookie. TODO: implement.");
+            CefLog.Error("Can't delete cookie %s via CefCookieVisitor, please use CefCookieManager.deleteCookie. TODO: implement.", cookie);
         if (count == total || !continueTraverse) {
             CefLog.Debug("Last cookie (%d) visited, dispose RemoteCookieVisitor %d.", total, visitor);
             RemoteCookieVisitor.FACTORY.dispose(visitor);
