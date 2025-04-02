@@ -76,6 +76,10 @@ class ServerIf {
   virtual void Browser_RunFileDialog(const int32_t bid, const std::string& mode, const std::string& title, const std::string& defaultFilePath, const std::vector<std::string> & acceptFilters, const  ::thrift_codegen::RObject& runFileDialogCallback) = 0;
   virtual void Browser_PrintToPDF(const int32_t bid, const std::string& path, const std::map<std::string, std::string> & pdfPrintSettings, const  ::thrift_codegen::RObject& pdfPrintCallback) = 0;
   virtual void Browser_Print(const int32_t bid) = 0;
+  virtual void Browser_ImeSetComposition(const int32_t bid, const std::string& text, const std::vector< ::thrift_codegen::CompositionUnderline> & underlines, const  ::thrift_codegen::Range& replacementRange, const  ::thrift_codegen::Range& selectionRange) = 0;
+  virtual void Browser_ImeCommitText(const int32_t bid, const std::string& text, const  ::thrift_codegen::Range& replacementRange, const int32_t relativeCursorPos) = 0;
+  virtual void Browser_ImeFinishComposingText(const int32_t bid, const bool keepSelection) = 0;
+  virtual void Browser_ImeCancelComposing(const int32_t bid) = 0;
   virtual void Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line) = 0;
   virtual void Frame_Dispose(const int32_t frameId) = 0;
   virtual void Frame_GetParent( ::thrift_codegen::RObject& _return, const int32_t frameId) = 0;
@@ -334,6 +338,18 @@ class ServerNull : virtual public ServerIf {
     return;
   }
   void Browser_Print(const int32_t /* bid */) override {
+    return;
+  }
+  void Browser_ImeSetComposition(const int32_t /* bid */, const std::string& /* text */, const std::vector< ::thrift_codegen::CompositionUnderline> & /* underlines */, const  ::thrift_codegen::Range& /* replacementRange */, const  ::thrift_codegen::Range& /* selectionRange */) override {
+    return;
+  }
+  void Browser_ImeCommitText(const int32_t /* bid */, const std::string& /* text */, const  ::thrift_codegen::Range& /* replacementRange */, const int32_t /* relativeCursorPos */) override {
+    return;
+  }
+  void Browser_ImeFinishComposingText(const int32_t /* bid */, const bool /* keepSelection */) override {
+    return;
+  }
+  void Browser_ImeCancelComposing(const int32_t /* bid */) override {
     return;
   }
   void Frame_ExecuteJavaScript(const int32_t /* frameId */, const std::string& /* code */, const std::string& /* url */, const int32_t /* line */) override {
@@ -4793,6 +4809,266 @@ class Server_Browser_Print_pargs {
 
 
   virtual ~Server_Browser_Print_pargs() noexcept;
+  const int32_t* bid;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_Browser_ImeSetComposition_args__isset {
+  _Server_Browser_ImeSetComposition_args__isset() : bid(false), text(false), underlines(false), replacementRange(false), selectionRange(false) {}
+  bool bid :1;
+  bool text :1;
+  bool underlines :1;
+  bool replacementRange :1;
+  bool selectionRange :1;
+} _Server_Browser_ImeSetComposition_args__isset;
+
+class Server_Browser_ImeSetComposition_args {
+ public:
+
+  Server_Browser_ImeSetComposition_args(const Server_Browser_ImeSetComposition_args&);
+  Server_Browser_ImeSetComposition_args& operator=(const Server_Browser_ImeSetComposition_args&);
+  Server_Browser_ImeSetComposition_args() noexcept
+                                        : bid(0),
+                                          text() {
+  }
+
+  virtual ~Server_Browser_ImeSetComposition_args() noexcept;
+  int32_t bid;
+  std::string text;
+  std::vector< ::thrift_codegen::CompositionUnderline>  underlines;
+   ::thrift_codegen::Range replacementRange;
+   ::thrift_codegen::Range selectionRange;
+
+  _Server_Browser_ImeSetComposition_args__isset __isset;
+
+  void __set_bid(const int32_t val);
+
+  void __set_text(const std::string& val);
+
+  void __set_underlines(const std::vector< ::thrift_codegen::CompositionUnderline> & val);
+
+  void __set_replacementRange(const  ::thrift_codegen::Range& val);
+
+  void __set_selectionRange(const  ::thrift_codegen::Range& val);
+
+  bool operator == (const Server_Browser_ImeSetComposition_args & rhs) const
+  {
+    if (!(bid == rhs.bid))
+      return false;
+    if (!(text == rhs.text))
+      return false;
+    if (!(underlines == rhs.underlines))
+      return false;
+    if (!(replacementRange == rhs.replacementRange))
+      return false;
+    if (!(selectionRange == rhs.selectionRange))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_Browser_ImeSetComposition_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Browser_ImeSetComposition_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Browser_ImeSetComposition_pargs {
+ public:
+
+
+  virtual ~Server_Browser_ImeSetComposition_pargs() noexcept;
+  const int32_t* bid;
+  const std::string* text;
+  const std::vector< ::thrift_codegen::CompositionUnderline> * underlines;
+  const  ::thrift_codegen::Range* replacementRange;
+  const  ::thrift_codegen::Range* selectionRange;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_Browser_ImeCommitText_args__isset {
+  _Server_Browser_ImeCommitText_args__isset() : bid(false), text(false), replacementRange(false), relativeCursorPos(false) {}
+  bool bid :1;
+  bool text :1;
+  bool replacementRange :1;
+  bool relativeCursorPos :1;
+} _Server_Browser_ImeCommitText_args__isset;
+
+class Server_Browser_ImeCommitText_args {
+ public:
+
+  Server_Browser_ImeCommitText_args(const Server_Browser_ImeCommitText_args&);
+  Server_Browser_ImeCommitText_args& operator=(const Server_Browser_ImeCommitText_args&);
+  Server_Browser_ImeCommitText_args() noexcept
+                                    : bid(0),
+                                      text(),
+                                      relativeCursorPos(0) {
+  }
+
+  virtual ~Server_Browser_ImeCommitText_args() noexcept;
+  int32_t bid;
+  std::string text;
+   ::thrift_codegen::Range replacementRange;
+  int32_t relativeCursorPos;
+
+  _Server_Browser_ImeCommitText_args__isset __isset;
+
+  void __set_bid(const int32_t val);
+
+  void __set_text(const std::string& val);
+
+  void __set_replacementRange(const  ::thrift_codegen::Range& val);
+
+  void __set_relativeCursorPos(const int32_t val);
+
+  bool operator == (const Server_Browser_ImeCommitText_args & rhs) const
+  {
+    if (!(bid == rhs.bid))
+      return false;
+    if (!(text == rhs.text))
+      return false;
+    if (!(replacementRange == rhs.replacementRange))
+      return false;
+    if (!(relativeCursorPos == rhs.relativeCursorPos))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_Browser_ImeCommitText_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Browser_ImeCommitText_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Browser_ImeCommitText_pargs {
+ public:
+
+
+  virtual ~Server_Browser_ImeCommitText_pargs() noexcept;
+  const int32_t* bid;
+  const std::string* text;
+  const  ::thrift_codegen::Range* replacementRange;
+  const int32_t* relativeCursorPos;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_Browser_ImeFinishComposingText_args__isset {
+  _Server_Browser_ImeFinishComposingText_args__isset() : bid(false), keepSelection(false) {}
+  bool bid :1;
+  bool keepSelection :1;
+} _Server_Browser_ImeFinishComposingText_args__isset;
+
+class Server_Browser_ImeFinishComposingText_args {
+ public:
+
+  Server_Browser_ImeFinishComposingText_args(const Server_Browser_ImeFinishComposingText_args&) noexcept;
+  Server_Browser_ImeFinishComposingText_args& operator=(const Server_Browser_ImeFinishComposingText_args&) noexcept;
+  Server_Browser_ImeFinishComposingText_args() noexcept
+                                             : bid(0),
+                                               keepSelection(0) {
+  }
+
+  virtual ~Server_Browser_ImeFinishComposingText_args() noexcept;
+  int32_t bid;
+  bool keepSelection;
+
+  _Server_Browser_ImeFinishComposingText_args__isset __isset;
+
+  void __set_bid(const int32_t val);
+
+  void __set_keepSelection(const bool val);
+
+  bool operator == (const Server_Browser_ImeFinishComposingText_args & rhs) const
+  {
+    if (!(bid == rhs.bid))
+      return false;
+    if (!(keepSelection == rhs.keepSelection))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_Browser_ImeFinishComposingText_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Browser_ImeFinishComposingText_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Browser_ImeFinishComposingText_pargs {
+ public:
+
+
+  virtual ~Server_Browser_ImeFinishComposingText_pargs() noexcept;
+  const int32_t* bid;
+  const bool* keepSelection;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Server_Browser_ImeCancelComposing_args__isset {
+  _Server_Browser_ImeCancelComposing_args__isset() : bid(false) {}
+  bool bid :1;
+} _Server_Browser_ImeCancelComposing_args__isset;
+
+class Server_Browser_ImeCancelComposing_args {
+ public:
+
+  Server_Browser_ImeCancelComposing_args(const Server_Browser_ImeCancelComposing_args&) noexcept;
+  Server_Browser_ImeCancelComposing_args& operator=(const Server_Browser_ImeCancelComposing_args&) noexcept;
+  Server_Browser_ImeCancelComposing_args() noexcept
+                                         : bid(0) {
+  }
+
+  virtual ~Server_Browser_ImeCancelComposing_args() noexcept;
+  int32_t bid;
+
+  _Server_Browser_ImeCancelComposing_args__isset __isset;
+
+  void __set_bid(const int32_t val);
+
+  bool operator == (const Server_Browser_ImeCancelComposing_args & rhs) const
+  {
+    if (!(bid == rhs.bid))
+      return false;
+    return true;
+  }
+  bool operator != (const Server_Browser_ImeCancelComposing_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Server_Browser_ImeCancelComposing_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Server_Browser_ImeCancelComposing_pargs {
+ public:
+
+
+  virtual ~Server_Browser_ImeCancelComposing_pargs() noexcept;
   const int32_t* bid;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -9554,6 +9830,14 @@ class ServerClient : virtual public ServerIf {
   void send_Browser_PrintToPDF(const int32_t bid, const std::string& path, const std::map<std::string, std::string> & pdfPrintSettings, const  ::thrift_codegen::RObject& pdfPrintCallback);
   void Browser_Print(const int32_t bid) override;
   void send_Browser_Print(const int32_t bid);
+  void Browser_ImeSetComposition(const int32_t bid, const std::string& text, const std::vector< ::thrift_codegen::CompositionUnderline> & underlines, const  ::thrift_codegen::Range& replacementRange, const  ::thrift_codegen::Range& selectionRange) override;
+  void send_Browser_ImeSetComposition(const int32_t bid, const std::string& text, const std::vector< ::thrift_codegen::CompositionUnderline> & underlines, const  ::thrift_codegen::Range& replacementRange, const  ::thrift_codegen::Range& selectionRange);
+  void Browser_ImeCommitText(const int32_t bid, const std::string& text, const  ::thrift_codegen::Range& replacementRange, const int32_t relativeCursorPos) override;
+  void send_Browser_ImeCommitText(const int32_t bid, const std::string& text, const  ::thrift_codegen::Range& replacementRange, const int32_t relativeCursorPos);
+  void Browser_ImeFinishComposingText(const int32_t bid, const bool keepSelection) override;
+  void send_Browser_ImeFinishComposingText(const int32_t bid, const bool keepSelection);
+  void Browser_ImeCancelComposing(const int32_t bid) override;
+  void send_Browser_ImeCancelComposing(const int32_t bid);
   void Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line) override;
   void send_Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line);
   void Frame_Dispose(const int32_t frameId) override;
@@ -9771,6 +10055,10 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_Browser_RunFileDialog(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_PrintToPDF(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_Print(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_Browser_ImeSetComposition(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_Browser_ImeCommitText(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_Browser_ImeFinishComposingText(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_Browser_ImeCancelComposing(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Frame_ExecuteJavaScript(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Frame_Dispose(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Frame_GetParent(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -9887,6 +10175,10 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["Browser_RunFileDialog"] = &ServerProcessor::process_Browser_RunFileDialog;
     processMap_["Browser_PrintToPDF"] = &ServerProcessor::process_Browser_PrintToPDF;
     processMap_["Browser_Print"] = &ServerProcessor::process_Browser_Print;
+    processMap_["Browser_ImeSetComposition"] = &ServerProcessor::process_Browser_ImeSetComposition;
+    processMap_["Browser_ImeCommitText"] = &ServerProcessor::process_Browser_ImeCommitText;
+    processMap_["Browser_ImeFinishComposingText"] = &ServerProcessor::process_Browser_ImeFinishComposingText;
+    processMap_["Browser_ImeCancelComposing"] = &ServerProcessor::process_Browser_ImeCancelComposing;
     processMap_["Frame_ExecuteJavaScript"] = &ServerProcessor::process_Frame_ExecuteJavaScript;
     processMap_["Frame_Dispose"] = &ServerProcessor::process_Frame_Dispose;
     processMap_["Frame_GetParent"] = &ServerProcessor::process_Frame_GetParent;
@@ -10468,6 +10760,42 @@ class ServerMultiface : virtual public ServerIf {
       ifaces_[i]->Browser_Print(bid);
     }
     ifaces_[i]->Browser_Print(bid);
+  }
+
+  void Browser_ImeSetComposition(const int32_t bid, const std::string& text, const std::vector< ::thrift_codegen::CompositionUnderline> & underlines, const  ::thrift_codegen::Range& replacementRange, const  ::thrift_codegen::Range& selectionRange) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->Browser_ImeSetComposition(bid, text, underlines, replacementRange, selectionRange);
+    }
+    ifaces_[i]->Browser_ImeSetComposition(bid, text, underlines, replacementRange, selectionRange);
+  }
+
+  void Browser_ImeCommitText(const int32_t bid, const std::string& text, const  ::thrift_codegen::Range& replacementRange, const int32_t relativeCursorPos) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->Browser_ImeCommitText(bid, text, replacementRange, relativeCursorPos);
+    }
+    ifaces_[i]->Browser_ImeCommitText(bid, text, replacementRange, relativeCursorPos);
+  }
+
+  void Browser_ImeFinishComposingText(const int32_t bid, const bool keepSelection) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->Browser_ImeFinishComposingText(bid, keepSelection);
+    }
+    ifaces_[i]->Browser_ImeFinishComposingText(bid, keepSelection);
+  }
+
+  void Browser_ImeCancelComposing(const int32_t bid) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->Browser_ImeCancelComposing(bid);
+    }
+    ifaces_[i]->Browser_ImeCancelComposing(bid);
   }
 
   void Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line) override {
@@ -11172,6 +11500,14 @@ class ServerConcurrentClient : virtual public ServerIf {
   void send_Browser_PrintToPDF(const int32_t bid, const std::string& path, const std::map<std::string, std::string> & pdfPrintSettings, const  ::thrift_codegen::RObject& pdfPrintCallback);
   void Browser_Print(const int32_t bid) override;
   void send_Browser_Print(const int32_t bid);
+  void Browser_ImeSetComposition(const int32_t bid, const std::string& text, const std::vector< ::thrift_codegen::CompositionUnderline> & underlines, const  ::thrift_codegen::Range& replacementRange, const  ::thrift_codegen::Range& selectionRange) override;
+  void send_Browser_ImeSetComposition(const int32_t bid, const std::string& text, const std::vector< ::thrift_codegen::CompositionUnderline> & underlines, const  ::thrift_codegen::Range& replacementRange, const  ::thrift_codegen::Range& selectionRange);
+  void Browser_ImeCommitText(const int32_t bid, const std::string& text, const  ::thrift_codegen::Range& replacementRange, const int32_t relativeCursorPos) override;
+  void send_Browser_ImeCommitText(const int32_t bid, const std::string& text, const  ::thrift_codegen::Range& replacementRange, const int32_t relativeCursorPos);
+  void Browser_ImeFinishComposingText(const int32_t bid, const bool keepSelection) override;
+  void send_Browser_ImeFinishComposingText(const int32_t bid, const bool keepSelection);
+  void Browser_ImeCancelComposing(const int32_t bid) override;
+  void send_Browser_ImeCancelComposing(const int32_t bid);
   void Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line) override;
   void send_Frame_ExecuteJavaScript(const int32_t frameId, const std::string& code, const std::string& url, const int32_t line);
   void Frame_Dispose(const int32_t frameId) override;

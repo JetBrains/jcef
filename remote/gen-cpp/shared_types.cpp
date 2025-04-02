@@ -13,6 +13,39 @@
 
 namespace thrift_codegen {
 
+int _kStyleValues[] = {
+  Style::SOLID,
+  Style::DOT,
+  Style::DASH,
+  Style::NONE
+};
+const char* _kStyleNames[] = {
+  "SOLID",
+  "DOT",
+  "DASH",
+  "NONE"
+};
+const std::map<int, const char*> _Style_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(4, _kStyleValues, _kStyleNames), ::apache::thrift::TEnumIterator(-1, nullptr, nullptr));
+
+std::ostream& operator<<(std::ostream& out, const Style::type& val) {
+  std::map<int, const char*>::const_iterator it = _Style_VALUES_TO_NAMES.find(val);
+  if (it != _Style_VALUES_TO_NAMES.end()) {
+    out << it->second;
+  } else {
+    out << static_cast<int>(val);
+  }
+  return out;
+}
+
+std::string to_string(const Style::type& val) {
+  std::map<int, const char*>::const_iterator it = _Style_VALUES_TO_NAMES.find(val);
+  if (it != _Style_VALUES_TO_NAMES.end()) {
+    return std::string(it->second);
+  } else {
+    return std::to_string(static_cast<int>(val));
+  }
+}
+
 
 RObject::~RObject() noexcept {
 }
@@ -1257,6 +1290,459 @@ void Cookie::printTo(std::ostream& out) const {
   out << ", " << "creation=" << to_string(creation);
   out << ", " << "lastAccess=" << to_string(lastAccess);
   out << ", " << "expires="; (__isset.expires ? (out << to_string(expires)) : (out << "<null>"));
+  out << ")";
+}
+
+
+Range::~Range() noexcept {
+}
+
+
+void Range::__set_from(const int64_t val) {
+  this->from = val;
+}
+
+void Range::__set_to(const int64_t val) {
+  this->to = val;
+}
+std::ostream& operator<<(std::ostream& out, const Range& obj)
+{
+  obj.printTo(out);
+  return out;
+}
+
+
+uint32_t Range::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+  bool isset_from = false;
+  bool isset_to = false;
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I64) {
+          xfer += iprot->readI64(this->from);
+          isset_from = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_I64) {
+          xfer += iprot->readI64(this->to);
+          isset_to = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  if (!isset_from)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_to)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  return xfer;
+}
+
+uint32_t Range::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Range");
+
+  xfer += oprot->writeFieldBegin("from", ::apache::thrift::protocol::T_I64, 1);
+  xfer += oprot->writeI64(this->from);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("to", ::apache::thrift::protocol::T_I64, 2);
+  xfer += oprot->writeI64(this->to);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+void swap(Range &a, Range &b) {
+  using ::std::swap;
+  swap(a.from, b.from);
+  swap(a.to, b.to);
+}
+
+Range::Range(const Range& other28) noexcept {
+  from = other28.from;
+  to = other28.to;
+}
+Range& Range::operator=(const Range& other29) noexcept {
+  from = other29.from;
+  to = other29.to;
+  return *this;
+}
+void Range::printTo(std::ostream& out) const {
+  using ::apache::thrift::to_string;
+  out << "Range(";
+  out << "from=" << to_string(from);
+  out << ", " << "to=" << to_string(to);
+  out << ")";
+}
+
+
+Color::~Color() noexcept {
+}
+
+
+void Color::__set_red(const int32_t val) {
+  this->red = val;
+}
+
+void Color::__set_green(const int32_t val) {
+  this->green = val;
+}
+
+void Color::__set_blue(const int32_t val) {
+  this->blue = val;
+}
+
+void Color::__set_alpha(const int32_t val) {
+  this->alpha = val;
+}
+std::ostream& operator<<(std::ostream& out, const Color& obj)
+{
+  obj.printTo(out);
+  return out;
+}
+
+
+uint32_t Color::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->red);
+          this->__isset.red = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->green);
+          this->__isset.green = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->blue);
+          this->__isset.blue = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->alpha);
+          this->__isset.alpha = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Color::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Color");
+
+  xfer += oprot->writeFieldBegin("red", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->red);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("green", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32(this->green);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("blue", ::apache::thrift::protocol::T_I32, 3);
+  xfer += oprot->writeI32(this->blue);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("alpha", ::apache::thrift::protocol::T_I32, 4);
+  xfer += oprot->writeI32(this->alpha);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+void swap(Color &a, Color &b) {
+  using ::std::swap;
+  swap(a.red, b.red);
+  swap(a.green, b.green);
+  swap(a.blue, b.blue);
+  swap(a.alpha, b.alpha);
+  swap(a.__isset, b.__isset);
+}
+
+Color::Color(const Color& other30) noexcept {
+  red = other30.red;
+  green = other30.green;
+  blue = other30.blue;
+  alpha = other30.alpha;
+  __isset = other30.__isset;
+}
+Color& Color::operator=(const Color& other31) noexcept {
+  red = other31.red;
+  green = other31.green;
+  blue = other31.blue;
+  alpha = other31.alpha;
+  __isset = other31.__isset;
+  return *this;
+}
+void Color::printTo(std::ostream& out) const {
+  using ::apache::thrift::to_string;
+  out << "Color(";
+  out << "red=" << to_string(red);
+  out << ", " << "green=" << to_string(green);
+  out << ", " << "blue=" << to_string(blue);
+  out << ", " << "alpha=" << to_string(alpha);
+  out << ")";
+}
+
+
+CompositionUnderline::~CompositionUnderline() noexcept {
+}
+
+
+void CompositionUnderline::__set_range(const Range& val) {
+  this->range = val;
+}
+
+void CompositionUnderline::__set_color(const Color& val) {
+  this->color = val;
+}
+
+void CompositionUnderline::__set_backgroundColor(const Color& val) {
+  this->backgroundColor = val;
+}
+
+void CompositionUnderline::__set_thick(const int32_t val) {
+  this->thick = val;
+}
+
+void CompositionUnderline::__set_style(const Style::type val) {
+  this->style = val;
+}
+std::ostream& operator<<(std::ostream& out, const CompositionUnderline& obj)
+{
+  obj.printTo(out);
+  return out;
+}
+
+
+uint32_t CompositionUnderline::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+  bool isset_range = false;
+  bool isset_color = false;
+  bool isset_backgroundColor = false;
+  bool isset_thick = false;
+  bool isset_style = false;
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->range.read(iprot);
+          isset_range = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->color.read(iprot);
+          isset_color = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->backgroundColor.read(iprot);
+          isset_backgroundColor = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->thick);
+          isset_thick = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 5:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          int32_t ecast32;
+          xfer += iprot->readI32(ecast32);
+          this->style = static_cast<Style::type>(ecast32);
+          isset_style = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  if (!isset_range)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_color)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_backgroundColor)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_thick)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_style)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  return xfer;
+}
+
+uint32_t CompositionUnderline::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("CompositionUnderline");
+
+  xfer += oprot->writeFieldBegin("range", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += this->range.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("color", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += this->color.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("backgroundColor", ::apache::thrift::protocol::T_STRUCT, 3);
+  xfer += this->backgroundColor.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("thick", ::apache::thrift::protocol::T_I32, 4);
+  xfer += oprot->writeI32(this->thick);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("style", ::apache::thrift::protocol::T_I32, 5);
+  xfer += oprot->writeI32(static_cast<int32_t>(this->style));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+void swap(CompositionUnderline &a, CompositionUnderline &b) {
+  using ::std::swap;
+  swap(a.range, b.range);
+  swap(a.color, b.color);
+  swap(a.backgroundColor, b.backgroundColor);
+  swap(a.thick, b.thick);
+  swap(a.style, b.style);
+}
+
+CompositionUnderline::CompositionUnderline(const CompositionUnderline& other33) noexcept {
+  range = other33.range;
+  color = other33.color;
+  backgroundColor = other33.backgroundColor;
+  thick = other33.thick;
+  style = other33.style;
+}
+CompositionUnderline& CompositionUnderline::operator=(const CompositionUnderline& other34) noexcept {
+  range = other34.range;
+  color = other34.color;
+  backgroundColor = other34.backgroundColor;
+  thick = other34.thick;
+  style = other34.style;
+  return *this;
+}
+void CompositionUnderline::printTo(std::ostream& out) const {
+  using ::apache::thrift::to_string;
+  out << "CompositionUnderline(";
+  out << "range=" << to_string(range);
+  out << ", " << "color=" << to_string(color);
+  out << ", " << "backgroundColor=" << to_string(backgroundColor);
+  out << ", " << "thick=" << to_string(thick);
+  out << ", " << "style=" << to_string(style);
   out << ")";
 }
 

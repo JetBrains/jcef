@@ -31,6 +31,8 @@ class ClientHandlersIf {
   virtual void RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const int32_t width, const int32_t height) = 0;
   virtual void RenderHandler_OnPopupShow(const int32_t bid, const bool show) = 0;
   virtual void RenderHandler_OnPopupSize(const int32_t bid, const Rect& rect) = 0;
+  virtual void RenderHandler_OnImeCompositionRangeChanged(const int32_t bid, const  ::thrift_codegen::Range& selectionRange, const std::vector<Rect> & characterBounds) = 0;
+  virtual void RenderHandler_OnTextSelectionChanged(const int32_t bid, const std::string& selectedText, const  ::thrift_codegen::Range& selectionRange) = 0;
   virtual bool LifeSpanHandler_OnBeforePopup(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& url, const std::string& frameName, const bool gesture) = 0;
   virtual void LifeSpanHandler_OnAfterCreated(const int32_t bid, const int32_t nativeBrowserIdentifier) = 0;
   virtual bool LifeSpanHandler_DoClose(const int32_t bid) = 0;
@@ -147,6 +149,12 @@ class ClientHandlersNull : virtual public ClientHandlersIf {
     return;
   }
   void RenderHandler_OnPopupSize(const int32_t /* bid */, const Rect& /* rect */) override {
+    return;
+  }
+  void RenderHandler_OnImeCompositionRangeChanged(const int32_t /* bid */, const  ::thrift_codegen::Range& /* selectionRange */, const std::vector<Rect> & /* characterBounds */) override {
+    return;
+  }
+  void RenderHandler_OnTextSelectionChanged(const int32_t /* bid */, const std::string& /* selectedText */, const  ::thrift_codegen::Range& /* selectionRange */) override {
     return;
   }
   bool LifeSpanHandler_OnBeforePopup(const int32_t /* bid */, const  ::thrift_codegen::RObject& /* frame */, const std::string& /* url */, const std::string& /* frameName */, const bool /* gesture */) override {
@@ -1128,6 +1136,135 @@ class ClientHandlers_RenderHandler_OnPopupSize_pargs {
   virtual ~ClientHandlers_RenderHandler_OnPopupSize_pargs() noexcept;
   const int32_t* bid;
   const Rect* rect;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_RenderHandler_OnImeCompositionRangeChanged_args__isset {
+  _ClientHandlers_RenderHandler_OnImeCompositionRangeChanged_args__isset() : bid(false), selectionRange(false), characterBounds(false) {}
+  bool bid :1;
+  bool selectionRange :1;
+  bool characterBounds :1;
+} _ClientHandlers_RenderHandler_OnImeCompositionRangeChanged_args__isset;
+
+class ClientHandlers_RenderHandler_OnImeCompositionRangeChanged_args {
+ public:
+
+  ClientHandlers_RenderHandler_OnImeCompositionRangeChanged_args(const ClientHandlers_RenderHandler_OnImeCompositionRangeChanged_args&);
+  ClientHandlers_RenderHandler_OnImeCompositionRangeChanged_args& operator=(const ClientHandlers_RenderHandler_OnImeCompositionRangeChanged_args&);
+  ClientHandlers_RenderHandler_OnImeCompositionRangeChanged_args() noexcept
+                                                                 : bid(0) {
+  }
+
+  virtual ~ClientHandlers_RenderHandler_OnImeCompositionRangeChanged_args() noexcept;
+  int32_t bid;
+   ::thrift_codegen::Range selectionRange;
+  std::vector<Rect>  characterBounds;
+
+  _ClientHandlers_RenderHandler_OnImeCompositionRangeChanged_args__isset __isset;
+
+  void __set_bid(const int32_t val);
+
+  void __set_selectionRange(const  ::thrift_codegen::Range& val);
+
+  void __set_characterBounds(const std::vector<Rect> & val);
+
+  bool operator == (const ClientHandlers_RenderHandler_OnImeCompositionRangeChanged_args & rhs) const
+  {
+    if (!(bid == rhs.bid))
+      return false;
+    if (!(selectionRange == rhs.selectionRange))
+      return false;
+    if (!(characterBounds == rhs.characterBounds))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_RenderHandler_OnImeCompositionRangeChanged_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_RenderHandler_OnImeCompositionRangeChanged_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_RenderHandler_OnImeCompositionRangeChanged_pargs {
+ public:
+
+
+  virtual ~ClientHandlers_RenderHandler_OnImeCompositionRangeChanged_pargs() noexcept;
+  const int32_t* bid;
+  const  ::thrift_codegen::Range* selectionRange;
+  const std::vector<Rect> * characterBounds;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _ClientHandlers_RenderHandler_OnTextSelectionChanged_args__isset {
+  _ClientHandlers_RenderHandler_OnTextSelectionChanged_args__isset() : bid(false), selectedText(false), selectionRange(false) {}
+  bool bid :1;
+  bool selectedText :1;
+  bool selectionRange :1;
+} _ClientHandlers_RenderHandler_OnTextSelectionChanged_args__isset;
+
+class ClientHandlers_RenderHandler_OnTextSelectionChanged_args {
+ public:
+
+  ClientHandlers_RenderHandler_OnTextSelectionChanged_args(const ClientHandlers_RenderHandler_OnTextSelectionChanged_args&);
+  ClientHandlers_RenderHandler_OnTextSelectionChanged_args& operator=(const ClientHandlers_RenderHandler_OnTextSelectionChanged_args&);
+  ClientHandlers_RenderHandler_OnTextSelectionChanged_args() noexcept
+                                                           : bid(0),
+                                                             selectedText() {
+  }
+
+  virtual ~ClientHandlers_RenderHandler_OnTextSelectionChanged_args() noexcept;
+  int32_t bid;
+  std::string selectedText;
+   ::thrift_codegen::Range selectionRange;
+
+  _ClientHandlers_RenderHandler_OnTextSelectionChanged_args__isset __isset;
+
+  void __set_bid(const int32_t val);
+
+  void __set_selectedText(const std::string& val);
+
+  void __set_selectionRange(const  ::thrift_codegen::Range& val);
+
+  bool operator == (const ClientHandlers_RenderHandler_OnTextSelectionChanged_args & rhs) const
+  {
+    if (!(bid == rhs.bid))
+      return false;
+    if (!(selectedText == rhs.selectedText))
+      return false;
+    if (!(selectionRange == rhs.selectionRange))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_RenderHandler_OnTextSelectionChanged_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_RenderHandler_OnTextSelectionChanged_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_RenderHandler_OnTextSelectionChanged_pargs {
+ public:
+
+
+  virtual ~ClientHandlers_RenderHandler_OnTextSelectionChanged_pargs() noexcept;
+  const int32_t* bid;
+  const std::string* selectedText;
+  const  ::thrift_codegen::Range* selectionRange;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -7437,6 +7574,10 @@ class ClientHandlersClient : virtual public ClientHandlersIf {
   void send_RenderHandler_OnPopupShow(const int32_t bid, const bool show);
   void RenderHandler_OnPopupSize(const int32_t bid, const Rect& rect) override;
   void send_RenderHandler_OnPopupSize(const int32_t bid, const Rect& rect);
+  void RenderHandler_OnImeCompositionRangeChanged(const int32_t bid, const  ::thrift_codegen::Range& selectionRange, const std::vector<Rect> & characterBounds) override;
+  void send_RenderHandler_OnImeCompositionRangeChanged(const int32_t bid, const  ::thrift_codegen::Range& selectionRange, const std::vector<Rect> & characterBounds);
+  void RenderHandler_OnTextSelectionChanged(const int32_t bid, const std::string& selectedText, const  ::thrift_codegen::Range& selectionRange) override;
+  void send_RenderHandler_OnTextSelectionChanged(const int32_t bid, const std::string& selectedText, const  ::thrift_codegen::Range& selectionRange);
   bool LifeSpanHandler_OnBeforePopup(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& url, const std::string& frameName, const bool gesture) override;
   void send_LifeSpanHandler_OnBeforePopup(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& url, const std::string& frameName, const bool gesture);
   bool recv_LifeSpanHandler_OnBeforePopup();
@@ -7625,6 +7766,8 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_RenderHandler_OnPaint(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_RenderHandler_OnPopupShow(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_RenderHandler_OnPopupSize(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_RenderHandler_OnImeCompositionRangeChanged(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_RenderHandler_OnTextSelectionChanged(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_LifeSpanHandler_OnBeforePopup(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_LifeSpanHandler_OnAfterCreated(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_LifeSpanHandler_DoClose(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -7699,6 +7842,8 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["RenderHandler_OnPaint"] = &ClientHandlersProcessor::process_RenderHandler_OnPaint;
     processMap_["RenderHandler_OnPopupShow"] = &ClientHandlersProcessor::process_RenderHandler_OnPopupShow;
     processMap_["RenderHandler_OnPopupSize"] = &ClientHandlersProcessor::process_RenderHandler_OnPopupSize;
+    processMap_["RenderHandler_OnImeCompositionRangeChanged"] = &ClientHandlersProcessor::process_RenderHandler_OnImeCompositionRangeChanged;
+    processMap_["RenderHandler_OnTextSelectionChanged"] = &ClientHandlersProcessor::process_RenderHandler_OnTextSelectionChanged;
     processMap_["LifeSpanHandler_OnBeforePopup"] = &ClientHandlersProcessor::process_LifeSpanHandler_OnBeforePopup;
     processMap_["LifeSpanHandler_OnAfterCreated"] = &ClientHandlersProcessor::process_LifeSpanHandler_OnAfterCreated;
     processMap_["LifeSpanHandler_DoClose"] = &ClientHandlersProcessor::process_LifeSpanHandler_DoClose;
@@ -7872,6 +8017,24 @@ class ClientHandlersMultiface : virtual public ClientHandlersIf {
       ifaces_[i]->RenderHandler_OnPopupSize(bid, rect);
     }
     ifaces_[i]->RenderHandler_OnPopupSize(bid, rect);
+  }
+
+  void RenderHandler_OnImeCompositionRangeChanged(const int32_t bid, const  ::thrift_codegen::Range& selectionRange, const std::vector<Rect> & characterBounds) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->RenderHandler_OnImeCompositionRangeChanged(bid, selectionRange, characterBounds);
+    }
+    ifaces_[i]->RenderHandler_OnImeCompositionRangeChanged(bid, selectionRange, characterBounds);
+  }
+
+  void RenderHandler_OnTextSelectionChanged(const int32_t bid, const std::string& selectedText, const  ::thrift_codegen::Range& selectionRange) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->RenderHandler_OnTextSelectionChanged(bid, selectedText, selectionRange);
+    }
+    ifaces_[i]->RenderHandler_OnTextSelectionChanged(bid, selectedText, selectionRange);
   }
 
   bool LifeSpanHandler_OnBeforePopup(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& url, const std::string& frameName, const bool gesture) override {
@@ -8496,6 +8659,10 @@ class ClientHandlersConcurrentClient : virtual public ClientHandlersIf {
   void send_RenderHandler_OnPopupShow(const int32_t bid, const bool show);
   void RenderHandler_OnPopupSize(const int32_t bid, const Rect& rect) override;
   void send_RenderHandler_OnPopupSize(const int32_t bid, const Rect& rect);
+  void RenderHandler_OnImeCompositionRangeChanged(const int32_t bid, const  ::thrift_codegen::Range& selectionRange, const std::vector<Rect> & characterBounds) override;
+  void send_RenderHandler_OnImeCompositionRangeChanged(const int32_t bid, const  ::thrift_codegen::Range& selectionRange, const std::vector<Rect> & characterBounds);
+  void RenderHandler_OnTextSelectionChanged(const int32_t bid, const std::string& selectedText, const  ::thrift_codegen::Range& selectionRange) override;
+  void send_RenderHandler_OnTextSelectionChanged(const int32_t bid, const std::string& selectedText, const  ::thrift_codegen::Range& selectionRange);
   bool LifeSpanHandler_OnBeforePopup(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& url, const std::string& frameName, const bool gesture) override;
   int32_t send_LifeSpanHandler_OnBeforePopup(const int32_t bid, const  ::thrift_codegen::RObject& frame, const std::string& url, const std::string& frameName, const bool gesture);
   bool recv_LifeSpanHandler_OnBeforePopup(const int32_t seqid);
