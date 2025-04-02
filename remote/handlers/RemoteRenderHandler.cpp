@@ -319,3 +319,40 @@ void RemoteRenderHandler::UpdateDragCursor(CefRefPtr<CefBrowser> browser,
     LNDCT();
     Log::error("Unimplemented.");
 }
+
+void RemoteRenderHandler::OnImeCompositionRangeChanged(
+    CefRefPtr<CefBrowser> browser,
+    const CefRange& cef_selected_range,
+    const RectList& cef_character_bounds) {
+  LNDCT();
+  myService->exec([&](const JavaService& s) {
+    Range selected_range;
+    selected_range.from = cef_selected_range.from;
+    selected_range.to = cef_selected_range.to;
+    std::vector<Rect> character_bounds;
+
+    for (const auto& r : cef_character_bounds) {
+      character_bounds.emplace_back();
+      character_bounds.back().x = r.x;
+      character_bounds.back().y = r.y;
+      character_bounds.back().w = r.width;
+      character_bounds.back().h = r.height;
+    }
+    s->RenderHandler_OnImeCompositionRangeChanged(myBid, selected_range,
+                                                  character_bounds);
+  });
+}
+
+void RemoteRenderHandler::OnTextSelectionChanged(
+    CefRefPtr<CefBrowser> browser,
+    const CefString& selected_text,
+    const CefRange& cef_selected_range) {
+  LNDCT();
+  Range selected_range;
+  selected_range.from = cef_selected_range.from;
+  selected_range.to = cef_selected_range.to;
+
+  myService->exec([&](const JavaService& s) {
+    s->RenderHandler_OnTextSelectionChanged(myBid, selected_text.ToString(), selected_range);
+  });
+}
