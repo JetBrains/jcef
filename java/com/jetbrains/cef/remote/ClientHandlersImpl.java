@@ -154,6 +154,28 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         rh.onPopupSize(browser, new Rectangle(rect.x, rect.y, rect.w, rect.h));
     }
 
+    @Override
+    public void RenderHandler_OnTextSelectionChanged(int bid, String selectedText, Range selectionRange) throws TException {
+        RemoteBrowser browser = getRemoteBrowser(bid);
+        if (browser == null) return;
+        CefRenderHandler rh = browser.getRenderHandler();
+        if (rh == null) return;
+        rh.OnTextSelectionChanged(browser, selectedText, new CefRange((int) selectionRange.from, (int) selectionRange.to));
+    }
+
+    @Override
+    public void RenderHandler_OnImeCompositionRangeChanged(int bid, Range selectionRange, List<Rect> charactersBounds) throws TException {
+        RemoteBrowser browser = getRemoteBrowser(bid);
+        if (browser == null) return;
+        CefRenderHandler rh = browser.getRenderHandler();
+        if (rh == null) return;
+        Rectangle[] rects = charactersBounds
+                .stream()
+                .map(rect -> new Rectangle(rect.x, rect.y, rect.w, rect.h))
+                .toArray(Rectangle[]::new);
+        rh.OnImeCompositionRangeChanged(browser, new CefRange((int) selectionRange.from, (int) selectionRange.to), rects);
+    }
+
     //
     // CefLifeSpanHandler
     //

@@ -53,3 +53,30 @@ struct Cookie {
     9: optional i64 expires
 }
 
+struct Range {
+    1: required i64 from,
+    2: required i64 to
+}
+
+enum Style {
+    SOLID,
+    DOT,
+    DASH,
+    NONE
+}
+
+struct Color {
+    1:i32 red,
+    2:i32 green,
+    3:i32 blue,
+    4:i32 alpha
+}
+
+struct CompositionUnderline {
+    1: required Range range,
+    2: required Color color,
+    3: required Color backgroundColor,
+    4: required i32 thick,
+    5: required Style style
+}
+

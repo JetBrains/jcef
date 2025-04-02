@@ -769,6 +769,69 @@ void ServerHandler::Browser_Print(const int32_t bid) {
   browser->GetHost()->Print();
 }
 
+void ServerHandler::Browser_ImeSetComposition(
+    const int32_t bid,
+    const std::string& text,
+    const std::vector<thrift_codegen::CompositionUnderline>& underlines,
+    const thrift_codegen::Range& replacementRange,
+    const thrift_codegen::Range& selectionRange) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN()
+
+  std::vector<CefCompositionUnderline> cef_underlines;
+  for (const auto & underline: underlines) {
+    CefCompositionUnderline cef_underline;
+    cef_underline.range = CefRange(underline.range.from, underline.range.to);
+    cef_underline.thick = underline.thick;
+
+    cef_underline.color = CefColorSetARGB(
+      underline.color.alpha, underline.color.red,
+      underline.color.green, underline.color.blue
+    );
+
+    cef_underline.background_color = CefColorSetARGB(
+      underline.backgroundColor.alpha, underline.backgroundColor.red,
+      underline.backgroundColor.green, underline.backgroundColor.blue
+    );
+
+    cef_underlines.push_back(cef_underline);
+  }
+
+  browser->GetHost()->ImeSetComposition(
+      CefString(text),
+      cef_underlines,
+      CefRange(replacementRange.from, replacementRange.to),
+      CefRange(selectionRange.from, selectionRange.to)
+    );
+}
+
+
+void ServerHandler::Browser_ImeCommitText(
+    const int32_t bid,
+    const std::string& text,
+    const thrift_codegen::Range& replacementRange,
+    const int32_t relativeCursorPos) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN()
+  browser->GetHost()->ImeCommitText(
+      CefString(text),
+      CefRange(replacementRange.from, replacementRange.to),
+      relativeCursorPos
+    );
+}
+
+void ServerHandler::Browser_ImeFinishComposingText(const int32_t bid, const bool keepSelection) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN()
+  browser->GetHost()->ImeFinishComposingText(keepSelection);
+}
+
+void ServerHandler::Browser_ImeCancelComposing(const int32_t bid) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN()
+  browser->GetHost()->ImeCancelComposition();
+}
+
 void ServerHandler::Request_Create(thrift_codegen::RObject& result) {
   result.objId = -1;
   CefRefPtr<CefRequest> request = CefRequest::Create();
