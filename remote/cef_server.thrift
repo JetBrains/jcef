@@ -91,6 +91,10 @@ service Server {
     oneway void    Browser_RunFileDialog(1:i32 bid, 2:string mode, 3:string title, 4:string defaultFilePath, 5:list<string> acceptFilters, 6:shared.RObject runFileDialogCallback), // NOTE: can be oneway (because java peer of RunFileDialogCallback is disposed (on java side) in the end of RunFileDialogCallback.onFileDialogDismissed)
     oneway void    Browser_PrintToPDF(1:i32 bid, 2:string path, 3:map<string, string> pdfPrintSettings, 4:shared.RObject pdfPrintCallback), // NOTE: can be oneway (because java peer of PdfPrintCallback is disposed (on java side) in the end of PdfPrintCallback.onPdfPrintFinished)
     oneway void    Browser_Print(1:i32 bid),
+    oneway void    Browser_ImeSetComposition(1:i32 bid, 2:string text, 3:list<shared.CompositionUnderline> underlines, 4:shared.Range replacementRange, 5:shared.Range selectionRange),
+    oneway void    Browser_ImeCommitText(1:i32 bid, 2:string text, 3:shared.Range replacementRange, 4:i32 relativeCursorPos),
+    oneway void    Browser_ImeFinishComposingText(1:i32 bid, 2:bool keepSelection),
+    oneway void    Browser_ImeCancelComposing(1:i32 bid),
 
     //
     // CefFrame

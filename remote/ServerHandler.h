@@ -97,6 +97,18 @@ class ServerHandler : public thrift_codegen::ServerIf {
       const std::map<std::string, std::string>& pdfPrintSettings,
       const thrift_codegen::RObject& pdfPrintCallback) override;
   void Browser_Print(const int32_t bid) override;
+  void Browser_ImeSetComposition(
+      const int32_t bid,
+      const std::string& text,
+      const std::vector<thrift_codegen::CompositionUnderline>& underlines,
+      const thrift_codegen::Range& replacementRange,
+      const thrift_codegen::Range& selectionRange) override;
+  void Browser_ImeCommitText(const int32_t bid,
+                             const std::string& text,
+                             const thrift_codegen::Range& replacementRange,
+                             const int32_t relativeCursorPos) override;
+  void Browser_ImeFinishComposingText(const int32_t bid, const bool keepSelection) override;
+  void Browser_ImeCancelComposing(const int32_t bid) override;
 
   //
   // CefFrame
