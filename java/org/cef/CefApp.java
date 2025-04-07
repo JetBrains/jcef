@@ -177,7 +177,7 @@ public class CefApp extends CefAppHandlerAdapter {
 
             // Perform CefServer initialization in separate thread.
             new Thread(()->{
-                if (server_.start(appHandler_)) {
+                if (server_.start(appHandler_, false)) {
                     CefLog.Debug("%s: native CefServer is initialized.", this);
                     setState(CefAppState.INITIALIZED);
                     synchronized (initializationListeners_) {

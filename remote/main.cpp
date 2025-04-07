@@ -170,6 +170,7 @@ void signalHandler(int signum) {
 
 int main(int argc, char* argv[]) {
   const boost::posix_time::ptime t0 =  boost::posix_time::microsec_clock::local_time();
+  setThreadName("main");
 #if defined(OS_LINUX)
   CefRefPtr<CefApp> cefApp = nullptr;
   CefRefPtr<CefCommandLine> command_line = CefCommandLine::CreateCommandLine();
@@ -226,7 +227,10 @@ int main(int argc, char* argv[]) {
   const boost::posix_time::ptime t1 =  boost::posix_time::microsec_clock::local_time();
   fprintf(stdout, "Starting cer server. Pre-initialize spent %d ms.\n", (int)(t1 - t0).total_milliseconds());
   ServerApplication& app = ServerApplication::instance();
-  app.init(argc, argv);
+  if (!app.init(argc, argv)) {
+    // Can't load CEF framework library.
+    return 100;
+  }
   const CommandLineArgs& cmdArgs = app.getCmdArgs();
 
 #ifndef NDEBUG
@@ -235,13 +239,12 @@ int main(int argc, char* argv[]) {
   }
 #endif
 
-  setThreadName("main");
   boost::posix_time::ptime t2 = boost::posix_time::microsec_clock::local_time();
   Log::trace("Start CEF initialization. ServerApplication initialization spent %d ms.", (t2 - t1).total_milliseconds());
   const bool success = CefUtils::initializeCef();
   if (!success) {
     Log::error("Cef initialization failed");
-    return -2;
+    return 101;
   }
 
   const boost::posix_time::ptime t3 =  boost::posix_time::microsec_clock::local_time();
@@ -254,7 +257,7 @@ int main(int argc, char* argv[]) {
     std::string pipePath = cmdArgs.getPipe();
     if (pipePath.empty()) {
       Log::error("Pipe path is empty, exit.");
-      return -3;
+      return 102;
     }
 #ifdef WIN32
     if (pipePath.rfind("\\\\.\\pipe\\", 0) != 0)

@@ -23,7 +23,7 @@ public class CefServer {
     private static final int WAIT_FOR_SERVER_START_SEC = Utils.getInteger("JCEF_WAIT_FOR_SERVER_START_SEC", 60);
     private static final int WAIT_FOR_SERVER_EXIT_SEC = Utils.getInteger("JCEF_WAIT_FOR_SERVER_EXIT_SEC", 10);
     private static final boolean DONT_STOP_SERVER_MANUALLY = Utils.getBoolean("JCEF_DONT_STOP_SERVER_MANUALLY"); // TODO: remove after platform tests debugging
-    private static final boolean DONT_USE_UNIQUE_ROOTS = Utils.getBoolean("JCEF_DONT_USE_UNIQUE_ROOTS"); // TODO: remove after platform tests debugging
+    private static final boolean FIX_ROOTS = Utils.getBoolean("JCEF_FIX_ROOTS");
 
     private static Map<CefParams, CefServer> ourInstances = new ConcurrentHashMap<>();
 
@@ -77,10 +77,6 @@ public class CefServer {
     public CefApp getCefApp() { return myCefApp; }
     public void setCefApp(CefApp cefApp) { myCefApp = cefApp; }
 
-    public boolean start(CefAppHandler appHandler) {
-        return start(appHandler, true);
-    }
-
     // Connects to CefServer and start cef-handlers service.
     // Should be executed in bg thread.
     // NOTE: appHandler is necessary for (1) custom schemes, (2) onContextInitialized callback
@@ -94,7 +90,7 @@ public class CefServer {
             CefLog.Error("Found running cef_server instance with root '%s'", prevRoot);
         } else {
             boolean deleteRoot = false;
-            if (fixRoot && !DONT_USE_UNIQUE_ROOTS)
+            if (FIX_ROOTS || fixRoot)
                 deleteRoot = NativeServerManager.fixRootInSettings(mySettings, "cef_cache_" + myThriftServer.toStringShort());
 
             final boolean success = NativeServerManager.startProcessAndWait(myThriftServer, appHandler, myArgs, mySettings, deleteRoot, WAIT_FOR_SERVER_START_SEC*1000l);

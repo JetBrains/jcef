@@ -1,6 +1,5 @@
 package com.jetbrains.cef.remote;
 
-import com.jetbrains.cef.remote.thrift.transport.TServerSocket;
 import com.jetbrains.cef.remote.thrift.transport.TSocket;
 import com.jetbrains.cef.remote.thrift.transport.TTransportException;
 import org.cef.CefSettings;
@@ -10,10 +9,7 @@ import org.cef.handler.CefAppHandler;
 import org.cef.misc.CefLog;
 import org.cef.misc.Utils;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.StandardProtocolFamily;
@@ -21,10 +17,8 @@ import java.net.UnixDomainSocketAddress;
 import java.nio.channels.SocketChannel;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.function.BooleanSupplier;
 
 public class NativeServerManager {
@@ -55,6 +49,26 @@ public class NativeServerManager {
 
     // Should be called in bg thread
     public static boolean startProcessAndWait(ThriftTransport thriftServer, CefAppHandler appHandler, String[] args, CefSettings settings, boolean deleteRootDir, long timeoutMs) {
+        Integer exitVal = startAndWait(thriftServer, appHandler, args, settings, deleteRootDir, timeoutMs);
+        if (exitVal != null) {
+            if (exitVal == 101) {
+                // CefInitialize returns false. Probably, JCEF cache dir is locked.
+                final SimpleDateFormat f = new SimpleDateFormat("hh_mm_ss_SSS");
+                final String newCacheDir = Path.of(System.getProperty("java.io.tmpdir")).resolve("cef_cache_" + thriftServer.toStringShort() + "_" + f.format(new Date())).toString();
+                CefLog.Info("Try to restart cef_server with another cache_dir '%s'.", newCacheDir);
+                settings.cache_path = newCacheDir;
+                exitVal = startAndWait(thriftServer, appHandler, args, settings, true, timeoutMs);
+            }
+        }
+
+        return exitVal == null;
+    }
+
+    // Returns:
+    // null when the process has been started successfully
+    // Integer.MIN_VALUE when can't start process because of IO-errors
+    // exit code, otherwise
+    private static Integer startAndWait(ThriftTransport thriftServer, CefAppHandler appHandler, String[] args, CefSettings settings, boolean deleteRootDir, long timeoutMs) {
         final long t0 = System.nanoTime();
         final Path settingsFileName = Path.of(System.getProperty("java.io.tmpdir")).resolve("cef_server_params.txt");
         File f = new File(settingsFileName.toString());
@@ -65,7 +79,7 @@ public class NativeServerManager {
             ps = new PrintStream(new FileOutputStream(f, false));
         } catch (IOException e) {
             CefLog.Error("Can't create temp file with server params path=%s, msg=%s", settingsFileName.toString(), e.getMessage());
-            return false;
+            return Integer.MIN_VALUE;
         }
 
         // 1. command line args
@@ -151,7 +165,7 @@ public class NativeServerManager {
         if (serverLogLevel == -1)
             serverLogLevel = ServerLogLevel.cef2native(settings.log_severity);
 
-        return startProcessAndWait(thriftServer, f.getAbsolutePath(), timeoutMs, serverLogPath, serverLogLevel, deleteRootDir);
+        return startAndWait(thriftServer, f.getAbsolutePath(), timeoutMs, serverLogPath, serverLogLevel, deleteRootDir);
     }
 
     public static boolean isProcessAlive(ThriftTransport thriftServer) {
@@ -514,8 +528,11 @@ public class NativeServerManager {
         return result;
     }
 
-    // returns true when server was started successfully
-    private static boolean startProcessAndWait(ThriftTransport thriftServer, String paramsPath, long timeoutMs, String logPath, int logLevel, boolean deleteRootDir) {
+    // Returns:
+    // null when the process has been started successfully
+    // Integer.MIN_VALUE when can't start process because of IO-errors
+    // exit code, otherwise
+    private static Integer startAndWait(ThriftTransport thriftServer, String paramsPath, long timeoutMs, String logPath, int logLevel, boolean deleteRootDir) {
         final long t0 = System.nanoTime();
         if (ourNativeServerProcesses.get(thriftServer.toString()) != null)
             CefLog.Debug("Handle of server process will be overwritten.");
@@ -523,12 +540,12 @@ public class NativeServerManager {
 
         File serverExe = getServerExe();
         if (serverExe == null)
-            return false;
+            return Integer.MIN_VALUE;
 
         CefLog.Debug("cef_server executable path='%s', params path='%s'", serverExe.getAbsolutePath(), paramsPath);
         if (!serverExe.exists()) {
             CefLog.Error("Can't start native cef_server, file doesn't exist: %s", serverExe.getAbsolutePath());
-            return false;
+            return Integer.MIN_VALUE;
         }
 
         ProcessBuilder builder = new ProcessBuilder(serverExe.getAbsolutePath());
@@ -564,14 +581,45 @@ public class NativeServerManager {
         try {
             p = builder.start();
             ourNativeServerProcesses.put(thriftServer.toString(), p);
-        } catch (IOException e) {
+        } catch (Throwable e) {
             CefLog.Error("Can't start native cef_server, exception: %s", e.getMessage());
-            return false;
+            return Integer.MIN_VALUE;
         }
 
         // Wait for native server
+        Integer exitVal = null;
+        boolean running = false;
         final long t1 = System.nanoTime();
-        boolean running = waitForRunning(thriftServer, timeoutMs);
+        do {
+            try {
+                Thread.sleep(WAIT_LOOP_SLEEP_MS);
+            } catch (InterruptedException e) {
+                CefLog.Error("Exception during waiting for native cef_server: %s", e.getMessage());
+            }
+            CefLog.Debug("Waiting for server starting...");
+            // 1. Check process exit values.
+            try {
+                exitVal = p.exitValue();
+            } catch (IllegalThreadStateException e) {}
+
+            if (exitVal != null) {
+                CefLog.Error("Native cef_server exited with code %d", exitVal);
+                if (exitVal == 100) {
+                    CefLog.Error("It means that cef_server can't load CEF framework library.");
+                } else if (exitVal == 101) {
+                    CefLog.Error("It means that CefInitialize returns false - probably, JCEF cache dir is locked.");
+                    // TODO: search stdout for string 'Opening in existing browser session'
+                }
+
+                ourNativeServerProcesses.remove(thriftServer.toString());
+                return exitVal;
+            }
+
+            // 2. Try to connect with cef_server.
+            running = isRunning(thriftServer) != null;
+        } while (!running && (System.nanoTime() - t1 < timeoutMs*1000000));
+
+        // Check whether the server is running or not.
         if (!running && !(running = (isRunning(thriftServer, true) != null))) {
             if (p.isAlive())
                 CefLog.Error("Native cef_server was started but client can't connect.");
@@ -579,9 +627,12 @@ public class NativeServerManager {
                 CefLog.Error("Can't start native cef_server, process is dead.");
                 ourNativeServerProcesses.remove(thriftServer.toString());
             }
-        }
-        CefLog.Debug("\t spent mcs: process starting %d, waiting %d", (t1 - t0)/1000, (System.nanoTime() - t1)/1000);
-        return running;
+            try {
+                exitVal = p.exitValue();
+            } catch (IllegalThreadStateException e) {}
+        } else
+            CefLog.Debug("Server is started. Spent ms: process starting %d, waiting %d", (t1 - t0)/1000000, (System.nanoTime() - t1)/1000000);
+        return running ? null : exitVal;
     }
 
     private static class ServerLogLevel {
