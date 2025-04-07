@@ -48,7 +48,7 @@ class ServerApplication {
  public:
   ~ServerApplication();
 
-  void init(int argc, char* argv[]);
+  bool init(int argc, char* argv[]);
   void startShuttingDown();
   bool isShuttingDown();
 

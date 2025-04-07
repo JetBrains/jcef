@@ -182,7 +182,7 @@ namespace CefUtils {
 
 void ServerApplication::stopWatcher() { myStopWatcher->cancel(); }
 
-void ServerApplication::init(int argc, char* argv[]) {
+bool ServerApplication::init(int argc, char* argv[]) {
   myStartTime = Clock::now();
   myCmdArgs.init(argc, argv);
   Log::init(myCmdArgs.getLogLevel(), myCmdArgs.getLogFile());
@@ -194,7 +194,7 @@ void ServerApplication::init(int argc, char* argv[]) {
   const Clock::time_point t0 = Clock::now();
   if (!CefUtils::loadCefFramework()) {
     Log::error("Can't load CEF framework library.");
-    return;
+    return false;
   }
 
   const Clock::time_point t1 = Clock::now();
@@ -316,6 +316,7 @@ void ServerApplication::init(int argc, char* argv[]) {
     }
   });
   myThreadWatcher.detach();
+  return true;
 }
 
 std::shared_ptr<apache::thrift::TProcessorFactory> ServerApplication::getProcessorFactory() const {
