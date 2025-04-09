@@ -33,7 +33,7 @@ public class ThriftTransport {
     public static final ThriftTransport ourDefaultClient;
 
     static {
-        if (OS.isWindows()) {
+        if (OS.isWindows() || OS.isLinux()) {
             IS_TCP_USED = !Utils.getBoolean("CEF_SERVER_USE_PIPE");
         } else {
             IS_TCP_USED = Utils.getBoolean("CEF_SERVER_USE_TCP");
