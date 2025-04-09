@@ -105,14 +105,18 @@ public class ThriftTransport {
             String pipe;
             if (OS.isWindows())
                 pipe = PIPENAME_CEF_SERVER + suffixServer;
-            else
+            else {
                 pipe = PIPE_DIR.resolve(PIPENAME_CEF_SERVER + suffixServer).toString();
+                pipe = normalizePipeName(pipe);
+            }
             ourDefaultServer = new ThriftTransport(pipe);
 
             if (OS.isWindows())
                 pipe = PIPENAME_JAVA_HANDLERS + suffixJava;
-            else
+            else {
                 pipe = PIPE_DIR.resolve(PIPENAME_JAVA_HANDLERS + suffixJava).toString();
+                pipe = normalizePipeName(pipe);
+            }
             ourDefaultClient = new ThriftTransport(pipe);
         }
     }
@@ -305,5 +309,24 @@ public class ThriftTransport {
         }
 
         return PIPE_DIR.toFile().listFiles((dir, name) -> name.startsWith(PIPENAME_CEF_SERVER));
+    }
+
+    private static String normalizePipeName(String pipeName) {
+        if (OS.isWindows())
+            return pipeName;
+
+        // https://unix.stackexchange.com/questions/367008/why-is-socket-path-length-limited-to-a-hundred-chars
+        if (pipeName == null || pipeName.isEmpty())
+            return null;
+        if (pipeName.length() < 100)
+            return pipeName;
+
+        final SimpleDateFormat f = new SimpleDateFormat("mm_ss_SSS");
+        final String newShortName = "cc_" + f.format(new Date());
+        String newName = Path.of(System.getProperty("java.io.tmpdir")).resolve(newShortName).toString();
+        if (newName.length() < 100)
+            return newName;
+
+        return "/var/tmp/" + newShortName;
     }
 }
