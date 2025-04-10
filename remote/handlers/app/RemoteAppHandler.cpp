@@ -3,10 +3,7 @@
 
 #include <fstream>
 
-RemoteAppHandler::RemoteAppHandler(
-    std::vector<std::string> switches,
-    CefSettings settings,
-    std::vector<std::pair<std::string, int>> schemes)
+RemoteAppHandler::RemoteAppHandler(const std::vector<std::string> & switches, const CefSettings & settings, const std::vector<std::pair<std::string, int>> & schemes)
     : myArgs(switches),
       mySettings(settings),
       mySchemes(schemes),
@@ -141,12 +138,14 @@ void RemoteAppHandler::OnBeforeCommandLineProcessing(
   }
 }
 
-void RemoteAppHandler::OnRegisterCustomSchemes(
-    CefRawPtr<CefSchemeRegistrar> registrar) {
+void RemoteAppHandler::OnRegisterCustomSchemes(CefRawPtr<CefSchemeRegistrar> registrar) {
   // The registered scheme has to be forwarded to all other processes which will
   // be created by the browser process (e.g. the render-process). Otherwise
   // things like JS "localStorage" get/set will end up in a crashed
   // render process.
+  if (mySchemes.empty())
+    return;
+
   std::string tmpName = utils::GetTempFile("scheme", false);
   std::ofstream fStream(tmpName.c_str(),std::ofstream::out | std::ofstream::trunc);
 

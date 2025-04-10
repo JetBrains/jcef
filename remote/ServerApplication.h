@@ -3,45 +3,17 @@
 
 #include <string>
 #include <mutex>
-#include <set>
 #include <thread>
 #include <chrono>
 
 #include "gen-cpp/Server.h"
+#include "CommandLineArgs.h"
 
 class ServerHandler;
 class MyServerProcessorFactory;
 class ServerHandlerContext;
 class RemoteAppHandler;
 class CancellationPoint;
-
-class CommandLineArgs {
- public:
-  CommandLineArgs();
-  void init(int argc, char* argv[]);
-
-  bool useTcp() const { return myUseTcp; }
-  bool waitDebugger() const { return myWaitDebugger; }
-  bool deleteRootCacheDir() const { return myDeleteRootCacheDir; }
-  int getPort() const { return myPort; }
-  std::string getPipe() const { return myPathPipe; }
-  std::string getTransportDesc() const { return myUseTcp ? "port " + std::to_string(myPort) : "pipe " + myPathPipe; }
-  std::string getLogFile() const { return myPathLogFile; }
-  std::string getParamsFile() const { return myPathParamsFile; }
-  int getLogLevel() const { return myLogLevel; }
-  int getOpenTransportCooldownMs() const { return myOpenTransportCooldownMs; }
-
- private:
-  bool myUseTcp = false;
-  bool myWaitDebugger = false;
-  bool myDeleteRootCacheDir = false;
-  int myPort = -1;
-  std::string myPathPipe;
-  std::string myPathLogFile;
-  std::string myPathParamsFile;
-  int myLogLevel = -1;
-  int myOpenTransportCooldownMs = 3;
-};
 
 class ServerApplication {
   explicit ServerApplication();

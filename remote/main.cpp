@@ -115,7 +115,7 @@ DWORD GetParentProcessPid() {
 
 int main(int argc, char* argv[]) {
   const boost::posix_time::ptime t0 =  boost::posix_time::microsec_clock::local_time();
-  setThreadName("main");
+  Log::setThreadName("main");
 #if defined(OS_LINUX)
   CefRefPtr<CefApp> cefApp = nullptr;
   CefRefPtr<CefCommandLine> command_line = CefCommandLine::CreateCommandLine();
@@ -229,7 +229,7 @@ int main(int argc, char* argv[]) {
   const boost::posix_time::ptime t4 =  boost::posix_time::microsec_clock::local_time();
   Log::trace("Start listening thread. Transport initialization spent %d ms.", (t4 - t3).total_milliseconds());
   std::thread servThread([=]() {
-    setThreadName("ServerListener");
+    Log::setThreadName("ServerListener");
     try {
       server->serve();
     } catch (TException& e) {

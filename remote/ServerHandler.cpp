@@ -81,7 +81,7 @@ int ServerHandler::connectImpl(std::function<void()> openBackwardTransport) {
 
   static int s_counter = 0;
   const int counter = s_counter++;
-  setThreadName(string_format("ServerHandler_%d", counter));
+  Log::setThreadName(string_format("ServerHandler_%d", counter));
 
   // Connect to client's side (for cef-callbacks execution on java side)
   myCtx = std::make_shared<ServerHandlerContext>();

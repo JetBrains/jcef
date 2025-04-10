@@ -205,6 +205,8 @@ set(SERVER_SOURCES
         browser/RemoteClient.h
         DebugInfo.cpp
         DebugInfo.h
+        CommandLineArgs.cpp
+        CommandLineArgs.h
 )
 
 if (OS_WINDOWS)

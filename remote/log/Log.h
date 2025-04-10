@@ -6,17 +6,18 @@
 
 #include "include/cef_base.h"
 
-const int LEVEL_DISABLED = 100;
-const int LEVEL_FATAL = 10;
-const int LEVEL_ERROR = 9;
-const int LEVEL_WARN = 8;
-const int LEVEL_INFO = 7;
-const int LEVEL_DEBUG = 6;
-const int LEVEL_TRACE = 5;
-
 class Log {
 public:
+  static const int LEVEL_DISABLED = 100;
+  static const int LEVEL_FATAL = 10;
+  static const int LEVEL_ERROR = 9;
+  static const int LEVEL_WARN = 8;
+  static const int LEVEL_INFO = 7;
+  static const int LEVEL_DEBUG = 6;
+  static const int LEVEL_TRACE = 5;
+
   static void init(int level, std::string logfile);
+  static void setThreadName(std::string name); // assigns thread-local name of the invocation thread
   static bool isDebugEnabled();
   static bool isTraceEnabled();
   static bool isStdStreamLogger();
@@ -72,6 +73,10 @@ public:
     }
     return LOGSEVERITY_DEFAULT;
   }
+  static std::string level2str(int serverLogLevel);
+  static int str2level(std::string serverLogLevel);
+
+  static std::string cefLogLevel2str(int serverLogLevel);
  private:
   static void initImpl(int level, FILE* logFile = nullptr);
 };
@@ -95,8 +100,6 @@ class LogNdc {
   bool logStart = false;
   bool logFinish = false;
 };
-
-void setThreadName(std::string name);
 
 #define LNDC() LogNdc ndc(__FILE_NAME__, __FUNCTION__)
 
