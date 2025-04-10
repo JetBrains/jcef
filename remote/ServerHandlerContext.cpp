@@ -67,6 +67,7 @@ class BackgroundExecutor {
   }
 
   void run() {
+    Log::setThreadName("BackgroundExecutor");
     while (!myStop) {
       JavaVoidRpc rpc = myQueue.wait_pop();
       if (rpc != nullptr)

@@ -7,6 +7,7 @@
 #include "include/base/cef_callback.h"
 #include "include/wrapper/cef_closure_task.h"
 #include "include/cef_app.h"
+#include "include/cef_base.h"
 
 #include "log/Log.h"
 #include "Utils.h"
@@ -16,7 +17,6 @@
 #include "DebugInfo.h"
 
 #include <sstream>
-#include "CefSettingsParser.h"
 #include "browser/RemoteBrowser.h"
 #include "handlers/app/RemoteAppHandler.h"
 
@@ -216,14 +216,9 @@ bool ServerApplication::init(int argc, char* argv[]) {
   XInitThreads();
 #endif
 
-  std::vector<std::string> cmdlineSwitches;
   CefSettings settings;
-  std::vector<std::pair<std::string, int>> schemes;
-  CefSettingsParser::parseSettings(myCmdArgs.getParamsFile(), cmdlineSwitches, settings, schemes);
-#if defined(OS_POSIX) && !defined(OS_ANDROID)
-  settings.disable_signal_handlers = true;
-#endif
-  myAppHandler = new RemoteAppHandler(cmdlineSwitches, settings, schemes);
+  myCmdArgs.prepareCefSettings(settings);
+  myAppHandler = new RemoteAppHandler(myCmdArgs.myChromiumSwitches, settings, myCmdArgs.myCustomSchemes);
   myAppHandler->AddRef();
 
   // Read constants from env
@@ -235,7 +230,7 @@ bool ServerApplication::init(int argc, char* argv[]) {
   // Init watcher thread
   myStopWatcher = std::make_shared<CancellationPoint>();
   myThreadWatcher = std::thread([&]() {
-    setThreadName("Watcher");
+    Log::setThreadName("Watcher");
     const std::chrono::milliseconds timeoutWatchMs(getLongEnv("CEF_SERVER_timeoutWatchMs", 5000));
     std::chrono::milliseconds timeoutDebugLogMs(getLongEnv("CEF_SERVER_TimeoutStacktraceLogMs", 30 * 1000));
     std::chrono::milliseconds timeoutExecutionMs(getLongEnv("CEF_SERVER_ourTimeoutExecutionMs", 5 * 1000));
@@ -360,7 +355,7 @@ void ServerApplication::startShuttingDown() {
   }
 
   myThreadShutdown = std::thread([&]() {
-    setThreadName("Shutdown");
+    Log::setThreadName("Shutdown");
     Clock::time_point start = Clock::now();
     const std::chrono::milliseconds timeout(getLongEnv("CEF_SERVER_timeoutShutdownMs", 15000));
 
@@ -434,48 +429,4 @@ std::string ServerApplication::getStateWithDetails() {
 
 std::shared_ptr<ServerHandlerContext> ServerApplication::getCtx(int connectionId) {
     return myFactory->findCtx(connectionId);
-}
-
-CommandLineArgs::CommandLineArgs() {
-  const long defVal = myOpenTransportCooldownMs;
-  myOpenTransportCooldownMs = getLongEnv("CEF_SERVER_TRANSPORT_OPEN_COOLDOWN_MS", defVal);
-  if (myOpenTransportCooldownMs != defVal) {
-    if (myOpenTransportCooldownMs < 0) myOpenTransportCooldownMs = 0;
-    if (myOpenTransportCooldownMs > 500) myOpenTransportCooldownMs = 500;
-    fprintf(stderr, "\tUse OpenTransportCooldownMs=%d\n", myOpenTransportCooldownMs);
-  }
-}
-
-void CommandLineArgs::init(int argc, char* argv[]) {
-  for (int c = 0; c < argc; ++c) {
-    const char * arg = argv[c];
-    if (arg == nullptr)
-      continue;
-
-    // NOTE: these switches don't conflict with chromium one.
-    // See https://peter.sh/experiments/chromium-command-line-switches/
-    std::string str(arg);
-    if (str == "--cef-server-wait-debugger") {
-      myWaitDebugger = true;
-      continue;
-    }
-
-    size_t tokenPos;
-    if ((tokenPos = str.find("--port=")) != str.npos) {
-      std::string val = str.substr(tokenPos + 7);
-      myPort = std::stoi(val);
-      myUseTcp = true;
-    } else if ((tokenPos = str.find("--pipe=")) != str.npos) {
-      myPathPipe = str.substr(tokenPos + 7);
-    } else if ((tokenPos = str.find("--logfile=")) != str.npos) {
-      myPathLogFile = str.substr(tokenPos + 10);
-    } else if ((tokenPos = str.find("--loglevel=")) != str.npos) {
-      std::string sval = str.substr(tokenPos + 11);
-      myLogLevel = std::stoi(sval);
-    } else if ((tokenPos = str.find("--params=")) != str.npos) {
-      myPathParamsFile = str.substr(tokenPos + 9);
-    } else if ((tokenPos = str.find("--deleteRootCacheDir")) != str.npos) {
-      myDeleteRootCacheDir = true;
-    }
-  }
 }

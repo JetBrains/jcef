@@ -13,7 +13,7 @@ namespace {
   thread_local std::vector<std::string> ourNDC;
   thread_local std::string ourThreadName;
   const std::string ourNdcSeparator = " | ";
-  int ourLogLevel = LEVEL_INFO;
+  int ourLogLevel = Log::LEVEL_INFO;
   FILE * ourLogFile = nullptr;
   bool ourDoFlush = false;
   bool ourAddNewLine = true;
@@ -21,7 +21,59 @@ namespace {
   const std::string ourFinishedMsg = "Finished.";
 }
 
-void setThreadName(std::string name) {
+std::string Log::level2str(int serverLogLevel) {
+  switch (serverLogLevel) {
+    case LEVEL_TRACE: return "trace";
+    case LEVEL_DEBUG: return "debug";
+    case LEVEL_INFO: return "info";
+    case LEVEL_WARN: return "warn";
+    case LEVEL_ERROR: return "error";
+    case LEVEL_FATAL: return "fatal";
+    case LEVEL_DISABLED: return "disabled";
+    default: return string_format("unknown_log_level_%d", serverLogLevel);
+  }
+}
+
+int Log::str2level(std::string serverLogLevel) {
+    std::string valLowerCase = serverLogLevel;
+    std::transform(valLowerCase.begin(), valLowerCase.end(), valLowerCase.begin(),
+                   [](unsigned char in){
+                     if (in <= 'Z' && in >= 'A')
+                       return in - ('Z' - 'z');
+                     return (int)in;
+                   });
+  if (valLowerCase.find("verb") != valLowerCase.npos || valLowerCase.find("trace") != valLowerCase.npos)
+    return LEVEL_TRACE;
+  if (valLowerCase.find("debug") != valLowerCase.npos)
+    return LEVEL_DEBUG;
+  if (valLowerCase.find("info") != valLowerCase.npos)
+    return LEVEL_INFO;
+  if (valLowerCase.find("warn") != valLowerCase.npos)
+    return LEVEL_WARN;
+  if (valLowerCase.find("err") != valLowerCase.npos)
+    return LEVEL_ERROR;
+  if (valLowerCase.find("fatal") != valLowerCase.npos)
+    return LEVEL_FATAL;
+  if (valLowerCase.find("disable") != valLowerCase.npos)
+    return LEVEL_DISABLED;
+
+  // Default val is disabled.
+  return LEVEL_DISABLED;
+}
+
+std::string Log::cefLogLevel2str(int serverLogLevel) {
+  switch (serverLogLevel) {
+    case LOGSEVERITY_VERBOSE: return "trace";
+    case LOGSEVERITY_INFO: return "info";
+    case LOGSEVERITY_WARNING: return "warn";
+    case LOGSEVERITY_ERROR: return "error";
+    case LOGSEVERITY_FATAL: return "fatal";
+    case LOGSEVERITY_DISABLE: return "disabled";
+    default: return string_format("unknown_log_level_%d", serverLogLevel);
+  }
+}
+
+void Log::setThreadName(std::string name) {
   ourThreadName.assign(name);
 }
 
@@ -32,8 +84,8 @@ void Log::init(int level, std::string logfile) {
     return;
   }
 
-  fprintf(stderr, "Initialize cef_server logger: level=%d file='%s'\n", level, logfile.c_str());
-  if (!logfile.empty()) {
+  fprintf(stderr, "Initialize cef_server logger: level=%s file='%s'\n", level2str(level).c_str(), logfile.c_str());
+  if (!logfile.empty() && logfile.compare("stderr") != 0) {
     FILE* flog = fopen(logfile.c_str(), "a");
     if (flog != nullptr) {
       initImpl(level, flog);

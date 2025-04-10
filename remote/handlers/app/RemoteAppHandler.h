@@ -6,7 +6,7 @@
 
 class RemoteAppHandler : public CefApp {
  public:
-  explicit RemoteAppHandler(std::vector<std::string> switches, CefSettings settings, std::vector<std::pair<std::string, int>> schemes);
+  explicit RemoteAppHandler(const std::vector<std::string> & switches, const CefSettings & settings, const std::vector<std::pair<std::string, int>> & schemes);
 
   void setService(std::shared_ptr<RpcExecutor> service) {
     myBrowserProcessHandler->setService(service);
