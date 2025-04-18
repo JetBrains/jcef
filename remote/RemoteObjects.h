@@ -221,10 +221,17 @@ ServerObjectsFactory<T> RemoteServerObjectBase<T>::FACTORY;
   if (map.count(#key) > 0)                         \
     myDelegate->Set##key(std::stoi(map.at(#key)))
 
+#define SET_LONG(map, key)                          \
+  if (map.count(#key) > 0)                         \
+    myDelegate->Set##key(std::stoll(map.at(#key)))
+
 #define GET_STR(map, key)                          \
   map[#key] = myDelegate->Get##key().ToString()
 
 #define GET_INT(map, key)                          \
   map[#key] = std::to_string(myDelegate->Get##key())
+
+#define GET_LONG(map, key)                          \
+  map[#key] = std::to_string((long long)(myDelegate->Get##key()))
 
 #endif  // JCEF_REMOTEOBJECTS_H

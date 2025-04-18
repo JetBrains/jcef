@@ -59,8 +59,8 @@ public class RemoteRequestImpl extends RemoteServerObject {
         if (sval != null && !sval.isEmpty()) {
             try {
                 return CefRequest.ReferrerPolicy.valueOf(sval);
-            } catch (IllegalArgumentException e) {
-                CefLog.Error("getReferrerPolicy: ", e.getMessage());
+            } catch (Throwable e) {
+                CefLog.Error("getReferrerPolicy: sval=%s, exception: %s", sval, e.getMessage());
             }
         }
         return null;// probably REFERRER_POLICY_DEFAULT ?
@@ -120,8 +120,8 @@ public class RemoteRequestImpl extends RemoteServerObject {
         if (sval != null && !sval.isEmpty()) {
             try {
                 return CefRequest.ResourceType.valueOf(sval);
-            } catch (IllegalArgumentException e) {
-                CefLog.Error("getResourceType: ", e.getMessage());
+            } catch (Throwable e) {
+                CefLog.Error("getResourceType: sval=%s, exception: %s", sval, e.getMessage());
             }
         }
         return null;
@@ -132,8 +132,8 @@ public class RemoteRequestImpl extends RemoteServerObject {
         if (sval != null && !sval.isEmpty()) {
             try {
                 return CefRequest.TransitionType.valueOf(sval);
-            } catch (IllegalArgumentException e) {
-                CefLog.Error("getTransitionType: ", e.getMessage());
+            } catch (Throwable e) {
+                CefLog.Error("getTransitionType: sval=%s, exception: %s", sval, e.getMessage());
             }
         }
         return null;

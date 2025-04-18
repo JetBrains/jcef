@@ -48,6 +48,14 @@ public:
   void UpdateDragCursor(CefRefPtr<CefBrowser> browser,
                                 DragOperation operation) override;
 
+  void OnImeCompositionRangeChanged(CefRefPtr<CefBrowser> browser,
+                                    const CefRange& selected_range,
+                                    const RectList& character_bounds) override;
+
+  void OnTextSelectionChanged(CefRefPtr<CefBrowser> browser,
+                              const CefString& selected_text,
+                              const CefRange& selected_range) override;
+
 protected:
   const int myBid;
   std::shared_ptr<RpcExecutor> myService;

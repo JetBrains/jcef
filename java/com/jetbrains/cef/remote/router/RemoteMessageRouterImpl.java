@@ -84,7 +84,7 @@ public class RemoteMessageRouterImpl extends RemoteServerObject {
 
         synchronized (myHandlers) {
             boolean removed = myHandlers.remove(rhandler);
-            if (!removed) CefLog.Error("RemoteMessageRouterHandler %s wasn't found in myHandlers list");
+            if (!removed) CefLog.Error("RemoteMessageRouterHandler %s [%d] wasn't found in myHandlers list", rhandler, rhandler.getId());
         }
         myRpc.exec((s)->s.MessageRouter_RemoveHandler(thriftId(), rhandler.thriftId()));
         RemoteMessageRouterHandler.FACTORY.dispose(rhandler.getId());

@@ -190,8 +190,16 @@ public class BasicJcefTest {
         //
         // Server was stopped
         //
-        if (NativeServerManager.isProcessAlive(thriftServer))
-            throw new AssertionError("Server process is alive.");
+        if (NativeServerManager.isProcessAlive(thriftServer)) {
+            CefLog.Debug("Server process is still alive. Let's wait a little..");
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                CefLog.Error(e.getMessage());
+            }
+            if (NativeServerManager.isProcessAlive(thriftServer))
+                throw new AssertionError("Server process is alive.");
+        }
         if (NativeServerManager.isRunning(thriftServer, true) != null)
             throw new AssertionError("Server is still running.");
 

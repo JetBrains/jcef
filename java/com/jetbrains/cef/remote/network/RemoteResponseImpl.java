@@ -34,8 +34,8 @@ public class RemoteResponseImpl extends RemoteServerObjectLocal {
         if (sval != null && !sval.isEmpty()) {
             try {
                 return CefLoadHandler.ErrorCode.valueOf(sval);
-            } catch (IllegalArgumentException e) {
-                CefLog.Error("getError: ", e.getMessage());
+            } catch (Throwable e) {
+                CefLog.Error("getError: sval=%s, exception: %s", sval, e.getMessage());
             }
         }
         return CefLoadHandler.ErrorCode.ERR_NONE;

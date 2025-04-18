@@ -9,7 +9,10 @@ import com.jetbrains.cef.remote.callback.RemoteStringVisitor;
 import com.jetbrains.cef.remote.network.RemoteRequest;
 import com.jetbrains.cef.remote.network.RemoteRequestContext;
 import com.jetbrains.cef.remote.network.RemoteRequestImpl;
+import com.jetbrains.cef.remote.thrift_codegen.CompositionUnderline;
 import com.jetbrains.cef.remote.thrift_codegen.RObject;
+import com.jetbrains.cef.remote.thrift_codegen.Range;
+import com.jetbrains.cef.remote.thrift_codegen.Style;
 import org.cef.CefApp;
 import org.cef.CefBrowserSettings;
 import org.cef.CefClient;
@@ -756,23 +759,59 @@ public class RemoteBrowser implements CefBrowser {
     }
 
     @Override
-    public void ImeSetComposition(String s, List<CefCompositionUnderline> list, CefRange cefRange, CefRange cefRange1) {
-        CefLog.Error("ImeSetComposition is not implemented");
+    public void ImeSetComposition(String text, List<CefCompositionUnderline> cefUnderlines,
+                                  CefRange cefReplacementRange, CefRange cefSelectionRange) {
+        List<CompositionUnderline> underlineList = new ArrayList<>();
+        if (cefUnderlines != null) {
+            for (var cefUnderline : cefUnderlines) {
+                Range range = new Range(cefUnderline.getRange().from, cefUnderline.getRange().to);
+
+                com.jetbrains.cef.remote.thrift_codegen.Color color =
+                        new com.jetbrains.cef.remote.thrift_codegen.Color(
+                                cefUnderline.getColor().getRed(),
+                                cefUnderline.getColor().getGreen(),
+                                cefUnderline.getColor().getBlue(),
+                                cefUnderline.getColor().getAlpha());
+
+                com.jetbrains.cef.remote.thrift_codegen.Color backgroundColor =
+                        new com.jetbrains.cef.remote.thrift_codegen.Color(
+                                cefUnderline.getBackgroundColor().getRed(),
+                                cefUnderline.getBackgroundColor().getGreen(),
+                                cefUnderline.getBackgroundColor().getBlue(),
+                                cefUnderline.getBackgroundColor().getAlpha());
+                Style style = Style.NONE;
+
+                switch (cefUnderline.getStyle()) {
+                    case SOLID -> style = Style.SOLID;
+                    case DOT -> style = Style.DOT;
+                    case DASH -> style = Style.DASH;
+                }
+
+                underlineList.add(new CompositionUnderline(
+                        range, color, backgroundColor, cefUnderline.getThick(), style));
+            }
+        }
+
+        Range replacementRange = new Range(cefReplacementRange.from, cefReplacementRange.to);
+        Range selectionRange = new Range(cefSelectionRange.from, cefSelectionRange.to);
+
+        myRpc.invokeLater(s -> s.Browser_ImeSetComposition(myBid, text, underlineList, replacementRange, selectionRange));
     }
 
     @Override
-    public void ImeCommitText(String s, CefRange cefRange, int i) {
-        CefLog.Error("ImeCommitText is not implemented");
+    public void ImeCommitText(String text, CefRange cefReplacementRange, int relativeCursorPos) {
+        Range replacementRange = new Range(cefReplacementRange.from, cefReplacementRange.to);
+        myRpc.invokeLater(s -> s.Browser_ImeCommitText(myBid, text, replacementRange, relativeCursorPos));
     }
 
     @Override
     public void ImeFinishComposingText(boolean b) {
-        CefLog.Error("ImeFinishComposingText is not implemented");
+        myRpc.invokeLater(s -> s.Browser_ImeFinishComposingText(myBid, b));
     }
 
     @Override
     public void ImeCancelComposing() {
-        CefLog.Error("ImeCancelComposing is not implemented");
+        myRpc.invokeLater(s -> s.Browser_ImeCancelComposing(myBid));
     }
 
     @Override

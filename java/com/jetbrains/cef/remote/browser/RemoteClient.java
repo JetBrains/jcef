@@ -80,7 +80,7 @@ public class RemoteClient {
         if (bid >= 0) {
             RemoteBrowser removed = ourBid2Browser.remove(bid);
             if (removed == null)
-                CefLog.Error("Unregister bid: bid=%d was already removed.");
+                CefLog.Error("Unregister bid: bid=%d was already removed.", bid);
         } else
             CefLog.Error("Can't unregister invalid bid %d", bid);
 

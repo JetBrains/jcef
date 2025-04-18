@@ -119,6 +119,14 @@ public class Server {
 
     public void Browser_Print(int bid) throws com.jetbrains.cef.remote.thrift.TException;
 
+    public void Browser_ImeSetComposition(int bid, java.lang.String text, java.util.List<com.jetbrains.cef.remote.thrift_codegen.CompositionUnderline> underlines, com.jetbrains.cef.remote.thrift_codegen.Range replacementRange, com.jetbrains.cef.remote.thrift_codegen.Range selectionRange) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void Browser_ImeCommitText(int bid, java.lang.String text, com.jetbrains.cef.remote.thrift_codegen.Range replacementRange, int relativeCursorPos) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void Browser_ImeFinishComposingText(int bid, boolean keepSelection) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void Browser_ImeCancelComposing(int bid) throws com.jetbrains.cef.remote.thrift.TException;
+
     public void Frame_ExecuteJavaScript(int frameId, java.lang.String code, java.lang.String url, int line) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void Frame_Dispose(int frameId) throws com.jetbrains.cef.remote.thrift.TException;
@@ -348,6 +356,14 @@ public class Server {
     public void Browser_PrintToPDF(int bid, java.lang.String path, java.util.Map<java.lang.String,java.lang.String> pdfPrintSettings, com.jetbrains.cef.remote.thrift_codegen.RObject pdfPrintCallback, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void Browser_Print(int bid, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void Browser_ImeSetComposition(int bid, java.lang.String text, java.util.List<com.jetbrains.cef.remote.thrift_codegen.CompositionUnderline> underlines, com.jetbrains.cef.remote.thrift_codegen.Range replacementRange, com.jetbrains.cef.remote.thrift_codegen.Range selectionRange, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void Browser_ImeCommitText(int bid, java.lang.String text, com.jetbrains.cef.remote.thrift_codegen.Range replacementRange, int relativeCursorPos, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void Browser_ImeFinishComposingText(int bid, boolean keepSelection, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+
+    public void Browser_ImeCancelComposing(int bid, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void Frame_ExecuteJavaScript(int frameId, java.lang.String code, java.lang.String url, int line, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
@@ -1478,6 +1494,66 @@ public class Server {
       Browser_Print_args args = new Browser_Print_args();
       args.setBid(bid);
       sendBaseOneway("Browser_Print", args);
+    }
+
+    @Override
+    public void Browser_ImeSetComposition(int bid, java.lang.String text, java.util.List<com.jetbrains.cef.remote.thrift_codegen.CompositionUnderline> underlines, com.jetbrains.cef.remote.thrift_codegen.Range replacementRange, com.jetbrains.cef.remote.thrift_codegen.Range selectionRange) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_Browser_ImeSetComposition(bid, text, underlines, replacementRange, selectionRange);
+    }
+
+    public void send_Browser_ImeSetComposition(int bid, java.lang.String text, java.util.List<com.jetbrains.cef.remote.thrift_codegen.CompositionUnderline> underlines, com.jetbrains.cef.remote.thrift_codegen.Range replacementRange, com.jetbrains.cef.remote.thrift_codegen.Range selectionRange) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      Browser_ImeSetComposition_args args = new Browser_ImeSetComposition_args();
+      args.setBid(bid);
+      args.setText(text);
+      args.setUnderlines(underlines);
+      args.setReplacementRange(replacementRange);
+      args.setSelectionRange(selectionRange);
+      sendBaseOneway("Browser_ImeSetComposition", args);
+    }
+
+    @Override
+    public void Browser_ImeCommitText(int bid, java.lang.String text, com.jetbrains.cef.remote.thrift_codegen.Range replacementRange, int relativeCursorPos) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_Browser_ImeCommitText(bid, text, replacementRange, relativeCursorPos);
+    }
+
+    public void send_Browser_ImeCommitText(int bid, java.lang.String text, com.jetbrains.cef.remote.thrift_codegen.Range replacementRange, int relativeCursorPos) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      Browser_ImeCommitText_args args = new Browser_ImeCommitText_args();
+      args.setBid(bid);
+      args.setText(text);
+      args.setReplacementRange(replacementRange);
+      args.setRelativeCursorPos(relativeCursorPos);
+      sendBaseOneway("Browser_ImeCommitText", args);
+    }
+
+    @Override
+    public void Browser_ImeFinishComposingText(int bid, boolean keepSelection) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_Browser_ImeFinishComposingText(bid, keepSelection);
+    }
+
+    public void send_Browser_ImeFinishComposingText(int bid, boolean keepSelection) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      Browser_ImeFinishComposingText_args args = new Browser_ImeFinishComposingText_args();
+      args.setBid(bid);
+      args.setKeepSelection(keepSelection);
+      sendBaseOneway("Browser_ImeFinishComposingText", args);
+    }
+
+    @Override
+    public void Browser_ImeCancelComposing(int bid) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      send_Browser_ImeCancelComposing(bid);
+    }
+
+    public void send_Browser_ImeCancelComposing(int bid) throws com.jetbrains.cef.remote.thrift.TException
+    {
+      Browser_ImeCancelComposing_args args = new Browser_ImeCancelComposing_args();
+      args.setBid(bid);
+      sendBaseOneway("Browser_ImeCancelComposing", args);
     }
 
     @Override
@@ -4638,6 +4714,170 @@ public class Server {
     }
 
     @Override
+    public void Browser_ImeSetComposition(int bid, java.lang.String text, java.util.List<com.jetbrains.cef.remote.thrift_codegen.CompositionUnderline> underlines, com.jetbrains.cef.remote.thrift_codegen.Range replacementRange, com.jetbrains.cef.remote.thrift_codegen.Range selectionRange, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      Browser_ImeSetComposition_call method_call = new Browser_ImeSetComposition_call(bid, text, underlines, replacementRange, selectionRange, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class Browser_ImeSetComposition_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<Void> {
+      private int bid;
+      private java.lang.String text;
+      private java.util.List<com.jetbrains.cef.remote.thrift_codegen.CompositionUnderline> underlines;
+      private com.jetbrains.cef.remote.thrift_codegen.Range replacementRange;
+      private com.jetbrains.cef.remote.thrift_codegen.Range selectionRange;
+      public Browser_ImeSetComposition_call(int bid, java.lang.String text, java.util.List<com.jetbrains.cef.remote.thrift_codegen.CompositionUnderline> underlines, com.jetbrains.cef.remote.thrift_codegen.Range replacementRange, com.jetbrains.cef.remote.thrift_codegen.Range selectionRange, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, true);
+        this.bid = bid;
+        this.text = text;
+        this.underlines = underlines;
+        this.replacementRange = replacementRange;
+        this.selectionRange = selectionRange;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("Browser_ImeSetComposition", com.jetbrains.cef.remote.thrift.protocol.TMessageType.ONEWAY, 0));
+        Browser_ImeSetComposition_args args = new Browser_ImeSetComposition_args();
+        args.setBid(bid);
+        args.setText(text);
+        args.setUnderlines(underlines);
+        args.setReplacementRange(replacementRange);
+        args.setSelectionRange(selectionRange);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public Void getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return null;
+      }
+    }
+
+    @Override
+    public void Browser_ImeCommitText(int bid, java.lang.String text, com.jetbrains.cef.remote.thrift_codegen.Range replacementRange, int relativeCursorPos, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      Browser_ImeCommitText_call method_call = new Browser_ImeCommitText_call(bid, text, replacementRange, relativeCursorPos, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class Browser_ImeCommitText_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<Void> {
+      private int bid;
+      private java.lang.String text;
+      private com.jetbrains.cef.remote.thrift_codegen.Range replacementRange;
+      private int relativeCursorPos;
+      public Browser_ImeCommitText_call(int bid, java.lang.String text, com.jetbrains.cef.remote.thrift_codegen.Range replacementRange, int relativeCursorPos, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, true);
+        this.bid = bid;
+        this.text = text;
+        this.replacementRange = replacementRange;
+        this.relativeCursorPos = relativeCursorPos;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("Browser_ImeCommitText", com.jetbrains.cef.remote.thrift.protocol.TMessageType.ONEWAY, 0));
+        Browser_ImeCommitText_args args = new Browser_ImeCommitText_args();
+        args.setBid(bid);
+        args.setText(text);
+        args.setReplacementRange(replacementRange);
+        args.setRelativeCursorPos(relativeCursorPos);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public Void getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return null;
+      }
+    }
+
+    @Override
+    public void Browser_ImeFinishComposingText(int bid, boolean keepSelection, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      Browser_ImeFinishComposingText_call method_call = new Browser_ImeFinishComposingText_call(bid, keepSelection, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class Browser_ImeFinishComposingText_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<Void> {
+      private int bid;
+      private boolean keepSelection;
+      public Browser_ImeFinishComposingText_call(int bid, boolean keepSelection, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, true);
+        this.bid = bid;
+        this.keepSelection = keepSelection;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("Browser_ImeFinishComposingText", com.jetbrains.cef.remote.thrift.protocol.TMessageType.ONEWAY, 0));
+        Browser_ImeFinishComposingText_args args = new Browser_ImeFinishComposingText_args();
+        args.setBid(bid);
+        args.setKeepSelection(keepSelection);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public Void getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return null;
+      }
+    }
+
+    @Override
+    public void Browser_ImeCancelComposing(int bid, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+      checkReady();
+      Browser_ImeCancelComposing_call method_call = new Browser_ImeCancelComposing_call(bid, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class Browser_ImeCancelComposing_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<Void> {
+      private int bid;
+      public Browser_ImeCancelComposing_call(int bid, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, true);
+        this.bid = bid;
+      }
+
+      @Override
+      public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("Browser_ImeCancelComposing", com.jetbrains.cef.remote.thrift.protocol.TMessageType.ONEWAY, 0));
+        Browser_ImeCancelComposing_args args = new Browser_ImeCancelComposing_args();
+        args.setBid(bid);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      @Override
+      public Void getResult() throws com.jetbrains.cef.remote.thrift.TException {
+        if (getState() != com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport memoryTransport = new com.jetbrains.cef.remote.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        com.jetbrains.cef.remote.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return null;
+      }
+    }
+
+    @Override
     public void Frame_ExecuteJavaScript(int frameId, java.lang.String code, java.lang.String url, int line, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
       checkReady();
       Frame_ExecuteJavaScript_call method_call = new Frame_ExecuteJavaScript_call(frameId, code, url, line, resultHandler, this, ___protocolFactory, ___transport);
@@ -6917,6 +7157,10 @@ public class Server {
       processMap.put("Browser_RunFileDialog", new Browser_RunFileDialog());
       processMap.put("Browser_PrintToPDF", new Browser_PrintToPDF());
       processMap.put("Browser_Print", new Browser_Print());
+      processMap.put("Browser_ImeSetComposition", new Browser_ImeSetComposition());
+      processMap.put("Browser_ImeCommitText", new Browser_ImeCommitText());
+      processMap.put("Browser_ImeFinishComposingText", new Browser_ImeFinishComposingText());
+      processMap.put("Browser_ImeCancelComposing", new Browser_ImeCancelComposing());
       processMap.put("Frame_ExecuteJavaScript", new Frame_ExecuteJavaScript());
       processMap.put("Frame_Dispose", new Frame_Dispose());
       processMap.put("Frame_GetParent", new Frame_GetParent());
@@ -8465,6 +8709,114 @@ public class Server {
       @Override
       public com.jetbrains.cef.remote.thrift.TBase getResult(I iface, Browser_Print_args args) throws com.jetbrains.cef.remote.thrift.TException {
         iface.Browser_Print(args.bid);
+        return null;
+      }
+    }
+
+    public static class Browser_ImeSetComposition<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, Browser_ImeSetComposition_args> {
+      public Browser_ImeSetComposition() {
+        super("Browser_ImeSetComposition");
+      }
+
+      @Override
+      public Browser_ImeSetComposition_args getEmptyArgsInstance() {
+        return new Browser_ImeSetComposition_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.TBase getResult(I iface, Browser_ImeSetComposition_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.Browser_ImeSetComposition(args.bid, args.text, args.underlines, args.replacementRange, args.selectionRange);
+        return null;
+      }
+    }
+
+    public static class Browser_ImeCommitText<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, Browser_ImeCommitText_args> {
+      public Browser_ImeCommitText() {
+        super("Browser_ImeCommitText");
+      }
+
+      @Override
+      public Browser_ImeCommitText_args getEmptyArgsInstance() {
+        return new Browser_ImeCommitText_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.TBase getResult(I iface, Browser_ImeCommitText_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.Browser_ImeCommitText(args.bid, args.text, args.replacementRange, args.relativeCursorPos);
+        return null;
+      }
+    }
+
+    public static class Browser_ImeFinishComposingText<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, Browser_ImeFinishComposingText_args> {
+      public Browser_ImeFinishComposingText() {
+        super("Browser_ImeFinishComposingText");
+      }
+
+      @Override
+      public Browser_ImeFinishComposingText_args getEmptyArgsInstance() {
+        return new Browser_ImeFinishComposingText_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.TBase getResult(I iface, Browser_ImeFinishComposingText_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.Browser_ImeFinishComposingText(args.bid, args.keepSelection);
+        return null;
+      }
+    }
+
+    public static class Browser_ImeCancelComposing<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, Browser_ImeCancelComposing_args> {
+      public Browser_ImeCancelComposing() {
+        super("Browser_ImeCancelComposing");
+      }
+
+      @Override
+      public Browser_ImeCancelComposing_args getEmptyArgsInstance() {
+        return new Browser_ImeCancelComposing_args();
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.TBase getResult(I iface, Browser_ImeCancelComposing_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.Browser_ImeCancelComposing(args.bid);
         return null;
       }
     }
@@ -10164,6 +10516,10 @@ public class Server {
       processMap.put("Browser_RunFileDialog", new Browser_RunFileDialog());
       processMap.put("Browser_PrintToPDF", new Browser_PrintToPDF());
       processMap.put("Browser_Print", new Browser_Print());
+      processMap.put("Browser_ImeSetComposition", new Browser_ImeSetComposition());
+      processMap.put("Browser_ImeCommitText", new Browser_ImeCommitText());
+      processMap.put("Browser_ImeFinishComposingText", new Browser_ImeFinishComposingText());
+      processMap.put("Browser_ImeCancelComposing", new Browser_ImeCancelComposing());
       processMap.put("Frame_ExecuteJavaScript", new Frame_ExecuteJavaScript());
       processMap.put("Frame_Dispose", new Frame_Dispose());
       processMap.put("Frame_GetParent", new Frame_GetParent());
@@ -12985,6 +13341,166 @@ public class Server {
       @Override
       public void start(I iface, Browser_Print_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
         iface.Browser_Print(args.bid,resultHandler);
+      }
+    }
+
+    public static class Browser_ImeSetComposition<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, Browser_ImeSetComposition_args, Void> {
+      public Browser_ImeSetComposition() {
+        super("Browser_ImeSetComposition");
+      }
+
+      @Override
+      public Browser_ImeSetComposition_args getEmptyArgsInstance() {
+        return new Browser_ImeSetComposition_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void>() { 
+          @Override
+          public void onComplete(Void o) {
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+            } else {
+              _LOGGER.error("Exception inside oneway handler", e);
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      public void start(I iface, Browser_ImeSetComposition_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.Browser_ImeSetComposition(args.bid, args.text, args.underlines, args.replacementRange, args.selectionRange,resultHandler);
+      }
+    }
+
+    public static class Browser_ImeCommitText<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, Browser_ImeCommitText_args, Void> {
+      public Browser_ImeCommitText() {
+        super("Browser_ImeCommitText");
+      }
+
+      @Override
+      public Browser_ImeCommitText_args getEmptyArgsInstance() {
+        return new Browser_ImeCommitText_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void>() { 
+          @Override
+          public void onComplete(Void o) {
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+            } else {
+              _LOGGER.error("Exception inside oneway handler", e);
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      public void start(I iface, Browser_ImeCommitText_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.Browser_ImeCommitText(args.bid, args.text, args.replacementRange, args.relativeCursorPos,resultHandler);
+      }
+    }
+
+    public static class Browser_ImeFinishComposingText<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, Browser_ImeFinishComposingText_args, Void> {
+      public Browser_ImeFinishComposingText() {
+        super("Browser_ImeFinishComposingText");
+      }
+
+      @Override
+      public Browser_ImeFinishComposingText_args getEmptyArgsInstance() {
+        return new Browser_ImeFinishComposingText_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void>() { 
+          @Override
+          public void onComplete(Void o) {
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+            } else {
+              _LOGGER.error("Exception inside oneway handler", e);
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      public void start(I iface, Browser_ImeFinishComposingText_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.Browser_ImeFinishComposingText(args.bid, args.keepSelection,resultHandler);
+      }
+    }
+
+    public static class Browser_ImeCancelComposing<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, Browser_ImeCancelComposing_args, Void> {
+      public Browser_ImeCancelComposing() {
+        super("Browser_ImeCancelComposing");
+      }
+
+      @Override
+      public Browser_ImeCancelComposing_args getEmptyArgsInstance() {
+        return new Browser_ImeCancelComposing_args();
+      }
+
+      @Override
+      public com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> getResultHandler(final com.jetbrains.cef.remote.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final com.jetbrains.cef.remote.thrift.AsyncProcessFunction fcall = this;
+        return new com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void>() { 
+          @Override
+          public void onComplete(Void o) {
+          }
+          @Override
+          public void onError(java.lang.Exception e) {
+            if (e instanceof com.jetbrains.cef.remote.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+            } else {
+              _LOGGER.error("Exception inside oneway handler", e);
+            }
+          }
+        };
+      }
+
+      @Override
+      protected boolean isOneway() {
+        return true;
+      }
+
+      @Override
+      public void start(I iface, Browser_ImeCancelComposing_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.Browser_ImeCancelComposing(args.bid,resultHandler);
       }
     }
 
@@ -49820,6 +50336,2394 @@ public class Server {
   }
 
   @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class Browser_ImeSetComposition_args implements com.jetbrains.cef.remote.thrift.TBase<Browser_ImeSetComposition_args, Browser_ImeSetComposition_args._Fields>, java.io.Serializable, Cloneable, Comparable<Browser_ImeSetComposition_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("Browser_ImeSetComposition_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField BID_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("bid", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)1);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField TEXT_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("text", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)2);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField UNDERLINES_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("underlines", com.jetbrains.cef.remote.thrift.protocol.TType.LIST, (short)3);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField REPLACEMENT_RANGE_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("replacementRange", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)4);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField SELECTION_RANGE_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("selectionRange", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)5);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new Browser_ImeSetComposition_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new Browser_ImeSetComposition_argsTupleSchemeFactory();
+
+    public int bid; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String text; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.util.List<com.jetbrains.cef.remote.thrift_codegen.CompositionUnderline> underlines; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.Range replacementRange; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.Range selectionRange; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      BID((short)1, "bid"),
+      TEXT((short)2, "text"),
+      UNDERLINES((short)3, "underlines"),
+      REPLACEMENT_RANGE((short)4, "replacementRange"),
+      SELECTION_RANGE((short)5, "selectionRange");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // BID
+            return BID;
+          case 2: // TEXT
+            return TEXT;
+          case 3: // UNDERLINES
+            return UNDERLINES;
+          case 4: // REPLACEMENT_RANGE
+            return REPLACEMENT_RANGE;
+          case 5: // SELECTION_RANGE
+            return SELECTION_RANGE;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __BID_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.BID, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("bid", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.TEXT, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("text", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.UNDERLINES, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("underlines", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.ListMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.LIST, 
+              new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.CompositionUnderline.class))));
+      tmpMap.put(_Fields.REPLACEMENT_RANGE, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("replacementRange", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.Range.class)));
+      tmpMap.put(_Fields.SELECTION_RANGE, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("selectionRange", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.Range.class)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Browser_ImeSetComposition_args.class, metaDataMap);
+    }
+
+    public Browser_ImeSetComposition_args() {
+    }
+
+    public Browser_ImeSetComposition_args(
+      int bid,
+      java.lang.String text,
+      java.util.List<com.jetbrains.cef.remote.thrift_codegen.CompositionUnderline> underlines,
+      com.jetbrains.cef.remote.thrift_codegen.Range replacementRange,
+      com.jetbrains.cef.remote.thrift_codegen.Range selectionRange)
+    {
+      this();
+      this.bid = bid;
+      setBidIsSet(true);
+      this.text = text;
+      this.underlines = underlines;
+      this.replacementRange = replacementRange;
+      this.selectionRange = selectionRange;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public Browser_ImeSetComposition_args(Browser_ImeSetComposition_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.bid = other.bid;
+      if (other.isSetText()) {
+        this.text = other.text;
+      }
+      if (other.isSetUnderlines()) {
+        java.util.List<com.jetbrains.cef.remote.thrift_codegen.CompositionUnderline> __this__underlines = new java.util.ArrayList<com.jetbrains.cef.remote.thrift_codegen.CompositionUnderline>(other.underlines.size());
+        for (com.jetbrains.cef.remote.thrift_codegen.CompositionUnderline other_element : other.underlines) {
+          __this__underlines.add(new com.jetbrains.cef.remote.thrift_codegen.CompositionUnderline(other_element));
+        }
+        this.underlines = __this__underlines;
+      }
+      if (other.isSetReplacementRange()) {
+        this.replacementRange = new com.jetbrains.cef.remote.thrift_codegen.Range(other.replacementRange);
+      }
+      if (other.isSetSelectionRange()) {
+        this.selectionRange = new com.jetbrains.cef.remote.thrift_codegen.Range(other.selectionRange);
+      }
+    }
+
+    @Override
+    public Browser_ImeSetComposition_args deepCopy() {
+      return new Browser_ImeSetComposition_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setBidIsSet(false);
+      this.bid = 0;
+      this.text = null;
+      this.underlines = null;
+      this.replacementRange = null;
+      this.selectionRange = null;
+    }
+
+    public int getBid() {
+      return this.bid;
+    }
+
+    public Browser_ImeSetComposition_args setBid(int bid) {
+      this.bid = bid;
+      setBidIsSet(true);
+      return this;
+    }
+
+    public void unsetBid() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    /** Returns true if field bid is set (has been assigned a value) and false otherwise */
+    public boolean isSetBid() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    public void setBidIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.lang.String getText() {
+      return this.text;
+    }
+
+    public Browser_ImeSetComposition_args setText(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String text) {
+      this.text = text;
+      return this;
+    }
+
+    public void unsetText() {
+      this.text = null;
+    }
+
+    /** Returns true if field text is set (has been assigned a value) and false otherwise */
+    public boolean isSetText() {
+      return this.text != null;
+    }
+
+    public void setTextIsSet(boolean value) {
+      if (!value) {
+        this.text = null;
+      }
+    }
+
+    public int getUnderlinesSize() {
+      return (this.underlines == null) ? 0 : this.underlines.size();
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.util.Iterator<com.jetbrains.cef.remote.thrift_codegen.CompositionUnderline> getUnderlinesIterator() {
+      return (this.underlines == null) ? null : this.underlines.iterator();
+    }
+
+    public void addToUnderlines(com.jetbrains.cef.remote.thrift_codegen.CompositionUnderline elem) {
+      if (this.underlines == null) {
+        this.underlines = new java.util.ArrayList<com.jetbrains.cef.remote.thrift_codegen.CompositionUnderline>();
+      }
+      this.underlines.add(elem);
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.util.List<com.jetbrains.cef.remote.thrift_codegen.CompositionUnderline> getUnderlines() {
+      return this.underlines;
+    }
+
+    public Browser_ImeSetComposition_args setUnderlines(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.util.List<com.jetbrains.cef.remote.thrift_codegen.CompositionUnderline> underlines) {
+      this.underlines = underlines;
+      return this;
+    }
+
+    public void unsetUnderlines() {
+      this.underlines = null;
+    }
+
+    /** Returns true if field underlines is set (has been assigned a value) and false otherwise */
+    public boolean isSetUnderlines() {
+      return this.underlines != null;
+    }
+
+    public void setUnderlinesIsSet(boolean value) {
+      if (!value) {
+        this.underlines = null;
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.Range getReplacementRange() {
+      return this.replacementRange;
+    }
+
+    public Browser_ImeSetComposition_args setReplacementRange(@com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.Range replacementRange) {
+      this.replacementRange = replacementRange;
+      return this;
+    }
+
+    public void unsetReplacementRange() {
+      this.replacementRange = null;
+    }
+
+    /** Returns true if field replacementRange is set (has been assigned a value) and false otherwise */
+    public boolean isSetReplacementRange() {
+      return this.replacementRange != null;
+    }
+
+    public void setReplacementRangeIsSet(boolean value) {
+      if (!value) {
+        this.replacementRange = null;
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.Range getSelectionRange() {
+      return this.selectionRange;
+    }
+
+    public Browser_ImeSetComposition_args setSelectionRange(@com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.Range selectionRange) {
+      this.selectionRange = selectionRange;
+      return this;
+    }
+
+    public void unsetSelectionRange() {
+      this.selectionRange = null;
+    }
+
+    /** Returns true if field selectionRange is set (has been assigned a value) and false otherwise */
+    public boolean isSetSelectionRange() {
+      return this.selectionRange != null;
+    }
+
+    public void setSelectionRangeIsSet(boolean value) {
+      if (!value) {
+        this.selectionRange = null;
+      }
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case BID:
+        if (value == null) {
+          unsetBid();
+        } else {
+          setBid((java.lang.Integer)value);
+        }
+        break;
+
+      case TEXT:
+        if (value == null) {
+          unsetText();
+        } else {
+          setText((java.lang.String)value);
+        }
+        break;
+
+      case UNDERLINES:
+        if (value == null) {
+          unsetUnderlines();
+        } else {
+          setUnderlines((java.util.List<com.jetbrains.cef.remote.thrift_codegen.CompositionUnderline>)value);
+        }
+        break;
+
+      case REPLACEMENT_RANGE:
+        if (value == null) {
+          unsetReplacementRange();
+        } else {
+          setReplacementRange((com.jetbrains.cef.remote.thrift_codegen.Range)value);
+        }
+        break;
+
+      case SELECTION_RANGE:
+        if (value == null) {
+          unsetSelectionRange();
+        } else {
+          setSelectionRange((com.jetbrains.cef.remote.thrift_codegen.Range)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case BID:
+        return getBid();
+
+      case TEXT:
+        return getText();
+
+      case UNDERLINES:
+        return getUnderlines();
+
+      case REPLACEMENT_RANGE:
+        return getReplacementRange();
+
+      case SELECTION_RANGE:
+        return getSelectionRange();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case BID:
+        return isSetBid();
+      case TEXT:
+        return isSetText();
+      case UNDERLINES:
+        return isSetUnderlines();
+      case REPLACEMENT_RANGE:
+        return isSetReplacementRange();
+      case SELECTION_RANGE:
+        return isSetSelectionRange();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof Browser_ImeSetComposition_args)
+        return this.equals((Browser_ImeSetComposition_args)that);
+      return false;
+    }
+
+    public boolean equals(Browser_ImeSetComposition_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_bid = true;
+      boolean that_present_bid = true;
+      if (this_present_bid || that_present_bid) {
+        if (!(this_present_bid && that_present_bid))
+          return false;
+        if (this.bid != that.bid)
+          return false;
+      }
+
+      boolean this_present_text = true && this.isSetText();
+      boolean that_present_text = true && that.isSetText();
+      if (this_present_text || that_present_text) {
+        if (!(this_present_text && that_present_text))
+          return false;
+        if (!this.text.equals(that.text))
+          return false;
+      }
+
+      boolean this_present_underlines = true && this.isSetUnderlines();
+      boolean that_present_underlines = true && that.isSetUnderlines();
+      if (this_present_underlines || that_present_underlines) {
+        if (!(this_present_underlines && that_present_underlines))
+          return false;
+        if (!this.underlines.equals(that.underlines))
+          return false;
+      }
+
+      boolean this_present_replacementRange = true && this.isSetReplacementRange();
+      boolean that_present_replacementRange = true && that.isSetReplacementRange();
+      if (this_present_replacementRange || that_present_replacementRange) {
+        if (!(this_present_replacementRange && that_present_replacementRange))
+          return false;
+        if (!this.replacementRange.equals(that.replacementRange))
+          return false;
+      }
+
+      boolean this_present_selectionRange = true && this.isSetSelectionRange();
+      boolean that_present_selectionRange = true && that.isSetSelectionRange();
+      if (this_present_selectionRange || that_present_selectionRange) {
+        if (!(this_present_selectionRange && that_present_selectionRange))
+          return false;
+        if (!this.selectionRange.equals(that.selectionRange))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + bid;
+
+      hashCode = hashCode * 8191 + ((isSetText()) ? 131071 : 524287);
+      if (isSetText())
+        hashCode = hashCode * 8191 + text.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetUnderlines()) ? 131071 : 524287);
+      if (isSetUnderlines())
+        hashCode = hashCode * 8191 + underlines.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetReplacementRange()) ? 131071 : 524287);
+      if (isSetReplacementRange())
+        hashCode = hashCode * 8191 + replacementRange.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetSelectionRange()) ? 131071 : 524287);
+      if (isSetSelectionRange())
+        hashCode = hashCode * 8191 + selectionRange.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(Browser_ImeSetComposition_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetBid()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetText(), other.isSetText());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetText()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.text, other.text);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetUnderlines(), other.isSetUnderlines());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetUnderlines()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.underlines, other.underlines);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetReplacementRange(), other.isSetReplacementRange());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetReplacementRange()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.replacementRange, other.replacementRange);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetSelectionRange(), other.isSetSelectionRange());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSelectionRange()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.selectionRange, other.selectionRange);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("Browser_ImeSetComposition_args(");
+      boolean first = true;
+
+      sb.append("bid:");
+      sb.append(this.bid);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("text:");
+      if (this.text == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.text);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("underlines:");
+      if (this.underlines == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.underlines);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("replacementRange:");
+      if (this.replacementRange == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.replacementRange);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("selectionRange:");
+      if (this.selectionRange == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.selectionRange);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (replacementRange != null) {
+        replacementRange.validate();
+      }
+      if (selectionRange != null) {
+        selectionRange.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class Browser_ImeSetComposition_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public Browser_ImeSetComposition_argsStandardScheme getScheme() {
+        return new Browser_ImeSetComposition_argsStandardScheme();
+      }
+    }
+
+    private static class Browser_ImeSetComposition_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<Browser_ImeSetComposition_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, Browser_ImeSetComposition_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // BID
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
+                struct.bid = iprot.readI32();
+                struct.setBidIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // TEXT
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRING) {
+                struct.text = iprot.readString();
+                struct.setTextIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 3: // UNDERLINES
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.LIST) {
+                {
+                  com.jetbrains.cef.remote.thrift.protocol.TList _list34 = iprot.readListBegin();
+                  struct.underlines = new java.util.ArrayList<com.jetbrains.cef.remote.thrift_codegen.CompositionUnderline>(_list34.size);
+                  @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.CompositionUnderline _elem35;
+                  for (int _i36 = 0; _i36 < _list34.size; ++_i36)
+                  {
+                    _elem35 = new com.jetbrains.cef.remote.thrift_codegen.CompositionUnderline();
+                    _elem35.read(iprot);
+                    struct.underlines.add(_elem35);
+                  }
+                  iprot.readListEnd();
+                }
+                struct.setUnderlinesIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 4: // REPLACEMENT_RANGE
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                struct.replacementRange = new com.jetbrains.cef.remote.thrift_codegen.Range();
+                struct.replacementRange.read(iprot);
+                struct.setReplacementRangeIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 5: // SELECTION_RANGE
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                struct.selectionRange = new com.jetbrains.cef.remote.thrift_codegen.Range();
+                struct.selectionRange.read(iprot);
+                struct.setSelectionRangeIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, Browser_ImeSetComposition_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(BID_FIELD_DESC);
+        oprot.writeI32(struct.bid);
+        oprot.writeFieldEnd();
+        if (struct.text != null) {
+          oprot.writeFieldBegin(TEXT_FIELD_DESC);
+          oprot.writeString(struct.text);
+          oprot.writeFieldEnd();
+        }
+        if (struct.underlines != null) {
+          oprot.writeFieldBegin(UNDERLINES_FIELD_DESC);
+          {
+            oprot.writeListBegin(new com.jetbrains.cef.remote.thrift.protocol.TList(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, struct.underlines.size()));
+            for (com.jetbrains.cef.remote.thrift_codegen.CompositionUnderline _iter37 : struct.underlines)
+            {
+              _iter37.write(oprot);
+            }
+            oprot.writeListEnd();
+          }
+          oprot.writeFieldEnd();
+        }
+        if (struct.replacementRange != null) {
+          oprot.writeFieldBegin(REPLACEMENT_RANGE_FIELD_DESC);
+          struct.replacementRange.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        if (struct.selectionRange != null) {
+          oprot.writeFieldBegin(SELECTION_RANGE_FIELD_DESC);
+          struct.selectionRange.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class Browser_ImeSetComposition_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public Browser_ImeSetComposition_argsTupleScheme getScheme() {
+        return new Browser_ImeSetComposition_argsTupleScheme();
+      }
+    }
+
+    private static class Browser_ImeSetComposition_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<Browser_ImeSetComposition_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, Browser_ImeSetComposition_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetBid()) {
+          optionals.set(0);
+        }
+        if (struct.isSetText()) {
+          optionals.set(1);
+        }
+        if (struct.isSetUnderlines()) {
+          optionals.set(2);
+        }
+        if (struct.isSetReplacementRange()) {
+          optionals.set(3);
+        }
+        if (struct.isSetSelectionRange()) {
+          optionals.set(4);
+        }
+        oprot.writeBitSet(optionals, 5);
+        if (struct.isSetBid()) {
+          oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetText()) {
+          oprot.writeString(struct.text);
+        }
+        if (struct.isSetUnderlines()) {
+          {
+            oprot.writeI32(struct.underlines.size());
+            for (com.jetbrains.cef.remote.thrift_codegen.CompositionUnderline _iter38 : struct.underlines)
+            {
+              _iter38.write(oprot);
+            }
+          }
+        }
+        if (struct.isSetReplacementRange()) {
+          struct.replacementRange.write(oprot);
+        }
+        if (struct.isSetSelectionRange()) {
+          struct.selectionRange.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, Browser_ImeSetComposition_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(5);
+        if (incoming.get(0)) {
+          struct.bid = iprot.readI32();
+          struct.setBidIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.text = iprot.readString();
+          struct.setTextIsSet(true);
+        }
+        if (incoming.get(2)) {
+          {
+            com.jetbrains.cef.remote.thrift.protocol.TList _list39 = iprot.readListBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT);
+            struct.underlines = new java.util.ArrayList<com.jetbrains.cef.remote.thrift_codegen.CompositionUnderline>(_list39.size);
+            @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.CompositionUnderline _elem40;
+            for (int _i41 = 0; _i41 < _list39.size; ++_i41)
+            {
+              _elem40 = new com.jetbrains.cef.remote.thrift_codegen.CompositionUnderline();
+              _elem40.read(iprot);
+              struct.underlines.add(_elem40);
+            }
+          }
+          struct.setUnderlinesIsSet(true);
+        }
+        if (incoming.get(3)) {
+          struct.replacementRange = new com.jetbrains.cef.remote.thrift_codegen.Range();
+          struct.replacementRange.read(iprot);
+          struct.setReplacementRangeIsSet(true);
+        }
+        if (incoming.get(4)) {
+          struct.selectionRange = new com.jetbrains.cef.remote.thrift_codegen.Range();
+          struct.selectionRange.read(iprot);
+          struct.setSelectionRangeIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class Browser_ImeCommitText_args implements com.jetbrains.cef.remote.thrift.TBase<Browser_ImeCommitText_args, Browser_ImeCommitText_args._Fields>, java.io.Serializable, Cloneable, Comparable<Browser_ImeCommitText_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("Browser_ImeCommitText_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField BID_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("bid", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)1);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField TEXT_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("text", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)2);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField REPLACEMENT_RANGE_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("replacementRange", com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, (short)3);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField RELATIVE_CURSOR_POS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("relativeCursorPos", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)4);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new Browser_ImeCommitText_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new Browser_ImeCommitText_argsTupleSchemeFactory();
+
+    public int bid; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String text; // required
+    public @com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.Range replacementRange; // required
+    public int relativeCursorPos; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      BID((short)1, "bid"),
+      TEXT((short)2, "text"),
+      REPLACEMENT_RANGE((short)3, "replacementRange"),
+      RELATIVE_CURSOR_POS((short)4, "relativeCursorPos");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // BID
+            return BID;
+          case 2: // TEXT
+            return TEXT;
+          case 3: // REPLACEMENT_RANGE
+            return REPLACEMENT_RANGE;
+          case 4: // RELATIVE_CURSOR_POS
+            return RELATIVE_CURSOR_POS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __BID_ISSET_ID = 0;
+    private static final int __RELATIVECURSORPOS_ISSET_ID = 1;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.BID, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("bid", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.TEXT, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("text", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.REPLACEMENT_RANGE, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("replacementRange", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.StructMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT, com.jetbrains.cef.remote.thrift_codegen.Range.class)));
+      tmpMap.put(_Fields.RELATIVE_CURSOR_POS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("relativeCursorPos", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Browser_ImeCommitText_args.class, metaDataMap);
+    }
+
+    public Browser_ImeCommitText_args() {
+    }
+
+    public Browser_ImeCommitText_args(
+      int bid,
+      java.lang.String text,
+      com.jetbrains.cef.remote.thrift_codegen.Range replacementRange,
+      int relativeCursorPos)
+    {
+      this();
+      this.bid = bid;
+      setBidIsSet(true);
+      this.text = text;
+      this.replacementRange = replacementRange;
+      this.relativeCursorPos = relativeCursorPos;
+      setRelativeCursorPosIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public Browser_ImeCommitText_args(Browser_ImeCommitText_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.bid = other.bid;
+      if (other.isSetText()) {
+        this.text = other.text;
+      }
+      if (other.isSetReplacementRange()) {
+        this.replacementRange = new com.jetbrains.cef.remote.thrift_codegen.Range(other.replacementRange);
+      }
+      this.relativeCursorPos = other.relativeCursorPos;
+    }
+
+    @Override
+    public Browser_ImeCommitText_args deepCopy() {
+      return new Browser_ImeCommitText_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setBidIsSet(false);
+      this.bid = 0;
+      this.text = null;
+      this.replacementRange = null;
+      setRelativeCursorPosIsSet(false);
+      this.relativeCursorPos = 0;
+    }
+
+    public int getBid() {
+      return this.bid;
+    }
+
+    public Browser_ImeCommitText_args setBid(int bid) {
+      this.bid = bid;
+      setBidIsSet(true);
+      return this;
+    }
+
+    public void unsetBid() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    /** Returns true if field bid is set (has been assigned a value) and false otherwise */
+    public boolean isSetBid() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    public void setBidIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public java.lang.String getText() {
+      return this.text;
+    }
+
+    public Browser_ImeCommitText_args setText(@com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String text) {
+      this.text = text;
+      return this;
+    }
+
+    public void unsetText() {
+      this.text = null;
+    }
+
+    /** Returns true if field text is set (has been assigned a value) and false otherwise */
+    public boolean isSetText() {
+      return this.text != null;
+    }
+
+    public void setTextIsSet(boolean value) {
+      if (!value) {
+        this.text = null;
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    public com.jetbrains.cef.remote.thrift_codegen.Range getReplacementRange() {
+      return this.replacementRange;
+    }
+
+    public Browser_ImeCommitText_args setReplacementRange(@com.jetbrains.cef.remote.thrift.annotation.Nullable com.jetbrains.cef.remote.thrift_codegen.Range replacementRange) {
+      this.replacementRange = replacementRange;
+      return this;
+    }
+
+    public void unsetReplacementRange() {
+      this.replacementRange = null;
+    }
+
+    /** Returns true if field replacementRange is set (has been assigned a value) and false otherwise */
+    public boolean isSetReplacementRange() {
+      return this.replacementRange != null;
+    }
+
+    public void setReplacementRangeIsSet(boolean value) {
+      if (!value) {
+        this.replacementRange = null;
+      }
+    }
+
+    public int getRelativeCursorPos() {
+      return this.relativeCursorPos;
+    }
+
+    public Browser_ImeCommitText_args setRelativeCursorPos(int relativeCursorPos) {
+      this.relativeCursorPos = relativeCursorPos;
+      setRelativeCursorPosIsSet(true);
+      return this;
+    }
+
+    public void unsetRelativeCursorPos() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __RELATIVECURSORPOS_ISSET_ID);
+    }
+
+    /** Returns true if field relativeCursorPos is set (has been assigned a value) and false otherwise */
+    public boolean isSetRelativeCursorPos() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __RELATIVECURSORPOS_ISSET_ID);
+    }
+
+    public void setRelativeCursorPosIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __RELATIVECURSORPOS_ISSET_ID, value);
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case BID:
+        if (value == null) {
+          unsetBid();
+        } else {
+          setBid((java.lang.Integer)value);
+        }
+        break;
+
+      case TEXT:
+        if (value == null) {
+          unsetText();
+        } else {
+          setText((java.lang.String)value);
+        }
+        break;
+
+      case REPLACEMENT_RANGE:
+        if (value == null) {
+          unsetReplacementRange();
+        } else {
+          setReplacementRange((com.jetbrains.cef.remote.thrift_codegen.Range)value);
+        }
+        break;
+
+      case RELATIVE_CURSOR_POS:
+        if (value == null) {
+          unsetRelativeCursorPos();
+        } else {
+          setRelativeCursorPos((java.lang.Integer)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case BID:
+        return getBid();
+
+      case TEXT:
+        return getText();
+
+      case REPLACEMENT_RANGE:
+        return getReplacementRange();
+
+      case RELATIVE_CURSOR_POS:
+        return getRelativeCursorPos();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case BID:
+        return isSetBid();
+      case TEXT:
+        return isSetText();
+      case REPLACEMENT_RANGE:
+        return isSetReplacementRange();
+      case RELATIVE_CURSOR_POS:
+        return isSetRelativeCursorPos();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof Browser_ImeCommitText_args)
+        return this.equals((Browser_ImeCommitText_args)that);
+      return false;
+    }
+
+    public boolean equals(Browser_ImeCommitText_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_bid = true;
+      boolean that_present_bid = true;
+      if (this_present_bid || that_present_bid) {
+        if (!(this_present_bid && that_present_bid))
+          return false;
+        if (this.bid != that.bid)
+          return false;
+      }
+
+      boolean this_present_text = true && this.isSetText();
+      boolean that_present_text = true && that.isSetText();
+      if (this_present_text || that_present_text) {
+        if (!(this_present_text && that_present_text))
+          return false;
+        if (!this.text.equals(that.text))
+          return false;
+      }
+
+      boolean this_present_replacementRange = true && this.isSetReplacementRange();
+      boolean that_present_replacementRange = true && that.isSetReplacementRange();
+      if (this_present_replacementRange || that_present_replacementRange) {
+        if (!(this_present_replacementRange && that_present_replacementRange))
+          return false;
+        if (!this.replacementRange.equals(that.replacementRange))
+          return false;
+      }
+
+      boolean this_present_relativeCursorPos = true;
+      boolean that_present_relativeCursorPos = true;
+      if (this_present_relativeCursorPos || that_present_relativeCursorPos) {
+        if (!(this_present_relativeCursorPos && that_present_relativeCursorPos))
+          return false;
+        if (this.relativeCursorPos != that.relativeCursorPos)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + bid;
+
+      hashCode = hashCode * 8191 + ((isSetText()) ? 131071 : 524287);
+      if (isSetText())
+        hashCode = hashCode * 8191 + text.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetReplacementRange()) ? 131071 : 524287);
+      if (isSetReplacementRange())
+        hashCode = hashCode * 8191 + replacementRange.hashCode();
+
+      hashCode = hashCode * 8191 + relativeCursorPos;
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(Browser_ImeCommitText_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetBid()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetText(), other.isSetText());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetText()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.text, other.text);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetReplacementRange(), other.isSetReplacementRange());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetReplacementRange()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.replacementRange, other.replacementRange);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetRelativeCursorPos(), other.isSetRelativeCursorPos());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetRelativeCursorPos()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.relativeCursorPos, other.relativeCursorPos);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("Browser_ImeCommitText_args(");
+      boolean first = true;
+
+      sb.append("bid:");
+      sb.append(this.bid);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("text:");
+      if (this.text == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.text);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("replacementRange:");
+      if (this.replacementRange == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.replacementRange);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("relativeCursorPos:");
+      sb.append(this.relativeCursorPos);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (replacementRange != null) {
+        replacementRange.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class Browser_ImeCommitText_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public Browser_ImeCommitText_argsStandardScheme getScheme() {
+        return new Browser_ImeCommitText_argsStandardScheme();
+      }
+    }
+
+    private static class Browser_ImeCommitText_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<Browser_ImeCommitText_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, Browser_ImeCommitText_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // BID
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
+                struct.bid = iprot.readI32();
+                struct.setBidIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // TEXT
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRING) {
+                struct.text = iprot.readString();
+                struct.setTextIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 3: // REPLACEMENT_RANGE
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRUCT) {
+                struct.replacementRange = new com.jetbrains.cef.remote.thrift_codegen.Range();
+                struct.replacementRange.read(iprot);
+                struct.setReplacementRangeIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 4: // RELATIVE_CURSOR_POS
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
+                struct.relativeCursorPos = iprot.readI32();
+                struct.setRelativeCursorPosIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, Browser_ImeCommitText_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(BID_FIELD_DESC);
+        oprot.writeI32(struct.bid);
+        oprot.writeFieldEnd();
+        if (struct.text != null) {
+          oprot.writeFieldBegin(TEXT_FIELD_DESC);
+          oprot.writeString(struct.text);
+          oprot.writeFieldEnd();
+        }
+        if (struct.replacementRange != null) {
+          oprot.writeFieldBegin(REPLACEMENT_RANGE_FIELD_DESC);
+          struct.replacementRange.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldBegin(RELATIVE_CURSOR_POS_FIELD_DESC);
+        oprot.writeI32(struct.relativeCursorPos);
+        oprot.writeFieldEnd();
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class Browser_ImeCommitText_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public Browser_ImeCommitText_argsTupleScheme getScheme() {
+        return new Browser_ImeCommitText_argsTupleScheme();
+      }
+    }
+
+    private static class Browser_ImeCommitText_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<Browser_ImeCommitText_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, Browser_ImeCommitText_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetBid()) {
+          optionals.set(0);
+        }
+        if (struct.isSetText()) {
+          optionals.set(1);
+        }
+        if (struct.isSetReplacementRange()) {
+          optionals.set(2);
+        }
+        if (struct.isSetRelativeCursorPos()) {
+          optionals.set(3);
+        }
+        oprot.writeBitSet(optionals, 4);
+        if (struct.isSetBid()) {
+          oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetText()) {
+          oprot.writeString(struct.text);
+        }
+        if (struct.isSetReplacementRange()) {
+          struct.replacementRange.write(oprot);
+        }
+        if (struct.isSetRelativeCursorPos()) {
+          oprot.writeI32(struct.relativeCursorPos);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, Browser_ImeCommitText_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(4);
+        if (incoming.get(0)) {
+          struct.bid = iprot.readI32();
+          struct.setBidIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.text = iprot.readString();
+          struct.setTextIsSet(true);
+        }
+        if (incoming.get(2)) {
+          struct.replacementRange = new com.jetbrains.cef.remote.thrift_codegen.Range();
+          struct.replacementRange.read(iprot);
+          struct.setReplacementRangeIsSet(true);
+        }
+        if (incoming.get(3)) {
+          struct.relativeCursorPos = iprot.readI32();
+          struct.setRelativeCursorPosIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class Browser_ImeFinishComposingText_args implements com.jetbrains.cef.remote.thrift.TBase<Browser_ImeFinishComposingText_args, Browser_ImeFinishComposingText_args._Fields>, java.io.Serializable, Cloneable, Comparable<Browser_ImeFinishComposingText_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("Browser_ImeFinishComposingText_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField BID_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("bid", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)1);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField KEEP_SELECTION_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("keepSelection", com.jetbrains.cef.remote.thrift.protocol.TType.BOOL, (short)2);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new Browser_ImeFinishComposingText_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new Browser_ImeFinishComposingText_argsTupleSchemeFactory();
+
+    public int bid; // required
+    public boolean keepSelection; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      BID((short)1, "bid"),
+      KEEP_SELECTION((short)2, "keepSelection");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // BID
+            return BID;
+          case 2: // KEEP_SELECTION
+            return KEEP_SELECTION;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __BID_ISSET_ID = 0;
+    private static final int __KEEPSELECTION_ISSET_ID = 1;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.BID, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("bid", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.KEEP_SELECTION, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("keepSelection", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.BOOL)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Browser_ImeFinishComposingText_args.class, metaDataMap);
+    }
+
+    public Browser_ImeFinishComposingText_args() {
+    }
+
+    public Browser_ImeFinishComposingText_args(
+      int bid,
+      boolean keepSelection)
+    {
+      this();
+      this.bid = bid;
+      setBidIsSet(true);
+      this.keepSelection = keepSelection;
+      setKeepSelectionIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public Browser_ImeFinishComposingText_args(Browser_ImeFinishComposingText_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.bid = other.bid;
+      this.keepSelection = other.keepSelection;
+    }
+
+    @Override
+    public Browser_ImeFinishComposingText_args deepCopy() {
+      return new Browser_ImeFinishComposingText_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setBidIsSet(false);
+      this.bid = 0;
+      setKeepSelectionIsSet(false);
+      this.keepSelection = false;
+    }
+
+    public int getBid() {
+      return this.bid;
+    }
+
+    public Browser_ImeFinishComposingText_args setBid(int bid) {
+      this.bid = bid;
+      setBidIsSet(true);
+      return this;
+    }
+
+    public void unsetBid() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    /** Returns true if field bid is set (has been assigned a value) and false otherwise */
+    public boolean isSetBid() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    public void setBidIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    public boolean isKeepSelection() {
+      return this.keepSelection;
+    }
+
+    public Browser_ImeFinishComposingText_args setKeepSelection(boolean keepSelection) {
+      this.keepSelection = keepSelection;
+      setKeepSelectionIsSet(true);
+      return this;
+    }
+
+    public void unsetKeepSelection() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __KEEPSELECTION_ISSET_ID);
+    }
+
+    /** Returns true if field keepSelection is set (has been assigned a value) and false otherwise */
+    public boolean isSetKeepSelection() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __KEEPSELECTION_ISSET_ID);
+    }
+
+    public void setKeepSelectionIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __KEEPSELECTION_ISSET_ID, value);
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case BID:
+        if (value == null) {
+          unsetBid();
+        } else {
+          setBid((java.lang.Integer)value);
+        }
+        break;
+
+      case KEEP_SELECTION:
+        if (value == null) {
+          unsetKeepSelection();
+        } else {
+          setKeepSelection((java.lang.Boolean)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case BID:
+        return getBid();
+
+      case KEEP_SELECTION:
+        return isKeepSelection();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case BID:
+        return isSetBid();
+      case KEEP_SELECTION:
+        return isSetKeepSelection();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof Browser_ImeFinishComposingText_args)
+        return this.equals((Browser_ImeFinishComposingText_args)that);
+      return false;
+    }
+
+    public boolean equals(Browser_ImeFinishComposingText_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_bid = true;
+      boolean that_present_bid = true;
+      if (this_present_bid || that_present_bid) {
+        if (!(this_present_bid && that_present_bid))
+          return false;
+        if (this.bid != that.bid)
+          return false;
+      }
+
+      boolean this_present_keepSelection = true;
+      boolean that_present_keepSelection = true;
+      if (this_present_keepSelection || that_present_keepSelection) {
+        if (!(this_present_keepSelection && that_present_keepSelection))
+          return false;
+        if (this.keepSelection != that.keepSelection)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + bid;
+
+      hashCode = hashCode * 8191 + ((keepSelection) ? 131071 : 524287);
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(Browser_ImeFinishComposingText_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetBid()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetKeepSelection(), other.isSetKeepSelection());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetKeepSelection()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.keepSelection, other.keepSelection);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("Browser_ImeFinishComposingText_args(");
+      boolean first = true;
+
+      sb.append("bid:");
+      sb.append(this.bid);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("keepSelection:");
+      sb.append(this.keepSelection);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class Browser_ImeFinishComposingText_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public Browser_ImeFinishComposingText_argsStandardScheme getScheme() {
+        return new Browser_ImeFinishComposingText_argsStandardScheme();
+      }
+    }
+
+    private static class Browser_ImeFinishComposingText_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<Browser_ImeFinishComposingText_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, Browser_ImeFinishComposingText_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // BID
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
+                struct.bid = iprot.readI32();
+                struct.setBidIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // KEEP_SELECTION
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.BOOL) {
+                struct.keepSelection = iprot.readBool();
+                struct.setKeepSelectionIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, Browser_ImeFinishComposingText_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(BID_FIELD_DESC);
+        oprot.writeI32(struct.bid);
+        oprot.writeFieldEnd();
+        oprot.writeFieldBegin(KEEP_SELECTION_FIELD_DESC);
+        oprot.writeBool(struct.keepSelection);
+        oprot.writeFieldEnd();
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class Browser_ImeFinishComposingText_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public Browser_ImeFinishComposingText_argsTupleScheme getScheme() {
+        return new Browser_ImeFinishComposingText_argsTupleScheme();
+      }
+    }
+
+    private static class Browser_ImeFinishComposingText_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<Browser_ImeFinishComposingText_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, Browser_ImeFinishComposingText_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetBid()) {
+          optionals.set(0);
+        }
+        if (struct.isSetKeepSelection()) {
+          optionals.set(1);
+        }
+        oprot.writeBitSet(optionals, 2);
+        if (struct.isSetBid()) {
+          oprot.writeI32(struct.bid);
+        }
+        if (struct.isSetKeepSelection()) {
+          oprot.writeBool(struct.keepSelection);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, Browser_ImeFinishComposingText_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(2);
+        if (incoming.get(0)) {
+          struct.bid = iprot.readI32();
+          struct.setBidIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.keepSelection = iprot.readBool();
+          struct.setKeepSelectionIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
+  public static class Browser_ImeCancelComposing_args implements com.jetbrains.cef.remote.thrift.TBase<Browser_ImeCancelComposing_args, Browser_ImeCancelComposing_args._Fields>, java.io.Serializable, Cloneable, Comparable<Browser_ImeCancelComposing_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("Browser_ImeCancelComposing_args");
+
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField BID_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("bid", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)1);
+
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new Browser_ImeCancelComposing_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new Browser_ImeCancelComposing_argsTupleSchemeFactory();
+
+    public int bid; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
+      BID((short)1, "bid");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // BID
+            return BID;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @com.jetbrains.cef.remote.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      @Override
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      @Override
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __BID_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.BID, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("bid", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
+          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Browser_ImeCancelComposing_args.class, metaDataMap);
+    }
+
+    public Browser_ImeCancelComposing_args() {
+    }
+
+    public Browser_ImeCancelComposing_args(
+      int bid)
+    {
+      this();
+      this.bid = bid;
+      setBidIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public Browser_ImeCancelComposing_args(Browser_ImeCancelComposing_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.bid = other.bid;
+    }
+
+    @Override
+    public Browser_ImeCancelComposing_args deepCopy() {
+      return new Browser_ImeCancelComposing_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setBidIsSet(false);
+      this.bid = 0;
+    }
+
+    public int getBid() {
+      return this.bid;
+    }
+
+    public Browser_ImeCancelComposing_args setBid(int bid) {
+      this.bid = bid;
+      setBidIsSet(true);
+      return this;
+    }
+
+    public void unsetBid() {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    /** Returns true if field bid is set (has been assigned a value) and false otherwise */
+    public boolean isSetBid() {
+      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __BID_ISSET_ID);
+    }
+
+    public void setBidIsSet(boolean value) {
+      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
+    }
+
+    @Override
+    public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case BID:
+        if (value == null) {
+          unsetBid();
+        } else {
+          setBid((java.lang.Integer)value);
+        }
+        break;
+
+      }
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case BID:
+        return getBid();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case BID:
+        return isSetBid();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that instanceof Browser_ImeCancelComposing_args)
+        return this.equals((Browser_ImeCancelComposing_args)that);
+      return false;
+    }
+
+    public boolean equals(Browser_ImeCancelComposing_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_bid = true;
+      boolean that_present_bid = true;
+      if (this_present_bid || that_present_bid) {
+        if (!(this_present_bid && that_present_bid))
+          return false;
+        if (this.bid != that.bid)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + bid;
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(Browser_ImeCancelComposing_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetBid(), other.isSetBid());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetBid()) {
+        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.bid, other.bid);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @com.jetbrains.cef.remote.thrift.annotation.Nullable
+    @Override
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    @Override
+    public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    @Override
+    public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot) throws com.jetbrains.cef.remote.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("Browser_ImeCancelComposing_args(");
+      boolean first = true;
+
+      sb.append("bid:");
+      sb.append(this.bid);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws com.jetbrains.cef.remote.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(out)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new com.jetbrains.cef.remote.thrift.protocol.TCompactProtocol(new com.jetbrains.cef.remote.thrift.transport.TIOStreamTransport(in)));
+      } catch (com.jetbrains.cef.remote.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class Browser_ImeCancelComposing_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public Browser_ImeCancelComposing_argsStandardScheme getScheme() {
+        return new Browser_ImeCancelComposing_argsStandardScheme();
+      }
+    }
+
+    private static class Browser_ImeCancelComposing_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<Browser_ImeCancelComposing_args> {
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, Browser_ImeCancelComposing_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // BID
+              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
+                struct.bid = iprot.readI32();
+                struct.setBidIsSet(true);
+              } else { 
+                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, Browser_ImeCancelComposing_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(BID_FIELD_DESC);
+        oprot.writeI32(struct.bid);
+        oprot.writeFieldEnd();
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class Browser_ImeCancelComposing_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+      @Override
+      public Browser_ImeCancelComposing_argsTupleScheme getScheme() {
+        return new Browser_ImeCancelComposing_argsTupleScheme();
+      }
+    }
+
+    private static class Browser_ImeCancelComposing_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<Browser_ImeCancelComposing_args> {
+
+      @Override
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, Browser_ImeCancelComposing_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetBid()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetBid()) {
+          oprot.writeI32(struct.bid);
+        }
+      }
+
+      @Override
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, Browser_ImeCancelComposing_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+        com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.bid = iprot.readI32();
+          struct.setBidIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends com.jetbrains.cef.remote.thrift.scheme.IScheme> S scheme(com.jetbrains.cef.remote.thrift.protocol.TProtocol proto) {
+      return (com.jetbrains.cef.remote.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
   public static class Frame_ExecuteJavaScript_args implements com.jetbrains.cef.remote.thrift.TBase<Frame_ExecuteJavaScript_args, Frame_ExecuteJavaScript_args._Fields>, java.io.Serializable, Cloneable, Comparable<Frame_ExecuteJavaScript_args>   {
     private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("Frame_ExecuteJavaScript_args");
 
@@ -59978,15 +62882,15 @@ public class Server {
             case 0: // SUCCESS
               if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.MAP) {
                 {
-                  com.jetbrains.cef.remote.thrift.protocol.TMap _map34 = iprot.readMapBegin();
-                  struct.success = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map34.size);
-                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key35;
-                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val36;
-                  for (int _i37 = 0; _i37 < _map34.size; ++_i37)
+                  com.jetbrains.cef.remote.thrift.protocol.TMap _map42 = iprot.readMapBegin();
+                  struct.success = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map42.size);
+                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key43;
+                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val44;
+                  for (int _i45 = 0; _i45 < _map42.size; ++_i45)
                   {
-                    _key35 = iprot.readString();
-                    _val36 = iprot.readString();
-                    struct.success.put(_key35, _val36);
+                    _key43 = iprot.readString();
+                    _val44 = iprot.readString();
+                    struct.success.put(_key43, _val44);
                   }
                   iprot.readMapEnd();
                 }
@@ -60015,10 +62919,10 @@ public class Server {
           oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
           {
             oprot.writeMapBegin(new com.jetbrains.cef.remote.thrift.protocol.TMap(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, com.jetbrains.cef.remote.thrift.protocol.TType.STRING, struct.success.size()));
-            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter38 : struct.success.entrySet())
+            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter46 : struct.success.entrySet())
             {
-              oprot.writeString(_iter38.getKey());
-              oprot.writeString(_iter38.getValue());
+              oprot.writeString(_iter46.getKey());
+              oprot.writeString(_iter46.getValue());
             }
             oprot.writeMapEnd();
           }
@@ -60050,10 +62954,10 @@ public class Server {
         if (struct.isSetSuccess()) {
           {
             oprot.writeI32(struct.success.size());
-            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter39 : struct.success.entrySet())
+            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter47 : struct.success.entrySet())
             {
-              oprot.writeString(_iter39.getKey());
-              oprot.writeString(_iter39.getValue());
+              oprot.writeString(_iter47.getKey());
+              oprot.writeString(_iter47.getValue());
             }
           }
         }
@@ -60065,15 +62969,15 @@ public class Server {
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
           {
-            com.jetbrains.cef.remote.thrift.protocol.TMap _map40 = iprot.readMapBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, com.jetbrains.cef.remote.thrift.protocol.TType.STRING); 
-            struct.success = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map40.size);
-            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key41;
-            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val42;
-            for (int _i43 = 0; _i43 < _map40.size; ++_i43)
+            com.jetbrains.cef.remote.thrift.protocol.TMap _map48 = iprot.readMapBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, com.jetbrains.cef.remote.thrift.protocol.TType.STRING); 
+            struct.success = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map48.size);
+            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key49;
+            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val50;
+            for (int _i51 = 0; _i51 < _map48.size; ++_i51)
             {
-              _key41 = iprot.readString();
-              _val42 = iprot.readString();
-              struct.success.put(_key41, _val42);
+              _key49 = iprot.readString();
+              _val50 = iprot.readString();
+              struct.success.put(_key49, _val50);
             }
           }
           struct.setSuccessIsSet(true);
@@ -60503,15 +63407,15 @@ public class Server {
             case 2: // HEADER_MAP
               if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.MAP) {
                 {
-                  com.jetbrains.cef.remote.thrift.protocol.TMap _map44 = iprot.readMapBegin();
-                  struct.headerMap = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map44.size);
-                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key45;
-                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val46;
-                  for (int _i47 = 0; _i47 < _map44.size; ++_i47)
+                  com.jetbrains.cef.remote.thrift.protocol.TMap _map52 = iprot.readMapBegin();
+                  struct.headerMap = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map52.size);
+                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key53;
+                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val54;
+                  for (int _i55 = 0; _i55 < _map52.size; ++_i55)
                   {
-                    _key45 = iprot.readString();
-                    _val46 = iprot.readString();
-                    struct.headerMap.put(_key45, _val46);
+                    _key53 = iprot.readString();
+                    _val54 = iprot.readString();
+                    struct.headerMap.put(_key53, _val54);
                   }
                   iprot.readMapEnd();
                 }
@@ -60545,10 +63449,10 @@ public class Server {
           oprot.writeFieldBegin(HEADER_MAP_FIELD_DESC);
           {
             oprot.writeMapBegin(new com.jetbrains.cef.remote.thrift.protocol.TMap(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, com.jetbrains.cef.remote.thrift.protocol.TType.STRING, struct.headerMap.size()));
-            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter48 : struct.headerMap.entrySet())
+            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter56 : struct.headerMap.entrySet())
             {
-              oprot.writeString(_iter48.getKey());
-              oprot.writeString(_iter48.getValue());
+              oprot.writeString(_iter56.getKey());
+              oprot.writeString(_iter56.getValue());
             }
             oprot.writeMapEnd();
           }
@@ -60586,10 +63490,10 @@ public class Server {
         if (struct.isSetHeaderMap()) {
           {
             oprot.writeI32(struct.headerMap.size());
-            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter49 : struct.headerMap.entrySet())
+            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter57 : struct.headerMap.entrySet())
             {
-              oprot.writeString(_iter49.getKey());
-              oprot.writeString(_iter49.getValue());
+              oprot.writeString(_iter57.getKey());
+              oprot.writeString(_iter57.getValue());
             }
           }
         }
@@ -60606,15 +63510,15 @@ public class Server {
         }
         if (incoming.get(1)) {
           {
-            com.jetbrains.cef.remote.thrift.protocol.TMap _map50 = iprot.readMapBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, com.jetbrains.cef.remote.thrift.protocol.TType.STRING); 
-            struct.headerMap = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map50.size);
-            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key51;
-            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val52;
-            for (int _i53 = 0; _i53 < _map50.size; ++_i53)
+            com.jetbrains.cef.remote.thrift.protocol.TMap _map58 = iprot.readMapBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, com.jetbrains.cef.remote.thrift.protocol.TType.STRING); 
+            struct.headerMap = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map58.size);
+            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key59;
+            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val60;
+            for (int _i61 = 0; _i61 < _map58.size; ++_i61)
             {
-              _key51 = iprot.readString();
-              _val52 = iprot.readString();
-              struct.headerMap.put(_key51, _val52);
+              _key59 = iprot.readString();
+              _val60 = iprot.readString();
+              struct.headerMap.put(_key59, _val60);
             }
           }
           struct.setHeaderMapIsSet(true);
@@ -61583,15 +64487,15 @@ public class Server {
             case 5: // HEADER_MAP
               if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.MAP) {
                 {
-                  com.jetbrains.cef.remote.thrift.protocol.TMap _map54 = iprot.readMapBegin();
-                  struct.headerMap = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map54.size);
-                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key55;
-                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val56;
-                  for (int _i57 = 0; _i57 < _map54.size; ++_i57)
+                  com.jetbrains.cef.remote.thrift.protocol.TMap _map62 = iprot.readMapBegin();
+                  struct.headerMap = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map62.size);
+                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key63;
+                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val64;
+                  for (int _i65 = 0; _i65 < _map62.size; ++_i65)
                   {
-                    _key55 = iprot.readString();
-                    _val56 = iprot.readString();
-                    struct.headerMap.put(_key55, _val56);
+                    _key63 = iprot.readString();
+                    _val64 = iprot.readString();
+                    struct.headerMap.put(_key63, _val64);
                   }
                   iprot.readMapEnd();
                 }
@@ -61640,10 +64544,10 @@ public class Server {
           oprot.writeFieldBegin(HEADER_MAP_FIELD_DESC);
           {
             oprot.writeMapBegin(new com.jetbrains.cef.remote.thrift.protocol.TMap(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, com.jetbrains.cef.remote.thrift.protocol.TType.STRING, struct.headerMap.size()));
-            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter58 : struct.headerMap.entrySet())
+            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter66 : struct.headerMap.entrySet())
             {
-              oprot.writeString(_iter58.getKey());
-              oprot.writeString(_iter58.getValue());
+              oprot.writeString(_iter66.getKey());
+              oprot.writeString(_iter66.getValue());
             }
             oprot.writeMapEnd();
           }
@@ -61699,10 +64603,10 @@ public class Server {
         if (struct.isSetHeaderMap()) {
           {
             oprot.writeI32(struct.headerMap.size());
-            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter59 : struct.headerMap.entrySet())
+            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter67 : struct.headerMap.entrySet())
             {
-              oprot.writeString(_iter59.getKey());
-              oprot.writeString(_iter59.getValue());
+              oprot.writeString(_iter67.getKey());
+              oprot.writeString(_iter67.getValue());
             }
           }
         }
@@ -61732,15 +64636,15 @@ public class Server {
         }
         if (incoming.get(4)) {
           {
-            com.jetbrains.cef.remote.thrift.protocol.TMap _map60 = iprot.readMapBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, com.jetbrains.cef.remote.thrift.protocol.TType.STRING); 
-            struct.headerMap = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map60.size);
-            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key61;
-            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val62;
-            for (int _i63 = 0; _i63 < _map60.size; ++_i63)
+            com.jetbrains.cef.remote.thrift.protocol.TMap _map68 = iprot.readMapBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, com.jetbrains.cef.remote.thrift.protocol.TType.STRING); 
+            struct.headerMap = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map68.size);
+            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key69;
+            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val70;
+            for (int _i71 = 0; _i71 < _map68.size; ++_i71)
             {
-              _key61 = iprot.readString();
-              _val62 = iprot.readString();
-              struct.headerMap.put(_key61, _val62);
+              _key69 = iprot.readString();
+              _val70 = iprot.readString();
+              struct.headerMap.put(_key69, _val70);
             }
           }
           struct.setHeaderMapIsSet(true);
@@ -65199,15 +68103,15 @@ public class Server {
             case 0: // SUCCESS
               if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.MAP) {
                 {
-                  com.jetbrains.cef.remote.thrift.protocol.TMap _map64 = iprot.readMapBegin();
-                  struct.success = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map64.size);
-                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key65;
-                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val66;
-                  for (int _i67 = 0; _i67 < _map64.size; ++_i67)
+                  com.jetbrains.cef.remote.thrift.protocol.TMap _map72 = iprot.readMapBegin();
+                  struct.success = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map72.size);
+                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key73;
+                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val74;
+                  for (int _i75 = 0; _i75 < _map72.size; ++_i75)
                   {
-                    _key65 = iprot.readString();
-                    _val66 = iprot.readString();
-                    struct.success.put(_key65, _val66);
+                    _key73 = iprot.readString();
+                    _val74 = iprot.readString();
+                    struct.success.put(_key73, _val74);
                   }
                   iprot.readMapEnd();
                 }
@@ -65236,10 +68140,10 @@ public class Server {
           oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
           {
             oprot.writeMapBegin(new com.jetbrains.cef.remote.thrift.protocol.TMap(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, com.jetbrains.cef.remote.thrift.protocol.TType.STRING, struct.success.size()));
-            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter68 : struct.success.entrySet())
+            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter76 : struct.success.entrySet())
             {
-              oprot.writeString(_iter68.getKey());
-              oprot.writeString(_iter68.getValue());
+              oprot.writeString(_iter76.getKey());
+              oprot.writeString(_iter76.getValue());
             }
             oprot.writeMapEnd();
           }
@@ -65271,10 +68175,10 @@ public class Server {
         if (struct.isSetSuccess()) {
           {
             oprot.writeI32(struct.success.size());
-            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter69 : struct.success.entrySet())
+            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter77 : struct.success.entrySet())
             {
-              oprot.writeString(_iter69.getKey());
-              oprot.writeString(_iter69.getValue());
+              oprot.writeString(_iter77.getKey());
+              oprot.writeString(_iter77.getValue());
             }
           }
         }
@@ -65286,15 +68190,15 @@ public class Server {
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
           {
-            com.jetbrains.cef.remote.thrift.protocol.TMap _map70 = iprot.readMapBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, com.jetbrains.cef.remote.thrift.protocol.TType.STRING); 
-            struct.success = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map70.size);
-            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key71;
-            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val72;
-            for (int _i73 = 0; _i73 < _map70.size; ++_i73)
+            com.jetbrains.cef.remote.thrift.protocol.TMap _map78 = iprot.readMapBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, com.jetbrains.cef.remote.thrift.protocol.TType.STRING); 
+            struct.success = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map78.size);
+            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key79;
+            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val80;
+            for (int _i81 = 0; _i81 < _map78.size; ++_i81)
             {
-              _key71 = iprot.readString();
-              _val72 = iprot.readString();
-              struct.success.put(_key71, _val72);
+              _key79 = iprot.readString();
+              _val80 = iprot.readString();
+              struct.success.put(_key79, _val80);
             }
           }
           struct.setSuccessIsSet(true);
@@ -65724,15 +68628,15 @@ public class Server {
             case 2: // HEADER_MAP
               if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.MAP) {
                 {
-                  com.jetbrains.cef.remote.thrift.protocol.TMap _map74 = iprot.readMapBegin();
-                  struct.headerMap = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map74.size);
-                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key75;
-                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val76;
-                  for (int _i77 = 0; _i77 < _map74.size; ++_i77)
+                  com.jetbrains.cef.remote.thrift.protocol.TMap _map82 = iprot.readMapBegin();
+                  struct.headerMap = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map82.size);
+                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key83;
+                  @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val84;
+                  for (int _i85 = 0; _i85 < _map82.size; ++_i85)
                   {
-                    _key75 = iprot.readString();
-                    _val76 = iprot.readString();
-                    struct.headerMap.put(_key75, _val76);
+                    _key83 = iprot.readString();
+                    _val84 = iprot.readString();
+                    struct.headerMap.put(_key83, _val84);
                   }
                   iprot.readMapEnd();
                 }
@@ -65766,10 +68670,10 @@ public class Server {
           oprot.writeFieldBegin(HEADER_MAP_FIELD_DESC);
           {
             oprot.writeMapBegin(new com.jetbrains.cef.remote.thrift.protocol.TMap(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, com.jetbrains.cef.remote.thrift.protocol.TType.STRING, struct.headerMap.size()));
-            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter78 : struct.headerMap.entrySet())
+            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter86 : struct.headerMap.entrySet())
             {
-              oprot.writeString(_iter78.getKey());
-              oprot.writeString(_iter78.getValue());
+              oprot.writeString(_iter86.getKey());
+              oprot.writeString(_iter86.getValue());
             }
             oprot.writeMapEnd();
           }
@@ -65807,10 +68711,10 @@ public class Server {
         if (struct.isSetHeaderMap()) {
           {
             oprot.writeI32(struct.headerMap.size());
-            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter79 : struct.headerMap.entrySet())
+            for (java.util.Map.Entry<java.lang.String, java.lang.String> _iter87 : struct.headerMap.entrySet())
             {
-              oprot.writeString(_iter79.getKey());
-              oprot.writeString(_iter79.getValue());
+              oprot.writeString(_iter87.getKey());
+              oprot.writeString(_iter87.getValue());
             }
           }
         }
@@ -65827,15 +68731,15 @@ public class Server {
         }
         if (incoming.get(1)) {
           {
-            com.jetbrains.cef.remote.thrift.protocol.TMap _map80 = iprot.readMapBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, com.jetbrains.cef.remote.thrift.protocol.TType.STRING); 
-            struct.headerMap = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map80.size);
-            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key81;
-            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val82;
-            for (int _i83 = 0; _i83 < _map80.size; ++_i83)
+            com.jetbrains.cef.remote.thrift.protocol.TMap _map88 = iprot.readMapBegin(com.jetbrains.cef.remote.thrift.protocol.TType.STRING, com.jetbrains.cef.remote.thrift.protocol.TType.STRING); 
+            struct.headerMap = new java.util.HashMap<java.lang.String,java.lang.String>(2*_map88.size);
+            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _key89;
+            @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String _val90;
+            for (int _i91 = 0; _i91 < _map88.size; ++_i91)
             {
-              _key81 = iprot.readString();
-              _val82 = iprot.readString();
-              struct.headerMap.put(_key81, _val82);
+              _key89 = iprot.readString();
+              _val90 = iprot.readString();
+              struct.headerMap.put(_key89, _val90);
             }
           }
           struct.setHeaderMapIsSet(true);

@@ -2,7 +2,10 @@ package com.jetbrains.cef.remote;
 
 import com.jetbrains.cef.remote.thrift_codegen.*;
 import com.jetbrains.cef.remote.thrift.TException;
+import com.jetbrains.cef.remote.thrift_codegen.MenuItem;
+import com.jetbrains.cef.remote.thrift_codegen.Point;
 
+import java.awt.*;
 import java.nio.ByteBuffer;
 import java.util.List;
 
@@ -50,6 +53,17 @@ public class ClientHandlersDummy implements ClientHandlers.Iface{
     public void RenderHandler_OnPopupSize(int bid, Rect rect) throws TException {
 
     }
+
+    @Override
+    public void RenderHandler_OnTextSelectionChanged(int bid, String selectedText, Range selectionRange) throws TException {
+
+    }
+
+    @Override
+    public void RenderHandler_OnImeCompositionRangeChanged(int bid, Range selectionRange, List<Rect> charactersBounds) throws TException {
+
+    }
+
 
     @Override
     public boolean LifeSpanHandler_OnBeforePopup(int bid, RObject frame, String url, String frameName, boolean gesture) throws TException {
