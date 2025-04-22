@@ -16,7 +16,7 @@
 
 #include "handlers/app/RemoteAppHandler.h"
 
-#include "include/cef_version.h"
+#include "include/cef_version_info.h"
 #include "../native/jcef_version.h"
 
 namespace CefUtils {

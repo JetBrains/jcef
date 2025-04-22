@@ -45,6 +45,7 @@ public abstract class CefRequest extends CefNativeAdapter {
         RT_NAVIGATION_PRELOAD_MAIN_FRAME, //!< A main-frame service worker navigation preload
                                           //!< request.
         RT_NAVIGATION_PRELOAD_SUB_FRAME, //!< A sub-frame service worker navigation preload request.
+        RT_NUM_VALUES,
     }
 
     /**
@@ -321,7 +322,7 @@ public abstract class CefRequest extends CefNativeAdapter {
         /**
          * Always the last value in this enumeration.
          */
-        REFERRER_POLICY_LAST_VALUE
+        REFERRER_POLICY_NUM_VALUES
     }
 
     // This CTOR can't be called directly. Call method create() instead.
