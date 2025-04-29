@@ -7,7 +7,6 @@ namespace {
   std::string policy2str(cef_referrer_policy_t policy);
   cef_referrer_policy_t str2policy(std::string policy);
   std::string type2str(cef_resource_type_t type);
-  std::string ttype2str(cef_transition_type_t type);
 }
 
 RemoteRequest * RemoteRequest::create(CefRefPtr<CefRequest> delegate) {
@@ -45,7 +44,7 @@ std::map<std::string, std::string> RemoteRequest::toMapImpl() {
     GET_INT(result, Flags);
     GET_STR(result, FirstPartyForCookies);
     result["ResourceType"] = type2str(myDelegate->GetResourceType());
-    result["TransitionType"] = ttype2str(myDelegate->GetTransitionType());
+    GET_INT(result, TransitionType);
     return result;
 }
 
@@ -106,23 +105,6 @@ namespace {
         return p.second;
     }
     return string_format("unknown_type_%d", type);
-  }
-
-  std::pair<cef_transition_type_t, std::string> transitionTypes[] = {
-      {TT_LINK, "TT_LINK"},
-      {TT_EXPLICIT, "TT_EXPLICIT"},
-      {TT_AUTO_SUBFRAME, "TT_AUTO_SUBFRAME"},
-      {TT_MANUAL_SUBFRAME, "TT_MANUAL_SUBFRAME"},
-      {TT_FORM_SUBMIT, "TT_FORM_SUBMIT"},
-      {TT_RELOAD, "TT_RELOAD"}
-  };
-
-  std::string ttype2str(cef_transition_type_t type) {
-    for (auto p: transitionTypes) {
-      if (p.first == type)
-        return p.second;
-    }
-    return string_format("unknown_transition_type_%d", type);
   }
 }
 
