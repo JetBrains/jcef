@@ -450,8 +450,6 @@ void CommandLineArgs::init(int argc, char* argv[]) {
     } else if ((tokenPos = str.find("--loglevel=")) != str.npos) {
       std::string sval = str.substr(tokenPos + 11);
       myLogLevel = std::stoi(sval);
-      if (myLogLevel < LEVEL_TRACE - 5) myLogLevel = LEVEL_TRACE - 5;
-      if (myLogLevel > LEVEL_FATAL) myLogLevel = LEVEL_FATAL;
     } else if ((tokenPos = str.find("--params=")) != str.npos) {
       myPathParamsFile = str.substr(tokenPos + 9);
     } else if ((tokenPos = str.find("--deleteRootCacheDir")) != str.npos) {
