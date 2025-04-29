@@ -171,7 +171,7 @@ public class ServersManagerGUI {
         CefAppHandler appHandler = null;
         String[] args = null;
         CefSettings settings = new CefSettings();
-        final boolean success = NativeServerManager.startProcessAndWait(exeFile, thriftTransport, appHandler, args, settings, logPath, logLevel, false, 20000);
+        final boolean success = NativeServerManager.startProcessAndWait(exeFile, thriftTransport, appHandler, args, settings, logPath, NativeServerManager.ServerLogLevel.nativeDesc(logLevel), false, 20000);
         return success;
     }
 

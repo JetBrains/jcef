@@ -56,15 +56,22 @@ public class NativeServerManager {
             serverLogPath = CefLog.GetFilePath();
 
         // Select log level
-        int serverLogLevel = Utils.getInteger("CEF_SERVER_LOG_LEVEL", -1);
-        if (serverLogLevel == -1)
-            serverLogLevel = ServerLogLevel.cef2native(CefLog.GetLogLevel());
+        String serverLogLevel = Utils.getString("CEF_SERVER_LOG_LEVEL");
+        if (serverLogLevel == null)
+            serverLogLevel = ServerLogLevel.cef2native_str(CefLog.GetLogLevel());
+        else {
+            try {
+                final int nLogLevel = Integer.parseInt(serverLogLevel);
+                serverLogLevel = ServerLogLevel.nativeDesc(nLogLevel);
+            } catch (NumberFormatException e) {
+            }
+        }
 
         return startProcessAndWait(getServerExe(), thriftServer, appHandler, args, settings, serverLogPath, serverLogLevel, deleteRootDir, timeoutMs);
     }
 
     // Should be called in bg thread
-    public static boolean startProcessAndWait(File serverExe, ThriftTransport thriftServer, CefAppHandler appHandler, String[] args, CefSettings settings, String logPath, int logLevel, boolean deleteRootDir, long timeoutMs) {
+    public static boolean startProcessAndWait(File serverExe, ThriftTransport thriftServer, CefAppHandler appHandler, String[] args, CefSettings settings, String logPath, String logLevel, boolean deleteRootDir, long timeoutMs) {
         Integer exitVal = startAndWait(serverExe, thriftServer, appHandler, args, settings, logPath, logLevel, deleteRootDir, timeoutMs);
         if (exitVal != null) {
             if (exitVal == 101) {
@@ -84,7 +91,7 @@ public class NativeServerManager {
     // null when the process has been started successfully
     // Integer.MIN_VALUE when can't start process because of IO-errors
     // exit code, otherwise
-    private static Integer startAndWait(File serverExe, ThriftTransport thriftServer, CefAppHandler appHandler, String[] args, CefSettings settings, String logPath, int logLevel, boolean deleteRootDir, long timeoutMs) {
+    private static Integer startAndWait(File serverExe, ThriftTransport thriftServer, CefAppHandler appHandler, String[] args, CefSettings settings, String logPath, String logLevel, boolean deleteRootDir, long timeoutMs) {
         final long t0 = System.nanoTime();
         final Path settingsFileName = Path.of(System.getProperty("java.io.tmpdir")).resolve("cef_server_params.txt");
         File f = new File(settingsFileName.toString());
@@ -609,15 +616,11 @@ public class NativeServerManager {
         return result;
     }
 
-    private static Integer startAndWait(ThriftTransport thriftServer, String paramsPath, long timeoutMs, String logPath, int logLevel, boolean deleteRootDir) {
-        return startAndWait(getServerExe(), thriftServer, paramsPath, timeoutMs, logPath, logLevel, deleteRootDir);
-    }
-
     // Returns:
     // null when the process has been started successfully
     // Integer.MIN_VALUE when can't start process because of IO-errors
     // exit code, otherwise
-    private static Integer startAndWait(File serverExe, ThriftTransport thriftServer, String paramsPath, long timeoutMs, String logPath, int logLevel, boolean deleteRootDir) {
+    private static Integer startAndWait(File serverExe, ThriftTransport thriftServer, String paramsPath, long timeoutMs, String logPath, String logLevel, boolean deleteRootDir) {
         final long t0 = System.nanoTime();
         if (ourNativeServerProcesses.get(thriftServer.toString()) != null)
             CefLog.Debug("Handle of server process will be overwritten.");
@@ -648,8 +651,8 @@ public class NativeServerManager {
             builder.command().add(String.format("--logfile=%s", logPath.trim()));
         }
 
-        CefLog.Info("Native server logging: level %s [%d], stream: '%s'", ServerLogLevel.nativeDesc(logLevel), logLevel, logStream);
-        builder.command().add(String.format("--loglevel=%d", logLevel));
+        CefLog.Info("Native server logging: level '%s', stream: '%s'", logLevel, logStream);
+        builder.command().add(String.format("--loglevel=%s", logLevel));
 
         if (System.getenv().containsKey("DEBUG_CEF_SERVER")) {
             builder.command().add("--cef-server-wait-debugger");
@@ -762,6 +765,24 @@ public class NativeServerManager {
             if (level == LEVEL_TRACE)
                 return "trace";
             return "unknown";
+        }
+
+        static String cef2native_str(CefSettings.LogSeverity severity) {
+            if (severity == CefSettings.LogSeverity.LOGSEVERITY_DISABLE)
+                return "disable";
+            else if (severity == CefSettings.LogSeverity.LOGSEVERITY_DEFAULT)
+                return "info";
+            else if (severity == CefSettings.LogSeverity.LOGSEVERITY_FATAL)
+                return "fatal";
+            else if (severity == CefSettings.LogSeverity.LOGSEVERITY_ERROR)
+                return "err";
+            else if (severity == CefSettings.LogSeverity.LOGSEVERITY_WARNING)
+                return "warn";
+            else if (severity == CefSettings.LogSeverity.LOGSEVERITY_INFO)
+                return "debug";
+            else if (severity == CefSettings.LogSeverity.LOGSEVERITY_VERBOSE)
+                return "verb";
+            return "disable";
         }
 
         public static int str2native(String level) {
