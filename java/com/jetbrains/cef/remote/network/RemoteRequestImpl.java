@@ -128,15 +128,75 @@ public class RemoteRequestImpl extends RemoteServerObject {
     }
 
     public CefRequest.TransitionType getTransitionType() {
-        String sval = myCache.get("TransitionType");
-        if (sval != null && !sval.isEmpty()) {
-            try {
-                return CefRequest.TransitionType.valueOf(sval);
-            } catch (Throwable e) {
-                CefLog.Error("getTransitionType: sval=%s, exception: %s", sval, e.getMessage());
-            }
+        final int TT_SOURCE_MASK = 0xFF;
+        final int rawVal = (int)getLongVal("TransitionType");
+        final int source = rawVal & TT_SOURCE_MASK;
+        CefRequest.TransitionType result = null;
+        switch (source) {
+            case 0:
+                /// Source is a link click or the JavaScript window.open function. This is
+                /// also the default value for requests like sub-resource loads that are not
+                /// navigations.
+                ///
+                // TT_LINK = 0,
+                result = CefRequest.TransitionType.TT_LINK;
+                break;
+            case 1:
+                /// Source is some other "explicit" navigation. This is the default value for
+                /// navigations where the actual type is unknown. See also
+                /// TT_DIRECT_LOAD_FLAG.
+                ///
+                //TT_EXPLICIT = 1,
+                result = CefRequest.TransitionType.TT_EXPLICIT;
+                break;
+            case 3:
+                /// Source is a subframe navigation. This is any content that is automatically
+                /// loaded in a non-toplevel frame. For example, if a page consists of several
+                /// frames containing ads, those ad URLs will have this transition type.
+                /// The user may not even realize the content in these pages is a separate
+                /// frame, so may not care about the URL.
+                ///
+                //TT_AUTO_SUBFRAME = 3,
+                result = CefRequest.TransitionType.TT_AUTO_SUBFRAME;
+                break;
+            case 4:
+                /// Source is a subframe navigation explicitly requested by the user that will
+                /// generate new navigation entries in the back/forward list. These are
+                /// probably more important than frames that were automatically loaded in
+                /// the background because the user probably cares about the fact that this
+                /// link was loaded.
+                ///
+                //TT_MANUAL_SUBFRAME = 4,
+                result = CefRequest.TransitionType.TT_MANUAL_SUBFRAME;
+                break;
+            case 7:
+                ///
+                /// Source is a form submission by the user. NOTE: In some situations
+                /// submitting a form does not result in this transition type. This can happen
+                /// if the form uses a script to submit the contents.
+                ///
+                //TT_FORM_SUBMIT = 7,
+                result = CefRequest.TransitionType.TT_FORM_SUBMIT;
+                break;
+            case 8:
+                /// Source is a "reload" of the page via the Reload function or by re-visiting
+                /// the same URL. NOTE: This is distinct from the concept of whether a
+                /// particular load uses "reload semantics" (i.e. bypasses cached data).
+                ///
+                //TT_RELOAD = 8,
+                result = CefRequest.TransitionType.TT_RELOAD;
+                break;
+            default:
+                CefLog.Debug("getTransitionType: can't find TransitionType enum: nval=%d, source=%d", rawVal, source);
         }
-        return null;
+
+        if (result != null) {
+            final int TT_QUALIFIER_MASK = 0xFFFFFF00;
+            final int qualifiers = rawVal & TT_QUALIFIER_MASK;
+            result.addQualifiers(qualifiers);
+        }
+
+        return result;
     }
 
     @Override
