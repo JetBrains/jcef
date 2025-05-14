@@ -227,6 +227,7 @@ public class BasicJcefTest {
         List<String> appArgs = config.getAppArgsAsList();
         if (OS.isLinux())
             appArgs.add("--password-store=basic");
+        CefInitHelper.addArgsToDisableStatisticLogging(appArgs);
         final String[] argsArr = appArgs.toArray(new String[0]);
         CefSettings basicSettings = config.getCefSettings();
         basicSettings.windowless_rendering_enabled = true;
