@@ -106,6 +106,7 @@ public class BasicJcefTest {
         List<String> appArgs = config.getAppArgsAsList();
         if (OS.isLinux())
             appArgs.add("--password-store=basic");
+        CefInitHelper.addArgsToDisableStatisticLogging(appArgs);
         CefSettings settings = config.getCefSettings();
         settings.windowless_rendering_enabled = true;
         settings.log_severity = CefSettings.LogSeverity.LOGSEVERITY_VERBOSE;
@@ -595,10 +596,6 @@ public class BasicJcefTest {
 
         // Init VERBOSE native logging to the same stream
         System.setProperty("CEF_SERVER_LOG_LEVEL", "VERBOSE");
-
-        // Init vmodule chromium logging to the same stream
-        System.setProperty("JCEF_TESTS_LOG_LEVEL", "info");
-        System.setProperty("JCEF_TESTS_EXTRA_ARGS", "--enable-logging=stderr;--vmodule=statistics_recorder*=0;--v=2");
 
         new BasicJcefTest().testServerManagerPipe();
         new BasicJcefTest().testServerManagerTcp();

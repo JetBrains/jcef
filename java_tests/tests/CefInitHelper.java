@@ -70,7 +70,7 @@ public class CefInitHelper {
             settings.remote_debugging_port = Integer.parseInt(debugPort);
             args.add("--remote-allow-origins=*");
         }
-        String logLevel = Utils.getString("JCEF_TESTS_LOG_LEVEL", "verbose").toLowerCase();
+        String logLevel = Utils.getString("JCEF_TESTS_LOG_LEVEL", "info").toLowerCase();
         settings.log_severity = switch (logLevel) {
             case "disable" -> CefSettings.LogSeverity.LOGSEVERITY_DISABLE;
             case "verbose" -> CefSettings.LogSeverity.LOGSEVERITY_VERBOSE;
@@ -78,12 +78,14 @@ public class CefInitHelper {
             case "warning" -> CefSettings.LogSeverity.LOGSEVERITY_WARNING;
             case "error" -> CefSettings.LogSeverity.LOGSEVERITY_ERROR;
             case "fatal" -> CefSettings.LogSeverity.LOGSEVERITY_FATAL;
-            default -> CefSettings.LogSeverity.LOGSEVERITY_DEFAULT;
+            default -> CefSettings.LogSeverity.LOGSEVERITY_INFO;
         };
         settings.log_file = Utils.getString("JCEF_TESTS_LOG_FILE");
         boolean envSandboxed = Utils.getBoolean("JCEF_TESTS_SANDBOX_ENABLED");
         settings.no_sandbox = !envSandboxed;
         settings.cache_path = cache_path;
+
+        addArgsToDisableStatisticLogging(args);
 
         String argsArr[] = args.toArray(new String[0]);
         CefApp.addAppHandler(new CefAppHandlerAdapter(argsArr) {
@@ -94,13 +96,13 @@ public class CefInitHelper {
                     ourStateTerminated.countDown();
                     CefLog.Info("CEF is terminated.");
                     if (EXIT_AFTER_CEFAPP_SHUTDOWN) {
-                        CefLog.Info("Schedule System.exit(0).");
                         Thread t = new Thread(() -> {
                             try {
                                 Thread.sleep(EXIT_WAIT_MS);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
+                            CefLog.Info("Exit process via scheduled System.exit(0).");
                             System.exit(0);
                         });
                         t.setDaemon(true);
@@ -152,6 +154,12 @@ public class CefInitHelper {
                 CefLog.Error("InterruptedException: %s", e.getMessage());
             }
         }
+    }
+
+    public static void addArgsToDisableStatisticLogging(List<String> args) {
+        args.add("--enable-logging=stderr");
+        args.add("--vmodule=statistics_recorder*=0");
+        args.add("--v=1");
     }
 
     public static String genUniqueCachePath() {
