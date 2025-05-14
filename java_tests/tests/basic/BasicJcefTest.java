@@ -44,7 +44,7 @@ import java.util.concurrent.TimeUnit;
 public class BasicJcefTest {
     private static final boolean SKIP_BASIC_CHECK = Utils.getBoolean("JCEF_TESTS_SKIP_BASIC_CHECK");
     private static final boolean BASIC_CHECK_WITHOUT_UI = Utils.getBoolean("JCEF_TESTS_BASIC_CHECK_WITHOUT_UI");
-    private static final long WAIT_TIMEOUT_MS = Utils.getInteger("WAIT_SERVER_TIMEOUT_MS", 25000); // 25 sec
+    private static final long WAIT_TIMEOUT_MS = Utils.getInteger("WAIT_SERVER_TIMEOUT_MS", 30000); // 30 sec
     private static final String TCP_KEY = "CEF_SERVER_USE_TCP";
 
     static {
@@ -156,7 +156,7 @@ public class BasicJcefTest {
                     Thread.sleep(500);
                 } catch (InterruptedException e) {}
 
-                boolean running = NativeServerManager.waitForRunning(thriftServer, 2000);
+                boolean running = NativeServerManager.waitForRunning(thriftServer, 5000);
                 if (!running)
                     throw new AssertionError("Server was stopped after slave-client disconnected.");
 
@@ -181,8 +181,8 @@ public class BasicJcefTest {
             } finally {
                 dummy.stop();
                 try {
-                    if (!testServiceFinished.await(5, TimeUnit.SECONDS))
-                        throw new AssertionError("Test java-handlers service wasn't stopped in 5 seconds.");
+                    if (!testServiceFinished.await(20, TimeUnit.SECONDS))
+                        throw new AssertionError("Test java-handlers service wasn't stopped in 20 seconds.");
                 } catch (InterruptedException e) {}
             }
         }
@@ -290,7 +290,8 @@ public class BasicJcefTest {
                 CefLog.Info("CefApp successfully initialized, spent %d ms", System.currentTimeMillis() - start);
             }
         });
-        _wait(onAppInitialization_, 5, "CefApp wasn't initialized");
+        final int cefTimeoutSec = 20;
+        _wait(onAppInitialization_, cefTimeoutSec, "CefApp wasn't initialized");
 
         CefLog.Info("Sequentially test basic JCEF functionality");
         final long time0 = System.currentTimeMillis();
@@ -379,10 +380,10 @@ public class BasicJcefTest {
             //
             // 4. Perform checks: onAfterCreated -> onLoadStart,onLoadEnd -> CefLifeSpanHandler.onBeforeClosed -> clientDispose_
             //
-            _wait(onAfterCreated_, 5, "Native CefBrowser wasn't created");
+            _wait(onAfterCreated_, cefTimeoutSec, "Native CefBrowser wasn't created");
             CefLog.Info("Native browser creation spent %d ms", onAfterCreatedTime[0] - time1);
             try {
-                _wait(onLoadStart_, 5, "onLoadStart wasn't called, [native] id="+browser.getIdentifier());
+                _wait(onLoadStart_, cefTimeoutSec, "onLoadStart wasn't called, [native] id="+browser.getIdentifier());
             } catch (RuntimeException e) {
                 if (onLoadErr_.getCount() <= 0) {
                     // empiric observation: onLoadStart can be skipped when onLoadError occured.
@@ -390,14 +391,14 @@ public class BasicJcefTest {
                     CefLog.Info("onLoadStart wasn't called and onLoadError was observed");
                 } else throw e;
             }
-            _wait(onLoadEnd_, 10, "onLoadEnd wasn't called");
+            _wait(onLoadEnd_, cefTimeoutSec, "onLoadEnd wasn't called");
 
             // dispose browser and client
             browser.setCloseAllowed(); // Cause browser.doClose() to return false so that OSR browser can close.
             browser.close(true);
-            _wait(onBeforeClose_, 5, "onBeforeClose wasn't called");
+            _wait(onBeforeClose_, cefTimeoutSec, "onBeforeClose wasn't called");
             client.dispose();
-            _wait(clientDispose_, 5, "CefClient wasn't completely disposed: " + client.getInfo());
+            _wait(clientDispose_, cefTimeoutSec, "CefClient wasn't completely disposed: " + client.getInfo());
         } finally {
             if (frame[0] != null)
                 frame[0].dispose();

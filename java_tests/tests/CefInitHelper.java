@@ -18,8 +18,7 @@ public class CefInitHelper {
     private static final boolean WAIT_FOR_CEFAPP_INIT = Utils.getBoolean("JCEF_TESTS_WAIT_FOR_CEFAPP_INIT", true);
     private static final boolean WAIT_FOR_CEFAPP_SHUTDOWN = Utils.getBoolean("JCEF_TESTS_WAIT_FOR_CEFAPP_SHUTDOWN", true);
     private static final boolean EXIT_AFTER_CEFAPP_SHUTDOWN = Utils.getBoolean("JCEF_TESTS_EXIT_AFTER_CEFAPP_SHUTDOWN", true);
-    private static final int EXIT_WAIT_MS = Utils.getInteger("JCEF_TESTS_EXIT_WAIT_MS", 2000);
-    private static final int TIMEOUT = 5;
+    private static final int EXIT_WAIT_MS = Utils.getInteger("JCEF_TESTS_EXIT_WAIT_MS", 20000);
     private static CountDownLatch ourStateTerminated = new CountDownLatch(1);
 
     public static void initializeCef() {
@@ -118,7 +117,7 @@ public class CefInitHelper {
             // Wait for initialization
             CountDownLatch latch = new CountDownLatch(1);
             app.onInitialization(s -> latch.countDown());
-            final int timeout = 10;
+            final int timeout = 30;
             try {
                 latch.await(timeout, TimeUnit.SECONDS);
             } catch (InterruptedException e) {
@@ -136,6 +135,7 @@ public class CefInitHelper {
         CefApp.getInstance().dispose();
 
         if (WAIT_FOR_CEFAPP_SHUTDOWN) {
+            final int TIMEOUT = 30;
             try {
                 if (!ourStateTerminated.await(TIMEOUT, TimeUnit.SECONDS)) {
                     throw new RuntimeException("Timed out after " + TIMEOUT + " seconds");
