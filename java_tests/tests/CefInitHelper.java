@@ -8,8 +8,11 @@ import org.cef.handler.CefAppHandlerAdapter;
 import org.cef.misc.CefLog;
 import org.cef.misc.Utils;
 
+import java.nio.file.Path;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -22,6 +25,10 @@ public class CefInitHelper {
     private static CountDownLatch ourStateTerminated = new CountDownLatch(1);
 
     public static void initializeCef() {
+        initializeCef(genUniqueCachePath());
+    }
+
+    public static void initializeCef(String cache_path) {
         CefLog.init(Utils.getString("JCEF_TESTS_LOG_FILE"), CefSettings.LogSeverity.LOGSEVERITY_VERBOSE);
 
         // Enable debug logging for junit tests by default
@@ -76,6 +83,7 @@ public class CefInitHelper {
         settings.log_file = Utils.getString("JCEF_TESTS_LOG_FILE");
         boolean envSandboxed = Utils.getBoolean("JCEF_TESTS_SANDBOX_ENABLED");
         settings.no_sandbox = !envSandboxed;
+        settings.cache_path = cache_path;
 
         String argsArr[] = args.toArray(new String[0]);
         CefApp.addAppHandler(new CefAppHandlerAdapter(argsArr) {
@@ -143,6 +151,15 @@ public class CefInitHelper {
             } catch (InterruptedException e) {
                 CefLog.Error("InterruptedException: %s", e.getMessage());
             }
+        }
+    }
+
+    public static String genUniqueCachePath() {
+        try {
+            return Path.of(System.getProperty("user.dir")).resolve("cef_test_" + ProcessHandle.current().pid() + "_" + new SimpleDateFormat("hh_mm_ss_SSS").format(new Date())).toString();
+        } catch (Throwable e) {
+            CefLog.Error("genUniqueCachePath exception: %s", e.getMessage());
+            return null;
         }
     }
 

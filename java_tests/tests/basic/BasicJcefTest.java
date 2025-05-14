@@ -33,6 +33,7 @@ import java.net.UnixDomainSocketAddress;
 import java.nio.channels.Channels;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -109,6 +110,7 @@ public class BasicJcefTest {
         settings.windowless_rendering_enabled = true;
         settings.log_severity = CefSettings.LogSeverity.LOGSEVERITY_VERBOSE;
         settings.no_sandbox = true;
+        settings.cache_path = CefInitHelper.genUniqueCachePath();
         final String[] argsArr = appArgs.toArray(new String[0]);
         CefAppHandlerAdapter appHandler = new CefAppHandlerAdapter(argsArr){};
         boolean started = NativeServerManager.startProcessAndWait(thriftServer, appHandler, argsArr, settings, true, waitTimeoutMs);
@@ -246,8 +248,11 @@ public class BasicJcefTest {
                 tb = new ThriftTransport(ThriftTransport.getJavaHandlersPipe(String.format("test_%d", i)));
             }
             CefSettings settings = basicSettings.clone();
-
-            NativeServerManager.fixRootInSettings(settings, "cef_cache_test_" + i);
+            try {
+                settings.cache_path = Path.of(System.getProperty("user.dir")).resolve("cef_cache_test_" + i).toString();
+            } catch (Throwable e) {
+                CefLog.Error("Can't set cache_path: %s", e.getMessage());
+            }
 
             CefLog.Info("Starting server #%d over %s(%s)", i, ts, tb);
             CefServer s = new CefServer(ts, tb, argsArr, settings);
