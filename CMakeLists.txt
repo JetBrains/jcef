@@ -117,13 +117,20 @@ cmake_minimum_required(VERSION 3.19)
 # Only generate Debug and Release configuration types.
 set(CMAKE_CONFIGURATION_TYPES Debug Release)
 
-include(cmake/vcpkg.cmake)
-bring_vcpkg()
+if(DEFINED ENV{JCEF_BUILD_ONLY_IN_PROCESS})
+  message(STATUS "Skip building of out-of-process JCEF.")
+else()
+  message(STATUS "Prepare vcpkg (for building out-of-process JCEF).")
+  include(cmake/vcpkg.cmake)
+  bring_vcpkg()
+endif()
 
 # Project name.
 project(jcef)
 
-vcpkg_install_package(boost-filesystem boost-interprocess thrift)
+if(NOT DEFINED ENV{JCEF_BUILD_ONLY_IN_PROCESS})
+  vcpkg_install_package(boost-filesystem boost-interprocess thrift)
+endif()
 
 # Use folders in the resulting project files.
 set_property(GLOBAL PROPERTY OS_FOLDERS ON)
@@ -313,8 +320,9 @@ endif()
 add_subdirectory(${CEF_LIBCEF_DLL_WRAPPER_PATH} libcef_dll_wrapper)
 add_subdirectory(native)
 
-add_subdirectory(remote)
-
+if(NOT DEFINED ENV{JCEF_BUILD_ONLY_IN_PROCESS})
+  add_subdirectory(remote)
+endif()
 
 #
 # Display configuration settings.

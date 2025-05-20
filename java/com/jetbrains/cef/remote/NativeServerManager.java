@@ -433,6 +433,13 @@ public class NativeServerManager {
         return success;
     }
 
+    public static boolean isRemoteSupported() {
+        File cef_server_exe = getServerExe();
+        if (cef_server_exe == null)
+            return false;
+        return cef_server_exe.exists() && !cef_server_exe.isDirectory();
+    }
+
     private static File getServerExe() {
         if (ALT_CEF_SERVER_PATH != null && !ALT_CEF_SERVER_PATH.trim().isEmpty())
             return new File(ALT_CEF_SERVER_PATH);

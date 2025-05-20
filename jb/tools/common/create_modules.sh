@@ -109,13 +109,17 @@ case "$OS" in
 "linux")
   mkdir lib
   cp -R "$OUT_NATIVE_DIR"/* lib
-  cp -R "$OUT_REMOTE_DIR"/libshared_mem_helper.so lib
-  cp -R "$OUT_REMOTE_DIR"/cef_server lib
+  if [ -n "${JCEF_BUILD_ONLY_IN_PROCESS:-}" ]; then
+    echo "Skip bundling of out-of-process JCEF."
+  else
+    cp -R "$OUT_REMOTE_DIR"/libshared_mem_helper.so lib
+    cp -R "$OUT_REMOTE_DIR"/cef_server lib
 
-  echo "*** create cef_server bundle..."
-  rm -rf ../cef_server && mkdir ../cef_server
-  cp -R "$OUT_REMOTE_DIR"/* ../cef_server
-  find ../cef_server -name "*.log" -type f -delete
+    echo "*** create cef_server bundle..."
+    rm -rf ../cef_server && mkdir ../cef_server
+    cp -R "$OUT_REMOTE_DIR"/* ../cef_server
+    find ../cef_server -name "*.log" -type f -delete
+  fi
 
   echo "*** find patched libcef.so..."
   if [ -z "${PATCHED_LIBCEF_DIR:-}" ]; then
@@ -133,7 +137,11 @@ case "$OS" in
   find lib -name "*.so" | xargs strip -x
   strip -x lib/chrome-sandbox
   strip -x lib/jcef_helper
-  strip -x lib/cef_server
+  if [ -n "${JCEF_BUILD_ONLY_IN_PROCESS:-}" ]; then
+    echo "Skip stripping out-of-process JCEF binary."
+  else
+    strip -x lib/cef_server
+  fi
 
   "$JAVA_HOME"/bin/jmod create --module-path . --class-path jcef.jar --libs lib jcef.jmod
   rm -rf jcef.jar lib

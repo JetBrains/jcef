@@ -50,10 +50,14 @@ tar -cvzf "$ARTIFACT.tar.gz" -C "$ARTIFACT" $(ls "$ARTIFACT")
 rm -rf "$ARTIFACT"
 ls -lah "$ARTIFACT.tar.gz"
 
-echo "*** create cef_server archive..."
-tar -cvzf "$ARTIFACT_SERVER.tar.gz" -C "cef_server" $(ls "cef_server")
-rm -rf "cef_server"
-ls -lah "$ARTIFACT_SERVER.tar.gz"
+if [ -n "${JCEF_BUILD_ONLY_IN_PROCESS:-}" ]; then
+  echo "*** skip bundling of out-of-process JCEF."
+else
+  echo "*** create cef_server archive..."
+  tar -cvzf "$ARTIFACT_SERVER.tar.gz" -C "cef_server" $(ls "cef_server")
+  rm -rf "cef_server"
+  ls -lah "$ARTIFACT_SERVER.tar.gz"
+fi
 
 cp "$OUT_CLS_DIR"/jcef-tests.jar .
 

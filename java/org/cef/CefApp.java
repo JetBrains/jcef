@@ -6,6 +6,7 @@ package org.cef;
 
 import com.jetbrains.cef.JCefAppConfig;
 import com.jetbrains.cef.remote.CefServer;
+import com.jetbrains.cef.remote.NativeServerManager;
 import com.jetbrains.cef.remote.ThriftTransport;
 import com.jetbrains.cef.remote.callback.RemoteSchemeHandlerFactory;
 import org.cef.callback.CefSchemeHandlerFactory;
@@ -154,7 +155,7 @@ public class CefApp extends CefAppHandlerAdapter {
     private static final int INIT_TEST_DELAY_MS = Utils.getInteger("jcef_app_init_test_delay_ms", 0);
 
     // Support for JBR-4430
-    private static final boolean IS_REMOTE_ENABLED = Boolean.getBoolean("jcef.remote.enabled");
+    private static final boolean IS_REMOTE_ENABLED = isRemoteSupported() ? Boolean.getBoolean("jcef.remote.enabled") : false;
 
     /**
      * To get an instance of this class, use the method
@@ -380,6 +381,10 @@ public class CefApp extends CefAppHandlerAdapter {
             CefLog.Error("Failed to get CEF version. %s", ule.getMessage());
         }
         return null;
+    }
+
+    public static final boolean isRemoteSupported() {
+        return NativeServerManager.isRemoteSupported();
     }
 
     public static final boolean isRemoteEnabled() { return IS_REMOTE_ENABLED; }
