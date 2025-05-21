@@ -51,6 +51,10 @@ RObject::~RObject() noexcept {
 }
 
 
+void RObject::__set_isNull(const bool val) {
+  this->isNull = val;
+}
+
 void RObject::__set_objId(const int32_t val) {
   this->objId = val;
 }
@@ -83,6 +87,7 @@ uint32_t RObject::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   using ::apache::thrift::protocol::TProtocolException;
 
+  bool isset_isNull = false;
   bool isset_objId = false;
 
   while (true)
@@ -94,6 +99,14 @@ uint32_t RObject::read(::apache::thrift::protocol::TProtocol* iprot) {
     switch (fid)
     {
       case 1:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->isNull);
+          isset_isNull = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
         if (ftype == ::apache::thrift::protocol::T_I32) {
           xfer += iprot->readI32(this->objId);
           isset_objId = true;
@@ -101,7 +114,7 @@ uint32_t RObject::read(::apache::thrift::protocol::TProtocol* iprot) {
           xfer += iprot->skip(ftype);
         }
         break;
-      case 2:
+      case 3:
         if (ftype == ::apache::thrift::protocol::T_I32) {
           xfer += iprot->readI32(this->flags);
           this->__isset.flags = true;
@@ -109,7 +122,7 @@ uint32_t RObject::read(::apache::thrift::protocol::TProtocol* iprot) {
           xfer += iprot->skip(ftype);
         }
         break;
-      case 3:
+      case 4:
         if (ftype == ::apache::thrift::protocol::T_MAP) {
           {
             this->objInfo.clear();
@@ -141,6 +154,8 @@ uint32_t RObject::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   xfer += iprot->readStructEnd();
 
+  if (!isset_isNull)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
   if (!isset_objId)
     throw TProtocolException(TProtocolException::INVALID_DATA);
   return xfer;
@@ -151,17 +166,21 @@ uint32_t RObject::write(::apache::thrift::protocol::TProtocol* oprot) const {
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
   xfer += oprot->writeStructBegin("RObject");
 
-  xfer += oprot->writeFieldBegin("objId", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeFieldBegin("isNull", ::apache::thrift::protocol::T_BOOL, 1);
+  xfer += oprot->writeBool(this->isNull);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("objId", ::apache::thrift::protocol::T_I32, 2);
   xfer += oprot->writeI32(this->objId);
   xfer += oprot->writeFieldEnd();
 
   if (this->__isset.flags) {
-    xfer += oprot->writeFieldBegin("flags", ::apache::thrift::protocol::T_I32, 2);
+    xfer += oprot->writeFieldBegin("flags", ::apache::thrift::protocol::T_I32, 3);
     xfer += oprot->writeI32(this->flags);
     xfer += oprot->writeFieldEnd();
   }
   if (this->__isset.objInfo) {
-    xfer += oprot->writeFieldBegin("objInfo", ::apache::thrift::protocol::T_MAP, 3);
+    xfer += oprot->writeFieldBegin("objInfo", ::apache::thrift::protocol::T_MAP, 4);
     {
       xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->objInfo.size()));
       std::map<std::string, std::string> ::const_iterator _iter7;
@@ -181,6 +200,7 @@ uint32_t RObject::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
 void swap(RObject &a, RObject &b) {
   using ::std::swap;
+  swap(a.isNull, b.isNull);
   swap(a.objId, b.objId);
   swap(a.flags, b.flags);
   swap(a.objInfo, b.objInfo);
@@ -188,12 +208,14 @@ void swap(RObject &a, RObject &b) {
 }
 
 RObject::RObject(const RObject& other8) {
+  isNull = other8.isNull;
   objId = other8.objId;
   flags = other8.flags;
   objInfo = other8.objInfo;
   __isset = other8.__isset;
 }
 RObject& RObject::operator=(const RObject& other9) {
+  isNull = other9.isNull;
   objId = other9.objId;
   flags = other9.flags;
   objInfo = other9.objInfo;
@@ -203,7 +225,8 @@ RObject& RObject::operator=(const RObject& other9) {
 void RObject::printTo(std::ostream& out) const {
   using ::apache::thrift::to_string;
   out << "RObject(";
-  out << "objId=" << to_string(objId);
+  out << "isNull=" << to_string(isNull);
+  out << ", " << "objId=" << to_string(objId);
   out << ", " << "flags="; (__isset.flags ? (out << to_string(flags)) : (out << "<null>"));
   out << ", " << "objInfo="; (__isset.objInfo ? (out << to_string(objInfo)) : (out << "<null>"));
   out << ")";

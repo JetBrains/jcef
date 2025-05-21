@@ -68,16 +68,20 @@ class RObject : public virtual ::apache::thrift::TBase {
   RObject(const RObject&);
   RObject& operator=(const RObject&);
   RObject() noexcept
-          : objId(0),
+          : isNull(true),
+            objId(0),
             flags(0) {
   }
 
   virtual ~RObject() noexcept;
+  bool isNull;
   int32_t objId;
   int32_t flags;
   std::map<std::string, std::string>  objInfo;
 
   _RObject__isset __isset;
+
+  void __set_isNull(const bool val);
 
   void __set_objId(const int32_t val);
 
@@ -87,6 +91,8 @@ class RObject : public virtual ::apache::thrift::TBase {
 
   bool operator == (const RObject & rhs) const
   {
+    if (!(isNull == rhs.isNull))
+      return false;
     if (!(objId == rhs.objId))
       return false;
     if (__isset.flags != rhs.__isset.flags)

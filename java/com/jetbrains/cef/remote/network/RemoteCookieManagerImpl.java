@@ -26,7 +26,7 @@ public class RemoteCookieManagerImpl extends RemoteServerObject {
 
     public static RemoteCookieManagerImpl create(RpcContext rpcContext) {
         RObject robj = rpcContext.execObj(s->s.CookieManager_Create());
-        if (robj.objId < 0) {
+        if (robj.isNull) {
             CefLog.Error("CookieManager_Create returns invalid objId %d.", robj.objId);
             return null;
         }
@@ -67,7 +67,7 @@ public class RemoteCookieManagerImpl extends RemoteServerObject {
     }
 
     public boolean flushStore(CefCompletionCallback callback) {
-        RObject cbId = callback != null ? RemoteCompletionCallback.create(callback).thriftId() : new RObject(-1);
+        RObject cbId = callback != null ? RemoteCompletionCallback.create(callback).thriftId() : new RObject();
         return myRpc.execObj(s -> s.CookieManager_FlushStore(thriftId(), cbId));
     }
 }

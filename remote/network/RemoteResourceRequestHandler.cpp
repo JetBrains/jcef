@@ -48,7 +48,7 @@ CefRefPtr<CefCookieAccessFilter> RemoteResourceRequestHandler::GetCookieAccessFi
   myCtx->javaServiceIO()->exec([&](JavaService s){
     s->ResourceRequestHandler_GetCookieAccessFilter(remoteHandler, myPeerId, myBid, frm.serverId(), req.serverId());
   });
-  return remoteHandler.objId != -1 ? new RemoteCookieAccessFilter(myBid, myCtx, remoteHandler) : nullptr;
+  return !remoteHandler.isNull ? new RemoteCookieAccessFilter(myBid, myCtx, remoteHandler) : nullptr;
 }
 
 ///
@@ -101,7 +101,7 @@ CefRefPtr<CefResourceHandler> RemoteResourceRequestHandler::GetResourceHandler(
   myCtx->javaServiceIO()->exec([&](JavaService s){
     s->ResourceRequestHandler_GetResourceHandler(remoteHandler, myPeerId, myBid, frm.serverId(), req.serverId());
   });
-  return remoteHandler.objId != -1 ? new RemoteResourceHandler(myBid, myCtx, remoteHandler) : nullptr;
+  return !remoteHandler.isNull ? new RemoteResourceHandler(myBid, myCtx, remoteHandler) : nullptr;
 }
 
 ///

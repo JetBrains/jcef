@@ -471,7 +471,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         return rh.onBeforeBrowse(browser, rframe, new RemoteRequest(rr), user_gesture, is_redirect);
     }
 
-    private static final RObject INVALID = new RObject(-1);
+    private static final RObject NULL_ROBJECT = new RObject();
 
     ///
     /// Called on the browser process IO thread before a resource request is
@@ -491,15 +491,15 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     @Override
     public RObject RequestHandler_GetResourceRequestHandler(int bid, RObject frame, RObject request, boolean isNavigation, boolean isDownload, String requestInitiator) {
         RemoteBrowser browser = getRemoteBrowser(bid);
-        if (browser == null) return INVALID;
+        if (browser == null) return NULL_ROBJECT;
         CefRequestHandler rh = browser.getOwner().getRequestHandler();
-        if (rh == null) return INVALID;
+        if (rh == null) return NULL_ROBJECT;
 
         RemoteRequestImpl rr = new RemoteRequestImpl(myRpc, request);
         RemoteFrame rframe = new RemoteFrame(myRpc, frame);
         BoolRef disableDefaultHandling = new BoolRef(false);
         CefResourceRequestHandler handler = rh.getResourceRequestHandler(browser, rframe, new RemoteRequest(rr), isNavigation, isDownload, requestInitiator, disableDefaultHandling);
-        if (handler == null) return INVALID;
+        if (handler == null) return NULL_ROBJECT;
 
         RemoteResourceRequestHandler resultHandler = RemoteResourceRequestHandler.create(handler);
         return resultHandler.thriftId(disableDefaultHandling.get() ? 1 : 0);
@@ -516,12 +516,12 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     @Override
     public RObject ResourceRequestHandler_GetCookieAccessFilter(int rrHandler, int bid, RObject frame, RObject request) {
         RemoteResourceRequestHandler rrrh = RemoteResourceRequestHandler.FACTORY.get(rrHandler);
-        if (rrrh == null) return INVALID;
+        if (rrrh == null) return NULL_ROBJECT;
 
         RemoteRequestImpl rr = new RemoteRequestImpl(myRpc, request);
         RemoteFrame rframe = new RemoteFrame(myRpc, frame);
         CefCookieAccessFilter filter = rrrh.getDelegate().getCookieAccessFilter(getRemoteBrowser(bid), rframe, new RemoteRequest(rr));
-        if (filter == null) return INVALID;
+        if (filter == null) return NULL_ROBJECT;
         RemoteCookieAccessFilter resultHandler = RemoteCookieAccessFilter.create(filter);
         return resultHandler.thriftId();
     }
@@ -693,12 +693,12 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     @Override
     public RObject ResourceRequestHandler_GetResourceHandler(int rrHandler, int bid, RObject frame, RObject request) {
         RemoteResourceRequestHandler rrrh = RemoteResourceRequestHandler.FACTORY.get(rrHandler);
-        if (rrrh == null) return INVALID;
+        if (rrrh == null) return NULL_ROBJECT;
 
         RemoteRequestImpl rr = new RemoteRequestImpl(myRpc, request);
         RemoteFrame rframe = new RemoteFrame(myRpc, frame);
         CefResourceHandler handler = rrrh.getDelegate().getResourceHandler(getRemoteBrowser(bid), rframe, new RemoteRequest(rr));
-        if (handler == null) return INVALID;
+        if (handler == null) return NULL_ROBJECT;
 
         RemoteResourceHandler result = RemoteResourceHandler.create(handler);
         return result.thriftId();
@@ -1013,12 +1013,12 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     @Override
     public RObject SchemeHandlerFactory_CreateHandler(int schemeHandlerFactory, int bid, RObject frame, String scheme_name, RObject request) throws TException {
         RemoteSchemeHandlerFactory sf = RemoteSchemeHandlerFactory.FACTORY.get(schemeHandlerFactory);
-        if (sf == null) return INVALID;
+        if (sf == null) return NULL_ROBJECT;
 
         RemoteRequestImpl rreq = new RemoteRequestImpl(myRpc, request);
         RemoteFrame rframe = new RemoteFrame(myRpc, frame);
         CefResourceHandler handler = sf.getDelegate().create(getRemoteBrowser(bid), rframe, scheme_name, new RemoteRequest(rreq));
-        if (handler == null) return INVALID;
+        if (handler == null) return NULL_ROBJECT;
 
         RemoteResourceHandler result = RemoteResourceHandler.create(handler);
         return result.thriftId();
@@ -1042,13 +1042,13 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     public RObject RequestContextHandler_GetResourceRequestHandler(int handlerId, int bid, RObject frame, RObject request, boolean isNavigation, boolean isDownload, String requestInitiator) throws TException {
         RemoteRequestContextHandler rhandler = RemoteRequestContextHandler.FACTORY.get(handlerId);
         RemoteBrowser browser = getRemoteBrowser(bid);
-        if (browser == null || rhandler == null) return INVALID;
+        if (browser == null || rhandler == null) return NULL_ROBJECT;
 
         RemoteRequestImpl rr = new RemoteRequestImpl(myRpc, request);
         RemoteFrame rframe = new RemoteFrame(myRpc, frame);
         BoolRef disableDefaultHandling = new BoolRef(false);
         CefResourceRequestHandler handler = rhandler.getDelegate().getResourceRequestHandler(browser, rframe, new RemoteRequest(rr), isNavigation, isDownload, requestInitiator, disableDefaultHandling);
-        if (handler == null) return INVALID;
+        if (handler == null) return NULL_ROBJECT;
 
         RemoteResourceRequestHandler resultHandler = RemoteResourceRequestHandler.create(handler);
         return resultHandler.thriftId(disableDefaultHandling.get() ? 1 : 0);
@@ -1103,7 +1103,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
         if (browser == null) return false;
         CefPermissionHandler permissionHandler = browser.getOwner().getPermissionHandler();
         if (permissionHandler == null) return false;
-        RemoteFrame remoteFrame = frame.objId == -1 ? null : new RemoteFrame(myRpc, frame);
+        RemoteFrame remoteFrame = frame.isNull ? null : new RemoteFrame(myRpc, frame);
         return permissionHandler.onRequestMediaAccessPermission(browser, remoteFrame, requesting_origin, requested_permissions, new RemoteMediaAccessCallback(myRpc, mediaAccessCallback));
     }
 

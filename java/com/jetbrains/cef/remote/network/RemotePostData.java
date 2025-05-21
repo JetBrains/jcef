@@ -50,7 +50,7 @@ public class RemotePostData extends CefPostData {
             return null;
 
         boolean hasExcluded = (postData instanceof RemotePostData) ? ((RemotePostData)postData).hasExcludedElements() : false;
-        PostData pd = new PostData(postData.isReadOnly(), hasExcluded);
+        PostData pd = new PostData(false, postData.isReadOnly(), hasExcluded);
         if (postData.getElementCount() > 0) {
             Vector<CefPostDataElement> elements = new Vector<>();
             postData.getElements(elements);

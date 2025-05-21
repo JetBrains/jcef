@@ -123,14 +123,13 @@ CefRefPtr<CefResourceRequestHandler> RemoteRequestHandler::GetResourceRequestHan
   RemoteRequest::Holder req(request);
   RemoteFrame::Holder frm(frame);
   thrift_codegen::RObject peer;
-  peer.__set_objId(-1);
   myCtx->javaServiceIO()->exec([&](JavaService s){
     s->RequestHandler_GetResourceRequestHandler(
         peer, myBid, frm.serverId(), req.serverId(), is_navigation, is_download, request_initiator.ToString());
   });
 
   disable_default_handling = peer.__isset.flags ? peer.flags != 0 : false;
-  return peer.objId != -1 ? new RemoteResourceRequestHandler(myBid, myCtx, peer) : nullptr;
+  return !peer.isNull ? new RemoteResourceRequestHandler(myBid, myCtx, peer) : nullptr;
 }
 
 ///

@@ -132,7 +132,7 @@ public class RemoteBrowser implements CefBrowser {
             final int hmask = myOwner.getHandlersMask() | (myRender == null ? 0 :
                     RemoteClient.HandlerMasks.NativeRender.val());
             myRpc.exec((s) -> {
-                RObject contextHandler = new RObject(-1);
+                RObject contextHandler = new RObject();
                 if (myRequestContext.getRemoteHandler() != null)
                     contextHandler = myRequestContext.getRemoteHandler().thriftId();
                 myBid = s.Browser_Create(myOwner.getCid(), hmask, contextHandler);
@@ -263,7 +263,7 @@ public class RemoteBrowser implements CefBrowser {
         }
 
         RObject rf = myRpc.execObj(s-> s.Browser_GetMainFrame(myBid));
-        return rf == null || rf.objId < 0 ? null : new RemoteFrame(myRpc, rf);
+        return rf == null || rf.isNull ? null : new RemoteFrame(myRpc, rf);
     }
 
     @Override
@@ -276,7 +276,7 @@ public class RemoteBrowser implements CefBrowser {
         }
 
         RObject rf = myRpc.execObj(s-> s.Browser_GetFocusedFrame(myBid));
-        return rf == null || rf.objId < 0 ? null : new RemoteFrame(myRpc, rf);
+        return rf == null || rf.isNull ? null : new RemoteFrame(myRpc, rf);
     }
 
     @Override
@@ -289,7 +289,7 @@ public class RemoteBrowser implements CefBrowser {
         }
 
         RObject rf = myRpc.execObj(s-> s.Browser_GetFrameByIdentifier(myBid, identifier));
-        return rf == null || rf.objId < 0 ? null : new RemoteFrame(myRpc, rf);
+        return rf == null || rf.isNull ? null : new RemoteFrame(myRpc, rf);
     }
 
     @Override
@@ -302,7 +302,7 @@ public class RemoteBrowser implements CefBrowser {
         }
 
         RObject rf = myRpc.execObj(s-> s.Browser_GetFrameByName(myBid, name));
-        return rf == null || rf.objId < 0 ? null : new RemoteFrame(myRpc, rf);
+        return rf == null || rf.isNull ? null : new RemoteFrame(myRpc, rf);
     }
 
     @Override

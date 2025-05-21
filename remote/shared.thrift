@@ -2,13 +2,14 @@ namespace cpp thrift_codegen
 namespace java com.jetbrains.cef.remote.thrift_codegen
 
 struct RObject {
-    1: required i32 objId,
-    2: optional i32 flags,
-    3: optional map<string, string> objInfo,
+    1: required bool isNull = true,
+    2: required i32 objId = -1,
+    3: optional i32 flags,
+    4: optional map<string, string> objInfo,
 }
 
 struct ResponseHeaders {
-    1: optional i32 length,
+    1: required i32 length = 0,
     2: optional string redirectUrl,
 }
 
@@ -25,9 +26,10 @@ struct PostDataElement {
 }
 
 struct PostData {
-    1: required bool isReadOnly,
-    2: required bool hasExcludedElements,
-    3: optional list<PostDataElement> elements,
+    1: required bool isNull = true,
+    2: required bool isReadOnly,
+    3: required bool hasExcludedElements,
+    4: optional list<PostDataElement> elements,
 }
 
 struct KeyEvent {

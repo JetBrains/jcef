@@ -35,7 +35,7 @@ public class RemoteMessageRouterImpl extends RemoteServerObject {
         final String jsQueryFunction = config.jsQueryFunction;
         final String jsCancelFunction = config.jsCancelFunction;
         RObject robj = rpcContext.execObj((s)->s.MessageRouter_Create(jsQueryFunction, jsCancelFunction));
-        if (robj.objId < 0) {
+        if (robj.isNull) {
             CefLog.Error("MessageRouter_Create returns invalid objId %d (queryFunction='%s', cancelFunction='%s')", robj.objId, jsQueryFunction, jsCancelFunction);
             return null;
         }
