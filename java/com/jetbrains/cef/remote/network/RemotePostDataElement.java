@@ -57,6 +57,7 @@ public class RemotePostDataElement extends CefPostDataElement {
         if (myElement.bytes == null)
             return 0;
 
+        myElement.bytes.position(0);
         myElement.bytes.get(bytes, 0, size);
         return size;
     }

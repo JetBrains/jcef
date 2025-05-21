@@ -65,7 +65,7 @@ public class RemoteFrame extends RemoteServerObject implements CefFrame {
     @Override
     public CefFrame getParent() {
         RObject parent = myRpc.execObj((s)-> s.Frame_GetParent(myId));
-        return parent == null || parent.objId < 0 ? null : new RemoteFrame(myRpc, parent);
+        return parent == null || parent.isNull ? null : new RemoteFrame(myRpc, parent);
     }
 
     @Override

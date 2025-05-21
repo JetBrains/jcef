@@ -36,5 +36,5 @@ CefRefPtr<CefResourceHandler> RemoteSchemeHandlerFactory::Create(
   myCtx->javaService()->exec([&](JavaService s){
     s->SchemeHandlerFactory_CreateHandler(resultHandler, myPeerId, bid, frm.serverId(), scheme_name.ToString(), req.serverId());
   });
-  return resultHandler.objId != -1 ? new RemoteResourceHandler(bid, myCtx, resultHandler) : nullptr;
+  return !resultHandler.isNull ? new RemoteResourceHandler(bid, myCtx, resultHandler) : nullptr;
 }

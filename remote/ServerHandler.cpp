@@ -144,7 +144,7 @@ int32_t ServerHandler::Browser_Create(int cid, int handlersMask, const thrift_co
   int32_t bid = myCtx->clientsManager()->createBrowser(cid, myCtx, handlersMask, requestContextHandler);
   if (Log::isTraceEnabled()) {
     std::string hdesc = "";
-    if (requestContextHandler.objId >= 0)
+    if (!requestContextHandler.isNull)
       hdesc = string_format(" [request context handler %d]", requestContextHandler.objId);
     Log::trace("Created remote browser cid=%d, bid=%d%s, handlers: %s", cid, bid, hdesc.c_str(), HandlerMasks::toString(handlersMask).c_str());
   }
@@ -287,7 +287,6 @@ void ServerHandler::Frame_Dispose(const int32_t frameId) {
 
 void ServerHandler::Frame_GetParent(thrift_codegen::RObject & _return, int frameId) {
   LNDCT();
-  _return.objId = -1;
   RemoteFrame * rf = RemoteFrame::get(frameId);
   if (rf == nullptr)
     return;
@@ -453,7 +452,6 @@ void ServerHandler::Browser_StopLoad(const int32_t bid) {
 
 void ServerHandler::Browser_GetMainFrame(thrift_codegen::RObject& _return, const int32_t bid) {
   LNDCT();
-  _return.objId = -1;
   GET_BROWSER_OR_RETURN()
   CefRefPtr<CefFrame> frame = browser->GetMainFrame();
   RemoteFrame* rf = RemoteFrame::create(frame);
@@ -463,7 +461,6 @@ void ServerHandler::Browser_GetMainFrame(thrift_codegen::RObject& _return, const
 
 void ServerHandler::Browser_GetFocusedFrame(thrift_codegen::RObject& _return, const int32_t bid) {
   LNDCT();
-  _return.objId = -1;
   GET_BROWSER_OR_RETURN()
   CefRefPtr<CefFrame> frame = browser->GetFocusedFrame();
   RemoteFrame* rf = RemoteFrame::create(frame);
@@ -473,7 +470,6 @@ void ServerHandler::Browser_GetFocusedFrame(thrift_codegen::RObject& _return, co
 
 void ServerHandler::Browser_GetFrameByIdentifier(thrift_codegen::RObject& _return, const int32_t bid, const std::string& id) {
   LNDCT();
-  _return.objId = -1;
   GET_BROWSER_OR_RETURN()
   CefRefPtr<CefFrame> frame = browser->GetFrameByIdentifier(id);
   RemoteFrame* rf = RemoteFrame::create(frame);
@@ -483,7 +479,6 @@ void ServerHandler::Browser_GetFrameByIdentifier(thrift_codegen::RObject& _retur
 
 void ServerHandler::Browser_GetFrameByName(thrift_codegen::RObject& _return, const int32_t bid, const std::string& name) {
   LNDCT();
-  _return.objId = -1;
   GET_BROWSER_OR_RETURN()
   CefRefPtr<CefFrame> frame = browser->GetFrameByName(name);
   RemoteFrame* rf = RemoteFrame::create(frame);
@@ -833,11 +828,12 @@ void ServerHandler::Browser_ImeCancelComposing(const int32_t bid) {
 }
 
 void ServerHandler::Request_Create(thrift_codegen::RObject& result) {
-  result.objId = -1;
   CefRefPtr<CefRequest> request = CefRequest::Create();
   RemoteRequest* rr = RemoteRequest::create(request);
-  if (rr != nullptr)
+  if (rr != nullptr) {
     result = rr->serverId();
+    result.isNull = false;
+  }
 }
 
 void ServerHandler::Request_Dispose(int requestId) {
@@ -961,33 +957,37 @@ void ServerHandler::Request_GetPostData(
     thrift_codegen::PostData& _return,
     const thrift_codegen::RObject& request
 ) {
-  _return.isReadOnly = true;
   RemoteRequest * rr = RemoteRequest::get(request.objId);
   if (rr == nullptr) return;
 
   CefRefPtr<CefPostData> pd = rr->getDelegate().GetPostData();
   if (!pd) return;
 
+  _return.isNull = false;
   _return.isReadOnly = pd->IsReadOnly();
   _return.hasExcludedElements = pd->HasExcludedElements();
   if (pd->GetElementCount() > 0) {
+    std::vector<thrift_codegen::PostDataElement> resultElements;
     CefPostData::ElementVector elements;
     pd->GetElements(elements);
     for (auto e : elements) {
       thrift_codegen::PostDataElement ee;
       ee.isReadOnly = e->IsReadOnly();
       if (e->GetType() == PDE_TYPE_FILE)
-        ee.file = e->GetFile();
+        ee.__set_file(e->GetFile());
       else if (e->GetType() == PDE_TYPE_BYTES) {
         if (e->GetBytesCount() > 0) {
           char* buf = new char[e->GetBytesCount()];
           e->GetBytes(e->GetBytesCount(), buf);
-          ee.bytes.assign((const char*)buf, e->GetBytesCount());
+          std::string bytes((const char*)buf, e->GetBytesCount());
+          bytes.assign((const char*)buf, e->GetBytesCount());
+          ee.__set_bytes(bytes);
           delete[] buf;
         }
       }
-      _return.elements.push_back(ee);
+      resultElements.push_back(ee);
     }
+    _return.__set_elements(resultElements);
   }
 }
 
@@ -1270,7 +1270,7 @@ void ServerHandler::ClearAllSchemeHandlerFactories() {
 void ServerHandler::RequestContext_ClearCertificateExceptions(const int32_t bid, const thrift_codegen::RObject& rcompletionCallback) {
   LNDCT();
   CefRefPtr<RemoteCompletionCallback> cb;
-  if (rcompletionCallback.objId >= 0)
+  if (!rcompletionCallback.isNull)
     cb = new RemoteCompletionCallback(myCtx, rcompletionCallback);
   if (bid < 0) {
     // NOTE: assume that GlobalContext is linked with negative bid.
@@ -1288,7 +1288,7 @@ void ServerHandler::RequestContext_ClearCertificateExceptions(const int32_t bid,
 void ServerHandler::RequestContext_CloseAllConnections(const int32_t bid, const thrift_codegen::RObject& rcompletionCallback) {
   LNDCT();
   CefRefPtr<RemoteCompletionCallback> cb;
-  if (rcompletionCallback.objId >= 0)
+  if (!rcompletionCallback.isNull)
     cb = new RemoteCompletionCallback(myCtx, rcompletionCallback);
   if (bid < 0) {
     // NOTE: assume that GlobalContext is linked with negative bid.
@@ -1304,7 +1304,6 @@ void ServerHandler::RequestContext_CloseAllConnections(const int32_t bid, const 
 }
 
 void ServerHandler::CookieManager_Create(thrift_codegen::RObject& _return) {
-  _return.objId = -1;
   // TODO(JCEF): Expose the callback object.
   CefRefPtr<CefCookieManager> manager = CefCookieManager::GetGlobalManager(nullptr);
   if (!manager)
@@ -1382,7 +1381,7 @@ bool ServerHandler::CookieManager_FlushStore(
   GET_COOKIE_MANAGER_OR_RETURN_VAL(false);
 
   CefRefPtr<RemoteCompletionCallback> cb;
-  if (rcompletionCallback.objId >= 0)
+  if (!rcompletionCallback.isNull)
     cb = new RemoteCompletionCallback(myCtx, rcompletionCallback);
   return manager->getDelegate().FlushStore(cb);
 }

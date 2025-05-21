@@ -30,8 +30,8 @@ public abstract class RemoteServerObjectLocal {
 
     public abstract void flush();
 
-    public RObject thriftId() { return new RObject(myId); }
-    public RObject thriftIdWithCache() { return new RObject(myId).setObjInfo(myCache); }
+    public RObject thriftId() { return new RObject(false, myId); }
+    public RObject thriftIdWithCache() { return new RObject(false, myId).setObjInfo(myCache); }
 
     //
     // Protected API

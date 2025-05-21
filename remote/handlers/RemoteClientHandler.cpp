@@ -92,7 +92,7 @@ RemoteClientHandler::RemoteClientHandler(
 
   // TODO: Expose CefRequestContextSettings.
   CefRequestContextSettings settings;
-  myRequestContext = requestContextHandler.objId < 0
+  myRequestContext = requestContextHandler.isNull
           ? CefRequestContext::GetGlobalContext()
           : CefRequestContext::CreateContext(settings,new RemoteRequestContextHandler(ctx, requestContextHandler));
 }

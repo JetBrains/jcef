@@ -68,6 +68,7 @@ class RemoteServerObjectBase {
   virtual thrift_codegen::RObject serverId() {
     thrift_codegen::RObject robj;
     robj.__set_objId(myId);
+    robj.isNull = false;
     return robj;
   }
 
@@ -131,6 +132,7 @@ class RemoteServerObjectUpdatable : public RemoteServerObject<T, D> {
     thrift_codegen::RObject robj;
     robj.__set_objId(RemoteServerObject<T, D>::myId);
     robj.__set_objInfo(toMap());
+    robj.isNull = false;
     return robj;
   }
 
@@ -173,6 +175,7 @@ class RemoteJavaObject {
   thrift_codegen::RObject javaId() {
     thrift_codegen::RObject robj;
     robj.__set_objId(myPeerId);
+    robj.isNull = false;
     return robj;
   }
 
@@ -196,12 +199,7 @@ class RemoteServerObjectHolder {
   }
 
   thrift_codegen::RObject serverId() {
-    if (myRemoteObj != nullptr)
-      return myRemoteObj->serverId();
-
-    thrift_codegen::RObject result;
-    result.__set_objId(-1);
-    return result;
+    return myRemoteObj != nullptr ? myRemoteObj->serverId() : thrift_codegen::RObject();
   }
 
   T * get() { return myRemoteObj; }

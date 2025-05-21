@@ -68,7 +68,7 @@ public class RemoteRequestImpl extends RemoteServerObject {
 
     public CefPostData getPostData() {
         PostData pd = myRpc.execObj((s)-> s.Request_GetPostData(thriftId()));
-        return pd == null ? null : new RemotePostData(pd);
+        return pd == null || pd.isNull ? null : new RemotePostData(pd);
     }
 
     public void setPostData(CefPostData postData) {
