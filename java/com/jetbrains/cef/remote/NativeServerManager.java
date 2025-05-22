@@ -435,8 +435,10 @@ public class NativeServerManager {
 
     public static boolean isRemoteSupported() {
         File cef_server_exe = getServerExe();
-        if (cef_server_exe == null)
-            return false;
+        if (cef_server_exe == null) {
+            // NOTE: cef_server can be manually started on custom port (for example, in debugging)
+            return isRunning(ThriftTransport.ourDefaultServer) != null;
+        }
         return cef_server_exe.exists() && !cef_server_exe.isDirectory();
     }
 
@@ -466,7 +468,7 @@ public class NativeServerManager {
             else
                 result = new File(javabin.getParentFile(), "cef_server.exe");
             if (!result.exists()) {
-                CefLog.Warn("Can't determine cef_server location via ProcessHandle (because calculated path '%s' doesn't exist), cmd=%s", result.getAbsolutePath(), cmd);
+                CefLog.Warn("Can't determine cef_server location via java-process path '%' (because calculated path '%s' doesn't exist), cmd=%s", javabin.getAbsolutePath(), result.getAbsolutePath(), cmd);
                 return findExeViaSystemProperty();
             }
 
@@ -512,11 +514,10 @@ public class NativeServerManager {
             CefLog.Error("Can't find cef_server binary: system property 'java.home' is empty.");
             return null;
         }
-        CefLog.Debug("Find cef_server binary via system property 'java.home'=%s", javaPath);
 
         File javaDir = new File(javaPath);
         if (!javaDir.exists() || !javaDir.isDirectory()) {
-            CefLog.Error("Can't find cef_server binary: java directory doesn't exist, 'java.home'=%s", javaPath);
+            CefLog.Error("Can't find cef_server binary via System.getProperty('java.home'): java directory doesn't exist, 'java.home'=%s", javaPath);
             return null;
         }
 
@@ -529,9 +530,10 @@ public class NativeServerManager {
             result = new File(new File(javaDir, "bin"), "cef_server.exe");
 
         if (!result.exists()) {
-            CefLog.Error("Can't find cef_server binary: file %s doesn't exist, 'java.home'=%s", result.getAbsolutePath(), javaPath);
+            CefLog.Debug("Can't find cef_server binary via System.getProperty('java.home'): file %s doesn't exist, 'java.home'=%s", result.getAbsolutePath(), javaPath);
             return null;
         }
+        CefLog.Debug("Found cef_server binary '%s' via System.getProperty('java.home')=%s", result.getAbsolutePath(), javaPath);
         return result;
     }
 
