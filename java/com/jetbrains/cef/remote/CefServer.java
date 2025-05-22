@@ -84,10 +84,10 @@ public class CefServer {
         if (!CefApp.isRemoteEnabled())
             return false;
 
-        final String prevRoot = NativeServerManager.isRunning(myThriftServer);
-        if (prevRoot != null) {
-            // Shouldn't be here because pipe-names are unique for each client process.
-            CefLog.Error("Found running cef_server instance with root '%s'", prevRoot);
+        final String runningRoot = NativeServerManager.isRunning(myThriftServer);
+        if (runningRoot != null) {
+            // NOTE: pipe-names/ports are unique for each client process, so we can go here only when custom transport is specified manually.
+            CefLog.Info("Going to connect with already running cef_server: transport '%s', root '%s'", myThriftServer, runningRoot);
         } else {
             boolean deleteRoot = false;
             if (FIX_ROOTS || fixRoot)
@@ -99,7 +99,7 @@ public class CefServer {
         }
 
         if (!connect(appHandler == null ? null : appHandler::onContextInitialized)) {
-            CefLog.Error("Can't initialize thrift client for native server.");
+            CefLog.Error("CefServer.connect() fails, can't initialize thrift client for native server.");
             return false;
         }
         return true;
