@@ -69,7 +69,7 @@ class RObject : public virtual ::apache::thrift::TBase {
   RObject& operator=(const RObject&);
   RObject() noexcept
           : isNull(true),
-            objId(0),
+            objId(-1),
             flags(0) {
   }
 
@@ -122,8 +122,7 @@ void swap(RObject &a, RObject &b);
 std::ostream& operator<<(std::ostream& out, const RObject& obj);
 
 typedef struct _ResponseHeaders__isset {
-  _ResponseHeaders__isset() : length(false), redirectUrl(false) {}
-  bool length :1;
+  _ResponseHeaders__isset() : redirectUrl(false) {}
   bool redirectUrl :1;
 } _ResponseHeaders__isset;
 
@@ -149,9 +148,7 @@ class ResponseHeaders : public virtual ::apache::thrift::TBase {
 
   bool operator == (const ResponseHeaders & rhs) const
   {
-    if (__isset.length != rhs.__isset.length)
-      return false;
-    else if (__isset.length && !(length == rhs.length))
+    if (!(length == rhs.length))
       return false;
     if (__isset.redirectUrl != rhs.__isset.redirectUrl)
       return false;
@@ -309,16 +306,20 @@ class PostData : public virtual ::apache::thrift::TBase {
   PostData(const PostData&);
   PostData& operator=(const PostData&);
   PostData() noexcept
-           : isReadOnly(0),
+           : isNull(true),
+             isReadOnly(0),
              hasExcludedElements(0) {
   }
 
   virtual ~PostData() noexcept;
+  bool isNull;
   bool isReadOnly;
   bool hasExcludedElements;
   std::vector<PostDataElement>  elements;
 
   _PostData__isset __isset;
+
+  void __set_isNull(const bool val);
 
   void __set_isReadOnly(const bool val);
 
@@ -328,6 +329,8 @@ class PostData : public virtual ::apache::thrift::TBase {
 
   bool operator == (const PostData & rhs) const
   {
+    if (!(isNull == rhs.isNull))
+      return false;
     if (!(isReadOnly == rhs.isReadOnly))
       return false;
     if (!(hasExcludedElements == rhs.hasExcludedElements))

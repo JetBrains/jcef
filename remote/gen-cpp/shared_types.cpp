@@ -239,7 +239,6 @@ ResponseHeaders::~ResponseHeaders() noexcept {
 
 void ResponseHeaders::__set_length(const int32_t val) {
   this->length = val;
-__isset.length = true;
 }
 
 void ResponseHeaders::__set_redirectUrl(const std::string& val) {
@@ -265,6 +264,7 @@ uint32_t ResponseHeaders::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   using ::apache::thrift::protocol::TProtocolException;
 
+  bool isset_length = false;
 
   while (true)
   {
@@ -277,7 +277,7 @@ uint32_t ResponseHeaders::read(::apache::thrift::protocol::TProtocol* iprot) {
       case 1:
         if (ftype == ::apache::thrift::protocol::T_I32) {
           xfer += iprot->readI32(this->length);
-          this->__isset.length = true;
+          isset_length = true;
         } else {
           xfer += iprot->skip(ftype);
         }
@@ -299,6 +299,8 @@ uint32_t ResponseHeaders::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   xfer += iprot->readStructEnd();
 
+  if (!isset_length)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
   return xfer;
 }
 
@@ -307,11 +309,10 @@ uint32_t ResponseHeaders::write(::apache::thrift::protocol::TProtocol* oprot) co
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
   xfer += oprot->writeStructBegin("ResponseHeaders");
 
-  if (this->__isset.length) {
-    xfer += oprot->writeFieldBegin("length", ::apache::thrift::protocol::T_I32, 1);
-    xfer += oprot->writeI32(this->length);
-    xfer += oprot->writeFieldEnd();
-  }
+  xfer += oprot->writeFieldBegin("length", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->length);
+  xfer += oprot->writeFieldEnd();
+
   if (this->__isset.redirectUrl) {
     xfer += oprot->writeFieldBegin("redirectUrl", ::apache::thrift::protocol::T_STRING, 2);
     xfer += oprot->writeString(this->redirectUrl);
@@ -343,7 +344,7 @@ ResponseHeaders& ResponseHeaders::operator=(const ResponseHeaders& other11) {
 void ResponseHeaders::printTo(std::ostream& out) const {
   using ::apache::thrift::to_string;
   out << "ResponseHeaders(";
-  out << "length="; (__isset.length ? (out << to_string(length)) : (out << "<null>"));
+  out << "length=" << to_string(length);
   out << ", " << "redirectUrl="; (__isset.redirectUrl ? (out << to_string(redirectUrl)) : (out << "<null>"));
   out << ")";
 }
@@ -630,6 +631,10 @@ PostData::~PostData() noexcept {
 }
 
 
+void PostData::__set_isNull(const bool val) {
+  this->isNull = val;
+}
+
 void PostData::__set_isReadOnly(const bool val) {
   this->isReadOnly = val;
 }
@@ -661,6 +666,7 @@ uint32_t PostData::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   using ::apache::thrift::protocol::TProtocolException;
 
+  bool isset_isNull = false;
   bool isset_isReadOnly = false;
   bool isset_hasExcludedElements = false;
 
@@ -674,13 +680,21 @@ uint32_t PostData::read(::apache::thrift::protocol::TProtocol* iprot) {
     {
       case 1:
         if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->isNull);
+          isset_isNull = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
           xfer += iprot->readBool(this->isReadOnly);
           isset_isReadOnly = true;
         } else {
           xfer += iprot->skip(ftype);
         }
         break;
-      case 2:
+      case 3:
         if (ftype == ::apache::thrift::protocol::T_BOOL) {
           xfer += iprot->readBool(this->hasExcludedElements);
           isset_hasExcludedElements = true;
@@ -688,7 +702,7 @@ uint32_t PostData::read(::apache::thrift::protocol::TProtocol* iprot) {
           xfer += iprot->skip(ftype);
         }
         break;
-      case 3:
+      case 4:
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->elements.clear();
@@ -717,6 +731,8 @@ uint32_t PostData::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   xfer += iprot->readStructEnd();
 
+  if (!isset_isNull)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
   if (!isset_isReadOnly)
     throw TProtocolException(TProtocolException::INVALID_DATA);
   if (!isset_hasExcludedElements)
@@ -729,16 +745,20 @@ uint32_t PostData::write(::apache::thrift::protocol::TProtocol* oprot) const {
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
   xfer += oprot->writeStructBegin("PostData");
 
-  xfer += oprot->writeFieldBegin("isReadOnly", ::apache::thrift::protocol::T_BOOL, 1);
+  xfer += oprot->writeFieldBegin("isNull", ::apache::thrift::protocol::T_BOOL, 1);
+  xfer += oprot->writeBool(this->isNull);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("isReadOnly", ::apache::thrift::protocol::T_BOOL, 2);
   xfer += oprot->writeBool(this->isReadOnly);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("hasExcludedElements", ::apache::thrift::protocol::T_BOOL, 2);
+  xfer += oprot->writeFieldBegin("hasExcludedElements", ::apache::thrift::protocol::T_BOOL, 3);
   xfer += oprot->writeBool(this->hasExcludedElements);
   xfer += oprot->writeFieldEnd();
 
   if (this->__isset.elements) {
-    xfer += oprot->writeFieldBegin("elements", ::apache::thrift::protocol::T_LIST, 3);
+    xfer += oprot->writeFieldBegin("elements", ::apache::thrift::protocol::T_LIST, 4);
     {
       xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->elements.size()));
       std::vector<PostDataElement> ::const_iterator _iter21;
@@ -757,6 +777,7 @@ uint32_t PostData::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
 void swap(PostData &a, PostData &b) {
   using ::std::swap;
+  swap(a.isNull, b.isNull);
   swap(a.isReadOnly, b.isReadOnly);
   swap(a.hasExcludedElements, b.hasExcludedElements);
   swap(a.elements, b.elements);
@@ -764,12 +785,14 @@ void swap(PostData &a, PostData &b) {
 }
 
 PostData::PostData(const PostData& other22) {
+  isNull = other22.isNull;
   isReadOnly = other22.isReadOnly;
   hasExcludedElements = other22.hasExcludedElements;
   elements = other22.elements;
   __isset = other22.__isset;
 }
 PostData& PostData::operator=(const PostData& other23) {
+  isNull = other23.isNull;
   isReadOnly = other23.isReadOnly;
   hasExcludedElements = other23.hasExcludedElements;
   elements = other23.elements;
@@ -779,7 +802,8 @@ PostData& PostData::operator=(const PostData& other23) {
 void PostData::printTo(std::ostream& out) const {
   using ::apache::thrift::to_string;
   out << "PostData(";
-  out << "isReadOnly=" << to_string(isReadOnly);
+  out << "isNull=" << to_string(isNull);
+  out << ", " << "isReadOnly=" << to_string(isReadOnly);
   out << ", " << "hasExcludedElements=" << to_string(hasExcludedElements);
   out << ", " << "elements="; (__isset.elements ? (out << to_string(elements)) : (out << "<null>"));
   out << ")";

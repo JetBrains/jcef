@@ -10,22 +10,25 @@ package com.jetbrains.cef.remote.thrift_codegen;
 public class RObject implements com.jetbrains.cef.remote.thrift.TBase<RObject, RObject._Fields>, java.io.Serializable, Cloneable, Comparable<RObject> {
   private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("RObject");
 
-  private static final com.jetbrains.cef.remote.thrift.protocol.TField OBJ_ID_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("objId", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)1);
-  private static final com.jetbrains.cef.remote.thrift.protocol.TField FLAGS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("flags", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)2);
-  private static final com.jetbrains.cef.remote.thrift.protocol.TField OBJ_INFO_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("objInfo", com.jetbrains.cef.remote.thrift.protocol.TType.MAP, (short)3);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField IS_NULL_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("isNull", com.jetbrains.cef.remote.thrift.protocol.TType.BOOL, (short)1);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField OBJ_ID_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("objId", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)2);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField FLAGS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("flags", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)3);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField OBJ_INFO_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("objInfo", com.jetbrains.cef.remote.thrift.protocol.TType.MAP, (short)4);
 
   private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new RObjectStandardSchemeFactory();
   private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new RObjectTupleSchemeFactory();
 
+  public boolean isNull; // required
   public int objId; // required
   public int flags; // optional
   public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.util.Map<java.lang.String,java.lang.String> objInfo; // optional
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
-    OBJ_ID((short)1, "objId"),
-    FLAGS((short)2, "flags"),
-    OBJ_INFO((short)3, "objInfo");
+    IS_NULL((short)1, "isNull"),
+    OBJ_ID((short)2, "objId"),
+    FLAGS((short)3, "flags"),
+    OBJ_INFO((short)4, "objInfo");
 
     private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -41,11 +44,13 @@ public class RObject implements com.jetbrains.cef.remote.thrift.TBase<RObject, R
     @com.jetbrains.cef.remote.thrift.annotation.Nullable
     public static _Fields findByThriftId(int fieldId) {
       switch(fieldId) {
-        case 1: // OBJ_ID
+        case 1: // IS_NULL
+          return IS_NULL;
+        case 2: // OBJ_ID
           return OBJ_ID;
-        case 2: // FLAGS
+        case 3: // FLAGS
           return FLAGS;
-        case 3: // OBJ_INFO
+        case 4: // OBJ_INFO
           return OBJ_INFO;
         default:
           return null;
@@ -90,13 +95,16 @@ public class RObject implements com.jetbrains.cef.remote.thrift.TBase<RObject, R
   }
 
   // isset id assignments
-  private static final int __OBJID_ISSET_ID = 0;
-  private static final int __FLAGS_ISSET_ID = 1;
+  private static final int __ISNULL_ISSET_ID = 0;
+  private static final int __OBJID_ISSET_ID = 1;
+  private static final int __FLAGS_ISSET_ID = 2;
   private byte __isset_bitfield = 0;
   private static final _Fields optionals[] = {_Fields.FLAGS,_Fields.OBJ_INFO};
   public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
     java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+    tmpMap.put(_Fields.IS_NULL, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("isNull", com.jetbrains.cef.remote.thrift.TFieldRequirementType.REQUIRED, 
+        new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.BOOL)));
     tmpMap.put(_Fields.OBJ_ID, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("objId", com.jetbrains.cef.remote.thrift.TFieldRequirementType.REQUIRED, 
         new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
     tmpMap.put(_Fields.FLAGS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("flags", com.jetbrains.cef.remote.thrift.TFieldRequirementType.OPTIONAL, 
@@ -110,12 +118,19 @@ public class RObject implements com.jetbrains.cef.remote.thrift.TBase<RObject, R
   }
 
   public RObject() {
+    this.isNull = true;
+
+    this.objId = -1;
+
   }
 
   public RObject(
+    boolean isNull,
     int objId)
   {
     this();
+    this.isNull = isNull;
+    setIsNullIsSet(true);
     this.objId = objId;
     setObjIdIsSet(true);
   }
@@ -125,6 +140,7 @@ public class RObject implements com.jetbrains.cef.remote.thrift.TBase<RObject, R
    */
   public RObject(RObject other) {
     __isset_bitfield = other.__isset_bitfield;
+    this.isNull = other.isNull;
     this.objId = other.objId;
     this.flags = other.flags;
     if (other.isSetObjInfo()) {
@@ -140,11 +156,36 @@ public class RObject implements com.jetbrains.cef.remote.thrift.TBase<RObject, R
 
   @Override
   public void clear() {
-    setObjIdIsSet(false);
-    this.objId = 0;
+    this.isNull = true;
+
+    this.objId = -1;
+
     setFlagsIsSet(false);
     this.flags = 0;
     this.objInfo = null;
+  }
+
+  public boolean isIsNull() {
+    return this.isNull;
+  }
+
+  public RObject setIsNull(boolean isNull) {
+    this.isNull = isNull;
+    setIsNullIsSet(true);
+    return this;
+  }
+
+  public void unsetIsNull() {
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __ISNULL_ISSET_ID);
+  }
+
+  /** Returns true if field isNull is set (has been assigned a value) and false otherwise */
+  public boolean isSetIsNull() {
+    return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __ISNULL_ISSET_ID);
+  }
+
+  public void setIsNullIsSet(boolean value) {
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __ISNULL_ISSET_ID, value);
   }
 
   public int getObjId() {
@@ -232,6 +273,14 @@ public class RObject implements com.jetbrains.cef.remote.thrift.TBase<RObject, R
   @Override
   public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
     switch (field) {
+    case IS_NULL:
+      if (value == null) {
+        unsetIsNull();
+      } else {
+        setIsNull((java.lang.Boolean)value);
+      }
+      break;
+
     case OBJ_ID:
       if (value == null) {
         unsetObjId();
@@ -263,6 +312,9 @@ public class RObject implements com.jetbrains.cef.remote.thrift.TBase<RObject, R
   @Override
   public java.lang.Object getFieldValue(_Fields field) {
     switch (field) {
+    case IS_NULL:
+      return isIsNull();
+
     case OBJ_ID:
       return getObjId();
 
@@ -284,6 +336,8 @@ public class RObject implements com.jetbrains.cef.remote.thrift.TBase<RObject, R
     }
 
     switch (field) {
+    case IS_NULL:
+      return isSetIsNull();
     case OBJ_ID:
       return isSetObjId();
     case FLAGS:
@@ -306,6 +360,15 @@ public class RObject implements com.jetbrains.cef.remote.thrift.TBase<RObject, R
       return false;
     if (this == that)
       return true;
+
+    boolean this_present_isNull = true;
+    boolean that_present_isNull = true;
+    if (this_present_isNull || that_present_isNull) {
+      if (!(this_present_isNull && that_present_isNull))
+        return false;
+      if (this.isNull != that.isNull)
+        return false;
+    }
 
     boolean this_present_objId = true;
     boolean that_present_objId = true;
@@ -341,6 +404,8 @@ public class RObject implements com.jetbrains.cef.remote.thrift.TBase<RObject, R
   public int hashCode() {
     int hashCode = 1;
 
+    hashCode = hashCode * 8191 + ((isNull) ? 131071 : 524287);
+
     hashCode = hashCode * 8191 + objId;
 
     hashCode = hashCode * 8191 + ((isSetFlags()) ? 131071 : 524287);
@@ -362,6 +427,16 @@ public class RObject implements com.jetbrains.cef.remote.thrift.TBase<RObject, R
 
     int lastComparison = 0;
 
+    lastComparison = java.lang.Boolean.compare(isSetIsNull(), other.isSetIsNull());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetIsNull()) {
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.isNull, other.isNull);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
     lastComparison = java.lang.Boolean.compare(isSetObjId(), other.isSetObjId());
     if (lastComparison != 0) {
       return lastComparison;
@@ -416,6 +491,10 @@ public class RObject implements com.jetbrains.cef.remote.thrift.TBase<RObject, R
     java.lang.StringBuilder sb = new java.lang.StringBuilder("RObject(");
     boolean first = true;
 
+    sb.append("isNull:");
+    sb.append(this.isNull);
+    first = false;
+    if (!first) sb.append(", ");
     sb.append("objId:");
     sb.append(this.objId);
     first = false;
@@ -441,6 +520,7 @@ public class RObject implements com.jetbrains.cef.remote.thrift.TBase<RObject, R
 
   public void validate() throws com.jetbrains.cef.remote.thrift.TException {
     // check for required fields
+    // alas, we cannot check 'isNull' because it's a primitive and you chose the non-beans generator.
     // alas, we cannot check 'objId' because it's a primitive and you chose the non-beans generator.
     // check for sub-struct validity
   }
@@ -483,7 +563,15 @@ public class RObject implements com.jetbrains.cef.remote.thrift.TBase<RObject, R
           break;
         }
         switch (schemeField.id) {
-          case 1: // OBJ_ID
+          case 1: // IS_NULL
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.BOOL) {
+              struct.isNull = iprot.readBool();
+              struct.setIsNullIsSet(true);
+            } else { 
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            break;
+          case 2: // OBJ_ID
             if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
               struct.objId = iprot.readI32();
               struct.setObjIdIsSet(true);
@@ -491,7 +579,7 @@ public class RObject implements com.jetbrains.cef.remote.thrift.TBase<RObject, R
               com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 2: // FLAGS
+          case 3: // FLAGS
             if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
               struct.flags = iprot.readI32();
               struct.setFlagsIsSet(true);
@@ -499,7 +587,7 @@ public class RObject implements com.jetbrains.cef.remote.thrift.TBase<RObject, R
               com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 3: // OBJ_INFO
+          case 4: // OBJ_INFO
             if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.MAP) {
               {
                 com.jetbrains.cef.remote.thrift.protocol.TMap _map0 = iprot.readMapBegin();
@@ -527,6 +615,9 @@ public class RObject implements com.jetbrains.cef.remote.thrift.TBase<RObject, R
       iprot.readStructEnd();
 
       // check for required fields of primitive type, which can't be checked in the validate method
+      if (!struct.isSetIsNull()) {
+        throw new com.jetbrains.cef.remote.thrift.protocol.TProtocolException("Required field 'isNull' was not found in serialized data! Struct: " + toString());
+      }
       if (!struct.isSetObjId()) {
         throw new com.jetbrains.cef.remote.thrift.protocol.TProtocolException("Required field 'objId' was not found in serialized data! Struct: " + toString());
       }
@@ -538,6 +629,9 @@ public class RObject implements com.jetbrains.cef.remote.thrift.TBase<RObject, R
       struct.validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
+      oprot.writeFieldBegin(IS_NULL_FIELD_DESC);
+      oprot.writeBool(struct.isNull);
+      oprot.writeFieldEnd();
       oprot.writeFieldBegin(OBJ_ID_FIELD_DESC);
       oprot.writeI32(struct.objId);
       oprot.writeFieldEnd();
@@ -579,6 +673,7 @@ public class RObject implements com.jetbrains.cef.remote.thrift.TBase<RObject, R
     @Override
     public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, RObject struct) throws com.jetbrains.cef.remote.thrift.TException {
       com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+      oprot.writeBool(struct.isNull);
       oprot.writeI32(struct.objId);
       java.util.BitSet optionals = new java.util.BitSet();
       if (struct.isSetFlags()) {
@@ -606,6 +701,8 @@ public class RObject implements com.jetbrains.cef.remote.thrift.TBase<RObject, R
     @Override
     public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, RObject struct) throws com.jetbrains.cef.remote.thrift.TException {
       com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+      struct.isNull = iprot.readBool();
+      struct.setIsNullIsSet(true);
       struct.objId = iprot.readI32();
       struct.setObjIdIsSet(true);
       java.util.BitSet incoming = iprot.readBitSet(2);
