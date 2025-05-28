@@ -10,22 +10,25 @@ package com.jetbrains.cef.remote.thrift_codegen;
 public class PostData implements com.jetbrains.cef.remote.thrift.TBase<PostData, PostData._Fields>, java.io.Serializable, Cloneable, Comparable<PostData> {
   private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("PostData");
 
-  private static final com.jetbrains.cef.remote.thrift.protocol.TField IS_READ_ONLY_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("isReadOnly", com.jetbrains.cef.remote.thrift.protocol.TType.BOOL, (short)1);
-  private static final com.jetbrains.cef.remote.thrift.protocol.TField HAS_EXCLUDED_ELEMENTS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("hasExcludedElements", com.jetbrains.cef.remote.thrift.protocol.TType.BOOL, (short)2);
-  private static final com.jetbrains.cef.remote.thrift.protocol.TField ELEMENTS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("elements", com.jetbrains.cef.remote.thrift.protocol.TType.LIST, (short)3);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField IS_NULL_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("isNull", com.jetbrains.cef.remote.thrift.protocol.TType.BOOL, (short)1);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField IS_READ_ONLY_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("isReadOnly", com.jetbrains.cef.remote.thrift.protocol.TType.BOOL, (short)2);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField HAS_EXCLUDED_ELEMENTS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("hasExcludedElements", com.jetbrains.cef.remote.thrift.protocol.TType.BOOL, (short)3);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField ELEMENTS_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("elements", com.jetbrains.cef.remote.thrift.protocol.TType.LIST, (short)4);
 
   private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new PostDataStandardSchemeFactory();
   private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new PostDataTupleSchemeFactory();
 
+  public boolean isNull; // required
   public boolean isReadOnly; // required
   public boolean hasExcludedElements; // required
   public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.util.List<PostDataElement> elements; // optional
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
-    IS_READ_ONLY((short)1, "isReadOnly"),
-    HAS_EXCLUDED_ELEMENTS((short)2, "hasExcludedElements"),
-    ELEMENTS((short)3, "elements");
+    IS_NULL((short)1, "isNull"),
+    IS_READ_ONLY((short)2, "isReadOnly"),
+    HAS_EXCLUDED_ELEMENTS((short)3, "hasExcludedElements"),
+    ELEMENTS((short)4, "elements");
 
     private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -41,11 +44,13 @@ public class PostData implements com.jetbrains.cef.remote.thrift.TBase<PostData,
     @com.jetbrains.cef.remote.thrift.annotation.Nullable
     public static _Fields findByThriftId(int fieldId) {
       switch(fieldId) {
-        case 1: // IS_READ_ONLY
+        case 1: // IS_NULL
+          return IS_NULL;
+        case 2: // IS_READ_ONLY
           return IS_READ_ONLY;
-        case 2: // HAS_EXCLUDED_ELEMENTS
+        case 3: // HAS_EXCLUDED_ELEMENTS
           return HAS_EXCLUDED_ELEMENTS;
-        case 3: // ELEMENTS
+        case 4: // ELEMENTS
           return ELEMENTS;
         default:
           return null;
@@ -90,13 +95,16 @@ public class PostData implements com.jetbrains.cef.remote.thrift.TBase<PostData,
   }
 
   // isset id assignments
-  private static final int __ISREADONLY_ISSET_ID = 0;
-  private static final int __HASEXCLUDEDELEMENTS_ISSET_ID = 1;
+  private static final int __ISNULL_ISSET_ID = 0;
+  private static final int __ISREADONLY_ISSET_ID = 1;
+  private static final int __HASEXCLUDEDELEMENTS_ISSET_ID = 2;
   private byte __isset_bitfield = 0;
   private static final _Fields optionals[] = {_Fields.ELEMENTS};
   public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
     java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
+    tmpMap.put(_Fields.IS_NULL, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("isNull", com.jetbrains.cef.remote.thrift.TFieldRequirementType.REQUIRED, 
+        new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.BOOL)));
     tmpMap.put(_Fields.IS_READ_ONLY, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("isReadOnly", com.jetbrains.cef.remote.thrift.TFieldRequirementType.REQUIRED, 
         new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.BOOL)));
     tmpMap.put(_Fields.HAS_EXCLUDED_ELEMENTS, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("hasExcludedElements", com.jetbrains.cef.remote.thrift.TFieldRequirementType.REQUIRED, 
@@ -109,13 +117,18 @@ public class PostData implements com.jetbrains.cef.remote.thrift.TBase<PostData,
   }
 
   public PostData() {
+    this.isNull = true;
+
   }
 
   public PostData(
+    boolean isNull,
     boolean isReadOnly,
     boolean hasExcludedElements)
   {
     this();
+    this.isNull = isNull;
+    setIsNullIsSet(true);
     this.isReadOnly = isReadOnly;
     setIsReadOnlyIsSet(true);
     this.hasExcludedElements = hasExcludedElements;
@@ -127,6 +140,7 @@ public class PostData implements com.jetbrains.cef.remote.thrift.TBase<PostData,
    */
   public PostData(PostData other) {
     __isset_bitfield = other.__isset_bitfield;
+    this.isNull = other.isNull;
     this.isReadOnly = other.isReadOnly;
     this.hasExcludedElements = other.hasExcludedElements;
     if (other.isSetElements()) {
@@ -145,11 +159,36 @@ public class PostData implements com.jetbrains.cef.remote.thrift.TBase<PostData,
 
   @Override
   public void clear() {
+    this.isNull = true;
+
     setIsReadOnlyIsSet(false);
     this.isReadOnly = false;
     setHasExcludedElementsIsSet(false);
     this.hasExcludedElements = false;
     this.elements = null;
+  }
+
+  public boolean isIsNull() {
+    return this.isNull;
+  }
+
+  public PostData setIsNull(boolean isNull) {
+    this.isNull = isNull;
+    setIsNullIsSet(true);
+    return this;
+  }
+
+  public void unsetIsNull() {
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __ISNULL_ISSET_ID);
+  }
+
+  /** Returns true if field isNull is set (has been assigned a value) and false otherwise */
+  public boolean isSetIsNull() {
+    return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __ISNULL_ISSET_ID);
+  }
+
+  public void setIsNullIsSet(boolean value) {
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __ISNULL_ISSET_ID, value);
   }
 
   public boolean isIsReadOnly() {
@@ -242,6 +281,14 @@ public class PostData implements com.jetbrains.cef.remote.thrift.TBase<PostData,
   @Override
   public void setFieldValue(_Fields field, @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.Object value) {
     switch (field) {
+    case IS_NULL:
+      if (value == null) {
+        unsetIsNull();
+      } else {
+        setIsNull((java.lang.Boolean)value);
+      }
+      break;
+
     case IS_READ_ONLY:
       if (value == null) {
         unsetIsReadOnly();
@@ -273,6 +320,9 @@ public class PostData implements com.jetbrains.cef.remote.thrift.TBase<PostData,
   @Override
   public java.lang.Object getFieldValue(_Fields field) {
     switch (field) {
+    case IS_NULL:
+      return isIsNull();
+
     case IS_READ_ONLY:
       return isIsReadOnly();
 
@@ -294,6 +344,8 @@ public class PostData implements com.jetbrains.cef.remote.thrift.TBase<PostData,
     }
 
     switch (field) {
+    case IS_NULL:
+      return isSetIsNull();
     case IS_READ_ONLY:
       return isSetIsReadOnly();
     case HAS_EXCLUDED_ELEMENTS:
@@ -316,6 +368,15 @@ public class PostData implements com.jetbrains.cef.remote.thrift.TBase<PostData,
       return false;
     if (this == that)
       return true;
+
+    boolean this_present_isNull = true;
+    boolean that_present_isNull = true;
+    if (this_present_isNull || that_present_isNull) {
+      if (!(this_present_isNull && that_present_isNull))
+        return false;
+      if (this.isNull != that.isNull)
+        return false;
+    }
 
     boolean this_present_isReadOnly = true;
     boolean that_present_isReadOnly = true;
@@ -351,6 +412,8 @@ public class PostData implements com.jetbrains.cef.remote.thrift.TBase<PostData,
   public int hashCode() {
     int hashCode = 1;
 
+    hashCode = hashCode * 8191 + ((isNull) ? 131071 : 524287);
+
     hashCode = hashCode * 8191 + ((isReadOnly) ? 131071 : 524287);
 
     hashCode = hashCode * 8191 + ((hasExcludedElements) ? 131071 : 524287);
@@ -370,6 +433,16 @@ public class PostData implements com.jetbrains.cef.remote.thrift.TBase<PostData,
 
     int lastComparison = 0;
 
+    lastComparison = java.lang.Boolean.compare(isSetIsNull(), other.isSetIsNull());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetIsNull()) {
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.isNull, other.isNull);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
     lastComparison = java.lang.Boolean.compare(isSetIsReadOnly(), other.isSetIsReadOnly());
     if (lastComparison != 0) {
       return lastComparison;
@@ -424,6 +497,10 @@ public class PostData implements com.jetbrains.cef.remote.thrift.TBase<PostData,
     java.lang.StringBuilder sb = new java.lang.StringBuilder("PostData(");
     boolean first = true;
 
+    sb.append("isNull:");
+    sb.append(this.isNull);
+    first = false;
+    if (!first) sb.append(", ");
     sb.append("isReadOnly:");
     sb.append(this.isReadOnly);
     first = false;
@@ -447,6 +524,7 @@ public class PostData implements com.jetbrains.cef.remote.thrift.TBase<PostData,
 
   public void validate() throws com.jetbrains.cef.remote.thrift.TException {
     // check for required fields
+    // alas, we cannot check 'isNull' because it's a primitive and you chose the non-beans generator.
     // alas, we cannot check 'isReadOnly' because it's a primitive and you chose the non-beans generator.
     // alas, we cannot check 'hasExcludedElements' because it's a primitive and you chose the non-beans generator.
     // check for sub-struct validity
@@ -490,7 +568,15 @@ public class PostData implements com.jetbrains.cef.remote.thrift.TBase<PostData,
           break;
         }
         switch (schemeField.id) {
-          case 1: // IS_READ_ONLY
+          case 1: // IS_NULL
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.BOOL) {
+              struct.isNull = iprot.readBool();
+              struct.setIsNullIsSet(true);
+            } else { 
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            break;
+          case 2: // IS_READ_ONLY
             if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.BOOL) {
               struct.isReadOnly = iprot.readBool();
               struct.setIsReadOnlyIsSet(true);
@@ -498,7 +584,7 @@ public class PostData implements com.jetbrains.cef.remote.thrift.TBase<PostData,
               com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 2: // HAS_EXCLUDED_ELEMENTS
+          case 3: // HAS_EXCLUDED_ELEMENTS
             if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.BOOL) {
               struct.hasExcludedElements = iprot.readBool();
               struct.setHasExcludedElementsIsSet(true);
@@ -506,7 +592,7 @@ public class PostData implements com.jetbrains.cef.remote.thrift.TBase<PostData,
               com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 3: // ELEMENTS
+          case 4: // ELEMENTS
             if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.LIST) {
               {
                 com.jetbrains.cef.remote.thrift.protocol.TList _list10 = iprot.readListBegin();
@@ -533,6 +619,9 @@ public class PostData implements com.jetbrains.cef.remote.thrift.TBase<PostData,
       iprot.readStructEnd();
 
       // check for required fields of primitive type, which can't be checked in the validate method
+      if (!struct.isSetIsNull()) {
+        throw new com.jetbrains.cef.remote.thrift.protocol.TProtocolException("Required field 'isNull' was not found in serialized data! Struct: " + toString());
+      }
       if (!struct.isSetIsReadOnly()) {
         throw new com.jetbrains.cef.remote.thrift.protocol.TProtocolException("Required field 'isReadOnly' was not found in serialized data! Struct: " + toString());
       }
@@ -547,6 +636,9 @@ public class PostData implements com.jetbrains.cef.remote.thrift.TBase<PostData,
       struct.validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
+      oprot.writeFieldBegin(IS_NULL_FIELD_DESC);
+      oprot.writeBool(struct.isNull);
+      oprot.writeFieldEnd();
       oprot.writeFieldBegin(IS_READ_ONLY_FIELD_DESC);
       oprot.writeBool(struct.isReadOnly);
       oprot.writeFieldEnd();
@@ -585,6 +677,7 @@ public class PostData implements com.jetbrains.cef.remote.thrift.TBase<PostData,
     @Override
     public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, PostData struct) throws com.jetbrains.cef.remote.thrift.TException {
       com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+      oprot.writeBool(struct.isNull);
       oprot.writeBool(struct.isReadOnly);
       oprot.writeBool(struct.hasExcludedElements);
       java.util.BitSet optionals = new java.util.BitSet();
@@ -606,6 +699,8 @@ public class PostData implements com.jetbrains.cef.remote.thrift.TBase<PostData,
     @Override
     public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, PostData struct) throws com.jetbrains.cef.remote.thrift.TException {
       com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+      struct.isNull = iprot.readBool();
+      struct.setIsNullIsSet(true);
       struct.isReadOnly = iprot.readBool();
       struct.setIsReadOnlyIsSet(true);
       struct.hasExcludedElements = iprot.readBool();

@@ -16,7 +16,7 @@ public class ResponseHeaders implements com.jetbrains.cef.remote.thrift.TBase<Re
   private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new ResponseHeadersStandardSchemeFactory();
   private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new ResponseHeadersTupleSchemeFactory();
 
-  public int length; // optional
+  public int length; // required
   public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String redirectUrl; // optional
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -87,11 +87,11 @@ public class ResponseHeaders implements com.jetbrains.cef.remote.thrift.TBase<Re
   // isset id assignments
   private static final int __LENGTH_ISSET_ID = 0;
   private byte __isset_bitfield = 0;
-  private static final _Fields optionals[] = {_Fields.LENGTH,_Fields.REDIRECT_URL};
+  private static final _Fields optionals[] = {_Fields.REDIRECT_URL};
   public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
     java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.LENGTH, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("length", com.jetbrains.cef.remote.thrift.TFieldRequirementType.OPTIONAL, 
+    tmpMap.put(_Fields.LENGTH, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("length", com.jetbrains.cef.remote.thrift.TFieldRequirementType.REQUIRED, 
         new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
     tmpMap.put(_Fields.REDIRECT_URL, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("redirectUrl", com.jetbrains.cef.remote.thrift.TFieldRequirementType.OPTIONAL, 
         new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING)));
@@ -100,6 +100,16 @@ public class ResponseHeaders implements com.jetbrains.cef.remote.thrift.TBase<Re
   }
 
   public ResponseHeaders() {
+    this.length = 0;
+
+  }
+
+  public ResponseHeaders(
+    int length)
+  {
+    this();
+    this.length = length;
+    setLengthIsSet(true);
   }
 
   /**
@@ -120,8 +130,8 @@ public class ResponseHeaders implements com.jetbrains.cef.remote.thrift.TBase<Re
 
   @Override
   public void clear() {
-    setLengthIsSet(false);
     this.length = 0;
+
     this.redirectUrl = null;
   }
 
@@ -238,8 +248,8 @@ public class ResponseHeaders implements com.jetbrains.cef.remote.thrift.TBase<Re
     if (this == that)
       return true;
 
-    boolean this_present_length = true && this.isSetLength();
-    boolean that_present_length = true && that.isSetLength();
+    boolean this_present_length = true;
+    boolean that_present_length = true;
     if (this_present_length || that_present_length) {
       if (!(this_present_length && that_present_length))
         return false;
@@ -263,9 +273,7 @@ public class ResponseHeaders implements com.jetbrains.cef.remote.thrift.TBase<Re
   public int hashCode() {
     int hashCode = 1;
 
-    hashCode = hashCode * 8191 + ((isSetLength()) ? 131071 : 524287);
-    if (isSetLength())
-      hashCode = hashCode * 8191 + length;
+    hashCode = hashCode * 8191 + length;
 
     hashCode = hashCode * 8191 + ((isSetRedirectUrl()) ? 131071 : 524287);
     if (isSetRedirectUrl())
@@ -326,11 +334,9 @@ public class ResponseHeaders implements com.jetbrains.cef.remote.thrift.TBase<Re
     java.lang.StringBuilder sb = new java.lang.StringBuilder("ResponseHeaders(");
     boolean first = true;
 
-    if (isSetLength()) {
-      sb.append("length:");
-      sb.append(this.length);
-      first = false;
-    }
+    sb.append("length:");
+    sb.append(this.length);
+    first = false;
     if (isSetRedirectUrl()) {
       if (!first) sb.append(", ");
       sb.append("redirectUrl:");
@@ -347,6 +353,7 @@ public class ResponseHeaders implements com.jetbrains.cef.remote.thrift.TBase<Re
 
   public void validate() throws com.jetbrains.cef.remote.thrift.TException {
     // check for required fields
+    // alas, we cannot check 'length' because it's a primitive and you chose the non-beans generator.
     // check for sub-struct validity
   }
 
@@ -412,6 +419,9 @@ public class ResponseHeaders implements com.jetbrains.cef.remote.thrift.TBase<Re
       iprot.readStructEnd();
 
       // check for required fields of primitive type, which can't be checked in the validate method
+      if (!struct.isSetLength()) {
+        throw new com.jetbrains.cef.remote.thrift.protocol.TProtocolException("Required field 'length' was not found in serialized data! Struct: " + toString());
+      }
       struct.validate();
     }
 
@@ -420,11 +430,9 @@ public class ResponseHeaders implements com.jetbrains.cef.remote.thrift.TBase<Re
       struct.validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
-      if (struct.isSetLength()) {
-        oprot.writeFieldBegin(LENGTH_FIELD_DESC);
-        oprot.writeI32(struct.length);
-        oprot.writeFieldEnd();
-      }
+      oprot.writeFieldBegin(LENGTH_FIELD_DESC);
+      oprot.writeI32(struct.length);
+      oprot.writeFieldEnd();
       if (struct.redirectUrl != null) {
         if (struct.isSetRedirectUrl()) {
           oprot.writeFieldBegin(REDIRECT_URL_FIELD_DESC);
@@ -450,17 +458,12 @@ public class ResponseHeaders implements com.jetbrains.cef.remote.thrift.TBase<Re
     @Override
     public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, ResponseHeaders struct) throws com.jetbrains.cef.remote.thrift.TException {
       com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
+      oprot.writeI32(struct.length);
       java.util.BitSet optionals = new java.util.BitSet();
-      if (struct.isSetLength()) {
+      if (struct.isSetRedirectUrl()) {
         optionals.set(0);
       }
-      if (struct.isSetRedirectUrl()) {
-        optionals.set(1);
-      }
-      oprot.writeBitSet(optionals, 2);
-      if (struct.isSetLength()) {
-        oprot.writeI32(struct.length);
-      }
+      oprot.writeBitSet(optionals, 1);
       if (struct.isSetRedirectUrl()) {
         oprot.writeString(struct.redirectUrl);
       }
@@ -469,12 +472,10 @@ public class ResponseHeaders implements com.jetbrains.cef.remote.thrift.TBase<Re
     @Override
     public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, ResponseHeaders struct) throws com.jetbrains.cef.remote.thrift.TException {
       com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
-      java.util.BitSet incoming = iprot.readBitSet(2);
+      struct.length = iprot.readI32();
+      struct.setLengthIsSet(true);
+      java.util.BitSet incoming = iprot.readBitSet(1);
       if (incoming.get(0)) {
-        struct.length = iprot.readI32();
-        struct.setLengthIsSet(true);
-      }
-      if (incoming.get(1)) {
         struct.redirectUrl = iprot.readString();
         struct.setRedirectUrlIsSet(true);
       }
