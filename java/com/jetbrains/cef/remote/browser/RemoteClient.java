@@ -23,6 +23,7 @@ import java.util.function.Supplier;
 
 public class RemoteClient {
     private static AtomicInteger ourCounter = new AtomicInteger(0);
+    private static Supplier<CefRendering> ourDefaultRenderingRactory;
 
     private final int myCid;
     private final RpcContext myRpc;
@@ -165,20 +166,32 @@ public class RemoteClient {
     }
 
     public RemoteBrowser createBrowser(String url, CefRequestContext context, CefClient client, CefRendering rendering, CefBrowserSettings settings) {
+        String errDesc = null;
         if (rendering instanceof CefRendering.CefRenderingWithHandler) {
             CefRendering.CefRenderingWithHandler rh = (CefRendering.CefRenderingWithHandler) rendering;
             if (rh.getRenderHandler() instanceof CefNativeRenderHandler) {
                 return createBrowser(url, context, client, (CefNativeRenderHandler)rh.getRenderHandler(), rh.getComponent(), settings);
             }
-            throw new IllegalStateException("Can't create remote browser with render-handler: " + rh.getRenderHandler() + ", please implement CefNativeRenderHandler interface.");
+            errDesc = "Can't create remote browser with render-handler: " + rh.getRenderHandler() + ", please implement CefNativeRenderHandler interface.";
+        } else
+            errDesc = "Can't create remote browser with rendering: " + rendering;
+
+        CefLog.Error(errDesc);
+        if (ourDefaultRenderingRactory != null) {
+            CefLog.Warn("Default rendering factory will be used.");
+            return createBrowser(url, context, client, ourDefaultRenderingRactory, settings);
         }
-        throw new IllegalStateException("Can't create remote browser with rendering: " + rendering);
+        throw new IllegalStateException(errDesc);
     }
 
-    public CefBrowser createBrowser(String url, CefRequestContext context, CefClient client, Supplier<CefRendering> renderingFactory, CefBrowserSettings settings) {
+    public RemoteBrowser createBrowser(String url, CefRequestContext context, CefClient client, Supplier<CefRendering> renderingFactory, CefBrowserSettings settings) {
         RemoteBrowser browser = createBrowser(url, context, client, renderingFactory.get(), settings);
         browser.setRenderingFactory(renderingFactory);
         return browser;
+    }
+
+    public static void setDefaultRenderingFactory(Supplier<CefRendering> factory) {
+        ourDefaultRenderingRactory = factory;
     }
 
     // Handlers management

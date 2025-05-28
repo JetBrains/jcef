@@ -7,7 +7,9 @@ package org.cef;
 import com.jetbrains.cef.JCefAppConfig;
 import com.jetbrains.cef.remote.CefServer;
 import com.jetbrains.cef.remote.ThriftTransport;
+import com.jetbrains.cef.remote.browser.RemoteClient;
 import com.jetbrains.cef.remote.callback.RemoteSchemeHandlerFactory;
+import org.cef.browser.CefRendering;
 import org.cef.callback.CefSchemeHandlerFactory;
 import org.cef.handler.CefAppHandler;
 import org.cef.handler.CefAppHandlerAdapter;
@@ -26,6 +28,7 @@ import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Supplier;
 
 /**
  * Exposes static methods for managing the global CEF context.
@@ -255,6 +258,10 @@ public class CefApp extends CefAppHandlerAdapter {
         if (self != null && !IS_REMOTE_ENABLED)
             throw new IllegalStateException("Must be called before CefApp is initialized");
         userAppHandler_ = appHandler;
+    }
+
+    public static void setDefaultRenderingFactory(Supplier<CefRendering> factory) {
+        RemoteClient.setDefaultRenderingFactory(factory);
     }
 
     /**
