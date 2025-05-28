@@ -80,7 +80,7 @@ public class CefServer {
     // Connects to CefServer and start cef-handlers service.
     // Should be executed in bg thread.
     // NOTE: appHandler is necessary for (1) custom schemes, (2) onContextInitialized callback
-    public boolean start(CefAppHandler appHandler, boolean fixRoot) {
+    public boolean start(CefAppHandler appHandler) {
         if (!CefApp.isRemoteEnabled())
             return false;
 
@@ -90,7 +90,7 @@ public class CefServer {
             CefLog.Info("Going to connect with already running cef_server: transport '%s', root '%s'", myThriftServer, runningRoot);
         } else {
             boolean deleteRoot = false;
-            if (FIX_ROOTS || fixRoot)
+            if (FIX_ROOTS)
                 deleteRoot = NativeServerManager.fixRootInSettings(mySettings, "cef_cache_" + myThriftServer.toStringShort());
 
             final boolean success = NativeServerManager.startProcessAndWait(myThriftServer, appHandler, myArgs, mySettings, deleteRoot, WAIT_FOR_SERVER_START_SEC*1000l);

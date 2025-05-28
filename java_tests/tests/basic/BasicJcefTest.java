@@ -258,7 +258,7 @@ public class BasicJcefTest {
 
             CefLog.Info("Starting server #%d over %s(%s)", i, ts, tb);
             CefServer s = new CefServer(ts, tb, argsArr, settings);
-            boolean started = s.start(appHandler, false);
+            boolean started = s.start(appHandler);
             if (!started)
                 throw new AssertionError("Can't start server.");
             servers.add(s);
