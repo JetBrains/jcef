@@ -468,7 +468,7 @@ public class NativeServerManager {
             else
                 result = new File(javabin.getParentFile(), "cef_server.exe");
             if (!result.exists()) {
-                CefLog.Warn("Can't determine cef_server location via java-process path '%' (because calculated path '%s' doesn't exist), cmd=%s", javabin.getAbsolutePath(), result.getAbsolutePath(), cmd);
+                CefLog.Warn("Can't determine cef_server location via java-process path '%s' (because calculated path '%s' doesn't exist), cmd=%s", javabin.getAbsolutePath(), result.getAbsolutePath(), cmd);
                 return findExeViaSystemProperty();
             }
 
