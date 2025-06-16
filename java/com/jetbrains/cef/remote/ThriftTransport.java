@@ -33,11 +33,7 @@ public class ThriftTransport {
     public static final ThriftTransport ourDefaultClient;
 
     static {
-        if (OS.isWindows() || OS.isLinux()) {
-            IS_TCP_USED = !Utils.getBoolean("CEF_SERVER_USE_PIPE");
-        } else {
-            IS_TCP_USED = Utils.getBoolean("CEF_SERVER_USE_TCP");
-        }
+        IS_TCP_USED = !Utils.getBoolean("CEF_SERVER_USE_PIPE");
 
         if (!Utils.getBoolean("DONT_JCEF_USE_UNIQUE_NAMES")) {
             final SimpleDateFormat f = new SimpleDateFormat("hh_mm_ss_SSS");
