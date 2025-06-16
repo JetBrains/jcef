@@ -11,7 +11,6 @@
 class RemoteClientHandler;
 class ServerHandlerContext;
 class CefBrowser;
-struct CreationParams;
 
 class ClientsManager {
  public:
@@ -22,7 +21,7 @@ class ClientsManager {
                     std::shared_ptr<ServerHandlerContext> ctx,
                     int handlersMask, const thrift_codegen::RObject& requestContextHandler);
   void startNativeBrowserCreation(int bid, const std::string& url);
-  void startNativeDevToolsCreation(int bid, int parentBid, int x, int y);
+  void openDevTools(int bid, int x, int y);
   void closeBrowser(int bid);
 
   void erase(int bid);
@@ -52,8 +51,6 @@ class ClientsManager {
   };
 
   std::shared_ptr<ClientsStorage> myRemoteClients;
-
-  void startCreationImpl(std::shared_ptr<CreationParams> params);
 };
 
 #endif  // JCEF_CLIENTSMANAGER_H

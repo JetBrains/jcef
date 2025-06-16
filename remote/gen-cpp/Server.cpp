@@ -1396,11 +1396,11 @@ uint32_t Server_Browser_StartNativeCreation_pargs::write(::apache::thrift::proto
 }
 
 
-Server_Browser_StartNativeDevToolsCreation_args::~Server_Browser_StartNativeDevToolsCreation_args() noexcept {
+Server_Browser_OpenDevTools_args::~Server_Browser_OpenDevTools_args() noexcept {
 }
 
 
-uint32_t Server_Browser_StartNativeDevToolsCreation_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t Server_Browser_OpenDevTools_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -1431,21 +1431,13 @@ uint32_t Server_Browser_StartNativeDevToolsCreation_args::read(::apache::thrift:
         break;
       case 2:
         if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->parentBid);
-          this->__isset.parentBid = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 3:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
           xfer += iprot->readI32(this->x);
           this->__isset.x = true;
         } else {
           xfer += iprot->skip(ftype);
         }
         break;
-      case 4:
+      case 3:
         if (ftype == ::apache::thrift::protocol::T_I32) {
           xfer += iprot->readI32(this->y);
           this->__isset.y = true;
@@ -1465,24 +1457,20 @@ uint32_t Server_Browser_StartNativeDevToolsCreation_args::read(::apache::thrift:
   return xfer;
 }
 
-uint32_t Server_Browser_StartNativeDevToolsCreation_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t Server_Browser_OpenDevTools_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("Server_Browser_StartNativeDevToolsCreation_args");
+  xfer += oprot->writeStructBegin("Server_Browser_OpenDevTools_args");
 
   xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
   xfer += oprot->writeI32(this->bid);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("parentBid", ::apache::thrift::protocol::T_I32, 2);
-  xfer += oprot->writeI32(this->parentBid);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("x", ::apache::thrift::protocol::T_I32, 3);
+  xfer += oprot->writeFieldBegin("x", ::apache::thrift::protocol::T_I32, 2);
   xfer += oprot->writeI32(this->x);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("y", ::apache::thrift::protocol::T_I32, 4);
+  xfer += oprot->writeFieldBegin("y", ::apache::thrift::protocol::T_I32, 3);
   xfer += oprot->writeI32(this->y);
   xfer += oprot->writeFieldEnd();
 
@@ -1492,28 +1480,24 @@ uint32_t Server_Browser_StartNativeDevToolsCreation_args::write(::apache::thrift
 }
 
 
-Server_Browser_StartNativeDevToolsCreation_pargs::~Server_Browser_StartNativeDevToolsCreation_pargs() noexcept {
+Server_Browser_OpenDevTools_pargs::~Server_Browser_OpenDevTools_pargs() noexcept {
 }
 
 
-uint32_t Server_Browser_StartNativeDevToolsCreation_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t Server_Browser_OpenDevTools_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("Server_Browser_StartNativeDevToolsCreation_pargs");
+  xfer += oprot->writeStructBegin("Server_Browser_OpenDevTools_pargs");
 
   xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
   xfer += oprot->writeI32((*(this->bid)));
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("parentBid", ::apache::thrift::protocol::T_I32, 2);
-  xfer += oprot->writeI32((*(this->parentBid)));
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("x", ::apache::thrift::protocol::T_I32, 3);
+  xfer += oprot->writeFieldBegin("x", ::apache::thrift::protocol::T_I32, 2);
   xfer += oprot->writeI32((*(this->x)));
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("y", ::apache::thrift::protocol::T_I32, 4);
+  xfer += oprot->writeFieldBegin("y", ::apache::thrift::protocol::T_I32, 3);
   xfer += oprot->writeI32((*(this->y)));
   xfer += oprot->writeFieldEnd();
 
@@ -16671,19 +16655,18 @@ void ServerClient::send_Browser_StartNativeCreation(const int32_t bid, const std
   oprot_->getTransport()->flush();
 }
 
-void ServerClient::Browser_StartNativeDevToolsCreation(const int32_t bid, const int32_t parentBid, const int32_t x, const int32_t y)
+void ServerClient::Browser_OpenDevTools(const int32_t bid, const int32_t x, const int32_t y)
 {
-  send_Browser_StartNativeDevToolsCreation(bid, parentBid, x, y);
+  send_Browser_OpenDevTools(bid, x, y);
 }
 
-void ServerClient::send_Browser_StartNativeDevToolsCreation(const int32_t bid, const int32_t parentBid, const int32_t x, const int32_t y)
+void ServerClient::send_Browser_OpenDevTools(const int32_t bid, const int32_t x, const int32_t y)
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("Browser_StartNativeDevToolsCreation", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("Browser_OpenDevTools", ::apache::thrift::protocol::T_ONEWAY, cseqid);
 
-  Server_Browser_StartNativeDevToolsCreation_pargs args;
+  Server_Browser_OpenDevTools_pargs args;
   args.bid = &bid;
-  args.parentBid = &parentBid;
   args.x = &x;
   args.y = &y;
   args.write(oprot_);
@@ -20984,38 +20967,38 @@ void ServerProcessor::process_Browser_StartNativeCreation(int32_t, ::apache::thr
   return;
 }
 
-void ServerProcessor::process_Browser_StartNativeDevToolsCreation(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+void ServerProcessor::process_Browser_OpenDevTools(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
 {
   void* ctx = nullptr;
   if (this->eventHandler_.get() != nullptr) {
-    ctx = this->eventHandler_->getContext("Server.Browser_StartNativeDevToolsCreation", callContext);
+    ctx = this->eventHandler_->getContext("Server.Browser_OpenDevTools", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.Browser_StartNativeDevToolsCreation");
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.Browser_OpenDevTools");
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->preRead(ctx, "Server.Browser_StartNativeDevToolsCreation");
+    this->eventHandler_->preRead(ctx, "Server.Browser_OpenDevTools");
   }
 
-  Server_Browser_StartNativeDevToolsCreation_args args;
+  Server_Browser_OpenDevTools_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->postRead(ctx, "Server.Browser_StartNativeDevToolsCreation", bytes);
+    this->eventHandler_->postRead(ctx, "Server.Browser_OpenDevTools", bytes);
   }
 
   try {
-    iface_->Browser_StartNativeDevToolsCreation(args.bid, args.parentBid, args.x, args.y);
+    iface_->Browser_OpenDevTools(args.bid, args.x, args.y);
   } catch (const std::exception&) {
     if (this->eventHandler_.get() != nullptr) {
-      this->eventHandler_->handlerError(ctx, "Server.Browser_StartNativeDevToolsCreation");
+      this->eventHandler_->handlerError(ctx, "Server.Browser_OpenDevTools");
     }
     return;
   }
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->asyncComplete(ctx, "Server.Browser_StartNativeDevToolsCreation");
+    this->eventHandler_->asyncComplete(ctx, "Server.Browser_OpenDevTools");
   }
 
   return;
@@ -26320,20 +26303,19 @@ void ServerConcurrentClient::send_Browser_StartNativeCreation(const int32_t bid,
   sentry.commit();
 }
 
-void ServerConcurrentClient::Browser_StartNativeDevToolsCreation(const int32_t bid, const int32_t parentBid, const int32_t x, const int32_t y)
+void ServerConcurrentClient::Browser_OpenDevTools(const int32_t bid, const int32_t x, const int32_t y)
 {
-  send_Browser_StartNativeDevToolsCreation(bid, parentBid, x, y);
+  send_Browser_OpenDevTools(bid, x, y);
 }
 
-void ServerConcurrentClient::send_Browser_StartNativeDevToolsCreation(const int32_t bid, const int32_t parentBid, const int32_t x, const int32_t y)
+void ServerConcurrentClient::send_Browser_OpenDevTools(const int32_t bid, const int32_t x, const int32_t y)
 {
   int32_t cseqid = 0;
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
-  oprot_->writeMessageBegin("Browser_StartNativeDevToolsCreation", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("Browser_OpenDevTools", ::apache::thrift::protocol::T_ONEWAY, cseqid);
 
-  Server_Browser_StartNativeDevToolsCreation_pargs args;
+  Server_Browser_OpenDevTools_pargs args;
   args.bid = &bid;
-  args.parentBid = &parentBid;
   args.x = &x;
   args.y = &y;
   args.write(oprot_);

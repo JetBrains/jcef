@@ -37,11 +37,17 @@ bool RemoteLifespanHandler::OnBeforePopup(
 
 void RemoteLifespanHandler::OnAfterCreated(CefRefPtr<CefBrowser> browser) {
   LNDCT();
-  myBrowser = browser;
-  Log::trace("Created native browser id=%d [bid=%d]", browser->GetIdentifier(), myBid);
-  myService->exec([&](const JavaService& s){
-    s->LifeSpanHandler_OnAfterCreated(myBid, browser->GetIdentifier());
-  });
+  if (myBrowser == nullptr) {
+    myBrowser = browser;
+    Log::trace("Created native browser id=%d [bid=%d]", browser->GetIdentifier(), myBid);
+    myService->exec([&](const JavaService& s){
+      s->LifeSpanHandler_OnAfterCreated(myBid, browser->GetIdentifier());
+    });
+  } else {
+    Log::trace("Created dev-tools popup id=%d [bid=%d]", browser->GetIdentifier(), myBid);
+    // NOTE: don't notify LSH because it's unnecessary now:
+    // dev-tool is completely independent popup-window, and we don't process events of it
+  }
 }
 
 bool RemoteLifespanHandler::DoClose(CefRefPtr<CefBrowser> browser) {
@@ -53,13 +59,24 @@ bool RemoteLifespanHandler::DoClose(CefRefPtr<CefBrowser> browser) {
 
 void RemoteLifespanHandler::OnBeforeClose(CefRefPtr<CefBrowser> browser) {
   LNDCT();
-  myBrowser = nullptr;
-  myClientsManager->erase(myBid);
-  myRoutersManager->OnBeforeClose(browser);
-  myService->exec([&](const JavaService& s){
-    s->LifeSpanHandler_OnBeforeClose(myBid);
-  });
-  Log::trace("Destroyed native browser, bid=%d", myBid);
+  if (!browser)
+    return;
+
+  if (myBrowser == nullptr) {
+    Log::error("OnBeforeClose: can't be 'myBrowser == nullptr', id=%d [bid=%d]", browser->GetIdentifier(), myBid);
+  } else if (myBrowser->GetIdentifier() == browser->GetIdentifier()) {
+    myBrowser = nullptr;
+    myClientsManager->erase(myBid);
+    myRoutersManager->OnBeforeClose(browser);
+    myService->exec([&](const JavaService& s){
+      s->LifeSpanHandler_OnBeforeClose(myBid);
+    });
+    Log::trace("Destroyed native browser id=%d [bid=%d]", browser->GetIdentifier(), myBid);
+  } else {
+    Log::trace("Closed dev-tools popup id=%d [bid=%d]", browser->GetIdentifier(), myBid);
+    // NOTE: don't notify LSH because it's unnecessary now:
+    // dev-tool is completely independent popup-window, and we don't process events of it
+  }
 }
 
 CefRefPtr<CefBrowser> RemoteLifespanHandler::getBrowser() {

@@ -33,7 +33,7 @@ class ServerHandler : public thrift_codegen::ServerIf {
   //
   int32_t Browser_Create(int cid, int handlersMask, const thrift_codegen::RObject& requestContextHandler) override;
   void Browser_StartNativeCreation(int bid, const std::string& url) override;
-  void Browser_StartNativeDevToolsCreation(int bid, int parentBid, int x, int y) override;
+  void Browser_OpenDevTools(int bid, int x, int y) override;
   void Browser_Close(const int32_t bid) override;
   void Browser_CloseDevTools(const int32_t bid) override;
 

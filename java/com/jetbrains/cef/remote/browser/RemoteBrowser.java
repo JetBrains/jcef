@@ -13,7 +13,6 @@ import com.jetbrains.cef.remote.thrift_codegen.CompositionUnderline;
 import com.jetbrains.cef.remote.thrift_codegen.RObject;
 import com.jetbrains.cef.remote.thrift_codegen.Range;
 import com.jetbrains.cef.remote.thrift_codegen.Style;
-import org.cef.CefApp;
 import org.cef.CefBrowserSettings;
 import org.cef.CefClient;
 import org.cef.browser.*;
@@ -53,7 +52,6 @@ public class RemoteBrowser implements CefBrowser {
     private String myUrl = null;
     private Component myComponent;
     private CefNativeRenderHandler myRender;
-    private Supplier<CefRendering> myRenderingFactory; // necessary for dev-tools browser creation
 
     private final AtomicBoolean myIsNativeBrowserCreationRequested = new AtomicBoolean(false);
     private final AtomicBoolean myIsNativeBrowserCreationStarted = new AtomicBoolean(false);
@@ -65,8 +63,7 @@ public class RemoteBrowser implements CefBrowser {
     private final List<Runnable> myDelayedActions = new ArrayList<>();
     private int myFrameRate = 30; // just for cache
 
-    private volatile RemoteBrowser myDevTools = null;
-    private volatile RemoteBrowser myParentBrowser = null;
+    private volatile boolean myIsDevToolsOpened = false;
     private volatile CefDevToolsClient myDevToolsClient = null;
     private Point myInspectPoint;
 
@@ -100,10 +97,6 @@ public class RemoteBrowser implements CefBrowser {
     public void setComponent(Component component, CefNativeRenderHandler renderHandler) {
         myComponent = component;
         myRender = renderHandler;
-    }
-
-    public void setRenderingFactory(Supplier<CefRendering> renderingFactory) {
-        myRenderingFactory = renderingFactory;
     }
 
     private void execWhenCreated(Runnable runnable, String name) {
@@ -142,10 +135,7 @@ public class RemoteBrowser implements CefBrowser {
                 CefLog.Debug("Registered bid %d with handlers: %s", myBid, RemoteClient.HandlerMasks.toString(hmask));
                 // At current point new bid is registered so java-handlers calls will be dispatched correctly.
                 // We can't start creation earlier because for example onAfterCreated can be called before new bid is registered.
-                if (myParentBrowser != null)
-                    myRpc.exec((s) -> s.Browser_StartNativeDevToolsCreation(myBid, myParentBrowser.getBid(), myInspectPoint.x ,myInspectPoint.x));
-                else
-                    myRpc.exec((s) -> s.Browser_StartNativeCreation(myBid, myUrl));
+                myRpc.exec((s) -> s.Browser_StartNativeCreation(myBid, myUrl));
             } else
                 CefLog.Error("Can't obtain bid, createBrowser returns %d", myBid);
         }
@@ -473,14 +463,6 @@ public class RemoteBrowser implements CefBrowser {
         }
     }
 
-    protected final void closeDevTools() {
-        execWhenCreated(()->{
-            myRpc.exec((s)->{
-                s.Browser_CloseDevTools(myBid);
-            });
-        }, "closeDevTools");
-    }
-
     @Override
     public void setCloseAllowed() {}
 
@@ -492,11 +474,8 @@ public class RemoteBrowser implements CefBrowser {
         // Called from lifespan handler (before native browser disposed).
         myIsClosed = true;
         myRequestContext.dispose();
-        if (myParentBrowser != null) {
-            myParentBrowser.closeDevTools();
-            myParentBrowser.myDevTools = null;
-            myParentBrowser = null;
-        }
+        if (myIsDevToolsOpened)
+            closeDevTools();
         if (myDevToolsClient != null)
             myDevToolsClient.close();
     }
@@ -649,23 +628,27 @@ public class RemoteBrowser implements CefBrowser {
     }
 
     @Override
-    public CefBrowser getDevTools() { return getDevTools(null); }
+    public void openDevTools() { openDevTools(null); }
 
     @Override
-    public CefBrowser getDevTools(Point inspectAt) {
+    public void openDevTools(Point inspectAt) {
         if (myIsClosing)
-            return null;
+            return;
 
-        if (myDevTools == null) {
-            if (myRenderingFactory == null) {
-                CefLog.Error("Can't create dev-tools browser because rendering factory is null. Please use proper constructor (or invoke setRenderingFactory()).");
-                return null;
-            }
-            myDevTools = myOwner.createBrowser(myUrl, myRequestContext, myCefClient, myRenderingFactory.get(), mySettings);
-            myDevTools.myParentBrowser = this;
-            myDevTools.myInspectPoint = inspectAt == null ? new Point(0, 0) : inspectAt;
+        if (myBid == -1) {
+            CefLog.Error("Can't open dev-tools because bid is -1");
+        } else {
+            myRpc.exec((s) -> s.Browser_OpenDevTools(myBid, myInspectPoint != null ? myInspectPoint.x : 0, myInspectPoint != null ? myInspectPoint.y : 0));
         }
-        return myDevTools;
+    }
+
+    @Override
+    public void closeDevTools() {
+        execWhenCreated(()->{
+            myRpc.exec((s)->{
+                s.Browser_CloseDevTools(myBid);
+            });
+        }, "closeDevTools");
     }
 
     @Override

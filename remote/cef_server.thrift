@@ -45,7 +45,7 @@ service Server {
     //
     i32            Browser_Create(1: i32 cid, 2: i32 handlersMask, 3:shared.RObject requestContextHandler),
     oneway void    Browser_StartNativeCreation(1: i32 bid, 2: string url),
-    oneway void    Browser_StartNativeDevToolsCreation(1: i32 bid, 2: i32 parentBid, 3: i32 x, 4: i32 y),
+    oneway void    Browser_OpenDevTools(1: i32 bid, 2: i32 x, 3: i32 y),
     oneway void    Browser_Close(1: i32 bid),
     oneway void    Browser_CloseDevTools(1: i32 bid),
 

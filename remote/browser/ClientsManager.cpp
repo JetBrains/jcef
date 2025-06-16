@@ -7,35 +7,21 @@
 #include "include/cef_task.h"
 #include "include/wrapper/cef_closure_task.h"
 
-struct CreationParams {
-  int bid;
-  CefRefPtr<CefBrowser> parentBrowser;
-  CefPoint inspectAt;
-  std::string url;
-};
-
 ClientsManager::ClientsManager() : myRemoteClients(std::make_shared<ClientsStorage>()) {}
 
 namespace {
-  void createBrowserImpl(
+  // Should be called on UI thread
+  void createCefBrowserImpl(
       int cid, int bid, CefRefPtr<RemoteClientHandler> clienthandler,
-      std::shared_ptr<CreationParams> params,
+      std::string url,
       std::function<void(int)> onCreationFailed
   ) {
-    // Should be called on UI thread
+    CefBrowserSettings settings; // TODO: get real CefBrowserSettings from java
     CefWindowInfo windowInfo;
     windowInfo.SetAsWindowless(0);
-
-    // TODO: get real CefBrowserSettings from java
-    CefBrowserSettings settings;
-
-    // If parentBrowser is set, we want to show the DEV-Tools for that browser
-    if (params->parentBrowser.get() != nullptr) {
-      //Log::trace( "CefBrowserHost::ShowDevTools cid=%d, bid=%d", cid, bid);
-      params->parentBrowser->GetHost()->ShowDevTools(windowInfo, clienthandler,
-                                             settings, params->inspectAt);
-      return;
-    }
+    // JCEF requires Alloy runtime style for "normal" browsers in order for them
+    // to be integratable into Java UI.
+    windowInfo.runtime_style = CEF_RUNTIME_STYLE_ALLOY;
 
     CefRefPtr<CefDictionaryValue> extra_info;
     auto router_configs = MessageRoutersManager::GetMessageRouterConfigs();
@@ -46,12 +32,27 @@ namespace {
     }
 
     //Log::trace( "CefBrowserHost::CreateBrowser cid=%d, bid=%d", cid, bid);
-    bool result = CefBrowserHost::CreateBrowser(windowInfo, clienthandler, params->url,
+    bool result = CefBrowserHost::CreateBrowser(windowInfo, clienthandler, url,
                                                 settings, extra_info, clienthandler->getRequestContext());
     if (!result) {
       Log::error( "Failed to create browser with cid=%d, bid=%d", cid, bid);
       onCreationFailed(bid);
     }
+  }
+
+  // Should be called on UI thread
+  void openDevToolsPopupImpl(
+      int cid, int bid, CefRefPtr<RemoteClientHandler> clienthandler,
+      CefRefPtr<CefBrowser> parentBrowser,
+      CefPoint inspectAt
+  ) {
+    if (!parentBrowser)
+      return;
+
+    Log::trace( "ShowDevTools: cid=%d, bid=%d, pt=(%d,%d)", cid, bid, inspectAt.x, inspectAt.y);
+    CefWindowInfo windowInfo;
+    CefBrowserSettings settings; // TODO: get real CefBrowserSettings from java
+    parentBrowser->GetHost()->ShowDevTools(windowInfo, nullptr, settings, inspectAt);
   }
 }
 
@@ -73,8 +74,8 @@ int ClientsManager::createBrowser(
   return bid;
 }
 
-void ClientsManager::startCreationImpl(std::shared_ptr<CreationParams> params) {
-  CefRefPtr<RemoteClientHandler> clienthandler = myRemoteClients->get(params->bid);
+void ClientsManager::startNativeBrowserCreation(int bid, const std::string & url) {
+  CefRefPtr<RemoteClientHandler> clienthandler = myRemoteClients->get(bid);
   if (!clienthandler)
     return;
 
@@ -83,35 +84,29 @@ void ClientsManager::startCreationImpl(std::shared_ptr<CreationParams> params) {
     storage->erase(bid);
   };
   if (CefCurrentlyOn(TID_UI)) {
-    createBrowserImpl(clienthandler->getCid(), params->bid, clienthandler, params, remove);
+    createCefBrowserImpl(clienthandler->getCid(), bid, clienthandler,
+                         url, remove);
   } else {
-    CefPostTask(TID_UI, base::BindOnce(&createBrowserImpl, clienthandler->getCid(), params->bid, clienthandler, params, remove));
+    CefPostTask(TID_UI, base::BindOnce(&createCefBrowserImpl, clienthandler->getCid(), bid, clienthandler, url, remove));
   }
 }
 
-void ClientsManager::startNativeBrowserCreation(int bid, const std::string & url) {
-  std::shared_ptr<CreationParams> params = std::make_shared<CreationParams>();
-  params->bid = bid;
-  params->url = url;
-  startCreationImpl(params);
-}
-
-void ClientsManager::startNativeDevToolsCreation(int bid, int parentBid, int x, int y) {
-  CefRefPtr<RemoteClientHandler> parentHandler = myRemoteClients->get(parentBid);
+void ClientsManager::openDevTools(int bid, int x, int y) {
+  CefRefPtr<RemoteClientHandler> parentHandler = myRemoteClients->get(bid);
   if (!parentHandler)
     return;
 
   CefRefPtr<CefBrowser> parentBrowser = parentHandler->getCefBrowser();
   if (!parentBrowser) {
-    Log::error("Can't create dev-tools for bid=%d,parentBid=%d because native CefBrowser wasn't created yet.", bid, parentBid);
+    Log::error("Can't open dev-tools for bid=%d, because native CefBrowser wasn't created yet.", bid);
     return;
   }
-  std::shared_ptr<CreationParams> params = std::make_shared<CreationParams>();
-  params->bid = bid;
-  params->parentBrowser = parentBrowser;
-  params->inspectAt.x = x;
-  params->inspectAt.y = y;
-  startCreationImpl(params);
+
+  if (CefCurrentlyOn(TID_UI)) {
+    openDevToolsPopupImpl(parentHandler->getCid(), bid, parentHandler, parentBrowser, CefPoint(x, y));
+  } else {
+    CefPostTask(TID_UI, base::BindOnce(&openDevToolsPopupImpl, parentHandler->getCid(), bid, parentHandler, parentBrowser, CefPoint(x, y)));
+  }
 }
 
 CefRefPtr<CefBrowser> ClientsManager::getCefBrowser(int bid) {

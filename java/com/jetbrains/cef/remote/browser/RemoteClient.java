@@ -186,7 +186,6 @@ public class RemoteClient {
 
     public RemoteBrowser createBrowser(String url, CefRequestContext context, CefClient client, Supplier<CefRendering> renderingFactory, CefBrowserSettings settings) {
         RemoteBrowser browser = createBrowser(url, context, client, renderingFactory.get(), settings);
-        browser.setRenderingFactory(renderingFactory);
         return browser;
     }
 

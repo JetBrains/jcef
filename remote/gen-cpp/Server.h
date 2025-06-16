@@ -31,7 +31,7 @@ class ServerIf {
   virtual void stop() = 0;
   virtual int32_t Browser_Create(const int32_t cid, const int32_t handlersMask, const  ::thrift_codegen::RObject& requestContextHandler) = 0;
   virtual void Browser_StartNativeCreation(const int32_t bid, const std::string& url) = 0;
-  virtual void Browser_StartNativeDevToolsCreation(const int32_t bid, const int32_t parentBid, const int32_t x, const int32_t y) = 0;
+  virtual void Browser_OpenDevTools(const int32_t bid, const int32_t x, const int32_t y) = 0;
   virtual void Browser_Close(const int32_t bid) = 0;
   virtual void Browser_CloseDevTools(const int32_t bid) = 0;
   virtual void Browser_Reload(const int32_t bid) = 0;
@@ -198,7 +198,7 @@ class ServerNull : virtual public ServerIf {
   void Browser_StartNativeCreation(const int32_t /* bid */, const std::string& /* url */) override {
     return;
   }
-  void Browser_StartNativeDevToolsCreation(const int32_t /* bid */, const int32_t /* parentBid */, const int32_t /* x */, const int32_t /* y */) override {
+  void Browser_OpenDevTools(const int32_t /* bid */, const int32_t /* x */, const int32_t /* y */) override {
     return;
   }
   void Browser_Close(const int32_t /* bid */) override {
@@ -1329,47 +1329,40 @@ class Server_Browser_StartNativeCreation_pargs {
 
 };
 
-typedef struct _Server_Browser_StartNativeDevToolsCreation_args__isset {
-  _Server_Browser_StartNativeDevToolsCreation_args__isset() : bid(false), parentBid(false), x(false), y(false) {}
+typedef struct _Server_Browser_OpenDevTools_args__isset {
+  _Server_Browser_OpenDevTools_args__isset() : bid(false), x(false), y(false) {}
   bool bid :1;
-  bool parentBid :1;
   bool x :1;
   bool y :1;
-} _Server_Browser_StartNativeDevToolsCreation_args__isset;
+} _Server_Browser_OpenDevTools_args__isset;
 
-class Server_Browser_StartNativeDevToolsCreation_args {
+class Server_Browser_OpenDevTools_args {
  public:
 
-  Server_Browser_StartNativeDevToolsCreation_args(const Server_Browser_StartNativeDevToolsCreation_args&) noexcept;
-  Server_Browser_StartNativeDevToolsCreation_args& operator=(const Server_Browser_StartNativeDevToolsCreation_args&) noexcept;
-  Server_Browser_StartNativeDevToolsCreation_args() noexcept
-                                                  : bid(0),
-                                                    parentBid(0),
-                                                    x(0),
-                                                    y(0) {
+  Server_Browser_OpenDevTools_args(const Server_Browser_OpenDevTools_args&) noexcept;
+  Server_Browser_OpenDevTools_args& operator=(const Server_Browser_OpenDevTools_args&) noexcept;
+  Server_Browser_OpenDevTools_args() noexcept
+                                   : bid(0),
+                                     x(0),
+                                     y(0) {
   }
 
-  virtual ~Server_Browser_StartNativeDevToolsCreation_args() noexcept;
+  virtual ~Server_Browser_OpenDevTools_args() noexcept;
   int32_t bid;
-  int32_t parentBid;
   int32_t x;
   int32_t y;
 
-  _Server_Browser_StartNativeDevToolsCreation_args__isset __isset;
+  _Server_Browser_OpenDevTools_args__isset __isset;
 
   void __set_bid(const int32_t val);
-
-  void __set_parentBid(const int32_t val);
 
   void __set_x(const int32_t val);
 
   void __set_y(const int32_t val);
 
-  bool operator == (const Server_Browser_StartNativeDevToolsCreation_args & rhs) const
+  bool operator == (const Server_Browser_OpenDevTools_args & rhs) const
   {
     if (!(bid == rhs.bid))
-      return false;
-    if (!(parentBid == rhs.parentBid))
       return false;
     if (!(x == rhs.x))
       return false;
@@ -1377,11 +1370,11 @@ class Server_Browser_StartNativeDevToolsCreation_args {
       return false;
     return true;
   }
-  bool operator != (const Server_Browser_StartNativeDevToolsCreation_args &rhs) const {
+  bool operator != (const Server_Browser_OpenDevTools_args &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const Server_Browser_StartNativeDevToolsCreation_args & ) const;
+  bool operator < (const Server_Browser_OpenDevTools_args & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -1389,13 +1382,12 @@ class Server_Browser_StartNativeDevToolsCreation_args {
 };
 
 
-class Server_Browser_StartNativeDevToolsCreation_pargs {
+class Server_Browser_OpenDevTools_pargs {
  public:
 
 
-  virtual ~Server_Browser_StartNativeDevToolsCreation_pargs() noexcept;
+  virtual ~Server_Browser_OpenDevTools_pargs() noexcept;
   const int32_t* bid;
-  const int32_t* parentBid;
   const int32_t* x;
   const int32_t* y;
 
@@ -9724,8 +9716,8 @@ class ServerClient : virtual public ServerIf {
   int32_t recv_Browser_Create();
   void Browser_StartNativeCreation(const int32_t bid, const std::string& url) override;
   void send_Browser_StartNativeCreation(const int32_t bid, const std::string& url);
-  void Browser_StartNativeDevToolsCreation(const int32_t bid, const int32_t parentBid, const int32_t x, const int32_t y) override;
-  void send_Browser_StartNativeDevToolsCreation(const int32_t bid, const int32_t parentBid, const int32_t x, const int32_t y);
+  void Browser_OpenDevTools(const int32_t bid, const int32_t x, const int32_t y) override;
+  void send_Browser_OpenDevTools(const int32_t bid, const int32_t x, const int32_t y);
   void Browser_Close(const int32_t bid) override;
   void send_Browser_Close(const int32_t bid);
   void Browser_CloseDevTools(const int32_t bid) override;
@@ -10010,7 +10002,7 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_stop(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_Create(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_StartNativeCreation(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
-  void process_Browser_StartNativeDevToolsCreation(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_Browser_OpenDevTools(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_Close(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_CloseDevTools(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Browser_Reload(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -10130,7 +10122,7 @@ class ServerProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["stop"] = &ServerProcessor::process_stop;
     processMap_["Browser_Create"] = &ServerProcessor::process_Browser_Create;
     processMap_["Browser_StartNativeCreation"] = &ServerProcessor::process_Browser_StartNativeCreation;
-    processMap_["Browser_StartNativeDevToolsCreation"] = &ServerProcessor::process_Browser_StartNativeDevToolsCreation;
+    processMap_["Browser_OpenDevTools"] = &ServerProcessor::process_Browser_OpenDevTools;
     processMap_["Browser_Close"] = &ServerProcessor::process_Browser_Close;
     processMap_["Browser_CloseDevTools"] = &ServerProcessor::process_Browser_CloseDevTools;
     processMap_["Browser_Reload"] = &ServerProcessor::process_Browser_Reload;
@@ -10349,13 +10341,13 @@ class ServerMultiface : virtual public ServerIf {
     ifaces_[i]->Browser_StartNativeCreation(bid, url);
   }
 
-  void Browser_StartNativeDevToolsCreation(const int32_t bid, const int32_t parentBid, const int32_t x, const int32_t y) override {
+  void Browser_OpenDevTools(const int32_t bid, const int32_t x, const int32_t y) override {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->Browser_StartNativeDevToolsCreation(bid, parentBid, x, y);
+      ifaces_[i]->Browser_OpenDevTools(bid, x, y);
     }
-    ifaces_[i]->Browser_StartNativeDevToolsCreation(bid, parentBid, x, y);
+    ifaces_[i]->Browser_OpenDevTools(bid, x, y);
   }
 
   void Browser_Close(const int32_t bid) override {
@@ -11394,8 +11386,8 @@ class ServerConcurrentClient : virtual public ServerIf {
   int32_t recv_Browser_Create(const int32_t seqid);
   void Browser_StartNativeCreation(const int32_t bid, const std::string& url) override;
   void send_Browser_StartNativeCreation(const int32_t bid, const std::string& url);
-  void Browser_StartNativeDevToolsCreation(const int32_t bid, const int32_t parentBid, const int32_t x, const int32_t y) override;
-  void send_Browser_StartNativeDevToolsCreation(const int32_t bid, const int32_t parentBid, const int32_t x, const int32_t y);
+  void Browser_OpenDevTools(const int32_t bid, const int32_t x, const int32_t y) override;
+  void send_Browser_OpenDevTools(const int32_t bid, const int32_t x, const int32_t y);
   void Browser_Close(const int32_t bid) override;
   void send_Browser_Close(const int32_t bid);
   void Browser_CloseDevTools(const int32_t bid) override;

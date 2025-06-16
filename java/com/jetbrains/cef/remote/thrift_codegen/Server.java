@@ -29,7 +29,7 @@ public class Server {
 
     public void Browser_StartNativeCreation(int bid, java.lang.String url) throws com.jetbrains.cef.remote.thrift.TException;
 
-    public void Browser_StartNativeDevToolsCreation(int bid, int parentBid, int x, int y) throws com.jetbrains.cef.remote.thrift.TException;
+    public void Browser_OpenDevTools(int bid, int x, int y) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void Browser_Close(int bid) throws com.jetbrains.cef.remote.thrift.TException;
 
@@ -267,7 +267,7 @@ public class Server {
 
     public void Browser_StartNativeCreation(int bid, java.lang.String url, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
-    public void Browser_StartNativeDevToolsCreation(int bid, int parentBid, int x, int y, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
+    public void Browser_OpenDevTools(int bid, int x, int y, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
     public void Browser_Close(int bid, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException;
 
@@ -692,19 +692,18 @@ public class Server {
     }
 
     @Override
-    public void Browser_StartNativeDevToolsCreation(int bid, int parentBid, int x, int y) throws com.jetbrains.cef.remote.thrift.TException
+    public void Browser_OpenDevTools(int bid, int x, int y) throws com.jetbrains.cef.remote.thrift.TException
     {
-      send_Browser_StartNativeDevToolsCreation(bid, parentBid, x, y);
+      send_Browser_OpenDevTools(bid, x, y);
     }
 
-    public void send_Browser_StartNativeDevToolsCreation(int bid, int parentBid, int x, int y) throws com.jetbrains.cef.remote.thrift.TException
+    public void send_Browser_OpenDevTools(int bid, int x, int y) throws com.jetbrains.cef.remote.thrift.TException
     {
-      Browser_StartNativeDevToolsCreation_args args = new Browser_StartNativeDevToolsCreation_args();
+      Browser_OpenDevTools_args args = new Browser_OpenDevTools_args();
       args.setBid(bid);
-      args.setParentBid(parentBid);
       args.setX(x);
       args.setY(y);
-      sendBaseOneway("Browser_StartNativeDevToolsCreation", args);
+      sendBaseOneway("Browser_OpenDevTools", args);
     }
 
     @Override
@@ -2997,32 +2996,29 @@ public class Server {
     }
 
     @Override
-    public void Browser_StartNativeDevToolsCreation(int bid, int parentBid, int x, int y, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+    public void Browser_OpenDevTools(int bid, int x, int y, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
       checkReady();
-      Browser_StartNativeDevToolsCreation_call method_call = new Browser_StartNativeDevToolsCreation_call(bid, parentBid, x, y, resultHandler, this, ___protocolFactory, ___transport);
+      Browser_OpenDevTools_call method_call = new Browser_OpenDevTools_call(bid, x, y, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class Browser_StartNativeDevToolsCreation_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<Void> {
+    public static class Browser_OpenDevTools_call extends com.jetbrains.cef.remote.thrift.async.TAsyncMethodCall<Void> {
       private int bid;
-      private int parentBid;
       private int x;
       private int y;
-      public Browser_StartNativeDevToolsCreation_call(int bid, int parentBid, int x, int y, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
+      public Browser_OpenDevTools_call(int bid, int x, int y, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler, com.jetbrains.cef.remote.thrift.async.TAsyncClient client, com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory protocolFactory, com.jetbrains.cef.remote.thrift.transport.TNonblockingTransport transport) throws com.jetbrains.cef.remote.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
         this.bid = bid;
-        this.parentBid = parentBid;
         this.x = x;
         this.y = y;
       }
 
       @Override
       public void write_args(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot) throws com.jetbrains.cef.remote.thrift.TException {
-        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("Browser_StartNativeDevToolsCreation", com.jetbrains.cef.remote.thrift.protocol.TMessageType.ONEWAY, 0));
-        Browser_StartNativeDevToolsCreation_args args = new Browser_StartNativeDevToolsCreation_args();
+        prot.writeMessageBegin(new com.jetbrains.cef.remote.thrift.protocol.TMessage("Browser_OpenDevTools", com.jetbrains.cef.remote.thrift.protocol.TMessageType.ONEWAY, 0));
+        Browser_OpenDevTools_args args = new Browser_OpenDevTools_args();
         args.setBid(bid);
-        args.setParentBid(parentBid);
         args.setX(x);
         args.setY(y);
         args.write(prot);
@@ -7112,7 +7108,7 @@ public class Server {
       processMap.put("stop", new stop());
       processMap.put("Browser_Create", new Browser_Create());
       processMap.put("Browser_StartNativeCreation", new Browser_StartNativeCreation());
-      processMap.put("Browser_StartNativeDevToolsCreation", new Browser_StartNativeDevToolsCreation());
+      processMap.put("Browser_OpenDevTools", new Browser_OpenDevTools());
       processMap.put("Browser_Close", new Browser_Close());
       processMap.put("Browser_CloseDevTools", new Browser_CloseDevTools());
       processMap.put("Browser_Reload", new Browser_Reload());
@@ -7475,14 +7471,14 @@ public class Server {
       }
     }
 
-    public static class Browser_StartNativeDevToolsCreation<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, Browser_StartNativeDevToolsCreation_args> {
-      public Browser_StartNativeDevToolsCreation() {
-        super("Browser_StartNativeDevToolsCreation");
+    public static class Browser_OpenDevTools<I extends Iface> extends com.jetbrains.cef.remote.thrift.ProcessFunction<I, Browser_OpenDevTools_args> {
+      public Browser_OpenDevTools() {
+        super("Browser_OpenDevTools");
       }
 
       @Override
-      public Browser_StartNativeDevToolsCreation_args getEmptyArgsInstance() {
-        return new Browser_StartNativeDevToolsCreation_args();
+      public Browser_OpenDevTools_args getEmptyArgsInstance() {
+        return new Browser_OpenDevTools_args();
       }
 
       @Override
@@ -7496,8 +7492,8 @@ public class Server {
       }
 
       @Override
-      public com.jetbrains.cef.remote.thrift.TBase getResult(I iface, Browser_StartNativeDevToolsCreation_args args) throws com.jetbrains.cef.remote.thrift.TException {
-        iface.Browser_StartNativeDevToolsCreation(args.bid, args.parentBid, args.x, args.y);
+      public com.jetbrains.cef.remote.thrift.TBase getResult(I iface, Browser_OpenDevTools_args args) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.Browser_OpenDevTools(args.bid, args.x, args.y);
         return null;
       }
     }
@@ -10471,7 +10467,7 @@ public class Server {
       processMap.put("stop", new stop());
       processMap.put("Browser_Create", new Browser_Create());
       processMap.put("Browser_StartNativeCreation", new Browser_StartNativeCreation());
-      processMap.put("Browser_StartNativeDevToolsCreation", new Browser_StartNativeDevToolsCreation());
+      processMap.put("Browser_OpenDevTools", new Browser_OpenDevTools());
       processMap.put("Browser_Close", new Browser_Close());
       processMap.put("Browser_CloseDevTools", new Browser_CloseDevTools());
       processMap.put("Browser_Reload", new Browser_Reload());
@@ -11106,14 +11102,14 @@ public class Server {
       }
     }
 
-    public static class Browser_StartNativeDevToolsCreation<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, Browser_StartNativeDevToolsCreation_args, Void> {
-      public Browser_StartNativeDevToolsCreation() {
-        super("Browser_StartNativeDevToolsCreation");
+    public static class Browser_OpenDevTools<I extends AsyncIface> extends com.jetbrains.cef.remote.thrift.AsyncProcessFunction<I, Browser_OpenDevTools_args, Void> {
+      public Browser_OpenDevTools() {
+        super("Browser_OpenDevTools");
       }
 
       @Override
-      public Browser_StartNativeDevToolsCreation_args getEmptyArgsInstance() {
-        return new Browser_StartNativeDevToolsCreation_args();
+      public Browser_OpenDevTools_args getEmptyArgsInstance() {
+        return new Browser_OpenDevTools_args();
       }
 
       @Override
@@ -11141,8 +11137,8 @@ public class Server {
       }
 
       @Override
-      public void start(I iface, Browser_StartNativeDevToolsCreation_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
-        iface.Browser_StartNativeDevToolsCreation(args.bid, args.parentBid, args.x, args.y,resultHandler);
+      public void start(I iface, Browser_OpenDevTools_args args, com.jetbrains.cef.remote.thrift.async.AsyncMethodCallback<Void> resultHandler) throws com.jetbrains.cef.remote.thrift.TException {
+        iface.Browser_OpenDevTools(args.bid, args.x, args.y,resultHandler);
       }
     }
 
@@ -22597,28 +22593,25 @@ public class Server {
   }
 
   @SuppressWarnings({"cast", "rawtypes", "serial", "unchecked", "unused"})
-  public static class Browser_StartNativeDevToolsCreation_args implements com.jetbrains.cef.remote.thrift.TBase<Browser_StartNativeDevToolsCreation_args, Browser_StartNativeDevToolsCreation_args._Fields>, java.io.Serializable, Cloneable, Comparable<Browser_StartNativeDevToolsCreation_args>   {
-    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("Browser_StartNativeDevToolsCreation_args");
+  public static class Browser_OpenDevTools_args implements com.jetbrains.cef.remote.thrift.TBase<Browser_OpenDevTools_args, Browser_OpenDevTools_args._Fields>, java.io.Serializable, Cloneable, Comparable<Browser_OpenDevTools_args>   {
+    private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("Browser_OpenDevTools_args");
 
     private static final com.jetbrains.cef.remote.thrift.protocol.TField BID_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("bid", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)1);
-    private static final com.jetbrains.cef.remote.thrift.protocol.TField PARENT_BID_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("parentBid", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)2);
-    private static final com.jetbrains.cef.remote.thrift.protocol.TField X_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("x", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)3);
-    private static final com.jetbrains.cef.remote.thrift.protocol.TField Y_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("y", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)4);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField X_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("x", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)2);
+    private static final com.jetbrains.cef.remote.thrift.protocol.TField Y_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("y", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)3);
 
-    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new Browser_StartNativeDevToolsCreation_argsStandardSchemeFactory();
-    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new Browser_StartNativeDevToolsCreation_argsTupleSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new Browser_OpenDevTools_argsStandardSchemeFactory();
+    private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new Browser_OpenDevTools_argsTupleSchemeFactory();
 
     public int bid; // required
-    public int parentBid; // required
     public int x; // required
     public int y; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
       BID((short)1, "bid"),
-      PARENT_BID((short)2, "parentBid"),
-      X((short)3, "x"),
-      Y((short)4, "y");
+      X((short)2, "x"),
+      Y((short)3, "y");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -22636,11 +22629,9 @@ public class Server {
         switch(fieldId) {
           case 1: // BID
             return BID;
-          case 2: // PARENT_BID
-            return PARENT_BID;
-          case 3: // X
+          case 2: // X
             return X;
-          case 4: // Y
+          case 3: // Y
             return Y;
           default:
             return null;
@@ -22686,39 +22677,33 @@ public class Server {
 
     // isset id assignments
     private static final int __BID_ISSET_ID = 0;
-    private static final int __PARENTBID_ISSET_ID = 1;
-    private static final int __X_ISSET_ID = 2;
-    private static final int __Y_ISSET_ID = 3;
+    private static final int __X_ISSET_ID = 1;
+    private static final int __Y_ISSET_ID = 2;
     private byte __isset_bitfield = 0;
     public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.BID, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("bid", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
           new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
-      tmpMap.put(_Fields.PARENT_BID, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("parentBid", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
-          new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.X, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("x", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
           new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
       tmpMap.put(_Fields.Y, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("y", com.jetbrains.cef.remote.thrift.TFieldRequirementType.DEFAULT, 
           new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
-      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Browser_StartNativeDevToolsCreation_args.class, metaDataMap);
+      com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Browser_OpenDevTools_args.class, metaDataMap);
     }
 
-    public Browser_StartNativeDevToolsCreation_args() {
+    public Browser_OpenDevTools_args() {
     }
 
-    public Browser_StartNativeDevToolsCreation_args(
+    public Browser_OpenDevTools_args(
       int bid,
-      int parentBid,
       int x,
       int y)
     {
       this();
       this.bid = bid;
       setBidIsSet(true);
-      this.parentBid = parentBid;
-      setParentBidIsSet(true);
       this.x = x;
       setXIsSet(true);
       this.y = y;
@@ -22728,25 +22713,22 @@ public class Server {
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public Browser_StartNativeDevToolsCreation_args(Browser_StartNativeDevToolsCreation_args other) {
+    public Browser_OpenDevTools_args(Browser_OpenDevTools_args other) {
       __isset_bitfield = other.__isset_bitfield;
       this.bid = other.bid;
-      this.parentBid = other.parentBid;
       this.x = other.x;
       this.y = other.y;
     }
 
     @Override
-    public Browser_StartNativeDevToolsCreation_args deepCopy() {
-      return new Browser_StartNativeDevToolsCreation_args(this);
+    public Browser_OpenDevTools_args deepCopy() {
+      return new Browser_OpenDevTools_args(this);
     }
 
     @Override
     public void clear() {
       setBidIsSet(false);
       this.bid = 0;
-      setParentBidIsSet(false);
-      this.parentBid = 0;
       setXIsSet(false);
       this.x = 0;
       setYIsSet(false);
@@ -22757,7 +22739,7 @@ public class Server {
       return this.bid;
     }
 
-    public Browser_StartNativeDevToolsCreation_args setBid(int bid) {
+    public Browser_OpenDevTools_args setBid(int bid) {
       this.bid = bid;
       setBidIsSet(true);
       return this;
@@ -22776,34 +22758,11 @@ public class Server {
       __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __BID_ISSET_ID, value);
     }
 
-    public int getParentBid() {
-      return this.parentBid;
-    }
-
-    public Browser_StartNativeDevToolsCreation_args setParentBid(int parentBid) {
-      this.parentBid = parentBid;
-      setParentBidIsSet(true);
-      return this;
-    }
-
-    public void unsetParentBid() {
-      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __PARENTBID_ISSET_ID);
-    }
-
-    /** Returns true if field parentBid is set (has been assigned a value) and false otherwise */
-    public boolean isSetParentBid() {
-      return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __PARENTBID_ISSET_ID);
-    }
-
-    public void setParentBidIsSet(boolean value) {
-      __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __PARENTBID_ISSET_ID, value);
-    }
-
     public int getX() {
       return this.x;
     }
 
-    public Browser_StartNativeDevToolsCreation_args setX(int x) {
+    public Browser_OpenDevTools_args setX(int x) {
       this.x = x;
       setXIsSet(true);
       return this;
@@ -22826,7 +22785,7 @@ public class Server {
       return this.y;
     }
 
-    public Browser_StartNativeDevToolsCreation_args setY(int y) {
+    public Browser_OpenDevTools_args setY(int y) {
       this.y = y;
       setYIsSet(true);
       return this;
@@ -22856,14 +22815,6 @@ public class Server {
         }
         break;
 
-      case PARENT_BID:
-        if (value == null) {
-          unsetParentBid();
-        } else {
-          setParentBid((java.lang.Integer)value);
-        }
-        break;
-
       case X:
         if (value == null) {
           unsetX();
@@ -22890,9 +22841,6 @@ public class Server {
       case BID:
         return getBid();
 
-      case PARENT_BID:
-        return getParentBid();
-
       case X:
         return getX();
 
@@ -22913,8 +22861,6 @@ public class Server {
       switch (field) {
       case BID:
         return isSetBid();
-      case PARENT_BID:
-        return isSetParentBid();
       case X:
         return isSetX();
       case Y:
@@ -22925,12 +22871,12 @@ public class Server {
 
     @Override
     public boolean equals(java.lang.Object that) {
-      if (that instanceof Browser_StartNativeDevToolsCreation_args)
-        return this.equals((Browser_StartNativeDevToolsCreation_args)that);
+      if (that instanceof Browser_OpenDevTools_args)
+        return this.equals((Browser_OpenDevTools_args)that);
       return false;
     }
 
-    public boolean equals(Browser_StartNativeDevToolsCreation_args that) {
+    public boolean equals(Browser_OpenDevTools_args that) {
       if (that == null)
         return false;
       if (this == that)
@@ -22942,15 +22888,6 @@ public class Server {
         if (!(this_present_bid && that_present_bid))
           return false;
         if (this.bid != that.bid)
-          return false;
-      }
-
-      boolean this_present_parentBid = true;
-      boolean that_present_parentBid = true;
-      if (this_present_parentBid || that_present_parentBid) {
-        if (!(this_present_parentBid && that_present_parentBid))
-          return false;
-        if (this.parentBid != that.parentBid)
           return false;
       }
 
@@ -22981,8 +22918,6 @@ public class Server {
 
       hashCode = hashCode * 8191 + bid;
 
-      hashCode = hashCode * 8191 + parentBid;
-
       hashCode = hashCode * 8191 + x;
 
       hashCode = hashCode * 8191 + y;
@@ -22991,7 +22926,7 @@ public class Server {
     }
 
     @Override
-    public int compareTo(Browser_StartNativeDevToolsCreation_args other) {
+    public int compareTo(Browser_OpenDevTools_args other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
@@ -23004,16 +22939,6 @@ public class Server {
       }
       if (isSetBid()) {
         lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.bid, other.bid);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
-      lastComparison = java.lang.Boolean.compare(isSetParentBid(), other.isSetParentBid());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetParentBid()) {
-        lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.parentBid, other.parentBid);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -23059,15 +22984,11 @@ public class Server {
 
     @Override
     public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("Browser_StartNativeDevToolsCreation_args(");
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("Browser_OpenDevTools_args(");
       boolean first = true;
 
       sb.append("bid:");
       sb.append(this.bid);
-      first = false;
-      if (!first) sb.append(", ");
-      sb.append("parentBid:");
-      sb.append(this.parentBid);
       first = false;
       if (!first) sb.append(", ");
       sb.append("x:");
@@ -23104,17 +23025,17 @@ public class Server {
       }
     }
 
-    private static class Browser_StartNativeDevToolsCreation_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+    private static class Browser_OpenDevTools_argsStandardSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
       @Override
-      public Browser_StartNativeDevToolsCreation_argsStandardScheme getScheme() {
-        return new Browser_StartNativeDevToolsCreation_argsStandardScheme();
+      public Browser_OpenDevTools_argsStandardScheme getScheme() {
+        return new Browser_OpenDevTools_argsStandardScheme();
       }
     }
 
-    private static class Browser_StartNativeDevToolsCreation_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<Browser_StartNativeDevToolsCreation_args> {
+    private static class Browser_OpenDevTools_argsStandardScheme extends com.jetbrains.cef.remote.thrift.scheme.StandardScheme<Browser_OpenDevTools_args> {
 
       @Override
-      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, Browser_StartNativeDevToolsCreation_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol iprot, Browser_OpenDevTools_args struct) throws com.jetbrains.cef.remote.thrift.TException {
         com.jetbrains.cef.remote.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -23132,15 +23053,7 @@ public class Server {
                 com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 2: // PARENT_BID
-              if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
-                struct.parentBid = iprot.readI32();
-                struct.setParentBidIsSet(true);
-              } else { 
-                com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
-            case 3: // X
+            case 2: // X
               if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
                 struct.x = iprot.readI32();
                 struct.setXIsSet(true);
@@ -23148,7 +23061,7 @@ public class Server {
                 com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
-            case 4: // Y
+            case 3: // Y
               if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
                 struct.y = iprot.readI32();
                 struct.setYIsSet(true);
@@ -23168,15 +23081,12 @@ public class Server {
       }
 
       @Override
-      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, Browser_StartNativeDevToolsCreation_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol oprot, Browser_OpenDevTools_args struct) throws com.jetbrains.cef.remote.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
         oprot.writeFieldBegin(BID_FIELD_DESC);
         oprot.writeI32(struct.bid);
-        oprot.writeFieldEnd();
-        oprot.writeFieldBegin(PARENT_BID_FIELD_DESC);
-        oprot.writeI32(struct.parentBid);
         oprot.writeFieldEnd();
         oprot.writeFieldBegin(X_FIELD_DESC);
         oprot.writeI32(struct.x);
@@ -23190,37 +23100,31 @@ public class Server {
 
     }
 
-    private static class Browser_StartNativeDevToolsCreation_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
+    private static class Browser_OpenDevTools_argsTupleSchemeFactory implements com.jetbrains.cef.remote.thrift.scheme.SchemeFactory {
       @Override
-      public Browser_StartNativeDevToolsCreation_argsTupleScheme getScheme() {
-        return new Browser_StartNativeDevToolsCreation_argsTupleScheme();
+      public Browser_OpenDevTools_argsTupleScheme getScheme() {
+        return new Browser_OpenDevTools_argsTupleScheme();
       }
     }
 
-    private static class Browser_StartNativeDevToolsCreation_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<Browser_StartNativeDevToolsCreation_args> {
+    private static class Browser_OpenDevTools_argsTupleScheme extends com.jetbrains.cef.remote.thrift.scheme.TupleScheme<Browser_OpenDevTools_args> {
 
       @Override
-      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, Browser_StartNativeDevToolsCreation_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+      public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, Browser_OpenDevTools_args struct) throws com.jetbrains.cef.remote.thrift.TException {
         com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
         java.util.BitSet optionals = new java.util.BitSet();
         if (struct.isSetBid()) {
           optionals.set(0);
         }
-        if (struct.isSetParentBid()) {
+        if (struct.isSetX()) {
           optionals.set(1);
         }
-        if (struct.isSetX()) {
+        if (struct.isSetY()) {
           optionals.set(2);
         }
-        if (struct.isSetY()) {
-          optionals.set(3);
-        }
-        oprot.writeBitSet(optionals, 4);
+        oprot.writeBitSet(optionals, 3);
         if (struct.isSetBid()) {
           oprot.writeI32(struct.bid);
-        }
-        if (struct.isSetParentBid()) {
-          oprot.writeI32(struct.parentBid);
         }
         if (struct.isSetX()) {
           oprot.writeI32(struct.x);
@@ -23231,22 +23135,18 @@ public class Server {
       }
 
       @Override
-      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, Browser_StartNativeDevToolsCreation_args struct) throws com.jetbrains.cef.remote.thrift.TException {
+      public void read(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, Browser_OpenDevTools_args struct) throws com.jetbrains.cef.remote.thrift.TException {
         com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(4);
+        java.util.BitSet incoming = iprot.readBitSet(3);
         if (incoming.get(0)) {
           struct.bid = iprot.readI32();
           struct.setBidIsSet(true);
         }
         if (incoming.get(1)) {
-          struct.parentBid = iprot.readI32();
-          struct.setParentBidIsSet(true);
-        }
-        if (incoming.get(2)) {
           struct.x = iprot.readI32();
           struct.setXIsSet(true);
         }
-        if (incoming.get(3)) {
+        if (incoming.get(2)) {
           struct.y = iprot.readI32();
           struct.setYIsSet(true);
         }

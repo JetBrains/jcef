@@ -156,9 +156,9 @@ void ServerHandler::Browser_StartNativeCreation(int bid, const std::string& url)
   Log::trace("Started creation of native CefBrowser of remote browser bid=%d, url=%s", bid, url.c_str());
 }
 
-void ServerHandler::Browser_StartNativeDevToolsCreation(int bid, int parentBid, int x, int y) {
-  myCtx->clientsManager()->startNativeDevToolsCreation(bid, parentBid, x, y);
-  Log::trace("Started creation of dev-tools of remote browser bid=%d, parentBid=%d ", bid, parentBid);
+void ServerHandler::Browser_OpenDevTools(int bid, int x, int y) {
+  myCtx->clientsManager()->openDevTools(bid, x, y);
+  Log::trace("Started opening of dev-tools of remote browser bid=%d", bid);
 }
 
 void ServerHandler::Browser_Close(const int32_t bid) {

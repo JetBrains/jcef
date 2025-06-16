@@ -65,9 +65,9 @@ class ServerHandler : virtual public ServerIf {
     printf("Browser_StartNativeCreation\n");
   }
 
-  void Browser_StartNativeDevToolsCreation(const int32_t bid, const int32_t parentBid, const int32_t x, const int32_t y) {
+  void Browser_OpenDevTools(const int32_t bid, const int32_t x, const int32_t y) {
     // Your implementation goes here
-    printf("Browser_StartNativeDevToolsCreation\n");
+    printf("Browser_OpenDevTools\n");
   }
 
   void Browser_Close(const int32_t bid) {
