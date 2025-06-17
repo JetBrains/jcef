@@ -98,8 +98,13 @@ Java_org_cef_network_CefPostDataElement_1N_N_1GetType(JNIEnv* env,
              jtype);
     JNI_CASE(env, "org/cef/network/CefPostDataElement$Type", PDE_TYPE_FILE,
              jtype);
+#if CEF_API_ADDED(13601)
+    JNI_CASE(env, "org/cef/network/CefPostDataElement$Type",
+             PDE_TYPE_NUM_VALUES, jtype);
+#else
     JNI_CASE(env, "org/cef/network/CefPostDataElement$Type",
              PDF_TYPE_NUM_VALUES, jtype);
+#endif
   }
   return jtype;
 }
