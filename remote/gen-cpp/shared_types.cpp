@@ -496,6 +496,10 @@ void PostDataElement::__set_isReadOnly(const bool val) {
   this->isReadOnly = val;
 }
 
+void PostDataElement::__set_type(const int32_t val) {
+  this->type = val;
+}
+
 void PostDataElement::__set_file(const std::string& val) {
   this->file = val;
 __isset.file = true;
@@ -525,6 +529,7 @@ uint32_t PostDataElement::read(::apache::thrift::protocol::TProtocol* iprot) {
   using ::apache::thrift::protocol::TProtocolException;
 
   bool isset_isReadOnly = false;
+  bool isset_type = false;
 
   while (true)
   {
@@ -543,6 +548,14 @@ uint32_t PostDataElement::read(::apache::thrift::protocol::TProtocol* iprot) {
         }
         break;
       case 2:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->type);
+          isset_type = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
         if (ftype == ::apache::thrift::protocol::T_STRING) {
           xfer += iprot->readString(this->file);
           this->__isset.file = true;
@@ -550,7 +563,7 @@ uint32_t PostDataElement::read(::apache::thrift::protocol::TProtocol* iprot) {
           xfer += iprot->skip(ftype);
         }
         break;
-      case 3:
+      case 4:
         if (ftype == ::apache::thrift::protocol::T_STRING) {
           xfer += iprot->readBinary(this->bytes);
           this->__isset.bytes = true;
@@ -569,6 +582,8 @@ uint32_t PostDataElement::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   if (!isset_isReadOnly)
     throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_type)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
   return xfer;
 }
 
@@ -581,13 +596,17 @@ uint32_t PostDataElement::write(::apache::thrift::protocol::TProtocol* oprot) co
   xfer += oprot->writeBool(this->isReadOnly);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("type", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32(this->type);
+  xfer += oprot->writeFieldEnd();
+
   if (this->__isset.file) {
-    xfer += oprot->writeFieldBegin("file", ::apache::thrift::protocol::T_STRING, 2);
+    xfer += oprot->writeFieldBegin("file", ::apache::thrift::protocol::T_STRING, 3);
     xfer += oprot->writeString(this->file);
     xfer += oprot->writeFieldEnd();
   }
   if (this->__isset.bytes) {
-    xfer += oprot->writeFieldBegin("bytes", ::apache::thrift::protocol::T_STRING, 3);
+    xfer += oprot->writeFieldBegin("bytes", ::apache::thrift::protocol::T_STRING, 4);
     xfer += oprot->writeBinary(this->bytes);
     xfer += oprot->writeFieldEnd();
   }
@@ -599,6 +618,7 @@ uint32_t PostDataElement::write(::apache::thrift::protocol::TProtocol* oprot) co
 void swap(PostDataElement &a, PostDataElement &b) {
   using ::std::swap;
   swap(a.isReadOnly, b.isReadOnly);
+  swap(a.type, b.type);
   swap(a.file, b.file);
   swap(a.bytes, b.bytes);
   swap(a.__isset, b.__isset);
@@ -606,12 +626,14 @@ void swap(PostDataElement &a, PostDataElement &b) {
 
 PostDataElement::PostDataElement(const PostDataElement& other14) {
   isReadOnly = other14.isReadOnly;
+  type = other14.type;
   file = other14.file;
   bytes = other14.bytes;
   __isset = other14.__isset;
 }
 PostDataElement& PostDataElement::operator=(const PostDataElement& other15) {
   isReadOnly = other15.isReadOnly;
+  type = other15.type;
   file = other15.file;
   bytes = other15.bytes;
   __isset = other15.__isset;
@@ -621,6 +643,7 @@ void PostDataElement::printTo(std::ostream& out) const {
   using ::apache::thrift::to_string;
   out << "PostDataElement(";
   out << "isReadOnly=" << to_string(isReadOnly);
+  out << ", " << "type=" << to_string(type);
   out << ", " << "file="; (__isset.file ? (out << to_string(file)) : (out << "<null>"));
   out << ", " << "bytes="; (__isset.bytes ? (out << to_string(bytes)) : (out << "<null>"));
   out << ")";

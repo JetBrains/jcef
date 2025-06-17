@@ -248,18 +248,22 @@ class PostDataElement : public virtual ::apache::thrift::TBase {
   PostDataElement& operator=(const PostDataElement&);
   PostDataElement() noexcept
                   : isReadOnly(0),
+                    type(0),
                     file(),
                     bytes() {
   }
 
   virtual ~PostDataElement() noexcept;
   bool isReadOnly;
+  int32_t type;
   std::string file;
   std::string bytes;
 
   _PostDataElement__isset __isset;
 
   void __set_isReadOnly(const bool val);
+
+  void __set_type(const int32_t val);
 
   void __set_file(const std::string& val);
 
@@ -268,6 +272,8 @@ class PostDataElement : public virtual ::apache::thrift::TBase {
   bool operator == (const PostDataElement & rhs) const
   {
     if (!(isReadOnly == rhs.isReadOnly))
+      return false;
+    if (!(type == rhs.type))
       return false;
     if (__isset.file != rhs.__isset.file)
       return false;

@@ -23,6 +23,11 @@ public class RemotePostData extends CefPostData {
             });
     }
 
+    public RemotePostData() {
+        super();
+        myPostData = new PostData(false, false, false);
+    }
+
     @Override
     public void dispose() {}
 

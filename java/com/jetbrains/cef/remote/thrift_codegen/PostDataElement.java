@@ -11,21 +11,24 @@ public class PostDataElement implements com.jetbrains.cef.remote.thrift.TBase<Po
   private static final com.jetbrains.cef.remote.thrift.protocol.TStruct STRUCT_DESC = new com.jetbrains.cef.remote.thrift.protocol.TStruct("PostDataElement");
 
   private static final com.jetbrains.cef.remote.thrift.protocol.TField IS_READ_ONLY_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("isReadOnly", com.jetbrains.cef.remote.thrift.protocol.TType.BOOL, (short)1);
-  private static final com.jetbrains.cef.remote.thrift.protocol.TField FILE_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("file", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)2);
-  private static final com.jetbrains.cef.remote.thrift.protocol.TField BYTES_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("bytes", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)3);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField TYPE_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("type", com.jetbrains.cef.remote.thrift.protocol.TType.I32, (short)2);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField FILE_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("file", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)3);
+  private static final com.jetbrains.cef.remote.thrift.protocol.TField BYTES_FIELD_DESC = new com.jetbrains.cef.remote.thrift.protocol.TField("bytes", com.jetbrains.cef.remote.thrift.protocol.TType.STRING, (short)4);
 
   private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new PostDataElementStandardSchemeFactory();
   private static final com.jetbrains.cef.remote.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new PostDataElementTupleSchemeFactory();
 
   public boolean isReadOnly; // required
+  public int type; // required
   public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.lang.String file; // optional
   public @com.jetbrains.cef.remote.thrift.annotation.Nullable java.nio.ByteBuffer bytes; // optional
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements com.jetbrains.cef.remote.thrift.TFieldIdEnum {
     IS_READ_ONLY((short)1, "isReadOnly"),
-    FILE((short)2, "file"),
-    BYTES((short)3, "bytes");
+    TYPE((short)2, "type"),
+    FILE((short)3, "file"),
+    BYTES((short)4, "bytes");
 
     private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -43,9 +46,11 @@ public class PostDataElement implements com.jetbrains.cef.remote.thrift.TBase<Po
       switch(fieldId) {
         case 1: // IS_READ_ONLY
           return IS_READ_ONLY;
-        case 2: // FILE
+        case 2: // TYPE
+          return TYPE;
+        case 3: // FILE
           return FILE;
-        case 3: // BYTES
+        case 4: // BYTES
           return BYTES;
         default:
           return null;
@@ -91,6 +96,7 @@ public class PostDataElement implements com.jetbrains.cef.remote.thrift.TBase<Po
 
   // isset id assignments
   private static final int __ISREADONLY_ISSET_ID = 0;
+  private static final int __TYPE_ISSET_ID = 1;
   private byte __isset_bitfield = 0;
   private static final _Fields optionals[] = {_Fields.FILE,_Fields.BYTES};
   public static final java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> metaDataMap;
@@ -98,6 +104,8 @@ public class PostDataElement implements com.jetbrains.cef.remote.thrift.TBase<Po
     java.util.Map<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData>(_Fields.class);
     tmpMap.put(_Fields.IS_READ_ONLY, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("isReadOnly", com.jetbrains.cef.remote.thrift.TFieldRequirementType.REQUIRED, 
         new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.BOOL)));
+    tmpMap.put(_Fields.TYPE, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("type", com.jetbrains.cef.remote.thrift.TFieldRequirementType.REQUIRED, 
+        new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.I32)));
     tmpMap.put(_Fields.FILE, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("file", com.jetbrains.cef.remote.thrift.TFieldRequirementType.OPTIONAL, 
         new com.jetbrains.cef.remote.thrift.meta_data.FieldValueMetaData(com.jetbrains.cef.remote.thrift.protocol.TType.STRING)));
     tmpMap.put(_Fields.BYTES, new com.jetbrains.cef.remote.thrift.meta_data.FieldMetaData("bytes", com.jetbrains.cef.remote.thrift.TFieldRequirementType.OPTIONAL, 
@@ -107,14 +115,19 @@ public class PostDataElement implements com.jetbrains.cef.remote.thrift.TBase<Po
   }
 
   public PostDataElement() {
+    this.type = 0;
+
   }
 
   public PostDataElement(
-    boolean isReadOnly)
+    boolean isReadOnly,
+    int type)
   {
     this();
     this.isReadOnly = isReadOnly;
     setIsReadOnlyIsSet(true);
+    this.type = type;
+    setTypeIsSet(true);
   }
 
   /**
@@ -123,6 +136,7 @@ public class PostDataElement implements com.jetbrains.cef.remote.thrift.TBase<Po
   public PostDataElement(PostDataElement other) {
     __isset_bitfield = other.__isset_bitfield;
     this.isReadOnly = other.isReadOnly;
+    this.type = other.type;
     if (other.isSetFile()) {
       this.file = other.file;
     }
@@ -140,6 +154,8 @@ public class PostDataElement implements com.jetbrains.cef.remote.thrift.TBase<Po
   public void clear() {
     setIsReadOnlyIsSet(false);
     this.isReadOnly = false;
+    this.type = 0;
+
     this.file = null;
     this.bytes = null;
   }
@@ -165,6 +181,29 @@ public class PostDataElement implements com.jetbrains.cef.remote.thrift.TBase<Po
 
   public void setIsReadOnlyIsSet(boolean value) {
     __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __ISREADONLY_ISSET_ID, value);
+  }
+
+  public int getType() {
+    return this.type;
+  }
+
+  public PostDataElement setType(int type) {
+    this.type = type;
+    setTypeIsSet(true);
+    return this;
+  }
+
+  public void unsetType() {
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.clearBit(__isset_bitfield, __TYPE_ISSET_ID);
+  }
+
+  /** Returns true if field type is set (has been assigned a value) and false otherwise */
+  public boolean isSetType() {
+    return com.jetbrains.cef.remote.thrift.EncodingUtils.testBit(__isset_bitfield, __TYPE_ISSET_ID);
+  }
+
+  public void setTypeIsSet(boolean value) {
+    __isset_bitfield = com.jetbrains.cef.remote.thrift.EncodingUtils.setBit(__isset_bitfield, __TYPE_ISSET_ID, value);
   }
 
   @com.jetbrains.cef.remote.thrift.annotation.Nullable
@@ -237,6 +276,14 @@ public class PostDataElement implements com.jetbrains.cef.remote.thrift.TBase<Po
       }
       break;
 
+    case TYPE:
+      if (value == null) {
+        unsetType();
+      } else {
+        setType((java.lang.Integer)value);
+      }
+      break;
+
     case FILE:
       if (value == null) {
         unsetFile();
@@ -267,6 +314,9 @@ public class PostDataElement implements com.jetbrains.cef.remote.thrift.TBase<Po
     case IS_READ_ONLY:
       return isIsReadOnly();
 
+    case TYPE:
+      return getType();
+
     case FILE:
       return getFile();
 
@@ -287,6 +337,8 @@ public class PostDataElement implements com.jetbrains.cef.remote.thrift.TBase<Po
     switch (field) {
     case IS_READ_ONLY:
       return isSetIsReadOnly();
+    case TYPE:
+      return isSetType();
     case FILE:
       return isSetFile();
     case BYTES:
@@ -317,6 +369,15 @@ public class PostDataElement implements com.jetbrains.cef.remote.thrift.TBase<Po
         return false;
     }
 
+    boolean this_present_type = true;
+    boolean that_present_type = true;
+    if (this_present_type || that_present_type) {
+      if (!(this_present_type && that_present_type))
+        return false;
+      if (this.type != that.type)
+        return false;
+    }
+
     boolean this_present_file = true && this.isSetFile();
     boolean that_present_file = true && that.isSetFile();
     if (this_present_file || that_present_file) {
@@ -344,6 +405,8 @@ public class PostDataElement implements com.jetbrains.cef.remote.thrift.TBase<Po
 
     hashCode = hashCode * 8191 + ((isReadOnly) ? 131071 : 524287);
 
+    hashCode = hashCode * 8191 + type;
+
     hashCode = hashCode * 8191 + ((isSetFile()) ? 131071 : 524287);
     if (isSetFile())
       hashCode = hashCode * 8191 + file.hashCode();
@@ -369,6 +432,16 @@ public class PostDataElement implements com.jetbrains.cef.remote.thrift.TBase<Po
     }
     if (isSetIsReadOnly()) {
       lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.isReadOnly, other.isReadOnly);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = java.lang.Boolean.compare(isSetType(), other.isSetType());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetType()) {
+      lastComparison = com.jetbrains.cef.remote.thrift.TBaseHelper.compareTo(this.type, other.type);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -420,6 +493,10 @@ public class PostDataElement implements com.jetbrains.cef.remote.thrift.TBase<Po
     sb.append("isReadOnly:");
     sb.append(this.isReadOnly);
     first = false;
+    if (!first) sb.append(", ");
+    sb.append("type:");
+    sb.append(this.type);
+    first = false;
     if (isSetFile()) {
       if (!first) sb.append(", ");
       sb.append("file:");
@@ -447,6 +524,7 @@ public class PostDataElement implements com.jetbrains.cef.remote.thrift.TBase<Po
   public void validate() throws com.jetbrains.cef.remote.thrift.TException {
     // check for required fields
     // alas, we cannot check 'isReadOnly' because it's a primitive and you chose the non-beans generator.
+    // alas, we cannot check 'type' because it's a primitive and you chose the non-beans generator.
     // check for sub-struct validity
   }
 
@@ -496,7 +574,15 @@ public class PostDataElement implements com.jetbrains.cef.remote.thrift.TBase<Po
               com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 2: // FILE
+          case 2: // TYPE
+            if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.I32) {
+              struct.type = iprot.readI32();
+              struct.setTypeIsSet(true);
+            } else { 
+              com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            break;
+          case 3: // FILE
             if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRING) {
               struct.file = iprot.readString();
               struct.setFileIsSet(true);
@@ -504,7 +590,7 @@ public class PostDataElement implements com.jetbrains.cef.remote.thrift.TBase<Po
               com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 3: // BYTES
+          case 4: // BYTES
             if (schemeField.type == com.jetbrains.cef.remote.thrift.protocol.TType.STRING) {
               struct.bytes = iprot.readBinary();
               struct.setBytesIsSet(true);
@@ -523,6 +609,9 @@ public class PostDataElement implements com.jetbrains.cef.remote.thrift.TBase<Po
       if (!struct.isSetIsReadOnly()) {
         throw new com.jetbrains.cef.remote.thrift.protocol.TProtocolException("Required field 'isReadOnly' was not found in serialized data! Struct: " + toString());
       }
+      if (!struct.isSetType()) {
+        throw new com.jetbrains.cef.remote.thrift.protocol.TProtocolException("Required field 'type' was not found in serialized data! Struct: " + toString());
+      }
       struct.validate();
     }
 
@@ -533,6 +622,9 @@ public class PostDataElement implements com.jetbrains.cef.remote.thrift.TBase<Po
       oprot.writeStructBegin(STRUCT_DESC);
       oprot.writeFieldBegin(IS_READ_ONLY_FIELD_DESC);
       oprot.writeBool(struct.isReadOnly);
+      oprot.writeFieldEnd();
+      oprot.writeFieldBegin(TYPE_FIELD_DESC);
+      oprot.writeI32(struct.type);
       oprot.writeFieldEnd();
       if (struct.file != null) {
         if (struct.isSetFile()) {
@@ -567,6 +659,7 @@ public class PostDataElement implements com.jetbrains.cef.remote.thrift.TBase<Po
     public void write(com.jetbrains.cef.remote.thrift.protocol.TProtocol prot, PostDataElement struct) throws com.jetbrains.cef.remote.thrift.TException {
       com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol oprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
       oprot.writeBool(struct.isReadOnly);
+      oprot.writeI32(struct.type);
       java.util.BitSet optionals = new java.util.BitSet();
       if (struct.isSetFile()) {
         optionals.set(0);
@@ -588,6 +681,8 @@ public class PostDataElement implements com.jetbrains.cef.remote.thrift.TBase<Po
       com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol iprot = (com.jetbrains.cef.remote.thrift.protocol.TTupleProtocol) prot;
       struct.isReadOnly = iprot.readBool();
       struct.setIsReadOnlyIsSet(true);
+      struct.type = iprot.readI32();
+      struct.setTypeIsSet(true);
       java.util.BitSet incoming = iprot.readBitSet(2);
       if (incoming.get(0)) {
         struct.file = iprot.readString();

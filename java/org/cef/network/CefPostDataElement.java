@@ -4,6 +4,11 @@
 
 package org.cef.network;
 
+import com.jetbrains.cef.remote.network.RemotePostData;
+import com.jetbrains.cef.remote.network.RemotePostDataElement;
+import com.jetbrains.cef.remote.thrift_codegen.PostData;
+import com.jetbrains.cef.remote.thrift_codegen.PostDataElement;
+import org.cef.CefApp;
 import org.cef.callback.CefNativeAdapter;
 
 /**
@@ -34,7 +39,7 @@ public abstract class CefPostDataElement extends CefNativeAdapter {
      * Create a new CefPostDataElement object.
      */
     public static final CefPostDataElement create() {
-        return CefPostDataElement_N.createNative();
+        return CefApp.isRemoteEnabled() ? new RemotePostDataElement() : CefPostDataElement_N.createNative();
     }
 
     /**

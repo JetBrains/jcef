@@ -21,8 +21,9 @@ struct ResponseData {
 
 struct PostDataElement {
     1: required bool isReadOnly,
-    2: optional string file,
-    3: optional binary bytes,
+    2: required i32 type = 0, // 'PDE_TYPE_EMPTY' by default
+    3: optional string file,
+    4: optional binary bytes,
 }
 
 struct PostData {

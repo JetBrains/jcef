@@ -14,6 +14,11 @@ public class RemotePostDataElement extends CefPostDataElement {
         myElement = postDataElement;
     }
 
+    public RemotePostDataElement() {
+        super();
+        myElement = new PostDataElement(false, type2int(Type.PDE_TYPE_EMPTY));
+    }
+
     @Override
     public void dispose() {}
 
@@ -23,28 +28,25 @@ public class RemotePostDataElement extends CefPostDataElement {
     public void setToEmpty() {
         myElement.file = null;
         myElement.bytes = null;
+        myElement.type = type2int(Type.PDE_TYPE_EMPTY);
     }
 
     @Override
     public void setToFile(String fileName) {
         myElement.file = fileName;
         myElement.bytes = null;
+        myElement.type = type2int(Type.PDE_TYPE_FILE);
     }
 
     @Override
     public void setToBytes(int size, byte[] bytes) {
         myElement.file = null;
         myElement.bytes = ByteBuffer.wrap(bytes, 0, size);
+        myElement.type = type2int(Type.PDE_TYPE_BYTES);
     }
 
     @Override
-    public Type getType() {
-        if (myElement.file == null && myElement.bytes == null)
-            return CefPostDataElement.Type.PDE_TYPE_EMPTY;
-        if (myElement.file == null)
-            return CefPostDataElement.Type.PDE_TYPE_BYTES;
-        return CefPostDataElement.Type.PDE_TYPE_FILE;
-    }
+    public Type getType() { return int2type(myElement.type); }
 
     @Override
     public String getFile() { return myElement.file; }
@@ -66,10 +68,10 @@ public class RemotePostDataElement extends CefPostDataElement {
         if (postData == null)
             return null;
 
-        PostDataElement e = new PostDataElement(postData.isReadOnly());
-        if (postData.getType() == CefPostDataElement.Type.PDE_TYPE_FILE) {
-            e.file = postData.getFile();
-        } else if (postData.getType() == CefPostDataElement.Type.PDE_TYPE_BYTES) {
+        final Type type = postData.getType();
+        PostDataElement e = new PostDataElement(postData.isReadOnly(), type2int(type));
+        e.file = postData.getFile();
+        if (postData.getBytesCount() > 0) {
             byte[] buf = new byte[postData.getBytesCount()];
             postData.getBytes(postData.getBytesCount(), buf);
             e.bytes = ByteBuffer.wrap(buf);
@@ -80,5 +82,31 @@ public class RemotePostDataElement extends CefPostDataElement {
     @Override
     public String toString() {
         return DebugFormatter.toString_PostDataElement(null, this);
+    }
+
+    private static Type int2type(int type) {
+//        typedef enum {
+//            PDE_TYPE_EMPTY = 0,
+//            PDE_TYPE_BYTES,
+//            PDE_TYPE_FILE,
+//            PDF_TYPE_NUM_VALUES,
+//        } cef_postdataelement_type_t;
+        switch (type) {
+            case 0: return Type.PDE_TYPE_EMPTY;
+            case 1: return Type.PDE_TYPE_BYTES;
+            case 2: return Type.PDE_TYPE_FILE;
+            case 3: return Type.PDF_TYPE_NUM_VALUES;
+            default: return null;
+        }
+    }
+
+    private static int type2int(Type type) {
+        switch (type) {
+            case PDE_TYPE_EMPTY: return 0;
+            case PDE_TYPE_BYTES: return 1;
+            case PDE_TYPE_FILE: return 2;
+            case PDF_TYPE_NUM_VALUES: return 3;
+            default: return -1;
+        }
     }
 }

@@ -977,17 +977,16 @@ void ServerHandler::Request_GetPostData(
     for (auto e : elements) {
       thrift_codegen::PostDataElement ee;
       ee.isReadOnly = e->IsReadOnly();
+      ee.type = e->GetType();
       if (e->GetType() == PDE_TYPE_FILE)
         ee.__set_file(e->GetFile());
-      else if (e->GetType() == PDE_TYPE_BYTES) {
-        if (e->GetBytesCount() > 0) {
-          char* buf = new char[e->GetBytesCount()];
-          e->GetBytes(e->GetBytesCount(), buf);
-          std::string bytes((const char*)buf, e->GetBytesCount());
-          bytes.assign((const char*)buf, e->GetBytesCount());
-          ee.__set_bytes(bytes);
-          delete[] buf;
-        }
+      if (e->GetBytesCount() > 0) {
+        char* buf = new char[e->GetBytesCount()];
+        e->GetBytes(e->GetBytesCount(), buf);
+        std::string bytes((const char*)buf, e->GetBytesCount());
+        bytes.assign((const char*)buf, e->GetBytesCount());
+        ee.__set_bytes(bytes);
+        delete[] buf;
       }
       resultElements.push_back(ee);
     }
