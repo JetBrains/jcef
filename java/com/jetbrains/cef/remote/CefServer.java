@@ -81,28 +81,37 @@ public class CefServer {
     // Should be executed in bg thread.
     // NOTE: appHandler is necessary for (1) custom schemes, (2) onContextInitialized callback
     public boolean start(CefAppHandler appHandler) {
-        if (!CefApp.isRemoteEnabled())
-            return false;
-
-        final String runningRoot = NativeServerManager.isRunning(myThriftServer);
-        if (runningRoot != null) {
-            // NOTE: pipe-names/ports are unique for each client process, so we can go here only when custom transport is specified manually.
-            CefLog.Info("Going to connect with already running cef_server: transport '%s', root '%s'", myThriftServer, runningRoot);
-        } else {
-            boolean deleteRoot = false;
-            if (FIX_ROOTS)
-                deleteRoot = NativeServerManager.fixRootInSettings(mySettings, "cef_cache_" + myThriftServer.toStringShort());
-
-            final boolean success = NativeServerManager.startProcessAndWait(myThriftServer, appHandler, myArgs, mySettings, deleteRoot, WAIT_FOR_SERVER_START_SEC*1000l);
-            if (!success)
+        try {
+            if (!CefApp.isRemoteEnabled())
                 return false;
-        }
 
-        if (!connect(appHandler == null ? null : appHandler::onContextInitialized)) {
-            CefLog.Error("CefServer.connect() fails, can't initialize thrift client for native server.");
+            final String runningRoot = NativeServerManager.isRunning(myThriftServer);
+            if (runningRoot != null) {
+                // NOTE: pipe-names/ports are unique for each client process, so we can go here only when custom transport is specified manually.
+                CefLog.Info("Going to connect with already running cef_server: transport '%s', root '%s'", myThriftServer, runningRoot);
+            } else {
+                boolean deleteRoot = false;
+                if (FIX_ROOTS)
+                    deleteRoot = NativeServerManager.fixRootInSettings(mySettings, "cef_cache_" + myThriftServer.toStringShort());
+
+                final boolean success = NativeServerManager.startProcessAndWait(myThriftServer, appHandler, myArgs, mySettings, deleteRoot, WAIT_FOR_SERVER_START_SEC*1000l);
+                if (!success)
+                    return false;
+            }
+
+            if (!connect(appHandler == null ? null : appHandler::onContextInitialized)) {
+                CefLog.Error("CefServer.connect() fails, can't initialize thrift client for native server.");
+                return false;
+            }
+            return true;
+        }  catch (Throwable e) {
+            CefLog.Error("RuntimeException in CefServer.start: %s", e.getMessage());
             return false;
+        } finally {
+            synchronized (myDelayedActions) {
+                myDelayedActions.clear();
+            }
         }
-        return true;
     }
 
     // returns true when server is connected and action was executed immediately
@@ -195,10 +204,6 @@ public class CefServer {
         } catch (Throwable e) {
             CefLog.Error("RuntimeException in CefServer.connect: %s", e.getMessage());
             return false;
-        } finally {
-            synchronized (myDelayedActions) {
-                myDelayedActions.clear();
-            }
         }
         return true;
     }
