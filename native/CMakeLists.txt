@@ -260,13 +260,14 @@ if(OS_LINUX)
   # USING_JAVA          = Add the USING_JAVA define.
   target_compile_definitions(${JCEF_TARGET} PRIVATE "USING_JAVA")
 
-  # -fvisibility=default  = Give default visibility to declarations that are not explicitly marked as visible.
-  #                         Necessary so that JNI symbols are properly exported when building with GCC.
-  #                         Related discussion: http://mail.openjdk.java.net/pipermail/core-libs-dev/2013-February/014446.html
-  #                         Test symbol export with: nm -D --defined-only libjcef.so | grep Java
-  set_target_properties(${JCEF_TARGET} PROPERTIES
-    COMPILE_FLAGS -fvisibility=default
+  # Export only JNI symbols (especially important when statically linking other libraries, e.g., libstdc++)
+  # Test symbol export with: nm -D --defined-only libjcef.so
+  set(JCEF_VERSION_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/jcef_exports.map)
+  target_link_options(${JCEF_TARGET} PRIVATE
+    -Wl,--version-script,${JCEF_VERSION_SCRIPT}
+    -Wl,--no-undefined-version
     )
+  set_target_properties(${JCEF_TARGET} PROPERTIES LINK_DEPENDS ${JCEF_VERSION_SCRIPT})
 
   # Set rpath so that libraries can be placed next to the library.
   set_target_properties(${JCEF_TARGET} PROPERTIES INSTALL_RPATH "$ORIGIN")
