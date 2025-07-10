@@ -395,4 +395,14 @@ add_library(shared_mem_helper SHARED ${shared_mem_helper_SOURCES})
 target_include_directories(shared_mem_helper PUBLIC ${JNI_INCLUDE_DIRS})
 if (OS_LINUX)
     target_link_libraries(shared_mem_helper rt)
+
+    # Export only JNI symbols (especially important when statically linking other libraries, e.g., libstdc++)
+    # Test symbol export with: nm -D --defined-only libshared_mem_helper.so
+    set(VERSION_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/shared_mem_helper_exports.map)
+    target_link_options(shared_mem_helper PRIVATE
+        -Wl,--version-script,${VERSION_SCRIPT}
+        -Wl,--no-undefined-version
+        )
+    set_target_properties(shared_mem_helper PROPERTIES LINK_DEPENDS ${VERSION_SCRIPT})
+
 endif ()

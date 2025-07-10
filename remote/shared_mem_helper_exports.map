@@ -1,0 +1,6 @@
+{
+    global:
+        Java_com_jetbrains_cef_*;
+    local:
+        *;
+};
