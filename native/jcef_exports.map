@@ -1,0 +1,6 @@
+{
+    global:
+        Java_org_cef_*;
+    local:
+        *;
+};
