@@ -17,7 +17,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 // Test the DisplayHandler implementation.
 @ExtendWith(TestSetupExtension.class)
 class DisplayHandlerTest {
-    private final String testUrl_ = "http://test.com/test.html";
+    private final String testUrl_ = "https://test.com/test.html";
     private final String testContent_ =
             "<html><head><title>Test Title</title></head><body>Test!</body></html>";
 
