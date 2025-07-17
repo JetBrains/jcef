@@ -29,16 +29,19 @@ bool parseSettingItem(CefSettings & out, const std::string & settingLine) {
   //
   // Fill string fields
   //
+  size_t cachedPos = name.npos;
   if (name.find("browser_subprocess_path") != name.npos) {
     CefString(&out.browser_subprocess_path) = val;
   } else if (name.find("cache_path") != name.npos) {
     CefString(&out.cache_path) = val;
-  } else if (name.find("user_agent") != name.npos) {
-    CefString(&out.user_agent) = val;
   } else if (name.find("user_agent_product") != name.npos) {
     CefString(&out.user_agent_product) = val;
-  } else if (name.find("locale") != name.npos) {
-    CefString(&out.locale) = val;
+  } else if (name.find("user_agent") != name.npos) {
+    CefString(&out.user_agent) = val;
+  } else if (name.find("locales_dir_path") != name.npos) {
+    CefString(&out.locales_dir_path) = val;
+  } else if ((cachedPos = name.find("locale")) != name.npos && (name[cachedPos + 6] == ' ' || name[cachedPos + 6] == '=')) {
+      CefString(&out.locale) = val;
   } else if (name.find("log_file") != name.npos) {
     CefString(&out.log_file) = val;
   } else if (name.find("log_severity") != name.npos) {
@@ -66,8 +69,6 @@ bool parseSettingItem(CefSettings & out, const std::string & settingLine) {
     CefString(&out.javascript_flags) = val;
   } else if (name.find("resources_dir_path") != name.npos) {
     CefString(&out.resources_dir_path) = val;
-  } else if (name.find("locales_dir_path") != name.npos) {
-    CefString(&out.locales_dir_path) = val;
   } else if (name.find("cookieable_schemes_list") != name.npos) {
     CefString(&out.cookieable_schemes_list) = val;
   } else if (name.find("windowless_rendering_enabled") != name.npos) {
