@@ -175,21 +175,6 @@ void parseSettings(const std::string & paramsFilePath, std::vector<std::string> 
   
 #if defined(OS_MAC)
   CefString(&settings.framework_dir_path) = CefUtils::getFrameworkDir();
-#elif defined(OS_WIN)
-  auto installation_root =
-      boost::filesystem::current_path().append("..").lexically_normal();
-
-  boost::filesystem::path resources_dir_path =
-      installation_root.append("lib");
-  boost::filesystem::path framework_dir_path =
-      installation_root.append("bin");
-
-  std::string resources_path = resources_dir_path.string();
-  std::string locales_dir_path =
-      resources_dir_path.append("locales").string();
-
-  CefString(&settings.resources_dir_path).FromString(resources_path);
-  CefString(&settings.locales_dir_path).FromString(locales_dir_path);
 #endif
 }
 
