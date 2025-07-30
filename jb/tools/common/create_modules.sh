@@ -71,19 +71,27 @@ cp "$OUT_CLS_DIR"/jcef.jar .
 # shellcheck disable=SC2010
 case "$OS" in
 "windows")
+  echo "Copy binaries into bin"
   mkdir bin
   for resource in $(ls "$OUT_NATIVE_DIR" | grep '\.dat\|\.exe\|\.bin'); do
+    cp "$OUT_NATIVE_DIR"/"$resource" bin
+  done
+
+  echo "Copy dlls (and other) into lib"
+  mkdir lib
+  for resource in $(ls "$OUT_NATIVE_DIR" | grep -v '\.dat\|\.exe\|\.bin\|\.exp\|\.lib\|\.pak\|locales'); do
+    echo "Copy $OUT_NATIVE_DIR/$resource to lib"
+    cp "$OUT_NATIVE_DIR"/"$resource" lib
+  done
+
+  echo "Copy chromium resource files into bin"
+  for resource in $(ls "$OUT_NATIVE_DIR" | grep '\.pak\|locales'); do
+    echo "Copy $OUT_NATIVE_DIR/$resource to bin"
     cp -R "$OUT_NATIVE_DIR"/"$resource" bin
   done
 
-  mkdir lib
-  for resource in $(ls "$OUT_NATIVE_DIR" | grep -v '\.dat\|\.exe\|\.bin\|\.exp\|\.lib'); do
-    # TODO: remove resource dups
-    cp -R "$OUT_NATIVE_DIR"/"$resource" lib
-  done
-
   if [[ -n "${OUT_REMOTE_DIR-}" ]]; then
-    echo "Coping $OUT_REMOTE_DIR/bin/cef_server.exe and $OUT_REMOTE_DIR/shared_mem_helper.dll to lib"
+    echo "Coping $OUT_REMOTE_DIR/bin/cef_server.exe and $OUT_REMOTE_DIR/shared_mem_helper.dll (to bin and lib)"
     cp -R "$OUT_REMOTE_DIR"/bin/cef_server.exe bin
     cp -R "$OUT_REMOTE_DIR"/shared_mem_helper.dll lib
   fi
@@ -93,7 +101,7 @@ case "$OS" in
 
   rm -rf ../cef_server && mkdir ../cef_server
   cp -R "$OUT_REMOTE_DIR"/bin ../cef_server
-  cp -R "$OUT_REMOTE_DIR"/lib ../cef_server
+  cp -R "$OUT_REMOTE_DIR"/lib/* ../cef_server/bin
   cp "$OUT_REMOTE_DIR"/shared_mem_helper.dll ../cef_server
   ;;
 
