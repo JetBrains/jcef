@@ -83,8 +83,6 @@ public abstract class JCefAppConfig {
             if (!outOfProcess) {
                 appConfig.cefSettings.browser_subprocess_path = Utils.pathOf(nativeBundlePath, "jcef_helper.exe");
             }
-            appConfig.cefSettings.resources_dir_path = Utils.pathOf(nativeBundlePath);
-            appConfig.cefSettings.locales_dir_path = Utils.pathOf(nativeBundlePath, "locales");
 
             appConfig.loader = new SystemBootstrap.Loader() {
                 final private Set<String> bundledLibs = new HashSet<>(Arrays.asList("chrome_elf", "jcef", "libcef"));
@@ -136,8 +134,6 @@ public abstract class JCefAppConfig {
         } else if (OS.isWindows()) {
             String binPath = System.getProperty("java.home") + "/bin";
             String libPath = System.getProperty("java.home") + "/lib";
-            appConfig.cefSettings.resources_dir_path = libPath;
-            appConfig.cefSettings.locales_dir_path = libPath + "/locales";
             appConfig.cefSettings.browser_subprocess_path = binPath + "/jcef_helper.exe";
 
             appConfig.appArgs.add("--disable-features=SpareRendererForSitePerProcess");
