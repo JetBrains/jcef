@@ -32,7 +32,7 @@ void Log::init(int level, std::string logfile) {
     return;
   }
 
-  fprintf(stderr, "Initialize logger: level=%d file='%s'\n", level, logfile.c_str());
+  fprintf(stderr, "Initialize cef_server logger: level=%d file='%s'\n", level, logfile.c_str());
   if (!logfile.empty()) {
     FILE* flog = fopen(logfile.c_str(), "a");
     if (flog != nullptr) {
