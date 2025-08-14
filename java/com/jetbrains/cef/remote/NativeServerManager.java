@@ -158,12 +158,12 @@ public class NativeServerManager {
         // Select log path
         String serverLogPath = Utils.getString("CEF_SERVER_LOG_PATH");
         if (serverLogPath == null || serverLogPath.trim().isEmpty())
-            serverLogPath = settings.log_file;
+            serverLogPath = CefLog.GetFilePath();
 
         // Select log level
         int serverLogLevel = Utils.getInteger("CEF_SERVER_LOG_LEVEL", -1);
         if (serverLogLevel == -1)
-            serverLogLevel = ServerLogLevel.cef2native(settings.log_severity);
+            serverLogLevel = ServerLogLevel.cef2native(CefLog.GetLogLevel());
 
         return startAndWait(thriftServer, f.getAbsolutePath(), timeoutMs, serverLogPath, serverLogLevel, deleteRootDir);
     }

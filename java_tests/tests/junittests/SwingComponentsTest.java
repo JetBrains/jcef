@@ -26,10 +26,6 @@ public class SwingComponentsTest {
     private Robot robot;
     private JFrame testFrame;
 
-    static {
-        CefLog.init(null);
-    }
-
     @Test
     public void testRobot() throws InvocationTargetException, InterruptedException {
         // debug helper for JBR-4649

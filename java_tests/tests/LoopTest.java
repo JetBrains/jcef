@@ -47,7 +47,7 @@ public class LoopTest {
         });
 
         CefSettings settings = config.getCefSettings();
-        settings.log_file = logfile;
+        settings.log_file = "loop_test_chromium.log";
         settings.log_severity = CefSettings.LogSeverity.LOGSEVERITY_INFO;
 
         CefApp app = CefApp.getInstance(settings);

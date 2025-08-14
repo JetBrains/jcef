@@ -80,7 +80,7 @@ public class CefInitHelper {
             case "fatal" -> CefSettings.LogSeverity.LOGSEVERITY_FATAL;
             default -> CefSettings.LogSeverity.LOGSEVERITY_INFO;
         };
-        settings.log_file = Utils.getString("JCEF_TESTS_LOG_FILE");
+        settings.log_file = Utils.getString("JCEF_TESTS_CHROMIUM_LOG_FILE");
         boolean envSandboxed = Utils.getBoolean("JCEF_TESTS_SANDBOX_ENABLED");
         settings.no_sandbox = !envSandboxed;
         settings.cache_path = cache_path;

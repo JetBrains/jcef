@@ -172,7 +172,6 @@ public class CefApp extends CefAppHandlerAdapter {
         appHandler_ = userAppHandler_;
         userAppHandler_ = null;
         if (settings != null) settings_ = settings.clone();
-        CefLog.init(settings);
         setState(CefAppState.NEW);
         server_ = server;
 
