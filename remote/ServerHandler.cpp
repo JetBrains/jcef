@@ -357,6 +357,12 @@ void ServerHandler::Browser_NotifyScreenInfoChanged(const int32_t bid) {
   browser->GetHost()->NotifyScreenInfoChanged();
 }
 
+void ServerHandler::Browser_Invalidate(const int32_t bid) {
+  LNDCT();
+  GET_BROWSER_OR_RETURN()
+  browser->GetHost()->Invalidate(PET_VIEW);;
+}
+
 extern void processKeyEvent(
     CefKeyEvent & cef_event,
     int event_type, // event.getID()

@@ -2562,6 +2562,85 @@ uint32_t Server_Browser_NotifyScreenInfoChanged_pargs::write(::apache::thrift::p
 }
 
 
+Server_Browser_Invalidate_args::~Server_Browser_Invalidate_args() noexcept {
+}
+
+
+uint32_t Server_Browser_Invalidate_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->bid);
+          this->__isset.bid = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_Browser_Invalidate_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_Browser_Invalidate_args");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->bid);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Browser_Invalidate_pargs::~Server_Browser_Invalidate_pargs() noexcept {
+}
+
+
+uint32_t Server_Browser_Invalidate_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_Browser_Invalidate_pargs");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->bid)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
 Server_Browser_SendCefKeyEvent_args::~Server_Browser_SendCefKeyEvent_args() noexcept {
 }
 
@@ -16944,6 +17023,25 @@ void ServerClient::send_Browser_NotifyScreenInfoChanged(const int32_t bid)
   oprot_->getTransport()->flush();
 }
 
+void ServerClient::Browser_Invalidate(const int32_t bid)
+{
+  send_Browser_Invalidate(bid);
+}
+
+void ServerClient::send_Browser_Invalidate(const int32_t bid)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("Browser_Invalidate", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_Browser_Invalidate_pargs args;
+  args.bid = &bid;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
 void ServerClient::Browser_SendCefKeyEvent(const int32_t bid, const CefKeyEventAttributes& event)
 {
   send_Browser_SendCefKeyEvent(bid, event);
@@ -21402,6 +21500,43 @@ void ServerProcessor::process_Browser_NotifyScreenInfoChanged(int32_t, ::apache:
 
   if (this->eventHandler_.get() != nullptr) {
     this->eventHandler_->asyncComplete(ctx, "Server.Browser_NotifyScreenInfoChanged");
+  }
+
+  return;
+}
+
+void ServerProcessor::process_Browser_Invalidate(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("Server.Browser_Invalidate", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.Browser_Invalidate");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "Server.Browser_Invalidate");
+  }
+
+  Server_Browser_Invalidate_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "Server.Browser_Invalidate", bytes);
+  }
+
+  try {
+    iface_->Browser_Invalidate(args.bid);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "Server.Browser_Invalidate");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "Server.Browser_Invalidate");
   }
 
   return;
@@ -26660,6 +26795,28 @@ void ServerConcurrentClient::send_Browser_NotifyScreenInfoChanged(const int32_t 
   oprot_->writeMessageBegin("Browser_NotifyScreenInfoChanged", ::apache::thrift::protocol::T_ONEWAY, cseqid);
 
   Server_Browser_NotifyScreenInfoChanged_pargs args;
+  args.bid = &bid;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
+void ServerConcurrentClient::Browser_Invalidate(const int32_t bid)
+{
+  send_Browser_Invalidate(bid);
+}
+
+void ServerConcurrentClient::send_Browser_Invalidate(const int32_t bid)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("Browser_Invalidate", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_Browser_Invalidate_pargs args;
   args.bid = &bid;
   args.write(oprot_);
 

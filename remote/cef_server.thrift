@@ -57,6 +57,7 @@ service Server {
     oneway void    Browser_ExecuteJavaScript(1: i32 bid, 2: string code, 3: string url, 4: i32 line),
     oneway void    Browser_WasResized(1: i32 bid), // The browser will then call CefRenderHandler#GetViewRect to update the size of view area with the new values.
     oneway void    Browser_NotifyScreenInfoChanged(1: i32 bid),  // The browser will then call CefRenderHandler#GetScreenInfo to update the screen information with the new values.
+    oneway void    Browser_Invalidate(1: i32 bid),
     oneway void    Browser_SendCefKeyEvent(1: i32 bid, 2: CefKeyEventAttributes event),
     oneway void    Browser_SendMouseEvent(1: i32 bid, 2: i32 event_type, 3: i32 x, 4: i32 y, 5: i32 modifiers, 6: i32 click_count, 7: i32 button),
     oneway void    Browser_SendMouseWheelEvent(1: i32 bid, 2: i32 scroll_type, 3: i32 x, 4: i32 y, 5: i32 modifiers, 6: i32 delta, 7: i32 units_to_scroll),

@@ -815,7 +815,8 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
     /**
      * Invalidate the UI.
      */
-    protected final void invalidate() {
+    @Override
+    public final void invalidate() {
         try {
             checkNativeCtxInitialized();
             if (isNativeCtxInitialized_)

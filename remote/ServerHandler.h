@@ -45,6 +45,7 @@ class ServerHandler : public thrift_codegen::ServerIf {
   void Browser_ExecuteJavaScript(const int32_t bid,const std::string& code,const std::string& url,const int32_t line) override;
   void Browser_WasResized(const int32_t bid) override;
   void Browser_NotifyScreenInfoChanged(const int32_t bid) override;
+  void Browser_Invalidate(const int32_t bid) override;
   void Browser_SendCefKeyEvent(const int32_t bid, const thrift_codegen::CefKeyEventAttributes& event) override;
   void Browser_SendMouseEvent(const int32_t bid,const int32_t event_type,const int32_t x,const int32_t y,const int32_t modifiers,const int32_t click_count,const int32_t button) override;
   void Browser_SendMouseWheelEvent(const int32_t bid,const int32_t scroll_type,const int32_t x,const int32_t y,const int32_t modifiers,const int32_t delta,const int32_t units_to_scroll) override;

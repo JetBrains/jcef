@@ -686,6 +686,16 @@ public class RemoteBrowser implements CefBrowser {
     }
 
     @Override
+    public void invalidate() {
+        if (myIsClosing)
+            return;
+
+        execWhenCreated(()->{
+            myRpc.invokeLater(s -> s.Browser_Invalidate(myBid));
+        }, "invalidate");
+    }
+
+    @Override
     public void notifyScreenInfoChanged() {
         if (myIsClosing)
             return;
