@@ -391,6 +391,12 @@ public interface CefBrowser {
     void wasResized(int width, int height);
 
     /**
+     * Invalidate the browser view. The browser will call CefRenderHandler::OnPaint
+     * asynchronously. This method is only used when window rendering is disabled.
+     */
+    void invalidate();
+
+    /**
      * Send a notification to the browser that the screen info has changed. The
      * browser will then call CefRenderHandler#GetScreenInfo to update the
      * screen information with the new values. This simulates moving the webview
