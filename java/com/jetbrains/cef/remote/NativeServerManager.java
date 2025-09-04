@@ -501,7 +501,7 @@ public class NativeServerManager {
 
         if (!result.exists()) {
             CefLog.Warn("Can't find cef_server in bundled jbr (calculated path '%s' doesn't exist), cmd=%s", result.getAbsolutePath(), cmd);
-            result = null;
+            return null;
         }
         CefLog.Debug("Java is started via native launcher. Found cef_server path %s (in bundled jbr)", result.getAbsolutePath());
         return result;
