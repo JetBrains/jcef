@@ -128,7 +128,7 @@ void Measurer::append(const std::string & msg) {
 }
 
 Measurer::~Measurer() {
-  Duration elapsed = Clock::now() - myStartTime;
+  auto elapsed = Clock::now() - myStartTime;
   Log::trace("%s | spent %d mcs", myMsg.c_str(), (int)elapsed.count());
 }
 
@@ -178,7 +178,7 @@ LogNdc::LogNdc(std::string file, std::string func, int thresholdMcs, bool logSta
 LogNdc::~LogNdc() {
   bool logged = false;
   if (thresholdMcs >= 0) {
-    Duration elapsedMcs = std::chrono::duration_cast<std::chrono::microseconds>(Clock::now() - startTime);
+    auto elapsedMcs = std::chrono::duration_cast<std::chrono::microseconds>(Clock::now() - startTime);
     const long spentMcs = (long)elapsedMcs.count();
     if (spentMcs >= thresholdMcs) {
       Log::debug("Finished, spent %d msc.", spentMcs);

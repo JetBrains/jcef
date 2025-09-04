@@ -51,11 +51,11 @@ SharedBuffer::SharedBuffer(std::string uid, size_t len)
     const Clock::time_point entTime = Clock::now();
     const long spentMs = (long)std::chrono::duration_cast<std::chrono::microseconds>(entTime - startTime).count();
     if (spentMs > 5*1000) {
-      Duration d1 = std::chrono::duration_cast<std::chrono::microseconds>(t1 - startTime);
-      Duration d2 = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1);
-      Duration d3 = std::chrono::duration_cast<std::chrono::microseconds>(t3 - t2);
-      Duration d4 = std::chrono::duration_cast<std::chrono::microseconds>(t4 - t3);
-      Duration d5 = std::chrono::duration_cast<std::chrono::microseconds>(entTime - t4);
+      auto d1 = std::chrono::duration_cast<std::chrono::microseconds>(t1 - startTime);
+      auto d2 = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1);
+      auto d3 = std::chrono::duration_cast<std::chrono::microseconds>(t3 - t2);
+      auto d4 = std::chrono::duration_cast<std::chrono::microseconds>(t4 - t3);
+      auto d5 = std::chrono::duration_cast<std::chrono::microseconds>(entTime - t4);
       Log::trace("\t SharedBuffer '%s' (%d bytes), ctor spent mcs: remove mem %d; ctor %d; alloc %d; remove mutex %d; mutex ctor %d",
                  uid.c_str(), len, (int)d1.count(), (int)d2.count(), (int)d3.count(), (int)d4.count(), (int)d5.count());
     }

@@ -76,7 +76,6 @@ public:
 };
 
 typedef std::chrono::high_resolution_clock Clock;
-typedef std::chrono::duration<float, std::micro> Duration;
 
 class Measurer {
 public:
