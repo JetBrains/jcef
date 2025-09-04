@@ -60,6 +60,8 @@ fi
 PATH="$script_dir:$PATH"
 export PATH
 
+export COPYFILE_DISABLE=1
+
 log "*** BUILD NATIVE & JAVA ***"
 bash "$script_dir/build_native_java.sh" $CLEAN
 
