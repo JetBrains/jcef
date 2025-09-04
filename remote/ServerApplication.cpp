@@ -204,7 +204,7 @@ bool ServerApplication::init(int argc, char* argv[]) {
 
   const Clock::time_point t1 = Clock::now();
   if (Log::isDebugEnabled()) {
-    Duration d1 = std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0);
+    auto d1 = std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0);
     Log::debug("Loaded CEF framework library, spent %d ms", (int)d1.count());
   }
 #elif defined(OS_LINUX)
@@ -257,11 +257,9 @@ bool ServerApplication::init(int argc, char* argv[]) {
           JavaService,
           JavaServiceIO
         };
-        Duration execTimes[] = {
-            std::chrono::milliseconds(0),
-            std::chrono::milliseconds(0),
-            std::chrono::milliseconds(0)
-        };
+
+        using namespace std::chrono_literals;
+        std::chrono::duration<float, std::micro> execTimes[] = {0us, 0us, 0us};
 
         const std::chrono::time_point now(Clock::now());
         // 1. Check ServerHandler timings
@@ -315,7 +313,7 @@ bool ServerApplication::init(int argc, char* argv[]) {
 
       // 3. Check application timings
       if (myState >= SS_SHUTTING_DOWN) {
-        Duration elapsed;
+        std::chrono::duration<float, std::micro> elapsed;
         {
           Lock lock(myMutex);
           elapsed = now - myLastStateChange;

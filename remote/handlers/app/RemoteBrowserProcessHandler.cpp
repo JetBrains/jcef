@@ -29,7 +29,7 @@ void RemoteBrowserProcessHandler::OnContextInitialized() {
   LNDCT();
 
   if (Log::isTraceEnabled()) {
-    Duration dur = std::chrono::duration_cast<std::chrono::microseconds>(Clock::now() - myCreationTime);
+    auto dur = std::chrono::duration_cast<std::chrono::microseconds>(Clock::now() - myCreationTime);
     Log::trace("CEF context is initialized, spent %d mcs", (int)dur.count());
   }
 

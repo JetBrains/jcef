@@ -7,8 +7,6 @@
 #include "../Utils.h"
 #include "../log/Log.h"
 
-using namespace std::chrono;
-using namespace thrift_codegen;
 using namespace boost::interprocess;
 
 // TODO: Optimize RemoteRenderHandler.
@@ -43,7 +41,7 @@ void fillDummy(CefRect& rect) {
 void RemoteRenderHandler::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) {
     LNDCT();
     fillDummy(rect);
-    Rect result;
+    thrift_codegen::Rect result;
     result.w = -1; // invalidate
     myService->exec([&](const JavaService& s){
       s->RenderHandler_GetViewRect(result, myBid);
@@ -92,7 +90,7 @@ bool RemoteRenderHandler::GetScreenInfo(CefRefPtr<CefBrowser> browser,
                                   CefScreenInfo& screen_info) {
     LNDCT();
     fillDummy(screen_info);
-    ScreenInfo result;
+    thrift_codegen::ScreenInfo result;
     result.depth = -1;// invalidate
     myService->exec([&](const JavaService& s){
       s->RenderHandler_GetScreenInfo(result, myBid);
@@ -123,7 +121,7 @@ bool RemoteRenderHandler::GetScreenPoint(CefRefPtr<CefBrowser> browser,
                                    int& screenX,
                                    int& screenY) {
     LNDCT();
-    Point result;
+    thrift_codegen::Point result;
     result.x = INT32_MIN;// invalidate
     myService->exec([&](const JavaService& s){
       s->RenderHandler_GetScreenPoint(result, myBid, viewX, viewY);
@@ -146,7 +144,7 @@ void RemoteRenderHandler::OnPopupSize(CefRefPtr<CefBrowser> browser,
                                       const CefRect& rect) {
   LNDCT();
   myService->exec([&](const JavaService& s) {
-    Rect size;
+    thrift_codegen::Rect size;
     size.x = rect.x;
     size.y = rect.y;
     size.w = rect.width;
@@ -326,10 +324,10 @@ void RemoteRenderHandler::OnImeCompositionRangeChanged(
     const RectList& cef_character_bounds) {
   LNDCT();
   myService->exec([&](const JavaService& s) {
-    Range selected_range;
+    thrift_codegen::Range selected_range;
     selected_range.from = cef_selected_range.from;
     selected_range.to = cef_selected_range.to;
-    std::vector<Rect> character_bounds;
+    std::vector<thrift_codegen::Rect> character_bounds;
 
     for (const auto& r : cef_character_bounds) {
       character_bounds.emplace_back();
@@ -348,7 +346,7 @@ void RemoteRenderHandler::OnTextSelectionChanged(
     const CefString& selected_text,
     const CefRange& cef_selected_range) {
   LNDCT();
-  Range selected_range;
+  thrift_codegen::Range selected_range;
   selected_range.from = cef_selected_range.from;
   selected_range.to = cef_selected_range.to;
 
