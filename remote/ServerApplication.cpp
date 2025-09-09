@@ -250,6 +250,8 @@ bool ServerApplication::init(int argc, char* argv[]) {
       std::this_thread::sleep_for(timeoutWatchMs);
       const std::chrono::time_point now(Clock::now());
       myFactory->forEach([&](const MyServerProcessor* p){
+        if (!p->getServerHandler()->getCtx())
+          return;
         enum {
           ServerHandler,
           JavaService,
