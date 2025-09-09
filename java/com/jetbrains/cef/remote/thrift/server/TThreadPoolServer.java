@@ -258,6 +258,8 @@ public class TThreadPoolServer extends TServer {
         }
       } catch (Exception x) {
         logException(x);
+      } catch (Throwable x) {
+          LOGGER.error("RuntimeException occurred during processing: " + x.getMessage());
       } finally {
         if (eventHandler.isPresent()) {
           eventHandler.get().deleteContext(connectionContext, inputProtocol, outputProtocol);
