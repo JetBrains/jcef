@@ -59,6 +59,14 @@ public abstract class JCefAppConfig {
                 appConfig.appArgs.add("--main-bundle-path=" + Utils.pathOf(nativeBundlePath, "Frameworks/jcef Helper.app"));
                 appConfig.appArgs.add("--browser-subprocess-path=" + Utils.pathOf(nativeBundlePath, "Frameworks/jcef Helper.app/Contents/MacOS/jcef Helper"));
             }
+            appConfig.appArgs.add("--disable-notifications");
+            //  NOTE: some other switches are also could be usefull:
+            //    "suppress-message-center-popups"
+            //    "disable-infobars"
+            //    "disable-notifications"
+            //    "disable-push-api"
+            //    "disable-default-apps"
+            //    "deny-permission-prompts"
             appConfig.loader = new SystemBootstrap.Loader() {
                 @Override
                 public void loadLibrary(String libname) {
@@ -122,6 +130,8 @@ public abstract class JCefAppConfig {
             appConfig.appArgs.add("--disable-in-process-stack-traces");
             appConfig.appArgs.add("--use-mock-keychain");
             appConfig.appArgs.add("--disable-features=SpareRendererForSitePerProcess");
+
+            appConfig.appArgs.add("--disable-notifications");
         } else if (OS.isLinux()) {
             String libPath = Utils.pathOf(System.getProperty("java.home"), "lib");
             appConfig.cefSettings.resources_dir_path = libPath;

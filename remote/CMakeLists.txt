@@ -331,6 +331,11 @@ if (OS_MAC)
         list(GET _suffix_list 1 _target_suffix)
         list(GET _suffix_list 2 _plist_suffix)
 
+        if(_target_suffix MATCHES "alerts")
+            message(STATUS "Skip building 'alerts' helper.")
+            continue()
+        endif()
+
         # Define Helper target and output names.
         set(_helper_target "${CEF_HELPER_TARGET}${_target_suffix}")
         set(_helper_output_name "${CEF_HELPER_OUTPUT_NAME}${_name_suffix}")
