@@ -16,6 +16,8 @@ class RemoteBrowserProcessHandler : public CefBrowserProcessHandler {
   // NOTES: for the current JBCefApp implementation we needs only one this method.
   void OnContextInitialized() override;
 
+  bool OnAlreadyRunningAppRelaunch(CefRefPtr<CefCommandLine> command_line, const CefString& current_directory) override;
+
   // TODO: add IsContextInitialized, because OnContextInitialized() is called once (when
   // server starts first time) and client should be able to detect this case.
 
