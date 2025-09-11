@@ -14,11 +14,7 @@ using namespace boost::interprocess;
 // TODO: Optimize RemoteRenderHandler.
 // Need to perform all calculations on server. Client should regularly update data on server.
 
-// Disable logging until optimized
-#ifdef LNDCT
-#undef LNDCT
-#define LNDCT()
-#endif
+const bool doTrace = getBoolEnv("CEF_SERVER_TRACE_RemoteRenderHandler");
 
 RemoteRenderHandler::RemoteRenderHandler(int bid,
                                          std::shared_ptr<RpcExecutor> service)
@@ -41,14 +37,17 @@ void fillDummy(CefRect& rect) {
 }
 
 void RemoteRenderHandler::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) {
-    LNDCT();
     fillDummy(rect);
     Rect result;
     result.w = -1; // invalidate
     myService->exec([&](const JavaService& s){
       s->RenderHandler_GetViewRect(result, myBid);
     });
-    if (result.w < 0) return;
+    if (result.w < 0) {
+      if (doTrace)
+        Log::trace("RemoteRenderHandler::GetViewRect: bid=%d, result.w = %d", myBid, result.w);
+      return;
+    }
 
     rect.x = result.x;
     rect.y = result.y;
@@ -56,10 +55,11 @@ void RemoteRenderHandler::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& re
     rect.height = result.h;
 
     if (rect.width < 1 || rect.height < 1) {
-        Log::trace("GetViewRect: small size %d %d", rect.width, rect.height);
+        Log::trace("RemoteRenderHandler::GetViewRect: bid=%d, small size %d %d", myBid, rect.width, rect.height);
         fillDummy(rect);
     }
-    //Log::trace("GetViewRect result: %d %d %d %d", rect.x, rect.y, rect.width, rect.height);
+    if (doTrace)
+      Log::trace("RemoteRenderHandler::GetViewRect: bid=%d, result: %d %d %d %d", myBid, rect.x, rect.y, rect.width, rect.height);
 }
 
 void fillDummy(CefScreenInfo& screen_info) {
@@ -90,14 +90,17 @@ void fillDummy(CefScreenInfo& screen_info) {
 /*--cef()--*/
 bool RemoteRenderHandler::GetScreenInfo(CefRefPtr<CefBrowser> browser,
                                   CefScreenInfo& screen_info) {
-    LNDCT();
     fillDummy(screen_info);
     ScreenInfo result;
     result.depth = -1;// invalidate
     myService->exec([&](const JavaService& s){
       s->RenderHandler_GetScreenInfo(result, myBid);
     });
-    if (result.depth == -1) return false;
+    if (result.depth == -1) {
+      if (doTrace)
+        Log::trace("RemoteRenderHandler::GetScreenInfo: bid=%d, result.depth == -1", myBid);
+      return false;
+    }
 
     screen_info.device_scale_factor =
         static_cast<float>(result.device_scale_factor);
@@ -113,7 +116,8 @@ bool RemoteRenderHandler::GetScreenInfo(CefRefPtr<CefBrowser> browser,
     screen_info.available_rect.y = result.available_rect.y;
     screen_info.available_rect.width = result.available_rect.w;
     screen_info.available_rect.height = result.available_rect.h;
-    //Log::trace("GetScreenInfo result: rc %d %d %d %d, avail %d %d %d %d", result.rect.x, result.rect.y, result.rect.w, result.rect.h, result.available_rect.x, result.available_rect.y, result.available_rect.w, result.available_rect.w);
+    if (doTrace)
+      Log::trace("RemoteRenderHandler::GetScreenInfo: bid=%d, result: rc %d %d %d %d, avail %d %d %d %d", myBid, result.rect.x, result.rect.y, result.rect.w, result.rect.h, result.available_rect.x, result.available_rect.y, result.available_rect.w, result.available_rect.w);
     return true;
 }
 
@@ -122,21 +126,27 @@ bool RemoteRenderHandler::GetScreenPoint(CefRefPtr<CefBrowser> browser,
                                    int viewY,
                                    int& screenX,
                                    int& screenY) {
-    LNDCT();
-    Point result;
+    thrift_codegen::Point result;
     result.x = INT32_MIN;// invalidate
     myService->exec([&](const JavaService& s){
       s->RenderHandler_GetScreenPoint(result, myBid, viewX, viewY);
     });
-    if (result.x == INT32_MIN) return false;
+    if (result.x == INT32_MIN) {
+        if (doTrace)
+          Log::trace("RemoteRenderHandler::GetScreenPoint: bid=%d, result.x == INT32_MIN", myBid);
+      return false;
+    }
 
     screenX = result.x;
     screenY = result.y;
+    if (doTrace)
+      Log::trace("RemoteRenderHandler::GetScreenPoint: bid=%d, result: %d %d", result.x, result.y, myBid);
     return true;
 }
 
 void RemoteRenderHandler::OnPopupShow(CefRefPtr<CefBrowser> browser, bool show) {
-  LNDCT();
+  if (doTrace)
+    Log::trace("RemoteRenderHandler::OnPopupShow: bid=%d, show=%d", myBid, show ? 1 : 0);
   myService->exec([&](const JavaService& s){
     s->RenderHandler_OnPopupShow(myBid, show);
   });
@@ -144,7 +154,8 @@ void RemoteRenderHandler::OnPopupShow(CefRefPtr<CefBrowser> browser, bool show) 
 
 void RemoteRenderHandler::OnPopupSize(CefRefPtr<CefBrowser> browser,
                                       const CefRect& rect) {
-  LNDCT();
+  if (doTrace)
+    Log::trace("RemoteRenderHandler::OnPopupSize: bid=%d, x=%d y=%d w=%d h=%d)", myBid, rect.x, rect.y, rect.width, rect.height);
   myService->exec([&](const JavaService& s) {
     Rect size;
     size.x = rect.x;
@@ -257,6 +268,8 @@ void RemoteRenderHandler::OnPaint(CefRefPtr<CefBrowser> browser,
                             const void* buffer,
                             int width,
                             int height) {
+  if (doTrace)
+    Log::trace("RemoteRenderHandler::OnPaint: bid=%d, width=%d height=%d, dirty rects count %d", myBid, width, height, dirtyRects.size());
   const int rasterPixCount = width * height;
   const size_t extendedRectsCount =
       dirtyRects.size() < 10 ? 10 : dirtyRects.size();
@@ -309,22 +322,25 @@ bool RemoteRenderHandler::StartDragging(CefRefPtr<CefBrowser> browser,
                                   DragOperationsMask allowed_ops,
                                   int x,
                                   int y) {
-    LNDCT();
+    if (doTrace)
+      Log::trace("RemoteRenderHandler::StartDragging: bid=%d, x=%d y=%d", myBid, x, y);
     Log::error("Unimplemented.");
     return false;
 }
 
 void RemoteRenderHandler::UpdateDragCursor(CefRefPtr<CefBrowser> browser,
                                      DragOperation operation) {
-    LNDCT();
-    Log::error("Unimplemented.");
+  if (doTrace)
+    Log::trace("RemoteRenderHandler::UpdateDragCursor: bid=%d", myBid);
+  Log::error("Unimplemented.");
 }
 
 void RemoteRenderHandler::OnImeCompositionRangeChanged(
     CefRefPtr<CefBrowser> browser,
     const CefRange& cef_selected_range,
     const RectList& cef_character_bounds) {
-  LNDCT();
+  if (doTrace)
+    Log::trace("RemoteRenderHandler::OnImeCompositionRangeChanged: bid=%d, cef_character_bounds.size=%d", myBid, cef_character_bounds.size());
   myService->exec([&](const JavaService& s) {
     Range selected_range;
     selected_range.from = cef_selected_range.from;
@@ -347,8 +363,9 @@ void RemoteRenderHandler::OnTextSelectionChanged(
     CefRefPtr<CefBrowser> browser,
     const CefString& selected_text,
     const CefRange& cef_selected_range) {
-  LNDCT();
-  Range selected_range;
+  if (doTrace)
+    Log::trace("RemoteRenderHandler::OnTextSelectionChanged: bid=%d", myBid);
+  thrift_codegen::Range selected_range;
   selected_range.from = cef_selected_range.from;
   selected_range.to = cef_selected_range.to;
 
