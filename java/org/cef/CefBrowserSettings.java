@@ -20,12 +20,15 @@ public class CefBrowserSettings {
      */
     public int windowless_frame_rate = 0;
 
+    public boolean sharedTexturesEnabled = false;
+
     public CefBrowserSettings() {}
 
     @Override
     public CefBrowserSettings clone() {
         CefBrowserSettings tmp = new CefBrowserSettings();
         tmp.windowless_frame_rate = windowless_frame_rate;
+        tmp.sharedTexturesEnabled = sharedTexturesEnabled;
         return tmp;
     }
 }

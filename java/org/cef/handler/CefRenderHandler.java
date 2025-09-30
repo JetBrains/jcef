@@ -73,6 +73,10 @@ public interface CefRenderHandler {
     public void onPaint(CefBrowser browser, boolean popup, Rectangle[] dirtyRects,
             ByteBuffer buffer, int width, int height);
 
+    default void onAcceleratedPaint(CefBrowser browser, boolean popup, Rectangle[] dirtyRects, CefAcceleratedPaintInfo info) {
+        // remove after propagation the changes
+    }
+
     /**
      * Add provided listener.
      * @param listener Code that gets executed after a frame was rendered.

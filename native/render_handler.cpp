@@ -29,6 +29,125 @@ jobject NewJNIRect(JNIEnv* env, const CefRect& rect) {
   return nullptr;
 }
 
+jobject NewJNIDimension(JNIEnv* env, int width, int height) {
+  ScopedJNIClass cls(env, "java/awt/Dimension");
+  if (!cls)
+    return nullptr;
+  ScopedJNIObjectLocal obj(env, NewJNIObject(env, cls));
+  if (!obj)
+    return nullptr;
+  if (SetJNIFieldInt(env, cls, obj, "width", width) &&
+      SetJNIFieldInt(env, cls, obj, "height", height)) {
+    return obj.Release();
+  }
+
+  return nullptr;
+}
+
+jobject convertColorType(JNIEnv *env, cef_color_type_t colorType) {
+  const char *enumConstName = nullptr;
+  switch (colorType) {
+    case CEF_COLOR_TYPE_RGBA_8888:
+      enumConstName = "CEF_COLOR_TYPE_RGBA_8888";
+      break;
+    case CEF_COLOR_TYPE_BGRA_8888:
+      enumConstName = "CEF_COLOR_TYPE_BGRA_8888";
+      break;
+    default:
+      LOG(ERROR) << "Unknown color type " << colorType;
+      return nullptr;
+  }
+
+  ScopedJNIClass enumCls(env, "org/cef/handler/CefAcceleratedPaintInfo$ColorType");
+  if (!enumCls) {
+    LOG(ERROR) << "Failed to find org.cef.handler.CefAcceleratedPaintInfo$ColorType";
+    return nullptr;
+  }
+
+  jfieldID enumFieldId = env->GetStaticFieldID(enumCls, enumConstName,
+                                               "Lorg/cef/handler/CefAcceleratedPaintInfo$ColorType;");
+  if (!enumFieldId) {
+    env->ExceptionClear();
+    LOG(ERROR) << "Failed to find org.cef.handler.CefAcceleratedPaintInfo$ColorType." << enumConstName;
+    return nullptr;
+  }
+  jobject enumVal = env->GetStaticObjectField(enumCls, enumFieldId);
+  if (!enumVal) {
+    env->ExceptionClear();
+    LOG(ERROR) << "Failed to get org.cef.handler.CefAcceleratedPaintInfo$ColorType." << enumConstName;
+    return nullptr;
+  }
+
+  return enumVal;
+}
+
+jobject convertAcceleratedPaintInfo(JNIEnv *env, const CefAcceleratedPaintInfo &info) {
+  ScopedJNIClass infoCls(env, "org/cef/handler/CefAcceleratedPaintInfo");
+  if (!infoCls) {
+    LOG(ERROR) << "Failed to find org.cef.handler.CefAcceleratedPaintInfo";
+    return nullptr;
+  }
+
+  ScopedJNIObjectLocal jInfo(env, NewJNIObject(env, infoCls));
+  if (!jInfo) {
+    LOG(ERROR) << "Failed to create org.cef.handler.CefAcceleratedPaintInfo";
+    return nullptr;
+  }
+
+  ScopedJNIObjectLocal colorType(env, convertColorType(env, info.format));
+  if (!colorType) {
+    return nullptr;
+  }
+
+  jfieldID formatFid = env->GetFieldID(infoCls, "format",
+                                       "Lorg/cef/handler/CefAcceleratedPaintInfo$ColorType;");
+  if (!formatFid) {
+    env->ExceptionDescribe();
+    env->ExceptionClear();
+    LOG(ERROR) << "Failed to get field ID for CefAcceleratedPaintInfo.format";
+    return nullptr;
+  }
+
+  env->SetObjectField(jInfo, formatFid, colorType.get());
+
+  jfieldID handleFid = env->GetFieldID(infoCls, "handle", "J");
+  if (!handleFid) {
+    env->ExceptionDescribe();
+    env->ExceptionClear();
+    LOG(ERROR) << "Failed to get field ID for CefAcceleratedPaintInfo.handle";
+    return nullptr;
+  }
+
+  env->SetLongField(jInfo, handleFid, static_cast<jlong>(reinterpret_cast<intptr_t>(info.shared_texture_io_surface)));
+
+  ScopedJNIObjectLocal jCodedSize(env, NewJNIDimension(env,
+                                                       info.extra.coded_size.width,
+                                                       info.extra.coded_size.height));
+  if (!jCodedSize) {
+    LOG(ERROR) << "Failed to create Dimension for CefAcceleratedPaintInfo.codedSize";
+    return nullptr;
+  }
+
+  jfieldID codedSizeFid = env->GetFieldID(infoCls, "codedSize", "Ljava/awt/Dimension;");
+  if (!codedSizeFid) {
+    env->ExceptionDescribe();
+    env->ExceptionClear();
+    LOG(ERROR) << "Failed to get field ID for CefAcceleratedPaintInfo.codedSize";
+    return nullptr;
+  }
+
+  env->SetObjectField(jInfo, codedSizeFid, jCodedSize.get());
+
+  if (env->ExceptionOccurred()) {
+    env->ExceptionDescribe();
+    env->ExceptionClear();
+    LOG(ERROR) << "Failed to set field for CefAcceleratedPaintInfo.codedSize";
+    return nullptr;
+  }
+
+  return jInfo.Release();
+}
+
 jobject NewJNIScreenInfo(JNIEnv* env, CefScreenInfo& screenInfo) {
   ScopedJNIClass cls(env, "org/cef/handler/CefScreenInfo");
   if (!cls) {
@@ -278,6 +397,42 @@ void RenderHandler::OnPaint(CefRefPtr<CefBrowser> browser,
                        "Rectangle;Ljava/nio/ByteBuffer;II)V",
                        jbrowser.get(), jtype, jrectArray.get(),
                        jdirectBuffer.get(), width, height);
+}
+
+void RenderHandler::OnAcceleratedPaint(
+    CefRefPtr<CefBrowser> browser,
+    CefRenderHandler::PaintElementType type,
+    const CefRenderHandler::RectList& dirtyRects,
+    const CefAcceleratedPaintInfo& info) {
+
+  /* This check could be useful to get red of image jumping/flickering on resize
+   * but it's better to do it on the Java side.
+  if (info.extra.coded_size != info.extra.source_size) {
+    return;
+  }
+  */
+
+  ScopedJNIEnv env;
+  if (!env) {
+    return;
+  }
+
+  ScopedJNIBrowser jbrowser(env, browser);
+  jboolean jtype = type == PET_VIEW ? JNI_FALSE : JNI_TRUE;
+
+  ScopedJNIObjectLocal jrectArray(env, NewJNIRectArray(env, dirtyRects));
+  ScopedJNIObjectLocal jInfo(env, convertAcceleratedPaintInfo(env, info));
+
+  JNI_CALL_VOID_METHOD(env, handle_, "onAcceleratedPaint",
+                       "(Lorg/cef/browser/CefBrowser;Z[Ljava/awt/"
+                       "Rectangle;Lorg/cef/handler/CefAcceleratedPaintInfo;)V",
+                       jbrowser.get(), jtype, jrectArray.get(), jInfo.get());
+  if (env->ExceptionOccurred()) {
+    env->ExceptionDescribe();
+    env->ExceptionClear();
+    LOG(ERROR) << "Failed to call OnAcceleratedPaint";
+    return;
+  }
 }
 
 bool RenderHandler::StartDragging(CefRefPtr<CefBrowser> browser,

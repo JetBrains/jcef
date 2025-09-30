@@ -201,6 +201,9 @@ void create(std::shared_ptr<JNIObjectsForCreate> objs,
       objs->jbrowserSettings != nullptr) {  // Dev-tools settings are null
     GetJNIFieldInt(env, cefBrowserSettings, objs->jbrowserSettings,
                    "windowless_frame_rate", &settings.windowless_frame_rate);
+    GetJNIFieldBoolean(env, cefBrowserSettings, objs->jbrowserSettings,
+                       "sharedTexturesEnabled",
+                       &windowInfo.shared_texture_enabled);
   }
 
   CefRefPtr<CefBrowser> browserObj;
