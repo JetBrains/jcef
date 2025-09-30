@@ -7,6 +7,7 @@ import com.jetbrains.cef.SharedMemory;
 import com.jetbrains.cef.SharedMemoryCache;
 import org.cef.browser.CefBrowser;
 import org.cef.callback.CefDragData;
+import org.cef.handler.CefAcceleratedPaintInfo;
 import org.cef.handler.CefNativeRenderHandler;
 import org.cef.handler.CefScreenInfo;
 import org.cef.misc.CefRange;
@@ -305,6 +306,11 @@ public class JBCefOsrHandler implements CefNativeRenderHandler {
 
         long endMs = System.currentTimeMillis();
         System.err.println("onPaint spent " + (endMs - startMs) + " ms, draw buffered spent " + (endMs - midMs));
+    }
+
+    @Override
+    public void onAcceleratedPaint(CefBrowser browser, boolean popup, Rectangle[] dirtyRects, CefAcceleratedPaintInfo info) {
+
     }
 
     @Override

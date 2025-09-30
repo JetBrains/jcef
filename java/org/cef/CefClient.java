@@ -1063,6 +1063,16 @@ public class CefClient extends CefClientHandler
     }
 
     @Override
+    public void onAcceleratedPaint(CefBrowser browser, boolean popup, Rectangle[] dirtyRects, CefAcceleratedPaintInfo info) {
+        if (remoteClient != null) CefLog.Error("onAcceleratedPaint mustn't be called in remote mode (it seems that user manually called this method).");
+        if (browser == null) return;
+        CefRenderHandler realHandler = browser.getRenderHandler();
+        if (realHandler != null) {
+            realHandler.onAcceleratedPaint(browser, popup, dirtyRects, info);
+        }
+    }
+
+    @Override
     public void addOnPaintListener(Consumer<CefPaintEvent> listener) {}
 
     @Override
