@@ -389,15 +389,40 @@ set(shared_mem_helper_SOURCES
         ../native/keyboard_utils.h
         PlatformUtils.cpp
 )
+
+set(shared_mem_helper_LIBS)
+
 if (OS_WINDOWS)
     list(APPEND shared_mem_helper_SOURCES
-        windows/WindowsPipe.cpp
+            windows/WindowsPipe.cpp
+            PlatformUtilsWin.cpp
     )
 elseif (OS_LINUX)
-    list(APPEND shared_mem_helper_SOURCES ../native/JavaKeyCode2X11.cpp)
+    list(APPEND shared_mem_helper_SOURCES
+            ../native/JavaKeyCode2X11.cpp
+            PlatformUtilsLinux.cpp
+    )
+elseif (OS_MAC)
+    list(APPEND shared_mem_helper_SOURCES
+            PlatformUtilsMac.mm
+    )
+
+    find_library(COREFOUNDATION_FRAMEWORK CoreFoundation)
+    find_library(FOUNDATION_FRAMEWORK Foundation)
+    find_library(IOSURFACE_FRAMEWORK IOSurface)
+    find_library(METAL_FRAMEWORK Metal)
+    list(APPEND shared_mem_helper_LIBS
+            "${COREFOUNDATION_FRAMEWORK}"
+            "${FOUNDATION_FRAMEWORK}"
+            "${IOSURFACE_FRAMEWORK}"
+            "${METAL_FRAMEWORK}"
+    )
 endif ()
+
 add_library(shared_mem_helper SHARED ${shared_mem_helper_SOURCES})
 target_include_directories(shared_mem_helper PUBLIC ${JNI_INCLUDE_DIRS})
+target_link_libraries(shared_mem_helper ${shared_mem_helper_LIBS})
+
 if (OS_LINUX)
     target_link_libraries(shared_mem_helper rt)
 
