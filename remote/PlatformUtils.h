@@ -15,6 +15,46 @@ extern "C" {
 JNIEXPORT jobject JNICALL Java_com_jetbrains_cef_remote_PlatformUtils_getCefKeyEventAttributes
   (JNIEnv *, jclass, jobject);
 
+/*
+ * Class:     com_jetbrains_cef_remote_PlatformUtils
+ * Method:    getMtlTexture
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_com_jetbrains_cef_remote_PlatformUtils_getMtlTexture
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_jetbrains_cef_remote_PlatformUtils
+ * Method:    releaseMtlTextureRef
+ * Signature: (J)V
+ */
+JNIEXPORT void JNICALL Java_com_jetbrains_cef_remote_PlatformUtils_releaseMtlTextureRef
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_jetbrains_cef_remote_PlatformUtils
+ * Method:    retainIOSurfaceRef
+ * Signature: (J)V
+ */
+JNIEXPORT void JNICALL Java_com_jetbrains_cef_remote_PlatformUtils_retainIOSurfaceRef
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_jetbrains_cef_remote_PlatformUtils
+ * Method:    releaseIOSurfaceRef
+ * Signature: (J)V
+ */
+JNIEXPORT void JNICALL Java_com_jetbrains_cef_remote_PlatformUtils_releaseIOSurfaceRef
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_jetbrains_cef_remote_PlatformUtils
+ * Method:    getIOSurfaceRef
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_com_jetbrains_cef_remote_PlatformUtils_getIOSurfaceRef
+  (JNIEnv *, jclass, jlong);
+
 #ifdef __cplusplus
 }
 #endif
