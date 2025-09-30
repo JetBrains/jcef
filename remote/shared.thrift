@@ -83,3 +83,8 @@ struct CompositionUnderline {
     5: required Style style
 }
 
+struct Size {
+    1: required i32 width,
+    2: required i32 height,
+}
+

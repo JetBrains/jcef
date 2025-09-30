@@ -45,6 +45,11 @@ public class ClientHandlersDummy implements ClientHandlers.Iface{
     }
 
     @Override
+    public void RenderHandler_OnAcceleratedPaint(int bid, boolean popup, List<Rect> dirtyRects, AcceleratedPaintInfo paintInfo) {
+
+    }
+
+    @Override
     public void RenderHandler_OnPopupShow(int bid, boolean show) throws TException {
 
     }

@@ -55,6 +55,11 @@ class ClientHandlersHandler : virtual public ClientHandlersIf {
     printf("RenderHandler_OnPaint\n");
   }
 
+  void RenderHandler_OnAcceleratedPaint(const int32_t bid, const bool popup, const std::vector<Rect> & dirtyRects, const AcceleratedPaintInfo& paintInfo) {
+    // Your implementation goes here
+    printf("RenderHandler_OnAcceleratedPaint\n");
+  }
+
   void RenderHandler_OnPopupShow(const int32_t bid, const bool show) {
     // Your implementation goes here
     printf("RenderHandler_OnPopupShow\n");

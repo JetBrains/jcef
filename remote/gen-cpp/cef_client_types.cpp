@@ -50,6 +50,35 @@ std::string to_string(const MenuItemType::type& val) {
   }
 }
 
+int _kAcceleratedPaintInfoColorTypeValues[] = {
+  AcceleratedPaintInfoColorType::CEF_COLOR_TYPE_RGBA_8888,
+  AcceleratedPaintInfoColorType::CEF_COLOR_TYPE_BGRA_8888
+};
+const char* _kAcceleratedPaintInfoColorTypeNames[] = {
+  "CEF_COLOR_TYPE_RGBA_8888",
+  "CEF_COLOR_TYPE_BGRA_8888"
+};
+const std::map<int, const char*> _AcceleratedPaintInfoColorType_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(2, _kAcceleratedPaintInfoColorTypeValues, _kAcceleratedPaintInfoColorTypeNames), ::apache::thrift::TEnumIterator(-1, nullptr, nullptr));
+
+std::ostream& operator<<(std::ostream& out, const AcceleratedPaintInfoColorType::type& val) {
+  std::map<int, const char*>::const_iterator it = _AcceleratedPaintInfoColorType_VALUES_TO_NAMES.find(val);
+  if (it != _AcceleratedPaintInfoColorType_VALUES_TO_NAMES.end()) {
+    out << it->second;
+  } else {
+    out << static_cast<int>(val);
+  }
+  return out;
+}
+
+std::string to_string(const AcceleratedPaintInfoColorType::type& val) {
+  std::map<int, const char*>::const_iterator it = _AcceleratedPaintInfoColorType_VALUES_TO_NAMES.find(val);
+  if (it != _AcceleratedPaintInfoColorType_VALUES_TO_NAMES.end()) {
+    return std::string(it->second);
+  } else {
+    return std::to_string(static_cast<int>(val));
+  }
+}
+
 
 Point::~Point() noexcept {
 }
@@ -1311,6 +1340,146 @@ void MenuItem::printTo(std::ostream& out) const {
   out << ", " << "enabled=" << to_string(enabled);
   out << ", " << "checked=" << to_string(checked);
   out << ", " << "sub_menu=" << to_string(sub_menu);
+  out << ")";
+}
+
+
+AcceleratedPaintInfo::~AcceleratedPaintInfo() noexcept {
+}
+
+
+void AcceleratedPaintInfo::__set_format(const AcceleratedPaintInfoColorType::type val) {
+  this->format = val;
+}
+
+void AcceleratedPaintInfo::__set_handle(const int64_t val) {
+  this->handle = val;
+}
+
+void AcceleratedPaintInfo::__set_coded_size(const  ::thrift_codegen::Size& val) {
+  this->coded_size = val;
+}
+std::ostream& operator<<(std::ostream& out, const AcceleratedPaintInfo& obj)
+{
+  obj.printTo(out);
+  return out;
+}
+
+
+uint32_t AcceleratedPaintInfo::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+  bool isset_format = false;
+  bool isset_handle = false;
+  bool isset_coded_size = false;
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          int32_t ecast17;
+          xfer += iprot->readI32(ecast17);
+          this->format = static_cast<AcceleratedPaintInfoColorType::type>(ecast17);
+          isset_format = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_I64) {
+          xfer += iprot->readI64(this->handle);
+          isset_handle = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->coded_size.read(iprot);
+          isset_coded_size = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  if (!isset_format)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_handle)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_coded_size)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  return xfer;
+}
+
+uint32_t AcceleratedPaintInfo::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("AcceleratedPaintInfo");
+
+  xfer += oprot->writeFieldBegin("format", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(static_cast<int32_t>(this->format));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("handle", ::apache::thrift::protocol::T_I64, 2);
+  xfer += oprot->writeI64(this->handle);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("coded_size", ::apache::thrift::protocol::T_STRUCT, 3);
+  xfer += this->coded_size.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+void swap(AcceleratedPaintInfo &a, AcceleratedPaintInfo &b) {
+  using ::std::swap;
+  swap(a.format, b.format);
+  swap(a.handle, b.handle);
+  swap(a.coded_size, b.coded_size);
+}
+
+AcceleratedPaintInfo::AcceleratedPaintInfo(const AcceleratedPaintInfo& other18) noexcept {
+  format = other18.format;
+  handle = other18.handle;
+  coded_size = other18.coded_size;
+}
+AcceleratedPaintInfo& AcceleratedPaintInfo::operator=(const AcceleratedPaintInfo& other19) noexcept {
+  format = other19.format;
+  handle = other19.handle;
+  coded_size = other19.coded_size;
+  return *this;
+}
+void AcceleratedPaintInfo::printTo(std::ostream& out) const {
+  using ::apache::thrift::to_string;
+  out << "AcceleratedPaintInfo(";
+  out << "format=" << to_string(format);
+  out << ", " << "handle=" << to_string(handle);
+  out << ", " << "coded_size=" << to_string(coded_size);
   out << ")";
 }
 

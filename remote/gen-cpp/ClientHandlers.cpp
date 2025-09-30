@@ -1178,6 +1178,238 @@ uint32_t ClientHandlers_RenderHandler_OnPaint_presult::read(::apache::thrift::pr
 }
 
 
+ClientHandlers_RenderHandler_OnAcceleratedPaint_args::~ClientHandlers_RenderHandler_OnAcceleratedPaint_args() noexcept {
+}
+
+
+uint32_t ClientHandlers_RenderHandler_OnAcceleratedPaint_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->bid);
+          this->__isset.bid = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->popup);
+          this->__isset.popup = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_LIST) {
+          {
+            this->dirtyRects.clear();
+            uint32_t _size20;
+            ::apache::thrift::protocol::TType _etype23;
+            xfer += iprot->readListBegin(_etype23, _size20);
+            this->dirtyRects.resize(_size20);
+            uint32_t _i24;
+            for (_i24 = 0; _i24 < _size20; ++_i24)
+            {
+              xfer += this->dirtyRects[_i24].read(iprot);
+            }
+            xfer += iprot->readListEnd();
+          }
+          this->__isset.dirtyRects = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->paintInfo.read(iprot);
+          this->__isset.paintInfo = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_RenderHandler_OnAcceleratedPaint_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_RenderHandler_OnAcceleratedPaint_args");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->bid);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("popup", ::apache::thrift::protocol::T_BOOL, 2);
+  xfer += oprot->writeBool(this->popup);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("dirtyRects", ::apache::thrift::protocol::T_LIST, 3);
+  {
+    xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->dirtyRects.size()));
+    std::vector<Rect> ::const_iterator _iter25;
+    for (_iter25 = this->dirtyRects.begin(); _iter25 != this->dirtyRects.end(); ++_iter25)
+    {
+      xfer += (*_iter25).write(oprot);
+    }
+    xfer += oprot->writeListEnd();
+  }
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("paintInfo", ::apache::thrift::protocol::T_STRUCT, 4);
+  xfer += this->paintInfo.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_RenderHandler_OnAcceleratedPaint_pargs::~ClientHandlers_RenderHandler_OnAcceleratedPaint_pargs() noexcept {
+}
+
+
+uint32_t ClientHandlers_RenderHandler_OnAcceleratedPaint_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ClientHandlers_RenderHandler_OnAcceleratedPaint_pargs");
+
+  xfer += oprot->writeFieldBegin("bid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->bid)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("popup", ::apache::thrift::protocol::T_BOOL, 2);
+  xfer += oprot->writeBool((*(this->popup)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("dirtyRects", ::apache::thrift::protocol::T_LIST, 3);
+  {
+    xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>((*(this->dirtyRects)).size()));
+    std::vector<Rect> ::const_iterator _iter26;
+    for (_iter26 = (*(this->dirtyRects)).begin(); _iter26 != (*(this->dirtyRects)).end(); ++_iter26)
+    {
+      xfer += (*_iter26).write(oprot);
+    }
+    xfer += oprot->writeListEnd();
+  }
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("paintInfo", ::apache::thrift::protocol::T_STRUCT, 4);
+  xfer += (*(this->paintInfo)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_RenderHandler_OnAcceleratedPaint_result::~ClientHandlers_RenderHandler_OnAcceleratedPaint_result() noexcept {
+}
+
+
+uint32_t ClientHandlers_RenderHandler_OnAcceleratedPaint_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClientHandlers_RenderHandler_OnAcceleratedPaint_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("ClientHandlers_RenderHandler_OnAcceleratedPaint_result");
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ClientHandlers_RenderHandler_OnAcceleratedPaint_presult::~ClientHandlers_RenderHandler_OnAcceleratedPaint_presult() noexcept {
+}
+
+
+uint32_t ClientHandlers_RenderHandler_OnAcceleratedPaint_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
 ClientHandlers_RenderHandler_OnPopupShow_args::~ClientHandlers_RenderHandler_OnPopupShow_args() noexcept {
 }
 
@@ -1413,14 +1645,14 @@ uint32_t ClientHandlers_RenderHandler_OnImeCompositionRangeChanged_args::read(::
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->characterBounds.clear();
-            uint32_t _size17;
-            ::apache::thrift::protocol::TType _etype20;
-            xfer += iprot->readListBegin(_etype20, _size17);
-            this->characterBounds.resize(_size17);
-            uint32_t _i21;
-            for (_i21 = 0; _i21 < _size17; ++_i21)
+            uint32_t _size27;
+            ::apache::thrift::protocol::TType _etype30;
+            xfer += iprot->readListBegin(_etype30, _size27);
+            this->characterBounds.resize(_size27);
+            uint32_t _i31;
+            for (_i31 = 0; _i31 < _size27; ++_i31)
             {
-              xfer += this->characterBounds[_i21].read(iprot);
+              xfer += this->characterBounds[_i31].read(iprot);
             }
             xfer += iprot->readListEnd();
           }
@@ -1457,10 +1689,10 @@ uint32_t ClientHandlers_RenderHandler_OnImeCompositionRangeChanged_args::write(:
   xfer += oprot->writeFieldBegin("characterBounds", ::apache::thrift::protocol::T_LIST, 3);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->characterBounds.size()));
-    std::vector<Rect> ::const_iterator _iter22;
-    for (_iter22 = this->characterBounds.begin(); _iter22 != this->characterBounds.end(); ++_iter22)
+    std::vector<Rect> ::const_iterator _iter32;
+    for (_iter32 = this->characterBounds.begin(); _iter32 != this->characterBounds.end(); ++_iter32)
     {
-      xfer += (*_iter22).write(oprot);
+      xfer += (*_iter32).write(oprot);
     }
     xfer += oprot->writeListEnd();
   }
@@ -1492,10 +1724,10 @@ uint32_t ClientHandlers_RenderHandler_OnImeCompositionRangeChanged_pargs::write(
   xfer += oprot->writeFieldBegin("characterBounds", ::apache::thrift::protocol::T_LIST, 3);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>((*(this->characterBounds)).size()));
-    std::vector<Rect> ::const_iterator _iter23;
-    for (_iter23 = (*(this->characterBounds)).begin(); _iter23 != (*(this->characterBounds)).end(); ++_iter23)
+    std::vector<Rect> ::const_iterator _iter33;
+    for (_iter33 = (*(this->characterBounds)).begin(); _iter33 != (*(this->characterBounds)).end(); ++_iter33)
     {
-      xfer += (*_iter23).write(oprot);
+      xfer += (*_iter33).write(oprot);
     }
     xfer += oprot->writeListEnd();
   }
@@ -6452,14 +6684,14 @@ uint32_t ClientHandlers_CookieAccessFilter_CanSendCookie_args::read(::apache::th
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->cookie.clear();
-            uint32_t _size24;
-            ::apache::thrift::protocol::TType _etype27;
-            xfer += iprot->readListBegin(_etype27, _size24);
-            this->cookie.resize(_size24);
-            uint32_t _i28;
-            for (_i28 = 0; _i28 < _size24; ++_i28)
+            uint32_t _size34;
+            ::apache::thrift::protocol::TType _etype37;
+            xfer += iprot->readListBegin(_etype37, _size34);
+            this->cookie.resize(_size34);
+            uint32_t _i38;
+            for (_i38 = 0; _i38 < _size34; ++_i38)
             {
-              xfer += iprot->readString(this->cookie[_i28]);
+              xfer += iprot->readString(this->cookie[_i38]);
             }
             xfer += iprot->readListEnd();
           }
@@ -6504,10 +6736,10 @@ uint32_t ClientHandlers_CookieAccessFilter_CanSendCookie_args::write(::apache::t
   xfer += oprot->writeFieldBegin("cookie", ::apache::thrift::protocol::T_LIST, 5);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->cookie.size()));
-    std::vector<std::string> ::const_iterator _iter29;
-    for (_iter29 = this->cookie.begin(); _iter29 != this->cookie.end(); ++_iter29)
+    std::vector<std::string> ::const_iterator _iter39;
+    for (_iter39 = this->cookie.begin(); _iter39 != this->cookie.end(); ++_iter39)
     {
-      xfer += oprot->writeString((*_iter29));
+      xfer += oprot->writeString((*_iter39));
     }
     xfer += oprot->writeListEnd();
   }
@@ -6547,10 +6779,10 @@ uint32_t ClientHandlers_CookieAccessFilter_CanSendCookie_pargs::write(::apache::
   xfer += oprot->writeFieldBegin("cookie", ::apache::thrift::protocol::T_LIST, 5);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*(this->cookie)).size()));
-    std::vector<std::string> ::const_iterator _iter30;
-    for (_iter30 = (*(this->cookie)).begin(); _iter30 != (*(this->cookie)).end(); ++_iter30)
+    std::vector<std::string> ::const_iterator _iter40;
+    for (_iter40 = (*(this->cookie)).begin(); _iter40 != (*(this->cookie)).end(); ++_iter40)
     {
-      xfer += oprot->writeString((*_iter30));
+      xfer += oprot->writeString((*_iter40));
     }
     xfer += oprot->writeListEnd();
   }
@@ -6739,14 +6971,14 @@ uint32_t ClientHandlers_CookieAccessFilter_CanSaveCookie_args::read(::apache::th
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->cookie.clear();
-            uint32_t _size31;
-            ::apache::thrift::protocol::TType _etype34;
-            xfer += iprot->readListBegin(_etype34, _size31);
-            this->cookie.resize(_size31);
-            uint32_t _i35;
-            for (_i35 = 0; _i35 < _size31; ++_i35)
+            uint32_t _size41;
+            ::apache::thrift::protocol::TType _etype44;
+            xfer += iprot->readListBegin(_etype44, _size41);
+            this->cookie.resize(_size41);
+            uint32_t _i45;
+            for (_i45 = 0; _i45 < _size41; ++_i45)
             {
-              xfer += iprot->readString(this->cookie[_i35]);
+              xfer += iprot->readString(this->cookie[_i45]);
             }
             xfer += iprot->readListEnd();
           }
@@ -6795,10 +7027,10 @@ uint32_t ClientHandlers_CookieAccessFilter_CanSaveCookie_args::write(::apache::t
   xfer += oprot->writeFieldBegin("cookie", ::apache::thrift::protocol::T_LIST, 6);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->cookie.size()));
-    std::vector<std::string> ::const_iterator _iter36;
-    for (_iter36 = this->cookie.begin(); _iter36 != this->cookie.end(); ++_iter36)
+    std::vector<std::string> ::const_iterator _iter46;
+    for (_iter46 = this->cookie.begin(); _iter46 != this->cookie.end(); ++_iter46)
     {
-      xfer += oprot->writeString((*_iter36));
+      xfer += oprot->writeString((*_iter46));
     }
     xfer += oprot->writeListEnd();
   }
@@ -6842,10 +7074,10 @@ uint32_t ClientHandlers_CookieAccessFilter_CanSaveCookie_pargs::write(::apache::
   xfer += oprot->writeFieldBegin("cookie", ::apache::thrift::protocol::T_LIST, 6);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*(this->cookie)).size()));
-    std::vector<std::string> ::const_iterator _iter37;
-    for (_iter37 = (*(this->cookie)).begin(); _iter37 != (*(this->cookie)).end(); ++_iter37)
+    std::vector<std::string> ::const_iterator _iter47;
+    for (_iter47 = (*(this->cookie)).begin(); _iter47 != (*(this->cookie)).end(); ++_iter47)
     {
-      xfer += oprot->writeString((*_iter37));
+      xfer += oprot->writeString((*_iter47));
     }
     xfer += oprot->writeListEnd();
   }
@@ -9385,14 +9617,14 @@ uint32_t ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_args::read(::apac
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->menu_model.clear();
-            uint32_t _size38;
-            ::apache::thrift::protocol::TType _etype41;
-            xfer += iprot->readListBegin(_etype41, _size38);
-            this->menu_model.resize(_size38);
-            uint32_t _i42;
-            for (_i42 = 0; _i42 < _size38; ++_i42)
+            uint32_t _size48;
+            ::apache::thrift::protocol::TType _etype51;
+            xfer += iprot->readListBegin(_etype51, _size48);
+            this->menu_model.resize(_size48);
+            uint32_t _i52;
+            for (_i52 = 0; _i52 < _size48; ++_i52)
             {
-              xfer += this->menu_model[_i42].read(iprot);
+              xfer += this->menu_model[_i52].read(iprot);
             }
             xfer += iprot->readListEnd();
           }
@@ -9433,10 +9665,10 @@ uint32_t ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_args::write(::apa
   xfer += oprot->writeFieldBegin("menu_model", ::apache::thrift::protocol::T_LIST, 4);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->menu_model.size()));
-    std::vector<MenuItem> ::const_iterator _iter43;
-    for (_iter43 = this->menu_model.begin(); _iter43 != this->menu_model.end(); ++_iter43)
+    std::vector<MenuItem> ::const_iterator _iter53;
+    for (_iter53 = this->menu_model.begin(); _iter53 != this->menu_model.end(); ++_iter53)
     {
-      xfer += (*_iter43).write(oprot);
+      xfer += (*_iter53).write(oprot);
     }
     xfer += oprot->writeListEnd();
   }
@@ -9472,10 +9704,10 @@ uint32_t ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_pargs::write(::ap
   xfer += oprot->writeFieldBegin("menu_model", ::apache::thrift::protocol::T_LIST, 4);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>((*(this->menu_model)).size()));
-    std::vector<MenuItem> ::const_iterator _iter44;
-    for (_iter44 = (*(this->menu_model)).begin(); _iter44 != (*(this->menu_model)).end(); ++_iter44)
+    std::vector<MenuItem> ::const_iterator _iter54;
+    for (_iter54 = (*(this->menu_model)).begin(); _iter54 != (*(this->menu_model)).end(); ++_iter54)
     {
-      xfer += (*_iter44).write(oprot);
+      xfer += (*_iter54).write(oprot);
     }
     xfer += oprot->writeListEnd();
   }
@@ -9516,14 +9748,14 @@ uint32_t ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_result::read(::ap
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->success.clear();
-            uint32_t _size45;
-            ::apache::thrift::protocol::TType _etype48;
-            xfer += iprot->readListBegin(_etype48, _size45);
-            this->success.resize(_size45);
-            uint32_t _i49;
-            for (_i49 = 0; _i49 < _size45; ++_i49)
+            uint32_t _size55;
+            ::apache::thrift::protocol::TType _etype58;
+            xfer += iprot->readListBegin(_etype58, _size55);
+            this->success.resize(_size55);
+            uint32_t _i59;
+            for (_i59 = 0; _i59 < _size55; ++_i59)
             {
-              xfer += this->success[_i49].read(iprot);
+              xfer += this->success[_i59].read(iprot);
             }
             xfer += iprot->readListEnd();
           }
@@ -9554,10 +9786,10 @@ uint32_t ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_result::write(::a
     xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_LIST, 0);
     {
       xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->success.size()));
-      std::vector<MenuItem> ::const_iterator _iter50;
-      for (_iter50 = this->success.begin(); _iter50 != this->success.end(); ++_iter50)
+      std::vector<MenuItem> ::const_iterator _iter60;
+      for (_iter60 = this->success.begin(); _iter60 != this->success.end(); ++_iter60)
       {
-        xfer += (*_iter50).write(oprot);
+        xfer += (*_iter60).write(oprot);
       }
       xfer += oprot->writeListEnd();
     }
@@ -9598,14 +9830,14 @@ uint32_t ClientHandlers_ContextMenuHandler_OnBeforeContextMenu_presult::read(::a
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             (*(this->success)).clear();
-            uint32_t _size51;
-            ::apache::thrift::protocol::TType _etype54;
-            xfer += iprot->readListBegin(_etype54, _size51);
-            (*(this->success)).resize(_size51);
-            uint32_t _i55;
-            for (_i55 = 0; _i55 < _size51; ++_i55)
+            uint32_t _size61;
+            ::apache::thrift::protocol::TType _etype64;
+            xfer += iprot->readListBegin(_etype64, _size61);
+            (*(this->success)).resize(_size61);
+            uint32_t _i65;
+            for (_i65 = 0; _i65 < _size61; ++_i65)
             {
-              xfer += (*(this->success))[_i55].read(iprot);
+              xfer += (*(this->success))[_i65].read(iprot);
             }
             xfer += iprot->readListEnd();
           }
@@ -9680,14 +9912,14 @@ uint32_t ClientHandlers_ContextMenuHandler_RunContextMenu_args::read(::apache::t
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->model.clear();
-            uint32_t _size56;
-            ::apache::thrift::protocol::TType _etype59;
-            xfer += iprot->readListBegin(_etype59, _size56);
-            this->model.resize(_size56);
-            uint32_t _i60;
-            for (_i60 = 0; _i60 < _size56; ++_i60)
+            uint32_t _size66;
+            ::apache::thrift::protocol::TType _etype69;
+            xfer += iprot->readListBegin(_etype69, _size66);
+            this->model.resize(_size66);
+            uint32_t _i70;
+            for (_i70 = 0; _i70 < _size66; ++_i70)
             {
-              xfer += this->model[_i60].read(iprot);
+              xfer += this->model[_i70].read(iprot);
             }
             xfer += iprot->readListEnd();
           }
@@ -9736,10 +9968,10 @@ uint32_t ClientHandlers_ContextMenuHandler_RunContextMenu_args::write(::apache::
   xfer += oprot->writeFieldBegin("model", ::apache::thrift::protocol::T_LIST, 4);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->model.size()));
-    std::vector<MenuItem> ::const_iterator _iter61;
-    for (_iter61 = this->model.begin(); _iter61 != this->model.end(); ++_iter61)
+    std::vector<MenuItem> ::const_iterator _iter71;
+    for (_iter71 = this->model.begin(); _iter71 != this->model.end(); ++_iter71)
     {
-      xfer += (*_iter61).write(oprot);
+      xfer += (*_iter71).write(oprot);
     }
     xfer += oprot->writeListEnd();
   }
@@ -9779,10 +10011,10 @@ uint32_t ClientHandlers_ContextMenuHandler_RunContextMenu_pargs::write(::apache:
   xfer += oprot->writeFieldBegin("model", ::apache::thrift::protocol::T_LIST, 4);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>((*(this->model)).size()));
-    std::vector<MenuItem> ::const_iterator _iter62;
-    for (_iter62 = (*(this->model)).begin(); _iter62 != (*(this->model)).end(); ++_iter62)
+    std::vector<MenuItem> ::const_iterator _iter72;
+    for (_iter72 = (*(this->model)).begin(); _iter72 != (*(this->model)).end(); ++_iter72)
     {
-      xfer += (*_iter62).write(oprot);
+      xfer += (*_iter72).write(oprot);
     }
     xfer += oprot->writeListEnd();
   }
@@ -12995,14 +13227,14 @@ uint32_t ClientHandlers_RunFileDialogCallback_OnFileDialogDismissed_args::read(:
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->filePaths.clear();
-            uint32_t _size63;
-            ::apache::thrift::protocol::TType _etype66;
-            xfer += iprot->readListBegin(_etype66, _size63);
-            this->filePaths.resize(_size63);
-            uint32_t _i67;
-            for (_i67 = 0; _i67 < _size63; ++_i67)
+            uint32_t _size73;
+            ::apache::thrift::protocol::TType _etype76;
+            xfer += iprot->readListBegin(_etype76, _size73);
+            this->filePaths.resize(_size73);
+            uint32_t _i77;
+            for (_i77 = 0; _i77 < _size73; ++_i77)
             {
-              xfer += iprot->readString(this->filePaths[_i67]);
+              xfer += iprot->readString(this->filePaths[_i77]);
             }
             xfer += iprot->readListEnd();
           }
@@ -13035,10 +13267,10 @@ uint32_t ClientHandlers_RunFileDialogCallback_OnFileDialogDismissed_args::write(
   xfer += oprot->writeFieldBegin("filePaths", ::apache::thrift::protocol::T_LIST, 2);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->filePaths.size()));
-    std::vector<std::string> ::const_iterator _iter68;
-    for (_iter68 = this->filePaths.begin(); _iter68 != this->filePaths.end(); ++_iter68)
+    std::vector<std::string> ::const_iterator _iter78;
+    for (_iter78 = this->filePaths.begin(); _iter78 != this->filePaths.end(); ++_iter78)
     {
-      xfer += oprot->writeString((*_iter68));
+      xfer += oprot->writeString((*_iter78));
     }
     xfer += oprot->writeListEnd();
   }
@@ -13066,10 +13298,10 @@ uint32_t ClientHandlers_RunFileDialogCallback_OnFileDialogDismissed_pargs::write
   xfer += oprot->writeFieldBegin("filePaths", ::apache::thrift::protocol::T_LIST, 2);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>((*(this->filePaths)).size()));
-    std::vector<std::string> ::const_iterator _iter69;
-    for (_iter69 = (*(this->filePaths)).begin(); _iter69 != (*(this->filePaths)).end(); ++_iter69)
+    std::vector<std::string> ::const_iterator _iter79;
+    for (_iter79 = (*(this->filePaths)).begin(); _iter79 != (*(this->filePaths)).end(); ++_iter79)
     {
-      xfer += oprot->writeString((*_iter69));
+      xfer += oprot->writeString((*_iter79));
     }
     xfer += oprot->writeListEnd();
   }
@@ -13403,6 +13635,62 @@ void ClientHandlersClient::recv_RenderHandler_OnPaint()
     iprot_->getTransport()->readEnd();
   }
   ClientHandlers_RenderHandler_OnPaint_presult result;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  return;
+}
+
+void ClientHandlersClient::RenderHandler_OnAcceleratedPaint(const int32_t bid, const bool popup, const std::vector<Rect> & dirtyRects, const AcceleratedPaintInfo& paintInfo)
+{
+  send_RenderHandler_OnAcceleratedPaint(bid, popup, dirtyRects, paintInfo);
+  recv_RenderHandler_OnAcceleratedPaint();
+}
+
+void ClientHandlersClient::send_RenderHandler_OnAcceleratedPaint(const int32_t bid, const bool popup, const std::vector<Rect> & dirtyRects, const AcceleratedPaintInfo& paintInfo)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("RenderHandler_OnAcceleratedPaint", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  ClientHandlers_RenderHandler_OnAcceleratedPaint_pargs args;
+  args.bid = &bid;
+  args.popup = &popup;
+  args.dirtyRects = &dirtyRects;
+  args.paintInfo = &paintInfo;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void ClientHandlersClient::recv_RenderHandler_OnAcceleratedPaint()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("RenderHandler_OnAcceleratedPaint") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  ClientHandlers_RenderHandler_OnAcceleratedPaint_presult result;
   result.read(iprot_);
   iprot_->readMessageEnd();
   iprot_->getTransport()->readEnd();
@@ -16691,6 +16979,59 @@ void ClientHandlersProcessor::process_RenderHandler_OnPaint(int32_t seqid, ::apa
 
   if (this->eventHandler_.get() != nullptr) {
     this->eventHandler_->postWrite(ctx, "ClientHandlers.RenderHandler_OnPaint", bytes);
+  }
+}
+
+void ClientHandlersProcessor::process_RenderHandler_OnAcceleratedPaint(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("ClientHandlers.RenderHandler_OnAcceleratedPaint", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ClientHandlers.RenderHandler_OnAcceleratedPaint");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "ClientHandlers.RenderHandler_OnAcceleratedPaint");
+  }
+
+  ClientHandlers_RenderHandler_OnAcceleratedPaint_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "ClientHandlers.RenderHandler_OnAcceleratedPaint", bytes);
+  }
+
+  ClientHandlers_RenderHandler_OnAcceleratedPaint_result result;
+  try {
+    iface_->RenderHandler_OnAcceleratedPaint(args.bid, args.popup, args.dirtyRects, args.paintInfo);
+  } catch (const std::exception& e) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "ClientHandlers.RenderHandler_OnAcceleratedPaint");
+    }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("RenderHandler_OnAcceleratedPaint", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preWrite(ctx, "ClientHandlers.RenderHandler_OnAcceleratedPaint");
+  }
+
+  oprot->writeMessageBegin("RenderHandler_OnAcceleratedPaint", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "ClientHandlers.RenderHandler_OnAcceleratedPaint", bytes);
   }
 }
 
@@ -20264,6 +20605,87 @@ void ClientHandlersConcurrentClient::recv_RenderHandler_OnPaint(const int32_t se
         throw TProtocolException(TProtocolException::INVALID_DATA);
       }
       ClientHandlers_RenderHandler_OnPaint_presult result;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      sentry.commit();
+      return;
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
+}
+
+void ClientHandlersConcurrentClient::RenderHandler_OnAcceleratedPaint(const int32_t bid, const bool popup, const std::vector<Rect> & dirtyRects, const AcceleratedPaintInfo& paintInfo)
+{
+  int32_t seqid = send_RenderHandler_OnAcceleratedPaint(bid, popup, dirtyRects, paintInfo);
+  recv_RenderHandler_OnAcceleratedPaint(seqid);
+}
+
+int32_t ClientHandlersConcurrentClient::send_RenderHandler_OnAcceleratedPaint(const int32_t bid, const bool popup, const std::vector<Rect> & dirtyRects, const AcceleratedPaintInfo& paintInfo)
+{
+  int32_t cseqid = this->sync_->generateSeqId();
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("RenderHandler_OnAcceleratedPaint", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  ClientHandlers_RenderHandler_OnAcceleratedPaint_pargs args;
+  args.bid = &bid;
+  args.popup = &popup;
+  args.dirtyRects = &dirtyRects;
+  args.paintInfo = &paintInfo;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+  return cseqid;
+}
+
+void ClientHandlersConcurrentClient::recv_RenderHandler_OnAcceleratedPaint(const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("RenderHandler_OnAcceleratedPaint") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      ClientHandlers_RenderHandler_OnAcceleratedPaint_presult result;
       result.read(iprot_);
       iprot_->readMessageEnd();
       iprot_->getTransport()->readEnd();

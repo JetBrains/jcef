@@ -39,6 +39,19 @@ std::ostream& operator<<(std::ostream& out, const MenuItemType::type& val);
 
 std::string to_string(const MenuItemType::type& val);
 
+struct AcceleratedPaintInfoColorType {
+  enum type {
+    CEF_COLOR_TYPE_RGBA_8888 = 0,
+    CEF_COLOR_TYPE_BGRA_8888 = 1
+  };
+};
+
+extern const std::map<int, const char*> _AcceleratedPaintInfoColorType_VALUES_TO_NAMES;
+
+std::ostream& operator<<(std::ostream& out, const AcceleratedPaintInfoColorType::type& val);
+
+std::string to_string(const AcceleratedPaintInfoColorType::type& val);
+
 class Point;
 
 class Rect;
@@ -48,6 +61,8 @@ class ScreenInfo;
 class ContextMenuParams;
 
 class MenuItem;
+
+class AcceleratedPaintInfo;
 
 
 class Point : public virtual ::apache::thrift::TBase {
@@ -438,6 +453,58 @@ class MenuItem : public virtual ::apache::thrift::TBase {
 void swap(MenuItem &a, MenuItem &b);
 
 std::ostream& operator<<(std::ostream& out, const MenuItem& obj);
+
+
+class AcceleratedPaintInfo : public virtual ::apache::thrift::TBase {
+ public:
+
+  AcceleratedPaintInfo(const AcceleratedPaintInfo&) noexcept;
+  AcceleratedPaintInfo& operator=(const AcceleratedPaintInfo&) noexcept;
+  AcceleratedPaintInfo() noexcept
+                       : format(static_cast<AcceleratedPaintInfoColorType::type>(0)),
+                         handle(0) {
+  }
+
+  virtual ~AcceleratedPaintInfo() noexcept;
+  /**
+   * 
+   * @see AcceleratedPaintInfoColorType
+   */
+  AcceleratedPaintInfoColorType::type format;
+  int64_t handle;
+   ::thrift_codegen::Size coded_size;
+
+  void __set_format(const AcceleratedPaintInfoColorType::type val);
+
+  void __set_handle(const int64_t val);
+
+  void __set_coded_size(const  ::thrift_codegen::Size& val);
+
+  bool operator == (const AcceleratedPaintInfo & rhs) const
+  {
+    if (!(format == rhs.format))
+      return false;
+    if (!(handle == rhs.handle))
+      return false;
+    if (!(coded_size == rhs.coded_size))
+      return false;
+    return true;
+  }
+  bool operator != (const AcceleratedPaintInfo &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AcceleratedPaintInfo & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
+
+  virtual void printTo(std::ostream& out) const;
+};
+
+void swap(AcceleratedPaintInfo &a, AcceleratedPaintInfo &b);
+
+std::ostream& operator<<(std::ostream& out, const AcceleratedPaintInfo& obj);
 
 } // namespace
 

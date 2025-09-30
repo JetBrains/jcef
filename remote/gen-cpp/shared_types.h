@@ -56,6 +56,8 @@ class Color;
 
 class CompositionUnderline;
 
+class Size;
+
 typedef struct _RObject__isset {
   _RObject__isset() : flags(false), objInfo(false) {}
   bool flags :1;
@@ -703,6 +705,49 @@ class CompositionUnderline : public virtual ::apache::thrift::TBase {
 void swap(CompositionUnderline &a, CompositionUnderline &b);
 
 std::ostream& operator<<(std::ostream& out, const CompositionUnderline& obj);
+
+
+class Size : public virtual ::apache::thrift::TBase {
+ public:
+
+  Size(const Size&) noexcept;
+  Size& operator=(const Size&) noexcept;
+  Size() noexcept
+       : width(0),
+         height(0) {
+  }
+
+  virtual ~Size() noexcept;
+  int32_t width;
+  int32_t height;
+
+  void __set_width(const int32_t val);
+
+  void __set_height(const int32_t val);
+
+  bool operator == (const Size & rhs) const
+  {
+    if (!(width == rhs.width))
+      return false;
+    if (!(height == rhs.height))
+      return false;
+    return true;
+  }
+  bool operator != (const Size &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Size & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
+
+  virtual void printTo(std::ostream& out) const;
+};
+
+void swap(Size &a, Size &b);
+
+std::ostream& operator<<(std::ostream& out, const Size& obj);
 
 } // namespace
 

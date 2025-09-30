@@ -1,7 +1,8 @@
 #include "RemoteRenderHandler.h"
 #include "RemoteClientHandler.h"
 
-#include <iostream>
+#include <CoreGraphics/CoreGraphics.h>
+#include <IOSurface/IOSurface.h>
 
 #include "../CefUtils.h"
 #include "../Utils.h"
@@ -299,6 +300,32 @@ void RemoteRenderHandler::OnPaint(CefRefPtr<CefBrowser> browser,
       s->RenderHandler_OnPaint(myBid, type != PET_VIEW, static_cast<int>(dirtyRects.size()),
                  buff.uid(), buff.handle(),
                  width, height);
+    });
+}
+
+void RemoteRenderHandler::OnAcceleratedPaint(CefRefPtr<CefBrowser> browser, PaintElementType type,
+  const RectList &dirtyRects, const CefAcceleratedPaintInfo &info) {
+    auto io_surface = (IOSurfaceRef)info.shared_texture_io_surface;
+    IOSurfaceID io_surface_id = IOSurfaceGetID(io_surface);
+
+    thrift_codegen::AcceleratedPaintInfo paintInfo;
+    switch (info.format) {
+        case CEF_COLOR_TYPE_RGBA_8888:
+            paintInfo.format = thrift_codegen::AcceleratedPaintInfoColorType::CEF_COLOR_TYPE_RGBA_8888;
+            break;
+        case CEF_COLOR_TYPE_BGRA_8888:
+            paintInfo.format = thrift_codegen::AcceleratedPaintInfoColorType::CEF_COLOR_TYPE_BGRA_8888;;
+            break;
+        default:
+            Log::error("Unsupported color format %d", info.format);
+            return;
+    }
+
+    paintInfo.coded_size.width = info.extra.coded_size.width;
+    paintInfo.coded_size.height = info.extra.coded_size.height;
+
+    myService->exec([&](const JavaService& s){
+        s->RenderHandler_OnAcceleratedPaint(myBid, type != PET_VIEW, {}, paintInfo);
     });
 }
 

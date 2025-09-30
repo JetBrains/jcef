@@ -90,6 +90,17 @@ struct MenuItem {
   // optional string font_list;
 }
 
+enum AcceleratedPaintInfoColorType {
+    CEF_COLOR_TYPE_RGBA_8888,
+    CEF_COLOR_TYPE_BGRA_8888
+}
+
+struct AcceleratedPaintInfo {
+    1: required AcceleratedPaintInfoColorType format;
+    2: required i64 handle;
+    3: required shared.Size coded_size;
+}
+
 service ClientHandlers {
     string echo(1:string msg),
     oneway void log(1: string msg),
@@ -107,6 +118,9 @@ service ClientHandlers {
     ScreenInfo   RenderHandler_GetScreenInfo(1:i32 bid),
     Point        RenderHandler_GetScreenPoint(1:i32 bid, 2:i32 viewX, 3:i32 viewY),
     void         RenderHandler_OnPaint(1:i32 bid, 2: bool popup, 3:i32 dirtyRectsCount, 4: string sharedMemName, 5: i64 sharedMemHandle, 6: i32 width, 7: i32 height),
+    // OnAcceleratedPaint has to be not oneway. The RenderHandler_OnAcceleratedPaint caller has to wait until IOSurface
+    // ref counter is incremented on the client side
+    void         RenderHandler_OnAcceleratedPaint(1:i32 bid, 2: bool popup, 3: list<Rect> dirtyRects, 4: AcceleratedPaintInfo paintInfo),
     oneway void  RenderHandler_OnPopupShow(1:i32 bid, 2: bool show),
     oneway void  RenderHandler_OnPopupSize(1:i32 bid, 2: Rect rect),
     oneway void  RenderHandler_OnImeCompositionRangeChanged(1:i32 bid, 2:shared.Range selectionRange, 3:list<Rect> characterBounds),

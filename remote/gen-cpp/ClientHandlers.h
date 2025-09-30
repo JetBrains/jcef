@@ -29,6 +29,7 @@ class ClientHandlersIf {
   virtual void RenderHandler_GetScreenInfo(ScreenInfo& _return, const int32_t bid) = 0;
   virtual void RenderHandler_GetScreenPoint(Point& _return, const int32_t bid, const int32_t viewX, const int32_t viewY) = 0;
   virtual void RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const int32_t width, const int32_t height) = 0;
+  virtual void RenderHandler_OnAcceleratedPaint(const int32_t bid, const bool popup, const std::vector<Rect> & dirtyRects, const AcceleratedPaintInfo& paintInfo) = 0;
   virtual void RenderHandler_OnPopupShow(const int32_t bid, const bool show) = 0;
   virtual void RenderHandler_OnPopupSize(const int32_t bid, const Rect& rect) = 0;
   virtual void RenderHandler_OnImeCompositionRangeChanged(const int32_t bid, const  ::thrift_codegen::Range& selectionRange, const std::vector<Rect> & characterBounds) = 0;
@@ -143,6 +144,9 @@ class ClientHandlersNull : virtual public ClientHandlersIf {
     return;
   }
   void RenderHandler_OnPaint(const int32_t /* bid */, const bool /* popup */, const int32_t /* dirtyRectsCount */, const std::string& /* sharedMemName */, const int64_t /* sharedMemHandle */, const int32_t /* width */, const int32_t /* height */) override {
+    return;
+  }
+  void RenderHandler_OnAcceleratedPaint(const int32_t /* bid */, const bool /* popup */, const std::vector<Rect> & /* dirtyRects */, const AcceleratedPaintInfo& /* paintInfo */) override {
     return;
   }
   void RenderHandler_OnPopupShow(const int32_t /* bid */, const bool /* show */) override {
@@ -1021,6 +1025,115 @@ class ClientHandlers_RenderHandler_OnPaint_presult {
 
 
   virtual ~ClientHandlers_RenderHandler_OnPaint_presult() noexcept;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _ClientHandlers_RenderHandler_OnAcceleratedPaint_args__isset {
+  _ClientHandlers_RenderHandler_OnAcceleratedPaint_args__isset() : bid(false), popup(false), dirtyRects(false), paintInfo(false) {}
+  bool bid :1;
+  bool popup :1;
+  bool dirtyRects :1;
+  bool paintInfo :1;
+} _ClientHandlers_RenderHandler_OnAcceleratedPaint_args__isset;
+
+class ClientHandlers_RenderHandler_OnAcceleratedPaint_args {
+ public:
+
+  ClientHandlers_RenderHandler_OnAcceleratedPaint_args(const ClientHandlers_RenderHandler_OnAcceleratedPaint_args&);
+  ClientHandlers_RenderHandler_OnAcceleratedPaint_args& operator=(const ClientHandlers_RenderHandler_OnAcceleratedPaint_args&);
+  ClientHandlers_RenderHandler_OnAcceleratedPaint_args() noexcept
+                                                       : bid(0),
+                                                         popup(0) {
+  }
+
+  virtual ~ClientHandlers_RenderHandler_OnAcceleratedPaint_args() noexcept;
+  int32_t bid;
+  bool popup;
+  std::vector<Rect>  dirtyRects;
+  AcceleratedPaintInfo paintInfo;
+
+  _ClientHandlers_RenderHandler_OnAcceleratedPaint_args__isset __isset;
+
+  void __set_bid(const int32_t val);
+
+  void __set_popup(const bool val);
+
+  void __set_dirtyRects(const std::vector<Rect> & val);
+
+  void __set_paintInfo(const AcceleratedPaintInfo& val);
+
+  bool operator == (const ClientHandlers_RenderHandler_OnAcceleratedPaint_args & rhs) const
+  {
+    if (!(bid == rhs.bid))
+      return false;
+    if (!(popup == rhs.popup))
+      return false;
+    if (!(dirtyRects == rhs.dirtyRects))
+      return false;
+    if (!(paintInfo == rhs.paintInfo))
+      return false;
+    return true;
+  }
+  bool operator != (const ClientHandlers_RenderHandler_OnAcceleratedPaint_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_RenderHandler_OnAcceleratedPaint_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_RenderHandler_OnAcceleratedPaint_pargs {
+ public:
+
+
+  virtual ~ClientHandlers_RenderHandler_OnAcceleratedPaint_pargs() noexcept;
+  const int32_t* bid;
+  const bool* popup;
+  const std::vector<Rect> * dirtyRects;
+  const AcceleratedPaintInfo* paintInfo;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_RenderHandler_OnAcceleratedPaint_result {
+ public:
+
+  ClientHandlers_RenderHandler_OnAcceleratedPaint_result(const ClientHandlers_RenderHandler_OnAcceleratedPaint_result&) noexcept;
+  ClientHandlers_RenderHandler_OnAcceleratedPaint_result& operator=(const ClientHandlers_RenderHandler_OnAcceleratedPaint_result&) noexcept;
+  ClientHandlers_RenderHandler_OnAcceleratedPaint_result() noexcept {
+  }
+
+  virtual ~ClientHandlers_RenderHandler_OnAcceleratedPaint_result() noexcept;
+
+  bool operator == (const ClientHandlers_RenderHandler_OnAcceleratedPaint_result & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const ClientHandlers_RenderHandler_OnAcceleratedPaint_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClientHandlers_RenderHandler_OnAcceleratedPaint_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class ClientHandlers_RenderHandler_OnAcceleratedPaint_presult {
+ public:
+
+
+  virtual ~ClientHandlers_RenderHandler_OnAcceleratedPaint_presult() noexcept;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
@@ -7586,6 +7699,9 @@ class ClientHandlersClient : virtual public ClientHandlersIf {
   void RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const int32_t width, const int32_t height) override;
   void send_RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const int32_t width, const int32_t height);
   void recv_RenderHandler_OnPaint();
+  void RenderHandler_OnAcceleratedPaint(const int32_t bid, const bool popup, const std::vector<Rect> & dirtyRects, const AcceleratedPaintInfo& paintInfo) override;
+  void send_RenderHandler_OnAcceleratedPaint(const int32_t bid, const bool popup, const std::vector<Rect> & dirtyRects, const AcceleratedPaintInfo& paintInfo);
+  void recv_RenderHandler_OnAcceleratedPaint();
   void RenderHandler_OnPopupShow(const int32_t bid, const bool show) override;
   void send_RenderHandler_OnPopupShow(const int32_t bid, const bool show);
   void RenderHandler_OnPopupSize(const int32_t bid, const Rect& rect) override;
@@ -7780,6 +7896,7 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_RenderHandler_GetScreenInfo(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_RenderHandler_GetScreenPoint(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_RenderHandler_OnPaint(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_RenderHandler_OnAcceleratedPaint(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_RenderHandler_OnPopupShow(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_RenderHandler_OnPopupSize(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_RenderHandler_OnImeCompositionRangeChanged(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -7856,6 +7973,7 @@ class ClientHandlersProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["RenderHandler_GetScreenInfo"] = &ClientHandlersProcessor::process_RenderHandler_GetScreenInfo;
     processMap_["RenderHandler_GetScreenPoint"] = &ClientHandlersProcessor::process_RenderHandler_GetScreenPoint;
     processMap_["RenderHandler_OnPaint"] = &ClientHandlersProcessor::process_RenderHandler_OnPaint;
+    processMap_["RenderHandler_OnAcceleratedPaint"] = &ClientHandlersProcessor::process_RenderHandler_OnAcceleratedPaint;
     processMap_["RenderHandler_OnPopupShow"] = &ClientHandlersProcessor::process_RenderHandler_OnPopupShow;
     processMap_["RenderHandler_OnPopupSize"] = &ClientHandlersProcessor::process_RenderHandler_OnPopupSize;
     processMap_["RenderHandler_OnImeCompositionRangeChanged"] = &ClientHandlersProcessor::process_RenderHandler_OnImeCompositionRangeChanged;
@@ -8015,6 +8133,15 @@ class ClientHandlersMultiface : virtual public ClientHandlersIf {
       ifaces_[i]->RenderHandler_OnPaint(bid, popup, dirtyRectsCount, sharedMemName, sharedMemHandle, width, height);
     }
     ifaces_[i]->RenderHandler_OnPaint(bid, popup, dirtyRectsCount, sharedMemName, sharedMemHandle, width, height);
+  }
+
+  void RenderHandler_OnAcceleratedPaint(const int32_t bid, const bool popup, const std::vector<Rect> & dirtyRects, const AcceleratedPaintInfo& paintInfo) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->RenderHandler_OnAcceleratedPaint(bid, popup, dirtyRects, paintInfo);
+    }
+    ifaces_[i]->RenderHandler_OnAcceleratedPaint(bid, popup, dirtyRects, paintInfo);
   }
 
   void RenderHandler_OnPopupShow(const int32_t bid, const bool show) override {
@@ -8671,6 +8798,9 @@ class ClientHandlersConcurrentClient : virtual public ClientHandlersIf {
   void RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const int32_t width, const int32_t height) override;
   int32_t send_RenderHandler_OnPaint(const int32_t bid, const bool popup, const int32_t dirtyRectsCount, const std::string& sharedMemName, const int64_t sharedMemHandle, const int32_t width, const int32_t height);
   void recv_RenderHandler_OnPaint(const int32_t seqid);
+  void RenderHandler_OnAcceleratedPaint(const int32_t bid, const bool popup, const std::vector<Rect> & dirtyRects, const AcceleratedPaintInfo& paintInfo) override;
+  int32_t send_RenderHandler_OnAcceleratedPaint(const int32_t bid, const bool popup, const std::vector<Rect> & dirtyRects, const AcceleratedPaintInfo& paintInfo);
+  void recv_RenderHandler_OnAcceleratedPaint(const int32_t seqid);
   void RenderHandler_OnPopupShow(const int32_t bid, const bool show) override;
   void send_RenderHandler_OnPopupShow(const int32_t bid, const bool show);
   void RenderHandler_OnPopupSize(const int32_t bid, const Rect& rect) override;

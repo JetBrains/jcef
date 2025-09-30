@@ -1816,4 +1816,119 @@ void CompositionUnderline::printTo(std::ostream& out) const {
   out << ")";
 }
 
+
+Size::~Size() noexcept {
+}
+
+
+void Size::__set_width(const int32_t val) {
+  this->width = val;
+}
+
+void Size::__set_height(const int32_t val) {
+  this->height = val;
+}
+std::ostream& operator<<(std::ostream& out, const Size& obj)
+{
+  obj.printTo(out);
+  return out;
+}
+
+
+uint32_t Size::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+  bool isset_width = false;
+  bool isset_height = false;
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->width);
+          isset_width = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->height);
+          isset_height = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  if (!isset_width)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_height)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  return xfer;
+}
+
+uint32_t Size::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Size");
+
+  xfer += oprot->writeFieldBegin("width", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->width);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("height", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32(this->height);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+void swap(Size &a, Size &b) {
+  using ::std::swap;
+  swap(a.width, b.width);
+  swap(a.height, b.height);
+}
+
+Size::Size(const Size& other35) noexcept {
+  width = other35.width;
+  height = other35.height;
+}
+Size& Size::operator=(const Size& other36) noexcept {
+  width = other36.width;
+  height = other36.height;
+  return *this;
+}
+void Size::printTo(std::ostream& out) const {
+  using ::apache::thrift::to_string;
+  out << "Size(";
+  out << "width=" << to_string(width);
+  out << ", " << "height=" << to_string(height);
+  out << ")";
+}
+
 } // namespace

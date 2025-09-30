@@ -137,6 +137,23 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     }
 
     @Override
+    public void RenderHandler_OnAcceleratedPaint(int bid, boolean popup, List<Rect> dirtyRects, AcceleratedPaintInfo paintInfo) {
+        RemoteBrowser browser = getRemoteBrowser(bid);
+        if (browser == null) return;
+        CefRenderHandler rh = browser.getRenderHandler();
+        if (rh == null) return;
+        final CefAcceleratedPaintInfo cefPaintInfo = new CefAcceleratedPaintInfo();
+        cefPaintInfo.codedSize = new Dimension(paintInfo.coded_size.width, paintInfo.coded_size.height);
+        cefPaintInfo.format = switch (paintInfo.format) {
+            case CEF_COLOR_TYPE_RGBA_8888 -> CefAcceleratedPaintInfo.ColorType.CEF_COLOR_TYPE_RGBA_8888;
+            case CEF_COLOR_TYPE_BGRA_8888 -> CefAcceleratedPaintInfo.ColorType.CEF_COLOR_TYPE_BGRA_8888;
+        };
+        cefPaintInfo.handle = paintInfo.handle;
+        Rectangle[] cefDirtyRects = new Rectangle[] {new Rectangle(0, 0, cefPaintInfo.codedSize.width, cefPaintInfo.codedSize.height)};
+        rh.onAcceleratedPaint(browser, popup, cefDirtyRects, cefPaintInfo);
+    }
+
+    @Override
     public void RenderHandler_OnPopupShow(int bid, boolean show) throws TException {
         RemoteBrowser browser = getRemoteBrowser(bid);
         if (browser == null) return;
