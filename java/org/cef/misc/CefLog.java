@@ -13,7 +13,7 @@ import java.util.Date;
 // TODO: support log4j or similar
 public class CefLog {
     private static final boolean TRACE_THREAD = Boolean.getBoolean("jcef.log.trace_thread");
-    private static CefLog INSTANCE = new CefLog(System.err, CefSettings.LogSeverity.LOGSEVERITY_VERBOSE);
+    private static CefLog INSTANCE = new CefLog(System.err, Utils.getBoolean("jcef.log.verbose") ? CefSettings.LogSeverity.LOGSEVERITY_VERBOSE : CefSettings.LogSeverity.LOGSEVERITY_DISABLE);
     private static volatile boolean isInitialized = false;
     private static final SimpleDateFormat ourTimeFormat = new SimpleDateFormat("mm:ss:SSS");
 
@@ -131,4 +131,5 @@ public class CefLog {
             return;
         INSTANCE.log(log_severity, msg, args);
     }
+
 }
