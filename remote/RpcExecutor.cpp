@@ -86,14 +86,16 @@ void RpcExecutor::exec(std::function<void(JavaService)> rpc) {
     return;
   }
 
+  ExecHolder eh(*this);
   try {
-    beforeExec();
     rpc(myService);
-    afterExec();
-    return;
   } catch (apache::thrift::TException& tx) {
-    Log::debug("thrift exception occured: %s", tx.what());
-    close();
+    onThriftException(tx);
   }
-  afterExec();
+}
+
+void RpcExecutor::onThriftException(apache::thrift::TException& tx) {
+  Log::debug("thrift exception occurred: %s", tx.what());
+  Log::debug("name of executed rpc: %s", getProcessingName().c_str());
+  close();
 }
