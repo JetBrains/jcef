@@ -118,7 +118,7 @@ jobject convertAcceleratedPaintInfo(JNIEnv *env, const CefAcceleratedPaintInfo &
     return nullptr;
   }
 
-  env->SetLongField(jInfo, handleFid, static_cast<jlong>(reinterpret_cast<intptr_t>(info.shared_texture_io_surface)));
+  //env->SetLongField(jInfo, handleFid, static_cast<jlong>(reinterpret_cast<intptr_t>(info.shared_texture_io_surface)));
 
   ScopedJNIObjectLocal jCodedSize(env, NewJNIDimension(env,
                                                        info.extra.coded_size.width,
