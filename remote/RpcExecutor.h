@@ -25,16 +25,14 @@ class RpcExecutor {
       //Log::debug("null remote service");
       return defVal;
     }
+
+    ExecHolder eh(*this);
     try {
-      beforeExec();
       T returnVal = rpc(myService);
-      afterExec();
       return returnVal;
     } catch (apache::thrift::TException& tx) {
-      Log::debug("thrift exception occured: %s", tx.what());
-      close();
+      onThriftException(tx);
     }
-    afterExec();
     return defVal;
   }
 
@@ -54,6 +52,18 @@ class RpcExecutor {
   volatile bool myIsProcessing = false;
   void beforeExec();
   void afterExec();
+  void onThriftException(apache::thrift::TException& tx);
+
+  class ExecHolder {
+   RpcExecutor & myExecutor;
+   public:
+    ExecHolder(RpcExecutor & executor) : myExecutor(executor) {
+      myExecutor.beforeExec();
+    }
+    ~ExecHolder() {
+      myExecutor.afterExec();
+    }
+  };
 };
 
 typedef std::unique_lock<std::recursive_mutex> Lock;
