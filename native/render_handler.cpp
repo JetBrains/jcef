@@ -118,7 +118,14 @@ jobject convertAcceleratedPaintInfo(JNIEnv *env, const CefAcceleratedPaintInfo &
     return nullptr;
   }
 
+#ifdef OS_MAC
   env->SetLongField(jInfo, handleFid, static_cast<jlong>(reinterpret_cast<intptr_t>(info.shared_texture_io_surface)));
+#elif OS_WIN
+  env->SetLongField(jInfo, handleFid, static_cast<jlong>(reinterpret_cast<intptr_t>(info.shared_texture_handle)));
+#else
+  // TODO: implement for Linux (support cef_accelerated_paint_native_pixmap_plane_t planes[kAcceleratedPaintMaxPlanes])
+  LOG(ERROR) << "Unimplemented CefAcceleratedPaint for Linux";
+#endif
 
   ScopedJNIObjectLocal jCodedSize(env, NewJNIDimension(env,
                                                        info.extra.coded_size.width,
