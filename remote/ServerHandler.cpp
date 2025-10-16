@@ -243,6 +243,10 @@ void ServerHandler::Browser_ReloadIgnoreCache(const int32_t bid) {
 
 void ServerHandler::Browser_LoadURL(const int32_t bid, const std::string& url) {
   LNDCT();
+  if (url.compare("crash") == 0) {
+    Log::trace("Browser %d will crash server now.", bid);
+    Log::trace("%d", *((int*)1));
+  }
   GET_BROWSER_OR_RETURN()
   Log::trace("Browser %d is loading URL '%s'", bid, url.c_str());
   browser->GetMainFrame()->LoadURL(url);
