@@ -121,6 +121,9 @@ void RemoteAppHandler::OnBeforeCommandLineProcessing(
     }
   }
 
+//  additionalItems += "--enable-logging=stderr";
+//  additionalItems += "--vmodule=statistics_recorder*=0";
+//  additionalItems += "--v=2";
   Log::debug("Additional command line items:\n%s", additionalItems.c_str());
 
   // Copy-paste from ClientApp::OnBeforeCommandLineProcessing

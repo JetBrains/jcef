@@ -107,6 +107,7 @@ void ServerHandlerContext::initJavaServicePort(int port) {
 }
 
 void ServerHandlerContext::closeJavaServiceTransport() {
+  Log::trace("Closing java service transport.");
   if (myJavaService && !myJavaService->isClosed())
     myJavaService->close();
   if (myJavaServiceIO && !myJavaServiceIO->isClosed())
@@ -124,8 +125,10 @@ void ServerHandlerContext::close() {
   try {
     const bool isEmpty = myClientsManager->closeAllBrowsers();
     // NOTE: if some browser wasn't closed than client won't receive onBeforeClose callback if we close transport here. So do it in destructor.
-    if (isEmpty)
+    if (isEmpty) {
+      Log::debug("Closing java service transport because all browsers are closed.");
       closeJavaServiceTransport();
+    }
   } catch (apache::thrift::TException& e) {
     Log::error("Thrift exception in ServerHandlerContext::close: %s", e.what());
   }

@@ -35,6 +35,7 @@ public class ThriftTransport {
     static {
         IS_TCP_USED = !Utils.getBoolean("CEF_SERVER_USE_PIPE");
 
+        System.err.println("CEF_SERVER_USE_PIPE=" + IS_TCP_USED);
         if (!Utils.getBoolean("DONT_JCEF_USE_UNIQUE_NAMES")) {
             final SimpleDateFormat f = new SimpleDateFormat("hh_mm_ss_SSS");
             SUFFIX = "_" + PID + "_" + f.format(new Date());

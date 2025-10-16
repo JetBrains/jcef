@@ -69,8 +69,10 @@ ServerHandler::ServerHandler() : myCtx(nullptr) {}
 
 ServerHandler::~ServerHandler() {
   close();
-  if (myCtx)
+  if (myCtx) {
+    Log::debug("Closing java service transport from dtor.");
     myCtx->closeJavaServiceTransport();
+  }
 }
 
 void ServerHandler::close() {
@@ -141,14 +143,30 @@ void ServerHandler::attach(int cid) {
 }
 
 int32_t ServerHandler::Browser_Create(int cid, int handlersMask, const thrift_codegen::RObject& requestContextHandler) {
-  int32_t bid = myCtx->clientsManager()->createBrowser(cid, myCtx, handlersMask, requestContextHandler);
-  if (Log::isTraceEnabled()) {
-    std::string hdesc = "";
-    if (!requestContextHandler.isNull)
-      hdesc = string_format(" [request context handler %d]", requestContextHandler.objId);
-    Log::trace("Created remote browser cid=%d, bid=%d%s, handlers: %s", cid, bid, hdesc.c_str(), HandlerMasks::toString(handlersMask).c_str());
+  try {
+    Log::debug("Start ServerHandler::Browser_Create.");
+    int32_t bid = myCtx->clientsManager()->createBrowser(
+        cid, myCtx, handlersMask, requestContextHandler);
+    if (Log::isTraceEnabled()) {
+      std::string hdesc = "";
+      if (!requestContextHandler.isNull)
+        hdesc = string_format(" [request context handler %d]",
+                              requestContextHandler.objId);
+      Log::trace("Created remote browser cid=%d, bid=%d%s, handlers: %s", cid,
+                 bid, hdesc.c_str(),
+                 HandlerMasks::toString(handlersMask).c_str());
+    }
+    return bid;
+  } catch (const TException& e) {
+    Log::error("TException in Browser_Create");
+    Log::error(e.what());
+  } catch (const std::exception& e) {
+    Log::error("std::exception in Browser_Create");
+    Log::error(e.what());
+  } catch (...) {
+    Log::error("Unknown exception in Browser_Create");
   }
-  return bid;
+  return -1;
 }
 
 void ServerHandler::Browser_StartNativeCreation(int bid, const std::string& url) {

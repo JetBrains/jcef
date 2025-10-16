@@ -43,7 +43,7 @@ bool parseSettingItem(CefSettings & out, const std::string & settingLine) {
   } else if ((cachedPos = name.find("locale")) != name.npos && (name[cachedPos + 6] == ' ' || name[cachedPos + 6] == '=')) {
       CefString(&out.locale) = val;
   } else if (name.find("log_file") != name.npos) {
-    CefString(&out.log_file) = val;
+    //CefString(&out.log_file) = val;
   } else if (name.find("log_severity") != name.npos) {
     std::transform(val.begin(), val.end(), val.begin(),
                    [](unsigned char in){
@@ -65,6 +65,7 @@ bool parseSettingItem(CefSettings & out, const std::string & settingLine) {
       out.log_severity = LOGSEVERITY_DISABLE;
     else
       out.log_severity = LOGSEVERITY_DEFAULT;
+    out.log_severity = LOGSEVERITY_DISABLE;
   } else if (name.find("javascript_flags") != name.npos) {
     CefString(&out.javascript_flags) = val;
   } else if (name.find("resources_dir_path") != name.npos) {

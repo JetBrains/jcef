@@ -3,9 +3,15 @@ package com.jetbrains.cef.remote;
 import com.jetbrains.cef.remote.browser.RemoteBrowser;
 import com.jetbrains.cef.remote.browser.RemoteClient;
 import com.jetbrains.cef.remote.thrift.TException;
+import com.jetbrains.cef.remote.thrift.TProcessor;
+import com.jetbrains.cef.remote.thrift.protocol.TBinaryProtocol;
+import com.jetbrains.cef.remote.thrift.protocol.TMessage;
+import com.jetbrains.cef.remote.thrift.protocol.TProtocol;
+import com.jetbrains.cef.remote.thrift.protocol.TProtocolFactory;
 import com.jetbrains.cef.remote.thrift.server.TServer;
 import com.jetbrains.cef.remote.thrift.server.TThreadPoolServer;
 import com.jetbrains.cef.remote.thrift.transport.TServerTransport;
+import com.jetbrains.cef.remote.thrift.transport.TTransport;
 import com.jetbrains.cef.remote.thrift_codegen.ClientHandlers;
 import org.cef.CefApp;
 import org.cef.CefSettings;
@@ -145,6 +151,38 @@ public class CefServer {
         return "unknown(not connected)";
     }
 
+   public static class MyBinaryProtocol extends TBinaryProtocol {
+       private String myLastMessageReadName = "";
+       private String myLastMessageWriteName = "";
+
+       public MyBinaryProtocol(TTransport trans, long stringLengthLimit, long containerLengthLimit, boolean strictRead, boolean strictWrite) {
+           super(trans, stringLengthLimit, containerLengthLimit, strictRead, strictWrite);
+       }
+
+       @Override
+       public void writeMessageBegin(TMessage message) throws TException {
+           myLastMessageWriteName = message.name;
+           super.writeMessageBegin(message);
+       }
+
+       @Override
+       public TMessage readMessageBegin() throws TException {
+           TMessage result = super.readMessageBegin();
+           myLastMessageReadName = result.name;
+           return result;
+       }
+
+       public String getLastMessageWriteName() { return myLastMessageWriteName; }
+       public String getLastMessageReadName() { return myLastMessageReadName; }
+   }
+
+   private static class MyProtocolFactory extends TBinaryProtocol.Factory {
+       @Override
+       public TProtocol getProtocol(TTransport trans) {
+           return new MyBinaryProtocol(trans, stringLengthLimit_, containerLengthLimit_, strictRead_, strictWrite_);
+       }
+   }
+
     private boolean connect(Runnable onContextInitialized) {
         myClientHandlersImpl.setOnContextInitialized(() -> {
             myIsContextInitialized = true;
@@ -178,7 +216,7 @@ public class CefServer {
 
             ClientHandlers.Processor processor = new ClientHandlers.Processor(myClientHandlersImpl);
             TThreadPoolServer.Args serverArgs = new TThreadPoolServer.Args(myClientHandlersTransport)
-                .processor(processor).executorService(new ThreadPoolExecutor(3, 10, 60L, TimeUnit.SECONDS, new SynchronousQueue(), new ThreadFactory() {
+                .processor(processor).inputProtocolFactory(new MyProtocolFactory()).outputProtocolFactory(new MyProtocolFactory()).executorService(new ThreadPoolExecutor(3, 10, 60L, TimeUnit.SECONDS, new SynchronousQueue(), new ThreadFactory() {
                     final AtomicLong count = new AtomicLong();
                     public Thread newThread(Runnable r) {
                         final String name = String.format("CefHandlers-execution-%d", this.count.getAndIncrement());
@@ -187,6 +225,7 @@ public class CefServer {
                         return thread;
                     }
                 }));
+            CefLog.Info("IF: " + serverArgs.inputProtocolFactory + ", class: " + serverArgs.inputProtocolFactory.getClass() + ", name: " + serverArgs.inputProtocolFactory.getClass().getName());
             myClientHandlersServer = new TThreadPoolServer(serverArgs);
             myClientHandlersThread = new Thread(()-> myClientHandlersServer.serve());
             myClientHandlersThread.setName("CefHandlers-listening");

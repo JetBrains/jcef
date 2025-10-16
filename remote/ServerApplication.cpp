@@ -65,6 +65,11 @@ class MyServerProcessor : public ServerProcessor {
     }
 
     const bool dispatchResult = dispatchCall(in.get(), out.get(), fname, seqid, connectionContext);
+    if (TRACE_THRIFT_MESSAGES_REGEXP != nullptr) {
+      std::smatch m;
+      if(std::regex_match(fname, m, *TRACE_THRIFT_MESSAGES_REGEXP))
+        Log::trace("\t processed!!! %s", fname.c_str());
+    }
     myIsProcessing = false;
     return dispatchResult;
   }
@@ -153,6 +158,7 @@ class CancellationPoint {
 
   void cancel() {
     std::unique_lock<std::mutex> lock(myMutex);
+    Log::debug("Cancel cp!");
     myStop = true;
     myCond.notify_all();
   }
@@ -160,8 +166,13 @@ class CancellationPoint {
   template <typename P>
   void wait(const P& period) {
     std::unique_lock<std::mutex> lock(myMutex);
-    if (myStop || myCond.wait_for(lock, period) == std::cv_status::no_timeout)
+    if (myStop || myCond.wait_for(lock, period) == std::cv_status::no_timeout) {
+      if (myStop)
+        Log::debug("Stop!!!");
+      else
+        Log::debug("std::cv_status::no_timeout!!!");
       throw cancelled_error();
+    }
   }
 
  private:
@@ -185,7 +196,10 @@ namespace CefUtils {
 }
 #endif
 
-void ServerApplication::stopWatcher() { myStopWatcher->cancel(); }
+void ServerApplication::stopWatcher() {
+  Log::debug("Called ServerApplication::stopWatcher.");
+  myStopWatcher->cancel();
+}
 
 bool ServerApplication::init(int argc, char* argv[]) {
   myStartTime = Clock::now();

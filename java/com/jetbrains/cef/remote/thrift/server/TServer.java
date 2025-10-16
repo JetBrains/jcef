@@ -40,8 +40,8 @@ public abstract class TServer {
     TProcessorFactory processorFactory;
     TTransportFactory inputTransportFactory = new TTransportFactory();
     TTransportFactory outputTransportFactory = new TTransportFactory();
-    TProtocolFactory inputProtocolFactory = new TBinaryProtocol.Factory();
-    TProtocolFactory outputProtocolFactory = new TBinaryProtocol.Factory();
+    public TProtocolFactory inputProtocolFactory = new TBinaryProtocol.Factory();
+    public TProtocolFactory outputProtocolFactory = new TBinaryProtocol.Factory();
 
     public AbstractServerArgs(TServerTransport transport) {
       serverTransport = transport;

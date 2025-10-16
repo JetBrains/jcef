@@ -121,6 +121,14 @@ void Log::log(int level, const char *const format, ...) {
     fprintf(ourLogFile, "%s [%s %s] %s%s", timeBuf, ourThreadName.c_str(), ndc.c_str(), msg.c_str(), end);
   if (ourDoFlush)
     fflush(ourLogFile);
+
+  // TODO: commit under key
+//  if (ourPureMsg)
+//    fprintf(stderr, "%s%s", msg.c_str(), end);
+//  else if (ndc.empty())
+//    fprintf(stderr, "%s [%s] %s%s", timeBuf, ourThreadName.c_str(), msg.c_str(), end);
+//  else
+//    fprintf(stderr, "%s [%s %s] %s%s", timeBuf, ourThreadName.c_str(), ndc.c_str(), msg.c_str(), end);
 }
 
 LogNdc::LogNdc(std::string file, std::string func, std::string threadName) :

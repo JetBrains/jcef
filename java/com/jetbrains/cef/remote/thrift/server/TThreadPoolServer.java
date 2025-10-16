@@ -19,6 +19,9 @@
 
 package com.jetbrains.cef.remote.thrift.server;
 
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.SocketException;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
@@ -28,6 +31,8 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
+
+import com.jetbrains.cef.remote.CefServer;
 import com.jetbrains.cef.remote.thrift.TException;
 import com.jetbrains.cef.remote.thrift.TProcessor;
 import com.jetbrains.cef.remote.thrift.protocol.TProtocol;
@@ -257,7 +262,7 @@ public class TThreadPoolServer extends TServer {
           processor.process(inputProtocol, outputProtocol);
         }
       } catch (Exception x) {
-        logException(x);
+        logException(x, inputProtocol, outputProtocol);
       } catch (Throwable x) {
           LOGGER.error("RuntimeException occurred during processing: " + x.getMessage());
       } finally {
@@ -276,7 +281,7 @@ public class TThreadPoolServer extends TServer {
       }
     }
 
-    private void logException(Exception x) {
+    private void logException(Exception x, TProtocol inputProtocol, TProtocol outputProtocol) {
       // We'll usually receive RuntimeException types here
       // Need to unwrap to ascertain real causing exception before we choose to ignore
       // Ignoring err-logging all transport-level/type exceptions and SocketExceptions
@@ -287,6 +292,11 @@ public class TThreadPoolServer extends TServer {
       } else if (x.getCause() instanceof TTransportException) {
         tTransportException = (TTransportException) x.getCause();
       }
+
+     String lastInputMsgReadName = ((CefServer.MyBinaryProtocol)inputProtocol).getLastMessageReadName();
+     String lastInputMsgWriteName = ((CefServer.MyBinaryProtocol)inputProtocol).getLastMessageWriteName();
+     String lastOutputMsgReadName = ((CefServer.MyBinaryProtocol)outputProtocol).getLastMessageReadName();
+     String lastOutputMsgWriteName = ((CefServer.MyBinaryProtocol)outputProtocol).getLastMessageWriteName();
 
       if (tTransportException != null) {
         switch (tTransportException.getType()) {
@@ -299,6 +309,11 @@ public class TThreadPoolServer extends TServer {
           LOGGER.warn(
               "SocketException occurred during processing of message.",
               tTransportException.getCause());
+          LOGGER.warn("Last input message name: r='" + lastInputMsgReadName + "', w='" + lastInputMsgWriteName + "'; output message name: r='" + lastOutputMsgReadName + "', w='" + lastOutputMsgWriteName + "'");
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            x.printStackTrace(pw);
+          LOGGER.warn(sw.toString());
           return;
         }
       }
@@ -307,6 +322,11 @@ public class TThreadPoolServer extends TServer {
           (x instanceof TException ? "Thrift " : "")
               + "Error occurred during processing of message.",
           x);
+        LOGGER.warn("Last input message name: r='" + lastInputMsgReadName + "', w='" + lastInputMsgWriteName + "'; output message name: r='" + lastOutputMsgReadName + "', w='" + lastOutputMsgWriteName + "'");
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        x.printStackTrace(pw);
+        LOGGER.warn(sw.toString());
     }
   }
 }

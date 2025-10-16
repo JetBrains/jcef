@@ -110,6 +110,9 @@ public class CefLog {
             myPrintStream.printf("JCEF_%s(%s%s): %s\n", shortSeverity(log_severity), ourTimeFormat.format(new Date()),
                     TRACE_THREAD ? " | " + Thread.currentThread().getName() : "",
                     args == null || args.length == 0 ? msg : String.format(msg, args));
+//             System.err.printf("JCEF_%s(%s%s): %s\n", shortSeverity(log_severity), ourTimeFormat.format(new Date()),
+//                     TRACE_THREAD ? " | " + Thread.currentThread().getName() : "",
+//                     args == null || args.length == 0 ? msg : String.format(msg, args));
         }
     }
 

@@ -7,8 +7,11 @@ import com.jetbrains.cef.remote.thrift.protocol.TMessageType;
 import com.jetbrains.cef.remote.thrift.protocol.TProtocol;
 import com.jetbrains.cef.remote.thrift.protocol.TProtocolUtil;
 import com.jetbrains.cef.remote.thrift.protocol.TType;
+import org.cef.misc.CefLog;
+import org.cef.misc.Utils;
 
 public abstract class TBaseProcessor<I> implements TProcessor {
+  private static final boolean TRACE = Utils.getBoolean("jcef.trace.java.thrift", false);
   private final I iface;
   private final Map<String, ProcessFunction<I, ? extends TBase>> processMap;
 
@@ -27,6 +30,7 @@ public abstract class TBaseProcessor<I> implements TProcessor {
     TMessage msg = in.readMessageBegin();
     ProcessFunction fn = processMap.get(msg.name);
     if (fn == null) {
+      CefLog.Error("fn == null!!");
       TProtocolUtil.skip(in, TType.STRUCT);
       in.readMessageEnd();
       TApplicationException x =
@@ -37,7 +41,11 @@ public abstract class TBaseProcessor<I> implements TProcessor {
       out.writeMessageEnd();
       out.getTransport().flush();
     } else {
+      if (TRACE)
+        CefLog.Debug("\t process: seq=" + msg.seqid + ", fn=" + fn.getMethodName() + "");
       fn.process(msg.seqid, in, out, iface);
+      if (TRACE)
+        CefLog.Debug("\t processed seq=" + msg.seqid);
     }
   }
 }

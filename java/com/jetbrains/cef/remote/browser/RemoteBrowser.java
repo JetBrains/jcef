@@ -128,7 +128,9 @@ public class RemoteBrowser implements CefBrowser {
                 RObject contextHandler = new RObject();
                 if (myRequestContext.getRemoteHandler() != null)
                     contextHandler = myRequestContext.getRemoteHandler().thriftId();
+                CefLog.Debug("Requesting bid for cid: %d", myOwner.getCid());
                 myBid = s.Browser_Create(myOwner.getCid(), hmask, contextHandler);
+                CefLog.Debug("Obtained bid: %d", myBid);
             });
             if (myBid >= 0) {
                 myOwner.onNewBid(this);
@@ -833,7 +835,7 @@ public class RemoteBrowser implements CefBrowser {
 
     @Override
     public String toString() {
-        return "RemoteBrowser_" + myBid;
+        return "RemoteBrowser_" + myBid + "_" + super.toString();
     }
 
     public CefRegistration addDevToolsMessageObserver(CefDevToolsMessageObserver observer) {
