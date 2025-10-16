@@ -19,6 +19,7 @@ public:
   static void init(int level, std::string logfile);
   static bool isDebugEnabled();
   static bool isTraceEnabled();
+  static bool isStdStreamLogger();
   
   template <class ... Args>
   static void fatal(const char *const format, Args ... args) {
@@ -77,19 +78,6 @@ public:
 
 typedef std::chrono::high_resolution_clock Clock;
 typedef std::chrono::duration<float, std::micro> Duration;
-
-class Measurer {
-public:
-  Measurer(const std::string & msg);
-  Measurer() : Measurer("") {}
-  virtual ~Measurer();
-
-  void append(const std::string & msg);
-
-private:
-  const Clock::time_point myStartTime;
-  std::string myMsg;
-};
 
 class LogNdc {
  public:
