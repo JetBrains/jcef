@@ -64,6 +64,10 @@ bool Log::isTraceEnabled() {
   return ourLogLevel <= LEVEL_TRACE;
 }
 
+bool Log::isStdStreamLogger() {
+  return ourLogFile == stderr;
+}
+
 void Log::log(int level, const char *const format, ...) {
   if (level < ourLogLevel)
     return;
@@ -117,19 +121,6 @@ void Log::log(int level, const char *const format, ...) {
     fprintf(ourLogFile, "%s [%s %s] %s%s", timeBuf, ourThreadName.c_str(), ndc.c_str(), msg.c_str(), end);
   if (ourDoFlush)
     fflush(ourLogFile);
-}
-
-Measurer::Measurer(const std::string & msg):
-      myStartTime(Clock::now()),
-      myMsg(msg) {}
-
-void Measurer::append(const std::string & msg) {
-  myMsg.append(msg.c_str());
-}
-
-Measurer::~Measurer() {
-  auto elapsed = Clock::now() - myStartTime;
-  Log::trace("%s | spent %d mcs", myMsg.c_str(), (int)elapsed.count());
 }
 
 LogNdc::LogNdc(std::string file, std::string func, std::string threadName) :

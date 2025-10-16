@@ -199,6 +199,8 @@ set(SERVER_SOURCES
         callback/RemoteRunFileDialogCallback.h
         callback/RemotePdfPrintCallback.cpp
         callback/RemotePdfPrintCallback.h
+        CrashHandler.cpp
+        CrashHandler.h
 )
 
 if (OS_WINDOWS)
