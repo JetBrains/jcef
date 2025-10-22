@@ -16,6 +16,7 @@ import org.cef.browser.CefMessageRouter;
 import org.cef.handler.CefDisplayHandlerAdapter;
 import org.cef.handler.CefFocusHandlerAdapter;
 import org.cef.handler.CefLoadHandlerAdapter;
+import org.cef.misc.CefLog;
 import org.cef.network.CefCookieManager;
 import tests.JBCefOsrComponent;
 import tests.OsrSupport;
@@ -41,6 +42,7 @@ public class MainFrame extends BrowserFrame {
     public static void main(String[] args) {
         // Perform startup initialization on platforms that require it.
         CefApp.startup(args);
+        CefLog.initVerbose();
 
         // OSR mode is enabled by default on Linux.
         // and disabled by default on Windows and Mac OS X.

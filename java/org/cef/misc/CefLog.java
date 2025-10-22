@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 // NOTE: java.util.Logger with FileHandler(CefSettings.log_file) doesn't work properly along with CEF-logging
 // so use this separate primitive logger
@@ -20,6 +21,26 @@ public class CefLog {
     private String myFilePath;
     private PrintStream myPrintStream;
     private CefSettings.LogSeverity mySeverity;
+
+    public static void initVerbose() {
+        String log_file = Utils.getString("jcef.log.path");
+        CefSettings.LogSeverity log_severity;
+        String level = Utils.getString("jcef.log.level", "verbose").toLowerCase(Locale.ENGLISH);
+        if (level.contains("dis"))
+            log_severity = CefSettings.LogSeverity.LOGSEVERITY_DISABLE;
+        else if (level.contains("info"))
+            log_severity = CefSettings.LogSeverity.LOGSEVERITY_INFO;
+        else if (level.contains("warn"))
+            log_severity = CefSettings.LogSeverity.LOGSEVERITY_WARNING;
+        else if (level.contains("err"))
+            log_severity = CefSettings.LogSeverity.LOGSEVERITY_ERROR;
+        else if (level.contains("fatal"))
+            log_severity = CefSettings.LogSeverity.LOGSEVERITY_FATAL;
+        else
+            log_severity = CefSettings.LogSeverity.LOGSEVERITY_VERBOSE;
+
+        init(log_file, log_severity, false);
+    }
 
     public static void init(String log_file, CefSettings.LogSeverity log_severity) {
         init(log_file, log_severity, false);

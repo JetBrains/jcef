@@ -13,6 +13,7 @@ import org.cef.browser.*;
 import org.cef.handler.CefAppHandlerAdapter;
 import org.cef.handler.CefDisplayHandlerAdapter;
 import org.cef.handler.CefFocusHandlerAdapter;
+import org.cef.misc.CefLog;
 import org.cef.security.CefCertStatus;
 import org.cef.callback.CefCallback;
 import org.cef.handler.*;
@@ -349,6 +350,7 @@ public class MainFrame extends JFrame {
     public static void main(String[] args) {
         // Perform startup initialization on platforms that require it.
         CefApp.startup(args);
+        CefLog.initVerbose();
 
         restart(args);
     }
