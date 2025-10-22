@@ -164,7 +164,7 @@ int main(int argc, char* argv[]) {
   initMacApplication();
 #endif
 
-  if (getBoolEnv("CEF_SERVER_CATCH_SIGNALS")) {
+  if (!getBoolEnv("CEF_SERVER_DONT_CATCH_SIGNALS")) {
     setupCrashHandler();
   }
 
