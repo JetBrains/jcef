@@ -164,10 +164,6 @@ int main(int argc, char* argv[]) {
   initMacApplication();
 #endif
 
-  if (!getBoolEnv("CEF_SERVER_DONT_CATCH_SIGNALS")) {
-    setupCrashHandler();
-  }
-
   const boost::posix_time::ptime t1 =  boost::posix_time::microsec_clock::local_time();
   fprintf(stdout, "Starting cer server. Pre-initialize spent %d ms.\n", (int)(t1 - t0).total_milliseconds());
   ServerApplication& app = ServerApplication::instance();
@@ -175,6 +171,11 @@ int main(int argc, char* argv[]) {
     // Can't load CEF framework library.
     return 100;
   }
+
+  if (!getBoolEnv("CEF_SERVER_DONT_CATCH_SIGNALS")) {
+    setupCrashHandler();
+  }
+
   const CommandLineArgs& cmdArgs = app.getCmdArgs();
 
 #ifndef NDEBUG
