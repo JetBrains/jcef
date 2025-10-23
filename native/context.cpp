@@ -104,6 +104,11 @@ CefSettings GetJNISettings(JNIEnv* env, jobject obj) {
   }
   GetJNIFieldInt(env, cls, obj, "remote_debugging_port",
                  &settings.remote_debugging_port);
+  if (GetJNIFieldString(env, cls, obj, "chrome_policy_id", &tmp) &&
+      !tmp.empty()) {
+    CefString(&settings.chrome_policy_id) = tmp;
+    tmp.clear();
+  }
   GetJNIFieldInt(env, cls, obj, "uncaught_exception_stack_size",
                  &settings.uncaught_exception_stack_size);
   jobject obj_col = nullptr;

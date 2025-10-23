@@ -195,6 +195,21 @@ public class CefSettings {
     public int remote_debugging_port = 0;
 
     /**
+     * Specify an ID to enable Chrome policy management via Platform and OS-user
+     * policies. On Windows, this is a registry key like
+     * "SOFTWARE\\Policies\\Google\\Chrome". On MacOS, this is a bundle ID like
+     * "com.google.Chrome". On Linux, this is an absolute directory path like
+     * "/etc/opt/chrome/policies". Only supported with Chrome style. See
+     * https://support.google.com/chrome/a/answer/9037717 for details.
+     *
+     * Chrome Browser Cloud Management integration, when enabled via the
+     * "enable-chrome-browser-cloud-management" command-line flag, will also use
+     * the specified ID. See https://support.google.com/chrome/a/answer/9116814
+     * for details.
+     */
+    public String chrome_policy_id;
+
+    /**
      * The number of stack trace frames to capture for uncaught exceptions.
      * Specify a positive value to enable the CefV8ContextHandler::
      * OnUncaughtException() callback. Specify 0 (default value) and
@@ -245,6 +260,7 @@ public class CefSettings {
         tmp.resources_dir_path = resources_dir_path;
         tmp.locales_dir_path = locales_dir_path;
         tmp.remote_debugging_port = remote_debugging_port;
+        tmp.chrome_policy_id = chrome_policy_id;
         tmp.uncaught_exception_stack_size = uncaught_exception_stack_size;
         if (background_color != null) tmp.background_color = background_color.clone();
         tmp.cookieable_schemes_list = cookieable_schemes_list;
