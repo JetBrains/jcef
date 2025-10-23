@@ -826,6 +826,26 @@ class ScopedJNICallback : public ScopedJNIObject<CefCallback> {
   ScopedJNICallback(JNIEnv* env, CefRefPtr<CefCallback> obj = nullptr);
 };
 
+// JNI CefResourceReadCallback object.
+class ScopedJNIResourceReadCallback
+    : public ScopedJNIObject<CefResourceReadCallback> {
+ public:
+  // If |obj| is nullptr the SetHandle method should be used.
+  ScopedJNIResourceReadCallback(
+      JNIEnv* env,
+      CefRefPtr<CefResourceReadCallback> obj = nullptr);
+};
+
+// JNI CefResourceSkipCallback object.
+class ScopedJNIResourceSkipCallback
+    : public ScopedJNIObject<CefResourceSkipCallback> {
+ public:
+  // If |obj| is nullptr the SetHandle method should be used.
+  ScopedJNIResourceSkipCallback(
+      JNIEnv* env,
+      CefRefPtr<CefResourceSkipCallback> obj = nullptr);
+};
+
 // JNI BoolRef object.
 class ScopedJNIBoolRef : public ScopedJNIBase<jobject> {
  public:
@@ -842,6 +862,15 @@ class ScopedJNIIntRef : public ScopedJNIBase<jobject> {
 
   // Implicit retrieval of the underlying value.
   operator int() const;
+};
+
+// JNI LongRef object.
+class ScopedJNILongRef : public ScopedJNIBase<jobject> {
+ public:
+  ScopedJNILongRef(JNIEnv* env, int64_t value);
+
+  // Implicit retrieval of the underlying value.
+  operator int64_t() const;
 };
 
 // JNI StringRef object.

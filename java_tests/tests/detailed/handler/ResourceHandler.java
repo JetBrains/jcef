@@ -1,8 +1,10 @@
 package tests.detailed.handler;
 
 import org.cef.callback.CefCallback;
+import org.cef.callback.CefResourceReadCallback;
 import org.cef.handler.CefLoadHandler;
 import org.cef.handler.CefResourceHandlerAdapter;
+import org.cef.misc.BoolRef;
 import org.cef.misc.IntRef;
 import org.cef.misc.StringRef;
 import org.cef.network.CefRequest;
@@ -25,11 +27,11 @@ public class ResourceHandler extends CefResourceHandlerAdapter {
             + "</html>");
 
     @Override
-    public boolean processRequest(CefRequest request, CefCallback callback) {
+    public boolean open(CefRequest request, BoolRef handleRequest, CefCallback callback) {
         System.out.println("processRequest: " + request);
 
         startPos = 0;
-        callback.Continue();
+        handleRequest.set(true);
         return true;
     }
 
@@ -44,8 +46,8 @@ public class ResourceHandler extends CefResourceHandlerAdapter {
     }
 
     @Override
-    public boolean readResponse(
-            byte[] data_out, int bytes_to_read, IntRef bytes_read, CefCallback callback) {
+    public boolean read(byte[] data_out, int bytes_to_read, IntRef bytes_read,
+            CefResourceReadCallback callback) {
         int length = html.length();
         if (startPos >= length) return false;
 

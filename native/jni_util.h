@@ -41,11 +41,13 @@ jobject NewJNIObject(JNIEnv* env, const char* class_name, const char* sig, ...);
 // Retrieve primitive reference values
 bool GetJNIBoolRef(JNIEnv* env, jobject jboolRef);
 int GetJNIIntRef(JNIEnv* env, jobject jintRef);
+int64_t GetJNILongRef(JNIEnv* env, jobject jlongRef);
 CefString GetJNIStringRef(JNIEnv* env, jobject jstringRef);
 
 // Set primitive reference values
 void SetJNIBoolRef(JNIEnv* env, jobject jboolRef, bool boolValue);
 void SetJNIIntRef(JNIEnv* env, jobject jintRef, int intValue);
+void SetJNILongRef(JNIEnv* env, jobject jlongRef, int64_t longValue);
 void SetJNIStringRef(JNIEnv* env,
                      jobject jstringRef,
                      const CefString& initValue);

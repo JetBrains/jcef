@@ -7,6 +7,7 @@ package tests.detailed.handler;
 import org.cef.browser.CefBrowser;
 import org.cef.callback.CefCallback;
 import org.cef.handler.CefResourceHandlerAdapter;
+import org.cef.misc.BoolRef;
 import org.cef.network.CefRequest;
 
 /**
@@ -26,7 +27,7 @@ public class SearchSchemeHandler extends CefResourceHandlerAdapter {
     }
 
     @Override
-    public boolean processRequest(CefRequest request, CefCallback callback) {
+    public boolean open(CefRequest request, BoolRef handleRequest, CefCallback callback) {
         // cut away "scheme://"
         String requestUrl = request.getURL();
         String newUrl = requestUrl.substring(scheme.length() + 3);
@@ -43,6 +44,7 @@ public class SearchSchemeHandler extends CefResourceHandlerAdapter {
             newRequest.setFirstPartyForCookies(newUrl);
             browser_.loadRequest(newRequest);
         }
+        handleRequest.set(true);
         return false;
     }
 }

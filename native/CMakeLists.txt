@@ -63,6 +63,10 @@ set(JCEF_SRCS
   CefCallback_N.h
   CefRequestContext_N.cpp
   CefRequestContext_N.h
+  CefResourceReadCallback_N.cpp
+  CefResourceReadCallback_N.h
+  CefResourceSkipCallback_N.cpp
+  CefResourceSkipCallback_N.h
   CefResponse_N.cpp
   CefResponse_N.h
   CefRunContextMenuCallback_N.h

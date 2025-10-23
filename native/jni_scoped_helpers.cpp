@@ -112,6 +112,14 @@ jobject NewJNIIntRef(JNIEnv* env, int initValue) {
   return jintRef.Release();
 }
 
+jobject NewJNILongRef(JNIEnv* env, int64_t initValue) {
+  ScopedJNIObjectLocal jlongRef(env, "org/cef/misc/LongRef");
+  if (!jlongRef)
+    return nullptr;
+  SetJNILongRef(env, jlongRef, initValue);
+  return jlongRef.Release();
+}
+
 jobject NewJNIStringRef(JNIEnv* env, const CefString& initValue) {
   ScopedJNIObjectLocal jstringRef(env, "org/cef/misc/StringRef");
   if (!jstringRef)
@@ -433,6 +441,24 @@ ScopedJNICallback::ScopedJNICallback(JNIEnv* env, CefRefPtr<CefCallback> obj)
                                    "org/cef/callback/CefCallback_N",
                                    "CefCallback") {}
 
+ScopedJNIResourceReadCallback::ScopedJNIResourceReadCallback(
+    JNIEnv* env,
+    CefRefPtr<CefResourceReadCallback> obj)
+    : ScopedJNIObject<CefResourceReadCallback>(
+          env,
+          obj,
+          "org/cef/callback/CefResourceReadCallback_N",
+          "CefResourceReadCallback") {}
+
+ScopedJNIResourceSkipCallback::ScopedJNIResourceSkipCallback(
+    JNIEnv* env,
+    CefRefPtr<CefResourceSkipCallback> obj)
+    : ScopedJNIObject<CefResourceSkipCallback>(
+          env,
+          obj,
+          "org/cef/callback/CefResourceSkipCallback_N",
+          "CefResourceSkipCallback") {}
+
 ScopedJNIBoolRef::ScopedJNIBoolRef(JNIEnv* env, bool value)
     : ScopedJNIBase<jobject>(env) {
   jhandle_ = NewJNIBoolRef(env, value);
@@ -451,6 +477,16 @@ ScopedJNIIntRef::ScopedJNIIntRef(JNIEnv* env, int value)
 
 ScopedJNIIntRef::operator int() const {
   return GetJNIIntRef(env_, jhandle_);
+}
+
+ScopedJNILongRef::ScopedJNILongRef(JNIEnv* env, int64_t value)
+    : ScopedJNIBase<jobject>(env) {
+  jhandle_ = NewJNILongRef(env, value);
+  DCHECK(jhandle_);
+}
+
+ScopedJNILongRef::operator int64_t() const {
+  return GetJNILongRef(env_, jhandle_);
 }
 
 ScopedJNIStringRef::ScopedJNIStringRef(JNIEnv* env, const CefString& value)

@@ -99,6 +99,12 @@ int GetJNIIntRef(JNIEnv* env, jobject jintRef) {
   return intRefRes;
 }
 
+int64_t GetJNILongRef(JNIEnv* env, jobject jlongRef) {
+  jlong longRefRes = -1;
+  JNI_CALL_METHOD(env, jlongRef, "get", "()J", Long, longRefRes);
+  return longRefRes;
+}
+
 CefString GetJNIStringRef(JNIEnv* env, jobject jstringRef) {
   ScopedJNIStringResult str(env);
   JNI_CALL_METHOD(env, jstringRef, "get", "()Ljava/lang/String;", Object, str);
@@ -112,6 +118,10 @@ void SetJNIBoolRef(JNIEnv* env, jobject jboolRef, bool boolValue) {
 
 void SetJNIIntRef(JNIEnv* env, jobject jintRef, int intValue) {
   JNI_CALL_VOID_METHOD(env, jintRef, "set", "(I)V", intValue);
+}
+
+void SetJNILongRef(JNIEnv* env, jobject jlongRef, int64_t longValue) {
+  JNI_CALL_VOID_METHOD(env, jlongRef, "set", "(J)V", longValue);
 }
 
 void SetJNIStringRef(JNIEnv* env,
