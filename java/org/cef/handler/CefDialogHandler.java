@@ -20,6 +20,7 @@ public interface CefDialogHandler {
     enum FileDialogMode {
         FILE_DIALOG_OPEN, //!< Requires that the file exists before allowing the user to pick it.
         FILE_DIALOG_OPEN_MULTIPLE, //!< Like Open, but allows picking multiple files to open.
+        FILE_DIALOG_OPEN_FOLDER, //!< Like Open, but selects a folder to open.
         FILE_DIALOG_SAVE //!< Allows picking a nonexistent file, and prompts to overwrite if the
                          //! file already exists.
     }

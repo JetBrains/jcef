@@ -59,6 +59,8 @@ bool DialogHandler::OnFileDialog(
       JNI_CASE(env, "org/cef/handler/CefDialogHandler$FileDialogMode",
                FILE_DIALOG_OPEN_MULTIPLE, jmode);
       JNI_CASE(env, "org/cef/handler/CefDialogHandler$FileDialogMode",
+               FILE_DIALOG_OPEN_FOLDER, jmode);
+      JNI_CASE(env, "org/cef/handler/CefDialogHandler$FileDialogMode",
                FILE_DIALOG_SAVE, jmode);
   }
 
