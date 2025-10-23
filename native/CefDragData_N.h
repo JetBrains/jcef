@@ -153,6 +153,17 @@ Java_org_cef_callback_CefDragData_1N_N_1GetFileNames(JNIEnv*,
 
 /*
  * Class:     org_cef_callback_CefDragData_N
+ * Method:    N_GetFilePaths
+ * Signature: (JLjava/util/Vector;)Z
+ */
+JNIEXPORT jboolean JNICALL
+Java_org_cef_callback_CefDragData_1N_N_1GetFilePaths(JNIEnv*,
+                                                     jobject,
+                                                     jlong,
+                                                     jobject);
+
+/*
+ * Class:     org_cef_callback_CefDragData_N
  * Method:    N_SetLinkURL
  * Signature: (JLjava/lang/String;)V
  */

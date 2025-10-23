@@ -190,6 +190,25 @@ Java_org_cef_callback_CefDragData_1N_N_1GetFileNames(JNIEnv* env,
   return JNI_TRUE;
 }
 
+JNIEXPORT jboolean JNICALL
+Java_org_cef_callback_CefDragData_1N_N_1GetFilePaths(JNIEnv* env,
+                                                     jobject obj,
+                                                     jlong self,
+                                                     jobject jfilePaths) {
+  CefRefPtr<CefDragData> dragData = GetSelf(self);
+  if (!dragData)
+    return JNI_FALSE;
+
+  std::vector<CefString> filePaths;
+  if (!dragData->GetFilePaths(filePaths))
+    return JNI_FALSE;
+
+  for (size_t i = 0; i < filePaths.size(); ++i) {
+    AddJNIStringToVector(env, jfilePaths, filePaths.at(i));
+  }
+  return JNI_TRUE;
+}
+
 JNIEXPORT void JNICALL
 Java_org_cef_callback_CefDragData_1N_N_1SetLinkURL(JNIEnv* env,
                                                    jobject obj,

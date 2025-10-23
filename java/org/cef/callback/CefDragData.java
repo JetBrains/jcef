@@ -128,6 +128,12 @@ public abstract class CefDragData extends CefNativeAdapter {
     public abstract boolean getFileNames(Vector<String> names);
 
     /**
+     * Retrieve the list of file paths that are being dragged into the browser
+     * window.
+     */
+    public abstract boolean getFilePaths(Vector<String> paths);
+
+    /**
      * Set the link URL that is being dragged.
      * @param url The link URL to be set.
      */
