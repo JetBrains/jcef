@@ -34,11 +34,14 @@ This is a fork of [java-cef](https://github.com/chromiumembedded/java-cef). It's
    ```
    `JCEF_CMAKE='C:\cmake-3.27.0-rc2-windows-x86_64'`.
    ```
-6. Run at `<project_root>\jb\tools\windows` directory. Replace `x86_64` with `arm64` if needed.
+6. Python 3 should be installed in the system.
+   If it's not installed by installer and registered in the registry (PEP 514), set `PYTHON_EXECUTABLE` env variable, 
+   e.g. `PYTHON_EXECUTABLE=C:\Tools\Python\python.exe`
+7. Run at `<project_root>\jb\tools\windows` directory. Replace `x86_64` with `arm64` if needed.
    ```
    cmd /c build.bat all x86_64
    ```
-7. Check `jcef_win_x86_64.tar.gz` or `jcef_win_arm64.tar.gz` file in the project root directory.
+8. Check `jcef_win_x86_64.tar.gz` or `jcef_win_arm64.tar.gz` file in the project root directory.
 
 ### Building JetBrainsRuntime with JCEF.
 1. Assume that we are working on `x86_64` platform. For `x64` or `x86_64` has to replaced with `arm64` or `aarch64`.
