@@ -29,7 +29,8 @@ This is a fork of [java-cef](https://github.com/chromiumembedded/java-cef). It's
    ```
    VS160COMNTOOLS='C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools'.
    ```
-5. Install cmake. Set `JCEF_CMAKE` env variable. E.g.
+   Or by calling `vcvarsall.bat amd64` or `vcvarsall.bat amd64_arm64`, it will set that parameter automatically.
+5. Install CMake. Set `JCEF_CMAKE` env variable. E.g.
    ```
    `JCEF_CMAKE='C:\cmake-3.27.0-rc2-windows-x86_64'`.
    ```

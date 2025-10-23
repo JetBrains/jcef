@@ -33,7 +33,7 @@ if "%VS160COMNTOOLS%" == "" (
 echo VS160COMNTOOLS="%VS160COMNTOOLS%"
 
 if "%TARGET_ARCH%" == "arm64" (
-    call "%VS160COMNTOOLS%\..\..\VC\Auxiliary\Build\vcvarsamd64_arm64.bat" || goto:__exit
+    call "%VS160COMNTOOLS%\..\..\VC\Auxiliary\Build\vcvarsall.bat" amd64_arm64 || goto:__exit
 ) else (
     call "%VS160COMNTOOLS%\..\..\VC\Auxiliary\Build\vcvarsall.bat" amd64 || goto:__exit
 )
