@@ -48,15 +48,7 @@ if "%JCEF_CMAKE%" == "" (
 )
 echo JCEF_CMAKE=%JCEF_CMAKE%
 
-if "%env.PYTHON_27_PATH%" neq "" (
-    set PYTHON_27_PATH=%env.PYTHON_27_PATH%
-)
-if "%PYTHON_27_PATH%" == "" (
-    echo error: PYTHON_27_PATH is not set
-    goto:__exit
-)
-echo PYTHON_27_PATH=%PYTHON_27_PATH%
-set "PATH=%JCEF_CMAKE%\bin;%PYTHON_27_PATH%;%PATH%"
+set "PATH=%JCEF_CMAKE%\bin;%PATH%"
 set RC=
 
 rem Workaround for https://gitlab.kitware.com/cmake/cmake/-/issues/19193
