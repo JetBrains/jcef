@@ -33,6 +33,57 @@ JNIEXPORT jboolean JNICALL Java_org_cef_browser_CefRequestContext_1N_N_1IsGlobal
 
 /*
  * Class:     org_cef_browser_CefRequestContext_N
+ * Method:    N_HasPreference
+ * Signature: (Ljava/lang/String;)Z
+ */
+JNIEXPORT jboolean JNICALL
+Java_org_cef_browser_CefRequestContext_1N_N_1HasPreference(JNIEnv*,
+                                                           jobject,
+                                                           jstring);
+
+/*
+ * Class:     org_cef_browser_CefRequestContext_N
+ * Method:    N_GetPreference
+ * Signature: (Ljava/lang/String;)Ljava/lang/Object;
+ */
+JNIEXPORT jobject JNICALL
+Java_org_cef_browser_CefRequestContext_1N_N_1GetPreference(JNIEnv*,
+                                                           jobject,
+                                                           jstring);
+
+/*
+ * Class:     org_cef_browser_CefRequestContext_N
+ * Method:    N_GetAllPreferences
+ * Signature: (Z)Ljava/util/Map;
+ */
+JNIEXPORT jobject JNICALL
+Java_org_cef_browser_CefRequestContext_1N_N_1GetAllPreferences(JNIEnv*,
+                                                               jobject,
+                                                               jboolean);
+
+/*
+ * Class:     org_cef_browser_CefRequestContext_N
+ * Method:    N_CanSetPreference
+ * Signature: (Ljava/lang/String;)Z
+ */
+JNIEXPORT jboolean JNICALL
+Java_org_cef_browser_CefRequestContext_1N_N_1CanSetPreference(JNIEnv*,
+                                                              jobject,
+                                                              jstring);
+
+/*
+ * Class:     org_cef_browser_CefRequestContext_N
+ * Method:    N_SetPreference
+ * Signature: (Ljava/lang/String;Ljava/lang/Object;Lorg/cef;)Ljava/lang/String;
+ */
+JNIEXPORT jstring JNICALL
+Java_org_cef_browser_CefRequestContext_1N_N_1SetPreference(JNIEnv*,
+                                                           jobject,
+                                                           jstring,
+                                                           jobject);
+
+/*
+ * Class:     org_cef_browser_CefRequestContext_N
  * Method:    N_CefRequestContext_DTOR
  * Signature: ()V
  */

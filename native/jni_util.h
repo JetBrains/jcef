@@ -89,11 +89,37 @@ void SetJNIStringMultiMap(JNIEnv* env,
                           jobject jheaderMap,
                           const std::multimap<CefString, CefString>& vals);
 
+void* GetJNIByteBufferData(JNIEnv* env, jobject jbyteBuffer);
+size_t GetJNIByteBufferLength(JNIEnv* env, jobject jbyteBuffer);
+
 CefMessageRouterConfig GetJNIMessageRouterConfig(JNIEnv* env, jobject jConfig);
+
+CefRefPtr<CefValue> GetCefValueFromJNIObject(JNIEnv* env, jobject obj);
+CefRefPtr<CefValue> GetCefValueFromJNIBoolean(JNIEnv* env, const jobject& obj);
+CefRefPtr<CefValue> GetCefValueFromJNIInteger(JNIEnv* env, const jobject& obj);
+CefRefPtr<CefValue> GetCefValueFromJNIDouble(JNIEnv* env, const jobject& obj);
+CefRefPtr<CefValue> GetCefValueFromJNIString(JNIEnv* env, const jobject& obj);
+CefRefPtr<CefValue> GetCefValueFromJNIByteBuffer(JNIEnv* env,
+                                                 const jobject& obj);
+CefRefPtr<CefValue> GetCefValueFromJNIMap(JNIEnv* env, const jobject& obj);
+CefRefPtr<CefValue> GetCefValueFromJNIList(JNIEnv* env, const jobject& obj);
 
 // Create a new JNI error code.
 jobject NewJNIErrorCode(JNIEnv* env, cef_errorcode_t errorCode);
 cef_errorcode_t GetJNIErrorCode(JNIEnv* env, jobject jerrorCode);
+
+jobject NewJNIBoolean(JNIEnv* env, const bool value);
+jobject NewJNIInteger(JNIEnv* env, const int value);
+jobject NewJNIDouble(JNIEnv* env, const double value);
+jobject NewJNIByteBuffer(JNIEnv* env, const void* data, size_t size);
+jobject NewJNIHashMap(JNIEnv* env);
+jobject NewJNIArrayList(JNIEnv* env);
+
+jobject NewJNIObjectFromCefValue(JNIEnv* env, const CefRefPtr<CefValue> value);
+
+jboolean GetJNIBoolean(JNIEnv* env, jobject jbool);
+jint GetJNIInteger(JNIEnv* env, jobject jint);
+jdouble GetJNIDouble(JNIEnv* env, jobject jdouble);
 
 bool GetJNIFieldObject(JNIEnv* env,
                        jclass cls,

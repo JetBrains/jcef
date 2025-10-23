@@ -275,6 +275,25 @@ void SetJNIStringMultiMap(JNIEnv* env,
   }
 }
 
+void* GetJNIByteBufferData(JNIEnv* env, jobject jbyteBuffer) {
+  if (!jbyteBuffer)
+    return nullptr;
+
+  void* data = nullptr;
+  jlong capacity = env->GetDirectBufferCapacity(jbyteBuffer);
+  if (capacity > 0) {
+    data = env->GetDirectBufferAddress(jbyteBuffer);
+  }
+  return data;
+}
+
+size_t GetJNIByteBufferLength(JNIEnv* env, jobject jbyteBuffer) {
+  if (!jbyteBuffer)
+    return 0;
+
+  return static_cast<size_t>(env->GetDirectBufferCapacity(jbyteBuffer));
+}
+
 CefMessageRouterConfig GetJNIMessageRouterConfig(JNIEnv* env, jobject jConfig) {
   CefMessageRouterConfig config;
 
@@ -290,6 +309,127 @@ CefMessageRouterConfig GetJNIMessageRouterConfig(JNIEnv* env, jobject jConfig) {
   GetJNIFieldString(env, cls, jConfig, "jsCancelFunction",
                     &config.js_cancel_function);
   return config;
+}
+
+CefRefPtr<CefValue> GetCefValueFromJNIObject(JNIEnv* env, jobject obj) {
+  if (!obj)
+    return nullptr;
+
+  if (env->IsInstanceOf(obj, ScopedJNIClass(env, "java/lang/Boolean"))) {
+    return GetCefValueFromJNIBoolean(env, obj);
+  } else if (env->IsInstanceOf(obj, ScopedJNIClass(env, "java/lang/Integer"))) {
+    return GetCefValueFromJNIInteger(env, obj);
+  } else if (env->IsInstanceOf(obj, ScopedJNIClass(env, "java/lang/Double"))) {
+    return GetCefValueFromJNIDouble(env, obj);
+  } else if (env->IsInstanceOf(obj, ScopedJNIClass(env, "java/lang/String"))) {
+    return GetCefValueFromJNIString(env, obj);
+  } else if (env->IsInstanceOf(obj,
+                               ScopedJNIClass(env, "java/nio/ByteBuffer"))) {
+    return GetCefValueFromJNIByteBuffer(env, obj);
+  } else if (env->IsInstanceOf(obj, ScopedJNIClass(env, "java/util/Map"))) {
+    return GetCefValueFromJNIMap(env, obj);
+  } else if (env->IsInstanceOf(obj, ScopedJNIClass(env, "java/util/List"))) {
+    return GetCefValueFromJNIList(env, obj);
+  } else {
+    return nullptr;
+  }
+}
+
+CefRefPtr<CefValue> GetCefValueFromJNIBoolean(JNIEnv* env, const jobject& obj) {
+  CefRefPtr<CefValue> value = CefValue::Create();
+  value->SetBool(GetJNIBoolean(env, obj));
+  return value;
+}
+
+CefRefPtr<CefValue> GetCefValueFromJNIInteger(JNIEnv* env, const jobject& obj) {
+  CefRefPtr<CefValue> value = CefValue::Create();
+  value->SetInt(GetJNIInteger(env, obj));
+  return value;
+}
+
+CefRefPtr<CefValue> GetCefValueFromJNIDouble(JNIEnv* env, const jobject& obj) {
+  CefRefPtr<CefValue> value = CefValue::Create();
+  value->SetDouble(GetJNIDouble(env, obj));
+  return value;
+}
+
+CefRefPtr<CefValue> GetCefValueFromJNIString(JNIEnv* env, const jobject& obj) {
+  CefRefPtr<CefValue> value = CefValue::Create();
+  value->SetString(GetJNIString(env, static_cast<jstring>(obj)));
+  return value;
+}
+
+CefRefPtr<CefValue> GetCefValueFromJNIByteBuffer(JNIEnv* env,
+                                                 const jobject& obj) {
+  CefRefPtr<CefValue> value = CefValue::Create();
+  CefRefPtr<CefBinaryValue> binary = CefBinaryValue::Create(
+      GetJNIByteBufferData(env, obj), GetJNIByteBufferLength(env, obj));
+  value->SetBinary(binary);
+  return value;
+}
+
+CefRefPtr<CefValue> GetCefValueFromJNIMap(JNIEnv* env, const jobject& obj) {
+  CefRefPtr<CefDictionaryValue> dict = CefDictionaryValue::Create();
+
+  ScopedJNIObjectResult entrySet(env);
+  JNI_CALL_METHOD(env, obj, "entrySet", "()Ljava/util/Set;", Object, entrySet);
+
+  ScopedJNIObjectResult iterator(env);
+  JNI_CALL_METHOD(env, entrySet, "iterator", "()Ljava/util/Iterator;", Object,
+                  iterator);
+
+  jboolean hasNext = JNI_FALSE;
+  JNI_CALL_METHOD(env, iterator, "hasNext", "()Z", Boolean, hasNext);
+
+  while (hasNext == JNI_TRUE) {
+    ScopedJNIObjectResult next(env);
+    JNI_CALL_METHOD(env, iterator, "next", "()Ljava/lang/Object;", Object,
+                    next);
+
+    ScopedJNIObjectResult entryKey(env);
+    JNI_CALL_METHOD(env, next, "getKey", "()Ljava/lang/Object;", Object,
+                    entryKey);
+    CefString key = GetJNIString(env, static_cast<jstring>(entryKey.get()));
+
+    ScopedJNIObjectResult entryValue(env);
+    JNI_CALL_METHOD(env, next, "getValue", "()Ljava/lang/Object;", Object,
+                    entryValue);
+    jobject jvalue = entryValue.get();
+    CefRefPtr<CefValue> cef_value = GetCefValueFromJNIObject(env, jvalue);
+    dict->SetValue(key, cef_value);
+
+    JNI_CALL_METHOD(env, iterator, "hasNext", "()Z", Boolean, hasNext);
+  }
+
+  CefRefPtr<CefValue> value = CefValue::Create();
+  return value;
+}
+
+CefRefPtr<CefValue> GetCefValueFromJNIList(JNIEnv* env, const jobject& obj) {
+  CefRefPtr<CefListValue> list = CefListValue::Create();
+
+  ScopedJNIObjectResult iterator(env);
+  JNI_CALL_METHOD(env, obj, "iterator", "()Ljava/util/Iterator;", Object,
+                  iterator);
+
+  jboolean hasNext = JNI_FALSE;
+  JNI_CALL_METHOD(env, iterator, "hasNext", "()Z", Boolean, hasNext);
+
+  long index = 0;
+  while (hasNext == JNI_TRUE) {
+    ScopedJNIObjectResult next(env);
+    JNI_CALL_METHOD(env, iterator, "next", "()Ljava/lang/Object;", Object,
+                    next);
+    jobject jvalue = next.get();
+    CefRefPtr<CefValue> cef_value = GetCefValueFromJNIObject(env, jvalue);
+    list->SetValue(index, cef_value);
+    index++;
+    JNI_CALL_METHOD(env, iterator, "hasNext", "()Z", Boolean, hasNext);
+  }
+
+  CefRefPtr<CefValue> value = CefValue::Create();
+  value->SetList(list);
+  return value;
 }
 
 jobject NewJNIErrorCode(JNIEnv* env, cef_errorcode_t errorCode) {
@@ -737,6 +877,162 @@ jobject NewJNIErrorCode(JNIEnv* env, cef_errorcode_t errorCode) {
                ERR_DNS_REQUEST_CANCELLED, jerrorCode);
   }
   return jerrorCode.Release();
+}
+
+jobject NewJNIBoolean(JNIEnv* env, const bool value) {
+  ScopedJNIClass cls(env, "java/lang/Boolean");
+  if (!cls)
+    return nullptr;
+
+  jmethodID method =
+      env->GetStaticMethodID(cls, "valueOf", "(Z)Ljava/lang/Boolean;");
+  if (!method)
+    return nullptr;
+
+  return env->CallStaticObjectMethod(cls, method, value ? JNI_TRUE : JNI_FALSE);
+}
+
+jboolean GetJNIBoolean(JNIEnv* env, jobject obj) {
+  if (obj) {
+    jboolean value = JNI_FALSE;
+    JNI_CALL_METHOD(env, obj, "booleanValue", "()Z", Boolean, value);
+    return value;
+  }
+  return JNI_FALSE;
+}
+
+jobject NewJNIInteger(JNIEnv* env, const int value) {
+  ScopedJNIClass cls(env, "java/lang/Integer");
+  if (!cls)
+    return nullptr;
+
+  jmethodID method =
+      env->GetStaticMethodID(cls, "valueOf", "(I)Ljava/lang/Integer;");
+  if (!method)
+    return nullptr;
+
+  return env->CallStaticObjectMethod(cls, method, value);
+}
+
+jint GetJNIInteger(JNIEnv* env, jobject obj) {
+  if (obj) {
+    jint value = 0;
+    JNI_CALL_METHOD(env, obj, "intValue", "()I", Int, value);
+    return value;
+  }
+  return 0;
+}
+
+jobject NewJNIDouble(JNIEnv* env, const double value) {
+  ScopedJNIClass cls(env, "java/lang/Double");
+  if (!cls)
+    return nullptr;
+
+  jmethodID method =
+      env->GetStaticMethodID(cls, "valueOf", "(D)Ljava/lang/Double;");
+  if (!method)
+    return nullptr;
+
+  return env->CallStaticObjectMethod(cls, method, value);
+}
+
+jdouble GetJNIDouble(JNIEnv* env, jobject obj) {
+  if (obj) {
+    jdouble value = 0;
+    JNI_CALL_METHOD(env, obj, "doubleValue", "()D", Double, value);
+    return value;
+  }
+  return 0;
+}
+
+jobject NewJNIByteBuffer(JNIEnv* env, const void* data, size_t size) {
+  ScopedJNIClass cls(env, "java/nio/ByteBuffer");
+  if (!cls)
+    return nullptr;
+
+  jmethodID method =
+      env->GetStaticMethodID(cls, "wrap", "([B)Ljava/nio/ByteBuffer;");
+  if (!method)
+    return nullptr;
+
+  jbyteArray array = env->NewByteArray((jsize)size);
+  if (!array)
+    return nullptr;
+
+  env->SetByteArrayRegion(array, 0, (jsize)size,
+                          reinterpret_cast<const jbyte*>(data));
+  return env->CallStaticObjectMethod(cls, method, array);
+}
+
+jobject NewJNIHashMap(JNIEnv* env) {
+  ScopedJNIClass cls(env, "java/util/HashMap");
+  if (!cls)
+    return nullptr;
+
+  jmethodID method = env->GetMethodID(cls, "<init>", "()V");
+  if (!method)
+    return nullptr;
+
+  return env->NewObject(cls, method);
+}
+
+jobject NewJNIArrayList(JNIEnv* env) {
+  ScopedJNIClass cls(env, "java/util/ArrayList");
+  if (!cls)
+    return nullptr;
+
+  jmethodID method = env->GetMethodID(cls, "<init>", "()V");
+  if (!method)
+    return nullptr;
+
+  return env->NewObject(cls, method);
+}
+
+jobject NewJNIObjectFromCefValue(JNIEnv* env, const CefRefPtr<CefValue> value) {
+  switch (value->GetType()) {
+    case VTYPE_NULL:
+      return nullptr;
+    case VTYPE_BOOL:
+      return NewJNIBoolean(env, value->GetBool());
+    case VTYPE_INT:
+      return NewJNIInteger(env, value->GetInt());
+    case VTYPE_DOUBLE:
+      return NewJNIDouble(env, value->GetDouble());
+    case VTYPE_STRING:
+      return NewJNIString(env, value->GetString());
+    case VTYPE_BINARY:
+      return NewJNIByteBuffer(env, value->GetBinary()->GetRawData(),
+                              value->GetBinary()->GetSize());
+    case VTYPE_DICTIONARY: {
+      jobject jmap = NewJNIHashMap(env);
+      CefRefPtr<CefDictionaryValue> dict = value->GetDictionary();
+      CefDictionaryValue::KeyList keys;
+      dict->GetKeys(keys);
+      for (const CefString& key : keys) {
+        jstring jkey = NewJNIString(env, key);
+        jobject jvalue = NewJNIObjectFromCefValue(env, dict->GetValue(key));
+        JNI_CALL_VOID_METHOD(
+            env, jmap, "put",
+            "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;", jkey,
+            jvalue);
+      }
+      return jmap;
+    }
+    case VTYPE_LIST: {
+      jobject jlist = NewJNIArrayList(env);
+      CefRefPtr<CefListValue> list = value->GetList();
+      const size_t size = list->GetSize();
+      for (size_t i = 0; i < size; ++i) {
+        jobject jvalue = NewJNIObjectFromCefValue(env, list->GetValue(i));
+        JNI_CALL_VOID_METHOD(env, jlist, "add", "(Ljava/lang/Object;)Z",
+                             jvalue);
+      }
+      return jlist;
+    }
+    default:
+      NOTREACHED();
+      return nullptr;
+  }
 }
 
 cef_errorcode_t GetJNIErrorCode(JNIEnv* env, jobject jerrorCode) {

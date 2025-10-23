@@ -13,6 +13,9 @@ import org.cef.handler.CefLoadHandler;
 import org.cef.handler.CefRequestContextHandler;
 import org.cef.security.CefSSLInfo;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * A request context provides request handling for a set of related browser
  * objects. A request context is specified when creating a new browser object
@@ -63,6 +66,50 @@ public abstract class CefRequestContext extends CefNativeAdapter {
      * Returns the handler for this context if any.
      */
     public abstract CefRequestContextHandler getHandler();
+
+    /**
+     * Returns true if a preference with the specified |name| exists.
+     * <p>
+     * This method must be called on the browser process UI thread, otherwise it will always return
+     * false. It is easiest to ensure the correct calling thread by using a callback method invoked
+     * by the browser process UI thread, such as CefLifeSpanHandler.onAfterCreated(CefBrowser), to
+     * configure the preferences.
+     */
+    public abstract boolean hasPreference(String name);
+
+    /**
+     * Returns the value for the preference with the specified |name|. Returns
+     * NULL if the preference does not exist.
+     * This method must be called on the browser process UI thread, otherwise it will always return
+     * null.
+     */
+    public abstract Object getPreference(String name);
+
+    /**
+     * Returns all preferences as a dictionary. If |includeDefaults| is true then
+     * preferences currently at their default value will be included. The returned
+     * object can be modified but modifications will not persist. This method must
+     * be called on the browser process UI thread, otherwise it will always return null.
+     */
+    public abstract Map<String, Object> getAllPreferences(boolean includeDefaults);
+
+    /**
+     * Returns true if the preference with the specified |name| can be modified
+     * using setPreference. As one example preferences set via the command-line
+     * usually cannot be modified. This method must be called on the browser
+     * process UI thread, otherwise it will always return false.
+     */
+    public abstract boolean canSetPreference(String name);
+
+    /**
+     * Set the |value| associated with preference |name|. Returns null if the
+     * value is set successfully, an error string otherwise. If |value| is NULL the
+     * preference will be restored to its default value. If setting the preference
+     * fails then a detailed description of the problem will be returned.
+     * This method must be called on the browser process UI thread, otherwise it will always return
+     * an error string.
+     */
+    public abstract String setPreference(String name, Object value);
 
     /**
      * Clears all certificate exceptions that were added as part of handling

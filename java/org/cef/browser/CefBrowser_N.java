@@ -122,9 +122,8 @@ abstract class CefBrowser_N extends CefNativeAdapter implements CefBrowser, CefA
 
     @Override
     public CefRequestContext getRequestContext() {
-        return request_context_;
+        return request_context_ != null ? request_context_ : CefRequestContext.getGlobalContext();
     }
-
 
     @Override
     public CefRenderHandler getRenderHandler() {
