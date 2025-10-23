@@ -39,7 +39,7 @@ endforeach ()
 
 message(STATUS "Patching java interfaces at ${CMAKE_SOURCE_DIR}/java/com/jetbrains/cef/remote/thrift_codegen...")
 execute_process(
-        COMMAND ${PYTHON_EXECUTABLE} "${CMAKE_SOURCE_DIR}/jb/tools/common/patch_thrift_interfaces.py" "${CMAKE_SOURCE_DIR}/java/com/jetbrains/cef/remote/thrift_codegen/"
+        COMMAND ${Python_EXECUTABLE} "${CMAKE_SOURCE_DIR}/jb/tools/common/patch_thrift_interfaces.py" "${CMAKE_SOURCE_DIR}/java/com/jetbrains/cef/remote/thrift_codegen/"
         RESULT_VARIABLE result
 )
 

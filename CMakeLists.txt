@@ -214,23 +214,23 @@ find_package(CEF REQUIRED)
 
 # Support specification of the Python executable path via the command-line.
 if(DEFINED ENV{PYTHON_EXECUTABLE})
-  file(TO_CMAKE_PATH "$ENV{PYTHON_EXECUTABLE}" PYTHON_EXECUTABLE)
+  file(TO_CMAKE_PATH "$ENV{PYTHON_EXECUTABLE}" Python_EXECUTABLE)
 endif()
 
-if(NOT PYTHON_EXECUTABLE)
-  unset(PYTHON_EXECUTABLE)
+if(NOT Python_EXECUTABLE)
+  unset(Python_EXECUTABLE)
 
   # Find the python interpreter.
-  find_package(PythonInterp)
+  find_package(Python 3)
 
-  if(NOT ${PYTHONINTERP_FOUND})
+  if(NOT ${Python_FOUND})
     message(FATAL_ERROR "A Python installation is required. Set the "
                         "PYTHON_EXECUTABLE environment variable to explicitly "
                         "specify the Python executable path.")
   endif()
 endif()
 
-message(STATUS "Using Python: ${PYTHON_EXECUTABLE}")
+message(STATUS "Using Python: ${Python_EXECUTABLE}")
 
 
 #
@@ -277,7 +277,7 @@ endif()
 # Generate the JCEF version header.
 message(STATUS "Generating native/jcef_version.h file...")
 execute_process(
-  COMMAND "${PYTHON_EXECUTABLE}"
+  COMMAND "${Python_EXECUTABLE}"
           "tools/make_version_header.py"
           "--header"
           "native/jcef_version.h"
@@ -331,7 +331,7 @@ endif()
 PRINT_CEF_CONFIG()
 
 message(STATUS "*** JCEF CONFIGURATION SETTINGS ***")
-message(STATUS "Python executable:            ${PYTHON_EXECUTABLE}")
+message(STATUS "Python executable:            ${Python_EXECUTABLE}")
 message(STATUS "Java directory:               ${JAVA_DIR}")
 message(STATUS "JNI libraries:                ${JNI_LIBRARIES}")
 message(STATUS "JNI include directories:      ${JNI_INCLUDE_DIRS}")
