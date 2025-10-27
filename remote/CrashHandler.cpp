@@ -210,12 +210,29 @@ void signalHandler(int signum) {
   // print out all the frames to stderr
   backtrace_symbols_fd(array, size, STDERR_FILENO);
   Log::error("Stacktrace (size %d) was printed to stderr.", size);
+
+  if (!Log::isStdStreamLogger()) {
+    char** symbols = backtrace_symbols(array, size);
+    if (symbols == NULL) {
+      Log::error("Can't get stacktrace: backtrace_symbols returns null.");
+    } else {
+      Log::error("Stack trace:");
+      for (int i = 0; i < size; i++)
+        Log::error("%s", symbols[i]);
+      free(symbols);
+    }
+  }
+
   std::exit(signum);
 }
 
 void setupCrashHandler() {
   Log::info("Install SIGNAL handlers.");
   signal(SIGSEGV, signalHandler);
+  signal(SIGABRT, signalHandler);
+  signal(SIGFPE,  signalHandler);
+  signal(SIGILL,  signalHandler);
+  signal(SIGBUS,  signalHandler);
 }
 
 #endif // WIN32
