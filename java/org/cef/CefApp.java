@@ -367,6 +367,13 @@ public class CefApp extends CefAppHandlerAdapter {
         settings_ = settings.clone();
     }
 
+    public void setDisconnectionCallback(Runnable disconnectionCallback) {
+        if (server_ != null)
+            server_.setDisconnectionCallback(disconnectionCallback);
+        else
+            CefLog.Error("setDisconnectionCallback is not supported for in-process CEF instance");
+    }
+
     public final CefVersion getVersion() {
         if (server_ != null) {
             // TODO: request remaining params from server
@@ -415,6 +422,7 @@ public class CefApp extends CefAppHandlerAdapter {
     }
 
     public synchronized boolean isTerminated() { return state_ == CefAppState.TERMINATED; }
+    public synchronized boolean isShuttingDown() { return state_ == CefAppState.TERMINATED || state_ == CefAppState.SHUTTING_DOWN; }
 
     private synchronized void setState(final CefAppState state) {
         if (state.compareTo(state_) < 0) {

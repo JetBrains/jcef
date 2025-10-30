@@ -13,11 +13,18 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 public class RpcExecutor {
+    private final CefServer myServer;
     private TTransport myTransport;
     private TProtocol myProtocol;
-    private Server.Iface myServer;
+    private Server.Iface myServerIface;
 
-    public RpcExecutor() {}
+    public RpcExecutor() {
+        myServer = null;
+    }
+
+    public RpcExecutor(CefServer server) {
+        myServer = server;
+    }
 
     public RpcExecutor openTransport(ThriftTransport thriftServer) throws TTransportException {
         if (thriftServer.isTcp())
@@ -32,7 +39,7 @@ public class RpcExecutor {
             myTransport = new TSocket("localhost", port);
             myTransport.open();
             myProtocol = new TBinaryProtocol(myTransport);
-            myServer = new Server.Client(myProtocol);
+            myServerIface = new Server.Client(myProtocol);
         } catch (TTransportException e) {
             myTransport = null;
             throw e;
@@ -42,7 +49,7 @@ public class RpcExecutor {
     public void openPipeTransport(ThriftTransport thriftServer) throws TTransportException {
         myTransport = thriftServer.openPipeTransport();
         myProtocol = new TBinaryProtocol(myTransport);
-        myServer = new Server.Client(myProtocol);
+        myServerIface = new Server.Client(myProtocol);
     }
 
     public interface Rpc {
@@ -67,8 +74,8 @@ public class RpcExecutor {
             return -1;
         try {
             return thriftBackward.isTcp() ?
-                    myServer.connectTcp(thriftBackward.getPort(), asMaster) :
-                    myServer.connect(thriftBackward.getPipe(), asMaster);
+                    myServerIface.connectTcp(thriftBackward.getPort(), asMaster) :
+                    myServerIface.connect(thriftBackward.getPipe(), asMaster);
         } catch (TException e) {
             onThriftException(e);
         }
@@ -80,7 +87,7 @@ public class RpcExecutor {
         if (myTransport == null)
             return;
         try {
-            r.run(myServer);
+            r.run(myServerIface);
         } catch (TException e) {
             onThriftException(e);
         }
@@ -91,7 +98,7 @@ public class RpcExecutor {
         if (myTransport == null)
             return null;
         try {
-            return r.run(myServer);
+            return r.run(myServerIface);
         } catch (TException e) {
             onThriftException(e);
         }
@@ -107,9 +114,14 @@ public class RpcExecutor {
     }
 
     private void onThriftException(TException e) {
-        CefLog.Debug("thrift exception '%s'", e.getMessage());
-        StringWriter sw = new StringWriter();
-        e.printStackTrace(new PrintWriter(sw));
-        CefLog.Debug(sw.getBuffer().toString());
+        if (CefLog.IsDebugEnabled()) {
+            CefLog.Debug("thrift exception '%s'", e.getMessage());
+            StringWriter sw = new StringWriter();
+            e.printStackTrace(new PrintWriter(sw));
+            CefLog.Debug(sw.getBuffer().toString());
+        }
+
+        if (myServer != null)
+            myServer.onRpcThriftException(e);
     }
 }
