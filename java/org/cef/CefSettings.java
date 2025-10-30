@@ -6,6 +6,7 @@ package org.cef;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Initialization settings. Specify NULL or 0 to get the recommended default
@@ -304,4 +305,20 @@ public class CefSettings {
         putNonEmpty(result, "no_sandbox", String.valueOf(no_sandbox));
         return result;
     }
+
+    // Returns true when all SIGNIFICANT fields are equal.
+    public boolean isAlmostEqual(CefSettings other) {
+            return Objects.equals(cache_path, other.cache_path)
+                    && Objects.equals(persist_session_cookies, other.persist_session_cookies)
+                    && Objects.equals(user_agent, other.user_agent)
+                    && Objects.equals(user_agent_product, other.user_agent_product)
+                    && Objects.equals(locale, other.locale)
+                    && Objects.equals(javascript_flags, other.javascript_flags)
+                    && Objects.equals(remote_debugging_port, other.remote_debugging_port)
+                    && Objects.equals(uncaught_exception_stack_size, other.uncaught_exception_stack_size)
+                    && Objects.equals(cookieable_schemes_list, other.cookieable_schemes_list)
+                    && Objects.equals(cookieable_schemes_exclude_defaults, other.cookieable_schemes_exclude_defaults);
+
+    }
+
 }

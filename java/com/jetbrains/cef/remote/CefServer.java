@@ -23,14 +23,12 @@ public class CefServer {
     private static final int WAIT_FOR_SERVER_START_SEC = Utils.getInteger("JCEF_WAIT_FOR_SERVER_START_SEC", 60);
     private static final int WAIT_FOR_SERVER_EXIT_SEC = Utils.getInteger("JCEF_WAIT_FOR_SERVER_EXIT_SEC", 10);
     private static final boolean DONT_STOP_SERVER_MANUALLY = Utils.getBoolean("JCEF_DONT_STOP_SERVER_MANUALLY"); // TODO: remove after platform tests debugging
-    private static final boolean FIX_ROOTS = Utils.getBoolean("JCEF_FIX_ROOTS");
 
-    private static Map<CefParams, CefServer> ourInstances = new ConcurrentHashMap<>();
+    private static HashSet<CefServer> ourInstances = new HashSet<>();
 
     private final ThriftTransport myThriftServer;
     private final ThriftTransport myThriftBackward;
-    private final String[] myArgs;
-    private final CefSettings mySettings;
+    private final CefParams myParams;
 
     private CefApp myCefApp = null;
 
@@ -44,6 +42,8 @@ public class CefServer {
 
     private volatile boolean myIsConnected = false;
     private volatile boolean myIsContextInitialized = false;
+    private volatile boolean myIsDisconnected = false;
+    private volatile boolean myIsCrashed = false;
 
     private final LinkedList<Runnable> myDelayedActions = new LinkedList<>();
 
@@ -52,29 +52,60 @@ public class CefServer {
     public CefServer(ThriftTransport thriftServer, ThriftTransport thriftBackward, String[] args, CefSettings settings) {
         myThriftServer = thriftServer;
         myThriftBackward = thriftBackward;
-        myArgs = args == null ? new String[0] : Arrays.copyOf(args, args.length);
-        mySettings = settings == null ? new CefSettings() : settings.clone();
+        myParams = new CefParams(settings, args);
 
         myRpc = new RpcContext(this);
         myClientHandlersImpl = new ClientHandlersImpl(myRpc, myBid2Browser);
 
-        CefParams p = new CefParams(mySettings, myArgs);
-        if (ourInstances.get(p) != null)
-            CefLog.Error("CefServer instance already created for params:\n%s", p);
-        ourInstances.put(p, this);
-        CefLog.Debug("Created CefServer instance. Transport %s (backward %s). Params:\n%s", thriftServer, thriftBackward, p);
+        CefServer otherRunningInstance = findInstance(myParams, true);
+        if (otherRunningInstance != null)
+            CefLog.Error("Found running CefServer instance for params:\n%s", myParams);
+        ourInstances.add(this);
+
+        CefLog.Debug("Created CefServer instance '%s'. Transport %s (backward %s). Params:\n%s", toStringShort(), thriftServer, thriftBackward, myParams);
     }
 
-    public static CefServer findInstance(String[] args, CefSettings settings) {
-        return ourInstances.get(new CefParams(settings, args));
+    public static CefServer findInstance(CefParams params, boolean onlyRunning) {
+        if (params == null)
+            return null;
+
+        CefLog.Debug("Find for params: " + params);
+        synchronized (ourInstances) {
+            for (CefServer s: ourInstances) {
+                if (onlyRunning && (s.myIsDisconnected || s.getCefApp().isShuttingDown()))
+                    continue;
+                if (s.myParams.isAlmostEqual(params))
+                    return s;
+            }
+            return null;
+        }
     }
 
-    public static int getInstancesCount() { return ourInstances.size(); }
+    public static CefServer findRunningInstance(String[] args, CefSettings settings) {
+        return findInstance(new CefParams(settings, args), true);
+    }
+
+    public static int getInstancesCount() {
+        synchronized (ourInstances) {
+            return ourInstances.size();
+        }
+    }
+
+    public static void logInstances() {
+        if (CefLog.IsDebugEnabled()) {
+            CefLog.Debug("Available CefServer instances: ");
+            synchronized (ourInstances) {
+                for (CefServer s : ourInstances)
+                    CefLog.Debug(s.toStringDetailed());
+            }
+        }
+    }
 
     public ThriftTransport getThriftServer() { return myThriftServer; }
     public ThriftTransport getThriftBackward() { return myThriftBackward; }
 
     public String toStringShort() { return myThriftServer.toStringShort(); }
+    public String toStringDetailed() { return "CefServer_" + myThriftServer.toStringShort() + ", params: " + myParams.toString(); }
 
     public CefApp getCefApp() { return myCefApp; }
     public void setCefApp(CefApp cefApp) { myCefApp = cefApp; }
@@ -94,11 +125,7 @@ public class CefServer {
                 // NOTE: pipe-names/ports are unique for each client process, so we can go here only when custom transport is specified manually.
                 CefLog.Info("Going to connect with already running cef_server: transport '%s', root '%s'", myThriftServer, runningRoot);
             } else {
-                boolean deleteRoot = false;
-                if (FIX_ROOTS)
-                    deleteRoot = NativeServerManager.fixRootInSettings(mySettings, "cef_cache_" + myThriftServer.toStringShort());
-
-                final boolean success = NativeServerManager.startProcessAndWait(myThriftServer, appHandler, myArgs, mySettings, deleteRoot, WAIT_FOR_SERVER_START_SEC*1000l);
+                final boolean success = NativeServerManager.startProcessAndWait(myThriftServer, appHandler, myParams.args, myParams.settings, false, WAIT_FOR_SERVER_START_SEC*1000l);
                 if (!success)
                     return false;
             }
@@ -203,11 +230,11 @@ public class CefServer {
             // 3. Connect to CefServer
             cid = myRpc.connect(myThriftBackward);
             if (cid == -1) {
-                CefLog.Error("Can't connect to cef_server, cid==-1");
+                CefLog.Error("Can't connect to '%s', cid==-1", this.toStringDetailed());
                 return false;
             }
 
-            CefLog.Debug("Connected to CefSever, cid=" + cid);
+            CefLog.Debug("Connected to '%s', cid=%d", this.toStringDetailed(), cid);
         } catch (Throwable e) {
             CefLog.Error("RuntimeException in CefServer.connect: %s", e.getMessage());
             return false;
@@ -232,20 +259,25 @@ public class CefServer {
         disconnect();
 
         if (WAIT_FOR_SERVER_EXIT_SEC > 0) {
-            CefLog.Debug("Waiting for server [%s] stop (max %d sec).", myThriftServer, WAIT_FOR_SERVER_EXIT_SEC);
-            final long startMs = System.currentTimeMillis();
-            final Thread t = new Thread(() -> {
-                boolean stopped = NativeServerManager.waitForStopped(myThriftServer, WAIT_FOR_SERVER_EXIT_SEC*1000);
-                if (stopped)
-                    CefLog.Info("Server [%s] was stopped in %d ms.", myThriftServer, System.currentTimeMillis() - startMs);
-                else
-                    CefLog.Error("Can't stop server [%s] in %d seconds.", myThriftServer, WAIT_FOR_SERVER_EXIT_SEC);
-            }, "CEF-shutdown-thread");
-            t.setDaemon(false);
-            t.start();
+            if (myIsCrashed)
+                CefLog.Debug("Server [%s] was crashed, will skip waiting for stop.", myThriftServer);
+            else {
+                CefLog.Debug("Waiting for server [%s] stop (max %d sec).", myThriftServer, WAIT_FOR_SERVER_EXIT_SEC);
+                final long startMs = System.currentTimeMillis();
+                final Thread t = new Thread(() -> {
+                    boolean stopped = NativeServerManager.waitForStopped(myThriftServer, WAIT_FOR_SERVER_EXIT_SEC * 1000);
+                    if (stopped)
+                        CefLog.Info("Server [%s] was stopped in %d ms.", myThriftServer, System.currentTimeMillis() - startMs);
+                    else
+                        CefLog.Error("Can't stop server [%s] in %d seconds.", myThriftServer, WAIT_FOR_SERVER_EXIT_SEC);
+                }, "CEF-shutdown-thread");
+                t.setDaemon(false);
+                t.start();
+            }
         }
-
-        ourInstances.remove(new CefParams(mySettings, myArgs));
+        synchronized (ourInstances) {
+            ourInstances.remove(this);
+        }
     }
 
     void onRpcThriftException(TException e) {
@@ -258,6 +290,7 @@ public class CefServer {
 
     private void disconnect() {
         myIsConnected = false;
+        myIsDisconnected = true;
         myRpc.close();
 
         if (myClientHandlersTransport != null) {
@@ -283,18 +316,15 @@ public class CefServer {
         final CefApp app = myCefApp;
         if (app == null) {
             if (e == null)
-                CefLog.Error("CefApp of server '%s' is null when disconnection happened.", this);
+                CefLog.Error("CefApp of server '%s' is null when disconnection happened.", toStringShort());
             else
-                CefLog.Error("CefApp of server '%s' is null, thrift exception: %s", this, e.getMessage());
-            return;
-        }
-
-        if (!app.isShuttingDown()) {
+                CefLog.Error("CefApp of server '%s' is null, thrift exception: %s", toStringShort(), e.getMessage());
+        } else if (!app.isShuttingDown()) {
+            myIsCrashed = true;
             if (e == null)
-                CefLog.Error("CefApp of server '%s' isn't shutting down, but java-client is disconnected", this);
+                CefLog.Error("CefApp of server '%s' isn't shutting down, but java-client is disconnected", toStringShort());
             else
-                CefLog.Error("CefApp of server '%s' isn't shutting down, but java-client is disconnected, thrift exception: %s", this, e.getMessage());
-
+                CefLog.Error("CefApp of server '%s' isn't shutting down, but java-client is disconnected, thrift exception: %s", toStringShort(), e.getMessage());
             if (myDisconnectionCallback != null)
                 myDisconnectionCallback.run();
         }
@@ -363,46 +393,29 @@ public class CefServer {
     }
 
     public static class CefParams {
-        final Set<String> chromiumArgs = new HashSet<>();
+        final String[] args;
+        final Set<String> argsSet = new HashSet<>();
         final CefSettings settings;
 
         public CefParams(CefSettings settings, String[] args) {
+            this.args = args == null ? new String[0] : Arrays.copyOf(args, args.length);
             this.settings = settings == null ? new CefSettings() : settings.clone();
             if (args != null && args.length > 0) {
                 for (String arg: args)
                     if (arg != null)
-                        chromiumArgs.add(arg.trim());
+                        argsSet.add(arg.trim());
             }
         }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (obj instanceof CefParams) {
-                final CefParams cp = (CefParams)obj;
-                if (!chromiumArgs.equals(cp.chromiumArgs))
-                    return false;
-                return Objects.equals(settings.log_file, cp.settings.log_file)
-                       && Objects.equals(settings.log_severity, cp.settings.log_severity);
-                // TODO: add another significant fields from CefSettings.
-                // Candidates: javascript_flags, remote_debugging_port, etc
-            }
-            return false;
-        }
-
-        @Override
-        public int hashCode() {
-            final int argsHash = chromiumArgs.hashCode();
-            if (settings == null)
-                return argsHash;
-
-            final int f = settings.log_file == null ? 0 : settings.log_file.hashCode();
-            final int l = settings.log_severity == null ? 0 : settings.log_severity.hashCode();
-            return f + l + argsHash;
+        
+        public boolean isAlmostEqual(CefParams cp) {
+            if (!argsSet.equals(cp.argsSet))
+                return false;
+            return settings.isAlmostEqual(cp.settings);
         }
 
         @Override
         public String toString() {
-            return chromiumArgs + "| log_file=" + settings.log_file + ", log_severity=" + settings.log_severity;
+            return argsSet + "| " + settings.getDescription();
         }
     }
 }
