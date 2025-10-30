@@ -45,7 +45,7 @@ class SharedBufferManager {
   SharedBufferManager(int bid, const std::string& name);
   ~SharedBufferManager();
 
-  SharedBuffer & getLockedBuffer(size_t size);
+  SharedBuffer * getLockedBuffer(size_t size);
 
  private:
   static constexpr int POOL_SIZE = 2;
