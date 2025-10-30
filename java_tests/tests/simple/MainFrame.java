@@ -16,27 +16,26 @@ import org.cef.handler.CefFocusHandlerAdapter;
 import org.cef.security.CefCertStatus;
 import org.cef.callback.CefCallback;
 import org.cef.handler.*;
+import org.cef.misc.CefLog;
+import org.cef.misc.Utils;
+import org.cef.security.CefCertStatus;
 import org.cef.security.CefSSLInfo;
 import tests.OsrSupport;
 import tests.detailed.dialog.CertErrorDialog;
 import tests.detailed.util.DataUri;
 
+import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.X509Certificate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import javax.swing.*;
 
 
 /**
@@ -53,6 +52,8 @@ import javax.swing.*;
  */
 public class MainFrame extends JFrame {
     private static final long serialVersionUID = -5570653778104813836L;
+    private static MainFrame ourInstance = null;
+    private static String[] ourArgs = null;
     private final JTextField address_;
     private final CefApp cefApp_;
     private final CefClient client_;
@@ -82,15 +83,46 @@ public class MainFrame extends JFrame {
         //     required native libraries, initializes CEF accordingly, starts a
         //     background task to handle CEF's message loop and takes care of
         //     shutting down CEF after disposing it.
-        CefApp.addAppHandler(new CefAppHandlerAdapter(args) {
+        CefAppHandlerAdapter appHandler = new CefAppHandlerAdapter(args) {
             @Override
             public void stateHasChanged(org.cef.CefApp.CefAppState state) {
                 // Shutdown the app if the native CEF part is terminated
-                if (state == CefAppState.TERMINATED) System.exit(0);
+                if (!CefApp.isRemoteEnabled() && state == CefAppState.TERMINATED)
+                    System.exit(0);
             }
-        });
+        };
+        CefApp.addAppHandler(appHandler);
         CefSettings settings = config.getCefSettings();
         cefApp_ = CefApp.getInstance(settings);
+
+        if (CefApp.isRemoteEnabled()) {
+            cefApp_.setDisconnectionCallback(()->{
+                int chioce =  JOptionPane.showConfirmDialog(null,
+                        "The application was disconnected from cef_server, do you want to restart JCEF?", "Disconnected from cef_server", JOptionPane.YES_NO_OPTION);
+
+                if (chioce == JOptionPane.YES_OPTION) {
+                    if (cefApp_ != null)
+                        cefApp_.dispose();
+
+                    settings.log_severity = CefSettings.LogSeverity.LOGSEVERITY_VERBOSE;
+                    settings.log_file = Utils.getString("jcef.chromium_log.path");
+
+                    CefApp.addAppHandler(appHandler);
+                    CefApp newCefApp = CefApp.getInstance(settings);
+                    if (newCefApp == null) {
+                        CefLog.Error("JCEF wasn't restarted (new instance is null).");
+                        return;
+                    }
+                    if (cefApp_ == newCefApp) {
+                        CefLog.Info("JCEF wasn't restarted. It seems that args and settings were the same - please dispose current CefApp and then create a new one.");
+                        return;
+                    }
+                    CefApp.setDefaultInstance(newCefApp);
+                    restart(null);
+                }
+            });
+        }
+
 
         // (2) JCEF can handle one to many browser instances simultaneous. These
         //     browser instances are logically grouped together by an instance of
@@ -305,10 +337,19 @@ public class MainFrame extends JFrame {
         });
     }
 
+    private static void restart(String[] args) {
+        if (ourInstance != null)
+            ourInstance.dispose();
+
+        if (args != null)
+            ourArgs = args;
+        ourInstance = new MainFrame(ourArgs, "http://www.google.com", OsrSupport.isEnabled(), false);
+    }
+
     public static void main(String[] args) {
         // Perform startup initialization on platforms that require it.
         CefApp.startup(args);
 
-        new MainFrame(args, "http://www.google.com", OsrSupport.isEnabled(), false);
+        restart(args);
     }
 }
