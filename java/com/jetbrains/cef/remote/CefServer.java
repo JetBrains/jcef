@@ -47,6 +47,8 @@ public class CefServer {
 
     private final LinkedList<Runnable> myDelayedActions = new LinkedList<>();
 
+    private Runnable myDisconnectionCallback = null;
+
     public CefServer(ThriftTransport thriftServer, ThriftTransport thriftBackward, String[] args, CefSettings settings) {
         myThriftServer = thriftServer;
         myThriftBackward = thriftBackward;
@@ -76,6 +78,8 @@ public class CefServer {
 
     public CefApp getCefApp() { return myCefApp; }
     public void setCefApp(CefApp cefApp) { myCefApp = cefApp; }
+
+    public void setDisconnectionCallback(Runnable disconnectionCallback) { myDisconnectionCallback = disconnectionCallback; }
 
     // Connects to CefServer and start cef-handlers service.
     // Should be executed in bg thread.
@@ -152,6 +156,7 @@ public class CefServer {
                 onContextInitialized.run();
         });
 
+        int cid = -1;
         try {
             // 1. Start server for cef-handlers execution. Open transport for rpc-handlers
             try {
@@ -182,7 +187,10 @@ public class CefServer {
                     final AtomicLong count = new AtomicLong();
                     public Thread newThread(Runnable r) {
                         final String name = String.format("CefHandlers-execution-%d", this.count.getAndIncrement());
-                        Thread thread = new Thread(r, name);
+                        Thread thread = new Thread(()->{
+                            r.run();
+                            CefServer.this.onCefHandlersThreadFinished();
+                        }, name);
                         thread.setDaemon(true);
                         return thread;
                     }
@@ -193,40 +201,35 @@ public class CefServer {
             myClientHandlersThread.start();
 
             // 3. Connect to CefServer
-            int cid = myRpc.connect(myThriftBackward);
-            synchronized (myDelayedActions) {
-                myIsConnected = true;
-                myDelayedActions.forEach(r -> r.run());
-                myDelayedActions.clear();
+            cid = myRpc.connect(myThriftBackward);
+            if (cid == -1) {
+                CefLog.Error("Can't connect to cef_server, cid==-1");
+                return false;
             }
 
             CefLog.Debug("Connected to CefSever, cid=" + cid);
         } catch (Throwable e) {
             CefLog.Error("RuntimeException in CefServer.connect: %s", e.getMessage());
             return false;
+        } finally {
+            synchronized (myDelayedActions) {
+                if (cid != -1) {
+                    myIsConnected = true;
+                    myDelayedActions.forEach(r -> r.run());
+                }
+                myDelayedActions.clear();
+            }
         }
         return true;
     }
 
     public void stop() {
         CefLog.Debug("Stop native server '%s'.", myThriftServer);
-        myIsConnected = false;
 
         if (!DONT_STOP_SERVER_MANUALLY)
             myRpc.exec(r -> r.stop());
-        myRpc.close();
 
-        if (myClientHandlersTransport != null) {
-            myClientHandlersTransport.close();
-            myClientHandlersTransport = null;
-        }
-        if (myClientHandlersServer != null) {
-            myClientHandlersServer.stop();
-            myClientHandlersServer = null;
-        }
-
-        if (myThriftBackward != null)
-            myThriftBackward.close();
+        disconnect();
 
         if (WAIT_FOR_SERVER_EXIT_SEC > 0) {
             CefLog.Debug("Waiting for server [%s] stop (max %d sec).", myThriftServer, WAIT_FOR_SERVER_EXIT_SEC);
@@ -243,6 +246,63 @@ public class CefServer {
         }
 
         ourInstances.remove(new CefParams(mySettings, myArgs));
+    }
+
+    void onRpcThriftException(TException e) {
+        onDisconnected(e);
+    }
+
+    void onCefHandlersThreadFinished() {
+        onDisconnected(null);
+    }
+
+    private void disconnect() {
+        myIsConnected = false;
+        myRpc.close();
+
+        if (myClientHandlersTransport != null) {
+            myClientHandlersTransport.close();
+            myClientHandlersTransport = null;
+        }
+        if (myClientHandlersServer != null) {
+            myClientHandlersServer.stop();
+            myClientHandlersServer = null;
+        }
+
+        if (myThriftBackward != null)
+            myThriftBackward.close();
+    }
+
+    private void onDisconnected(TException e) {
+        if (!myIsConnected)
+            return;
+
+        //
+        // Check CefApp state and notify the user if necessary.
+        //
+        final CefApp app = myCefApp;
+        if (app == null) {
+            if (e == null)
+                CefLog.Error("CefApp of server '%s' is null when disconnection happened.", this);
+            else
+                CefLog.Error("CefApp of server '%s' is null, thrift exception: %s", this, e.getMessage());
+            return;
+        }
+
+        if (!app.isShuttingDown()) {
+            if (e == null)
+                CefLog.Error("CefApp of server '%s' isn't shutting down, but java-client is disconnected", this);
+            else
+                CefLog.Error("CefApp of server '%s' isn't shutting down, but java-client is disconnected, thrift exception: %s", this, e.getMessage());
+
+            if (myDisconnectionCallback != null)
+                myDisconnectionCallback.run();
+        }
+
+        //
+        // Set the 'isConnected' flag and perform close actions.
+        //
+        disconnect();
     }
 
     public static TServer startTestHandlersService(CountDownLatch finished) {

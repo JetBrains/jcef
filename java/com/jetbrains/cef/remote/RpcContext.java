@@ -11,14 +11,16 @@ public class RpcContext {
     private static final boolean CONNECT_AS_SLAVE = Utils.getBoolean("JCEF_CONNECT_AS_SLAVE");
     private static final RpcExecutor.Rpc NO_RPC = s -> {};
     public final CefServer server;
-    private final RpcExecutor myMain = new RpcExecutor();
-    private final RpcExecutor myBackground = new RpcExecutor();
+    private final RpcExecutor myMain;
+    private final RpcExecutor myBackground;
     private final LinkedBlockingQueue<RpcExecutor.Rpc> myQueue = new LinkedBlockingQueue();
     private final Thread myThread;
     private volatile boolean myClosed = false;
 
     public RpcContext(CefServer server) {
         this.server = server;
+        myMain = new RpcExecutor(server);
+        myBackground = new RpcExecutor(server);
         myThread = new Thread(() -> {
             while (true) {
                 try {
