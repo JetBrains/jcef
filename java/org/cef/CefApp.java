@@ -301,9 +301,11 @@ public class CefApp extends CefAppHandlerAdapter {
             }
 
             // 2. Try to find the existing instance with the same args and settings.
-            CefServer s = CefServer.findInstance(realArgs, settings);
-            if (s != null)
+            CefServer s = CefServer.findRunningInstance(realArgs, settings);
+            if (s != null) {
+                CefLog.Debug("Found running CefServer instance %s for settings: %s", s.toStringDetailed(), settings.getDescription());
                 return s.getCefApp();
+            }
 
             // 3. Create new CefApp instance.
             ThriftTransport st = ThriftTransport.ourDefaultServer;
@@ -344,11 +346,11 @@ public class CefApp extends CefAppHandlerAdapter {
         return self;
     }
 
-    public static synchronized CefApp findInstance(String[] args, CefSettings settings) {
+    public static synchronized CefApp findRunningInstance(String[] args, CefSettings settings) {
         if (!IS_REMOTE_ENABLED)
             return null;
 
-        final CefServer s = CefServer.findInstance(args, settings);
+        final CefServer s = CefServer.findRunningInstance(args, settings);
         return s != null ? s.getCefApp() : null;
     }
 

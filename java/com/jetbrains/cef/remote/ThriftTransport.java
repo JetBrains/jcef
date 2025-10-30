@@ -146,6 +146,15 @@ public class ThriftTransport {
         return myPipe != null ? String.format("pipe_%s", myPipe).trim().replace(" ","") : String.format("port_%d", myPort);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof ThriftTransport) {
+            ThriftTransport other = (ThriftTransport)obj;
+            return myPipe != null ? myPipe.equals(other.myPipe) : myPort == other.myPort;
+        }
+        return false;
+    }
+
     public void close() {
         if (!OS.isWindows() && !isTcp())
             new File(myPipe).delete();

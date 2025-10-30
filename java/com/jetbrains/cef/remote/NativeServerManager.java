@@ -410,11 +410,11 @@ public class NativeServerManager {
     }
 
     public static boolean waitForRunning(ThriftTransport thriftServer, long timeoutMs) {
-        return waitFor(() -> isRunning(thriftServer) != null, timeoutMs, "starting");
+        return waitFor(() -> isRunning(thriftServer) != null, timeoutMs, thriftServer.toStringShort() + " starting");
     }
 
     public static boolean waitForStopped(ThriftTransport thriftServer, long timeoutMs) {
-        return waitFor(() -> isRunning(thriftServer) == null, timeoutMs, "stopping");
+        return waitFor(() -> isRunning(thriftServer) == null, timeoutMs, thriftServer.toStringShort() + " stopping");
     }
 
     private static boolean waitFor(BooleanSupplier checker, long timeoutMs, String hint) {
@@ -605,7 +605,7 @@ public class NativeServerManager {
             } catch (InterruptedException e) {
                 CefLog.Error("Exception during waiting for native cef_server: %s", e.getMessage());
             }
-            CefLog.Debug("Waiting for server starting...");
+            CefLog.Debug("Waiting for server %s starting...", thriftServer.toStringShort());
             // 1. Check process exit values.
             try {
                 exitVal = p.exitValue();
