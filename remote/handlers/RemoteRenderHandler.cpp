@@ -276,17 +276,20 @@ void RemoteRenderHandler::OnPaint(CefRefPtr<CefBrowser> browser,
   SharedBufferManager& bufferManager =
       type == PET_POPUP ? myBufferManagerPopup : myBufferManagerPage;
 
-  SharedBuffer& buff = bufferManager.getLockedBuffer(
+  SharedBuffer* buff = bufferManager.getLockedBuffer(
       rasterPixCount * 4 + 4 * 4 * extendedRectsCount);
 
-  if (buff.ptr() == nullptr) {
+  if (buff == nullptr)
+    return; // NOTE: error was logged in getLockedBuffer()
+
+  if (buff->ptr() == nullptr) {
     Log::error("SharedBuffer is empty.");
     return;
   }
 
-  ::memcpy((char*)buff.ptr(), (char*)buffer, rasterPixCount*4);
+  ::memcpy((char*)buff->ptr(), (char*)buffer, rasterPixCount*4);
 
-    int32_t * sharedRects = (int32_t *)buff.ptr() + rasterPixCount;
+    int32_t * sharedRects = (int32_t *)buff->ptr() + rasterPixCount;
     for (const CefRect& r : dirtyRects) {
       *(sharedRects++) = r.x;
       *(sharedRects++) = r.y;
@@ -301,18 +304,18 @@ void RemoteRenderHandler::OnPaint(CefRefPtr<CefBrowser> browser,
         if (drawDebug > 0) {
           const int stride = width*4;
           const int th = 30;
-          fillRect((unsigned char *)buff.ptr(), stride, 0, 0, th, th, 255, 0, 0, 255, width, height);
-          fillRect((unsigned char *)buff.ptr(), stride, 0, width - th, th, th, 0, 255, 0, 255, width, height);
-          fillRect((unsigned char *)buff.ptr(), stride, height - th, width - th, th, th, 0, 0, 255, 255, width, height);
-          fillRect((unsigned char *)buff.ptr(), stride, height - th, 0, th, th, 255, 0, 255, 255, width, height);
+          fillRect((unsigned char *)buff->ptr(), stride, 0, 0, th, th, 255, 0, 0, 255, width, height);
+          fillRect((unsigned char *)buff->ptr(), stride, 0, width - th, th, th, 0, 255, 0, 255, width, height);
+          fillRect((unsigned char *)buff->ptr(), stride, height - th, width - th, th, th, 0, 0, 255, 255, width, height);
+          fillRect((unsigned char *)buff->ptr(), stride, height - th, 0, th, th, 255, 0, 255, 255, width, height);
         }
     }
 
-    buff.unlock();
+    buff->unlock();
 
     myService->exec([&](const JavaService& s){
       s->RenderHandler_OnPaint(myBid, type != PET_VIEW, static_cast<int>(dirtyRects.size()),
-                 buff.uid(), buff.handle(),
+                 buff->uid(), buff->handle(),
                  width, height);
     });
 }

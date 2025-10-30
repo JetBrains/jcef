@@ -3,6 +3,8 @@
 #include "../Utils.h"
 #include "../log/Log.h"
 
+#include <boost/date_time/posix_time/posix_time.hpp>
+
 using namespace boost::interprocess;
 
 namespace {
@@ -99,23 +101,39 @@ SharedBuffer::~SharedBuffer() {
 }
 
 SharedBufferManager::SharedBufferManager(int bid, const std::string& name) {
-  myPrefix = string_format("CefRasterB%d_%s_", bid, name.c_str());
+  // NOTE:
+  // Allocation of shared memory can fail with exception.
+  // Use unique prefix for each buffer to avoid filename collisions.
+  const boost::posix_time::ptime now =  boost::posix_time::microsec_clock::local_time();
+  const boost::posix_time::time_duration td = now.time_of_day();
+  myPrefix = string_format("CefRaster_%ul_B%d_%s_", (unsigned long)td.total_seconds(), bid, name.c_str());
 }
 
 SharedBuffer* SharedBufferManager::_getOrCreateBuffer(size_t size, int index) {
   SharedBuffer* buf = myPool[index];
   if (buf == nullptr || buf->size() < size) {
-    if (buf != nullptr)
+    if (buf != nullptr) {
       delete buf;
-    myPool[index] = buf =
-        new SharedBuffer(myPrefix + string_format("%d_%d", size, index), nearestMemorySize(size));
+      myPool[index] = buf = nullptr;
+    }
+    try {
+      myPool[index] = buf =
+          new SharedBuffer(myPrefix + string_format("%d_%d", size, index),
+                           nearestMemorySize(size));
+    } catch (const std::exception& e) {
+      Log::error("Exception during shared buffer allocation, err: %s", e.what());
+    } catch (...) {
+      Log::error("Unknown exception during shared buffer allocation");
+    }
   }
   return buf;
 }
 
-SharedBuffer& SharedBufferManager::getLockedBuffer(size_t size) {
+SharedBuffer* SharedBufferManager::getLockedBuffer(size_t size) {
   myLastUsed = (myLastUsed + 1) % POOL_SIZE;
   SharedBuffer* buf = _getOrCreateBuffer(size, myLastUsed);
+  if (buf == nullptr)
+    return nullptr;
 
   if (!buf->tryLock()) {
     // It seems that selected buffer is used now. Select another.
@@ -124,7 +142,7 @@ SharedBuffer& SharedBufferManager::getLockedBuffer(size_t size) {
     buf->lock();
   }
 
-  return *buf;
+  return buf;
 }
 
 SharedBufferManager::~SharedBufferManager() {
