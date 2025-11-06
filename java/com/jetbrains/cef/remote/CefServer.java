@@ -72,8 +72,13 @@ public class CefServer {
         CefLog.Debug("Find for params: " + params);
         synchronized (ourInstances) {
             for (CefServer s: ourInstances) {
-                if (onlyRunning && (s.myIsDisconnected || s.getCefApp().isShuttingDown()))
-                    continue;
+                if (onlyRunning) {
+                    if (s.myIsDisconnected)
+                        continue;
+                    final CefApp app = s.getCefApp();
+                    if (app != null && app.isShuttingDown())
+                        continue;
+                }
                 if (s.myParams.isAlmostEqual(params))
                     return s;
             }
