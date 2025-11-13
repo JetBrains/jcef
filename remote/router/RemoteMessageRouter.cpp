@@ -7,11 +7,11 @@ const bool doTrace = getBoolEnv("CEF_SERVER_TRACE_RemoteMessageRouter");
 RemoteMessageRouter::RemoteMessageRouter(std::shared_ptr<ServerHandlerContext> ctx, int id, CefRefPtr<CefMessageRouter> delegate, CefMessageRouterConfig config)
     : RemoteServerObject<RemoteMessageRouter, CefMessageRouter>(id, delegate), myCtx(ctx), myConfig(config)
 {
-  TRACE();
+  if (doTrace)
+    Log::trace("RemoteMessageRouter: created instance with id=%d, config: query='%s' cancel='%s'", id, config.js_query_function.ToString().c_str(), config.js_cancel_function.ToString().c_str());
 }
 
 RemoteMessageRouter * RemoteMessageRouter::create(std::shared_ptr<ServerHandlerContext> ctx, CefRefPtr<CefMessageRouter> delegate, CefMessageRouterConfig config) {
-  FACTORY_TRACE("CEF_SERVER_OBJTRACE_MessageRouter", "RemoteMessageRouter");
   return FACTORY.create([&](int id) -> RemoteMessageRouter* {return new RemoteMessageRouter(ctx, id, delegate, config);});
 }
 
@@ -25,7 +25,9 @@ RemoteMessageRouter * RemoteMessageRouter::create(std::shared_ptr<ServerHandlerC
 }
 
 void RemoteMessageRouter::AddRemoteHandler(const thrift_codegen::RObject& handler, bool first) {
-  TRACE();
+  if (doTrace)
+    Log::trace("RemoteMessageRouter: add handler with objId=%d, first=%d", handler.objId, first ? 1 : 0);
+
   std::shared_ptr<RemoteMessageRouterHandler> rmrh = std::make_shared<RemoteMessageRouterHandler>(myCtx, handler);
   myDelegate->AddHandler(rmrh.get(), first);
 
@@ -34,7 +36,9 @@ void RemoteMessageRouter::AddRemoteHandler(const thrift_codegen::RObject& handle
 }
 
 void RemoteMessageRouter::RemoveRemoteHandler(const thrift_codegen::RObject& handler) {
-  TRACE();
+  if (doTrace)
+    Log::trace("RemoteMessageRouter: remove handler with objId=%d", handler.objId);
+
   std::shared_ptr<RemoteMessageRouterHandler> rmrh;
   {
     Lock lock(myMutex);
@@ -48,7 +52,7 @@ void RemoteMessageRouter::RemoveRemoteHandler(const thrift_codegen::RObject& han
 }
 
 std::shared_ptr<RemoteMessageRouterHandler> RemoteMessageRouter::FindRemoteHandler(int objId) {
-  TRACE();
+
   std::shared_ptr<RemoteMessageRouterHandler> rmrh;
   {
     Lock lock(myMutex);
@@ -56,6 +60,9 @@ std::shared_ptr<RemoteMessageRouterHandler> RemoteMessageRouter::FindRemoteHandl
   }
   if (!rmrh)
     Log::error("Can't find RemoteMessageRouterHandler %d", objId);
+  else if (doTrace)
+    Log::trace("RemoteMessageRouter: for id=%d found handler (with peer's objId=%d)", objId, rmrh->javaId().objId);
+
   return rmrh;
 }
 

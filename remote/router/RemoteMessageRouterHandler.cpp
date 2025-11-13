@@ -15,13 +15,16 @@ RemoteMessageRouterHandler::RemoteMessageRouterHandler(
           [=](JavaService service) {
             service->MessageRouterHandler_Dispose(peer.objId);
           }) {
-  TRACE();
+  if (doTrace)
+    Log::trace("RemoteMessageRouterHandler: created instance with peerId=%d", peer.objId);
+
   //Log::trace("new RouterHandler: peerId=%d", peer.objId);
 }
 
 RemoteMessageRouterHandler::~RemoteMessageRouterHandler() {
-  TRACE();
-  //Log::trace("delete RouterHandler: peerId=%d", myPeerId);
+  if (doTrace)
+    Log::trace("RemoteMessageRouterHandler: delete instance with peerId=%d", myPeerId);
+
   for (auto cb: myCallbacks) // simple protection for leaking via callbacks
     RemoteQueryCallback::dispose(cb);
 }
@@ -42,7 +45,9 @@ bool RemoteMessageRouterHandler::OnQuery(CefRefPtr<CefBrowser> browser,
                      const CefString& request,
                      bool persistent,
                      CefRefPtr<Callback> callback) {
-  TRACE();
+  if (doTrace)
+    Log::trace("RemoteMessageRouterHandler: OnQuery: request='%s', peerId=%d", request.ToString().c_str(), myPeerId);
+
   std::shared_ptr<RemoteBrowser> rb = RemoteBrowser::findByCefBrowser(browser);
   if (!rb) {
     Log::error("OnQuery: can't find remote browser by cef-id %d", browser ? browser->GetIdentifier() : -1);
@@ -64,7 +69,9 @@ bool RemoteMessageRouterHandler::OnQuery(CefRefPtr<CefBrowser> browser,
 void RemoteMessageRouterHandler::OnQueryCanceled(CefRefPtr<CefBrowser> browser,
                              CefRefPtr<CefFrame> frame,
                              int64_t query_id) {
-  TRACE();
+  if (doTrace)
+    Log::trace("RemoteMessageRouterHandler: OnQueryCanceled: peerId=%d", myPeerId);
+
   std::shared_ptr<RemoteBrowser> rb = RemoteBrowser::findByCefBrowser(browser);
   if (!rb) {
     Log::error("OnQueryCanceled: can't find remote browser by cef-id %d", browser ? browser->GetIdentifier() : -1);
