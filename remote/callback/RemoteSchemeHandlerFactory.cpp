@@ -1,11 +1,10 @@
 #include "RemoteSchemeHandlerFactory.h"
 #include "../network/RemoteResourceHandler.h"
 #include "../network/RemoteRequest.h"
-#include "../browser/ClientsManager.h"
+#include "../browser/RemoteBrowser.h"
 #include "../browser/RemoteFrame.h"
 
 RemoteSchemeHandlerFactory::RemoteSchemeHandlerFactory(
-    std::shared_ptr<ClientsManager> clientsManager,
     std::shared_ptr<ServerHandlerContext> service,
     thrift_codegen::RObject peer)
     : RemoteJavaObject<RemoteSchemeHandlerFactory>(
@@ -14,7 +13,7 @@ RemoteSchemeHandlerFactory::RemoteSchemeHandlerFactory(
           [=](JavaService service) {
             service->SchemeHandlerFactory_Dispose(peer.objId);
             Log::trace("Disposed SchemeHandlerFactory, peer-id=%d", peer.objId);
-          }), myClientsManager(clientsManager) {
+          }) {
   Log::trace("Created SchemeHandlerFactory, peer-id=%d", peer.objId);
 }
 
@@ -24,8 +23,8 @@ CefRefPtr<CefResourceHandler> RemoteSchemeHandlerFactory::Create(
     const CefString& scheme_name,
     CefRefPtr<CefRequest> request
 ) {
-  const int bid = myClientsManager->findRemoteBrowser(browser);
-  if (bid < 0) {
+  std::shared_ptr<RemoteBrowser> rb = RemoteBrowser::findByCefBrowser(browser);
+  if (!rb) {
     Log::error("RemoteSchemeHandlerFactory::Create: can't find remove browser by native identifier %d", browser->GetIdentifier());
     return nullptr;
   }
@@ -34,7 +33,7 @@ CefRefPtr<CefResourceHandler> RemoteSchemeHandlerFactory::Create(
   RemoteFrame::Holder frm(frame);
   thrift_codegen::RObject resultHandler;
   myCtx->javaService()->exec([&](JavaService s){
-    s->SchemeHandlerFactory_CreateHandler(resultHandler, myPeerId, bid, frm.serverId(), scheme_name.ToString(), req.serverId());
+    s->SchemeHandlerFactory_CreateHandler(resultHandler, myPeerId, rb->getBid(), frm.serverId(), scheme_name.ToString(), req.serverId());
   });
-  return !resultHandler.isNull ? new RemoteResourceHandler(bid, myCtx, resultHandler) : nullptr;
+  return !resultHandler.isNull ? new RemoteResourceHandler(rb->getBid(), myCtx, resultHandler) : nullptr;
 }

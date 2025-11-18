@@ -22,12 +22,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 
 public class RemoteClient {
-    private static AtomicInteger ourCounter = new AtomicInteger(0);
     private static Supplier<CefRendering> ourDefaultRenderingRactory;
 
-    private final int myCid;
+    private int myCid = -1;
     private final RpcContext myRpc;
-    private final Map<Integer, RemoteBrowser> ourBid2Browser; // global storage
     private final Map<Integer, RemoteBrowser> myNativeIdentifier2Browser = new ConcurrentHashMap<>();
     private final List<RemoteBrowser> myBrowsers = Collections.synchronizedList(new ArrayList<>());
 
@@ -50,10 +48,8 @@ public class RemoteClient {
     // MessageRouter support
     private Vector<RemoteMessageRouter> msgRouters = new Vector<>();
 
-    public RemoteClient(RpcContext rpcContext, Map<Integer, RemoteBrowser> bid2browser) {
-        myCid = ourCounter.getAndIncrement();
+    public RemoteClient(RpcContext rpcContext) {
         myRpc = rpcContext;
-        ourBid2Browser = bid2browser;
     }
 
     public CefServer getServer() { return myRpc.server; }
@@ -77,23 +73,19 @@ public class RemoteClient {
         if (myNativeIdentifier2Browser.remove(browser.getNativeBrowserIdentifier()) == null)
             CefLog.Error("Browser with native id %d already was removed.", browser.getNativeBrowserIdentifier());
 
-        final int bid = browser.getBid();
-        if (bid >= 0) {
-            RemoteBrowser removed = ourBid2Browser.remove(bid);
-            if (removed == null)
-                CefLog.Error("Unregister bid: bid=%d was already removed.", bid);
-        } else
-            CefLog.Error("Can't unregister invalid bid %d", bid);
-
         browser.onBeforeClose();
         CefLog.Debug("Browser %s was closed (native server-side part).", browser);
     }
 
-    // Called when new bid obtained from server.
-    protected void onNewBid(RemoteBrowser browser) {
-        int bid = browser.getBid();
-        assert bid >= 0;
-        ourBid2Browser.put(bid, browser);
+    protected void requestCid() {
+        if (myCid != -1)
+            return;
+        final int hmask = myHandlersMask | RemoteClient.HandlerMasks.NativeRender.val(); // just for simplicity (we are not going to use DummyRenderHandler now)
+        myRpc.exec((s) -> {
+            myCid = s.Client_Create(hmask);
+        });
+        myRpc.server.cid2Client.put(myCid, this);
+        CefLog.Debug("Registered RemoteClient with cid=%d with handlers: %s", myCid, RemoteClient.HandlerMasks.toString(hmask));
     }
 
     //
@@ -195,10 +187,15 @@ public class RemoteClient {
 
     // Handlers management
     private void _updateMask(Object handler, int handlerMask) {
-        if (handler != null)
+        if (handler != null) {
             myHandlersMask |= handlerMask;
-        else
+            if (myCid != -1)
+                myRpc.exec((s) -> { s.Client_AddHandlers(myCid, handlerMask);});
+        } else {
             myHandlersMask &= ~handlerMask;
+            if (myCid != -1)
+                myRpc.exec((s) -> { s.Client_RemoveHandlers(myCid, handlerMask);});
+        }
     }
 
     public void addLifeSpanHandler(CefLifeSpanHandler handler) {
@@ -395,6 +392,14 @@ public class RemoteClient {
                 rb.close(true);
         });
         myBrowsers.clear();
+
+        if (myCid != -1) {
+            myRpc.invokeLater((s) -> {
+                s.Client_Dispose(myCid);
+            });
+            myCid = -1;
+            myRpc.server.cid2Client.remove(myCid);
+        }
     }
 
     public String toString() {

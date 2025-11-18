@@ -248,7 +248,7 @@ int main(int argc, char* argv[]) {
   Log::debug("Finished message loop.");
   server->stop();
   servThread.join();
-  app.stopWatcher();
+  app.onBeforeExit();
 #ifndef WIN32
   if (!cmdArgs.useTcp())
     std::remove(cmdArgs.getPipe().c_str());

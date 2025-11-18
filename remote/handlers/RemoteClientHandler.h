@@ -9,12 +9,14 @@
 class ServerHandler;
 class ServerHandlerContext;
 class MessageRoutersManager;
+class RemoteBrowser;
 
 class RemoteClientHandler : public CefClient {
-public:
- explicit RemoteClientHandler(
-     std::shared_ptr<ServerHandlerContext> ctx, int cid, int bid, int handlersMask,
-     const thrift_codegen::RObject& requestContextHandler);
+  public:
+    explicit RemoteClientHandler(std::shared_ptr<ServerHandlerContext> ctx, int cid, int handlersMask);
+
+    void addHandlers(int handlersMask);
+    void removeHandlers(int handlersMask);
 
     CefRefPtr<CefContextMenuHandler> GetContextMenuHandler() override;
     CefRefPtr<CefDialogHandler> GetDialogHandler() override;
@@ -37,16 +39,6 @@ public:
                                   CefProcessId source_process,
                                   CefRefPtr<CefProcessMessage> message) override;
 
-    int getBid() const { return myBid; }
-    int getCid() const { return myCid; }
-
-    void closeBrowser();
-    bool isClosing() const { return myIsClosing; }
-
-    CefRefPtr<CefBrowser> getCefBrowser();
-
-    const CefRefPtr<CefRequestContext>& getRequestContext() const { return myRequestContext; }
-
     // Convenience methods
     template<typename T>
     T exec(std::function<T(JavaService)> rpc, T defVal) {
@@ -56,11 +48,8 @@ public:
 
   private:
     const int myCid;
-    const int myBid;
-    std::shared_ptr<RpcExecutor> myService;
-    std::shared_ptr<MessageRoutersManager> myRoutersManager;
-    CefRefPtr<CefRequestContext> myRequestContext;
-
+    const std::shared_ptr<ServerHandlerContext> myCtx;
+    const std::shared_ptr<RpcExecutor> myService;
     const CefRefPtr<CefLifeSpanHandler> myRemoteLisfespanHandler; // always presented
 
     CefRefPtr<CefRenderHandler> myRemoteRenderHandler;
@@ -71,8 +60,6 @@ public:
     CefRefPtr<CefFocusHandler> myRemoteFocusHandler;
     CefRefPtr<CefContextMenuHandler> myRemoteContextMenuHandler;
     CefRefPtr<CefPermissionHandler> myRemotePermissionHandler;
-
-    bool myIsClosing = false;
 
     IMPLEMENT_REFCOUNTING(RemoteClientHandler);
 };

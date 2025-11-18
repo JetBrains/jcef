@@ -2,17 +2,19 @@
 #include "../log/Log.h"
 #include "RemoteClientHandler.h"
 #include "../browser/RemoteFrame.h"
+#include "../browser/RemoteBrowser.h"
 
-RemoteLoadHandler::RemoteLoadHandler(int bid, std::shared_ptr<RpcExecutor> service) : myBid(bid), myService(service) {}
+
+RemoteLoadHandler::RemoteLoadHandler(std::shared_ptr<RpcExecutor> service) : myService(service) {}
 
 void RemoteLoadHandler::OnLoadingStateChange(CefRefPtr<CefBrowser> browser,
                           bool isLoading,
                           bool canGoBack,
                           bool canGoForward) {
-  LNDCT();
+  FIND_BID_OR_RETURN();
   myService->exec([&](const JavaService& s){
     s->LoadHandler_OnLoadingStateChange(
-        myBid,
+        bid,
         isLoading, canGoBack, canGoForward
     );
   });
@@ -21,20 +23,20 @@ void RemoteLoadHandler::OnLoadingStateChange(CefRefPtr<CefBrowser> browser,
 void RemoteLoadHandler::OnLoadStart(CefRefPtr<CefBrowser> browser,
                  CefRefPtr<CefFrame> frame,
                  CefLoadHandler::TransitionType transition_type) {
-  LNDCT();
+  FIND_BID_OR_RETURN();
   RemoteFrame::Holder frm(frame);
   myService->exec([&](const JavaService& s){
-    s->LoadHandler_OnLoadStart(myBid, frm.serverId(), transition_type);
+    s->LoadHandler_OnLoadStart(bid, frm.serverId(), transition_type);
   });
 }
 
 void RemoteLoadHandler::OnLoadEnd(CefRefPtr<CefBrowser> browser,
                CefRefPtr<CefFrame> frame,
                int httpStatusCode) {
-  LNDCT();
+  FIND_BID_OR_RETURN();
   RemoteFrame::Holder frm(frame);
   myService->exec([&](const JavaService& s){
-    s->LoadHandler_OnLoadEnd(myBid, frm.serverId(), httpStatusCode);
+    s->LoadHandler_OnLoadEnd(bid, frm.serverId(), httpStatusCode);
   });
 }
 
@@ -43,9 +45,9 @@ void RemoteLoadHandler::OnLoadError(CefRefPtr<CefBrowser> browser,
                  CefLoadHandler::ErrorCode errorCode,
                  const CefString& errorText,
                  const CefString& failedUrl) {
-  LNDCT();
+  FIND_BID_OR_RETURN();
   RemoteFrame::Holder frm(frame);
   myService->exec([&](const JavaService& s){
-    s->LoadHandler_OnLoadError(myBid, frm.serverId(), errorCode, errorText.ToString(), failedUrl.ToString());
+    s->LoadHandler_OnLoadError(bid, frm.serverId(), errorCode, errorText.ToString(), failedUrl.ToString());
   });
 }

@@ -6,10 +6,12 @@
 
 class RemoteClientHandler;
 class RpcExecutor;
+class RemoteBrowser;
+
 
 class RemoteLoadHandler : public CefLoadHandler {
  public:
-  explicit RemoteLoadHandler(int bid, std::shared_ptr<RpcExecutor> service);
+  explicit RemoteLoadHandler(std::shared_ptr<RpcExecutor> service);
 
   //
   // All next methods will be called on the UI thread
@@ -34,7 +36,6 @@ class RemoteLoadHandler : public CefLoadHandler {
                    const CefString& failedUrl) override;
 
  protected:
-  const int myBid;
   std::shared_ptr<RpcExecutor> myService;
 
  private:

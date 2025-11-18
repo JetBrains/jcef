@@ -442,8 +442,8 @@ uint32_t Server_attach_args::read(::apache::thrift::protocol::TProtocol* iprot) 
     {
       case 1:
         if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->cid);
-          this->__isset.cid = true;
+          xfer += iprot->readI32(this->connectionId);
+          this->__isset.connectionId = true;
         } else {
           xfer += iprot->skip(ftype);
         }
@@ -465,8 +465,8 @@ uint32_t Server_attach_args::write(::apache::thrift::protocol::TProtocol* oprot)
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
   xfer += oprot->writeStructBegin("Server_attach_args");
 
-  xfer += oprot->writeFieldBegin("cid", ::apache::thrift::protocol::T_I32, 1);
-  xfer += oprot->writeI32(this->cid);
+  xfer += oprot->writeFieldBegin("connectionId", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->connectionId);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -484,8 +484,8 @@ uint32_t Server_attach_pargs::write(::apache::thrift::protocol::TProtocol* oprot
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
   xfer += oprot->writeStructBegin("Server_attach_pargs");
 
-  xfer += oprot->writeFieldBegin("cid", ::apache::thrift::protocol::T_I32, 1);
-  xfer += oprot->writeI32((*(this->cid)));
+  xfer += oprot->writeFieldBegin("connectionId", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->connectionId)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -1024,11 +1024,11 @@ uint32_t Server_getServerInfo_presult::read(::apache::thrift::protocol::TProtoco
 }
 
 
-Server_stop_args::~Server_stop_args() noexcept {
+Server_Client_Create_args::~Server_Client_Create_args() noexcept {
 }
 
 
-uint32_t Server_stop_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t Server_Client_Create_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -1047,7 +1047,20 @@ uint32_t Server_stop_args::read(::apache::thrift::protocol::TProtocol* iprot) {
     if (ftype == ::apache::thrift::protocol::T_STOP) {
       break;
     }
-    xfer += iprot->skip(ftype);
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->handlersMask);
+          this->__isset.handlersMask = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
     xfer += iprot->readFieldEnd();
   }
 
@@ -1056,10 +1069,14 @@ uint32_t Server_stop_args::read(::apache::thrift::protocol::TProtocol* iprot) {
   return xfer;
 }
 
-uint32_t Server_stop_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t Server_Client_Create_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("Server_stop_args");
+  xfer += oprot->writeStructBegin("Server_Client_Create_args");
+
+  xfer += oprot->writeFieldBegin("handlersMask", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->handlersMask);
+  xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
@@ -1067,14 +1084,395 @@ uint32_t Server_stop_args::write(::apache::thrift::protocol::TProtocol* oprot) c
 }
 
 
-Server_stop_pargs::~Server_stop_pargs() noexcept {
+Server_Client_Create_pargs::~Server_Client_Create_pargs() noexcept {
 }
 
 
-uint32_t Server_stop_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t Server_Client_Create_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("Server_stop_pargs");
+  xfer += oprot->writeStructBegin("Server_Client_Create_pargs");
+
+  xfer += oprot->writeFieldBegin("handlersMask", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->handlersMask)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Client_Create_result::~Server_Client_Create_result() noexcept {
+}
+
+
+uint32_t Server_Client_Create_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->success);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_Client_Create_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("Server_Client_Create_result");
+
+  if (this->__isset.success) {
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_I32, 0);
+    xfer += oprot->writeI32(this->success);
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Client_Create_presult::~Server_Client_Create_presult() noexcept {
+}
+
+
+uint32_t Server_Client_Create_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32((*(this->success)));
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
+Server_Client_Dispose_args::~Server_Client_Dispose_args() noexcept {
+}
+
+
+uint32_t Server_Client_Dispose_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->cid);
+          this->__isset.cid = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_Client_Dispose_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_Client_Dispose_args");
+
+  xfer += oprot->writeFieldBegin("cid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->cid);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Client_Dispose_pargs::~Server_Client_Dispose_pargs() noexcept {
+}
+
+
+uint32_t Server_Client_Dispose_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_Client_Dispose_pargs");
+
+  xfer += oprot->writeFieldBegin("cid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->cid)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Client_AddHandlers_args::~Server_Client_AddHandlers_args() noexcept {
+}
+
+
+uint32_t Server_Client_AddHandlers_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->cid);
+          this->__isset.cid = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->handlersMask);
+          this->__isset.handlersMask = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_Client_AddHandlers_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_Client_AddHandlers_args");
+
+  xfer += oprot->writeFieldBegin("cid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->cid);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("handlersMask", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32(this->handlersMask);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Client_AddHandlers_pargs::~Server_Client_AddHandlers_pargs() noexcept {
+}
+
+
+uint32_t Server_Client_AddHandlers_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_Client_AddHandlers_pargs");
+
+  xfer += oprot->writeFieldBegin("cid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->cid)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("handlersMask", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32((*(this->handlersMask)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Client_RemoveHandlers_args::~Server_Client_RemoveHandlers_args() noexcept {
+}
+
+
+uint32_t Server_Client_RemoveHandlers_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->cid);
+          this->__isset.cid = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->handlersMask);
+          this->__isset.handlersMask = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Server_Client_RemoveHandlers_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_Client_RemoveHandlers_args");
+
+  xfer += oprot->writeFieldBegin("cid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->cid);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("handlersMask", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32(this->handlersMask);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Server_Client_RemoveHandlers_pargs::~Server_Client_RemoveHandlers_pargs() noexcept {
+}
+
+
+uint32_t Server_Client_RemoveHandlers_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Server_Client_RemoveHandlers_pargs");
+
+  xfer += oprot->writeFieldBegin("cid", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((*(this->cid)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("handlersMask", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32((*(this->handlersMask)));
+  xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
@@ -1116,14 +1514,6 @@ uint32_t Server_Browser_Create_args::read(::apache::thrift::protocol::TProtocol*
         }
         break;
       case 2:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->handlersMask);
-          this->__isset.handlersMask = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 3:
         if (ftype == ::apache::thrift::protocol::T_STRUCT) {
           xfer += this->requestContextHandler.read(iprot);
           this->__isset.requestContextHandler = true;
@@ -1152,11 +1542,7 @@ uint32_t Server_Browser_Create_args::write(::apache::thrift::protocol::TProtocol
   xfer += oprot->writeI32(this->cid);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("handlersMask", ::apache::thrift::protocol::T_I32, 2);
-  xfer += oprot->writeI32(this->handlersMask);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("requestContextHandler", ::apache::thrift::protocol::T_STRUCT, 3);
+  xfer += oprot->writeFieldBegin("requestContextHandler", ::apache::thrift::protocol::T_STRUCT, 2);
   xfer += this->requestContextHandler.write(oprot);
   xfer += oprot->writeFieldEnd();
 
@@ -1179,11 +1565,7 @@ uint32_t Server_Browser_Create_pargs::write(::apache::thrift::protocol::TProtoco
   xfer += oprot->writeI32((*(this->cid)));
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("handlersMask", ::apache::thrift::protocol::T_I32, 2);
-  xfer += oprot->writeI32((*(this->handlersMask)));
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("requestContextHandler", ::apache::thrift::protocol::T_STRUCT, 3);
+  xfer += oprot->writeFieldBegin("requestContextHandler", ::apache::thrift::protocol::T_STRUCT, 2);
   xfer += (*(this->requestContextHandler)).write(oprot);
   xfer += oprot->writeFieldEnd();
 
@@ -16448,19 +16830,19 @@ int32_t ServerClient::recv_connectTcp()
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "connectTcp failed: unknown result");
 }
 
-void ServerClient::attach(const int32_t cid)
+void ServerClient::attach(const int32_t connectionId)
 {
-  send_attach(cid);
+  send_attach(connectionId);
   recv_attach();
 }
 
-void ServerClient::send_attach(const int32_t cid)
+void ServerClient::send_attach(const int32_t connectionId)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("attach", ::apache::thrift::protocol::T_CALL, cseqid);
 
   Server_attach_pargs args;
-  args.cid = &cid;
+  args.connectionId = &connectionId;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -16636,17 +17018,19 @@ void ServerClient::recv_getServerInfo(std::string& _return)
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "getServerInfo failed: unknown result");
 }
 
-void ServerClient::stop()
+int32_t ServerClient::Client_Create(const int32_t handlersMask)
 {
-  send_stop();
+  send_Client_Create(handlersMask);
+  return recv_Client_Create();
 }
 
-void ServerClient::send_stop()
+void ServerClient::send_Client_Create(const int32_t handlersMask)
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("stop", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("Client_Create", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  Server_stop_pargs args;
+  Server_Client_Create_pargs args;
+  args.handlersMask = &handlersMask;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -16654,20 +17038,116 @@ void ServerClient::send_stop()
   oprot_->getTransport()->flush();
 }
 
-int32_t ServerClient::Browser_Create(const int32_t cid, const int32_t handlersMask, const  ::thrift_codegen::RObject& requestContextHandler)
+int32_t ServerClient::recv_Client_Create()
 {
-  send_Browser_Create(cid, handlersMask, requestContextHandler);
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("Client_Create") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  int32_t _return;
+  Server_Client_Create_presult result;
+  result.success = &_return;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  if (result.__isset.success) {
+    return _return;
+  }
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "Client_Create failed: unknown result");
+}
+
+void ServerClient::Client_Dispose(const int32_t cid)
+{
+  send_Client_Dispose(cid);
+}
+
+void ServerClient::send_Client_Dispose(const int32_t cid)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("Client_Dispose", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_Client_Dispose_pargs args;
+  args.cid = &cid;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void ServerClient::Client_AddHandlers(const int32_t cid, const int32_t handlersMask)
+{
+  send_Client_AddHandlers(cid, handlersMask);
+}
+
+void ServerClient::send_Client_AddHandlers(const int32_t cid, const int32_t handlersMask)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("Client_AddHandlers", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_Client_AddHandlers_pargs args;
+  args.cid = &cid;
+  args.handlersMask = &handlersMask;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void ServerClient::Client_RemoveHandlers(const int32_t cid, const int32_t handlersMask)
+{
+  send_Client_RemoveHandlers(cid, handlersMask);
+}
+
+void ServerClient::send_Client_RemoveHandlers(const int32_t cid, const int32_t handlersMask)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("Client_RemoveHandlers", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_Client_RemoveHandlers_pargs args;
+  args.cid = &cid;
+  args.handlersMask = &handlersMask;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+int32_t ServerClient::Browser_Create(const int32_t cid, const  ::thrift_codegen::RObject& requestContextHandler)
+{
+  send_Browser_Create(cid, requestContextHandler);
   return recv_Browser_Create();
 }
 
-void ServerClient::send_Browser_Create(const int32_t cid, const int32_t handlersMask, const  ::thrift_codegen::RObject& requestContextHandler)
+void ServerClient::send_Browser_Create(const int32_t cid, const  ::thrift_codegen::RObject& requestContextHandler)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("Browser_Create", ::apache::thrift::protocol::T_CALL, cseqid);
 
   Server_Browser_Create_pargs args;
   args.cid = &cid;
-  args.handlersMask = &handlersMask;
   args.requestContextHandler = &requestContextHandler;
   args.write(oprot_);
 
@@ -20762,7 +21242,7 @@ void ServerProcessor::process_attach(int32_t seqid, ::apache::thrift::protocol::
 
   Server_attach_result result;
   try {
-    iface_->attach(args.cid);
+    iface_->attach(args.connectionId);
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "Server.attach");
@@ -20937,38 +21417,166 @@ void ServerProcessor::process_getServerInfo(int32_t seqid, ::apache::thrift::pro
   }
 }
 
-void ServerProcessor::process_stop(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+void ServerProcessor::process_Client_Create(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = nullptr;
   if (this->eventHandler_.get() != nullptr) {
-    ctx = this->eventHandler_->getContext("Server.stop", callContext);
+    ctx = this->eventHandler_->getContext("Server.Client_Create", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.stop");
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.Client_Create");
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->preRead(ctx, "Server.stop");
+    this->eventHandler_->preRead(ctx, "Server.Client_Create");
   }
 
-  Server_stop_args args;
+  Server_Client_Create_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->postRead(ctx, "Server.stop", bytes);
+    this->eventHandler_->postRead(ctx, "Server.Client_Create", bytes);
+  }
+
+  Server_Client_Create_result result;
+  try {
+    result.success = iface_->Client_Create(args.handlersMask);
+    result.__isset.success = true;
+  } catch (const std::exception& e) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "Server.Client_Create");
+    }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("Client_Create", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preWrite(ctx, "Server.Client_Create");
+  }
+
+  oprot->writeMessageBegin("Client_Create", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "Server.Client_Create", bytes);
+  }
+}
+
+void ServerProcessor::process_Client_Dispose(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("Server.Client_Dispose", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.Client_Dispose");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "Server.Client_Dispose");
+  }
+
+  Server_Client_Dispose_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "Server.Client_Dispose", bytes);
   }
 
   try {
-    iface_->stop();
+    iface_->Client_Dispose(args.cid);
   } catch (const std::exception&) {
     if (this->eventHandler_.get() != nullptr) {
-      this->eventHandler_->handlerError(ctx, "Server.stop");
+      this->eventHandler_->handlerError(ctx, "Server.Client_Dispose");
     }
     return;
   }
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->asyncComplete(ctx, "Server.stop");
+    this->eventHandler_->asyncComplete(ctx, "Server.Client_Dispose");
+  }
+
+  return;
+}
+
+void ServerProcessor::process_Client_AddHandlers(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("Server.Client_AddHandlers", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.Client_AddHandlers");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "Server.Client_AddHandlers");
+  }
+
+  Server_Client_AddHandlers_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "Server.Client_AddHandlers", bytes);
+  }
+
+  try {
+    iface_->Client_AddHandlers(args.cid, args.handlersMask);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "Server.Client_AddHandlers");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "Server.Client_AddHandlers");
+  }
+
+  return;
+}
+
+void ServerProcessor::process_Client_RemoveHandlers(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("Server.Client_RemoveHandlers", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Server.Client_RemoveHandlers");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "Server.Client_RemoveHandlers");
+  }
+
+  Server_Client_RemoveHandlers_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "Server.Client_RemoveHandlers", bytes);
+  }
+
+  try {
+    iface_->Client_RemoveHandlers(args.cid, args.handlersMask);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "Server.Client_RemoveHandlers");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "Server.Client_RemoveHandlers");
   }
 
   return;
@@ -20997,7 +21605,7 @@ void ServerProcessor::process_Browser_Create(int32_t seqid, ::apache::thrift::pr
 
   Server_Browser_Create_result result;
   try {
-    result.success = iface_->Browser_Create(args.cid, args.handlersMask, args.requestContextHandler);
+    result.success = iface_->Browser_Create(args.cid, args.requestContextHandler);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != nullptr) {
@@ -26040,20 +26648,20 @@ int32_t ServerConcurrentClient::recv_connectTcp(const int32_t seqid)
   } // end while(true)
 }
 
-void ServerConcurrentClient::attach(const int32_t cid)
+void ServerConcurrentClient::attach(const int32_t connectionId)
 {
-  int32_t seqid = send_attach(cid);
+  int32_t seqid = send_attach(connectionId);
   recv_attach(seqid);
 }
 
-int32_t ServerConcurrentClient::send_attach(const int32_t cid)
+int32_t ServerConcurrentClient::send_attach(const int32_t connectionId)
 {
   int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
   oprot_->writeMessageBegin("attach", ::apache::thrift::protocol::T_CALL, cseqid);
 
   Server_attach_pargs args;
-  args.cid = &cid;
+  args.connectionId = &connectionId;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -26308,18 +26916,103 @@ void ServerConcurrentClient::recv_getServerInfo(std::string& _return, const int3
   } // end while(true)
 }
 
-void ServerConcurrentClient::stop()
+int32_t ServerConcurrentClient::Client_Create(const int32_t handlersMask)
 {
-  send_stop();
+  int32_t seqid = send_Client_Create(handlersMask);
+  return recv_Client_Create(seqid);
 }
 
-void ServerConcurrentClient::send_stop()
+int32_t ServerConcurrentClient::send_Client_Create(const int32_t handlersMask)
+{
+  int32_t cseqid = this->sync_->generateSeqId();
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("Client_Create", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  Server_Client_Create_pargs args;
+  args.handlersMask = &handlersMask;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+  return cseqid;
+}
+
+int32_t ServerConcurrentClient::recv_Client_Create(const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("Client_Create") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      int32_t _return;
+      Server_Client_Create_presult result;
+      result.success = &_return;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      if (result.__isset.success) {
+        sentry.commit();
+        return _return;
+      }
+      // in a bad state, don't commit
+      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "Client_Create failed: unknown result");
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
+}
+
+void ServerConcurrentClient::Client_Dispose(const int32_t cid)
+{
+  send_Client_Dispose(cid);
+}
+
+void ServerConcurrentClient::send_Client_Dispose(const int32_t cid)
 {
   int32_t cseqid = 0;
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
-  oprot_->writeMessageBegin("stop", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+  oprot_->writeMessageBegin("Client_Dispose", ::apache::thrift::protocol::T_ONEWAY, cseqid);
 
-  Server_stop_pargs args;
+  Server_Client_Dispose_pargs args;
+  args.cid = &cid;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -26329,13 +27022,59 @@ void ServerConcurrentClient::send_stop()
   sentry.commit();
 }
 
-int32_t ServerConcurrentClient::Browser_Create(const int32_t cid, const int32_t handlersMask, const  ::thrift_codegen::RObject& requestContextHandler)
+void ServerConcurrentClient::Client_AddHandlers(const int32_t cid, const int32_t handlersMask)
 {
-  int32_t seqid = send_Browser_Create(cid, handlersMask, requestContextHandler);
+  send_Client_AddHandlers(cid, handlersMask);
+}
+
+void ServerConcurrentClient::send_Client_AddHandlers(const int32_t cid, const int32_t handlersMask)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("Client_AddHandlers", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_Client_AddHandlers_pargs args;
+  args.cid = &cid;
+  args.handlersMask = &handlersMask;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
+void ServerConcurrentClient::Client_RemoveHandlers(const int32_t cid, const int32_t handlersMask)
+{
+  send_Client_RemoveHandlers(cid, handlersMask);
+}
+
+void ServerConcurrentClient::send_Client_RemoveHandlers(const int32_t cid, const int32_t handlersMask)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("Client_RemoveHandlers", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  Server_Client_RemoveHandlers_pargs args;
+  args.cid = &cid;
+  args.handlersMask = &handlersMask;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
+int32_t ServerConcurrentClient::Browser_Create(const int32_t cid, const  ::thrift_codegen::RObject& requestContextHandler)
+{
+  int32_t seqid = send_Browser_Create(cid, requestContextHandler);
   return recv_Browser_Create(seqid);
 }
 
-int32_t ServerConcurrentClient::send_Browser_Create(const int32_t cid, const int32_t handlersMask, const  ::thrift_codegen::RObject& requestContextHandler)
+int32_t ServerConcurrentClient::send_Browser_Create(const int32_t cid, const  ::thrift_codegen::RObject& requestContextHandler)
 {
   int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
@@ -26343,7 +27082,6 @@ int32_t ServerConcurrentClient::send_Browser_Create(const int32_t cid, const int
 
   Server_Browser_Create_pargs args;
   args.cid = &cid;
-  args.handlersMask = &handlersMask;
   args.requestContextHandler = &requestContextHandler;
   args.write(oprot_);
 

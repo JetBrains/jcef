@@ -6,7 +6,10 @@
 #include <thread>
 #include <queue>
 #include <functional>
+#include <map>
+#include <mutex>
 
+class RemoteClient;
 class RpcExecutor;
 class ClientsManager;
 class MessageRoutersManager;
@@ -19,14 +22,16 @@ class ServerHandlerContext {
  public:
   ServerHandlerContext();
 
-  const std::shared_ptr<ClientsManager>& clientsManager() { return myClientsManager; }
   const std::shared_ptr<MessageRoutersManager>& routersManager() { return myRoutersManager; }
   const std::shared_ptr<RpcExecutor>& javaService() { return myJavaService; }
   const std::shared_ptr<RpcExecutor>& javaServiceIO() { return myJavaServiceIO; }
 
   void initJavaServicePipe(const std::string & pipeName);
   void initJavaServicePort(int port);
-  void closeJavaServiceTransport();
+
+  std::shared_ptr<RemoteClient> createRemoteClient(int handlersMask, std::shared_ptr<ServerHandlerContext> ctx);
+  std::shared_ptr<RemoteClient> findRemoteClient(int cid);
+  void disposeRemoteClient(int cid);
 
   // schedules rpc execution (in bg thread)
   void invokeLater(JavaVoidRpc rpc);
@@ -37,8 +42,11 @@ class ServerHandlerContext {
   std::shared_ptr<RpcExecutor> myJavaServiceIO;
   std::shared_ptr<RpcExecutor> myJavaServiceBg; // represents background java thread for 'background' calls execution
   std::shared_ptr<BackgroundExecutor> myBgExecutor;
-  std::shared_ptr<ClientsManager> myClientsManager;
   std::shared_ptr<MessageRoutersManager> myRoutersManager;
+  bool myIsClosed = false;
+
+  std::mutex myMutex;
+  std::map<int, std::shared_ptr<RemoteClient>> myClients;
 };
 
 #endif  // JCEF_SERVERHANDLERCONTEXT_H

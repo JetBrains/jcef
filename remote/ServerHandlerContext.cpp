@@ -1,12 +1,14 @@
 #include "ServerHandlerContext.h"
 
 #include "router/MessageRoutersManager.h"
-#include "browser/ClientsManager.h"
 #include "RpcExecutor.h"
 
 #include <queue>
 #include <condition_variable>
 #include <utility>
+
+#include "browser/RemoteClient.h"
+#include "handlers/RemoteClientHandler.h"
 
 namespace {
 
@@ -89,7 +91,6 @@ namespace {
 
 ServerHandlerContext::ServerHandlerContext() :
       myRoutersManager(std::make_shared<MessageRoutersManager>()),
-      myClientsManager(std::make_shared<ClientsManager>()),
       myBgExecutor(std::make_shared<BackgroundExecutor>()) {}
 
 void ServerHandlerContext::initJavaServicePipe(const std::string & pipeName) {
@@ -106,14 +107,29 @@ void ServerHandlerContext::initJavaServicePort(int port) {
   myBgExecutor->setService(myJavaServiceBg, myBgExecutor);
 }
 
-void ServerHandlerContext::closeJavaServiceTransport() {
-  if (myJavaService && !myJavaService->isClosed())
-    myJavaService->close();
-  if (myJavaServiceIO && !myJavaServiceIO->isClosed())
-    myJavaServiceIO->close();
-  if (myJavaServiceBg && !myJavaServiceBg->isClosed())
-    myJavaServiceBg->close();
-  myBgExecutor->stop();
+std::shared_ptr<RemoteClient> ServerHandlerContext::createRemoteClient(int handlersMask, std::shared_ptr<ServerHandlerContext> ctx) {
+  const int cid = RemoteClient::genNewCid();
+  CefRefPtr<RemoteClientHandler> handler = new RemoteClientHandler(ctx, cid, handlersMask);
+  std::shared_ptr<RemoteClient> result = std::make_shared<RemoteClient>(cid, handler);
+
+  std::unique_lock lock(myMutex);
+  myClients[cid] = result;
+  return result;
+}
+
+std::shared_ptr<RemoteClient> ServerHandlerContext::findRemoteClient(int cid) {
+  std::unique_lock lock(myMutex);
+  const auto & i = myClients.find(cid);
+  return i == myClients.end() ? nullptr : i->second;
+}
+
+void ServerHandlerContext::disposeRemoteClient(int cid) {
+  std::unique_lock lock(myMutex);
+  const auto & i = myClients.find(cid);
+  if (i == myClients.end())
+    return;
+  i->second->close();
+  myClients.erase(cid);
 }
 
 void ServerHandlerContext::invokeLater(JavaVoidRpc rpc) {
@@ -121,11 +137,30 @@ void ServerHandlerContext::invokeLater(JavaVoidRpc rpc) {
 }
 
 void ServerHandlerContext::close() {
+  if (myIsClosed)
+    return;
+
+  myIsClosed = true;
+  std::vector<std::shared_ptr<RemoteClient>> clients;
+  {
+    std::unique_lock lock(myMutex);
+    for (auto kv : myClients)
+      if (kv.second)
+        clients.push_back(kv.second);
+    myClients.clear();
+  }
+
+  for (auto c : clients)
+    c->close();
+
   try {
-    const bool isEmpty = myClientsManager->closeAllBrowsers();
-    // NOTE: if some browser wasn't closed than client won't receive onBeforeClose callback if we close transport here. So do it in destructor.
-    if (isEmpty)
-      closeJavaServiceTransport();
+    if (myJavaService && !myJavaService->isClosed())
+      myJavaService->close();
+    if (myJavaServiceIO && !myJavaServiceIO->isClosed())
+      myJavaServiceIO->close();
+    if (myJavaServiceBg && !myJavaServiceBg->isClosed())
+      myJavaServiceBg->close();
+    myBgExecutor->stop();
   } catch (apache::thrift::TException& e) {
     Log::error("Thrift exception in ServerHandlerContext::close: %s", e.what());
   }

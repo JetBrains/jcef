@@ -34,16 +34,23 @@ service Server {
     // The server will stops itself after last master-client disconnected.
     i32 connect(1: string backwardConnectionPipe, 2: bool isMaster),
     i32 connectTcp(1: i32 backwardConnectionPort, 2: bool isMaster),
-    void attach(1: i32 cid),
+    void attach(1: i32 connectionId),
     oneway void log(1: string msg),
     string echo(1: string msg),
-    string getServerInfo(1:string request)
-    oneway void stop(),
+    string getServerInfo(1:string request),
+
+    //
+    // CefClient
+    //
+    i32  Client_Create(1: i32 handlersMask),
+    oneway void Client_Dispose(1: i32 cid),
+    oneway void Client_AddHandlers(1: i32 cid, 2: i32 handlersMask),
+    oneway void Client_RemoveHandlers(1: i32 cid, 2: i32 handlersMask),
 
     //
     // CefBrowser
     //
-    i32            Browser_Create(1: i32 cid, 2: i32 handlersMask, 3:shared.RObject requestContextHandler),
+    i32            Browser_Create(1: i32 cid, 2:shared.RObject requestContextHandler),
     oneway void    Browser_StartNativeCreation(1: i32 bid, 2: string url),
     oneway void    Browser_OpenDevTools(1: i32 bid, 2: i32 x, 3: i32 y),
     oneway void    Browser_Close(1: i32 bid),

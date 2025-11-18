@@ -1,40 +1,42 @@
 #include "RemoteDisplayHandler.h"
 #include "RemoteClientHandler.h"
 #include "../browser/RemoteFrame.h"
+#include "../browser/RemoteBrowser.h"
 
-RemoteDisplayHandler::RemoteDisplayHandler(int bid, std::shared_ptr<RpcExecutor> service)
-    : myBid(bid), myService(service) {}
+
+RemoteDisplayHandler::RemoteDisplayHandler(std::shared_ptr<RpcExecutor> service)
+    : myService(service) {}
 
 void RemoteDisplayHandler::OnAddressChange(CefRefPtr<CefBrowser> browser,
                      CefRefPtr<CefFrame> frame,
                      const CefString& url) {
-  LNDCT();
+  FIND_BID_OR_RETURN();
   RemoteFrame::Holder frm(frame);
   myService->exec([&](const JavaService& s){
-    s->DisplayHandler_OnAddressChange(myBid, frm.serverId(), url.ToString());
+    s->DisplayHandler_OnAddressChange(bid, frm.serverId(), url.ToString());
   });
 }
 
 void RemoteDisplayHandler::OnTitleChange(CefRefPtr<CefBrowser> browser,
                    const CefString& title) {
-  LNDCT();
+  FIND_BID_OR_RETURN();
   myService->exec([&](const JavaService& s){
-    s->DisplayHandler_OnTitleChange(myBid, title.ToString());
+    s->DisplayHandler_OnTitleChange(bid, title.ToString());
   });
 }
 
 bool RemoteDisplayHandler::OnTooltip(CefRefPtr<CefBrowser> browser, CefString& text) {
-  LNDCT();
+  FIND_BID_OR_RETURN_VAL(false);
   return myService->exec<bool>([&](const JavaService& s){
-    return s->DisplayHandler_OnTooltip(myBid, text.ToString());
+    return s->DisplayHandler_OnTooltip(bid, text.ToString());
   }, false);
 }
 
 void RemoteDisplayHandler::OnStatusMessage(CefRefPtr<CefBrowser> browser,
                      const CefString& value) {
-  LNDCT();
+  FIND_BID_OR_RETURN();
   myService->exec([&](const JavaService& s){
-    s->DisplayHandler_OnStatusMessage(myBid, value.ToString());
+    s->DisplayHandler_OnStatusMessage(bid, value.ToString());
   });
 }
 
@@ -43,7 +45,7 @@ bool RemoteDisplayHandler::OnConsoleMessage(CefRefPtr<CefBrowser> browser,
                       const CefString& message,
                       const CefString& source,
                       int line) {
-  LNDCT();
+  FIND_BID_OR_RETURN_VAL(false);
   std::string slevel;
   switch (level) {
     case LOGSEVERITY_VERBOSE: slevel = "verbose"; break;
@@ -56,6 +58,6 @@ bool RemoteDisplayHandler::OnConsoleMessage(CefRefPtr<CefBrowser> browser,
       break;
   }
   return myService->exec<bool>([&](const JavaService& s){
-    return s->DisplayHandler_OnConsoleMessage(myBid, slevel, message.ToString(), source.ToString(), line);
+    return s->DisplayHandler_OnConsoleMessage(bid, slevel, message.ToString(), source.ToString(), line);
   }, false);
 }

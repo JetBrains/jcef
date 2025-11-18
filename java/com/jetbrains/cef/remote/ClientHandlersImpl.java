@@ -33,13 +33,11 @@ import java.util.List;
 //
 public class ClientHandlersImpl implements ClientHandlers.Iface {
     private static final boolean TRACE_REMOTE_FIND_BID = Utils.getBoolean("TRACE_REMOTE_FIND_BID");
-    private final Map<Integer, RemoteBrowser> myBid2RemoteBrowser;
     private Runnable myOnContextInitialized;
     private final RpcContext myRpc;
 
-    public ClientHandlersImpl(RpcContext rpcContext, Map<Integer, RemoteBrowser> bid2RemoteBrowser) {
+    public ClientHandlersImpl(RpcContext rpcContext) {
         myRpc = rpcContext;
-        myBid2RemoteBrowser = bid2RemoteBrowser;
     }
 
     public void setOnContextInitialized(Runnable onContextInitialized) {
@@ -47,7 +45,7 @@ public class ClientHandlersImpl implements ClientHandlers.Iface {
     }
 
     private RemoteBrowser getRemoteBrowser(int bid) {
-        RemoteBrowser browser = myBid2RemoteBrowser.get(bid);
+        RemoteBrowser browser = myRpc.server.bid2Browser.get(bid);
         if (browser == null) {
             if (TRACE_REMOTE_FIND_BID) CefLog.Debug("Can't find remote browser with bid=%d.", bid);
             return null;

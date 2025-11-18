@@ -76,35 +76,35 @@ public class RemoteFrame extends RemoteServerObject implements CefFrame {
     }
 
     @Override
-    public void undo() { myRpc.exec((s)-> s.Frame_Undo(myId)); }
+    public void undo() { myRpc.invokeLater((s)-> s.Frame_Undo(myId)); }
 
     @Override
     public void redo() {
-        myRpc.exec((s)-> s.Frame_Redo(myId));
+        myRpc.invokeLater((s)-> s.Frame_Redo(myId));
     }
 
     @Override
     public void cut() {
-        myRpc.exec((s)-> s.Frame_Cut(myId));
+        myRpc.invokeLater((s)-> s.Frame_Cut(myId));
     }
 
     @Override
     public void copy() {
-        myRpc.exec((s)-> s.Frame_Copy(myId));
+        myRpc.invokeLater((s)-> s.Frame_Copy(myId));
     }
 
     @Override
     public void paste() {
-        myRpc.exec((s)-> s.Frame_Paste(myId));
+        myRpc.invokeLater((s)-> s.Frame_Paste(myId));
     }
 
     @Override
     public void delete() {
-        myRpc.exec((s)-> s.Frame_Delete(myId));
+        myRpc.invokeLater((s)-> s.Frame_Delete(myId));
     }
 
     @Override
     public void selectAll() {
-        myRpc.exec((s)-> s.Frame_SelectAll(myId));
+        myRpc.invokeLater((s)-> s.Frame_SelectAll(myId));
     }
 }

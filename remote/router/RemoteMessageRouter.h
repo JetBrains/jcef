@@ -5,7 +5,6 @@
 #include "include/wrapper/cef_message_router.h"
 
 using CefMessageRouter = CefMessageRouterBrowserSide;
-class ClientsManager;
 class RemoteMessageRouterHandler;
 
 // Created by java request (ServerHandler::CreateMessageRouter), disposed by java request.
@@ -17,7 +16,7 @@ class RemoteMessageRouter : public RemoteServerObject<RemoteMessageRouter, CefMe
 
   const CefMessageRouterConfig& getConfig() const { return myConfig; }
 
-  void AddRemoteHandler(std::shared_ptr<ClientsManager> manager, const thrift_codegen::RObject& handler, bool first);
+  void AddRemoteHandler(const thrift_codegen::RObject& handler, bool first);
   void RemoveRemoteHandler(const thrift_codegen::RObject& handler);
   std::shared_ptr<RemoteMessageRouterHandler> FindRemoteHandler(int objId);
 
